@@ -18,7 +18,11 @@ type FallthroughSignal =
   | "velocity"
   | "huggingface"
   | "producthunt"
-  | "openai";
+  | "openai"
+  | "arxiv"
+  | "claude_rss"
+  | "lobsters"
+  | "npm_dependents";
 
 type FallthroughReason =
   | "toolbox_null_legacy_missing"

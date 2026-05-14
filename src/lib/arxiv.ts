@@ -234,10 +234,27 @@ export async function refreshArxivFromStore(): Promise<{
   }
   inflight = (async () => {
     try {
+      // Phase A.2 PR-B: TOOLBOX-first when flag set; falls through to
+      // legacy data-store on null. Same pattern as HF/PH adapters.
+      const toolboxFile = await tryFetchArxivFromToolbox();
+      if (toolboxFile) {
+        recentFile = toolboxFile;
+        lastRefreshMs = Date.now();
+        return { arxiv: { source: "toolbox", ageMs: 0 } };
+      }
+
       const { getDataStore } = await import("./data-store");
       const result = await getDataStore().read<ArxivRecentFile>("arxiv-recent");
       if (result.data && result.source !== "missing") {
         recentFile = result.data;
+      } else {
+        const { alertAdapterFallthrough } = await import(
+          "./adapter-fallthrough-alert"
+        );
+        alertAdapterFallthrough("arxiv", "toolbox_null_legacy_missing", {
+          result_source: result.source,
+          had_toolbox_flag: process.env.TOOLBOX_READ_ARXIV === "true",
+        });
       }
       lastRefreshMs = Date.now();
       return { arxiv: { source: result.source, ageMs: result.ageMs } };
@@ -249,6 +266,15 @@ export async function refreshArxivFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchArxivFromToolbox(): Promise<ArxivRecentFile | null> {
+  if (process.env.TOOLBOX_READ_ARXIV !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchArxivFromToolbox } = await import("./toolbox-store-snapshots");
+  return fetchArxivFromToolbox({ apiUrl, apiKey });
 }
 
 // ---------------------------------------------------------------------------

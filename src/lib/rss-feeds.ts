@@ -74,10 +74,27 @@ export async function refreshClaudeRssFromStore(): Promise<RefreshResult> {
     return { source: "memory", ageMs: Date.now() - claudeLastRefreshMs };
   }
   claudeInflight = (async () => {
+    // Phase A.2 PR-B: TOOLBOX-first when flag set; falls through to
+    // legacy data-store on null. Same pattern as HF/PH adapters.
+    const toolboxFile = await tryFetchClaudeRssFromToolbox();
+    if (toolboxFile) {
+      claudeFile = toolboxFile;
+      claudeLastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<RssFile>("claude-rss");
     if (result.data && result.source !== "missing") {
       claudeFile = result.data;
+    } else {
+      const { alertAdapterFallthrough } = await import(
+        "./adapter-fallthrough-alert"
+      );
+      alertAdapterFallthrough("claude_rss", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_CLAUDE_RSS === "true",
+      });
     }
     claudeLastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -85,6 +102,15 @@ export async function refreshClaudeRssFromStore(): Promise<RefreshResult> {
     claudeInflight = null;
   });
   return claudeInflight;
+}
+
+async function tryFetchClaudeRssFromToolbox(): Promise<RssFile | null> {
+  if (process.env.TOOLBOX_READ_CLAUDE_RSS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchClaudeRssFromToolbox } = await import("./toolbox-store-snapshots");
+  return fetchClaudeRssFromToolbox({ apiUrl, apiKey });
 }
 
 export async function refreshOpenaiRssFromStore(): Promise<RefreshResult> {

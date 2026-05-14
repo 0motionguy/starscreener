@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 import { create } from "zustand";
 
 interface SidebarOverlayState {
@@ -33,13 +34,26 @@ export function SidebarUserOverlayBridge() {
 }
 
 function SidebarUserOverlayBridgeInner() {
+  const { isLoaded, userId } = useAuth();
   const setOverlay = useSidebarOverlayStore((s) => s.setOverlay);
   const reset = useSidebarOverlayStore((s) => s.reset);
 
   useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+
+    if (!userId) {
+      reset();
+      return;
+    }
+
     let cancelled = false;
 
-    fetch("/api/pipeline/sidebar-overlay", { credentials: "include" })
+    const params = new URLSearchParams({ userId });
+    fetch(`/api/pipeline/sidebar-overlay?${params.toString()}`, {
+      credentials: "include",
+    })
       .then((response) =>
         response.ok ? (response.json() as Promise<OverlayResponse>) : null,
       )
@@ -58,7 +72,7 @@ function SidebarUserOverlayBridgeInner() {
     return () => {
       cancelled = true;
     };
-  }, [setOverlay, reset]);
+  }, [isLoaded, reset, setOverlay, userId]);
 
   return null;
 }

@@ -20,6 +20,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import {
   getPublicSidebarShell,
   type SidebarShellResponse,
@@ -174,6 +175,7 @@ export default async function RootLayout({
   } catch {
     initialSidebarShell = null;
   }
+  const clerkPublishableKey = getClerkPublishableKey();
 
   return (
     <html
@@ -235,7 +237,7 @@ export default async function RootLayout({
               <IdleMount>
                 <ClerkRefHandoff />
               </IdleMount>
-              <Header />
+              <Header clerkPublishableKey={clerkPublishableKey} />
               <MobileDrawerLazy />
               <AppShell>
                 <Sidebar initialShell={initialSidebarShell} />

@@ -10,16 +10,13 @@
 //   which runs in client JS — can't see the payload. Clerk also doesn't
 //   forward arbitrary cookies into webhook events. So we do the handoff
 //   ourselves: GET the verified payload from /api/referrals/intake on
-//   mount, then write it to localStorage. A small wrapper around the
-//   Clerk <SignUp> component reads localStorage and stuffs it into
-//   `unsafeMetadata` via `useSignUp().setUnsafeMetadata({ trRef })`
-//   right before submission.
+//   mount, then write it to localStorage. The hosted auth form reads
+//   localStorage and passes it into Clerk's `unsafeMetadata` prop.
 //
 // Wiring (the user does this in v2 — the wrapper isn't this file):
 //   1. Mount <ClerkRefHandoff /> in the root layout (somewhere always-rendered).
-//   2. In a custom <SignUp> page, before calling signUp.create(), read
-//      window.localStorage.getItem('trRef'), JSON.parse it, and pass
-//      `unsafeMetadata: { trRef }` to the create call.
+//   2. Render sign-up through <ClerkAuthForm />, which passes
+//      `unsafeMetadata: { trRef }` to Clerk.
 //   3. The Clerk webhook (route.ts user.created handler) prefers
 //      `event.data.unsafe_metadata.trRef.code` over the cookie.
 //
@@ -27,6 +24,7 @@
 // the client-side `useSignUp()` integration depends on which sign-up
 // surface (modal vs hosted page vs custom form) the operator wires up,
 // and that's a v2 decision.
+// Current hosted form integration lives in <ClerkAuthForm />.
 
 import { useEffect } from "react";
 

@@ -31,13 +31,12 @@
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import type { Repo } from "@/lib/types";
 
 import { getDerivedRepoByFullName, getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
-import { fetchGitHubRepoLiveWithinBudget } from "@/lib/github-live";
+import { resolveRepoProfileInput } from "@/lib/repo-profile-input";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
 // assembler runs so the post-refresh getters see the freshest cache.
@@ -133,7 +132,7 @@ export async function generateMetadata({
 
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
     return {
-      title: `Invalid repo URL — ${SITE_NAME}`,
+      title: "Invalid repo URL",
       description: "Invalid repo URL.",
       robots: { index: false, follow: false },
     };
@@ -143,7 +142,7 @@ export async function generateMetadata({
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 
   if (!repo) {
-    const title = `${owner}/${name} — ${SITE_NAME}`;
+    const title = `${owner}/${name} - GitHub repo profile`;
     const description =
       `Live GitHub repo profile for ${owner}/${name}. Cross-source signals populate after the next collector tick.`;
     return {
@@ -167,7 +166,7 @@ export async function generateMetadata({
   }
 
   const deltaSign = repo.starsDelta24h >= 0 ? "+" : "";
-  const title = `${repo.fullName} — ${SITE_NAME}`;
+  const title = `${repo.fullName} - GitHub repo momentum`;
   const description =
     repo.description?.trim() ||
     `${repo.fullName}: ${deltaSign}${repo.starsDelta24h.toLocaleString(
@@ -222,12 +221,21 @@ export default async function RepoDetailPage({ params }: PageProps) {
   //
   // The internal API has its own SWR cache (300s/3600s) and a 1.5s upstream
   // timeout — page TTFB is no longer hostage to GitHub's latency.
-  const fullName = `${owner}/${name}`;
-  const derivedBase = getDerivedRepoByFullName(fullName);
-  let baseRepo: Repo;
-  let isLiveFetched = false;
-  if (derivedBase) {
-    baseRepo = derivedBase;
+  let resolvedInput: Awaited<ReturnType<typeof resolveRepoProfileInput>> | null =
+    null;
+  try {
+    resolvedInput = await resolveRepoProfileInput(owner, name);
+  } catch (err) {
+    console.warn("[repo-detail] repo resolver failed", err);
+    notFound();
+  }
+  if (!resolvedInput) {
+    notFound();
+  }
+  const baseRepo = resolvedInput.repo;
+  const isLiveFetched = resolvedInput.isLiveFetched;
+
+  if (!isLiveFetched) {
     // Refresh every data-store-backed cache the canonical profile + render
     // surfaces will read. All in parallel; each is cheap on warm Lambdas.
     // The star-activity refresh is per-repo (one Redis key per repo) — kept
@@ -264,20 +272,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
       }
     }
   } else {
-    isLiveFetched = true;
-    // Resolve through the same bounded helper as the internal API route.
-    // This keeps the Redis-backed GitHub metadata cache but avoids a fragile
-    // same-app HTTP call to a guessed host/port during server rendering.
-    try {
-      const liveRepo = await fetchGitHubRepoLiveWithinBudget(owner, name);
-      if (!liveRepo) {
-        notFound();
-      }
-      baseRepo = liveRepo;
-    } catch (err) {
-      console.warn("[repo-detail] live repo resolver failed", err);
-      notFound();
-    }
     // No fan-out: data-store caches are empty for repos our collectors
     // haven't seen yet. Save the ~700ms worth of refresh roundtrips.
   }
@@ -287,10 +281,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // signal migration only has to touch `buildCanonicalRepoProfile`. For
   // live-fetched repos we pass the synthesized base repo as an override so
   // the profile builder bypasses its derived-store lookup.
-  // Defensive: any uncaught throw in the canonical assembler must degrade to
-  // 404, not 500. The assembler stitches ~15 sync loaders + 3 async refreshes
-  // — a regression in any of them used to bleed straight through to a runtime
-  // error boundary on prod (pre-existing P0 since d81856ad).
+  // Let unexpected assembler errors hit this route's error boundary. A real
+  // assembly failure is not the same as "repo not found" and should be visible
+  // to monitoring instead of being hidden behind a 404.
   let profile: Awaited<ReturnType<typeof buildCanonicalRepoProfile>> | null = null;
   try {
     profile = await buildCanonicalRepoProfile(
@@ -299,6 +292,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
     );
   } catch (err) {
     console.error("[repo-detail] profile assembly failed", err);
+    throw err;
   }
   if (!profile) {
     notFound();

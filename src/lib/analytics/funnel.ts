@@ -54,13 +54,17 @@ function enqueueFunnelStep(props: FunnelStepProps): void {
  * 1. `discover-repo`     home -> search -> repo-detail -> github click
  * 2. `top10-discover`    home -> /top10 -> repo-detail -> github click
  * 3. `watchlist-add`     repo-detail -> watchlist add
- * 4. `submit-repo`       /submit open -> form fill -> submit success
+ * 4. `compare-add`       repo-detail -> compare add -> /compare
+ * 5. `submit-repo`       /submit open -> form fill -> submit success
+ * 6. `revenue-claim`     repo-detail/direct -> claim revenue form -> submit success
  */
 export type FunnelFlow =
   | "discover-repo"
   | "top10-discover"
   | "watchlist-add"
-  | "submit-repo";
+  | "compare-add"
+  | "submit-repo"
+  | "revenue-claim";
 
 /**
  * Canonical step identifiers. Listed centrally so any regression in
@@ -77,10 +81,16 @@ export type FunnelStep =
   | "github_click"
   // watchlist
   | "watchlist_add"
+  // compare
+  | "compare_add"
+  | "compare_view"
   // submit
   | "submit_open"
   | "submit_fill"
-  | "submit_success";
+  | "submit_success"
+  // revenue claim
+  | "revenue_claim_open"
+  | "revenue_claim_submit_success";
 
 interface FunnelStepProps {
   step: FunnelStep;

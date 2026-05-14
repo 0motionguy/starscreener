@@ -35,7 +35,10 @@ import {
 } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
 import { useCompareRepos } from "@/hooks/useCompareRepos";
-import { CompareSelector } from "@/components/compare/CompareSelector";
+import {
+  COMPARE_OPEN_SEARCH_EVENT,
+  CompareSelector,
+} from "@/components/compare/CompareSelector";
 import { RepoBannerCard } from "@/components/compare/RepoBannerCard";
 import { CompareChartLazy } from "@/components/compare/CompareChartLazy";
 import { CompareHeatmapLazy } from "@/components/compare/CompareHeatmapLazy";
@@ -44,7 +47,6 @@ import { ContributorGrid } from "@/components/compare/ContributorGrid";
 import { WinnerChips } from "@/components/compare/WinnerChips";
 import { StatIcon } from "@/components/compare/StatIcon";
 import {
-  compareIdToFallbackFullName,
   resolveCompareFullNames,
 } from "@/lib/compare-selection";
 import type { CompareRepoBundle } from "@/lib/github-compare";
@@ -136,6 +138,7 @@ export function CompareClient({
   initialFullNames = [],
 }: CompareClientProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
+  const storeFullNamesById = useCompareStore((s) => s.fullNamesById);
   const searchParams = useSearchParams();
   const [bundles, setBundles] = useState<CompareRepoBundle[]>([]);
   const [bundlesLoading, setBundlesLoading] = useState(false);
@@ -187,65 +190,6 @@ export function CompareClient({
     return unsubscribe;
   }, []);
 
-  // --- Bundle fetch: `/api/compare/github` ----------------------------
-  // UI-06: the legacy `/api/repos` fetch lives in useCompareRepos now.
-  // Only the `/api/compare/github` rich-bundle fetch is owned here.
-  useEffect(() => {
-    if (!hasHydrated) {
-      setBundlesLoading(true);
-      return;
-    }
-    if (repoIds.length === 0) {
-      setBundles([]);
-      setBundlesLoading(false);
-      return;
-    }
-
-    const controller = new AbortController();
-    setBundlesLoading(true);
-    setBundles([]);
-
-    // Fetch 2: rich GitHub bundle from `/api/compare/github`. The route
-    // accepts owner/name; store IDs are owner--name — normalize via
-    // `compareIdToFallbackFullName` (good enough for the common case;
-    // dots/original casing are preserved by the fallback helper).
-    (async () => {
-      try {
-        const fullNames = repoIds
-          .map((id) => compareIdToFallbackFullName(id))
-          .join(",");
-        const res = await fetch(
-          `/api/compare/github?repos=${encodeURIComponent(fullNames)}`,
-          { signal: controller.signal },
-        );
-        if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as {
-          bundles?: CompareRepoBundle[];
-          mentionsByFullName?: Record<string, RepoMentions>;
-        };
-        setBundles(Array.isArray(data.bundles) ? data.bundles : []);
-        setMentionsByFullName(data.mentionsByFullName ?? {});
-      } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
-        console.error("[compare] /api/compare/github failed", err);
-        setBundles([]);
-      } finally {
-        setBundlesLoading(false);
-      }
-    })();
-
-    return () => controller.abort();
-  }, [hasHydrated, repoIds]);
-
-  // --- Bundle lookup by fullName for O(1) join with Repo[] ------------
-  const bundlesByFullName = useMemo(() => {
-    const map = new Map<string, CompareRepoBundle>();
-    for (const b of bundles) {
-      if (b && typeof b.fullName === "string") map.set(b.fullName, b);
-    }
-    return map;
-  }, [bundles]);
-
   const reposQuery = searchParams?.get("repos") ?? "";
   const urlFullNames = useMemo(
     () =>
@@ -264,15 +208,85 @@ export function CompareClient({
     return Object.fromEntries(pairs);
   }, [initialFullNames, urlFullNames]);
 
+  const fullNameOverridesById = useMemo(
+    () => ({ ...storeFullNamesById, ...initialFullNameOverridesById }),
+    [storeFullNamesById, initialFullNameOverridesById],
+  );
+
   const selectedFullNames = useMemo(
     () =>
       resolveCompareFullNames(
         repoIds,
         orderedRepos,
-        initialFullNameOverridesById,
+        fullNameOverridesById,
       ),
-    [repoIds, orderedRepos, initialFullNameOverridesById],
+    [repoIds, orderedRepos, fullNameOverridesById],
   );
+  const selectedFullNamesKey = selectedFullNames.join(",");
+
+  // --- Bundle fetch: `/api/compare/github` ----------------------------
+  // UI-06: the legacy `/api/repos` fetch lives in useCompareRepos now.
+  // Only the `/api/compare/github` rich-bundle fetch is owned here.
+  useEffect(() => {
+    if (!hasHydrated) {
+      setBundlesLoading(true);
+      return;
+    }
+    if (!selectedFullNamesKey) {
+      setBundles([]);
+      setBundlesLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    let disposed = false;
+    setBundlesLoading(true);
+    setBundles([]);
+
+    // Fetch rich GitHub bundles from canonical owner/name values so URL
+    // entries like `vercel/next.js` keep their dots and casing intact.
+    (async () => {
+      try {
+        const res = await fetch(
+          `/api/compare/github?repos=${encodeURIComponent(selectedFullNamesKey)}`,
+          { signal: controller.signal },
+        );
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = (await res.json()) as {
+          bundles?: CompareRepoBundle[];
+          mentionsByFullName?: Record<string, RepoMentions>;
+        };
+        setBundles(Array.isArray(data.bundles) ? data.bundles : []);
+        setMentionsByFullName(data.mentionsByFullName ?? {});
+      } catch (err) {
+        if (
+          disposed ||
+          controller.signal.aborted ||
+          (err as { name?: string }).name === "AbortError"
+        ) {
+          return;
+        }
+        console.warn("[compare] /api/compare/github failed", err);
+        setBundles([]);
+      } finally {
+        if (!disposed) setBundlesLoading(false);
+      }
+    })();
+
+    return () => {
+      disposed = true;
+      controller.abort();
+    };
+  }, [hasHydrated, selectedFullNamesKey]);
+
+  // --- Bundle lookup by fullName for O(1) join with Repo[] ------------
+  const bundlesByFullName = useMemo(() => {
+    const map = new Map<string, CompareRepoBundle>();
+    for (const b of bundles) {
+      if (b && typeof b.fullName === "string") map.set(b.fullName, b);
+    }
+    return map;
+  }, [bundles]);
 
   // Ordered bundles mirroring selector order. Prefer the API response slot
   // first so rich bundles can render even if /api/repos hydrates a beat later.
@@ -505,20 +519,30 @@ function PageHeader() {
 }
 
 function AddRepoTile() {
+  function openSelector() {
+    window.dispatchEvent(new Event(COMPARE_OPEN_SEARCH_EVENT));
+    document
+      .querySelector(".compare-control-panel")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
-    <div
+    <button
+      type="button"
+      onClick={openSelector}
       className={cn(
         "rounded-card border border-dashed border-border-primary",
         "bg-bg-card/40 flex flex-col items-center justify-center gap-2 p-6",
         "min-h-[140px] text-text-tertiary",
+        "hover:border-border-hover hover:text-text-primary transition-colors",
       )}
-      aria-hidden="true"
+      aria-label="Add another repo to compare"
     >
       <Plus size={20} />
       <span className="text-xs font-mono uppercase tracking-wider">
         Add repo
       </span>
-    </div>
+    </button>
   );
 }
 

@@ -24,6 +24,7 @@ import { useCompareStore } from "@/lib/store";
 import { useCompareRepos } from "@/hooks/useCompareRepos";
 import { slugToId } from "@/lib/utils";
 import { RepoProfileColumn } from "@/components/compare/RepoProfileColumn";
+import { COMPARE_OPEN_SEARCH_EVENT } from "@/components/compare/CompareSelector";
 import { resolveCompareFullNames } from "@/lib/compare-selection";
 import type { CanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { cn } from "@/lib/utils";
@@ -113,6 +114,7 @@ export function CompareProfileGrid({
   initialFullNames = [],
 }: CompareProfileGridProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
+  const storeFullNamesById = useCompareStore((s) => s.fullNamesById);
   const addRepo = useCompareStore((s) => s.addRepo);
   const clearAll = useCompareStore((s) => s.clearAll);
   const searchParams = useSearchParams();
@@ -150,9 +152,17 @@ export function CompareProfileGrid({
     const sameAsStore =
       asIds.length === repoIds.length &&
       asIds.every((id, i) => id === repoIds[i]);
-    if (sameAsStore) return;
+    if (sameAsStore) {
+      const fullNamesById = useCompareStore.getState().fullNamesById;
+      asIds.forEach((id, i) => {
+        if (fullNamesById[id] !== urlFullNames[i]) {
+          addRepo(id, urlFullNames[i]);
+        }
+      });
+      return;
+    }
     clearAll();
-    for (const id of asIds) addRepo(id);
+    asIds.forEach((id, i) => addRepo(id, urlFullNames[i]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasHydrated, urlFullNames]);
 
@@ -182,10 +192,15 @@ export function CompareProfileGrid({
     return Object.fromEntries(pairs);
   }, [initialFullNames, urlFullNames]);
 
+  const fullNameOverridesById = useMemo(
+    () => ({ ...storeFullNamesById, ...initialFullNameOverridesById }),
+    [storeFullNamesById, initialFullNameOverridesById],
+  );
+
   const selectedFullNames = useMemo(
     () =>
-      resolveCompareFullNames(repoIds, repos, initialFullNameOverridesById),
-    [repoIds, repos, initialFullNameOverridesById],
+      resolveCompareFullNames(repoIds, repos, fullNameOverridesById),
+    [repoIds, repos, fullNameOverridesById],
   );
 
   // Fetch canonical profiles whenever the resolved fullName set changes.
@@ -208,7 +223,12 @@ export function CompareProfileGrid({
         const data = (await res.json()) as CompareEnvelope;
         setRows(Array.isArray(data.repos) ? data.repos : []);
       } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
+        if (
+          controller.signal.aborted ||
+          (err as { name?: string }).name === "AbortError"
+        ) {
+          return;
+        }
         console.error("[compare] /api/compare failed", err);
         setRows([]);
       } finally {
@@ -308,19 +328,29 @@ function PageHeader() {
 }
 
 function AddRepoTile() {
+  function openSelector() {
+    window.dispatchEvent(new Event(COMPARE_OPEN_SEARCH_EVENT));
+    document
+      .querySelector(".compare-control-panel")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
-    <div
+    <button
+      type="button"
+      onClick={openSelector}
       className={cn(
         "rounded-card border border-dashed border-border-primary",
         "bg-bg-card/40 flex flex-col items-center justify-center gap-2 p-6",
         "min-h-[140px] text-text-tertiary",
+        "hover:border-border-hover hover:text-text-primary transition-colors",
       )}
-      aria-hidden="true"
+      aria-label="Add another repo to compare"
     >
       <Plus size={20} />
       <span className="text-xs font-mono uppercase tracking-wider">
         Add repo
       </span>
-    </div>
+    </button>
   );
 }

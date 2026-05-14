@@ -77,9 +77,10 @@ export const useWatchlistStore = create<WatchlistState>()(
 interface CompareState {
   // Cap is MAX_COMPARE_REPOS (5). Persisted across sessions.
   repos: string[];
-  addRepo: (id: string) => void;
+  fullNamesById: Record<string, string>;
+  addRepo: (id: string, fullName?: string) => void;
   removeRepo: (id: string) => void;
-  setRepos: (ids: string[]) => void;
+  setRepos: (ids: string[], fullNames?: string[]) => void;
   clearAll: () => void;
   isComparing: (id: string) => boolean;
   isFull: () => boolean;
@@ -87,39 +88,65 @@ interface CompareState {
 
 const COMPARE_CAP = 5;
 
+function isUsableCompareFullName(value: string | undefined): value is string {
+  return typeof value === "string" && value.includes("/");
+}
+
 export const useCompareStore = create<CompareState>()(
   persist(
     (set, get) => ({
       repos: [],
+      fullNamesById: {},
 
-      addRepo: (id) => {
-        const { repos } = get();
-        if (repos.length >= COMPARE_CAP || repos.includes(id)) return;
-        set({ repos: [...repos, id] });
+      addRepo: (id, fullName) => {
+        const { repos, fullNamesById } = get();
+        const hasFullName = isUsableCompareFullName(fullName);
+        const nextFullNamesById = hasFullName
+          ? { ...fullNamesById, [id]: fullName }
+          : fullNamesById;
+
+        if (repos.includes(id)) {
+          if (nextFullNamesById !== fullNamesById) {
+            set({ fullNamesById: nextFullNamesById });
+          }
+          return;
+        }
+        if (repos.length >= COMPARE_CAP) return;
+        set({ repos: [...repos, id], fullNamesById: nextFullNamesById });
       },
 
       removeRepo: (id) => {
-        set({ repos: get().repos.filter((r) => r !== id) });
+        const fullNamesById = { ...get().fullNamesById };
+        delete fullNamesById[id];
+        set({ repos: get().repos.filter((r) => r !== id), fullNamesById });
       },
 
-      setRepos: (ids) => {
+      setRepos: (ids, fullNames) => {
         // Hard-cap at COMPARE_CAP and dedupe in declaration order — used
         // by starter-pack picker so a click swaps the entire compare slot
         // set in one shot.
         const seen = new Set<string>();
         const out: string[] = [];
+        const fullNamesById: Record<string, string> = {};
+        const previousFullNamesById = get().fullNamesById;
         for (const id of ids) {
           if (out.length >= COMPARE_CAP) break;
           if (!seen.has(id)) {
             seen.add(id);
             out.push(id);
+            const fullName = fullNames?.[out.length - 1];
+            if (isUsableCompareFullName(fullName)) {
+              fullNamesById[id] = fullName;
+            } else if (previousFullNamesById[id]) {
+              fullNamesById[id] = previousFullNamesById[id];
+            }
           }
         }
-        set({ repos: out });
+        set({ repos: out, fullNamesById });
       },
 
       clearAll: () => {
-        set({ repos: [] });
+        set({ repos: [], fullNamesById: {} });
       },
 
       isComparing: (id) => {

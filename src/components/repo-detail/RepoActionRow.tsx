@@ -9,7 +9,8 @@
 // Buttons are 44px+ tall to satisfy mobile touch-target minimums.
 
 import { useCallback } from "react";
-import { Eye, EyeOff, GitCompareArrows, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { BadgeDollarSign, Eye, EyeOff, GitCompareArrows, ExternalLink } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { useWatchlistStore, useCompareStore } from "@/lib/store";
 import {
@@ -34,6 +35,9 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
   const isFull = useCompareStore((s) => s.isFull());
   const addCompare = useCompareStore((s) => s.addRepo);
   const removeCompare = useCompareStore((s) => s.removeRepo);
+  const revenueHref = `/submit/revenue?repo=${encodeURIComponent(
+    repo.fullName,
+  )}&source=repo_detail`;
 
   const handleWatch = useCallback(() => {
     const wasWatched = isWatched;
@@ -77,10 +81,17 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
       toastCompareFull();
       return;
     }
-    addCompare(repo.id);
+    addCompare(repo.id, repo.fullName);
     const count = useCompareStore.getState().repos.length;
     toastCompareAdded(count);
-  }, [isComparing, addCompare, removeCompare, repo.id]);
+    captureFunnelStep({
+      step: "compare_add",
+      flow: "compare-add",
+      repo: repo.fullName,
+      source: "repo_detail",
+      compare_count: count,
+    });
+  }, [isComparing, addCompare, removeCompare, repo.id, repo.fullName]);
 
   const compareDisabled = !isComparing && isFull;
 
@@ -126,6 +137,14 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
         <GitCompareArrows size={14} aria-hidden style={{ marginRight: 8 }} />
         {isComparing ? "IN COMPARE" : "COMPARE"}
       </button>
+
+      <Link
+        href={revenueHref}
+        className="v2-btn v2-btn-ghost min-h-[44px]"
+      >
+        <BadgeDollarSign size={14} aria-hidden style={{ marginRight: 8 }} />
+        CLAIM REVENUE
+      </Link>
 
       <a
         href={repo.url || `https://github.com/${repo.fullName}`}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   BadgeCheck,
   ExternalLink,
@@ -9,8 +9,10 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 
 type Mode = "trustmrr_link" | "self_report";
+type RevenueClaimSource = "repo_detail" | "submit_revenue_page";
 
 interface PublicRevenueSubmission {
   id: string;
@@ -50,9 +52,15 @@ function parseDollarsToCents(raw: string): number | null {
   return Math.round(value * 100);
 }
 
-export function DropRevenuePage() {
+export function DropRevenuePage({
+  initialRepo = "",
+  source = "submit_revenue_page",
+}: {
+  initialRepo?: string;
+  source?: RevenueClaimSource;
+}) {
   const [mode, setMode] = useState<Mode>("trustmrr_link");
-  const [repo, setRepo] = useState("");
+  const [repo, setRepo] = useState(initialRepo);
   const [trustmrrSlug, setTrustmrrSlug] = useState("");
   const [mrrDollars, setMrrDollars] = useState("");
   const [customers, setCustomers] = useState("");
@@ -63,6 +71,16 @@ export function DropRevenuePage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<SuccessState | null>(null);
+
+  useEffect(() => {
+    captureFunnelStep({
+      step: "revenue_claim_open",
+      flow: "revenue-claim",
+      source,
+      repo: initialRepo || undefined,
+      repo_present: Boolean(initialRepo),
+    });
+  }, [initialRepo, source]);
 
   const canSubmit = useMemo(() => {
     if (submitting) return false;
@@ -117,6 +135,14 @@ export function DropRevenuePage() {
       setSuccess({
         kind: payload.result.kind,
         submission: payload.result.submission,
+      });
+      captureFunnelStep({
+        step: "revenue_claim_submit_success",
+        flow: "revenue-claim",
+        source,
+        repo: payload.result.submission.fullName,
+        mode,
+        kind: payload.result.kind,
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));

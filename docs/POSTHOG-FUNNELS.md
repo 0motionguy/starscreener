@@ -71,6 +71,14 @@ the union UI.
 | 1 | `repo_view` | shared with `discover-repo` | `repo` |
 | 2 | `watchlist_add` | `RepoActionRow.handleWatch` — only counts adds, not removes | `repo`, `source` (`repo_detail`) |
 
+### `compare-add` - repo to compare tool
+
+| # | Step | Fired from | Notable extra properties |
+| - | ---- | ---------- | ------------------------ |
+| 1 | `repo_view` | shared with `discover-repo` | `repo` |
+| 2 | `compare_add` | `RepoActionRow.handleCompare`, only counts adds, not removes | `repo`, `source` (`repo_detail`), `compare_count` |
+| 3 | `compare_view` | `<FunnelMount>` in `src/app/compare/page.tsx` | - |
+
 ### `submit-repo` — open form → fill → submit
 
 Lives on `/submit` (`src/components/submissions/DropRepoPage.tsx`).
@@ -87,6 +95,15 @@ submission is captured cleanly. There's no explicit `submit_failure`
 event today: validation failures keep the operator on the form, which
 the dashboard can spot as `submit_fill` without a downstream
 `submit_success`.
+
+### `revenue-claim` - repo to revenue claim form to moderation queue
+
+Lives on `/submit/revenue` (`src/components/submissions/DropRevenuePage.tsx`).
+
+| # | Step | Trigger | Notable extra properties |
+| - | ---- | ------- | ------------------------ |
+| 1 | `revenue_claim_open` | `DropRevenuePage` mount, including repo-detail handoffs | `repo`, `source` (`repo_detail` \| `submit_revenue_page`), `repo_present` |
+| 2 | `revenue_claim_submit_success` | Revenue API responded `ok: true` | `repo`, `source`, `mode` (`trustmrr_link` \| `self_report`), `kind` (`created` \| `duplicate`) |
 
 ---
 

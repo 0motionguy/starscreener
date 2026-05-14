@@ -11,17 +11,31 @@
 // The modal-based <SignInButton mode="modal" /> still works elsewhere; this
 // just gives operators a route-based fallback.
 
-import { ClerkProvider, SignIn } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkAuthForm } from "@/components/auth/ClerkAuthForm";
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
+import {
+  buildAuthHref,
+  getAuthRedirectFromSearchParams,
+  type AuthSearchParams,
+} from "@/lib/auth/redirect-url";
 
 export const metadata = {
   title: "Sign in",
   description: "Sign in to TrendingRepo",
 };
 
-export default function Page() {
+interface SignInPageProps {
+  searchParams?: Promise<AuthSearchParams>;
+}
+
+export default async function Page({ searchParams }: SignInPageProps) {
   const clerkPublishableKey = getClerkPublishableKey();
+  const params = searchParams ? await searchParams : undefined;
+  const redirectUrl = getAuthRedirectFromSearchParams(params);
+  const signUpUrl = buildAuthHref("/sign-up", redirectUrl);
+
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
       {clerkPublishableKey ? (
@@ -29,7 +43,11 @@ export default function Page() {
           publishableKey={clerkPublishableKey}
           appearance={clerkAppearance}
         >
-          <SignIn />
+          <ClerkAuthForm
+            mode="sign-in"
+            signUpUrl={signUpUrl}
+            fallbackRedirectUrl={redirectUrl}
+          />
         </ClerkProvider>
       ) : (
         <AuthUnavailable action="sign in" />

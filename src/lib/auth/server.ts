@@ -52,7 +52,7 @@ export async function getUser(): Promise<LoadedUser | null> {
 
 /**
  * Throws (via redirect) when not signed-in. Use in routes that should
- * never render anonymously: `/you/*`, `/api/me/*`.
+ * never render anonymously: `/you/alerts`, `/you/refer`, `/api/me/*`.
  */
 export async function requireUser(): Promise<LoadedUser> {
   const loaded = await getUser();

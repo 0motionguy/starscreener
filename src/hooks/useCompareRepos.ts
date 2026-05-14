@@ -101,7 +101,10 @@ export function useCompareRepos(
       controller = new AbortController();
       promise = fetchCompareRepos(currentIds, controller.signal)
         .catch((err) => {
-          if ((err as { name?: string }).name === "AbortError") {
+          if (
+            controller?.signal.aborted ||
+            (err as { name?: string }).name === "AbortError"
+          ) {
             // Caller aborted — let the hook reset; don't pollute cache.
             return EMPTY_REPOS;
           }

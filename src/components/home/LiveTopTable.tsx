@@ -41,6 +41,7 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import type { NewsSource } from "@/lib/news/freshness";
 import { repoLogoUrl } from "@/lib/logos";
 import { useViewportPrefetch } from "@/hooks/useViewportPrefetch";
+import { MAX_COMPARE_REPOS } from "@/lib/constants";
 
 type SortKey = "rank" | "stars" | "d24" | "d7" | "d30" | "forks" | "mentions";
 type SortDir = "asc" | "desc";
@@ -260,7 +261,7 @@ function ActionCell({
   const compareCount = useCompareStore((s) => s.repos.length);
   const addCompare = useCompareStore((s) => s.addRepo);
   const removeCompare = useCompareStore((s) => s.removeRepo);
-  const compareDisabled = !isComparing && compareCount >= 4;
+  const compareDisabled = !isComparing && compareCount >= MAX_COMPARE_REPOS;
 
   const onToggleWatch = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -283,7 +284,7 @@ function ActionCell({
       toastCompareFull();
       return;
     }
-    addCompare(repoId);
+    addCompare(repoId, repoName);
     toastCompareAdded(useCompareStore.getState().repos.length);
   };
 

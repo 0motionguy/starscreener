@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { PostHog } from "posthog-js";
+import { useEffect, type ReactNode } from "react";
+import { flushPendingFunnelSteps } from "@/lib/analytics/funnel";
+import type { BrowserPostHogClient } from "@/lib/analytics/posthog-client";
+import { resolvePublicPostHogConfig } from "@/lib/analytics/posthog-config";
 // NOTE: type-only import is erased by SWC; no runtime cost.
 
-interface PHContext {
-  client: PostHog;
-  Provider: React.ComponentType<{ client: PostHog; children: React.ReactNode }>;
-}
-
-export function PostHogProvider({ children }: { children: React.ReactNode }) {
-  const [ctx, setCtx] = useState<PHContext | null>(null);
-
+export function PostHogProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+    const { key, host } = resolvePublicPostHogConfig({
+      NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+      NEXT_PUBLIC_POSTHOG_TOKEN: process.env.NEXT_PUBLIC_POSTHOG_TOKEN,
+      NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    });
     if (!key) return;
 
     let cancelled = false;
@@ -22,23 +21,31 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     const load = async () => {
       if (cancelled || triggered) return;
       triggered = true;
-      const [{ default: posthog }, { PostHogProvider: PHProvider }] = await Promise.all([
-        import("posthog-js"),
-        import("posthog-js/react"),
-      ]);
+      const { default: posthog } = await import("posthog-js/dist/module.slim");
       if (cancelled) return;
       if (!posthog.__loaded) {
         posthog.init(key, {
-          api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
-          capture_pageview: "history_change",
+          api_host: host,
+          defaults: "2026-01-30",
+          capture_pageview: false,
           capture_pageleave: true,
+          autocapture: false,
+          capture_performance: false,
           person_profiles: "identified_only",
-          // Skip the session-recording chunk on every page. Replay-on-error
-          // is already gated by the Sentry replay flag (Phase 1 perf work);
-          // PostHog recording isn't wired into any internal review surface
-          // today. Flip back to false if a future analyst wants session
-          // replay.
+          // Keep PostHog to explicit analytics only. Pageviews are captured by
+          // PostHogPageviewBridge, and funnels are wired by
+          // captureFunnelStep/FunnelMount/TrackedExternalLink, so the app does
+          // not need the survey, flag, product-tour, web-vitals, dead-click,
+          // exception, history-autocapture, or recording extension bundles.
           disable_session_recording: true,
+          disable_surveys: true,
+          disable_surveys_automatic_display: true,
+          disable_web_experiments: true,
+          disable_product_tours: true,
+          disable_conversations: true,
+          disable_external_dependency_loading: true,
+          advanced_disable_feature_flags: true,
+          advanced_disable_toolbar_metrics: true,
           loaded: (i) => {
             i.register({ project: "trendingrepo", surface: "web" });
             if (process.env.NODE_ENV === "development") i.debug();
@@ -47,8 +54,9 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       }
       // Expose via window so legacy callers (funnel.ts) can capture without
       // importing posthog-js eagerly themselves.
-      (window as unknown as { posthog?: PostHog }).posthog = posthog;
-      setCtx({ client: posthog, Provider: PHProvider });
+      (window as unknown as { posthog?: BrowserPostHogClient }).posthog = posthog;
+      flushPendingFunnelSteps();
+      window.dispatchEvent(new Event("trendingrepo:posthog-ready"));
     };
 
     // Idle trigger
@@ -77,10 +85,5 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // Render children unwrapped while client is null. The PHProvider wrapper
-  // is only required when callers use posthog-js/react's hooks; our
-  // imperative captures (funnel.ts via window.posthog) work without it.
-  if (!ctx) return <>{children}</>;
-  const Provider = ctx.Provider;
-  return <Provider client={ctx.client}>{children}</Provider>;
+  return <>{children}</>;
 }

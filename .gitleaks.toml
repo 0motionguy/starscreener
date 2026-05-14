@@ -13,9 +13,27 @@ useDefault = true
 description = "Curated catalog + meta files where commit hashes / agent IDs / natural-language descriptions trip the generic-api-key entropy heuristic"
 paths = [
   '''data/agent-commerce\.json''',
+  '''data/repo-mentions-detail\.jsonl''',
+  '''\.data/aiso-rescan-queue\.jsonl''',
+  '''\.data/twitter-scans\.jsonl''',
   # Commit-prefixed fingerprint format contains 40-char SHA-1 hashes
   # that look like API keys to gitleaks. The .gitleaksignore file from
   # commit afae93e5 has been removed in a later commit (885986af) but
   # still exists in the PR's git-history scan range.
   '''\.gitleaksignore$''',
+]
+
+regexes = [
+  # PostHog project ingest keys are intentionally public. They are embedded in
+  # browser bundles and can only write analytics events.
+  '''phc_[A-Za-z0-9]{30,}''',
+  # Deterministic test-only cron token literals used to avoid auth fallback
+  # masking assertions.
+  '''test-cron-secret-[A-Za-z0-9]+''',
+  # Identifier names that trip generic entropy rules.
+  '''apify\.(fail24h|success24h)''',
+  '''starVelocity(24h|7d)''',
+  '''forkVelocity7d''',
+  '''contributorGrowth30d''',
+  '''TwitterMatchedPostPreview''',
 ]

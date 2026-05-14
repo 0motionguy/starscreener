@@ -15,7 +15,7 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 function buildLightStub(fullName: string): Repo {
   const [owner, name] = fullName.split("/");
   return {
-    id: fullName.toLowerCase().replace("/", "--"),
+    id: slugToId(fullName),
     fullName,
     name: name ?? fullName,
     owner: owner ?? "",
@@ -58,6 +58,7 @@ import {
   compareIdToFallbackFullName,
   resolveCompareFullNames,
 } from "@/lib/compare-selection";
+import { slugToId } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 import type {
   StarActivityMetric,
@@ -105,7 +106,12 @@ function useCompareRepos(repoIds: string[]): UseCompareReposResult {
         const data = (await res.json()) as { repos?: Repo[] };
         setRepos(Array.isArray(data.repos) ? data.repos : []);
       } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
+        if (
+          controller.signal.aborted ||
+          (err as { name?: string }).name === "AbortError"
+        ) {
+          return;
+        }
         console.error("[compare-wave] /api/repos failed", err);
         setRepos([]);
       } finally {
@@ -145,7 +151,12 @@ function useStarActivityPayloads(
         }
         setByFullName(map);
       } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
+        if (
+          controller.signal.aborted ||
+          (err as { name?: string }).name === "AbortError"
+        ) {
+          return;
+        }
         console.error("[compare-wave] /api/compare/payloads failed", err);
       }
     })();
@@ -156,7 +167,7 @@ function useStarActivityPayloads(
 }
 
 function fullNameToCompareId(fullName: string): string {
-  return fullName.replace("/", "--");
+  return slugToId(fullName);
 }
 
 function buildMindsharePctByFullName(
@@ -180,6 +191,7 @@ function buildMindsharePctByFullName(
 
 export function CompareWaveTop() {
   const repoIds = useCompareStore((s) => s.repos);
+  const fullNamesById = useCompareStore((s) => s.fullNamesById);
   const setRepos = useCompareStore((s) => s.setRepos);
   const { repos } = useCompareRepos(repoIds);
   const router = useRouter();
@@ -202,14 +214,14 @@ export function CompareWaveTop() {
       repoIds.map(
         (id) =>
           reposByIdLower.get(id.toLowerCase()) ??
-          buildLightStub(compareIdToFallbackFullName(id)),
+          buildLightStub(fullNamesById[id] ?? compareIdToFallbackFullName(id)),
       ),
-    [repoIds, reposByIdLower],
+    [repoIds, reposByIdLower, fullNamesById],
   );
 
   const fullNames = useMemo(
-    () => resolveCompareFullNames(repoIds, displayRepos),
-    [repoIds, displayRepos],
+    () => resolveCompareFullNames(repoIds, displayRepos, fullNamesById),
+    [repoIds, displayRepos, fullNamesById],
   );
   const payloads = useStarActivityPayloads(fullNames);
   const mindsharePctByFullName = useMemo(
@@ -263,7 +275,7 @@ export function CompareWaveTop() {
   }, [fullNames, pathname, router]);
 
   function handleStarterPick(fullNamesPicked: string[]) {
-    setRepos(fullNamesPicked.map(fullNameToCompareId));
+    setRepos(fullNamesPicked.map(fullNameToCompareId), fullNamesPicked);
   }
 
   const hasSelection = repoIds.length > 0;

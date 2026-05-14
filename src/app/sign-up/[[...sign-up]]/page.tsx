@@ -10,24 +10,36 @@
 //   at src/app/api/webhooks/clerk/route.ts reads it via the user.created
 //   event's `unsafe_metadata.trRef` and credits the referrer.
 //
-//   For now, Clerk's stock <SignUp /> component does NOT automatically
-//   propagate localStorage trRef into unsafe_metadata. A small client
-//   wrapper hooking into useSignUp() will be added in a follow-up; until
-//   then, the cookie-based referral path in the webhook handler still
-//   works (intake API sets the HttpOnly cookie that the webhook reads
-//   server-side).
+//   The hosted form is rendered through <ClerkAuthForm />, which reads
+//   the verified localStorage handoff and passes it into Clerk's
+//   `unsafeMetadata` prop. The webhook then credits the signup from
+//   `unsafe_metadata.trRef`.
 
-import { ClerkProvider, SignUp } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkAuthForm } from "@/components/auth/ClerkAuthForm";
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
+import {
+  buildAuthHref,
+  getAuthRedirectFromSearchParams,
+  type AuthSearchParams,
+} from "@/lib/auth/redirect-url";
 
 export const metadata = {
   title: "Sign up",
   description: "Sign up to TrendingRepo — track agents, MCPs, repos",
 };
 
-export default function Page() {
+interface SignUpPageProps {
+  searchParams?: Promise<AuthSearchParams>;
+}
+
+export default async function Page({ searchParams }: SignUpPageProps) {
   const clerkPublishableKey = getClerkPublishableKey();
+  const params = searchParams ? await searchParams : undefined;
+  const redirectUrl = getAuthRedirectFromSearchParams(params);
+  const signInUrl = buildAuthHref("/sign-in", redirectUrl);
+
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
       {clerkPublishableKey ? (
@@ -35,7 +47,11 @@ export default function Page() {
           publishableKey={clerkPublishableKey}
           appearance={clerkAppearance}
         >
-          <SignUp />
+          <ClerkAuthForm
+            mode="sign-up"
+            signInUrl={signInUrl}
+            fallbackRedirectUrl={redirectUrl}
+          />
         </ClerkProvider>
       ) : (
         <AuthUnavailable action="sign up" />

@@ -4,18 +4,13 @@ import Link from "next/link";
 import { ROUTES } from "@/lib/routes";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
-import { useClientSession } from "@/components/layout/useClientSession";
+import { HeaderAccount } from "@/components/layout/HeaderAccount";
 
-function avatarInitials(userId: string): string {
-  // Public IDs look like `a_xxx` / `u_xxx` — strip the prefix so the
-  // chip shows the meaningful first 2 chars of the handle.
-  const trimmed = userId.replace(/^[au]_/, "");
-  return trimmed.slice(0, 2).toUpperCase();
+interface HeaderProps {
+  clerkPublishableKey?: string;
 }
 
-export function Header() {
-  const { userId } = useClientSession();
-
+export function Header({ clerkPublishableKey }: HeaderProps) {
   return (
     <header className="topbar">
       <div className="topbar-shimmer" aria-hidden="true"></div>
@@ -90,38 +85,8 @@ export function Header() {
           <span className="arr" aria-hidden="true">-&gt;</span>
         </Link>
 
-        {userId ? (
-          <>
-            <span className="tb-div" aria-hidden="true"></span>
-            <Link
-              href={`/u/${userId}`}
-              className="profile focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-              title="Profile"
-              aria-label="Profile"
-            >
-              <div className="av">{avatarInitials(userId)}</div>
-            </Link>
-          </>
-        ) : (
-          <>
-            <span className="tb-div" aria-hidden="true"></span>
-            <Link
-              href="/sign-in"
-              className="btn-signin focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-              title="Sign in"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/sign-up"
-              className="btn-signup focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-              title="Sign up"
-            >
-              <span>Sign up</span>
-              <span className="arr" aria-hidden="true">-&gt;</span>
-            </Link>
-          </>
-        )}
+        <span className="tb-div" aria-hidden="true"></span>
+        <HeaderAccount publishableKey={clerkPublishableKey} />
       </div>
     </header>
   );

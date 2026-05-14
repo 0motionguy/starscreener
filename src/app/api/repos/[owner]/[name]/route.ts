@@ -23,7 +23,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { errorEnvelope } from "@/lib/api/error-response";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,
@@ -34,6 +33,7 @@ import {
   getDerivedRelatedRepos,
 } from "@/lib/derived-insights";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { resolveRepoProfileInput } from "@/lib/repo-profile-input";
 import type { SocialMention } from "@/lib/types";
 import type { RepoMention } from "@/lib/pipeline/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
@@ -125,7 +125,14 @@ async function handleV2(owner: string, name: string) {
       refreshRepoMetadataFromStore(),
       refreshNpmFromStore(),
     ]);
-    const profile = await buildCanonicalRepoProfile(`${owner}/${name}`);
+    const input = await resolveRepoProfileInput(owner, name);
+    if (!input) {
+      return errorResponse("Repo not found", 404, "repo_not_found");
+    }
+    const profile = await buildCanonicalRepoProfile(
+      input.repo.fullName,
+      input.isLiveFetched ? input.repo : undefined,
+    );
     if (!profile) {
       return errorResponse("Repo not found", 404, "repo_not_found");
     }

@@ -20,8 +20,17 @@ ergonomic wrappers ride on top of the helper:
   replacement for `<a target="_blank">` when the parent is a server
   component but the click should still emit a funnel step.
 
-If `NEXT_PUBLIC_POSTHOG_KEY` is unset (preview / local dev without
-analytics provisioned), the helper is a silent no-op.
+If both `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_TOKEN` are unset
+(preview / local dev without analytics provisioned), the helper is a silent
+no-op.
+
+The client is configured for explicit analytics only: autocapture, feature
+flags, surveys, product tours, conversations, session recording, web-vitals
+capture, and external PostHog extension loading are disabled. Re-enable those
+only with a matching product/dashboard owner and a fresh performance check.
+The SDK is loaded from PostHog's slim client bundle; `$pageview` is captured
+by `src/components/analytics/PostHogPageviewBridge.tsx` instead of the SDK's
+history-autocapture extension.
 
 All funnel events share the same PostHog event name (`funnel_step`) and
 are differentiated by the `step` and `flow` properties — this lets the
@@ -62,6 +71,14 @@ the union UI.
 | 1 | `repo_view` | shared with `discover-repo` | `repo` |
 | 2 | `watchlist_add` | `RepoActionRow.handleWatch` — only counts adds, not removes | `repo`, `source` (`repo_detail`) |
 
+### `compare-add` - repo to compare tool
+
+| # | Step | Fired from | Notable extra properties |
+| - | ---- | ---------- | ------------------------ |
+| 1 | `repo_view` | shared with `discover-repo` | `repo` |
+| 2 | `compare_add` | `RepoActionRow.handleCompare`, only counts adds, not removes | `repo`, `source` (`repo_detail`), `compare_count` |
+| 3 | `compare_view` | `<FunnelMount>` in `src/app/compare/page.tsx` | - |
+
 ### `submit-repo` — open form → fill → submit
 
 Lives on `/submit` (`src/components/submissions/DropRepoPage.tsx`).
@@ -78,6 +95,15 @@ submission is captured cleanly. There's no explicit `submit_failure`
 event today: validation failures keep the operator on the form, which
 the dashboard can spot as `submit_fill` without a downstream
 `submit_success`.
+
+### `revenue-claim` - repo to revenue claim form to moderation queue
+
+Lives on `/submit/revenue` (`src/components/submissions/DropRevenuePage.tsx`).
+
+| # | Step | Trigger | Notable extra properties |
+| - | ---- | ------- | ------------------------ |
+| 1 | `revenue_claim_open` | `DropRevenuePage` mount, including repo-detail handoffs | `repo`, `source` (`repo_detail` \| `submit_revenue_page`), `repo_present` |
+| 2 | `revenue_claim_submit_success` | Revenue API responded `ok: true` | `repo`, `source`, `mode` (`trustmrr_link` \| `self_report`), `kind` (`created` \| `duplicate`) |
 
 ---
 
@@ -96,12 +122,22 @@ the dashboard can spot as `submit_fill` without a downstream
 
 ## Verifying locally
 
-- Set `NEXT_PUBLIC_POSTHOG_KEY` in `.env.local`. With
-  `NODE_ENV=development` the client SDK runs in debug mode and logs
-  every capture to the console.
+- Set `NEXT_PUBLIC_POSTHOG_KEY` (or PostHog's documented
+  `NEXT_PUBLIC_POSTHOG_TOKEN`) in `.env.local`. With `NODE_ENV=development`
+  the client SDK runs in debug mode and logs every capture to the console.
+- Set `NEXT_PUBLIC_POSTHOG_HOST` to the same region as the public token
+  (`https://us.i.posthog.com` for the current shared project). Host values
+  are trimmed at runtime so accidental trailing newlines do not break the SDK.
+  The client accepts the repo's existing `NEXT_PUBLIC_POSTHOG_KEY` env name
+  and PostHog's documented `NEXT_PUBLIC_POSTHOG_TOKEN` name.
 - PostHog "Live events" tab shows the events as they land. Filter on
   `event = funnel_step` to see only the funnel surface; group by
   `properties.flow` to slice per-funnel.
+- Headless Playwright/Chromium is bot-filtered by the SDK by default, so
+  `capture()` returns no event in those probes. If you need a synthetic
+  browser smoke test, override `posthog.config.opt_out_useragent_filter`
+  only inside the probe and confirm an event request lands on `/e/` or
+  `/i/v0/e/`.
 - Funnel charts: PostHog → Insights → New funnel → pick `funnel_step`
   multiple times, fix `flow` to the chosen flow id and `step` to the
   step you want for that position.

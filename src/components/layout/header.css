@@ -115,9 +115,86 @@
 .btn-signup .arr{ font-family:var(--mono); font-size:11px; opacity:0.85; }
 
 @media (max-width: 640px){
+  .topbar{
+    height:56px;
+    gap:8px;
+    padding:0 10px;
+  }
+
+  .brand{
+    min-width:0;
+    flex:1 1 auto;
+    gap:8px;
+  }
+
+  .brand-mark{
+    width:30px;
+    height:30px;
+  }
+
+  .brand-stack,
+  .brand-row,
+  .brand-name{
+    min-width:0;
+  }
+
+  .brand-name{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:12px;
+    letter-spacing:0.04em;
+  }
+
+  .brand-beta,
+  .brand-sub,
+  .search-wrap{
+    display:none;
+  }
+
+  .topbar-actions{
+    flex:none;
+    gap:6px;
+    margin-left:auto;
+  }
+
+  .btn-drop{
+    width:34px;
+    height:34px;
+    justify-content:center;
+    gap:0;
+    padding:0;
+  }
+
+  .btn-drop span{
+    display:none;
+  }
+
+  .btn-drop svg{
+    width:15px;
+    height:15px;
+  }
+
   .btn-signin{ display:none; }
-  .btn-signup{ height:32px; padding:0 10px; letter-spacing:0.10em; }
+  .btn-signup{
+    height:34px;
+    padding:0 10px;
+    white-space:nowrap;
+    font-size:10px;
+    letter-spacing:0.08em;
+  }
   .btn-signup .arr{ display:none; }
+  .tb-div{ display:none; }
+
+  .profile{
+    width:34px;
+    height:34px;
+  }
+
+  .profile .av{
+    width:26px;
+    height:26px;
+  }
 }
 
 .tb-div{ width:1px; height:26px; background:var(--line-300); }

@@ -37,6 +37,8 @@ export interface RecentViewedRepo {
 
 const STORAGE_KEY = "recentViewedRepos";
 const MAX_ENTRIES = 20;
+const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+const RECENT_VIEWED_EVENT = "trendingrepo:recent-viewed-repos";
 
 function isValidEntry(value: unknown): value is RecentViewedRepo {
   if (typeof value !== "object" || value === null) return false;
@@ -46,10 +48,27 @@ function isValidEntry(value: unknown): value is RecentViewedRepo {
     entry.fullName.length > 0 &&
     typeof entry.owner === "string" &&
     entry.owner.length > 0 &&
+    SLUG_PART_PATTERN.test(entry.owner) &&
     typeof entry.name === "string" &&
     entry.name.length > 0 &&
+    SLUG_PART_PATTERN.test(entry.name) &&
+    entry.fullName === `${entry.owner}/${entry.name}` &&
     typeof entry.viewedAt === "number" &&
     Number.isFinite(entry.viewedAt)
+  );
+}
+
+function dispatchRecentViewedUpdate(repos: RecentViewedRepo[]): void {
+  if (
+    typeof window === "undefined" ||
+    typeof window.dispatchEvent !== "function" ||
+    typeof CustomEvent === "undefined"
+  ) {
+    return;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent(RECENT_VIEWED_EVENT, { detail: { repos } }),
   );
 }
 
@@ -97,6 +116,7 @@ export function trackRepoViewed(input: {
       ...filtered,
     ].slice(0, MAX_ENTRIES);
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    dispatchRecentViewedUpdate(next);
   } catch {
     // localStorage full / disabled — degrade silently.
   }
@@ -104,3 +124,4 @@ export function trackRepoViewed(input: {
 
 export const RECENT_VIEWED_REPOS_KEY = STORAGE_KEY;
 export const RECENT_VIEWED_REPOS_MAX = MAX_ENTRIES;
+export const RECENT_VIEWED_REPOS_EVENT = RECENT_VIEWED_EVENT;

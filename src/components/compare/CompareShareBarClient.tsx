@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { ShareBar } from "@/components/share/ShareBar";
@@ -22,6 +22,7 @@ function useUrlShareState() {
 
 function useSelectedShareState() {
   const repoIds = useCompareStore((s) => s.repos);
+  const storeFullNamesById = useCompareStore((s) => s.fullNamesById);
   const hasHydrated =
     useCompareStore.persist?.hasHydrated?.() ?? true;
   const { repos } = useCompareRepos(repoIds, hasHydrated);
@@ -37,13 +38,18 @@ function useSelectedShareState() {
     return Object.fromEntries(pairs);
   }, [urlState.repos]);
 
+  const fullNameOverridesById = useMemo(
+    () => ({ ...storeFullNamesById, ...urlOverridesById }),
+    [storeFullNamesById, urlOverridesById],
+  );
+
   const selectedRepos = useMemo(
     () =>
-      resolveCompareFullNames(repoIds, repos, urlOverridesById).slice(
+      resolveCompareFullNames(repoIds, repos, fullNameOverridesById).slice(
         0,
         COMPARE_MAX_SLOTS,
       ),
-    [repoIds, repos, urlOverridesById],
+    [repoIds, repos, fullNameOverridesById],
   );
 
   return {
@@ -53,13 +59,28 @@ function useSelectedShareState() {
 }
 
 export function CompareSelectedCount() {
+  const [mounted, setMounted] = useState(false);
   const repoIds = useCompareStore((s) => s.repos);
   const urlState = useUrlShareState();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <>0</>;
+
   return <>{repoIds.length > 0 ? repoIds.length : urlState.repos.length}</>;
 }
 
 export function CompareShareBarClient() {
+  const [mounted, setMounted] = useState(false);
   const state = useSelectedShareState();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
   if (state.repos.length < 2) return null;
   return <ShareBar state={state} />;
 }

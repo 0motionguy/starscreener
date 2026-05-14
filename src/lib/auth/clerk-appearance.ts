@@ -48,7 +48,7 @@ export const clerkAppearance: Appearance = {
       "var(--font-geist), system-ui, -apple-system, sans-serif",
     fontSize: "0.9375rem",
     fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
-    borderRadius: "0.5rem",
+    borderRadius: "0.125rem",
     spacingUnit: "1rem",
   },
   elements: {
@@ -56,9 +56,8 @@ export const clerkAppearance: Appearance = {
     card: [
       "bg-[#0b0d0f]",
       "border border-[#222a32]",
-      "shadow-2xl shadow-black/60",
-      "rounded-xl",
-      "backdrop-blur-sm",
+      "shadow-none",
+      "rounded",
     ].join(" "),
     cardBox: "bg-transparent",
     headerTitle:
@@ -90,10 +89,10 @@ export const clerkAppearance: Appearance = {
     formFieldSuccessText: "text-[#22c55e] text-xs",
     formButtonPrimary: [
       "bg-[#ff6b35] hover:bg-[#ff8458] active:bg-[#c44a1f]",
-      "text-white font-semibold",
-      "shadow-lg shadow-[#ff6b35]/25",
+      "text-[#08090a] font-semibold",
+      "shadow-none",
       "border-0",
-      "transition-all",
+      "transition-colors",
       "uppercase tracking-wide text-sm",
     ].join(" "),
     formButtonReset:

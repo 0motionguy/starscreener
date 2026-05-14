@@ -3,7 +3,7 @@
 // Wraps `posthog-js` so call sites emit a single event shape
 // (`funnel_step`) without reaching for the SDK directly. PostHog is
 // initialised by `<PostHogProvider>` (src/components/providers); when
-// `NEXT_PUBLIC_POSTHOG_KEY` is unset the SDK never loads and every
+// no public PostHog token is set the SDK never loads and every
 // capture here becomes a no-op.
 //
 // All funnels documented in `docs/POSTHOG-FUNNELS.md`. Add a new flow
@@ -20,7 +20,10 @@
 
 "use client";
 
-import type { PostHog } from "posthog-js";
+import { getLoadedBrowserPostHog, type BrowserPostHogClient } from "@/lib/analytics/posthog-client";
+
+const MAX_PENDING_FUNNEL_STEPS = 50;
+const pendingFunnelSteps: FunnelStepProps[] = [];
 
 /**
  * Runtime accessor for the PostHog SDK. The SDK is dynamically loaded by
@@ -30,12 +33,17 @@ import type { PostHog } from "posthog-js";
  * client bundle that calls `captureFunnelStep`.
  *
  * Returns `null` while the SDK is dormant (server-render, before idle,
- * or when `NEXT_PUBLIC_POSTHOG_KEY` is unset and the provider bailed).
+ * or when no public PostHog token is set and the provider bailed).
  */
-function getPosthog(): PostHog | null {
-  if (typeof window === "undefined") return null;
-  const ph = (window as unknown as { posthog?: PostHog }).posthog;
-  return ph?.__loaded ? ph : null;
+function getPosthog(): BrowserPostHogClient | null {
+  return getLoadedBrowserPostHog();
+}
+
+function enqueueFunnelStep(props: FunnelStepProps): void {
+  if (pendingFunnelSteps.length >= MAX_PENDING_FUNNEL_STEPS) {
+    pendingFunnelSteps.shift();
+  }
+  pendingFunnelSteps.push(props);
 }
 
 /**
@@ -46,13 +54,17 @@ function getPosthog(): PostHog | null {
  * 1. `discover-repo`     home -> search -> repo-detail -> github click
  * 2. `top10-discover`    home -> /top10 -> repo-detail -> github click
  * 3. `watchlist-add`     repo-detail -> watchlist add
- * 4. `submit-repo`       /submit open -> form fill -> submit success
+ * 4. `compare-add`       repo-detail -> compare add -> /compare
+ * 5. `submit-repo`       /submit open -> form fill -> submit success
+ * 6. `revenue-claim`     repo-detail/direct -> claim revenue form -> submit success
  */
 export type FunnelFlow =
   | "discover-repo"
   | "top10-discover"
   | "watchlist-add"
-  | "submit-repo";
+  | "compare-add"
+  | "submit-repo"
+  | "revenue-claim";
 
 /**
  * Canonical step identifiers. Listed centrally so any regression in
@@ -69,10 +81,16 @@ export type FunnelStep =
   | "github_click"
   // watchlist
   | "watchlist_add"
+  // compare
+  | "compare_add"
+  | "compare_view"
   // submit
   | "submit_open"
   | "submit_fill"
-  | "submit_success";
+  | "submit_success"
+  // revenue claim
+  | "revenue_claim_open"
+  | "revenue_claim_submit_success";
 
 interface FunnelStepProps {
   step: FunnelStep;
@@ -85,17 +103,31 @@ interface FunnelStepProps {
  * Emit a single funnel step. Safe to call from any client component.
  * No-ops when:
  *   - running on the server (typeof window === "undefined")
- *   - PostHog SDK was never initialised (NEXT_PUBLIC_POSTHOG_KEY unset)
+ *   - PostHog SDK was never initialised (no public PostHog token)
  */
 export function captureFunnelStep(props: FunnelStepProps): void {
   try {
-    // getPosthog() short-circuits to null on the server, before the
-    // lazy-loaded SDK has finished initialising, or when the provider
-    // bailed out (NEXT_PUBLIC_POSTHOG_KEY unset). Skipping when the
-    // SDK is dormant avoids accidental queueing in preview / local-dev
-    // builds without analytics provisioned.
-    getPosthog()?.capture("funnel_step", props);
+    const posthog = getPosthog();
+    if (posthog) {
+      posthog.capture("funnel_step", props);
+      return;
+    }
+    enqueueFunnelStep(props);
   } catch {
     // Analytics must never throw upstream.
+  }
+}
+
+export function flushPendingFunnelSteps(): void {
+  const posthog = getPosthog();
+  if (!posthog || pendingFunnelSteps.length === 0) return;
+
+  const steps = pendingFunnelSteps.splice(0, pendingFunnelSteps.length);
+  for (const props of steps) {
+    try {
+      posthog.capture("funnel_step", props);
+    } catch {
+      // Analytics must never throw upstream.
+    }
   }
 }

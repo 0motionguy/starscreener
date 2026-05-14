@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { FunnelMount } from "@/components/analytics/FunnelMount";
 import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
 import {
@@ -23,7 +24,7 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Compare Repos - TrendingRepo",
+  title: "Compare GitHub repos",
   description:
     "Compare repository momentum, stars, funding, mentions, and GitHub activity side by side.",
   alternates: { canonical: "/compare" },
@@ -32,6 +33,7 @@ export const metadata: Metadata = {
 export default function ComparePage() {
   return (
     <main className="home-surface tools-page compare-page">
+      <FunnelMount step="compare_view" flow="compare-add" />
       <section className="page-head">
         <div>
           <div className="crumb">

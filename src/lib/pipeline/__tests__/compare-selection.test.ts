@@ -31,3 +31,16 @@ test("compareIdToFallbackFullName remains best-effort when a repo is unresolved"
   );
   assert.equal(compareIdToFallbackFullName("owner/repo"), "owner/repo");
 });
+
+test("resolveCompareFullNames uses overrides for unresolved compare ids", () => {
+  const fullNames = resolveCompareFullNames(
+    ["vercel--next-js", "openai--codex"],
+    [],
+    {
+      "vercel--next-js": "vercel/next.js",
+      "openai--codex": "openai/codex",
+    },
+  );
+
+  assert.deepEqual(fullNames, ["vercel/next.js", "openai/codex"]);
+});

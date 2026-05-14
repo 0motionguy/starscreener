@@ -18,6 +18,7 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import {
   readRecentViewedRepos,
+  RECENT_VIEWED_REPOS_EVENT,
   RECENT_VIEWED_REPOS_KEY,
   type RecentViewedRepo,
 } from "@/lib/recent-viewed-repos";
@@ -29,23 +30,43 @@ export function SidebarRecentViewedRepos() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setRepos(readRecentViewedRepos());
+    function refreshRepos() {
+      setRepos(readRecentViewedRepos());
+    }
+
+    refreshRepos();
     setMounted(true);
     // Sync across tabs — when another tab opens a repo detail page,
     // refresh this widget without requiring a navigation.
     function onStorage(e: StorageEvent) {
       if (e.key === RECENT_VIEWED_REPOS_KEY) {
-        setRepos(readRecentViewedRepos());
+        refreshRepos();
       }
     }
+    function onRecentViewed() {
+      refreshRepos();
+    }
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener(RECENT_VIEWED_REPOS_EVENT, onRecentViewed);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(RECENT_VIEWED_REPOS_EVENT, onRecentViewed);
+    };
   }, []);
 
-  if (!mounted || repos.length === 0) {
-    // SSR + first-visit users: render nothing. The section header in
-    // SidebarContent is responsible for hiding itself if desired.
+  if (!mounted) {
     return null;
+  }
+
+  if (repos.length === 0) {
+    return (
+      <div
+        className="px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em]"
+        style={{ color: "var(--ink-400)" }}
+      >
+        None yet
+      </div>
+    );
   }
 
   const top = repos.slice(0, PREVIEW_LIMIT);

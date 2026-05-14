@@ -38,6 +38,7 @@ const SLOT_COLORS = [
 ];
 
 const SEARCH_DEBOUNCE_MS = 200;
+export const COMPARE_OPEN_SEARCH_EVENT = "trendingrepo:compare-open-search";
 
 /** Compact per-id cache — we only need the display fields. */
 interface RepoRef {
@@ -48,7 +49,14 @@ interface RepoRef {
 }
 
 export function CompareSelector() {
-  const { repos, addRepo, removeRepo, clearAll, isFull } = useCompareStore();
+  const {
+    repos,
+    fullNamesById,
+    addRepo,
+    removeRepo,
+    clearAll,
+    isFull,
+  } = useCompareStore();
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [refsById, setRefsById] = useState<Record<string, RepoRef>>({});
@@ -153,7 +161,12 @@ export function CompareSelector() {
           return next;
         });
       } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
+        if (
+          controller.signal.aborted ||
+          (err as { name?: string }).name === "AbortError"
+        ) {
+          return;
+        }
         console.error("[compare:hydrate] failed", err);
       }
     })();
@@ -165,8 +178,8 @@ export function CompareSelector() {
   }, [repos]);
 
   const handleSelect = useCallback(
-    (id: string) => {
-      addRepo(id);
+    (repo: Repo) => {
+      addRepo(repo.id, repo.fullName);
       setQuery("");
       setIsOpen(false);
     },
@@ -179,10 +192,16 @@ export function CompareSelector() {
     setTimeout(() => inputRef.current?.focus(), 0);
   }, [isFull]);
 
+  useEffect(() => {
+    const handler = () => openSearch();
+    window.addEventListener(COMPARE_OPEN_SEARCH_EVENT, handler);
+    return () => window.removeEventListener(COMPARE_OPEN_SEARCH_EVENT, handler);
+  }, [openSearch]);
+
   // Resolve a pill's display name (falls back to raw id while hydrating).
   const getRepoName = useCallback(
-    (id: string) => refsById[id]?.fullName ?? id,
-    [refsById],
+    (id: string) => refsById[id]?.fullName ?? fullNamesById[id] ?? id,
+    [fullNamesById, refsById],
   );
 
   const emptySlots = MAX_COMPARE_REPOS - repos.length;
@@ -298,7 +317,7 @@ export function CompareSelector() {
                   <button
                     key={repo.id}
                     type="button"
-                    onClick={() => handleSelect(repo.id)}
+                    onClick={() => handleSelect(repo)}
                     className={cn(
                       "w-full px-3 py-2 flex items-center gap-3 text-left",
                       "hover:bg-bg-card-hover transition-colors cursor-pointer",

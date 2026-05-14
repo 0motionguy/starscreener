@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-13T07:31:12.519Z",
+  "fetchedAt": "2026-05-14T07:29:41.592Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3877,26 +3877,59 @@
       ]
     },
     "openai/openai-agents-python": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
-        "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
-        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
-        "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+        "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+        "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
         "author": {
-          "handle": "therobertta.bsky.social",
-          "displayName": "Robert Ta"
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-12T02:31:02.985833Z",
-        "hoursSincePosted": 3.37
+        "replyCount": 0,
+        "createdAt": "2026-05-14T02:35:44.127219+00:00",
+        "hoursSincePosted": 4.9
       },
       "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+          "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+          "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:35:44.127219+00:00",
+          "createdUtc": 1778726144,
+          "ageHours": 4.9,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gitleaks/gitleaks",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
           "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
@@ -4231,23 +4264,23 @@
     },
     "niri-wm/niri": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fxw2hei27k26v7kndkrf3lq7/app.bsky.feed.post/3mlpledso3s2u",
-        "cid": "bafyreiacerd3xgghzlwz3ozo7sjlj4at765ywpp335b2geeamfluhiepra",
-        "bskyUrl": "https://bsky.app/profile/noa.codes/post/3mlpledso3s2u",
-        "text": "niri (github.com/niri-wm/niri) + DMS (danklinux.com) 입니당!",
+        "uri": "at://did:plc:lnwaoy6gpfpsvdpm76vyevdf/app.bsky.feed.post/3mls2576deei2",
+        "cid": "bafyreigf7wmyutosy53wos4d44vlu5jy6i3k5d42mnkohdvuxdyeho27gm",
+        "bskyUrl": "https://bsky.app/profile/micket.swiss.social.ap.brid.gy/post/3mls2576deei2",
+        "text": "@ftranschel Ever tested Niri? https://github.com/niri-wm/niri",
         "author": {
-          "handle": "noa.codes",
-          "displayName": "Noa Himesaka"
+          "handle": "micket.swiss.social.ap.brid.gy",
+          "displayName": "𝕄𝕚𝕔𝕜𝕖𝕥"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-13T05:34:16.020Z",
-        "hoursSincePosted": 1.95
+        "replyCount": 0,
+        "createdAt": "2026-05-14T05:04:00.000Z",
+        "hoursSincePosted": 2.43
       },
       "posts": [
         {
@@ -4266,6 +4299,34 @@
           "createdUtc": 1778650456,
           "ageHours": 1.95,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lnwaoy6gpfpsvdpm76vyevdf/app.bsky.feed.post/3mls2576deei2",
+          "cid": "bafyreigf7wmyutosy53wos4d44vlu5jy6i3k5d42mnkohdvuxdyeho27gm",
+          "bskyUrl": "https://bsky.app/profile/micket.swiss.social.ap.brid.gy/post/3mls2576deei2",
+          "text": "@ftranschel Ever tested Niri? https://github.com/niri-wm/niri",
+          "author": {
+            "handle": "micket.swiss.social.ap.brid.gy",
+            "displayName": "𝕄𝕚𝕔𝕜𝕖𝕥"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T05:04:00.000Z",
+          "createdUtc": 1778735040,
+          "ageHours": 2.43,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4651,21 +4712,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
-        "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
-        "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
+        "uri": "at://did:plc:mchrltkrhuzpxleiwpmmvpar/app.bsky.feed.post/3mlrqiqobfk2i",
+        "cid": "bafyreifhggzfa74sfbt3lgsagzxxrhvyauj7fi7iqlahlu2g4fexmtyhqa",
+        "bskyUrl": "https://bsky.app/profile/ave.zone/post/3mlrqiqobfk2i",
+        "text": "github.com/anthropics/c...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "ave.zone",
+          "displayName": "ave"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-12T12:04:22.957223Z",
-        "hoursSincePosted": 0.5
+        "replyCount": 1,
+        "createdAt": "2026-05-14T02:11:31.910Z",
+        "hoursSincePosted": 5.3
       },
       "posts": [
         {
@@ -4712,6 +4773,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mchrltkrhuzpxleiwpmmvpar/app.bsky.feed.post/3mlrqiqobfk2i",
+          "cid": "bafyreifhggzfa74sfbt3lgsagzxxrhvyauj7fi7iqlahlu2g4fexmtyhqa",
+          "bskyUrl": "https://bsky.app/profile/ave.zone/post/3mlrqiqobfk2i",
+          "text": "github.com/anthropics/c...",
+          "author": {
+            "handle": "ave.zone",
+            "displayName": "ave"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-14T02:11:31.910Z",
+          "createdUtc": 1778724691,
+          "ageHours": 5.3,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5678,23 +5767,23 @@
     },
     "obra/superpowers": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
-        "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
-        "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
-        "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+        "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlrykt6xoc24",
+        "cid": "bafyreid3sq4szuntzqzc6dulshokjzngmxk2wp4g6tea7weywpzzfawwdu",
+        "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlrykt6xoc24",
+        "text": "GitHubで超使えるエージェントスキルフレームワークを発見した🔥 「obra/superpowers」— AIエージェントに\"やり方\"を教える方法論とフレームワークがまとまってる。コードを書かせるだけじゃなく、ちゃんと動く開発フローごと渡せるのが強い。 ソロだと設計から実装まで全部自分でやるから、エージェントに文脈ごと理解させる仕組みは本当に助かる。★18万超えてるの納得。 #GitHub #buildinpublic #個人開発 https://github.com/obra/superpowers",
         "author": {
-          "handle": "arthur.clune.org",
-          "displayName": "Arthur Clune"
+          "handle": "yorozuya-build.bsky.social",
+          "displayName": "よろず屋builds"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T14:20:48.179Z",
-        "hoursSincePosted": 2.89
+        "replyCount": 0,
+        "createdAt": "2026-05-14T04:35:51.133598Z",
+        "hoursSincePosted": 2.9
       },
       "posts": [
         {
@@ -5741,6 +5830,34 @@
           "createdUtc": 1778336448,
           "ageHours": 2.89,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlrykt6xoc24",
+          "cid": "bafyreid3sq4szuntzqzc6dulshokjzngmxk2wp4g6tea7weywpzzfawwdu",
+          "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlrykt6xoc24",
+          "text": "GitHubで超使えるエージェントスキルフレームワークを発見した🔥 「obra/superpowers」— AIエージェントに\"やり方\"を教える方法論とフレームワークがまとまってる。コードを書かせるだけじゃなく、ちゃんと動く開発フローごと渡せるのが強い。 ソロだと設計から実装まで全部自分でやるから、エージェントに文脈ごと理解させる仕組みは本当に助かる。★18万超えてるの納得。 #GitHub #buildinpublic #個人開発 https://github.com/obra/superpowers",
+          "author": {
+            "handle": "yorozuya-build.bsky.social",
+            "displayName": "よろず屋builds"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T04:35:51.133598Z",
+          "createdUtc": 1778733351,
+          "ageHours": 2.9,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -8490,15 +8607,15 @@
       ]
     },
     "angelos-p/llm-from-scratch": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlmu5o3eek2g",
-        "cid": "bafyreiakc7bwyrf57kfg4kkam7n43xu2sa5yzmjoe5nslsqyplqas3f5eq",
-        "bskyUrl": "https://bsky.app/profile/theblankgeneration.bsky.social/post/3mlmu5o3eek2g",
-        "text": "Roll your own LLM. In case you need to understand, at a code level, how LLMs work. github.com/angelos-p/ll...",
+        "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlrrnyqcas2y",
+        "cid": "bafyreiequrx5y2zny72axn2fjpkpqlfc66yvuz3n3ybwwel7wxwaaxrrw4",
+        "bskyUrl": "https://bsky.app/profile/theblankgeneration.bsky.social/post/3mlrrnyqcas2y",
+        "text": "... github.com/angelos-p/ll...",
         "author": {
           "handle": "theblankgeneration.bsky.social",
           "displayName": "Blank Jimmy"
@@ -8506,10 +8623,38 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T03:33:36.371Z",
-        "hoursSincePosted": 2.33
+        "createdAt": "2026-05-14T02:32:19.129Z",
+        "hoursSincePosted": 4.96
       },
       "posts": [
+        {
+          "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlrrnyqcas2y",
+          "cid": "bafyreiequrx5y2zny72axn2fjpkpqlfc66yvuz3n3ybwwel7wxwaaxrrw4",
+          "bskyUrl": "https://bsky.app/profile/theblankgeneration.bsky.social/post/3mlrrnyqcas2y",
+          "text": "... github.com/angelos-p/ll...",
+          "author": {
+            "handle": "theblankgeneration.bsky.social",
+            "displayName": "Blank Jimmy"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:32:19.129Z",
+          "createdUtc": 1778725939,
+          "ageHours": 4.96,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "angelos-p/llm-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlmu5o3eek2g",
           "cid": "bafyreiakc7bwyrf57kfg4kkam7n43xu2sa5yzmjoe5nslsqyplqas3f5eq",
@@ -10024,24 +10169,24 @@
       ]
     },
     "Nightmare-Eclipse/GreenPlasma": {
-      "count7d": 3,
-      "likesSum7d": 10,
-      "repostsSum7d": 4,
-      "repliesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:w5dk6pygx5sdrslc5vo56h75/app.bsky.feed.post/3mlom45ld6s24",
-        "cid": "bafyreightgiunxog536dnjvxa34hnhzb5zpsqwiogdl6d3lx7waiwqubb4",
-        "bskyUrl": "https://bsky.app/profile/campuscodi.risky.biz/post/3mlom45ld6s24",
-        "text": "New Windows zero-days just dropped EoP: github.com/Nightmare-Ec... Bitlocker bypass: github.com/Nightmare-Ec... From the same researcher behind RedSun and Bluehammer",
+        "uri": "at://did:plc:xg4kkfh74o2vnumv4wbsbg7i/app.bsky.feed.post/3mlrzj2pai22x",
+        "cid": "bafyreihobynpghenuka4j63vwijmz6jqw43dvole3i2llcwfoa3rblfbui",
+        "bskyUrl": "https://bsky.app/profile/broken.com/post/3mlrzj2pai22x",
+        "text": "LPE POC: github.com/Nightmare-Ec...",
         "author": {
-          "handle": "campuscodi.risky.biz",
-          "displayName": "Catalin Cimpanu"
+          "handle": "broken.com",
+          "displayName": "ex-parrot"
         },
-        "likeCount": 9,
-        "repostCount": 4,
+        "likeCount": 0,
+        "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-12T20:14:55.055Z",
-        "hoursSincePosted": 2.37
+        "createdAt": "2026-05-14T04:52:46.090Z",
+        "hoursSincePosted": 2.62
       },
       "posts": [
         {
@@ -10103,6 +10248,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "Nightmare-Eclipse/GreenPlasma",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xg4kkfh74o2vnumv4wbsbg7i/app.bsky.feed.post/3mlrzj2pai22x",
+          "cid": "bafyreihobynpghenuka4j63vwijmz6jqw43dvole3i2llcwfoa3rblfbui",
+          "bskyUrl": "https://bsky.app/profile/broken.com/post/3mlrzj2pai22x",
+          "text": "LPE POC: github.com/Nightmare-Ec...",
+          "author": {
+            "handle": "broken.com",
+            "displayName": "ex-parrot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-14T04:52:46.090Z",
+          "createdUtc": 1778734366,
+          "ageHours": 2.62,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "Nightmare-Eclipse/GreenPlasma",
               "matchType": "url",
@@ -10141,24 +10314,24 @@
       ]
     },
     "Nightmare-Eclipse/YellowKey": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:uljpcnka4xxgtd7g2nf5zblo/app.bsky.feed.post/3mlpprv3hn22g",
-        "cid": "bafyreiggo2suknnaol5o5bifwvqheynno3u7s2g37mvwfstyfhiu743u4a",
-        "bskyUrl": "https://bsky.app/profile/kabutor.bsky.social/post/3mlpprv3hn22g",
-        "text": "github.com/Nightmare-Ec...",
+        "uri": "at://did:plc:geedkryrxxasdotl67gzeway/app.bsky.feed.post/3mlrskyrevc22",
+        "cid": "bafyreif4up2f6fnxovisna56df36c35at6fsbjqmdq7qv5hdog73gb5idq",
+        "bskyUrl": "https://bsky.app/profile/metronom.bsky.social/post/3mlrskyrevc22",
+        "text": "CVE-2026-46300. YellowKey (github.com/Nightmare-Ec...) у якога ўвогуле яшчэ няма CVE + Дзень толькі пачаўся.",
         "author": {
-          "handle": "kabutor.bsky.social",
-          "displayName": "Kabutor"
+          "handle": "metronom.bsky.social",
+          "displayName": "Весці з палёў"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-13T06:53:25.309Z",
-        "hoursSincePosted": 0.63
+        "replyCount": 0,
+        "createdAt": "2026-05-14T02:48:34.992Z",
+        "hoursSincePosted": 4.69
       },
       "posts": [
         {
@@ -10195,6 +10368,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:geedkryrxxasdotl67gzeway/app.bsky.feed.post/3mlrskyrevc22",
+          "cid": "bafyreif4up2f6fnxovisna56df36c35at6fsbjqmdq7qv5hdog73gb5idq",
+          "bskyUrl": "https://bsky.app/profile/metronom.bsky.social/post/3mlrskyrevc22",
+          "text": "CVE-2026-46300. YellowKey (github.com/Nightmare-Ec...) у якога ўвогуле яшчэ няма CVE + Дзень толькі пачаўся.",
+          "author": {
+            "handle": "metronom.bsky.social",
+            "displayName": "Весці з палёў"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:48:34.992Z",
+          "createdUtc": 1778726914,
+          "ageHours": 4.69,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:dp2sajg2scxjxdrskgken5ln/app.bsky.feed.post/3mlosga2lcp2h",
           "cid": "bafyreihzam3knqzerdgtq7t73j7gzm2hzwjprcwat7tycxwewaiegjk3ea",
           "bskyUrl": "https://bsky.app/profile/hmier.bsky.social/post/3mlosga2lcp2h",
@@ -10222,6 +10423,34 @@
             },
             {
               "fullName": "Nightmare-Eclipse/GreenPlasma",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xg4kkfh74o2vnumv4wbsbg7i/app.bsky.feed.post/3mlrzj3ek4k2x",
+          "cid": "bafyreifeyedhjgydbijsx4veg5vljoz7iqqmegdimxavcwh4ko3lemv23i",
+          "bskyUrl": "https://bsky.app/profile/broken.com/post/3mlrzj3ek4k2x",
+          "text": "Exploit: github.com/Nightmare-Ec...",
+          "author": {
+            "handle": "broken.com",
+            "displayName": "ex-parrot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T04:52:46.091Z",
+          "createdUtc": 1778734366,
+          "ageHours": 2.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
               "matchType": "url",
               "confidence": 1
             }
@@ -10655,23 +10884,23 @@
     },
     "gitleaks/gitleaks": {
       "count7d": 1,
-      "likesSum7d": 13,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mlpma3meh22w",
-        "cid": "bafyreibdnjbos6uafpygjxrx5wl3ocbcuyydvuzginjc6kc6lnmdfn2kjy",
-        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mlpma3meh22w",
-        "text": "Gitleaks est un projet open-source sous licence MIT, permettant de détecter les secrets comme les mots de passe, clés API et tokens dans des dépôts Git, fichiers ou flux d'entrée standard. Facile à ajouter à vos pipeline d'intégration continue ⬇️ github.com/gitleaks/git...",
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+        "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+        "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
         "author": {
-          "handle": "ponceto91.bsky.social",
-          "displayName": "Olivier Poncet 🦝"
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
         },
-        "likeCount": 13,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-13T05:49:46.949Z",
-        "hoursSincePosted": 1.69
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T02:35:44.127219+00:00",
+        "hoursSincePosted": 4.9
       },
       "posts": [
         {
@@ -10697,6 +10926,329 @@
           "linkedRepos": [
             {
               "fullName": "gitleaks/gitleaks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+          "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+          "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:35:44.127219+00:00",
+          "createdUtc": 1778726144,
+          "ageHours": 4.9,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gitleaks/gitleaks",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "v12-security/pocs": {
+      "count7d": 4,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:pd6tltyoyoexrbvuw4ahxnj5/app.bsky.feed.post/3mls7qktwos2f",
+        "cid": "bafyreiaaxuw5smfs4kktmecrpflpducbvzbnzb6bh3ucykbv6zajwynsyu",
+        "bskyUrl": "https://bsky.app/profile/ksauzz.bsky.social/post/3mls7qktwos2f",
+        "text": "そろそろlocal privilege escalation疲れである github.com/v12-security...",
+        "author": {
+          "handle": "ksauzz.bsky.social",
+          "displayName": "ksauzz"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T06:44:20.367Z",
+        "hoursSincePosted": 0.76
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:pd6tltyoyoexrbvuw4ahxnj5/app.bsky.feed.post/3mls7qktwos2f",
+          "cid": "bafyreiaaxuw5smfs4kktmecrpflpducbvzbnzb6bh3ucykbv6zajwynsyu",
+          "bskyUrl": "https://bsky.app/profile/ksauzz.bsky.social/post/3mls7qktwos2f",
+          "text": "そろそろlocal privilege escalation疲れである github.com/v12-security...",
+          "author": {
+            "handle": "ksauzz.bsky.social",
+            "displayName": "ksauzz"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T06:44:20.367Z",
+          "createdUtc": 1778741060,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nvhj4rbpaxij2qj727274sie/app.bsky.feed.post/3mlsbm7gpbc22",
+          "cid": "bafyreigcoxnsuugwji5y77lyqocoz6uh2yoykto4irhp3fmvtcel474diy",
+          "bskyUrl": "https://bsky.app/profile/warthogtk.bsky.social/post/3mlsbm7gpbc22",
+          "text": "After copy[.]fail and DirtyFrag, a 3rd Linux kernel LPE (corrupting the kernel page cache through a flaw in XFRM ESP-in-TCP) in 2 weeks github.com/v12-security... thehackernews.com/2026/05/new-...",
+          "author": {
+            "handle": "warthogtk.bsky.social",
+            "displayName": "WarthogTK"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T07:17:41.665Z",
+          "createdUtc": 1778743061,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mlvfmwv76pxbiaqvxyyie6lj/app.bsky.feed.post/3mlruw4akxtm2",
+          "cid": "bafyreidtryhw2j6whk72cn5gnak57plej36novmmt5iwfp2x4a2oevqfby",
+          "bskyUrl": "https://bsky.app/profile/ugjka.social.ugjka.net.ap.brid.gy/post/3mlruw4akxtm2",
+          "text": "Vēl viens LPE Linuxam, mitigācija gan tāda pati kā Dirty frag, jo līdzīga kļūda kodā. Kad notiek? pocs/fragnesia at main · v12-security/pocs https://github.com/v12-security/pocs/tree/main/fragnesia",
+          "author": {
+            "handle": "ugjka.social.ugjka.net.ap.brid.gy",
+            "displayName": "Uģis Ģērmanis"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T03:30:18.000Z",
+          "createdUtc": 1778729418,
+          "ageHours": 3.99,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:s3f6u4nvxrjzkkr66bcm4cut/app.bsky.feed.post/3mlrtfycano2g",
+          "cid": "bafyreidl3uvzjgylq2b3heewkhdttoynjt7q5h47gjqbh6wnw3gjae4tlq",
+          "bskyUrl": "https://bsky.app/profile/tongzhuodeni.bsky.social/post/3mlrtfycano2g",
+          "text": "Linux修不完的洞里，又多了一个要你升级的 Linux内核被曝高危本地提权漏洞Fragnesia，利用中可绕过COW保护提升至root权限，云主机和容器宿主机风险高。需升级至含5月13日修复补丁的内核。 消息来源：LoopDNS https://github.com/v12-security/pocs/tree/main/fragnesia",
+          "author": {
+            "handle": "tongzhuodeni.bsky.social",
+            "displayName": "同桌的你"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T03:03:39.749774+00:00",
+          "createdUtc": 1778727819,
+          "ageHours": 4.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bytedance/UI-TARS-desktop": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mlsaszennc2w",
+        "cid": "bafyreifj27i2ywhgxulgw6orcibflbv3ijlj4uv6kh2luhhfzwermknnxi",
+        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mlsaszennc2w",
+        "text": "Worth exploring - a GitHub repo focused on multimodal AI agents with GUI, CLI, and vision capabilities, plus open-source local desktop support. See link below. #AI #OpenSource #GitHub https://github.com/bytedance/UI-TARS-desktop",
+        "author": {
+          "handle": "alexiskirke.bsky.social",
+          "displayName": "Alexis Kirke"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T07:03:36.278217+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mlsaszennc2w",
+          "cid": "bafyreifj27i2ywhgxulgw6orcibflbv3ijlj4uv6kh2luhhfzwermknnxi",
+          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mlsaszennc2w",
+          "text": "Worth exploring - a GitHub repo focused on multimodal AI agents with GUI, CLI, and vision capabilities, plus open-source local desktop support. See link below. #AI #OpenSource #GitHub https://github.com/bytedance/UI-TARS-desktop",
+          "author": {
+            "handle": "alexiskirke.bsky.social",
+            "displayName": "Alexis Kirke"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T07:03:36.278217+00:00",
+          "createdUtc": 1778742216,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "bytedance/UI-TARS-desktop",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "geodro/lerd": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlrycp5qoa2u",
+        "cid": "bafyreih2wqswy2xa2pthfl5cd4vhm2fmjcdflkudmi4hycpzq2rtspzvpq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlrycp5qoa2u",
+        "text": "https://github.com/geodro/lerd",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T04:31:18Z",
+        "hoursSincePosted": 2.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlrycp5qoa2u",
+          "cid": "bafyreih2wqswy2xa2pthfl5cd4vhm2fmjcdflkudmi4hycpzq2rtspzvpq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlrycp5qoa2u",
+          "text": "https://github.com/geodro/lerd",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T04:31:18Z",
+          "createdUtc": 1778733078,
+          "ageHours": 2.97,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "geodro/lerd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "qxcnm/Codex-Manager": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlrtn44x6l23",
+        "cid": "bafyreicc6drrr4yi52e6jy5aoqvlvezylu6y5ia2xjlva673g3h5s3wuke",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlrtn44x6l23",
+        "text": "qxcnm / Codex-Manager: 一个Codex cli 账号管理与切换工具。为 Codex cli提供本地网关转发。 ★2044 https://github.com/qxcnm/Codex-Manager",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T03:07:39.169270Z",
+        "hoursSincePosted": 4.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlrtn44x6l23",
+          "cid": "bafyreicc6drrr4yi52e6jy5aoqvlvezylu6y5ia2xjlva673g3h5s3wuke",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlrtn44x6l23",
+          "text": "qxcnm / Codex-Manager: 一个Codex cli 账号管理与切换工具。为 Codex cli提供本地网关转发。 ★2044 https://github.com/qxcnm/Codex-Manager",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T03:07:39.169270Z",
+          "createdUtc": 1778728059,
+          "ageHours": 4.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "qxcnm/Codex-Manager",
               "matchType": "url",
               "confidence": 1
             }
@@ -14578,26 +15130,59 @@
       ]
     },
     "openai--openai-agents-python": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
-        "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
-        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
-        "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+        "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+        "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
         "author": {
-          "handle": "therobertta.bsky.social",
-          "displayName": "Robert Ta"
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-12T02:31:02.985833Z",
-        "hoursSincePosted": 3.37
+        "replyCount": 0,
+        "createdAt": "2026-05-14T02:35:44.127219+00:00",
+        "hoursSincePosted": 4.9
       },
       "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+          "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+          "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:35:44.127219+00:00",
+          "createdUtc": 1778726144,
+          "ageHours": 4.9,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gitleaks/gitleaks",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
           "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
@@ -14932,23 +15517,23 @@
     },
     "niri-wm--niri": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fxw2hei27k26v7kndkrf3lq7/app.bsky.feed.post/3mlpledso3s2u",
-        "cid": "bafyreiacerd3xgghzlwz3ozo7sjlj4at765ywpp335b2geeamfluhiepra",
-        "bskyUrl": "https://bsky.app/profile/noa.codes/post/3mlpledso3s2u",
-        "text": "niri (github.com/niri-wm/niri) + DMS (danklinux.com) 입니당!",
+        "uri": "at://did:plc:lnwaoy6gpfpsvdpm76vyevdf/app.bsky.feed.post/3mls2576deei2",
+        "cid": "bafyreigf7wmyutosy53wos4d44vlu5jy6i3k5d42mnkohdvuxdyeho27gm",
+        "bskyUrl": "https://bsky.app/profile/micket.swiss.social.ap.brid.gy/post/3mls2576deei2",
+        "text": "@ftranschel Ever tested Niri? https://github.com/niri-wm/niri",
         "author": {
-          "handle": "noa.codes",
-          "displayName": "Noa Himesaka"
+          "handle": "micket.swiss.social.ap.brid.gy",
+          "displayName": "𝕄𝕚𝕔𝕜𝕖𝕥"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-13T05:34:16.020Z",
-        "hoursSincePosted": 1.95
+        "replyCount": 0,
+        "createdAt": "2026-05-14T05:04:00.000Z",
+        "hoursSincePosted": 2.43
       },
       "posts": [
         {
@@ -14967,6 +15552,34 @@
           "createdUtc": 1778650456,
           "ageHours": 1.95,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lnwaoy6gpfpsvdpm76vyevdf/app.bsky.feed.post/3mls2576deei2",
+          "cid": "bafyreigf7wmyutosy53wos4d44vlu5jy6i3k5d42mnkohdvuxdyeho27gm",
+          "bskyUrl": "https://bsky.app/profile/micket.swiss.social.ap.brid.gy/post/3mls2576deei2",
+          "text": "@ftranschel Ever tested Niri? https://github.com/niri-wm/niri",
+          "author": {
+            "handle": "micket.swiss.social.ap.brid.gy",
+            "displayName": "𝕄𝕚𝕔𝕜𝕖𝕥"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T05:04:00.000Z",
+          "createdUtc": 1778735040,
+          "ageHours": 2.43,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -15352,21 +15965,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
-        "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
-        "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
+        "uri": "at://did:plc:mchrltkrhuzpxleiwpmmvpar/app.bsky.feed.post/3mlrqiqobfk2i",
+        "cid": "bafyreifhggzfa74sfbt3lgsagzxxrhvyauj7fi7iqlahlu2g4fexmtyhqa",
+        "bskyUrl": "https://bsky.app/profile/ave.zone/post/3mlrqiqobfk2i",
+        "text": "github.com/anthropics/c...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "ave.zone",
+          "displayName": "ave"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-12T12:04:22.957223Z",
-        "hoursSincePosted": 0.5
+        "replyCount": 1,
+        "createdAt": "2026-05-14T02:11:31.910Z",
+        "hoursSincePosted": 5.3
       },
       "posts": [
         {
@@ -15413,6 +16026,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mchrltkrhuzpxleiwpmmvpar/app.bsky.feed.post/3mlrqiqobfk2i",
+          "cid": "bafyreifhggzfa74sfbt3lgsagzxxrhvyauj7fi7iqlahlu2g4fexmtyhqa",
+          "bskyUrl": "https://bsky.app/profile/ave.zone/post/3mlrqiqobfk2i",
+          "text": "github.com/anthropics/c...",
+          "author": {
+            "handle": "ave.zone",
+            "displayName": "ave"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-14T02:11:31.910Z",
+          "createdUtc": 1778724691,
+          "ageHours": 5.3,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -16379,23 +17020,23 @@
     },
     "obra--superpowers": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
-        "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
-        "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
-        "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+        "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlrykt6xoc24",
+        "cid": "bafyreid3sq4szuntzqzc6dulshokjzngmxk2wp4g6tea7weywpzzfawwdu",
+        "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlrykt6xoc24",
+        "text": "GitHubで超使えるエージェントスキルフレームワークを発見した🔥 「obra/superpowers」— AIエージェントに\"やり方\"を教える方法論とフレームワークがまとまってる。コードを書かせるだけじゃなく、ちゃんと動く開発フローごと渡せるのが強い。 ソロだと設計から実装まで全部自分でやるから、エージェントに文脈ごと理解させる仕組みは本当に助かる。★18万超えてるの納得。 #GitHub #buildinpublic #個人開発 https://github.com/obra/superpowers",
         "author": {
-          "handle": "arthur.clune.org",
-          "displayName": "Arthur Clune"
+          "handle": "yorozuya-build.bsky.social",
+          "displayName": "よろず屋builds"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T14:20:48.179Z",
-        "hoursSincePosted": 2.89
+        "replyCount": 0,
+        "createdAt": "2026-05-14T04:35:51.133598Z",
+        "hoursSincePosted": 2.9
       },
       "posts": [
         {
@@ -16442,6 +17083,34 @@
           "createdUtc": 1778336448,
           "ageHours": 2.89,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlrykt6xoc24",
+          "cid": "bafyreid3sq4szuntzqzc6dulshokjzngmxk2wp4g6tea7weywpzzfawwdu",
+          "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlrykt6xoc24",
+          "text": "GitHubで超使えるエージェントスキルフレームワークを発見した🔥 「obra/superpowers」— AIエージェントに\"やり方\"を教える方法論とフレームワークがまとまってる。コードを書かせるだけじゃなく、ちゃんと動く開発フローごと渡せるのが強い。 ソロだと設計から実装まで全部自分でやるから、エージェントに文脈ごと理解させる仕組みは本当に助かる。★18万超えてるの納得。 #GitHub #buildinpublic #個人開発 https://github.com/obra/superpowers",
+          "author": {
+            "handle": "yorozuya-build.bsky.social",
+            "displayName": "よろず屋builds"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T04:35:51.133598Z",
+          "createdUtc": 1778733351,
+          "ageHours": 2.9,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19191,15 +19860,15 @@
       ]
     },
     "angelos-p--llm-from-scratch": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlmu5o3eek2g",
-        "cid": "bafyreiakc7bwyrf57kfg4kkam7n43xu2sa5yzmjoe5nslsqyplqas3f5eq",
-        "bskyUrl": "https://bsky.app/profile/theblankgeneration.bsky.social/post/3mlmu5o3eek2g",
-        "text": "Roll your own LLM. In case you need to understand, at a code level, how LLMs work. github.com/angelos-p/ll...",
+        "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlrrnyqcas2y",
+        "cid": "bafyreiequrx5y2zny72axn2fjpkpqlfc66yvuz3n3ybwwel7wxwaaxrrw4",
+        "bskyUrl": "https://bsky.app/profile/theblankgeneration.bsky.social/post/3mlrrnyqcas2y",
+        "text": "... github.com/angelos-p/ll...",
         "author": {
           "handle": "theblankgeneration.bsky.social",
           "displayName": "Blank Jimmy"
@@ -19207,10 +19876,38 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T03:33:36.371Z",
-        "hoursSincePosted": 2.33
+        "createdAt": "2026-05-14T02:32:19.129Z",
+        "hoursSincePosted": 4.96
       },
       "posts": [
+        {
+          "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlrrnyqcas2y",
+          "cid": "bafyreiequrx5y2zny72axn2fjpkpqlfc66yvuz3n3ybwwel7wxwaaxrrw4",
+          "bskyUrl": "https://bsky.app/profile/theblankgeneration.bsky.social/post/3mlrrnyqcas2y",
+          "text": "... github.com/angelos-p/ll...",
+          "author": {
+            "handle": "theblankgeneration.bsky.social",
+            "displayName": "Blank Jimmy"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:32:19.129Z",
+          "createdUtc": 1778725939,
+          "ageHours": 4.96,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "angelos-p/llm-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:x5tt7d5fpy3latpdzbwsfuhi/app.bsky.feed.post/3mlmu5o3eek2g",
           "cid": "bafyreiakc7bwyrf57kfg4kkam7n43xu2sa5yzmjoe5nslsqyplqas3f5eq",
@@ -20725,24 +21422,24 @@
       ]
     },
     "nightmare-eclipse--greenplasma": {
-      "count7d": 3,
-      "likesSum7d": 10,
-      "repostsSum7d": 4,
-      "repliesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:w5dk6pygx5sdrslc5vo56h75/app.bsky.feed.post/3mlom45ld6s24",
-        "cid": "bafyreightgiunxog536dnjvxa34hnhzb5zpsqwiogdl6d3lx7waiwqubb4",
-        "bskyUrl": "https://bsky.app/profile/campuscodi.risky.biz/post/3mlom45ld6s24",
-        "text": "New Windows zero-days just dropped EoP: github.com/Nightmare-Ec... Bitlocker bypass: github.com/Nightmare-Ec... From the same researcher behind RedSun and Bluehammer",
+        "uri": "at://did:plc:xg4kkfh74o2vnumv4wbsbg7i/app.bsky.feed.post/3mlrzj2pai22x",
+        "cid": "bafyreihobynpghenuka4j63vwijmz6jqw43dvole3i2llcwfoa3rblfbui",
+        "bskyUrl": "https://bsky.app/profile/broken.com/post/3mlrzj2pai22x",
+        "text": "LPE POC: github.com/Nightmare-Ec...",
         "author": {
-          "handle": "campuscodi.risky.biz",
-          "displayName": "Catalin Cimpanu"
+          "handle": "broken.com",
+          "displayName": "ex-parrot"
         },
-        "likeCount": 9,
-        "repostCount": 4,
+        "likeCount": 0,
+        "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-12T20:14:55.055Z",
-        "hoursSincePosted": 2.37
+        "createdAt": "2026-05-14T04:52:46.090Z",
+        "hoursSincePosted": 2.62
       },
       "posts": [
         {
@@ -20804,6 +21501,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "Nightmare-Eclipse/GreenPlasma",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xg4kkfh74o2vnumv4wbsbg7i/app.bsky.feed.post/3mlrzj2pai22x",
+          "cid": "bafyreihobynpghenuka4j63vwijmz6jqw43dvole3i2llcwfoa3rblfbui",
+          "bskyUrl": "https://bsky.app/profile/broken.com/post/3mlrzj2pai22x",
+          "text": "LPE POC: github.com/Nightmare-Ec...",
+          "author": {
+            "handle": "broken.com",
+            "displayName": "ex-parrot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-14T04:52:46.090Z",
+          "createdUtc": 1778734366,
+          "ageHours": 2.62,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "Nightmare-Eclipse/GreenPlasma",
               "matchType": "url",
@@ -20842,24 +21567,24 @@
       ]
     },
     "nightmare-eclipse--yellowkey": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:uljpcnka4xxgtd7g2nf5zblo/app.bsky.feed.post/3mlpprv3hn22g",
-        "cid": "bafyreiggo2suknnaol5o5bifwvqheynno3u7s2g37mvwfstyfhiu743u4a",
-        "bskyUrl": "https://bsky.app/profile/kabutor.bsky.social/post/3mlpprv3hn22g",
-        "text": "github.com/Nightmare-Ec...",
+        "uri": "at://did:plc:geedkryrxxasdotl67gzeway/app.bsky.feed.post/3mlrskyrevc22",
+        "cid": "bafyreif4up2f6fnxovisna56df36c35at6fsbjqmdq7qv5hdog73gb5idq",
+        "bskyUrl": "https://bsky.app/profile/metronom.bsky.social/post/3mlrskyrevc22",
+        "text": "CVE-2026-46300. YellowKey (github.com/Nightmare-Ec...) у якога ўвогуле яшчэ няма CVE + Дзень толькі пачаўся.",
         "author": {
-          "handle": "kabutor.bsky.social",
-          "displayName": "Kabutor"
+          "handle": "metronom.bsky.social",
+          "displayName": "Весці з палёў"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-13T06:53:25.309Z",
-        "hoursSincePosted": 0.63
+        "replyCount": 0,
+        "createdAt": "2026-05-14T02:48:34.992Z",
+        "hoursSincePosted": 4.69
       },
       "posts": [
         {
@@ -20896,6 +21621,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:geedkryrxxasdotl67gzeway/app.bsky.feed.post/3mlrskyrevc22",
+          "cid": "bafyreif4up2f6fnxovisna56df36c35at6fsbjqmdq7qv5hdog73gb5idq",
+          "bskyUrl": "https://bsky.app/profile/metronom.bsky.social/post/3mlrskyrevc22",
+          "text": "CVE-2026-46300. YellowKey (github.com/Nightmare-Ec...) у якога ўвогуле яшчэ няма CVE + Дзень толькі пачаўся.",
+          "author": {
+            "handle": "metronom.bsky.social",
+            "displayName": "Весці з палёў"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:48:34.992Z",
+          "createdUtc": 1778726914,
+          "ageHours": 4.69,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:dp2sajg2scxjxdrskgken5ln/app.bsky.feed.post/3mlosga2lcp2h",
           "cid": "bafyreihzam3knqzerdgtq7t73j7gzm2hzwjprcwat7tycxwewaiegjk3ea",
           "bskyUrl": "https://bsky.app/profile/hmier.bsky.social/post/3mlosga2lcp2h",
@@ -20923,6 +21676,34 @@
             },
             {
               "fullName": "Nightmare-Eclipse/GreenPlasma",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xg4kkfh74o2vnumv4wbsbg7i/app.bsky.feed.post/3mlrzj3ek4k2x",
+          "cid": "bafyreifeyedhjgydbijsx4veg5vljoz7iqqmegdimxavcwh4ko3lemv23i",
+          "bskyUrl": "https://bsky.app/profile/broken.com/post/3mlrzj3ek4k2x",
+          "text": "Exploit: github.com/Nightmare-Ec...",
+          "author": {
+            "handle": "broken.com",
+            "displayName": "ex-parrot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T04:52:46.091Z",
+          "createdUtc": 1778734366,
+          "ageHours": 2.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
               "matchType": "url",
               "confidence": 1
             }
@@ -21356,23 +22137,23 @@
     },
     "gitleaks--gitleaks": {
       "count7d": 1,
-      "likesSum7d": 13,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mlpma3meh22w",
-        "cid": "bafyreibdnjbos6uafpygjxrx5wl3ocbcuyydvuzginjc6kc6lnmdfn2kjy",
-        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mlpma3meh22w",
-        "text": "Gitleaks est un projet open-source sous licence MIT, permettant de détecter les secrets comme les mots de passe, clés API et tokens dans des dépôts Git, fichiers ou flux d'entrée standard. Facile à ajouter à vos pipeline d'intégration continue ⬇️ github.com/gitleaks/git...",
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+        "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+        "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
         "author": {
-          "handle": "ponceto91.bsky.social",
-          "displayName": "Olivier Poncet 🦝"
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
         },
-        "likeCount": 13,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-13T05:49:46.949Z",
-        "hoursSincePosted": 1.69
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T02:35:44.127219+00:00",
+        "hoursSincePosted": 4.9
       },
       "posts": [
         {
@@ -21402,33 +22183,391 @@
               "confidence": 1
             }
           ]
+        },
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlrrtzpis22g",
+          "cid": "bafyreieg3g2mapnn6ioauc2mqoz6myrkr5rdkuldv24hmyt7es7rea7cfq",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlrrtzpis22g",
+          "text": "🚀 GitHub Intelligence Drop gitleaks (Go • 🟢) ⭐ 26.9K → https://github.com/gitleaks/gitleaks openai-agents-python (Python • 🟢) ⭐ 26.3K → https://github.com/openai/openai-agents-python ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T02:35:44.127219+00:00",
+          "createdUtc": 1778726144,
+          "ageHours": 4.9,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gitleaks/gitleaks",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "v12-security--pocs": {
+      "count7d": 4,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:pd6tltyoyoexrbvuw4ahxnj5/app.bsky.feed.post/3mls7qktwos2f",
+        "cid": "bafyreiaaxuw5smfs4kktmecrpflpducbvzbnzb6bh3ucykbv6zajwynsyu",
+        "bskyUrl": "https://bsky.app/profile/ksauzz.bsky.social/post/3mls7qktwos2f",
+        "text": "そろそろlocal privilege escalation疲れである github.com/v12-security...",
+        "author": {
+          "handle": "ksauzz.bsky.social",
+          "displayName": "ksauzz"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T06:44:20.367Z",
+        "hoursSincePosted": 0.76
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:pd6tltyoyoexrbvuw4ahxnj5/app.bsky.feed.post/3mls7qktwos2f",
+          "cid": "bafyreiaaxuw5smfs4kktmecrpflpducbvzbnzb6bh3ucykbv6zajwynsyu",
+          "bskyUrl": "https://bsky.app/profile/ksauzz.bsky.social/post/3mls7qktwos2f",
+          "text": "そろそろlocal privilege escalation疲れである github.com/v12-security...",
+          "author": {
+            "handle": "ksauzz.bsky.social",
+            "displayName": "ksauzz"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T06:44:20.367Z",
+          "createdUtc": 1778741060,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nvhj4rbpaxij2qj727274sie/app.bsky.feed.post/3mlsbm7gpbc22",
+          "cid": "bafyreigcoxnsuugwji5y77lyqocoz6uh2yoykto4irhp3fmvtcel474diy",
+          "bskyUrl": "https://bsky.app/profile/warthogtk.bsky.social/post/3mlsbm7gpbc22",
+          "text": "After copy[.]fail and DirtyFrag, a 3rd Linux kernel LPE (corrupting the kernel page cache through a flaw in XFRM ESP-in-TCP) in 2 weeks github.com/v12-security... thehackernews.com/2026/05/new-...",
+          "author": {
+            "handle": "warthogtk.bsky.social",
+            "displayName": "WarthogTK"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T07:17:41.665Z",
+          "createdUtc": 1778743061,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mlvfmwv76pxbiaqvxyyie6lj/app.bsky.feed.post/3mlruw4akxtm2",
+          "cid": "bafyreidtryhw2j6whk72cn5gnak57plej36novmmt5iwfp2x4a2oevqfby",
+          "bskyUrl": "https://bsky.app/profile/ugjka.social.ugjka.net.ap.brid.gy/post/3mlruw4akxtm2",
+          "text": "Vēl viens LPE Linuxam, mitigācija gan tāda pati kā Dirty frag, jo līdzīga kļūda kodā. Kad notiek? pocs/fragnesia at main · v12-security/pocs https://github.com/v12-security/pocs/tree/main/fragnesia",
+          "author": {
+            "handle": "ugjka.social.ugjka.net.ap.brid.gy",
+            "displayName": "Uģis Ģērmanis"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T03:30:18.000Z",
+          "createdUtc": 1778729418,
+          "ageHours": 3.99,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:s3f6u4nvxrjzkkr66bcm4cut/app.bsky.feed.post/3mlrtfycano2g",
+          "cid": "bafyreidl3uvzjgylq2b3heewkhdttoynjt7q5h47gjqbh6wnw3gjae4tlq",
+          "bskyUrl": "https://bsky.app/profile/tongzhuodeni.bsky.social/post/3mlrtfycano2g",
+          "text": "Linux修不完的洞里，又多了一个要你升级的 Linux内核被曝高危本地提权漏洞Fragnesia，利用中可绕过COW保护提升至root权限，云主机和容器宿主机风险高。需升级至含5月13日修复补丁的内核。 消息来源：LoopDNS https://github.com/v12-security/pocs/tree/main/fragnesia",
+          "author": {
+            "handle": "tongzhuodeni.bsky.social",
+            "displayName": "同桌的你"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T03:03:39.749774+00:00",
+          "createdUtc": 1778727819,
+          "ageHours": 4.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bytedance--ui-tars-desktop": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mlsaszennc2w",
+        "cid": "bafyreifj27i2ywhgxulgw6orcibflbv3ijlj4uv6kh2luhhfzwermknnxi",
+        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mlsaszennc2w",
+        "text": "Worth exploring - a GitHub repo focused on multimodal AI agents with GUI, CLI, and vision capabilities, plus open-source local desktop support. See link below. #AI #OpenSource #GitHub https://github.com/bytedance/UI-TARS-desktop",
+        "author": {
+          "handle": "alexiskirke.bsky.social",
+          "displayName": "Alexis Kirke"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T07:03:36.278217+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mlsaszennc2w",
+          "cid": "bafyreifj27i2ywhgxulgw6orcibflbv3ijlj4uv6kh2luhhfzwermknnxi",
+          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mlsaszennc2w",
+          "text": "Worth exploring - a GitHub repo focused on multimodal AI agents with GUI, CLI, and vision capabilities, plus open-source local desktop support. See link below. #AI #OpenSource #GitHub https://github.com/bytedance/UI-TARS-desktop",
+          "author": {
+            "handle": "alexiskirke.bsky.social",
+            "displayName": "Alexis Kirke"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T07:03:36.278217+00:00",
+          "createdUtc": 1778742216,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "bytedance/UI-TARS-desktop",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "geodro--lerd": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlrycp5qoa2u",
+        "cid": "bafyreih2wqswy2xa2pthfl5cd4vhm2fmjcdflkudmi4hycpzq2rtspzvpq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlrycp5qoa2u",
+        "text": "https://github.com/geodro/lerd",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T04:31:18Z",
+        "hoursSincePosted": 2.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlrycp5qoa2u",
+          "cid": "bafyreih2wqswy2xa2pthfl5cd4vhm2fmjcdflkudmi4hycpzq2rtspzvpq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlrycp5qoa2u",
+          "text": "https://github.com/geodro/lerd",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T04:31:18Z",
+          "createdUtc": 1778733078,
+          "ageHours": 2.97,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "geodro/lerd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "qxcnm--codex-manager": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlrtn44x6l23",
+        "cid": "bafyreicc6drrr4yi52e6jy5aoqvlvezylu6y5ia2xjlva673g3h5s3wuke",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlrtn44x6l23",
+        "text": "qxcnm / Codex-Manager: 一个Codex cli 账号管理与切换工具。为 Codex cli提供本地网关转发。 ★2044 https://github.com/qxcnm/Codex-Manager",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-14T03:07:39.169270Z",
+        "hoursSincePosted": 4.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlrtn44x6l23",
+          "cid": "bafyreicc6drrr4yi52e6jy5aoqvlvezylu6y5ia2xjlva673g3h5s3wuke",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlrtn44x6l23",
+          "text": "qxcnm / Codex-Manager: 一个Codex cli 账号管理与切换工具。为 Codex cli提供本地网关转发。 ★2044 https://github.com/qxcnm/Codex-Manager",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-14T03:07:39.169270Z",
+          "createdUtc": 1778728059,
+          "ageHours": 4.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "qxcnm/Codex-Manager",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
         }
       ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "v12-security/pocs",
+      "count7d": 4,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "Nightmare-Eclipse/YellowKey",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "bytedance/UI-TARS-desktop",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "gitleaks/gitleaks",
       "count7d": 1,
-      "likesSum7d": 13
+      "likesSum7d": 1
     },
     {
-      "fullName": "niri-wm/niri",
+      "fullName": "openai/openai-agents-python",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "EvanBacon/serve-sim",
+      "fullName": "angelos-p/llm-from-scratch",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "Nightmare-Eclipse/YellowKey",
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "geodro/lerd",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Nightmare-Eclipse/GreenPlasma",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "niri-wm/niri",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "obra/superpowers",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "qxcnm/Codex-Manager",
       "count7d": 1,
       "likesSum7d": 0
     }

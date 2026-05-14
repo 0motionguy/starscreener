@@ -26,6 +26,8 @@ import {
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import type { NewsSource } from "@/lib/news/freshness";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -455,17 +457,23 @@ function HeroPanel({
   color,
   href,
   items,
+  source,
+  lastUpdatedAt,
 }: {
   title: string;
   count: number;
   color: string;
   href: string;
   items: HomeEntity[];
+  /** NewsSource ladder slot — drives the FreshnessBadge verdict per panel. */
+  source: NewsSource;
+  /** ISO of the last successful collector write for this panel's data. */
+  lastUpdatedAt: string | null | undefined;
 }) {
   return (
     <Card className="hero-panel col-4">
       <CardHeader
-        right={<span className="live">LIVE</span>}
+        right={<FreshnessBadge source={source} lastUpdatedAt={lastUpdatedAt} />}
         className="panel-head"
       >
         <span className="cat-pip" style={{ background: color }} aria-hidden="true" />
@@ -684,6 +692,13 @@ export default async function HomePage() {
     mcpRes.status === "fulfilled" && mcpRes.value.board.items.length > 0
       ? mcpRes.value.board.items
       : null;
+  // Per-board freshness timestamps drive each HeroPanel's <FreshnessBadge>.
+  // Null when the envelope failed or wasn't stamped — FreshnessBadge renders
+  // a "cold" verdict honestly in that case.
+  const skillsFetchedAt =
+    skillsRes.status === "fulfilled" ? skillsRes.value.fetchedAt : null;
+  const mcpFetchedAt =
+    mcpRes.status === "fulfilled" ? mcpRes.value.fetchedAt : null;
 
   // Cold lambda / broken data file -> show a branded empty state instead
   // of the generic "no repos match filters" inner message. Preserves the
@@ -882,9 +897,33 @@ export default async function HomePage() {
           meta={<><b>Repos</b> / Skills / MCP</>}
         />
         <div className="grid">
-          <HeroPanel title="Repos" count={repos.length} color="var(--cat-repo)" href="/repos" items={repoBoard} />
-          <HeroPanel title="Claude skills" count={skillsItems?.length ?? skillsBoard.length} color="var(--cat-skill)" href="/skills" items={skillsBoard} />
-          <HeroPanel title="MCP servers" count={mcpItems?.length ?? mcpBoard.length} color="var(--cat-mcp)" href="/mcp" items={mcpBoard} />
+          <HeroPanel
+            title="Repos"
+            count={repos.length}
+            color="var(--cat-repo)"
+            href="/repos"
+            items={repoBoard}
+            source="repos"
+            lastUpdatedAt={lastFetchedAt}
+          />
+          <HeroPanel
+            title="Claude skills"
+            count={skillsItems?.length ?? skillsBoard.length}
+            color="var(--cat-skill)"
+            href="/skills"
+            items={skillsBoard}
+            source="skills"
+            lastUpdatedAt={skillsFetchedAt}
+          />
+          <HeroPanel
+            title="MCP servers"
+            count={mcpItems?.length ?? mcpBoard.length}
+            color="var(--cat-mcp)"
+            href="/mcp"
+            items={mcpBoard}
+            source="mcp"
+            lastUpdatedAt={mcpFetchedAt}
+          />
         </div>
 
         <SectionHead
@@ -920,7 +959,12 @@ export default async function HomePage() {
           title="Signal map / momentum vs scale"
           meta={<><b>Top 120</b> / 24h window</>}
         />
-        <BubbleMap repos={repos} limit={120} />
+        <BubbleMap
+          repos={repos}
+          limit={120}
+          freshnessSource="repos"
+          lastUpdatedAt={lastFetchedAt}
+        />
 
         <SectionHead
           num="// 04"
@@ -939,7 +983,12 @@ export default async function HomePage() {
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
-          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+          <LiveTopTable
+            rows={liveTableRows}
+            categories={liveCategories}
+            freshnessSource="repos"
+            lastUpdatedAt={lastFetchedAt}
+          />
         </Card>
 
         <SectionHead
@@ -948,7 +997,10 @@ export default async function HomePage() {
           meta={<><b>Top 100</b> stars / day</>}
         />
         <Card>
-          <CardHeader right={<span className="live">LIVE</span>} showCorner>
+          <CardHeader
+            right={<FreshnessBadge source="repos" lastUpdatedAt={lastFetchedAt} />}
+            showCorner
+          >
             {"// TR-100 Index"}
           </CardHeader>
           {/*

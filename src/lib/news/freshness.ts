@@ -26,7 +26,8 @@ export type NewsSource =
   | "npm"
   | "mcp"
   | "skills"
-  | "arxiv";
+  | "arxiv"
+  | "repos";
 
 export type FreshnessStatus = "live" | "warn" | "cold";
 
@@ -62,6 +63,11 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   skills: NPM_STALE_THRESHOLD_MS,
   // arXiv: 3h scraper cron, daily-ish data cadence.
   arxiv: ARXIV_STALE_THRESHOLD_MS,
+  // Repos is the cross-source aggregate driving `/` — the trending pipeline
+  // refreshes every ~3h. Match the twitter 12h budget (3h cron + grace) so a
+  // stalled trending refresh trips amber/cold honestly, but day-old "fresh"
+  // data doesn't keep the home page lit green.
+  repos: TWITTER_STALE_THRESHOLD_MS,
 };
 
 /** Soft warn threshold = 50% of the stale threshold. Past it the badge

@@ -27,7 +27,6 @@ import { npmLogoUrl } from "@/lib/logos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
@@ -155,8 +154,8 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
+            <span className="muted">UTC · LAST SCRAPE</span>
+            <span className="v2-mono muted">{activeWindow.toUpperCase()}</span>
             <FreshnessBadge source="npm" lastUpdatedAt={file.fetchedAt} />
           </>
         }

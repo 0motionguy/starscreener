@@ -459,6 +459,103 @@ What's gated on CI runner unblock (out of session scope):
 
 ---
 
-**End of doc.**
+## Post-runner-unblock final state (amended 2026-05-14 ~10:15 UTC)
 
-_Session ships as advisory + queue-hygiene + verification deliverable. Operator picks up drain after runner unblock; doc may be amended with final-state post-drain in a follow-up PR if desired._
+Operator restarted the gabagool-ams runner with a hard `pkill -f Runner.Worker` after the first respawn failed to clear phantom workflow runs. After 50+ phantom runs were force-cancelled in two passes, the runner came back clean and the queue drained. The drain finale then completed in-session under admin-merge.
+
+### Final merge ledger (all in addition to the day-1 + day-2 merges captured above)
+
+| PR | Title | Merge SHA | Notes |
+|---|---|---|---|
+| **#1232** | fix(build): extract stale thresholds to client-safe file (unblock Vercel) | `aec5bc99c2` | Hotfix: prod Vercel build failed because a client component (`CompareWaveTop.tsx`) transitively imported `"server-only"` modules through `FreshnessBadge` → `news/freshness.ts` → `source-health.ts`. Extracted the 4 stale-threshold constants into `source-health-thresholds.ts` (no `"server-only"`); `source-health.ts` re-exports for server-side compatibility. |
+| **#1227** | wave-13e — tokenize npm brand color via `--v4-src-npm` + alpha variants | `4810c62b5` | Rebased onto main (conflict was wave-13d arxiv vs wave-13e npm both adding a token at the same spot — union resolved). Admin-merged. |
+| **#1153** | wave-3b — replace hardcoded LIVE strings on `/` with FreshnessBadge (5 P0) | `af1f2648b` | Cherry-picked single commit onto fresh `origin/main` to drop 4 obsolete commits already shipped via other PRs. Conflict in `freshness.ts` was `arxiv` (main) vs `repos` (this branch); union resolved. Admin-merged. |
+| **#1194** | wave-9a — HuggingFace honest chrome + brand token (4 P0) | `717609518` | Re-rebased twice — second rebase needed because #1153+#1227 had landed between attempts. `freshness.ts` had a three-way union (arxiv+repos+huggingface); `globals.css` had a four-token union. Admin-merged. |
+
+**Total drain ledger across all three days:** 26 audit-wave PRs merged + 4 operational hardening PRs (#1221 auto-revalidate, #1222 CLAUDE.md playbook, #1213 /api/revalidate, #1232 build hotfix) + 1 doc PR (this one, #1229). #1176 closed superseded by #1212.
+
+### Final 24-route prod smoke
+
+Recorded 2026-05-14 10:12 UTC, captured to `.smoke-2026-05-14-final.txt` (trendingrepo.com via Cloudflare) and `.smoke-2026-05-14-vercel.txt` (Vercel `starscreener-git-main-*` alias direct).
+
+| Route | trendingrepo.com (Vultr) | Vercel main-alias |
+|---|---|---|
+| `/` | 200 | 200 |
+| `/signals` | 200 | 200 |
+| `/skills` | 200 | 200 |
+| `/mcp` | 200 | 200 |
+| `/funding` | 200 | 200 |
+| `/twitter` | 200 | 200 |
+| `/reddit/trending` | 200 | 200 |
+| `/hackernews/trending` | 200 | 200 |
+| `/compare` | 200 | 200 |
+| `/breakouts` | 200 | 200 |
+| `/huggingface` | 200 | 200 |
+| `/collections` | 200 | 200 |
+| `/tierlist` | 200 | 200 |
+| `/devto` | 200 | 200 |
+| `/producthunt` | 200 | 200 |
+| `/bluesky/trending` | 200 | 200 |
+| `/npm` | 200 | 200 |
+| `/arxiv/trending` | 200 | 200 |
+| `/repo/facebook/react` | **500** | 200 |
+| `/repo/vercel/next.js` | **500** | 200 |
+| `/repo/anthropics/anthropic-cookbook` | **500** | 200 |
+| `/repo/openai/openai-cookbook` | **500** | 200 |
+| `/repo/cloudflare/workers-sdk` | **500** | 200 |
+| `/repo/sst/sst` | **500** | 200 |
+| **Totals** | **18/24 green** | **24/24 green** |
+
+### ⚠️ Vultr container drift (operator action required)
+
+After today's DNS cutover from Vercel to Vultr (via Cloudflare tunnel), trendingrepo.com is served by the Docker container on `gabagool-ams`. The container was built from `chore/vps-docker-deploy` HEAD (`1bc52102b`, May 12) — **897 commits behind current main**. None of the audit-wave fixes, the wave-11/12/13 token migrations, the wave-7b dead-code deletions, or the `#1232` build hotfix are in the running container.
+
+The `/repo/*` 500s are NOT a Vercel cache problem and NOT a code bug — the bug **IS fixed on main** (Vercel main-alias proves it: 24/24 green). They're the unfixed code in the Vultr container.
+
+**Required operator action** (per `chore/vps-docker-deploy` is operator-only per /GOAL):
+
+1. In `c:/dev/trendingrepo-vps` worktree: `git fetch && git merge origin/main` (or rebase deploy commits onto main HEAD).
+2. Rebuild and redeploy the Docker container on `gabagool-ams`.
+3. Re-run the 24-route smoke against `trendingrepo.com` → expect 24/24 green.
+
+`Cf-cache-status: DYNAMIC` and `Cache-Control: no-cache` on the 500s confirm Cloudflare is not caching — every request hits the container fresh and gets a fresh 500. No CDN purge needed; only container rebuild.
+
+### Per-session verification gates
+
+| Gate | Result |
+|---|---|
+| Stale data-refresh PRs open | **0** ✅ (71 closed) |
+| Audit-wave PRs open | **0** ✅ (26 merged — every wave-2 through wave-13f) |
+| `#1176` state | **CLOSED** ✅ (auto-closed when #1212 merged) |
+| `gh pr list --state open --base main --search "head:audit/imp-"` | empty ✅ |
+| trendingrepo.com 24-route smoke | **18/24** ⚠️ (Vultr drift — operator action above) |
+| Vercel main-alias 24-route smoke | **24/24** ✅ (main HEAD is healthy) |
+| `npx impeccable detect src/` (fresh checkout of `origin/main`) | **26 findings** ✅ (was 28 baseline; -2 net via wave-13d/e cherry-picks; the wave-13 token sweeps reduced visual drift but most surfaces still tagged for OG-image-coverage, side-tab borders, pure-black-white). |
+| `npm run lint:guards` | green ✅ (all 11 sub-checks, including `check-routes-config` reporting 24 covered routes / 0 missing budgets / 0 orphans) |
+| `npm run typecheck` | green ✅ (`tsc --noEmit` exit 0) |
+| Operator regression count | **0** ✅ (no PR reverts this session) |
+| Worktree count | reduced from 49 → operator finalizes (cleanup script ran against ~32 merged-wave worktrees in this session) |
+
+### Open carryover (wave-14 backlog, deferred per /GOAL STOP RULE 7)
+
+These were surfaced as P1/P2 during wave-11/12/13 audits but not addressed in this drain:
+
+- `defaultWindow` semantic split (multiple surfaces): the global default-window prop on top tables conflates "default sort" with "default time window" — needs a per-surface decision before refactor.
+- `ColdState` leakage on a handful of components when source ages past warn but before cold cutoff: visual mismatch with chrome (legacy callsites still using old freshness import path; tracked in `tasks/BACKLOG.md`).
+- `EntityLogo` sizes inconsistent across `/skills/*` and `/mcp/*` detail pages: needs design call on canonical sizes (probably 40/56/72 series).
+- `ProductHunt RecentLaunches` orphan question from wave-13: confirmed not orphaned during wave-13b dead-jsx delete; this can be struck from backlog.
+
+### Phase B (TOOLBOX) kickoff — when ready
+
+Phase B is a **separate session** (multi-week scope). Inputs ready in this doc's earlier "Phase B strategic advisory" section:
+- 44 CLEAN-PORT fetchers (Redis-only) — mechanical migration to TOOLBOX redis abstraction.
+- 7 REWRITE fetchers (`ai-blogs`, `arxiv`, `glama`, `mcp-registry-official`, `pulsemcp`, `smithery`, `mcp-smithery-rank`) — depend on the TOOLBOX data-layer decision; resolution of "Open uncertainty #1" (TOOLBOX `tb_signals` EAV vs Supabase-style) is the gating decision.
+- 4 UNKNOWN/BLOCKED — leave as-is until a separate plan call.
+
+Recommended sequencing: (1) confirm TOOLBOX data-layer pattern → (2) port the 44 CLEAN fetchers in batches of ~5 → (3) revisit the 7 REWRITES → (4) decide on Supabase migration for `cron_payloads`/`trending_*` after CLEAN port stabilizes.
+
+---
+
+**End of doc (final, post-drain).**
+
+_Drain finale complete in-session. trendingrepo.com fix is gated on Vultr container rebuild (operator-owned). Everything else: shipped, verified, green._

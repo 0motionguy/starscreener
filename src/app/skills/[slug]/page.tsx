@@ -15,6 +15,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { RepoLink } from "@/components/repo/RepoLink";
+
 import {
   getSkillsSignalData,
   type EcosystemLeaderboardItem,
@@ -279,12 +281,12 @@ export default async function SkillDetailPage({ params }: PageProps) {
                   Open source ↗
                 </a>
                 {repoFullName ? (
-                  <Link
-                    href={`/repo/${repoFullName}`}
+                  <RepoLink
+                    fullName={repoFullName}
                     style={{ color: "var(--v4-acc)" }}
                   >
                     /repo/{repoFullName}
-                  </Link>
+                  </RepoLink>
                 ) : null}
               </div>
             </div>
@@ -532,15 +534,15 @@ function SkillIdentity({
             </span>
           ) : null}
           {linkedRepo ? (
-            <Link
-              href={`/repo/${linkedRepo}`}
+            <RepoLink
+              fullName={linkedRepo}
               style={{
                 color: "var(--v4-acc)",
                 textDecoration: "none",
               }}
             >
               /repo/{linkedRepo}
-            </Link>
+            </RepoLink>
           ) : null}
           <a
             href={url}

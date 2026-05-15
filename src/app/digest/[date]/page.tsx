@@ -8,6 +8,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { RepoLink } from "@/components/repo/RepoLink";
+
 import {
   getDigestForDate,
   isValidDigestDate,
@@ -139,12 +141,12 @@ function DigestRow({ entry }: { entry: DigestEntry }) {
         {entry.rank}
       </td>
       <td className="py-2 px-3">
-        <Link
-          href={`/repo/${entry.fullName}`}
+        <RepoLink
+          fullName={entry.fullName}
           className="text-sm font-medium text-text-primary hover:text-brand transition-colors"
         >
           {entry.fullName}
-        </Link>
+        </RepoLink>
         {entry.description && (
           <div className="text-xs text-text-tertiary line-clamp-1 mt-0.5 max-w-md">
             {entry.description}

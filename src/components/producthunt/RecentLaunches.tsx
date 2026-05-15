@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAiLaunches, producthuntCold } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 interface RecentLaunchesProps {
   limit?: number;
@@ -127,12 +128,13 @@ export function RecentLaunches({
                       </span>
                     ))}
                     {trackedRepo ? (
-                      <Link
-                        href={`/repo/${trackedRepo.owner}/${trackedRepo.name}`}
+                      <RepoLink
+                        owner={trackedRepo.owner}
+                        name={trackedRepo.name}
                         className="font-mono text-[10px] text-functional hover:text-functional/80 transition-colors"
                       >
                         View repo on TrendingRepo →
-                      </Link>
+                      </RepoLink>
                     ) : l.githubUrl ? (
                       <a
                         href={l.githubUrl}

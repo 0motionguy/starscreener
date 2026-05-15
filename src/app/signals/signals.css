@@ -85,12 +85,15 @@
   border-color: var(--color-border-hover);
 }
 .signals-chip-on {
-  background: color-mix(in srgb, var(--color-bg-raised) 54%, var(--color-text-default));
+  /* Was 54%/46% — produced a mid-grey background (#76797c) that fails 4.5:1
+     contrast against text-default (#eef0f2): 3.83:1. Bumped to 75%/25% so
+     the background stays darker, text contrast clears WCAG AA. */
+  background: color-mix(in srgb, var(--color-bg-raised) 75%, var(--color-text-default));
   color: var(--color-text-default);
   border-color: var(--color-border-hover);
 }
 .signals-chip-on:hover {
-  background: color-mix(in srgb, var(--color-bg-raised) 46%, var(--color-text-default));
+  background: color-mix(in srgb, var(--color-bg-raised) 67%, var(--color-text-default));
   color: var(--color-text-default);
 }
 /* Brand-mark chip: real source SVG sits inside the chip in currentColor.
@@ -109,12 +112,16 @@
   border-color: color-mix(in srgb, var(--chip-color) 46%, var(--color-border-hover));
 }
 .signals-chip-brand.signals-chip-on {
-  color: color-mix(in srgb, var(--chip-color) 88%, white);
+  /* Was 88% brand / 12% white — Lighthouse color-contrast hit 3.22:1 for
+     Reddit red (#a04f52) on dark bg. Now 70% / 30%: text reads as
+     'off-white with brand tint' instead of 'brand-saturated', lifting
+     contrast above WCAG AA 4.5:1 minimum while keeping the brand cue. */
+  color: color-mix(in srgb, var(--chip-color) 70%, white);
   border-color: color-mix(in srgb, var(--chip-color) 64%, var(--color-border-hover));
   background: color-mix(in srgb, var(--chip-color) 16%, var(--color-bg-raised));
 }
 .signals-chip-brand.signals-chip-on:hover {
-  color: color-mix(in srgb, var(--chip-color) 94%, white);
+  color: color-mix(in srgb, var(--chip-color) 78%, white);
   border-color: color-mix(in srgb, var(--chip-color) 76%, var(--color-border-hover));
   background: color-mix(in srgb, var(--chip-color) 20%, var(--color-bg-raised));
 }

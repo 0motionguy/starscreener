@@ -257,7 +257,7 @@ export function SourceFilterBar({
         href={buildSourceHref(active, timeWindow, topic, null)}
         prefetch={false}
         className={`signals-chip${isAllOn ? " signals-chip-on" : ""}`}
-        aria-pressed={isAllOn}
+        aria-current={isAllOn ? "page" : undefined}
         aria-label="All sources"
       >
         ALL
@@ -272,7 +272,7 @@ export function SourceFilterBar({
             href={buildSourceHref(active, timeWindow, topic, s.key)}
             prefetch={false}
             className={`signals-chip signals-chip-brand${on ? " signals-chip-on" : ""}`}
-            aria-pressed={on}
+            aria-current={on ? "page" : undefined}
             aria-label={s.label}
             style={
               {
@@ -337,7 +337,7 @@ export function SourceFilterBar({
             href={buildWindowHref(active, timeWindow, topic, w.key)}
             prefetch={false}
             className={`signals-chip signals-chip-time${on ? " signals-chip-on" : ""}`}
-            aria-pressed={on}
+            aria-current={on ? "page" : undefined}
           >
             {w.label}
           </Link>
@@ -365,7 +365,7 @@ export function SourceFilterBar({
         className={`signals-chip signals-chip-topic${
           topic === null ? " signals-chip-on" : ""
         }`}
-        aria-pressed={topic === null}
+        aria-current={topic === null ? "page" : undefined}
         aria-label="All topics"
       >
         ALL
@@ -378,7 +378,7 @@ export function SourceFilterBar({
             href={buildTopicHref(active, timeWindow, topic, t.key)}
             prefetch={false}
             className={`signals-chip signals-chip-topic${on ? " signals-chip-on" : ""}`}
-            aria-pressed={on}
+            aria-current={on ? "page" : undefined}
           >
             {t.label}
           </Link>

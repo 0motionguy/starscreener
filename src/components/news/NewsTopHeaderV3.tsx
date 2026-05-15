@@ -640,13 +640,13 @@ function DeltaPill({
       <span
         aria-hidden
         style={{
-          width: 0,
-          height: 0,
-          borderLeft: "4px solid transparent",
-          borderRight: "4px solid transparent",
-          ...(delta.tone === "down"
-            ? { borderTop: `5px solid currentColor` }
-            : { borderBottom: `5px solid currentColor` }),
+          width: 8,
+          height: 5,
+          backgroundColor: "currentColor",
+          clipPath:
+            delta.tone === "down"
+              ? "polygon(0 0, 100% 0, 50% 100%)"
+              : "polygon(50% 0, 100% 100%, 0 100%)",
           display: "inline-block",
         }}
       />

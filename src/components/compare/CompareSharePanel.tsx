@@ -91,11 +91,11 @@ function buildPagePath(state: CompareSharePanelState): string {
 }
 
 const TAB_BUTTON_BASE =
-  "px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.14em] transition-colors";
+  "inline-flex min-h-[36px] items-center px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.14em] transition-colors";
 const ROW_BASE =
-  "flex items-center justify-between gap-3 px-3 py-2.5 rounded-[3px] border border-border-primary bg-bg-secondary hover:bg-bg-tertiary transition-colors";
+  "flex min-h-[40px] items-center justify-between gap-3 px-3 py-2.5 rounded-[3px] border border-border-primary bg-bg-secondary hover:bg-bg-tertiary transition-colors";
 const ICON_BUTTON_BASE =
-  "shrink-0 inline-flex items-center justify-center rounded-[3px] border border-border-primary bg-bg-tertiary p-1.5 text-text-tertiary hover:text-text-primary hover:bg-bg-card";
+  "shrink-0 inline-flex min-h-[32px] min-w-[32px] items-center justify-center rounded-[3px] border border-border-primary bg-bg-tertiary p-1.5 text-text-tertiary hover:text-text-primary hover:bg-bg-card";
 
 export function CompareSharePanel({
   state,
@@ -304,7 +304,7 @@ export function CompareSharePanel({
             href={watermarkedSquareUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary hover:text-text-primary px-3 py-1 self-end"
+            className="inline-flex min-h-[32px] items-center text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary hover:text-text-primary px-3 py-1 self-end"
           >
             Preview ↗
           </a>

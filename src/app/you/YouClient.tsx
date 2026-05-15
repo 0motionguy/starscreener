@@ -709,6 +709,10 @@ function PanelEmpty({
         <Link
           href={cta}
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            minHeight: 32,
+            padding: "0 2px",
             color: "var(--v4-acc)",
             textDecoration: "none",
             letterSpacing: "0.08em",
@@ -821,6 +825,9 @@ const textBtnStyle: React.CSSProperties = {
 };
 
 const resetBtnStyle: React.CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  minHeight: 40,
   fontFamily: "var(--font-geist-mono), monospace",
   fontSize: 11,
   padding: "6px 12px",

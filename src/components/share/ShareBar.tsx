@@ -36,7 +36,25 @@ import {
 import { absoluteUrl } from "@/lib/seo";
 import { toast } from "@/lib/toast";
 import { buildShareToXUrl } from "@/lib/twitter/outbound/share";
+import { BlueskyIcon } from "@/components/brand/BrandIcons";
 import { cn } from "@/lib/utils";
+
+// Inline LinkedIn SVG — lucide-react doesn't ship a LinkedIn glyph and the
+// project's BrandIcons doesn't have one either. Compact, currentColor-driven
+// so it inherits the button text color like every other share button.
+function LinkedinIcon({ size = 12 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+    </svg>
+  );
+}
 
 interface ShareBarProps {
   state: StarActivityState;
@@ -120,6 +138,14 @@ export function ShareBar({
     url: absolutePageUrl,
     via: ["TrendingRepo"],
   });
+  // LinkedIn share-offsite endpoint takes the URL only — title + summary
+  // come from the page's <meta property="og:title"> + og:description so we
+  // don't need to encode them client-side. This is the documented modern
+  // pattern (shareArticle is deprecated and silently truncates summary).
+  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absolutePageUrl)}`;
+  // Bluesky compose intent — text + URL are appended as a single string
+  // (the bsky.app composer doesn't accept a separate url= param like X).
+  const blueskyUrl = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${tweetText(state)} ${absolutePageUrl}`)}`;
 
   function tweetText(s: StarActivityState): string {
     const list = s.repos.join(" vs ") || "open source";
@@ -195,7 +221,29 @@ export function ShareBar({
           aria-label="Share on X"
         >
           <Share2 size={12} aria-hidden />
-          {!compact && <span>Share on X</span>}
+          {!compact && <span>X</span>}
+        </a>
+
+        <a
+          href={blueskyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(BUTTON_BASE, padding)}
+          aria-label="Share on Bluesky"
+        >
+          <BlueskyIcon size={12} monochrome />
+          {!compact && <span>Bluesky</span>}
+        </a>
+
+        <a
+          href={linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(BUTTON_BASE, padding)}
+          aria-label="Share on LinkedIn"
+        >
+          <LinkedinIcon size={12} />
+          {!compact && <span>LinkedIn</span>}
         </a>
 
         <button

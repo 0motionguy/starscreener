@@ -246,7 +246,17 @@ export function NpmAdoptionPanel({
         })}
       </div>
 
-      <div className="mt-4 overflow-x-auto">
+      <div className="mt-4 space-y-2 md:hidden">
+        {rankedPackages.slice(0, 5).map((pkg) => (
+          <PackageCard
+            key={pkg.name}
+            pkg={pkg}
+            dependents={dependentsByPackage?.[pkg.name] ?? null}
+          />
+        ))}
+      </div>
+
+      <div className="mt-4 hidden overflow-x-auto md:block">
         <table className="w-full min-w-[720px] text-left">
           <thead>
             <tr className="border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
@@ -312,6 +322,73 @@ export function NpmAdoptionPanel({
   );
 }
 
+function PackageCard({
+  pkg,
+  dependents,
+}: {
+  pkg: NpmPackageRow;
+  dependents: number | null;
+}) {
+  return (
+    <article className="rounded border border-border-primary bg-bg-secondary/60 p-3 text-text-secondary">
+      <a
+        href={pkg.npmUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex min-h-11 items-center gap-2 text-text-primary hover:text-brand"
+      >
+        <Package className="size-4 shrink-0 text-text-tertiary group-hover:text-brand" />
+        <span className="min-w-0 flex-1 truncate font-mono text-sm">
+          {pkg.name}
+        </span>
+        <ExternalLink className="size-3.5 shrink-0 text-text-tertiary" />
+      </a>
+
+      {pkg.description && (
+        <p className="mt-1 truncate text-[11px] text-text-tertiary">
+          {pkg.description}
+        </p>
+      )}
+
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        <WindowMetricCell
+          label="24h"
+          downloads={pkg.downloads24h}
+          delta={pkg.delta24h}
+          pct={pkg.deltaPct24h}
+        />
+        <WindowMetricCell
+          label="7d"
+          downloads={pkg.downloads7d}
+          delta={pkg.delta7d}
+          pct={pkg.deltaPct7d}
+        />
+        <WindowMetricCell
+          label="30d"
+          downloads={pkg.downloads30d}
+          delta={pkg.delta30d}
+          pct={pkg.deltaPct30d}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 font-mono text-[11px] text-text-tertiary">
+        <span className="truncate">
+          latest{" "}
+          <span className="text-text-secondary">
+            {pkg.latestVersion ?? "unknown"}
+          </span>
+        </span>
+        {pkg.publishedAt ? <RelativeTime iso={pkg.publishedAt} /> : null}
+        {dependents != null && dependents > 0 ? (
+          <span title={`${formatNumber(dependents)} packages depend on ${pkg.name}`}>
+            {formatNumber(dependents)} deps
+          </span>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
 function PackageRow({
   pkg,
   dependents,
@@ -358,6 +435,33 @@ function PackageRow({
         )}
       </td>
     </tr>
+  );
+}
+
+function WindowMetricCell({
+  label,
+  downloads,
+  delta,
+  pct,
+}: {
+  label: DownloadWindow;
+  downloads: number;
+  delta: number;
+  pct: number;
+}) {
+  return (
+    <div className="min-w-0 rounded border border-border-primary/70 bg-bg-primary/50 px-2 py-2 font-mono tabular-nums">
+      <span className="block text-[10px] uppercase tracking-wider text-text-tertiary">
+        {label}
+      </span>
+      <span className="mt-1 block truncate text-[12px] text-text-primary">
+        {formatNumber(downloads)}
+      </span>
+      <span className={cn("mt-0.5 block truncate text-[10px]", deltaClass(delta))}>
+        {formatSignedNumber(delta)}{" "}
+        <span className="text-text-tertiary">{formatPercent(pct)}</span>
+      </span>
+    </div>
   );
 }
 

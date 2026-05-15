@@ -52,6 +52,12 @@ export interface TabBarProps {
   /** When provided, tabs render as <a href={hrefFor(id)}> instead of <button>. */
   hrefFor?: (id: string) => string;
   /**
+   * Server-component-safe link mode. Use this instead of `hrefFor` when the
+   * caller is a server component, because functions cannot cross the RSC
+   * boundary into this client component.
+   */
+  hrefs?: Record<string, string>;
+  /**
    * Optional right-aligned slot rendered after the tabs (e.g. "Sort · momentum",
    * "live"). Mockup pattern from home.html § 05 Live · top 50.
    */
@@ -64,6 +70,7 @@ export function TabBar({
   active,
   onChange,
   hrefFor,
+  hrefs,
   rightSlot,
   className,
 }: TabBarProps) {
@@ -85,11 +92,12 @@ export function TabBar({
             ) : null}
           </>
         );
-        if (hrefFor) {
+        const href = hrefFor ? hrefFor(item.id) : hrefs?.[item.id];
+        if (href) {
           return (
             <a
               key={item.id}
-              href={hrefFor(item.id)}
+              href={href}
               className={cls}
               role="tab"
               aria-selected={isActive}

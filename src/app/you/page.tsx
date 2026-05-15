@@ -11,7 +11,7 @@
 
 import type { Metadata } from "next";
 
-import { getUser } from "@/lib/auth/server";
+import { getOptionalUser } from "@/lib/auth/server";
 
 import YouClient from "./YouClient";
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function YouPage() {
-  const user = await getUser();
+  const user = await getOptionalUser();
   const account = user
     ? {
         handle: user.profile.handle,

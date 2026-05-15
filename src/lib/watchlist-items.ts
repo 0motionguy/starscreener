@@ -8,9 +8,12 @@ export function watchlistItemFullName(item: WatchlistItem): string {
   return idToSlug(item.repoId);
 }
 
-export function watchlistItemHref(item: WatchlistItem): string {
-  const fullName = watchlistItemFullName(item);
+export function repoFullNameHref(fullName: string): string {
   const [owner, name] = fullName.split("/");
   if (!owner || !name) return "/";
   return `/repo/${owner}/${name}`;
+}
+
+export function watchlistItemHref(item: WatchlistItem): string {
+  return repoFullNameHref(watchlistItemFullName(item));
 }

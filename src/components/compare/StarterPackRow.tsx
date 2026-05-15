@@ -10,6 +10,7 @@
 
 import { useMemo } from "react";
 import { useWatchlistStore } from "@/lib/store";
+import { watchlistItemFullName } from "@/lib/watchlist-items";
 import { TIER_LIST_TEMPLATES } from "@/lib/tier-list/templates";
 import { MAX_COMPARE_REPOS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -36,13 +37,6 @@ const TEMPLATE_PICKS: ReadonlyArray<{
   { key: "local-infer", label: "Local Infer", templateSlug: "local-inference" },
   { key: "mcp", label: "MCP Servers", templateSlug: "mcp-servers" },
 ];
-
-/** Watchlist ids look like "vercel--next-js" — convert back to "vercel/next.js". */
-function repoIdToFullName(id: string): string {
-  const idx = id.indexOf("--");
-  if (idx === -1) return id;
-  return id.slice(0, idx) + "/" + id.slice(idx + 2);
-}
 
 const CHIP_BASE = cn(
   "inline-flex items-center gap-1.5",
@@ -87,7 +81,7 @@ export function StarterPackRow({ onPick, className }: StarterPackRowProps) {
   const watchlistFullNames = useMemo(
     () =>
       watchlistRepos
-        .map((r) => repoIdToFullName(r.repoId))
+        .map((repo) => watchlistItemFullName(repo))
         .slice(0, MAX_COMPARE_REPOS),
     [watchlistRepos],
   );

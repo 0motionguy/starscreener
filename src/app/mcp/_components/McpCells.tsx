@@ -13,6 +13,7 @@ import type {
   McpDisplayFields,
 } from "@/lib/ecosystem-leaderboards";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RepoLink } from "@/components/repo/RepoLink";
 import { LivenessPill, classifyLiveness } from "@/components/signal/LivenessPill";
 import { mcpEntityLogoUrl } from "@/lib/logos";
 
@@ -548,13 +549,12 @@ export function TerminalCellLinkedRepo({
     return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
-    <Link
-      href={`/repo/${item.linkedRepo}`}
+    <RepoLink
+      fullName={item.linkedRepo}
       className="block truncate font-mono text-[11px] hover:underline"
       style={{ color: "var(--v3-sig-green)" }}
-      title={item.linkedRepo}
     >
       {item.linkedRepo}
-    </Link>
+    </RepoLink>
   );
 }

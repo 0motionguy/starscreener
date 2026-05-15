@@ -61,17 +61,17 @@ export default async function HomeOGImage() {
           style={{
             display: "flex",
             marginTop: 28,
-            fontSize: 72,
+            fontSize: 60,
             fontWeight: 700,
             color: OG_COLORS.textPrimary,
             letterSpacing: "-0.02em",
             lineHeight: 1,
           }}
         >
-          AI Trending Terminal
+          Open-source momentum, decoded.
         </div>
 
-        {/* Sub — surfaces */}
+        {/* Sub — daily research framing + access surfaces */}
         <div
           style={{
             display: "flex",
@@ -83,7 +83,7 @@ export default async function HomeOGImage() {
             textTransform: "uppercase",
           }}
         >
-          WEB · CLI · CLAUDE
+          DAILY RESEARCH · WEB · CLI · CLAUDE
         </div>
 
         {/* 3x2 repo grid */}

@@ -11,6 +11,7 @@ import { EntityLogo } from "@/components/ui/EntityLogo";
 import Link from "next/link";
 import { MessageSquare, ChevronUp } from "lucide-react";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
+import { RepoLink } from "@/components/repo/RepoLink";
 import {
   getAiLaunches,
   getProducthuntFetchedAt,
@@ -405,12 +406,13 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
                   {launch.name}
                 </a>
                 <span className="text-[10px] text-text-tertiary">→</span>
-                <Link
-                  href={`/repo/${repo.owner}/${repo.name}`}
+                <RepoLink
+                  owner={repo.owner}
+                  name={repo.name}
                   className="text-xs text-text-tertiary font-mono hover:text-functional transition-colors truncate"
                 >
                   {repo.fullName}
-                </Link>
+                </RepoLink>
               </span>
               <span
                 className="text-xs tabular-nums inline-flex items-center gap-1"

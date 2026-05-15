@@ -241,7 +241,7 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
         </g>
       );
     });
-  }, [seeds, draggingId, handlePointerDown]);
+  }, [seeds, draggingId, groupRefs, handlePointerDown]);
 
   // Top spider-strip stats — Node/01-flavored mono labels with arrows.
   // The dominant category (first legendEntry) drives the `category=` field;

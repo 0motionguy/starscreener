@@ -7,7 +7,6 @@
 import type { Metadata } from "next";
 import {
   BLUESKY_TRENDING_KEYWORDS,
-  getBlueskyTopPosts,
   getBlueskyTrendingFile,
   refreshBlueskyTrendingFromStore,
 } from "@/lib/bluesky-trending";
@@ -62,7 +61,6 @@ export default async function BlueskyTrendingPage() {
     refreshBlueskyMentionsFromStore(),
   ]);
   const trendingFile = getBlueskyTrendingFile();
-  const posts = getBlueskyTopPosts(50);
   const allPosts = trendingFile.posts;
   // Reserved — mention counts surface on /research and via SignalTable.
   void BLUESKY_TRENDING_KEYWORDS;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, safeJsonLd } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, safeJsonLd } from "@/lib/seo";
 
 const HREF = "/about";
 const TITLE = `About ${SITE_NAME}`;

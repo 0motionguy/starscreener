@@ -63,33 +63,36 @@ export function ReferralsQueueAdmin() {
     }
   }, [router]);
 
-  async function moderate(id: string, action: "approve" | "reject") {
-    setBusyId(id);
-    setError(null);
-    try {
-      const res = await fetch("/api/admin/referrals", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ id, action }),
-      });
-      if (res.status === 401) {
-        router.push("/admin/login?next=/admin/referrals");
-        return;
+  const moderate = useCallback(
+    async (id: string, action: "approve" | "reject") => {
+      setBusyId(id);
+      setError(null);
+      try {
+        const res = await fetch("/api/admin/referrals", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ id, action }),
+        });
+        if (res.status === 401) {
+          router.push("/admin/login?next=/admin/referrals");
+          return;
+        }
+        const payload = (await res.json()) as
+          | { ok: true; referral: AdminReferralRow }
+          | { ok: false; error: string };
+        if (!payload.ok) throw new Error(payload.error ?? "request failed");
+        // Optimistic UI: post-action both states (cleared flags / admin_rejected)
+        // remove the row from the queue selector, so drop it locally.
+        setRows((prev) => prev.filter((row) => row.id !== id));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setBusyId(null);
       }
-      const payload = (await res.json()) as
-        | { ok: true; referral: AdminReferralRow }
-        | { ok: false; error: string };
-      if (!payload.ok) throw new Error(payload.error ?? "request failed");
-      // Optimistic UI: post-action both states (cleared flags / admin_rejected)
-      // remove the row from the queue selector, so drop it locally.
-      setRows((prev) => prev.filter((row) => row.id !== id));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setBusyId(null);
-    }
-  }
+    },
+    [router],
+  );
 
   useEffect(() => {
     void loadQueue();
@@ -103,7 +106,7 @@ export function ReferralsQueueAdmin() {
       }
       void moderate(row.id, action);
     },
-    [],
+    [moderate],
   );
 
   const confirmReject = useCallback(() => {
@@ -111,7 +114,7 @@ export function ReferralsQueueAdmin() {
     const target = pendingReject;
     setPendingReject(null);
     void moderate(target.id, "reject");
-  }, [pendingReject]);
+  }, [moderate, pendingReject]);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">

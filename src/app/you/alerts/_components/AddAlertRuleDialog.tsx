@@ -37,7 +37,6 @@ import type { AlertRuleType, AlertCadence } from "@/lib/db/schema/alerts";
 
 interface AddAlertRuleDialogProps {
   existingRuleCount: number;
-  defaultTimezone: string;
 }
 
 const RULE_TYPE_OPTIONS: Array<{
@@ -93,7 +92,6 @@ type DialogPhase = "form" | "secret-reveal";
 
 export function AddAlertRuleDialog({
   existingRuleCount,
-  defaultTimezone: _defaultTimezone,
 }: AddAlertRuleDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);

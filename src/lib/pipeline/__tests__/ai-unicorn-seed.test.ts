@@ -25,7 +25,6 @@ import { test } from "node:test";
 import {
   appendFileSync,
   existsSync,
-  mkdirSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -36,7 +35,6 @@ import { join } from "node:path";
 
 // Seeder module — ESM .mjs; node:test + tsx handles interop. We cast the
 // import to `any` because the .mjs file has no TS declarations.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import * as seeder from "../../../../scripts/seed-ai-unicorn-repos.mjs";
 
 // ---------------------------------------------------------------------------

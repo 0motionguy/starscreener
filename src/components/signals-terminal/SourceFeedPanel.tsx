@@ -16,8 +16,6 @@ import { Card, CardHeader } from "@/components/ui/Card";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
-type Variant = "list" | "tweet" | "rss";
-
 export interface ListItem {
   id: string;
   title: string;

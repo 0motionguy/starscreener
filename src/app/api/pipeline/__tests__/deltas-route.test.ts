@@ -75,7 +75,10 @@ function makeStubStore(): DataStore {
       }
       return { data: null, source: "missing", ageMs: 0, fresh: false };
     },
-    async write<T>(_key: string, _value: T, _opts?: DataWriteOptions) {
+    async write<T>(key: string, value: T, opts?: DataWriteOptions) {
+      void key;
+      void value;
+      void opts;
       // swallow — the route writes a deltas:<repo>:<window> entry that we
       // don't assert against here.
     },
@@ -100,7 +103,6 @@ function makeStubStore(): DataStore {
 // imports it. tsx compiles ESM imports to CJS so the binding lives in
 // require.cache and is reassignable via property descriptor swap.
 function patchGetDataStore(stub: DataStore): void {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const path = require.resolve("../../../../lib/data-store");
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const mod = require(path) as Record<string, unknown>;

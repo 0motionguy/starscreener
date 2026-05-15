@@ -890,7 +890,6 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
     // shape stays compatible with Upstash REST (which auto-decodes JSON
     // values). The data-store's parsePayload() tolerates both shapes.
     mget: (...keys) => client.mget(...keys) as Promise<unknown[]>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     set: (key, value, opts) => {
       const hasEx = opts && typeof opts.ex === "number" && opts.ex > 0;
       const hasNx = opts?.nx === true;

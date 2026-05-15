@@ -70,33 +70,36 @@ export function IdeasQueueAdmin() {
     }
   }, [router]);
 
-  async function moderate(id: string, action: "approve" | "reject") {
-    setBusyId(id);
-    setError(null);
-    try {
-      const res = await fetch("/api/admin/ideas-queue", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ id, action }),
-      });
-      if (res.status === 401) {
-        router.push("/admin/login?next=/admin/ideas-queue");
-        return;
+  const moderate = useCallback(
+    async (id: string, action: "approve" | "reject") => {
+      setBusyId(id);
+      setError(null);
+      try {
+        const res = await fetch("/api/admin/ideas-queue", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ id, action }),
+        });
+        if (res.status === 401) {
+          router.push("/admin/login?next=/admin/ideas-queue");
+          return;
+        }
+        const payload = (await res.json()) as
+          | { ok: true; idea: IdeaRecord }
+          | { ok: false; error: string };
+        if (!payload.ok) throw new Error(payload.error ?? "request failed");
+        setIdeas((prev) =>
+          prev.map((row) => (row.id === id ? payload.idea : row)),
+        );
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setBusyId(null);
       }
-      const payload = (await res.json()) as
-        | { ok: true; idea: IdeaRecord }
-        | { ok: false; error: string };
-      if (!payload.ok) throw new Error(payload.error ?? "request failed");
-      setIdeas((prev) =>
-        prev.map((row) => (row.id === id ? payload.idea : row)),
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setBusyId(null);
-    }
-  }
+    },
+    [router],
+  );
 
   useEffect(() => {
     void loadQueue();
@@ -113,9 +116,7 @@ export function IdeasQueueAdmin() {
       }
       void moderate(row.id, action);
     },
-    // moderate is stable within this component instance; eslint-disable-next-line
-    // react-hooks/exhaustive-deps would only narrow noise here.
-    [],
+    [moderate],
   );
 
   const confirmReject = useCallback(() => {
@@ -123,7 +124,7 @@ export function IdeasQueueAdmin() {
     const target = pendingReject;
     setPendingReject(null);
     void moderate(target.id, "reject");
-  }, [pendingReject]);
+  }, [moderate, pendingReject]);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">

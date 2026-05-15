@@ -48,7 +48,6 @@ const CHANNEL_ORDER = [
   "lobsters",
   "producthunt",
 ] as const;
-type Channel = (typeof CHANNEL_ORDER)[number];
 
 interface ChannelStats {
   channel: string;

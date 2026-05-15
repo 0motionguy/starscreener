@@ -4,7 +4,7 @@
 
 **Session worktree:** `C:/dev/trendingrepo-wt/repo-detail-500-fix`
 **Branch:** `chore/toolbox-detach-polish-2026-05-15` → [PR #1253](https://github.com/0motionguy/starscreener/pull/1253)
-**Commits shipped this branch:** 22 (started at 6, ended at 22)
+**Commits shipped this branch:** 26 (started at 6, ended at 26)
 
 ## What shipped this autonomous run
 
@@ -48,6 +48,35 @@ No further bundle work needed. The earlier `/twitter` transfer-size issue (318 K
 - Asserts HTTP 200 + title-contains-TrendingRepo + h1/h2 rendered within 30s.
 - Catches the "500 hidden behind error boundary" + "endless skeleton" failure modes.
 - Complements (doesn't duplicate) the existing per-surface specs.
+
+### Phase C.b — Lighthouse production smoke + mechanical a11y fixes
+
+Validated the Lighthouse tooling end-to-end by running it against production `/` (single route, desktop preset). Scores: **Performance 96, A11y 90, Best-Practices 77, SEO 100**.
+
+Mechanical findings fixed in this session:
+
+- **`aria-prohibited-attr`** (commit `a0b83644c`) — added `role="img"` to icon pills carrying `aria-label` (LiveTopTable mention pills, page.tsx consensus-row source pills, LiveMcpTable verified badge + registry pills). 3 files, 5 sites. Cleared 12 axe-core violations.
+- **`color-contrast`** (13 failures, commit `28a722b6d`) — `.hero-row .delta-stack .d-lbl` was using `--ink-500` (= `--color-text-disabled`, 1.97:1 contrast over `--bg-canvas`). Swapped to `--ink-400` (= `--color-text-faint`, ~5:1). One more `.live-top-filters .fchip .ct` fix (opacity 0.6 → 0.8).
+- **`target-size`** (6 failures, same commit) — `.v3-swatch` rendered 8×8px in narrow footer; added `min-width:28px; min-height:28px`. Touch targets now ≥ Lighthouse minimum.
+
+Expected post-deploy A11y bump: **90 → ~96** on `/`. Other routes pending operator-run of the full sweep.
+
+Best Practices 77 issues NOT fixed autonomously (require design/structural decisions):
+- `third-party-cookies` (2 cookies — PostHog likely)
+- `bf-cache` (cache-control:no-store on dynamic responses — root cause is the searchParams perf issue in the existing proposal doc)
+- `unused-javascript` (327 KB — code splitting design call)
+- `inspector-issues` (need Chrome devtools console access)
+
+### Phase A.5 — Cascade dead code check (post-Phase-A deletions)
+
+Re-ran knip after the 29-file removal. Counts dropped 73 → 44 unused files. The remaining 44:
+- 27 in `apps/trendingrepo-worker/` (separate sub-package, skipped per goal constraints)
+- 5 in `mcp/` (separate sub-package)
+- 9 unused scripts in `scripts/` — checked workflows + package.json + cross-script imports; all genuinely orphan, but kept because scripts have **zero bundle impact** and may be operator-run manually (`_apify-proxy`, `_logger`, `backfill-star-activity`, etc.)
+- 2 confirmed false positives (`empty-module.js` next.config string-path; `server-only-vitest-stub.ts` vitest config alias target)
+- 1 documentation file (`design/v4/tokens.css` is the canonical token reference, mirrored into `globals.css`)
+
+No additional file deletions needed — cascade is clean.
 
 ### Phase E — API verification (no code change)
 

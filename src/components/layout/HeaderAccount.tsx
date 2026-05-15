@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 
 interface HeaderAccountProps {
   publishableKey?: string;
@@ -45,10 +46,21 @@ function useAuthHref(): { href: string; refreshHref: () => string } {
 function SignedOutAccountLink() {
   const router = useRouter();
   const { href, refreshHref } = useAuthHref();
+
+  const trackAccountClick = useCallback((nextHref: string) => {
+    captureFunnelStep({
+      step: "account_cta_click",
+      flow: "account-auth",
+      source: "header",
+      auth_path: nextHref.startsWith("/sign-up") ? "/sign-up" : "/sign-in",
+    });
+  }, []);
+
   return (
     <Link
       href={href}
       onClick={(event) => {
+        const nextHref = refreshHref();
         if (
           event.defaultPrevented ||
           event.button !== 0 ||
@@ -57,11 +69,14 @@ function SignedOutAccountLink() {
           event.altKey ||
           event.shiftKey
         ) {
-          refreshHref();
+          if (!event.defaultPrevented) {
+            trackAccountClick(nextHref);
+          }
           return;
         }
         event.preventDefault();
-        router.push(refreshHref());
+        trackAccountClick(nextHref);
+        router.push(nextHref);
       }}
       onFocus={refreshHref}
       onPointerEnter={refreshHref}

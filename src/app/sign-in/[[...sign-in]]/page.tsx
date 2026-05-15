@@ -12,6 +12,7 @@
 // just gives operators a route-based fallback.
 
 import { AuthUnavailable } from "@/components/auth/AuthUnavailable";
+import { FunnelMount } from "@/components/analytics/FunnelMount";
 import { ClerkAuthForm } from "@/components/auth/ClerkAuthForm";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import {
@@ -37,6 +38,11 @@ export default async function Page({ searchParams }: SignInPageProps) {
 
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
+      <FunnelMount
+        step="sign_in_view"
+        flow="account-auth"
+        properties={{ redirect_present: redirectUrl !== "/" }}
+      />
       {clerkPublishableKey ? (
         <ClerkAuthForm
           mode="sign-in"

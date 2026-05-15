@@ -51,6 +51,8 @@ export interface SkillRow {
   sparklineData: number[];
   /** Used by the Watch / Compare action buttons. */
   trackingId: string;
+  /** Canonical backing repo full name, when this skill is linked to one. */
+  trackingFullName?: string;
 }
 
 interface SkillsTopTableProps {
@@ -151,10 +153,12 @@ function SortHeader({
 
 function ActionCell({
   trackingId,
+  trackingFullName,
   name,
   stars,
 }: {
   trackingId: string;
+  trackingFullName?: string;
   name: string;
   stars: number;
 }) {
@@ -173,7 +177,7 @@ function ActionCell({
     e.stopPropagation();
     e.preventDefault();
     const wasWatched = isWatched;
-    toggleWatch(trackingId, stars);
+    toggleWatch(trackingId, stars, trackingFullName);
     if (wasWatched) toastWatchRemoved(name);
     else toastWatchAdded(name);
   };
@@ -190,7 +194,7 @@ function ActionCell({
       toastCompareFull();
       return;
     }
-    addCompare(trackingId);
+    addCompare(trackingId, trackingFullName);
     toastCompareAdded(useCompareStore.getState().repos.length);
   };
 
@@ -447,6 +451,7 @@ export function SkillsTopTable({
                   </td>
                   <ActionCell
                     trackingId={row.trackingId}
+                    trackingFullName={row.trackingFullName}
                     name={row.title}
                     stars={row.stars}
                   />

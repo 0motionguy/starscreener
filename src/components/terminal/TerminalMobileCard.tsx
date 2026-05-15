@@ -169,7 +169,7 @@ export function TerminalMobileCard({
             onClick={(e) => {
               e.stopPropagation();
               const wasWatched = isWatched;
-              toggleWatch(repo.id, repo.stars);
+              toggleWatch(repo.id, repo.stars, repo.fullName);
               if (wasWatched) toastWatchRemoved(repo.fullName);
               else toastWatchAdded(repo.fullName);
             }}
@@ -205,7 +205,7 @@ export function TerminalMobileCard({
                 toastCompareFull();
                 return;
               }
-              addCompare(repo.id);
+              addCompare(repo.id, repo.fullName);
               toastCompareAdded(useCompareStore.getState().repos.length);
             }}
             aria-label={

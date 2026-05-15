@@ -24,6 +24,10 @@ import type {
 import { useWatchlistStore } from "@/lib/store";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import {
+  watchlistItemFullName,
+  watchlistItemHref,
+} from "@/lib/watchlist-items";
+import {
   toastAlertDeleted,
   toastAlertError,
 } from "@/lib/toast";
@@ -223,29 +227,33 @@ export default function WatchlistPage() {
     }
   }, []);
 
-  // Pair watched items with hydrated repos in original add-order. Drop
-  // entries we couldn't resolve (the repo may have left the catalog).
-  const watchedRepos = useMemo(() => {
-    return watchlist
-      .map((item) => {
-        const repo = reposById[item.repoId];
-        return repo ? { item, repo } : null;
-      })
-      .filter(
-        (entry): entry is { item: (typeof watchlist)[number]; repo: Repo } =>
-          entry !== null,
-      );
+  // Pair watched items with hydrated repos in original add-order. Keep saved
+  // entries visible even when the current derived corpus cannot resolve repoId.
+  const watchedEntries = useMemo(() => {
+    return watchlist.map((item) => {
+      const repo = reposById[item.repoId] ?? null;
+      return {
+        item,
+        repo,
+        fullName: repo?.fullName ?? watchlistItemFullName(item),
+        href: repo ? `/repo/${repo.owner}/${repo.name}` : watchlistItemHref(item),
+      };
+    });
   }, [watchlist, reposById]);
 
   // Fast lookup id → fullName for alert primitives.
   const repoNamesById = useMemo(() => {
     const map: Record<string, string> = {};
     for (const r of Object.values(reposById)) map[r.id] = r.fullName;
+    for (const item of watchlist) {
+      map[item.repoId] =
+        reposById[item.repoId]?.fullName ?? watchlistItemFullName(item);
+    }
     return map;
-  }, [reposById]);
+  }, [reposById, watchlist]);
 
   // KpiBand metrics.
-  const tracked = watchedRepos.length;
+  const tracked = watchlist.length;
   const activeRules = rules.filter((r) => r.enabled).length;
   const reposFiringThisWeek = useMemo(() => {
     const weekMs = 7 * 86_400_000;
@@ -271,10 +279,21 @@ export default function WatchlistPage() {
   // "Most active" repo = highest-stars repo in watchlist (proxy for the
   // most actively tracked one). Falls back gracefully when empty.
   const mostActive = useMemo(() => {
-    if (watchedRepos.length === 0) return null;
-    return [...watchedRepos].sort((a, b) => b.repo.stars - a.repo.stars)[0]
-      .repo;
-  }, [watchedRepos]);
+    const resolved = watchedEntries.filter(
+      (
+        entry,
+      ): entry is {
+        item: (typeof watchlist)[number];
+        repo: Repo;
+        fullName: string;
+        href: string;
+      } => entry.repo !== null,
+    );
+    if (resolved.length === 0) return null;
+    return [...resolved].sort(
+      (a, b) => b.repo.stars - a.repo.stars,
+    )[0].repo;
+  }, [watchedEntries]);
 
   const verdictTone = tracked === 0 ? "amber" : "acc";
 
@@ -423,7 +442,7 @@ export default function WatchlistPage() {
               >
                 {"// LOADING WATCHLIST…"}
               </div>
-            ) : watchedRepos.length === 0 ? (
+            ) : watchedEntries.length === 0 ? (
               <EmptyTrackedState />
             ) : (
               <div
@@ -434,25 +453,28 @@ export default function WatchlistPage() {
                   gap: 12,
                 }}
               >
-                {watchedRepos.map(({ item, repo }) => (
+                {watchedEntries.map(({ item, repo, fullName, href }) => (
                   <RelatedRepoCard
                     key={item.repoId}
-                    fullName={repo.fullName}
-                    description={repo.description ?? undefined}
-                    language={
-                      repo.language
-                        ? repo.language.toUpperCase()
-                        : undefined
+                    fullName={fullName}
+                    description={
+                      repo?.description ??
+                      "Saved locally. Live metadata is outside the current tracked corpus."
                     }
-                    stars={formatNumber(repo.stars)}
+                    language={
+                      repo?.language ? repo.language.toUpperCase() : "SAVED"
+                    }
+                    stars={formatNumber(repo?.stars ?? item.starsAtAdd)}
                     similarity={
-                      repo.starsDelta24h !== 0
+                      repo && repo.starsDelta24h !== 0
                         ? `${repo.starsDelta24h > 0 ? "+" : ""}${formatNumber(
                             repo.starsDelta24h,
                           )} 24H`
-                        : "STABLE"
+                        : repo
+                          ? "STABLE"
+                          : "SAVED"
                     }
-                    href={`/repo/${repo.owner}/${repo.name}`}
+                    href={href}
                   />
                 ))}
               </div>

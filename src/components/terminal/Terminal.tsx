@@ -268,7 +268,7 @@ export function Terminal({
           const r = repos[focusedIndex];
           if (!r) return;
           const wasWatched = useWatchlistStore.getState().isWatched(r.id);
-          toggleWatch(r.id, r.stars);
+          toggleWatch(r.id, r.stars, r.fullName);
           if (wasWatched) toastWatchRemoved(r.fullName);
           else toastWatchAdded(r.fullName);
           break;
@@ -290,7 +290,7 @@ export function Terminal({
             toastCompareFull();
             break;
           }
-          addCompare(r.id);
+          addCompare(r.id, r.fullName);
           toastCompareAdded(useCompareStore.getState().repos.length);
           break;
         }

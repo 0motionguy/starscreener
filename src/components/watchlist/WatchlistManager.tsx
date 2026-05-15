@@ -6,6 +6,10 @@ import { Eye, Trash2, ArrowRight } from "lucide-react";
 import { BrandStar } from "@/components/shared/BrandStar";
 import { useWatchlistStore } from "@/lib/store";
 import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
+import {
+  watchlistItemFullName,
+  watchlistItemHref,
+} from "@/lib/watchlist-items";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
@@ -99,6 +103,66 @@ function WatchedRepoCard({
   );
 }
 
+function SavedRepoFallbackCard({
+  item,
+  index,
+}: {
+  item: WatchlistItem;
+  index: number;
+}) {
+  const removeRepo = useWatchlistStore((s) => s.removeRepo);
+  const fullName = watchlistItemFullName(item);
+
+  return (
+    <div
+      className={cn(
+        "bg-bg-card border border-border-primary rounded-[var(--radius-card)] p-4",
+        "hover:bg-bg-card-hover hover:border-accent-green/30",
+        "transition-all duration-200",
+        "animate-[slide-up_0.35s_ease-out_forwards] opacity-0",
+      )}
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <Link
+            href={watchlistItemHref(item)}
+            className="text-text-primary font-semibold hover:text-accent-green transition-colors truncate block"
+          >
+            {fullName}
+          </Link>
+          <div className="flex items-center gap-3 mt-2 flex-wrap">
+            <span className="inline-flex items-center gap-1 text-sm text-text-secondary">
+              <BrandStar size={13} className="text-accent-amber shrink-0" />
+              <span className="font-mono text-text-primary">
+                {formatNumber(item.starsAtAdd)}
+              </span>
+            </span>
+            <span className="font-mono text-xs text-text-tertiary">
+              Saved locally
+            </span>
+          </div>
+          <div className="flex items-center gap-3 mt-2 text-xs text-text-tertiary">
+            <span>Added {getRelativeTime(item.addedAt)}</span>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => removeRepo(item.repoId)}
+          className={cn(
+            "shrink-0 p-2 rounded-[var(--radius-button)]",
+            "text-text-tertiary hover:text-accent-red hover:bg-accent-red/10",
+            "transition-colors duration-150 cursor-pointer",
+          )}
+          aria-label={`Remove ${fullName} from watchlist`}
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Empty state
 // ---------------------------------------------------------------------------
@@ -183,14 +247,13 @@ export function WatchlistManager() {
     return <EmptyWatchlist />;
   }
 
-  // Pair each watchlist item with its resolved Repo; drop items we
-  // couldn't hydrate (e.g. the repo was removed from the store).
+  // Pair each watchlist item with its resolved Repo. Keep saved entries
+  // visible even when the current derived corpus cannot resolve repoId.
   const watchedRepos = watchlist
     .map((item) => {
-      const repo = reposById[item.repoId];
-      return repo ? { item, repo } : null;
-    })
-    .filter(Boolean) as { item: WatchlistItem; repo: Repo }[];
+      const repo = reposById[item.repoId] ?? null;
+      return { item, repo };
+    });
 
   if (watchedRepos.length === 0) {
     // If still loading, show a subtle skeleton. Otherwise the live API
@@ -213,7 +276,11 @@ export function WatchlistManager() {
   return (
     <div className="flex flex-col gap-3">
       {watchedRepos.map(({ item, repo }, i) => (
-        <WatchedRepoCard key={item.repoId} item={item} repo={repo} index={i} />
+        repo ? (
+          <WatchedRepoCard key={item.repoId} item={item} repo={repo} index={i} />
+        ) : (
+          <SavedRepoFallbackCard key={item.repoId} item={item} index={i} />
+        )
       ))}
     </div>
   );

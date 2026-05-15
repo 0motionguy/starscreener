@@ -415,6 +415,7 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
             cited: item.derivativeRepoCount ?? 0,
             sparklineData: linked?.sparklineData ?? [],
             trackingId: linked?.id ?? `skill:${item.id}`,
+            trackingFullName: linked?.fullName,
           };
         });
         if (skillRows.length === 0) {

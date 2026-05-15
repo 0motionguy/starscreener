@@ -24,6 +24,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { watchlistItemFullName } from "@/lib/watchlist-items";
 import { SidebarContent } from "./SidebarContent";
 import { SidebarProfileBox } from "./SidebarProfileBox";
 import { SidebarSkeleton } from "./SidebarSkeleton";
@@ -146,15 +147,19 @@ export function useWatchlistPreview(
     Record<string, SidebarDataRepo>
   >({});
 
-  const newestWatchIds = useMemo(
+  const newestWatchItems = useMemo(
     () =>
       [...watchlist]
         .sort((a, b) =>
           a.addedAt < b.addedAt ? 1 : a.addedAt > b.addedAt ? -1 : 0,
         )
-        .slice(0, 5)
-        .map((item) => item.repoId),
+        .slice(0, 5),
     [watchlist],
+  );
+
+  const newestWatchIds = useMemo(
+    () => newestWatchItems.map((item) => item.repoId),
+    [newestWatchItems],
   );
 
   const mergedReposById = useMemo(
@@ -188,10 +193,27 @@ export function useWatchlistPreview(
 
   return useMemo(
     () =>
-      newestWatchIds
-        .map((id) => mergedReposById[id])
+      newestWatchItems
+        .map((item) => {
+          const repo = mergedReposById[item.repoId];
+          if (repo) return repo;
+
+          const fullName = watchlistItemFullName(item);
+          const separator = fullName.indexOf("/");
+          if (separator <= 0 || separator >= fullName.length - 1) return null;
+
+          return {
+            id: item.repoId,
+            fullName,
+            owner: fullName.slice(0, separator),
+            name: fullName.slice(separator + 1),
+            ownerAvatarUrl: "",
+            starsDelta24h: 0,
+            starsDelta24hMissing: true,
+          };
+        })
         .filter((repo): repo is SidebarWatchlistPreviewRepo => Boolean(repo)),
-    [mergedReposById, newestWatchIds],
+    [mergedReposById, newestWatchItems],
   );
 }
 

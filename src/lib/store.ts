@@ -21,10 +21,14 @@ import {
 
 interface WatchlistState {
   repos: WatchlistItem[];
-  addRepo: (repoId: string, stars: number) => void;
+  addRepo: (repoId: string, stars: number, fullName?: string) => void;
   removeRepo: (repoId: string) => void;
   isWatched: (repoId: string) => boolean;
-  toggleWatch: (repoId: string, stars: number) => void;
+  toggleWatch: (repoId: string, stars: number, fullName?: string) => void;
+}
+
+function isUsableWatchlistFullName(value: string | undefined): value is string {
+  return typeof value === "string" && value.includes("/");
 }
 
 export const useWatchlistStore = create<WatchlistState>()(
@@ -32,18 +36,19 @@ export const useWatchlistStore = create<WatchlistState>()(
     (set, get) => ({
       repos: [],
 
-      addRepo: (repoId, stars) => {
+      addRepo: (repoId, stars, fullName) => {
         const { repos } = get();
         if (repos.some((r) => r.repoId === repoId)) return;
+        const item: WatchlistItem = {
+          repoId,
+          addedAt: new Date().toISOString(),
+          starsAtAdd: stars,
+        };
+        if (isUsableWatchlistFullName(fullName)) {
+          item.fullName = fullName;
+        }
         set({
-          repos: [
-            ...repos,
-            {
-              repoId,
-              addedAt: new Date().toISOString(),
-              starsAtAdd: stars,
-            },
-          ],
+          repos: [...repos, item],
         });
       },
 
@@ -55,12 +60,12 @@ export const useWatchlistStore = create<WatchlistState>()(
         return get().repos.some((r) => r.repoId === repoId);
       },
 
-      toggleWatch: (repoId, stars) => {
+      toggleWatch: (repoId, stars, fullName) => {
         const { isWatched, addRepo, removeRepo } = get();
         if (isWatched(repoId)) {
           removeRepo(repoId);
         } else {
-          addRepo(repoId, stars);
+          addRepo(repoId, stars, fullName);
         }
       },
     }),

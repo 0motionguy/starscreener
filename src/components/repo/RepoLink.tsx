@@ -30,6 +30,7 @@ import {
   useRef,
   useState,
   type ComponentProps,
+  type CSSProperties,
   type MouseEvent,
 } from "react";
 
@@ -49,6 +50,7 @@ interface RepoLinkProps {
   href?: string;
   children: React.ReactNode;
   className?: string;
+  style?: CSSProperties;
   prefetch?: ComponentProps<typeof Link>["prefetch"];
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   /** When false, render a plain `<Link>` with no preview attached. Use
@@ -68,6 +70,7 @@ export function RepoLink({
   href,
   children,
   className,
+  style,
   prefetch,
   onClick,
   preview = true,
@@ -174,6 +177,7 @@ export function RepoLink({
         href={computedHref}
         prefetch={prefetch}
         className={className}
+        style={style}
         onMouseEnter={beginOpen}
         onMouseLeave={beginClose}
         onFocus={beginOpen}

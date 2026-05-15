@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { GitFork, Users } from "lucide-react";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { cn, formatNumber } from "@/lib/utils";
 import type { FeaturedCard as FeaturedCardType } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 interface FeaturedCardProps {
   card: FeaturedCardType;
@@ -49,8 +49,9 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
     : "var(--v2-sig-red)";
 
   return (
-    <Link
-      href={`/repo/${repo.owner}/${repo.name}`}
+    <RepoLink
+      owner={repo.owner}
+      name={repo.name}
       className={cn(
         "v2-card group relative flex flex-col flex-shrink-0",
         "min-w-[260px] sm:w-[296px] h-[176px]",
@@ -210,7 +211,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
           </span>
         </div>
       </div>
-    </Link>
+    </RepoLink>
   );
 }
 

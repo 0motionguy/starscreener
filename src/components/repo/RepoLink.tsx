@@ -43,9 +43,19 @@ import {
 const HOVER_OPEN_DELAY_MS = 200;
 const HOVER_CLOSE_DELAY_MS = 80;
 
-interface RepoLinkProps {
+interface RepoLinkOwnerName {
   owner: string;
   name: string;
+  fullName?: never;
+}
+interface RepoLinkFullName {
+  /** "owner/name" — sugar for callers that only have the slug. */
+  fullName: string;
+  owner?: never;
+  name?: never;
+}
+
+type RepoLinkProps = (RepoLinkOwnerName | RepoLinkFullName) & {
   /** Optional alternative target — defaults to `/repo/<owner>/<name>`. */
   href?: string;
   children: React.ReactNode;
@@ -56,6 +66,26 @@ interface RepoLinkProps {
   /** When false, render a plain `<Link>` with no preview attached. Use
    * for non-interactive contexts (PDF render, OG card composer, RSS). */
   preview?: boolean;
+};
+
+function resolveOwnerName(props: RepoLinkProps): { owner: string; name: string } | null {
+  if ("fullName" in props && typeof props.fullName === "string") {
+    const idx = props.fullName.indexOf("/");
+    if (idx <= 0 || idx === props.fullName.length - 1) return null;
+    return {
+      owner: props.fullName.slice(0, idx),
+      name: props.fullName.slice(idx + 1),
+    };
+  }
+  if (
+    "owner" in props &&
+    "name" in props &&
+    typeof props.owner === "string" &&
+    typeof props.name === "string"
+  ) {
+    return { owner: props.owner, name: props.name };
+  }
+  return null;
 }
 
 function hasHoverPointer(): boolean {
@@ -64,17 +94,20 @@ function hasHoverPointer(): boolean {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
-export function RepoLink({
-  owner,
-  name,
-  href,
-  children,
-  className,
-  style,
-  prefetch,
-  onClick,
-  preview = true,
-}: RepoLinkProps) {
+export function RepoLink(props: RepoLinkProps) {
+  const {
+    href,
+    children,
+    className,
+    style,
+    prefetch,
+    onClick,
+    preview = true,
+  } = props;
+  const resolved = resolveOwnerName(props);
+  const owner = resolved?.owner ?? "";
+  const name = resolved?.name ?? "";
+
   const linkRef = useRef<HTMLAnchorElement | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -88,7 +121,7 @@ export function RepoLink({
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
 
-  const computedHref = href ?? `/repo/${owner}/${name}`;
+  const computedHref = href ?? (resolved ? `/repo/${owner}/${name}` : "#");
 
   const captureAnchor = useCallback(() => {
     const el = linkRef.current;

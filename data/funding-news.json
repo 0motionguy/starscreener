@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-07T14:10:05.313Z",
+  "fetchedAt": "2026-05-15T08:07:00.574Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
@@ -1445,6 +1445,365 @@
         "saas"
       ],
       "discoveredAt": "2026-05-07T14:10:05.313Z"
+    },
+    {
+      "id": "www.eu-startups.com-84d40105",
+      "headline": "Valencia-based Fresh People raises €2.6 million to scale Booster, its AI leadership copilot",
+      "description": "Fresh People, a Valencia-based technology company specialised in leadership and team management, has closed a €2.6 million round to accelerate the launch of Booster, a new AI-powered leadership system and prepare its international expansion. The round was led by Inveready, with participation from Archipiélago Next, Successful Fund, Paloma Tejada, a former BBVA executive, among others. […] The post Valencia-based Fresh People raises €2.6 million to scale Booster, its AI leadership copilot appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/valencia-based-fresh-people-raises-e2-6-million-to-scale-booster-its-ai-leadership-copilot/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-15T07:31:06.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Valencia-based Fresh People",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2600000,
+        "amountDisplay": "$2.6M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Inveready",
+          "entrepreneurs from Spain"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Inveready",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "entrepreneurs from Spain",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.pymnts.com-48e5c321",
+      "headline": "Thrive Capital Bets $100 Million on Shopify’s AI Future",
+      "description": "Joshua Kushner’s Thrive Capital has invested about $100 million in Shopify, betting that artificial intelligence could enhance commerce, Bloomberg reported Thursday (May 14), citing unnamed sources. Neither Shopify nor Thrive Capital immediately replied to PYMNTS’ request for comment. Thrive Capital announced in February that it raised more than $10 billion for a fund called […] The post Thrive Capital Bets $100 Million on Shopify’s AI Future appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/news/ecommerce/2026/thrive-capital-bets-100-million-on-shopifys-ai-future/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-05-15T00:58:09.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Thrive Capital Bets",
+        "companyWebsite": "https://thrivecap.com",
+        "companyLogoUrl": "https://logo.clearbit.com/thrivecap.com",
+        "amount": 100,
+        "amountDisplay": "$100",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "venturebeat.com-ad05be20",
+      "headline": "Cerebras stock nearly doubles on day one as AI chipmaker hits $100 billion — what it means for AI infrastructure",
+      "description": "Cerebras Systems , the Silicon Valley chipmaker that built the world's largest commercial AI processor, erupted onto the Nasdaq on Wednesday, opening at $350 per share — nearly double its $185 IPO price — and rocketing past a $100 billion market capitalization in its first hours of trading. The debut instantly crowned Cerebras as one of the most valuable semiconductor companies on Earth and validated a decade-long bet that the AI industry would eventually demand a fundamentally different kind of chip. The company sold 30 million shares at $185 apiece, raising $5.55 billion in what Bloomberg reported as the largest U.S. tech IPO since Uber went public in 2019 . The final pricing shattered expectations: Cerebras initially marketed shares at $115 to $125, then raised the range to $150 to $160 as investor demand surged, before ultimately pricing above even that elevated band. \"This is a new beginning,\" Julie Choi, Senior Vice President and Chief Marketing Officer at Cerebras, told VentureBeat in an exclusive interview on the morning of the IPO. The company, she said, plans to pour its fresh capital into expanding the cloud infrastructure that has become the centerpiece of its growth strategy. \"With this new capital, we're going to fill more data halls with Cerebras systems to power the world's fastest inference.\" The IPO caps one of the most dramatic corporate turnarounds in recent tech history. Cerebras first filed to go public in September 2024 but withdrew the effort more than a year later amid intense scrutiny over its near-total revenue dependence on a single customer in the United Arab Emirates. The company refiled in April 2026 with a radically different business profile: new partnerships with OpenAI and Amazon Web Services , a fast-growing cloud inference service , and a revenue base that had climbed 76% to $510 million in 2025 . How a dinner-plate-sized chip became the foundation of a $100 billion company To understand the frenzy, you have to understand the silicon. Cerebras builds something called the Wafer-Scale Engine , or WSE — a single processor that occupies an entire silicon wafer, the dinner-plate-sized disc from which ordinary chips are cut. The third-generation WSE-3 contains 4 trillion transistors, 900,000 compute cores, and 44 gigabytes of on-chip memory. It is 58 times larger than Nvidia's B200 \"Blackwell\" chip and delivers 2,625 times more memory bandwidth than the B200 package, according to the company's S-1 filing with the Securities and Exchange Commission. That bandwidth advantage matters enormously for AI inference — the process of running a trained model to generate answers. When a large language model produces text, it predicts one token at a time, and each token requires the model's entire set of weights to move from memory to compute. This work is inherently sequential and cannot be parallelized, making memory bandwidth the binding constraint on speed. Cerebras claims its architecture delivers inference responses up to 15 times faster than leading GPU-based solutions on open-source models, a figure corroborated by third-party benchmarker Artificial Analysis . \"One of the architectural principles when we built the wafer was: let's keep compute closer together, so that compute elements can talk to each other at lower latency,\" Andy Hock, VP of Product at Cerebras, told VentureBeat. \"Low latency is important to AI compute. It's a cornerstone of fast inference.\" The founding insight was contrarian and, for most of the company's life, commercially premature. Cerebras's founders recognized in 2015 that AI workloads were communication-bound problems — speed depended on how fast data could move between memory and compute — and that the best way to accelerate that movement was to keep everything on a single massive chip. Wafer-scale integration had been attempted and abandoned repeatedly over the semiconductor industry's 75-year history. Every previous effort had failed. Cerebras solved the problem through two key innovations detailed in its S-1 : a proprietary multi-die interconnect that stitches otherwise independent die together at the wafer level during fabrication, and a fault-tolerant architecture that routes around manufacturing defects using redundant building blocks, similar to how hyperscale data centers handle server failures. Why Cerebras is betting its future on cloud inference instead of hardware sales For most of its life, Cerebras sold hardware — massive, water-cooled AI supercomputers installed on-premises at customer facilities. That model generated $358 million in hardware revenue in 2025. But the IPO prospectus reveals a strategic pivot that will define the company's next chapter: the transition to cloud-based inference services . Cerebras launched its inference cloud in August 2024. In less than two years, cloud and other services revenue reached $151.6 million in 2025 , up 94% from $78.3 million in 2024. The company now expects this segment to comprise a significantly larger percentage of total revenue going forward, driven primarily by its enormous deal with OpenAI. \"Cloud and model APIs are the preferred and natural consumption method for inference services and application developers,\" Hock told VentureBeat. \"So that was the natural packaging and go-to-market strategy for the inference capability.\" Choi framed the cloud as a democratization play. \"Whether that be an entrepreneurial developer, a startup, or a massive organization like OpenAI — the cloud has really made it easy for people to deploy and feel the fast inference, the value of it,\" she said. The economics of the transition are capital-intensive. Cerebras must lease data center space, manufacture and deploy its systems, and build software to manage capacity — all before recognizing recurring revenue. The S-1 warns bluntly that gross margins will decline in the near term as the company absorbs startup costs for cloud infrastructure. The company's gross margin already dipped to 39% in 2025 from 42.3% in 2024, driven by higher data center costs. But the demand picture appears formidable. \"Every cloud system that we've deployed so far, each one gets gobbled up in capacity,\" Hock said. \"We've been thrilled to see the demand for fast inference from Cerebras. We want to go faster to service that market.\" Inside the $20 billion OpenAI deal that transformed Cerebras overnight The single most consequential business relationship for Cerebras is its December 2025 agreement with OpenAI, under which OpenAI committed to purchase 750 megawatts of Cerebras inference compute capacity over the next several years. The deal is valued at more than $20 billion and includes provisions for OpenAI to purchase an additional 1.25 gigawatts of capacity, potentially bringing total deployment to 2 gigawatts. The arrangement goes far beyond a standard vendor-customer relationship. OpenAI and Cerebras are co-designing future models for future Cerebras hardware — a tight feedback loop that gives Cerebras visibility into frontier model architectures before they ship and gives OpenAI inference systems optimized for its specific workloads. The partnership moved from contract to production with remarkable speed. \"After we announced the partnership, we had the first model running in like 35 days,\" Choi told VentureBeat. \"That was Codex Spark, and the engineers over at OpenAI just were like, mind blown.\" Codex Spark , OpenAI's model designed for real-time coding, allows developers to turn natural-language instructions into working software in seconds using Cerebras infrastructure. Choi described a deep cultural alignment between the two companies. \"Our teams truly vibe as engineers. We're on the same wavelength,\" she said. \"There's just no amount of speed that is enough for those guys.\" To fund the infrastructure buildout, OpenAI advanced Cerebras a $1 billion working capital loan in January 2026, secured by a promissory note maturing no later than December 31, 2032, bearing 6% annual interest . The loan can be repaid in cash or through delivery of compute capacity. However, the S-1 discloses significant risk: if the MRA is terminated for any reason other than OpenAI's material uncured breach, OpenAI can seize control of the loan funds and demand immediate repayment. OpenAI also holds a warrant to purchase up to 33.4 million shares of Cerebras Class N common stock at an exercise price of $0.00001 per share — essentially free shares that vest as Cerebras delivers committed capacity. At the IPO opening price, the fully vested warrant would be worth approximately $11.7 billion. How the Amazon Web Services partnership could bring Cerebras chips to millions of developers In March 2026, Cerebras signed a binding term sheet with Amazon Web Services to become the first hyperscaler to deploy Cerebras systems inside its own data centers. The partnership introduces a novel architectural concept called disaggregated inference, which splits the two stages of AI inference — prefill (processing the user's prompt) and decode (generating the response) — across different hardware optimized for each task. Under this arrangement, AWS Trainium chips handle prefill , while Cerebras CS-3 systems handle decode , connected via Amazon's Elastic Fabric Adapter networking. According to the AWS press announcement in March, the approach aims to deliver an order of magnitude faster inference than what is currently available. Hock provided technical detail on why this works. \"The interconnect requirements between prefill and decode systems actually aren't that high, so we can use a traditional interconnect between, say, Trainium and the wafer-scale engine and still deliver that fast time to first token and that ultra-low latency token generation,\" he explained. \"What the Trainium wafer-scale engine combination really gives us in that disaggregated or heterogeneous inference setup is all the speed and vastly more efficiency, so we can effectively serve more tokens per unit rack space or kilowatt.\" The partnership provides Cerebras something it has long lacked: massive distribution. AWS serves millions of enterprise customers worldwide, and Cerebras systems deployed through Amazon Bedrock will become accessible to any developer within their existing AWS environment. \"AWS has incredible reach,\" Hock said. \"The partnership is really about bringing that fast inference capability — that sort of best-in-industry, fast inference capability delivered by wafer-scale engine and Trainium — to that broader market.\" The term sheet also grants AWS a warrant to purchase up to approximately 2.7 million shares of Cerebras Class N common stock at a $100 exercise price, with vesting tied to product purchases beyond the initial lease. The UAE customer concentration problem that nearly derailed the IPO — and whether it's really solved For all the excitement, Cerebras carries a risk that has haunted it since its first IPO attempt: customer concentration. In 2024, G42 — an Abu Dhabi–based technology conglomerate — accounted for 85% of Cerebras's total revenue . The company's September 2024 S-1 filing drew heavy scrutiny over this dependence, compounded by questions about export controls for advanced AI chips shipped to the UAE. Cerebras withdrew that filing . The 2025 numbers show progress but not resolution. G42's share of revenue declined to 24% , but Mohamed bin Zayed University of Artificial Intelligence ( MBZUAI ), an Abu Dhabi institution that is a related party to G42, accounted for 62% of total revenue . Together, the two UAE-linked entities still represented 86% of Cerebras's 2025 sales. The S-1 is candid about this risk , noting that MBZUAI accounted for 77.9% of accounts receivable as of December 31, 2025, and that U.S. export licenses for Cerebras systems shipped to G42 and MBZUAI require \"rigorous security and compliance obligations to prevent diversion and abuse of our technology.\" Choi addressed the issue directly, pointing to the OpenAI and AWS deals as evidence of a broadening customer base. \"Now with OpenAI and Amazon, those are the same type of deep partnerships,\" she told VentureBeat. \"We're a deep technology company. Our technology has taken a decade to build. We go deep in how we build, and now we're going deep with two of the biggest players — the biggest AI lab, OpenAI, and the biggest cloud, AWS.\" Hock framed the customer evolution as a progression in market perception. \"G42 caused the market to be intrigued and inspired,\" he said. \"Nobody in the business is smarter, more credible, or has greater reach than OpenAI and AWS. And so I think OpenAI and AWS caused the market to shift from intrigued and inspired to — I'll call it curious and convinced.\" Still, the S-1 warns that the OpenAI MRA itself \"represents a substantial portion of our projected revenues over the next several years.\" Cerebras's business will remain dependent on a small number of very large customers for the foreseeable future — a structural feature of the AI infrastructure market where buildouts are measured in hundreds of megawatts and billions of dollars. Can Cerebras build data centers fast enough to keep up with runaway demand? With OpenAI consuming 750 megawatts of committed capacity and AWS preparing to deploy Cerebras systems in its data centers, the question is whether Cerebras can scale its physical infrastructure quickly enough to serve everyone else. Hock acknowledged the tension. \"It's a good problem to have when demand starts to outstrip supply. It doesn't mean it's an easy problem to address,\" he told VentureBeat. \"We've got to build these extraordinary systems. We've got to procure data center space. We've got to deploy systems there. Got to stand up software to meet our customers where they are.\" The company is being deliberate about capacity allocation. \"We're trying to be really deliberate about how we allocate capacity as it's built,\" Hock said. \"We're working in deep partnership to service the highest-priority customers and highest-priority markets.\" Choi argued that the constraint actually sharpens focus. \"Sometimes when you have less of something, it forces you to be very deliberate,\" she said. Beyond OpenAI, she named Cognition — the AI coding startup — and Block , led by Jack Dorsey, as significant customers. \"Jack participated in our roadshow as well,\" Choi noted. \"We're speeding up that entire money-bot AI experience within Cash App.\" The S-1 discloses that Cerebras currently operates data centers in California, Oklahoma, and Canada , with plans to expand internationally. The company executed non-cancelable data center leases in late 2025 with aggregate undiscounted future minimum payments of approximately $344 million , and in March 2026 signed a Canadian data center lease with expected minimum payments of approximately $2.2 billion over a 10-year term. The IPO proceeds — combined with $1 billion from a January 2026 Series H preferred stock round and the $1 billion OpenAI loan — give Cerebras a war chest exceeding $8 billion to fund the buildout. Whether that is enough to satisfy a market where major customers are ordering capacity measured in gigawatts remains an open question. The Nvidia shadow: what Cerebras is really up against in the AI chip wars Cerebras enters public markets into the teeth of the most competitive semiconductor environment in decades. Nvidia remains the dominant force in AI compute, controlling the vast majority of the training and inference infrastructure market. Its GPU architecture benefits from a deeply entrenched software ecosystem built around CUDA, the programming framework that has become the de facto standard for AI development. Cerebras's S-1 explicitly acknowledges this , noting that \"many of our competitors benefit from competitive advantages over us, such as prominent and cutting-edge technology and software stacks designed to keep out new market entrants.\" But Cerebras argues the inference market is structurally different from training — and that its architecture has a fundamental advantage in the workload that matters most going forward. As AI models have shifted toward reasoning, where models perform multi-step computation during inference to think through problems, the number of tokens generated per request has exploded . Each token requires moving full model weights from memory to compute, making memory bandwidth the bottleneck. The S-1 cites Bloomberg Intelligence data projecting that Cerebras's addressable portion of the AI inference market will grow from approximately $66 billion in 2025 to $292 billion by 2029 , a 45% compound annual growth rate — significantly outpacing the 20% CAGR projected for AI training infrastructure. Nvidia has clearly taken notice of the fast-inference threat. In December 2025, Nvidia acquired Groq — a startup whose tensor streaming processor architecture more closely resembles Cerebras's approach — for $20 billion. Months later, Nvidia announced plans for Groq-based products , signaling that even the industry's dominant player recognizes the limitations of GPU architecture for latency-sensitive inference. Cerebras also competes with custom silicon developed by hyperscalers — including Google's TPUs and Amazon's Trainium chips — and a growing roster of AI cloud providers. Asked about Nvidia and Groq, Choi declined to engage. \"We're feeling pretty good right now,\" she told VentureBeat with a smile. Revenue is surging, but the financial fine print reveals a more complicated picture The financial picture that emerges from the S-1 is one of rapid scaling with significant underlying complexity. Revenue surged from $78.7 million in 2023 to $290.3 million in 2024 to $510 million in 2025 — a more than tenfold increase over three years. The company reported GAAP net income of $237.8 million in 2025, but this figure is heavily influenced by a $363.3 million one-time gain from the extinguishment of a forward contract liability related to a preferred stock arrangement. Stripping out that gain and stock-based compensation, Cerebras's non-GAAP net loss was $75.7 million in 2025, widening from a $21.8 million non-GAAP loss in 2024. Operating losses deepened as well. Cerebras lost $145.9 million from operations in 2025, up from $101.4 million the prior year, as the company invested heavily in research and development ($243.3 million, up 54%) and sales and marketing ($70.6 million, up 237%). The company burned $10 million in operating cash flow in 2025, a sharp reversal from the $452 million of cash generated in 2024 — a year boosted by $640 million in customer deposit inflows, primarily from G42 and MBZUAI . The S-1 warns that gross margins will face near-term pressure from startup costs for cloud infrastructure, customer warrant amortization, and pass-through data center expenses. The path to this moment was anything but smooth. Cerebras shipped its first systems in 2020 and 2021 — before the market was ready. As the founders wrote in the prospectus: the company \"had built something extraordinary, but the market wasn't ready.\" The ChatGPT moment in late 2022 changed everything. By early 2025, Cerebras's speed advantage — long a solution in search of a problem — became urgently relevant as AI coding agents, deep research tools, and real-time voice applications demanded the kind of low-latency inference that GPU clusters struggled to deliver. The S-1 describes a market where AI coding agents \"barely existed in 2023\" but collectively generated \"billions in ARR in 2025,\" and where 42% of professional code is now AI-generated or assisted. What Cerebras must prove to justify a $100 billion valuation — and what happens if it can't Looking forward, Hock signaled that the current generation of hardware is just the beginning. \"Wafer-scale engine three and CS-3 is not the end of the story. It's just the beginning,\" he told VentureBeat. \"We have a multi-year technology roadmap that continues building on wafer-scale technology, accelerating performance, increasing efficiency, supporting larger scale.\" The S-1 confirms that Cerebras intends to expand on-chip memory and bandwidth , improve interconnect density, and leverage future process node advances — and discloses that the company has already obtained export licenses for future CS-4 systems destined for the UAE. The company also faces a web of operational risks that would test any organization, let alone one that has never operated as a public company. It depends entirely on TSMC for wafer fabrication, with no long-term supply commitment. Its data center leases stretch for years, while its inference customer contracts are often shorter-term or consumption-based, creating a mismatch between fixed costs and variable revenue. It has identified material weaknesses in its internal controls over financial reporting. And its most important customer relationship — with OpenAI — includes exclusivity provisions that restrict Cerebras from working with certain named OpenAI competitors, potentially limiting future diversification. Whether Cerebras can sustain a $100 billion-plus valuation will depend on its ability to execute against all of these challenges simultaneously: building data centers at unprecedented speed, manufacturing wafer-scale chips at scale through a single foundry, navigating export controls on its most lucrative international relationships, and competing against an Nvidia that has shown it will not cede the inference market without a fight. But Cerebras has always been built on a willingness to attempt what others said was impossible. Wafer-scale integration had stumped the semiconductor industry for its entire existence. Now a chip the size of a dinner plate — once dismissed as an engineering curiosity — powers the fastest AI inference on the planet, serves the world's leading AI lab, and just debuted on the Nasdaq to a valuation that dwarfs companies many times its age. The world, it turns out, was ready. As Hock put it to VentureBeat, recalling the journey from the lab to the trading floor: \"The IPO isn't the end of the story. It's the beginning.\"",
+      "sourceUrl": "https://venturebeat.com/technology/cerebras-stock-nearly-doubles-on-day-one-as-ai-chipmaker-hits-100-billion-what-it-means-for-ai-infrastructure",
+      "sourcePlatform": "venturebeat",
+      "publishedAt": "2026-05-14T21:38:02.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Cerebras",
+        "companyWebsite": "https://cerebras.net",
+        "companyLogoUrl": "https://logo.clearbit.com/cerebras.net",
+        "amount": 33400000,
+        "amountDisplay": "$33.4M",
+        "currency": "USD",
+        "roundType": "series-d-plus",
+        "investors": [
+          "Jack Dorsey",
+          "our roadshow as well",
+          "memory",
+          "42",
+          "Cerebras",
+          "contract"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Jack Dorsey",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "our roadshow as well",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "memory",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "42",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Cerebras",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "contract",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "fintech",
+        "hardware",
+        "saas",
+        "defense"
+      ]
+    },
+    {
+      "id": "techcrunch.com-97c16be9",
+      "headline": "Cerebras raises $5.5B, then stock pops $108%, in the first huge tech IPO of 2026",
+      "description": "A year ago, it looked like this day would never happen for Cerebras.",
+      "sourceUrl": "https://techcrunch.com/2026/05/14/cerebras-raises-5-5b-kicking-off-2026s-ipo-season-with-a-bang/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-14T16:30:02.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Cerebras",
+        "companyWebsite": "https://cerebras.net",
+        "companyLogoUrl": "https://logo.clearbit.com/cerebras.net",
+        "amount": 5500000000,
+        "amountDisplay": "$5.5B",
+        "currency": "USD",
+        "roundType": "ipo",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "aibusiness.com-3a5b3e99",
+      "headline": "Rivian Spinoff Raises $400M for Industrial Robots",
+      "description": "The vendor will use the funds to scale deployment of Mind’s AI-powered robots in live manufacturing environments.",
+      "sourceUrl": "https://aibusiness.com/robotics/rivian-spinoff-raises-400m-industrial-robots",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-05-14T14:44:03.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Rivian Spinoff",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 400000000,
+        "amountDisplay": "$400M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-f052b57a",
+      "headline": "Wirestock raises $23M to supply creative multimodal data to AI labs",
+      "description": "The company pivoted to being a data provider in 2023 and now supplies datasets of images, videos, design assets, and gaming and 3D content to AI labs.",
+      "sourceUrl": "https://techcrunch.com/2026/05/14/wirestock-raises-23m-to-supply-multi-modal-data-to-ai-labs/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-14T14:00:00.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Wirestock",
+        "companyWebsite": "https://wirestock.io",
+        "companyLogoUrl": "https://logo.clearbit.com/wirestock.io",
+        "amount": 23000000,
+        "amountDisplay": "$23M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Nava Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Nava Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-dad9be1e",
+      "headline": "Saile raises $2.2M to use AI agents to fix healthcare staffing and cut physician credentialing from months to days",
+      "description": "Hospitals across the U.S. are spending heavily to recruit temporary physicians, flying doctors across state lines to fill staffing gaps. At the same time, thousands of qualified physicians remain in limbo for months, unable to work due to credentialing paperwork, […] The post Saile raises $2.2M to use AI agents to fix healthcare staffing and cut physician credentialing from months to days first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/14/saile-raises-2-2m-to-use-ai-agents-to-fix-healthcare-staffing-and-cut-physician-credentialing-from-months-to-days/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-14T13:57:24.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Saile",
+        "companyWebsite": "https://saileapp.com",
+        "companyLogoUrl": "https://logo.clearbit.com/saileapp.com",
+        "amount": 2200000,
+        "amountDisplay": "$2.2M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "months",
+          "Matchstick Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "months",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Matchstick Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "healthcare"
+      ]
+    },
+    {
+      "id": "tech.eu-51d465ba",
+      "headline": "Iceotope raises $26M to advance cooling for next-generation AI infrastructure",
+      "description": "Iceotope Group, a provider of precision liquidcooling solutions for data centres and edge infrastructure, has raised $26million in a Series B funding round led by Two Seas Capital and Barclays Climate...",
+      "sourceUrl": "https://tech.eu/2026/05/14/iceotope-raises-26m-to-advance-cooling-for-next-generation-ai-infrastructure/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-14T13:00:00.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Iceotope",
+        "companyWebsite": "https://iceotope.com",
+        "companyLogoUrl": "https://logo.clearbit.com/iceotope.com",
+        "amount": 26000000,
+        "amountDisplay": "$26M",
+        "currency": "USD",
+        "roundType": "series-b",
+        "investors": [
+          "Two Seas Capital",
+          "generation AI infrastructure Two Seas Capital",
+          "Barclays Climate Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Two Seas Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "generation AI infrastructure Two Seas Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Barclays Climate Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "climate"
+      ]
+    },
+    {
+      "id": "tech.eu-dd4b314f",
+      "headline": "Zerops raises $2M seed to rebuild cloud infrastructure for the AI development era",
+      "description": "Zerops, a Platform-as-a-Service startup redesigning cloud architecture, has raised a $2 million seed round led by Gi21 Capital. Zerops removes the separation between development and production environ...",
+      "sourceUrl": "https://tech.eu/2026/05/14/zerops-raises-2m-seed-to-rebuild-cloud-infrastructure-for-the-ai-development-era/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-14T08:00:00.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Zerops",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2000000,
+        "amountDisplay": "$2M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [
+          "Gi21 Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Gi21 Capital",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-ca29e0a6",
+      "headline": "Origin Lab raises $8M to help video game companies sell data to world-model builders",
+      "description": "Origin Lab will serve as a marketplace where AI labs can buy high-quality licensed data, and video-game companies can sell it.",
+      "sourceUrl": "https://techcrunch.com/2026/05/13/origin-lab-raises-8m-to-help-video-game-companies-sell-data-to-world-model-builders/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-13T16:22:01.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Origin Lab",
+        "companyWebsite": "https://originlab.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/originlab.ai",
+        "amount": 8000000,
+        "amountDisplay": "$8M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Lightspeed Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Lightspeed Venture Partners",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/lsvp.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "consumer"
+      ]
     }
   ]
 }

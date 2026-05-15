@@ -22,6 +22,10 @@ function bool(value: boolean): string {
   return value ? "Included" : "—";
 }
 
+function isMutedValue(value: string): boolean {
+  return value === "—";
+}
+
 function buildRows(): ComparisonRow[] {
   const rows: ComparisonRow[] = [];
 
@@ -100,7 +104,41 @@ export function TierComparison() {
           {"// Full comparison"}
         </h2>
       </header>
-      <div className="overflow-x-auto">
+
+      <div className="divide-y divide-border-primary/60 md:hidden">
+        {rows.map((row) => (
+          <div key={row.label} className="px-4 py-3">
+            <h3 className="text-[12px] font-medium text-text-secondary">
+              {row.label}
+            </h3>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              {TIER_ORDER.map((key) => {
+                const value = row.values[key];
+                const muted = isMutedValue(value);
+                return (
+                  <div
+                    key={key}
+                    className="min-h-11 rounded border border-border-primary/70 bg-bg-primary/40 px-2.5 py-2"
+                  >
+                    <span className="block text-[10px] uppercase tracking-wider text-text-tertiary">
+                      {TIERS[key].displayName}
+                    </span>
+                    <span
+                      className={`mt-1 block truncate text-[12px] ${
+                        muted ? "text-text-tertiary/60" : "text-text-primary"
+                      }`}
+                    >
+                      {value}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden overflow-x-auto md:block">
         <table className="w-full min-w-[640px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border-primary bg-bg-primary/60">
@@ -137,7 +175,7 @@ export function TierComparison() {
                 </th>
                 {TIER_ORDER.map((key) => {
                   const value = row.values[key];
-                  const muted = value === "—";
+                  const muted = isMutedValue(value);
                   return (
                     <td
                       key={key}

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-15T14:37:09.249Z",
+  "fetchedAt": "2026-05-15T15:22:11.109Z",
   "source": "huggingface.co/api/models (default sort = trending)",
   "count": 1000,
   "models": [
@@ -30,8 +30,8 @@
       "author": "openbmb",
       "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6",
       "downloads": 22483,
-      "likes": 556,
-      "trendingScore": 483,
+      "likes": 561,
+      "trendingScore": 488,
       "pipelineTag": "image-text-to-text",
       "libraryName": null,
       "tags": [
@@ -131,8 +131,8 @@
       "author": "HiDream-ai",
       "url": "https://huggingface.co/HiDream-ai/HiDream-O1-Image",
       "downloads": 11725,
-      "likes": 337,
-      "trendingScore": 328,
+      "likes": 338,
+      "trendingScore": 329,
       "pipelineTag": "image-text-to-image",
       "libraryName": "transformers",
       "tags": [
@@ -235,8 +235,8 @@
       "author": "Supertone",
       "url": "https://huggingface.co/Supertone/supertonic-3",
       "downloads": 12832,
-      "likes": 218,
-      "trendingScore": 184,
+      "likes": 219,
+      "trendingScore": 185,
       "pipelineTag": "text-to-speech",
       "libraryName": "supertonic",
       "tags": [
@@ -298,8 +298,8 @@
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF",
       "downloads": 105097,
-      "likes": 155,
-      "trendingScore": 151,
+      "likes": 156,
+      "trendingScore": 152,
       "pipelineTag": "image-text-to-text",
       "libraryName": "transformers",
       "tags": [
@@ -351,6 +351,34 @@
     },
     {
       "rank": 14,
+      "id": "unsloth/Qwen3.6-35B-A3B-MTP-GGUF",
+      "author": "unsloth",
+      "url": "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF",
+      "downloads": 97682,
+      "likes": 141,
+      "trendingScore": 134,
+      "pipelineTag": "image-text-to-text",
+      "libraryName": "transformers",
+      "tags": [
+        "transformers",
+        "gguf",
+        "unsloth",
+        "qwen",
+        "qwen3_5_moe",
+        "image-text-to-text",
+        "base_model:Qwen/Qwen3.6-35B-A3B",
+        "base_model:quantized:Qwen/Qwen3.6-35B-A3B",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us",
+        "imatrix",
+        "conversational"
+      ],
+      "createdAt": "2026-05-11T12:57:12.000Z",
+      "lastModified": "2026-05-15T05:16:29.000Z"
+    },
+    {
+      "rank": 15,
       "id": "Qwen/Qwen3.6-27B",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen3.6-27B",
@@ -373,34 +401,6 @@
       ],
       "createdAt": "2026-04-21T07:50:43.000Z",
       "lastModified": "2026-04-24T02:39:16.000Z"
-    },
-    {
-      "rank": 15,
-      "id": "unsloth/Qwen3.6-35B-A3B-MTP-GGUF",
-      "author": "unsloth",
-      "url": "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF",
-      "downloads": 97682,
-      "likes": 140,
-      "trendingScore": 133,
-      "pipelineTag": "image-text-to-text",
-      "libraryName": "transformers",
-      "tags": [
-        "transformers",
-        "gguf",
-        "unsloth",
-        "qwen",
-        "qwen3_5_moe",
-        "image-text-to-text",
-        "base_model:Qwen/Qwen3.6-35B-A3B",
-        "base_model:quantized:Qwen/Qwen3.6-35B-A3B",
-        "license:apache-2.0",
-        "endpoints_compatible",
-        "region:us",
-        "imatrix",
-        "conversational"
-      ],
-      "createdAt": "2026-05-11T12:57:12.000Z",
-      "lastModified": "2026-05-15T05:16:29.000Z"
     },
     {
       "rank": 16,
@@ -593,6 +593,25 @@
     },
     {
       "rank": 22,
+      "id": "circlestone-labs/Anima",
+      "author": "circlestone-labs",
+      "url": "https://huggingface.co/circlestone-labs/Anima",
+      "downloads": 465511,
+      "likes": 1313,
+      "trendingScore": 100,
+      "pipelineTag": null,
+      "libraryName": "diffusion-single-file",
+      "tags": [
+        "diffusion-single-file",
+        "comfyui",
+        "license:other",
+        "region:us"
+      ],
+      "createdAt": "2026-01-29T21:17:57.000Z",
+      "lastModified": "2026-05-14T17:13:39.000Z"
+    },
+    {
+      "rank": 23,
       "id": "froggeric/Qwen-Fixed-Chat-Templates",
       "author": "froggeric",
       "url": "https://huggingface.co/froggeric/Qwen-Fixed-Chat-Templates",
@@ -619,7 +638,7 @@
       "lastModified": "2026-05-11T20:15:23.000Z"
     },
     {
-      "rank": 23,
+      "rank": 24,
       "id": "jackxinning/Leanly_AI",
       "author": "jackxinning",
       "url": "https://huggingface.co/jackxinning/Leanly_AI",
@@ -643,7 +662,7 @@
       "lastModified": "2026-05-04T07:50:46.000Z"
     },
     {
-      "rank": 24,
+      "rank": 25,
       "id": "HiDream-ai/HiDream-O1-Image-Dev",
       "author": "HiDream-ai",
       "url": "https://huggingface.co/HiDream-ai/HiDream-O1-Image-Dev",
@@ -665,25 +684,6 @@
       ],
       "createdAt": "2026-05-08T13:09:29.000Z",
       "lastModified": "2026-05-15T10:40:24.000Z"
-    },
-    {
-      "rank": 25,
-      "id": "circlestone-labs/Anima",
-      "author": "circlestone-labs",
-      "url": "https://huggingface.co/circlestone-labs/Anima",
-      "downloads": 465511,
-      "likes": 1310,
-      "trendingScore": 97,
-      "pipelineTag": null,
-      "libraryName": "diffusion-single-file",
-      "tags": [
-        "diffusion-single-file",
-        "comfyui",
-        "license:other",
-        "region:us"
-      ],
-      "createdAt": "2026-01-29T21:17:57.000Z",
-      "lastModified": "2026-05-14T17:13:39.000Z"
     },
     {
       "rank": 26,
@@ -801,7 +801,7 @@
       "author": "Jiunsong",
       "url": "https://huggingface.co/Jiunsong/supergemma4-26b-uncensored-gguf-v2",
       "downloads": 279744,
-      "likes": 591,
+      "likes": 592,
       "trendingScore": 86,
       "pipelineTag": "text-generation",
       "libraryName": null,
@@ -1112,6 +1112,35 @@
     },
     {
       "rank": 40,
+      "id": "ResembleAI/Dramabox",
+      "author": "ResembleAI",
+      "url": "https://huggingface.co/ResembleAI/Dramabox",
+      "downloads": 429,
+      "likes": 73,
+      "trendingScore": 73,
+      "pipelineTag": "text-to-speech",
+      "libraryName": "ltx-audio-tts",
+      "tags": [
+        "ltx-audio-tts",
+        "dramabox-tts",
+        "tts",
+        "voice-cloning",
+        "audio-generation",
+        "diffusion-transformer",
+        "flow-matching",
+        "ltx-2",
+        "text-to-speech",
+        "en",
+        "base_model:Lightricks/LTX-2.3",
+        "base_model:finetune:Lightricks/LTX-2.3",
+        "license:other",
+        "region:us"
+      ],
+      "createdAt": "2026-04-17T07:17:52.000Z",
+      "lastModified": "2026-05-13T16:39:38.000Z"
+    },
+    {
+      "rank": 41,
       "id": "antirez/deepseek-v4-gguf",
       "author": "antirez",
       "url": "https://huggingface.co/antirez/deepseek-v4-gguf",
@@ -1147,35 +1176,6 @@
       ],
       "createdAt": "2026-04-26T07:54:05.000Z",
       "lastModified": "2026-05-12T16:08:16.000Z"
-    },
-    {
-      "rank": 41,
-      "id": "ResembleAI/Dramabox",
-      "author": "ResembleAI",
-      "url": "https://huggingface.co/ResembleAI/Dramabox",
-      "downloads": 429,
-      "likes": 72,
-      "trendingScore": 72,
-      "pipelineTag": "text-to-speech",
-      "libraryName": "ltx-audio-tts",
-      "tags": [
-        "ltx-audio-tts",
-        "dramabox-tts",
-        "tts",
-        "voice-cloning",
-        "audio-generation",
-        "diffusion-transformer",
-        "flow-matching",
-        "ltx-2",
-        "text-to-speech",
-        "en",
-        "base_model:Lightricks/LTX-2.3",
-        "base_model:finetune:Lightricks/LTX-2.3",
-        "license:other",
-        "region:us"
-      ],
-      "createdAt": "2026-04-17T07:17:52.000Z",
-      "lastModified": "2026-05-13T16:39:38.000Z"
     },
     {
       "rank": 42,
@@ -1741,6 +1741,24 @@
     },
     {
       "rank": 60,
+      "id": "Comfy-Org/HiDream-O1-Image",
+      "author": "Comfy-Org",
+      "url": "https://huggingface.co/Comfy-Org/HiDream-O1-Image",
+      "downloads": 0,
+      "likes": 51,
+      "trendingScore": 51,
+      "pipelineTag": null,
+      "libraryName": null,
+      "tags": [
+        "comfyui",
+        "license:mit",
+        "region:us"
+      ],
+      "createdAt": "2026-05-10T00:28:02.000Z",
+      "lastModified": "2026-05-12T09:46:36.000Z"
+    },
+    {
+      "rank": 61,
       "id": "ibm-granite/granite-4.1-30b",
       "author": "ibm-granite",
       "url": "https://huggingface.co/ibm-granite/granite-4.1-30b",
@@ -1766,24 +1784,6 @@
       ],
       "createdAt": "2026-04-06T13:19:18.000Z",
       "lastModified": "2026-05-04T17:31:52.000Z"
-    },
-    {
-      "rank": 61,
-      "id": "Comfy-Org/HiDream-O1-Image",
-      "author": "Comfy-Org",
-      "url": "https://huggingface.co/Comfy-Org/HiDream-O1-Image",
-      "downloads": 0,
-      "likes": 50,
-      "trendingScore": 50,
-      "pipelineTag": null,
-      "libraryName": null,
-      "tags": [
-        "comfyui",
-        "license:mit",
-        "region:us"
-      ],
-      "createdAt": "2026-05-10T00:28:02.000Z",
-      "lastModified": "2026-05-12T09:46:36.000Z"
     },
     {
       "rank": 62,
@@ -2319,6 +2319,30 @@
     },
     {
       "rank": 81,
+      "id": "inclusionAI/Ring-2.6-1T",
+      "author": "inclusionAI",
+      "url": "https://huggingface.co/inclusionAI/Ring-2.6-1T",
+      "downloads": 323,
+      "likes": 39,
+      "trendingScore": 38,
+      "pipelineTag": "text-generation",
+      "libraryName": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "bailing_hybrid",
+        "text-generation",
+        "conversational",
+        "custom_code",
+        "license:mit",
+        "compressed-tensors",
+        "region:us"
+      ],
+      "createdAt": "2026-05-14T08:10:02.000Z",
+      "lastModified": "2026-05-15T13:16:22.000Z"
+    },
+    {
+      "rank": 82,
       "id": "zai-org/GLM-5.1",
       "author": "zai-org",
       "url": "https://huggingface.co/zai-org/GLM-5.1",
@@ -2345,31 +2369,34 @@
       "lastModified": "2026-05-13T08:10:58.000Z"
     },
     {
-      "rank": 82,
-      "id": "inclusionAI/Ring-2.6-1T",
-      "author": "inclusionAI",
-      "url": "https://huggingface.co/inclusionAI/Ring-2.6-1T",
-      "downloads": 323,
-      "likes": 38,
-      "trendingScore": 37,
-      "pipelineTag": "text-generation",
+      "rank": 83,
+      "id": "microsoft/Fara-7B",
+      "author": "microsoft",
+      "url": "https://huggingface.co/microsoft/Fara-7B",
+      "downloads": 18420,
+      "likes": 529,
+      "trendingScore": 36,
+      "pipelineTag": "image-text-to-text",
       "libraryName": "transformers",
       "tags": [
         "transformers",
         "safetensors",
-        "bailing_hybrid",
-        "text-generation",
+        "qwen2_5_vl",
+        "image-text-to-text",
+        "multimodal",
         "conversational",
-        "custom_code",
+        "en",
+        "arxiv:2511.19663",
         "license:mit",
-        "compressed-tensors",
+        "text-generation-inference",
+        "endpoints_compatible",
         "region:us"
       ],
-      "createdAt": "2026-05-14T08:10:02.000Z",
-      "lastModified": "2026-05-15T13:16:22.000Z"
+      "createdAt": "2025-10-30T18:56:59.000Z",
+      "lastModified": "2025-12-11T22:11:43.000Z"
     },
     {
-      "rank": 83,
+      "rank": 84,
       "id": "nvidia/Gemma-4-26B-A4B-NVFP4",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/Gemma-4-26B-A4B-NVFP4",
@@ -2401,7 +2428,7 @@
       "lastModified": "2026-05-07T00:43:59.000Z"
     },
     {
-      "rank": 84,
+      "rank": 85,
       "id": "SicariusSicariiStuff/Assistant_Pepe_32B",
       "author": "SicariusSicariiStuff",
       "url": "https://huggingface.co/SicariusSicariiStuff/Assistant_Pepe_32B",
@@ -2424,7 +2451,7 @@
       "lastModified": "2026-05-07T17:11:54.000Z"
     },
     {
-      "rank": 85,
+      "rank": 86,
       "id": "Tongyi-MAI/Z-Image-Turbo",
       "author": "Tongyi-MAI",
       "url": "https://huggingface.co/Tongyi-MAI/Z-Image-Turbo",
@@ -2450,7 +2477,7 @@
       "lastModified": "2026-01-30T16:58:07.000Z"
     },
     {
-      "rank": 86,
+      "rank": 87,
       "id": "inclusionAI/Ling-2.6-flash",
       "author": "inclusionAI",
       "url": "https://huggingface.co/inclusionAI/Ling-2.6-flash",
@@ -2474,7 +2501,7 @@
       "lastModified": "2026-05-03T15:00:07.000Z"
     },
     {
-      "rank": 87,
+      "rank": 88,
       "id": "facebook/tribev2",
       "author": "facebook",
       "url": "https://huggingface.co/facebook/tribev2",
@@ -2491,7 +2518,7 @@
       "lastModified": "2026-03-27T09:07:48.000Z"
     },
     {
-      "rank": 88,
+      "rank": 89,
       "id": "zerofata/G4-MeroMero-31B",
       "author": "zerofata",
       "url": "https://huggingface.co/zerofata/G4-MeroMero-31B",
@@ -2515,7 +2542,7 @@
       "lastModified": "2026-05-02T09:06:30.000Z"
     },
     {
-      "rank": 89,
+      "rank": 90,
       "id": "HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive",
       "author": "HauhauCS",
       "url": "https://huggingface.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive",
@@ -2541,7 +2568,7 @@
       "lastModified": "2026-04-05T19:01:05.000Z"
     },
     {
-      "rank": 90,
+      "rank": 91,
       "id": "TenStrip/LTX2.3-10Eros_Workflows",
       "author": "TenStrip",
       "url": "https://huggingface.co/TenStrip/LTX2.3-10Eros_Workflows",
@@ -2557,7 +2584,7 @@
       "lastModified": "2026-05-11T00:19:43.000Z"
     },
     {
-      "rank": 91,
+      "rank": 92,
       "id": "unsloth/gemma-4-E4B-it-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF",
@@ -2584,7 +2611,7 @@
       "lastModified": "2026-05-04T09:02:45.000Z"
     },
     {
-      "rank": 92,
+      "rank": 93,
       "id": "ibm-granite/granite-embedding-97m-multilingual-r2",
       "author": "ibm-granite",
       "url": "https://huggingface.co/ibm-granite/granite-embedding-97m-multilingual-r2",
@@ -2629,7 +2656,7 @@
       "lastModified": "2026-04-29T01:27:50.000Z"
     },
     {
-      "rank": 93,
+      "rank": 94,
       "id": "ibm-granite/granite-embedding-311m-multilingual-r2",
       "author": "ibm-granite",
       "url": "https://huggingface.co/ibm-granite/granite-embedding-311m-multilingual-r2",
@@ -2674,7 +2701,7 @@
       "lastModified": "2026-04-29T01:19:42.000Z"
     },
     {
-      "rank": 94,
+      "rank": 95,
       "id": "Qwen/WebWorld-8B",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/WebWorld-8B",
@@ -2718,7 +2745,7 @@
       "lastModified": "2026-05-08T12:10:29.000Z"
     },
     {
-      "rank": 95,
+      "rank": 96,
       "id": "Aratako/Irodori-TTS-500M-v3",
       "author": "Aratako",
       "url": "https://huggingface.co/Aratako/Irodori-TTS-500M-v3",
@@ -2741,33 +2768,6 @@
       ],
       "createdAt": "2026-05-12T02:15:21.000Z",
       "lastModified": "2026-05-12T14:25:54.000Z"
-    },
-    {
-      "rank": 96,
-      "id": "microsoft/Fara-7B",
-      "author": "microsoft",
-      "url": "https://huggingface.co/microsoft/Fara-7B",
-      "downloads": 18420,
-      "likes": 526,
-      "trendingScore": 33,
-      "pipelineTag": "image-text-to-text",
-      "libraryName": "transformers",
-      "tags": [
-        "transformers",
-        "safetensors",
-        "qwen2_5_vl",
-        "image-text-to-text",
-        "multimodal",
-        "conversational",
-        "en",
-        "arxiv:2511.19663",
-        "license:mit",
-        "text-generation-inference",
-        "endpoints_compatible",
-        "region:us"
-      ],
-      "createdAt": "2025-10-30T18:56:59.000Z",
-      "lastModified": "2025-12-11T22:11:43.000Z"
     },
     {
       "rank": 97,
@@ -3689,7 +3689,7 @@
       "author": "zai-org",
       "url": "https://huggingface.co/zai-org/GLM-OCR",
       "downloads": 7433858,
-      "likes": 1739,
+      "likes": 1741,
       "trendingScore": 27,
       "pipelineTag": "image-to-text",
       "libraryName": "transformers",
@@ -3758,6 +3758,29 @@
     },
     {
       "rank": 130,
+      "id": "internlm/Intern-S2-Preview",
+      "author": "internlm",
+      "url": "https://huggingface.co/internlm/Intern-S2-Preview",
+      "downloads": 11,
+      "likes": 27,
+      "trendingScore": 27,
+      "pipelineTag": "image-text-to-text",
+      "libraryName": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "intern_s2_preview",
+        "image-text-to-text",
+        "conversational",
+        "custom_code",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "createdAt": "2026-05-15T03:49:25.000Z",
+      "lastModified": "2026-05-15T04:23:26.000Z"
+    },
+    {
+      "rank": 131,
       "id": "openbmb/VoxCPM2",
       "author": "openbmb",
       "url": "https://huggingface.co/openbmb/VoxCPM2",
@@ -3802,7 +3825,7 @@
       "lastModified": "2026-04-16T03:30:11.000Z"
     },
     {
-      "rank": 131,
+      "rank": 132,
       "id": "LiconStudio/Ltx2.3-VBVR-lora-I2V",
       "author": "LiconStudio",
       "url": "https://huggingface.co/LiconStudio/Ltx2.3-VBVR-lora-I2V",
@@ -3829,7 +3852,7 @@
       "lastModified": "2026-05-01T16:10:44.000Z"
     },
     {
-      "rank": 132,
+      "rank": 133,
       "id": "DavidAU/Qwen3.5-21B-Claude-4.6-Opus-Deckard-Heretic-Uncensored-Thinking",
       "author": "DavidAU",
       "url": "https://huggingface.co/DavidAU/Qwen3.5-21B-Claude-4.6-Opus-Deckard-Heretic-Uncensored-Thinking",
@@ -3874,7 +3897,7 @@
       "lastModified": "2026-04-02T02:04:08.000Z"
     },
     {
-      "rank": 133,
+      "rank": 134,
       "id": "RDson/Qwen3.6-27B-MTP-Q4_K_M-GGUF",
       "author": "RDson",
       "url": "https://huggingface.co/RDson/Qwen3.6-27B-MTP-Q4_K_M-GGUF",
@@ -3900,7 +3923,7 @@
       "lastModified": "2026-04-29T18:46:26.000Z"
     },
     {
-      "rank": 134,
+      "rank": 135,
       "id": "SearchingMan/Z-Image-Turbo-student-adapter",
       "author": "SearchingMan",
       "url": "https://huggingface.co/SearchingMan/Z-Image-Turbo-student-adapter",
@@ -3922,7 +3945,7 @@
       "lastModified": "2026-05-08T07:37:01.000Z"
     },
     {
-      "rank": 135,
+      "rank": 136,
       "id": "Grio43/OppaiOracle",
       "author": "Grio43",
       "url": "https://huggingface.co/Grio43/OppaiOracle",
@@ -3951,29 +3974,6 @@
       ],
       "createdAt": "2026-05-09T01:03:31.000Z",
       "lastModified": "2026-05-10T01:13:14.000Z"
-    },
-    {
-      "rank": 136,
-      "id": "internlm/Intern-S2-Preview",
-      "author": "internlm",
-      "url": "https://huggingface.co/internlm/Intern-S2-Preview",
-      "downloads": 11,
-      "likes": 26,
-      "trendingScore": 26,
-      "pipelineTag": "image-text-to-text",
-      "libraryName": "transformers",
-      "tags": [
-        "transformers",
-        "safetensors",
-        "intern_s2_preview",
-        "image-text-to-text",
-        "conversational",
-        "custom_code",
-        "license:apache-2.0",
-        "region:us"
-      ],
-      "createdAt": "2026-05-15T03:49:25.000Z",
-      "lastModified": "2026-05-15T04:23:26.000Z"
     },
     {
       "rank": 137,
@@ -5267,6 +5267,27 @@
     },
     {
       "rank": 180,
+      "id": "Abiray/Sulphur-2-base-GGUF",
+      "author": "Abiray",
+      "url": "https://huggingface.co/Abiray/Sulphur-2-base-GGUF",
+      "downloads": 33500,
+      "likes": 20,
+      "trendingScore": 20,
+      "pipelineTag": "text-to-video",
+      "libraryName": "gguf",
+      "tags": [
+        "gguf",
+        "quantized",
+        "text-to-video",
+        "base_model:SulphurAI/Sulphur-2-base",
+        "base_model:quantized:SulphurAI/Sulphur-2-base",
+        "region:us"
+      ],
+      "createdAt": "2026-05-10T15:01:12.000Z",
+      "lastModified": "2026-05-12T04:19:47.000Z"
+    },
+    {
+      "rank": 181,
       "id": "microsoft/VibeVoice-ASR",
       "author": "microsoft",
       "url": "https://huggingface.co/microsoft/VibeVoice-ASR",
@@ -5311,7 +5332,7 @@
       "lastModified": "2026-01-27T13:12:22.000Z"
     },
     {
-      "rank": 181,
+      "rank": 182,
       "id": "Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled",
       "author": "Jackrong",
       "url": "https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled",
@@ -5344,7 +5365,7 @@
       "lastModified": "2026-04-06T02:20:53.000Z"
     },
     {
-      "rank": 182,
+      "rank": 183,
       "id": "facebook/sapiens2",
       "author": "facebook",
       "url": "https://huggingface.co/facebook/sapiens2",
@@ -5366,7 +5387,7 @@
       "lastModified": "2026-04-24T03:14:41.000Z"
     },
     {
-      "rank": 183,
+      "rank": 184,
       "id": "unsloth/granite-4.1-8b-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/granite-4.1-8b-GGUF",
@@ -5393,7 +5414,7 @@
       "lastModified": "2026-04-30T18:43:01.000Z"
     },
     {
-      "rank": 184,
+      "rank": 185,
       "id": "TenStrip/LTX2.3_Distilled_Lora_1.1_Experiments",
       "author": "TenStrip",
       "url": "https://huggingface.co/TenStrip/LTX2.3_Distilled_Lora_1.1_Experiments",
@@ -5409,7 +5430,7 @@
       "lastModified": "2026-05-02T03:50:38.000Z"
     },
     {
-      "rank": 185,
+      "rank": 186,
       "id": "lkzd7/WAN2.2_LoraSet_NSFW",
       "author": "lkzd7",
       "url": "https://huggingface.co/lkzd7/WAN2.2_LoraSet_NSFW",
@@ -5426,7 +5447,7 @@
       "lastModified": "2026-01-20T21:35:11.000Z"
     },
     {
-      "rank": 186,
+      "rank": 187,
       "id": "mistralai/Mistral-7B-Instruct-v0.3",
       "author": "mistralai",
       "url": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
@@ -5449,7 +5470,7 @@
       "lastModified": "2025-12-03T12:13:48.000Z"
     },
     {
-      "rank": 187,
+      "rank": 188,
       "id": "Qwen/Qwen3-Coder-Next",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen3-Coder-Next",
@@ -5474,7 +5495,7 @@
       "lastModified": "2026-02-03T16:16:38.000Z"
     },
     {
-      "rank": 188,
+      "rank": 189,
       "id": "BAAI/bge-m3",
       "author": "BAAI",
       "url": "https://huggingface.co/BAAI/bge-m3",
@@ -5505,7 +5526,7 @@
       "lastModified": "2024-07-03T14:50:10.000Z"
     },
     {
-      "rank": 189,
+      "rank": 190,
       "id": "AIDC-AI/Marco-DeepResearch-8B",
       "author": "AIDC-AI",
       "url": "https://huggingface.co/AIDC-AI/Marco-DeepResearch-8B",
@@ -5541,7 +5562,7 @@
       "lastModified": "2026-05-08T10:52:15.000Z"
     },
     {
-      "rank": 190,
+      "rank": 191,
       "id": "pyannote/segmentation-3.0",
       "author": "pyannote",
       "url": "https://huggingface.co/pyannote/segmentation-3.0",
@@ -5572,7 +5593,7 @@
       "lastModified": "2024-05-10T19:35:46.000Z"
     },
     {
-      "rank": 191,
+      "rank": 192,
       "id": "allenai/Emo_1b14b_1T",
       "author": "allenai",
       "url": "https://huggingface.co/allenai/Emo_1b14b_1T",
@@ -5599,27 +5620,6 @@
       ],
       "createdAt": "2026-04-29T21:34:32.000Z",
       "lastModified": "2026-05-08T15:54:14.000Z"
-    },
-    {
-      "rank": 192,
-      "id": "Abiray/Sulphur-2-base-GGUF",
-      "author": "Abiray",
-      "url": "https://huggingface.co/Abiray/Sulphur-2-base-GGUF",
-      "downloads": 33500,
-      "likes": 19,
-      "trendingScore": 19,
-      "pipelineTag": "text-to-video",
-      "libraryName": "gguf",
-      "tags": [
-        "gguf",
-        "quantized",
-        "text-to-video",
-        "base_model:SulphurAI/Sulphur-2-base",
-        "base_model:quantized:SulphurAI/Sulphur-2-base",
-        "region:us"
-      ],
-      "createdAt": "2026-05-10T15:01:12.000Z",
-      "lastModified": "2026-05-12T04:19:47.000Z"
     },
     {
       "rank": 193,
@@ -5856,6 +5856,28 @@
     },
     {
       "rank": 202,
+      "id": "baidu/ERNIE-Image",
+      "author": "baidu",
+      "url": "https://huggingface.co/baidu/ERNIE-Image",
+      "downloads": 14817,
+      "likes": 625,
+      "trendingScore": 18,
+      "pipelineTag": "text-to-image",
+      "libraryName": "diffusers",
+      "tags": [
+        "diffusers",
+        "safetensors",
+        "text-to-image",
+        "8B",
+        "license:apache-2.0",
+        "diffusers:ErnieImagePipeline",
+        "region:us"
+      ],
+      "createdAt": "2026-04-07T07:26:56.000Z",
+      "lastModified": "2026-04-17T02:33:16.000Z"
+    },
+    {
+      "rank": 203,
       "id": "DavidAU/Qwen3.6-40B-Claude-4.6-Opus-Deckard-Heretic-Uncensored-Thinking",
       "author": "DavidAU",
       "url": "https://huggingface.co/DavidAU/Qwen3.6-40B-Claude-4.6-Opus-Deckard-Heretic-Uncensored-Thinking",
@@ -5900,7 +5922,7 @@
       "lastModified": "2026-04-30T07:44:29.000Z"
     },
     {
-      "rank": 203,
+      "rank": 204,
       "id": "josephmayo/Qwopus-9B-Unfettered",
       "author": "josephmayo",
       "url": "https://huggingface.co/josephmayo/Qwopus-9B-Unfettered",
@@ -5929,7 +5951,7 @@
       "lastModified": "2026-05-03T01:12:27.000Z"
     },
     {
-      "rank": 204,
+      "rank": 205,
       "id": "openai/gpt-oss-20b",
       "author": "openai",
       "url": "https://huggingface.co/openai/gpt-oss-20b",
@@ -5958,7 +5980,7 @@
       "lastModified": "2025-08-26T17:25:47.000Z"
     },
     {
-      "rank": 205,
+      "rank": 206,
       "id": "LH-Tech-AI/TinyMozart_v2_85M",
       "author": "LH-Tech-AI",
       "url": "https://huggingface.co/LH-Tech-AI/TinyMozart_v2_85M",
@@ -5987,7 +6009,7 @@
       "lastModified": "2026-05-03T18:43:45.000Z"
     },
     {
-      "rank": 206,
+      "rank": 207,
       "id": "unsloth/LTX-2.3-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/LTX-2.3-GGUF",
@@ -6032,7 +6054,7 @@
       "lastModified": "2026-04-20T01:59:13.000Z"
     },
     {
-      "rank": 207,
+      "rank": 208,
       "id": "mudler/Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-GGUF",
       "author": "mudler",
       "url": "https://huggingface.co/mudler/Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-GGUF",
@@ -6064,7 +6086,7 @@
       "lastModified": "2026-04-27T14:00:34.000Z"
     },
     {
-      "rank": 208,
+      "rank": 209,
       "id": "AngelSlim/Hy-MT1.5-1.8B-1.25bit-GGUF",
       "author": "AngelSlim",
       "url": "https://huggingface.co/AngelSlim/Hy-MT1.5-1.8B-1.25bit-GGUF",
@@ -6094,7 +6116,7 @@
       "lastModified": "2026-05-09T08:57:56.000Z"
     },
     {
-      "rank": 209,
+      "rank": 210,
       "id": "microsoft/TRELLIS.2-4B",
       "author": "microsoft",
       "url": "https://huggingface.co/microsoft/TRELLIS.2-4B",
@@ -6115,7 +6137,7 @@
       "lastModified": "2025-12-27T13:21:56.000Z"
     },
     {
-      "rank": 210,
+      "rank": 211,
       "id": "openai/gpt-oss-120b",
       "author": "openai",
       "url": "https://huggingface.co/openai/gpt-oss-120b",
@@ -6144,7 +6166,7 @@
       "lastModified": "2025-08-26T17:25:03.000Z"
     },
     {
-      "rank": 211,
+      "rank": 212,
       "id": "houyuanchen/UniVidX",
       "author": "houyuanchen",
       "url": "https://huggingface.co/houyuanchen/UniVidX",
@@ -6165,7 +6187,7 @@
       "lastModified": "2026-05-04T02:12:15.000Z"
     },
     {
-      "rank": 212,
+      "rank": 213,
       "id": "DavidAU/gemma-3-it-vl-40B-Gemini-Heretic-Uncensored-Thinking",
       "author": "DavidAU",
       "url": "https://huggingface.co/DavidAU/gemma-3-it-vl-40B-Gemini-Heretic-Uncensored-Thinking",
@@ -6210,7 +6232,7 @@
       "lastModified": "2026-04-04T07:35:47.000Z"
     },
     {
-      "rank": 213,
+      "rank": 214,
       "id": "llmfan46/gemma-4-26B-A4B-it-ultra-uncensored-heretic-GGUF",
       "author": "llmfan46",
       "url": "https://huggingface.co/llmfan46/gemma-4-26B-A4B-it-ultra-uncensored-heretic-GGUF",
@@ -6239,7 +6261,7 @@
       "lastModified": "2026-04-11T00:25:57.000Z"
     },
     {
-      "rank": 214,
+      "rank": 215,
       "id": "caiovicentino1/LTX-2.3-22B-HLWQ-Q5",
       "author": "caiovicentino1",
       "url": "https://huggingface.co/caiovicentino1/LTX-2.3-22B-HLWQ-Q5",
@@ -6267,7 +6289,7 @@
       "lastModified": "2026-04-13T18:51:02.000Z"
     },
     {
-      "rank": 215,
+      "rank": 216,
       "id": "mudler/Qwopus3.6-35B-A3B-v1-APEX-GGUF",
       "author": "mudler",
       "url": "https://huggingface.co/mudler/Qwopus3.6-35B-A3B-v1-APEX-GGUF",
@@ -6296,7 +6318,7 @@
       "lastModified": "2026-05-10T08:57:13.000Z"
     },
     {
-      "rank": 216,
+      "rank": 217,
       "id": "facebook/sam3.1",
       "author": "facebook",
       "url": "https://huggingface.co/facebook/sam3.1",
@@ -6318,7 +6340,7 @@
       "lastModified": "2026-03-27T17:40:55.000Z"
     },
     {
-      "rank": 217,
+      "rank": 218,
       "id": "Nimbz/Gemma-4-Gembrain-31B",
       "author": "Nimbz",
       "url": "https://huggingface.co/Nimbz/Gemma-4-Gembrain-31B",
@@ -6360,7 +6382,7 @@
       "lastModified": "2026-05-12T12:42:49.000Z"
     },
     {
-      "rank": 218,
+      "rank": 219,
       "id": "jinaai/jina-embeddings-v5-omni-nano",
       "author": "jinaai",
       "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-nano",
@@ -6396,7 +6418,7 @@
       "lastModified": "2026-05-12T20:40:40.000Z"
     },
     {
-      "rank": 219,
+      "rank": 220,
       "id": "systms/SYSTMS-FLW-IC-LORA-LTX-2.3",
       "author": "systms",
       "url": "https://huggingface.co/systms/SYSTMS-FLW-IC-LORA-LTX-2.3",
@@ -6416,28 +6438,6 @@
       ],
       "createdAt": "2026-05-13T09:22:55.000Z",
       "lastModified": "2026-05-13T19:23:38.000Z"
-    },
-    {
-      "rank": 220,
-      "id": "baidu/ERNIE-Image",
-      "author": "baidu",
-      "url": "https://huggingface.co/baidu/ERNIE-Image",
-      "downloads": 14817,
-      "likes": 624,
-      "trendingScore": 17,
-      "pipelineTag": "text-to-image",
-      "libraryName": "diffusers",
-      "tags": [
-        "diffusers",
-        "safetensors",
-        "text-to-image",
-        "8B",
-        "license:apache-2.0",
-        "diffusers:ErnieImagePipeline",
-        "region:us"
-      ],
-      "createdAt": "2026-04-07T07:26:56.000Z",
-      "lastModified": "2026-04-17T02:33:16.000Z"
     },
     {
       "rank": 221,
@@ -7490,6 +7490,49 @@
     },
     {
       "rank": 255,
+      "id": "google/gemma-4-E4B",
+      "author": "google",
+      "url": "https://huggingface.co/google/gemma-4-E4B",
+      "downloads": 1208130,
+      "likes": 246,
+      "trendingScore": 15,
+      "pipelineTag": "any-to-any",
+      "libraryName": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "gemma4",
+        "image-text-to-text",
+        "any-to-any",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "createdAt": "2026-03-02T19:57:53.000Z",
+      "lastModified": "2026-04-02T16:14:15.000Z"
+    },
+    {
+      "rank": 256,
+      "id": "facebook/VGGT-Omega",
+      "author": "facebook",
+      "url": "https://huggingface.co/facebook/VGGT-Omega",
+      "downloads": 0,
+      "likes": 16,
+      "trendingScore": 15,
+      "pipelineTag": null,
+      "libraryName": null,
+      "tags": [
+        "facebook",
+        "meta-pytorch",
+        "en",
+        "license:cc-by-nc-4.0",
+        "region:us"
+      ],
+      "createdAt": "2026-03-17T20:47:45.000Z",
+      "lastModified": "2026-05-14T21:23:21.000Z"
+    },
+    {
+      "rank": 257,
       "id": "moondream/moondream3-preview",
       "author": "moondream",
       "url": "https://huggingface.co/moondream/moondream3-preview",
@@ -7513,7 +7556,7 @@
       "lastModified": "2026-04-09T22:55:40.000Z"
     },
     {
-      "rank": 256,
+      "rank": 258,
       "id": "Qwen/Qwen3.5-0.8B",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen3.5-0.8B",
@@ -7540,7 +7583,7 @@
       "lastModified": "2026-03-02T11:26:58.000Z"
     },
     {
-      "rank": 257,
+      "rank": 259,
       "id": "datalab-to/chandra-ocr-2",
       "author": "datalab-to",
       "url": "https://huggingface.co/datalab-to/chandra-ocr-2",
@@ -7568,7 +7611,7 @@
       "lastModified": "2026-03-18T18:21:07.000Z"
     },
     {
-      "rank": 258,
+      "rank": 260,
       "id": "unsloth/Kimi-K2.6-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/Kimi-K2.6-GGUF",
@@ -7596,7 +7639,7 @@
       "lastModified": "2026-04-22T11:59:50.000Z"
     },
     {
-      "rank": 259,
+      "rank": 261,
       "id": "deepseek-ai/DeepSeek-V4-Pro-Base",
       "author": "deepseek-ai",
       "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base",
@@ -7615,7 +7658,7 @@
       "lastModified": "2026-04-27T06:51:19.000Z"
     },
     {
-      "rank": 260,
+      "rank": 262,
       "id": "nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-FP8",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-FP8",
@@ -7647,7 +7690,7 @@
       "lastModified": "2026-05-05T14:35:05.000Z"
     },
     {
-      "rank": 261,
+      "rank": 263,
       "id": "llmfan46/Qwen3.6-35B-A3B-uncensored-heretic-GGUF",
       "author": "llmfan46",
       "url": "https://huggingface.co/llmfan46/Qwen3.6-35B-A3B-uncensored-heretic-GGUF",
@@ -7676,7 +7719,7 @@
       "lastModified": "2026-04-27T22:11:46.000Z"
     },
     {
-      "rank": 262,
+      "rank": 264,
       "id": "unsloth/gemma-4-E2B-it-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF",
@@ -7703,7 +7746,7 @@
       "lastModified": "2026-05-04T09:00:35.000Z"
     },
     {
-      "rank": 263,
+      "rank": 265,
       "id": "Qwen/Qwen-Image-Edit-2511",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen-Image-Edit-2511",
@@ -7727,7 +7770,7 @@
       "lastModified": "2025-12-23T13:13:52.000Z"
     },
     {
-      "rank": 264,
+      "rank": 266,
       "id": "black-forest-labs/FLUX.2-klein-4B",
       "author": "black-forest-labs",
       "url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4B",
@@ -7753,7 +7796,7 @@
       "lastModified": "2026-02-24T00:18:56.000Z"
     },
     {
-      "rank": 265,
+      "rank": 267,
       "id": "Qwen/Qwen2.5-7B-Instruct",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
@@ -7784,7 +7827,7 @@
       "lastModified": "2025-01-12T02:10:10.000Z"
     },
     {
-      "rank": 266,
+      "rank": 268,
       "id": "microsoft/VibeVoice-1.5B",
       "author": "microsoft",
       "url": "https://huggingface.co/microsoft/VibeVoice-1.5B",
@@ -7812,7 +7855,7 @@
       "lastModified": "2026-01-22T07:22:28.000Z"
     },
     {
-      "rank": 267,
+      "rank": 269,
       "id": "google/gemma-4-E2B",
       "author": "google",
       "url": "https://huggingface.co/google/gemma-4-E2B",
@@ -7835,7 +7878,7 @@
       "lastModified": "2026-04-02T16:14:53.000Z"
     },
     {
-      "rank": 268,
+      "rank": 270,
       "id": "cmpatino/nanowhale-100m",
       "author": "cmpatino",
       "url": "https://huggingface.co/cmpatino/nanowhale-100m",
@@ -7869,7 +7912,7 @@
       "lastModified": "2026-05-05T13:26:44.000Z"
     },
     {
-      "rank": 269,
+      "rank": 271,
       "id": "Radamanthys11/Gemma-4-31B-it-assistant-GGUF",
       "author": "Radamanthys11",
       "url": "https://huggingface.co/Radamanthys11/Gemma-4-31B-it-assistant-GGUF",
@@ -7895,7 +7938,7 @@
       "lastModified": "2026-05-10T14:40:50.000Z"
     },
     {
-      "rank": 270,
+      "rank": 272,
       "id": "Jackrong/Negentropy-claude-opus-4.7-9B",
       "author": "Jackrong",
       "url": "https://huggingface.co/Jackrong/Negentropy-claude-opus-4.7-9B",
@@ -7937,30 +7980,7 @@
       "lastModified": "2026-05-07T16:57:19.000Z"
     },
     {
-      "rank": 271,
-      "id": "google/gemma-4-E4B",
-      "author": "google",
-      "url": "https://huggingface.co/google/gemma-4-E4B",
-      "downloads": 1208130,
-      "likes": 245,
-      "trendingScore": 14,
-      "pipelineTag": "any-to-any",
-      "libraryName": "transformers",
-      "tags": [
-        "transformers",
-        "safetensors",
-        "gemma4",
-        "image-text-to-text",
-        "any-to-any",
-        "license:apache-2.0",
-        "endpoints_compatible",
-        "region:us"
-      ],
-      "createdAt": "2026-03-02T19:57:53.000Z",
-      "lastModified": "2026-04-02T16:14:15.000Z"
-    },
-    {
-      "rank": 272,
+      "rank": 273,
       "id": "Brian6145/Qwen3.6-27B-Claude-Opus-Sonnet-Distilled-NVFP4-MTP",
       "author": "Brian6145",
       "url": "https://huggingface.co/Brian6145/Qwen3.6-27B-Claude-Opus-Sonnet-Distilled-NVFP4-MTP",
@@ -7998,7 +8018,7 @@
       "lastModified": "2026-05-08T01:16:27.000Z"
     },
     {
-      "rank": 273,
+      "rank": 274,
       "id": "Qwen/Qwen3-ASR-1.7B",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen3-ASR-1.7B",
@@ -8021,7 +8041,7 @@
       "lastModified": "2026-01-30T03:00:12.000Z"
     },
     {
-      "rank": 274,
+      "rank": 275,
       "id": "Kijai/WanVideo_comfy",
       "author": "Kijai",
       "url": "https://huggingface.co/Kijai/WanVideo_comfy",
@@ -8041,7 +8061,7 @@
       "lastModified": "2026-04-15T15:30:05.000Z"
     },
     {
-      "rank": 275,
+      "rank": 276,
       "id": "SakanaAI/kame",
       "author": "SakanaAI",
       "url": "https://huggingface.co/SakanaAI/kame",
@@ -8060,7 +8080,7 @@
       "lastModified": "2026-04-27T06:47:39.000Z"
     },
     {
-      "rank": 276,
+      "rank": 277,
       "id": "lodestones/Zeta-Chroma",
       "author": "lodestones",
       "url": "https://huggingface.co/lodestones/Zeta-Chroma",
@@ -8080,7 +8100,7 @@
       "lastModified": "2026-05-15T08:29:16.000Z"
     },
     {
-      "rank": 277,
+      "rank": 278,
       "id": "nvidia/parakeet-tdt-0.6b-v3",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3",
@@ -8123,26 +8143,6 @@
       ],
       "createdAt": "2025-08-04T13:34:09.000Z",
       "lastModified": "2026-04-16T16:26:05.000Z"
-    },
-    {
-      "rank": 278,
-      "id": "facebook/VGGT-Omega",
-      "author": "facebook",
-      "url": "https://huggingface.co/facebook/VGGT-Omega",
-      "downloads": 0,
-      "likes": 15,
-      "trendingScore": 14,
-      "pipelineTag": null,
-      "libraryName": null,
-      "tags": [
-        "facebook",
-        "meta-pytorch",
-        "en",
-        "license:cc-by-nc-4.0",
-        "region:us"
-      ],
-      "createdAt": "2026-03-17T20:47:45.000Z",
-      "lastModified": "2026-05-14T21:23:21.000Z"
     },
     {
       "rank": 279,
@@ -9806,6 +9806,44 @@
     },
     {
       "rank": 335,
+      "id": "fastino/gliner2-privacy-filter-PII-multi",
+      "author": "fastino",
+      "url": "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi",
+      "downloads": 316,
+      "likes": 12,
+      "trendingScore": 12,
+      "pipelineTag": "token-classification",
+      "libraryName": "gliner2",
+      "tags": [
+        "gliner2",
+        "safetensors",
+        "extractor",
+        "pii",
+        "ner",
+        "privacy",
+        "redaction",
+        "gliner",
+        "information-extraction",
+        "span-extraction",
+        "token-classification",
+        "en",
+        "fr",
+        "es",
+        "de",
+        "it",
+        "pt",
+        "nl",
+        "dataset:synthetic",
+        "arxiv:2605.09973",
+        "arxiv:2604.09791",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "createdAt": "2026-05-10T23:59:32.000Z",
+      "lastModified": "2026-05-14T18:18:54.000Z"
+    },
+    {
+      "rank": 336,
       "id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
       "author": "sentence-transformers",
       "url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
@@ -9850,7 +9888,7 @@
       "lastModified": "2026-01-28T10:02:26.000Z"
     },
     {
-      "rank": 336,
+      "rank": 337,
       "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4",
@@ -9892,7 +9930,7 @@
       "lastModified": "2026-05-01T16:54:19.000Z"
     },
     {
-      "rank": 337,
+      "rank": 338,
       "id": "Motif-Technologies/Motif-Video-2B",
       "author": "Motif-Technologies",
       "url": "https://huggingface.co/Motif-Technologies/Motif-Video-2B",
@@ -9918,7 +9956,7 @@
       "lastModified": "2026-05-06T12:40:55.000Z"
     },
     {
-      "rank": 338,
+      "rank": 339,
       "id": "zerofata/G4-MeroMero-26B-A4B",
       "author": "zerofata",
       "url": "https://huggingface.co/zerofata/G4-MeroMero-26B-A4B",
@@ -9943,7 +9981,7 @@
       "lastModified": "2026-05-02T03:51:29.000Z"
     },
     {
-      "rank": 339,
+      "rank": 340,
       "id": "robbyant/lingbot-map",
       "author": "robbyant",
       "url": "https://huggingface.co/robbyant/lingbot-map",
@@ -9960,7 +9998,7 @@
       "lastModified": "2026-04-26T02:00:25.000Z"
     },
     {
-      "rank": 340,
+      "rank": 341,
       "id": "unsloth/granite-4.1-30b-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/granite-4.1-30b-GGUF",
@@ -9988,7 +10026,7 @@
       "lastModified": "2026-04-30T07:19:37.000Z"
     },
     {
-      "rank": 341,
+      "rank": 342,
       "id": "latence/privacy-filter-GLiNER-v0.1",
       "author": "latence",
       "url": "https://huggingface.co/latence/privacy-filter-GLiNER-v0.1",
@@ -10014,7 +10052,7 @@
       "lastModified": "2026-04-30T15:30:55.000Z"
     },
     {
-      "rank": 342,
+      "rank": 343,
       "id": "unsloth/granite-4.1-3b-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/granite-4.1-3b-GGUF",
@@ -10041,7 +10079,7 @@
       "lastModified": "2026-04-30T08:57:46.000Z"
     },
     {
-      "rank": 343,
+      "rank": 344,
       "id": "sensenova/SenseNova-U1-8B-MoT-8step-preview",
       "author": "sensenova",
       "url": "https://huggingface.co/sensenova/SenseNova-U1-8B-MoT-8step-preview",
@@ -10069,7 +10107,7 @@
       "lastModified": "2026-04-30T13:55:17.000Z"
     },
     {
-      "rank": 344,
+      "rank": 345,
       "id": "HebArabNlpProject/Hebatron",
       "author": "HebArabNlpProject",
       "url": "https://huggingface.co/HebArabNlpProject/Hebatron",
@@ -10102,7 +10140,7 @@
       "lastModified": "2026-05-05T17:12:38.000Z"
     },
     {
-      "rank": 345,
+      "rank": 346,
       "id": "OpenMOSS-Team/MOSS-Music-8B-Instruct",
       "author": "OpenMOSS-Team",
       "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct",
@@ -10136,7 +10174,7 @@
       "lastModified": "2026-05-01T15:10:37.000Z"
     },
     {
-      "rank": 346,
+      "rank": 347,
       "id": "SkunkWorkLabs/varuna-stt",
       "author": "SkunkWorkLabs",
       "url": "https://huggingface.co/SkunkWorkLabs/varuna-stt",
@@ -10165,7 +10203,7 @@
       "lastModified": "2026-05-04T17:46:04.000Z"
     },
     {
-      "rank": 347,
+      "rank": 348,
       "id": "tencent/Hy-MT1.5-1.8B-2bit-GGUF",
       "author": "tencent",
       "url": "https://huggingface.co/tencent/Hy-MT1.5-1.8B-2bit-GGUF",
@@ -10194,7 +10232,7 @@
       "lastModified": "2026-04-29T04:26:09.000Z"
     },
     {
-      "rank": 348,
+      "rank": 349,
       "id": "Hcompany/Holo3-35B-A3B",
       "author": "Hcompany",
       "url": "https://huggingface.co/Hcompany/Holo3-35B-A3B",
@@ -10227,7 +10265,7 @@
       "lastModified": "2026-04-02T08:03:58.000Z"
     },
     {
-      "rank": 349,
+      "rank": 350,
       "id": "nvidia/Efficient-DLM-8B",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/Efficient-DLM-8B",
@@ -10254,7 +10292,7 @@
       "lastModified": "2026-05-03T00:43:05.000Z"
     },
     {
-      "rank": 350,
+      "rank": 351,
       "id": "deepseek-ai/DeepSeek-OCR-2",
       "author": "deepseek-ai",
       "url": "https://huggingface.co/deepseek-ai/DeepSeek-OCR-2",
@@ -10284,7 +10322,7 @@
       "lastModified": "2026-02-03T00:33:19.000Z"
     },
     {
-      "rank": 351,
+      "rank": 352,
       "id": "Phr00t/WAN2.2-14B-Rapid-AllInOne",
       "author": "Phr00t",
       "url": "https://huggingface.co/Phr00t/WAN2.2-14B-Rapid-AllInOne",
@@ -10307,7 +10345,7 @@
       "lastModified": "2026-04-06T05:31:09.000Z"
     },
     {
-      "rank": 352,
+      "rank": 353,
       "id": "cyankiwi/Qwen3.6-27B-AWQ-INT4",
       "author": "cyankiwi",
       "url": "https://huggingface.co/cyankiwi/Qwen3.6-27B-AWQ-INT4",
@@ -10333,7 +10371,7 @@
       "lastModified": "2026-04-30T21:33:50.000Z"
     },
     {
-      "rank": 353,
+      "rank": 354,
       "id": "huaichang/PersonaLive",
       "author": "huaichang",
       "url": "https://huggingface.co/huaichang/PersonaLive",
@@ -10357,7 +10395,7 @@
       "lastModified": "2025-12-26T08:59:09.000Z"
     },
     {
-      "rank": 354,
+      "rank": 355,
       "id": "mlx-community/gemma-4-31B-it-assistant-bf16",
       "author": "mlx-community",
       "url": "https://huggingface.co/mlx-community/gemma-4-31B-it-assistant-bf16",
@@ -10384,7 +10422,7 @@
       "lastModified": "2026-05-05T17:10:55.000Z"
     },
     {
-      "rank": 355,
+      "rank": 356,
       "id": "meta-llama/Meta-Llama-3-8B-Instruct",
       "author": "meta-llama",
       "url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct",
@@ -10414,7 +10452,7 @@
       "lastModified": "2025-06-18T23:49:51.000Z"
     },
     {
-      "rank": 356,
+      "rank": 357,
       "id": "nomic-ai/nomic-embed-text-v1.5",
       "author": "nomic-ai",
       "url": "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5",
@@ -10448,7 +10486,7 @@
       "lastModified": "2026-04-07T14:17:02.000Z"
     },
     {
-      "rank": 357,
+      "rank": 358,
       "id": "facebook/dinov3-vitl16-pretrain-lvd1689m",
       "author": "facebook",
       "url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m",
@@ -10476,7 +10514,7 @@
       "lastModified": "2025-08-19T09:00:52.000Z"
     },
     {
-      "rank": 358,
+      "rank": 359,
       "id": "Winnougan/Sulphur-2-LTX-2.3",
       "author": "Winnougan",
       "url": "https://huggingface.co/Winnougan/Sulphur-2-LTX-2.3",
@@ -10492,7 +10530,7 @@
       "lastModified": "2026-05-05T19:23:38.000Z"
     },
     {
-      "rank": 359,
+      "rank": 360,
       "id": "ZhengPeng7/BiRefNet",
       "author": "ZhengPeng7",
       "url": "https://huggingface.co/ZhengPeng7/BiRefNet",
@@ -10523,7 +10561,7 @@
       "lastModified": "2026-02-04T22:43:55.000Z"
     },
     {
-      "rank": 360,
+      "rank": 361,
       "id": "byliutao/Longcat-Image-Turbo",
       "author": "byliutao",
       "url": "https://huggingface.co/byliutao/Longcat-Image-Turbo",
@@ -10545,7 +10583,7 @@
       "lastModified": "2026-05-09T12:55:01.000Z"
     },
     {
-      "rank": 361,
+      "rank": 362,
       "id": "turboderp/Qwen3.6-27B-DFlash-exl3",
       "author": "turboderp",
       "url": "https://huggingface.co/turboderp/Qwen3.6-27B-DFlash-exl3",
@@ -10565,7 +10603,7 @@
       "lastModified": "2026-05-06T20:39:20.000Z"
     },
     {
-      "rank": 362,
+      "rank": 363,
       "id": "IndexTeam/IndexTTS-2",
       "author": "IndexTeam",
       "url": "https://huggingface.co/IndexTeam/IndexTTS-2",
@@ -10587,7 +10625,7 @@
       "lastModified": "2026-01-20T13:41:51.000Z"
     },
     {
-      "rank": 363,
+      "rank": 364,
       "id": "HauhauCS/Qwen3.5-35B-A3B-Uncensored-HauhauCS-Aggressive",
       "author": "HauhauCS",
       "url": "https://huggingface.co/HauhauCS/Qwen3.5-35B-A3B-Uncensored-HauhauCS-Aggressive",
@@ -10618,7 +10656,7 @@
       "lastModified": "2026-04-05T19:00:54.000Z"
     },
     {
-      "rank": 364,
+      "rank": 365,
       "id": "deepseek-ai/DeepSeek-OCR",
       "author": "deepseek-ai",
       "url": "https://huggingface.co/deepseek-ai/DeepSeek-OCR",
@@ -10647,7 +10685,7 @@
       "lastModified": "2025-11-04T02:36:12.000Z"
     },
     {
-      "rank": 365,
+      "rank": 366,
       "id": "openbmb/MiniCPM-V-4.6-gguf",
       "author": "openbmb",
       "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-gguf",
@@ -10673,7 +10711,7 @@
       "lastModified": "2026-05-11T14:29:36.000Z"
     },
     {
-      "rank": 366,
+      "rank": 367,
       "id": "OsaurusAI/DeepSeek-V4-Flash-JANGTQ2",
       "author": "OsaurusAI",
       "url": "https://huggingface.co/OsaurusAI/DeepSeek-V4-Flash-JANGTQ2",
@@ -10710,7 +10748,7 @@
       "lastModified": "2026-05-12T13:09:29.000Z"
     },
     {
-      "rank": 367,
+      "rank": 368,
       "id": "huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated",
       "author": "huihui-ai",
       "url": "https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated",
@@ -10748,7 +10786,7 @@
       "lastModified": "2026-04-21T14:40:49.000Z"
     },
     {
-      "rank": 368,
+      "rank": 369,
       "id": "Alissonerdx/BFS-Best-Face-Swap-Video",
       "author": "Alissonerdx",
       "url": "https://huggingface.co/Alissonerdx/BFS-Best-Face-Swap-Video",
@@ -10773,44 +10811,6 @@
       ],
       "createdAt": "2026-01-24T17:13:26.000Z",
       "lastModified": "2026-03-27T13:35:04.000Z"
-    },
-    {
-      "rank": 369,
-      "id": "fastino/gliner2-privacy-filter-PII-multi",
-      "author": "fastino",
-      "url": "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi",
-      "downloads": 316,
-      "likes": 11,
-      "trendingScore": 11,
-      "pipelineTag": "token-classification",
-      "libraryName": "gliner2",
-      "tags": [
-        "gliner2",
-        "safetensors",
-        "extractor",
-        "pii",
-        "ner",
-        "privacy",
-        "redaction",
-        "gliner",
-        "information-extraction",
-        "span-extraction",
-        "token-classification",
-        "en",
-        "fr",
-        "es",
-        "de",
-        "it",
-        "pt",
-        "nl",
-        "dataset:synthetic",
-        "arxiv:2605.09973",
-        "arxiv:2604.09791",
-        "license:apache-2.0",
-        "region:us"
-      ],
-      "createdAt": "2026-05-10T23:59:32.000Z",
-      "lastModified": "2026-05-14T18:18:54.000Z"
     },
     {
       "rank": 370,
@@ -18551,6 +18551,29 @@
     },
     {
       "rank": 639,
+      "id": "Intel/Qwen3.6-27B-int4-AutoRound",
+      "author": "Intel",
+      "url": "https://huggingface.co/Intel/Qwen3.6-27B-int4-AutoRound",
+      "downloads": 114896,
+      "likes": 33,
+      "trendingScore": 7,
+      "pipelineTag": null,
+      "libraryName": null,
+      "tags": [
+        "safetensors",
+        "qwen3_5",
+        "arxiv:2309.05516",
+        "base_model:Qwen/Qwen3.6-27B",
+        "base_model:quantized:Qwen/Qwen3.6-27B",
+        "4-bit",
+        "auto-round",
+        "region:us"
+      ],
+      "createdAt": "2026-04-24T13:56:39.000Z",
+      "lastModified": "2026-04-24T14:02:05.000Z"
+    },
+    {
+      "rank": 640,
       "id": "meta-llama/Meta-Llama-3-8B",
       "author": "meta-llama",
       "url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B",
@@ -18578,7 +18601,7 @@
       "lastModified": "2024-09-27T15:52:33.000Z"
     },
     {
-      "rank": 640,
+      "rank": 641,
       "id": "meta-llama/Llama-3.3-70B-Instruct",
       "author": "meta-llama",
       "url": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct",
@@ -18617,7 +18640,7 @@
       "lastModified": "2024-12-21T18:28:01.000Z"
     },
     {
-      "rank": 641,
+      "rank": 642,
       "id": "mistralai/Voxtral-Small-24B-2507",
       "author": "mistralai",
       "url": "https://huggingface.co/mistralai/Voxtral-Small-24B-2507",
@@ -18650,7 +18673,7 @@
       "lastModified": "2025-12-20T23:34:49.000Z"
     },
     {
-      "rank": 642,
+      "rank": 643,
       "id": "ibm-granite/granitelib-core-r1.0",
       "author": "ibm-granite",
       "url": "https://huggingface.co/ibm-granite/granitelib-core-r1.0",
@@ -18679,7 +18702,7 @@
       "lastModified": "2026-05-06T14:30:03.000Z"
     },
     {
-      "rank": 643,
+      "rank": 644,
       "id": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
       "author": "FunAudioLLM",
       "url": "https://huggingface.co/FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
@@ -18711,7 +18734,7 @@
       "lastModified": "2026-02-03T07:58:17.000Z"
     },
     {
-      "rank": 644,
+      "rank": 645,
       "id": "Qwen/Qwen3-VL-Embedding-8B",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen3-VL-Embedding-8B",
@@ -18741,7 +18764,7 @@
       "lastModified": "2026-04-16T08:55:18.000Z"
     },
     {
-      "rank": 645,
+      "rank": 646,
       "id": "lightonai/LightOnOCR-2-1B",
       "author": "lightonai",
       "url": "https://huggingface.co/lightonai/LightOnOCR-2-1B",
@@ -18786,7 +18809,7 @@
       "lastModified": "2026-05-04T09:33:08.000Z"
     },
     {
-      "rank": 646,
+      "rank": 647,
       "id": "MiniMaxAI/MiniMax-M2.5",
       "author": "MiniMaxAI",
       "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.5",
@@ -18813,7 +18836,7 @@
       "lastModified": "2026-03-10T13:42:23.000Z"
     },
     {
-      "rank": 647,
+      "rank": 648,
       "id": "mlx-community/Qwen3.5-9B-MLX-4bit",
       "author": "mlx-community",
       "url": "https://huggingface.co/mlx-community/Qwen3.5-9B-MLX-4bit",
@@ -18842,7 +18865,7 @@
       "lastModified": "2026-03-23T17:58:27.000Z"
     },
     {
-      "rank": 648,
+      "rank": 649,
       "id": "Crownelius/Crow-9B-HERETIC-4.6",
       "author": "Crownelius",
       "url": "https://huggingface.co/Crownelius/Crow-9B-HERETIC-4.6",
@@ -18887,7 +18910,7 @@
       "lastModified": "2026-03-17T08:41:49.000Z"
     },
     {
-      "rank": 649,
+      "rank": 650,
       "id": "mlx-community/Qwen3.5-27B-Claude-4.6-Opus-Distilled-MLX-4bit",
       "author": "mlx-community",
       "url": "https://huggingface.co/mlx-community/Qwen3.5-27B-Claude-4.6-Opus-Distilled-MLX-4bit",
@@ -18920,7 +18943,7 @@
       "lastModified": "2026-03-06T02:44:20.000Z"
     },
     {
-      "rank": 650,
+      "rank": 651,
       "id": "Lightricks/LTX-2.3-fp8",
       "author": "Lightricks",
       "url": "https://huggingface.co/Lightricks/LTX-2.3-fp8",
@@ -18964,7 +18987,7 @@
       "lastModified": "2026-03-16T12:32:48.000Z"
     },
     {
-      "rank": 651,
+      "rank": 652,
       "id": "ibm-granite/granite-4.1-8b-base",
       "author": "ibm-granite",
       "url": "https://huggingface.co/ibm-granite/granite-4.1-8b-base",
@@ -18990,7 +19013,7 @@
       "lastModified": "2026-04-28T23:26:29.000Z"
     },
     {
-      "rank": 652,
+      "rank": 653,
       "id": "ibm-granite/granite-4.1-30b-base",
       "author": "ibm-granite",
       "url": "https://huggingface.co/ibm-granite/granite-4.1-30b-base",
@@ -19016,7 +19039,7 @@
       "lastModified": "2026-04-28T23:23:32.000Z"
     },
     {
-      "rank": 653,
+      "rank": 654,
       "id": "Youssofal/MiniMax-M2.7-Abliterated-Heretic-GGUF",
       "author": "Youssofal",
       "url": "https://huggingface.co/Youssofal/MiniMax-M2.7-Abliterated-Heretic-GGUF",
@@ -19048,12 +19071,12 @@
       "lastModified": "2026-04-14T04:17:05.000Z"
     },
     {
-      "rank": 654,
+      "rank": 655,
       "id": "unsloth/ERNIE-Image-Turbo-GGUF",
       "author": "unsloth",
       "url": "https://huggingface.co/unsloth/ERNIE-Image-Turbo-GGUF",
       "downloads": 73651,
-      "likes": 210,
+      "likes": 211,
       "trendingScore": 6,
       "pipelineTag": "text-to-image",
       "libraryName": "ggml",
@@ -19071,7 +19094,7 @@
       "lastModified": "2026-04-14T23:56:23.000Z"
     },
     {
-      "rank": 655,
+      "rank": 656,
       "id": "FINAL-Bench/Darwin-36B-Opus",
       "author": "FINAL-Bench",
       "url": "https://huggingface.co/FINAL-Bench/Darwin-36B-Opus",
@@ -19116,7 +19139,7 @@
       "lastModified": "2026-04-23T09:42:23.000Z"
     },
     {
-      "rank": 656,
+      "rank": 657,
       "id": "Jackrong/Qwopus3.6-27B-v1-preview",
       "author": "Jackrong",
       "url": "https://huggingface.co/Jackrong/Qwopus3.6-27B-v1-preview",
@@ -19159,7 +19182,7 @@
       "lastModified": "2026-04-23T03:21:39.000Z"
     },
     {
-      "rank": 657,
+      "rank": 658,
       "id": "knowledgator/gliclass-multilang-ultra",
       "author": "knowledgator",
       "url": "https://huggingface.co/knowledgator/gliclass-multilang-ultra",
@@ -19204,7 +19227,7 @@
       "lastModified": "2026-04-30T15:51:37.000Z"
     },
     {
-      "rank": 658,
+      "rank": 659,
       "id": "knowledgator/gliclass-multilang-mini",
       "author": "knowledgator",
       "url": "https://huggingface.co/knowledgator/gliclass-multilang-mini",
@@ -19249,7 +19272,7 @@
       "lastModified": "2026-04-30T15:52:36.000Z"
     },
     {
-      "rank": 659,
+      "rank": 660,
       "id": "caiovicentino1/qwen36-27b-sae-papergrade",
       "author": "caiovicentino1",
       "url": "https://huggingface.co/caiovicentino1/qwen36-27b-sae-papergrade",
@@ -19276,7 +19299,7 @@
       "lastModified": "2026-04-26T23:03:58.000Z"
     },
     {
-      "rank": 660,
+      "rank": 661,
       "id": "sphaela/Qwen3.6-27B-AutoRound-GGUF",
       "author": "sphaela",
       "url": "https://huggingface.co/sphaela/Qwen3.6-27B-AutoRound-GGUF",
@@ -19301,29 +19324,6 @@
       ],
       "createdAt": "2026-04-24T03:49:20.000Z",
       "lastModified": "2026-05-06T12:31:47.000Z"
-    },
-    {
-      "rank": 661,
-      "id": "Intel/Qwen3.6-27B-int4-AutoRound",
-      "author": "Intel",
-      "url": "https://huggingface.co/Intel/Qwen3.6-27B-int4-AutoRound",
-      "downloads": 114896,
-      "likes": 32,
-      "trendingScore": 6,
-      "pipelineTag": null,
-      "libraryName": null,
-      "tags": [
-        "safetensors",
-        "qwen3_5",
-        "arxiv:2309.05516",
-        "base_model:Qwen/Qwen3.6-27B",
-        "base_model:quantized:Qwen/Qwen3.6-27B",
-        "4-bit",
-        "auto-round",
-        "region:us"
-      ],
-      "createdAt": "2026-04-24T13:56:39.000Z",
-      "lastModified": "2026-04-24T14:02:05.000Z"
     },
     {
       "rank": 662,
@@ -22628,8 +22628,8 @@
       "id": "nphSi/Z-Image-Lora",
       "author": "nphSi",
       "url": "https://huggingface.co/nphSi/Z-Image-Lora",
-      "downloads": 179598,
-      "likes": 92,
+      "downloads": 158203,
+      "likes": 95,
       "trendingScore": 5,
       "pipelineTag": "text-to-image",
       "libraryName": "diffusers",
@@ -22647,7 +22647,7 @@
         "region:us"
       ],
       "createdAt": "2025-12-01T06:21:24.000Z",
-      "lastModified": "2026-05-10T02:37:18.000Z"
+      "lastModified": "2026-05-14T19:08:22.000Z"
     },
     {
       "rank": 772,
@@ -27372,6 +27372,7 @@
       "tags": [
         "safetensors",
         "qwen3_5",
+        "eval-results",
         "region:us"
       ],
       "createdAt": "2026-02-27T07:54:48.000Z",
@@ -28129,6 +28130,32 @@
     },
     {
       "rank": 960,
+      "id": "google/translategemma-12b-it",
+      "author": "google",
+      "url": "https://huggingface.co/google/translategemma-12b-it",
+      "downloads": 16885,
+      "likes": 299,
+      "trendingScore": 5,
+      "pipelineTag": "image-text-to-text",
+      "libraryName": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "gemma3",
+        "image-text-to-text",
+        "conversational",
+        "arxiv:2601.09012",
+        "arxiv:2503.19786",
+        "license:gemma",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "createdAt": "2026-01-12T16:11:57.000Z",
+      "lastModified": "2026-01-28T17:27:49.000Z"
+    },
+    {
+      "rank": 961,
       "id": "sentence-transformers/all-mpnet-base-v2",
       "author": "sentence-transformers",
       "url": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2",
@@ -28173,7 +28200,7 @@
       "lastModified": "2025-08-19T10:14:25.000Z"
     },
     {
-      "rank": 961,
+      "rank": 962,
       "id": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
       "author": "MoritzLaurer",
       "url": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
@@ -28218,7 +28245,7 @@
       "lastModified": "2024-04-11T13:49:19.000Z"
     },
     {
-      "rank": 962,
+      "rank": 963,
       "id": "h94/IP-Adapter-FaceID",
       "author": "h94",
       "url": "https://huggingface.co/h94/IP-Adapter-FaceID",
@@ -28239,7 +28266,7 @@
       "lastModified": "2024-04-16T08:53:12.000Z"
     },
     {
-      "rank": 963,
+      "rank": 964,
       "id": "ByteDance/AnimateDiff-Lightning",
       "author": "ByteDance",
       "url": "https://huggingface.co/ByteDance/AnimateDiff-Lightning",
@@ -28261,7 +28288,7 @@
       "lastModified": "2025-01-06T06:03:11.000Z"
     },
     {
-      "rank": 964,
+      "rank": 965,
       "id": "ArmurAI/Pentest_AI",
       "author": "ArmurAI",
       "url": "https://huggingface.co/ArmurAI/Pentest_AI",
@@ -28295,7 +28322,7 @@
       "lastModified": "2024-04-17T07:44:46.000Z"
     },
     {
-      "rank": 965,
+      "rank": 966,
       "id": "google/gemma-2-2b-it",
       "author": "google",
       "url": "https://huggingface.co/google/gemma-2-2b-it",
@@ -28340,7 +28367,7 @@
       "lastModified": "2024-08-27T19:41:44.000Z"
     },
     {
-      "rank": 966,
+      "rank": 967,
       "id": "Qwen/Qwen2.5-Coder-7B-Instruct",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct",
@@ -28376,7 +28403,7 @@
       "lastModified": "2025-01-12T02:03:41.000Z"
     },
     {
-      "rank": 967,
+      "rank": 968,
       "id": "ashllay/YOLO_Models",
       "author": "ashllay",
       "url": "https://huggingface.co/ashllay/YOLO_Models",
@@ -28392,7 +28419,7 @@
       "lastModified": "2024-10-30T01:29:56.000Z"
     },
     {
-      "rank": 968,
+      "rank": 969,
       "id": "Wan-AI/Wan2.1-T2V-1.3B",
       "author": "Wan-AI",
       "url": "https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B",
@@ -28417,7 +28444,7 @@
       "lastModified": "2025-03-01T09:31:33.000Z"
     },
     {
-      "rank": 969,
+      "rank": 970,
       "id": "google/medgemma-27b-text-it",
       "author": "google",
       "url": "https://huggingface.co/google/medgemma-27b-text-it",
@@ -28454,7 +28481,7 @@
       "lastModified": "2025-09-16T23:34:17.000Z"
     },
     {
-      "rank": 970,
+      "rank": 971,
       "id": "Qwen/Qwen3-Embedding-4B",
       "author": "Qwen",
       "url": "https://huggingface.co/Qwen/Qwen3-Embedding-4B",
@@ -28483,7 +28510,7 @@
       "lastModified": "2025-06-20T09:30:56.000Z"
     },
     {
-      "rank": 971,
+      "rank": 972,
       "id": "OmniGen2/OmniGen2",
       "author": "OmniGen2",
       "url": "https://huggingface.co/OmniGen2/OmniGen2",
@@ -28506,7 +28533,7 @@
       "lastModified": "2025-09-27T07:19:21.000Z"
     },
     {
-      "rank": 972,
+      "rank": 973,
       "id": "kyutai/tts-voices",
       "author": "kyutai",
       "url": "https://huggingface.co/kyutai/tts-voices",
@@ -28522,7 +28549,7 @@
       "lastModified": "2026-03-09T16:05:29.000Z"
     },
     {
-      "rank": 973,
+      "rank": 974,
       "id": "mistralai/Voxtral-Mini-3B-2507",
       "author": "mistralai",
       "url": "https://huggingface.co/mistralai/Voxtral-Mini-3B-2507",
@@ -28553,7 +28580,7 @@
       "lastModified": "2025-07-28T17:16:11.000Z"
     },
     {
-      "rank": 974,
+      "rank": 975,
       "id": "Adilbai/stock-trading-rl-agent",
       "author": "Adilbai",
       "url": "https://huggingface.co/Adilbai/stock-trading-rl-agent",
@@ -28585,7 +28612,7 @@
       "lastModified": "2026-01-08T16:41:08.000Z"
     },
     {
-      "rank": 975,
+      "rank": 976,
       "id": "nvidia/Cosmos-Predict2.5-2B",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/Cosmos-Predict2.5-2B",
@@ -28609,7 +28636,7 @@
       "lastModified": "2026-03-03T00:07:16.000Z"
     },
     {
-      "rank": 976,
+      "rank": 977,
       "id": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
       "author": "Wan-AI",
       "url": "https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B-Diffusers",
@@ -28633,7 +28660,7 @@
       "lastModified": "2025-08-09T03:33:59.000Z"
     },
     {
-      "rank": 977,
+      "rank": 978,
       "id": "mradermacher/Huihui-Qwen3-Coder-30B-A3B-Instruct-abliterated-i1-GGUF",
       "author": "mradermacher",
       "url": "https://huggingface.co/mradermacher/Huihui-Qwen3-Coder-30B-A3B-Instruct-abliterated-i1-GGUF",
@@ -28660,7 +28687,7 @@
       "lastModified": "2025-12-25T03:18:26.000Z"
     },
     {
-      "rank": 978,
+      "rank": 979,
       "id": "openbmb/MiniCPM-V-4_5",
       "author": "openbmb",
       "url": "https://huggingface.co/openbmb/MiniCPM-V-4_5",
@@ -28693,7 +28720,7 @@
       "lastModified": "2026-03-10T08:55:03.000Z"
     },
     {
-      "rank": 979,
+      "rank": 980,
       "id": "NousResearch/Hermes-4-14B",
       "author": "NousResearch",
       "url": "https://huggingface.co/NousResearch/Hermes-4-14B",
@@ -28737,7 +28764,7 @@
       "lastModified": "2026-01-09T12:26:18.000Z"
     },
     {
-      "rank": 980,
+      "rank": 981,
       "id": "neuphonic/neutts-air",
       "author": "neuphonic",
       "url": "https://huggingface.co/neuphonic/neutts-air",
@@ -28765,7 +28792,7 @@
       "lastModified": "2026-02-12T14:12:11.000Z"
     },
     {
-      "rank": 981,
+      "rank": 982,
       "id": "zai-org/GLM-4.6",
       "author": "zai-org",
       "url": "https://huggingface.co/zai-org/GLM-4.6",
@@ -28792,7 +28819,7 @@
       "lastModified": "2025-09-30T10:17:45.000Z"
     },
     {
-      "rank": 982,
+      "rank": 983,
       "id": "PleIAs/Baguettotron",
       "author": "PleIAs",
       "url": "https://huggingface.co/PleIAs/Baguettotron",
@@ -28823,7 +28850,7 @@
       "lastModified": "2026-04-27T12:15:24.000Z"
     },
     {
-      "rank": 983,
+      "rank": 984,
       "id": "meituan-longcat/LongCat-Image-Edit",
       "author": "meituan-longcat",
       "url": "https://huggingface.co/meituan-longcat/LongCat-Image-Edit",
@@ -28848,7 +28875,7 @@
       "lastModified": "2025-12-16T09:46:47.000Z"
     },
     {
-      "rank": 984,
+      "rank": 985,
       "id": "nvidia/nemotron-speech-streaming-en-0.6b",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b",
@@ -28893,7 +28920,7 @@
       "lastModified": "2026-05-03T15:17:33.000Z"
     },
     {
-      "rank": 985,
+      "rank": 986,
       "id": "nvidia/NitroGen",
       "author": "nvidia",
       "url": "https://huggingface.co/nvidia/NitroGen",
@@ -28917,7 +28944,7 @@
       "lastModified": "2026-02-05T18:58:06.000Z"
     },
     {
-      "rank": 986,
+      "rank": 987,
       "id": "LiquidAI/LFM2.5-VL-1.6B",
       "author": "LiquidAI",
       "url": "https://huggingface.co/LiquidAI/LFM2.5-VL-1.6B",
@@ -28958,7 +28985,7 @@
       "lastModified": "2026-03-30T11:10:42.000Z"
     },
     {
-      "rank": 987,
+      "rank": 988,
       "id": "mit-oasys/rlm-qwen3-8b-v0.1",
       "author": "mit-oasys",
       "url": "https://huggingface.co/mit-oasys/rlm-qwen3-8b-v0.1",
@@ -28981,7 +29008,7 @@
       "lastModified": "2026-02-20T02:57:23.000Z"
     },
     {
-      "rank": 988,
+      "rank": 989,
       "id": "svntax-dev/pixel_spritesheet_4walk_small_lora_v1",
       "author": "svntax-dev",
       "url": "https://huggingface.co/svntax-dev/pixel_spritesheet_4walk_small_lora_v1",
@@ -29004,7 +29031,7 @@
       "lastModified": "2026-03-29T08:11:29.000Z"
     },
     {
-      "rank": 989,
+      "rank": 990,
       "id": "Comfy-Org/ace_step_1.5_ComfyUI_files",
       "author": "Comfy-Org",
       "url": "https://huggingface.co/Comfy-Org/ace_step_1.5_ComfyUI_files",
@@ -29023,7 +29050,7 @@
       "lastModified": "2026-04-08T02:18:03.000Z"
     },
     {
-      "rank": 990,
+      "rank": 991,
       "id": "GuangyuanSD/FLUX.2-klein-9B-Blitz-ComfyUI",
       "author": "GuangyuanSD",
       "url": "https://huggingface.co/GuangyuanSD/FLUX.2-klein-9B-Blitz-ComfyUI",
@@ -29050,7 +29077,7 @@
       "lastModified": "2026-03-04T11:26:55.000Z"
     },
     {
-      "rank": 991,
+      "rank": 992,
       "id": "tiiuae/Falcon-OCR",
       "author": "tiiuae",
       "url": "https://huggingface.co/tiiuae/Falcon-OCR",
@@ -29079,7 +29106,7 @@
       "lastModified": "2026-04-01T19:25:14.000Z"
     },
     {
-      "rank": 992,
+      "rank": 993,
       "id": "mlx-community/Qwen3.5-4B-OptiQ-4bit",
       "author": "mlx-community",
       "url": "https://huggingface.co/mlx-community/Qwen3.5-4B-OptiQ-4bit",
@@ -29111,7 +29138,7 @@
       "lastModified": "2026-04-26T05:38:45.000Z"
     },
     {
-      "rank": 993,
+      "rank": 994,
       "id": "DreamFast/gemma-3-12b-it-heretic-v2",
       "author": "DreamFast",
       "url": "https://huggingface.co/DreamFast/gemma-3-12b-it-heretic-v2",
@@ -29150,7 +29177,7 @@
       "lastModified": "2026-03-10T14:15:19.000Z"
     },
     {
-      "rank": 994,
+      "rank": 995,
       "id": "z-lab/Qwen3.5-27B-DFlash",
       "author": "z-lab",
       "url": "https://huggingface.co/z-lab/Qwen3.5-27B-DFlash",
@@ -29183,7 +29210,7 @@
       "lastModified": "2026-04-07T14:28:15.000Z"
     },
     {
-      "rank": 995,
+      "rank": 996,
       "id": "Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2-GGUF",
       "author": "Jackrong",
       "url": "https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2-GGUF",
@@ -29219,7 +29246,7 @@
       "lastModified": "2026-04-06T02:19:11.000Z"
     },
     {
-      "rank": 996,
+      "rank": 997,
       "id": "huihui-ai/Huihui-Qwen3.5-9B-Claude-4.6-Opus-abliterated",
       "author": "huihui-ai",
       "url": "https://huggingface.co/huihui-ai/Huihui-Qwen3.5-9B-Claude-4.6-Opus-abliterated",
@@ -29250,7 +29277,7 @@
       "lastModified": "2026-03-21T22:58:39.000Z"
     },
     {
-      "rank": 997,
+      "rank": 998,
       "id": "HauhauCS/Qwen3.5-122B-A10B-Uncensored-HauhauCS-Aggressive",
       "author": "HauhauCS",
       "url": "https://huggingface.co/HauhauCS/Qwen3.5-122B-A10B-Uncensored-HauhauCS-Aggressive",
@@ -29282,7 +29309,7 @@
       "lastModified": "2026-04-05T19:00:44.000Z"
     },
     {
-      "rank": 998,
+      "rank": 999,
       "id": "TalmajM/causal_forcing_framewise_ComfyUI_repackaged",
       "author": "TalmajM",
       "url": "https://huggingface.co/TalmajM/causal_forcing_framewise_ComfyUI_repackaged",
@@ -29299,7 +29326,7 @@
       "lastModified": "2026-03-26T08:53:10.000Z"
     },
     {
-      "rank": 999,
+      "rank": 1000,
       "id": "bigatuna/Qwen3.5-9b-Sushi-Coder-RL-GGUF",
       "author": "bigatuna",
       "url": "https://huggingface.co/bigatuna/Qwen3.5-9b-Sushi-Coder-RL-GGUF",
@@ -29329,30 +29356,6 @@
       ],
       "createdAt": "2026-03-27T01:12:29.000Z",
       "lastModified": "2026-04-20T20:24:45.000Z"
-    },
-    {
-      "rank": 1000,
-      "id": "neuralvfx/Z-Image-SAM-ControlNet",
-      "author": "neuralvfx",
-      "url": "https://huggingface.co/neuralvfx/Z-Image-SAM-ControlNet",
-      "downloads": 116,
-      "likes": 24,
-      "trendingScore": 4,
-      "pipelineTag": null,
-      "libraryName": "diffusers",
-      "tags": [
-        "diffusers",
-        "safetensors",
-        "z-image",
-        "controlnet",
-        "dataset:opendiffusionai/laion2b-squareish-1536px",
-        "base_model:Tongyi-MAI/Z-Image",
-        "base_model:adapter:Tongyi-MAI/Z-Image",
-        "license:apache-2.0",
-        "region:us"
-      ],
-      "createdAt": "2026-03-28T19:07:49.000Z",
-      "lastModified": "2026-03-30T23:51:29.000Z"
     }
   ]
 }

@@ -9,6 +9,8 @@ Append to `.env.local` (and Vercel + Railway envs):
 ```bash
 # -- User accounts (Clerk) ---------------------------------------------------
 # Dashboard: https://dashboard.clerk.com → API Keys
+# Use pk_test_/sk_test_ locally and in Preview.
+# Use pk_live_/sk_live_ in Vercel Production.
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxx
 CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxx
 
@@ -67,7 +69,8 @@ FOUNDER_DISCORD_INVITE=
 
 ## Production checklist
 
-- [ ] Vercel env vars set across Production / Preview / Development scopes.
+- [ ] Vercel Production uses a matched `pk_live_` / `sk_live_` Clerk key pair.
+- [ ] Vercel Preview / Development use `pk_test_` / `sk_test_` Clerk keys.
 - [ ] Railway worker env updated with `DATABASE_URL`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` (worker runs schedulers that touch the DB).
 - [ ] DKIM/SPF/DMARC records on the sending domain (`alerts@trendingrepo.com` or wherever `EMAIL_FROM` points). Resend dashboard shows DNS verification status.
 - [ ] Clerk webhook endpoint pointing at the live domain (NOT ngrok).

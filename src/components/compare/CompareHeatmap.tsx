@@ -218,38 +218,44 @@ function HeatRow({ row }: { row: RowModel }): JSX.Element {
   const option = useMemo(() => buildOption(row), [row]);
 
   return (
-    <div
-      className="v2-card p-3"
-      style={{ borderLeft: `3px solid ${row.accent}` }}
-    >
-      <div className="flex flex-wrap items-center gap-2 mb-2">
-        <Image src={row.bundle.avatarUrl} alt={row.bundle.owner} width={16} height={16} className="size-4 rounded-full" />
-        <span className="font-mono text-[12px] text-text-primary truncate">{row.bundle.fullName}</span>
-        <span className="font-mono text-[11px] text-text-tertiary tabular-nums ml-auto">
-          <span className="text-text-secondary">{row.total30d}</span> commits (30d) ·{" "}
-          <span className="text-text-secondary">{row.totalYear}</span> total (52w)
-        </span>
-      </div>
-      <EChart
-        option={option}
-        height={ROW_HEIGHT}
-        ariaLabel={`${row.bundle.fullName} commit heatmap, 52 weeks`}
+    <div className="v2-card flex items-stretch overflow-hidden">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: row.accent, flexShrink: 0 }}
       />
+      <div className="flex-1 p-3">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <Image src={row.bundle.avatarUrl} alt={row.bundle.owner} width={16} height={16} className="size-4 rounded-full" />
+          <span className="font-mono text-[12px] text-text-primary truncate">{row.bundle.fullName}</span>
+          <span className="font-mono text-[11px] text-text-tertiary tabular-nums ml-auto">
+            <span className="text-text-secondary">{row.total30d}</span> commits (30d) ·{" "}
+            <span className="text-text-secondary">{row.totalYear}</span> total (52w)
+          </span>
+        </div>
+        <EChart
+          option={option}
+          height={ROW_HEIGHT}
+          ariaLabel={`${row.bundle.fullName} commit heatmap, 52 weeks`}
+        />
+      </div>
     </div>
   );
 }
 
 function UnavailableRow({ bundle, accent }: { bundle: CompareRepoBundle; accent: string }): JSX.Element {
   return (
-    <div
-      className="v2-card p-3"
-      style={{ borderLeft: `3px solid ${accent}` }}
-    >
-      <div className="flex items-center gap-2 mb-1">
-        <Image src={bundle.avatarUrl} alt={bundle.owner} width={16} height={16} className="size-4 rounded-full" />
-        <span className="font-mono text-[12px] text-text-secondary truncate">{bundle.fullName}</span>
+    <div className="v2-card flex items-stretch overflow-hidden">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+      />
+      <div className="flex-1 p-3">
+        <div className="flex items-center gap-2 mb-1">
+          <Image src={bundle.avatarUrl} alt={bundle.owner} width={16} height={16} className="size-4 rounded-full" />
+          <span className="font-mono text-[12px] text-text-secondary truncate">{bundle.fullName}</span>
+        </div>
+        <p className="text-xs text-text-tertiary">Heatmap unavailable</p>
       </div>
-      <p className="text-xs text-text-tertiary">Heatmap unavailable</p>
     </div>
   );
 }

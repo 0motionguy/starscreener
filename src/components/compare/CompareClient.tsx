@@ -638,16 +638,19 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
 
   if (!bundle.ok) {
     return (
-      <div
-        className="v2-card p-4 space-y-2"
-        style={{ borderLeft: `3px solid ${accent}` }}
-      >
-        <p className="text-sm font-medium text-text-primary truncate">
-          {fullName}
-        </p>
-        <p className="text-xs text-text-tertiary">
-          GitHub API couldn&apos;t resolve this repo.
-        </p>
+      <div className="v2-card flex items-stretch overflow-hidden">
+        <div
+          aria-hidden
+          style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+        />
+        <div className="flex-1 p-4 space-y-2">
+          <p className="text-sm font-medium text-text-primary truncate">
+            {fullName}
+          </p>
+          <p className="text-xs text-text-tertiary">
+            GitHub API couldn&apos;t resolve this repo.
+          </p>
+        </div>
       </div>
     );
   }
@@ -663,51 +666,54 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
     : "—";
 
   return (
-    <div
-      className="v2-card p-4 space-y-3"
-      style={{ borderLeft: `3px solid ${accent}` }}
-    >
-      <div className="flex items-center gap-2 min-w-0">
-        {bundle.avatarUrl ? (
-          <Image
-            src={bundle.avatarUrl}
-            alt=""
-            width={24}
-            height={24}
-            className="size-6 rounded-full bg-bg-card-hover shrink-0"
+    <div className="v2-card flex items-stretch overflow-hidden">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+      />
+      <div className="flex-1 p-4 space-y-3">
+        <div className="flex items-center gap-2 min-w-0">
+          {bundle.avatarUrl ? (
+            <Image
+              src={bundle.avatarUrl}
+              alt=""
+              width={24}
+              height={24}
+              className="size-6 rounded-full bg-bg-card-hover shrink-0"
+            />
+          ) : (
+            <div className="size-6 rounded-full bg-bg-card-hover shrink-0" />
+          )}
+          <p className="text-sm font-medium text-text-primary truncate">
+            {fullName}
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-y-2 gap-x-3">
+          <StatIcon
+            icon={GitCommit}
+            label="Commits 30d"
+            value={commits30d.toLocaleString("en-US")}
+            tone="default"
           />
-        ) : (
-          <div className="size-6 rounded-full bg-bg-card-hover shrink-0" />
-        )}
-        <p className="text-sm font-medium text-text-primary truncate">
-          {fullName}
-        </p>
-      </div>
-      <div className="grid grid-cols-2 gap-y-2 gap-x-3">
-        <StatIcon
-          icon={GitCommit}
-          label="Commits 30d"
-          value={commits30d.toLocaleString("en-US")}
-          tone="default"
-        />
-        <StatIcon
-          icon={GitMerge}
-          label="PRs merged / open"
-          value={`${prMerged} / ${prOpen}`}
-          tone="default"
-        />
-        <StatIcon
-          icon={CircleDot}
-          label="Issues closed / open"
-          value={`${issuesClosed} / ${issuesOpen}`}
-          tone="default"
-        />
-        <StatIcon
-          icon={Package}
-          label="Latest release"
-          value={releaseStr}
-          tone="default"
-        />
+          <StatIcon
+            icon={GitMerge}
+            label="PRs merged / open"
+            value={`${prMerged} / ${prOpen}`}
+            tone="default"
+          />
+          <StatIcon
+            icon={CircleDot}
+            label="Issues closed / open"
+            value={`${issuesClosed} / ${issuesOpen}`}
+            tone="default"
+          />
+          <StatIcon
+            icon={Package}
+            label="Latest release"
+            value={releaseStr}
+            tone="default"
+          />
+        </div>
       </div>
     </div>
   );
@@ -726,33 +732,36 @@ function RepoSubHeader({
   const fullName = bundle.fullName || "unknown/repo";
 
   return (
-    <div
-      className="v2-card p-4"
-      style={{ borderLeft: `3px solid ${accent}` }}
-    >
-      <div className="flex items-center gap-2 mb-3 min-w-0">
-        {bundle.avatarUrl ? (
-          <Image
-            src={bundle.avatarUrl}
-            alt=""
-            width={24}
-            height={24}
-            className="size-6 rounded-full bg-bg-card-hover shrink-0"
-          />
+    <div className="v2-card flex items-stretch overflow-hidden">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+      />
+      <div className="flex-1 p-4">
+        <div className="flex items-center gap-2 mb-3 min-w-0">
+          {bundle.avatarUrl ? (
+            <Image
+              src={bundle.avatarUrl}
+              alt=""
+              width={24}
+              height={24}
+              className="size-6 rounded-full bg-bg-card-hover shrink-0"
+            />
+          ) : (
+            <div className="size-6 rounded-full bg-bg-card-hover shrink-0" />
+          )}
+          <p className="text-[18px] font-medium text-text-primary truncate">
+            {fullName}
+          </p>
+        </div>
+        {bundle.ok ? (
+          children
         ) : (
-          <div className="size-6 rounded-full bg-bg-card-hover shrink-0" />
+          <p className="text-xs text-text-tertiary">
+            GitHub API couldn&apos;t resolve this repo.
+          </p>
         )}
-        <p className="text-[18px] font-medium text-text-primary truncate">
-          {fullName}
-        </p>
       </div>
-      {bundle.ok ? (
-        children
-      ) : (
-        <p className="text-xs text-text-tertiary">
-          GitHub API couldn&apos;t resolve this repo.
-        </p>
-      )}
     </div>
   );
 }

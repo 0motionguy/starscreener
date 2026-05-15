@@ -46,19 +46,22 @@ export function RepoBannerCard({
 
   if (!bundle.ok) {
     return (
-      <div
-        className="v2-card relative overflow-hidden p-4"
-        style={{ borderLeft: `3px solid ${accentStripe}` }}
-      >
-        <div className="flex items-center gap-2 mb-2">
-          <div className="size-9 shrink-0 rounded-full bg-bg-secondary" />
-          <div className="font-mono text-sm text-text-secondary truncate">
-            {bundle.fullName}
+      <div className="v2-card relative overflow-hidden flex items-stretch">
+        <div
+          aria-hidden
+          style={{ width: 3, backgroundColor: accentStripe, flexShrink: 0 }}
+        />
+        <div className="flex-1 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="size-9 shrink-0 rounded-full bg-bg-secondary" />
+            <div className="font-mono text-sm text-text-secondary truncate">
+              {bundle.fullName}
+            </div>
           </div>
+          <p className="text-xs text-text-tertiary">
+            Couldn&rsquo;t load — {bundle.error ?? "unknown error"}
+          </p>
         </div>
-        <p className="text-xs text-text-tertiary">
-          Couldn&rsquo;t load — {bundle.error ?? "unknown error"}
-        </p>
       </div>
     );
   }
@@ -69,10 +72,12 @@ export function RepoBannerCard({
   const bskyMention = mentions?.bluesky ?? null;
   const phLaunch = mentions?.ph ?? null;
   return (
-    <div
-      className="v2-card relative overflow-hidden p-4"
-      style={{ borderLeft: `3px solid ${accentStripe}` }}
-    >
+    <div className="v2-card relative overflow-hidden flex items-stretch">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: accentStripe, flexShrink: 0 }}
+      />
+      <div className="flex-1 p-4">
       {/* Header row: avatar + owner/name + license + language chips */}
       <div className="flex items-start gap-3 mb-2">
         <EntityLogo
@@ -174,6 +179,7 @@ export function RepoBannerCard({
               : "No releases"
           }
         />
+      </div>
       </div>
     </div>
   );

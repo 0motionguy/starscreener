@@ -18,7 +18,6 @@ import { FundingCompact } from "./FundingCompact";
 import { NpmCompact } from "./NpmCompact";
 import { MentionsRecentCompact } from "./MentionsRecentCompact";
 import { BrandStar } from "@/components/shared/BrandStar";
-import { cn } from "@/lib/utils";
 import { COMPARE_PALETTE as PALETTE } from "./palette";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
@@ -57,18 +56,21 @@ export function RepoProfileColumn({
 
   if (!profile) {
     return (
-      <article
-        className="v2-card p-4 space-y-2 min-h-[140px]"
-        style={{ borderLeft: `3px solid ${accent}` }}
-      >
-        <p className="text-sm font-medium text-text-primary truncate">
-          {fullName || "—"}
-        </p>
-        <p className="text-xs text-text-tertiary">
-          {error === "not_found"
-            ? "Repo not in the TrendingRepo index yet."
-            : "Couldn't load this repo."}
-        </p>
+      <article className="v2-card flex items-stretch overflow-hidden min-h-[140px]">
+        <div
+          aria-hidden
+          style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+        />
+        <div className="flex-1 p-4 space-y-2">
+          <p className="text-sm font-medium text-text-primary truncate">
+            {fullName || "—"}
+          </p>
+          <p className="text-xs text-text-tertiary">
+            {error === "not_found"
+              ? "Repo not in the TrendingRepo index yet."
+              : "Couldn't load this repo."}
+          </p>
+        </div>
       </article>
     );
   }
@@ -77,65 +79,68 @@ export function RepoProfileColumn({
   const [owner, name] = (repo.fullName || fullName).split("/");
 
   return (
-    <article
-      className="v2-card p-4 space-y-4"
-      style={{ borderLeft: `3px solid ${accent}` }}
-    >
-      {/* Header */}
-      <header className="flex items-center gap-2 min-w-0">
-        <EntityLogo
-          src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 28)}
-          name={repo.fullName}
-          size={28}
-          shape="circle"
-          alt=""
-        />
-        <div className="min-w-0 flex-1">
-          <Link
-            href={`/repo/${owner}/${name}`}
-            className="text-sm font-medium text-text-primary truncate hover:underline block"
-          >
-            {repo.fullName}
-          </Link>
-          <div className="flex items-center gap-2 text-xs text-text-tertiary min-w-0">
-            <span className="font-mono truncate">
-              {repo.language ?? "—"}
-            </span>
-            <span aria-hidden="true">·</span>
-            <span className="inline-flex items-center gap-1 font-mono shrink-0">
-              <BrandStar size={10} className="text-[var(--v4-amber)]" />
-              {formatCompact(repo.stars)}
-            </span>
+    <article className="v2-card flex items-stretch overflow-hidden">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+      />
+      <div className="flex-1 p-4 space-y-4">
+        {/* Header */}
+        <header className="flex items-center gap-2 min-w-0">
+          <EntityLogo
+            src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 28)}
+            name={repo.fullName}
+            size={28}
+            shape="circle"
+            alt=""
+          />
+          <div className="min-w-0 flex-1">
+            <Link
+              href={`/repo/${owner}/${name}`}
+              className="text-sm font-medium text-text-primary truncate hover:underline block"
+            >
+              {repo.fullName}
+            </Link>
+            <div className="flex items-center gap-2 text-xs text-text-tertiary min-w-0">
+              <span className="font-mono truncate">
+                {repo.language ?? "—"}
+              </span>
+              <span aria-hidden="true">·</span>
+              <span className="inline-flex items-center gap-1 font-mono shrink-0">
+                <BrandStar size={10} className="text-[var(--v4-amber)]" />
+                {formatCompact(repo.stars)}
+              </span>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Modules */}
-      <MomentumRow
-        repo={repo}
-        score={profile.score}
-        delta24hTone={diffFlags.starsDelta24h}
-        delta7dTone={diffFlags.starsDelta7d}
-        momentumTone={diffFlags.momentumScore}
-      />
-      <Divider />
-      <WhyTrendingCompact reasons={profile.reasons} />
-      <Divider />
-      <CrossSignalStrip
-        mentions={profile.mentions.countsBySource}
-      />
-      <Divider />
-      <div className="grid grid-cols-2 gap-3">
-        <RevenueCompact revenue={profile.revenue} />
-        <FundingCompact funding={profile.funding} />
+        {/* Modules */}
+        <MomentumRow
+          repo={repo}
+          score={profile.score}
+          delta24hTone={diffFlags.starsDelta24h}
+          delta7dTone={diffFlags.starsDelta7d}
+          momentumTone={diffFlags.momentumScore}
+        />
+        <Divider />
+        <WhyTrendingCompact reasons={profile.reasons} />
+        <Divider />
+        <CrossSignalStrip
+          mentions={profile.mentions.countsBySource}
+        />
+        <Divider />
+        <div className="grid grid-cols-2 gap-3">
+          <RevenueCompact revenue={profile.revenue} />
+          <FundingCompact funding={profile.funding} />
+        </div>
+        <Divider />
+        <NpmCompact
+          packages={profile.npm.packages}
+          downloadsTone={diffFlags.npmDownloads7d}
+        />
+        <Divider />
+        <MentionsRecentCompact mentions={profile.mentions.recent} />
       </div>
-      <Divider />
-      <NpmCompact
-        packages={profile.npm.packages}
-        downloadsTone={diffFlags.npmDownloads7d}
-      />
-      <Divider />
-      <MentionsRecentCompact mentions={profile.mentions.recent} />
     </article>
   );
 }
@@ -151,22 +156,23 @@ function Divider() {
 
 function ColumnSkeleton({ accent }: { accent: string }) {
   return (
-    <div
-      className={cn(
-        "v2-card p-4 space-y-4",
-      )}
-      style={{ borderLeft: `3px solid ${accent}` }}
-    >
-      <div className="flex items-center gap-2">
-        <div className="skeleton-shimmer size-7 rounded-full shrink-0" />
-        <div className="skeleton-shimmer h-4 w-2/3 rounded-sm" />
-      </div>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="space-y-1.5">
-          <div className="skeleton-shimmer h-3 w-24 rounded-sm" />
-          <div className="skeleton-shimmer h-3 w-full rounded-sm" />
+    <div className="v2-card flex items-stretch overflow-hidden">
+      <div
+        aria-hidden
+        style={{ width: 3, backgroundColor: accent, flexShrink: 0 }}
+      />
+      <div className="flex-1 p-4 space-y-4">
+        <div className="flex items-center gap-2">
+          <div className="skeleton-shimmer size-7 rounded-full shrink-0" />
+          <div className="skeleton-shimmer h-4 w-2/3 rounded-sm" />
         </div>
-      ))}
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="space-y-1.5">
+            <div className="skeleton-shimmer h-3 w-24 rounded-sm" />
+            <div className="skeleton-shimmer h-3 w-full rounded-sm" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

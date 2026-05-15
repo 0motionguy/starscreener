@@ -1,11 +1,19 @@
 import { cleanup, render } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+
+// Production hides freshness chrome via NEXT_PUBLIC_HIDE_FRESHNESS_BADGES.
+// These tests assert the rendered output, so they need the flag flipped
+// off for the badge to actually render.
+beforeEach(() => {
+  vi.stubEnv("NEXT_PUBLIC_HIDE_FRESHNESS_BADGES", "false");
+});
 
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.unstubAllEnvs();
 });
 
 // Anchor "now" so the relative-time math is deterministic regardless of

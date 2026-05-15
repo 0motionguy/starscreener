@@ -1,5 +1,5 @@
 import { cleanup, render } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ prefetch: () => {}, push: () => {}, replace: () => {} }),
@@ -11,8 +11,16 @@ import {
   type LiveRow,
 } from "@/components/home/LiveTopTable";
 
+// Production hides FreshnessChip via NEXT_PUBLIC_HIDE_FRESHNESS_BADGES;
+// this test asserts the rendered "Updated 1h ago" chip, so the flag has
+// to be flipped off explicitly for the chip to render.
+beforeEach(() => {
+  vi.stubEnv("NEXT_PUBLIC_HIDE_FRESHNESS_BADGES", "false");
+});
+
 afterEach(() => {
   cleanup();
+  vi.unstubAllEnvs();
 });
 
 const row: LiveRow = {

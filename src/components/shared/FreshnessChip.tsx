@@ -18,6 +18,15 @@
 
 import type { JSX } from "react";
 
+// Operator decision (2026-05-15): cold/stale chrome reads as honesty
+// theatre, not as useful signal. Hide the indicators by default but
+// keep the classifier (and the exported __test seam) intact so a
+// future flip via env can bring them back without touching call sites.
+// Set `NEXT_PUBLIC_HIDE_FRESHNESS_BADGES=false` to render.
+function isFreshnessChipHidden(): boolean {
+  return process.env.NEXT_PUBLIC_HIDE_FRESHNESS_BADGES !== "false";
+}
+
 interface FreshnessChipProps {
   /** ISO timestamp, epoch ms, or Date — when the underlying row was fetched. */
   updatedAt: string | number | Date | null | undefined;
@@ -95,7 +104,8 @@ export function FreshnessChip({
   size = "sm",
   nowMs,
   className,
-}: FreshnessChipProps): JSX.Element {
+}: FreshnessChipProps): JSX.Element | null {
+  if (isFreshnessChipHidden()) return null;
   const now = nowMs ?? Date.now();
   const ts = toMs(updatedAt);
   const ageMs = ts === null ? null : Math.max(0, now - ts);

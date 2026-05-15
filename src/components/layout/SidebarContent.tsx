@@ -234,6 +234,7 @@ type BadgeTone = "default" | "accent" | "danger" | "delta";
 
 interface V2NavRowProps {
   href?: string;
+  prefetch?: boolean;
   onClick?: () => void;
   icon: SidebarIconComponent;
   label: string;
@@ -284,6 +285,7 @@ function renderLabel(label: string): ReactNode {
 
 function V2NavRow({
   href,
+  prefetch,
   onClick,
   icon: Icon,
   label,
@@ -327,7 +329,7 @@ function V2NavRow({
 
   if (href) {
     return (
-      <Link href={href} className={className}>
+      <Link href={href} prefetch={prefetch} className={className}>
         {content}
       </Link>
     );
@@ -656,6 +658,7 @@ export function SidebarContent({
           />
           <V2NavRow
             href="/agent-commerce"
+            prefetch={false}
             icon={Coins}
             label="Agent Commerce"
             badge="x402"

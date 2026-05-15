@@ -39,6 +39,18 @@ describe("FreshnessBadge", () => {
     expect(container.textContent).toContain("· 2m");
   });
 
+  it("can pin the reference clock for client hydration", () => {
+    const fetchedAt = new Date(NOW - 2 * 60 * 1000).toISOString();
+    const { container } = render(
+      <FreshnessBadge
+        lastUpdatedAt={fetchedAt}
+        source="reddit"
+        nowMs={NOW + 58 * 60 * 1000}
+      />,
+    );
+    expect(container.textContent).toContain("1h");
+  });
+
   it("renders '{h}h' for a sub-day age", () => {
     setNow(NOW);
     // 4h is past reddit's stale threshold (cold), but the ageLabel formatter

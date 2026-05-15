@@ -33,6 +33,7 @@ const row: LiveRow = {
   momentumScore: 88,
   mentionCount24h: 9,
   sources: { gh: 1, x: 2 },
+  updatedAt: "2026-05-04T11:00:00.000Z",
 };
 
 const categories: CategoryFacet[] = [
@@ -42,12 +43,18 @@ const categories: CategoryFacet[] = [
 describe("LiveTopTable", () => {
   it("renders the stars value as a strong starred number", () => {
     const { container } = render(
-      <LiveTopTable rows={[row]} categories={categories} />,
+      <LiveTopTable
+        rows={[row]}
+        categories={categories}
+        lastUpdatedAt="2026-05-04T11:00:00.000Z"
+        freshnessNowMs={new Date("2026-05-04T12:00:00.000Z").getTime()}
+      />,
     );
 
     const stars = container.querySelector("td.stars-num");
 
     expect(stars?.textContent).toContain("35.1k");
     expect(stars?.querySelector(".stars-main svg")).not.toBeNull();
+    expect(container.textContent).toContain("Updated 1h ago");
   });
 });

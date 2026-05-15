@@ -830,6 +830,7 @@ export default async function HomePage() {
   })();
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
+  const freshnessNowMs = Date.now();
   const temporalCoverageStart = new Date(
     refreshed.getTime() - 365 * 24 * 3600 * 1000,
   )
@@ -988,6 +989,7 @@ export default async function HomePage() {
             categories={liveCategories}
             freshnessSource="repos"
             lastUpdatedAt={lastFetchedAt}
+            freshnessNowMs={freshnessNowMs}
           />
         </Card>
 

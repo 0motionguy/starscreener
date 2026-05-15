@@ -29,7 +29,7 @@ export function GET(): Response {
   const base = SITE_URL.replace(/\/+$/, "");
   const body = `# TrendingRepo
 
-> The trend map for open source. Real-time scanner that aggregates GitHub stars, Twitter buzz, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to signals to surface breakout repos before they go mainstream.
+> The open-source momentum desk. Daily intelligence on which open-source projects are heating up — aggregating GitHub stars, Twitter buzz, Reddit, Hacker News, ProductHunt, Bluesky, dev.to, and Lobsters signals to surface breakout repos before they go mainstream.
 
 ## About
 

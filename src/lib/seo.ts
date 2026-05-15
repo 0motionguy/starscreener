@@ -15,7 +15,7 @@ export const SITE_URL: string = (
   .replace(/\/+$/, "");
 
 export const SITE_NAME = "TrendingRepo";
-export const SITE_TAGLINE = "The trend map for open source";
+export const SITE_TAGLINE = "The open-source momentum desk";
 
 // Cache-Control headers for opengraph-image.tsx ImageResponse returns.
 //
@@ -30,7 +30,7 @@ export const OG_CACHE_HEADERS = {
   "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
 } as const;
 export const SITE_DESCRIPTION =
-  "The trend map for open source. See what's heating up on GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to — one live terminal for every signal.";
+  "Daily intelligence on which open-source projects are heating up. GitHub, Reddit, Hacker News, ProductHunt, Bluesky, dev.to, and Lobsters signals scored for momentum — one live terminal.";
 
 /**
  * Resolve a site-relative path to an absolute URL using the configured

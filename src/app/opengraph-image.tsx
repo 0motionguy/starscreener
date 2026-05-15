@@ -13,7 +13,7 @@ import { Dot, StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const alt = "TrendingRepo — The trend map for open source";
+export const alt = "TrendingRepo — The open-source momentum desk";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

@@ -711,8 +711,9 @@ export default async function HomePage() {
         {/* sr-only H1 keeps SEO + structured-data flow intact while the
             visible hero is dropped on degraded-data branches too. */}
         <h1 className="sr-only">
-          TrendingRepo is a trend radar that surfaces breakout open-source
-          repos from live social signals.
+          TrendingRepo is the open-source momentum desk — daily intelligence
+          on which repos are gaining traction across GitHub, Hacker News,
+          Reddit, Bluesky, dev.to, and Lobsters.
         </h1>
         <HomeEmptyState />
       </>
@@ -863,10 +864,11 @@ export default async function HomePage() {
             <div className="crumb">
               <b>TREND</b> / TERMINAL / FRONT PAGE
             </div>
-            <h1>One live ranking for open-source breakouts.</h1>
+            <h1>Open-source momentum, decoded.</h1>
             <p className="lede">
-              Repos, skills, and MCP servers ranked by cross-source agreement,
-              star velocity, and fresh community attention.
+              Daily research on which repos, skills, and MCP servers are
+              gaining cross-source traction. Star velocity, breakouts,
+              consensus — one live terminal.
             </p>
             <div className="mt-4">
               <NewsletterCaptureForm source="hero" />
@@ -878,8 +880,9 @@ export default async function HomePage() {
         </section>
 
         <h1 className="sr-only">
-          TrendingRepo is a trend radar that surfaces breakout open-source
-          repos from live social signals.
+          TrendingRepo is the open-source momentum desk — daily intelligence
+          on which repos are gaining traction across GitHub, Hacker News,
+          Reddit, Bluesky, dev.to, and Lobsters.
         </h1>
 
         <MetricGrid columns={6}>

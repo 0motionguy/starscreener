@@ -332,7 +332,7 @@ interface OgFooterProps {
  */
 export function OgFooter({
   url,
-  tagline = "The trend map for open source",
+  tagline = "The open-source momentum desk",
 }: OgFooterProps): ReactElement {
   return (
     <div

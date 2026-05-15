@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { RepoLink } from "@/components/repo/RepoLink";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
@@ -240,9 +241,10 @@ export default async function BreakoutsPage({
                     : "0";
               const score = Math.max(4, Math.min(100, Math.round((repo.crossSignalScore ?? 0) * 32)));
               return (
-                <Link
+                <RepoLink
                   key={repo.id}
-                  href={`/repo/${repo.owner}/${repo.name}`}
+                  owner={repo.owner}
+                  name={repo.name}
                   className={`lb-row ${index === 0 ? "first" : ""}`}
                 >
                   <span className="rk">
@@ -278,7 +280,7 @@ export default async function BreakoutsPage({
                     <span className="pip" aria-hidden="true" />
                     {deltaLabel}
                   </span>
-                </Link>
+                </RepoLink>
               );
             })}
           </>

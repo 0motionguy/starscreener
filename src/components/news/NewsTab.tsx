@@ -4,6 +4,7 @@
 // component is source-agnostic.
 
 import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 export interface NewsItem {
   id: string;
@@ -101,12 +102,12 @@ export function NewsTab({ items, sourceLabel }: NewsTabProps) {
                     </span>
                   ) : null}
                   {item.linkedRepo ? (
-                    <Link
-                      href={`/repo/${item.linkedRepo}`}
+                    <RepoLink
+                      fullName={item.linkedRepo}
                       className="rounded-full border border-brand/60 bg-brand/10 px-1.5 py-0.5 text-text-primary hover:bg-brand/20"
                     >
                       → {item.linkedRepo}
-                    </Link>
+                    </RepoLink>
                   ) : null}
                 </div>
               </td>

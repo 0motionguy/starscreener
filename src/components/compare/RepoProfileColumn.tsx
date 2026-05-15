@@ -8,7 +8,7 @@
 // error placeholder — the grid keeps every slot populated so the layout
 // doesn't jitter when one lookup fails.
 
-import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 import type { CompareRepoRow, DiffTone } from "./CompareProfileGrid";
 import { MomentumRow } from "./MomentumRow";
 import { WhyTrendingCompact } from "./WhyTrendingCompact";
@@ -91,12 +91,13 @@ export function RepoProfileColumn({
           alt=""
         />
         <div className="min-w-0 flex-1">
-          <Link
-            href={`/repo/${owner}/${name}`}
+          <RepoLink
+            owner={owner}
+            name={name}
             className="text-sm font-medium text-text-primary truncate hover:underline block"
           >
             {repo.fullName}
-          </Link>
+          </RepoLink>
           <div className="flex items-center gap-2 text-xs text-text-tertiary min-w-0">
             <span className="font-mono truncate">
               {repo.language ?? "—"}

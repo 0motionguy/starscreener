@@ -8,6 +8,7 @@ import Link from "next/link";
 import { SignalBadge, type SignalBadgeKind } from "./SignalBadge";
 import { SourceMonogram, type MonoSource } from "./SourceMonogram";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 export type SignalColumn =
   | "rank"
@@ -334,14 +335,14 @@ export function SignalTable({
                     return (
                       <td key={c} className="px-3 py-2.5 align-top hidden lg:table-cell">
                         {row.linkedRepo ? (
-                          <Link
-                            href={`/repo/${row.linkedRepo}`}
+                          <RepoLink
+                            fullName={row.linkedRepo}
                             className="inline-flex items-center gap-1.5 font-mono text-[11px] hover:underline"
                             style={{ color: "var(--v3-sig-green)" }}
                           >
                             <SignalBadge kind="linked-repo" override="↳" />
                             <span className="truncate">{row.linkedRepo}</span>
-                          </Link>
+                          </RepoLink>
                         ) : (
                           <span style={{ color: "var(--v3-ink-400)" }}>—</span>
                         )}

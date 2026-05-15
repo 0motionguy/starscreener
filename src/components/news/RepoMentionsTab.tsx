@@ -6,6 +6,7 @@
 import Link from "next/link";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl } from "@/lib/logos";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 export interface RepoMentionRow {
   fullName: string;
@@ -98,8 +99,8 @@ export function RepoMentionsTab({
                 {idx + 1}
               </td>
               <td className="px-2 py-2 font-semibold">
-                <Link
-                  href={`/repo/${row.fullName}`}
+                <RepoLink
+                  fullName={row.fullName}
                   className="inline-flex min-w-0 items-center gap-2 text-text-primary hover:underline"
                 >
                   <EntityLogo
@@ -110,7 +111,7 @@ export function RepoMentionsTab({
                     alt=""
                   />
                   {row.fullName}
-                </Link>
+                </RepoLink>
               </td>
               <td className="px-2 py-2 tabular-nums text-text-primary">
                 {fmtNum(row.count)}

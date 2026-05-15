@@ -4,6 +4,7 @@
 // is wired against objectType="idea" + objectId=idea.id.
 
 import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 import type { JSX } from "react";
 import { GitBranch, Sparkles, Wrench } from "lucide-react";
 
@@ -226,9 +227,9 @@ export function IdeaCard({
           <GitBranch className="size-3" aria-hidden />
           <span>Targets:</span>
           {idea.targetRepos.map((fullName) => (
-            <Link
+            <RepoLink
               key={fullName}
-              href={`/repo/${fullName}`}
+              fullName={fullName}
               className="inline-flex items-center gap-1 rounded border border-border-primary bg-bg-muted px-1.5 py-0.5 font-mono text-[10px] text-text-secondary hover:text-text-primary"
             >
               <EntityLogo
@@ -239,7 +240,7 @@ export function IdeaCard({
                 alt=""
               />
               {fullName}
-            </Link>
+            </RepoLink>
           ))}
         </div>
       ) : null}

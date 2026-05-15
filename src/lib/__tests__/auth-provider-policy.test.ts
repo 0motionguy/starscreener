@@ -28,8 +28,17 @@ test("root layout owns the only ClerkProvider", () => {
 });
 
 test("sidebar user overlay fetch waits for a signed-in Clerk user", () => {
+  const layout = source("src/app/layout.tsx");
+  assert.match(
+    layout,
+    /<SidebarUserOverlayBridge enabled=\{Boolean\(clerkPublishableKey\)\} \/>/,
+    "sidebar overlay bridge must not mount Clerk hooks when ClerkProvider is disabled",
+  );
+
   const body = source("src/components/layout/SidebarUserOverlayBridge.tsx");
   assert.match(body, /import \{ useAuth \} from "@clerk\/nextjs";/);
+  assert.match(body, /enabled: boolean/);
+  assert.match(body, /if \(!enabled\) return null;/);
   assert.match(body, /const \{ isLoaded, userId \} = useAuth\(\);/);
   assert.match(body, /if \(!isLoaded\) \{\s*return;\s*\}/);
   assert.match(body, /if \(!userId\) \{[\s\S]*?reset\(\);[\s\S]*?return;\s*\}/);

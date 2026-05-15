@@ -26,10 +26,14 @@ interface OverlayResponse {
   unreadAlerts?: number;
 }
 
-const CLERK_PUBLIC_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+interface SidebarUserOverlayBridgeProps {
+  enabled: boolean;
+}
 
-export function SidebarUserOverlayBridge() {
-  if (!CLERK_PUBLIC_KEY) return null;
+export function SidebarUserOverlayBridge({
+  enabled,
+}: SidebarUserOverlayBridgeProps) {
+  if (!enabled) return null;
   return <SidebarUserOverlayBridgeInner />;
 }
 

@@ -190,7 +190,7 @@ export default async function RootLayout({
         <Sidebar initialShell={initialSidebarShell} />
         <main id="main-content" className="app-main">{children}</main>
       </AppShell>
-      <SidebarUserOverlayBridge />
+      <SidebarUserOverlayBridge enabled={Boolean(clerkPublishableKey)} />
       <MobileNavLazy />
       <IdleMount>
         <BrowserAlertBridgeLazy />

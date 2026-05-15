@@ -73,7 +73,6 @@ import {
 } from "./SidebarWatchlistPreview";
 import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { SidebarFooter } from "./SidebarFooter";
-import { SidebarProfileCard } from "./SidebarProfileCard";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3/CursorRail";
 
@@ -798,7 +797,6 @@ export function SidebarContent({
         </V2Section>
       </CursorRail>
 
-      <SidebarProfileCard />
       <SidebarFooter compact={compact} onToggleCompact={onToggleCompact} />
     </div>
   );

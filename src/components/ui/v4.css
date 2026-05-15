@@ -1576,6 +1576,24 @@
 .v4-tool-tile--active .v4-tool-tile__num {
   color: var(--v4-acc);
 }
+.v4-tool-tile__route-badge {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 2px 6px;
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  border-radius: 2px;
+  background: var(--v4-bg-050);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-20);
+  color: var(--v4-ink-300);
+  text-transform: uppercase;
+}
+.v4-tool-tile--active .v4-tool-tile__route-badge {
+  border-color: var(--v4-acc);
+  color: var(--v4-acc);
+}
 .v4-tool-tile__title {
   font-family: var(--v4-sans);
   font-size: var(--v4-text-18);

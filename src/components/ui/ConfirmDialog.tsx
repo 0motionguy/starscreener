@@ -97,7 +97,7 @@ export function ConfirmDialog({
       className={cn(
         "rounded-card border border-border-primary bg-bg-card text-text-primary shadow-xl",
         "p-0 m-auto max-w-md w-[min(92vw,28rem)]",
-        "backdrop:bg-black/60 backdrop:backdrop-blur-sm",
+        "backdrop:bg-[oklch(12%_0.01_250)]/60 backdrop:backdrop-blur-sm",
       )}
     >
       <div className="px-5 py-4">

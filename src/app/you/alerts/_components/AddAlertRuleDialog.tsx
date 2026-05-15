@@ -362,7 +362,7 @@ export function AddAlertRuleDialog({
         className={cn(
           "rounded-card border border-border-primary bg-bg-card text-text-primary shadow-xl",
           "p-0 m-auto max-w-2xl w-[min(94vw,40rem)]",
-          "backdrop:bg-black/60 backdrop:backdrop-blur-sm",
+          "backdrop:bg-[oklch(12%_0.01_250)]/60 backdrop:backdrop-blur-sm",
         )}
       >
         {phase === "form" ? (

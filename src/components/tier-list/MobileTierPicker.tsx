@@ -114,7 +114,7 @@ export function MobileTierPicker() {
     <>
       <div
         className={[
-          "fixed inset-0 z-[70] bg-black/60 transition-opacity duration-[220ms] ease-out motion-reduce:transition-none",
+          "fixed inset-0 z-[70] bg-[oklch(12%_0.01_250)]/60 transition-opacity duration-[220ms] ease-out motion-reduce:transition-none",
           isPresented ? "opacity-100" : "opacity-0",
         ].join(" ")}
         onClick={closePicker}

@@ -82,7 +82,7 @@ export function MobileDrawer() {
         <>
           <motion.div
             key="drawer-backdrop"
-            className="md:hidden fixed inset-0 bg-black/60 z-[55]"
+            className="md:hidden fixed inset-0 bg-[oklch(12%_0.01_250)]/60 z-[55]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

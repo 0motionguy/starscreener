@@ -267,7 +267,7 @@ export function ContentTagChips({ counts, hiddenCount }: ContentTagChipsProps) {
                   "ml-0.5 inline-flex items-center justify-center min-w-[20px] h-[18px] px-1.5 rounded-full",
                   "text-[10px] tabular-nums font-mono",
                   active
-                    ? "bg-black/25 text-white/95 font-semibold"
+                    ? "bg-[oklch(12%_0.01_250)]/25 text-white/95 font-semibold"
                     : "bg-bg-primary/60 text-text-tertiary",
                 )}
               >

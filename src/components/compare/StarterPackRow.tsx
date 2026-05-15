@@ -46,7 +46,7 @@ function repoIdToFullName(id: string): string {
 
 const CHIP_BASE = cn(
   "inline-flex items-center gap-1.5",
-  "px-3 py-1.5",
+  "min-h-[40px] px-3 py-1.5",
   "border border-border-primary",
   "bg-bg-secondary",
   "rounded-md",

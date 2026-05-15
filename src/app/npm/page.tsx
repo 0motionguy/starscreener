@@ -251,9 +251,17 @@ function PackageFeed({
       header: "#",
       width: "44px",
       render: (_, i) => (
+        // Top 10: npm-red text fails WCAG 4.5:1 against the dark row bg
+        // (3.55:1). Use a lighter color-mix variant for text use only —
+        // brand-cue preserved (recognizably reddish) while clearing AA.
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? NPM_RED : "var(--v4-ink-400)" }}
+          style={{
+            color:
+              i < 10
+                ? `color-mix(in srgb, ${NPM_RED} 50%, white)`
+                : "var(--v4-ink-400)",
+          }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>

@@ -12,6 +12,9 @@ import {
 
 import { ROUTES } from "@/lib/routes";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
+import { DropRepoStepStrip } from "./DropRepoStepStrip";
+
+const WHY_NOW_MAX_CHARS = 280;
 
 interface QueueSummary {
   pending: number;
@@ -239,13 +242,15 @@ export function DropRepoPage() {
           </div>
 
           <h1 className="mt-4 font-display text-3xl font-bold text-text-primary sm:text-4xl">
-            Submit a repo to the trend queue
+            Drop a repo. Get it ranked.
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-text-secondary sm:text-base">
             Anyone can submit. We dedupe against tracked repos, keep a pending
             queue, and review boosted submissions first when they include a real
             X share link.
           </p>
+
+          <DropRepoStepStrip />
 
           <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card border border-up/30 bg-up/5 px-4 py-3 text-sm">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[var(--v4-money)]">
@@ -290,14 +295,28 @@ export function DropRepoPage() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-text-primary">
-                Why now
+              <span className="flex items-center justify-between text-sm font-medium text-text-primary">
+                <span>Why now</span>
+                <span
+                  className="font-mono text-[10px] uppercase tracking-[0.14em]"
+                  style={{
+                    color:
+                      whyNow.length > WHY_NOW_MAX_CHARS
+                        ? "var(--v4-red, #ef4444)"
+                        : "var(--text-muted, #6b7280)",
+                  }}
+                >
+                  {whyNow.length} / {WHY_NOW_MAX_CHARS}
+                </span>
               </span>
               <textarea
                 value={whyNow}
-                onChange={(event) => setWhyNow(event.target.value)}
+                onChange={(event) =>
+                  setWhyNow(event.target.value.slice(0, WHY_NOW_MAX_CHARS))
+                }
                 placeholder="Short reason this repo should be reviewed now."
                 rows={5}
+                maxLength={WHY_NOW_MAX_CHARS}
                 className="min-h-32 rounded-card border border-border-primary bg-bg-secondary px-3 py-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
               />
             </label>

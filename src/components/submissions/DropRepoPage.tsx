@@ -13,6 +13,11 @@ import {
 import { ROUTES } from "@/lib/routes";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
 import { DropRepoStepStrip } from "./DropRepoStepStrip";
+import {
+  DropRepoCategoryPicker,
+  type DropRepoCategory,
+} from "./DropRepoCategoryPicker";
+import { DropRepoTagChips, type DropRepoTag } from "./DropRepoTagChips";
 
 const WHY_NOW_MAX_CHARS = 280;
 
@@ -120,6 +125,15 @@ export function DropRepoPage() {
   const [whyNow, setWhyNow] = useState("");
   const [contact, setContact] = useState("");
   const [shareUrl, setShareUrl] = useState("");
+  // 2026-05-15 (A7 mockup): the following four fields ARE collected
+  // client-side but NOT yet sent to /api/repo-submissions — the API
+  // schema doesn't accept them yet. They render the operator-attached
+  // mockup faithfully; backend wiring is a follow-up after schema
+  // extension.
+  const [category, setCategory] = useState<DropRepoCategory | null>(null);
+  const [tags, setTags] = useState<Set<DropRepoTag>>(new Set());
+  const [releaseUrl, setReleaseUrl] = useState("");
+  const [demoUrl, setDemoUrl] = useState("");
   const [queue, setQueue] = useState<QueueSummary>(EMPTY_QUEUE);
   const [submissions, setSubmissions] = useState<PublicRepoSubmission[]>([]);
   const [loading, setLoading] = useState(true);
@@ -217,6 +231,10 @@ export function DropRepoPage() {
         setWhyNow("");
         setContact("");
         setShareUrl("");
+        setCategory(null);
+        setTags(new Set());
+        setReleaseUrl("");
+        setDemoUrl("");
         // Allow `submit_fill` to fire again on the cleared form.
         setFillFired(false);
       }
@@ -294,6 +312,29 @@ export function DropRepoPage() {
               />
             </label>
 
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-text-primary">
+                Category
+              </span>
+              <DropRepoCategoryPicker
+                value={category}
+                onChange={setCategory}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <span className="flex items-center justify-between text-sm font-medium text-text-primary">
+                <span>Tags</span>
+                <span
+                  className="font-mono text-[10px] uppercase tracking-[0.14em]"
+                  style={{ color: "var(--text-muted, #6b7280)" }}
+                >
+                  {tags.size} / 4 max
+                </span>
+              </span>
+              <DropRepoTagChips value={tags} onChange={setTags} />
+            </div>
+
             <label className="flex flex-col gap-2">
               <span className="flex items-center justify-between text-sm font-medium text-text-primary">
                 <span>Why now</span>
@@ -343,6 +384,40 @@ export function DropRepoPage() {
                   value={shareUrl}
                   onChange={(event) => setShareUrl(event.target.value)}
                   placeholder="https://x.com/.../status/..."
+                  className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
+                  autoComplete="off"
+                />
+              </label>
+            </div>
+
+            <div className="flex flex-col gap-4 md:flex-row">
+              <label className="flex flex-1 flex-col gap-2">
+                <span className="text-sm font-medium text-text-primary">
+                  Release / launch URL{" "}
+                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+                    optional
+                  </span>
+                </span>
+                <input
+                  value={releaseUrl}
+                  onChange={(event) => setReleaseUrl(event.target.value)}
+                  placeholder="https://github.com/.../releases/tag/v1.0.0"
+                  className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
+                  autoComplete="off"
+                />
+              </label>
+
+              <label className="flex flex-1 flex-col gap-2">
+                <span className="text-sm font-medium text-text-primary">
+                  Demo / video URL{" "}
+                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+                    optional
+                  </span>
+                </span>
+                <input
+                  value={demoUrl}
+                  onChange={(event) => setDemoUrl(event.target.value)}
+                  placeholder="https://youtu.be/... or https://demo.example.com"
                   className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
                   autoComplete="off"
                 />

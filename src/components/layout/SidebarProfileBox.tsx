@@ -106,7 +106,7 @@ export function SidebarProfileBox({
     <div className="sb-profile" data-component="sidebar-profile">
       <div className="sb-prof-eyebrow" aria-hidden>
         TRENDINGREPO BETA <span className="sep">/</span>{" "}
-        <span className="status">// OPEN SOURCE · LIVE</span>
+        <span className="status">{"// OPEN SOURCE · LIVE"}</span>
       </div>
 
       <div className="sb-prof-head">

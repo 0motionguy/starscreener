@@ -58,10 +58,8 @@ export function WhyBadge({
         aria-label="Why this repo is trending"
         style={{
           display: "flex",
-          alignItems: "flex-start",
-          gap: 10,
-          padding: "10px 14px",
-          borderLeft: `3px solid ${color}`,
+          alignItems: "stretch",
+          gap: 0,
           background: "var(--v4-bg-100, transparent)",
           fontSize: 13,
           lineHeight: 1.5,
@@ -71,17 +69,35 @@ export function WhyBadge({
         <span
           aria-hidden="true"
           style={{
-            fontFamily: "var(--v4-mono, ui-monospace, monospace)",
-            fontSize: 10,
-            letterSpacing: "0.14em",
-            color,
+            width: 3,
+            backgroundColor: color,
             flexShrink: 0,
-            marginTop: 2,
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 10,
+            padding: "10px 14px",
+            flex: 1,
           }}
         >
-          {`// WHY · ${label}`}
-        </span>
-        <p style={{ margin: 0 }}>{narrative.text}</p>
+          <span
+            aria-hidden="true"
+            style={{
+              fontFamily: "var(--v4-mono, ui-monospace, monospace)",
+              fontSize: 10,
+              letterSpacing: "0.14em",
+              color,
+              flexShrink: 0,
+              marginTop: 2,
+            }}
+          >
+            {`// WHY · ${label}`}
+          </span>
+          <p style={{ margin: 0 }}>{narrative.text}</p>
+        </div>
       </section>
     );
   }

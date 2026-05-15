@@ -126,7 +126,7 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             <Link
               href="/pricing"
               aria-current={cadence === "monthly" ? "page" : undefined}
-              className={`px-3 py-1.5 ${
+              className={`inline-flex min-h-[36px] items-center px-3 py-1.5 ${
                 cadence === "monthly"
                   ? "bg-brand text-bg-primary"
                   : "text-text-tertiary hover:text-text-primary"
@@ -137,7 +137,7 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             <Link
               href="/pricing?cadence=yearly"
               aria-current={cadence === "yearly" ? "page" : undefined}
-              className={`px-3 py-1.5 ${
+              className={`inline-flex min-h-[36px] items-center px-3 py-1.5 ${
                 cadence === "yearly"
                   ? "bg-brand text-bg-primary"
                   : "text-text-tertiary hover:text-text-primary"
@@ -152,7 +152,7 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             {cadence}
             {" prices — "}
             <Link
-              className="underline decoration-dotted hover:text-brand"
+              className="inline-flex min-h-[32px] items-center align-middle underline decoration-dotted hover:text-brand"
               href={nextCadence === "yearly" ? "/pricing?cadence=yearly" : "/pricing"}
             >
               switch to {nextCadence}
@@ -200,7 +200,7 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             and how private.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/" className="v2-btn v2-btn-primary inline-flex">
+            <Link href="/" className="v2-btn v2-btn-primary inline-flex min-h-[40px] items-center">
               START FREE
               <span aria-hidden style={{ marginLeft: 8 }}>→</span>
             </Link>

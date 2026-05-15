@@ -298,6 +298,10 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
           text-transform: uppercase;
         }
         .shb-full-link {
+          display: inline-flex;
+          align-items: center;
+          min-height: 32px;
+          padding: 0 2px;
           font-family: var(--font-geist-mono, monospace);
           font-size: 10px;
           letter-spacing: 0.12em;
@@ -351,6 +355,10 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
           border-radius: 2px;
         }
         .shb-empty a {
+          display: inline-flex;
+          align-items: center;
+          min-height: 32px;
+          padding: 0 2px;
           color: var(--v3-acc, #ffcb05);
           text-transform: uppercase;
           font-size: 10px;

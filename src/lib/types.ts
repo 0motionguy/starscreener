@@ -404,6 +404,9 @@ export interface WhyMoving {
 
 export interface WatchlistItem {
   repoId: string;
+  /** Canonical "owner/name" saved at click time. Lets user tools render
+   * watched repos even when the current derived corpus cannot resolve repoId. */
+  fullName?: string;
   addedAt: string;
   starsAtAdd: number;
 }

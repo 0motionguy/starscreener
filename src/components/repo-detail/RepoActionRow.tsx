@@ -41,7 +41,7 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
 
   const handleWatch = useCallback(() => {
     const wasWatched = isWatched;
-    toggleWatch(repo.id, repo.stars);
+    toggleWatch(repo.id, repo.stars, repo.fullName);
     if (wasWatched) {
       toastWatchRemoved(repo.fullName);
     } else {
@@ -105,6 +105,11 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
           isWatched ? "v2-btn-primary" : "v2-btn-ghost",
         )}
         aria-pressed={isWatched}
+        aria-label={
+          isWatched
+            ? `Remove ${repo.fullName} from watchlist`
+            : `Add ${repo.fullName} to watchlist`
+        }
       >
         {isWatched ? (
           <EyeOff size={14} aria-hidden style={{ marginRight: 8 }} />
@@ -133,6 +138,13 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
           compareDisabled && "cursor-not-allowed opacity-50",
         )}
         aria-pressed={isComparing}
+        aria-label={
+          isComparing
+            ? `Remove ${repo.fullName} from compare`
+            : compareDisabled
+              ? "Compare is full"
+              : `Add ${repo.fullName} to compare`
+        }
       >
         <GitCompareArrows size={14} aria-hidden style={{ marginRight: 8 }} />
         {isComparing ? "IN COMPARE" : "COMPARE"}
@@ -141,6 +153,7 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
       <Link
         href={revenueHref}
         className="v2-btn v2-btn-ghost min-h-[44px]"
+        aria-label={`Claim revenue data for ${repo.fullName}`}
       >
         <BadgeDollarSign size={14} aria-hidden style={{ marginRight: 8 }} />
         CLAIM REVENUE
@@ -152,6 +165,7 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
         rel="noopener noreferrer"
         onClick={handleGithubClick}
         className="v2-btn v2-btn-ghost ml-auto min-h-[44px]"
+        aria-label={`Open ${repo.fullName} on GitHub`}
       >
         <ExternalLink size={14} aria-hidden style={{ marginRight: 8 }} />
         OPEN ON GITHUB

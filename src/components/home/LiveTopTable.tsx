@@ -272,7 +272,7 @@ function ActionCell({
     e.stopPropagation();
     e.preventDefault();
     const wasWatched = isWatched;
-    toggleWatch(repoId, stars);
+    toggleWatch(repoId, stars, repoName);
     if (wasWatched) toastWatchRemoved(repoName);
     else toastWatchAdded(repoName);
   };

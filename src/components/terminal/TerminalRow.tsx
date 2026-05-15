@@ -58,7 +58,7 @@ function TerminalRowBase({
 
   const onToggleWatch = useCallback(() => {
     const wasWatched = isWatched;
-    toggleWatch(repo.id, repo.stars);
+    toggleWatch(repo.id, repo.stars, repo.fullName);
     if (wasWatched) toastWatchRemoved(repo.fullName);
     else toastWatchAdded(repo.fullName);
   }, [isWatched, toggleWatch, repo.id, repo.stars, repo.fullName]);
@@ -74,10 +74,10 @@ function TerminalRowBase({
       toastCompareFull();
       return;
     }
-    addCompare(repo.id);
+    addCompare(repo.id, repo.fullName);
     const count = useCompareStore.getState().repos.length;
     toastCompareAdded(count);
-  }, [isComparing, removeCompare, addCompare, repo.id]);
+  }, [isComparing, removeCompare, addCompare, repo.id, repo.fullName]);
 
   const rowContext: RowContext = useMemo(
     () => ({

@@ -26,7 +26,7 @@ concurrency:
 jobs:
   classify:
     name: Classify PR paths
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
       data_only: ${{ steps.paths.outputs.data_only }}
@@ -82,7 +82,7 @@ jobs:
   gate:
     name: Typecheck, guards, tests, build, e2e
     needs: classify
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Data-only fast path
@@ -236,7 +236,7 @@ jobs:
     name: MCP server build
     needs: classify
     if: needs.classify.outputs.data_only != 'true'
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout

@@ -58,6 +58,8 @@
     "verify": "npm run typecheck && npm run lint:guards && npm run test:hooks",
     "perf:routes": "node scripts/perf-routes.mjs",
     "perf:routes:prod": "node scripts/perf-routes.mjs --prod",
+    "lighthouse:routes": "node scripts/lighthouse-routes.mjs",
+    "lighthouse:routes:prod": "node scripts/lighthouse-routes.mjs --prod",
     "perf:bundle": "node scripts/perf-bundle.mjs",
     "perf:quick": "npm run build && npm run perf:bundle",
     "audit:status": "node scripts/audit-status.mjs",

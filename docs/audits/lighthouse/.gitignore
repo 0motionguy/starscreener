@@ -1,0 +1,5 @@
+# Lighthouse run output dirs are timestamped — keep README + .gitignore only.
+20*-*-*T*/
+*.html
+*.json
+!schema.json

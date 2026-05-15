@@ -43,6 +43,7 @@ import { resolveRepoProfileInput } from "@/lib/repo-profile-input";
 // Each refresh has internal 30s rate-limit + in-flight dedupe — calling
 // them on every render is cheap on warm Lambdas.
 //   Group A (discovery / GH metadata)
+import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
 //   Group B (social mentions + per-source trending)
@@ -138,6 +139,16 @@ export async function generateMetadata({
     };
   }
 
+  // Refresh the derived store before lookup. On a cold Lambda spin-up
+  // generateMetadata runs BEFORE the page function's refresh hooks, so
+  // the in-memory derived store is empty and getDerivedRepoByFullName
+  // returns null even for known canonical repos like vercel/next.js.
+  // That caused the metadata to fall into the `!repo` branch and emit
+  // <meta name="robots" content="noindex"> on the live page — a 30-point
+  // Lighthouse SEO regression (was 69, expected ~100). Refreshing here
+  // is cheap: refreshTrendingFromStore has internal 30s rate-limit + in-
+  // flight dedupe, so the page function's later call is a no-op.
+  await refreshTrendingFromStore();
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 

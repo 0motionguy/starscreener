@@ -1,10 +1,19 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative } from "node:path";
 import { test } from "node:test";
 
 function source(path: string): string {
   return readFileSync(join(process.cwd(), path), "utf8");
+}
+
+function walk(dir: string, out: string[] = []): string[] {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) walk(full, out);
+    else if (/\.(tsx|ts)$/.test(entry)) out.push(full);
+  }
+  return out;
 }
 
 test("root layout owns the only ClerkProvider", () => {
@@ -44,6 +53,53 @@ test("sidebar user overlay fetch waits for a signed-in Clerk user", () => {
   assert.match(body, /if \(!userId\) \{[\s\S]*?reset\(\);[\s\S]*?return;\s*\}/);
   assert.match(body, /new URLSearchParams\(\{ userId \}\)/);
   assert.match(body, /\/api\/pipeline\/sidebar-overlay\?\$\{params\.toString\(\)\}/);
+});
+
+test("only known callers may import Clerk hooks (useUser / useAuth)", () => {
+  // Regression sentinel for the 2026-05-15 production crash. A new client
+  // component (`SidebarProfileCard`) was added that called `useUser()` after
+  // a `process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` env check. That check
+  // is the WRONG signal — `getClerkPublishableKey()` fail-closes in Vercel
+  // Production when only `pk_test_*` keys are configured, so the env var is
+  // set but `<ClerkProvider>` is never mounted. The component crashed every
+  // page with "useAuth can only be used within the <ClerkProvider />".
+  //
+  // The safe pattern is to take a server-resolved `publishableKey` /
+  // `enabled` prop from the root layout (which alone calls
+  // `getClerkPublishableKey()`). New Clerk-hook consumers MUST be added to
+  // this allow-list and accept that prop. Anonymous-safe wrappers like
+  // `useClientSession` (which fetches `/api/auth/session`) do NOT require
+  // ClerkProvider and are preferred when the consumer only needs a
+  // user-id.
+  const ALLOW_LIST = new Set([
+    join("src", "components", "layout", "HeaderAccount.tsx"),
+    join("src", "components", "layout", "SidebarUserOverlayBridge.tsx"),
+    // Auth-form skeleton lives inside a Clerk-rendered tree by construction.
+    join("src", "components", "auth", "ClerkAuthForm.tsx"),
+    // Sign-in / sign-up route surfaces are children of the layout's
+    // ClerkProvider and reach Clerk hooks via Clerk's own components.
+  ]);
+
+  const offenders: string[] = [];
+  for (const path of walk(join(process.cwd(), "src"))) {
+    if (path.includes(join("__tests__", ""))) continue;
+    if (path.includes(join("__vitest__", ""))) continue;
+    const body = readFileSync(path, "utf8");
+    if (
+      /from "@clerk\/(?:nextjs|clerk-react)"/.test(body) &&
+      /\b(useUser|useAuth)\b/.test(body)
+    ) {
+      const rel = relative(process.cwd(), path);
+      if (!ALLOW_LIST.has(rel)) offenders.push(rel);
+    }
+  }
+  assert.deepEqual(
+    offenders,
+    [],
+    `Unsanctioned Clerk-hook consumers found: ${offenders.join(", ")}.\n` +
+      "Take a server-resolved publishableKey / enabled prop, or use " +
+      "useClientSession instead. Then add the file to ALLOW_LIST above.",
+  );
 });
 
 test("hosted Clerk form waits for client-only referral state", () => {

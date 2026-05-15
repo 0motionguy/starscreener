@@ -8,7 +8,7 @@ on:
       limit:
         description: "Number of repos to scan"
         required: false
-        default: "25"
+        default: "10"
       mode:
         description: "Collector mode (api or direct)"
         required: false
@@ -67,14 +67,14 @@ jobs:
           # but Vercel's filesystem is read-only / ephemeral so the writes
           # would not persist to the /twitter page.
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
-          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
+          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '10' }}
           # 4 queries per repo = full tier-1 coverage. Tier 1 is the set of
           # "impossible to fake coincidentally" signals: repo_slug (owner/name),
           # repo_url (github.com/...), package_name (pip/npm install ...),
           # homepage_url, docs_url. Package + homepage matches are often the
           # highest-signal finds — tweets saying "npm i foo" don't hit a
-          # slug/url search. Cost at 4 queries × 25 repos × 8 firings/day ≈
-          # 800 actor runs/day ≈ ~$8/day at expected hit rate.
+          # slug/url search. Hosted runners default to 10 repos per run so
+          # the collector stays inside the 30-minute job timeout.
           TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
@@ -103,7 +103,7 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           TWITTER_COLLECTOR_PROVIDER: web
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
-          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
+          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '10' }}
           TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}

@@ -11,6 +11,15 @@
 
 import { classifyFreshness, type NewsSource } from "@/lib/news/freshness";
 
+// Operator decision (2026-05-15): cold/stale chrome reads as honesty
+// theatre, not as useful signal. Hide the indicators by default but
+// keep the classifier intact so a future flip via env can bring them
+// back without touching call sites. Set
+// `NEXT_PUBLIC_HIDE_FRESHNESS_BADGES=false` to render.
+function isFreshnessBadgeHidden(): boolean {
+  return process.env.NEXT_PUBLIC_HIDE_FRESHNESS_BADGES !== "false";
+}
+
 interface FreshnessBadgeProps {
   /** ISO timestamp, epoch ms, or Date — when the underlying data was fetched. */
   lastUpdatedAt: string | number | Date | null | undefined;
@@ -32,6 +41,7 @@ export function FreshnessBadge({
   source,
   nowMs,
 }: FreshnessBadgeProps) {
+  if (isFreshnessBadgeHidden()) return null;
   const iso =
     lastUpdatedAt instanceof Date
       ? lastUpdatedAt.toISOString()

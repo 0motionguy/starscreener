@@ -17,8 +17,8 @@ import type { JSX } from "react";
 import Link from "next/link";
 import { Lightbulb } from "lucide-react";
 
+import { RelativeTime } from "@/components/ui/RelativeTime";
 import type { IdeaItem, IdeaItemReactions } from "@/lib/repo-ideas";
-import { getRelativeTime } from "@/lib/utils";
 
 interface RelatedIdeasPanelProps {
   items: IdeaItem[];
@@ -32,14 +32,6 @@ function formatReactions(reactions: IdeaItemReactions | undefined): string | nul
   if ((reactions.buy ?? 0) > 0) parts.push(`buy ${reactions.buy}`);
   if ((reactions.invest ?? 0) > 0) parts.push(`invest ${reactions.invest}`);
   return parts.length > 0 ? parts.join(" · ") : null;
-}
-
-function safeRelativeTime(iso: string): string {
-  try {
-    return getRelativeTime(iso);
-  } catch {
-    return "unknown";
-  }
 }
 
 export function RelatedIdeasPanel({
@@ -66,7 +58,6 @@ export function RelatedIdeasPanel({
         {items.map((item) => {
           const reactionsLabel = formatReactions(item.reactions);
           const handle = item.author ? item.author.replace(/^@+/, "") : null;
-          const posted = safeRelativeTime(item.createdAt);
 
           return (
             <li key={item.id} className="py-3 first:pt-0 last:pb-0">
@@ -86,7 +77,7 @@ export function RelatedIdeasPanel({
                     <div className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
                       {handle ? <span>by @{handle}</span> : null}
                       {handle ? <span aria-hidden>·</span> : null}
-                      <span>{posted}</span>
+                      <RelativeTime iso={item.createdAt} />
                     </div>
                   </div>
 

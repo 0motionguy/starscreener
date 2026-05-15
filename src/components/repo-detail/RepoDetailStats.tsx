@@ -19,7 +19,8 @@ import {
 import type { Repo } from "@/lib/types";
 import { BrandStar } from "@/components/shared/BrandStar";
 import { StatIcon } from "@/components/compare/StatIcon";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
+import { formatNumber } from "@/lib/utils";
 
 interface RepoDetailStatsProps {
   repo: Repo;
@@ -38,17 +39,17 @@ function deltaTone(n: number): "up" | "down" | "default" {
 
 export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
   const lastReleaseValue = repo.lastReleaseAt
-    ? getRelativeTime(repo.lastReleaseAt)
+    ? <RelativeTime iso={repo.lastReleaseAt} />
     : "—";
   const lastReleaseHint = repo.lastReleaseAt
-    ? `${repo.lastReleaseTag ?? "release"} · ${getRelativeTime(repo.lastReleaseAt)}`
+    ? `${repo.lastReleaseTag ?? "release"} · ${repo.lastReleaseAt}`
     : "No release tracked";
 
   const lastCommitValue = repo.lastCommitAt
-    ? getRelativeTime(repo.lastCommitAt)
+    ? <RelativeTime iso={repo.lastCommitAt} />
     : "—";
   const lastCommitHint = repo.lastCommitAt
-    ? `Last commit ${getRelativeTime(repo.lastCommitAt)}`
+    ? `Last commit ${repo.lastCommitAt}`
     : "Commit activity unknown";
 
   return (
@@ -145,4 +146,3 @@ function DeltaChip({ label, value }: { label: string; value: number }) {
 }
 
 export default RepoDetailStats;
-

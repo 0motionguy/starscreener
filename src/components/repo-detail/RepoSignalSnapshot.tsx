@@ -1,4 +1,4 @@
-import type { JSX } from "react";
+import type { JSX, ReactNode } from "react";
 import {
   Activity,
   GitCommit,
@@ -10,7 +10,8 @@ import type { LucideIcon } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import type { NpmPackageRow } from "@/lib/npm";
 import type { Launch } from "@/lib/producthunt";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
+import { formatNumber } from "@/lib/utils";
 import type { MentionItem } from "./MentionMeta";
 
 interface RepoSignalSnapshotProps {
@@ -23,7 +24,7 @@ interface RepoSignalSnapshotProps {
 interface SnapshotCard {
   label: string;
   value: string;
-  detail: string;
+  detail: ReactNode;
   icon: LucideIcon;
   tone?: "up" | "warning" | "default";
   /** Long-form explanation surfaced via `title` on the card. */
@@ -110,7 +111,11 @@ export function RepoSignalSnapshot({
       detail: productHuntLaunch
         ? "ProductHunt launch attached"
         : repo.lastCommitAt
-          ? `last commit ${getRelativeTime(repo.lastCommitAt)}`
+          ? (
+              <>
+                last commit <RelativeTime iso={repo.lastCommitAt} />
+              </>
+            )
           : "website/package scan pending",
       icon: hasProjectSurface ? Globe2 : GitCommit,
       tone: hasProjectSurface ? "up" : "warning",

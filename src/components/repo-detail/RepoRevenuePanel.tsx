@@ -10,7 +10,8 @@ import {
 
 import type { RevenueOverlay } from "@/lib/types";
 import { classifyFreshness } from "@/lib/revenue-overlays";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
+import { formatNumber } from "@/lib/utils";
 
 interface RepoRevenuePanelProps {
   verified: RevenueOverlay | null;
@@ -132,7 +133,7 @@ function VerifiedRevenueCard({
               color: "var(--v3-sig-amber)",
             }}
           >
-            updated {getRelativeTime(overlay.asOf)}
+            updated <RelativeTime iso={overlay.asOf} />
           </span>
         ) : null}
       </header>
@@ -258,7 +259,7 @@ function SelfReportedRevenueCard({
               color: "var(--v3-sig-amber)",
             }}
           >
-            {getRelativeTime(overlay.asOf)}
+            <RelativeTime iso={overlay.asOf} />
           </span>
         ) : null}
       </header>

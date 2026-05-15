@@ -11,10 +11,10 @@
 import type { JSX } from "react";
 import { ArrowUpRight, Landmark } from "lucide-react";
 
-import { getRelativeTime } from "@/lib/utils";
 import type { RepoFundingEvent } from "@/lib/funding/repo-events";
 import type { FundingRoundType } from "@/lib/funding/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RelativeTime } from "@/components/ui/RelativeTime";
 import { resolveLogoUrl } from "@/lib/logos";
 
 interface FundingPanelProps {
@@ -168,7 +168,7 @@ function FundingRow({
         className="v2-mono-tight tabular-nums"
         style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
       >
-        {getRelativeTime(announcedAt)}
+        <RelativeTime iso={announcedAt} />
       </span>
 
       {visibleInvestors.length > 0 ? (

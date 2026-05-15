@@ -24,7 +24,8 @@ import { ChannelChipRow } from "./ChannelChipRow";
 import { RepoMetricStrip } from "./RepoMetricStrip";
 import { RepoActionRow } from "./RepoActionRow";
 import { TrackedExternalLink } from "@/components/analytics/TrackedExternalLink";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
+import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
 interface RepoIdHeroProps {
@@ -137,9 +138,6 @@ export function RepoIdHero({
   const crossSignal = repo.crossSignalScore ?? 0;
   const sd24 = repo.starsDelta24h ?? 0;
   const sd30 = repo.starsDelta30d ?? 0;
-  const ageLabel = repo.lastCommitAt
-    ? getRelativeTime(repo.lastCommitAt)
-    : null;
   const narrative = buildNarrative(repo);
 
   // 30D percentage relative to (current - delta) so it's a true growth %
@@ -214,8 +212,10 @@ export function RepoIdHero({
                   {repo.contributors} contribs
                 </span>
               ) : null}
-              {ageLabel ? (
-                <span className="rid-stat rid-stat-age">{ageLabel}</span>
+              {repo.lastCommitAt ? (
+                <span className="rid-stat rid-stat-age">
+                  <RelativeTime iso={repo.lastCommitAt} />
+                </span>
               ) : null}
               {fetchedAt ? (
                 <FreshnessBadge source="mcp" lastUpdatedAt={fetchedAt} />

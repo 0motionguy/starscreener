@@ -22,11 +22,19 @@ jobs:
       - name: Wait for deploy propagation
         run: sleep 30
 
-      - name: Synthetic curl checks (17 critical routes)
+      - name: Synthetic curl checks (29 critical routes)
         id: smoke
         shell: bash
         run: |
           set +e
+          # Coverage strategy (2026-05-15 expansion): probe every route
+          # marked `warmupOnDeploy: true` in perf/routes.json (25 canonical
+          # surfaces — see scripts/check-routes-config.mjs for the contract)
+          # plus 4 extras the smoke caught regressions on historically:
+          # /trends, /agent-commerce, /agent-commerce/facilitator, and the
+          # long-tail /repo/anthropics/anthropic-cookbook (covers the
+          # cold-miss live-fetch fallback path).
+          #
           # /repo/* + /agent-commerce/* + /trends added 2026-05-10. Why:
           # the pre-existing /repo/* 500 P0 (since d81856ad) bled for days
           # because no smoke probe covered detail pages. vercel/next.js is
@@ -40,21 +48,38 @@ jobs:
           # but stable repo here so any future regression on that branch
           # surfaces in CI within a deploy, not by a user 4 days later.
           routes=(
+            # canonical warmup set (perf/routes.json)
             "/"
-            "/signals"
-            "/twitter"
-            "/top10"
+            "/githubrepo"
             "/skills"
             "/mcp"
+            "/reddit/trending"
+            "/hackernews/trending"
+            "/lobsters"
+            "/devto"
+            "/bluesky/trending"
+            "/twitter"
+            "/signals"
+            "/top10"
+            "/compare"
             "/funding"
             "/revenue"
             "/arxiv/trending"
             "/producthunt"
+            "/huggingface"
+            "/npm"
+            "/breakouts"
+            "/categories"
+            "/methodology"
+            "/research"
+            "/tools/revenue-estimate"
+            "/repo/vercel/next.js"
+            # smoke extras (historically regression-prone)
             "/trends"
             "/agent-commerce"
             "/agent-commerce/facilitator"
-            "/repo/vercel/next.js"
             "/repo/anthropics/anthropic-cookbook"
+            # health probe
             "/api/health?soft=1"
           )
 

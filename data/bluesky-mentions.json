@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-15T06:43:53.697Z",
+  "fetchedAt": "2026-05-15T08:18:13.617Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -10722,7 +10722,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T06:24:38.442Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.89
       },
       "posts": [
         {
@@ -10739,7 +10739,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T06:24:38.442Z",
           "createdUtc": 1778826278,
-          "ageHours": 0.5,
+          "ageHours": 1.89,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -10901,6 +10901,167 @@
           "linkedRepos": [
             {
               "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "0xdeadbeefnetwork/ssh-keysign-pwn": {
+      "count7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
+        "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
+        "bskyUrl": "https://bsky.app/profile/zimward.chaos.social.ap.brid.gy/post/3mluv2e5vkse2",
+        "text": "anyone remember the time where vulnerabilities got disclosed via responsible disclosure, so they could be patched before publication? https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+        "author": {
+          "handle": "zimward.chaos.social.ap.brid.gy",
+          "displayName": "zimward"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T08:10:52.000Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
+          "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
+          "bskyUrl": "https://bsky.app/profile/zimward.chaos.social.ap.brid.gy/post/3mluv2e5vkse2",
+          "text": "anyone remember the time where vulnerabilities got disclosed via responsible disclosure, so they could be patched before publication? https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+          "author": {
+            "handle": "zimward.chaos.social.ap.brid.gy",
+            "displayName": "zimward"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T08:10:52.000Z",
+          "createdUtc": 1778832652,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5loyvksqihooebytifcsgzr4/app.bsky.feed.post/3mlututkeume2",
+          "cid": "bafyreibcq4j7sknoape6h2ugrggkvtuwe5pa6n3elmoyrcrvticiaypkbq",
+          "bskyUrl": "https://bsky.app/profile/r3pek.mastodon.r3pek.org.ap.brid.gy/post/3mlututkeume2",
+          "text": "And because one or two #LPEs per week is not enough, here's your daily dose of #Linux #LPE. This one goes back to at least kernel 5.10. No real mitigations to apply this time. https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+          "author": {
+            "handle": "r3pek.mastodon.r3pek.org.ap.brid.gy",
+            "displayName": "Carlos Mogas da Silva"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T07:49:36.000Z",
+          "createdUtc": 1778831376,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:m6kttxx5lbaw2dcilfezwxjj/app.bsky.feed.post/3mluq7j6n7s2n",
+          "cid": "bafyreidbj5su46mfs5jjqt7xzjsyaoj64aweuhnc7kjkeumwrlyx66htnm",
+          "bskyUrl": "https://bsky.app/profile/lea-linux.org/post/3mluq7j6n7s2n",
+          "text": "github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "lea-linux.org",
+            "displayName": "Léαlinux 🐧"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T06:44:21.284Z",
+          "createdUtc": 1778827461,
+          "ageHours": 1.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Ingar30/reviewer": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:sjab3wp5lmjljltqeqybkmep/app.bsky.feed.post/3mlutz4anhk2e",
+        "cid": "bafyreid3rpoj32b3szgpok2ipfk25fbxkjjdgdnzdl62n3ljfagnezrbh4",
+        "bskyUrl": "https://bsky.app/profile/ihaal.bsky.social/post/3mlutz4anhk2e",
+        "text": "Excited to release Reviewer: an open-source multi-agent reviewer for economics papers. Run it locally with Codex. It turns a PDF into a structured, high-quality report using a modular, highly customizable pipeline where every finding is traceable to an agent. GitHub link: github.com/Ingar30/revi...",
+        "author": {
+          "handle": "ihaal.bsky.social",
+          "displayName": "Ingar Haaland"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T07:52:21.358Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:sjab3wp5lmjljltqeqybkmep/app.bsky.feed.post/3mlutz4anhk2e",
+          "cid": "bafyreid3rpoj32b3szgpok2ipfk25fbxkjjdgdnzdl62n3ljfagnezrbh4",
+          "bskyUrl": "https://bsky.app/profile/ihaal.bsky.social/post/3mlutz4anhk2e",
+          "text": "Excited to release Reviewer: an open-source multi-agent reviewer for economics papers. Run it locally with Codex. It turns a PDF into a structured, high-quality report using a modular, highly customizable pipeline where every finding is traceable to an agent. GitHub link: github.com/Ingar30/revi...",
+          "author": {
+            "handle": "ihaal.bsky.social",
+            "displayName": "Ingar Haaland"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T07:52:21.358Z",
+          "createdUtc": 1778831541,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Ingar30/reviewer",
               "matchType": "url",
               "confidence": 1
             }
@@ -21627,7 +21788,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T06:24:38.442Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.89
       },
       "posts": [
         {
@@ -21644,7 +21805,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T06:24:38.442Z",
           "createdUtc": 1778826278,
-          "ageHours": 0.5,
+          "ageHours": 1.89,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -21812,27 +21973,183 @@
           ]
         }
       ]
+    },
+    "0xdeadbeefnetwork--ssh-keysign-pwn": {
+      "count7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
+        "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
+        "bskyUrl": "https://bsky.app/profile/zimward.chaos.social.ap.brid.gy/post/3mluv2e5vkse2",
+        "text": "anyone remember the time where vulnerabilities got disclosed via responsible disclosure, so they could be patched before publication? https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+        "author": {
+          "handle": "zimward.chaos.social.ap.brid.gy",
+          "displayName": "zimward"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T08:10:52.000Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
+          "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
+          "bskyUrl": "https://bsky.app/profile/zimward.chaos.social.ap.brid.gy/post/3mluv2e5vkse2",
+          "text": "anyone remember the time where vulnerabilities got disclosed via responsible disclosure, so they could be patched before publication? https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+          "author": {
+            "handle": "zimward.chaos.social.ap.brid.gy",
+            "displayName": "zimward"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T08:10:52.000Z",
+          "createdUtc": 1778832652,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5loyvksqihooebytifcsgzr4/app.bsky.feed.post/3mlututkeume2",
+          "cid": "bafyreibcq4j7sknoape6h2ugrggkvtuwe5pa6n3elmoyrcrvticiaypkbq",
+          "bskyUrl": "https://bsky.app/profile/r3pek.mastodon.r3pek.org.ap.brid.gy/post/3mlututkeume2",
+          "text": "And because one or two #LPEs per week is not enough, here's your daily dose of #Linux #LPE. This one goes back to at least kernel 5.10. No real mitigations to apply this time. https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+          "author": {
+            "handle": "r3pek.mastodon.r3pek.org.ap.brid.gy",
+            "displayName": "Carlos Mogas da Silva"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T07:49:36.000Z",
+          "createdUtc": 1778831376,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:m6kttxx5lbaw2dcilfezwxjj/app.bsky.feed.post/3mluq7j6n7s2n",
+          "cid": "bafyreidbj5su46mfs5jjqt7xzjsyaoj64aweuhnc7kjkeumwrlyx66htnm",
+          "bskyUrl": "https://bsky.app/profile/lea-linux.org/post/3mluq7j6n7s2n",
+          "text": "github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "lea-linux.org",
+            "displayName": "Léαlinux 🐧"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T06:44:21.284Z",
+          "createdUtc": 1778827461,
+          "ageHours": 1.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ingar30--reviewer": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:sjab3wp5lmjljltqeqybkmep/app.bsky.feed.post/3mlutz4anhk2e",
+        "cid": "bafyreid3rpoj32b3szgpok2ipfk25fbxkjjdgdnzdl62n3ljfagnezrbh4",
+        "bskyUrl": "https://bsky.app/profile/ihaal.bsky.social/post/3mlutz4anhk2e",
+        "text": "Excited to release Reviewer: an open-source multi-agent reviewer for economics papers. Run it locally with Codex. It turns a PDF into a structured, high-quality report using a modular, highly customizable pipeline where every finding is traceable to an agent. GitHub link: github.com/Ingar30/revi...",
+        "author": {
+          "handle": "ihaal.bsky.social",
+          "displayName": "Ingar Haaland"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T07:52:21.358Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:sjab3wp5lmjljltqeqybkmep/app.bsky.feed.post/3mlutz4anhk2e",
+          "cid": "bafyreid3rpoj32b3szgpok2ipfk25fbxkjjdgdnzdl62n3ljfagnezrbh4",
+          "bskyUrl": "https://bsky.app/profile/ihaal.bsky.social/post/3mlutz4anhk2e",
+          "text": "Excited to release Reviewer: an open-source multi-agent reviewer for economics papers. Run it locally with Codex. It turns a PDF into a structured, high-quality report using a modular, highly customizable pipeline where every finding is traceable to an agent. GitHub link: github.com/Ingar30/revi...",
+          "author": {
+            "handle": "ihaal.bsky.social",
+            "displayName": "Ingar Haaland"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T07:52:21.358Z",
+          "createdUtc": 1778831541,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Ingar30/reviewer",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
+    {
+      "fullName": "Ingar30/reviewer",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
     {
       "fullName": "maziggy/bambuddy",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "datawhalechina/easy-vibe",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "HKUDS/CLI-Anything",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "holaboss-ai/holaOS",
-      "count7d": 1,
+      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+      "count7d": 3,
       "likesSum7d": 0
     }
   ]

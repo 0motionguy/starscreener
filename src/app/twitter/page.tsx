@@ -455,6 +455,26 @@ export default async function TwitterPage() {
   );
 }
 
+// Shared row CSS — extracted from per-row inline styles so 200 rows × ~240
+// bytes of duplicate `style={...}` blocks don't bloat the HTML transfer.
+// Bytes saved scale with TABLE_LIMIT. v4-* tokens resolved via globals.css.
+const TW_ROW_STYLES = `
+  .tw-row { border-bottom: 1px dashed var(--v4-line-100); animation: slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .tw-row:nth-child(2) { animation-delay: 50ms; }
+  .tw-row:nth-child(3) { animation-delay: 100ms; }
+  .tw-row:nth-child(4) { animation-delay: 150ms; }
+  .tw-row:nth-child(5) { animation-delay: 200ms; }
+  .tw-row:nth-child(6) { animation-delay: 250ms; }
+  .tw-row:nth-child(n+7) { animation-delay: 300ms; }
+  .tw-rank, .tw-meta { color: var(--v4-ink-400); }
+  .tw-num, .tw-link { color: var(--v4-ink-100); }
+  .tw-score { color: var(--v4-acc); }
+  .tw-avatar { border: 1px solid var(--v4-line-200); background: var(--v4-bg-100); }
+  .tw-badge-fire { border: 1px solid rgba(245, 110, 15, 0.4); background: rgba(245, 110, 15, 0.1); color: var(--v4-acc); border-radius: 2px; }
+  .tw-badge-x { border: 1px solid color-mix(in oklab, var(--v4-src-x) 40%, transparent); background: color-mix(in oklab, var(--v4-src-x) 10%, transparent); color: var(--v4-src-x); border-radius: 2px; }
+  .tw-badge-none { border: 1px solid var(--v4-line-200); color: var(--v4-ink-400); border-radius: 2px; }
+`;
+
 function TwitterLeaderboardTable({
   rows,
   activeTab,
@@ -471,6 +491,7 @@ function TwitterLeaderboardTable({
         borderRadius: 2,
       }}
     >
+      <style>{TW_ROW_STYLES}</style>
       <div>
         <div
           className="v2-mono grid h-9 grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 text-[10px] uppercase tracking-[0.18em] md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
@@ -502,43 +523,20 @@ function TwitterLeaderboardTable({
               activeTab === "trending" && row.trendingRank
                 ? `#${row.trendingRank}`
                 : `#${index + 1}`;
-            const stagger = Math.min(index, 6) * 50;
 
-            const badgeStyle =
+            const badgeClass =
               row.badgeState === "x_fire"
-                ? {
-                    border: "1px solid rgba(245, 110, 15, 0.4)",
-                    background: "rgba(245, 110, 15, 0.1)",
-                    color: "var(--v4-acc)",
-                  }
+                ? "tw-badge-fire"
                 : row.badgeState === "x"
-                  ? {
-                      border: `1px solid ${X_BLUE}66`,
-                      background: `${X_BLUE}1A`,
-                      color: X_BLUE,
-                    }
-                  : {
-                      border: "1px solid var(--v4-line-200)",
-                      color: "var(--v4-ink-400)",
-                    };
+                  ? "tw-badge-x"
+                  : "tw-badge-none";
 
             return (
               <li
                 key={row.repoId}
-                className="v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-2 md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
-                style={{
-                  borderBottom: "1px dashed var(--v4-line-100)",
-                  animation:
-                    "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                  animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                }}
+                className="tw-row v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-2 md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
               >
-                <div
-                  className="text-xs tabular-nums"
-                  style={{ color: "var(--v4-ink-400)" }}
-                >
-                  {rankLabel}
-                </div>
+                <div className="tw-rank text-xs tabular-nums">{rankLabel}</div>
                 <div className="flex items-center justify-center">
                   <MentionAuthorBubbles authors={row.topMentionAuthors} />
                 </div>
@@ -550,25 +548,17 @@ function TwitterLeaderboardTable({
                       width={18}
                       height={18}
                       unoptimized
-                      className="h-[18px] w-[18px] shrink-0 rounded-full"
-                      style={{
-                        border: "1px solid var(--v4-line-200)",
-                        background: "var(--v4-bg-100)",
-                      }}
+                      className="tw-avatar h-[18px] w-[18px] shrink-0 rounded-full"
                     />
                     <Link
                       href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                      className="block min-w-0 flex-1 truncate text-sm font-medium leading-tight transition-colors hover:text-[color:var(--v4-acc)]"
-                      style={{ color: "var(--v4-ink-100)" }}
+                      className="tw-link block min-w-0 flex-1 truncate text-sm font-medium leading-tight transition-colors hover:text-[color:var(--v4-acc)]"
                       title={row.githubFullName}
                     >
                       {row.githubFullName}
                     </Link>
                   </div>
-                  <div
-                    className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]"
-                    style={{ color: "var(--v4-ink-400)" }}
-                  >
+                  <div className="tw-meta mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]">
                     <RepoActionLinks row={row} />
                     {activeTab === "trending" ? (
                       <>
@@ -592,34 +582,21 @@ function TwitterLeaderboardTable({
                     </span>
                   </div>
                 </div>
-                <div
-                  className="text-right text-xs tabular-nums"
-                  style={{ color: "var(--v4-ink-100)" }}
-                >
+                <div className="tw-num text-right text-xs tabular-nums">
                   {formatNumber(row.mentionCount24h)}
                 </div>
-                <div
-                  className="hidden text-right text-xs tabular-nums md:block"
-                  style={{ color: "var(--v4-ink-100)" }}
-                >
+                <div className="tw-num hidden text-right text-xs tabular-nums md:block">
                   {formatNumber(row.totalLikes24h)}
                 </div>
-                <div
-                  className="hidden text-right text-xs tabular-nums md:block"
-                  style={{ color: "var(--v4-ink-100)" }}
-                >
+                <div className="tw-num hidden text-right text-xs tabular-nums md:block">
                   {formatNumber(row.totalReposts24h)}
                 </div>
-                <div
-                  className="hidden text-right text-xs font-semibold tabular-nums md:block"
-                  style={{ color: "var(--v4-acc)" }}
-                >
+                <div className="tw-score hidden text-right text-xs font-semibold tabular-nums md:block">
                   {row.finalTwitterScore.toFixed(1)}
                 </div>
                 <div>
                   <span
-                    className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
-                    style={{ ...badgeStyle, borderRadius: 2 }}
+                    className={`${badgeClass} v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]`}
                   >
                     {badgeLabel}
                   </span>

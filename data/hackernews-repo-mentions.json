@@ -1,18 +1,18 @@
 {
-  "fetchedAt": "2026-05-13T10:14:18.065Z",
+  "fetchedAt": "2026-05-15T06:26:30.210Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 754,
+  "scannedAlgoliaHits": 727,
   "scannedFirebaseItems": 500,
   "mentions": {
     "nooga/let-go": {
-      "count7d": 2,
-      "scoreSum7d": 277,
+      "count7d": 3,
+      "scoreSum7d": 291,
       "topStory": {
         "id": 48076815,
         "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
-        "score": 273,
+        "score": 281,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 88.37
+        "hoursSincePosted": 132.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -21,12 +21,12 @@
           "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
           "url": "https://github.com/nooga/let-go",
           "by": "marcingas",
-          "score": 273,
-          "descendants": 83,
+          "score": 281,
+          "descendants": 85,
           "createdUtc": 1778349133,
-          "ageHours": 88.37,
-          "velocity": 3.09,
-          "trendingScore": 70.01,
+          "ageHours": 132.57,
+          "velocity": 2.12,
+          "trendingScore": 49.32,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -43,15 +43,40 @@
           ]
         },
         {
+          "id": 48124008,
+          "title": "Let-go is a Clojure dialect written in Go",
+          "url": "https://github.com/nooga/let-go",
+          "by": "vicek22",
+          "score": 5,
+          "descendants": 0,
+          "createdUtc": 1778689347,
+          "ageHours": 38.07,
+          "velocity": 0.13,
+          "trendingScore": 0.09,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "id": 48065302,
           "title": "let-go: Almost Clojure written in Go",
           "url": "https://github.com/nooga/let-go",
           "by": "tosh",
-          "score": 4,
+          "score": 5,
           "descendants": 2,
           "createdUtc": 1778257486,
-          "ageHours": 113.83,
-          "velocity": 0.04,
+          "ageHours": 158.03,
+          "velocity": 0.03,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -71,28 +96,28 @@
     },
     "tracewayapp/traceway": {
       "count7d": 1,
-      "scoreSum7d": 113,
+      "scoreSum7d": 171,
       "topStory": {
         "id": 48091898,
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
-        "score": 113,
+        "score": 171,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 51.15
+        "hoursSincePosted": 95.36
       },
-      "everHitFrontPage": true,
+      "everHitFrontPage": false,
       "stories": [
         {
           "id": 48091898,
           "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
           "url": "https://github.com/tracewayapp/traceway",
           "by": "sebakubisz",
-          "score": 113,
-          "descendants": 9,
+          "score": 171,
+          "descendants": 77,
           "createdUtc": 1778483101,
-          "ageHours": 51.15,
-          "velocity": 2.21,
-          "trendingScore": 8.62,
-          "everHitFrontPage": true,
+          "ageHours": 95.36,
+          "velocity": 1.79,
+          "trendingScore": 34.77,
+          "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
           ],
@@ -156,7 +181,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 82,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 68.54
+        "hoursSincePosted": 112.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -168,9 +193,9 @@
           "score": 82,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 68.54,
-          "velocity": 1.2,
-          "trendingScore": 7.81,
+          "ageHours": 112.74,
+          "velocity": 0.73,
+          "trendingScore": 4.75,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -346,14 +371,14 @@
       ]
     },
     "NVlabs/cuda-oxide": {
-      "count7d": 4,
-      "scoreSum7d": 14,
+      "count7d": 3,
+      "scoreSum7d": 11,
       "topStory": {
         "id": 48061120,
         "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
         "score": 7,
         "url": "https://github.com/NVlabs/cuda-oxide",
-        "hoursSincePosted": 119.87
+        "hoursSincePosted": 164.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -365,9 +390,9 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1778235730,
-          "ageHours": 119.87,
-          "velocity": 0.06,
-          "trendingScore": 0.05,
+          "ageHours": 164.07,
+          "velocity": 0.04,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -390,32 +415,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778291535,
-          "ageHours": 104.37,
-          "velocity": 0.03,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "NVlabs/cuda-oxide",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 48055332,
-          "title": "cuda-oxide: a custom rustc backend for compiling GPU kernels in pure Rust",
-          "url": "https://github.com/NVlabs/cuda-oxide",
-          "by": "matt_d",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1778189399,
-          "ageHours": 132.74,
+          "ageHours": 148.57,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -440,7 +440,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778322039,
-          "ageHours": 95.89,
+          "ageHours": 140.1,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -467,7 +467,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 37.84
+        "hoursSincePosted": 82.04
       },
       "everHitFrontPage": false,
       "stories": [
@@ -479,9 +479,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 37.84,
-          "velocity": 0.16,
-          "trendingScore": 0.12,
+          "ageHours": 82.04,
+          "velocity": 0.07,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -500,43 +500,17 @@
       ]
     },
     "open-experiments/agent-exchange": {
-      "count7d": 2,
-      "scoreSum7d": 5,
+      "count7d": 1,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 48037303,
-        "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
-        "score": 3,
+        "id": 48064994,
+        "title": "Agent-to-agent discovery and real-time bidding marketplace",
+        "score": 2,
         "url": "https://github.com/open-experiments/agent-exchange",
-        "hoursSincePosted": 162.86
+        "hoursSincePosted": 158.44
       },
       "everHitFrontPage": false,
       "stories": [
-        {
-          "id": 48037303,
-          "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
-          "url": "https://github.com/open-experiments/agent-exchange",
-          "by": "parlakisik",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1778080950,
-          "ageHours": 162.86,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "open-experiments/agent-exchange",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "id": 48064994,
           "title": "Agent-to-agent discovery and real-time bidding marketplace",
@@ -545,9 +519,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778256018,
-          "ageHours": 114.23,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "ageHours": 158.44,
+          "velocity": 0.01,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -565,14 +539,14 @@
       ]
     },
     "VectifyAI/OpenKB": {
-      "count7d": 2,
-      "scoreSum7d": 4,
+      "count7d": 1,
+      "scoreSum7d": 2,
       "topStory": {
         "id": 48061548,
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 118.89
+        "hoursSincePosted": 163.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -584,32 +558,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 118.89,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "VectifyAI/OpenKB",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 48035324,
-          "title": "OpenKB: Open LLM Knowledge Base",
-          "url": "https://github.com/VectifyAI/OpenKB",
-          "by": "ankitg12",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1778069636,
-          "ageHours": 166.01,
+          "ageHours": 163.09,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -753,7 +702,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 47.23
+        "hoursSincePosted": 91.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -765,9 +714,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 47.23,
-          "velocity": 0.08,
-          "trendingScore": 0.05,
+          "ageHours": 91.44,
+          "velocity": 0.04,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -831,7 +780,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 119.32
+        "hoursSincePosted": 163.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -843,8 +792,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 119.32,
-          "velocity": 0.03,
+          "ageHours": 163.52,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -870,7 +819,7 @@
         "title": "Building an Open Source 7MB AI Terminal with Agents and Code Editor (Rust/Tauri)",
         "score": 3,
         "url": "https://github.com/crynta/terax-ai",
-        "hoursSincePosted": 118.31
+        "hoursSincePosted": 162.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -882,9 +831,9 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1778241330,
-          "ageHours": 118.31,
-          "velocity": 0.03,
-          "trendingScore": 0.02,
+          "ageHours": 162.52,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -909,7 +858,7 @@
         "title": "Open-source endpoint detection engine for Windows and Linux",
         "score": 3,
         "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 35.22
+        "hoursSincePosted": 79.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -921,9 +870,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778540481,
-          "ageHours": 35.22,
-          "velocity": 0.09,
-          "trendingScore": 0.04,
+          "ageHours": 79.42,
+          "velocity": 0.04,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -944,24 +893,24 @@
       "count7d": 2,
       "scoreSum7d": 2,
       "topStory": {
-        "id": 48089164,
-        "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
+        "id": 48079458,
+        "title": "Build native desktop and mobile apps with web UI and Zig",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 58.88
+        "hoursSincePosted": 126.71
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48089164,
-          "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
+          "id": 48079458,
+          "title": "Build native desktop and mobile apps with web UI and Zig",
           "url": "https://github.com/vercel-labs/zero-native",
-          "by": "maxloh",
+          "by": "kindkang2024",
           "score": 1,
-          "descendants": 0,
-          "createdUtc": 1778455279,
-          "ageHours": 58.88,
-          "velocity": 0.02,
+          "descendants": 1,
+          "createdUtc": 1778370221,
+          "ageHours": 126.71,
+          "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -978,14 +927,14 @@
           ]
         },
         {
-          "id": 48079458,
-          "title": "Build native desktop and mobile apps with web UI and Zig",
+          "id": 48089164,
+          "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
           "url": "https://github.com/vercel-labs/zero-native",
-          "by": "kindkang2024",
+          "by": "maxloh",
           "score": 1,
-          "descendants": 1,
-          "createdUtc": 1778370221,
-          "ageHours": 82.51,
+          "descendants": 0,
+          "createdUtc": 1778455279,
+          "ageHours": 103.09,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1012,7 +961,7 @@
         "title": "Open SRE",
         "score": 2,
         "url": "https://github.com/Tracer-Cloud/opensre",
-        "hoursSincePosted": 92.55
+        "hoursSincePosted": 136.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1024,9 +973,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778334079,
-          "ageHours": 92.55,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "ageHours": 136.75,
+          "velocity": 0.01,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1169,7 +1118,7 @@
         "title": "Floci: Light, fluffy, and always free – The AWS Local Emulator alternative",
         "score": 1,
         "url": "https://github.com/floci-io/floci",
-        "hoursSincePosted": 31.93
+        "hoursSincePosted": 76.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1181,8 +1130,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778552315,
-          "ageHours": 31.93,
-          "velocity": 0.03,
+          "ageHours": 76.13,
+          "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1247,7 +1196,7 @@
         "title": "PAI Is a Life Operating System",
         "score": 1,
         "url": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
-        "hoursSincePosted": 18.72
+        "hoursSincePosted": 62.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1259,8 +1208,8 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778599881,
-          "ageHours": 18.72,
-          "velocity": 0.05,
+          "ageHours": 62.92,
+          "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1277,18 +1226,253 @@
           ]
         }
       ]
+    },
+    "0xdeadbeefnetwork/ssh-keysign-pwn": {
+      "count7d": 1,
+      "scoreSum7d": 18,
+      "topStory": {
+        "id": 48143237,
+        "title": "New Linux LPE, 5.10 and above (ptrace_may_access mm-NULL + pidfd_getfd)",
+        "score": 18,
+        "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+        "hoursSincePosted": 5.41
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48143237,
+          "title": "New Linux LPE, 5.10 and above (ptrace_may_access mm-NULL + pidfd_getfd)",
+          "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+          "by": "Tiberium",
+          "score": 18,
+          "descendants": 1,
+          "createdUtc": 1778806929,
+          "ageHours": 5.41,
+          "velocity": 3.33,
+          "trendingScore": 4.6,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "apernet/hysteria": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48119023,
+        "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
+        "score": 5,
+        "url": "https://github.com/apernet/hysteria",
+        "hoursSincePosted": 46.58
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48119023,
+          "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
+          "url": "https://github.com/apernet/hysteria",
+          "by": "steveharing1",
+          "score": 5,
+          "descendants": 0,
+          "createdUtc": 1778658717,
+          "ageHours": 46.58,
+          "velocity": 0.11,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "apernet/hysteria",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "thesysdev/openui": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48131325,
+        "title": "A Streaming First Language for Generative UI",
+        "score": 2,
+        "url": "https://github.com/thesysdev/openui",
+        "hoursSincePosted": 25.26
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48131325,
+          "title": "A Streaming First Language for Generative UI",
+          "url": "https://github.com/thesysdev/openui",
+          "by": "ChicknNuggt",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778735467,
+          "ageHours": 25.26,
+          "velocity": 0.08,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "affaan-m/everything-claude-code": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48126691,
+        "title": "Everything Claude Code: performance optimization system for AI agent harnesses",
+        "score": 2,
+        "url": "https://github.com/affaan-m/everything-claude-code",
+        "hoursSincePosted": 34.42
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48126691,
+          "title": "Everything Claude Code: performance optimization system for AI agent harnesses",
+          "url": "https://github.com/affaan-m/everything-claude-code",
+          "by": "doener",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778702473,
+          "ageHours": 34.42,
+          "velocity": 0.06,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "affaan-m/everything-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tinyhumansai/openhuman": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48125601,
+        "title": "Tinyhumansai/openhuman: Your Personal AI super intelligence",
+        "score": 2,
+        "url": "https://github.com/tinyhumansai/openhuman",
+        "hoursSincePosted": 35.96
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48125601,
+          "title": "Tinyhumansai/openhuman: Your Personal AI super intelligence",
+          "url": "https://github.com/tinyhumansai/openhuman",
+          "by": "ulrischa",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778696946,
+          "ageHours": 35.96,
+          "velocity": 0.06,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "OpenSenseNova/SenseNova-U1": {
+      "count7d": 1,
+      "scoreSum7d": 1,
+      "topStory": {
+        "id": 48133544,
+        "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
+        "score": 1,
+        "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
+        "hoursSincePosted": 19.71
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48133544,
+          "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
+          "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
+          "by": "DanielWen666",
+          "score": 1,
+          "descendants": 0,
+          "createdUtc": 1778755438,
+          "ageHours": 19.71,
+          "velocity": 0.05,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "OpenSenseNova/SenseNova-U1",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "nooga--let-go": {
-      "count7d": 2,
-      "scoreSum7d": 277,
+      "count7d": 3,
+      "scoreSum7d": 291,
       "topStory": {
         "id": 48076815,
         "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
-        "score": 273,
+        "score": 281,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 88.37
+        "hoursSincePosted": 132.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1297,12 +1481,12 @@
           "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
           "url": "https://github.com/nooga/let-go",
           "by": "marcingas",
-          "score": 273,
-          "descendants": 83,
+          "score": 281,
+          "descendants": 85,
           "createdUtc": 1778349133,
-          "ageHours": 88.37,
-          "velocity": 3.09,
-          "trendingScore": 70.01,
+          "ageHours": 132.57,
+          "velocity": 2.12,
+          "trendingScore": 49.32,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1319,15 +1503,40 @@
           ]
         },
         {
+          "id": 48124008,
+          "title": "Let-go is a Clojure dialect written in Go",
+          "url": "https://github.com/nooga/let-go",
+          "by": "vicek22",
+          "score": 5,
+          "descendants": 0,
+          "createdUtc": 1778689347,
+          "ageHours": 38.07,
+          "velocity": 0.13,
+          "trendingScore": 0.09,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "id": 48065302,
           "title": "let-go: Almost Clojure written in Go",
           "url": "https://github.com/nooga/let-go",
           "by": "tosh",
-          "score": 4,
+          "score": 5,
           "descendants": 2,
           "createdUtc": 1778257486,
-          "ageHours": 113.83,
-          "velocity": 0.04,
+          "ageHours": 158.03,
+          "velocity": 0.03,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1347,28 +1556,28 @@
     },
     "tracewayapp--traceway": {
       "count7d": 1,
-      "scoreSum7d": 113,
+      "scoreSum7d": 171,
       "topStory": {
         "id": 48091898,
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
-        "score": 113,
+        "score": 171,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 51.15
+        "hoursSincePosted": 95.36
       },
-      "everHitFrontPage": true,
+      "everHitFrontPage": false,
       "stories": [
         {
           "id": 48091898,
           "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
           "url": "https://github.com/tracewayapp/traceway",
           "by": "sebakubisz",
-          "score": 113,
-          "descendants": 9,
+          "score": 171,
+          "descendants": 77,
           "createdUtc": 1778483101,
-          "ageHours": 51.15,
-          "velocity": 2.21,
-          "trendingScore": 8.62,
-          "everHitFrontPage": true,
+          "ageHours": 95.36,
+          "velocity": 1.79,
+          "trendingScore": 34.77,
+          "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1432,7 +1641,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 82,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 68.54
+        "hoursSincePosted": 112.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1444,9 +1653,9 @@
           "score": 82,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 68.54,
-          "velocity": 1.2,
-          "trendingScore": 7.81,
+          "ageHours": 112.74,
+          "velocity": 0.73,
+          "trendingScore": 4.75,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1622,14 +1831,14 @@
       ]
     },
     "nvlabs--cuda-oxide": {
-      "count7d": 4,
-      "scoreSum7d": 14,
+      "count7d": 3,
+      "scoreSum7d": 11,
       "topStory": {
         "id": 48061120,
         "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
         "score": 7,
         "url": "https://github.com/NVlabs/cuda-oxide",
-        "hoursSincePosted": 119.87
+        "hoursSincePosted": 164.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1641,9 +1850,9 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1778235730,
-          "ageHours": 119.87,
-          "velocity": 0.06,
-          "trendingScore": 0.05,
+          "ageHours": 164.07,
+          "velocity": 0.04,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1666,32 +1875,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778291535,
-          "ageHours": 104.37,
-          "velocity": 0.03,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "NVlabs/cuda-oxide",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 48055332,
-          "title": "cuda-oxide: a custom rustc backend for compiling GPU kernels in pure Rust",
-          "url": "https://github.com/NVlabs/cuda-oxide",
-          "by": "matt_d",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1778189399,
-          "ageHours": 132.74,
+          "ageHours": 148.57,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1716,7 +1900,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778322039,
-          "ageHours": 95.89,
+          "ageHours": 140.1,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1743,7 +1927,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 37.84
+        "hoursSincePosted": 82.04
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1755,9 +1939,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 37.84,
-          "velocity": 0.16,
-          "trendingScore": 0.12,
+          "ageHours": 82.04,
+          "velocity": 0.07,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1776,43 +1960,17 @@
       ]
     },
     "open-experiments--agent-exchange": {
-      "count7d": 2,
-      "scoreSum7d": 5,
+      "count7d": 1,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 48037303,
-        "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
-        "score": 3,
+        "id": 48064994,
+        "title": "Agent-to-agent discovery and real-time bidding marketplace",
+        "score": 2,
         "url": "https://github.com/open-experiments/agent-exchange",
-        "hoursSincePosted": 162.86
+        "hoursSincePosted": 158.44
       },
       "everHitFrontPage": false,
       "stories": [
-        {
-          "id": 48037303,
-          "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
-          "url": "https://github.com/open-experiments/agent-exchange",
-          "by": "parlakisik",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1778080950,
-          "ageHours": 162.86,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "open-experiments/agent-exchange",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "id": 48064994,
           "title": "Agent-to-agent discovery and real-time bidding marketplace",
@@ -1821,9 +1979,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778256018,
-          "ageHours": 114.23,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "ageHours": 158.44,
+          "velocity": 0.01,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1841,14 +1999,14 @@
       ]
     },
     "vectifyai--openkb": {
-      "count7d": 2,
-      "scoreSum7d": 4,
+      "count7d": 1,
+      "scoreSum7d": 2,
       "topStory": {
         "id": 48061548,
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 118.89
+        "hoursSincePosted": 163.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1860,32 +2018,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 118.89,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "VectifyAI/OpenKB",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 48035324,
-          "title": "OpenKB: Open LLM Knowledge Base",
-          "url": "https://github.com/VectifyAI/OpenKB",
-          "by": "ankitg12",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1778069636,
-          "ageHours": 166.01,
+          "ageHours": 163.09,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2029,7 +2162,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 47.23
+        "hoursSincePosted": 91.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2041,9 +2174,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 47.23,
-          "velocity": 0.08,
-          "trendingScore": 0.05,
+          "ageHours": 91.44,
+          "velocity": 0.04,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2107,7 +2240,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 119.32
+        "hoursSincePosted": 163.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2119,8 +2252,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 119.32,
-          "velocity": 0.03,
+          "ageHours": 163.52,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2146,7 +2279,7 @@
         "title": "Building an Open Source 7MB AI Terminal with Agents and Code Editor (Rust/Tauri)",
         "score": 3,
         "url": "https://github.com/crynta/terax-ai",
-        "hoursSincePosted": 118.31
+        "hoursSincePosted": 162.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2158,9 +2291,9 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1778241330,
-          "ageHours": 118.31,
-          "velocity": 0.03,
-          "trendingScore": 0.02,
+          "ageHours": 162.52,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2185,7 +2318,7 @@
         "title": "Open-source endpoint detection engine for Windows and Linux",
         "score": 3,
         "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 35.22
+        "hoursSincePosted": 79.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2197,9 +2330,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778540481,
-          "ageHours": 35.22,
-          "velocity": 0.09,
-          "trendingScore": 0.04,
+          "ageHours": 79.42,
+          "velocity": 0.04,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2220,24 +2353,24 @@
       "count7d": 2,
       "scoreSum7d": 2,
       "topStory": {
-        "id": 48089164,
-        "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
+        "id": 48079458,
+        "title": "Build native desktop and mobile apps with web UI and Zig",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 58.88
+        "hoursSincePosted": 126.71
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48089164,
-          "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
+          "id": 48079458,
+          "title": "Build native desktop and mobile apps with web UI and Zig",
           "url": "https://github.com/vercel-labs/zero-native",
-          "by": "maxloh",
+          "by": "kindkang2024",
           "score": 1,
-          "descendants": 0,
-          "createdUtc": 1778455279,
-          "ageHours": 58.88,
-          "velocity": 0.02,
+          "descendants": 1,
+          "createdUtc": 1778370221,
+          "ageHours": 126.71,
+          "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2254,14 +2387,14 @@
           ]
         },
         {
-          "id": 48079458,
-          "title": "Build native desktop and mobile apps with web UI and Zig",
+          "id": 48089164,
+          "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
           "url": "https://github.com/vercel-labs/zero-native",
-          "by": "kindkang2024",
+          "by": "maxloh",
           "score": 1,
-          "descendants": 1,
-          "createdUtc": 1778370221,
-          "ageHours": 82.51,
+          "descendants": 0,
+          "createdUtc": 1778455279,
+          "ageHours": 103.09,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2288,7 +2421,7 @@
         "title": "Open SRE",
         "score": 2,
         "url": "https://github.com/Tracer-Cloud/opensre",
-        "hoursSincePosted": 92.55
+        "hoursSincePosted": 136.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2300,9 +2433,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778334079,
-          "ageHours": 92.55,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "ageHours": 136.75,
+          "velocity": 0.01,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2445,7 +2578,7 @@
         "title": "Floci: Light, fluffy, and always free – The AWS Local Emulator alternative",
         "score": 1,
         "url": "https://github.com/floci-io/floci",
-        "hoursSincePosted": 31.93
+        "hoursSincePosted": 76.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2457,8 +2590,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778552315,
-          "ageHours": 31.93,
-          "velocity": 0.03,
+          "ageHours": 76.13,
+          "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2523,7 +2656,7 @@
         "title": "PAI Is a Life Operating System",
         "score": 1,
         "url": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
-        "hoursSincePosted": 18.72
+        "hoursSincePosted": 62.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2535,8 +2668,8 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778599881,
-          "ageHours": 18.72,
-          "velocity": 0.05,
+          "ageHours": 62.92,
+          "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2553,18 +2686,253 @@
           ]
         }
       ]
+    },
+    "0xdeadbeefnetwork--ssh-keysign-pwn": {
+      "count7d": 1,
+      "scoreSum7d": 18,
+      "topStory": {
+        "id": 48143237,
+        "title": "New Linux LPE, 5.10 and above (ptrace_may_access mm-NULL + pidfd_getfd)",
+        "score": 18,
+        "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+        "hoursSincePosted": 5.41
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48143237,
+          "title": "New Linux LPE, 5.10 and above (ptrace_may_access mm-NULL + pidfd_getfd)",
+          "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+          "by": "Tiberium",
+          "score": 18,
+          "descendants": 1,
+          "createdUtc": 1778806929,
+          "ageHours": 5.41,
+          "velocity": 3.33,
+          "trendingScore": 4.6,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "apernet--hysteria": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48119023,
+        "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
+        "score": 5,
+        "url": "https://github.com/apernet/hysteria",
+        "hoursSincePosted": 46.58
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48119023,
+          "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
+          "url": "https://github.com/apernet/hysteria",
+          "by": "steveharing1",
+          "score": 5,
+          "descendants": 0,
+          "createdUtc": 1778658717,
+          "ageHours": 46.58,
+          "velocity": 0.11,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "apernet/hysteria",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "thesysdev--openui": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48131325,
+        "title": "A Streaming First Language for Generative UI",
+        "score": 2,
+        "url": "https://github.com/thesysdev/openui",
+        "hoursSincePosted": 25.26
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48131325,
+          "title": "A Streaming First Language for Generative UI",
+          "url": "https://github.com/thesysdev/openui",
+          "by": "ChicknNuggt",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778735467,
+          "ageHours": 25.26,
+          "velocity": 0.08,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "affaan-m--everything-claude-code": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48126691,
+        "title": "Everything Claude Code: performance optimization system for AI agent harnesses",
+        "score": 2,
+        "url": "https://github.com/affaan-m/everything-claude-code",
+        "hoursSincePosted": 34.42
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48126691,
+          "title": "Everything Claude Code: performance optimization system for AI agent harnesses",
+          "url": "https://github.com/affaan-m/everything-claude-code",
+          "by": "doener",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778702473,
+          "ageHours": 34.42,
+          "velocity": 0.06,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "affaan-m/everything-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tinyhumansai--openhuman": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48125601,
+        "title": "Tinyhumansai/openhuman: Your Personal AI super intelligence",
+        "score": 2,
+        "url": "https://github.com/tinyhumansai/openhuman",
+        "hoursSincePosted": 35.96
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48125601,
+          "title": "Tinyhumansai/openhuman: Your Personal AI super intelligence",
+          "url": "https://github.com/tinyhumansai/openhuman",
+          "by": "ulrischa",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778696946,
+          "ageHours": 35.96,
+          "velocity": 0.06,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "opensensenova--sensenova-u1": {
+      "count7d": 1,
+      "scoreSum7d": 1,
+      "topStory": {
+        "id": 48133544,
+        "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
+        "score": 1,
+        "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
+        "hoursSincePosted": 19.71
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48133544,
+          "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
+          "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
+          "by": "DanielWen666",
+          "score": 1,
+          "descendants": 0,
+          "createdUtc": 1778755438,
+          "ageHours": 19.71,
+          "velocity": 0.05,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "OpenSenseNova/SenseNova-U1",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "nooga/let-go",
-      "count7d": 2,
-      "scoreSum7d": 277
+      "count7d": 3,
+      "scoreSum7d": 291
     },
     {
       "fullName": "tracewayapp/traceway",
       "count7d": 1,
-      "scoreSum7d": 113
+      "scoreSum7d": 171
     },
     {
       "fullName": "ab-613/OpenGravity",
@@ -2592,6 +2960,11 @@
       "scoreSum7d": 29
     },
     {
+      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+      "count7d": 1,
+      "scoreSum7d": 18
+    },
+    {
       "fullName": "anthropics/claude-code",
       "count7d": 3,
       "scoreSum7d": 15
@@ -2609,6 +2982,11 @@
     {
       "fullName": "open-experiments/agent-exchange",
       "count7d": 2,
+      "scoreSum7d": 5
+    },
+    {
+      "fullName": "apernet/hysteria",
+      "count7d": 1,
       "scoreSum7d": 5
     },
     {
@@ -2682,6 +3060,21 @@
       "scoreSum7d": 2
     },
     {
+      "fullName": "affaan-m/everything-claude-code",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "thesysdev/openui",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
       "fullName": "floci-io/floci",
       "count7d": 1,
       "scoreSum7d": 1
@@ -2693,6 +3086,11 @@
     },
     {
       "fullName": "danielmiessler/Personal_AI_Infrastructure",
+      "count7d": 1,
+      "scoreSum7d": 1
+    },
+    {
+      "fullName": "OpenSenseNova/SenseNova-U1",
       "count7d": 1,
       "scoreSum7d": 1
     }

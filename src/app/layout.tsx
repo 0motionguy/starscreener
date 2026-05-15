@@ -184,7 +184,7 @@ export default async function RootLayout({
       <IdleMount>
         <ClerkRefHandoff />
       </IdleMount>
-      <Header clerkPublishableKey={clerkPublishableKey} />
+      <Header authEnabled={Boolean(clerkPublishableKey)} />
       <MobileDrawerLazy />
       <AppShell>
         <Sidebar initialShell={initialSidebarShell} />

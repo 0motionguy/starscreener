@@ -1,14 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
 
 interface HeaderAccountProps {
-  publishableKey?: string;
+  authEnabled: boolean;
 }
 
 function accountInitials(input: string): string {
@@ -90,47 +90,35 @@ function SignedOutAccountLink() {
   );
 }
 
-function HeaderAccountLoaded() {
-  const { isLoaded, isSignedIn, user } = useUser();
-
-  if (!isLoaded) {
-    return (
-      <span
-        className="btn-signup"
-        aria-label="Loading account"
-        aria-busy="true"
-      >
-        <span>Account</span>
-      </span>
-    );
-  }
-
-  if (!isSignedIn || !user) {
-    return <SignedOutAccountLink />;
-  }
-
-  const label =
-    user.fullName ||
-    user.username ||
-    user.primaryEmailAddress?.emailAddress ||
-    user.id;
-
+export function HeaderAccountLoading() {
   return (
-    <Link
-      href="/you"
-      className="profile focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-      title="Your account"
-      aria-label="Your account"
+    <span
+      className="btn-signup"
+      aria-label="Loading account"
+      aria-busy="true"
     >
-      <div className="av">{accountInitials(label)}</div>
-    </Link>
+      <span>Account</span>
+    </span>
   );
 }
 
-export function HeaderAccount({ publishableKey }: HeaderAccountProps) {
-  if (!publishableKey) {
+const HeaderAccountLoaded = dynamic(
+  () =>
+    import("@/components/layout/HeaderAccountLoaded").then(
+      (mod) => mod.HeaderAccountLoaded,
+    ),
+  { ssr: false, loading: HeaderAccountLoading },
+);
+
+export function HeaderAccount({ authEnabled }: HeaderAccountProps) {
+  if (!authEnabled) {
     return <SignedOutAccountLink />;
   }
 
-  return <HeaderAccountLoaded />;
+  return (
+    <HeaderAccountLoaded
+      fallback={<SignedOutAccountLink />}
+      getInitials={accountInitials}
+    />
+  );
 }

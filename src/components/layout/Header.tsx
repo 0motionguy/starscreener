@@ -7,10 +7,10 @@ import { HamburgerButton } from "@/components/layout/HamburgerButton";
 import { HeaderAccount } from "@/components/layout/HeaderAccount";
 
 interface HeaderProps {
-  clerkPublishableKey?: string;
+  authEnabled: boolean;
 }
 
-export function Header({ clerkPublishableKey }: HeaderProps) {
+export function Header({ authEnabled }: HeaderProps) {
   return (
     <header className="topbar">
       <div className="topbar-shimmer" aria-hidden="true"></div>
@@ -86,7 +86,7 @@ export function Header({ clerkPublishableKey }: HeaderProps) {
         </Link>
 
         <span className="tb-div" aria-hidden="true"></span>
-        <HeaderAccount publishableKey={clerkPublishableKey} />
+        <HeaderAccount authEnabled={authEnabled} />
       </div>
     </header>
   );

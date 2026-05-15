@@ -20,6 +20,7 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { RepoLink } from "@/components/repo/RepoLink";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { npmLogoUrl } from "@/lib/logos";
@@ -273,7 +274,7 @@ function PackageFeed({
       header: "Repo",
       width: "220px",
       hideBelow: "md",
-      render: (pkg) => <RepoLink pkg={pkg} />,
+      render: (pkg) => <NpmRepoLink pkg={pkg} />,
     },
     {
       id: "move-24h",
@@ -388,18 +389,18 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
   );
 }
 
-function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
+function NpmRepoLink({ pkg }: { pkg: NpmPackageRow }) {
   const derived = getDerivedRepoByFullName(pkg.linkedRepo);
   if (derived) {
     return (
-      <Link
-        href={`/repo/${derived.owner}/${derived.name}`}
+      <RepoLink
+        owner={derived.owner}
+        name={derived.name}
         className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
         style={{ color: "var(--v4-ink-100)" }}
-        title={pkg.linkedRepo}
       >
         {pkg.linkedRepo}
-      </Link>
+      </RepoLink>
     );
   }
   return (

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-13T07:39:15.430Z",
+  "fetchedAt": "2026-05-15T06:43:51.748Z",
   "windowHours": 72,
-  "scannedTotal": 82,
+  "scannedTotal": 78,
   "stories": [
     {
       "shortId": "am7evd",
@@ -399,6 +399,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "kxmdvj",
+      "title": "In what way if any are you a tech minimalist while maintaining your job/love for tech?",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/kxmdvj/what_way_if_any_are_you_tech_minimalist",
+      "by": "",
+      "score": 22,
+      "commentCount": 16,
+      "createdUtc": 1778806215,
+      "ageHours": 5.8933333333333335,
+      "trendingScore": 0.9920464693781398,
+      "tags": [
+        "ask",
+        "programming"
+      ],
+      "description": "<p>Curious what others think about this recently popular lifestyle shift. I love my coding, selfhosting, and useful tools but I’ve found myself moving towards “low” tech solutions such as pen and paper or just micro, iPod, a physical calendar versus all these different SaaS and selfhosted services.</p>\n",
+      "linkedRepos": []
+    },
+    {
       "shortId": "kkzpdd",
       "title": "Ploopy Bean - external trackpoint",
       "url": "https://ploopy.co/bean/",
@@ -428,6 +446,42 @@
       "trendingScore": 0.9406308156098016,
       "tags": [
         "browsers"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "lapqbz",
+      "title": "Bun's Rust rewrite has been merged",
+      "url": "https://www.reddit.com/r/rust/comments/1tcrmjs/rewrite_bun_in_rust_has_been_merged/",
+      "commentsUrl": "https://lobste.rs/s/lapqbz/bun_s_rust_rewrite_has_been_merged",
+      "by": "",
+      "score": 80,
+      "commentCount": 88,
+      "createdUtc": 1778764586,
+      "ageHours": 17.456944444444446,
+      "trendingScore": 0.9321333118078383,
+      "tags": [
+        "javascript",
+        "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "wskhre",
+      "title": "linux 0-day, access root-owned files as an unprivileged user",
+      "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
+      "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
+      "by": "",
+      "score": 19,
+      "commentCount": 7,
+      "createdUtc": 1778807661,
+      "ageHours": 5.491666666666666,
+      "trendingScore": 0.9265864232149701,
+      "tags": [
+        "linux",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -485,6 +539,23 @@
         "programming"
       ],
       "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "wee21u",
+      "title": "\"This is written by an LLM\" comments should be flagged as off-topic",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/wee21u/this_is_written_by_llm_comments_should_be",
+      "by": "",
+      "score": 55,
+      "commentCount": 62,
+      "createdUtc": 1778778024,
+      "ageHours": 13.724166666666667,
+      "trendingScore": 0.882086614615526,
+      "tags": [
+        "meta"
+      ],
+      "description": "<p>There've been endless discussions about whether we should ban LLM-generated text, or change the ai/vibecoding tags, or etc.  The general consensus seems to be (???) flag low-effort/uninformative stories as spam and move on.</p>\n<p>My proposal here is that <em>comments</em> on these stories that just say \"this is LLM slop\" or something equivalent should be flagged as off-topic.  Clearly everyone has different thresholds for what triggers their \"slop-o-meter\" but at least 80% of the reason I re",
       "linkedRepos": []
     },
     {
@@ -823,76 +894,6 @@
       "tags": [
         "graphics",
         "retrocomputing"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "hbctt2",
-      "title": "Point-Free Logic Programming",
-      "url": "https://forum.malleable.systems/t/point-free-logic-programming/151",
-      "commentsUrl": "https://lobste.rs/s/hbctt2/point_free_logic_programming",
-      "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1778393670,
-      "ageHours": 1.4294444444444445,
-      "trendingScore": 0.6298314364143183,
-      "tags": [
-        "logiclangs"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "0xnfql",
-      "title": "Vulnerability Garden: A growing list of named vulnerabilities, attack techniques and exploits",
-      "url": "https://vulnerability.garden/",
-      "commentsUrl": "https://lobste.rs/s/0xnfql/vulnerability_garden_growing_list_named",
-      "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1778270688,
-      "ageHours": 1.531388888888889,
-      "trendingScore": 0.602756180197328,
-      "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "q5bds7",
-      "title": "Stop MITM on the first SSH connection, on any VPS or cloud provider",
-      "url": "https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html",
-      "commentsUrl": "https://lobste.rs/s/q5bds7/stop_mitm_on_first_ssh_connection_on_any",
-      "by": "",
-      "score": 12,
-      "commentCount": 4,
-      "createdUtc": 1778239571,
-      "ageHours": 5.4575,
-      "trendingScore": 0.5892388225306919,
-      "tags": [
-        "cryptography",
-        "devops",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "w2nz01",
-      "title": "NixOS and Secrets",
-      "url": "https://isabelroses.com/blog/nixos-and-secrets/",
-      "commentsUrl": "https://lobste.rs/s/w2nz01/nixos_secrets",
-      "by": "",
-      "score": 7,
-      "commentCount": 3,
-      "createdUtc": 1778271195,
-      "ageHours": 3.3055555555555554,
-      "trendingScore": 0.5727983262838438,
-      "tags": [
-        "nix"
       ],
       "description": "",
       "linkedRepos": []

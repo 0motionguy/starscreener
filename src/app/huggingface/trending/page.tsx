@@ -19,7 +19,7 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
+import { huggingFaceAuthorLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";

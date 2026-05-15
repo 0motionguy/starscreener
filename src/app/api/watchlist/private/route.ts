@@ -159,7 +159,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
   }
 
   const { fullNames: rawList } = parsed.data;
-  const { valid: _valid, invalid } = normalizeFullNames(rawList);
+  const { invalid } = normalizeFullNames(rawList);
   // Normalization / validation happens inside setPrivateWatchlist too; we
   // call it here only to expose the `dropped` list in the response so
   // the client can surface it in a toast.

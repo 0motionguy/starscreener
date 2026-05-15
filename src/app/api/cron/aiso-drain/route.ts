@@ -131,8 +131,6 @@ const DrainRequestSchema = z
   })
   .passthrough();
 
-type DrainRequestBody = z.infer<typeof DrainRequestSchema>;
-
 function parseLimit(raw: unknown): number {
   if (typeof raw !== "number" || !Number.isFinite(raw) || raw <= 0) {
     return DEFAULT_LIMIT;

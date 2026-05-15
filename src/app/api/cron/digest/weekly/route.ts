@@ -39,7 +39,6 @@ import {
   loadUserEmailMapFromEnv,
   collectAlertsByUser,
   pickTopBreakouts,
-  type DigestUserEmailMap,
 } from "@/lib/pipeline/alerts/weekly-digest";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import {

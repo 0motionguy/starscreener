@@ -217,10 +217,10 @@ export function classifyMovement(
 export function computeScore(
   input: ScoringInput,
   modifierInput: ModifierInput,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   allInputs?: ScoringInput[],
   previousStatus?: MovementStatus,
 ): RepoScore {
+  void allInputs;
   const weights = resolveWeights(input.categoryId);
   const components = computeAllComponents(input);
   const modifiers = computeAllModifiers(modifierInput);

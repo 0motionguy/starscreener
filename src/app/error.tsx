@@ -27,7 +27,6 @@ export default function Error({
       ).Sentry;
       if (sentry?.captureException) sentry.captureException(error);
     }
-    // eslint-disable-next-line no-console
     console.error("[app/error] unhandled render error", error);
   }, [error]);
 

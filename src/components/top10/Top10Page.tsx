@@ -170,8 +170,6 @@ export function Top10Page({
     return payload[category];
   }, [category, window, metric, repoSlice, payload]);
 
-  const meta = categoryMeta[category];
-
   function pickCategory(next: Top10Category) {
     setCategory(next);
     const m = categoryMeta[next];
@@ -188,7 +186,6 @@ export function Top10Page({
         aspect={aspect}
         theme={theme}
         bundle={liveBundle}
-        meta={meta}
         payload={payload}
         categoryMeta={categoryMeta}
         onCategory={pickCategory}
@@ -208,7 +205,6 @@ interface MainProps {
   aspect: ShareAspect;
   theme: Top10Theme;
   bundle: Top10Bundle;
-  meta: CategoryMeta;
   payload: Top10Payload;
   categoryMeta: Record<Top10Category, CategoryMeta>;
   onCategory: (c: Top10Category) => void;
@@ -225,7 +221,6 @@ function Main({
   aspect,
   theme,
   bundle,
-  meta,
   payload,
   categoryMeta,
   onCategory,
@@ -1632,7 +1627,6 @@ function MoreGrid({
       {cats.map((c) => (
         <Mini
           key={c}
-          category={c}
           meta={meta[c]}
           bundle={payload[c]}
           onOpen={() => onPick(c)}
@@ -1643,12 +1637,10 @@ function MoreGrid({
 }
 
 function Mini({
-  category,
   meta,
   bundle,
   onOpen,
 }: {
-  category: Top10Category;
   meta: CategoryMeta;
   bundle: Top10Bundle;
   onOpen: () => void;

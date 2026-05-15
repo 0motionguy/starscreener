@@ -175,7 +175,7 @@ export function ContentTagChips({ counts, hiddenCount }: ContentTagChipsProps) {
       <Link
         href={allHref()}
         scroll={false}
-        aria-pressed={!anyActive}
+        aria-current={!anyActive ? "page" : undefined}
         className={cn(
           CHIP_BASE,
           !anyActive
@@ -228,7 +228,7 @@ export function ContentTagChips({ counts, hiddenCount }: ContentTagChipsProps) {
             key={chip.key}
             href={chipHref(chip.key)}
             scroll={false}
-            aria-pressed={active}
+            aria-current={active ? "page" : undefined}
             className={cn(
               CHIP_BASE,
               active
@@ -282,7 +282,7 @@ export function ContentTagChips({ counts, hiddenCount }: ContentTagChipsProps) {
       <Link
         href={showAllHref()}
         scroll={false}
-        aria-pressed={showAll}
+        aria-current={showAll ? "page" : undefined}
         className={cn(
           "ml-auto inline-flex items-center gap-1.5 h-8 px-3 rounded-full",
           "text-[11px] font-mono lowercase tracking-wide",

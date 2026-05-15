@@ -159,7 +159,7 @@ export function AgentCommerceFilterBar(props: FilterBarProps) {
         <Link
           className={`ac-chip ac-chip-flag ${portalReady ? "is-on" : ""}`}
           href={withParam(baseQuery, "portalready", portalReady ? null : "1")}
-          aria-pressed={portalReady}
+          aria-current={portalReady ? "page" : undefined}
         >
           <span className="ac-chip-dot" aria-hidden />
           Portal Ready

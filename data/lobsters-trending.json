@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-15T08:24:22.275Z",
+  "fetchedAt": "2026-05-15T11:01:12.803Z",
   "windowHours": 72,
-  "scannedTotal": 78,
+  "scannedTotal": 79,
   "stories": [
     {
       "shortId": "am7evd",
@@ -256,6 +256,30 @@
       "linkedRepos": []
     },
     {
+      "shortId": "wskhre",
+      "title": "linux 0-day, access root-owned files as an unprivileged user",
+      "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
+      "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
+      "by": "",
+      "score": 48,
+      "commentCount": 17,
+      "createdUtc": 1778807661,
+      "ageHours": 9.780833333333334,
+      "trendingScore": 1.187072432527248,
+      "tags": [
+        "linux",
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": [
+        {
+          "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
+    },
+    {
       "shortId": "msrczi",
       "title": "What is BusyBox?",
       "url": "https://specular.fi/post/what-is-busybox",
@@ -289,30 +313,6 @@
       ],
       "description": "",
       "linkedRepos": []
-    },
-    {
-      "shortId": "wskhre",
-      "title": "linux 0-day, access root-owned files as an unprivileged user",
-      "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
-      "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
-      "by": "",
-      "score": 31,
-      "commentCount": 8,
-      "createdUtc": 1778807661,
-      "ageHours": 7.166944444444445,
-      "trendingScore": 1.1169270137338685,
-      "tags": [
-        "linux",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": [
-        {
-          "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
     },
     {
       "shortId": "b6fyzj",
@@ -653,6 +653,25 @@
       "linkedRepos": []
     },
     {
+      "shortId": "nbceks",
+      "title": "Volkswagen- detects when your tests are being run in a CI server, and makes them pass (2015)",
+      "url": "https://github.com/auchenberg/volkswagen",
+      "commentsUrl": "https://lobste.rs/s/nbceks/volkswagen_detects_when_your_tests_are",
+      "by": "",
+      "score": 7,
+      "commentCount": 3,
+      "createdUtc": 1778834424,
+      "ageHours": 2.3466666666666667,
+      "trendingScore": 0.7724378297860046,
+      "tags": [
+        "javascript",
+        "satire",
+        "testing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "fsueos",
       "title": "Serving a Website on a Raspberry Pi Zero Running Entirely in RAM",
       "url": "https://btxx.org/posts/memory/",
@@ -882,24 +901,6 @@
       "tags": [
         "security",
         "video"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "pavhcb",
-      "title": "Additive Blending on the Nintendo 64",
-      "url": "https://phoboslab.org/log/2026/05/n64-additive-blending",
-      "commentsUrl": "https://lobste.rs/s/pavhcb/additive_blending_on_nintendo_64",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778193093,
-      "ageHours": 0.105,
-      "trendingScore": 0.6548650990931854,
-      "tags": [
-        "graphics",
-        "retrocomputing"
       ],
       "description": "",
       "linkedRepos": []

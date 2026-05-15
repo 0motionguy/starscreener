@@ -4,6 +4,7 @@
 //   user.created  →  insert profile row + reserve handle
 //   user.updated  →  refresh email, displayName, avatarUrl
 //   user.deleted  →  soft-delete (set deleted_at)
+//   session.created  →  record successful sign-in for account funnel analytics
 //
 // Svix HMAC verification is mandatory — without it any caller can spoof
 // `user.created` events and create fake profiles. See
@@ -21,6 +22,7 @@ import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 import { referralCodes, referrals } from "@/lib/db/schema/referrals";
 import { reserveHandleFromClerk } from "@/lib/auth/handle";
+import { posthogCapture } from "@/lib/analytics/posthog";
 import { deriveCode } from "@/lib/referrals/code";
 import { verifyRefCookie } from "@/lib/referrals/cookie";
 import {
@@ -62,7 +64,12 @@ interface ClerkUserPayload {
 
 interface ClerkWebhookEvent {
   type: string;
-  data: ClerkUserPayload;
+  data: ClerkUserPayload | ClerkSessionPayload;
+}
+
+interface ClerkSessionPayload {
+  id: string;
+  user_id: string | null;
 }
 
 function pickPrimaryEmail(payload: ClerkUserPayload): string | null {
@@ -117,13 +124,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     switch (event.type) {
       case "user.created":
-        await handleUserCreated(event.data, req);
+        await handleUserCreated(event.data as ClerkUserPayload, req);
         break;
       case "user.updated":
-        await handleUserUpdated(event.data);
+        await handleUserUpdated(event.data as ClerkUserPayload);
         break;
       case "user.deleted":
-        await handleUserDeleted(event.data);
+        await handleUserDeleted(event.data as ClerkUserPayload);
+        break;
+      case "session.created":
+        handleSessionCreated(event.data as ClerkSessionPayload);
         break;
       default:
         // Ignore other event types — we'd rather Clerk continue
@@ -204,6 +214,34 @@ async function handleUserCreated(
   } catch (err) {
     console.warn("[clerk-webhook] referral attribution failed", data.id, err);
   }
+
+  posthogCapture("funnel_step", {
+    step: "sign_up_success",
+    flow: "account-auth",
+    distinct_id: data.id,
+    source: "clerk_webhook",
+    $insert_id: `clerk:user.created:${data.id}`,
+    profile_handle: insertedProfile.handle,
+    referral_present: Boolean(
+      data.unsafe_metadata?.trRef?.code || req.cookies.get("tr_ref")?.value,
+    ),
+  });
+}
+
+function handleSessionCreated(data: ClerkSessionPayload): void {
+  if (!data.user_id) {
+    console.warn("[clerk-webhook] session.created missing user_id", data.id);
+    return;
+  }
+
+  posthogCapture("funnel_step", {
+    step: "sign_in_success",
+    flow: "account-auth",
+    distinct_id: data.user_id,
+    source: "clerk_webhook",
+    $insert_id: `clerk:session.created:${data.id}`,
+    session_id: data.id,
+  });
 }
 
 interface AttributeReferralInput {

@@ -105,7 +105,7 @@ Lives on `/submit/revenue` (`src/components/submissions/DropRevenuePage.tsx`).
 | 1 | `revenue_claim_open` | `DropRevenuePage` mount, including repo-detail handoffs | `repo`, `source` (`repo_detail` \| `submit_revenue_page`), `repo_present` |
 | 2 | `revenue_claim_submit_success` | Revenue API responded `ok: true` | `repo`, `source`, `mode` (`trustmrr_link` \| `self_report`), `kind` (`created` \| `duplicate`) |
 
-### `account-auth` - single account CTA to hosted auth
+### `account-auth` - single account CTA to hosted auth and success
 
 The header exposes one anonymous-user account entry, not separate sign-in and
 sign-up buttons. Clerk's hosted forms still cross-link between sign-in and
@@ -116,6 +116,12 @@ sign-up after the user lands on the auth surface.
 | 1 | `account_cta_click` | Header `Account` click | `source` (`header`), `auth_path` (`/sign-in` \| `/sign-up`) |
 | 2 | `sign_in_view` | `/sign-in` hosted auth page mount | `redirect_present` |
 | 2′ | `sign_up_view` | `/sign-up` hosted auth page mount | `redirect_present` |
+| 3 | `sign_in_success` | Clerk `session.created` webhook | `source` (`clerk_webhook`), `session_id` |
+| 3′ | `sign_up_success` | Clerk `user.created` webhook | `source` (`clerk_webhook`), `profile_handle`, `referral_present` |
+
+`sign_in_success` requires `session.created` to be enabled on the Clerk webhook
+subscription. `sign_up_success` is already covered by the required
+`user.created` subscription.
 
 ---
 

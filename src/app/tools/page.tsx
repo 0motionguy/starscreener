@@ -60,7 +60,7 @@ const CHART_TOOLS: ToolEntry[] = [
     title: "Treemap",
     desc: "Sector treemap of trending repos — area scales with momentum, color encodes category.",
     href: "/tools/treemap",
-    status: "soon",
+    status: "live",
   },
 ];
 

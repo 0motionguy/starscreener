@@ -22,6 +22,11 @@ describe("PostHog funnel helper", () => {
       flow: "account-auth",
       source: "header",
     });
+    captureFunnelStep({
+      step: "sign_up_success",
+      flow: "account-auth",
+      source: "clerk_webhook",
+    });
     setWindowPostHog({
       __loaded: true,
       capture: (event: string, props: unknown) => captures.push({ event, props }),
@@ -39,6 +44,14 @@ describe("PostHog funnel helper", () => {
           step: "account_cta_click",
           flow: "account-auth",
           source: "header",
+        },
+      },
+      {
+        event: "funnel_step",
+        props: {
+          step: "sign_up_success",
+          flow: "account-auth",
+          source: "clerk_webhook",
         },
       },
     ]);

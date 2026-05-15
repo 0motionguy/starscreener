@@ -33,8 +33,19 @@ import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand, type KpiCell } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { buildAuthHref } from "@/lib/auth/redirect-url";
 
-export default function YouClient() {
+export interface YouAccountSummary {
+  handle: string;
+  email: string;
+  displayName: string | null;
+}
+
+export default function YouClient({
+  account,
+}: {
+  account: YouAccountSummary | null;
+}) {
   // Hydration gate — zustand/persist loads from localStorage post-mount,
   // so render a stable placeholder until client state is truly live.
   const [hydrated, setHydrated] = useState(false);
@@ -104,7 +115,13 @@ export default function YouClient() {
             <b>YOU</b> · TERMINAL · /YOU
           </>
         }
-        identity={<YouIdentity watchCount={watchCount} hydrated={hydrated} />}
+        identity={
+          <YouIdentity
+            account={account}
+            watchCount={watchCount}
+            hydrated={hydrated}
+          />
+        }
         verdict={
           hydrated && watchCount > 0 ? (
             <VerdictRibbon
@@ -160,8 +177,16 @@ export default function YouClient() {
               onClearCompare={clearCompare}
             />
 
-            <SectionHead num="// 02" title="Account" meta="LOCAL ONLY" />
-            <AccountPanel hydrated={hydrated} watchCount={watchCount} />
+            <SectionHead
+              num="// 02"
+              title="Account"
+              meta={account ? `@${account.handle}` : "LOCAL ONLY"}
+            />
+            <AccountPanel
+              account={account}
+              hydrated={hydrated}
+              watchCount={watchCount}
+            />
 
             <SectionHead num="// 03" title="Preferences" />
             <PreferencesPanel
@@ -179,7 +204,11 @@ export default function YouClient() {
         rightRail={
           <>
             <SectionHead num="// 04" title="Quick links" />
-            <QuickLinks watchCount={watchCount} compareCount={compareCount} />
+            <QuickLinks
+              account={account}
+              watchCount={watchCount}
+              compareCount={compareCount}
+            />
           </>
         }
       />
@@ -190,12 +219,20 @@ export default function YouClient() {
 // --- Composition helpers --------------------------------------------------
 
 function YouIdentity({
+  account,
   watchCount,
   hydrated,
 }: {
+  account: YouAccountSummary | null;
   watchCount: number;
   hydrated: boolean;
 }) {
+  const marker = account ? `@${account.handle}` : "@local";
+  const headline = account?.displayName?.trim() || "Your signal";
+  const lede = account
+    ? "Account tools are live here: alert rules, referral desk, and your local watchlist context in one place."
+    : "No account required. Your watchlist, compare shortlist, and filter preferences stay in this browser.";
+
   return (
     <div
       style={{
@@ -222,24 +259,23 @@ function YouIdentity({
           flexShrink: 0,
         }}
       >
-        u
+        {account ? account.handle.slice(0, 1).toLowerCase() : "u"}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <h1
           className="v4-page-head__h1"
           style={{ marginTop: 0, marginBottom: 4 }}
         >
-          Your signal{" "}
+          {headline}{" "}
           <span style={{ color: "var(--v4-ink-300)", fontSize: "0.6em" }}>
-            @local
+            {marker}
           </span>
         </h1>
         <p
           className="v4-page-head__lede"
           style={{ marginTop: 0, marginBottom: 10 }}
         >
-          No account, no tracking. StarScreener keeps your watchlist,
-          compare shortlist, and filter preferences in your browser.
+          {lede}
         </p>
         <div
           style={{
@@ -253,7 +289,7 @@ function YouIdentity({
             letterSpacing: "0.06em",
           }}
         >
-          <span>local-only</span>
+          <span>{account ? "account active" : "local-only"}</span>
           <span>
             ●{" "}
             <b style={{ color: "var(--v4-money)" }}>
@@ -444,12 +480,78 @@ function ActivityPanel({
 }
 
 function AccountPanel({
+  account,
   hydrated,
   watchCount,
 }: {
+  account: YouAccountSummary | null;
   hydrated: boolean;
   watchCount: number;
 }) {
+  if (account) {
+    return (
+      <div
+        style={{
+          border: "1px solid var(--v4-line-200)",
+          borderRadius: 4,
+          padding: 16,
+          background: "var(--v4-bg-050)",
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gap: 12,
+        }}
+      >
+        <div style={kvRowStyle}>
+          <span style={kvLabelStyle}>Profile</span>
+          <span style={kvValueStyle}>@{account.handle}</span>
+        </div>
+        <div style={kvRowStyle}>
+          <span style={kvLabelStyle}>Email</span>
+          <span style={kvValueStyle}>{account.email}</span>
+        </div>
+        <div style={kvRowStyle}>
+          <span style={kvLabelStyle}>Local state</span>
+          <span style={kvValueStyle}>
+            {hydrated
+              ? `${watchCount} watched repo${watchCount === 1 ? "" : "s"}`
+              : "syncing..."}
+          </span>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: 8,
+            paddingTop: 4,
+          }}
+        >
+          <Link href="/you/alerts" style={accountToolLinkStyle}>
+            <span>Watchlist alerts</span>
+            <span>rules -&gt;</span>
+          </Link>
+          <Link href="/you/refer" style={accountToolLinkStyle}>
+            <span>Referral desk</span>
+            <span>code -&gt;</span>
+          </Link>
+        </div>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 10,
+            color: "var(--v4-ink-400)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            lineHeight: 1.6,
+          }}
+        >
+          Server-backed tools use your account. Watchlist and compare state
+          still stay local until sync is explicitly shipped.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -464,7 +566,7 @@ function AccountPanel({
     >
       <div style={kvRowStyle}>
         <span style={kvLabelStyle}>Plan</span>
-        <span style={kvValueStyle}>Local · free forever</span>
+        <span style={kvValueStyle}>Local preview</span>
       </div>
       <div style={kvRowStyle}>
         <span style={kvLabelStyle}>Storage</span>
@@ -475,11 +577,17 @@ function AccountPanel({
         <span style={kvValueStyle}>off · per-device</span>
       </div>
       <div style={kvRowStyle}>
+        <span style={kvLabelStyle}>Account</span>
+        <Link href={buildAuthHref("/sign-in", "/you")} style={kvLinkStyle}>
+          Sign in or create account
+        </Link>
+      </div>
+      <div style={kvRowStyle}>
         <span style={kvLabelStyle}>State</span>
         <span style={kvValueStyle}>
           {hydrated
             ? `${watchCount} watched repo${watchCount === 1 ? "" : "s"}`
-            : "syncing…"}
+            : "syncing..."}
         </span>
       </div>
       <p
@@ -493,8 +601,8 @@ function AccountPanel({
           lineHeight: 1.6,
         }}
       >
-        StarScreener does not store accounts. Your data lives in this browser
-        until you clear site data.
+        Sign in once to unlock alerts and referrals. Your current local
+        watchlist remains in this browser.
       </p>
     </div>
   );
@@ -569,9 +677,11 @@ function PreferencesPanel({
 }
 
 function QuickLinks({
+  account,
   watchCount,
   compareCount,
 }: {
+  account: YouAccountSummary | null;
   watchCount: number;
   compareCount: number;
 }) {
@@ -591,6 +701,18 @@ function QuickLinks({
       meta: compareCount > 0 ? `${compareCount} staged` : "empty",
     },
     { href: "/signals", label: "Signals", meta: "newsroom" },
+    ...(account
+      ? [
+          { href: "/you/alerts", label: "Alerts", meta: "account" },
+          { href: "/you/refer", label: "Referrals", meta: "account" },
+        ]
+      : [
+          {
+            href: buildAuthHref("/sign-in", "/you"),
+            label: "Account",
+            meta: "sign in",
+          },
+        ]),
   ];
   return (
     <ul
@@ -845,6 +967,7 @@ const kvRowStyle: React.CSSProperties = {
   justifyContent: "space-between",
   alignItems: "baseline",
   gap: 12,
+  minWidth: 0,
 };
 
 const kvLabelStyle: React.CSSProperties = {
@@ -859,4 +982,33 @@ const kvValueStyle: React.CSSProperties = {
   fontFamily: "var(--font-geist-mono), monospace",
   fontSize: 12,
   color: "var(--v4-ink-100)",
+  minWidth: 0,
+  overflow: "hidden",
+  textAlign: "right",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+};
+
+const kvLinkStyle: React.CSSProperties = {
+  ...kvValueStyle,
+  color: "var(--v4-acc)",
+  textDecoration: "none",
+};
+
+const accountToolLinkStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: 10,
+  minHeight: 44,
+  padding: "10px 12px",
+  border: "1px solid var(--v4-line-200)",
+  borderRadius: 3,
+  color: "var(--v4-ink-100)",
+  background: "var(--v4-bg-075)",
+  textDecoration: "none",
+  fontFamily: "var(--font-geist-mono), monospace",
+  fontSize: 11,
+  textTransform: "uppercase",
+  letterSpacing: "0.06em",
 };

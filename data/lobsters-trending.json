@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-15T06:43:51.748Z",
+  "fetchedAt": "2026-05-15T08:24:22.275Z",
   "windowHours": 72,
   "scannedTotal": 78,
   "stories": [
@@ -291,6 +291,30 @@
       "linkedRepos": []
     },
     {
+      "shortId": "wskhre",
+      "title": "linux 0-day, access root-owned files as an unprivileged user",
+      "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
+      "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
+      "by": "",
+      "score": 31,
+      "commentCount": 8,
+      "createdUtc": 1778807661,
+      "ageHours": 7.166944444444445,
+      "trendingScore": 1.1169270137338685,
+      "tags": [
+        "linux",
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": [
+        {
+          "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
+    },
+    {
       "shortId": "b6fyzj",
       "title": "So you've installed `fzf`. Now what? (2023)",
       "url": "https://andrew-quinn.me/fzf/",
@@ -464,24 +488,6 @@
       "tags": [
         "javascript",
         "rust"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "wskhre",
-      "title": "linux 0-day, access root-owned files as an unprivileged user",
-      "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
-      "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
-      "by": "",
-      "score": 19,
-      "commentCount": 7,
-      "createdUtc": 1778807661,
-      "ageHours": 5.491666666666666,
-      "trendingScore": 0.9265864232149701,
-      "tags": [
-        "linux",
-        "security"
       ],
       "description": "",
       "linkedRepos": []

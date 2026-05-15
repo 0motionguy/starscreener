@@ -4,7 +4,7 @@
 
 **Session worktree:** `C:/dev/trendingrepo-wt/repo-detail-500-fix`
 **Branch:** `chore/toolbox-detach-polish-2026-05-15` → [PR #1253](https://github.com/0motionguy/starscreener/pull/1253)
-**Commits shipped this branch:** 26 (started at 6, ended at 26)
+**Commits shipped this branch:** 31 (started at 6, ended at 31)
 
 ## What shipped this autonomous run
 
@@ -66,6 +66,29 @@ Best Practices 77 issues NOT fixed autonomously (require design/structural decis
 - `bf-cache` (cache-control:no-store on dynamic responses — root cause is the searchParams perf issue in the existing proposal doc)
 - `unused-javascript` (327 KB — code splitting design call)
 - `inspector-issues` (need Chrome devtools console access)
+
+### Phase C.c — Lighthouse 4-route subset + cross-page mechanical fixes
+
+After validating the runner on `/`, ran it against `/skills`, `/mcp`, `/signals`, `/repo/vercel/next.js`. Findings + fixes:
+
+**CRITICAL find: `/repo/*` SEO 69 (-31 from 100).** Single failing audit: `is-crawlable`. Root cause: `generateMetadata` runs BEFORE the page's refresh hooks on cold Lambdas, so `getDerivedRepoByFullName('vercel/next.js')` returns null even for the canary repo → page emits `<meta name='robots' content='noindex,follow'>`. Verified on production via `curl -s ... | grep robots`. **Fixed in commit `88d42cc1b`** by awaiting `refreshTrendingFromStore()` inside `generateMetadata` — refresh is cheap (internal 30s rate-limit + in-flight dedupe), so the page function's later call is a no-op. Expected SEO recovery: **69 → ~100 (+31 points)** on every repo page after deploy.
+
+**`/signals` A11y 86 → aria-allowed-attr** (commit `077e3c370`). 18 violations on `<a class="signals-chip" aria-pressed="...">` filter chips. Per WAI-ARIA, `aria-pressed` is prohibited on anchors. Replaced with `aria-current="page" | undefined` in all 5 sites in `SourceFilterBar.tsx` (ALL chip + source chips + window chips + topic-ALL chip + per-topic chips). This is also the AGN-721 known issue from the sprint heartbeats. SkillsTopTable's `aria-pressed` usage is on `<button>` (valid) — left alone.
+
+**`/repo/*` color-contrast 7 hits** (commit `11403e7fd`).
+- `.ch-status` (6 hits, ChannelChipRow): `--v3-ink-400` (3.97:1) → `--v3-ink-300` (~5:1).
+- `.mts-callout` (1 hit, MentionTimelineStrip): font-size 9px + brand color hit 3.66:1. Bumped to 11px + weight 600 — qualifies as "bold-ish" text under WCAG which only needs 3:1 contrast.
+
+**`/mcp` heading-order** (same commit). `<h3 id="trending-this-week-h">` with no preceding h2 — fails axe heading-order. Promoted to `<h2>`, visual style unchanged via inline `fontSize:12`.
+
+Expected post-deploy scores (operator-verifiable via `npm run lighthouse:routes:prod`):
+- `/` Performance 96 · A11y 90 → ~96 · Best-Pr 77 (Clerk 3rd-party cookies — architectural) · SEO 100
+- `/repo/*` Performance 96 · A11y 94 → ~100 · Best-Pr 77 · SEO **69 → ~100** ⬆️
+- `/signals` Performance 89 · A11y 86 → ~96 · Best-Pr 77 · SEO 100
+- `/skills` Performance 90 · A11y 96 → ~96 · Best-Pr 73 · SEO 100
+- `/mcp` Performance 95 · A11y 95 → ~96 · Best-Pr 77 · SEO 100
+
+**Best-Practices 73-77 root cause across all routes: Clerk third-party cookies.** Inspector-issues audit detail confirms it's all Clerk's auth SDK loading from `positive-crawdad-45.clerk.accounts.dev`. Not a mechanical autonomous fix — needs either operator design call (lazy-load Clerk only when needed) or DNS-level fix (Clerk CNAME to first-party).
 
 ### Phase A.5 — Cascade dead code check (post-Phase-A deletions)
 

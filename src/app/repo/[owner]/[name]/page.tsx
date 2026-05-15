@@ -142,9 +142,9 @@ export async function generateMetadata({
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 
   if (!repo) {
-    const title = `${owner}/${name} - GitHub repo profile`;
+    const title = `${owner}/${name} — research brief`;
     const description =
-      `Live GitHub repo profile for ${owner}/${name}. Cross-source signals populate after the next collector tick.`;
+      `Daily research brief on ${owner}/${name}. Cross-source signals populate after the next collector tick. The open-source momentum desk.`;
     return {
       title,
       description,
@@ -166,14 +166,18 @@ export async function generateMetadata({
   }
 
   const deltaSign = repo.starsDelta24h >= 0 ? "+" : "";
-  const title = `${repo.fullName} - GitHub repo momentum`;
+  const title = `${repo.fullName} — research brief`;
+  // Preference order for the description:
+  //   1. The repo's own GitHub description (accurate, SEO-rich)
+  //   2. Synthesized "research brief" lead with concrete delta + momentum
+  // (2) gives the share preview real numbers instead of a generic tagline.
   const description =
     repo.description?.trim() ||
-    `${repo.fullName}: ${deltaSign}${repo.starsDelta24h.toLocaleString(
+    `Research brief on ${repo.fullName}: ${deltaSign}${repo.starsDelta24h.toLocaleString(
       "en-US",
-    )} stars in 24h · momentum ${repo.momentumScore.toFixed(
+    )} stars 24h · momentum ${repo.momentumScore.toFixed(
       1,
-    )}. Track this repo on ${SITE_NAME}.`;
+    )}. The open-source momentum desk.`;
 
   return {
     title,

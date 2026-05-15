@@ -212,7 +212,9 @@ export function ChannelChipRow({ repo }: ChannelChipRowProps): JSX.Element {
           border-radius: 2px;
           letter-spacing: 0.12em;
           background: var(--v3-bg-100, rgba(255,255,255,0.05));
-          color: var(--v3-ink-400);
+          /* Was --v3-ink-400 (3.97:1 contrast over --v3-bg-100). Lighthouse
+             A11y on /repo/* flagged 6 instances. --v3-ink-300 bumps to ~5:1. */
+          color: var(--v3-ink-300);
         }
         .channel-chip.fired .ch-status {
           color: var(--ch-color);

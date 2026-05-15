@@ -190,7 +190,12 @@ export function MentionTimelineStrip({
         }
         .mts-eyebrow { color: var(--v3-ink-300); }
         .mts-callout {
-          font-size: 9px;
+          /* Bumped 9px → 11px + weight:600. WCAG: large/bold text only needs
+             3:1 contrast vs 4.5:1 for normal text. Combined with source-brand
+             colors (some red/orange dim against dark bg), the small size was
+             hitting 3.66:1 on Lighthouse and failing color-contrast audit. */
+          font-size: 11px;
+          font-weight: 600;
           letter-spacing: 0.12em;
           color: var(--v3-acc);
         }

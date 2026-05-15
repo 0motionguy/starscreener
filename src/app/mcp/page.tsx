@@ -455,7 +455,10 @@ function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
           letterSpacing: "0.08em",
         }}
       >
-        <h3
+        {/* Was <h3> — fails axe heading-order rule because no h2 precedes
+            it on this page. Visual style unchanged; semantic level promoted
+            so the heading order is monotonic h1 → h2. */}
+        <h2
           id="trending-this-week-h"
           style={{
             margin: 0,
@@ -465,7 +468,7 @@ function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
           }}
         >
           {"// "}TRENDING THIS WEEK
-        </h3>
+        </h2>
         <span style={{ color: "var(--v4-ink-400)" }}>{status}</span>
       </header>
       {moverCount === 0 ? (

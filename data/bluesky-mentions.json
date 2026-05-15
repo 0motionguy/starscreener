@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-15T14:37:52.510Z",
+  "fetchedAt": "2026-05-15T15:22:02.064Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -538,7 +538,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:16:36.118Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -583,7 +583,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:16:36.118Z",
           "createdUtc": 1778854596,
-          "ageHours": 0.5,
+          "ageHours": 1.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4677,22 +4677,22 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 4,
+      "repostsSum7d": 4,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
-        "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
-        "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
+        "uri": "at://did:plc:6pjsxq4f4wvihelm4lphbk5e/app.bsky.feed.post/3mlvlomlsnk26",
+        "cid": "bafyreigkuhpcocvev5ceepemb5wbptljscugs2yytqrczvx4xoa5y2x2yu",
+        "bskyUrl": "https://bsky.app/profile/ashleemboyer.com/post/3mlvlomlsnk26",
+        "text": "Claude admits bias against accessibility and look at that! It’s the same bias that a whole lot of humans have against accessibility. “Claude treats accessibility fixes as optional trade-offs rather than requirements, even when the project's own rules say otherwise.” github.com/anthropics/c...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "ashleemboyer.com",
+          "displayName": "Ashlee"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 4,
+        "repostCount": 4,
         "replyCount": 0,
-        "createdAt": "2026-05-12T12:04:22.957223Z",
+        "createdAt": "2026-05-15T14:55:59.205Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
@@ -4740,6 +4740,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6pjsxq4f4wvihelm4lphbk5e/app.bsky.feed.post/3mlvlomlsnk26",
+          "cid": "bafyreigkuhpcocvev5ceepemb5wbptljscugs2yytqrczvx4xoa5y2x2yu",
+          "bskyUrl": "https://bsky.app/profile/ashleemboyer.com/post/3mlvlomlsnk26",
+          "text": "Claude admits bias against accessibility and look at that! It’s the same bias that a whole lot of humans have against accessibility. “Claude treats accessibility fixes as optional trade-offs rather than requirements, even when the project's own rules say otherwise.” github.com/anthropics/c...",
+          "author": {
+            "handle": "ashleemboyer.com",
+            "displayName": "Ashlee"
+          },
+          "likeCount": 4,
+          "repostCount": 4,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:55:59.205Z",
+          "createdUtc": 1778856959,
+          "ageHours": 0.5,
+          "trendingScore": 12,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5559,7 +5587,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -5605,7 +5633,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:04:22.000Z",
           "createdUtc": 1778853862,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -5789,7 +5817,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -5862,7 +5890,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:04:22.000Z",
           "createdUtc": 1778853862,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7017,7 +7045,7 @@
     },
     "EvanBacon/serve-sim": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -7029,11 +7057,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T16:01:04+02:00",
-        "hoursSincePosted": 0.61
+        "hoursSincePosted": 1.35
       },
       "posts": [
         {
@@ -7045,13 +7073,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-15T16:01:04+02:00",
           "createdUtc": 1778853664,
-          "ageHours": 0.61,
-          "trendingScore": 0,
+          "ageHours": 1.35,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -11098,8 +11126,8 @@
       ]
     },
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
-      "count7d": 4,
-      "likesSum7d": 3,
+      "count7d": 3,
+      "likesSum7d": 2,
       "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
@@ -11115,7 +11143,7 @@
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-05-15T12:40:53.339Z",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 2.69
       },
       "posts": [
         {
@@ -11160,7 +11188,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T12:40:53.339Z",
           "createdUtc": 1778848853,
-          "ageHours": 1.95,
+          "ageHours": 2.69,
           "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
@@ -11216,7 +11244,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T13:31:50.173Z",
           "createdUtc": 1778851910,
-          "ageHours": 1.1,
+          "ageHours": 1.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -11244,7 +11272,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T11:54:59.000Z",
           "createdUtc": 1778846099,
-          "ageHours": 2.71,
+          "ageHours": 3.45,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -11625,7 +11653,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:15:00.348Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.12
       },
       "posts": [
         {
@@ -11642,7 +11670,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:15:00.348Z",
           "createdUtc": 1778854500,
-          "ageHours": 0.5,
+          "ageHours": 1.12,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -11677,7 +11705,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -11694,7 +11722,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:04:22.000Z",
           "createdUtc": 1778853862,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -11738,7 +11766,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T12:30:40.674Z",
-        "hoursSincePosted": 2.12
+        "hoursSincePosted": 2.86
       },
       "posts": [
         {
@@ -11755,7 +11783,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T12:30:40.674Z",
           "createdUtc": 1778848240,
-          "ageHours": 2.12,
+          "ageHours": 2.86,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -11789,7 +11817,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-15T11:53:45.256585+00:00",
-        "hoursSincePosted": 2.74
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -11805,7 +11833,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T11:53:45.256585+00:00",
           "createdUtc": 1778846025,
-          "ageHours": 2.74,
+          "ageHours": 3.47,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -11815,6 +11843,108 @@
           "linkedRepos": [
             {
               "fullName": "darkrishabh/agent-skills-eval",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "BigBodyCobain/Shadowbroker": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlvlwt4s7v2o",
+        "cid": "bafyreigpeawqoqtti5xjvqdq64q65x76knxqqiolffjaa5fezmbnvznrcm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
+        "text": "https://github.com/BigBodyCobain/Shadowbroker",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T15:00:33Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlvlwt4s7v2o",
+          "cid": "bafyreigpeawqoqtti5xjvqdq64q65x76knxqqiolffjaa5fezmbnvznrcm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
+          "text": "https://github.com/BigBodyCobain/Shadowbroker",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T15:00:33Z",
+          "createdUtc": 1778857233,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "BigBodyCobain/Shadowbroker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal/codeburn": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6aglx53tojyuwxwueap5og3h/app.bsky.feed.post/3mlvkoyf3ps24",
+        "cid": "bafyreibzi6ntevxbgz5bfccdx7rya36w376e7el6xcmvo5no4zp5xchwcy",
+        "bskyUrl": "https://bsky.app/profile/fubits.dev/post/3mlvkoyf3ps24",
+        "text": "probably accurate / approaching accuracy. This is here is from my private device - hence only hobby coding after work. Tool: github.com/getagentseal... I haven't cross-checked with this one yet: github.com/ryoppippi/cc...",
+        "author": {
+          "handle": "fubits.dev",
+          "displayName": "Ilja"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:38:17.822Z",
+        "hoursSincePosted": 0.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6aglx53tojyuwxwueap5og3h/app.bsky.feed.post/3mlvkoyf3ps24",
+          "cid": "bafyreibzi6ntevxbgz5bfccdx7rya36w376e7el6xcmvo5no4zp5xchwcy",
+          "bskyUrl": "https://bsky.app/profile/fubits.dev/post/3mlvkoyf3ps24",
+          "text": "probably accurate / approaching accuracy. This is here is from my private device - hence only hobby coding after work. Tool: github.com/getagentseal... I haven't cross-checked with this one yet: github.com/ryoppippi/cc...",
+          "author": {
+            "handle": "fubits.dev",
+            "displayName": "Ilja"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:38:17.822Z",
+          "createdUtc": 1778855897,
+          "ageHours": 0.73,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
               "matchType": "url",
               "confidence": 1
             }
@@ -12357,7 +12487,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:16:36.118Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -12402,7 +12532,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:16:36.118Z",
           "createdUtc": 1778854596,
-          "ageHours": 0.5,
+          "ageHours": 1.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -16496,22 +16626,22 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 4,
+      "repostsSum7d": 4,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
-        "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
-        "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
+        "uri": "at://did:plc:6pjsxq4f4wvihelm4lphbk5e/app.bsky.feed.post/3mlvlomlsnk26",
+        "cid": "bafyreigkuhpcocvev5ceepemb5wbptljscugs2yytqrczvx4xoa5y2x2yu",
+        "bskyUrl": "https://bsky.app/profile/ashleemboyer.com/post/3mlvlomlsnk26",
+        "text": "Claude admits bias against accessibility and look at that! It’s the same bias that a whole lot of humans have against accessibility. “Claude treats accessibility fixes as optional trade-offs rather than requirements, even when the project's own rules say otherwise.” github.com/anthropics/c...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "ashleemboyer.com",
+          "displayName": "Ashlee"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 4,
+        "repostCount": 4,
         "replyCount": 0,
-        "createdAt": "2026-05-12T12:04:22.957223Z",
+        "createdAt": "2026-05-15T14:55:59.205Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
@@ -16559,6 +16689,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6pjsxq4f4wvihelm4lphbk5e/app.bsky.feed.post/3mlvlomlsnk26",
+          "cid": "bafyreigkuhpcocvev5ceepemb5wbptljscugs2yytqrczvx4xoa5y2x2yu",
+          "bskyUrl": "https://bsky.app/profile/ashleemboyer.com/post/3mlvlomlsnk26",
+          "text": "Claude admits bias against accessibility and look at that! It’s the same bias that a whole lot of humans have against accessibility. “Claude treats accessibility fixes as optional trade-offs rather than requirements, even when the project's own rules say otherwise.” github.com/anthropics/c...",
+          "author": {
+            "handle": "ashleemboyer.com",
+            "displayName": "Ashlee"
+          },
+          "likeCount": 4,
+          "repostCount": 4,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:55:59.205Z",
+          "createdUtc": 1778856959,
+          "ageHours": 0.5,
+          "trendingScore": 12,
           "content_tags": [
             "has-github-repo"
           ],
@@ -17378,7 +17536,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -17424,7 +17582,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:04:22.000Z",
           "createdUtc": 1778853862,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17608,7 +17766,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -17681,7 +17839,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:04:22.000Z",
           "createdUtc": 1778853862,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -18836,7 +18994,7 @@
     },
     "evanbacon--serve-sim": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -18848,11 +19006,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T16:01:04+02:00",
-        "hoursSincePosted": 0.61
+        "hoursSincePosted": 1.35
       },
       "posts": [
         {
@@ -18864,13 +19022,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-15T16:01:04+02:00",
           "createdUtc": 1778853664,
-          "ageHours": 0.61,
-          "trendingScore": 0,
+          "ageHours": 1.35,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22917,8 +23075,8 @@
       ]
     },
     "0xdeadbeefnetwork--ssh-keysign-pwn": {
-      "count7d": 4,
-      "likesSum7d": 3,
+      "count7d": 3,
+      "likesSum7d": 2,
       "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
@@ -22934,7 +23092,7 @@
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-05-15T12:40:53.339Z",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 2.69
       },
       "posts": [
         {
@@ -22979,7 +23137,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T12:40:53.339Z",
           "createdUtc": 1778848853,
-          "ageHours": 1.95,
+          "ageHours": 2.69,
           "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
@@ -23035,7 +23193,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T13:31:50.173Z",
           "createdUtc": 1778851910,
-          "ageHours": 1.1,
+          "ageHours": 1.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -23063,7 +23221,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T11:54:59.000Z",
           "createdUtc": 1778846099,
-          "ageHours": 2.71,
+          "ageHours": 3.45,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -23444,7 +23602,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:15:00.348Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.12
       },
       "posts": [
         {
@@ -23461,7 +23619,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:15:00.348Z",
           "createdUtc": 1778854500,
-          "ageHours": 0.5,
+          "ageHours": 1.12,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -23496,7 +23654,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -23513,7 +23671,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T14:04:22.000Z",
           "createdUtc": 1778853862,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -23557,7 +23715,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T12:30:40.674Z",
-        "hoursSincePosted": 2.12
+        "hoursSincePosted": 2.86
       },
       "posts": [
         {
@@ -23574,7 +23732,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T12:30:40.674Z",
           "createdUtc": 1778848240,
-          "ageHours": 2.12,
+          "ageHours": 2.86,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -23608,7 +23766,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-15T11:53:45.256585+00:00",
-        "hoursSincePosted": 2.74
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -23624,7 +23782,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T11:53:45.256585+00:00",
           "createdUtc": 1778846025,
-          "ageHours": 2.74,
+          "ageHours": 3.47,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -23640,26 +23798,138 @@
           ]
         }
       ]
+    },
+    "bigbodycobain--shadowbroker": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlvlwt4s7v2o",
+        "cid": "bafyreigpeawqoqtti5xjvqdq64q65x76knxqqiolffjaa5fezmbnvznrcm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
+        "text": "https://github.com/BigBodyCobain/Shadowbroker",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T15:00:33Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlvlwt4s7v2o",
+          "cid": "bafyreigpeawqoqtti5xjvqdq64q65x76knxqqiolffjaa5fezmbnvznrcm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
+          "text": "https://github.com/BigBodyCobain/Shadowbroker",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T15:00:33Z",
+          "createdUtc": 1778857233,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "BigBodyCobain/Shadowbroker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal--codeburn": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6aglx53tojyuwxwueap5og3h/app.bsky.feed.post/3mlvkoyf3ps24",
+        "cid": "bafyreibzi6ntevxbgz5bfccdx7rya36w376e7el6xcmvo5no4zp5xchwcy",
+        "bskyUrl": "https://bsky.app/profile/fubits.dev/post/3mlvkoyf3ps24",
+        "text": "probably accurate / approaching accuracy. This is here is from my private device - hence only hobby coding after work. Tool: github.com/getagentseal... I haven't cross-checked with this one yet: github.com/ryoppippi/cc...",
+        "author": {
+          "handle": "fubits.dev",
+          "displayName": "Ilja"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:38:17.822Z",
+        "hoursSincePosted": 0.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6aglx53tojyuwxwueap5og3h/app.bsky.feed.post/3mlvkoyf3ps24",
+          "cid": "bafyreibzi6ntevxbgz5bfccdx7rya36w376e7el6xcmvo5no4zp5xchwcy",
+          "bskyUrl": "https://bsky.app/profile/fubits.dev/post/3mlvkoyf3ps24",
+          "text": "probably accurate / approaching accuracy. This is here is from my private device - hence only hobby coding after work. Tool: github.com/getagentseal... I haven't cross-checked with this one yet: github.com/ryoppippi/cc...",
+          "author": {
+            "handle": "fubits.dev",
+            "displayName": "Ilja"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:38:17.822Z",
+          "createdUtc": 1778855897,
+          "ageHours": 0.73,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
-      "count7d": 4,
-      "likesSum7d": 3
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 4
     },
     {
-      "fullName": "zensical/zensical",
+      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+      "count7d": 3,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "BigBodyCobain/Shadowbroker",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "EvanBacon/serve-sim",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "getagentseal/codeburn",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "darkrishabh/agent-skills-eval",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "EvanBacon/serve-sim",
       "count7d": 1,
       "likesSum7d": 0
     },

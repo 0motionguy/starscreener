@@ -35,8 +35,11 @@ jobs:
           node-version: "22"
           cache: "npm"
 
-      # No npm ci needed — sweep-staleness.mjs has zero deps. Keeping the
-      # workflow lean keeps the daily run cheap.
+      - name: Install dependencies
+        # GitHub-hosted runners start with an empty workspace. The sweeper
+        # itself is tiny, but the Redis writer dynamically imports ioredis
+        # when REDIS_URL is set.
+        run: npm ci
 
       - name: Run sweeper
         env:

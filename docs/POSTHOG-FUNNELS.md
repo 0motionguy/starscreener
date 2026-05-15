@@ -105,6 +105,18 @@ Lives on `/submit/revenue` (`src/components/submissions/DropRevenuePage.tsx`).
 | 1 | `revenue_claim_open` | `DropRevenuePage` mount, including repo-detail handoffs | `repo`, `source` (`repo_detail` \| `submit_revenue_page`), `repo_present` |
 | 2 | `revenue_claim_submit_success` | Revenue API responded `ok: true` | `repo`, `source`, `mode` (`trustmrr_link` \| `self_report`), `kind` (`created` \| `duplicate`) |
 
+### `account-auth` - single account CTA to hosted auth
+
+The header exposes one anonymous-user account entry, not separate sign-in and
+sign-up buttons. Clerk's hosted forms still cross-link between sign-in and
+sign-up after the user lands on the auth surface.
+
+| # | Step | Trigger | Notable extra properties |
+| - | ---- | ------- | ------------------------ |
+| 1 | `account_cta_click` | Header `Account` click | `source` (`header`), `auth_path` (`/sign-in` \| `/sign-up`) |
+| 2 | `sign_in_view` | `/sign-in` hosted auth page mount | `redirect_present` |
+| 2′ | `sign_up_view` | `/sign-up` hosted auth page mount | `redirect_present` |
+
 ---
 
 ## Adding a new flow

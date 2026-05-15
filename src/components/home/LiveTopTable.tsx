@@ -145,6 +145,11 @@ interface LiveTopTableProps {
   /** ISO of the last successful collector write. Honest-chrome rule: don't
    * paint a green "live" pip when the underlying snapshot is hours/days old. */
   lastUpdatedAt?: string | null;
+  /**
+   * Server render timestamp used for relative freshness labels. Passing this
+   * through keeps the first client render identical to ISR HTML.
+   */
+  freshnessNowMs?: number;
 }
 
 const compactNumber = new Intl.NumberFormat("en-US", {
@@ -333,6 +338,7 @@ export function LiveTopTable({
   categories,
   freshnessSource = "repos",
   lastUpdatedAt = null,
+  freshnessNowMs,
 }: LiveTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -384,7 +390,11 @@ export function LiveTopTable({
         <span className="live-top-spacer" />
         <span className="live-top-meta">
           showing <b>{visible.length}</b> / {rows.length}
-          <FreshnessBadge source={freshnessSource} lastUpdatedAt={lastUpdatedAt} />
+          <FreshnessBadge
+            source={freshnessSource}
+            lastUpdatedAt={lastUpdatedAt}
+            nowMs={freshnessNowMs}
+          />
         </span>
       </div>
 
@@ -477,7 +487,11 @@ export function LiveTopTable({
                           {row.updatedAt ? (
                             <>
                               {" · "}
-                              <FreshnessChip updatedAt={row.updatedAt} size="xs" />
+                              <FreshnessChip
+                                updatedAt={row.updatedAt}
+                                size="xs"
+                                nowMs={freshnessNowMs}
+                              />
                             </>
                           ) : null}
                         </small>

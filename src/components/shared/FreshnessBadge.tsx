@@ -17,6 +17,8 @@ interface FreshnessBadgeProps {
   /** Which source threshold to apply. Routes pick the NewsSource closest to
    * their cron cadence (e.g. `mcp`/`skills` for slow-cron Redis feeds). */
   source: NewsSource;
+  /** Stable render timestamp for Client Component hydration. */
+  nowMs?: number;
 }
 
 const TONE: Record<"live" | "warn" | "cold", { color: string; label: string }> = {
@@ -25,14 +27,18 @@ const TONE: Record<"live" | "warn" | "cold", { color: string; label: string }> =
   cold: { color: "var(--v4-red)", label: "COLD" },
 };
 
-export function FreshnessBadge({ lastUpdatedAt, source }: FreshnessBadgeProps) {
+export function FreshnessBadge({
+  lastUpdatedAt,
+  source,
+  nowMs,
+}: FreshnessBadgeProps) {
   const iso =
     lastUpdatedAt instanceof Date
       ? lastUpdatedAt.toISOString()
       : typeof lastUpdatedAt === "number"
         ? new Date(lastUpdatedAt).toISOString()
         : (lastUpdatedAt ?? null);
-  const verdict = classifyFreshness(source, iso);
+  const verdict = classifyFreshness(source, iso, nowMs);
   const tone = TONE[verdict.status];
   return (
     <span

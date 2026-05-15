@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-15T11:31:00.098Z",
+  "fetchedAt": "2026-05-15T14:37:52.510Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -522,23 +522,23 @@
     },
     "jj-vcs/jj": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mllg6nkydi2o",
-        "cid": "bafyreibrlzqweg65mp46covrljatrqji6c7slt6sdfde35tzhli23djdsy",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mllg6nkydi2o",
-        "text": "https://github.com/jj-vcs/jj",
+        "uri": "at://did:plc:e3bv4qsvpdpkazqw4p4v4xua/app.bsky.feed.post/3mlvji6y2kc2k",
+        "cid": "bafyreiaszclywulpjfz7k5l77nsizzbgfkdd4fup42wqkqoiont22xdyvm",
+        "bskyUrl": "https://bsky.app/profile/dmitrykandalov.bsky.social/post/3mlvji6y2kc2k",
+        "text": "I've been using it just over a month and I still don't hate it :) I might need a script to squash and summarise WIP commits though. I guess you mean github.com/jj-vcs/jj. Haven't looked into it enough to know if it can watch file system changes and auto-commit 🤔",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "dmitrykandalov.bsky.social",
+          "displayName": "Dmitry Kandalov"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T13:50:56Z",
-        "hoursSincePosted": 4.28
+        "createdAt": "2026-05-15T14:16:36.118Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -557,6 +557,34 @@
           "createdUtc": 1778507456,
           "ageHours": 4.28,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e3bv4qsvpdpkazqw4p4v4xua/app.bsky.feed.post/3mlvji6y2kc2k",
+          "cid": "bafyreiaszclywulpjfz7k5l77nsizzbgfkdd4fup42wqkqoiont22xdyvm",
+          "bskyUrl": "https://bsky.app/profile/dmitrykandalov.bsky.social/post/3mlvji6y2kc2k",
+          "text": "I've been using it just over a month and I still don't hate it :) I might need a script to squash and summarise WIP commits though. I guess you mean github.com/jj-vcs/jj. Haven't looked into it enough to know if it can watch file system changes and auto-commit 🤔",
+          "author": {
+            "handle": "dmitrykandalov.bsky.social",
+            "displayName": "Dmitry Kandalov"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:16:36.118Z",
+          "createdUtc": 1778854596,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5515,23 +5543,23 @@
     },
     "tinyhumansai/openhuman": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:rhwtxwe67gojalkcmvmogqw6/app.bsky.feed.post/3mluzhthonc26",
-        "cid": "bafyreiezulpaomllni3wzprkezk3uk6cm6bodh6lw44v5rbz3kg4dodiwm",
-        "bskyUrl": "https://bsky.app/profile/unknown.bsky.social/post/3mluzhthonc26",
-        "text": "ה-AI Agent הזה נראה ממש מעניין! מישהו כאן התקין כבר? github.com/tinyhumansai...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
         "author": {
-          "handle": "unknown.bsky.social",
-          "displayName": "CatchyNick 🇬🇧"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T09:30:04.177Z",
-        "hoursSincePosted": 2.02
+        "createdAt": "2026-05-15T14:04:22.000Z",
+        "hoursSincePosted": 0.56
       },
       "posts": [
         {
@@ -5558,6 +5586,44 @@
           "linkedRepos": [
             {
               "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+          "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:04:22.000Z",
+          "createdUtc": 1778853862,
+          "ageHours": 0.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "K-Dense-AI/scientific-agent-skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -5707,23 +5773,23 @@
     },
     "obra/superpowers": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
-        "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
-        "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
-        "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
         "author": {
-          "handle": "arthur.clune.org",
-          "displayName": "Arthur Clune"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T14:20:48.179Z",
-        "hoursSincePosted": 2.89
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:04:22.000Z",
+        "hoursSincePosted": 0.56
       },
       "posts": [
         {
@@ -5777,6 +5843,44 @@
           "linkedRepos": [
             {
               "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+          "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:04:22.000Z",
+          "createdUtc": 1778853862,
+          "ageHours": 0.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "K-Dense-AI/scientific-agent-skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -6917,21 +7021,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:dfqs6memcwlfaord6dlb6kvj/app.bsky.feed.post/3mlpfw6zvlk22",
-        "cid": "bafyreighntn4eftclljlmbfraqf4kyvq225g5uva2d4ccnpsnpnriqh6tq",
-        "bskyUrl": "https://bsky.app/profile/kan.run/post/3mlpfw6zvlk22",
-        "text": "教えてもらったんだけど、コレ使ったらiOS開発がすごいし安い エミュレータがブラウザで動いてAIエージェントが操作しやすいし、位置情報とかカメラの仮想設定もできる github.com/EvanBacon/se...",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlvimgrae42j",
+        "cid": "bafyreieyf26kqq37ewiwuhhaw2e3tkq7civblpxwyi3welfrewgvc4lrue",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlvimgrae42j",
+        "text": "`serve-sim` : un `npx serve` pour les simulateurs iOS. Une commande, et le simulateur tourne dans le navigateur — stream MJPEG 60 FPS, contrôle tactile, logs en direct. Compatible avec Cursor, Claude Desktop ou n'importe quel dev server. https://github.com/EvanBacon/serve-sim",
         "author": {
-          "handle": "kan.run",
-          "displayName": "ニノミヤ"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-13T03:56:52.543Z",
-        "hoursSincePosted": 3.57
+        "createdAt": "2026-05-15T16:01:04+02:00",
+        "hoursSincePosted": 0.61
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlvimgrae42j",
+          "cid": "bafyreieyf26kqq37ewiwuhhaw2e3tkq7civblpxwyi3welfrewgvc4lrue",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlvimgrae42j",
+          "text": "`serve-sim` : un `npx serve` pour les simulateurs iOS. Une commande, et le simulateur tourne dans le navigateur — stream MJPEG 60 FPS, contrôle tactile, logs en direct. Compatible avec Cursor, Claude Desktop ou n'importe quel dev server. https://github.com/EvanBacon/serve-sim",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T16:01:04+02:00",
+          "createdUtc": 1778853664,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "EvanBacon/serve-sim",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:dfqs6memcwlfaord6dlb6kvj/app.bsky.feed.post/3mlpfw6zvlk22",
           "cid": "bafyreighntn4eftclljlmbfraqf4kyvq225g5uva2d4ccnpsnpnriqh6tq",
@@ -10966,24 +11098,24 @@
       ]
     },
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
-      "count7d": 7,
-      "likesSum7d": 5,
-      "repostsSum7d": 1,
-      "repliesSum7d": 2,
+      "count7d": 4,
+      "likesSum7d": 3,
+      "repostsSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb6tyjomr47ndk2rq4daooln/app.bsky.feed.post/3mluwvyglzc2v",
-        "cid": "bafyreibrxh5t4evuy4xobwfp2cxl7db6zymdbb5773hxgx35a453bhargu",
-        "bskyUrl": "https://bsky.app/profile/vincent.bernat.ch/post/3mluwvyglzc2v",
-        "text": "Another 0-day in Linux, discovered by someone reading the commit log of the master branch. This one is more difficult to workaround as it does not rely on any module. It does not allow to read arbitrary files, \"just\" files read by a suid binary. github.com/0xdeadbeefne...",
+        "uri": "at://did:plc:mnyqprgluydlurbawx3eayao/app.bsky.feed.post/3mlve52afv225",
+        "cid": "bafyreigsb5qaayhf2aj3jjcvtbltf5q2cwgxyce543k4v6uxuhihe4ttwi",
+        "bskyUrl": "https://bsky.app/profile/c3iq.bsky.social/post/3mlve52afv225",
+        "text": "#hpc This Friday's exploit: ssh-keysign-pwm github.com/0xdeadbeefne...",
         "author": {
-          "handle": "vincent.bernat.ch",
-          "displayName": "Vincent Bernat"
+          "handle": "c3iq.bsky.social",
+          "displayName": "Owen 🐧"
         },
-        "likeCount": 4,
-        "repostCount": 0,
+        "likeCount": 2,
+        "repostCount": 2,
         "replyCount": 0,
-        "createdAt": "2026-05-15T08:44:17.922Z",
-        "hoursSincePosted": 2.78
+        "createdAt": "2026-05-15T12:40:53.339Z",
+        "hoursSincePosted": 1.95
       },
       "posts": [
         {
@@ -11015,6 +11147,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:mnyqprgluydlurbawx3eayao/app.bsky.feed.post/3mlve52afv225",
+          "cid": "bafyreigsb5qaayhf2aj3jjcvtbltf5q2cwgxyce543k4v6uxuhihe4ttwi",
+          "bskyUrl": "https://bsky.app/profile/c3iq.bsky.social/post/3mlve52afv225",
+          "text": "#hpc This Friday's exploit: ssh-keysign-pwm github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "c3iq.bsky.social",
+            "displayName": "Owen 🐧"
+          },
+          "likeCount": 2,
+          "repostCount": 2,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T12:40:53.339Z",
+          "createdUtc": 1778848853,
+          "ageHours": 1.95,
+          "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:k3bnourmyio4pxr3aadoewan/app.bsky.feed.post/3mlv5ptyzmd2e",
           "cid": "bafyreih5pedpfle2jxsvnq2wse7pjqoohh3qid5ewx3gcyx5z7w3d5abqq",
           "bskyUrl": "https://bsky.app/profile/buherator.bsky.social/post/3mlv5ptyzmd2e",
@@ -11028,8 +11188,64 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T10:46:08.061716+00:00",
           "createdUtc": 1778841968,
-          "ageHours": 0.75,
+          "ageHours": 3.86,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ogd75kmlgjsa3bucl6ubyrye/app.bsky.feed.post/3mlvgy5hjf22n",
+          "cid": "bafyreicx2klht53uaz4yew2s3p6lvsswwhqnu3ztflukff5n4h7njwj7du",
+          "bskyUrl": "https://bsky.app/profile/hebeerryk.bsky.social/post/3mlvgy5hjf22n",
+          "text": "あぁ。。。また。。。 github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "hebeerryk.bsky.social",
+            "displayName": "へべれけ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T13:31:50.173Z",
+          "createdUtc": 1778851910,
+          "ageHours": 1.1,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wcgycoeslhmctooi72zjrgp7/app.bsky.feed.post/3mlvblumht5e2",
+          "cid": "bafyreibplo553twx4vbu35yhzynxcaiaxcy3ahqdxu473oc46nmcdpppxa",
+          "bskyUrl": "https://bsky.app/profile/enoent.ravenation.club.ap.brid.gy/post/3mlvblumht5e2",
+          "text": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn They are literally once a day now.",
+          "author": {
+            "handle": "enoent.ravenation.club.ap.brid.gy",
+            "displayName": "ENOENT"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T11:54:59.000Z",
+          "createdUtc": 1778846099,
+          "ageHours": 2.71,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -11239,7 +11455,7 @@
     },
     "zensical/zensical": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -11251,11 +11467,11 @@
           "handle": "zensical.org",
           "displayName": "Zensical"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-15T10:29:46.892Z",
-        "hoursSincePosted": 1.02
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -11267,13 +11483,13 @@
             "handle": "zensical.org",
             "displayName": "Zensical"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-15T10:29:46.892Z",
           "createdUtc": 1778840986,
-          "ageHours": 1.02,
-          "trendingScore": 2,
+          "ageHours": 4.14,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -11384,6 +11600,221 @@
           "linkedRepos": [
             {
               "fullName": "skydoves/android-testing-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "netbirdio/netbird": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mlvjfdrmst2h",
+        "cid": "bafyreigsnu3ljtisfzkfzx2qbhieviu5a4juctdnhkkowesazvlnl2uyvq",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mlvjfdrmst2h",
+        "text": "NetBird v0.71.0 brings full IPv6 dual-stack overlay networking, MFA for local users without an external IdP, and backend support for bring-your-own reverse proxy. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.0",
+        "author": {
+          "handle": "dbt3.ch",
+          "displayName": "David"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:15:00.348Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mlvjfdrmst2h",
+          "cid": "bafyreigsnu3ljtisfzkfzx2qbhieviu5a4juctdnhkkowesazvlnl2uyvq",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mlvjfdrmst2h",
+          "text": "NetBird v0.71.0 brings full IPv6 dual-stack overlay networking, MFA for local users without an external IdP, and backend support for bring-your-own reverse proxy. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.0",
+          "author": {
+            "handle": "dbt3.ch",
+            "displayName": "David"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:15:00.348Z",
+          "createdUtc": 1778854500,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "netbirdio/netbird",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "K-Dense-AI/scientific-agent-skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:04:22.000Z",
+        "hoursSincePosted": 0.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+          "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:04:22.000Z",
+          "createdUtc": 1778853862,
+          "ageHours": 0.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "K-Dense-AI/scientific-agent-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft/waza": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cror7ofu623g3e6ajhg4arce/app.bsky.feed.post/3mlvdkrxdak2v",
+        "cid": "bafyreibtyyqj6f54tsaqxqsv466fc5lh2bvkgfcvcpv5v4wx6bduhqcfyq",
+        "bskyUrl": "https://bsky.app/profile/awakecoding.com/post/3mlvdkrxdak2v",
+        "text": "The tessl command-line tool uses server-side evals for the agent skills, so you don't have to figure out how to do it yourself. I didn't even tweak it, the defaults are good. The only other similar tool I could find is waza: github.com/microsoft/waza",
+        "author": {
+          "handle": "awakecoding.com",
+          "displayName": "Marc-André Moreau"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T12:30:40.674Z",
+        "hoursSincePosted": 2.12
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cror7ofu623g3e6ajhg4arce/app.bsky.feed.post/3mlvdkrxdak2v",
+          "cid": "bafyreibtyyqj6f54tsaqxqsv466fc5lh2bvkgfcvcpv5v4wx6bduhqcfyq",
+          "bskyUrl": "https://bsky.app/profile/awakecoding.com/post/3mlvdkrxdak2v",
+          "text": "The tessl command-line tool uses server-side evals for the agent skills, so you don't have to figure out how to do it yourself. I didn't even tweak it, the defaults are good. The only other similar tool I could find is waza: github.com/microsoft/waza",
+          "author": {
+            "handle": "awakecoding.com",
+            "displayName": "Marc-André Moreau"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T12:30:40.674Z",
+          "createdUtc": 1778848240,
+          "ageHours": 2.12,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/waza",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "darkrishabh/agent-skills-eval": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mlvbisbby42u",
+        "cid": "bafyreien3njhatdmx5k3k4gcoouhosb2yv6byacuxv75wqd6ssmcwpuiem",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mlvbisbby42u",
+        "text": "Agent skills feel like training wheels – but the eval framework here actually measures if they're worth keeping or just cognitive overhead. https://github.com/darkrishabh/agent-skills-eval",
+        "author": {
+          "handle": "sirile.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-15T11:53:45.256585+00:00",
+        "hoursSincePosted": 2.74
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mlvbisbby42u",
+          "cid": "bafyreien3njhatdmx5k3k4gcoouhosb2yv6byacuxv75wqd6ssmcwpuiem",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mlvbisbby42u",
+          "text": "Agent skills feel like training wheels – but the eval framework here actually measures if they're worth keeping or just cognitive overhead. https://github.com/darkrishabh/agent-skills-eval",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-15T11:53:45.256585+00:00",
+          "createdUtc": 1778846025,
+          "ageHours": 2.74,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "darkrishabh/agent-skills-eval",
               "matchType": "url",
               "confidence": 1
             }
@@ -11910,23 +12341,23 @@
     },
     "jj-vcs--jj": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mllg6nkydi2o",
-        "cid": "bafyreibrlzqweg65mp46covrljatrqji6c7slt6sdfde35tzhli23djdsy",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mllg6nkydi2o",
-        "text": "https://github.com/jj-vcs/jj",
+        "uri": "at://did:plc:e3bv4qsvpdpkazqw4p4v4xua/app.bsky.feed.post/3mlvji6y2kc2k",
+        "cid": "bafyreiaszclywulpjfz7k5l77nsizzbgfkdd4fup42wqkqoiont22xdyvm",
+        "bskyUrl": "https://bsky.app/profile/dmitrykandalov.bsky.social/post/3mlvji6y2kc2k",
+        "text": "I've been using it just over a month and I still don't hate it :) I might need a script to squash and summarise WIP commits though. I guess you mean github.com/jj-vcs/jj. Haven't looked into it enough to know if it can watch file system changes and auto-commit 🤔",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "dmitrykandalov.bsky.social",
+          "displayName": "Dmitry Kandalov"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T13:50:56Z",
-        "hoursSincePosted": 4.28
+        "createdAt": "2026-05-15T14:16:36.118Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -11945,6 +12376,34 @@
           "createdUtc": 1778507456,
           "ageHours": 4.28,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e3bv4qsvpdpkazqw4p4v4xua/app.bsky.feed.post/3mlvji6y2kc2k",
+          "cid": "bafyreiaszclywulpjfz7k5l77nsizzbgfkdd4fup42wqkqoiont22xdyvm",
+          "bskyUrl": "https://bsky.app/profile/dmitrykandalov.bsky.social/post/3mlvji6y2kc2k",
+          "text": "I've been using it just over a month and I still don't hate it :) I might need a script to squash and summarise WIP commits though. I guess you mean github.com/jj-vcs/jj. Haven't looked into it enough to know if it can watch file system changes and auto-commit 🤔",
+          "author": {
+            "handle": "dmitrykandalov.bsky.social",
+            "displayName": "Dmitry Kandalov"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:16:36.118Z",
+          "createdUtc": 1778854596,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -16903,23 +17362,23 @@
     },
     "tinyhumansai--openhuman": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:rhwtxwe67gojalkcmvmogqw6/app.bsky.feed.post/3mluzhthonc26",
-        "cid": "bafyreiezulpaomllni3wzprkezk3uk6cm6bodh6lw44v5rbz3kg4dodiwm",
-        "bskyUrl": "https://bsky.app/profile/unknown.bsky.social/post/3mluzhthonc26",
-        "text": "ה-AI Agent הזה נראה ממש מעניין! מישהו כאן התקין כבר? github.com/tinyhumansai...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
         "author": {
-          "handle": "unknown.bsky.social",
-          "displayName": "CatchyNick 🇬🇧"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T09:30:04.177Z",
-        "hoursSincePosted": 2.02
+        "createdAt": "2026-05-15T14:04:22.000Z",
+        "hoursSincePosted": 0.56
       },
       "posts": [
         {
@@ -16946,6 +17405,44 @@
           "linkedRepos": [
             {
               "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+          "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:04:22.000Z",
+          "createdUtc": 1778853862,
+          "ageHours": 0.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "K-Dense-AI/scientific-agent-skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -17095,23 +17592,23 @@
     },
     "obra--superpowers": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
-        "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
-        "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
-        "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
         "author": {
-          "handle": "arthur.clune.org",
-          "displayName": "Arthur Clune"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T14:20:48.179Z",
-        "hoursSincePosted": 2.89
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:04:22.000Z",
+        "hoursSincePosted": 0.56
       },
       "posts": [
         {
@@ -17165,6 +17662,44 @@
           "linkedRepos": [
             {
               "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+          "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:04:22.000Z",
+          "createdUtc": 1778853862,
+          "ageHours": 0.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "K-Dense-AI/scientific-agent-skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -18305,21 +18840,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:dfqs6memcwlfaord6dlb6kvj/app.bsky.feed.post/3mlpfw6zvlk22",
-        "cid": "bafyreighntn4eftclljlmbfraqf4kyvq225g5uva2d4ccnpsnpnriqh6tq",
-        "bskyUrl": "https://bsky.app/profile/kan.run/post/3mlpfw6zvlk22",
-        "text": "教えてもらったんだけど、コレ使ったらiOS開発がすごいし安い エミュレータがブラウザで動いてAIエージェントが操作しやすいし、位置情報とかカメラの仮想設定もできる github.com/EvanBacon/se...",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlvimgrae42j",
+        "cid": "bafyreieyf26kqq37ewiwuhhaw2e3tkq7civblpxwyi3welfrewgvc4lrue",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlvimgrae42j",
+        "text": "`serve-sim` : un `npx serve` pour les simulateurs iOS. Une commande, et le simulateur tourne dans le navigateur — stream MJPEG 60 FPS, contrôle tactile, logs en direct. Compatible avec Cursor, Claude Desktop ou n'importe quel dev server. https://github.com/EvanBacon/serve-sim",
         "author": {
-          "handle": "kan.run",
-          "displayName": "ニノミヤ"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-13T03:56:52.543Z",
-        "hoursSincePosted": 3.57
+        "createdAt": "2026-05-15T16:01:04+02:00",
+        "hoursSincePosted": 0.61
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlvimgrae42j",
+          "cid": "bafyreieyf26kqq37ewiwuhhaw2e3tkq7civblpxwyi3welfrewgvc4lrue",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlvimgrae42j",
+          "text": "`serve-sim` : un `npx serve` pour les simulateurs iOS. Une commande, et le simulateur tourne dans le navigateur — stream MJPEG 60 FPS, contrôle tactile, logs en direct. Compatible avec Cursor, Claude Desktop ou n'importe quel dev server. https://github.com/EvanBacon/serve-sim",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T16:01:04+02:00",
+          "createdUtc": 1778853664,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "EvanBacon/serve-sim",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:dfqs6memcwlfaord6dlb6kvj/app.bsky.feed.post/3mlpfw6zvlk22",
           "cid": "bafyreighntn4eftclljlmbfraqf4kyvq225g5uva2d4ccnpsnpnriqh6tq",
@@ -22354,24 +22917,24 @@
       ]
     },
     "0xdeadbeefnetwork--ssh-keysign-pwn": {
-      "count7d": 7,
-      "likesSum7d": 5,
-      "repostsSum7d": 1,
-      "repliesSum7d": 2,
+      "count7d": 4,
+      "likesSum7d": 3,
+      "repostsSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb6tyjomr47ndk2rq4daooln/app.bsky.feed.post/3mluwvyglzc2v",
-        "cid": "bafyreibrxh5t4evuy4xobwfp2cxl7db6zymdbb5773hxgx35a453bhargu",
-        "bskyUrl": "https://bsky.app/profile/vincent.bernat.ch/post/3mluwvyglzc2v",
-        "text": "Another 0-day in Linux, discovered by someone reading the commit log of the master branch. This one is more difficult to workaround as it does not rely on any module. It does not allow to read arbitrary files, \"just\" files read by a suid binary. github.com/0xdeadbeefne...",
+        "uri": "at://did:plc:mnyqprgluydlurbawx3eayao/app.bsky.feed.post/3mlve52afv225",
+        "cid": "bafyreigsb5qaayhf2aj3jjcvtbltf5q2cwgxyce543k4v6uxuhihe4ttwi",
+        "bskyUrl": "https://bsky.app/profile/c3iq.bsky.social/post/3mlve52afv225",
+        "text": "#hpc This Friday's exploit: ssh-keysign-pwm github.com/0xdeadbeefne...",
         "author": {
-          "handle": "vincent.bernat.ch",
-          "displayName": "Vincent Bernat"
+          "handle": "c3iq.bsky.social",
+          "displayName": "Owen 🐧"
         },
-        "likeCount": 4,
-        "repostCount": 0,
+        "likeCount": 2,
+        "repostCount": 2,
         "replyCount": 0,
-        "createdAt": "2026-05-15T08:44:17.922Z",
-        "hoursSincePosted": 2.78
+        "createdAt": "2026-05-15T12:40:53.339Z",
+        "hoursSincePosted": 1.95
       },
       "posts": [
         {
@@ -22403,6 +22966,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:mnyqprgluydlurbawx3eayao/app.bsky.feed.post/3mlve52afv225",
+          "cid": "bafyreigsb5qaayhf2aj3jjcvtbltf5q2cwgxyce543k4v6uxuhihe4ttwi",
+          "bskyUrl": "https://bsky.app/profile/c3iq.bsky.social/post/3mlve52afv225",
+          "text": "#hpc This Friday's exploit: ssh-keysign-pwm github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "c3iq.bsky.social",
+            "displayName": "Owen 🐧"
+          },
+          "likeCount": 2,
+          "repostCount": 2,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T12:40:53.339Z",
+          "createdUtc": 1778848853,
+          "ageHours": 1.95,
+          "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:k3bnourmyio4pxr3aadoewan/app.bsky.feed.post/3mlv5ptyzmd2e",
           "cid": "bafyreih5pedpfle2jxsvnq2wse7pjqoohh3qid5ewx3gcyx5z7w3d5abqq",
           "bskyUrl": "https://bsky.app/profile/buherator.bsky.social/post/3mlv5ptyzmd2e",
@@ -22416,8 +23007,64 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T10:46:08.061716+00:00",
           "createdUtc": 1778841968,
-          "ageHours": 0.75,
+          "ageHours": 3.86,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ogd75kmlgjsa3bucl6ubyrye/app.bsky.feed.post/3mlvgy5hjf22n",
+          "cid": "bafyreicx2klht53uaz4yew2s3p6lvsswwhqnu3ztflukff5n4h7njwj7du",
+          "bskyUrl": "https://bsky.app/profile/hebeerryk.bsky.social/post/3mlvgy5hjf22n",
+          "text": "あぁ。。。また。。。 github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "hebeerryk.bsky.social",
+            "displayName": "へべれけ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T13:31:50.173Z",
+          "createdUtc": 1778851910,
+          "ageHours": 1.1,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wcgycoeslhmctooi72zjrgp7/app.bsky.feed.post/3mlvblumht5e2",
+          "cid": "bafyreibplo553twx4vbu35yhzynxcaiaxcy3ahqdxu473oc46nmcdpppxa",
+          "bskyUrl": "https://bsky.app/profile/enoent.ravenation.club.ap.brid.gy/post/3mlvblumht5e2",
+          "text": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn They are literally once a day now.",
+          "author": {
+            "handle": "enoent.ravenation.club.ap.brid.gy",
+            "displayName": "ENOENT"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T11:54:59.000Z",
+          "createdUtc": 1778846099,
+          "ageHours": 2.71,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22627,7 +23274,7 @@
     },
     "zensical--zensical": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -22639,11 +23286,11 @@
           "handle": "zensical.org",
           "displayName": "Zensical"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-15T10:29:46.892Z",
-        "hoursSincePosted": 1.02
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -22655,13 +23302,13 @@
             "handle": "zensical.org",
             "displayName": "Zensical"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-15T10:29:46.892Z",
           "createdUtc": 1778840986,
-          "ageHours": 1.02,
-          "trendingScore": 2,
+          "ageHours": 4.14,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -22778,41 +23425,271 @@
           ]
         }
       ]
+    },
+    "netbirdio--netbird": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mlvjfdrmst2h",
+        "cid": "bafyreigsnu3ljtisfzkfzx2qbhieviu5a4juctdnhkkowesazvlnl2uyvq",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mlvjfdrmst2h",
+        "text": "NetBird v0.71.0 brings full IPv6 dual-stack overlay networking, MFA for local users without an external IdP, and backend support for bring-your-own reverse proxy. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.0",
+        "author": {
+          "handle": "dbt3.ch",
+          "displayName": "David"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:15:00.348Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mlvjfdrmst2h",
+          "cid": "bafyreigsnu3ljtisfzkfzx2qbhieviu5a4juctdnhkkowesazvlnl2uyvq",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mlvjfdrmst2h",
+          "text": "NetBird v0.71.0 brings full IPv6 dual-stack overlay networking, MFA for local users without an external IdP, and backend support for bring-your-own reverse proxy. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.0",
+          "author": {
+            "handle": "dbt3.ch",
+            "displayName": "David"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:15:00.348Z",
+          "createdUtc": 1778854500,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "netbirdio/netbird",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "k-dense-ai--scientific-agent-skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T14:04:22.000Z",
+        "hoursSincePosted": 0.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
+          "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T14:04:22.000Z",
+          "createdUtc": 1778853862,
+          "ageHours": 0.56,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "K-Dense-AI/scientific-agent-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft--waza": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cror7ofu623g3e6ajhg4arce/app.bsky.feed.post/3mlvdkrxdak2v",
+        "cid": "bafyreibtyyqj6f54tsaqxqsv466fc5lh2bvkgfcvcpv5v4wx6bduhqcfyq",
+        "bskyUrl": "https://bsky.app/profile/awakecoding.com/post/3mlvdkrxdak2v",
+        "text": "The tessl command-line tool uses server-side evals for the agent skills, so you don't have to figure out how to do it yourself. I didn't even tweak it, the defaults are good. The only other similar tool I could find is waza: github.com/microsoft/waza",
+        "author": {
+          "handle": "awakecoding.com",
+          "displayName": "Marc-André Moreau"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T12:30:40.674Z",
+        "hoursSincePosted": 2.12
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cror7ofu623g3e6ajhg4arce/app.bsky.feed.post/3mlvdkrxdak2v",
+          "cid": "bafyreibtyyqj6f54tsaqxqsv466fc5lh2bvkgfcvcpv5v4wx6bduhqcfyq",
+          "bskyUrl": "https://bsky.app/profile/awakecoding.com/post/3mlvdkrxdak2v",
+          "text": "The tessl command-line tool uses server-side evals for the agent skills, so you don't have to figure out how to do it yourself. I didn't even tweak it, the defaults are good. The only other similar tool I could find is waza: github.com/microsoft/waza",
+          "author": {
+            "handle": "awakecoding.com",
+            "displayName": "Marc-André Moreau"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T12:30:40.674Z",
+          "createdUtc": 1778848240,
+          "ageHours": 2.12,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/waza",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "darkrishabh--agent-skills-eval": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mlvbisbby42u",
+        "cid": "bafyreien3njhatdmx5k3k4gcoouhosb2yv6byacuxv75wqd6ssmcwpuiem",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mlvbisbby42u",
+        "text": "Agent skills feel like training wheels – but the eval framework here actually measures if they're worth keeping or just cognitive overhead. https://github.com/darkrishabh/agent-skills-eval",
+        "author": {
+          "handle": "sirile.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-15T11:53:45.256585+00:00",
+        "hoursSincePosted": 2.74
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mlvbisbby42u",
+          "cid": "bafyreien3njhatdmx5k3k4gcoouhosb2yv6byacuxv75wqd6ssmcwpuiem",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mlvbisbby42u",
+          "text": "Agent skills feel like training wheels – but the eval framework here actually measures if they're worth keeping or just cognitive overhead. https://github.com/darkrishabh/agent-skills-eval",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-15T11:53:45.256585+00:00",
+          "createdUtc": 1778846025,
+          "ageHours": 2.74,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "darkrishabh/agent-skills-eval",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
-      "count7d": 7,
-      "likesSum7d": 5
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
+      "count7d": 4,
       "likesSum7d": 3
     },
     {
-      "fullName": "rohitg00/agentmemory",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "floci-io/floci",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "maziggy/bambuddy",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "skydoves/android-testing-skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "zensical/zensical",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "darkrishabh/agent-skills-eval",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "EvanBacon/serve-sim",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jj-vcs/jj",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "K-Dense-AI/scientific-agent-skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "microsoft/waza",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "netbirdio/netbird",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "obra/superpowers",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     }

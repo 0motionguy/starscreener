@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-15T22:12:41.345Z",
+  "fetchedAt": "2026-05-15T23:14:12.098Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
@@ -7400,23 +7400,23 @@
     },
     "Fission-AI/OpenSpec": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
-        "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
-        "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
-        "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+        "uri": "at://did:plc:r7wv7v7s3kobvnq4bhoeiex7/app.bsky.feed.post/3mlwfm4iksc2r",
+        "cid": "bafyreig5b6dcmtadn6hihecuqe734sbegybjejt5dnwby6dkvv32eio5ki",
+        "bskyUrl": "https://bsky.app/profile/jasonmulligan.com/post/3mlwfm4iksc2r",
+        "text": "@doriantaylor.com you should checkout github.com/Fission-AI/O...",
         "author": {
-          "handle": "monsuta.bsky.social",
-          "displayName": "francis siefken"
+          "handle": "jasonmulligan.com",
+          "displayName": "Jason Mulligan"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-10T11:16:55.110Z",
-        "hoursSincePosted": 3.99
+        "replyCount": 2,
+        "createdAt": "2026-05-15T22:39:52.501Z",
+        "hoursSincePosted": 0.57
       },
       "posts": [
         {
@@ -7445,6 +7445,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:r7wv7v7s3kobvnq4bhoeiex7/app.bsky.feed.post/3mlwfm4iksc2r",
+          "cid": "bafyreig5b6dcmtadn6hihecuqe734sbegybjejt5dnwby6dkvv32eio5ki",
+          "bskyUrl": "https://bsky.app/profile/jasonmulligan.com/post/3mlwfm4iksc2r",
+          "text": "@doriantaylor.com you should checkout github.com/Fission-AI/O...",
+          "author": {
+            "handle": "jasonmulligan.com",
+            "displayName": "Jason Mulligan"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-15T22:39:52.501Z",
+          "createdUtc": 1778884792,
+          "ageHours": 0.57,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "Fission-AI/OpenSpec",
               "matchType": "url",
@@ -12286,26 +12314,54 @@
       ]
     },
     "dtnewman/burn-baby-burn": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
-        "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
-        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlwceoia4a2d",
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
+        "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlwgtrnw5n2g",
         "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
         "author": {
-          "handle": "betterhn20.e-work.xyz",
-          "displayName": "Hacker News 20"
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T21:42:00.971Z",
-        "hoursSincePosted": 0.51
+        "createdAt": "2026-05-15T23:02:02.611Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
+          "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlwgtrnw5n2g",
+          "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T23:02:02.611Z",
+          "createdUtc": 1778886122,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
           "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
@@ -12320,7 +12376,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T21:42:00.971Z",
           "createdUtc": 1778881320,
-          "ageHours": 0.51,
+          "ageHours": 1.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19733,23 +19789,23 @@
     },
     "fission-ai--openspec": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
-        "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
-        "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
-        "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+        "uri": "at://did:plc:r7wv7v7s3kobvnq4bhoeiex7/app.bsky.feed.post/3mlwfm4iksc2r",
+        "cid": "bafyreig5b6dcmtadn6hihecuqe734sbegybjejt5dnwby6dkvv32eio5ki",
+        "bskyUrl": "https://bsky.app/profile/jasonmulligan.com/post/3mlwfm4iksc2r",
+        "text": "@doriantaylor.com you should checkout github.com/Fission-AI/O...",
         "author": {
-          "handle": "monsuta.bsky.social",
-          "displayName": "francis siefken"
+          "handle": "jasonmulligan.com",
+          "displayName": "Jason Mulligan"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-10T11:16:55.110Z",
-        "hoursSincePosted": 3.99
+        "replyCount": 2,
+        "createdAt": "2026-05-15T22:39:52.501Z",
+        "hoursSincePosted": 0.57
       },
       "posts": [
         {
@@ -19778,6 +19834,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:r7wv7v7s3kobvnq4bhoeiex7/app.bsky.feed.post/3mlwfm4iksc2r",
+          "cid": "bafyreig5b6dcmtadn6hihecuqe734sbegybjejt5dnwby6dkvv32eio5ki",
+          "bskyUrl": "https://bsky.app/profile/jasonmulligan.com/post/3mlwfm4iksc2r",
+          "text": "@doriantaylor.com you should checkout github.com/Fission-AI/O...",
+          "author": {
+            "handle": "jasonmulligan.com",
+            "displayName": "Jason Mulligan"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-15T22:39:52.501Z",
+          "createdUtc": 1778884792,
+          "ageHours": 0.57,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "Fission-AI/OpenSpec",
               "matchType": "url",
@@ -24619,26 +24703,54 @@
       ]
     },
     "dtnewman--burn-baby-burn": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
-        "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
-        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlwceoia4a2d",
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
+        "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlwgtrnw5n2g",
         "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
         "author": {
-          "handle": "betterhn20.e-work.xyz",
-          "displayName": "Hacker News 20"
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T21:42:00.971Z",
-        "hoursSincePosted": 0.51
+        "createdAt": "2026-05-15T23:02:02.611Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
+          "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlwgtrnw5n2g",
+          "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T23:02:02.611Z",
+          "createdUtc": 1778886122,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
           "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
@@ -24653,7 +24765,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T21:42:00.971Z",
           "createdUtc": 1778881320,
-          "ageHours": 0.51,
+          "ageHours": 1.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24672,12 +24784,12 @@
   },
   "leaderboard": [
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 1,
-      "likesSum7d": 1
+      "fullName": "dtnewman/burn-baby-burn",
+      "count7d": 2,
+      "likesSum7d": 0
     },
     {
-      "fullName": "dtnewman/burn-baby-burn",
+      "fullName": "Fission-AI/OpenSpec",
       "count7d": 1,
       "likesSum7d": 0
     }

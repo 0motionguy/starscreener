@@ -488,50 +488,65 @@ function CardRow({
     <div
       style={{
         display: "flex",
-        alignItems: "center",
-        gap: 14,
-        padding: "6px 0 6px 12px",
-        borderLeft: `3px solid ${railColor}`,
+        alignItems: "stretch",
+        gap: 0,
       }}
     >
-      <span
+      <div
         style={{
-          display: "flex",
-          fontSize: rowFontRank,
-          fontWeight: 700,
-          color: index < 3 ? railColor : c.rankRest,
-          width: 56,
-          fontFamily: "sans-serif",
+          width: 3,
+          backgroundColor: railColor,
+          flexShrink: 0,
         }}
-      >
-        {String(item.rank).padStart(2, "0")}
-      </span>
-      <span
+      />
+      <div
         style={{
           display: "flex",
+          alignItems: "center",
+          gap: 14,
+          padding: "6px 0 6px 12px",
           flex: 1,
-          fontSize: rowFontTitle,
-          color: c.textPrimary,
-          fontWeight: 600,
-          fontFamily: "sans-serif",
-          overflow: "hidden",
         }}
       >
-        {truncate(owner + item.title, 40)}
-      </span>
-      <span
-        style={{
-          display: "flex",
-          fontSize: rowFontScore,
-          fontFamily: "monospace",
-          color: c.up,
-          fontWeight: 600,
-        }}
-      >
-        {item.deltaPct !== undefined
-          ? `${item.deltaPct >= 0 ? "+" : ""}${item.deltaPct.toFixed(0)}%`
-          : item.score.toFixed(2)}
-      </span>
+        <span
+          style={{
+            display: "flex",
+            fontSize: rowFontRank,
+            fontWeight: 700,
+            color: index < 3 ? railColor : c.rankRest,
+            width: 56,
+            fontFamily: "sans-serif",
+          }}
+        >
+          {String(item.rank).padStart(2, "0")}
+        </span>
+        <span
+          style={{
+            display: "flex",
+            flex: 1,
+            fontSize: rowFontTitle,
+            color: c.textPrimary,
+            fontWeight: 600,
+            fontFamily: "sans-serif",
+            overflow: "hidden",
+          }}
+        >
+          {truncate(owner + item.title, 40)}
+        </span>
+        <span
+          style={{
+            display: "flex",
+            fontSize: rowFontScore,
+            fontFamily: "monospace",
+            color: c.up,
+            fontWeight: 600,
+          }}
+        >
+          {item.deltaPct !== undefined
+            ? `${item.deltaPct >= 0 ? "+" : ""}${item.deltaPct.toFixed(0)}%`
+            : item.score.toFixed(2)}
+        </span>
+      </div>
     </div>
   );
 }

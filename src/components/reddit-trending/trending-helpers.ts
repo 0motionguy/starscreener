@@ -30,14 +30,14 @@ export function tierClasses(tier: PostTier): TierClasses {
   switch (tier) {
     case "hyperviral":
       return {
-        row: "border-l-4 border-l-[#ff6600] bg-gradient-to-br from-bg-card via-bg-card to-[#ff6600]/[0.06]",
+        row: "shadow-[inset_4px_0_0_#ff6600] bg-gradient-to-br from-bg-card via-bg-card to-[#ff6600]/[0.06]",
         title: "text-lg sm:text-xl font-bold",
         baselinePillSize: "lg",
         contentOpacity: "",
       };
     case "breakout":
       return {
-        row: "border-l-2 border-l-[#ff4500]/70",
+        row: "shadow-[inset_2px_0_0_#ff4500B3]",
         title: "text-base sm:text-lg font-bold",
         baselinePillSize: "md",
         contentOpacity: "",
@@ -63,14 +63,14 @@ export function tierClassesCompact(tier: PostTier): TierClasses {
   switch (tier) {
     case "hyperviral":
       return {
-        row: "border-l-4 border-l-[#ff6600] bg-gradient-to-br from-bg-card via-bg-card to-[#ff6600]/[0.06]",
+        row: "shadow-[inset_4px_0_0_#ff6600] bg-gradient-to-br from-bg-card via-bg-card to-[#ff6600]/[0.06]",
         title: "text-sm font-bold",
         baselinePillSize: "md",
         contentOpacity: "",
       };
     case "breakout":
       return {
-        row: "border-l-2 border-l-[#ff4500]/70",
+        row: "shadow-[inset_2px_0_0_#ff4500B3]",
         title: "text-sm font-bold",
         baselinePillSize: "sm",
         contentOpacity: "",

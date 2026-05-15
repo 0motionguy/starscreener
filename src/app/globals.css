@@ -1500,7 +1500,7 @@ body::before {
   max-width: 1400px;
   margin-bottom: 14px;
   border: 1px solid var(--line-200);
-  border-left: 3px solid var(--acc);
+  box-shadow: inset 3px 0 0 var(--acc);
   background: linear-gradient(90deg, var(--acc-soft), var(--bg-025) 26%);
 }
 

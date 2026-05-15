@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Scrape arXiv for recent CS-AI/CL/LG papers.
+// Scrape arXiv for recent CS-AI/CL/LG/CV papers.
 //
 // arXiv's public API (Atom XML) lets us pull recent submissions in
 // specific categories without auth. Their TOS asks for a 3-second gap
@@ -49,9 +49,9 @@ const TRENDING_IN = resolve(DATA_DIR, "trending.json");
 const RECENT_IN = resolve(DATA_DIR, "recent-repos.json");
 const OUT_PATH = resolve(DATA_DIR, "arxiv-recent.json");
 
-const CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.CV", "cs.MA", "stat.ML"];
+const CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.CV"];
 const CATEGORY_MAX_RESULTS = 50;
-const MAX_PAPERS = 250;
+const MAX_PAPERS = 200;
 // GitHub-hosted egress can still trip arXiv's edge limiter at 3s gaps.
 const CATEGORY_REQUEST_GAP_MS = 20_000;
 

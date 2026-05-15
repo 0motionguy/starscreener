@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-15T20:36:02.981Z",
+  "fetchedAt": "2026-05-15T22:12:41.345Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -2897,7 +2897,7 @@
     },
     "forrestchang/andrej-karpathy-skills": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -2909,11 +2909,11 @@
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T20:23:06Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -2925,13 +2925,13 @@
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-15T20:23:06Z",
           "createdUtc": 1778876586,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.83,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -12284,6 +12284,57 @@
           ]
         }
       ]
+    },
+    "dtnewman/burn-baby-burn": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
+        "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlwceoia4a2d",
+        "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T21:42:00.971Z",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
+          "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlwceoia4a2d",
+          "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T21:42:00.971Z",
+          "createdUtc": 1778881320,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -15179,7 +15230,7 @@
     },
     "forrestchang--andrej-karpathy-skills": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -15191,11 +15242,11 @@
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T20:23:06Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -15207,13 +15258,13 @@
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-15T20:23:06Z",
           "createdUtc": 1778876586,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.83,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -24566,26 +24617,67 @@
           ]
         }
       ]
+    },
+    "dtnewman--burn-baby-burn": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
+        "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlwceoia4a2d",
+        "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T21:42:00.971Z",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlwceoia4a2d",
+          "cid": "bafyreiarylxpfm7efxpvq4u2xiu4p3buoj5eototagrm3dxaeatnqxziw4",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlwceoia4a2d",
+          "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T21:42:00.971Z",
+          "createdUtc": 1778881320,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "warpdotdev/warp",
-      "count7d": 5,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "addyosmani/agent-skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
       "fullName": "forrestchang/andrej-karpathy-skills",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "yetone/native-feel-skill",
+      "fullName": "dtnewman/burn-baby-burn",
       "count7d": 1,
       "likesSum7d": 0
     }

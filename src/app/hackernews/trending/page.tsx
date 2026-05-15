@@ -7,7 +7,6 @@
 
 import type { Metadata } from "next";
 import {
-  getHnTopStories,
   getHnTrendingFile,
   refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
@@ -72,7 +71,6 @@ export default async function HackerNewsTrendingPage() {
     refreshHackernewsMentionsFromStore(),
   ]);
   const trendingFile = getHnTrendingFile();
-  const stories = getHnTopStories(50);
   const allStories = trendingFile.stories;
   const cold = allStories.length === 0;
 

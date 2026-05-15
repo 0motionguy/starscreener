@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Scrape arXiv for recent CS-AI/CL/LG papers.
+// Scrape arXiv for recent CS-AI/CL/LG/CV papers.
 //
 // arXiv's public API (Atom XML) lets us pull recent submissions in
 // specific categories without auth. Their TOS asks for a 3-second gap
@@ -9,8 +9,10 @@
 //
 // Endpoint:
 //   https://export.arxiv.org/api/query?
-//     search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG
-//     &sortBy=submittedDate&sortOrder=descending&max_results=100
+//     search_query=cat:cs.AI
+//     &sortBy=submittedDate&sortOrder=descending&max_results=50
+// We fan out by category instead of one large OR query because arXiv
+// currently 429s the broad OR request from GitHub-hosted runners.
 // (HTTP → HTTPS is now a 301 redirect; we go straight to HTTPS.)
 //
 // Output:
@@ -47,10 +49,11 @@ const TRENDING_IN = resolve(DATA_DIR, "trending.json");
 const RECENT_IN = resolve(DATA_DIR, "recent-repos.json");
 const OUT_PATH = resolve(DATA_DIR, "arxiv-recent.json");
 
-const ENDPOINT =
-  "https://export.arxiv.org/api/query?" +
-  "search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG+OR+cat:cs.CV+OR+cat:cs.MA+OR+cat:stat.ML" +
-  "&sortBy=submittedDate&sortOrder=descending&max_results=1000";
+const CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.CV"];
+const CATEGORY_MAX_RESULTS = 50;
+const MAX_PAPERS = 200;
+// GitHub-hosted egress can still trip arXiv's edge limiter at 3s gaps.
+const CATEGORY_REQUEST_GAP_MS = 20_000;
 
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 
@@ -186,6 +189,41 @@ function splitEntries(xml) {
   return out;
 }
 
+function buildEndpoint(category) {
+  const params = new URLSearchParams({
+    search_query: `cat:${category}`,
+    sortBy: "submittedDate",
+    sortOrder: "descending",
+    max_results: String(CATEGORY_MAX_RESULTS),
+  });
+  return `https://export.arxiv.org/api/query?${params.toString()}`;
+}
+
+async function fetchArxivXml(endpoint, label) {
+  const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
+  const ATTEMPTS = 4;
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt += 1) {
+    const res = await fetchWithTimeout(endpoint, {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/atom+xml, application/xml",
+      },
+      timeoutMs: 30_000,
+    });
+    if (res.ok) {
+      return res.text();
+    }
+    if (!RETRY_STATUSES.has(res.status) || attempt === ATTEMPTS) {
+      throw new Error(`arXiv API HTTP ${res.status} ${res.statusText} (${label})`);
+    }
+    const retryAfterMs =
+      parseRetryAfterMs(res.headers.get("retry-after")) ?? CATEGORY_REQUEST_GAP_MS * attempt;
+    log(`arXiv ${label} ${res.status} - retry ${attempt}/${ATTEMPTS - 1} in ${retryAfterMs}ms`);
+    await sleep(retryAfterMs);
+  }
+  throw new Error(`arXiv API returned empty body after retries (${label})`);
+}
+
 async function main() {
   // tracked-repos load is best-effort: when no trending.json exists yet
   // (fresh checkout, fresh Vercel build), we still want to record papers,
@@ -204,58 +242,44 @@ async function main() {
 
   const fetchedAt = new Date().toISOString();
 
-  // arXiv occasionally 429s; their TOS asks for 3s between requests, so we
-  // retry up to 3 times honoring Retry-After when set.
-  let xml = "";
-  const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
-  const ATTEMPTS = 3;
-  for (let attempt = 1; attempt <= ATTEMPTS; attempt += 1) {
-    const res = await fetchWithTimeout(ENDPOINT, {
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept: "application/atom+xml, application/xml",
-      },
-      timeoutMs: 30_000,
-    });
-    if (res.ok) {
-      xml = await res.text();
-      break;
-    }
-    if (!RETRY_STATUSES.has(res.status) || attempt === ATTEMPTS) {
-      throw new Error(`arXiv API HTTP ${res.status} ${res.statusText}`);
-    }
-    const retryAfterMs =
-      parseRetryAfterMs(res.headers.get("retry-after")) ?? 3_000 * attempt;
-    log(`arXiv ${res.status} — retry ${attempt}/${ATTEMPTS - 1} in ${retryAfterMs}ms`);
-    await sleep(retryAfterMs);
-  }
-  if (!xml) {
-    throw new Error("arXiv API returned empty body after retries");
-  }
-
-  const entries = splitEntries(xml);
-  if (entries.length === 0) {
-    throw new Error("no <entry> blocks in arXiv response — API shape changed?");
-  }
-
   const papers = [];
-  for (const entry of entries) {
-    const norm = parseEntry(entry, tracked);
-    if (norm) papers.push(norm);
+  const seenPapers = new Set();
+  for (const [index, category] of CATEGORIES.entries()) {
+    if (index > 0) {
+      await sleep(CATEGORY_REQUEST_GAP_MS);
+    }
+    const xml = await fetchArxivXml(buildEndpoint(category), category);
+    const entries = splitEntries(xml);
+    if (entries.length === 0) {
+      throw new Error(`no <entry> blocks in arXiv response for ${category} - API shape changed?`);
+    }
+    log(`${category}: ${entries.length} entries`);
+    for (const entry of entries) {
+      const norm = parseEntry(entry, tracked);
+      if (!norm || seenPapers.has(norm.arxivId)) continue;
+      seenPapers.add(norm.arxivId);
+      papers.push(norm);
+    }
   }
 
   if (papers.length === 0) {
     throw new Error("no papers parsed from arXiv response");
   }
+  papers.sort((a, b) => {
+    const aTime = Date.parse(a.publishedAt ?? a.updatedAt ?? "");
+    const bTime = Date.parse(b.publishedAt ?? b.updatedAt ?? "");
+    return (Number.isFinite(bTime) ? bTime : 0) - (Number.isFinite(aTime) ? aTime : 0);
+  });
+  const recentPapers = papers.slice(0, MAX_PAPERS);
 
-  const linkedCount = papers.filter((p) => p.linkedRepos.length > 0).length;
+  const linkedCount = recentPapers.filter((p) => p.linkedRepos.length > 0).length;
 
   const payload = {
     fetchedAt,
-    source: "export.arxiv.org/api/query (cs.AI + cs.CL + cs.LG)",
-    count: papers.length,
+    source: `export.arxiv.org/api/query (${CATEGORIES.join(", ")})`,
+    count: recentPapers.length,
     linkedRepoCount: linkedCount,
-    papers,
+    papers: recentPapers,
   };
 
   await mkdir(DATA_DIR, { recursive: true });
@@ -263,13 +287,13 @@ async function main() {
   const redis = await writeDataStore("arxiv-recent", payload);
 
   log(`wrote ${OUT_PATH} [redis: ${redis.source}]`);
-  log(`  ${papers.length} recent papers; ${linkedCount} cross-link to tracked repos`);
-  log(`  top 3: ${papers.slice(0, 3).map((p) => p.arxivId).join(", ")}`);
+  log(`  ${recentPapers.length} recent papers; ${linkedCount} cross-link to tracked repos`);
+  log(`  top 3: ${recentPapers.slice(0, 3).map((p) => p.arxivId).join(", ")}`);
 
   // F3 unknown-mentions lake — every github URL we found in any abstract,
   // even repos we don't yet track. Drives the discovery promotion job.
   const unknownsAccumulator = new Set();
-  for (const paper of papers) {
+  for (const paper of recentPapers) {
     const blob = `${paper.title ?? ""} ${paper.summary ?? ""}`;
     for (const u of extractUnknownRepoCandidates(blob, null)) {
       unknownsAccumulator.add(u);

@@ -28,7 +28,7 @@ env:
 
 jobs:
   run:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: POST /api/cron/mcp/rotate-usage

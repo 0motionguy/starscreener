@@ -1,5 +1,3 @@
-import type { NextRequest } from "next/server";
-
 // x402 — HTTP 402 Payment Required entrypoint for agent-side micropayments.
 //
 // The actual priced endpoints live on TOOLBOX (`api.aiso.tools/v1/x402/*`).
@@ -47,7 +45,8 @@ async function getToolboxManifest(): Promise<unknown> {
   }
 }
 
-export async function GET(_req: NextRequest): Promise<Response> {
+export async function GET(request: Request): Promise<Response> {
+  void request;
   const manifest = await getToolboxManifest();
   if (manifest === null) return stubResponse(503);
   return new Response(JSON.stringify(manifest), {
@@ -61,7 +60,8 @@ export async function GET(_req: NextRequest): Promise<Response> {
   });
 }
 
-export function HEAD(_req: NextRequest): Response {
+export function HEAD(request: Request): Response {
+  void request;
   return new Response(null, {
     status: 200,
     headers: {
@@ -74,7 +74,8 @@ export function HEAD(_req: NextRequest): Response {
 
 // Legacy POST/OPTIONS — agents that probed the old stub still get a
 // well-formed 402; bots discover the manifest via GET above.
-export function POST(_req: NextRequest): Response {
+export function POST(request: Request): Response {
+  void request;
   return stubResponse(402);
 }
 

@@ -26,7 +26,7 @@ concurrency:
 jobs:
   classify:
     name: Classify PR paths
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
       data_only: ${{ steps.paths.outputs.data_only }}
@@ -82,7 +82,7 @@ jobs:
   gate:
     name: Typecheck, guards, tests, build, e2e
     needs: classify
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Data-only fast path
@@ -196,7 +196,7 @@ jobs:
         # binds 127.0.0.1:3023 → toolbox-trendingrepo-1 container (production
         # trendingrepo). Use 13023 to avoid the conflict during CI test runs.
         run: |
-          STARSCREENER_BASE_URL=http://localhost:13023 npx next start -p 13023 &
+          STARSCREENER_BASE_URL=http://localhost:13023 nohup npx next start -p 13023 > .next-server.log 2>&1 &
           echo $! > .next-pid
           for i in $(seq 1 60); do
             if curl -sSf http://localhost:13023/ >/dev/null 2>&1; then
@@ -206,6 +206,7 @@ jobs:
             sleep 1
           done
           echo "server failed to start within 60s" >&2
+          cat .next-server.log >&2 || true
           exit 1
 
       # STARSCREENER_BASE_URL is honored by playwright.config.ts: when set,
@@ -236,7 +237,7 @@ jobs:
     name: MCP server build
     needs: classify
     if: needs.classify.outputs.data_only != 'true'
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout

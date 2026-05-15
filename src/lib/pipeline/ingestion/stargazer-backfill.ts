@@ -149,7 +149,7 @@ export async function backfillStargazerHistory(
     // request — it's page 1 of real data for small repos where we'll walk
     // the whole list anyway.
     if (probe.ok) {
-      const count = await safeReadPage(probe, perDay);
+      await safeReadPage(probe, perDay);
       totalFetched += 1;
       startPage = Math.max(2, lastPage - maxPages + 1);
     } else {

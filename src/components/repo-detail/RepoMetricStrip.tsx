@@ -11,9 +11,10 @@
 // supplied by the page (the surface map is async, so the page resolves it
 // once and passes the count down to keep this component sync).
 
-import type { JSX } from "react";
+import type { JSX, ReactNode } from "react";
 import { Sparkline } from "@/components/shared/Sparkline";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
+import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
 interface RepoMetricStripProps {
@@ -26,7 +27,7 @@ interface MetricDef {
   label: string;
   value: string;
   delta?: { text: string; positive: boolean };
-  sub?: string;
+  sub?: ReactNode;
   spark?: number[];
   positive?: boolean;
 }
@@ -61,7 +62,11 @@ function buildMetrics(
         ? "MIXED"
         : "THIN";
   const lastCommit = repo.lastCommitAt
-    ? `last commit ${getRelativeTime(repo.lastCommitAt)}`
+    ? (
+        <>
+          last commit <RelativeTime iso={repo.lastCommitAt} />
+        </>
+      )
     : "last commit unknown";
 
   return [

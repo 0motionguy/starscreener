@@ -23,7 +23,8 @@ permissions:
 
 jobs:
   collect:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,6 +46,7 @@ jobs:
       # Continues on error so a flaky EDGAR doesn't blank the funding-news
       # commit step.
       - run: npm run scrape:sec-form-d ${{ github.event.inputs.dry_run == 'true' && '-- --output=.tmp/sec-form-d-preview.json' || '' }}
+        timeout-minutes: 8
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           # Dual-write to TOOLBOX signal lake (funding.sec.formd).

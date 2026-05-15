@@ -6,7 +6,6 @@ import { useFilterStore } from "@/lib/store";
 import { TAG_RULES } from "@/lib/pipeline/classification/tag-rules";
 
 const FIRST_TAG = TAG_RULES[0];
-const SECOND_TAG = TAG_RULES[1] ?? TAG_RULES[0];
 
 beforeEach(() => {
   act(() => {

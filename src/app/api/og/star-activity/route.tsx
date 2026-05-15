@@ -474,17 +474,14 @@ function StarActivityCard({
   watermark: boolean;
 }) {
   const isVertical = aspect === "v";
-  const { width, height } = ASPECT_DIMENSIONS[aspect];
+  const { width } = ASPECT_DIMENSIONS[aspect];
   const themeConfig = CHART_THEMES[theme];
   const isLight = themeConfig.light;
   const textPrimary = isLight ? "#1f1f1f" : OG_COLORS.textPrimary;
-  const textSecondary = isLight ? "#3a3a3a" : OG_COLORS.textSecondary;
   const textTertiary = isLight ? "#5a5a5a" : OG_COLORS.textTertiary;
   const cardBg = themeConfig.cardBg.startsWith("var(")
     ? OG_COLORS.bg
     : themeConfig.cardBg;
-  const accentColor = isLight ? "#1f1f1f" : OG_COLORS.brand;
-
   const padding = isVertical
     ? "56px 64px 64px 64px"
     : aspect === "yt"

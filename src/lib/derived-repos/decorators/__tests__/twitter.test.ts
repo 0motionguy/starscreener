@@ -117,7 +117,9 @@ test("decorateWithTwitter maps signal metrics/score/badge fields onto the repo",
   assert.equal(out.twitter.lastScannedAt, signal.updatedAt);
 
   // Mapping must not leak any other top-level field changes.
-  const { twitter: _t, ...rest } = out;
-  const { twitter: _orig, ...repoRest } = repo;
+  const { twitter: outTwitter, ...rest } = out;
+  const { twitter: repoTwitter, ...repoRest } = repo;
+  void outTwitter;
+  void repoTwitter;
   assert.deepEqual(rest, repoRest);
 });

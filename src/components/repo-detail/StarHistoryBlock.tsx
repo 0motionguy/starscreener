@@ -11,12 +11,13 @@
 import Link from "next/link";
 import type { JSX } from "react";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
+import { RelativeTime } from "@/components/ui/RelativeTime";
 import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 import {
   getStarActivity,
   type StarActivityPoint,
 } from "@/lib/star-activity";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
 export interface StarHistoryBlockProps {
@@ -269,7 +270,11 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
           }
           sub={
             stats.spike
-              ? `${getRelativeTime(stats.spike.date)} · peak day`
+              ? (
+                  <>
+                    <RelativeTime iso={stats.spike.date} /> · peak day
+                  </>
+                )
               : "no breakout in window"
           }
         />

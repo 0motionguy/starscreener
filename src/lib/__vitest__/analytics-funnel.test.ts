@@ -17,6 +17,16 @@ describe("PostHog funnel helper", () => {
     const captures: Array<{ event: string; props: unknown }> = [];
 
     captureFunnelStep({ step: "home_view", flow: "discover-repo" });
+    captureFunnelStep({
+      step: "account_cta_click",
+      flow: "account-auth",
+      source: "header",
+    });
+    captureFunnelStep({
+      step: "sign_up_success",
+      flow: "account-auth",
+      source: "clerk_webhook",
+    });
     setWindowPostHog({
       __loaded: true,
       capture: (event: string, props: unknown) => captures.push({ event, props }),
@@ -27,6 +37,22 @@ describe("PostHog funnel helper", () => {
       {
         event: "funnel_step",
         props: { step: "home_view", flow: "discover-repo" },
+      },
+      {
+        event: "funnel_step",
+        props: {
+          step: "account_cta_click",
+          flow: "account-auth",
+          source: "header",
+        },
+      },
+      {
+        event: "funnel_step",
+        props: {
+          step: "sign_up_success",
+          flow: "account-auth",
+          source: "clerk_webhook",
+        },
       },
     ]);
   });

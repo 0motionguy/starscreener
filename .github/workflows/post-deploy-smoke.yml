@@ -11,12 +11,13 @@ permissions:
 
 jobs:
   smoke:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
       BASE_URL: https://trendingrepo.com
       OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
       CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      SMOKE_USER_AGENT: Mozilla/5.0 (compatible; TrendingRepoPostDeploySmoke/1.0; +https://trendingrepo.com)
     steps:
       - name: Wait for deploy propagation
         run: sleep 30
@@ -64,7 +65,7 @@ jobs:
           report="post-deploy-smoke results (pass 1)\n"
           for route in "${routes[@]}"; do
             url="${BASE_URL}${route}"
-            line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
+            line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
             code="$(echo "$line" | awk '{print $1}')"
             report+="${route} => ${line}\n"
             if [ "$code" != "200" ]; then
@@ -79,9 +80,9 @@ jobs:
 
           cron_url="${BASE_URL}/api/cron/freshness/state"
           if [ -n "${CRON_SECRET:-}" ]; then
-            cron_line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" -H "Authorization: Bearer ${CRON_SECRET}" "$cron_url")"
+            cron_line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" -H "Authorization: Bearer ${CRON_SECRET}" "$cron_url")"
           else
-            cron_line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$cron_url")"
+            cron_line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$cron_url")"
           fi
           cron_code="$(echo "$cron_line" | awk '{print $1}')"
           report+="/api/cron/freshness/state => ${cron_line}\n"
@@ -105,6 +106,7 @@ jobs:
             revalidate_body="{\"paths\":${paths_json}}"
             report+="\n[self-heal] POST /api/revalidate body=${revalidate_body}\n"
             revalidate_code="$(curl -sS -X POST \
+              -A "$SMOKE_USER_AGENT" \
               -H "Authorization: Bearer ${CRON_SECRET}" \
               -H "Content-Type: application/json" \
               -d "$revalidate_body" \
@@ -121,7 +123,7 @@ jobs:
             report+="\npost-deploy-smoke results (pass 2 — post-revalidate)\n"
             for route in "${stuck_paths[@]}"; do
               url="${BASE_URL}${route}"
-              line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
+              line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
               code="$(echo "$line" | awk '{print $1}')"
               report+="${route} => ${line}\n"
               if [ "$code" != "200" ]; then

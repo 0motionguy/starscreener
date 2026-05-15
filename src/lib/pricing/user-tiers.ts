@@ -100,21 +100,6 @@ async function loadIndex(): Promise<Map<string, UserTierRecord>> {
 }
 
 /**
- * Read-through helper. Returns a Map that MUST NOT be mutated by callers
- * (it's shared with the cache). Tests can call `__resetUserTierCacheForTests`
- * to force a reload after touching the file directly.
- */
-async function getIndex(): Promise<Map<string, UserTierRecord>> {
-  const { mtimeMs, size } = statSignature();
-  if (_cache && _cache.mtimeMs === mtimeMs && _cache.size === size) {
-    return _cache.byUserId;
-  }
-  const byUserId = await loadIndex();
-  _cache = { mtimeMs, size, byUserId };
-  return byUserId;
-}
-
-/**
  * Telemetry hook for tests — lets the entitlements test prove the cache
  * actually skips disk on repeat reads.
  */

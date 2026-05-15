@@ -140,7 +140,6 @@ export default async function YouAlertsPage() {
           </div>
           <AddAlertRuleDialog
             existingRuleCount={serializedRules.length}
-            defaultTimezone={prefs.timezone}
           />
         </section>
 

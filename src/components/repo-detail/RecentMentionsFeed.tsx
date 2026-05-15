@@ -14,7 +14,7 @@
 
 import { useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
-import { getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
 import type { FreshnessSnapshot } from "@/lib/source-health";
 import { FreshnessChips } from "./FreshnessChips";
 import { MentionsLoadMore } from "./MentionsLoadMore";
@@ -278,7 +278,7 @@ export function MentionRow({ item: m }: { item: MentionItem }) {
             >
               ▶ {sourceLabel}
             </span>
-            <span className="mention-age">{getRelativeTime(m.createdAt)}</span>
+            <RelativeTime iso={m.createdAt} className="mention-age" />
           </header>
           <footer className="mention-meta">
             <span className="mention-stat">

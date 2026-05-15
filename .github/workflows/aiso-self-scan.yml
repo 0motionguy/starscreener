@@ -32,7 +32,7 @@ permissions:
 
 jobs:
   self-scan:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Trigger scan + capture event

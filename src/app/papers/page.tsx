@@ -15,7 +15,6 @@ import {
   type ArxivPaperTrending,
 } from "@/lib/arxiv";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
-import { repoLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";

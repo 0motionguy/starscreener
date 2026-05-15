@@ -1876,7 +1876,10 @@ body::before {
 
 .hero-row .delta-stack .d-lbl {
   margin-left: 4px;
-  color: var(--ink-500);
+  /* Was --ink-500 (text-disabled) — 1.97:1 contrast over --bg-canvas,
+     fails WCAG AA. --ink-400 (text-faint) bumps to ~5:1. The "disabled"
+     token is for grey-out states; this label is visible secondary text. */
+  color: var(--ink-400);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--tracking-control);
@@ -2603,12 +2606,14 @@ body::before {
 
 .live-top-filters .fchip .ct {
   color: inherit;
-  opacity: 0.6;
+  /* Was 0.6 — combined with inherited text color produced 2.86:1 contrast
+     over --bg-canvas, fails WCAG AA. 0.8 lifts to ~4.6:1. */
+  opacity: 0.8;
   font-size: var(--font-size-xs);
 }
 
 .live-top-filters .fchip.on .ct {
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 .live-top-spacer {
@@ -5808,6 +5813,11 @@ body::before {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
+  /* Lighthouse target-size minimum is 24×24. When the picker renders in
+     a narrow footer container, width:100% can shrink to <24px. Pin a min
+     so the touch target stays accessible regardless of container width. */
+  min-width: 28px;
+  min-height: 28px;
   cursor: pointer;
   border: 1px solid var(--v3-line-200);
   border-radius: 1px;

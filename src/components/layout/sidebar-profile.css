@@ -9,6 +9,23 @@
   background: linear-gradient(160deg, rgba(255, 107, 53, 0.06), var(--bg-050) 60%);
   position: relative;
 }
+
+.sb-prof-eyebrow{
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-400);
+  padding: 6px 12px 0;
+  line-height: 1;
+}
+.sb-prof-eyebrow .sep{
+  color: var(--line-300);
+  margin: 0 2px;
+}
+.sb-prof-eyebrow .status{
+  color: var(--sig-green, var(--acc));
+}
 .sb-profile::before{
   content: '';
   position: absolute;
@@ -97,13 +114,22 @@
   grid-template-columns: repeat(3, 1fr);
   border-bottom: 1px solid var(--line-200);
 }
-.sb-prof-stats > div{
+.sb-prof-stats > a{
   padding: 7px 8px;
   border-right: 1px solid var(--line-200);
   text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
 }
-.sb-prof-stats > div:last-child{
+.sb-prof-stats > a:last-child{
   border-right: none;
+}
+.sb-prof-stats > a:hover{
+  background: var(--acc-soft, rgba(255, 107, 53, 0.08));
+}
+.sb-prof-stats > a:hover .v{
+  color: var(--acc);
 }
 .sb-prof-stats .v{
   font-family: var(--mono);

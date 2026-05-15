@@ -6,7 +6,7 @@ export interface StatIconProps {
   icon?: LucideIcon;
   iconNode?: ReactNode;
   label: string;
-  value: string | number;
+  value: ReactNode;
   hint?: string;
   tone?: "default" | "brand" | "up" | "down" | "warn";
 }
@@ -33,7 +33,12 @@ export function StatIcon({
   return (
     <div
       className="flex items-center gap-2 min-w-0"
-      title={hint ?? `${label}: ${value}`}
+      title={
+        hint ??
+        (typeof value === "string" || typeof value === "number"
+          ? `${label}: ${value}`
+          : label)
+      }
     >
       {iconNode ?? (
         Icon ? (

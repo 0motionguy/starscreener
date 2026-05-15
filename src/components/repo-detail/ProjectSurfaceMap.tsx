@@ -16,9 +16,10 @@ import type { AisoToolsDimension, AisoToolsScan } from "@/lib/aiso-tools";
 import { getRepoMetadata } from "@/lib/repo-metadata";
 import { getRepoProfile, type RepoProfileStatus } from "@/lib/repo-profiles";
 import { fetchGithubRepoHomepageUrl } from "@/lib/github-repo-homepage";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import { AisoRetryButton } from "./AisoRetryButton";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RelativeTime } from "@/components/ui/RelativeTime";
 import { repoDisplayLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 type AisoUiStatus =
@@ -846,7 +847,11 @@ export async function ProjectSurfaceMap({
             style={{ color: "var(--v3-ink-400)" }}
           >
             {aisoScan.completedAt
-              ? `scanned ${getRelativeTime(aisoScan.completedAt)}`
+              ? (
+                  <>
+                    scanned <RelativeTime iso={aisoScan.completedAt} />
+                  </>
+                )
               : `scan status: ${aisoScan.status}`}
           </p>
         </div>

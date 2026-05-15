@@ -3,7 +3,8 @@ import { Download, ExternalLink, Package, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { NpmPackageRow } from "@/lib/npm";
 import type { DailyDownload } from "@/lib/npm-daily";
-import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
+import { RelativeTime } from "@/components/ui/RelativeTime";
+import { cn, formatNumber } from "@/lib/utils";
 
 interface NpmAdoptionPanelProps {
   packages: NpmPackageRow[];
@@ -353,7 +354,7 @@ function PackageRow({
           {pkg.latestVersion ?? "unknown"}
         </span>
         {pkg.publishedAt && (
-          <span className="block">{getRelativeTime(pkg.publishedAt)}</span>
+          <RelativeTime iso={pkg.publishedAt} className="block" />
         )}
       </td>
     </tr>

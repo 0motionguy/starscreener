@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-15T06:43:51.748Z",
+  "fetchedAt": "2026-05-15T08:24:22.275Z",
   "windowDays": 7,
   "scannedStories": 78,
   "mentions": {
@@ -74,6 +74,44 @@
           "linkedRepos": [
             {
               "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "0xdeadbeefnetwork/ssh-keysign-pwn": {
+      "count7d": 1,
+      "scoreSum7d": 31,
+      "topStory": {
+        "shortId": "wskhre",
+        "title": "linux 0-day, access root-owned files as an unprivileged user",
+        "score": 31,
+        "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
+        "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
+        "hoursSincePosted": 7.166944444444445
+      },
+      "stories": [
+        {
+          "shortId": "wskhre",
+          "title": "linux 0-day, access root-owned files as an unprivileged user",
+          "url": "https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/",
+          "commentsUrl": "https://lobste.rs/s/wskhre/linux_0_day_access_root_owned_files_as",
+          "by": "",
+          "score": 31,
+          "commentCount": 8,
+          "createdUtc": 1778807661,
+          "ageHours": 7.166944444444445,
+          "trendingScore": 1.1169270137338685,
+          "tags": [
+            "linux",
+            "security"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
               "matchType": "url",
               "confidence": 1
             }
@@ -354,6 +392,11 @@
       "fullName": "nooga/let-go",
       "count7d": 1,
       "scoreSum7d": 54
+    },
+    {
+      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+      "count7d": 1,
+      "scoreSum7d": 31
     },
     {
       "fullName": "v12-security/pocs",

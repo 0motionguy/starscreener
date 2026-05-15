@@ -42,7 +42,6 @@ import {
   FileText,
   GitCompareArrows,
   GraduationCap,
-  Library,
   Lightbulb,
   Package,
   Plug,
@@ -74,6 +73,7 @@ import {
 } from "./SidebarWatchlistPreview";
 import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { SidebarFooter } from "./SidebarFooter";
+import { SidebarProfileCard } from "./SidebarProfileCard";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3/CursorRail";
 
@@ -741,15 +741,6 @@ export function SidebarContent({
           {/* "Predict" sidebar entry removed 2026-05-09. The DB descriptor
               remains for a future prediction writer, but no public route is
               shipped until predictions land in Redis like the other surfaces. */}
-          <V2NavRow
-            href="/collections"
-            icon={Library}
-            label="Collections"
-            active={
-              pathname === "/collections" ||
-              pathname.startsWith("/collections/")
-            }
-          />
         </V2Section>
 
         {/* TOOLS */}
@@ -807,6 +798,7 @@ export function SidebarContent({
         </V2Section>
       </CursorRail>
 
+      <SidebarProfileCard />
       <SidebarFooter compact={compact} onToggleCompact={onToggleCompact} />
     </div>
   );

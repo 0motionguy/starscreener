@@ -36,3 +36,10 @@ test("sidebar user overlay fetch waits for a signed-in Clerk user", () => {
   assert.match(body, /new URLSearchParams\(\{ userId \}\)/);
   assert.match(body, /\/api\/pipeline\/sidebar-overlay\?\$\{params\.toString\(\)\}/);
 });
+
+test("hosted Clerk form waits for client-only referral state", () => {
+  const body = source("src/components/auth/ClerkAuthForm.tsx");
+  assert.match(body, /ready: false/);
+  assert.match(body, /if \(!ready\) \{\s*return <ClerkAuthSkeleton \/>;\s*\}/);
+  assert.match(body, /unsafeMetadata=\{metadata\}/);
+});

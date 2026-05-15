@@ -13,6 +13,7 @@ import { cn, formatNumber } from "@/lib/utils";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 // Per-source badges (HnBadge / BskyBadge / PhBadge / DevtoBadge) intentionally
 // removed from this preview: their lib imports drag ioredis (a Node-only
@@ -83,11 +84,11 @@ export function SidebarWatchlistPreview({
               ? formatNumber(delta)
               : "0";
         return (
-          <Link
+          <RepoLink
             key={repo.id}
-            href={`/repo/${repo.owner}/${repo.name}`}
+            owner={repo.owner}
+            name={repo.name}
             className="grid grid-cols-[20px_1fr_auto] gap-2 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors"
-            title={`${repo.fullName} — ${deltaLabel} stars / 24h`}
           >
             <EntityLogo
               src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 20)}
@@ -114,7 +115,7 @@ export function SidebarWatchlistPreview({
             >
               {deltaLabel}
             </span>
-          </Link>
+          </RepoLink>
         );
       })}
       <Link

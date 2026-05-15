@@ -13,7 +13,7 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxx
 CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxx
 
 # After wiring https://<domain>/api/webhooks/clerk in Clerk → Webhooks →
-# Endpoints (subscribe to user.created, user.updated, user.deleted):
+# Endpoints (subscribe to user.created, user.updated, user.deleted, session.created):
 CLERK_WEBHOOK_SIGNING_SECRET=whsec_xxxxxxxxxxxx
 
 # -- Supabase Postgres -------------------------------------------------------
@@ -51,7 +51,7 @@ FOUNDER_DISCORD_INVITE=
    - In Clerk → API Keys, copy publishable + secret keys.
    - In Clerk → Webhooks → Endpoints → Add Endpoint:
      - URL: `https://<your-domain>/api/webhooks/clerk` (use `ngrok` URL during dev).
-     - Subscribe to `user.created`, `user.updated`, `user.deleted`.
+     - Subscribe to `user.created`, `user.updated`, `user.deleted`, `session.created`.
      - Copy the signing secret into `CLERK_WEBHOOK_SIGNING_SECRET`.
 3. **Generate the webhook KEK**: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` → set as `WEBHOOK_SECRET_KEK`.
 4. **Run migrations** (locally first):

@@ -104,6 +104,11 @@ export function SidebarProfileBox({
 
   return (
     <div className="sb-profile" data-component="sidebar-profile">
+      <div className="sb-prof-eyebrow" aria-hidden>
+        TRENDINGREPO BETA <span className="sep">/</span>{" "}
+        <span className="status">{"// OPEN SOURCE · LIVE"}</span>
+      </div>
+
       <div className="sb-prof-head">
         <div className="sb-prof-av" aria-hidden>
           {monogram(handle)}
@@ -116,23 +121,23 @@ export function SidebarProfileBox({
         </div>
       </div>
 
-      <div className="sb-prof-stats" role="group" aria-label="Profile stats">
-        <div>
+      <nav className="sb-prof-stats" aria-label="Profile stats">
+        <Link href="/watchlist" aria-label={`Watchlist: ${watchCount}`}>
           <div className="v">{watchCount}</div>
           <div className="l">watch</div>
-        </div>
-        <div>
+        </Link>
+        <Link href="/you/alerts" aria-label={`Alerts: ${alertCount}`}>
           <div className="v">{alertCount}</div>
           <div className="l">alerts</div>
-        </div>
-        <div>
+        </Link>
+        <Link href="/submit" aria-label={`Drops: ${dropCount}`}>
           <div className="v">{dropCount}</div>
           <div className="l">drops</div>
-        </div>
-      </div>
+        </Link>
+      </nav>
 
       <nav className="sb-access" aria-label="Quick access">
-        <Link className="a" href="/portal/docs" title="Agent">
+        <Link className="a" href="/agent-commerce" title="Agent commerce hub">
           <AgentIcon />
           AGENT
         </Link>
@@ -140,7 +145,7 @@ export function SidebarProfileBox({
           <CliIcon />
           CLI
         </Link>
-        <Link className="a" href="/portal/docs" title="MCP">
+        <Link className="a" href="/mcp" title="MCP servers">
           <McpIcon />
           MCP
         </Link>

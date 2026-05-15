@@ -179,13 +179,20 @@ function previewFor(title: string) {
   }
 }
 
-function ToolGrid({ tools }: { tools: ToolEntry[] }) {
+function ToolGrid({
+  tools,
+  routeBadge,
+}: {
+  tools: ToolEntry[];
+  routeBadge: string;
+}) {
   return (
     <div className="grid">
       {tools.map((tool) => (
         <div className="col-6" key={`${tool.title}-${tool.href}`}>
           <ToolTile
             num={tool.status === "soon" ? `${tool.num} · SOON` : tool.num}
+            routeBadge={routeBadge}
             title={tool.title}
             desc={tool.desc}
             preview={previewFor(tool.title)}
@@ -242,21 +249,21 @@ export default function ToolsPage() {
           </>
         }
       />
-      <ToolGrid tools={CHART_TOOLS} />
+      <ToolGrid tools={CHART_TOOLS} routeBadge="CHART" />
 
       <SectionHead
         num="// 02"
         title="Estimators"
         meta={<>ARR overlays · TrustMRR claims</>}
       />
-      <ToolGrid tools={ESTIMATOR_TOOLS} />
+      <ToolGrid tools={ESTIMATOR_TOOLS} routeBadge="ESTIMATOR" />
 
       <SectionHead
         num="// 03"
         title="Contribute"
         meta={<>self-reported · verified surfaces</>}
       />
-      <ToolGrid tools={CONTRIBUTE_TOOLS} />
+      <ToolGrid tools={CONTRIBUTE_TOOLS} routeBadge="CONTRIBUTE" />
     </main>
   );
 }

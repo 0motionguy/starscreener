@@ -32,6 +32,10 @@ export interface ToolTileProps {
   foot?: ReactNode;
   /** When provided, tile renders as <a> instead of <div>. */
   href?: string;
+  /** Small uppercase route badge rendered between `num` and `title` — e.g.
+   * "CHART", "ESTIMATOR", "CONTRIBUTE". Lets a tile be self-descriptive
+   * when viewed in isolation (e.g., share screenshots). */
+  routeBadge?: ReactNode;
   className?: string;
 }
 
@@ -43,6 +47,7 @@ export function ToolTile({
   preview,
   foot,
   href,
+  routeBadge,
   className,
 }: ToolTileProps) {
   const Tag = href ? "a" : "div";
@@ -57,6 +62,9 @@ export function ToolTile({
       )}
     >
       <div className="v4-tool-tile__num">{num}</div>
+      {routeBadge ? (
+        <div className="v4-tool-tile__route-badge">{routeBadge}</div>
+      ) : null}
       <div className="v4-tool-tile__title">{title}</div>
       <div className="v4-tool-tile__desc">{desc}</div>
       {foot ? <div className="v4-tool-tile__foot">{foot}</div> : null}

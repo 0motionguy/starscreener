@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-15T18:56:54.442Z",
+  "fetchedAt": "2026-05-15T20:36:02.981Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -2901,21 +2901,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ihqwyvjqndjmuxaweooaqkyg/app.bsky.feed.post/3mlfsqg7z332a",
-        "cid": "bafyreiemugfgytjrn3yyvcyhgc7tn7wayelue45rx4smgrlzanhei2ewha",
-        "bskyUrl": "https://bsky.app/profile/ghiblimagic.bsky.social/post/3mlfsqg7z332a",
-        "text": "He also shared some AI resources some of you might find handy! github.com/forrestch... CLAUDE.md file to improve Claude Code behavior oraios.github.io/ser... bridge between an LLM and a local codebase github.com/juliusbru... for fun & to save tokens",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlw5xl6lm62y",
+        "cid": "bafyreifdvgw3fxi7agmumi27b4ygoyqdy3aub4y5pqgr6jh6vxwyj6glye",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlw5xl6lm62y",
+        "text": "https://github.com/forrestchang/andrej-karpathy-skills",
         "author": {
-          "handle": "ghiblimagic.bsky.social",
-          "displayName": "GhibliMagic / Janet"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T08:19:39.000Z",
-        "hoursSincePosted": 1.98
+        "createdAt": "2026-05-15T20:23:06Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlw5xl6lm62y",
+          "cid": "bafyreifdvgw3fxi7agmumi27b4ygoyqdy3aub4y5pqgr6jh6vxwyj6glye",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlw5xl6lm62y",
+          "text": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T20:23:06Z",
+          "createdUtc": 1778876586,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ihqwyvjqndjmuxaweooaqkyg/app.bsky.feed.post/3mlfsqg7z332a",
           "cid": "bafyreiemugfgytjrn3yyvcyhgc7tn7wayelue45rx4smgrlzanhei2ewha",
@@ -4382,7 +4410,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T17:00:05.851676+00:00",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 3.6
       },
       "posts": [
         {
@@ -4399,7 +4427,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T17:00:05.851676+00:00",
           "createdUtc": 1778864405,
-          "ageHours": 1.95,
+          "ageHours": 3.6,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -10224,24 +10252,24 @@
       ]
     },
     "warpdotdev/warp": {
-      "count7d": 6,
-      "likesSum7d": 5,
+      "count7d": 5,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 5,
+      "repliesSum7d": 4,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjhmxhn2b",
-        "cid": "bafyreifetlvdh7nq435cspuxga5hvqhsmvythbzmvr7v4zzq7wkcwdjrsa",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlvsjhmxhn2b",
-        "text": "Hans Knöchel (@hansemannnn) is working on a terminal Find fix that avoids rendering every match up front. For huge outputs, Warp would show 1000+ results and lazily discover more as you navigate, helping avoid hangs. github.com/warpdotdev/...",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjknzmy2n",
+        "cid": "bafyreigtyqd3ne5nr6wzxdsj7dlchg57ayj3a42u6cisnpch7zrwwsfrum",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlvsjknzmy2n",
+        "text": "David Engelmann is taking on log growth in a few places. His MCP and LSP PRs add size-based log rotation so verbose servers can’t grow logs without bound during long sessions. github.com/warpdotdev/... github.com/warpdotdev/...",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-15T16:58:22.334886Z",
-        "hoursSincePosted": 1.98
+        "createdAt": "2026-05-15T16:58:25.530778Z",
+        "hoursSincePosted": 3.63
       },
       "posts": [
         {
@@ -10286,7 +10314,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:25.530778Z",
           "createdUtc": 1778864305,
-          "ageHours": 1.97,
+          "ageHours": 3.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -10314,7 +10342,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:24.462751Z",
           "createdUtc": 1778864304,
-          "ageHours": 1.98,
+          "ageHours": 3.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -10342,7 +10370,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:23.406476Z",
           "createdUtc": 1778864303,
-          "ageHours": 1.98,
+          "ageHours": 3.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -10370,7 +10398,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T16:58:28.040557Z",
           "createdUtc": 1778864308,
-          "ageHours": 1.97,
+          "ageHours": 3.63,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -10398,7 +10426,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:26.635365Z",
           "createdUtc": 1778864306,
-          "ageHours": 1.97,
+          "ageHours": 3.63,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -12198,6 +12226,58 @@
           "linkedRepos": [
             {
               "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "yetone/native-feel-skill": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlvzf2p7nx2v",
+        "cid": "bafyreicxeydqgk4byat6wf6h6sfudwrvpfzcbtxv6tsd3c3qqo3tczpyfu",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlvzf2p7nx2v",
+        "text": "When AI agents internalize native UX patterns, the next generation of dev tools won’t just automate—they’ll delight, raising the bar for cross-platform experience. https://github.com/yetone/native-feel-skill https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T19:01:03.010Z",
+        "hoursSincePosted": 1.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlvzf2p7nx2v",
+          "cid": "bafyreicxeydqgk4byat6wf6h6sfudwrvpfzcbtxv6tsd3c3qqo3tczpyfu",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlvzf2p7nx2v",
+          "text": "When AI agents internalize native UX patterns, the next generation of dev tools won’t just automate—they’ll delight, raising the bar for cross-platform experience. https://github.com/yetone/native-feel-skill https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T19:01:03.010Z",
+          "createdUtc": 1778871663,
+          "ageHours": 1.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "yetone/native-feel-skill",
               "matchType": "url",
               "confidence": 1
             }
@@ -15103,21 +15183,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ihqwyvjqndjmuxaweooaqkyg/app.bsky.feed.post/3mlfsqg7z332a",
-        "cid": "bafyreiemugfgytjrn3yyvcyhgc7tn7wayelue45rx4smgrlzanhei2ewha",
-        "bskyUrl": "https://bsky.app/profile/ghiblimagic.bsky.social/post/3mlfsqg7z332a",
-        "text": "He also shared some AI resources some of you might find handy! github.com/forrestch... CLAUDE.md file to improve Claude Code behavior oraios.github.io/ser... bridge between an LLM and a local codebase github.com/juliusbru... for fun & to save tokens",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlw5xl6lm62y",
+        "cid": "bafyreifdvgw3fxi7agmumi27b4ygoyqdy3aub4y5pqgr6jh6vxwyj6glye",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlw5xl6lm62y",
+        "text": "https://github.com/forrestchang/andrej-karpathy-skills",
         "author": {
-          "handle": "ghiblimagic.bsky.social",
-          "displayName": "GhibliMagic / Janet"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T08:19:39.000Z",
-        "hoursSincePosted": 1.98
+        "createdAt": "2026-05-15T20:23:06Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlw5xl6lm62y",
+          "cid": "bafyreifdvgw3fxi7agmumi27b4ygoyqdy3aub4y5pqgr6jh6vxwyj6glye",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlw5xl6lm62y",
+          "text": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T20:23:06Z",
+          "createdUtc": 1778876586,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ihqwyvjqndjmuxaweooaqkyg/app.bsky.feed.post/3mlfsqg7z332a",
           "cid": "bafyreiemugfgytjrn3yyvcyhgc7tn7wayelue45rx4smgrlzanhei2ewha",
@@ -16584,7 +16692,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T17:00:05.851676+00:00",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 3.6
       },
       "posts": [
         {
@@ -16601,7 +16709,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T17:00:05.851676+00:00",
           "createdUtc": 1778864405,
-          "ageHours": 1.95,
+          "ageHours": 3.6,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -22426,24 +22534,24 @@
       ]
     },
     "warpdotdev--warp": {
-      "count7d": 6,
-      "likesSum7d": 5,
+      "count7d": 5,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 5,
+      "repliesSum7d": 4,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjhmxhn2b",
-        "cid": "bafyreifetlvdh7nq435cspuxga5hvqhsmvythbzmvr7v4zzq7wkcwdjrsa",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlvsjhmxhn2b",
-        "text": "Hans Knöchel (@hansemannnn) is working on a terminal Find fix that avoids rendering every match up front. For huge outputs, Warp would show 1000+ results and lazily discover more as you navigate, helping avoid hangs. github.com/warpdotdev/...",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjknzmy2n",
+        "cid": "bafyreigtyqd3ne5nr6wzxdsj7dlchg57ayj3a42u6cisnpch7zrwwsfrum",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlvsjknzmy2n",
+        "text": "David Engelmann is taking on log growth in a few places. His MCP and LSP PRs add size-based log rotation so verbose servers can’t grow logs without bound during long sessions. github.com/warpdotdev/... github.com/warpdotdev/...",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-15T16:58:22.334886Z",
-        "hoursSincePosted": 1.98
+        "createdAt": "2026-05-15T16:58:25.530778Z",
+        "hoursSincePosted": 3.63
       },
       "posts": [
         {
@@ -22488,7 +22596,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:25.530778Z",
           "createdUtc": 1778864305,
-          "ageHours": 1.97,
+          "ageHours": 3.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -22516,7 +22624,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:24.462751Z",
           "createdUtc": 1778864304,
-          "ageHours": 1.98,
+          "ageHours": 3.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -22544,7 +22652,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:23.406476Z",
           "createdUtc": 1778864303,
-          "ageHours": 1.98,
+          "ageHours": 3.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -22572,7 +22680,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T16:58:28.040557Z",
           "createdUtc": 1778864308,
-          "ageHours": 1.97,
+          "ageHours": 3.63,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -22600,7 +22708,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-15T16:58:26.635365Z",
           "createdUtc": 1778864306,
-          "ageHours": 1.97,
+          "ageHours": 3.63,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -24406,13 +24514,65 @@
           ]
         }
       ]
+    },
+    "yetone--native-feel-skill": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlvzf2p7nx2v",
+        "cid": "bafyreicxeydqgk4byat6wf6h6sfudwrvpfzcbtxv6tsd3c3qqo3tczpyfu",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlvzf2p7nx2v",
+        "text": "When AI agents internalize native UX patterns, the next generation of dev tools won’t just automate—they’ll delight, raising the bar for cross-platform experience. https://github.com/yetone/native-feel-skill https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T19:01:03.010Z",
+        "hoursSincePosted": 1.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlvzf2p7nx2v",
+          "cid": "bafyreicxeydqgk4byat6wf6h6sfudwrvpfzcbtxv6tsd3c3qqo3tczpyfu",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlvzf2p7nx2v",
+          "text": "When AI agents internalize native UX patterns, the next generation of dev tools won’t just automate—they’ll delight, raising the bar for cross-platform experience. https://github.com/yetone/native-feel-skill https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T19:01:03.010Z",
+          "createdUtc": 1778871663,
+          "ageHours": 1.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "yetone/native-feel-skill",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "warpdotdev/warp",
-      "count7d": 6,
-      "likesSum7d": 5
+      "count7d": 5,
+      "likesSum7d": 3
     },
     {
       "fullName": "addyosmani/agent-skills",
@@ -24420,12 +24580,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "antirez/ds4",
+      "fullName": "forrestchang/andrej-karpathy-skills",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "nooga/let-go",
+      "fullName": "yetone/native-feel-skill",
       "count7d": 1,
       "likesSum7d": 0
     }

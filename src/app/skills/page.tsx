@@ -611,11 +611,17 @@ function ListTaxonomyTabs({
       count: formatNumber(listCounts[slug]),
     })),
   ];
+  const hrefs = Object.fromEntries(
+    items.map((item) => [
+      item.id,
+      item.id === "all" ? "/skills" : `/skills?list=${item.id}`,
+    ]),
+  );
   return (
     <TabBar
       items={items}
       active={activeSlug ?? "all"}
-      hrefFor={(id) => (id === "all" ? "/skills" : `/skills?list=${id}`)}
+      hrefs={hrefs}
       className="v4-tab-bar--skills"
     />
   );

@@ -49,9 +49,11 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 // Routes that are still public in the product sense, but need Clerk's
-// middleware context so route handlers can call `auth()` and decide their
-// own JSON response shape instead of throwing outside Clerk.
+// middleware context so route handlers/server components can call `auth()`
+// and decide their own anonymous-vs-signed-in shape instead of throwing
+// outside Clerk.
 const isClerkSessionRoute = createRouteMatcher([
+  "/you",
   "/api/pipeline/sidebar-overlay",
 ]);
 

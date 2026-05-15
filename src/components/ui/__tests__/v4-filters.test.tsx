@@ -167,6 +167,19 @@ describe("TabBar", () => {
     expect(links[0].getAttribute("href")).toBe("/?cat=all");
   });
 
+  it("renders link mode from serializable hrefs", () => {
+    const { container } = render(
+      <TabBar
+        items={items}
+        active="hn"
+        hrefs={{ all: "/", hn: "/?cat=hn", rdt: "/?cat=rdt" }}
+      />,
+    );
+    const links = container.querySelectorAll("a.v4-tab");
+    expect(links).toHaveLength(3);
+    expect(links[1].getAttribute("href")).toBe("/?cat=hn");
+  });
+
   it("renders count slot", () => {
     const { container } = render(<TabBar items={items} active="all" />);
     const counts = container.querySelectorAll(".v4-tab__count");

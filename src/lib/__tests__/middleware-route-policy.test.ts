@@ -31,9 +31,19 @@ test("middleware runs Clerk only for protected routes and session-aware APIs", (
     /export default getClerkPublishableKey\(\)\s*\?/,
     "public pages must not be globally wrapped by Clerk middleware",
   );
+  const sessionRouteMatcher = middlewareSource.match(
+    /const isClerkSessionRoute = createRouteMatcher\(\[([\s\S]*?)\]\);/,
+  );
+  assert.ok(sessionRouteMatcher, "expected Clerk session route matcher");
+  const sessionRouteBody = sessionRouteMatcher[1] ?? "";
   assert.match(
-    middlewareSource,
-    /const isClerkSessionRoute = createRouteMatcher\(\[\s*["']\/api\/pipeline\/sidebar-overlay["'],?\s*\]\);/,
+    sessionRouteBody,
+    /["']\/you["']/,
+    "/you must run inside Clerk middleware so optional auth can return a session or null",
+  );
+  assert.match(
+    sessionRouteBody,
+    /["']\/api\/pipeline\/sidebar-overlay["']/,
     "sidebar overlay must run inside Clerk middleware so auth() can return a session or null",
   );
   assert.match(

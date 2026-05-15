@@ -42,12 +42,30 @@ export interface LoadedUser {
 export async function getUser(): Promise<LoadedUser | null> {
   // Reading cookies() forces Next 15 to treat the route as dynamic, which
   // is required for `auth()` to read the Clerk session token.
-  cookies();
+  await cookies();
   const { userId } = await auth();
   if (!userId) return null;
   const profile = await loadProfileOrLazyCreate(userId);
   if (!profile) return null;
   return { clerkUserId: userId, profile };
+}
+
+/**
+ * Optional auth for public pages. These surfaces must stay usable as anonymous
+ * local-only tools even when Clerk middleware is unavailable in CI/local envs.
+ */
+export async function getOptionalUser(): Promise<LoadedUser | null> {
+  try {
+    return await getUser();
+  } catch (error) {
+    if (isMissingClerkMiddlewareError(error)) {
+      console.warn(
+        "[auth] optional Clerk context unavailable; rendering signed-out state",
+      );
+      return null;
+    }
+    throw error;
+  }
 }
 
 /**
@@ -133,6 +151,14 @@ async function loadProfileOrLazyCreate(
  * 5 minutes per user via cookie to avoid hammering the DB on every page
  * view of a busy user.
  */
+function isMissingClerkMiddlewareError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  return (
+    error.message.includes("Clerk can't detect usage of clerkMiddleware") ||
+    error.message.includes("auth() was called but Clerk can't detect")
+  );
+}
+
 export async function touchLastSeen(profileId: string): Promise<void> {
   await db
     .update(profiles)

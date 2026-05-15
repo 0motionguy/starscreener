@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-15T08:18:13.617Z",
+  "fetchedAt": "2026-05-15T11:31:00.098Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -5515,25 +5515,54 @@
     },
     "tinyhumansai/openhuman": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
-        "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgcko56m627",
-        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★450 https://github.com/tinyhumansai/openhuman",
+        "uri": "at://did:plc:rhwtxwe67gojalkcmvmogqw6/app.bsky.feed.post/3mluzhthonc26",
+        "cid": "bafyreiezulpaomllni3wzprkezk3uk6cm6bodh6lw44v5rbz3kg4dodiwm",
+        "bskyUrl": "https://bsky.app/profile/unknown.bsky.social/post/3mluzhthonc26",
+        "text": "ה-AI Agent הזה נראה ממש מעניין! מישהו כאן התקין כבר? github.com/tinyhumansai...",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "unknown.bsky.social",
+          "displayName": "CatchyNick 🇬🇧"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T13:02:46.728307Z",
-        "hoursSincePosted": 0.87
+        "createdAt": "2026-05-15T09:30:04.177Z",
+        "hoursSincePosted": 2.02
       },
       "posts": [
+        {
+          "uri": "at://did:plc:rhwtxwe67gojalkcmvmogqw6/app.bsky.feed.post/3mluzhthonc26",
+          "cid": "bafyreiezulpaomllni3wzprkezk3uk6cm6bodh6lw44v5rbz3kg4dodiwm",
+          "bskyUrl": "https://bsky.app/profile/unknown.bsky.social/post/3mluzhthonc26",
+          "text": "ה-AI Agent הזה נראה ממש מעניין! מישהו כאן התקין כבר? github.com/tinyhumansai...",
+          "author": {
+            "handle": "unknown.bsky.social",
+            "displayName": "CatchyNick 🇬🇧"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T09:30:04.177Z",
+          "createdUtc": 1778837404,
+          "ageHours": 2.02,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
           "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
@@ -9410,25 +9439,53 @@
     },
     "floci-io/floci": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fj6otbg352e44ltmcvolvplj/app.bsky.feed.post/3mlndmbblzk72",
-        "cid": "bafyreifird7knwnykj4jzhmjd6hbco54ksglrwptalhvkywotw7tlor5t4",
-        "bskyUrl": "https://bsky.app/profile/n.gotosocial.tourmentine.com.ap.brid.gy/post/3mlndmbblzk72",
-        "text": "[lien] floci: Light, fluffy, and always free - The AWS Local Emulator alternative - Lobsters (github.com via linkdd) #cloud #gik #aws #emu",
+        "uri": "at://did:plc:ojfe74onhhhxr5ecjwfbfjy6/app.bsky.feed.post/3mlv3fjai5k2g",
+        "cid": "bafyreicrmm5swvudf44gjhs7w35vluucoi3k7f6wonba325p2fbzej4ik4",
+        "bskyUrl": "https://bsky.app/profile/graalvm.org/post/3mlv3fjai5k2g",
+        "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
         "author": {
-          "handle": "n.gotosocial.tourmentine.com.ap.brid.gy",
-          "displayName": "nico"
+          "handle": "graalvm.org",
+          "displayName": "GraalVM"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
         "replyCount": 0,
-        "createdAt": "2026-05-12T08:10:02.000Z",
-        "hoursSincePosted": 4.16
+        "createdAt": "2026-05-15T10:04:33.828Z",
+        "hoursSincePosted": 1.44
       },
       "posts": [
+        {
+          "uri": "at://did:plc:ojfe74onhhhxr5ecjwfbfjy6/app.bsky.feed.post/3mlv3fjai5k2g",
+          "cid": "bafyreicrmm5swvudf44gjhs7w35vluucoi3k7f6wonba325p2fbzej4ik4",
+          "bskyUrl": "https://bsky.app/profile/graalvm.org/post/3mlv3fjai5k2g",
+          "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
+          "author": {
+            "handle": "graalvm.org",
+            "displayName": "GraalVM"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:04:33.828Z",
+          "createdUtc": 1778839473,
+          "ageHours": 1.44,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "floci-io/floci",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fj6otbg352e44ltmcvolvplj/app.bsky.feed.post/3mlndmbblzk72",
           "cid": "bafyreifird7knwnykj4jzhmjd6hbco54ksglrwptalhvkywotw7tlor5t4",
@@ -10722,7 +10779,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T06:24:38.442Z",
-        "hoursSincePosted": 1.89
+        "hoursSincePosted": 5.11
       },
       "posts": [
         {
@@ -10739,7 +10796,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T06:24:38.442Z",
           "createdUtc": 1778826278,
-          "ageHours": 1.89,
+          "ageHours": 5.11,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -10909,26 +10966,137 @@
       ]
     },
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
-      "count7d": 3,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "count7d": 7,
+      "likesSum7d": 5,
+      "repostsSum7d": 1,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
-        "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
-        "bskyUrl": "https://bsky.app/profile/zimward.chaos.social.ap.brid.gy/post/3mluv2e5vkse2",
-        "text": "anyone remember the time where vulnerabilities got disclosed via responsible disclosure, so they could be patched before publication? https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+        "uri": "at://did:plc:kb6tyjomr47ndk2rq4daooln/app.bsky.feed.post/3mluwvyglzc2v",
+        "cid": "bafyreibrxh5t4evuy4xobwfp2cxl7db6zymdbb5773hxgx35a453bhargu",
+        "bskyUrl": "https://bsky.app/profile/vincent.bernat.ch/post/3mluwvyglzc2v",
+        "text": "Another 0-day in Linux, discovered by someone reading the commit log of the master branch. This one is more difficult to workaround as it does not rely on any module. It does not allow to read arbitrary files, \"just\" files read by a suid binary. github.com/0xdeadbeefne...",
         "author": {
-          "handle": "zimward.chaos.social.ap.brid.gy",
-          "displayName": "zimward"
+          "handle": "vincent.bernat.ch",
+          "displayName": "Vincent Bernat"
         },
-        "likeCount": 0,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T08:10:52.000Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-15T08:44:17.922Z",
+        "hoursSincePosted": 2.78
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb6tyjomr47ndk2rq4daooln/app.bsky.feed.post/3mluwvyglzc2v",
+          "cid": "bafyreibrxh5t4evuy4xobwfp2cxl7db6zymdbb5773hxgx35a453bhargu",
+          "bskyUrl": "https://bsky.app/profile/vincent.bernat.ch/post/3mluwvyglzc2v",
+          "text": "Another 0-day in Linux, discovered by someone reading the commit log of the master branch. This one is more difficult to workaround as it does not rely on any module. It does not allow to read arbitrary files, \"just\" files read by a suid binary. github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "vincent.bernat.ch",
+            "displayName": "Vincent Bernat"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T08:44:17.922Z",
+          "createdUtc": 1778834657,
+          "ageHours": 2.78,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:k3bnourmyio4pxr3aadoewan/app.bsky.feed.post/3mlv5ptyzmd2e",
+          "cid": "bafyreih5pedpfle2jxsvnq2wse7pjqoohh3qid5ewx3gcyx5z7w3d5abqq",
+          "bskyUrl": "https://bsky.app/profile/buherator.bsky.social/post/3mlv5ptyzmd2e",
+          "text": "ssh-keysign-pwn: Steal SSH host private keys and /etc/shadow via the ptrace_may_access mm-NULL bypass github.com -> Original->",
+          "author": {
+            "handle": "buherator.bsky.social",
+            "displayName": "buherator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:46:08.061716+00:00",
+          "createdUtc": 1778841968,
+          "ageHours": 0.75,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:r2id5ogmv3mwkflk4vrl7kjl/app.bsky.feed.post/3mlv3wcimlk2s",
+          "cid": "bafyreiercr6knu4zwri5zioegpnmu37bntns377ynsr5autb7nli7zdfri",
+          "bskyUrl": "https://bsky.app/profile/merrua.bsky.social/post/3mlv3wcimlk2s",
+          "text": "github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "merrua.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:13:57.182Z",
+          "createdUtc": 1778840037,
+          "ageHours": 1.28,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jg6o3bgflm3q4y7jpmpvenj3/app.bsky.feed.post/3mlv2vihrzk2l",
+          "cid": "bafyreihwn2figkl2hpgem54x23tlezhyuix4yxnhvucqjxgfa2rcneugfu",
+          "bskyUrl": "https://bsky.app/profile/unstable-idiot.bsky.social/post/3mlv2vihrzk2l",
+          "text": "github.com/0xdeadbeefne... just undress fully nude and broadcast all your passwords on twitch, it's so over",
+          "author": {
+            "handle": "unstable-idiot.bsky.social",
+            "displayName": "I am nameless yet others name me"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-15T09:55:36.151Z",
+          "createdUtc": 1778838936,
+          "ageHours": 1.59,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
           "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
@@ -10943,7 +11111,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T08:10:52.000Z",
           "createdUtc": 1778832652,
-          "ageHours": 0.5,
+          "ageHours": 3.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -10972,7 +11140,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T07:49:36.000Z",
           "createdUtc": 1778831376,
-          "ageHours": 0.5,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -10997,12 +11165,12 @@
             "displayName": "Léαlinux 🐧"
           },
           "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
           "createdAt": "2026-05-15T06:44:21.284Z",
           "createdUtc": 1778827461,
-          "ageHours": 1.56,
-          "trendingScore": 0,
+          "ageHours": 4.78,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -11062,6 +11230,160 @@
           "linkedRepos": [
             {
               "fullName": "Ingar30/reviewer",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zensical/zensical": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mlv4sm7grs2w",
+        "cid": "bafyreifw2xcid7ed5sb7q2xnoa57e723dqe3qui5g676yvxffdomnuqux4",
+        "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mlv4sm7grs2w",
+        "text": "Zensical 0.0.42 improves stability and accuracy of link validation, and fixes some bugs related to file watching, abbreviations in the table of contents, and GLightbox. Release notes: github.com/zensical/zen...",
+        "author": {
+          "handle": "zensical.org",
+          "displayName": "Zensical"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T10:29:46.892Z",
+        "hoursSincePosted": 1.02
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mlv4sm7grs2w",
+          "cid": "bafyreifw2xcid7ed5sb7q2xnoa57e723dqe3qui5g676yvxffdomnuqux4",
+          "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mlv4sm7grs2w",
+          "text": "Zensical 0.0.42 improves stability and accuracy of link validation, and fixes some bugs related to file watching, abbreviations in the table of contents, and GLightbox. Release notes: github.com/zensical/zen...",
+          "author": {
+            "handle": "zensical.org",
+            "displayName": "Zensical"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:29:46.892Z",
+          "createdUtc": 1778840986,
+          "ageHours": 1.02,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "zensical/zensical",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rohitg00/agentmemory": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
+        "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
+        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
+        "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+        "author": {
+          "handle": "alexiskirke.bsky.social",
+          "displayName": "Alexis Kirke"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T09:17:41.707647+00:00",
+        "hoursSincePosted": 2.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
+          "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
+          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
+          "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "alexiskirke.bsky.social",
+            "displayName": "Alexis Kirke"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T09:17:41.707647+00:00",
+          "createdUtc": 1778836661,
+          "ageHours": 2.22,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "skydoves/android-testing-skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:67u3fj2lmq724ohjd2w2c2to/app.bsky.feed.post/3mlutpyk2gk2c",
+        "cid": "bafyreigkf46plfr3crihz5z2mbohdd6j6p3ao3ikihxcncnawp5pq3eatq",
+        "bskyUrl": "https://bsky.app/profile/skydoves.bsky.social/post/3mlutpyk2gk2c",
+        "text": "Published a new open-source project, Android Testing Skills! ⚡️ A set of skills for Android testing: Compose UI, AndroidX Test, JVM unit tests, and ADB. github.com/skydoves/and...",
+        "author": {
+          "handle": "skydoves.bsky.social",
+          "displayName": "Jaewoong Eum (skydoves)"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-15T07:47:15.483Z",
+        "hoursSincePosted": 3.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:67u3fj2lmq724ohjd2w2c2to/app.bsky.feed.post/3mlutpyk2gk2c",
+          "cid": "bafyreigkf46plfr3crihz5z2mbohdd6j6p3ao3ikihxcncnawp5pq3eatq",
+          "bskyUrl": "https://bsky.app/profile/skydoves.bsky.social/post/3mlutpyk2gk2c",
+          "text": "Published a new open-source project, Android Testing Skills! ⚡️ A set of skills for Android testing: Compose UI, AndroidX Test, JVM unit tests, and ADB. github.com/skydoves/and...",
+          "author": {
+            "handle": "skydoves.bsky.social",
+            "displayName": "Jaewoong Eum (skydoves)"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-15T07:47:15.483Z",
+          "createdUtc": 1778831235,
+          "ageHours": 3.73,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "skydoves/android-testing-skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -16581,25 +16903,54 @@
     },
     "tinyhumansai--openhuman": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
-        "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgcko56m627",
-        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★450 https://github.com/tinyhumansai/openhuman",
+        "uri": "at://did:plc:rhwtxwe67gojalkcmvmogqw6/app.bsky.feed.post/3mluzhthonc26",
+        "cid": "bafyreiezulpaomllni3wzprkezk3uk6cm6bodh6lw44v5rbz3kg4dodiwm",
+        "bskyUrl": "https://bsky.app/profile/unknown.bsky.social/post/3mluzhthonc26",
+        "text": "ה-AI Agent הזה נראה ממש מעניין! מישהו כאן התקין כבר? github.com/tinyhumansai...",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "unknown.bsky.social",
+          "displayName": "CatchyNick 🇬🇧"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T13:02:46.728307Z",
-        "hoursSincePosted": 0.87
+        "createdAt": "2026-05-15T09:30:04.177Z",
+        "hoursSincePosted": 2.02
       },
       "posts": [
+        {
+          "uri": "at://did:plc:rhwtxwe67gojalkcmvmogqw6/app.bsky.feed.post/3mluzhthonc26",
+          "cid": "bafyreiezulpaomllni3wzprkezk3uk6cm6bodh6lw44v5rbz3kg4dodiwm",
+          "bskyUrl": "https://bsky.app/profile/unknown.bsky.social/post/3mluzhthonc26",
+          "text": "ה-AI Agent הזה נראה ממש מעניין! מישהו כאן התקין כבר? github.com/tinyhumansai...",
+          "author": {
+            "handle": "unknown.bsky.social",
+            "displayName": "CatchyNick 🇬🇧"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T09:30:04.177Z",
+          "createdUtc": 1778837404,
+          "ageHours": 2.02,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
           "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
@@ -20476,25 +20827,53 @@
     },
     "floci-io--floci": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fj6otbg352e44ltmcvolvplj/app.bsky.feed.post/3mlndmbblzk72",
-        "cid": "bafyreifird7knwnykj4jzhmjd6hbco54ksglrwptalhvkywotw7tlor5t4",
-        "bskyUrl": "https://bsky.app/profile/n.gotosocial.tourmentine.com.ap.brid.gy/post/3mlndmbblzk72",
-        "text": "[lien] floci: Light, fluffy, and always free - The AWS Local Emulator alternative - Lobsters (github.com via linkdd) #cloud #gik #aws #emu",
+        "uri": "at://did:plc:ojfe74onhhhxr5ecjwfbfjy6/app.bsky.feed.post/3mlv3fjai5k2g",
+        "cid": "bafyreicrmm5swvudf44gjhs7w35vluucoi3k7f6wonba325p2fbzej4ik4",
+        "bskyUrl": "https://bsky.app/profile/graalvm.org/post/3mlv3fjai5k2g",
+        "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
         "author": {
-          "handle": "n.gotosocial.tourmentine.com.ap.brid.gy",
-          "displayName": "nico"
+          "handle": "graalvm.org",
+          "displayName": "GraalVM"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
         "replyCount": 0,
-        "createdAt": "2026-05-12T08:10:02.000Z",
-        "hoursSincePosted": 4.16
+        "createdAt": "2026-05-15T10:04:33.828Z",
+        "hoursSincePosted": 1.44
       },
       "posts": [
+        {
+          "uri": "at://did:plc:ojfe74onhhhxr5ecjwfbfjy6/app.bsky.feed.post/3mlv3fjai5k2g",
+          "cid": "bafyreicrmm5swvudf44gjhs7w35vluucoi3k7f6wonba325p2fbzej4ik4",
+          "bskyUrl": "https://bsky.app/profile/graalvm.org/post/3mlv3fjai5k2g",
+          "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
+          "author": {
+            "handle": "graalvm.org",
+            "displayName": "GraalVM"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:04:33.828Z",
+          "createdUtc": 1778839473,
+          "ageHours": 1.44,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "floci-io/floci",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fj6otbg352e44ltmcvolvplj/app.bsky.feed.post/3mlndmbblzk72",
           "cid": "bafyreifird7knwnykj4jzhmjd6hbco54ksglrwptalhvkywotw7tlor5t4",
@@ -21788,7 +22167,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-15T06:24:38.442Z",
-        "hoursSincePosted": 1.89
+        "hoursSincePosted": 5.11
       },
       "posts": [
         {
@@ -21805,7 +22184,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T06:24:38.442Z",
           "createdUtc": 1778826278,
-          "ageHours": 1.89,
+          "ageHours": 5.11,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -21975,26 +22354,137 @@
       ]
     },
     "0xdeadbeefnetwork--ssh-keysign-pwn": {
-      "count7d": 3,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "count7d": 7,
+      "likesSum7d": 5,
+      "repostsSum7d": 1,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
-        "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
-        "bskyUrl": "https://bsky.app/profile/zimward.chaos.social.ap.brid.gy/post/3mluv2e5vkse2",
-        "text": "anyone remember the time where vulnerabilities got disclosed via responsible disclosure, so they could be patched before publication? https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn",
+        "uri": "at://did:plc:kb6tyjomr47ndk2rq4daooln/app.bsky.feed.post/3mluwvyglzc2v",
+        "cid": "bafyreibrxh5t4evuy4xobwfp2cxl7db6zymdbb5773hxgx35a453bhargu",
+        "bskyUrl": "https://bsky.app/profile/vincent.bernat.ch/post/3mluwvyglzc2v",
+        "text": "Another 0-day in Linux, discovered by someone reading the commit log of the master branch. This one is more difficult to workaround as it does not rely on any module. It does not allow to read arbitrary files, \"just\" files read by a suid binary. github.com/0xdeadbeefne...",
         "author": {
-          "handle": "zimward.chaos.social.ap.brid.gy",
-          "displayName": "zimward"
+          "handle": "vincent.bernat.ch",
+          "displayName": "Vincent Bernat"
         },
-        "likeCount": 0,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T08:10:52.000Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-15T08:44:17.922Z",
+        "hoursSincePosted": 2.78
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb6tyjomr47ndk2rq4daooln/app.bsky.feed.post/3mluwvyglzc2v",
+          "cid": "bafyreibrxh5t4evuy4xobwfp2cxl7db6zymdbb5773hxgx35a453bhargu",
+          "bskyUrl": "https://bsky.app/profile/vincent.bernat.ch/post/3mluwvyglzc2v",
+          "text": "Another 0-day in Linux, discovered by someone reading the commit log of the master branch. This one is more difficult to workaround as it does not rely on any module. It does not allow to read arbitrary files, \"just\" files read by a suid binary. github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "vincent.bernat.ch",
+            "displayName": "Vincent Bernat"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T08:44:17.922Z",
+          "createdUtc": 1778834657,
+          "ageHours": 2.78,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:k3bnourmyio4pxr3aadoewan/app.bsky.feed.post/3mlv5ptyzmd2e",
+          "cid": "bafyreih5pedpfle2jxsvnq2wse7pjqoohh3qid5ewx3gcyx5z7w3d5abqq",
+          "bskyUrl": "https://bsky.app/profile/buherator.bsky.social/post/3mlv5ptyzmd2e",
+          "text": "ssh-keysign-pwn: Steal SSH host private keys and /etc/shadow via the ptrace_may_access mm-NULL bypass github.com -> Original->",
+          "author": {
+            "handle": "buherator.bsky.social",
+            "displayName": "buherator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:46:08.061716+00:00",
+          "createdUtc": 1778841968,
+          "ageHours": 0.75,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:r2id5ogmv3mwkflk4vrl7kjl/app.bsky.feed.post/3mlv3wcimlk2s",
+          "cid": "bafyreiercr6knu4zwri5zioegpnmu37bntns377ynsr5autb7nli7zdfri",
+          "bskyUrl": "https://bsky.app/profile/merrua.bsky.social/post/3mlv3wcimlk2s",
+          "text": "github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "merrua.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:13:57.182Z",
+          "createdUtc": 1778840037,
+          "ageHours": 1.28,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jg6o3bgflm3q4y7jpmpvenj3/app.bsky.feed.post/3mlv2vihrzk2l",
+          "cid": "bafyreihwn2figkl2hpgem54x23tlezhyuix4yxnhvucqjxgfa2rcneugfu",
+          "bskyUrl": "https://bsky.app/profile/unstable-idiot.bsky.social/post/3mlv2vihrzk2l",
+          "text": "github.com/0xdeadbeefne... just undress fully nude and broadcast all your passwords on twitch, it's so over",
+          "author": {
+            "handle": "unstable-idiot.bsky.social",
+            "displayName": "I am nameless yet others name me"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-15T09:55:36.151Z",
+          "createdUtc": 1778838936,
+          "ageHours": 1.59,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:3nlfsz6wghtrojezlno7y7sv/app.bsky.feed.post/3mluv2e5vkse2",
           "cid": "bafyreidloenwbuz4uhkk77oeil3s6oppf625qs4hcvfjhzmuxo5mios7fm",
@@ -22009,7 +22499,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T08:10:52.000Z",
           "createdUtc": 1778832652,
-          "ageHours": 0.5,
+          "ageHours": 3.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -22038,7 +22528,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T07:49:36.000Z",
           "createdUtc": 1778831376,
-          "ageHours": 0.5,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -22063,12 +22553,12 @@
             "displayName": "Léαlinux 🐧"
           },
           "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
           "createdAt": "2026-05-15T06:44:21.284Z",
           "createdUtc": 1778827461,
-          "ageHours": 1.56,
-          "trendingScore": 0,
+          "ageHours": 4.78,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22134,13 +22624,182 @@
           ]
         }
       ]
+    },
+    "zensical--zensical": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mlv4sm7grs2w",
+        "cid": "bafyreifw2xcid7ed5sb7q2xnoa57e723dqe3qui5g676yvxffdomnuqux4",
+        "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mlv4sm7grs2w",
+        "text": "Zensical 0.0.42 improves stability and accuracy of link validation, and fixes some bugs related to file watching, abbreviations in the table of contents, and GLightbox. Release notes: github.com/zensical/zen...",
+        "author": {
+          "handle": "zensical.org",
+          "displayName": "Zensical"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T10:29:46.892Z",
+        "hoursSincePosted": 1.02
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mlv4sm7grs2w",
+          "cid": "bafyreifw2xcid7ed5sb7q2xnoa57e723dqe3qui5g676yvxffdomnuqux4",
+          "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mlv4sm7grs2w",
+          "text": "Zensical 0.0.42 improves stability and accuracy of link validation, and fixes some bugs related to file watching, abbreviations in the table of contents, and GLightbox. Release notes: github.com/zensical/zen...",
+          "author": {
+            "handle": "zensical.org",
+            "displayName": "Zensical"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T10:29:46.892Z",
+          "createdUtc": 1778840986,
+          "ageHours": 1.02,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "zensical/zensical",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rohitg00--agentmemory": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
+        "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
+        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
+        "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+        "author": {
+          "handle": "alexiskirke.bsky.social",
+          "displayName": "Alexis Kirke"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-15T09:17:41.707647+00:00",
+        "hoursSincePosted": 2.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
+          "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
+          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
+          "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "alexiskirke.bsky.social",
+            "displayName": "Alexis Kirke"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-15T09:17:41.707647+00:00",
+          "createdUtc": 1778836661,
+          "ageHours": 2.22,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "skydoves--android-testing-skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:67u3fj2lmq724ohjd2w2c2to/app.bsky.feed.post/3mlutpyk2gk2c",
+        "cid": "bafyreigkf46plfr3crihz5z2mbohdd6j6p3ao3ikihxcncnawp5pq3eatq",
+        "bskyUrl": "https://bsky.app/profile/skydoves.bsky.social/post/3mlutpyk2gk2c",
+        "text": "Published a new open-source project, Android Testing Skills! ⚡️ A set of skills for Android testing: Compose UI, AndroidX Test, JVM unit tests, and ADB. github.com/skydoves/and...",
+        "author": {
+          "handle": "skydoves.bsky.social",
+          "displayName": "Jaewoong Eum (skydoves)"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-15T07:47:15.483Z",
+        "hoursSincePosted": 3.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:67u3fj2lmq724ohjd2w2c2to/app.bsky.feed.post/3mlutpyk2gk2c",
+          "cid": "bafyreigkf46plfr3crihz5z2mbohdd6j6p3ao3ikihxcncnawp5pq3eatq",
+          "bskyUrl": "https://bsky.app/profile/skydoves.bsky.social/post/3mlutpyk2gk2c",
+          "text": "Published a new open-source project, Android Testing Skills! ⚡️ A set of skills for Android testing: Compose UI, AndroidX Test, JVM unit tests, and ADB. github.com/skydoves/and...",
+          "author": {
+            "handle": "skydoves.bsky.social",
+            "displayName": "Jaewoong Eum (skydoves)"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-15T07:47:15.483Z",
+          "createdUtc": 1778831235,
+          "ageHours": 3.73,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "skydoves/android-testing-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "Ingar30/reviewer",
+      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
+      "count7d": 7,
+      "likesSum7d": 5
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "rohitg00/agentmemory",
       "count7d": 1,
       "likesSum7d": 2
+    },
+    {
+      "fullName": "floci-io/floci",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "maziggy/bambuddy",
@@ -22148,8 +22807,13 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "0xdeadbeefnetwork/ssh-keysign-pwn",
-      "count7d": 3,
+      "fullName": "skydoves/android-testing-skills",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "zensical/zensical",
+      "count7d": 1,
       "likesSum7d": 0
     }
   ]

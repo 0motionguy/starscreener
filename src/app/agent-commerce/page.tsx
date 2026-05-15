@@ -222,7 +222,11 @@ function MiniBoard({
           items.map((item, idx) => {
             const score = item.scores.composite;
             const tone = score >= 60 ? "#34d399" : score >= 40 ? "#f59e0b" : "var(--color-text-subtle)";
-            const sparkData = synthSparkline(item.id);
+            // 2026-05-15: removed synthetic seeded sparkline — it suggested
+            // a real time-series that doesn't exist. Pass `[]` so Sparkline
+            // (early-returns on data.length < 2) renders nothing until the
+            // score-history collector lands.
+            const sparkData: number[] = [];
             return (
               <Link
                 key={item.id}
@@ -280,23 +284,6 @@ function MiniBoard({
     </Card>
   );
 }
-
-const synthSparkline = (() => {
-  function inner(seed: string, n = 12): number[] {
-    let h = 0;
-    for (const ch of seed) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-    const out: number[] = [];
-    let v = 0.5;
-    for (let i = 0; i < n; i++) {
-      h = (h * 1103515245 + 12345) >>> 0;
-      const r = (h & 0xffff) / 0xffff;
-      v = Math.max(0, Math.min(1, v + (r - 0.5) * 0.45));
-      out.push(v);
-    }
-    return out;
-  }
-  return inner;
-})();
 
 export default async function AgentCommercePage({ searchParams }: PageProps) {
   await Promise.all([
@@ -438,23 +425,6 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         return { color: "var(--color-text-faint)", label: proto.toUpperCase() };
     }
   };
-
-  // Deterministic synthetic sparkline (12 points, [0..1]). Seeded by item id
-  // so the line is stable across renders. Real time-series replaces this once
-  // the score-history collector lands.
-  function synthSparkline(seed: string, n = 12): number[] {
-    let h = 0;
-    for (const ch of seed) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-    const out: number[] = [];
-    let v = 0.5;
-    for (let i = 0; i < n; i++) {
-      h = (h * 1103515245 + 12345) >>> 0;
-      const r = (h & 0xffff) / 0xffff;
-      v = Math.max(0, Math.min(1, v + (r - 0.5) * 0.45));
-      out.push(v);
-    }
-    return out;
-  }
 
   // Realistic accelerating-growth curve to current count. Replace with real
   // weekly counts once collector tracks firstSeenAt across runs.
@@ -651,10 +621,14 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
 
       {cold ? (
         <div className="ac-empty">
-          <h2>Agent Commerce snapshot warming up.</h2>
+          <h2>Pipeline warming up.</h2>
           <p>
-            Run <code>npm run build:agent-commerce</code> to populate{" "}
-            <code>data/agent-commerce.json</code>.
+            The Agent Commerce snapshot is being assembled — protocols, MCP
+            servers, and x402 endpoints will surface here once the next
+            ingest tick completes.
+          </p>
+          <p className="ac-empty__meta">
+            Last fetch: <code>{computed}</code>
           </p>
         </div>
       ) : (
@@ -676,7 +650,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                   : score >= 40
                     ? "#f59e0b"
                     : "var(--color-text-default)";
-              const sparkData = synthSparkline(item.id);
+              // 2026-05-15: removed synthetic seeded sparkline — it suggested
+            // a real time-series that doesn't exist. Pass `[]` so Sparkline
+            // (early-returns on data.length < 2) renders nothing until the
+            // score-history collector lands.
+            const sparkData: number[] = [];
               return (
                 <Link
                   key={item.id}
@@ -970,10 +948,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                     color: "#a78bfa",
                   },
                 ].map((row) => {
-                  const seed = `pulse:${row.label}:${row.n}`;
-                  const data = synthSparkline(seed, 12).map(
-                    (v, i, arr) => v * (0.7 + (i / arr.length) * 0.3),
-                  );
+                  // 2026-05-15: synthetic pulse data removed; Sparkline
+                  // renders nothing when the array is empty.
+                  const data: number[] = [];
                   return (
                     <div
                       key={row.label}

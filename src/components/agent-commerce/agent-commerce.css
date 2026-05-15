@@ -984,6 +984,15 @@
   color: var(--color-text-subtle);
 }
 
+.ac-empty p + p {
+  margin-top: 8px;
+}
+
+.ac-empty__meta {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
 .ac-empty code {
   font-family: var(--font-mono, ui-monospace);
   font-size: 11px;

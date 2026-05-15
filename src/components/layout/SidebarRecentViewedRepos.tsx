@@ -14,7 +14,6 @@
  * space for first-time visitors who have no history yet.
  */
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { Clock } from "lucide-react";
 import {
   readRecentViewedRepos,
@@ -22,6 +21,7 @@ import {
   RECENT_VIEWED_REPOS_KEY,
   type RecentViewedRepo,
 } from "@/lib/recent-viewed-repos";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 const PREVIEW_LIMIT = 5;
 
@@ -74,11 +74,11 @@ export function SidebarRecentViewedRepos() {
   return (
     <div className="flex flex-col">
       {top.map((repo) => (
-        <Link
+        <RepoLink
           key={repo.fullName}
-          href={`/repo/${repo.owner}/${repo.name}`}
+          owner={repo.owner}
+          name={repo.name}
           className="grid grid-cols-[14px_1fr] gap-2 items-center px-3 h-8 hover:bg-bg-card-hover transition-colors"
-          title={repo.fullName}
         >
           <Clock
             className="w-3.5 h-3.5 shrink-0"
@@ -92,7 +92,7 @@ export function SidebarRecentViewedRepos() {
           >
             {repo.fullName}
           </span>
-        </Link>
+        </RepoLink>
       ))}
     </div>
   );

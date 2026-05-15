@@ -25,6 +25,7 @@ import type {
   AlertTriggerType,
 } from "@/lib/pipeline/types";
 import { useWatchlistStore } from "@/lib/store";
+import { watchlistItemFullName } from "@/lib/watchlist-items";
 
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -233,6 +234,18 @@ export default function NewAlertClient() {
 
   const cfg = TRIGGER_BY_VALUE.get(trigger) ?? TRIGGER_OPTIONS[0];
 
+  const repoLabelsById = useMemo(() => {
+    const labels: Record<string, string> = {};
+    for (const repo of Object.values(reposById)) {
+      labels[repo.id] = repo.fullName;
+    }
+    for (const item of watchlistRepos) {
+      labels[item.repoId] =
+        reposById[item.repoId]?.fullName ?? watchlistItemFullName(item);
+    }
+    return labels;
+  }, [reposById, watchlistRepos]);
+
   const handleTriggerChange = useCallback((next: AlertTriggerType) => {
     setTrigger(next);
     setThreshold(TRIGGER_BY_VALUE.get(next)?.defaultThreshold ?? 0);
@@ -257,7 +270,7 @@ export default function NewAlertClient() {
   );
 
   const previewRepoLabel = repoId
-    ? reposById[repoId]?.fullName ?? repoId
+    ? repoLabelsById[repoId] ?? repoId
     : "all repos";
 
   const handleSubmit = useCallback(
@@ -423,7 +436,7 @@ export default function NewAlertClient() {
                   >
                     {watchlistRepos.map((item) => (
                       <option key={item.repoId} value={item.repoId}>
-                        {reposById[item.repoId]?.fullName ?? item.repoId}
+                        {repoLabelsById[item.repoId] ?? item.repoId}
                       </option>
                     ))}
                   </select>

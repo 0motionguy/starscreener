@@ -27,7 +27,13 @@ import {
   useFilterStore,
   useWatchlistStore,
 } from "@/lib/store";
-import { idToSlug } from "@/lib/utils";
+import type { WatchlistItem } from "@/lib/types";
+import { compareIdToFallbackFullName } from "@/lib/compare-selection";
+import {
+  repoFullNameHref,
+  watchlistItemFullName,
+  watchlistItemHref,
+} from "@/lib/watchlist-items";
 
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -54,6 +60,7 @@ export default function YouClient({
   const watchlist = useWatchlistStore((s) => s.repos);
   const removeWatched = useWatchlistStore((s) => s.removeRepo);
   const compareIds = useCompareStore((s) => s.repos);
+  const compareFullNamesById = useCompareStore((s) => s.fullNamesById);
   const removeCompare = useCompareStore((s) => s.removeRepo);
   const clearCompare = useCompareStore((s) => s.clearAll);
 
@@ -172,6 +179,7 @@ export default function YouClient({
               hydrated={hydrated}
               watchlist={watchlist}
               compareIds={compareIds}
+              compareFullNamesById={compareFullNamesById}
               onRemoveWatched={removeWatched}
               onRemoveCompare={removeCompare}
               onClearCompare={clearCompare}
@@ -309,13 +317,15 @@ function ActivityPanel({
   hydrated,
   watchlist,
   compareIds,
+  compareFullNamesById,
   onRemoveWatched,
   onRemoveCompare,
   onClearCompare,
 }: {
   hydrated: boolean;
-  watchlist: { repoId: string; addedAt: string; starsAtAdd: number }[];
+  watchlist: WatchlistItem[];
   compareIds: string[];
+  compareFullNamesById: Record<string, string>;
   onRemoveWatched: (repoId: string) => void;
   onRemoveCompare: (repoId: string) => void;
   onClearCompare: () => void;
@@ -367,12 +377,13 @@ function ActivityPanel({
       ) : (
         <ul style={listStyle}>
           {watchlist.map((item) => {
-            const slug = idToSlug(item.repoId);
+            const fullName = watchlistItemFullName(item);
+            const href = watchlistItemHref(item);
             return (
               <li key={item.repoId} style={listRowStyle}>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <Link
-                    href={`/repo/${slug}`}
+                    href={href === "/" ? "/watchlist" : href}
                     style={{
                       fontFamily: "var(--font-geist-mono), monospace",
                       fontSize: 12,
@@ -384,7 +395,7 @@ function ActivityPanel({
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {slug}
+                    {fullName}
                   </Link>
                   <span style={metaStyle}>
                     added {new Date(item.addedAt).toLocaleDateString()} · @{" "}
@@ -394,7 +405,7 @@ function ActivityPanel({
                 <button
                   type="button"
                   onClick={() => onRemoveWatched(item.repoId)}
-                  aria-label={`Remove ${slug} from watchlist`}
+                  aria-label={`Remove ${fullName} from watchlist`}
                   style={iconBtnStyle}
                 >
                   ✕
@@ -443,11 +454,13 @@ function ActivityPanel({
       ) : (
         <ul style={listStyle}>
           {compareIds.map((id) => {
-            const slug = idToSlug(id);
+            const fullName =
+              compareFullNamesById[id] ?? compareIdToFallbackFullName(id);
+            const href = repoFullNameHref(fullName);
             return (
               <li key={id} style={listRowStyle}>
                 <Link
-                  href={`/repo/${slug}`}
+                  href={href === "/" ? "/compare" : href}
                   style={{
                     fontFamily: "var(--font-geist-mono), monospace",
                     fontSize: 12,
@@ -460,12 +473,12 @@ function ActivityPanel({
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {slug}
+                  {fullName}
                 </Link>
                 <button
                   type="button"
                   onClick={() => onRemoveCompare(id)}
-                  aria-label={`Remove ${slug} from compare`}
+                  aria-label={`Remove ${fullName} from compare`}
                   style={iconBtnStyle}
                 >
                   ✕

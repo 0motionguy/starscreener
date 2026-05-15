@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  repoFullNameHref,
   watchlistItemFullName,
   watchlistItemHref,
 } from "@/lib/watchlist-items";
@@ -28,4 +29,9 @@ test("watchlist item falls back to legacy repoId when fullName is missing", () =
 
   assert.equal(watchlistItemFullName(item), "owner/repo");
   assert.equal(watchlistItemHref(item), "/repo/owner/repo");
+});
+
+test("repo fullName href helper rejects non repo-shaped names", () => {
+  assert.equal(repoFullNameHref("vercel/next.js"), "/repo/vercel/next.js");
+  assert.equal(repoFullNameHref("skill:some-skill"), "/");
 });

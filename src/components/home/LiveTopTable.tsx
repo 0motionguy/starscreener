@@ -501,6 +501,7 @@ export function LiveTopTable({
                             key={key}
                             className={`sd sd-${key} on`}
                             title={tooltip}
+                            role="img"
                             aria-label={tooltip}
                           >
                             <Icon size={14} />

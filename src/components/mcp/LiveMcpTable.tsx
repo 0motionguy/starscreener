@@ -365,6 +365,7 @@ export function LiveMcpTable({ rows, categories, totalCount }: LiveMcpTableProps
                           {row.verified ? (
                             <span
                               title="Verified by upstream registry"
+                              role="img"
                               aria-label="verified"
                               style={{
                                 marginLeft: 6,
@@ -395,6 +396,7 @@ export function LiveMcpTable({ rows, categories, totalCount }: LiveMcpTableProps
                             key={key}
                             className={`sd ${fired ? "on" : "off"}`}
                             title={`${label}: ${fired ? "listed" : "not listed"}`}
+                            role="img"
                             aria-label={`${label} ${fired ? "listed" : "not listed"}`}
                             style={{
                               fontFamily:

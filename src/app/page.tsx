@@ -541,12 +541,13 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
         </span>
       </div>
       <div className="cons-bot">
-        <span className="srcs" aria-label={`${firingSources.length} sources firing`}>
+        <span className="srcs" role="group" aria-label={`${firingSources.length} sources firing`}>
           {firingSources.map(({ key, label, Icon }) => (
             <span
               key={key}
               className={`sd sd-${key}`}
               title={label}
+              role="img"
               aria-label={label}
             >
               <Icon size={16} />

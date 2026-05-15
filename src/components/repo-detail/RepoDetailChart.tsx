@@ -593,7 +593,7 @@ export function RepoDetailChart({
               type="button"
               onClick={() => setTimeRange(tab.value)}
               className={cn(
-                "px-2.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.16em] rounded-[1px] transition-colors",
+                "inline-flex min-h-[40px] min-w-[40px] items-center justify-center px-2.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.16em] rounded-[1px] transition-colors",
               )}
               style={
                 timeRange === tab.value

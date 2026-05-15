@@ -318,7 +318,10 @@ function PageHeader() {
       aria-label="Breadcrumb"
       className="flex items-center gap-1.5 text-xs text-text-tertiary"
     >
-      <Link href="/" className="hover:text-text-primary transition-colors">
+      <Link
+        href="/"
+        className="inline-flex min-h-[32px] items-center hover:text-text-primary transition-colors"
+      >
         Home
       </Link>
       <span aria-hidden="true">/</span>

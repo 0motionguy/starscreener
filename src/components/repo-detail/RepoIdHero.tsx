@@ -345,10 +345,16 @@ export function RepoIdHero({
         }
         .rid-h1 .owner { color: var(--v3-ink-400, rgba(255,255,255,0.55)); font-weight: 400; }
         .rid-ext {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
           margin-left: 8px;
           color: var(--v3-acc, #ffcb05);
           text-decoration: none;
           font-size: 18px;
+          vertical-align: middle;
         }
         .rid-desc {
           margin: 0;
@@ -504,6 +510,10 @@ function FullChartLinkPlacement({
           padding: 0 4px;
         }
         .rid-deeplink-btn {
+          display: inline-flex;
+          align-items: center;
+          min-height: 32px;
+          padding: 0 2px;
           font-family: var(--font-geist-mono, monospace);
           font-size: 10px;
           letter-spacing: 0.12em;

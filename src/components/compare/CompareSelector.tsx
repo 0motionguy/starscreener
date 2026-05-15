@@ -275,7 +275,7 @@ export function CompareSelector() {
             type="button"
             onClick={openSearch}
             className={cn(
-              "rounded-badge px-3 py-1.5 border border-dashed border-border-primary",
+              "rounded-badge min-h-[40px] px-3 py-1.5 border border-dashed border-border-primary",
               "flex items-center gap-1.5 text-sm text-text-tertiary",
               "hover:border-text-secondary hover:text-text-secondary transition-colors cursor-pointer",
               isFull() && "opacity-50 pointer-events-none",

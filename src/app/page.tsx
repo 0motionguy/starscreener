@@ -9,6 +9,11 @@
 // Title/description metadata is inherited from the root layout template
 // - no per-page override here so the canonical "TrendingRepo - {tagline}"
 // formula stays source-of-truth in one place (src/lib/seo.ts).
+//
+// Canonical: set explicitly here (root layout no longer sets a default
+// canonical to avoid polluting every child route's metadata).
+
+import type { Metadata } from "next";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt } from "@/lib/trending";
@@ -63,6 +68,14 @@ import {
 // A short revalidate window keeps visible freshness markers closer to current
 // collector state while avoiding fully dynamic rendering.
 export const revalidate = 60;
+
+// Canonical lives here (root layout no longer sets a default canonical to
+// avoid polluting every child route's metadata).
+export const metadata: Metadata = {
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+};
 
 // Single source of truth for the homepage FAQ. Renders both the visible
 // <details> list and the FAQPage JSON-LD below - keeping them in one array

@@ -124,7 +124,14 @@ export const metadata: Metadata = {
     images: ["/og-card.png"],
   },
   alternates: {
-    canonical: "/",
+    // NOTE: do NOT set canonical at the root — Next.js inherits it down to
+    // every child route, so a root `canonical: "/"` made /lobsters,
+    // /signals, /devto, etc. all emit canonical=https://trendingrepo.com,
+    // de-duplicating them in Google's index. Each page sets its own
+    // canonical (66 of them do via absoluteUrl()); pages without one get
+    // no canonical tag, which Google handles by treating the request URL
+    // as the canonical. Home gets its canonical via its own metadata.
+    // (Was: canonical: "/" — see Lighthouse SEO 92 on /lobsters before fix.)
     types: {
       "application/rss+xml": [
         { url: "/feeds/breakouts.xml", title: `${SITE_NAME} — Cross-signal breakout repos` },

@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-15T08:51:27.577Z",
-  "scanRunId": "sweep-2026-05-15T08:51:19.619Z",
+  "computedAt": "2026-05-15T14:10:38.157Z",
+  "scanRunId": "sweep-2026-05-15T14:10:29.530Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -352,10 +352,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 76,
+      "totalMentions7d": 101,
       "perSource": {
         "hackernews": {
-          "count7d": 75,
+          "count7d": 100,
           "top": [
             {
               "source": "hackernews",
@@ -365,8 +365,8 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 288,
-                "comments": 80
+                "score": 289,
+                "comments": 82
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
             },
@@ -412,15 +412,15 @@
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://news.ycombinator.com/item?id=48110593",
-              "title": "Show HN: Gigacatalyst – Extend your SaaS with an embedded AI builder",
-              "text": "Hi HN, I’m Namanyay from Gigacatalyst (link: <a href=\"https:&#x2F;&#x2F;gigacatalyst.com&#x2F;\">https:&#x2F;&#x2F;gigacatalyst.com&#x2F;</a>). Gigacatalyst allows sales, CS, and users to build one-off features, so your SaaS can support long-tail customer workflows and engineers aren’t pulled away from the roadmap.<p>When you sell software to large businesses, you realize that each customer needs their own workflow and features. Traditionally, this either means long engineering roadmaps or the cu",
-              "author": "namanyayg",
+              "url": "https://github.com/adamjgmiller/adamsreview",
+              "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
+              "text": "I built adamsreview, a Claude Code plugin that runs deeper, multi-stage PR reviews using parallel sub-agents, validation passes, persistent JSON state, and optional ensemble review via Codex CLI and PR bot comments.<p>On my own PRs, it has been catching dramatically more real bugs than Claude’s built-in &#x2F;review, &#x2F;ultrareview, CodeRabbit, Greptile, and Codex’s built-in review, while producing fewer false positives.<p>adamsreview is six Claude Code slash commands packaged as a plugin: re",
+              "author": "adamthegoalie",
               "engagement": {
-                "score": 60,
-                "comments": 24
+                "score": 84,
+                "comments": 55
               },
-              "observedAt": "2026-05-12T16:32:54.000Z"
+              "observedAt": "2026-05-11T02:06:29.000Z"
             }
           ]
         },
@@ -1179,10 +1179,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 5,
+      "totalMentions7d": 19,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -1192,7 +1192,7 @@
               "text": "",
               "author": "orhunp_",
               "engagement": {
-                "score": 673,
+                "score": 674,
                 "comments": 243
               },
               "observedAt": "2026-05-11T10:13:04.000Z"
@@ -1205,7 +1205,7 @@
               "text": "An attempt at a single pass LLVM frontend in ~3000 lines of C without external dependencies, malloc, or an AST. Included are some graphical examples. The IR isn&#x27;t perfect, and the README touches on one particular downfall",
               "author": "glouwbug",
               "engagement": {
-                "score": 94,
+                "score": 95,
                 "comments": 24
               },
               "observedAt": "2026-05-14T01:46:45.000Z"
@@ -1213,15 +1213,41 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://twitter.com/deepwhitman/status/2054466408835350985",
-              "title": "I let Claude autonomously create a graphic novel",
+              "url": "https://www.bloomberg.com/graphics/2026-ai-identity-theft-scams/",
+              "title": "AI Is Making Digital Fraud Easier, Faster and Harder to Stop",
               "text": "",
-              "author": "bilater",
+              "author": "elsewhen",
               "engagement": {
-                "score": 1,
+                "score": 6,
                 "comments": 1
               },
-              "observedAt": "2026-05-14T15:49:50.000Z"
+              "observedAt": "2026-05-10T14:45:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.numworks.com/buy/",
+              "title": "Numworks Graphing Calculator",
+              "text": "",
+              "author": "kaladin-jasnah",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-13T21:34:03.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://hackaday.com/2026/04/21/why-some-s3-videocards-have-a-brightness-issue/",
+              "title": "Brightness Issue in Old S3 Graphics Cards",
+              "text": "",
+              "author": "networked",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-09T06:41:12.000Z"
             }
           ]
         },
@@ -3740,11 +3766,24 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 148,
+      "totalMentions7d": 150,
       "perSource": {
         "hackernews": {
-          "count7d": 148,
+          "count7d": 150,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
+              "title": "Codex is now in the ChatGPT mobile app",
+              "text": "",
+              "author": "mikeevans",
+              "engagement": {
+                "score": 389,
+                "comments": 193
+              },
+              "observedAt": "2026-05-14T20:06:14.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3761,26 +3800,13 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
-              "title": "Codex is now in the ChatGPT mobile app",
-              "text": "",
-              "author": "mikeevans",
-              "engagement": {
-                "score": 322,
-                "comments": 163
-              },
-              "observedAt": "2026-05-14T20:06:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
               "url": "https://www.wsj.com/tech/ai/sam-altmans-business-dealings-under-gop-scrutiny-ahead-of-openais-ipo-52c1cc4d",
               "title": "Sam Altman's Business Dealings Under GOP Scrutiny Ahead of OpenAI's IPO",
               "text": "",
               "author": "1vuio0pswjnm7",
               "engagement": {
-                "score": 196,
-                "comments": 154
+                "score": 198,
+                "comments": 155
               },
               "observedAt": "2026-05-14T12:27:29.000Z"
             },
@@ -4128,10 +4154,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 9,
+      "totalMentions7d": 47,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 45,
           "top": [
             {
               "source": "hackernews",
@@ -4167,36 +4193,36 @@
               "text": "",
               "author": "murdockq",
               "engagement": {
-                "score": 38,
-                "comments": 9
+                "score": 39,
+                "comments": 11
               },
               "observedAt": "2026-05-14T20:15:26.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://twitter.com/garrytan/status/2053127519872614419",
-              "title": "Garry Tan's GBrain – most important idea of the year",
+              "url": "https://cowboystatedaily.com/2026/05/12/scientists-confirm-brain-eating-amoeba-is-widespread-in-yellowstone-and-grand-teton/",
+              "title": "Scientists Confirm 'Brain-Eating Amoeba' Is Widespread Yellowstone Grand Teton",
               "text": "",
-              "author": "oger",
+              "author": "Bender",
               "engagement": {
-                "score": 5,
-                "comments": 1
+                "score": 15,
+                "comments": 0
               },
-              "observedAt": "2026-05-11T06:19:48.000Z"
+              "observedAt": "2026-05-12T23:08:26.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://www.ft.com/content/0ba3bd4f-cc3a-4cad-8a8e-76925da2a711",
-              "title": "White-collar workers report growing feelings of 'AI brain fry'",
+              "url": "https://www.sciencedaily.com/releases/2026/05/260510030946.htm",
+              "title": "Brain scans reveal a difference between psychopaths and other people",
               "text": "",
-              "author": "1vuio0pswjnm7",
+              "author": "Noaidi",
               "engagement": {
-                "score": 4,
-                "comments": 0
+                "score": 8,
+                "comments": 1
               },
-              "observedAt": "2026-05-15T03:51:16.000Z"
+              "observedAt": "2026-05-10T12:40:58.000Z"
             }
           ]
         },
@@ -6100,10 +6126,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 18,
+      "totalMentions7d": 22,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 21,
           "top": [
             {
               "source": "hackernews",
@@ -6114,7 +6140,7 @@
               "author": "varunsharma07",
               "engagement": {
                 "score": 1088,
-                "comments": 463
+                "comments": 464
               },
               "observedAt": "2026-05-11T21:08:25.000Z"
             },
@@ -6126,8 +6152,8 @@
               "text": "",
               "author": "janandonly",
               "engagement": {
-                "score": 121,
-                "comments": 60
+                "score": 131,
+                "comments": 76
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
             },
@@ -6147,28 +6173,28 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
+              "title": "Meta employees protest against mouse tracking tech at US offices",
+              "text": "",
+              "author": "delichon",
+              "engagement": {
+                "score": 72,
+                "comments": 87
+              },
+              "observedAt": "2026-05-12T20:58:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
               "url": "https://www.reuters.com/legal/government/new-york-california-pension-leaders-oppose-extreme-spacex-control-structure-2026-05-14/",
               "title": "New York, California pension leaders oppose 'extreme' SpaceX control structure",
               "text": "",
               "author": "2OEH8eoCRo0",
               "engagement": {
-                "score": 70,
-                "comments": 120
+                "score": 71,
+                "comments": 123
               },
               "observedAt": "2026-05-14T12:21:55.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://news.ycombinator.com/item?id=48110593",
-              "title": "Show HN: Gigacatalyst – Extend your SaaS with an embedded AI builder",
-              "text": "Hi HN, I’m Namanyay from Gigacatalyst (link: <a href=\"https:&#x2F;&#x2F;gigacatalyst.com&#x2F;\">https:&#x2F;&#x2F;gigacatalyst.com&#x2F;</a>). Gigacatalyst allows sales, CS, and users to build one-off features, so your SaaS can support long-tail customer workflows and engineers aren’t pulled away from the roadmap.<p>When you sell software to large businesses, you realize that each customer needs their own workflow and features. Traditionally, this either means long engineering roadmaps or the cu",
-              "author": "namanyayg",
-              "engagement": {
-                "score": 60,
-                "comments": 24
-              },
-              "observedAt": "2026-05-12T16:32:54.000Z"
             }
           ]
         },
@@ -6665,7 +6691,7 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 7,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
           "count7d": 6,
@@ -6738,8 +6764,21 @@
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
+              "title": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memorys",
+              "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+              "author": "alexiskirke.bsky.social",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T09:17:42.564Z"
+            },
             {
               "source": "bluesky",
               "fullName": "rohitg00/agentmemory",
@@ -7116,11 +7155,24 @@
     },
     "HKUDS/AI-Trader": {
       "fullName": "HKUDS/AI-Trader",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "HKUDS/AI-Trader",
+              "url": "https://www.revswap.ai/#how",
+              "title": "Revswap.ai: Trade Dollars with other startups. Book it as revenue",
+              "text": "",
+              "author": "CGMthrowaway",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T13:23:49.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "HKUDS/AI-Trader",
@@ -7885,7 +7937,7 @@
       "totalMentions7d": 16,
       "perSource": {
         "hackernews": {
-          "count7d": 13,
+          "count7d": 12,
           "top": [
             {
               "source": "hackernews",
@@ -7955,7 +8007,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -7969,6 +8021,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-13T13:58:54.961Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "floci-io/floci",
+              "url": "https://bsky.app/profile/graalvm.org/post/3mlv3fjai5k2g",
+              "title": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
+              "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
+              "author": "graalvm.org",
+              "engagement": {
+                "score": 5,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T10:04:36.361Z"
             },
             {
               "source": "bluesky",
@@ -8390,7 +8455,7 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8411,7 +8476,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -8425,6 +8490,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T13:02:47.365Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "tinyhumansai/openhuman",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scie",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T14:04:32.363Z"
             }
           ]
         }
@@ -8550,10 +8628,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 45,
+      "totalMentions7d": 44,
       "perSource": {
         "hackernews": {
-          "count7d": 45,
+          "count7d": 44,
           "top": [
             {
               "source": "hackernews",
@@ -8563,8 +8641,8 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 288,
-                "comments": 80
+                "score": 289,
+                "comments": 82
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
             },
@@ -8576,7 +8654,7 @@
               "text": "hi guys. been working on something i think is fundamentally missing in today&#x27;s workflow with ai agents.<p>vcs.<p>i find myself struggling with questions that agents can&#x27;t answer like &quot;why did you do it?&quot;, &quot;when did u delete this folder? why?&quot;, etc. or trying to &#x2F;rewind (after a &#x2F;compact...) or basically `bisect` to find when and why something was done by the agent in the current &#x2F; previous session.<p>just like git did for code, i think we are the same",
               "author": "doshay",
               "engagement": {
-                "score": 126,
+                "score": 127,
                 "comments": 68
               },
               "observedAt": "2026-05-08T14:15:36.000Z"
@@ -8769,6 +8847,124 @@
                 "comments": 1
               },
               "observedAt": "2026-05-12T15:31:21.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "Hmbown/DeepSeek-TUI": {
+      "fullName": "Hmbown/DeepSeek-TUI",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "Hmbown/DeepSeek-TUI",
+              "url": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mlpxv5tz3d2o",
+              "title": "I stumbled upon this excellent GitHub project about a terminal-based coding agent for DeepSeek models that supports file editing, shell, web search, git, and more. See link below. #AI #opensource #cod",
+              "text": "I stumbled upon this excellent GitHub project about a terminal-based coding agent for DeepSeek models that supports file editing, shell, web search, git, and more. See link below. #AI #opensource #coding #DeepSeek https://github.com/Hmbown/DeepSeek-TUI",
+              "author": "alexiskirke.bsky.social",
+              "engagement": {
+                "score": 6,
+                "comments": 0
+              },
+              "observedAt": "2026-05-13T09:18:26.163Z"
+            }
+          ]
+        }
+      }
+    },
+    "antirez/ds4": {
+      "fullName": "antirez/ds4",
+      "totalMentions7d": 16,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "antirez/ds4",
+              "url": "https://antirez.com/news/165",
+              "title": "A few words on DS4",
+              "text": "",
+              "author": "caust1c",
+              "engagement": {
+                "score": 369,
+                "comments": 149
+              },
+              "observedAt": "2026-05-14T22:29:12.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 15,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/astrra.space/post/3mlnug5ypek2k",
+              "title": "@antirez.bsky.social is cooking with github.com/antirez/ds4 ngl",
+              "text": "@antirez.bsky.social is cooking with github.com/antirez/ds4 ngl",
+              "author": "astrra.space",
+              "engagement": {
+                "score": 23,
+                "comments": 1
+              },
+              "observedAt": "2026-05-12T13:11:02.667Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/qdrddr.bsky.social/post/3mlojcqales2m",
+              "title": "DS4 - #DeepSeek 4 Flash local #inference engine for Metal and CUDA. 96 GB VRAM minimum. By @antirez.bsky.social #OpenSource MIT lic #AI #LLM github.com/antirez/ds4",
+              "text": "DS4 - #DeepSeek 4 Flash local #inference engine for Metal and CUDA. 96 GB VRAM minimum. By @antirez.bsky.social #OpenSource MIT lic #AI #LLM github.com/antirez/ds4",
+              "author": "qdrddr.bsky.social",
+              "engagement": {
+                "score": 5,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T19:24:56.061Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/davidgasquez.com/post/3mlsi7enuq22x",
+              "title": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
+              "text": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
+              "author": "davidgasquez.com",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-14T09:15:47.463Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/nopnop.bsky.social/post/3mlodadaetc2z",
+              "title": "github.com/antirez/ds4/... progress is here for ROCm/HIP backend.",
+              "text": "github.com/antirez/ds4/... progress is here for ROCm/HIP backend.",
+              "author": "nopnop.bsky.social",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T17:36:13.863Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/trxx9800.bsky.social/post/3mlkygbzxsp2t",
+              "title": "The what github.com/antirez/ds4",
+              "text": "The what github.com/antirez/ds4",
+              "author": "trxx9800.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T09:44:42.067Z"
             }
           ]
         }

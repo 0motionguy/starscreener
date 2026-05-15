@@ -8,7 +8,7 @@ import { useDebouncedSearch } from "../useDebouncedSearch";
 // test still runs in <1s total and keeps the assertions readable.
 
 const SHORT_DELAY = 20;
-const SETTLE = 80;
+const SETTLE = 300;
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

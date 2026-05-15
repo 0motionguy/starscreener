@@ -5575,11 +5575,14 @@ body::before {
 
 .share-fmt .b .px {
   font-size: var(--font-size-xs);
-  opacity: 0.65;
+  /* Was 0.65 — combined with the button's dim text color hit 3.16:1
+     contrast on the share panel buttons (Lighthouse top10). 0.85 lifts
+     to ≥4.5:1 while still reading as secondary text. */
+  opacity: 0.85;
 }
 
 .share-fmt .b.on .px {
-  opacity: 0.75;
+  opacity: 0.92;
 }
 
 .v2-btn {

@@ -459,7 +459,10 @@
   color: #5a5a5a;
 }
 .v4-chip--acc.v4-chip--on .v4-chip__count {
-  color: rgba(0, 0, 0, 0.55);
+  /* Was rgba(0,0,0,0.55) — 3.17:1 contrast over the orange accent button
+     bg. Bumped to 0.78 — lifts contrast above WCAG AA 4.5:1 while still
+     reading as subtle secondary count text. */
+  color: rgba(0, 0, 0, 0.78);
 }
 
 /* ---------------------------------------------------------------------------

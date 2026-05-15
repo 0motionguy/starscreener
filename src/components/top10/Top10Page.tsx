@@ -1589,6 +1589,7 @@ function MetaRow({
         <input
           value={value}
           readOnly
+          aria-label={label}
           style={{
             flex: 1,
             background: "var(--v3-bg-050, #101418)",

@@ -26,7 +26,14 @@ export interface StarActivityPayload {
   repoId: string;                  // "owner/name"
   points: StarActivityPoint[];     // ascending by date
   firstObservedAt: string;         // ISO — when our pipeline first wrote a point
-  backfillSource: "stargazer-api" | "snapshot-only";
+  // "stargazer-api"  — normal walk under the 400-page list cap.
+  // "snapshot-only"  — pre-B8 legacy: repos over the cap got an empty
+  //                    payload. Still used when BACKFILL_STAR_ACTIVITY_
+  //                    DUAL_ENDED=false explicitly opts out.
+  // "dual-ended"     — B8 (2026-05-15): repos over the cap get the
+  //                    oldest 40k (ASC) + newest 40k (DESC) stargazers,
+  //                    merged. Yields full coverage up to ~80k stars.
+  backfillSource: "stargazer-api" | "snapshot-only" | "dual-ended";
   coversFirstStar: boolean;        // true when backfill walked all the way back
   updatedAt: string;
 }

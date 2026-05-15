@@ -108,11 +108,75 @@ function readRateLimit(headers) {
   return Number.isFinite(n) ? n : null;
 }
 
-async function fetchPage(fullName, page, token) {
-  const url = `${GITHUB_API}/repos/${fullName}/stargazers?per_page=${PAGE_SIZE}&page=${page}`;
+async function fetchPage(fullName, page, token, direction = "asc") {
+  // GitHub's stargazers list supports direction=asc|desc. Default ASC
+  // returns oldest stargazers first. DESC returns newest first. Both
+  // directions share the same 400-page hard cap — we exploit that for
+  // dual-ended backfill on >40k-star repos (B8): walk 1..400 ASC for the
+  // oldest 40k stargazers + 1..400 DESC for the newest 40k, merge by
+  // `starred_at` day-bucket. Yields full coverage up to ~80k stars.
+  const directionParam = direction === "desc" ? "&direction=desc" : "";
+  const url = `${GITHUB_API}/repos/${fullName}/stargazers?per_page=${PAGE_SIZE}&page=${page}${directionParam}`;
   const res = await fetch(url, { headers: buildHeaders(token) });
   return res;
 }
+
+/**
+ * Walk pages 1..maxPages in one direction, accumulating per-day buckets
+ * into `perDay`. Aborts cleanly when rate-limit remaining falls below
+ * the floor. Returns the page count actually walked.
+ */
+async function walkPages({
+  fullName,
+  token,
+  direction,
+  maxPages,
+  perDay,
+  initialRem,
+  startPage = 1,
+}) {
+  let pagesWalked = 0;
+  let abortedEarly = false;
+  let lastRem = initialRem;
+
+  for (let page = startPage; page <= maxPages; page++) {
+    if (lastRem !== null && lastRem < RATE_LIMIT_FLOOR) {
+      abortedEarly = true;
+      break;
+    }
+    if (PAGE_DELAY_MS > 0 && (page > startPage || pagesWalked > 0)) {
+      await new Promise((r) => setTimeout(r, PAGE_DELAY_MS));
+    }
+    const res = await fetchPage(fullName, page, token, direction);
+    lastRem = readRateLimit(res.headers);
+    if (!res.ok) {
+      throw new Error(
+        `${direction} page ${page} of ${fullName} failed: ${res.status} ${res.statusText}`,
+      );
+    }
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      continue;
+    }
+    if (!Array.isArray(data)) continue;
+    bucketByDay(data, perDay);
+    pagesWalked += 1;
+    if (data.length < PAGE_SIZE) break;
+  }
+
+  return { pagesWalked, lastRem, abortedEarly };
+}
+
+// 2026-05-15 (B8): dual-ended backfill for repos beyond the 400-page
+// GitHub stargazer-list cap. Default ON; set
+// `BACKFILL_STAR_ACTIVITY_DUAL_ENDED=false` to fall back to the legacy
+// snapshot-only payload.
+const DUAL_ENDED_DEFAULT_ON =
+  (process.env.BACKFILL_STAR_ACTIVITY_DUAL_ENDED ?? "true")
+    .trim()
+    .toLowerCase() !== "false";
 
 function bucketByDay(entries, perDay) {
   for (const entry of entries) {
@@ -150,19 +214,86 @@ async function backfillOne(fullName, token) {
   }
   const lastPage = parseLastPage(probe.headers.get("link"));
 
-  // Repos beyond the 400-page list cap are unreachable for backfill.
+  // Repos beyond the 400-page list cap (>~40k stars).
   if (lastPage >= PAGE_LIST_CAP) {
+    if (!DUAL_ENDED_DEFAULT_ON) {
+      // Legacy fallback: empty payload, marked snapshot-only.
+      return {
+        payload: {
+          repoId: fullName,
+          points: [],
+          firstObservedAt: new Date().toISOString(),
+          backfillSource: "snapshot-only",
+          coversFirstStar: false,
+          updatedAt: new Date().toISOString(),
+        },
+        pagesWalked: 1,
+        rateLimitRemaining: probeRem,
+        reachedFirstStar: false,
+      };
+    }
+
+    // Dual-ended walk: oldest 40k via ASC + newest 40k via DESC.
+    const perDayDual = new Map();
+    // Re-use the probe payload as ASC page 1 (we already paid for it).
+    try {
+      const probeData = await probe.json();
+      if (Array.isArray(probeData)) bucketByDay(probeData, perDayDual);
+    } catch {
+      // probe parse failure is non-fatal — walkPages will retry page 1.
+    }
+
+    // ASC: pages 2..PAGE_LIST_CAP (page 1 came from the probe).
+    const asc = await walkPages({
+      fullName,
+      token,
+      direction: "asc",
+      maxPages: PAGE_LIST_CAP,
+      perDay: perDayDual,
+      initialRem: probeRem,
+      startPage: 2,
+    });
+
+    // DESC: pages 1..PAGE_LIST_CAP. Skip if ASC aborted to preserve
+    // rate-limit budget for the next repo in the batch.
+    let desc = { pagesWalked: 0, lastRem: asc.lastRem, abortedEarly: false };
+    if (!asc.abortedEarly) {
+      desc = await walkPages({
+        fullName,
+        token,
+        direction: "desc",
+        maxPages: PAGE_LIST_CAP,
+        perDay: perDayDual,
+        initialRem: asc.lastRem,
+        startPage: 1,
+      });
+    }
+
+    const totalPagesWalked = 1 + asc.pagesWalked + desc.pagesWalked;
+    const points = buildPoints(perDayDual);
+    if (points.length > 0) {
+      const today = todayUtc();
+      if (points[points.length - 1].d !== today) {
+        points.push({ d: today, s: points[points.length - 1].s, delta: 0 });
+      }
+    }
+
+    // coversFirstStar=false because dual-ended explicitly has a middle
+    // gap for repos beyond ~80k stars. The earliest observed point IS
+    // genuinely the first star (ASC direction starts at created_at=0)
+    // but downstream classification logic treats coversFirstStar as
+    // "complete coverage" so we report the more conservative value.
     return {
       payload: {
         repoId: fullName,
-        points: [],
+        points,
         firstObservedAt: new Date().toISOString(),
-        backfillSource: "snapshot-only",
+        backfillSource: "dual-ended",
         coversFirstStar: false,
         updatedAt: new Date().toISOString(),
       },
-      pagesWalked: 1,
-      rateLimitRemaining: probeRem,
+      pagesWalked: totalPagesWalked,
+      rateLimitRemaining: desc.lastRem,
       reachedFirstStar: false,
     };
   }

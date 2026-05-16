@@ -426,8 +426,12 @@ function recomputeAllInner(): RecomputeSummary {
 
   const { baseRepos, previousRepos, previousScores } = snapshotPreviousState();
   const assembled = phaseAssemble(baseRepos);
-  const scores = phaseScore(assembled);
+  // Classify BEFORE scoring so resolveWeights(repo.categoryId) and the
+  // per-category star-velocity aggregation see the correct categoryId.
+  // Inverted order silently defeated every CATEGORY_WEIGHT_OVERRIDES entry
+  // on the batch path. recomputeRepo (single-repo) already does this order.
   const classified = phaseClassify(assembled);
+  const scores = phaseScore(classified);
   const reasons = phaseReasons(classified, baseRepos, scores);
   const rankedRepos = phaseRankAndEvents(
     classified,

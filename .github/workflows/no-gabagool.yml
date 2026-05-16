@@ -23,6 +23,9 @@ jobs:
       - name: Forbid legacy gabagool* literals
         run: |
           # Exclude this workflow file itself — it must mention the literal to forbid it.
+          # Exclude doc-history directories: handovers and worklogs legitimately
+          # reference the historical name when describing the purge migration
+          # (e.g. PR #1471). Source/config files have no business mentioning it.
           if grep -rIE "gabagool" \
             --exclude-dir=node_modules \
             --exclude-dir=.git \
@@ -30,6 +33,8 @@ jobs:
             --exclude-dir=dist \
             --exclude-dir=.audits \
             --exclude-dir=data \
+            --exclude-dir=handoffs \
+            --exclude-dir=archive \
             --exclude=no-gabagool.yml \
             .; then
             echo "::error::Found legacy 'gabagool' reference. Use 'toolbox' instead."

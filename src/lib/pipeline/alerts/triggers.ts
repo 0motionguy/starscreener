@@ -169,9 +169,12 @@ export function evaluateBreakoutDetected(
 ): TriggerResult {
   void rule;
   if (ctx.isBreakout !== true) return NOT_FIRED;
-  // Only fire on the transition into breakout state
-  const wasBreakout = ctx.previousScore ? ctx.previousScore.isBreakout : false;
-  if (wasBreakout) return NOT_FIRED;
+  // Only fire on the TRANSITION into breakout state. When previousScore is
+  // undefined (fresh repo, score evicted, first recompute after restart), we
+  // can't prove a transition happened — fail-safe to NOT_FIRED rather than
+  // treating "unknown" as "wasn't breakout" and spamming users on first sight.
+  if (!ctx.previousScore) return NOT_FIRED;
+  if (ctx.previousScore.isBreakout) return NOT_FIRED;
   return {
     fired: true,
     value: ctx.score?.overall ?? 0,

@@ -35,7 +35,9 @@ function buildSnapshot(
 ): RepoSnapshot {
   const stars = starsOverride ?? repo.stars;
   return {
-    id: `${repo.id}:${capturedAt}`,
+    // Match ingest.ts:buildSnapshot — source is part of the id so cross-source
+    // snapshots at the same capturedAt don't collide and stay attributable.
+    id: `${repo.id}:${capturedAt}:${source}`,
     repoId: repo.id,
     capturedAt,
     source,

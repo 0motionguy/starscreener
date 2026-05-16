@@ -162,7 +162,7 @@ export default async function ResearchPage() {
                         href={p.absUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-bold text-text-primary hover:text-accent-green leading-snug"
+                        className="min-w-0 break-words text-sm font-bold text-text-primary hover:text-accent-green leading-snug"
                       >
                         {p.title}
                       </a>

@@ -14,6 +14,39 @@ export const REPO_SUBMISSIONS_FILE = "repo-submissions.jsonl";
 const MAX_REASON_LENGTH = 600;
 const MAX_CONTACT_LENGTH = 160;
 const MAX_SHARE_URL_LENGTH = 300;
+const MAX_RELEASE_URL_LENGTH = 500;
+const MAX_DEMO_URL_LENGTH = 500;
+const MAX_TAGS = 4;
+
+/**
+ * Closed set of submission categories. Mirrors the operator-mockup
+ * 3-tile picker on /submit (REPO / SKILL / MCP). New values require
+ * a coordinated UI + classifier update.
+ */
+export const REPO_SUBMISSION_CATEGORIES = ["repo", "skill", "mcp"] as const;
+export type RepoSubmissionCategory = (typeof REPO_SUBMISSION_CATEGORIES)[number];
+
+/**
+ * Closed set of submission tags. Matches the 12-chip strip on /submit;
+ * new values require a UI sync.
+ */
+export const REPO_SUBMISSION_TAGS = [
+  "AGENTS",
+  "RAG",
+  "EVAL",
+  "VECTOR",
+  "CLI",
+  "FINETUNE",
+  "FRAMEWORK",
+  "INFERENCE",
+  "DATA",
+  "VISION",
+  "VOICE",
+  "CODEGEN",
+] as const;
+export type RepoSubmissionTag = (typeof REPO_SUBMISSION_TAGS)[number];
+
+const TAG_SET: ReadonlySet<string> = new Set<string>(REPO_SUBMISSION_TAGS);
 
 export type RepoSubmissionStatus =
   | "pending"
@@ -29,6 +62,15 @@ export interface RepoSubmissionInput {
   whyNow?: string | null;
   contact?: string | null;
   shareUrl?: string | null;
+  /** Optional category — see REPO_SUBMISSION_CATEGORIES. */
+  category?: RepoSubmissionCategory | null;
+  /** Optional ordered list of tags; at most MAX_TAGS, all from
+   * REPO_SUBMISSION_TAGS. Empty array and null both accepted. */
+  tags?: RepoSubmissionTag[] | null;
+  /** Optional release/launch URL (operator mockup field). */
+  releaseUrl?: string | null;
+  /** Optional demo/video URL (operator mockup field). */
+  demoUrl?: string | null;
 }
 
 export interface RepoSubmissionRecord {
@@ -48,6 +90,15 @@ export interface RepoSubmissionRecord {
   lastScanError?: string | null;
   matchesFound?: number;
   repoPath?: string | null;
+  /** Operator-mockup fields (2026-05-16). Persisted alongside the
+   * existing record so the intake pipeline can route on category and
+   * the public surface can render tag chips. All four are optional
+   * for backwards compatibility with submissions made before this
+   * landed. */
+  category?: RepoSubmissionCategory | null;
+  tags?: RepoSubmissionTag[] | null;
+  releaseUrl?: string | null;
+  demoUrl?: string | null;
 }
 
 export interface PublicRepoSubmission {
@@ -64,6 +115,10 @@ export interface PublicRepoSubmission {
   lastScanError: string | null;
   matchesFound: number;
   repoPath: string | null;
+  category: RepoSubmissionCategory | null;
+  tags: RepoSubmissionTag[];
+  releaseUrl: string | null;
+  demoUrl: string | null;
 }
 
 export interface RepoSubmissionQueueSummary {
@@ -276,6 +331,104 @@ export function validateRepoSubmissionInput(
     return { ok: false, error: "shareUrl must be a string" };
   }
 
+  // ---- 2026-05-16 mockup-extension fields (all optional, schema-gated)
+  let category: RepoSubmissionCategory | null = null;
+  if (body.category !== undefined && body.category !== null && body.category !== "") {
+    if (
+      typeof body.category !== "string" ||
+      !REPO_SUBMISSION_CATEGORIES.includes(
+        body.category as RepoSubmissionCategory,
+      )
+    ) {
+      return {
+        ok: false,
+        error: `category must be one of ${REPO_SUBMISSION_CATEGORIES.join(", ")}`,
+      };
+    }
+    category = body.category as RepoSubmissionCategory;
+  }
+
+  let tags: RepoSubmissionTag[] = [];
+  if (body.tags !== undefined && body.tags !== null) {
+    if (!Array.isArray(body.tags)) {
+      return { ok: false, error: "tags must be an array" };
+    }
+    if (body.tags.length > MAX_TAGS) {
+      return {
+        ok: false,
+        error: `tags must contain at most ${MAX_TAGS} entries`,
+      };
+    }
+    const seen = new Set<string>();
+    for (const t of body.tags) {
+      if (typeof t !== "string" || !TAG_SET.has(t)) {
+        return {
+          ok: false,
+          error: `tags must be from the known set (${REPO_SUBMISSION_TAGS.join(", ")})`,
+        };
+      }
+      if (seen.has(t)) continue;
+      seen.add(t);
+      tags.push(t as RepoSubmissionTag);
+    }
+  }
+
+  const releaseRaw =
+    typeof body.releaseUrl === "string"
+      ? body.releaseUrl.trim()
+      : body.releaseUrl == null
+        ? ""
+        : null;
+  if (releaseRaw === null) {
+    return { ok: false, error: "releaseUrl must be a string" };
+  }
+  if (releaseRaw.length > MAX_RELEASE_URL_LENGTH) {
+    return {
+      ok: false,
+      error: `releaseUrl must be <= ${MAX_RELEASE_URL_LENGTH} characters`,
+    };
+  }
+  let releaseUrl: string | null = null;
+  if (releaseRaw) {
+    try {
+      const parsed = new URL(releaseRaw);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+        return { ok: false, error: "releaseUrl must be http(s)" };
+      }
+      releaseUrl = parsed.toString();
+    } catch {
+      return { ok: false, error: "releaseUrl must be a valid URL" };
+    }
+  }
+
+  const demoRaw =
+    typeof body.demoUrl === "string"
+      ? body.demoUrl.trim()
+      : body.demoUrl == null
+        ? ""
+        : null;
+  if (demoRaw === null) {
+    return { ok: false, error: "demoUrl must be a string" };
+  }
+  if (demoRaw.length > MAX_DEMO_URL_LENGTH) {
+    return {
+      ok: false,
+      error: `demoUrl must be <= ${MAX_DEMO_URL_LENGTH} characters`,
+    };
+  }
+  let demoUrl: string | null = null;
+  if (demoRaw) {
+    try {
+      const parsed = new URL(demoRaw);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+        return { ok: false, error: "demoUrl must be http(s)" };
+      }
+      demoUrl = parsed.toString();
+    } catch {
+      return { ok: false, error: "demoUrl must be a valid URL" };
+    }
+  }
+
   try {
     const shareUrl = shareRaw ? normalizeShareUrl(shareRaw) : null;
     return {
@@ -285,6 +438,10 @@ export function validateRepoSubmissionInput(
         whyNow: whyNow || null,
         contact: contact || null,
         shareUrl,
+        category,
+        tags: tags.length > 0 ? tags : null,
+        releaseUrl,
+        demoUrl,
       },
     };
   } catch (err) {
@@ -312,6 +469,10 @@ export function toPublicRepoSubmission(
     lastScanError: record.lastScanError ?? null,
     matchesFound: record.matchesFound ?? 0,
     repoPath: record.repoPath ?? null,
+    category: record.category ?? null,
+    tags: record.tags ?? [],
+    releaseUrl: record.releaseUrl ?? null,
+    demoUrl: record.demoUrl ?? null,
   };
 }
 
@@ -449,6 +610,10 @@ export async function submitRepoToQueue(
     lastScanError: null,
     matchesFound: 0,
     repoPath: null,
+    category: input.category ?? null,
+    tags: input.tags ?? null,
+    releaseUrl: input.releaseUrl ?? null,
+    demoUrl: input.demoUrl ?? null,
   };
 
   await appendJsonlFile(REPO_SUBMISSIONS_FILE, submission);

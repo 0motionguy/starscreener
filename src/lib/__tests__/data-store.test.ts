@@ -231,3 +231,40 @@ test("ageMs is non-negative and reflects time since write", async () => {
   const result = await store.read("agecheck");
   assert.ok(result.ageMs >= 0, "ageMs should be non-negative");
 });
+
+// B.15 Arc 1 — gzipped payloads round-trip through parsePayload. The worker
+// writes large blobs with the `gz1:` magic prefix + base64-encoded gzip body;
+// the reader must transparently decompress before JSON.parse.
+test("read() transparently ungzips payloads with gz1: magic prefix", async () => {
+  const store = buildStore();
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const zlib = require("zlib") as typeof import("zlib");
+  const payload = { items: Array.from({ length: 50 }, (_, i) => ({ i, val: `r${i}` })) };
+  const json = JSON.stringify(payload);
+  const compressed = zlib.gzipSync(Buffer.from(json, "utf8"));
+  const stored = "gz1:" + compressed.toString("base64");
+  fake.store.set("ss:data:v1:gz-payload", stored);
+  fake.store.set("ss:meta:v1:gz-payload", new Date().toISOString());
+
+  const result = await store.read<typeof payload>("gz-payload");
+  assert.equal(result.source, "redis");
+  assert.equal(result.data?.items.length, 50);
+  assert.equal(result.data?.items[0]?.val, "r0");
+});
+
+test("read() leaves legacy uncompressed payloads unchanged", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:legacy", JSON.stringify({ shape: "plain" }));
+  fake.store.set("ss:meta:v1:legacy", new Date().toISOString());
+  const result = await store.read<{ shape: string }>("legacy");
+  assert.equal(result.source, "redis");
+  assert.equal(result.data?.shape, "plain");
+});
+
+test("read() returns null on corrupted gz1: payload (parse-safe)", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:corrupt", "gz1:!!!not-valid-base64!!!");
+  fake.store.set("ss:meta:v1:corrupt", new Date().toISOString());
+  const result = await store.read<unknown>("corrupt");
+  assert.equal(result.source, "missing");
+});

@@ -50,6 +50,31 @@ function fs(): FsModule {
   return _fs;
 }
 
+// Same lazy-load discipline as `fs` above — `zlib` is a Node builtin and the
+// webpack client bundle would otherwise pull in the polyfill. parsePayload is
+// only invoked from server reads, so the function-scoped require stays
+// invisible to the client module graph.
+type ZlibModule = typeof import("zlib");
+let _zlib: ZlibModule | null = null;
+function zlib(): ZlibModule {
+  if (_zlib) return _zlib;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  _zlib = require("zlib") as ZlibModule;
+  return _zlib;
+}
+
+// B.15 Arc 1 — symmetric ungzip for payloads written by the worker's
+// encodePayloadForStore() helper. Detected via the `gz1:` magic prefix;
+// legacy uncompressed payloads pass through unchanged.
+const GZIP_MAGIC_PREFIX = "gz1:";
+
+function decodePayloadFromStore(raw: string): string {
+  if (!raw.startsWith(GZIP_MAGIC_PREFIX)) return raw;
+  const b64 = raw.slice(GZIP_MAGIC_PREFIX.length);
+  const decompressed = zlib().gunzipSync(Buffer.from(b64, "base64"));
+  return decompressed.toString("utf8");
+}
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -624,7 +649,7 @@ function parsePayload<T>(raw: unknown): T | null {
   if (raw === null || raw === undefined) return null;
   if (typeof raw === "string") {
     try {
-      return JSON.parse(raw) as T;
+      return JSON.parse(decodePayloadFromStore(raw)) as T;
     } catch {
       return null;
     }

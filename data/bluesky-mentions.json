@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-16T06:36:45.413Z",
+  "fetchedAt": "2026-05-16T09:02:31.007Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -11,21 +11,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kgqpknu6bwixflsh7xsmwf6t/app.bsky.feed.post/3mlvqds5ays2e",
-        "cid": "bafyreid3qpxkssg3vhetymlsjtpr7zemmtydf2ubbvqnyfyushn3lzthf4",
-        "bskyUrl": "https://bsky.app/profile/siriusli.bsky.social/post/3mlvqds5ays2e",
-        "text": "I can anecdotally confirm Deepseek V4 Flash feels like Sonnet 4.6 but at 20-50x lower cost so it's great for personal projects. Can't wait to try out DS4 (github.com/antirez/ds4) to run it locally",
+        "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mlxhcsvz422z",
+        "cid": "bafyreiakhgoylowcxvvzaz3zb7gjjkkm5552y5mii4yotptjfpesk5u3hu",
+        "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mlxhcsvz422z",
+        "text": "Otherwise, great inspiring stream! I look forward to test DeepSeek 4 Flash q2 (see -> github.com/antirez/ds4) with marimo-pair. The model/runner already works great in other cases, I can highly recommend to try this out (requires 96/128GB Apple Silicon or similar/better though).",
         "author": {
-          "handle": "siriusli.bsky.social",
-          "displayName": "Sirius Li"
+          "handle": "fry69.dev",
+          "displayName": "fry69"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T16:19:24.631Z",
-        "hoursSincePosted": 2.63
+        "createdAt": "2026-05-16T08:43:07.689Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mlxhcsvz422z",
+          "cid": "bafyreiakhgoylowcxvvzaz3zb7gjjkkm5552y5mii4yotptjfpesk5u3hu",
+          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mlxhcsvz422z",
+          "text": "Otherwise, great inspiring stream! I look forward to test DeepSeek 4 Flash q2 (see -> github.com/antirez/ds4) with marimo-pair. The model/runner already works great in other cases, I can highly recommend to try this out (requires 96/128GB Apple Silicon or similar/better though).",
+          "author": {
+            "handle": "fry69.dev",
+            "displayName": "fry69"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T08:43:07.689Z",
+          "createdUtc": 1778920987,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:kgqpknu6bwixflsh7xsmwf6t/app.bsky.feed.post/3mlvqds5ays2e",
           "cid": "bafyreid3qpxkssg3vhetymlsjtpr7zemmtydf2ubbvqnyfyushn3lzthf4",
@@ -3121,23 +3149,23 @@
     },
     "garrytan/gbrain": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
-        "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
-        "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
-        "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxg5kjytt2q",
+        "cid": "bafyreicfa5nkujrnesnyyzbqcs64ycuqe5qjtwgq5covdbjhgrc54pnzdi",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxg5kjytt2q",
+        "text": "https://github.com/garrytan/gbrain",
         "author": {
-          "handle": "nsega.dev",
-          "displayName": "Naoki Sega"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T22:29:53.442Z",
-        "hoursSincePosted": 1.75
+        "createdAt": "2026-05-16T08:22:16Z",
+        "hoursSincePosted": 0.67
       },
       "posts": [
         {
@@ -3166,6 +3194,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxg5kjytt2q",
+          "cid": "bafyreicfa5nkujrnesnyyzbqcs64ycuqe5qjtwgq5covdbjhgrc54pnzdi",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxg5kjytt2q",
+          "text": "https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T08:22:16Z",
+          "createdUtc": 1778919736,
+          "ageHours": 0.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -4133,25 +4189,53 @@
     },
     "rorkai/App-Store-Connect-CLI": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mle4dycxze2n",
-        "cid": "bafyreiepjfajzmkwt4te2sxaqmqrzcmi76543kk6h2urjujnfqbqyczkoi",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mle4dycxze2n",
-        "text": "App Store Connect CLI 1.4.0 is out! - Publish metadata-dir before App Store submission - FREE_TRIAL offer-code fix - Subscription review note updates - Subscription remove-from-sale flow - Prefixed analytics report IDs - Fix new locale support in metadata github.com/rorkai/App-...",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mlxgo3dbde2z",
+        "cid": "bafyreialhd5dxyplr4ebkwiudlvlfpy4rzn3goajihu4xfjnc4x75onlcm",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mlxgo3dbde2z",
+        "text": "App Store Connect CLI 1.4.2 is out! - Submit background assets for App Review - --country for Wall of Apps lookups - Metadata validation fixes github.com/rorkai/App-...",
         "author": {
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T16:06:20.660913Z",
-        "hoursSincePosted": 2.66
+        "replyCount": 0,
+        "createdAt": "2026-05-16T08:31:31.805042Z",
+        "hoursSincePosted": 0.52
       },
       "posts": [
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mlxgo3dbde2z",
+          "cid": "bafyreialhd5dxyplr4ebkwiudlvlfpy4rzn3goajihu4xfjnc4x75onlcm",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mlxgo3dbde2z",
+          "text": "App Store Connect CLI 1.4.2 is out! - Submit background assets for App Review - --country for Wall of Apps lookups - Metadata validation fixes github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T08:31:31.805042Z",
+          "createdUtc": 1778920291,
+          "ageHours": 0.52,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mle4dycxze2n",
           "cid": "bafyreiepjfajzmkwt4te2sxaqmqrzcmi76543kk6h2urjujnfqbqyczkoi",
@@ -5687,19 +5771,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
-        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mlxibnkq4p2g",
+        "cid": "bafyreicbgeluxm5ihye2n7m25rfwjl3ves7lahqtskwdin4mpde4x4vfqy",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mlxibnkq4p2g",
+        "text": "OpenHuman est un assistant IA agentique open source, pensé desktop et vie quotidienne : privé, simple, UI-first, encore en early beta. github.com/tinyhumansa...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 2.96
+        "createdAt": "2026-05-16T09:00:22.114888Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -5723,6 +5807,34 @@
             "has-agent"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mlxibnkq4p2g",
+          "cid": "bafyreicbgeluxm5ihye2n7m25rfwjl3ves7lahqtskwdin4mpde4x4vfqy",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mlxibnkq4p2g",
+          "text": "OpenHuman est un assistant IA agentique open source, pensé desktop et vie quotidienne : privé, simple, UI-first, encore en early beta. github.com/tinyhumansa...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T09:00:22.114888Z",
+          "createdUtc": 1778922022,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "tinyhumansai/openhuman",
@@ -12598,7 +12710,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:48:53Z",
-        "hoursSincePosted": 0.8
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -12615,7 +12727,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:48:53Z",
           "createdUtc": 1778910533,
-          "ageHours": 0.8,
+          "ageHours": 3.23,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12649,7 +12761,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:44:39.567Z",
-        "hoursSincePosted": 0.87
+        "hoursSincePosted": 3.3
       },
       "posts": [
         {
@@ -12666,7 +12778,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:44:39.567Z",
           "createdUtc": 1778910279,
-          "ageHours": 0.87,
+          "ageHours": 3.3,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12675,6 +12787,57 @@
           "linkedRepos": [
             {
               "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "browser-use/browser-use": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
+        "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxbuc2en62q",
+        "text": "https://github.com/browser-use/browser-use",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T07:05:31Z",
+        "hoursSincePosted": 1.95
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
+          "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxbuc2en62q",
+          "text": "https://github.com/browser-use/browser-use",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T07:05:31Z",
+          "createdUtc": 1778915131,
+          "ageHours": 1.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "browser-use/browser-use",
               "matchType": "url",
               "confidence": 1
             }
@@ -12690,21 +12853,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kgqpknu6bwixflsh7xsmwf6t/app.bsky.feed.post/3mlvqds5ays2e",
-        "cid": "bafyreid3qpxkssg3vhetymlsjtpr7zemmtydf2ubbvqnyfyushn3lzthf4",
-        "bskyUrl": "https://bsky.app/profile/siriusli.bsky.social/post/3mlvqds5ays2e",
-        "text": "I can anecdotally confirm Deepseek V4 Flash feels like Sonnet 4.6 but at 20-50x lower cost so it's great for personal projects. Can't wait to try out DS4 (github.com/antirez/ds4) to run it locally",
+        "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mlxhcsvz422z",
+        "cid": "bafyreiakhgoylowcxvvzaz3zb7gjjkkm5552y5mii4yotptjfpesk5u3hu",
+        "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mlxhcsvz422z",
+        "text": "Otherwise, great inspiring stream! I look forward to test DeepSeek 4 Flash q2 (see -> github.com/antirez/ds4) with marimo-pair. The model/runner already works great in other cases, I can highly recommend to try this out (requires 96/128GB Apple Silicon or similar/better though).",
         "author": {
-          "handle": "siriusli.bsky.social",
-          "displayName": "Sirius Li"
+          "handle": "fry69.dev",
+          "displayName": "fry69"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T16:19:24.631Z",
-        "hoursSincePosted": 2.63
+        "createdAt": "2026-05-16T08:43:07.689Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mlxhcsvz422z",
+          "cid": "bafyreiakhgoylowcxvvzaz3zb7gjjkkm5552y5mii4yotptjfpesk5u3hu",
+          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mlxhcsvz422z",
+          "text": "Otherwise, great inspiring stream! I look forward to test DeepSeek 4 Flash q2 (see -> github.com/antirez/ds4) with marimo-pair. The model/runner already works great in other cases, I can highly recommend to try this out (requires 96/128GB Apple Silicon or similar/better though).",
+          "author": {
+            "handle": "fry69.dev",
+            "displayName": "fry69"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T08:43:07.689Z",
+          "createdUtc": 1778920987,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:kgqpknu6bwixflsh7xsmwf6t/app.bsky.feed.post/3mlvqds5ays2e",
           "cid": "bafyreid3qpxkssg3vhetymlsjtpr7zemmtydf2ubbvqnyfyushn3lzthf4",
@@ -15800,23 +15991,23 @@
     },
     "garrytan--gbrain": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
-        "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
-        "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
-        "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxg5kjytt2q",
+        "cid": "bafyreicfa5nkujrnesnyyzbqcs64ycuqe5qjtwgq5covdbjhgrc54pnzdi",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxg5kjytt2q",
+        "text": "https://github.com/garrytan/gbrain",
         "author": {
-          "handle": "nsega.dev",
-          "displayName": "Naoki Sega"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T22:29:53.442Z",
-        "hoursSincePosted": 1.75
+        "createdAt": "2026-05-16T08:22:16Z",
+        "hoursSincePosted": 0.67
       },
       "posts": [
         {
@@ -15845,6 +16036,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxg5kjytt2q",
+          "cid": "bafyreicfa5nkujrnesnyyzbqcs64ycuqe5qjtwgq5covdbjhgrc54pnzdi",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxg5kjytt2q",
+          "text": "https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T08:22:16Z",
+          "createdUtc": 1778919736,
+          "ageHours": 0.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -16812,25 +17031,53 @@
     },
     "rorkai--app-store-connect-cli": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mle4dycxze2n",
-        "cid": "bafyreiepjfajzmkwt4te2sxaqmqrzcmi76543kk6h2urjujnfqbqyczkoi",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mle4dycxze2n",
-        "text": "App Store Connect CLI 1.4.0 is out! - Publish metadata-dir before App Store submission - FREE_TRIAL offer-code fix - Subscription review note updates - Subscription remove-from-sale flow - Prefixed analytics report IDs - Fix new locale support in metadata github.com/rorkai/App-...",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mlxgo3dbde2z",
+        "cid": "bafyreialhd5dxyplr4ebkwiudlvlfpy4rzn3goajihu4xfjnc4x75onlcm",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mlxgo3dbde2z",
+        "text": "App Store Connect CLI 1.4.2 is out! - Submit background assets for App Review - --country for Wall of Apps lookups - Metadata validation fixes github.com/rorkai/App-...",
         "author": {
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T16:06:20.660913Z",
-        "hoursSincePosted": 2.66
+        "replyCount": 0,
+        "createdAt": "2026-05-16T08:31:31.805042Z",
+        "hoursSincePosted": 0.52
       },
       "posts": [
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mlxgo3dbde2z",
+          "cid": "bafyreialhd5dxyplr4ebkwiudlvlfpy4rzn3goajihu4xfjnc4x75onlcm",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mlxgo3dbde2z",
+          "text": "App Store Connect CLI 1.4.2 is out! - Submit background assets for App Review - --country for Wall of Apps lookups - Metadata validation fixes github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T08:31:31.805042Z",
+          "createdUtc": 1778920291,
+          "ageHours": 0.52,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mle4dycxze2n",
           "cid": "bafyreiepjfajzmkwt4te2sxaqmqrzcmi76543kk6h2urjujnfqbqyczkoi",
@@ -18366,19 +18613,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mlvisengzim2",
-        "cid": "bafyreie2td77wu4c6du5e24w5yrjrpy6rn3lks46hj7r4lvmygljkcz5uu",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mlxibnkq4p2g",
+        "cid": "bafyreicbgeluxm5ihye2n7m25rfwjl3ves7lahqtskwdin4mpde4x4vfqy",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mlxibnkq4p2g",
+        "text": "OpenHuman est un assistant IA agentique open source, pensé desktop et vie quotidienne : privé, simple, UI-first, encore en early beta. github.com/tinyhumansa...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T14:04:22.000Z",
-        "hoursSincePosted": 2.96
+        "createdAt": "2026-05-16T09:00:22.114888Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -18402,6 +18649,34 @@
             "has-agent"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mlxibnkq4p2g",
+          "cid": "bafyreicbgeluxm5ihye2n7m25rfwjl3ves7lahqtskwdin4mpde4x4vfqy",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mlxibnkq4p2g",
+          "text": "OpenHuman est un assistant IA agentique open source, pensé desktop et vie quotidienne : privé, simple, UI-first, encore en early beta. github.com/tinyhumansa...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T09:00:22.114888Z",
+          "createdUtc": 1778922022,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "tinyhumansai/openhuman",
@@ -25277,7 +25552,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:48:53Z",
-        "hoursSincePosted": 0.8
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -25294,7 +25569,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:48:53Z",
           "createdUtc": 1778910533,
-          "ageHours": 0.8,
+          "ageHours": 3.23,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -25328,7 +25603,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:44:39.567Z",
-        "hoursSincePosted": 0.87
+        "hoursSincePosted": 3.3
       },
       "posts": [
         {
@@ -25345,7 +25620,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:44:39.567Z",
           "createdUtc": 1778910279,
-          "ageHours": 0.87,
+          "ageHours": 3.3,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -25360,11 +25635,87 @@
           ]
         }
       ]
+    },
+    "browser-use--browser-use": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
+        "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxbuc2en62q",
+        "text": "https://github.com/browser-use/browser-use",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T07:05:31Z",
+        "hoursSincePosted": 1.95
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
+          "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxbuc2en62q",
+          "text": "https://github.com/browser-use/browser-use",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T07:05:31Z",
+          "createdUtc": 1778915131,
+          "ageHours": 1.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "browser-use/browser-use",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "rorkai/App-Store-Connect-CLI",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "antirez/ds4",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "browser-use/browser-use",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "Thysrael/Horizon",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     },

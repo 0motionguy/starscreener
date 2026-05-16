@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-16T14:02:54.797Z",
+  "fetchedAt": "2026-05-16T19:36:49.514Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "TuringEnterprises",
       "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
       "downloads": 5217,
-      "likes": 106,
-      "trendingScore": 88,
+      "likes": 110,
+      "trendingScore": 91,
       "tags": [
         "task_categories:question-answering",
         "language:en",
@@ -100,7 +100,7 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 2533,
-      "likes": 107,
+      "likes": 109,
       "trendingScore": 67,
       "tags": [
         "task_categories:text-generation",
@@ -166,8 +166,8 @@
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
       "downloads": 5906,
-      "likes": 56,
-      "trendingScore": 55,
+      "likes": 57,
+      "trendingScore": 56,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -468,8 +468,8 @@
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
       "downloads": 207,
-      "likes": 27,
-      "trendingScore": 23,
+      "likes": 28,
+      "trendingScore": 24,
       "tags": [
         "size_categories:10K<n<100K",
         "format:parquet",
@@ -487,6 +487,34 @@
     },
     {
       "rank": 17,
+      "id": "TeichAI/DeepSeek-v4-Pro-Agent",
+      "author": "TeichAI",
+      "url": "https://huggingface.co/datasets/TeichAI/DeepSeek-v4-Pro-Agent",
+      "downloads": 2212,
+      "likes": 23,
+      "trendingScore": 22,
+      "tags": [
+        "size_categories:1K<n<10K",
+        "format:json",
+        "format:agent-traces",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "agent-traces",
+        "pi",
+        "distillation",
+        "deepseek/deepseek-v4-pro",
+        "teich"
+      ],
+      "createdAt": "2026-05-09T06:15:11.000Z",
+      "lastModified": "2026-05-12T04:27:13.000Z"
+    },
+    {
+      "rank": 18,
       "id": "Qwen/WebWorldData",
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
@@ -523,7 +551,7 @@
       "lastModified": "2026-05-08T12:12:49.000Z"
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": "Modotte/CodeX-2M-Thinking",
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
@@ -562,7 +590,7 @@
       "lastModified": "2026-02-10T07:23:38.000Z"
     },
     {
-      "rank": 19,
+      "rank": 20,
       "id": "SALT-NLP/SWE-chat",
       "author": "SALT-NLP",
       "url": "https://huggingface.co/datasets/SALT-NLP/SWE-chat",
@@ -595,7 +623,7 @@
       "lastModified": "2026-04-29T15:05:22.000Z"
     },
     {
-      "rank": 20,
+      "rank": 21,
       "id": "r0b0tlab/deepseek-hermes-reasoning-traces",
       "author": "r0b0tlab",
       "url": "https://huggingface.co/datasets/r0b0tlab/deepseek-hermes-reasoning-traces",
@@ -628,34 +656,6 @@
       ],
       "createdAt": "2026-05-03T14:43:24.000Z",
       "lastModified": "2026-05-04T00:18:27.000Z"
-    },
-    {
-      "rank": 21,
-      "id": "TeichAI/DeepSeek-v4-Pro-Agent",
-      "author": "TeichAI",
-      "url": "https://huggingface.co/datasets/TeichAI/DeepSeek-v4-Pro-Agent",
-      "downloads": 2212,
-      "likes": 20,
-      "trendingScore": 20,
-      "tags": [
-        "size_categories:1K<n<10K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "pi",
-        "distillation",
-        "deepseek/deepseek-v4-pro",
-        "teich"
-      ],
-      "createdAt": "2026-05-09T06:15:11.000Z",
-      "lastModified": "2026-05-12T04:27:13.000Z"
     },
     {
       "rank": 22,
@@ -951,6 +951,41 @@
     },
     {
       "rank": 31,
+      "id": "blanchon/opencs2_dataset",
+      "author": "blanchon",
+      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
+      "downloads": 20467,
+      "likes": 15,
+      "trendingScore": 15,
+      "tags": [
+        "task_categories:video-classification",
+        "task_categories:reinforcement-learning",
+        "task_categories:other",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "modality:video",
+        "modality:audio",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "opencs2",
+        "counter-strike-2",
+        "torchcodec",
+        "video",
+        "audio",
+        "parquet"
+      ],
+      "createdAt": "2026-05-08T00:14:06.000Z",
+      "lastModified": "2026-05-04T15:38:59.000Z"
+    },
+    {
+      "rank": 32,
       "id": "OwnedByDanes/Usenet-Corpus-1980-2013",
       "author": "OwnedByDanes",
       "url": "https://huggingface.co/datasets/OwnedByDanes/Usenet-Corpus-1980-2013",
@@ -991,7 +1026,7 @@
       "lastModified": "2026-05-05T16:17:39.000Z"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "id": "badlogicgames/pi-mono",
       "author": "badlogicgames",
       "url": "https://huggingface.co/datasets/badlogicgames/pi-mono",
@@ -1021,7 +1056,7 @@
       "lastModified": "2026-04-06T13:10:36.000Z"
     },
     {
-      "rank": 33,
+      "rank": 34,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
@@ -1064,7 +1099,7 @@
       "lastModified": "2026-04-30T17:12:47.000Z"
     },
     {
-      "rank": 34,
+      "rank": 35,
       "id": "Inferact/codex_swebenchpro_traces",
       "author": "Inferact",
       "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
@@ -1086,7 +1121,7 @@
       "lastModified": "2026-05-07T01:13:21.000Z"
     },
     {
-      "rank": 35,
+      "rank": 36,
       "id": "alibaba-multimodal-industrial-ai/IndustryBench",
       "author": "alibaba-multimodal-industrial-ai",
       "url": "https://huggingface.co/datasets/alibaba-multimodal-industrial-ai/IndustryBench",
@@ -1113,41 +1148,6 @@
       ],
       "createdAt": "2026-05-12T06:15:11.000Z",
       "lastModified": "2026-05-13T05:23:50.000Z"
-    },
-    {
-      "rank": 36,
-      "id": "blanchon/opencs2_dataset",
-      "author": "blanchon",
-      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
-      "downloads": 20467,
-      "likes": 14,
-      "trendingScore": 14,
-      "tags": [
-        "task_categories:video-classification",
-        "task_categories:reinforcement-learning",
-        "task_categories:other",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:100K<n<1M",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "modality:video",
-        "modality:audio",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "opencs2",
-        "counter-strike-2",
-        "torchcodec",
-        "video",
-        "audio",
-        "parquet"
-      ],
-      "createdAt": "2026-05-08T00:14:06.000Z",
-      "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
       "rank": 37,
@@ -1246,6 +1246,38 @@
     },
     {
       "rank": 41,
+      "id": "openai/gsm8k",
+      "author": "openai",
+      "url": "https://huggingface.co/datasets/openai/gsm8k",
+      "downloads": 929696,
+      "likes": 1311,
+      "trendingScore": 13,
+      "tags": [
+        "benchmark:official",
+        "benchmark:eval-yaml",
+        "task_categories:text-generation",
+        "annotations_creators:crowdsourced",
+        "language_creators:crowdsourced",
+        "multilinguality:monolingual",
+        "source_datasets:original",
+        "language:en",
+        "license:mit",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2110.14168",
+        "region:us",
+        "math-word-problems"
+      ],
+      "createdAt": "2022-04-12T10:22:10.000Z",
+      "lastModified": "2026-03-23T10:18:13.000Z"
+    },
+    {
+      "rank": 42,
       "id": "Exgentic/agent-llm-traces",
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
@@ -1273,38 +1305,6 @@
       ],
       "createdAt": "2026-05-07T13:59:42.000Z",
       "lastModified": "2026-05-14T18:50:50.000Z"
-    },
-    {
-      "rank": 42,
-      "id": "openai/gsm8k",
-      "author": "openai",
-      "url": "https://huggingface.co/datasets/openai/gsm8k",
-      "downloads": 929696,
-      "likes": 1310,
-      "trendingScore": 12,
-      "tags": [
-        "benchmark:official",
-        "benchmark:eval-yaml",
-        "task_categories:text-generation",
-        "annotations_creators:crowdsourced",
-        "language_creators:crowdsourced",
-        "multilinguality:monolingual",
-        "source_datasets:original",
-        "language:en",
-        "license:mit",
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2110.14168",
-        "region:us",
-        "math-word-problems"
-      ],
-      "createdAt": "2022-04-12T10:22:10.000Z",
-      "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
       "rank": 43,

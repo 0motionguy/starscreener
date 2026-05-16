@@ -10,6 +10,7 @@ export function initSentry(): void {
   Sentry.init({
     dsn: env.SENTRY_DSN,
     environment: env.NODE_ENV,
+    release: process.env.SENTRY_RELEASE ?? process.env.GIT_SHA ?? undefined,
     tracesSampleRate: 0.05,
     sendDefaultPii: false,
     maxBreadcrumbs: 50,

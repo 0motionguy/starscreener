@@ -114,6 +114,11 @@ jobs:
         # Reuses the same composite action as scrape-trending.yml so the
         # commit-and-PR dance (data-bot branch + auto-merge against main)
         # respects branch protection — direct push to main returns GH006.
+        # Step-level timeout — git-commit-data invokes `gh pr merge --auto`
+        # which can block indefinitely waiting for required checks. Cap at
+        # 5 min so the rest of the job (which may run other workloads) isn't
+        # starved. Pattern source: #1529 (collect-twitter.yml).
+        timeout-minutes: 5
         uses: ./.github/actions/git-commit-data
         with:
           gh-token: ${{ secrets.DATA_BOT_TOKEN }}

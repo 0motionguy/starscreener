@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import {
-  ArrowUpRight,
-  LoaderCircle,
-  Megaphone,
-  Send,
-  Sparkles,
-} from "lucide-react";
+import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
 
 import { ROUTES } from "@/lib/routes";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
@@ -19,43 +13,18 @@ import {
 } from "./DropRepoCategoryPicker";
 import { DropRepoTagChips, type DropRepoTag } from "./DropRepoTagChips";
 import { DropRepoSubmissionFunnel } from "./DropRepoSubmissionFunnel";
+import {
+  DropRepoQueueWidget,
+  type DropRepoPublicSubmission,
+  type DropRepoQueueSummary,
+  type DropRepoSubmissionStatus,
+} from "./DropRepoQueueWidget";
 
 const WHY_NOW_MAX_CHARS = 280;
 
-interface QueueSummary {
-  pending: number;
-  queued: number;
-  scanning: number;
-  listed: number;
-  failed: number;
-  boosted: number;
-  latestSubmittedAt: string | null;
-}
-
-type SubmissionStatus =
-  | "pending"
-  | "queued"
-  | "scanning"
-  | "ingested"
-  | "matched"
-  | "listed"
-  | "scan_failed";
-
-interface PublicRepoSubmission {
-  id: string;
-  fullName: string;
-  repoUrl: string;
-  whyNow: string | null;
-  shareUrl: string | null;
-  boostedByShare: boolean;
-  status: SubmissionStatus;
-  submittedAt: string;
-  intakeTriggeredAt: string | null;
-  lastScanAt: string | null;
-  lastScanError: string | null;
-  matchesFound: number;
-  repoPath: string | null;
-}
+type QueueSummary = DropRepoQueueSummary;
+type SubmissionStatus = DropRepoSubmissionStatus;
+type PublicRepoSubmission = DropRepoPublicSubmission;
 
 interface SubmissionResult {
   kind: "created" | "duplicate" | "already_tracked";
@@ -101,25 +70,6 @@ const ACTIVE_STATUSES = new Set<SubmissionStatus>([
   "ingested",
   "matched",
 ]);
-
-function statusLabel(status: SubmissionStatus): string {
-  switch (status) {
-    case "pending":
-      return "Pending";
-    case "queued":
-      return "Queued";
-    case "scanning":
-      return "Scanning";
-    case "ingested":
-      return "Ingested";
-    case "matched":
-      return "Matched";
-    case "listed":
-      return "Listed";
-    case "scan_failed":
-      return "Failed";
-  }
-}
 
 export function DropRepoPage() {
   const [repo, setRepo] = useState("");
@@ -251,18 +201,25 @@ export function DropRepoPage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <section className="v2-card p-5 sm:p-6 lg:min-w-0 lg:flex-1">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border-primary bg-bg-secondary px-3 py-1 text-[11px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-              <Send className="h-3.5 w-3.5" />
+        <section className="v2-card min-w-0 p-5 sm:p-6 lg:flex-1">
+          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2">
+            <span
+              className="inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em]"
+              style={{
+                borderColor: "var(--v4-line-200)",
+                background: "var(--v4-bg-025)",
+                color: "var(--v4-ink-300)",
+              }}
+            >
+              <Send className="h-3.5 w-3.5" aria-hidden />
               Drop your repo
             </span>
-            <span className="text-sm font-mono text-text-tertiary">
+            <span className="font-mono text-sm text-text-tertiary">
               {queueLabel}
             </span>
           </div>
 
-          <h1 className="mt-4 font-display text-3xl font-bold text-text-primary sm:text-4xl">
+          <h1 className="mt-4 font-display text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
             Drop a repo. Get it ranked.
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-text-secondary sm:text-base">
@@ -273,17 +230,17 @@ export function DropRepoPage() {
 
           <DropRepoStepStrip />
 
-          <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card border border-up/30 bg-up/5 px-4 py-3 text-sm">
+          <div className="mt-5 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 rounded-card border border-up/30 bg-up/5 px-4 py-3 text-sm">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[var(--v4-money)]">
               Founders
             </span>
-            <span className="text-text-secondary">
+            <span className="min-w-0 flex-1 break-words text-text-secondary">
               Making money on this repo? Add a verified revenue signal to your
               repo page.
             </span>
             <Link
               href="/submit/revenue"
-              className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold text-text-primary hover:underline"
+              className="inline-flex shrink-0 items-center gap-1 font-mono text-xs font-semibold text-text-primary hover:underline sm:ml-auto"
             >
               Claim or submit revenue
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
@@ -329,8 +286,13 @@ export function DropRepoPage() {
               <span className="flex items-center justify-between text-sm font-medium text-text-primary">
                 <span>Tags</span>
                 <span
-                  className="font-mono text-[10px] uppercase tracking-[0.14em]"
-                  style={{ color: "var(--text-muted, #6b7280)" }}
+                  className="font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums"
+                  style={{
+                    color:
+                      tags.size >= 4
+                        ? "var(--v4-amber)"
+                        : "var(--v4-ink-400)",
+                  }}
                 >
                   {tags.size} / 4 max
                 </span>
@@ -342,12 +304,14 @@ export function DropRepoPage() {
               <span className="flex items-center justify-between text-sm font-medium text-text-primary">
                 <span>Why now</span>
                 <span
-                  className="font-mono text-[10px] uppercase tracking-[0.14em]"
+                  className="font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums"
                   style={{
                     color:
                       whyNow.length > WHY_NOW_MAX_CHARS
-                        ? "var(--v4-red, #ef4444)"
-                        : "var(--text-muted, #6b7280)",
+                        ? "var(--v4-red)"
+                        : whyNow.length > WHY_NOW_MAX_CHARS * 0.85
+                          ? "var(--v4-amber)"
+                          : "var(--v4-ink-400)",
                   }}
                 >
                   {whyNow.length} / {WHY_NOW_MAX_CHARS}
@@ -397,7 +361,10 @@ export function DropRepoPage() {
               <label className="flex flex-1 flex-col gap-2">
                 <span className="text-sm font-medium text-text-primary">
                   Release / launch URL{" "}
-                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-[0.12em]"
+                    style={{ color: "var(--v4-ink-400)" }}
+                  >
                     optional
                   </span>
                 </span>
@@ -413,7 +380,10 @@ export function DropRepoPage() {
               <label className="flex flex-1 flex-col gap-2">
                 <span className="text-sm font-medium text-text-primary">
                   Demo / video URL{" "}
-                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-[0.12em]"
+                    style={{ color: "var(--v4-ink-400)" }}
+                  >
                     optional
                   </span>
                 </span>
@@ -499,123 +469,16 @@ export function DropRepoPage() {
           )}
         </section>
 
-        <aside className="flex flex-col gap-6 lg:w-[360px] lg:max-w-[38%] lg:shrink-0">
+        <aside className="flex min-w-0 flex-col gap-6 lg:w-[360px] lg:max-w-[38%] lg:shrink-0">
           <DropRepoSubmissionFunnel queue={queue} loading={loading} />
 
-          <section className="v2-card p-5 sm:p-6">
-            <div className="flex items-center gap-2 text-text-primary">
-              <Sparkles className="h-4 w-4 text-brand" />
-              <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-text-secondary">
-                Queue signals
-              </h2>
-            </div>
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col">
-              <MetricCard
-                label="Active"
-                value={loading ? "..." : String(queue.pending)}
-              />
-              <MetricCard
-                label="Scanning"
-                value={loading ? "..." : String(queue.scanning)}
-              />
-              <MetricCard
-                label="Listed"
-                value={loading ? "..." : String(queue.listed)}
-              />
-              <MetricCard
-                label="Failed"
-                value={loading ? "..." : String(queue.failed)}
-              />
-              <MetricCard
-                label="Boosted by share"
-                value={loading ? "..." : String(queue.boosted)}
-              />
-            </div>
-            <p className="mt-4 text-sm leading-6 text-text-secondary">
-              Social share can boost priority. It should not be a hard listing
-              gate because the primary decision should still be repo quality and
-              real trend signal.
-            </p>
-          </section>
-
-          <section className="v2-card p-5 sm:p-6">
-            <div className="flex items-center gap-2 text-text-primary">
-              <Megaphone className="h-4 w-4 text-brand" />
-              <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-text-secondary">
-                Recent submissions
-              </h2>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-3">
-              {submissions.length === 0 && !loading && (
-                <p className="text-sm text-text-secondary">
-                  No queued submissions yet.
-                </p>
-              )}
-
-              {submissions.slice(0, 6).map((submission) => (
-                <div
-                  key={submission.id}
-                  className="rounded-card border border-border-primary bg-bg-secondary px-4 py-3"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <a
-                      href={submission.repoPath ?? submission.repoUrl}
-                      target={submission.repoPath ? undefined : "_blank"}
-                      rel={submission.repoPath ? undefined : "noreferrer"}
-                      className="text-sm font-medium text-text-primary hover:text-brand"
-                    >
-                      {submission.fullName}
-                    </a>
-                    <div className="flex shrink-0 items-center gap-2">
-                      <span className="rounded-full bg-bg-card px-2 py-1 text-[11px] font-mono uppercase tracking-[0.12em] text-text-tertiary">
-                        {statusLabel(submission.status)}
-                      </span>
-                      {submission.boostedByShare && (
-                        <span className="rounded-full bg-brand/10 px-2 py-1 text-[11px] font-mono uppercase tracking-[0.12em] text-brand">
-                          boosted
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  {submission.whyNow && (
-                    <p className="mt-2 text-sm leading-6 text-text-secondary">
-                      {submission.whyNow}
-                    </p>
-                  )}
-                  {submission.matchesFound > 0 && (
-                    <p className="mt-2 text-xs font-mono uppercase tracking-[0.12em] text-text-tertiary">
-                      {submission.matchesFound} source matches found
-                    </p>
-                  )}
-                  {submission.lastScanError && (
-                    <p className="mt-2 text-xs leading-5 text-[var(--v4-red)]">
-                      {submission.lastScanError}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
+          <DropRepoQueueWidget
+            queue={queue}
+            submissions={submissions}
+            loading={loading}
+          />
         </aside>
       </div>
-    </div>
-  );
-}
-
-function MetricCard({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="rounded-card border border-border-primary bg-bg-secondary px-4 py-3">
-      <p className="text-[11px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-        {label}
-      </p>
-      <p className="mt-2 text-2xl font-semibold text-text-primary">{value}</p>
     </div>
   );
 }

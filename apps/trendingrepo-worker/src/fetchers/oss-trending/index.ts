@@ -131,7 +131,7 @@ const fetcher: Fetcher = {
         try {
           const { data } = await ctx.http.json<OssEnvelope>(url, {
             useEtagCache: false,
-            timeoutMs: 15_000,
+            timeoutMs: 20_000,
           });
           const rows = expectRows<OssRow>(data, label);
           buckets[period]![language] = rows;
@@ -151,7 +151,7 @@ const fetcher: Fetcher = {
     try {
       const { data } = await ctx.http.json<OssEnvelope<HotCollectionRow>>(
         HOT_COLLECTIONS_URL,
-        { useEtagCache: false, timeoutMs: 15_000 },
+        { useEtagCache: false, timeoutMs: 20_000 },
       );
       hotRows = expectRows<HotCollectionRow>(data, 'hot collections').map(
         normalizeHotCollectionRow,

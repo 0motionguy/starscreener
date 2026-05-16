@@ -69,6 +69,9 @@ async function fetchPackageDownloadRange(
     `https://api.npmjs.org/downloads/range/${range.start}:${range.end}/` +
     encodePackageName(name);
   try {
+    // 30s (above 20s policy default) — npm range endpoint returns a daily
+    // breakdown spanning multiple weeks; large packages (e.g. react,
+    // typescript) routinely take 15-25s.
     const payload = await fetchJsonWithRetry<NpmRangeResponse>(url, {
       attempts: 4,
       retryDelayMs: 5_000,

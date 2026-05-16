@@ -64,6 +64,7 @@ const fetcher: Fetcher = {
     // the redis namespace clean of useless tr:etag-body:* entries.
     const { data: ids } = await ctx.http.json<number[]>(TOP_STORIES_URL, {
       useEtagCache: false,
+      timeoutMs: 20_000,
     });
     const top = (Array.isArray(ids) ? ids : [])
       .filter((n): n is number => Number.isFinite(n) && n > 0)
@@ -74,7 +75,10 @@ const fetcher: Fetcher = {
       const batch = top.slice(i, i + FETCH_BATCH);
       const settled = await Promise.allSettled(
         batch.map((id) =>
-          ctx.http.json<FirebaseItem | null>(ITEM_URL(id), { useEtagCache: false }),
+          ctx.http.json<FirebaseItem | null>(ITEM_URL(id), {
+            useEtagCache: false,
+            timeoutMs: 20_000,
+          }),
         ),
       );
       for (let j = 0; j < settled.length; j += 1) {

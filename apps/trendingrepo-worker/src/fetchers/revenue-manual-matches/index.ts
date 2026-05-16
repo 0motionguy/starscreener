@@ -38,6 +38,7 @@ const fetcher: Fetcher = {
       const { data } = await ctx.http.json<Record<string, unknown>>(url, {
         useEtagCache: true,
         headers: { accept: 'application/json' },
+        timeoutMs: 20_000,
       });
       payload = data && typeof data === 'object' ? data : {};
     } catch (err) {

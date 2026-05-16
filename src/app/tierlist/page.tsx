@@ -12,7 +12,7 @@ import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: `Tier List Maker - ${SITE_NAME}`,
+  title: "GitHub repo tier list maker",
   description:
     "Drag the AI ecosystem onto a tier list. Search repos, rank them, share the card.",
   alternates: {

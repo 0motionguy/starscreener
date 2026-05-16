@@ -13,7 +13,11 @@ import {
 
 import { useTierListEditor } from "@/lib/tier-list/client-store";
 import { toast } from "@/lib/toast";
-import { stateHash } from "@/lib/tier-list/url";
+import {
+  buildTierListShareUrl,
+  encodeTierListUrl,
+  stateHash,
+} from "@/lib/tier-list/url";
 import { buildShareToXUrl } from "@/lib/twitter/outbound/share";
 import type { TierListDraft } from "@/lib/types/tier-list";
 
@@ -92,20 +96,21 @@ export function ShareBar() {
     }
   }
 
+  function shareUrl(): string {
+    if (savedShortId) {
+      return `${window.location.origin}/tierlist/${savedShortId}`;
+    }
+    return buildTierListShareUrl(window.location.origin, draft);
+  }
+
   function copyLink() {
-    const url = savedShortId
-      ? `${window.location.origin}/tierlist/${savedShortId}`
-      : window.location.href;
-    void copyToClipboard(url, "Link copied to clipboard");
+    void copyToClipboard(shareUrl(), "Link copied to clipboard");
   }
 
   function shareOnX() {
-    const url = savedShortId
-      ? `${window.location.origin}/tierlist/${savedShortId}`
-      : window.location.href;
     const intent = buildShareToXUrl({
       text: `${title} - built on @TrendingRepo`,
-      url,
+      url: shareUrl(),
       via: ["TrendingRepo"],
     });
     window.open(intent, "_blank", "noopener,noreferrer");
@@ -166,7 +171,7 @@ export function ShareBar() {
           <span className="ic"><LinkIcon size={13} aria-hidden /></span>
           <span className="body">
             <span className="h">Shareable link</span>
-            <span className="d">copy current page url</span>
+            <span className="d">copy current board state</span>
           </span>
           <span className="ar">copy</span>
         </button>
@@ -228,7 +233,7 @@ function EmbedPanel({
     : `/api/og/tier-list?state=${encodeUnsavedState(draft)}&aspect=h&v=${hash}`;
   const pagePath = savedShortId
     ? `/tierlist/${savedShortId}`
-    : window.location.pathname + window.location.search;
+    : `/tierlist?${encodeTierListUrl(draft).toString()}`;
   const safeTitle = draft.title.replace(/"/g, "'").replace(/\n/g, " ");
 
   const markdown = `[![${safeTitle}](${origin}${ogPath})](${origin}${pagePath})`;

@@ -55,7 +55,7 @@ export function createRule(input: CreateRuleInput): AlertRule {
     throw new Error(`createRule: invalid trigger type "${input.trigger}"`);
   }
   const now = new Date().toISOString();
-  return {
+  const rule: AlertRule = {
     id: input.id ?? generateRuleId(),
     userId: input.userId,
     repoId: input.repoId ?? null,
@@ -67,6 +67,17 @@ export function createRule(input: CreateRuleInput): AlertRule {
     createdAt: input.createdAt ?? now,
     lastFiredAt: input.lastFiredAt ?? null,
   };
+  // Enforce validateRule at the creation boundary so callers that bypass the
+  // pipeline facade (e.g. direct createRule users in tests, scripts) can't
+  // persist negative thresholds or cooldowns that isInCooldown would
+  // silently clamp to 0 at evaluation time.
+  const validation = validateRule(rule);
+  if (!validation.valid) {
+    throw new Error(
+      `createRule: invalid rule — ${validation.errors.join("; ")}`,
+    );
+  }
+  return rule;
 }
 
 // ---------------------------------------------------------------------------

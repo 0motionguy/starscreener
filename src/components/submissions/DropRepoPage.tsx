@@ -204,6 +204,10 @@ export function DropRepoPage() {
           whyNow,
           contact,
           shareUrl,
+          category,
+          tags: Array.from(tags),
+          releaseUrl,
+          demoUrl,
         }),
       });
       const data = (await res.json()) as

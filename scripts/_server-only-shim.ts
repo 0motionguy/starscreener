@@ -21,20 +21,20 @@ import { createRequire } from "node:module";
 const __req = createRequire(import.meta.url);
 try {
   const resolved = __req.resolve("server-only");
-  // Cast to any: Node's Module type has many required fields, but only
+  // Cast to Node's module shape: it has many required fields, but only
   // `exports` is read by downstream code paths.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   __req.cache[resolved] = {
     id: resolved,
     filename: resolved,
     loaded: true,
     children: [],
     exports: {},
+    require: __req,
     paths: [],
     parent: null,
     isPreloading: false,
     path: resolved,
-  } as any;
+  } as NodeJS.Module;
 } catch {
   // server-only not installed (unlikely in CI/dev) — nothing to patch.
 }

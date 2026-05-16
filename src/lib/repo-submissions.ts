@@ -348,7 +348,7 @@ export function validateRepoSubmissionInput(
     category = body.category as RepoSubmissionCategory;
   }
 
-  let tags: RepoSubmissionTag[] = [];
+  const tags: RepoSubmissionTag[] = [];
   if (body.tags !== undefined && body.tags !== null) {
     if (!Array.isArray(body.tags)) {
       return { ok: false, error: "tags must be an array" };

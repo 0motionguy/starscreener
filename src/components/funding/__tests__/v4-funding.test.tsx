@@ -62,6 +62,41 @@ describe("MoverRow", () => {
     );
     expect(container.querySelector("a.v4-mover-row")).not.toBeNull();
   });
+
+  it("omits the strength bar when strength prop is not provided", () => {
+    const { container } = render(
+      <MoverRow rank={1} name="x" amount="$x" stage="Seed" />,
+    );
+    expect(container.querySelector('[aria-hidden="true"] > i')).toBeNull();
+  });
+
+  it("renders the strength bar with clamped width when strength is provided", () => {
+    const { container } = render(
+      <MoverRow rank={1} name="x" amount="$x" stage="Seed" strength={0.66} />,
+    );
+    const fill = container.querySelector(
+      '[aria-hidden="true"] > i',
+    ) as HTMLElement | null;
+    expect(fill).not.toBeNull();
+    expect(fill?.style.width).toBe("66%");
+  });
+
+  it("clamps strength values outside [0,1]", () => {
+    const { container, rerender } = render(
+      <MoverRow rank={1} name="x" amount="$x" stage="Seed" strength={2.5} />,
+    );
+    let fill = container.querySelector(
+      '[aria-hidden="true"] > i',
+    ) as HTMLElement | null;
+    expect(fill?.style.width).toBe("100%");
+    rerender(
+      <MoverRow rank={1} name="x" amount="$x" stage="Seed" strength={-0.5} />,
+    );
+    fill = container.querySelector(
+      '[aria-hidden="true"] > i',
+    ) as HTMLElement | null;
+    expect(fill?.style.width).toBe("0%");
+  });
 });
 
 describe("ARRClimberRow", () => {

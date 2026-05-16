@@ -69,6 +69,12 @@ import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
 import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
 import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
+// Sprint 3.2 wave 3 — register fetchers whose data was previously produced by
+// GH Action workflows (scrape-arxiv.yml + enrich-arxiv.yml for arxiv;
+// scrape-claude-rss.yml + scrape-openai-rss.yml for ai-blogs, which already
+// covers 6 lab RSS sources via AI_LAB_REGISTRY).
+import arxiv from './fetchers/arxiv/index.js';
+import aiBlogs from './fetchers/ai-blogs/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -115,6 +121,8 @@ export const FETCHERS: Fetcher[] = [
   skillForksSnapshot,
   hotnessSnapshot,
   mcpUsageSnapshot,
+  arxiv,
+  aiBlogs,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

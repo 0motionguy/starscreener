@@ -18,6 +18,7 @@ import {
   type DropRepoCategory,
 } from "./DropRepoCategoryPicker";
 import { DropRepoTagChips, type DropRepoTag } from "./DropRepoTagChips";
+import { DropRepoSubmissionFunnel } from "./DropRepoSubmissionFunnel";
 
 const WHY_NOW_MAX_CHARS = 280;
 
@@ -501,6 +502,8 @@ export function DropRepoPage() {
         </section>
 
         <aside className="flex flex-col gap-6 lg:w-[360px] lg:max-w-[38%] lg:shrink-0">
+          <DropRepoSubmissionFunnel queue={queue} loading={loading} />
+
           <section className="v2-card p-5 sm:p-6">
             <div className="flex items-center gap-2 text-text-primary">
               <Sparkles className="h-4 w-4 text-brand" />

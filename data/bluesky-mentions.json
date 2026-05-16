@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-16T00:09:52.808Z",
+  "fetchedAt": "2026-05-16T04:04:49.678Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -4761,23 +4761,23 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 9,
-      "repostsSum7d": 8,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6pjsxq4f4wvihelm4lphbk5e/app.bsky.feed.post/3mlvlomlsnk26",
-        "cid": "bafyreigkuhpcocvev5ceepemb5wbptljscugs2yytqrczvx4xoa5y2x2yu",
-        "bskyUrl": "https://bsky.app/profile/ashleemboyer.com/post/3mlvlomlsnk26",
-        "text": "Claude admits bias against accessibility and look at that! It’s the same bias that a whole lot of humans have against accessibility. “Claude treats accessibility fixes as optional trade-offs rather than requirements, even when the project's own rules say otherwise.” github.com/anthropics/c...",
+        "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
+        "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
+        "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
+        "text": "Amg pior que tem issue disso aberta. O treco não acerta o próprio nome, plmdds. github.com/anthropics/c...",
         "author": {
-          "handle": "ashleemboyer.com",
-          "displayName": "Ashlee"
+          "handle": "lenon.me",
+          "displayName": "Telecurso 2000"
         },
-        "likeCount": 9,
-        "repostCount": 8,
+        "likeCount": 1,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T14:55:59.205Z",
-        "hoursSincePosted": 2.1
+        "createdAt": "2026-05-16T01:40:17.216Z",
+        "hoursSincePosted": 2.41
       },
       "posts": [
         {
@@ -4852,6 +4852,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
+          "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
+          "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
+          "text": "Amg pior que tem issue disso aberta. O treco não acerta o próprio nome, plmdds. github.com/anthropics/c...",
+          "author": {
+            "handle": "lenon.me",
+            "displayName": "Telecurso 2000"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T01:40:17.216Z",
+          "createdUtc": 1778895617,
+          "ageHours": 2.41,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6239,21 +6267,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mln7jqqqkc2y",
-        "cid": "bafyreifsmu7lx7ukmxjiu25hltimcynpcxfomshsjojd2dicvtanb4grfa",
-        "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mln7jqqqkc2y",
-        "text": "oMLX : LLM inference, optimized for your Mac Continuous batching and tiered KV caching, managed directly from your menu bar. github.com/jundot/omlx",
+        "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
+        "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
+        "bskyUrl": "https://bsky.app/profile/sakak.bsky.social/post/3mlws7o7aik2v",
+        "text": "GitHub - jundot/omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar · GitHub github.com/jundot/omlx",
         "author": {
-          "handle": "ytroncal.bsky.social",
-          "displayName": "ytroncal"
+          "handle": "sakak.bsky.social",
+          "displayName": "SAKAKIBARA Yoji"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T06:57:12.982Z",
-        "hoursSincePosted": 5.37
+        "createdAt": "2026-05-16T02:25:33.506Z",
+        "hoursSincePosted": 1.65
       },
       "posts": [
+        {
+          "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
+          "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
+          "bskyUrl": "https://bsky.app/profile/sakak.bsky.social/post/3mlws7o7aik2v",
+          "text": "GitHub - jundot/omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar · GitHub github.com/jundot/omlx",
+          "author": {
+            "handle": "sakak.bsky.social",
+            "displayName": "SAKAKIBARA Yoji"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T02:25:33.506Z",
+          "createdUtc": 1778898333,
+          "ageHours": 1.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jundot/omlx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mln7jqqqkc2y",
           "cid": "bafyreifsmu7lx7ukmxjiu25hltimcynpcxfomshsjojd2dicvtanb4grfa",
@@ -7416,7 +7472,7 @@
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-05-15T22:39:52.501Z",
-        "hoursSincePosted": 1.5
+        "hoursSincePosted": 5.42
       },
       "posts": [
         {
@@ -7466,7 +7522,7 @@
           "replyCount": 2,
           "createdAt": "2026-05-15T22:39:52.501Z",
           "createdUtc": 1778884792,
-          "ageHours": 1.5,
+          "ageHours": 5.42,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -12314,26 +12370,54 @@
       ]
     },
     "dtnewman/burn-baby-burn": {
-      "count7d": 2,
-      "likesSum7d": 0,
+      "count7d": 3,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
-        "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlwgtrnw5n2g",
-        "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+        "uri": "at://did:plc:yljlbirg53a5qxxqq3or5sab/app.bsky.feed.post/3mlwoa4mjjk27",
+        "cid": "bafyreiefe2ramkuwoqm4265eylh2iumeswc4tstxte5ry5onxpl4qfqfdq",
+        "bskyUrl": "https://bsky.app/profile/vixus.bsky.social/post/3mlwoa4mjjk27",
+        "text": "He makes 10 dollars I make a dime That's why I burn six figures worth of tokens on company time. github.com/dtnewman/bur...",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "vixus.bsky.social",
+          "displayName": "Vixus"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T23:02:02.611Z",
-        "hoursSincePosted": 1.13
+        "createdAt": "2026-05-16T01:14:13.654Z",
+        "hoursSincePosted": 2.84
       },
       "posts": [
+        {
+          "uri": "at://did:plc:yljlbirg53a5qxxqq3or5sab/app.bsky.feed.post/3mlwoa4mjjk27",
+          "cid": "bafyreiefe2ramkuwoqm4265eylh2iumeswc4tstxte5ry5onxpl4qfqfdq",
+          "bskyUrl": "https://bsky.app/profile/vixus.bsky.social/post/3mlwoa4mjjk27",
+          "text": "He makes 10 dollars I make a dime That's why I burn six figures worth of tokens on company time. github.com/dtnewman/bur...",
+          "author": {
+            "handle": "vixus.bsky.social",
+            "displayName": "Vixus"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T01:14:13.654Z",
+          "createdUtc": 1778894053,
+          "ageHours": 2.84,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
           "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
@@ -12348,7 +12432,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T23:02:02.611Z",
           "createdUtc": 1778886122,
-          "ageHours": 1.13,
+          "ageHours": 5.05,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12376,7 +12460,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T21:42:00.971Z",
           "createdUtc": 1778881320,
-          "ageHours": 2.46,
+          "ageHours": 6.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12385,6 +12469,110 @@
           "linkedRepos": [
             {
               "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS/ViMax": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlwvu3sfyp2g",
+        "cid": "bafyreickhr3rfabqjgatcwe3z2sulpzyhb5yhul4hc2v5wduc7z6lj3xku",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlwvu3sfyp2g",
+        "text": "https://github.com/HKUDS/ViMax",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T03:30:39Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlwvu3sfyp2g",
+          "cid": "bafyreickhr3rfabqjgatcwe3z2sulpzyhb5yhul4hc2v5wduc7z6lj3xku",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlwvu3sfyp2g",
+          "text": "https://github.com/HKUDS/ViMax",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T03:30:39Z",
+          "createdUtc": 1778902239,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/ViMax",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "xingkongliang/skills-manager": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlwrdmrhxy2x",
+        "cid": "bafyreidspe6pxhxhqflxwdt6xutyrghwkkndp5uczxgplqkesvt7xpwsgy",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlwrdmrhxy2x",
+        "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★1444 https://github.com/xingkongliang/skills-manager",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T02:09:52.351801Z",
+        "hoursSincePosted": 1.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlwrdmrhxy2x",
+          "cid": "bafyreidspe6pxhxhqflxwdt6xutyrghwkkndp5uczxgplqkesvt7xpwsgy",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlwrdmrhxy2x",
+          "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★1444 https://github.com/xingkongliang/skills-manager",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T02:09:52.351801Z",
+          "createdUtc": 1778897392,
+          "ageHours": 1.92,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "xingkongliang/skills-manager",
               "matchType": "url",
               "confidence": 1
             }
@@ -17150,23 +17338,23 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 9,
-      "repostsSum7d": 8,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6pjsxq4f4wvihelm4lphbk5e/app.bsky.feed.post/3mlvlomlsnk26",
-        "cid": "bafyreigkuhpcocvev5ceepemb5wbptljscugs2yytqrczvx4xoa5y2x2yu",
-        "bskyUrl": "https://bsky.app/profile/ashleemboyer.com/post/3mlvlomlsnk26",
-        "text": "Claude admits bias against accessibility and look at that! It’s the same bias that a whole lot of humans have against accessibility. “Claude treats accessibility fixes as optional trade-offs rather than requirements, even when the project's own rules say otherwise.” github.com/anthropics/c...",
+        "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
+        "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
+        "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
+        "text": "Amg pior que tem issue disso aberta. O treco não acerta o próprio nome, plmdds. github.com/anthropics/c...",
         "author": {
-          "handle": "ashleemboyer.com",
-          "displayName": "Ashlee"
+          "handle": "lenon.me",
+          "displayName": "Telecurso 2000"
         },
-        "likeCount": 9,
-        "repostCount": 8,
+        "likeCount": 1,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T14:55:59.205Z",
-        "hoursSincePosted": 2.1
+        "createdAt": "2026-05-16T01:40:17.216Z",
+        "hoursSincePosted": 2.41
       },
       "posts": [
         {
@@ -17241,6 +17429,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
+          "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
+          "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
+          "text": "Amg pior que tem issue disso aberta. O treco não acerta o próprio nome, plmdds. github.com/anthropics/c...",
+          "author": {
+            "handle": "lenon.me",
+            "displayName": "Telecurso 2000"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T01:40:17.216Z",
+          "createdUtc": 1778895617,
+          "ageHours": 2.41,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18628,21 +18844,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mln7jqqqkc2y",
-        "cid": "bafyreifsmu7lx7ukmxjiu25hltimcynpcxfomshsjojd2dicvtanb4grfa",
-        "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mln7jqqqkc2y",
-        "text": "oMLX : LLM inference, optimized for your Mac Continuous batching and tiered KV caching, managed directly from your menu bar. github.com/jundot/omlx",
+        "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
+        "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
+        "bskyUrl": "https://bsky.app/profile/sakak.bsky.social/post/3mlws7o7aik2v",
+        "text": "GitHub - jundot/omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar · GitHub github.com/jundot/omlx",
         "author": {
-          "handle": "ytroncal.bsky.social",
-          "displayName": "ytroncal"
+          "handle": "sakak.bsky.social",
+          "displayName": "SAKAKIBARA Yoji"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T06:57:12.982Z",
-        "hoursSincePosted": 5.37
+        "createdAt": "2026-05-16T02:25:33.506Z",
+        "hoursSincePosted": 1.65
       },
       "posts": [
+        {
+          "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
+          "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
+          "bskyUrl": "https://bsky.app/profile/sakak.bsky.social/post/3mlws7o7aik2v",
+          "text": "GitHub - jundot/omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar · GitHub github.com/jundot/omlx",
+          "author": {
+            "handle": "sakak.bsky.social",
+            "displayName": "SAKAKIBARA Yoji"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T02:25:33.506Z",
+          "createdUtc": 1778898333,
+          "ageHours": 1.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jundot/omlx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mln7jqqqkc2y",
           "cid": "bafyreifsmu7lx7ukmxjiu25hltimcynpcxfomshsjojd2dicvtanb4grfa",
@@ -19805,7 +20049,7 @@
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-05-15T22:39:52.501Z",
-        "hoursSincePosted": 1.5
+        "hoursSincePosted": 5.42
       },
       "posts": [
         {
@@ -19855,7 +20099,7 @@
           "replyCount": 2,
           "createdAt": "2026-05-15T22:39:52.501Z",
           "createdUtc": 1778884792,
-          "ageHours": 1.5,
+          "ageHours": 5.42,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -24703,26 +24947,54 @@
       ]
     },
     "dtnewman--burn-baby-burn": {
-      "count7d": 2,
-      "likesSum7d": 0,
+      "count7d": 3,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
-        "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlwgtrnw5n2g",
-        "text": "Show HN: Burn, baby, burn (those tokens) https://github.com/dtnewman/burn-baby-burn (https://news.ycombinator.com/item?id=48151287)",
+        "uri": "at://did:plc:yljlbirg53a5qxxqq3or5sab/app.bsky.feed.post/3mlwoa4mjjk27",
+        "cid": "bafyreiefe2ramkuwoqm4265eylh2iumeswc4tstxte5ry5onxpl4qfqfdq",
+        "bskyUrl": "https://bsky.app/profile/vixus.bsky.social/post/3mlwoa4mjjk27",
+        "text": "He makes 10 dollars I make a dime That's why I burn six figures worth of tokens on company time. github.com/dtnewman/bur...",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "vixus.bsky.social",
+          "displayName": "Vixus"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T23:02:02.611Z",
-        "hoursSincePosted": 1.13
+        "createdAt": "2026-05-16T01:14:13.654Z",
+        "hoursSincePosted": 2.84
       },
       "posts": [
+        {
+          "uri": "at://did:plc:yljlbirg53a5qxxqq3or5sab/app.bsky.feed.post/3mlwoa4mjjk27",
+          "cid": "bafyreiefe2ramkuwoqm4265eylh2iumeswc4tstxte5ry5onxpl4qfqfdq",
+          "bskyUrl": "https://bsky.app/profile/vixus.bsky.social/post/3mlwoa4mjjk27",
+          "text": "He makes 10 dollars I make a dime That's why I burn six figures worth of tokens on company time. github.com/dtnewman/bur...",
+          "author": {
+            "handle": "vixus.bsky.social",
+            "displayName": "Vixus"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T01:14:13.654Z",
+          "createdUtc": 1778894053,
+          "ageHours": 2.84,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dtnewman/burn-baby-burn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlwgtrnw5n2g",
           "cid": "bafyreia7obn5g2kjlps4du2bp6fwowogtyye56ses56cher5ilnstearau",
@@ -24737,7 +25009,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T23:02:02.611Z",
           "createdUtc": 1778886122,
-          "ageHours": 1.13,
+          "ageHours": 5.05,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24765,7 +25037,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-15T21:42:00.971Z",
           "createdUtc": 1778881320,
-          "ageHours": 2.46,
+          "ageHours": 6.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24780,21 +25052,140 @@
           ]
         }
       ]
+    },
+    "hkuds--vimax": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlwvu3sfyp2g",
+        "cid": "bafyreickhr3rfabqjgatcwe3z2sulpzyhb5yhul4hc2v5wduc7z6lj3xku",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlwvu3sfyp2g",
+        "text": "https://github.com/HKUDS/ViMax",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T03:30:39Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlwvu3sfyp2g",
+          "cid": "bafyreickhr3rfabqjgatcwe3z2sulpzyhb5yhul4hc2v5wduc7z6lj3xku",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlwvu3sfyp2g",
+          "text": "https://github.com/HKUDS/ViMax",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T03:30:39Z",
+          "createdUtc": 1778902239,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/ViMax",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "xingkongliang--skills-manager": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlwrdmrhxy2x",
+        "cid": "bafyreidspe6pxhxhqflxwdt6xutyrghwkkndp5uczxgplqkesvt7xpwsgy",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlwrdmrhxy2x",
+        "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★1444 https://github.com/xingkongliang/skills-manager",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T02:09:52.351801Z",
+        "hoursSincePosted": 1.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlwrdmrhxy2x",
+          "cid": "bafyreidspe6pxhxhqflxwdt6xutyrghwkkndp5uczxgplqkesvt7xpwsgy",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlwrdmrhxy2x",
+          "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★1444 https://github.com/xingkongliang/skills-manager",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T02:09:52.351801Z",
+          "createdUtc": 1778897392,
+          "ageHours": 1.92,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "xingkongliang/skills-manager",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
+      "fullName": "dtnewman/burn-baby-burn",
+      "count7d": 3,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "dtnewman/burn-baby-burn",
-      "count7d": 2,
-      "likesSum7d": 0
+      "fullName": "xingkongliang/skills-manager",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "Fission-AI/OpenSpec",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/ViMax",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jundot/omlx",
       "count7d": 1,
       "likesSum7d": 0
     }

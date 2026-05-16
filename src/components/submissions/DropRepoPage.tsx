@@ -126,11 +126,9 @@ export function DropRepoPage() {
   const [whyNow, setWhyNow] = useState("");
   const [contact, setContact] = useState("");
   const [shareUrl, setShareUrl] = useState("");
-  // 2026-05-15 (A7 mockup): the following four fields ARE collected
-  // client-side but NOT yet sent to /api/repo-submissions — the API
-  // schema doesn't accept them yet. They render the operator-attached
-  // mockup faithfully; backend wiring is a follow-up after schema
-  // extension.
+  // A7 mockup fields — category/tags/releaseUrl/demoUrl are sent in the
+  // POST body below and persisted by /api/repo-submissions via the
+  // RepoSubmissionInput contract in src/lib/repo-submissions.ts.
   const [category, setCategory] = useState<DropRepoCategory | null>(null);
   const [tags, setTags] = useState<Set<DropRepoTag>>(new Set());
   const [releaseUrl, setReleaseUrl] = useState("");

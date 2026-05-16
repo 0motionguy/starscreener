@@ -64,7 +64,7 @@ jobs:
           cat ".perf/probe${SLUG}.json"
       - name: Upload route probe
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: warmup-probes-${{ strategy.job-index }}
           path: .perf/probe*.json
@@ -95,7 +95,7 @@ jobs:
             exit 1
           fi
       - name: Upload summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: cron-warmup-summary
           path: .perf/cron-warmup-summary.json

@@ -67,8 +67,22 @@ function isInCooldown(rule: AlertRule, nowMs: number): boolean {
   return nowMs - lastMs < cooldownMs;
 }
 
-// Monotonic counter so events created in the same millisecond don't collide.
-let eventIdCounter = 0;
+// UUID v4 via Web Crypto / Node crypto. Cross-process safe — a module-local
+// counter would collide when two cron containers fire the same rule in the
+// same ms. Mirrors generateRuleId() in rule-management.ts.
+function eventIdSuffix(): string {
+  const g = globalThis as unknown as {
+    crypto?: { randomUUID?: () => string };
+  };
+  if (g.crypto?.randomUUID) {
+    try {
+      return g.crypto.randomUUID();
+    } catch {
+      // fall through
+    }
+  }
+  return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+}
 
 function buildEvent(
   rule: AlertRule,
@@ -76,9 +90,8 @@ function buildEvent(
   result: TriggerResult,
   firedAtIso: string,
 ): AlertEvent {
-  const seq = (++eventIdCounter).toString(36);
   return {
-    id: `${rule.id}:${Date.parse(firedAtIso) || Date.now()}:${seq}`,
+    id: `${rule.id}:${Date.parse(firedAtIso) || Date.now()}:${eventIdSuffix()}`,
     ruleId: rule.id,
     repoId: repo.id,
     userId: rule.userId,

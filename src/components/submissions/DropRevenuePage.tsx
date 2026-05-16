@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   BadgeCheck,
@@ -440,13 +441,13 @@ function SuccessPanel({
         Status: <strong>{submission.status}</strong>
       </p>
       <div className="mt-4 flex flex-wrap gap-3 text-xs">
-        <Link
-          href={`/repo/${submission.fullName}`}
+        <RepoLink
+          fullName={submission.fullName}
           className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-muted px-3 py-1.5 text-text-secondary hover:text-text-primary"
         >
           View repo page
           <ExternalLink className="size-3" aria-hidden />
-        </Link>
+        </RepoLink>
         <a
           href={submission.repoUrl}
           target="_blank"

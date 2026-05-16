@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 import {
   ArrowUpRight,
   BadgeCheck,
@@ -141,13 +141,14 @@ export function VerifiedStartupCard({
               #{rank}
             </span>
             {startup.matchedRepoFullName ? (
-              <Link
-                href={`/repo/${startup.matchedRepoFullName}`}
+              <RepoLink
+                fullName={startup.matchedRepoFullName}
                 className="truncate font-mono text-sm font-semibold text-text-primary hover:underline"
-                title={`Tracked repo: ${startup.matchedRepoFullName}`}
               >
-                {startup.name}
-              </Link>
+                <span title={`Tracked repo: ${startup.matchedRepoFullName}`}>
+                  {startup.name}
+                </span>
+              </RepoLink>
             ) : (
               <span className="truncate font-mono text-sm font-semibold text-text-primary">
                 {startup.name}

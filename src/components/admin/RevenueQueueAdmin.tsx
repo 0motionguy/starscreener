@@ -4,7 +4,7 @@
 // ss_admin cookie (server-gated in src/app/admin/revenue-queue/page.tsx and
 // re-checked by verifyAdminAuth on every API call). No token paste.
 
-import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -284,12 +284,12 @@ function ModerationRow({
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <Link
-            href={`/repo/${row.fullName}`}
+          <RepoLink
+            fullName={row.fullName}
             className="font-mono text-base font-semibold text-text-primary hover:underline"
           >
             {row.fullName}
-          </Link>
+          </RepoLink>
           <p className="mt-0.5 text-[11px] text-text-tertiary">
             Submitted {new Date(row.submittedAt).toISOString().slice(0, 16).replace("T", " ")}
             {row.moderatedAt

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { RepoLink } from "@/components/repo/RepoLink";
 import { useEffect, useMemo, useState } from "react";
 import { Eye, Trash2, ArrowRight } from "lucide-react";
 import { BrandStar } from "@/components/shared/BrandStar";
@@ -47,12 +48,13 @@ function WatchedRepoCard({
       <div className="flex items-start justify-between gap-3">
         {/* Left: repo info */}
         <div className="flex-1 min-w-0">
-          <Link
-            href={`/repo/${repo.owner}/${repo.name}`}
+          <RepoLink
+            owner={repo.owner}
+            name={repo.name}
             className="text-text-primary font-semibold hover:text-accent-green transition-colors truncate block"
           >
             {repo.fullName}
-          </Link>
+          </RepoLink>
 
           {/* Stats row */}
           <div className="flex items-center gap-3 mt-2 flex-wrap">

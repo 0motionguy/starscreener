@@ -363,8 +363,20 @@ export default async function FundingPage() {
         tone={ribbonTone}
         stamp={{
           eyebrow: "// CAPITAL RADAR",
-          headline: `${megaRounds} mega · ${extracted} extracted`,
-          sub: `${file.windowDays}d window · computed ${computed} UTC`,
+          headline: (
+            <span
+              style={{
+                fontSize: "var(--v4-text-34)",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                color: "var(--v4-money)",
+                lineHeight: 1.1,
+              }}
+            >
+              {money(totalAmount)}
+            </span>
+          ),
+          sub: `${megaRounds} mega · ${extracted} extracted · ${file.windowDays}d window · computed ${computed} UTC`,
         }}
         text={
           <>
@@ -385,12 +397,63 @@ export default async function FundingPage() {
         <EmptyState cold={cold} />
       ) : (
         <>
-          {/* // 01 — Top rounds windowed board. Lead with the row-level
-              detail (the user's actual jobs-to-be-done: "who just raised
-              and how much"). The aggregate chart is a derivative view and
-              moves to // 02. */}
+          {/* // 01 — Just-published tape. Promoted from // 03 (A6-P5) so
+              the freshest funding signals sit right under the verdict
+              ribbon — matches the mockup's "tape strip near the top"
+              brief. Uses the 6 newest items as a strip; sector tags
+              move to // 04 below. */}
           <SectionHead
             num="// 01"
+            title="Just-published"
+            meta={
+              <>
+                <b>{Math.min(6, recent.length)}</b> · live tape
+              </>
+            }
+          />
+          <Card>
+            <CardHeader showCorner right={<span>newest feed</span>}>
+              News tape
+            </CardHeader>
+            {recent.slice(0, 6).map((signal, index) => (
+              <Link
+                key={signal.id}
+                href={signal.sourceUrl}
+                className="sp-row"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="rk">{String(index + 1).padStart(2, "0")}</span>
+                <span className="nm">
+                  <span className="h">{signal.headline}</span>
+                  <span className="meta">{sourceName(signal.sourcePlatform)} / {formatAge(signal.publishedAt)}</span>
+                </span>
+                {(() => {
+                  const c = signal.extracted?.confidence ?? "none";
+                  // Match the freshness-honesty contract: a chip class
+                  // should reflect the value it labels, not always green.
+                  // high → up (green), medium → neutral, low/none → dn.
+                  const cls =
+                    c === "high"
+                      ? "delta up"
+                      : c === "medium"
+                        ? "delta"
+                        : "delta dn";
+                  return (
+                    <span className={cls}>
+                      {c}
+                      <span className="lbl">confidence</span>
+                    </span>
+                  );
+                })()}
+              </Link>
+            ))}
+          </Card>
+
+          {/* // 02 — Top rounds windowed board. Row-level detail
+              ("who just raised and how much"). */}
+          <SectionHead
+            num="// 02"
             title="Top rounds"
             meta={
               <>
@@ -405,10 +468,10 @@ export default async function FundingPage() {
             defaultWindow="7d"
           />
 
-          {/* // 02 — Aggregate volume + source mix. Round volume bars are
+          {/* // 03 — Aggregate volume + source mix. Round volume bars are
               all-time (within window), source mix shows feed distribution. */}
           <SectionHead
-            num="// 02"
+            num="// 03"
             title="Volume & source mix"
             meta={
               <>
@@ -458,67 +521,28 @@ export default async function FundingPage() {
             </Card>
           </div>
 
-          {/* // 03 — Recent tape + sector tags. News tape now uses all 8
-              latest items (was wasting half the column at .slice(0,4)). */}
+          {/* // 04 — Sector tags. Companion to the promoted Just-published
+              tape (// 01); kept below the heavier analytical blocks so the
+              page still surfaces the tag cloud. */}
           <SectionHead
-            num="// 03"
-            title="Recent signals"
+            num="// 04"
+            title="Sector tags"
             meta={
               <>
-                <b>{recent.length}</b> · latest tape
+                <b>cloud</b> · across all signals
               </>
             }
           />
-          <div className="grid">
-            <Card className="col-8">
-              <CardHeader showCorner right={<span>latest feed</span>}>
-                News tape
-              </CardHeader>
-              {recent.map((signal, index) => (
-                <Link
-                  key={signal.id}
-                  href={signal.sourceUrl}
-                  className="sp-row"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span className="rk">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="nm">
-                    <span className="h">{signal.headline}</span>
-                    <span className="meta">{sourceName(signal.sourcePlatform)} / {formatAge(signal.publishedAt)}</span>
-                  </span>
-                  {(() => {
-                    const c = signal.extracted?.confidence ?? "none";
-                    // Match the freshness-honesty contract: a chip class
-                    // should reflect the value it labels, not always green.
-                    // high → up (green), medium → neutral, low/none → dn.
-                    const cls =
-                      c === "high"
-                        ? "delta up"
-                        : c === "medium"
-                          ? "delta"
-                          : "delta dn";
-                    return (
-                      <span className={cls}>
-                        {c}
-                        <span className="lbl">confidence</span>
-                      </span>
-                    );
-                  })()}
-                </Link>
+          <Card>
+            <CardHeader showCorner right={<span>tags</span>}>
+              Sector tags
+            </CardHeader>
+            <div className="tag-cloud">
+              {Array.from(new Set(signals.flatMap((signal) => signal.tags))).slice(0, 24).map((tag) => (
+                <span className="chip" key={tag}>{tag}</span>
               ))}
-            </Card>
-            <Card className="col-4">
-              <CardHeader showCorner right={<span>tags</span>}>
-                Sector tags
-              </CardHeader>
-              <div className="tag-cloud">
-                {Array.from(new Set(signals.flatMap((signal) => signal.tags))).slice(0, 24).map((tag) => (
-                  <span className="chip" key={tag}>{tag}</span>
-                ))}
-              </div>
-            </Card>
-          </div>
+            </div>
+          </Card>
         </>
       )}
     </main>

@@ -30,9 +30,18 @@ ENV NODE_ENV=production
 # Give Next.js room — bookworm-slim allows up to host memory; cap heap to 4G
 # so we don't OOM other toolbox containers when building on the shared VPS.
 ENV NODE_OPTIONS=--max-old-space-size=4096
-# Sentry source-map upload is gated on SENTRY_AUTH_TOKEN — leave unset for
-# image builds, set at CI/build-arg time when we want symbolicated traces.
-ENV SENTRY_AUTH_TOKEN=""
+# Sentry source-map upload is gated on SENTRY_AUTH_TOKEN. Plumbed as a build
+# ARG so VPS deploys can pass the token from /opt/trendingrepo/.env.production
+# at `docker build` time. Defaults to empty so a forgotten arg silently skips
+# upload (matches the pre-2026-05-15 behavior) rather than failing the build.
+# Recipe: docker build --build-arg SENTRY_AUTH_TOKEN="$TOKEN" ...
+# Set SENTRY_ORG + SENTRY_PROJECT alongside (already in env.production).
+ARG SENTRY_AUTH_TOKEN=""
+ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+ARG SENTRY_ORG=""
+ENV SENTRY_ORG=$SENTRY_ORG
+ARG SENTRY_PROJECT=""
+ENV SENTRY_PROJECT=$SENTRY_PROJECT
 
 RUN npm run build
 

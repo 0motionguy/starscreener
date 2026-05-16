@@ -24,6 +24,7 @@
 
 import { searchAlgoliaStories } from "./_hn-shared.mjs";
 import { getCachedTavily, setCachedTavily } from "./_tavily-cache.mjs";
+import { scrub as scrubSecrets } from "./_secret-scrubber.mjs";
 
 const FETCH_TIMEOUT_MS = 15_000;
 const TEXT_TRUNCATE = 500;
@@ -61,10 +62,27 @@ function costPerTweetFor(actorId) {
 // Helpers
 // ---------------------------------------------------------------------------
 
+// Truncate + scrub leaked secrets from third-party text. Centralised here so
+// every channel adapter's `text:` and `title:` fields are sanitised before
+// they reach the JSONL write in `sweep-cross-source-mentions.ts`. The
+// scrubber is idempotent — calling it on already-redacted strings is safe.
+//
+// Per migrate-rotate-leaked-secrets.md: a third-party AWS STS key leaked
+// via this code path in 2026-05; the scrubber prevents recurrence.
 function truncate(value, max = TEXT_TRUNCATE) {
   if (typeof value !== "string") return "";
   const trimmed = value.replace(/\s+/g, " ").trim();
-  return trimmed.length > max ? trimmed.slice(0, max) : trimmed;
+  const sliced = trimmed.length > max ? trimmed.slice(0, max) : trimmed;
+  return scrubSecrets(sliced);
+}
+
+// Scrub leaked secrets from a URL string. Necessary because presigned cloud
+// URLs (S3, GCS) embed live credentials in the query string — the original
+// 2026-05 leak was an `X-Amz-Security-Token` STS key inside a SSRN download
+// URL. Empty / non-string inputs pass through unchanged.
+function scrubUrl(value) {
+  if (typeof value !== "string" || value.length === 0) return value ?? "";
+  return scrubSecrets(value);
 }
 
 async function fetchJson(url, opts = {}) {
@@ -157,7 +175,7 @@ export async function searchHackerNews(repo) {
     return Array.from(seen.values()).map((s) => ({
       source: "hackernews",
       fullName: repo.fullName,
-      url: s.url || `https://news.ycombinator.com/item?id=${s.objectID}`,
+      url: scrubUrl(s.url || `https://news.ycombinator.com/item?id=${s.objectID}`),
       title: truncate(s.title ?? "", 200),
       text: truncate(s.story_text ?? s.comment_text ?? "", TEXT_TRUNCATE),
       author: s.author ?? null,
@@ -257,7 +275,7 @@ export async function searchReddit(repo) {
         seen.set(d.id, {
           source: "reddit",
           fullName: repo.fullName,
-          url: d.permalink ? `https://www.reddit.com${d.permalink}` : d.url ?? "",
+          url: scrubUrl(d.permalink ? `https://www.reddit.com${d.permalink}` : d.url ?? ""),
           title: truncate(d.title ?? "", 200),
           text: truncate(d.selftext ?? "", TEXT_TRUNCATE),
           author: d.author ?? null,
@@ -307,7 +325,7 @@ export async function searchBluesky(repo, session) {
         out.push({
           source: "bluesky",
           fullName: repo.fullName,
-          url: handle && rkey ? `https://bsky.app/profile/${handle}/post/${rkey}` : p.uri ?? "",
+          url: scrubUrl(handle && rkey ? `https://bsky.app/profile/${handle}/post/${rkey}` : p.uri ?? ""),
           title: truncate(p.record?.text ?? "", 200),
           text: truncate(p.record?.text ?? "", TEXT_TRUNCATE),
           author: handle || null,
@@ -355,7 +373,7 @@ export async function searchDevto(repo) {
     return articles.map((a) => ({
       source: "devto",
       fullName: repo.fullName,
-      url: a.url ?? `https://dev.to${a.path ?? ""}`,
+      url: scrubUrl(a.url ?? `https://dev.to${a.path ?? ""}`),
       title: truncate(a.title ?? "", 200),
       text: truncate(a.description ?? a.summary ?? "", TEXT_TRUNCATE),
       author: a.user?.username ?? null,
@@ -388,7 +406,7 @@ export async function searchLobsters(repo, snapshot) {
   return matches.map((s) => ({
     source: "lobsters",
     fullName: repo.fullName,
-    url: s.url ?? s.commentsUrl ?? "",
+    url: scrubUrl(s.url ?? s.commentsUrl ?? ""),
     title: truncate(s.title ?? "", 200),
     text: truncate(s.description ?? "", TEXT_TRUNCATE),
     author: s.submitter ?? s.submitter_user?.username ?? null,
@@ -417,7 +435,7 @@ export async function searchProductHunt(repo, snapshot) {
   return matches.map((l) => ({
     source: "producthunt",
     fullName: repo.fullName,
-    url: l.url ?? "",
+    url: scrubUrl(l.url ?? ""),
     title: truncate(l.name ?? "", 200),
     text: truncate(l.tagline ?? l.description ?? "", TEXT_TRUNCATE),
     author: Array.isArray(l.makers) ? l.makers.map((m) => m.username).filter(Boolean).join(", ") || null : null,
@@ -473,7 +491,7 @@ export async function searchTavily(repo, apiKey) {
       .map((r) => ({
         source: "tavily",
         fullName: repo.fullName,
-        url: r.url ?? "",
+        url: scrubUrl(r.url ?? ""),
         title: truncate(r.title ?? "", 200),
         text: truncate(r.content ?? "", TEXT_TRUNCATE),
         author: null,
@@ -580,7 +598,7 @@ export async function searchTwitter(repo, queryStrings, opts = {}) {
       return {
         source: "twitter",
         fullName: repo.fullName,
-        url: tweetUrl,
+        url: scrubUrl(tweetUrl),
         title: truncate(t.text ?? "", 200),
         text: truncate(t.text ?? "", TEXT_TRUNCATE),
         author,

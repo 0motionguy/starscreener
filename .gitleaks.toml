@@ -21,6 +21,14 @@ paths = [
   # commit afae93e5 has been removed in a later commit (885986af) but
   # still exists in the PR's git-history scan range.
   '''\.gitleaksignore$''',
+  # Test fixtures for the secret-scrubber utility (apps/trendingrepo-worker/
+  # src/lib/secret-scrubber.ts). The whole point of this test file is to
+  # verify the scrubber redacts realistic-looking aws/gcp/github tokens —
+  # they MUST look real or the test is meaningless. 10 intentional
+  # false-positives (aws-access-token, gcp-api-key, github-pat,
+  # github-app-token, generic-api-key) live here as the inputs the
+  # scrubber must catch.
+  '''apps/trendingrepo-worker/src/lib/__tests__/secret-scrubber\.test\.ts$''',
 ]
 
 regexes = [

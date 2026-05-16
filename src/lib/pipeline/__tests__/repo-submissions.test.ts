@@ -4,6 +4,8 @@ import { test } from "node:test";
 import {
   normalizeRepoReference,
   normalizeShareUrl,
+  REPO_SUBMISSION_CATEGORIES,
+  REPO_SUBMISSION_TAGS,
   summarizeRepoSubmissionQueue,
   validateRepoSubmissionInput,
   type RepoSubmissionRecord,
@@ -88,4 +90,87 @@ test("summarizeRepoSubmissionQueue counts pending and boosted rows", () => {
     boosted: 1,
     latestSubmittedAt: "2026-04-20T09:00:00.000Z",
   });
+});
+
+test("validateRepoSubmissionInput accepts mockup-extension fields", () => {
+  const parsed = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    category: "repo",
+    tags: ["AGENTS", "RAG"],
+    releaseUrl: "https://github.com/openai/openai-agents-python/releases/tag/v1",
+    demoUrl: "https://www.youtube.com/watch?v=abc",
+  });
+  assert.equal(parsed.ok, true);
+  if (parsed.ok) {
+    assert.equal(parsed.value.category, "repo");
+    assert.deepEqual(parsed.value.tags, ["AGENTS", "RAG"]);
+    assert.equal(
+      parsed.value.releaseUrl,
+      "https://github.com/openai/openai-agents-python/releases/tag/v1",
+    );
+    assert.equal(parsed.value.demoUrl, "https://www.youtube.com/watch?v=abc");
+  }
+});
+
+test("validateRepoSubmissionInput rejects unknown category", () => {
+  const parsed = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    category: "not-a-real-category",
+  });
+  assert.equal(parsed.ok, false);
+  if (!parsed.ok) {
+    assert.match(parsed.error, /category must be one of/);
+  }
+});
+
+test("validateRepoSubmissionInput rejects tags array longer than 4", () => {
+  const parsed = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    tags: ["AGENTS", "RAG", "EVAL", "VECTOR", "CLI"],
+  });
+  assert.equal(parsed.ok, false);
+  if (!parsed.ok) {
+    assert.match(parsed.error, /at most 4 entries/);
+  }
+});
+
+test("validateRepoSubmissionInput rejects unknown tag", () => {
+  const parsed = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    tags: ["NOT_A_TAG"],
+  });
+  assert.equal(parsed.ok, false);
+  if (!parsed.ok) {
+    assert.match(parsed.error, /tags must be from the known set/);
+  }
+});
+
+test("validateRepoSubmissionInput rejects non-URL releaseUrl/demoUrl", () => {
+  const release = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    releaseUrl: "not a url",
+  });
+  assert.equal(release.ok, false);
+
+  const demo = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    demoUrl: "ftp://example.com",
+  });
+  assert.equal(demo.ok, false);
+});
+
+test("validateRepoSubmissionInput dedupes repeated tags", () => {
+  const parsed = validateRepoSubmissionInput({
+    repo: "openai/openai-agents-python",
+    tags: ["AGENTS", "AGENTS", "RAG"],
+  });
+  assert.equal(parsed.ok, true);
+  if (parsed.ok) {
+    assert.deepEqual(parsed.value.tags, ["AGENTS", "RAG"]);
+  }
+});
+
+test("REPO_SUBMISSION_CATEGORIES and REPO_SUBMISSION_TAGS are stable closed sets", () => {
+  assert.deepEqual([...REPO_SUBMISSION_CATEGORIES], ["repo", "skill", "mcp"]);
+  assert.equal(REPO_SUBMISSION_TAGS.length, 12);
 });

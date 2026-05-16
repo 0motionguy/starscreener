@@ -806,6 +806,29 @@ export const pipeline = {
     return alertRuleStore.save(rule);
   },
 
+  /**
+   * Update an alert rule by id, scoped to the given owner. Returns null when
+   * the rule doesn't exist or belongs to another user — collapsing the
+   * existence + ownership checks into a single scan.
+   */
+  updateAlertRule: (
+    ruleId: string,
+    userId: string,
+    patch: Partial<Pick<AlertRule, "enabled" | "threshold" | "cooldownMinutes">>,
+  ): AlertRule | null => {
+    ensureSeeded();
+    const existing = alertRuleStore.listAll().find((rule) => rule.id === ruleId);
+    if (!existing || existing.userId !== userId) return null;
+    const rule: AlertRule = { ...existing, ...patch };
+    const validation = validateRule(rule);
+    if (!validation.valid) {
+      throw new Error(
+        `updateAlertRule: invalid rule — ${validation.errors.join("; ")}`,
+      );
+    }
+    return alertRuleStore.save(rule);
+  },
+
   /** Delete an alert rule by id. Returns whether anything was deleted. */
   deleteAlertRule: (ruleId: string): boolean => {
     ensureSeeded();

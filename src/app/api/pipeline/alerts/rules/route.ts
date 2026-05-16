@@ -1,5 +1,6 @@
 // GET    /api/pipeline/alerts/rules                — list AlertRules for caller
 // POST   /api/pipeline/alerts/rules                 — create an AlertRule
+// PATCH  /api/pipeline/alerts/rules?id=<ruleId>     — update an AlertRule
 // DELETE /api/pipeline/alerts/rules?id=<ruleId>     — delete an AlertRule
 //
 // Rules drive the recompute-time alert engine. Each user owns their own set
@@ -39,6 +40,11 @@ export interface RulesListResponse {
 }
 
 export interface RulesCreateResponse {
+  ok: true;
+  rule: AlertRule;
+}
+
+export interface RulesUpdateResponse {
   ok: true;
   rule: AlertRule;
 }
@@ -161,6 +167,53 @@ function parseCreateBody(
   return { ok: true, value: { input } };
 }
 
+type RulePatch = Partial<
+  Pick<AlertRule, "enabled" | "threshold" | "cooldownMinutes">
+>;
+
+function parsePatchBody(
+  raw: unknown,
+): { ok: true; value: RulePatch } | { ok: false; error: string } {
+  if (raw === null || typeof raw !== "object") {
+    return { ok: false, error: "body must be a JSON object" };
+  }
+  const body = raw as Record<string, unknown>;
+  const patch: RulePatch = {};
+
+  if ("enabled" in body) {
+    if (typeof body.enabled !== "boolean") {
+      return { ok: false, error: "enabled must be a boolean" };
+    }
+    patch.enabled = body.enabled;
+  }
+
+  if ("threshold" in body) {
+    if (typeof body.threshold !== "number" || !Number.isFinite(body.threshold)) {
+      return { ok: false, error: "threshold must be a finite number" };
+    }
+    patch.threshold = body.threshold;
+  }
+
+  if ("cooldownMinutes" in body) {
+    if (
+      typeof body.cooldownMinutes !== "number" ||
+      !Number.isFinite(body.cooldownMinutes)
+    ) {
+      return { ok: false, error: "cooldownMinutes must be a finite number" };
+    }
+    patch.cooldownMinutes = body.cooldownMinutes;
+  }
+
+  if (Object.keys(patch).length === 0) {
+    return {
+      ok: false,
+      error: "one of enabled, threshold, or cooldownMinutes is required",
+    };
+  }
+
+  return { ok: true, value: patch };
+}
+
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RulesCreateResponse | RulesErrorResponse>> {
@@ -218,6 +271,74 @@ export async function POST(
     const message = err instanceof Error ? err.message : String(err);
     // validateRule failures inside the facade surface as Error messages.
     // Treat them as 400s so API consumers can correct their input.
+    if (message.includes("invalid rule")) {
+      return NextResponse.json(
+        { ok: false, error: message },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json(
+      { ok: false, error: message },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+): Promise<NextResponse<RulesUpdateResponse | RulesErrorResponse>> {
+  const auth = verifyUserAuth(request);
+  const deny = userAuthFailureResponse(auth);
+  if (deny) return deny as NextResponse<RulesErrorResponse>;
+  if (auth.kind !== "ok") {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
+      { status: 401 },
+    );
+  }
+  const { userId } = auth;
+
+  const { searchParams } = request.nextUrl;
+  const id = searchParams.get("id");
+  if (!id || id.length === 0) {
+    return NextResponse.json(
+      { ok: false, error: "id query parameter is required" },
+      { status: 400 },
+    );
+  }
+
+  let raw: unknown;
+  try {
+    raw = await request.json();
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: "request body is not valid JSON" },
+      { status: 400 },
+    );
+  }
+
+  const parsed = parsePatchBody(raw);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { ok: false, error: parsed.error },
+      { status: 400 },
+    );
+  }
+
+  try {
+    await pipeline.ensureReady();
+    // 404 not 403 to avoid leaking "this id exists but isn't yours".
+    const rule = pipeline.updateAlertRule(id, userId, parsed.value);
+    if (!rule) {
+      return NextResponse.json(
+        { ok: false, error: "rule not found" },
+        { status: 404 },
+      );
+    }
+    await persistPipeline();
+    return NextResponse.json({ ok: true, rule });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
     if (message.includes("invalid rule")) {
       return NextResponse.json(
         { ok: false, error: message },

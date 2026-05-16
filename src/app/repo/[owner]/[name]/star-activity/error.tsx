@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
 import { RefreshCw, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,7 +12,9 @@ interface ErrorProps {
 
 export default function StarActivityError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    Sentry.captureException(error);
+    void import("@sentry/nextjs").then((Sentry) => {
+      Sentry.captureException(error);
+    });
   }, [error]);
 
   return (

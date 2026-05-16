@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import * as Sentry from "@sentry/nextjs";
+import { z } from "zod";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-social";
@@ -42,6 +43,31 @@ export const maxDuration = 300;
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;
+const FULL_NAME_MAX_LEN = 200;
+
+// Zod schema for the request body. Matches the field structure documented
+// in the GET handler below: `fullNames` is an optional array of owner/repo
+// strings (≤ 50 entries, ≤ 200 chars each, matching FULL_NAME_PATTERN),
+// `useMock` + `recomputeAfter` are optional booleans. Empty / missing
+// `fullNames` falls through to auto-discover (see autoDiscoverFullNames).
+// This gates the inbound POST against oversize batches and malformed
+// strings before any pipeline work is done.
+const BodySchema = z
+  .object({
+    fullNames: z
+      .array(
+        z
+          .string()
+          .min(1)
+          .max(FULL_NAME_MAX_LEN)
+          .regex(FULL_NAME_PATTERN, "must match owner/repo"),
+      )
+      .max(MAX_BATCH_SIZE)
+      .optional(),
+    useMock: z.boolean().optional(),
+    recomputeAfter: z.boolean().optional(),
+  })
+  .strict();
 
 /**
  * When the cron POSTs `{}` (the documented contract — see the GET-handler
@@ -106,53 +132,41 @@ export interface IngestErrorResponse {
  * an auto-discovered batch (see autoDiscoverFullNames above) — which is
  * the case the GH Actions cron has been hitting since 2026-04-17. When
  * provided, it must satisfy the strict-validation contract callers added
- * for the public endpoint. */
+ * for the public endpoint.
+ *
+ * Structural validation runs through `BodySchema` (Zod): enforces array
+ * shape, the 50-entry max, per-entry length + owner/repo regex, and
+ * rejects unknown top-level keys. We then collapse an empty array to
+ * `undefined` so downstream code sees the same "auto-discover" signal
+ * whether the caller omitted the field or sent `[]`.
+ */
 function parseBody(raw: unknown): {
   ok: true;
   value: { fullNames?: string[]; useMock?: boolean; recomputeAfter?: boolean };
 } | { ok: false; error: string; details?: string[] } {
-  if (raw === null || typeof raw !== "object") {
-    return { ok: false, error: "body must be a JSON object" };
-  }
-  const body = raw as Record<string, unknown>;
-
-  const fullNamesRaw = body.fullNames;
-  let fullNames: string[] | undefined;
-  if (fullNamesRaw !== undefined) {
-    if (!Array.isArray(fullNamesRaw)) {
-      return { ok: false, error: "fullNames must be an array of strings" };
-    }
-    if (fullNamesRaw.length > MAX_BATCH_SIZE) {
-      return {
-        ok: false,
-        error: `fullNames must contain at most ${MAX_BATCH_SIZE} entries`,
-      };
-    }
-    const invalid: string[] = [];
-    for (const n of fullNamesRaw) {
-      if (typeof n !== "string" || !FULL_NAME_PATTERN.test(n)) {
-        invalid.push(String(n));
-      }
-    }
-    if (invalid.length > 0) {
-      return {
-        ok: false,
-        error: "fullNames contains invalid entries",
-        details: invalid.map((n) => `"${n}" is not owner/repo`),
-      };
-    }
-    // Empty array → fall through to auto-discover (treat same as missing).
-    if (fullNamesRaw.length > 0) {
-      fullNames = fullNamesRaw as string[];
-    }
+  const parsed = BodySchema.safeParse(raw);
+  if (!parsed.success) {
+    const issues = parsed.error.issues;
+    const first = issues[0];
+    const message = first
+      ? `${first.path.length > 0 ? first.path.join(".") + ": " : ""}${first.message}`
+      : "validation failed";
+    return {
+      ok: false,
+      error: message,
+      details: issues.map((issue) =>
+        issue.path.length > 0
+          ? `${issue.path.join(".")}: ${issue.message}`
+          : issue.message,
+      ),
+    };
   }
 
-  const useMock =
-    body.useMock === undefined ? undefined : Boolean(body.useMock);
-  const recomputeAfter =
-    body.recomputeAfter === undefined
-      ? undefined
-      : Boolean(body.recomputeAfter);
+  const { fullNames: fullNamesRaw, useMock, recomputeAfter } = parsed.data;
+
+  // Empty array → fall through to auto-discover (treat same as missing).
+  const fullNames =
+    fullNamesRaw && fullNamesRaw.length > 0 ? fullNamesRaw : undefined;
 
   return {
     ok: true,

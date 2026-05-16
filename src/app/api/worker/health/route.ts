@@ -25,11 +25,47 @@
 // signal slugs with degraded body shape). This route is the COMPLETE
 // worker-fleet view.
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { getDataStore } from "@/lib/data-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+/**
+ * Optional bearer-token gate. When `WORKER_HEALTH_BEARER` is unset (the
+ * default) this route stays fully public — TOOLBOX cron + the operator
+ * dashboard continue to hit `/api/worker/health` with no Authorization
+ * header. When the env var IS set, callers MUST present
+ * `Authorization: Bearer <value>` and the comparison runs in constant
+ * time to avoid leaking the token byte-by-byte.
+ *
+ * Returns the 401 NextResponse on rejection, or `null` to continue.
+ */
+function checkOptionalBearer(request: NextRequest): NextResponse | null {
+  const expected = process.env.WORKER_HEALTH_BEARER?.trim();
+  if (!expected) return null;
+  const header = request.headers.get("authorization")?.trim() ?? "";
+  const prefix = "Bearer ";
+  if (!header.startsWith(prefix)) {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized" },
+      { status: 401, headers: { "WWW-Authenticate": "Bearer" } },
+    );
+  }
+  const supplied = header.slice(prefix.length);
+  const a = Buffer.from(supplied);
+  const b = Buffer.from(expected);
+  // Length must match before timingSafeEqual; otherwise it throws.
+  const match = a.length === b.length && timingSafeEqual(a, b);
+  if (!match) {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized" },
+      { status: 401, headers: { "WWW-Authenticate": "Bearer" } },
+    );
+  }
+  return null;
+}
 
 // ---------------------------------------------------------------------------
 // Slug → expected cadence map
@@ -158,7 +194,12 @@ function classifyAge(
 // Route handler
 // ---------------------------------------------------------------------------
 
-export async function GET(): Promise<NextResponse<HealthResponse>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<HealthResponse> | NextResponse> {
+  const deny = checkOptionalBearer(request);
+  if (deny) return deny;
+
   const store = getDataStore();
   const now = Date.now();
 

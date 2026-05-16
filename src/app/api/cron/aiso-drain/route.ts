@@ -59,6 +59,7 @@ import { z } from "zod";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { persistAisoScan } from "@/lib/aiso-persist";
 import {
   readQueue,
@@ -305,6 +306,9 @@ function sleep(ms: number): Promise<void> {
 export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize;
 
   const parsed = await parseBody(request, DrainRequestSchema, {
     allowEmpty: true,

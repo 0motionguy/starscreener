@@ -76,17 +76,12 @@ const LOG_DIR = path.join(process.cwd(), ".data", "admin-scan-runs");
 // Same env allow-list pattern as /api/admin/scan — explicit keys only,
 // no `process.env` blanket pass-through (P0 fix from APP-01). When a
 // new collector needs a credential, add it here and document why.
+//
+// WHY no PATH/HOME/locale: the spawned scripts only need these
+// domain-specific keys; PATH and HOME are inherited via spawn defaults
+// (Node resolves the entrypoint by absolute path through
+// `process.execPath`, and no collector references HOME / LANG / TZ).
 const CHILD_ENV_ALLOW = [
-  "PATH",
-  "HOME",
-  "USERPROFILE",
-  "TEMP",
-  "TMP",
-  "TMPDIR",
-  "LANG",
-  "LC_ALL",
-  "LC_CTYPE",
-  "TZ",
   "NODE_ENV",
   "NODE_OPTIONS",
   "REDIS_URL",
@@ -109,6 +104,11 @@ const CHILD_ENV_ALLOW = [
   "TRENDINGREPO_USER_AGENT",
   "STARSCREENER_DATA_DIR",
   "TRENDINGREPO_DATA_DIR",
+  // Sentry release tagging + log level for _logger.mjs.
+  "SENTRY_DSN",
+  "SENTRY_ENVIRONMENT",
+  "SENTRY_RELEASE",
+  "LOG_LEVEL",
 ] as const;
 
 function buildChildEnv(parent: NodeJS.ProcessEnv): NodeJS.ProcessEnv {

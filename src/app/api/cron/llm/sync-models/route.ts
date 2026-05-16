@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { getDataStore } from "@/lib/data-store";
 import { DataStoreFatalError } from "@/lib/errors";
 import type { ModelMeta, ModelMetadataPayload } from "@/lib/llm/types";
@@ -125,6 +126,8 @@ async function syncModels(): Promise<{ count: number; syncedAt: string }> {
 export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize;
   try {
     const result = await syncModels();
     return NextResponse.json(

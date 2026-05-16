@@ -15,6 +15,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Microscope, Download, Heart, FileText, ExternalLink, GitBranch } from "lucide-react";
+import { RepoLink } from "@/components/repo/RepoLink";
 import {
   getArxivRecent,
   getHuggingFaceTrending,
@@ -199,13 +200,13 @@ export default async function ResearchPage() {
                         <ExternalLink className="w-3 h-3" /> abs
                       </a>
                       {p.linkedRepos.map((r) => (
-                        <Link
+                        <RepoLink
                           key={r.fullName}
-                          href={`/repos/${encodeURIComponent(r.fullName)}`}
+                          fullName={r.fullName}
                           className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-accent-green/10 text-accent-green hover:bg-accent-green/20"
                         >
                           <GitBranch className="w-3 h-3" /> {r.fullName}
-                        </Link>
+                        </RepoLink>
                       ))}
                     </div>
                   </li>

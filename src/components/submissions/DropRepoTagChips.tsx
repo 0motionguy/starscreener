@@ -2,9 +2,10 @@
 
 /**
  * DropRepoTagChips — 12-chip strip for the submission tag set. Max
- * `maxSelected` selected at once (operator mockup: 4). Selection is
- * presentational only at the moment — the `/api/repo-submissions`
- * schema doesn't accept a tags array yet.
+ * `maxSelected` selected at once (operator mockup: 4). When the cap is
+ * reached a v4-amber "max" chip surfaces inline so the user understands
+ * why further taps don't register without scrolling back to the field
+ * label counter.
  */
 
 import { cn } from "@/lib/utils";
@@ -49,6 +50,8 @@ export function DropRepoTagChips({
   onChange,
   maxSelected = 4,
 }: DropRepoTagChipsProps) {
+  const atCap = value.size >= maxSelected;
+
   function toggle(tag: DropRepoTag) {
     const next = new Set(value);
     if (next.has(tag)) {
@@ -62,10 +65,10 @@ export function DropRepoTagChips({
   }
 
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap items-center gap-1.5">
       {DROP_REPO_TAGS.map((tag) => {
         const active = value.has(tag);
-        const disabled = !active && value.size >= maxSelected;
+        const disabled = !active && atCap;
         return (
           <button
             type="button"
@@ -85,6 +88,20 @@ export function DropRepoTagChips({
           </button>
         );
       })}
+      {atCap && (
+        <span
+          aria-live="polite"
+          className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em]"
+          style={{
+            borderColor: "var(--v4-amber)",
+            background: "var(--v4-amber-soft)",
+            color: "var(--v4-amber)",
+          }}
+          title={`Max ${maxSelected} tags. Deselect one to add another.`}
+        >
+          Max {maxSelected}
+        </span>
+      )}
     </div>
   );
 }

@@ -1,0 +1,92 @@
+name: Backfill star activity (one-shot)
+
+# Manual one-shot full-history backfill for tracked repos. Walks the GitHub
+# stargazer pages to reconstruct a complete daily cumulative-star series per
+# repo and writes to Redis under `ss:data:v1:star-activity:{owner}__{name}`.
+#
+# This is the wrapper for scripts/backfill-star-activity.mjs (B8). Unlike
+# refresh-star-activity.yml (forward-append every day at 03:17 UTC), this
+# runs ONLY on operator dispatch — the script can spend hours walking the
+# stargazer endpoint and hits API quota hard, so we don't schedule it.
+#
+# Dual-ended walk is ON by default (covers repos beyond the 400-page list
+# cap, i.e. >~40,000 stars). Set the `dual_ended` input to `false` to fall
+# back to legacy snapshot-only payloads for those repos.
+
+on:
+  workflow_dispatch:
+    inputs:
+      repos:
+        description: "Optional comma-separated owner/name filter (empty = all tracked repos)"
+        required: false
+        default: ""
+      limit:
+        description: "Optional cap on number of repos to walk (empty = no cap)"
+        required: false
+        default: ""
+      dry_run:
+        description: "Walk but skip Redis writes"
+        required: false
+        type: boolean
+        default: false
+      dual_ended:
+        description: "Use the dual-ended walk for >40k-star repos (B8). Set false for legacy snapshot-only."
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+# Block parallel runs and any conflicting append run so the two paths don't
+# fight over the same Redis keys.
+concurrency:
+  group: star-activity-write
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    # GitHub's max job timeout. Backfill walks paginated stargazer endpoints
+    # at PAGE_DELAY_MS=50ms across hundreds of repos × up to 400 pages each;
+    # a full run can take many hours.
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # `_data-store-write.mjs` dynamically imports `ioredis` on demand;
+        # without node_modules the import throws ERR_MODULE_NOT_FOUND.
+        run: npm ci
+
+      - name: Backfill star-activity per tracked repo
+        env:
+          # PAT preferred — the default github.token caps at 1000 calls/hr,
+          # while a single backfill of 300 repos × up to 400 pages can need
+          # 120k calls. GH_PAT_DEFAULT (5000/hr) is the standard pattern in
+          # this repo's other heavy-API workflows.
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_DEFAULT || secrets.GITHUB_TOKEN }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Typed boolean inputs render as the lowercase string "true"/"false".
+          # The script reads with `?? "true"` default + `!== "false"` check.
+          BACKFILL_STAR_ACTIVITY_DUAL_ENDED: ${{ inputs.dual_ended }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.repos }}" ]; then
+            ARGS="$ARGS --repos ${{ inputs.repos }}"
+          fi
+          if [ -n "${{ inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ inputs.limit }}"
+          fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          echo "[backfill-star-activity.yml] launching with args: $ARGS"
+          node scripts/backfill-star-activity.mjs $ARGS

@@ -115,6 +115,23 @@ export async function refreshNpmDependentsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2 PR-B: TOOLBOX-first when flag set; falls through to
+    // legacy data-store on null. Same pattern as HF/PH adapters.
+    const toolboxMap = await tryFetchNpmDependentsFromToolbox();
+    if (toolboxMap) {
+      const byPackage = new Map<string, DependentsEntry>();
+      for (const [name, entry] of Object.entries(toolboxMap)) {
+        byPackage.set(name, entry);
+      }
+      cache = {
+        signature: `toolbox:${Date.now()}`,
+        byPackage,
+        fromRedis: true,
+      };
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<unknown>("npm-dependents");
     if (result.data && typeof result.data === "object" && result.source !== "missing") {
@@ -137,6 +154,18 @@ export async function refreshNpmDependentsFromStore(): Promise<{
         byPackage,
         fromRedis: true,
       };
+    } else {
+      const { alertAdapterFallthrough } = await import(
+        "./adapter-fallthrough-alert"
+      );
+      alertAdapterFallthrough(
+        "npm_dependents",
+        "toolbox_null_legacy_missing",
+        {
+          result_source: result.source,
+          had_toolbox_flag: process.env.TOOLBOX_READ_NPM_DEPENDENTS === "true",
+        },
+      );
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -144,4 +173,16 @@ export async function refreshNpmDependentsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchNpmDependentsFromToolbox(): Promise<Record<
+  string,
+  DependentsEntry
+> | null> {
+  if (process.env.TOOLBOX_READ_NPM_DEPENDENTS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchNpmDependentsFromToolbox } = await import("./toolbox-store-npm");
+  return fetchNpmDependentsFromToolbox({ apiUrl, apiKey });
 }

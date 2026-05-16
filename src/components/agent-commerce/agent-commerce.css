@@ -13,6 +13,223 @@
   gap: 14px;
 }
 
+/* ── Hero band ─────────────────────────────────────────────────────────────
+ * A8-P3: unified panel that fuses page-head, verdict ribbon, and KPI band
+ * into a single visual block. One border, one background, three rows
+ * separated only by thin internal dividers — the KPI band sits flush
+ * against the bottom of the verdict; the page-head sits flush against the
+ * top. The accent stripe on the left runs the full height of the band.
+ * ----------------------------------------------------------------------- */
+
+.ac-hero-band {
+  position: relative;
+  margin-bottom: 14px;
+  border: var(--v4-stroke-1, 1px) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.ac-hero-band::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--v4-acc, var(--color-accent));
+  pointer-events: none;
+}
+
+.ac-hero-band .ac-hero-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--v4-line-100);
+}
+
+.ac-hero-band .ac-hero-head__title {
+  min-width: 0;
+  flex: 1;
+}
+
+.ac-hero-band .ac-hero-head .crumb {
+  color: var(--color-text-faint);
+  font-family: var(--font-mono, ui-monospace);
+  font-size: var(--font-size-lg, 12px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ac-hero-band .ac-hero-head .crumb b {
+  color: var(--v4-acc, var(--color-accent));
+  font-weight: 600;
+}
+
+.ac-hero-band .ac-hero-head h1 {
+  margin: 6px 0 0;
+  color: var(--color-text-default);
+  font-family: var(--font-sans);
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.ac-hero-band .ac-hero-head .lede {
+  max-width: 560px;
+  margin: 6px 0 0;
+  color: var(--color-text-subtle);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ac-hero-band .ac-hero-head__clock {
+  margin-left: auto;
+  color: var(--color-text-subtle);
+  font-family: var(--font-mono, ui-monospace);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.ac-hero-band .ac-hero-head__clock .big {
+  display: block;
+  color: var(--color-text-default);
+  font-size: 14px;
+}
+
+.ac-hero-band .ac-hero-head__clock .live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-positive, #22c55e);
+}
+
+.ac-hero-band .ac-hero-head__clock .live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-positive, #22c55e);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.18);
+}
+
+.ac-hero-band .ac-hero-verdict {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--v4-line-100);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.05),
+    transparent 60%
+  );
+}
+
+.ac-hero-band .ac-hero-verdict .v-stamp,
+.ac-hero-band .ac-hero-verdict .v-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--color-text-faint);
+  font-family: var(--font-mono, ui-monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ac-hero-band .ac-hero-verdict .v-stamp {
+  color: var(--v4-acc, var(--color-accent));
+}
+
+.ac-hero-band .ac-hero-verdict .v-stamp .ts {
+  color: var(--color-text-default);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.ac-hero-band .ac-hero-verdict .v-stamp .ago {
+  color: var(--color-text-faint);
+}
+
+.ac-hero-band .ac-hero-verdict .v-text {
+  margin: 0;
+  color: var(--color-text-default);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.ac-hero-band .ac-hero-verdict .v-text b {
+  color: var(--color-text-default);
+  font-weight: 600;
+}
+
+.ac-hero-band .ac-hero-verdict .hl-early {
+  color: var(--color-warning, #f59e0b);
+  font-weight: 600;
+}
+
+.ac-hero-band .ac-hero-verdict .hl-div {
+  color: var(--color-consensus, #22d3ee);
+  font-weight: 600;
+}
+
+.ac-hero-band .ac-hero-verdict .v-actions {
+  align-items: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ac-hero-band .ac-hero-verdict .v-actions a {
+  border: 1px solid var(--v4-line-200);
+  padding: 5px 10px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.ac-hero-band .ac-hero-verdict .v-actions a:hover {
+  border-color: var(--v4-acc, var(--color-accent));
+  color: var(--v4-acc, var(--color-accent));
+}
+
+/* KPI band sits flush against the bottom of the verdict — strip outer
+ * chrome inherited from .ds-metric-grid / .kpi-strip in globals.css. */
+.ac-hero-band .ac-hero-kpi {
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  .ac-hero-band .ac-hero-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ac-hero-band .ac-hero-head__clock {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .ac-hero-band .ac-hero-verdict {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .ac-hero-band .ac-hero-verdict .v-actions {
+    align-items: flex-start;
+  }
+}
+
 /* ── Ticker ────────────────────────────────────────────────────────────── */
 
 .ac-ticker {

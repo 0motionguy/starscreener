@@ -9,15 +9,17 @@ import Link from "next/link";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { FooterBar } from "@/components/ui/FooterBar";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
-import { BrandStar } from "@/components/shared/BrandStar";
+import { AgentCommerceActivityPulse } from "@/components/agent-commerce/AgentCommerceActivityPulse";
 import { AgentCommerceCard } from "@/components/agent-commerce/AgentCommerceCard";
 import { AgentCommerceFilterBar } from "@/components/agent-commerce/AgentCommerceFilterBar";
+import { AgentCommerceHero } from "@/components/agent-commerce/AgentCommerceHero";
+import { AgentCommerceMoversBoard } from "@/components/agent-commerce/AgentCommerceMoversBoard";
 import { AgentCommerceTabs } from "@/components/agent-commerce/AgentCommerceTabs";
 import {
   AgentCommerceTicker,
   type AgentCommerceTickerItem,
 } from "@/components/agent-commerce/AgentCommerceTicker";
+import { Sparkline } from "@/components/agent-commerce/Sparkline";
 import {
   getAgentCommerceFile,
   getAgentCommerceItems,
@@ -92,10 +94,6 @@ function formatClock(value: string): string {
     : "warming";
 }
 
-function pluralize(n: number, one: string, many: string): string {
-  return n === 1 ? `${n} ${one}` : `${n} ${many}`;
-}
-
 function buildOpportunities(
   items: AgentCommerceItem[],
 ): { title: string; reason: string }[] {
@@ -142,57 +140,6 @@ function buildOpportunities(
     reason: "No DefiLlama-equivalent for x402 settlement volume, MCP install counts, or agent-API per-call prices. This page is the seed.",
   });
   return ops;
-}
-
-function Sparkline({
-  data,
-  width = 80,
-  height = 22,
-  color = "currentColor",
-  fillOpacity = 0.12,
-}: {
-  data: number[];
-  width?: number;
-  height?: number;
-  color?: string;
-  fillOpacity?: number;
-}) {
-  if (data.length < 2) return null;
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const range = Math.max(0.001, max - min);
-  const xstep = width / (data.length - 1);
-  const points = data.map((v, i) => {
-    const x = i * xstep;
-    const y = height - ((v - min) / range) * (height - 2) - 1;
-    return [x, y] as const;
-  });
-  const linePath = `M ${points[0][0].toFixed(1)},${points[0][1].toFixed(1)} L ${points
-    .slice(1)
-    .map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`)
-    .join(" L ")}`;
-  const areaPath = `${linePath} L ${width.toFixed(1)},${height.toFixed(1)} L 0,${height.toFixed(1)} Z`;
-  const last = points[points.length - 1];
-  return (
-    <svg
-      width={width}
-      height={height}
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
-      style={{ display: "block", overflow: "visible" }}
-    >
-      <path d={areaPath} fill={color} fillOpacity={fillOpacity} />
-      <path
-        d={linePath}
-        fill="none"
-        stroke={color}
-        strokeWidth={1.4}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx={last[0]} cy={last[1]} r={1.6} fill={color} />
-    </svg>
-  );
 }
 
 function MiniBoard({
@@ -559,52 +506,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
   return (
     <>
     <main className="home-surface agent-commerce-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>Agent Commerce</b> / m2m terminal / x402 · MCP · wallets
-          </div>
-          <h1>What agents can transact with.</h1>
-          <p className="lede">
-            x402 services, agent-callable APIs, MCP servers, wallets and
-            marketplaces — scored by Portal readiness, pricing clarity, AISO
-            visibility, and adoption.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{computed}</span>
-          <span className="live">updated</span>
-        </div>
-      </section>
-
-      <section className="verdict">
-        <div className="v-stamp">
-          <span>commerce radar</span>
-          <span className="ts">{stats.totalItems} entities</span>
-          <span className="ago">{file.windowDays}d window</span>
-        </div>
-        <p className="v-text">
-          <b>{pluralize(stats.totalItems, "service", "services")}</b> indexed.{" "}
-          <span className="hl-early">{stats.x402EnabledCount} x402-enabled</span>,{" "}
-          <span className="hl-early">{stats.portalReadyCount} Portal Ready</span>,{" "}
-          <span className="hl-div">{stats.mcpServerCount} MCP servers</span>,{" "}
-          <span className="hl-early">{stats.agentActionableCount} agent-actionable</span>.
-        </p>
-        <div className="v-actions">
-          <Link href="/feeds/agent-commerce.xml">RSS</Link>
-          <Link href="/funding">Funding</Link>
-          <Link href="/signals">Signals</Link>
-        </div>
-      </section>
-
-      <MetricGrid columns={6} className="kpi-band">
-        <Metric label="Total" value={stats.totalItems} sub="entities" pip />
-        <Metric label="New 7d" value={stats.thisWeekCount} sub="this week" tone="external" pip />
-        <Metric label="x402" value={stats.x402EnabledCount} sub="enabled" tone="accent" pip />
-        <Metric label="Portal" value={stats.portalReadyCount} sub="ready" tone="positive" pip />
-        <Metric label="MCP" value={stats.mcpServerCount} sub="servers" tone="consensus" pip />
-        <Metric label="AISO ≥80" value={stats.highAisoCount} sub="visible" tone="warning" pip />
-      </MetricGrid>
+      <AgentCommerceHero
+        computed={computed}
+        windowDays={file.windowDays}
+        stats={stats}
+      />
 
       <AgentCommerceTicker items={tickerItems} />
 
@@ -634,381 +540,13 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
       ) : (
         <>
           {/* ========== 01 — COMPOSITE MOVERS BOARD ========== */}
-          <div className="sec-head">
-            <span className="sec-num">{"// 01"}</span>
-            <h2 className="sec-title">Composite movers</h2>
-            <span className="sec-meta">
-              <b>{movers.length}</b> / top by score
-            </span>
-          </div>
-          <section className="board ac-board">
-            {movers.map((item, idx) => {
-              const score = item.scores.composite;
-              const tone =
-                score >= 60
-                  ? "#34d399"
-                  : score >= 40
-                    ? "#f59e0b"
-                    : "var(--color-text-default)";
-              // 2026-05-15: removed synthetic seeded sparkline — it suggested
-            // a real time-series that doesn't exist. Pass `[]` so Sparkline
-            // (early-returns on data.length < 2) renders nothing until the
-            // score-history collector lands.
-            const sparkData: number[] = [];
-              return (
-                <Link
-                  key={item.id}
-                  href={`/agent-commerce/${item.slug}`}
-                  className={`mover-row ac-mover ${idx === 0 ? "first" : ""}`}
-                  style={{
-                    gridTemplateColumns:
-                      "28px minmax(0, 1fr) 100px 90px auto",
-                  }}
-                >
-                  <span className="rk">{String(idx + 1).padStart(2, "0")}</span>
-                  <span className="nm">
-                    <span className="h">{item.name}</span>
-                    <span className="meta">
-                      <span className="tag">{item.kind}</span>
-                      {item.category}
-                      {" · "}
-                      {item.protocols.slice(0, 3).map((p, i) => {
-                        const cp = compactProtocol(p);
-                        return (
-                          <span
-                            key={p}
-                            style={{
-                              color: cp.color,
-                              marginLeft: i === 0 ? 6 : 4,
-                              fontWeight: 700,
-                              fontFamily: "var(--font-mono)",
-                              fontSize: 9.5,
-                              letterSpacing: "0.14em",
-                              textTransform: "uppercase",
-                              padding: p === "x402" ? "1px 6px" : undefined,
-                              borderRadius: p === "x402" ? 2 : undefined,
-                              border:
-                                p === "x402" ? `1px solid ${cp.color}66` : undefined,
-                              background:
-                                p === "x402"
-                                  ? "rgba(245, 158, 11, 0.12)"
-                                  : undefined,
-                            }}
-                          >
-                            {cp.label}
-                          </span>
-                        );
-                      })}
-                      {item.live?.stars ? (
-                        <span
-                          style={{
-                            marginLeft: 8,
-                            color: "#fbbf24",
-                            fontWeight: 700,
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 4,
-                          }}
-                        >
-                          <BrandStar size={12} />
-                          {item.live.stars.toLocaleString("en-US")}
-                        </span>
-                      ) : null}
-                      {item.live?.pushedAt ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "var(--color-text-faint)",
-                          }}
-                        >
-                          {(() => {
-                            const days = Math.max(
-                              0,
-                              Math.floor(
-                                (Date.now() -
-                                  new Date(item.live.pushedAt).getTime()) /
-                                  86_400_000,
-                              ),
-                            );
-                            return days === 0
-                              ? "today"
-                              : days === 1
-                                ? "1d ago"
-                                : days < 30
-                                  ? `${days}d ago`
-                                  : days < 365
-                                    ? `${Math.floor(days / 30)}mo ago`
-                                    : `${Math.floor(days / 365)}y ago`;
-                          })()}
-                        </span>
-                      ) : null}
-                      {typeof item.live?.hnMentions90d === "number" &&
-                      item.live.hnMentions90d > 0 ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "#f97316",
-                            fontWeight: 700,
-                          }}
-                        >
-                          HN·{item.live.hnMentions90d}
-                        </span>
-                      ) : null}
-                      {typeof item.live?.npmWeeklyDownloads === "number" &&
-                      item.live.npmWeeklyDownloads > 0 ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "#cbd5e1",
-                            fontWeight: 700,
-                          }}
-                        >
-                          npm·
-                          {item.live.npmWeeklyDownloads >= 1_000_000
-                            ? `${(item.live.npmWeeklyDownloads / 1_000_000).toFixed(1)}M`
-                            : item.live.npmWeeklyDownloads >= 1000
-                              ? `${Math.round(item.live.npmWeeklyDownloads / 1000)}k`
-                              : item.live.npmWeeklyDownloads}
-                          /wk
-                        </span>
-                      ) : null}
-                      {(item.live?.redditMentions?.count ?? 0) > 0 ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "#fb923c",
-                            fontWeight: 700,
-                          }}
-                        >
-                          r/{item.live?.redditMentions?.count ?? 0}
-                        </span>
-                      ) : null}
-                      {(item.live?.blueskyMentions?.count ?? 0) > 0 ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "#60a5fa",
-                            fontWeight: 700,
-                          }}
-                        >
-                          bsky·{item.live?.blueskyMentions?.count ?? 0}
-                        </span>
-                      ) : null}
-                      {(item.live?.devtoMentions?.count ?? 0) > 0 ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "#34d399",
-                            fontWeight: 700,
-                          }}
-                        >
-                          dev·{item.live?.devtoMentions?.count ?? 0}
-                        </span>
-                      ) : null}
-                      {typeof item.scores.aisoScore === "number" ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color:
-                              item.scores.aisoScore >= 80
-                                ? "var(--color-gold)"
-                                : item.scores.aisoScore >= 60
-                                  ? "var(--color-warning)"
-                                  : "var(--color-text-faint)",
-                            fontWeight: 700,
-                          }}
-                          title={`AISO score ${item.scores.aisoScore}`}
-                        >
-                          aiso·{item.scores.aisoScore}
-                        </span>
-                      ) : null}
-                      {item.live?.tokenSymbol ? (
-                        <span
-                          style={{
-                            marginLeft: 6,
-                            color: "#a78bfa",
-                            fontWeight: 700,
-                          }}
-                          title={
-                            item.live.marketCapUsd
-                              ? `Market cap $${(item.live.marketCapUsd / 1e6).toFixed(0)}M`
-                              : undefined
-                          }
-                        >
-                          ${item.live.tokenSymbol}
-                          {Number.isFinite(item.live.priceChange24hPct) ? (
-                            <em
-                              style={{
-                                fontStyle: "normal",
-                                marginLeft: 3,
-                                color:
-                                  (item.live.priceChange24hPct ?? 0) >= 0
-                                    ? "#34d399"
-                                    : "#f87171",
-                              }}
-                            >
-                              {(item.live.priceChange24hPct ?? 0) >= 0
-                                ? "+"
-                                : ""}
-                              {(item.live.priceChange24hPct ?? 0).toFixed(1)}%
-                            </em>
-                          ) : null}
-                        </span>
-                      ) : null}
-                    </span>
-                  </span>
-                  <span style={{ color: tone, alignSelf: "center" }}>
-                    <Sparkline
-                      data={sparkData}
-                      color={tone}
-                      width={100}
-                      height={22}
-                    />
-                  </span>
-                  <span
-                    className="amt"
-                    style={{ color: tone }}
-                  >
-                    {score}
-                    <span className="lbl">score</span>
-                  </span>
-                  <span className="stage">
-                    {item.pricing.type === "unknown"
-                      ? "—"
-                      : item.pricing.type.replace("_", " ")}
-                  </span>
-                </Link>
-              );
-            })}
-          </section>
+          <AgentCommerceMoversBoard movers={movers} />
 
           {/* ========== 02 — ACTIVITY PULSE ========== */}
-          <div className="sec-head">
-            <span className="sec-num">{"// 02"}</span>
-            <h2 className="sec-title">Activity pulse</h2>
-            <span className="sec-meta">
-              12-week trend · <b>{stats.totalItems}</b> tracked
-            </span>
-          </div>
-          <div className="grid">
-            <Card className="col-8">
-              <CardHeader
-                showCorner
-                right={
-                  <span style={{ color: "#34d399" }}>
-                    +{stats.thisWeekCount} this week
-                  </span>
-                }
-              >
-                Entities tracked
-              </CardHeader>
-              <CardBody>
-                <div style={{ padding: "10px 14px 6px" }}>
-                  <div style={{ color: "#34d399" }}>
-                    <Sparkline
-                      data={activitySeries}
-                      width={520}
-                      height={64}
-                      color="#34d399"
-                      fillOpacity={0.18}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: 6,
-                      fontFamily: "var(--font-mono, ui-monospace)",
-                      fontSize: 10,
-                      color: "var(--color-text-faint)",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    <span>12w ago</span>
-                    <span>8w</span>
-                    <span>4w</span>
-                    <span>now</span>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-            <Card className="col-4">
-              <CardHeader showCorner right={<span>protocol pulse</span>}>
-                Protocol-active
-              </CardHeader>
-              <CardBody>
-                {[
-                  {
-                    label: "x402",
-                    n: stats.x402EnabledCount,
-                    color: "#f59e0b",
-                  },
-                  {
-                    label: "MCP",
-                    n: stats.mcpServerCount,
-                    color: "#22d3ee",
-                  },
-                  {
-                    label: "Portal",
-                    n: stats.portalReadyCount,
-                    color: "#34d399",
-                  },
-                  {
-                    label: "Actionable",
-                    n: stats.agentActionableCount,
-                    color: "#a78bfa",
-                  },
-                ].map((row) => {
-                  // 2026-05-15: synthetic pulse data removed; Sparkline
-                  // renders nothing when the array is empty.
-                  const data: number[] = [];
-                  return (
-                    <div
-                      key={row.label}
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "60px minmax(0, 1fr) 36px",
-                        alignItems: "center",
-                        gap: 10,
-                        padding: "6px 12px",
-                        borderBottom: "1px solid var(--color-border-subtle)",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: row.color,
-                          fontFamily: "var(--font-mono, ui-monospace)",
-                          fontSize: 11,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {row.label}
-                      </span>
-                      <span style={{ color: row.color }}>
-                        <Sparkline
-                          data={data}
-                          color={row.color}
-                          width={120}
-                          height={20}
-                        />
-                      </span>
-                      <span
-                        style={{
-                          textAlign: "right",
-                          fontFamily: "var(--font-mono, ui-monospace)",
-                          fontWeight: 700,
-                          color: "var(--color-text-default)",
-                        }}
-                      >
-                        {row.n}
-                      </span>
-                    </div>
-                  );
-                })}
-              </CardBody>
-            </Card>
-          </div>
+          <AgentCommerceActivityPulse
+            activitySeries={activitySeries}
+            stats={stats}
+          />
 
           {/* ========== 03 — SCORE DISTRIBUTION ========== */}
           <div className="sec-head">

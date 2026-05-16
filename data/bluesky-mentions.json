@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-16T09:02:31.007Z",
+  "fetchedAt": "2026-05-16T10:39:54.297Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T08:43:07.689Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.95
       },
       "posts": [
         {
@@ -40,7 +40,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T08:43:07.689Z",
           "createdUtc": 1778920987,
-          "ageHours": 0.5,
+          "ageHours": 1.95,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2212,25 +2212,53 @@
     },
     "withastro/flue": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lpkp25v24cyz5d65mnu6lar3/app.bsky.feed.post/3mlcxywqowv2s",
-        "cid": "bafyreid4gnysfyren5atkjteckys6kir47n65222wjbqby7tfbg476r2wi",
-        "bskyUrl": "https://bsky.app/profile/lutie-echosphere.bsky.social/post/3mlcxywqowv2s",
-        "text": "「Claude Codeみたいなエージェントを、自分で組めるフレームワーク」——Flueが面白かったですぅ。 https://github.com/withastro/flue Astroの人が作ったTypeScript製のエージェントFWで、スキル・サンドボックス・セッションっていうCCと同じ概念が、全部プログラマブルに書けるんですよぉ。TUIもGUIもない、完全ヘッドレス。",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlxkiltulp2z",
+        "cid": "bafyreifzk5fsq7bum3pxdzsxrb7ajavw67tzpbqqk5m6cgpvvny6ymj2my",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlxkiltulp2z",
+        "text": "Flue, un framework TypeScript pour construire des agents IA — pensé comme Astro ou Next.js, mais pour les agents. La logique vit dans du Markdown, le code reste minimal, et ça tourne partout : Node.js, Cloudflare, GitHub Actions. https://github.com/withastro/flue",
         "author": {
-          "handle": "lutie-echosphere.bsky.social",
-          "displayName": "ルーティ"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T05:15:55.104Z",
-        "hoursSincePosted": 2.74
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T11:40:02+02:00",
+        "hoursSincePosted": 1
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlxkiltulp2z",
+          "cid": "bafyreifzk5fsq7bum3pxdzsxrb7ajavw67tzpbqqk5m6cgpvvny6ymj2my",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlxkiltulp2z",
+          "text": "Flue, un framework TypeScript pour construire des agents IA — pensé comme Astro ou Next.js, mais pour les agents. La logique vit dans du Markdown, le code reste minimal, et ça tourne partout : Node.js, Cloudflare, GitHub Actions. https://github.com/withastro/flue",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T11:40:02+02:00",
+          "createdUtc": 1778924402,
+          "ageHours": 1,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "withastro/flue",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mlc3y6vot62i",
           "cid": "bafyreienlokp7nfcuscgcxk7mmxlevmcnfic4ml54ttostmhmp6elgstby",
@@ -3165,7 +3193,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T08:22:16Z",
-        "hoursSincePosted": 0.67
+        "hoursSincePosted": 2.29
       },
       "posts": [
         {
@@ -3215,7 +3243,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T08:22:16Z",
           "createdUtc": 1778919736,
-          "ageHours": 0.67,
+          "ageHours": 2.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4189,7 +4217,7 @@
     },
     "rorkai/App-Store-Connect-CLI": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -4201,11 +4229,11 @@
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T08:31:31.805042Z",
-        "hoursSincePosted": 0.52
+        "hoursSincePosted": 2.14
       },
       "posts": [
         {
@@ -4217,13 +4245,13 @@
             "handle": "rudrank.bsky.social",
             "displayName": "Rudrank Riyam"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-16T08:31:31.805042Z",
           "createdUtc": 1778920291,
-          "ageHours": 0.52,
-          "trendingScore": 1,
+          "ageHours": 2.14,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5783,7 +5811,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T09:00:22.114888Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.66
       },
       "posts": [
         {
@@ -5829,7 +5857,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T09:00:22.114888Z",
           "createdUtc": 1778922022,
-          "ageHours": 0.5,
+          "ageHours": 1.66,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -11557,21 +11585,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mlujmp7s232e",
-        "cid": "bafyreicxyncqxdxadotlnmkxayjwcxnxfbxwiy7celgxgn5sg7oprch7mm",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlujmp7s232e",
-        "text": "GitHub - HKUDS/CLI-Anything: \"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/ https://github.com/HKUDS/CLI-Anything",
+        "uri": "at://did:plc:gt64o2mlutlrcvdgnb3lqdcn/app.bsky.feed.post/3mlxkpbu2nzn2",
+        "cid": "bafyreiawkcv7acufk6y5fmljlsnzxrm2caxcf56cjdfpprgqreikh2vqvm",
+        "bskyUrl": "https://bsky.app/profile/s4mdf0o1.piaille.fr.ap.brid.gy/post/3mlxkpbu2nzn2",
+        "text": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
         "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
+          "handle": "s4mdf0o1.piaille.fr.ap.brid.gy",
+          "displayName": "Entité terrestre auto-critique"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T04:46:27.372Z",
-        "hoursSincePosted": 1.96
+        "createdAt": "2026-05-16T09:43:44.000Z",
+        "hoursSincePosted": 0.94
       },
       "posts": [
+        {
+          "uri": "at://did:plc:gt64o2mlutlrcvdgnb3lqdcn/app.bsky.feed.post/3mlxkpbu2nzn2",
+          "cid": "bafyreiawkcv7acufk6y5fmljlsnzxrm2caxcf56cjdfpprgqreikh2vqvm",
+          "bskyUrl": "https://bsky.app/profile/s4mdf0o1.piaille.fr.ap.brid.gy/post/3mlxkpbu2nzn2",
+          "text": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
+          "author": {
+            "handle": "s4mdf0o1.piaille.fr.ap.brid.gy",
+            "displayName": "Entité terrestre auto-critique"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T09:43:44.000Z",
+          "createdUtc": 1778924624,
+          "ageHours": 0.94,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mlujmp7s232e",
           "cid": "bafyreicxyncqxdxadotlnmkxayjwcxnxfbxwiy7celgxgn5sg7oprch7mm",
@@ -12710,7 +12766,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:48:53Z",
-        "hoursSincePosted": 3.23
+        "hoursSincePosted": 4.85
       },
       "posts": [
         {
@@ -12727,7 +12783,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:48:53Z",
           "createdUtc": 1778910533,
-          "ageHours": 3.23,
+          "ageHours": 4.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12761,7 +12817,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:44:39.567Z",
-        "hoursSincePosted": 3.3
+        "hoursSincePosted": 4.92
       },
       "posts": [
         {
@@ -12778,7 +12834,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:44:39.567Z",
           "createdUtc": 1778910279,
-          "ageHours": 3.3,
+          "ageHours": 4.92,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12812,7 +12868,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T07:05:31Z",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 3.57
       },
       "posts": [
         {
@@ -12829,7 +12885,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T07:05:31Z",
           "createdUtc": 1778915131,
-          "ageHours": 1.95,
+          "ageHours": 3.57,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12865,7 +12921,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T08:43:07.689Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.95
       },
       "posts": [
         {
@@ -12882,7 +12938,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T08:43:07.689Z",
           "createdUtc": 1778920987,
-          "ageHours": 0.5,
+          "ageHours": 1.95,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15054,25 +15110,53 @@
     },
     "withastro--flue": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lpkp25v24cyz5d65mnu6lar3/app.bsky.feed.post/3mlcxywqowv2s",
-        "cid": "bafyreid4gnysfyren5atkjteckys6kir47n65222wjbqby7tfbg476r2wi",
-        "bskyUrl": "https://bsky.app/profile/lutie-echosphere.bsky.social/post/3mlcxywqowv2s",
-        "text": "「Claude Codeみたいなエージェントを、自分で組めるフレームワーク」——Flueが面白かったですぅ。 https://github.com/withastro/flue Astroの人が作ったTypeScript製のエージェントFWで、スキル・サンドボックス・セッションっていうCCと同じ概念が、全部プログラマブルに書けるんですよぉ。TUIもGUIもない、完全ヘッドレス。",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlxkiltulp2z",
+        "cid": "bafyreifzk5fsq7bum3pxdzsxrb7ajavw67tzpbqqk5m6cgpvvny6ymj2my",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlxkiltulp2z",
+        "text": "Flue, un framework TypeScript pour construire des agents IA — pensé comme Astro ou Next.js, mais pour les agents. La logique vit dans du Markdown, le code reste minimal, et ça tourne partout : Node.js, Cloudflare, GitHub Actions. https://github.com/withastro/flue",
         "author": {
-          "handle": "lutie-echosphere.bsky.social",
-          "displayName": "ルーティ"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T05:15:55.104Z",
-        "hoursSincePosted": 2.74
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-16T11:40:02+02:00",
+        "hoursSincePosted": 1
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlxkiltulp2z",
+          "cid": "bafyreifzk5fsq7bum3pxdzsxrb7ajavw67tzpbqqk5m6cgpvvny6ymj2my",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlxkiltulp2z",
+          "text": "Flue, un framework TypeScript pour construire des agents IA — pensé comme Astro ou Next.js, mais pour les agents. La logique vit dans du Markdown, le code reste minimal, et ça tourne partout : Node.js, Cloudflare, GitHub Actions. https://github.com/withastro/flue",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T11:40:02+02:00",
+          "createdUtc": 1778924402,
+          "ageHours": 1,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "withastro/flue",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mlc3y6vot62i",
           "cid": "bafyreienlokp7nfcuscgcxk7mmxlevmcnfic4ml54ttostmhmp6elgstby",
@@ -16007,7 +16091,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T08:22:16Z",
-        "hoursSincePosted": 0.67
+        "hoursSincePosted": 2.29
       },
       "posts": [
         {
@@ -16057,7 +16141,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T08:22:16Z",
           "createdUtc": 1778919736,
-          "ageHours": 0.67,
+          "ageHours": 2.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17031,7 +17115,7 @@
     },
     "rorkai--app-store-connect-cli": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -17043,11 +17127,11 @@
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T08:31:31.805042Z",
-        "hoursSincePosted": 0.52
+        "hoursSincePosted": 2.14
       },
       "posts": [
         {
@@ -17059,13 +17143,13 @@
             "handle": "rudrank.bsky.social",
             "displayName": "Rudrank Riyam"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-16T08:31:31.805042Z",
           "createdUtc": 1778920291,
-          "ageHours": 0.52,
-          "trendingScore": 1,
+          "ageHours": 2.14,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18625,7 +18709,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T09:00:22.114888Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.66
       },
       "posts": [
         {
@@ -18671,7 +18755,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T09:00:22.114888Z",
           "createdUtc": 1778922022,
-          "ageHours": 0.5,
+          "ageHours": 1.66,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24399,21 +24483,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mlujmp7s232e",
-        "cid": "bafyreicxyncqxdxadotlnmkxayjwcxnxfbxwiy7celgxgn5sg7oprch7mm",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlujmp7s232e",
-        "text": "GitHub - HKUDS/CLI-Anything: \"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/ https://github.com/HKUDS/CLI-Anything",
+        "uri": "at://did:plc:gt64o2mlutlrcvdgnb3lqdcn/app.bsky.feed.post/3mlxkpbu2nzn2",
+        "cid": "bafyreiawkcv7acufk6y5fmljlsnzxrm2caxcf56cjdfpprgqreikh2vqvm",
+        "bskyUrl": "https://bsky.app/profile/s4mdf0o1.piaille.fr.ap.brid.gy/post/3mlxkpbu2nzn2",
+        "text": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
         "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
+          "handle": "s4mdf0o1.piaille.fr.ap.brid.gy",
+          "displayName": "Entité terrestre auto-critique"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T04:46:27.372Z",
-        "hoursSincePosted": 1.96
+        "createdAt": "2026-05-16T09:43:44.000Z",
+        "hoursSincePosted": 0.94
       },
       "posts": [
+        {
+          "uri": "at://did:plc:gt64o2mlutlrcvdgnb3lqdcn/app.bsky.feed.post/3mlxkpbu2nzn2",
+          "cid": "bafyreiawkcv7acufk6y5fmljlsnzxrm2caxcf56cjdfpprgqreikh2vqvm",
+          "bskyUrl": "https://bsky.app/profile/s4mdf0o1.piaille.fr.ap.brid.gy/post/3mlxkpbu2nzn2",
+          "text": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
+          "author": {
+            "handle": "s4mdf0o1.piaille.fr.ap.brid.gy",
+            "displayName": "Entité terrestre auto-critique"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-16T09:43:44.000Z",
+          "createdUtc": 1778924624,
+          "ageHours": 0.94,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mlujmp7s232e",
           "cid": "bafyreicxyncqxdxadotlnmkxayjwcxnxfbxwiy7celgxgn5sg7oprch7mm",
@@ -25552,7 +25664,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:48:53Z",
-        "hoursSincePosted": 3.23
+        "hoursSincePosted": 4.85
       },
       "posts": [
         {
@@ -25569,7 +25681,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:48:53Z",
           "createdUtc": 1778910533,
-          "ageHours": 3.23,
+          "ageHours": 4.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -25603,7 +25715,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T05:44:39.567Z",
-        "hoursSincePosted": 3.3
+        "hoursSincePosted": 4.92
       },
       "posts": [
         {
@@ -25620,7 +25732,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T05:44:39.567Z",
           "createdUtc": 1778910279,
-          "ageHours": 3.3,
+          "ageHours": 4.92,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -25654,7 +25766,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-16T07:05:31Z",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 3.57
       },
       "posts": [
         {
@@ -25671,7 +25783,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-16T07:05:31Z",
           "createdUtc": 1778915131,
-          "ageHours": 1.95,
+          "ageHours": 3.57,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -25692,7 +25804,12 @@
     {
       "fullName": "rorkai/App-Store-Connect-CLI",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "withastro/flue",
+      "count7d": 1,
+      "likesSum7d": 2
     },
     {
       "fullName": "antirez/ds4",
@@ -25706,6 +25823,11 @@
     },
     {
       "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/CLI-Anything",
       "count7d": 1,
       "likesSum7d": 0
     },

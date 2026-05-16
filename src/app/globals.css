@@ -6657,3 +6657,82 @@ body::before {
   outline: none;
   box-shadow: 0 0 0 2px var(--v4-acc);
 }
+
+/* ---------------------------------------------------------------------------
+   FundingSourcePillRow — per-source pills + bars (A6 mockup 2026-05-16).
+   Replaces the original .stock-row tabular layout on /funding's "Source mix"
+   card with denser pill-on-the-left + proportional-bar-in-the-middle rows.
+   --------------------------------------------------------------------------- */
+.funding-page .fnd-pill-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.funding-page .fnd-pill-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 40px 38px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line-100);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+}
+
+.funding-page .fnd-pill-row:last-child {
+  border-bottom: none;
+}
+
+.funding-page .fnd-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.funding-page .fnd-pill__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.funding-page .fnd-pill__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.funding-page .fnd-pill__bar {
+  display: block;
+  height: 6px;
+  background: var(--bg-100);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.funding-page .fnd-pill__bar > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--sig-green), var(--acc));
+  border-radius: 4px;
+}
+
+.funding-page .fnd-pill__count {
+  font-size: 11px;
+  color: var(--ink-200);
+  text-align: right;
+}
+
+.funding-page .fnd-pill__share {
+  font-size: 10px;
+  color: var(--ink-300);
+  text-align: right;
+}

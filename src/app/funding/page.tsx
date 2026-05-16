@@ -20,6 +20,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
 import { WindowedFundingBoard } from "@/components/funding/WindowedFundingBoard";
+import { FundingSourcePillRow } from "@/components/funding/FundingSourcePillRow";
 import { companyLogoUrl } from "@/lib/logos";
 import { resolveLogoUrl } from "@/lib/logo-url";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
@@ -445,16 +446,15 @@ export default async function FundingPage() {
               <CardHeader showCorner right={<span>{sources.length} sources</span>}>
                 Source mix
               </CardHeader>
-              {sources.slice(0, 8).map((source, index) => (
-                <div className="stock-row" key={source.source}>
-                  <span className={`col-pip sd-f${(index % 6) + 1}`} />
-                  <span className="nm">{sourceName(source.source)}</span>
-                  <span className="px">{source.count}</span>
-                  <span className="ch up">
-                    {Math.round((source.count / Math.max(1, signals.length)) * 100)}%
-                  </span>
-                </div>
-              ))}
+              <FundingSourcePillRow
+                rows={sources.map((source) => ({
+                  source: source.source,
+                  count: source.count,
+                  label: sourceName(source.source),
+                }))}
+                total={signals.length}
+                limit={8}
+              />
             </Card>
           </div>
 

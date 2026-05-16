@@ -539,14 +539,22 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         </div>
       ) : (
         <>
-          {/* ========== 01 — COMPOSITE MOVERS BOARD ========== */}
-          <AgentCommerceMoversBoard movers={movers} />
-
-          {/* ========== 02 — ACTIVITY PULSE ========== */}
-          <AgentCommerceActivityPulse
-            activitySeries={activitySeries}
-            stats={stats}
-          />
+          {/* ========== 01+02 — MOVERS BOARD (L) + ACTIVITY PULSE (R) ==========
+            * A8-P4: 2-col body grid. Stacks at <1024px, splits ~65/35 above.
+            * Each column wraps its own .sec-head + content so the grid cell
+            * spans the section title and the section body.
+            */}
+          <div className="ac-body-grid">
+            <div>
+              <AgentCommerceMoversBoard movers={movers} />
+            </div>
+            <div>
+              <AgentCommerceActivityPulse
+                activitySeries={activitySeries}
+                stats={stats}
+              />
+            </div>
+          </div>
 
           {/* ========== 03 — SCORE DISTRIBUTION ========== */}
           <div className="sec-head">

@@ -100,6 +100,10 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
           REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
+          # B1 (2026-05-16): apify proxy path so the daily Reddit run
+          # records real engagement instead of RSS zeros.
+          REDDIT_COLLECTOR_PROVIDER: apify
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
         run: npm run scrape:reddit
 
       - name: Compute commit timestamp

@@ -62,6 +62,13 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
           REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
+          # B1 (2026-05-16): activate Apify residential-proxy path so the
+          # collector returns real score/num_comments instead of falling
+          # through to the zero-engagement RSS path. Reddit's anti-bot
+          # 403s every GH-runner IP for /r/X/new.json; Apify's
+          # `trudax/reddit-scraper-lite` actor bypasses the block.
+          REDDIT_COLLECTOR_PROVIDER: apify
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
           # Dual-write to TOOLBOX signal lake (trending.reddit.mentions).
           # Skipped silently when unset; never blocks the primary write.
           TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}

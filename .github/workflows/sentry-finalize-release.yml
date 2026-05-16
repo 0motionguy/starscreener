@@ -1,0 +1,80 @@
+name: Sentry — Finalize Release + Upload Sourcemaps
+
+# Sprint 2.6 of TOOLBOX unification audit (Phase 6 audit row #24).
+# Closes the "no sentry-cli releases new/finalize anywhere" gap:
+# without this, Sentry errors show minified stack traces only.
+#
+# Triggers on push to main only — release tagging is for production code.
+# Vercel handles the actual deploy in parallel; this workflow uploads the
+# matching sourcemaps and finalizes the release, so the release shows up
+# in the Sentry dashboard with the right commit + readable stack traces.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sentry-finalize-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0  # full history so set-commits can detect ancestry
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build (produces .next with sourcemaps)
+        run: npm run build
+        env:
+          # Build needs minimal env to compile; runtime keys not required here.
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          # Suppress the build warning that asks for these; we don't need
+          # them to PRODUCE the bundle, only for runtime telemetry.
+          SUPABASE_URL: 'https://placeholder.supabase.co'
+          SUPABASE_ANON_KEY: 'placeholder'
+
+      - name: Sentry — create release + upload sourcemaps + finalize
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        run: |
+          set -euo pipefail
+          # Defense: bail with a clear note if the org/project secrets are
+          # missing, so this workflow is a no-op rather than a hard fail on
+          # the first push to main when secrets aren't yet wired.
+          if [ -z "${SENTRY_AUTH_TOKEN:-}" ] || [ -z "${SENTRY_ORG:-}" ] || [ -z "${SENTRY_PROJECT:-}" ]; then
+            echo "::warning::Sentry secrets missing; skipping finalize step (Sprint 2.6 not yet wired)."
+            exit 0
+          fi
+          VERSION="${GITHUB_SHA}"
+          npx --yes @sentry/cli@latest releases new "$VERSION"
+          # Best-effort: this can fail in shallow clones; logged but non-fatal.
+          npx --yes @sentry/cli@latest releases set-commits "$VERSION" --auto || \
+            echo "::warning::set-commits --auto failed; continuing without commit data"
+          # Inject release IDs into source files for runtime tagging.
+          npx --yes @sentry/cli@latest sourcemaps inject ./.next || true
+          # Upload sourcemaps. The path matches the Next.js build output for
+          # the App Router.
+          npx --yes @sentry/cli@latest sourcemaps upload ./.next --release "$VERSION" || \
+            echo "::warning::sourcemaps upload failed; release will still be finalized"
+          npx --yes @sentry/cli@latest releases finalize "$VERSION"
+          echo "::notice::Sentry release $VERSION finalized."

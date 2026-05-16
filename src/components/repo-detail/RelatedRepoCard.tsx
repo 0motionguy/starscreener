@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 import { BrandStar } from "@/components/shared/BrandStar";
+import { RepoLink } from "@/components/repo/RepoLink";
 
 export interface RelatedRepoCardProps {
   /** Repo full name e.g. "abhigyanpatwari/GitNexus". */
@@ -16,7 +17,7 @@ export interface RelatedRepoCardProps {
   stars?: ReactNode;
   /** Similarity score (e.g. "SIM 0.86") rendered right-aligned in caps. */
   similarity?: ReactNode;
-  /** Optional href - renders as <a>. */
+  /** Optional href - renders as <a> via RepoLink when interactive. */
   href?: string;
   className?: string;
 }
@@ -31,12 +32,13 @@ export function RelatedRepoCard({
   href,
   className,
 }: RelatedRepoCardProps) {
-  const Tag = href ? "a" : "div";
-  return (
-    <Tag
-      {...(href ? { href } : {})}
-      className={cn("v4-related-card", href && "v4-related-card--interactive", className)}
-    >
+  const cardClass = cn(
+    "v4-related-card",
+    href && "v4-related-card--interactive",
+    className,
+  );
+  const inner = (
+    <>
       <header className="v4-related-card__head">
         {avatar ? (
           <span className="v4-related-card__avatar">{avatar}</span>
@@ -62,6 +64,14 @@ export function RelatedRepoCard({
           <span className="v4-related-card__why">{similarity}</span>
         ) : null}
       </footer>
-    </Tag>
+    </>
+  );
+  if (!href) {
+    return <div className={cardClass}>{inner}</div>;
+  }
+  return (
+    <RepoLink fullName={fullName} href={href} className={cardClass}>
+      {inner}
+    </RepoLink>
   );
 }

@@ -105,7 +105,11 @@ export const revalidate = 300;
 export const dynamicParams = true;
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
-const STATIC_REPO_DETAIL_LIMIT = 50;
+// Raised from 50 → 150 (2026-05-16) to shrink the cold-miss tail: repos
+// outside the prerendered set pay a Lambda cold start + 15-source data-store
+// fan-out + canonical profile build on first visit (~5-6s TTFB). Top 150
+// captures the realistic browse surface while keeping build time bounded.
+const STATIC_REPO_DETAIL_LIMIT = 150;
 
 function isGithubUrl(url: string): boolean {
   return /github\.com/i.test(url);

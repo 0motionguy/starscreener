@@ -1,0 +1,38 @@
+name: no-gabagool
+
+# Sprint 1.4 (TOOLBOX infra unification): forbid legacy `gabagool*` literals.
+# Pairs with `migrate-runner-rename.md`. The runner label `toolbox` (Sprint 1.3)
+# must be registered before this workflow can run successfully — if Sprint 1.3
+# has not yet shipped on this repo, change `runs-on` to `ubuntu-latest`
+# temporarily or rely on the auto-fallback Mirko configures.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: [self-hosted, toolbox]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Forbid legacy gabagool* literals
+        run: |
+          # Exclude this workflow file itself — it must mention the literal to forbid it.
+          if grep -rIE "gabagool" \
+            --exclude-dir=node_modules \
+            --exclude-dir=.git \
+            --exclude-dir=.next \
+            --exclude-dir=dist \
+            --exclude-dir=.audits \
+            --exclude-dir=data \
+            --exclude=no-gabagool.yml \
+            .; then
+            echo "::error::Found legacy 'gabagool' reference. Use 'toolbox' instead."
+            exit 1
+          fi
+          echo "OK - no legacy literals."

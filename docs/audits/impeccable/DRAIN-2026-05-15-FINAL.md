@@ -82,17 +82,17 @@ Findings:
 - Last completed non-skipped run: `2026-05-14T03:52:07Z` (~60+ min before the snapshot).
 - Most "completed" runs are `Auto-merge bot PRs` reports with `conclusion: skipped` (lightweight, doesn't represent real CI execution).
 
-**Diagnosis**: **Self-hosted runner `gabagool-ams` is hung — daemon crashed mid-job, GitHub still believes it's `busy`.** This is the pre-existing S5327 blockage now surgically root-caused.
+**Diagnosis**: **Self-hosted runner `toolbox` is hung — daemon crashed mid-job, GitHub still believes it's `busy`.** This is the pre-existing S5327 blockage now surgically root-caused.
 
 Evidence:
-- `.github/workflows/ci.yml` uses `runs-on: [self-hosted, linux, x64]` — only ONE registered runner matches: `id=21 name=gabagool-ams status=online busy=true os=Linux labels=self-hosted,Linux,X64,gabagool`.
-- Runner reports `busy=true` but **no active job is actually running on it** — verified by querying `gh api repos/.../actions/runs/<id>/jobs` across the 30 most recent runs and checking `runner_name == "gabagool-ams" and status != "completed"` → **empty result**. GitHub thinks the runner is busy; the runner agent hasn't sent the "done" heartbeat.
-- Run `25801628782` (CI on `audit/imp-wave-2`): created `2026-05-13T13:18:03Z`. "Classify PR paths" job completed on gabagool-ams at `21:57:30Z`. "Typecheck, guards, tests, build, e2e" job has `started_at=21:57:38Z` but `runner_name=""` and `status=queued` — **the job is assigned in GitHub's eyes but never actually picked up by a runner heartbeat**.
+- `.github/workflows/ci.yml` uses `runs-on: [self-hosted, linux, x64]` — only ONE registered runner matches: `id=21 name=toolbox status=online busy=true os=Linux labels=self-hosted,Linux,X64,toolbox`.
+- Runner reports `busy=true` but **no active job is actually running on it** — verified by querying `gh api repos/.../actions/runs/<id>/jobs` across the 30 most recent runs and checking `runner_name == "toolbox" and status != "completed"` → **empty result**. GitHub thinks the runner is busy; the runner agent hasn't sent the "done" heartbeat.
+- Run `25801628782` (CI on `audit/imp-wave-2`): created `2026-05-13T13:18:03Z`. "Classify PR paths" job completed on toolbox at `21:57:30Z`. "Typecheck, guards, tests, build, e2e" job has `started_at=21:57:38Z` but `runner_name=""` and `status=queued` — **the job is assigned in GitHub's eyes but never actually picked up by a runner heartbeat**.
 - `gh run rerun` refused with "workflow already running" — GitHub's reconciliation logic refuses to spawn a new run while the old one is in this limbo state.
 - Same pattern on every audit-wave PR: lightweight checks (Classify, Gitleaks, Validate data PR, Vercel Preview Comments) all completed. The heavy `Typecheck, guards, tests, build, e2e` and `MCP server build` jobs are stuck `queued` indefinitely.
 - 0 workflow runs reported `in_progress` for the entire ~70 minutes of this session — even after Phase A freed 71 PR slots and I cancelled 4 oldest cron-on-main runs to test FIFO unstickiness.
 
-**Probable cause**: The actions-runner daemon on the `gabagool-ams` VPS (likely Vultr Amsterdam region per the name) crashed or was killed while processing the Typecheck job ~7 hours ago. The daemon's last successful heartbeat reserved the "Typecheck" job assignment but never reported completion or failure. GitHub's reconciliation logic doesn't auto-recover this — operator must intervene.
+**Probable cause**: The actions-runner daemon on the `toolbox` VPS (likely Vultr Amsterdam region per the name) crashed or was killed while processing the Typecheck job ~7 hours ago. The daemon's last successful heartbeat reserved the "Typecheck" job assignment but never reported completion or failure. GitHub's reconciliation logic doesn't auto-recover this — operator must intervene.
 
 **Probable cause**: The self-hosted runner agent likely ran on Railway pre-migration and didn't get migrated to Vultr along with `trendingrepo-worker`. Or it's on Vultr but the agent isn't starting. Or another infra location (the operator's machine, a leftover GCP VM, etc.).
 
@@ -386,14 +386,14 @@ Items discovered during the drain but **NOT addressed this session** (operator d
 
 ## Operator handoff items
 
-1. **⚠️ TOP PRIORITY — SSH to `gabagool-ams` and restart the actions-runner daemon.** The runner is registered + reports `online` + `busy=true`, but no active job is on it. Daemon crashed mid-Typecheck-job ~7 hours ago and never recovered. Quickest fix:
-   - SSH to the gabagool-ams VPS (Amsterdam region per the name; likely Vultr or a similar provider).
-   - `sudo systemctl status actions.runner.0motionguy-starscreener.gabagool-ams.service` — confirm whether the service is running, crashed, or paused.
-   - `sudo systemctl restart actions.runner.0motionguy-starscreener.gabagool-ams.service` (or `cd /opt/actions-runner && ./svc.sh stop && ./svc.sh start` if installed via the runner's own svc.sh).
-   - Watch `journalctl -u actions.runner.0motionguy-starscreener.gabagool-ams.service -f` — should see "Listening for Jobs" within ~10s of restart.
+1. **⚠️ TOP PRIORITY — SSH to `toolbox` and restart the actions-runner daemon.** The runner is registered + reports `online` + `busy=true`, but no active job is on it. Daemon crashed mid-Typecheck-job ~7 hours ago and never recovered. Quickest fix:
+   - SSH to the toolbox VPS (Amsterdam region per the name; likely Vultr or a similar provider).
+   - `sudo systemctl status actions.runner.0motionguy-starscreener.toolbox.service` — confirm whether the service is running, crashed, or paused.
+   - `sudo systemctl restart actions.runner.0motionguy-starscreener.toolbox.service` (or `cd /opt/actions-runner && ./svc.sh stop && ./svc.sh start` if installed via the runner's own svc.sh).
+   - Watch `journalctl -u actions.runner.0motionguy-starscreener.toolbox.service -f` — should see "Listening for Jobs" within ~10s of restart.
    - Once the daemon's first heartbeat hits GitHub, the runner's `busy` flag resets to `false`. The 60+ queued runs start processing FIFO immediately.
    - Estimated drain time post-runner-up: ~30-45 min for the 22 audit-wave PRs (each CI run ~3-5 min serially since the workflow has `concurrency: ci-${{ github.ref }}` and only one runner exists).
-   - **If gabagool-ams VPS itself is dead** (host crashed, network down, payment lapsed): provision a fresh self-hosted runner on the Vultr container `toolbox-trendingrepo-worker-1` (spare capacity per cross-session briefing). Install:
+   - **If toolbox VPS itself is dead** (host crashed, network down, payment lapsed): provision a fresh self-hosted runner on the Vultr container `toolbox-trendingrepo-worker-1` (spare capacity per cross-session briefing). Install:
      ```bash
      cd /opt && sudo mkdir -p actions-runner && sudo chown -R $USER actions-runner && cd actions-runner
      curl -o actions-runner.tar.gz -L https://github.com/actions/runner/releases/download/v2.319.1/actions-runner-linux-x64-2.319.1.tar.gz
@@ -461,7 +461,7 @@ What's gated on CI runner unblock (out of session scope):
 
 ## Post-runner-unblock final state (amended 2026-05-14 ~10:15 UTC)
 
-Operator restarted the gabagool-ams runner with a hard `pkill -f Runner.Worker` after the first respawn failed to clear phantom workflow runs. After 50+ phantom runs were force-cancelled in two passes, the runner came back clean and the queue drained. The drain finale then completed in-session under admin-merge.
+Operator restarted the toolbox runner with a hard `pkill -f Runner.Worker` after the first respawn failed to clear phantom workflow runs. After 50+ phantom runs were force-cancelled in two passes, the runner came back clean and the queue drained. The drain finale then completed in-session under admin-merge.
 
 ### Final merge ledger (all in addition to the day-1 + day-2 merges captured above)
 
@@ -508,14 +508,14 @@ Recorded 2026-05-14 10:12 UTC, captured to `.smoke-2026-05-14-final.txt` (trendi
 
 ### ⚠️ Vultr container drift (operator action required)
 
-After today's DNS cutover from Vercel to Vultr (via Cloudflare tunnel), trendingrepo.com is served by the Docker container on `gabagool-ams`. The container was built from `chore/vps-docker-deploy` HEAD (`1bc52102b`, May 12) — **897 commits behind current main**. None of the audit-wave fixes, the wave-11/12/13 token migrations, the wave-7b dead-code deletions, or the `#1232` build hotfix are in the running container.
+After today's DNS cutover from Vercel to Vultr (via Cloudflare tunnel), trendingrepo.com is served by the Docker container on `toolbox`. The container was built from `chore/vps-docker-deploy` HEAD (`1bc52102b`, May 12) — **897 commits behind current main**. None of the audit-wave fixes, the wave-11/12/13 token migrations, the wave-7b dead-code deletions, or the `#1232` build hotfix are in the running container.
 
 The `/repo/*` 500s are NOT a Vercel cache problem and NOT a code bug — the bug **IS fixed on main** (Vercel main-alias proves it: 24/24 green). They're the unfixed code in the Vultr container.
 
 **Required operator action** (per `chore/vps-docker-deploy` is operator-only per /GOAL):
 
 1. In `c:/dev/trendingrepo-vps` worktree: `git fetch && git merge origin/main` (or rebase deploy commits onto main HEAD).
-2. Rebuild and redeploy the Docker container on `gabagool-ams`.
+2. Rebuild and redeploy the Docker container on `toolbox`.
 3. Re-run the 24-route smoke against `trendingrepo.com` → expect 24/24 green.
 
 `Cf-cache-status: DYNAMIC` and `Cache-Control: no-cache` on the 500s confirm Cloudflare is not caching — every request hits the container fresh and gets a fresh 500. No CDN purge needed; only container rebuild.

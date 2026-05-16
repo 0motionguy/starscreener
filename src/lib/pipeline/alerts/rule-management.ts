@@ -1,5 +1,6 @@
 // StarScreener Pipeline — AlertRule helpers: creation, validation, presets.
 
+import { AdminRecoverableError } from "@/lib/errors";
 import type { AlertRule, AlertTriggerType } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -52,7 +53,7 @@ export interface CreateRuleInput extends Partial<AlertRule> {
 
 export function createRule(input: CreateRuleInput): AlertRule {
   if (!TRIGGER_SET.has(input.trigger)) {
-    throw new Error(`createRule: invalid trigger type "${input.trigger}"`);
+    throw new AdminRecoverableError(`createRule: invalid trigger type "${input.trigger}"`, { trigger: input.trigger });
   }
   const now = new Date().toISOString();
   const rule: AlertRule = {
@@ -73,8 +74,9 @@ export function createRule(input: CreateRuleInput): AlertRule {
   // silently clamp to 0 at evaluation time.
   const validation = validateRule(rule);
   if (!validation.valid) {
-    throw new Error(
+    throw new AdminRecoverableError(
       `createRule: invalid rule — ${validation.errors.join("; ")}`,
+      { errors: validation.errors },
     );
   }
   return rule;

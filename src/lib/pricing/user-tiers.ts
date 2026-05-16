@@ -23,6 +23,7 @@
 import { statSync } from "node:fs";
 import path from "node:path";
 
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   currentDataDir,
   mutateJsonlFile,
@@ -176,10 +177,10 @@ export async function setUserTier(
   options: { stripeCustomerId?: string | null; stripeSubscriptionId?: string | null } = {},
 ): Promise<UserTierRecord> {
   if (!userId || typeof userId !== "string") {
-    throw new Error("setUserTier: userId must be a non-empty string");
+    throw new AdminRecoverableError("setUserTier: userId must be a non-empty string");
   }
   if (!isUserTier(tier)) {
-    throw new Error(`setUserTier: invalid tier "${String(tier)}"`);
+    throw new AdminRecoverableError(`setUserTier: invalid tier "${String(tier)}"`, { tier });
   }
 
   const now = new Date().toISOString();

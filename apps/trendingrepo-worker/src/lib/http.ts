@@ -1,4 +1,5 @@
 import { Agent, fetch as undiciFetch } from 'undici';
+import { RateLimitQuarantineError, TransientHttpError } from './errors.js';
 import type { HttpClient, HttpOptions, RedisHandle } from './types.js';
 import { parseRateLimitHeaders, recordRateLimit } from './util/github-token-pool.js';
 
@@ -28,7 +29,11 @@ export function createHttpClient(deps: HttpClientDeps): HttpClient {
       try {
         data = JSON.parse(body) as T;
       } catch (err) {
-        throw new Error(`http.json: response from ${url} was not JSON: ${(err as Error).message}`);
+        throw new TransientHttpError(
+          `http.json: response from ${url} was not JSON: ${(err as Error).message}`,
+          0,
+          { url },
+        );
       }
       return { data, cached, etag };
     },
@@ -101,7 +106,10 @@ async function fetchWithRetry(
         await sleep(Math.min(retryAfter ?? backoffMs(attempt), 60_000));
         continue;
       }
-      throw new Error(`http: 429 Too Many Requests (no retries left) for ${url}`);
+      throw new RateLimitQuarantineError(
+        `http: 429 Too Many Requests (no retries left) for ${url}`,
+        { url, attempt },
+      );
     }
 
     if (res.status >= 500 && res.status < 600) {
@@ -109,11 +117,19 @@ async function fetchWithRetry(
         await sleep(backoffMs(attempt));
         continue;
       }
-      throw new Error(`http: ${res.status} ${res.statusText} for ${url}`);
+      throw new TransientHttpError(
+        `http: ${res.status} ${res.statusText} for ${url}`,
+        res.status,
+        { url, attempt },
+      );
     }
 
     if (!res.ok) {
-      throw new Error(`http: ${res.status} ${res.statusText} for ${url}`);
+      throw new TransientHttpError(
+        `http: ${res.status} ${res.statusText} for ${url}`,
+        res.status,
+        { url },
+      );
     }
 
     const body = await res.text();
@@ -127,7 +143,7 @@ async function fetchWithRetry(
     publishGithubRateLimit(url, headers, res.headers);
     return { body, etag: newEtag, cached: false };
   }
-  throw new Error(`http: exhausted retries for ${url}`);
+  throw new TransientHttpError(`http: exhausted retries for ${url}`, 0, { url, maxRetries });
 }
 
 function publishGithubRateLimit(

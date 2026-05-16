@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { FatalConfigError } from './errors.js';
+
 const envSchema = z
   .object({
     SUPABASE_URL: z.string().url().optional(),
@@ -101,7 +103,7 @@ export function loadEnv(): WorkerEnv {
   const parsed = envSchema.safeParse(cleaned);
   if (!parsed.success) {
     const issues = parsed.error.issues.map((i) => `  - ${i.path.join('.')}: ${i.message}`).join('\n');
-    throw new Error(`Invalid worker environment:\n${issues}`);
+    throw new FatalConfigError(`Invalid worker environment:\n${issues}`);
   }
   cached = parsed.data;
   return cached;
@@ -111,7 +113,7 @@ export function requireEnv<K extends keyof WorkerEnv>(key: K): NonNullable<Worke
   const env = loadEnv();
   const value = env[key];
   if (value === undefined || value === null || value === '') {
-    throw new Error(`Required env ${String(key)} is not set`);
+    throw new FatalConfigError(`Required env ${String(key)} is not set`, { key: String(key) });
   }
   return value as NonNullable<WorkerEnv[K]>;
 }

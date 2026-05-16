@@ -11,6 +11,9 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { AdminRecoverableError } from "@/lib/errors";
+
 import {
   CheckCircle2,
   LoaderCircle,
@@ -53,7 +56,7 @@ export function ReferralsQueueAdmin() {
         | { ok: true; referrals: AdminReferralRow[] }
         | { ok: false; error: string; reason?: string };
       if (!payload.ok) {
-        throw new Error(payload.error ?? "request failed");
+        throw new AdminRecoverableError(payload.error ?? "request failed");
       }
       setRows(payload.referrals);
     } catch (err) {
@@ -81,7 +84,7 @@ export function ReferralsQueueAdmin() {
         const payload = (await res.json()) as
           | { ok: true; referral: AdminReferralRow }
           | { ok: false; error: string };
-        if (!payload.ok) throw new Error(payload.error ?? "request failed");
+        if (!payload.ok) throw new AdminRecoverableError(payload.error ?? "request failed");
         // Optimistic UI: post-action both states (cleared flags / admin_rejected)
         // remove the row from the queue selector, so drop it locally.
         setRows((prev) => prev.filter((row) => row.id !== id));

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { RepoLink } from "@/components/repo/RepoLink";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   BadgeCheck,
   ExternalLink,
@@ -108,7 +110,7 @@ export function DropRevenuePage({
       } else {
         const cents = parseDollarsToCents(mrrDollars);
         if (cents === null) {
-          throw new Error("MRR must be a non-negative number (dollars)");
+          throw new AdminRecoverableError("MRR must be a non-negative number (dollars)");
         }
         body.mrrCents = cents;
         body.paymentProvider = paymentProvider;
@@ -131,7 +133,7 @@ export function DropRevenuePage({
           }
         | { ok: false; error: string };
       if (!payload.ok) {
-        throw new Error(payload.error);
+        throw new AdminRecoverableError(payload.error);
       }
       setSuccess({
         kind: payload.result.kind,

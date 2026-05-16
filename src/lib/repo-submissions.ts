@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   appendJsonlFile,
   readJsonlFile,
@@ -247,7 +248,7 @@ export function normalizeShareUrl(raw: string): string | null {
   try {
     parsed = new URL(withProtocol);
   } catch {
-    throw new Error("shareUrl must be a valid URL");
+    throw new AdminRecoverableError("shareUrl must be a valid URL");
   }
 
   const host = parsed.hostname.toLowerCase();
@@ -257,16 +258,16 @@ export function normalizeShareUrl(raw: string): string | null {
     host === "twitter.com" ||
     host === "www.twitter.com";
   if (!validHost) {
-    throw new Error("shareUrl must be an x.com or twitter.com URL");
+    throw new AdminRecoverableError("shareUrl must be an x.com or twitter.com URL");
   }
 
   if (!parsed.pathname || parsed.pathname === "/") {
-    throw new Error("shareUrl must point to a post");
+    throw new AdminRecoverableError("shareUrl must point to a post");
   }
 
   const normalized = parsed.toString();
   if (normalized.length > MAX_SHARE_URL_LENGTH) {
-    throw new Error(`shareUrl must be <= ${MAX_SHARE_URL_LENGTH} characters`);
+    throw new AdminRecoverableError(`shareUrl must be <= ${MAX_SHARE_URL_LENGTH} characters`);
   }
 
   return normalized;
@@ -533,7 +534,7 @@ export async function updateRepoSubmissionRecord(
   const records = await listRepoSubmissions();
   const index = records.findIndex((record) => record.id === id);
   if (index === -1) {
-    throw new Error(`repo submission not found: ${id}`);
+    throw new AdminRecoverableError(`repo submission not found: ${id}`, { id });
   }
 
   const updated: RepoSubmissionRecord = {
@@ -552,7 +553,7 @@ export async function submitRepoToQueue(
 ): Promise<RepoSubmissionResult> {
   const normalized = normalizeRepoReference(input.repo);
   if (!normalized) {
-    throw new Error(
+    throw new AdminRecoverableError(
       "repo must be a GitHub repo URL or owner/name, for example openai/openai-agents-python",
     );
   }

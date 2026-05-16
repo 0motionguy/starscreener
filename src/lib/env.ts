@@ -15,6 +15,7 @@
 // validation + production fail-closed throw, which test fixtures don't want.
 
 import { z } from "zod";
+import { FatalConfigError } from "@/lib/errors";
 import { readEnv } from "./env-helpers";
 
 // Re-exported so legacy callers `import { readEnv } from "@/lib/env"` keep
@@ -123,7 +124,7 @@ if (!parsed.success) {
     "❌ Invalid environment variables:",
     parsed.error.format(),
   );
-  throw new Error(
+  throw new FatalConfigError(
     "Invalid environment variables — see console for details.",
   );
 }
@@ -175,8 +176,9 @@ if (env.NODE_ENV === "production" && !IS_BUILD_PHASE) {
       console.error(
         `[env] Production boot aborted: missing required env vars: ${missing.join(", ")}. Set them or set TRENDINGREPO_ALLOW_MISSING_ENV=true to override.`,
       );
-      throw new Error(
+      throw new FatalConfigError(
         `Production boot aborted: missing ${missing.join(", ")}`,
+        { missing },
       );
     }
   }

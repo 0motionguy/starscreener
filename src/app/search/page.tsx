@@ -7,6 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search as SearchIcon } from "lucide-react";
+import { TransientHttpError } from "@/lib/errors";
 import type { Repo } from "@/lib/types";
 import { useFilterStore } from "@/lib/store";
 import { SearchBar } from "@/components/shared/SearchBar";
@@ -93,7 +94,7 @@ function SearchPageInner() {
     (async () => {
       try {
         const res = await fetch(url, { signal: controller.signal });
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as {
           results?: Repo[];
           repos?: Repo[];

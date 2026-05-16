@@ -21,6 +21,8 @@
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 
+import { FatalConfigError } from "@/lib/errors";
+
 /** 24-hour window for confirmation links. */
 const CONFIRM_TOKEN_TTL_MS = 24 * 60 * 60 * 1_000;
 
@@ -104,7 +106,7 @@ function verifyAndDecode(token: string): unknown | null {
 export function mintConfirmToken(email: string, ts: number): string {
   const token = signPayload({ email, ts });
   if (!token) {
-    throw new Error("[newsletter.tokens] SESSION_SECRET is not configured");
+    throw new FatalConfigError("[newsletter.tokens] SESSION_SECRET is not configured");
   }
   return token;
 }
@@ -137,7 +139,7 @@ export function verifyConfirmToken(
 export function mintUnsubToken(email: string): string {
   const token = signPayload({ email });
   if (!token) {
-    throw new Error("[newsletter.tokens] SESSION_SECRET is not configured");
+    throw new FatalConfigError("[newsletter.tokens] SESSION_SECRET is not configured");
   }
   return token;
 }

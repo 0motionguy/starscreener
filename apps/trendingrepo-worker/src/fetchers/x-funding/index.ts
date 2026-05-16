@@ -32,6 +32,7 @@
 // is two endpoints + JSON; the dep would add 1.5MB of unrelated tooling.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
+import { TransientHttpError } from '../../lib/errors.js';
 import { writeDataStore } from '../../lib/redis.js';
 import { fetchWithTimeout } from '../../lib/util/http-helpers.js';
 import {
@@ -225,11 +226,11 @@ export async function runTweetScraper(
   });
   if (!res.ok) {
     const body = await res.text().catch(() => '');
-    throw new Error(`apify run-sync ${res.status}: ${body.slice(0, 300)}`);
+    throw new TransientHttpError(`apify run-sync ${res.status}: ${body.slice(0, 300)}`, res.status);
   }
   const json: unknown = await res.json();
   if (!Array.isArray(json)) {
-    throw new Error('apify run-sync returned non-array body');
+    throw new TransientHttpError('apify run-sync returned non-array body', 0);
   }
   return json as TweetLike[];
 }
@@ -272,8 +273,10 @@ export async function scrapeTwitterFor(
 
     const apifyMessage =
       apifyError instanceof Error ? apifyError.message : String(apifyError);
-    throw new Error(
+    throw new TransientHttpError(
       `twitter-all-sources-failed apify=${apifyMessage} nitter=${nitterErrors.join(' | ')}`,
+      0,
+      { apifyMessage, nitterErrors },
     );
   }
 }

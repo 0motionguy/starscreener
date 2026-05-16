@@ -3,6 +3,8 @@
 // Supports 5-field expressions: minute hour dayOfMonth month dayOfWeek.
 // `*`, single value, range `a-b`, step `*/n`. No L/W/# extensions.
 
+import { FatalConfigError } from './errors.js';
+
 export interface CronExpr {
   minute: number[];
   hour: number[];
@@ -22,7 +24,7 @@ const FIELDS: Array<{ name: keyof CronExpr; min: number; max: number }> = [
 export function parseCron(expr: string): CronExpr {
   const parts = expr.trim().split(/\s+/);
   if (parts.length !== 5) {
-    throw new Error(`Cron expression must have 5 fields, got ${parts.length}: "${expr}"`);
+    throw new FatalConfigError(`Cron expression must have 5 fields, got ${parts.length}: "${expr}"`, { expr });
   }
   const out: Partial<CronExpr> = {};
   for (let i = 0; i < FIELDS.length; i++) {
@@ -43,7 +45,7 @@ function expandField(part: string, min: number, max: number): number[] {
       step = Number.parseInt(segment.slice(stepIdx + 1), 10);
       range = segment.slice(0, stepIdx);
       if (!Number.isFinite(step) || step <= 0) {
-        throw new Error(`Invalid cron step in "${segment}"`);
+        throw new FatalConfigError(`Invalid cron step in "${segment}"`);
       }
     }
     let lo = min;
@@ -57,7 +59,7 @@ function expandField(part: string, min: number, max: number): number[] {
         lo = hi = Number.parseInt(range, 10);
       }
       if (!Number.isFinite(lo) || !Number.isFinite(hi) || lo < min || hi > max || lo > hi) {
-        throw new Error(`Invalid cron range "${segment}" for [${min}-${max}]`);
+        throw new FatalConfigError(`Invalid cron range "${segment}" for [${min}-${max}]`);
       }
     }
     for (let v = lo; v <= hi; v += step) values.add(v);

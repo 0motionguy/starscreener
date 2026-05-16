@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "
 import { resolve } from "node:path";
 
 import { getDataStore } from "@/lib/data-store";
+import { AdminRecoverableError } from "@/lib/errors";
 
 export interface RepoBriefFaqItem {
   q: string;
@@ -252,12 +253,12 @@ export async function getBrief(owner: string, name: string): Promise<RepoBrief |
 
 export async function setBrief(owner: string, name: string, body: RepoBrief): Promise<void> {
   if (!isValidSlugPart(owner) || !isValidSlugPart(name)) {
-    throw new Error("Invalid brief slug");
+    throw new AdminRecoverableError("Invalid brief slug");
   }
 
   const normalized = normalizeBrief({ ...body, owner, name });
   if (!normalized) {
-    throw new Error("Invalid brief payload");
+    throw new AdminRecoverableError("Invalid brief payload");
   }
 
   const store = getDataStore();

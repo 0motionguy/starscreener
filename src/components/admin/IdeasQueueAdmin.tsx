@@ -7,6 +7,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { AdminRecoverableError } from "@/lib/errors";
+
 import {
   CheckCircle2,
   Lightbulb,
@@ -60,7 +63,7 @@ export function IdeasQueueAdmin() {
         | { ok: true; ideas: IdeaRecord[] }
         | { ok: false; error: string; reason?: string };
       if (!payload.ok) {
-        throw new Error(payload.error ?? "request failed");
+        throw new AdminRecoverableError(payload.error ?? "request failed");
       }
       setIdeas(payload.ideas);
     } catch (err) {
@@ -88,7 +91,7 @@ export function IdeasQueueAdmin() {
         const payload = (await res.json()) as
           | { ok: true; idea: IdeaRecord }
           | { ok: false; error: string };
-        if (!payload.ok) throw new Error(payload.error ?? "request failed");
+        if (!payload.ok) throw new AdminRecoverableError(payload.error ?? "request failed");
         setIdeas((prev) =>
           prev.map((row) => (row.id === id ? payload.idea : row)),
         );

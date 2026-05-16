@@ -4,6 +4,7 @@
 // 429/5xx) and a token pool from DEVTO_API_KEYS (comma-separated) +
 // DEVTO_API_KEY (singular fallback).
 
+import { TransientHttpError } from '../errors.js';
 import type { HttpClient } from '../types.js';
 
 export const USER_AGENT =
@@ -98,8 +99,10 @@ export async function fetchArticleList(params: FetchArticleListParams): Promise<
     timeoutMs: 15_000,
   });
   if (!Array.isArray(data)) {
-    throw new Error(
+    throw new TransientHttpError(
       `articles list: expected array (tag=${tag ?? 'none'}, state=${state ?? 'none'}, top=${top ?? 'none'})`,
+      0,
+      { tag, state, top },
     );
   }
   return data;

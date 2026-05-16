@@ -24,6 +24,7 @@ import { db } from "@/lib/db/client";
 import { alertEvents, alertRules } from "@/lib/db/schema/alerts";
 import { profiles } from "@/lib/db/schema/profiles";
 import { sendEmail } from "@/lib/email/send";
+import { DataStoreFatalError } from "@/lib/errors";
 import {
   renderUserAlertEmail,
   type UserAlertEmailData,
@@ -173,10 +174,10 @@ async function dispatchEmail(row: ClaimedRow): Promise<void> {
     .where(eq(profiles.id, row.profileId))
     .limit(1);
   if (profile.length === 0) {
-    throw new Error(`profile ${row.profileId} not found`);
+    throw new DataStoreFatalError(`profile ${row.profileId} not found`, { profileId: row.profileId });
   }
   const { email } = profile[0];
-  if (!email) throw new Error(`profile ${row.profileId} has no email`);
+  if (!email) throw new DataStoreFatalError(`profile ${row.profileId} has no email`, { profileId: row.profileId });
 
   // Pull the rule's name so the email footer can identify which rule
   // fired. Best-effort — falls back to the rule type if the lookup

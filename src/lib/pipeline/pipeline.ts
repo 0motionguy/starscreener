@@ -6,6 +6,7 @@
 // directly into singleton stores or internal engines — they go through the
 // facade so implementations can evolve safely.
 
+import { AdminRecoverableError } from "@/lib/errors";
 import type { Repo } from "../types";
 import { ingestRepo as ingestOne, ingestBatch as ingestMany, createGitHubAdapter } from "./ingestion/ingest";
 import type {
@@ -803,8 +804,9 @@ export const pipeline = {
     const rule = createRule(input);
     const validation = validateRule(rule);
     if (!validation.valid) {
-      throw new Error(
+      throw new AdminRecoverableError(
         `createAlertRule: invalid rule — ${validation.errors.join("; ")}`,
+        { errors: validation.errors },
       );
     }
     return alertRuleStore.save(rule);
@@ -826,8 +828,9 @@ export const pipeline = {
     const rule: AlertRule = { ...existing, ...patch };
     const validation = validateRule(rule);
     if (!validation.valid) {
-      throw new Error(
+      throw new AdminRecoverableError(
         `updateAlertRule: invalid rule — ${validation.errors.join("; ")}`,
+        { errors: validation.errors },
       );
     }
     return alertRuleStore.save(rule);

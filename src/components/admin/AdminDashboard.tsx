@@ -18,6 +18,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, type CSSProperties } from "react";
 
+import { TransientHttpError } from "@/lib/errors";
+
 import DashboardStats from "./DashboardStats";
 import DropEventsTile from "./DropEventsTile";
 import ScanLogViewer from "./ScanLogViewer";
@@ -205,7 +207,7 @@ export function AdminDashboard() {
       }
       const data = await res.json();
       if (!res.ok || data.ok === false) {
-        throw new Error(data?.reason ?? data?.error ?? `HTTP ${res.status}`);
+        throw new TransientHttpError(data?.reason ?? data?.error ?? `HTTP ${res.status}`, res.status);
       }
       setOverview(data as Overview);
     } catch (err) {
@@ -230,7 +232,7 @@ export function AdminDashboard() {
       });
       const data = await res.json();
       if (!res.ok || data.ok === false) {
-        throw new Error(data?.error ?? `HTTP ${res.status}`);
+        throw new TransientHttpError(data?.error ?? `HTTP ${res.status}`, res.status);
       }
       pushLog(
         `scan ${sourceId} started · pid ${data.pid ?? "?"} · log ${data.logPath ?? "?"}`,
@@ -255,7 +257,7 @@ export function AdminDashboard() {
       });
       const data = await res.json();
       if (!res.ok || data.ok === false) {
-        throw new Error(data?.error ?? `HTTP ${res.status}`);
+        throw new TransientHttpError(data?.error ?? `HTTP ${res.status}`, res.status);
       }
       const r = data.result as
         | { drained?: number; succeeded?: number; failed?: number; remaining?: number }

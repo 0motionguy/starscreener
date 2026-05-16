@@ -182,7 +182,7 @@ async function alertOps(
       }),
     });
     if (!response.ok) {
-      throw new Error(`OPS webhook HTTP ${response.status}`);
+      throw new OpsAlertRecoverableError(`OPS webhook HTTP ${response.status}`, { status: response.status });
     }
   } catch (error) {
     const failed = new OpsAlertRecoverableError(

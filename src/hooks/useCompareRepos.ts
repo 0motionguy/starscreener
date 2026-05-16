@@ -9,6 +9,7 @@
 // re-network at all.
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { TransientHttpError } from "@/lib/errors";
 import type { Repo } from "@/lib/types";
 
 interface CacheEntry {
@@ -40,7 +41,7 @@ async function fetchCompareRepos(
     `/api/repos?ids=${encodeURIComponent(repoIds.join(","))}`,
     { signal },
   );
-  if (!res.ok) throw new Error(`status ${res.status}`);
+  if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
   const data = (await res.json()) as { repos?: Repo[] };
   return Array.isArray(data.repos) ? data.repos : [];
 }

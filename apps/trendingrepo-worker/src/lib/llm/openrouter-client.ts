@@ -5,6 +5,7 @@
 // shape so consensus-analyst can swap providers via env without touching
 // any consumer code.
 
+import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
 import type { LlmCallOptions, LlmCallResult, LlmCallMeta } from './shared.js';
 import type { LlmErrorCode } from './types.js';
@@ -33,11 +34,11 @@ interface OpenRouterChunk {
 export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResult> {
   const env = loadEnv();
   if (!env.OPENROUTER_API_KEY) {
-    throw new Error('OPENROUTER_API_KEY not set — OpenRouter caller cannot run');
+    throw new FatalConfigError('OPENROUTER_API_KEY not set — OpenRouter caller cannot run');
   }
   const model = opts.model;
   if (!model) {
-    throw new Error('OpenRouter requires an explicit model id (e.g. "moonshotai/kimi-k2")');
+    throw new FatalConfigError('OpenRouter requires an explicit model id (e.g. "moonshotai/kimi-k2")');
   }
 
   const startedAt = Date.now();

@@ -7,6 +7,7 @@
 // are likely blocked by Reddit just like GH Actions runners — the proxy
 // rotation is the fix.
 
+import { AuthQuarantineError, RateLimitQuarantineError, TransientHttpError } from '../errors.js';
 import { apifyAwareFetch, isApifyProxyEnabled } from '../util/apify-proxy.js';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -125,7 +126,7 @@ export async function selectUserAgent(): Promise<string> {
       return userAgent;
     }
   }
-  throw new Error('All Reddit User-Agents quarantined');
+  throw new RateLimitQuarantineError('All Reddit User-Agents quarantined');
 }
 
 export function hasRedditOAuthCreds(): boolean {
@@ -212,11 +213,11 @@ async function getRedditAccessToken(): Promise<string | null> {
   });
   if (!res.ok) {
     const text = await res.text().catch(() => '');
-    throw new Error(`reddit oauth ${res.status} ${res.statusText} ${text.slice(0, 200)}`);
+    throw new AuthQuarantineError(`reddit oauth ${res.status} ${res.statusText} ${text.slice(0, 200)}`, { status: res.status });
   }
   const token = (await res.json()) as { access_token?: string; expires_in?: number };
   if (!token?.access_token) {
-    throw new Error('reddit oauth token response missing access_token');
+    throw new AuthQuarantineError('reddit oauth token response missing access_token');
   }
   const expiresInSec =
     Number.isFinite(token.expires_in) && (token.expires_in ?? 0) > 0

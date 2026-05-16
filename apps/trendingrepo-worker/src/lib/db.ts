@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { loadEnv } from './env.js';
+import { DataStoreFatalError, FatalConfigError } from './errors.js';
 import type { NormalizedItem, NormalizedMetric, TrendingItemRow, TrendingItemType } from './types.js';
 
 let cached: SupabaseClient | null = null;
@@ -8,7 +9,7 @@ export function getDb(): SupabaseClient {
   if (cached !== null) return cached;
   const env = loadEnv();
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE) {
-    throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE are required');
+    throw new FatalConfigError('SUPABASE_URL and SUPABASE_SERVICE_ROLE are required');
   }
   cached = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE, {
     auth: { autoRefreshToken: false, persistSession: false },
@@ -67,7 +68,7 @@ export async function upsertItem(
     .upsert(row, { onConflict: 'source,source_id' })
     .select('id')
     .single();
-  if (error) throw new Error(`upsertItem failed (${i.source}/${i.source_id}): ${error.message}`);
+  if (error) throw new DataStoreFatalError(`upsertItem failed (${i.source}/${i.source_id}): ${error.message}`, { code: error.code });
   return { id: (data as { id: string }).id };
 }
 
@@ -95,7 +96,7 @@ export async function writeMetric(
     onConflict: 'item_id,captured_date',
     ignoreDuplicates: false,
   });
-  if (error) throw new Error(`writeMetric failed (${itemId}): ${error.message}`);
+  if (error) throw new DataStoreFatalError(`writeMetric failed (${itemId}): ${error.message}`, { code: error.code });
 }
 
 export interface UpsertAssetInput {
@@ -124,7 +125,7 @@ export async function upsertAsset(
   const { error } = await db
     .from('trending_assets')
     .upsert(row, { onConflict: 'item_id,kind', ignoreDuplicates: false });
-  if (error) throw new Error(`upsertAsset failed (${input.item_id}/${input.kind}): ${error.message}`);
+  if (error) throw new DataStoreFatalError(`upsertAsset failed (${input.item_id}/${input.kind}): ${error.message}`, { code: error.code });
 }
 
 export async function queryTopByType(
@@ -140,6 +141,6 @@ export async function queryTopByType(
     .gte('last_seen_at', cutoff)
     .order('trending_score', { ascending: false })
     .limit(limit);
-  if (error) throw new Error(`queryTopByType failed: ${error.message}`);
+  if (error) throw new DataStoreFatalError(`queryTopByType failed: ${error.message}`, { code: error.code });
   return (data ?? []) as TrendingItemRow[];
 }

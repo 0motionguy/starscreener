@@ -20,6 +20,8 @@ import "server-only";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
+import { FatalConfigError } from "@/lib/errors";
+
 import * as schema from "./schema";
 
 type DbInstance = ReturnType<typeof drizzle<typeof schema>>;
@@ -34,7 +36,7 @@ declare global {
 function buildPooled(): DbInstance {
   const url = process.env.DATABASE_URL;
   if (!url) {
-    throw new Error(
+    throw new FatalConfigError(
       "[db.client] DATABASE_URL is not set. See docs/AUTH-SETUP.md.",
     );
   }
@@ -61,7 +63,7 @@ function buildPooled(): DbInstance {
 function buildDirect(): DbInstance {
   const url = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
   if (!url) {
-    throw new Error(
+    throw new FatalConfigError(
       "[db.client] DIRECT_URL is not set. drizzle-kit needs the unpooled :5432 URI.",
     );
   }

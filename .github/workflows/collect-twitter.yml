@@ -138,6 +138,14 @@ jobs:
         if: |
           always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
           (success() || steps.web_fallback.outcome == 'success')
+        # Step-level timeout: the embedded `git-commit-data` action calls
+        # `gh pr merge --auto` which blocks indefinitely on required status
+        # checks. Without this cap, the whole 30-min job timeout fires and
+        # GH Actions cancels the run (see session-G F.2 diagnosis,
+        # 2026-05-16: 10 consecutive cancelled runs caused by this exact
+        # blocker). 5 min is enough to open the PR + enable auto-merge;
+        # the merge itself completes asynchronously via the auto-merge bot.
+        timeout-minutes: 5
         env:
           HUSKY: "0"
         uses: ./.github/actions/git-commit-data

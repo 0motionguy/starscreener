@@ -25,6 +25,7 @@ import "./_load-env.mjs";
 import {
   writeDataStore,
   readDataStore,
+  readDataStoreMany,
   closeDataStore,
 } from "./_data-store-write.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
@@ -461,6 +462,37 @@ async function main() {
     `[backfill-star-activity] starting (${repos.length} repos, dry-run=${args.dryRun}, skip-existing=${args.skipExisting})`,
   );
 
+  // B.15 Arc 2 extension — when --skip-existing is on, pre-load every repo's
+  // existing payload via batched MGET at startup instead of doing N
+  // per-repo readDataStore calls inside the main loop. For 2,980 repos this
+  // turns ~2,980 GETs into ~30 MGET pipeline calls (one per chunk of 100)
+  // = 99% Upstash request reduction on the skip-check path. The per-repo
+  // write at end-of-walk stays sequential (each follows a 30s-5min GitHub
+  // walk; batching saves negligibly there).
+  const existingBySlug = new Map();
+  if (args.skipExisting) {
+    const CHUNK = 100;
+    const slugs = repos.map((fullName) => payloadSlug(fullName));
+    console.log(
+      `[backfill-star-activity] pre-loading ${slugs.length} existing payloads via MGET (chunks of ${CHUNK})`,
+    );
+    for (let start = 0; start < slugs.length; start += CHUNK) {
+      const slugChunk = slugs.slice(start, start + CHUNK);
+      try {
+        const values = await readDataStoreMany(slugChunk);
+        for (let i = 0; i < slugChunk.length; i += 1) {
+          existingBySlug.set(slugChunk[i], values[i]);
+        }
+      } catch (err) {
+        // Don't abort backfill on MGET failure — fall back to the original
+        // per-repo readDataStore for any unresolved slug below.
+        console.warn(
+          `[backfill-star-activity] MGET chunk start=${start} failed (${err?.message ?? err}); will fall back per-repo`,
+        );
+      }
+    }
+  }
+
   const startedAt = Date.now();
   let ok = 0;
   let skipped = 0;
@@ -471,9 +503,15 @@ async function main() {
     try {
       // Resume support — if the repo already has a real backfilled payload
       // (>0 points OR explicitly snapshot-only), skip the API walk. The
-      // operator can force a re-walk by omitting --skip-existing.
+      // operator can force a re-walk by omitting --skip-existing. Lookup
+      // hits the pre-loaded MGET map first; falls back to per-repo readDataStore
+      // when the slug wasn't in any successful chunk.
       if (args.skipExisting) {
-        const existing = await readDataStore(payloadSlug(fullName));
+        const slug = payloadSlug(fullName);
+        let existing = existingBySlug.get(slug);
+        if (existing === undefined) {
+          existing = await readDataStore(slug);
+        }
         if (
           existing &&
           typeof existing === "object" &&

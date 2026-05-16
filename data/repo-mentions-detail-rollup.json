@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-16T13:26:00.708Z",
-  "scanRunId": "sweep-2026-05-16T13:25:52.580Z",
+  "computedAt": "2026-05-16T19:07:08.630Z",
+  "scanRunId": "sweep-2026-05-16T19:07:01.270Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -344,10 +344,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 101,
+      "totalMentions7d": 80,
       "perSource": {
         "hackernews": {
-          "count7d": 101,
+          "count7d": 80,
           "top": [
             {
               "source": "hackernews",
@@ -358,7 +358,7 @@
               "author": "pycassa",
               "engagement": {
                 "score": 293,
-                "comments": 83
+                "comments": 84
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
             },
@@ -370,7 +370,7 @@
               "text": "",
               "author": "zdw",
               "engagement": {
-                "score": 260,
+                "score": 261,
                 "comments": 12
               },
               "observedAt": "2026-05-10T17:05:05.000Z"
@@ -396,7 +396,7 @@
               "text": "Agentic problem solving in its current state is very brittle. I fell in love with it, but it creates as many problems as it solves.<p>I&#x27;m Ben Cochran, I spent 20+ years in the trenches with full-stack Engineering, DevOps, high performance computing &amp; ML with stints at NVIDIA, AMD and various other organizations most recently as a Distinguished Engineer.<p>For agents to work reliably you either need massive parameter counts or massive context windows to keep the solution spaces workable.",
               "author": "azurewraith",
               "engagement": {
-                "score": 123,
+                "score": 124,
                 "comments": 54
               },
               "observedAt": "2026-05-12T14:24:55.000Z"
@@ -1140,10 +1140,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 13,
+      "totalMentions7d": 18,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -1166,7 +1166,7 @@
               "text": "An attempt at a single pass LLVM frontend in ~3000 lines of C without external dependencies, malloc, or an AST. Included are some graphical examples. The IR isn&#x27;t perfect, and the README touches on one particular downfall",
               "author": "glouwbug",
               "engagement": {
-                "score": 97,
+                "score": 99,
                 "comments": 24
               },
               "observedAt": "2026-05-14T01:46:45.000Z"
@@ -1179,8 +1179,8 @@
               "text": "Almost a year ago I started building A Dark Cave, a dark text-based browser game.<p>The game intentionally avoids visuals and embraces minimalism.<p>I use only text, symbols, and sounds to create atmosphere and spark the player&#x27;s imagination.<p>From time to time, I think about adding graphics to my game, since it is one of the most common requests I get from players.<p>I even made a post about what I call the AI Slop Temptation: <a href=\"https:&#x2F;&#x2F;www.reddit.com&#x2F;r&#x2F;incremen",
               "author": "julez_",
               "engagement": {
-                "score": 6,
-                "comments": 2
+                "score": 9,
+                "comments": 3
               },
               "observedAt": "2026-05-16T08:57:47.000Z"
             },
@@ -1200,15 +1200,15 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://ctx.graphics/",
-              "title": "Stx: Interactive Vector Graphics Environment",
+              "url": "https://www.bloomberg.com/graphics/2026-ai-identity-theft-scams/",
+              "title": "AI Is Making Digital Fraud Easier, Faster and Harder to Stop",
               "text": "",
-              "author": "volemo",
+              "author": "elsewhen",
               "engagement": {
-                "score": 3,
-                "comments": 0
+                "score": 6,
+                "comments": 1
               },
-              "observedAt": "2026-05-11T15:53:03.000Z"
+              "observedAt": "2026-05-10T14:45:11.000Z"
             }
           ]
         },
@@ -3714,10 +3714,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 162,
+      "totalMentions7d": 82,
       "perSource": {
         "hackernews": {
-          "count7d": 162,
+          "count7d": 82,
           "top": [
             {
               "source": "hackernews",
@@ -3727,7 +3727,7 @@
               "text": "",
               "author": "mikeevans",
               "engagement": {
-                "score": 475,
+                "score": 479,
                 "comments": 246
               },
               "observedAt": "2026-05-14T20:06:14.000Z"
@@ -3761,6 +3761,19 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
+              "url": "https://twitter.com/steipete/status/2055346265869721905",
+              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
+              "text": "",
+              "author": "eamag",
+              "engagement": {
+                "score": 103,
+                "comments": 120
+              },
+              "observedAt": "2026-05-16T11:34:04.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
               "url": "https://arstechnica.com/tech-policy/2026/05/altman-forced-to-confront-claims-at-openai-trial-that-hes-a-prolific-liar/",
               "title": "Altman forced to confront claims at OpenAI trial that he's a prolific liar",
               "text": "",
@@ -3770,19 +3783,6 @@
                 "comments": 41
               },
               "observedAt": "2026-05-13T18:46:51.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://firethering.com/chatgpt-bank-account-plaid-openai/",
-              "title": "OpenAI is connecting ChatGPT to bank accounts via Plaid",
-              "text": "",
-              "author": "steveharing1",
-              "engagement": {
-                "score": 85,
-                "comments": 117
-              },
-              "observedAt": "2026-05-15T16:38:50.000Z"
             }
           ]
         }
@@ -4102,10 +4102,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 50,
+      "totalMentions7d": 21,
       "perSource": {
         "hackernews": {
-          "count7d": 47,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -4154,7 +4154,7 @@
               "text": "",
               "author": "bonsai_spool",
               "engagement": {
-                "score": 29,
+                "score": 30,
                 "comments": 6
               },
               "observedAt": "2026-05-15T19:38:29.000Z"
@@ -4162,21 +4162,34 @@
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://cowboystatedaily.com/2026/05/12/scientists-confirm-brain-eating-amoeba-is-widespread-in-yellowstone-and-grand-teton/",
-              "title": "Scientists Confirm 'Brain-Eating Amoeba' Is Widespread Yellowstone Grand Teton",
+              "url": "https://www.ox.ac.uk/news/2026-05-15-why-is-almost-everyone-right-handed-the-answer-may-lie-in-how-we-learned-to-walk",
+              "title": "Bipedalism and brain expansion explain human handedness",
               "text": "",
-              "author": "Bender",
+              "author": "geox",
               "engagement": {
-                "score": 15,
+                "score": 5,
                 "comments": 0
               },
-              "observedAt": "2026-05-12T23:08:26.000Z"
+              "observedAt": "2026-05-15T16:56:16.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mly6jiork724",
+              "title": "GBrain is free open source. It’s MIT license. You can find it and install it in your agent with one command. https://github.com/garrytan/gbrain",
+              "text": "GBrain is free open source. It’s MIT license. You can find it and install it in your agent with one command. https://github.com/garrytan/gbrain",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T15:38:28.169Z"
+            },
             {
               "source": "bluesky",
               "fullName": "garrytan/gbrain",
@@ -4689,7 +4702,7 @@
     },
     "Imbad0202/academic-research-skills": {
       "fullName": "Imbad0202/academic-research-skills",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -4710,7 +4723,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -4750,6 +4763,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-10T15:00:27.670Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "Imbad0202/academic-research-skills",
+              "url": "https://bsky.app/profile/winsontang.com/post/3mlyju645zo22",
+              "title": "Enhance your academic research skills with Claude Code! This resource provides essential tools and strategies to elevate your research game. Explore how to effectively gather, organize, and present yo",
+              "text": "Enhance your academic research skills with Claude Code! This resource provides essential tools and strategies to elevate your research game. Explore how to effectively gather, organize, and present your findings. Perfect for students and profes… https://github.com/Imbad0202/academic-research-skills",
+              "author": "winsontang.com",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T19:01:17.769Z"
             },
             {
               "source": "bluesky",
@@ -6105,10 +6131,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 37,
+      "totalMentions7d": 36,
       "perSource": {
         "hackernews": {
-          "count7d": 36,
+          "count7d": 35,
           "top": [
             {
               "source": "hackernews",
@@ -6118,7 +6144,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383</a>",
               "author": "varunsharma07",
               "engagement": {
-                "score": 1091,
+                "score": 1093,
                 "comments": 464
               },
               "observedAt": "2026-05-11T21:08:25.000Z"
@@ -6131,8 +6157,8 @@
               "text": "",
               "author": "janandonly",
               "engagement": {
-                "score": 144,
-                "comments": 83
+                "score": 146,
+                "comments": 84
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
             },
@@ -6152,28 +6178,28 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
+              "title": "Meta employees protest against mouse tracking tech at US offices",
+              "text": "",
+              "author": "delichon",
+              "engagement": {
+                "score": 73,
+                "comments": 87
+              },
+              "observedAt": "2026-05-12T20:58:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
               "url": "https://www.reuters.com/legal/government/new-york-california-pension-leaders-oppose-extreme-spacex-control-structure-2026-05-14/",
               "title": "New York, California pension leaders oppose 'extreme' SpaceX control structure",
               "text": "",
               "author": "2OEH8eoCRo0",
               "engagement": {
                 "score": 72,
-                "comments": 125
+                "comments": 126
               },
               "observedAt": "2026-05-14T12:21:55.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
-              "title": "Meta employees protest against mouse tracking tech at US offices",
-              "text": "",
-              "author": "delichon",
-              "engagement": {
-                "score": 72,
-                "comments": 87
-              },
-              "observedAt": "2026-05-12T20:58:18.000Z"
             }
           ]
         },
@@ -6670,10 +6696,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 8,
+      "totalMentions7d": 9,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
@@ -6717,6 +6743,19 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
+              "url": "https://github.com/MukundaKatta/hermes-agentmemory",
+              "title": "Show HN: Hermes-agentmemory, pull-model episodic memory with real deletes",
+              "text": "",
+              "author": "mukundakatta",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T18:00:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
               "url": "https://github.com/sachinsharma9780/memweave",
               "title": "Local Agent Memory with 98% Recall-5 on LongMemEval-S, no LLMs, no API Key",
               "text": "",
@@ -6726,19 +6765,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T11:03:52.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://dthink.ai/blog/oamp-governed-memory/",
-              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
-              "text": "",
-              "author": "jaikoo",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T10:43:27.000Z"
             }
           ]
         },
@@ -7339,7 +7365,7 @@
     },
     "jundot/omlx": {
       "fullName": "jundot/omlx",
-      "totalMentions7d": 4,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -7360,7 +7386,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -7387,19 +7413,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T06:57:16.266Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "jundot/omlx",
-              "url": "https://bsky.app/profile/lostdomain.org/post/3mlgofkp26w2v",
-              "title": "trade-off: you hit context errors more often than on LM Studio, so it's a bit more hands-on fair price for 3x gen speed and a laptop you can actually use, imo 🔗 https://github.com/jundot/omlx",
-              "text": "trade-off: you hit context errors more often than on LM Studio, so it's a bit more hands-on fair price for 3x gen speed and a laptop you can actually use, imo 🔗 https://github.com/jundot/omlx",
-              "author": "lostdomain.org",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T16:34:40.660Z"
             }
           ]
         }
@@ -7882,10 +7895,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 15,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -8564,7 +8577,7 @@
               "author": "pycassa",
               "engagement": {
                 "score": 293,
-                "comments": 83
+                "comments": 84
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
             },
@@ -8577,7 +8590,7 @@
               "author": "sai18",
               "engagement": {
                 "score": 96,
-                "comments": 49
+                "comments": 50
               },
               "observedAt": "2026-05-12T17:10:22.000Z"
             },
@@ -8610,15 +8623,15 @@
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
-              "url": "https://wuphf.team",
-              "title": "Show HN: My AI agents bully each other to prevent context drift",
-              "text": "Most multi-agent systems fail the same way: agents drift apart across handoffs. By turn 3 they are working in different realities. By turn 5 they are repeating each other&#x27;s mistakes and calling it parallelism.<p>WUPHF is an open-source local-first office where AI coworkers run on your laptop, around a shared markdown + git LLM wiki the agents build. The wiki is the collective memory. The office around it keeps the team on the same shared context across thousands of handoffs.<p>What actually",
-              "author": "najmuzzaman",
+              "url": "https://github.com/josipmusa/jds",
+              "title": "Show HN: JDS – a Copilot skill suite for structuring AI coding behavior",
+              "text": "A few months ago I stumbled on obra&#x27;s superpowers repository <a href=\"https:&#x2F;&#x2F;github.com&#x2F;obra&#x2F;superpowers\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;obra&#x2F;superpowers</a>. I really liked the approach and idea that you enforce discipline for your agent through a skill-based workflow. Even though coding agents (copilot included) have become a lot better at natively handling complex tasks, they still wander off and lose track of things. I really liked how superpo",
+              "author": "anaq42",
               "engagement": {
-                "score": 9,
+                "score": 8,
                 "comments": 0
               },
-              "observedAt": "2026-05-09T16:22:23.000Z"
+              "observedAt": "2026-05-14T20:17:37.000Z"
             }
           ]
         }
@@ -8813,8 +8826,8 @@
               "text": "",
               "author": "caust1c",
               "engagement": {
-                "score": 427,
-                "comments": 180
+                "score": 429,
+                "comments": 184
               },
               "observedAt": "2026-05-14T22:29:12.000Z"
             }

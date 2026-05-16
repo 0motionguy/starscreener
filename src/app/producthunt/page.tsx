@@ -45,10 +45,11 @@ function parseTab(raw: string | string[] | undefined): PhTab {
     : DEFAULT_TAB;
 }
 
-// ISR with 10-min revalidate. Each `?tab=...` variant gets its own cache
+// ISR with 30-min revalidate. Each `?tab=...` variant gets its own cache
 // entry (ISR keys by URL incl. query string), so tab switching still works
-// while popular tabs serve from edge cache.
-export const revalidate = 600;
+// while popular tabs serve from edge cache. ProductHunt launches are 7-day
+// snapshots so a longer window is safe.
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: "TrendingRepo — ProductHunt Launches",

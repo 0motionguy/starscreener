@@ -55,7 +55,7 @@ import type {
   AgentCommerceProtocol,
 } from "@/lib/agent-commerce/types";
 
-export const revalidate = 600;
+export const revalidate = 1200;
 
 export const metadata: Metadata = {
   title: "TrendingRepo · Agent Commerce",

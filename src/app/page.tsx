@@ -34,6 +34,7 @@ import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RepoLink } from "@/components/repo/RepoLink";
 import {
   GithubIcon,
   HackerNewsIcon,
@@ -519,7 +520,11 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
     ? SOURCE_ICONS.filter(({ channel }) => repo.channelStatus?.[channel])
     : SOURCE_ICONS.slice(0, channels);
   return (
-    <a className={`cons-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
+    <RepoLink
+      owner={repo.owner}
+      name={repo.name}
+      className={`cons-row ${index === 0 ? "first" : ""}`}
+    >
       <div className="cons-top">
         <span className="rk">{String(index + 1).padStart(2, "0")}</span>
         <EntityLogo
@@ -561,7 +566,7 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
           color="var(--sig-green)"
         />
       </div>
-    </a>
+    </RepoLink>
   );
 }
 
@@ -579,7 +584,11 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
         ? "var(--sig-green)"
         : "var(--sig-cyan)";
   return (
-    <a className={`brk-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
+    <RepoLink
+      owner={repo.owner}
+      name={repo.name}
+      className={`brk-row ${index === 0 ? "first" : ""}`}
+    >
       <span className="rk">{String(index + 1).padStart(2, "0")}</span>
       <EntityLogo
         src={repoLogoUrl(repo.fullName, 64)}
@@ -605,7 +614,7 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
         {formatDelta(repo.starsDelta24h)}
         {pct !== null ? <span className="pct">+{pct}%</span> : null}
       </span>
-    </a>
+    </RepoLink>
   );
 }
 
@@ -1058,10 +1067,11 @@ export default async function HomePage() {
                 </div>
                 <div className="chart-legend-row">
                   {indexLeaders.map((repo, i) => (
-                    <a
+                    <RepoLink
                       key={repo.id}
+                      owner={repo.owner}
+                      name={repo.name}
                       className="lg"
-                      href={`/repo/${repo.owner}/${repo.name}`}
                     >
                       <span
                         className="pip"
@@ -1078,7 +1088,7 @@ export default async function HomePage() {
                       <span className={`dl ${repo.starsDelta30d < 0 ? "dn" : "up"}`}>
                         {formatDelta(repo.starsDelta30d)}
                       </span>
-                    </a>
+                    </RepoLink>
                   ))}
                 </div>
               </>

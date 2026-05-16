@@ -68,6 +68,17 @@ export interface MoverRowProps {
   tag?: string;
   /** Color for the optional `tag` chip. Defaults to liquid-lava orange. */
   tagColor?: string;
+  /** Normalized 0–1 signal strength. When provided, renders a thin
+   *  horizontal strength bar under the row body (decorative, accent-coloured).
+   *
+   *  A6-P4: kept caller-computed so MoverRow stays presentational and we
+   *  don't couple this primitive to the FundingSignal type. Recommended
+   *  mappings:
+   *    - `FundingExtraction.confidence` → high=1, medium=0.66, low=0.33, none=0
+   *    - amount-normalized: `Math.min(amount / maxAmount, 1)`
+   *    - composite: `(confidenceNum * 0.6) + (sourceCount/maxSources * 0.4)`
+   *  Values outside [0,1] are clamped. Omit to hide the bar. */
+  strength?: number;
 }
 
 // Detect amounts that are clearly extraction garbage — bare digits with no
@@ -95,10 +106,17 @@ export function MoverRow({
   logoName,
   tag,
   tagColor,
+  strength,
 }: MoverRowProps) {
   const Tag = href ? "a" : "div";
   const stageCls = stageToClass(stage);
   const amountClean = isCleanAmount(amount);
+  // A6-P4: clamp strength to [0,1] so callers can pass raw composites
+  // without pre-normalising. `null`/`undefined` hides the bar entirely.
+  const strengthPct =
+    typeof strength === "number" && Number.isFinite(strength)
+      ? Math.max(0, Math.min(1, strength)) * 100
+      : null;
   return (
     <Tag
       // External destinations (the funding signal's source article) should
@@ -163,6 +181,28 @@ export function MoverRow({
               </span>
             ) : null}
             {meta ? <span>{meta}</span> : null}
+          </div>
+        ) : null}
+        {strengthPct !== null ? (
+          <div
+            aria-hidden="true"
+            style={{
+              marginTop: 4,
+              height: 2,
+              width: "100%",
+              background: "color-mix(in oklab, var(--v4-acc) 14%, transparent)",
+              borderRadius: 1,
+              overflow: "hidden",
+            }}
+          >
+            <i
+              style={{
+                display: "block",
+                height: "100%",
+                width: `${strengthPct}%`,
+                background: "var(--v4-acc)",
+              }}
+            />
           </div>
         ) : null}
       </div>

@@ -68,7 +68,7 @@ import { InventoryBand } from "@/components/ui/InventoryBand";
 import { buildRedditInventoryStats } from "@/components/ui/inventory-stats";
 import { RedditIcon } from "@/components/brand/BrandIcons";
 
-export const revalidate = 300;
+export const revalidate = 1800;
 
 // SSR safety net — when the in-memory cache is empty (Redis returned `missing`
 // AND the per-Lambda module cache hasn't been seeded yet) the page used to

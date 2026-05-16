@@ -32,7 +32,6 @@ export const TIER_LIST_TEMPLATES: ReadonlyArray<TierListTemplate> = [
       "openai/swarm",
       "Significant-Gravitas/AutoGPT",
       "stanfordnlp/dspy",
-      "joaomdmoura/crewAI",
       "langfuse/langfuse",
       "deepset-ai/haystack",
     ],

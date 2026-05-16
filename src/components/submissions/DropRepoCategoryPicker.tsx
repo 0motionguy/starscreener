@@ -5,9 +5,9 @@
  * (REPO / SKILL / MCP). Operator-mockup 2026-05-15: each tile shows a
  * short type-badge ("code" / "claude" / "server") + the category name.
  *
- * Selection is presentational only at the moment — the
- * `/api/repo-submissions` schema doesn't accept a category field yet.
- * Operator extension of the API schema is the unblocking next step.
+ * Selected state uses the v4 accent wash + accent border so the choice
+ * reads at the bottom-of-form glance. Hover lifts the border one step on
+ * the line scale.
  */
 
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ export function DropRepoCategoryPicker({
   onChange,
 }: DropRepoCategoryPickerProps) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
       {ENTRIES.map((entry) => {
         const active = entry.key === value;
         return (
@@ -45,20 +45,32 @@ export function DropRepoCategoryPicker({
             onClick={() => onChange(entry.key)}
             aria-pressed={active}
             className={cn(
-              "flex flex-col items-start gap-1 rounded-card border px-3 py-2.5 text-left transition-colors",
-              active ? "border-brand bg-brand/5" : "border-border-primary bg-bg-secondary hover:border-border-strong",
+              "flex min-w-0 flex-col items-start gap-1 rounded-card border px-3 py-2.5 text-left transition-colors",
+              active ? "shadow-[0_0_0_1px_var(--v4-acc-soft)]" : "",
             )}
+            style={{
+              borderColor: active ? "var(--v4-acc)" : "var(--v4-line-200)",
+              background: active ? "var(--v4-acc-wash)" : "var(--v4-bg-025)",
+            }}
           >
             <span
               className="font-mono text-[9px] uppercase tracking-[0.18em]"
-              style={{ color: active ? "var(--v3-acc)" : "var(--text-muted)" }}
+              style={{ color: active ? "var(--v4-acc)" : "var(--v4-ink-400)" }}
             >
               {entry.badge}
             </span>
-            <span className="text-sm font-semibold text-text-primary">
+            <span
+              className="truncate text-sm font-semibold"
+              style={{ color: "var(--v4-ink-100)" }}
+            >
               {entry.label}
             </span>
-            <span className="text-[11px] text-text-tertiary">{entry.hint}</span>
+            <span
+              className="truncate text-[11px]"
+              style={{ color: active ? "var(--v4-ink-200)" : "var(--v4-ink-300)" }}
+            >
+              {entry.hint}
+            </span>
           </button>
         );
       })}

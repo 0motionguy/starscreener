@@ -26,32 +26,34 @@ function StepCard({ num, label, duration, icon, active = false }: StepCardProps)
     <div
       className="flex min-w-0 flex-1 flex-col gap-1 rounded-card border px-3 py-2.5"
       style={{
-        borderColor: active
-          ? "var(--v3-acc, var(--border-primary, #2a2a30))"
-          : "var(--border-primary, #2a2a30)",
-        background: "var(--bg-secondary, #0c0c10)",
+        borderColor: active ? "var(--v4-acc)" : "var(--v4-line-200)",
+        background: active ? "var(--v4-acc-wash)" : "var(--v4-bg-025)",
       }}
     >
-      <div className="flex items-center gap-1.5">
+      <div className="flex min-w-0 items-center gap-1.5">
         <span
-          className="font-mono text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--text-muted, #6b7280)" }}
+          className="shrink-0 font-mono text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {num}
         </span>
         <span
-          className="font-mono text-[10px] uppercase tracking-[0.16em]"
-          style={{ color: active ? "var(--v3-acc, #fb923c)" : "var(--text-secondary, #9ca3af)" }}
+          className="min-w-0 truncate font-mono text-[10px] uppercase tracking-[0.16em]"
+          style={{ color: active ? "var(--v4-acc)" : "var(--v4-ink-200)" }}
         >
           {label}
         </span>
-        <span className="ml-auto" style={{ color: active ? "var(--v3-acc, #fb923c)" : "var(--text-muted, #6b7280)" }}>
+        <span
+          className="ml-auto shrink-0"
+          style={{ color: active ? "var(--v4-acc)" : "var(--v4-ink-300)" }}
+          aria-hidden
+        >
           {icon}
         </span>
       </div>
       <div
-        className="font-mono text-[11px]"
-        style={{ color: "var(--text-secondary, #9ca3af)" }}
+        className="truncate font-mono text-[11px]"
+        style={{ color: active ? "var(--v4-ink-100)" : "var(--v4-ink-200)" }}
       >
         ~{duration}
       </div>

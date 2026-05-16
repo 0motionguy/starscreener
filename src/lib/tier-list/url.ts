@@ -71,6 +71,10 @@ export interface EncodableDraft {
   unrankedItems: string[];
 }
 
+export function hasTierListUrlState(params: URLSearchParams): boolean {
+  return params.has("title") || params.has("tiers") || params.has("pool");
+}
+
 /** Serialise an editor draft into URLSearchParams. */
 export function encodeTierListUrl(draft: EncodableDraft): URLSearchParams {
   const params = new URLSearchParams();

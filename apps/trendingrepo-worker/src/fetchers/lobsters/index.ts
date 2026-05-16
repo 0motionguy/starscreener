@@ -143,7 +143,7 @@ const fetcher: Fetcher = {
             accept: 'application/json',
           },
           useEtagCache: false,
-          timeoutMs: 15_000,
+          timeoutMs: 20_000,
         });
         if (!Array.isArray(data)) {
           ctx.log.warn({ url }, 'lobsters: non-array response, skipping');

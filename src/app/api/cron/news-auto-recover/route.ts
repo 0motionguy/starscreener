@@ -18,6 +18,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 import type { NewsSource } from "@/lib/news/freshness";
 import { blueskyFetchedAt } from "@/lib/bluesky";
@@ -65,6 +66,9 @@ const SKIPPED_SOURCES: { source: string; reason: string }[] = [
 export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize;
 
   const results: Record<string, { triggered: boolean; reason: string }> = {};
 

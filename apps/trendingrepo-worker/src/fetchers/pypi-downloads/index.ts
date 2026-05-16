@@ -203,7 +203,7 @@ async function fetchPypiWeekly(pkg: string): Promise<number | null> {
     const data = await fetchJsonWithRetry<PyPiStatsRecentResponse>(url, {
       attempts: 3,
       retryDelayMs: 2000,
-      timeoutMs: 15_000,
+      timeoutMs: 20_000,
       headers: { 'User-Agent': USER_AGENT, accept: 'application/json' },
     });
     const v = data.data?.last_week;

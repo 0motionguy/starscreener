@@ -161,7 +161,7 @@ const fetcher: Fetcher = {
         try {
           const { data } = await ctx.http.json<OssEnvelope<RankingRow>>(url, {
             useEtagCache: false,
-            timeoutMs: 15_000,
+            timeoutMs: 20_000,
           });
           const rows = expectRows<RankingRow>(data, label).map(normalize);
           metrics[metric] = rows;

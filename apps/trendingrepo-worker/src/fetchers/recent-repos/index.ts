@@ -145,7 +145,7 @@ async function fetchSearchWindow(
     try {
       const { data } = await ctx.http.json<GithubSearchResponse>(url.toString(), {
         headers: requestHeaders(token),
-        timeoutMs: 15_000,
+        timeoutMs: 20_000,
         useEtagCache: false,
       });
       body = data;

@@ -8,7 +8,7 @@
 import { useEffect, useRef } from "react";
 
 import { useTierListEditor, type PoolItem } from "@/lib/tier-list/client-store";
-import { decodeTierListUrl } from "@/lib/tier-list/url";
+import { decodeTierListUrl, hasTierListUrlState } from "@/lib/tier-list/url";
 import type { TierRow } from "@/lib/types/tier-list";
 
 import { MobileTierPicker } from "./MobileTierPicker";
@@ -50,7 +50,7 @@ export function TierListEditor({ initial }: TierListEditorProps) {
     }
     if (typeof window !== "undefined" && window.location.search.length > 1) {
       const params = new URLSearchParams(window.location.search);
-      if (params.get("tiers")) {
+      if (hasTierListUrlState(params)) {
         const decoded = decodeTierListUrl(params);
         hydrate({
           title: decoded.title,

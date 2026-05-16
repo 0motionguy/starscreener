@@ -40,6 +40,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { and, arrayOverlaps, eq, isNull, lt, sql } from "drizzle-orm";
 
 import { verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 import {
@@ -68,6 +69,9 @@ async function handle(req: NextRequest): Promise<NextResponse> {
     const status = verdict.kind === "not_configured" ? 503 : 401;
     return NextResponse.json({ ok: false, error: verdict.kind }, { status });
   }
+
+  const oversize = withBodySizeLimit(req);
+  if (oversize) return oversize;
 
   const start = Date.now();
   const milestoneCounts: MilestoneCounts = {

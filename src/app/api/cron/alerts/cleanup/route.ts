@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { lt } from "drizzle-orm";
 
 import { verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { errorEnvelope } from "@/lib/api/error-response";
 import {
   pruneOldAlertEvents,
@@ -28,6 +29,8 @@ async function handle(req: NextRequest): Promise<NextResponse> {
     const status = verdict.kind === "not_configured" ? 503 : 401;
     return NextResponse.json(errorEnvelope(verdict.kind), { status });
   }
+  const oversize = withBodySizeLimit(req);
+  if (oversize) return oversize;
   const start = Date.now();
   try {
     const pruned = await pruneOldAlertEvents();

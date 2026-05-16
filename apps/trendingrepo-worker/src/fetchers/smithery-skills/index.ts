@@ -115,6 +115,8 @@ const fetcher: Fetcher = {
     for (let page = 1; page <= MAX_PAGES; page += 1) {
       try {
         const url = `${BASE}?page=${page}&pageSize=${PAGE_SIZE}`;
+        // 30s (above 20s policy default) — Smithery's paginated listing
+        // includes joined metrics; tail-latency runs 20-25s under load.
         const { data } = await ctx.http.json<SmitheryResponse>(url, {
           timeoutMs: 30_000,
           maxRetries: 3,

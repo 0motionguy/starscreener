@@ -180,6 +180,9 @@ async function searchGitHubTopic(ctx: FetcherContext, topic: string): Promise<Gi
   const token = pickGitHubToken();
   if (token) headers.authorization = `Bearer ${token}`;
 
+  // 30s (above 20s policy default) — GitHub code-search across the topic
+  // index can be slow on cold cache; bumping rather than retrying spares the
+  // token budget.
   const { data } = await ctx.http.json<GitHubSearchResponse>(url, {
     headers,
     timeoutMs: 30_000,

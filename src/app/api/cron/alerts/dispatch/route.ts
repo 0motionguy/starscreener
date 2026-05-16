@@ -13,6 +13,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { verifyCronAuth } from "@/lib/api/auth";
+import { errorEnvelope } from "@/lib/api/error-response";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { dispatchPendingAlerts } from "@/lib/alerts/dispatcher";
 
 // lint-allow: no-parsebody - no-body cron endpoint; verifyCronAuth is the trust boundary.
@@ -24,8 +26,10 @@ async function handle(req: NextRequest): Promise<NextResponse> {
   const verdict = verifyCronAuth(req);
   if (verdict.kind !== "ok") {
     const status = verdict.kind === "not_configured" ? 503 : 401;
-    return NextResponse.json({ error: verdict.kind }, { status });
+    return NextResponse.json(errorEnvelope(verdict.kind), { status });
   }
+  const oversize = withBodySizeLimit(req);
+  if (oversize) return oversize;
   const start = Date.now();
   try {
     const metrics = await dispatchPendingAlerts();

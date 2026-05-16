@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import { TierListEditor } from "@/components/tier-list/TierListEditor";
 import type { PoolItem } from "@/lib/tier-list/client-store";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/seo";
 import { isShortId } from "@/lib/tier-list/short-id";
 import { getTierList } from "@/lib/tier-list/store";
 import { encodeTierListUrl, stateHash } from "@/lib/tier-list/url";
@@ -46,11 +46,11 @@ function buildItemMeta(repoIds: string[]): Record<string, PoolItem> {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { shortId } = await params;
   if (!isShortId(shortId)) {
-    return { title: `Tier list - ${SITE_NAME}` };
+    return { title: "GitHub repo tier list" };
   }
   const payload = await getTierList(shortId);
   if (!payload) {
-    return { title: `Tier list - ${SITE_NAME}` };
+    return { title: "GitHub repo tier list" };
   }
   const hash = stateHash({
     title: payload.title,
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     ? payload.description
     : `${payload.title} - tier list built on TrendingRepo.`;
   return {
-    title: `${payload.title} - ${SITE_NAME}`,
+    title: `${payload.title} GitHub repo tier list`,
     description,
     alternates: {
       canonical: absoluteUrl(`/tierlist/${shortId}`),

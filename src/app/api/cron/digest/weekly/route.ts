@@ -34,6 +34,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { and, isNotNull, isNull } from "drizzle-orm";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import {
   buildWeeklyDigests,
   loadUserEmailMapFromEnv,
@@ -115,6 +116,9 @@ export async function POST(
 ): Promise<NextResponse<DigestCronResponse | { ok: false; error: string }>> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny as NextResponse<{ ok: false; error: string }>;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize as NextResponse<{ ok: false; error: string }>;
 
   if (!isEnabled()) {
     return NextResponse.json(

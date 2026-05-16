@@ -9,6 +9,7 @@ import { resolve } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { getDataStore } from "@/lib/data-store";
 import {
   deriveHealth,
@@ -584,6 +585,9 @@ export async function GET(
   if (deny) {
     return deny as NextResponse<{ ok: false; reason: string }>;
   }
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize as NextResponse<{ ok: false; reason: string }>;
 
   const nowMs = Date.now();
   try {

@@ -214,6 +214,9 @@ async function fetchOneViewDirect(
   view: SkillView,
 ): Promise<SkillRow[]> {
   try {
+    // 30s (above 20s policy default) — skills.sh SSR pulls down the full
+    // leaderboard HTML; with all rows + agent metadata it tops 20s on
+    // cold-cache hits.
     const { data: html } = await deps.http.text(url, {
       useEtagCache: false,
       timeoutMs: 30_000,

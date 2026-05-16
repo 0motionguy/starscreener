@@ -71,6 +71,9 @@ const fetcher: Fetcher = {
     if (env.FIRECRAWL_API_KEY) {
       mode = 'firecrawl';
       try {
+        // 60s (above 20s policy default) — Firecrawl spins up a headless
+        // browser, waits for client-side hydration (WAIT_MS), then ships
+        // the markdown. The full round-trip routinely exceeds 30s.
         const { data } = await ctx.http.json<FirecrawlScrapeResponse>(`${FIRECRAWL_BASE}/v1/scrape`, {
           method: 'POST',
           headers: { authorization: `Bearer ${env.FIRECRAWL_API_KEY}`, 'content-type': 'application/json' },
@@ -93,6 +96,8 @@ const fetcher: Fetcher = {
       try {
         // ctx.http.text returns { data, cached } since the HTTP-cache wave;
         // parseLobehubHtml only wants the body string.
+        // 30s (above 20s policy default) — lobehub.com's SSR'd skill listing
+        // page can exceed 20s when the origin warms a cold worker.
         const { data: html } = await ctx.http.text(PAGE_URL, {
           timeoutMs: 30_000,
           useEtagCache: false,

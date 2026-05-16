@@ -164,7 +164,7 @@ export async function fetchSkillMd(input: FetchSkillMdInput): Promise<FetchSkill
     try {
       const { data } = await input.http.text(url, {
         useEtagCache: false,
-        timeoutMs: 15_000,
+        timeoutMs: 20_000,
         maxRetries: 1,
       });
       const parsed = parseSkillMd(data);

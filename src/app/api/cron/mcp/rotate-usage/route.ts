@@ -22,6 +22,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { rotateUsage } from "@/lib/mcp/usage";
 
 export const runtime = "nodejs";
@@ -37,6 +38,9 @@ const RETENTION_MS = RETENTION_DAYS * 24 * 60 * 60 * 1000;
 export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize;
 
   const started = Date.now();
   try {

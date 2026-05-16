@@ -92,6 +92,9 @@ const fetcher: Fetcher = {
     for (let page = 1; page <= MAX_PAGES; page += 1) {
       try {
         const url = `${BASE}?page=${page}&limit=${PAGE_LIMIT}`;
+        // 30s (above 20s policy default) — paginated skill-listing endpoint
+        // routinely tops 20s on full pages; the slow path is the upstream's
+        // GraphQL resolver, not the network.
         const { data } = await ctx.http.json<SkillsmpResponse>(url, {
           timeoutMs: 30_000,
           maxRetries: 3,

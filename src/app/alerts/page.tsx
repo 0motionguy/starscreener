@@ -25,6 +25,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { AlertInbox } from "@/components/alerts/AlertInbox";
 import { AlertTriggerCard } from "@/components/alerts/AlertTriggerCard";
+import { useToggleAlertRule } from "@/lib/hooks/useToggleAlertRule";
 
 const USER_FETCH_INIT: RequestInit = {
   credentials: "include",
@@ -163,16 +164,7 @@ export default function AlertsPage() {
   // Mutations
   // -------------------------------------------------------------------------
 
-  const handleToggleRule = useCallback(
-    (rule: AlertRule, next: boolean) => {
-      // Rules API doesn't expose PUT today; mirror /watchlist and keep the
-      // toggle local for visual affordance only.
-      setRules((prev) =>
-        prev.map((r) => (r.id === rule.id ? { ...r, enabled: next } : r)),
-      );
-    },
-    [],
-  );
+  const handleToggleRule = useToggleAlertRule(setRules);
 
   const handleDeleteRule = useCallback(async (rule: AlertRule) => {
     try {
@@ -599,12 +591,11 @@ function EmptyRulesState() {
           margin: "0 auto 16px",
         }}
       >
-        Track a repo on /watchlist, then configure a star-spike, release, or
-        rank-jump trigger. Rules fire as soon as their thresholds are
-        crossed.
+        Create a star-spike, release, or rank-jump trigger. Rules fire as soon
+        as their thresholds are crossed.
       </p>
       <Link
-        href="/watchlist"
+        href="/alerts/new"
         style={{
           display: "inline-block",
           fontFamily: "var(--font-geist-mono), monospace",
@@ -619,7 +610,7 @@ function EmptyRulesState() {
           letterSpacing: "0.06em",
         }}
       >
-        Configure on /watchlist →
+        Create alert →
       </Link>
     </div>
   );
@@ -657,12 +648,10 @@ function QuickAddCallout() {
           margin: 0,
         }}
       >
-        Rule creation lives next to each tracked repo. Toggle alerts on a
-        watchlist row to mint a default rule, then tune the threshold from
-        the trigger card.
+        Create a rule directly, then tune the threshold from the trigger card.
       </p>
       <Link
-        href="/watchlist"
+        href="/alerts/new"
         style={{
           display: "inline-block",
           fontFamily: "var(--font-geist-mono), monospace",
@@ -677,7 +666,7 @@ function QuickAddCallout() {
           alignSelf: "flex-start",
         }}
       >
-        Open /watchlist →
+        Create alert →
       </Link>
     </div>
   );

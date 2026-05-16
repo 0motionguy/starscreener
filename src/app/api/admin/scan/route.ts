@@ -53,20 +53,16 @@ const AdminScanBodySchema = z.object({
  * deny secrets that don't belong in scrapers (Stripe, session, admin,
  * email delivery). New collectors should add their var name here, not
  * fall back to process.env wholesale.
+ *
+ * WHY no PATH/HOME/locale: the spawned scripts only need these
+ * domain-specific keys; PATH and HOME are inherited via spawn defaults
+ * (Node resolves the `.mjs` entry by absolute path through
+ * `process.execPath`, and none of our collectors reference HOME / LANG /
+ * TZ directly — verified by grep on every script under `scripts/`).
+ * Dropping the generic system vars shrinks the secret blast-radius if
+ * the admin token ever leaks.
  */
 const CHILD_ENV_ALLOW = [
-  // System — needed by every Node child (PATH for npm subbins, HOME for
-  // ssh/git plumbing, locale for date parsing, TMP for fs.mkdtemp).
-  "PATH",
-  "HOME",
-  "USERPROFILE",
-  "TEMP",
-  "TMP",
-  "TMPDIR",
-  "LANG",
-  "LC_ALL",
-  "LC_CTYPE",
-  "TZ",
   "NODE_ENV",
   "NODE_OPTIONS",
   // Data-store dual-write — every collector imports _data-store-write.mjs
@@ -92,6 +88,12 @@ const CHILD_ENV_ALLOW = [
   // Project-local discovery (used by repo-metadata + scoring).
   "STARSCREENER_DATA_DIR",
   "TRENDINGREPO_DATA_DIR",
+  // Sentry release tagging + log level — picked up by _logger.mjs and
+  // any child that initialises Sentry on its own.
+  "SENTRY_DSN",
+  "SENTRY_ENVIRONMENT",
+  "SENTRY_RELEASE",
+  "LOG_LEVEL",
 ];
 
 function buildChildEnv(

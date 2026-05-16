@@ -17,9 +17,11 @@ import {
 } from "../tier-list/schema";
 import { generateShortId, isShortId } from "../tier-list/short-id";
 import {
+  buildTierListShareUrl,
   decodeTierListUrl,
   emptyDraft,
   encodeTierListUrl,
+  hasTierListUrlState,
   stateHash,
 } from "../tier-list/url";
 
@@ -109,6 +111,30 @@ test("decode of empty/missing tiers params falls back to default grid", () => {
   const decoded = decodeTierListUrl(params);
   assert.equal(decoded.title, "Foo");
   assert.equal(decoded.tiers.length, DEFAULT_TIERS.length);
+});
+
+test("pool-only URL state hydrates onto the default grid", () => {
+  const params = new URLSearchParams("pool=vercel%2Fnext.js,openai%2Fcodex");
+  assert.equal(hasTierListUrlState(params), true);
+  const decoded = decodeTierListUrl(params);
+  assert.equal(decoded.tiers.length, DEFAULT_TIERS.length);
+  assert.deepEqual(decoded.unrankedItems, ["vercel/next.js", "openai/codex"]);
+});
+
+test("URL-state detection ignores cache-only params", () => {
+  assert.equal(hasTierListUrlState(new URLSearchParams("v=abcd1234")), false);
+  assert.equal(hasTierListUrlState(new URLSearchParams("title=AI")), true);
+  assert.equal(hasTierListUrlState(new URLSearchParams("tiers=")), true);
+});
+
+test("buildTierListShareUrl serializes the current draft", () => {
+  const draft = emptyDraft();
+  draft.title = "Current board";
+  draft.unrankedItems = ["vercel/next.js"];
+  const url = buildTierListShareUrl("https://trendingrepo.com", draft);
+  assert.ok(url.startsWith("https://trendingrepo.com/tierlist?"));
+  assert.ok(url.includes("title=Current+board"));
+  assert.ok(url.includes("pool=vercel%252Fnext.js"));
 });
 
 // ---------------------------------------------------------------------------

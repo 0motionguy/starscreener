@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { listIdeas, toPublicIdea, hotScore } from "@/lib/ideas";
 import {
@@ -42,6 +43,9 @@ export async function POST(
 ): Promise<NextResponse<WeeklyResponse | ErrorResponse>> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny as NextResponse<ErrorResponse>;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize as NextResponse<ErrorResponse>;
 
   const startedAt = new Date().toISOString();
   const adapter = selectOutboundAdapter();

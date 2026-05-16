@@ -18,6 +18,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import { getDataStore } from "@/lib/data-store";
 import { touchDailyAggregates } from "@/lib/llm/aggregate";
 import { getStreamHandle } from "@/lib/llm/redis-streams";
@@ -55,6 +56,9 @@ interface AggregateResult {
 export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize;
 
   try {
     const result = await runAggregate();

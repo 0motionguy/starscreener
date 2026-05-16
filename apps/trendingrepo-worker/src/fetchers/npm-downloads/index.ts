@@ -233,7 +233,7 @@ async function fetchNpmWeekly(pkg: string): Promise<number | null> {
     const data = await fetchJsonWithRetry<NpmDownloadsResponse>(url, {
       attempts: 3,
       retryDelayMs: 1500,
-      timeoutMs: 15_000,
+      timeoutMs: 20_000,
       headers: { 'User-Agent': USER_AGENT },
     });
     return typeof data.downloads === 'number' && Number.isFinite(data.downloads) ? data.downloads : null;
@@ -250,7 +250,7 @@ async function fetchNpmLastRelease(pkg: string): Promise<string | null> {
     const data = await fetchJsonWithRetry<NpmRegistryResponse>(url, {
       attempts: 3,
       retryDelayMs: 1500,
-      timeoutMs: 15_000,
+      timeoutMs: 20_000,
       headers: { 'User-Agent': USER_AGENT, accept: 'application/vnd.npm.install-v1+json' },
     });
     const modified = data.time?.modified;

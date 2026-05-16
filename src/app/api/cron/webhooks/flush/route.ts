@@ -29,6 +29,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { withBodySizeLimit } from "@/lib/api-helpers";
 import {
   appendDeadLetter,
   loadTargets,
@@ -321,6 +322,9 @@ async function runFlush(): Promise<FlushResult> {
 export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+
+  const oversize = withBodySizeLimit(request);
+  if (oversize) return oversize;
 
   try {
     const result = await runFlush();

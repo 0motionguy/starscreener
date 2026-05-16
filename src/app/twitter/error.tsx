@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
 import { RefreshCw, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,7 +12,12 @@ interface ErrorProps {
 
 export default function TwitterError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    Sentry.captureException(error);
+    // Lazy-load Sentry only when the error boundary actually fires.
+    // Eager `import * as Sentry from "@sentry/nextjs"` adds ~50-100KB to the
+    // /twitter critical bundle (handover §3.2: 118KB vs 90KB budget).
+    void import("@sentry/nextjs").then((Sentry) => {
+      Sentry.captureException(error);
+    });
   }, [error]);
 
   return (

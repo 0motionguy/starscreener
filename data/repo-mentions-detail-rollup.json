@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-16T03:22:05.004Z",
-  "scanRunId": "sweep-2026-05-16T03:21:56.192Z",
+  "computedAt": "2026-05-16T07:27:18.946Z",
+  "scanRunId": "sweep-2026-05-16T07:26:59.342Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -136,10 +136,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 28,
+      "totalMentions7d": 25,
       "perSource": {
         "hackernews": {
-          "count7d": 27,
+          "count7d": 24,
           "top": [
             {
               "source": "hackernews",
@@ -150,7 +150,7 @@
               "author": "vc289",
               "engagement": {
                 "score": 96,
-                "comments": 48
+                "comments": 50
               },
               "observedAt": "2026-05-13T16:54:03.000Z"
             },
@@ -357,10 +357,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 101,
+      "totalMentions7d": 103,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 102,
           "top": [
             {
               "source": "hackernews",
@@ -409,7 +409,7 @@
               "text": "Agentic problem solving in its current state is very brittle. I fell in love with it, but it creates as many problems as it solves.<p>I&#x27;m Ben Cochran, I spent 20+ years in the trenches with full-stack Engineering, DevOps, high performance computing &amp; ML with stints at NVIDIA, AMD and various other organizations most recently as a Distinguished Engineer.<p>For agents to work reliably you either need massive parameter counts or massive context windows to keep the solution spaces workable.",
               "author": "azurewraith",
               "engagement": {
-                "score": 122,
+                "score": 123,
                 "comments": 54
               },
               "observedAt": "2026-05-12T14:24:55.000Z"
@@ -625,24 +625,11 @@
     },
     "z-lab/dflash": {
       "fullName": "z-lab/dflash",
-      "totalMentions7d": 14,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
           "count7d": 12,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "z-lab/dflash",
-              "url": "https://www.webdesignmuseum.org/flash-game-exhibitions/cartoon-network-flash-games",
-              "title": "Cartoon Network Flash Games",
-              "text": "",
-              "author": "willmeyers",
-              "engagement": {
-                "score": 416,
-                "comments": 131
-              },
-              "observedAt": "2026-05-08T16:29:52.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "z-lab/dflash",
@@ -672,6 +659,19 @@
             {
               "source": "hackernews",
               "fullName": "z-lab/dflash",
+              "url": "https://world.emergence.ai/",
+              "title": "Show HN: Emergence World: World building as a way to evaluate LLMs",
+              "text": "Current LLM benchmarks are broken. We think long horizon &quot;world&quot; building could be an interesting additional way to evaluate LLMs, since it combines many aspects such as need for advanced reasoning, tool calling, working under large context window stress, safety, social and survival pressure from the world. For this we released Emergence World. Our first study ran 5 different parallel world, each powered by OpenAI (GPT-5-Mini), XAI (Grok-4.1), Claude (Sonnet 4.6), Gemini (3-Flash), and",
+              "author": "deepakakkil",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T19:07:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "z-lab/dflash",
               "url": "https://studis.io/",
               "title": "Show HN: Studis – Turn product photos into social media ads with AI",
               "text": "I built Studis to solve a problem I kept seeing with small business owners — they have great products but spend hours in Canva trying to make decent ads, or pay $50+ per image to a designer.<p>Upload a product photo, and Studis generates a professional ad creative with copy, hashtags, and audience targeting. It uses Gemini Flash for image generation and Claude for copy.<p>Stack: Laravel, Vue&#x2F;Inertia, Gemini 3.1 Flash Image, Claude, Pusher for real-time progress.<p>Free to try (5 generations",
@@ -685,20 +685,20 @@
             {
               "source": "hackernews",
               "fullName": "z-lab/dflash",
-              "url": "https://flashbak.com/how-to-kill-without-joy-1973-1984-483193/",
-              "title": "How to Kill: A 6-Part Guide for Urban Assassins 1973-1984",
+              "url": "https://blog.kilo.ai/p/we-tested-deepseek-v4-pro-and-flash",
+              "title": "DeepSeek V4 Pro and Flash vs. Claude Opus 4.7 and Kimi K2.6",
               "text": "",
-              "author": "dxs",
+              "author": "heymax054",
               "engagement": {
                 "score": 2,
-                "comments": 0
+                "comments": 1
               },
-              "observedAt": "2026-05-14T13:49:35.000Z"
+              "observedAt": "2026-05-15T12:28:06.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -712,19 +712,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-13T20:15:40.663Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "z-lab/dflash",
-              "url": "https://bsky.app/profile/braintelligence.bsky.social/post/3mleufjahss26",
-              "title": "I’ve been saying we’ll see more hybrid diffusion transformer models for a while, didn’t expect this to be with the diffusion model being a speculative decoder— researchers claiming 400+ tokens/s on co",
-              "text": "I’ve been saying we’ll see more hybrid diffusion transformer models for a while, didn’t expect this to be with the diffusion model being a speculative decoder— researchers claiming 400+ tokens/s on consumer hardware I think 1000t/s is the sweet spot for functional novel UIs github.com/z-lab/dflash",
-              "author": "braintelligence.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-08T23:16:43.163Z"
             }
           ]
         }
@@ -1184,10 +1171,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 8,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -1231,28 +1218,28 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://github.com/El-EnderJ/NeoCalculator",
-              "title": "Graphing Scientific Calculator Based on the ESP32",
+              "url": "https://ctx.graphics/",
+              "title": "Stx: Interactive Vector Graphics Environment",
               "text": "",
-              "author": "uticus",
+              "author": "volemo",
               "engagement": {
-                "score": 1,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T13:29:52.000Z"
+              "observedAt": "2026-05-11T15:53:03.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://blog.orhun.dev/introducing-ratty/",
-              "title": "Ratty: A terminal emulator with inline 3D graphics",
+              "url": "https://danielmay.co.uk/posts/froot-loops-and-a-graphics-card/",
+              "title": "Froot Loops and a Graphics Card",
               "text": "",
-              "author": "speckx",
+              "author": "danielrmay",
               "engagement": {
-                "score": 1,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T13:00:29.000Z"
+              "observedAt": "2026-05-10T19:06:46.000Z"
             }
           ]
         },
@@ -1605,21 +1592,21 @@
       "fullName": "heygen-com/hyperframes",
       "totalMentions7d": 1,
       "perSource": {
-        "bluesky": {
+        "hackernews": {
           "count7d": 1,
           "top": [
             {
-              "source": "bluesky",
+              "source": "hackernews",
               "fullName": "heygen-com/hyperframes",
-              "url": "https://bsky.app/profile/camilleroux.com/post/3ml42xbagi62s",
-              "title": "HyperFrames : écrire du HTML pour générer une vidéo MP4, pensé pour être piloté par des agents IA (Claude Code, Cursor, Codex). Pas de React, pas de build step — juste un fichier HTML avec des animati",
-              "text": "HyperFrames : écrire du HTML pour générer une vidéo MP4, pensé pour être piloté par des agents IA (Claude Code, Cursor, Codex). Pas de React, pas de build step — juste un fichier HTML avec des animations GSAP et un rendu déterministe via FFmpeg. https://github.com/heygen-com/hyperframes",
-              "author": "camilleroux.com",
+              "url": "https://github.com/heygen-com/hyperframes",
+              "title": "Write HTML. Render video. Built for agents",
+              "text": "",
+              "author": "mv",
               "engagement": {
-                "score": 5,
-                "comments": 1
+                "score": 1,
+                "comments": 0
               },
-              "observedAt": "2026-05-05T11:20:02.963Z"
+              "observedAt": "2026-05-15T18:50:24.000Z"
             }
           ]
         }
@@ -1777,11 +1764,24 @@
     },
     "InsForge/InsForge": {
       "fullName": "InsForge/InsForge",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "InsForge/InsForge",
+              "url": "https://news.ycombinator.com/item?id=48096408",
+              "title": "Ask HN: How to deal with everybody rushing to implement?",
+              "text": "With AI agents, I&#x27;m noticing an issue where my coworkers are rushing to deploy new tools almost every day. They seem marveled at what AI can do and so am I... but I know the difference between a PoC and a production app.<p>They we make announcements in our Slack channel about this great tool they built that fixes some pain they had, without having done requirements gathering, or followed our internal RFC process, or even mentioned they were working on such a tool.<p>For example, there is a ",
+              "author": "throwawayaiflux",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T15:35:46.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "InsForge/InsForge",
@@ -1806,6 +1806,19 @@
         "hackernews": {
           "count7d": 5,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "openai/symphony",
+              "url": "https://blog.se7enx.com/7x-releases-7x-prime-v2-9-0-0-the-symfony-v2-drop-in-upgrade-to-php-8-support",
+              "title": "Upgrade Symfony 2.8.x to 7x Prime v2.9.0.0 – Tested With PHP 8.5.6",
+              "text": "",
+              "author": "7x",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T23:10:34.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "openai/symphony",
@@ -1844,19 +1857,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-10T10:57:50.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "openai/symphony",
-              "url": "https://gtmjobs.beehiiv.com/p/9-gtm-engineer-roles-this-week-workmotion-supabase-symphonyai-more",
-              "title": "GTM Engineer Roles at WorkMotion, Supabase, SymphonyAI",
-              "text": "",
-              "author": "benchmarkapp",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-08T09:08:18.000Z"
             },
             {
               "source": "hackernews",
@@ -2300,11 +2300,37 @@
     },
     "Fission-AI/OpenSpec": {
       "fullName": "Fission-AI/OpenSpec",
-      "totalMentions7d": 6,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 8,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "Fission-AI/OpenSpec",
+              "url": "https://news.ycombinator.com/item?id=48102861",
+              "title": "Can you help reconcile my first/second-hand LLM Experience with HN's Experience?",
+              "text": "I&#x27;ve made an account as a long-time lurker because I am hoping y&#x27;all could help reconcile my experience in my company&#x2F;team with what seems to be the wise HN consensus around LLMs.<p>My Background (Software Engineer II):<p>I&#x27;ve been writing software professionally for &gt;10 years and grew up coding games&#x2F;websites for fun; did my undergraduate in C.S.&#x2F;C.E., and did some time in ML research and such. Right now I&#x27;m on the back-end&#x2F;DevOps team - my teammates a",
+              "author": "didigamma",
+              "engagement": {
+                "score": 5,
+                "comments": 7
+              },
+              "observedAt": "2026-05-12T00:57:21.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "Fission-AI/OpenSpec",
+              "url": "https://heavyradiant.substack.com/p/accidentally-building-a-github-parasite",
+              "title": "Accidentally Building a GitHub Parasite: A CLI Dependency Manager for OpenSCAD",
+              "text": "",
+              "author": "solderlocks",
+              "engagement": {
+                "score": 4,
+                "comments": 1
+              },
+              "observedAt": "2026-05-15T20:51:59.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
@@ -2343,32 +2369,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T13:41:19.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Fission-AI/OpenSpec",
-              "url": "https://opensearch.org/blog/harness-first-agentic-sdlc-how-opensearch-builds-software-using-its-own-search-engine/",
-              "title": "Agentic SDLC: How OpenSearch accelerates engineering with its own engine",
-              "text": "",
-              "author": "Lunar5227",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-15T05:42:46.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Fission-AI/OpenSpec",
-              "url": "https://thobias.org/2026/05/10/openstack_app_credentials.html",
-              "title": "Stop using user passwords for OpenStack automation",
-              "text": "",
-              "author": "cavanche",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T16:59:08.000Z"
             }
           ]
         }
@@ -2576,10 +2576,10 @@
     },
     "1jehuang/jcode": {
       "fullName": "1jehuang/jcode",
-      "totalMentions7d": 397,
+      "totalMentions7d": 379,
       "perSource": {
         "hackernews": {
-          "count7d": 395,
+          "count7d": 377,
           "top": [
             {
               "source": "hackernews",
@@ -2589,8 +2589,8 @@
               "text": "",
               "author": "dropbox_miner",
               "engagement": {
-                "score": 1018,
-                "comments": 611
+                "score": 1019,
+                "comments": 614
               },
               "observedAt": "2026-05-11T01:23:51.000Z"
             },
@@ -2602,8 +2602,8 @@
               "text": "",
               "author": "indigodaddy",
               "engagement": {
-                "score": 911,
-                "comments": 974
+                "score": 912,
+                "comments": 979
               },
               "observedAt": "2026-05-11T20:45:55.000Z"
             },
@@ -2615,36 +2615,36 @@
               "text": "",
               "author": "negura",
               "engagement": {
-                "score": 630,
-                "comments": 514
+                "score": 632,
+                "comments": 515
               },
               "observedAt": "2026-05-11T07:26:54.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "1jehuang/jcode",
-              "url": "https://twitter.com/trq212/status/2052809885763747935",
-              "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-              "text": "Examples: <a href=\"https:&#x2F;&#x2F;thariqs.github.io&#x2F;html-effectiveness&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;thariqs.github.io&#x2F;html-effectiveness&#x2F;</a><p>Related: <a href=\"https:&#x2F;&#x2F;simonwillison.net&#x2F;2026&#x2F;May&#x2F;8&#x2F;unreasonable-effectiveness-of-html&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;simonwillison.net&#x2F;2026&#x2F;May&#x2F;8&#x2F;unreasonable-effectiven...</a>",
-              "author": "pretext",
+              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
+              "title": "Codex is now in the ChatGPT mobile app",
+              "text": "",
+              "author": "mikeevans",
               "engagement": {
-                "score": 527,
-                "comments": 274
+                "score": 471,
+                "comments": 246
               },
-              "observedAt": "2026-05-09T04:53:52.000Z"
+              "observedAt": "2026-05-14T20:06:14.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "1jehuang/jcode",
-              "url": "https://www.jamesshore.com/v2/blog/2026/you-need-ai-that-reduces-your-maintenance-costs",
-              "title": "An AI coding agent, used to write code, needs to reduce your maintenance costs",
+              "url": "https://github.com/oven-sh/bun/issues/30719",
+              "title": "Bun Rust rewrite: \"codebase fails basic miri checks, allows for UB in safe rust\"",
               "text": "",
-              "author": "cratermoon",
+              "author": "ndiddy",
               "engagement": {
-                "score": 377,
-                "comments": 109
+                "score": 383,
+                "comments": 270
               },
-              "observedAt": "2026-05-10T23:39:55.000Z"
+              "observedAt": "2026-05-15T16:51:25.000Z"
             }
           ]
         },
@@ -2754,10 +2754,10 @@
     },
     "shiyu-coder/Kronos": {
       "fullName": "shiyu-coder/Kronos",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
@@ -2767,36 +2767,23 @@
               "text": "",
               "author": "LorenDB",
               "engagement": {
-                "score": 273,
-                "comments": 181
+                "score": 396,
+                "comments": 283
               },
               "observedAt": "2026-05-09T14:40:58.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "shiyu-coder/Kronos",
-              "url": "https://blog.kronis.dev/blog/zed-is-pretty-nice",
-              "title": "Zed Is Pretty Nice",
-              "text": "",
-              "author": "KronisLV",
-              "engagement": {
-                "score": 6,
-                "comments": 3
-              },
-              "observedAt": "2026-05-08T08:45:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "shiyu-coder/Kronos",
               "url": "https://www.khronos.org/blog/opencl-3.1-is-here",
-              "title": "OpenCL 3.1 is here",
+              "title": "OpenCL 3.1",
               "text": "",
-              "author": "jrepinc",
+              "author": "tosh",
               "engagement": {
-                "score": 2,
+                "score": 4,
                 "comments": 0
               },
-              "observedAt": "2026-05-05T11:55:19.000Z"
+              "observedAt": "2026-05-13T07:43:36.000Z"
             }
           ]
         }
@@ -3266,24 +3253,11 @@
     },
     "nikzad-avasam/downloader": {
       "fullName": "nikzad-avasam/downloader",
-      "totalMentions7d": 18,
+      "totalMentions7d": 35,
       "perSource": {
         "hackernews": {
-          "count7d": 18,
+          "count7d": 35,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "nikzad-avasam/downloader",
-              "url": "https://www.neowin.net/news/if-you-downloaded-this-popular-software-recently-you-might-have-installed-malware/",
-              "title": "Hackers breach JDownloader's website to serve malware-laced downloads",
-              "text": "",
-              "author": "bundie",
-              "engagement": {
-                "score": 118,
-                "comments": 31
-              },
-              "observedAt": "2026-05-08T12:20:01.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
@@ -3292,7 +3266,7 @@
               "text": "Hi HN, we’re Sai and Aayush, and we’re building Hypercubic (<a href=\"https:&#x2F;&#x2F;www.hypercubic.ai&#x2F;\">https:&#x2F;&#x2F;www.hypercubic.ai&#x2F;</a>), bringing AI tools to the mainframe and COBOL world. (We did a Launch HN last year: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=45877517\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=45877517</a>.) Today we’re launching Hopper, an agentic development environment for mainframes.<p>You can download it here: <a href=\"h",
               "author": "sai18",
               "engagement": {
-                "score": 94,
+                "score": 95,
                 "comments": 49
               },
               "observedAt": "2026-05-12T17:10:22.000Z"
@@ -3305,10 +3279,23 @@
               "text": "Hey HN,<p>My co-founders and I have been building GridTravel, a free iOS app for planning and sharing travel routes with turn-by-turn GPS nav. We just launched yesterday after App Store approval.<p>We&#x27;re three 21-year-old cofounders and best friends since middle school. We built GridTravel after years of frustration navigating new cities on every trip we took together.<p>The idea: most people either search Google for &quot;top 10 places to visit in…&quot; lists or go on social media to get ",
               "author": "knuaym9",
               "engagement": {
-                "score": 48,
-                "comments": 24
+                "score": 54,
+                "comments": 36
               },
               "observedAt": "2026-05-14T22:05:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "nikzad-avasam/downloader",
+              "url": "https://www.zdnet.com/article/open-source-repositories-are-being-overwhelmed-but-there-is-an-answer/",
+              "title": "10 Trillion downloads are crushing open-source repositories",
+              "text": "",
+              "author": "gpi",
+              "engagement": {
+                "score": 26,
+                "comments": 3
+              },
+              "observedAt": "2026-05-09T22:27:47.000Z"
             },
             {
               "source": "hackernews",
@@ -3318,23 +3305,23 @@
               "text": "Robotics is advancing really fast lately, with AI inference, different controllers, software, and parts always changing. I wanted a place that supports many device types, Raspberry Pi, NVDA Jetson, Arduino, ESP32, hardware sources, and maximizes for printability. Instructables, Github, and Thingiverse are currently popular but aren&#x27;t really focused on robotics, So I built orobot.io to try and make printing robots as standardized and accessible as possible. It uses a lot of Agent built conte",
               "author": "xanderjanz",
               "engagement": {
-                "score": 12,
-                "comments": 1
+                "score": 14,
+                "comments": 3
               },
               "observedAt": "2026-05-14T18:10:28.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
-              "url": "https://news.ycombinator.com/item?id=48108407",
-              "title": "Show HN: Kimiflare, Kimi K2.6 as a Coding Agent on Cloudflare Workers AI",
-              "text": "hey HN, this is sina.<p>i&#x27;ve had some cloudflare credits expiring on may 14 and was wondering what to do with them. when kimi k2.6 dropped and it was available on workers ai, i figured i&#x27;d build an open-source claude code clone with it. didn&#x27;t think too much about it. (people asked if i know about opencode and tbh i learned about them only after i built this. but they seem really brilliant.)<p>anyway, kimiflare is a CLI coding agent, basically claude code but powered by kimi k2.6 ",
-              "author": "sinameraji",
+              "url": "https://reclaimthenet.org/reddit-tests-blocking-mobile-web-to-force-app-downloads",
+              "title": "Reddit Tests Blocking Mobile Web to Force App Downloads",
+              "text": "",
+              "author": "Cider9986",
               "engagement": {
-                "score": 5,
-                "comments": 0
+                "score": 10,
+                "comments": 4
               },
-              "observedAt": "2026-05-12T13:57:27.000Z"
+              "observedAt": "2026-05-14T04:26:59.000Z"
             }
           ]
         }
@@ -3771,37 +3758,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 68,
+      "totalMentions7d": 100,
       "perSource": {
         "hackernews": {
-          "count7d": 68,
+          "count7d": 100,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
-              "title": "Codex is now in the ChatGPT mobile app",
-              "text": "",
-              "author": "mikeevans",
-              "engagement": {
-                "score": 469,
-                "comments": 244
-              },
-              "observedAt": "2026-05-14T20:06:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.openculture.com/2024/10/the-greatest-shot-in-television.html",
-              "title": "The greatest shot in television: James Burke had one chance to nail this scene (2024)",
-              "text": "",
-              "author": "susam",
-              "engagement": {
-                "score": 363,
-                "comments": 192
-              },
-              "observedAt": "2026-05-11T02:43:34.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3831,15 +3792,41 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://www.theguardian.com/us-news/2026/may/11/musk-v-openai-altman-trial",
-              "title": "A consistent pattern of lying': trial exposes what insiders think of Sam Altman",
+              "url": "https://firethering.com/chatgpt-bank-account-plaid-openai/",
+              "title": "OpenAI is connecting ChatGPT to bank accounts via Plaid",
               "text": "",
-              "author": "andsoitis",
+              "author": "steveharing1",
               "engagement": {
-                "score": 72,
-                "comments": 9
+                "score": 73,
+                "comments": 112
               },
-              "observedAt": "2026-05-12T02:17:32.000Z"
+              "observedAt": "2026-05-15T16:38:50.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
+              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
+              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
+              "author": "jlengelbrecht",
+              "engagement": {
+                "score": 64,
+                "comments": 58
+              },
+              "observedAt": "2026-05-15T04:48:23.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://www.bloomberg.com/news/articles/2026-05-14/openai-apple-partnership-frays-setting-up-possible-legal-fight",
+              "title": "Apple-OpenAI Relationship Frays, Setting Up Possible Legal Fight",
+              "text": "",
+              "author": "helsinkiandrew",
+              "engagement": {
+                "score": 64,
+                "comments": 30
+              },
+              "observedAt": "2026-05-14T16:57:12.000Z"
             }
           ]
         }
@@ -4024,21 +4011,21 @@
       "fullName": "ZhuLinsen/daily_stock_analysis",
       "totalMentions7d": 1,
       "perSource": {
-        "twitter": {
+        "hackernews": {
           "count7d": 1,
           "top": [
             {
-              "source": "twitter",
+              "source": "hackernews",
               "fullName": "ZhuLinsen/daily_stock_analysis",
-              "url": "",
-              "title": "",
-              "text": "",
-              "author": null,
+              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
+              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
+              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
+              "author": "jlengelbrecht",
               "engagement": {
-                "score": 0,
-                "comments": 0
+                "score": 64,
+                "comments": 58
               },
-              "observedAt": "2026-05-09T08:01:44.683Z"
+              "observedAt": "2026-05-15T04:48:23.000Z"
             }
           ]
         }
@@ -4159,10 +4146,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 47,
+      "totalMentions7d": 48,
       "perSource": {
         "hackernews": {
-          "count7d": 45,
+          "count7d": 46,
           "top": [
             {
               "source": "hackernews",
@@ -4290,8 +4277,26 @@
     },
     "TableProApp/TablePro": {
       "fullName": "TableProApp/TablePro",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "TableProApp/TablePro",
+              "url": "https://tellie.skytech.io",
+              "title": "Tellie: A Teleprompter that listens. Vibe coded it while my granddaughter slept",
+              "text": "",
+              "author": "SteveChazin",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-12T14:05:26.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 1,
           "top": [
@@ -6131,10 +6136,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 29,
+      "totalMentions7d": 36,
       "perSource": {
         "hackernews": {
-          "count7d": 28,
+          "count7d": 35,
           "top": [
             {
               "source": "hackernews",
@@ -6157,8 +6162,8 @@
               "text": "",
               "author": "janandonly",
               "engagement": {
-                "score": 140,
-                "comments": 81
+                "score": 143,
+                "comments": 82
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
             },
@@ -6696,8 +6701,78 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 2,
+      "totalMentions7d": 8,
       "perSource": {
+        "hackernews": {
+          "count7d": 6,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://github.com/atomicstrata/atomicmemory-sdk",
+              "title": "Show HN: We made a back end agnostic SDK for Agent Memory",
+              "text": "",
+              "author": "ethanjoffe",
+              "engagement": {
+                "score": 4,
+                "comments": 4
+              },
+              "observedAt": "2026-05-15T16:52:05.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://memnode.dev/articles/agent-memory-vs-vector-db",
+              "title": "Vector embeddings are the wrong default for AI agent memory",
+              "text": "",
+              "author": "supercrafthost",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-14T05:41:48.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://news.ycombinator.com/item?id=48078195",
+              "title": "Show HN: Sigma Guard – deterministic contradiction checks for graph memory",
+              "text": "I built a small open-source verifier for graph-backed AI memory and GraphRAG-style systems.<p>The basic problem: graph databases can validate schema, but they usually do not know whether two accepted facts contradict each other. An AI memory layer can store both &quot;Acme prefers annual billing&quot; and &quot;Acme rejected annual billing and requires monthly billing.&quot; Both writes may be valid. The contradiction only shows up later when an agent retrieves both and reasons over them.<p>SIGM",
+              "author": "invariantjason",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-09T20:58:08.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://github.com/sachinsharma9780/memweave",
+              "title": "Local Agent Memory with 98% Recall-5 on LongMemEval-S, no LLMs, no API Key",
+              "text": "",
+              "author": "r2d2_",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T11:03:52.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://dthink.ai/blog/oamp-governed-memory/",
+              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
+              "text": "",
+              "author": "jaikoo",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T10:43:27.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 2,
           "top": [
@@ -7511,49 +7586,23 @@
     },
     "microsoft/waza": {
       "fullName": "microsoft/waza",
-      "totalMentions7d": 3,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 3,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
               "fullName": "microsoft/waza",
-              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlerbzhwqh2l",
-              "title": "GitHub - microsoft/waza: CLI / Framework for Agent Skills - create, test, measure and improve skill quality and effectiveness https://github.com/microsoft/waza",
-              "text": "GitHub - microsoft/waza: CLI / Framework for Agent Skills - create, test, measure and improve skill quality and effectiveness https://github.com/microsoft/waza",
-              "author": "tech-trending.bsky.social",
+              "url": "https://bsky.app/profile/awakecoding.com/post/3mlvdkrxdak2v",
+              "title": "The tessl command-line tool uses server-side evals for the agent skills, so you don't have to figure out how to do it yourself. I didn't even tweak it, the defaults are good. The only other similar to",
+              "text": "The tessl command-line tool uses server-side evals for the agent skills, so you don't have to figure out how to do it yourself. I didn't even tweak it, the defaults are good. The only other similar tool I could find is waza: github.com/microsoft/waza",
+              "author": "awakecoding.com",
               "engagement": {
-                "score": 0,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T22:21:04.167Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "microsoft/waza",
-              "url": "https://bsky.app/profile/yug1224.com/post/3mldwlhoion2z",
-              "title": "AIエージェントのスキルを評価・検証するためのGo製CLIツールっぽい エージェント開発の品質向上やベンチマーク作成に使えそう yug1224 starred microsoft/waza https://github.com/microsoft/waza",
-              "text": "AIエージェントのスキルを評価・検証するためのGo製CLIツールっぽい エージェント開発の品質向上やベンチマーク作成に使えそう yug1224 starred microsoft/waza https://github.com/microsoft/waza",
-              "author": "yug1224.com",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-08T14:23:09.971Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "microsoft/waza",
-              "url": "https://bsky.app/profile/technews4869.bsky.social/post/3mldvb2hdcq2e",
-              "title": "github.com/microsoft/waza GitHub - microsoft/waza: CLI / Framework for Agent Skills - create, test, measure and improve sk...",
-              "text": "github.com/microsoft/waza GitHub - microsoft/waza: CLI / Framework for Agent Skills - create, test, measure and improve sk...",
-              "author": "technews4869.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-08T13:59:26.759Z"
+              "observedAt": "2026-05-15T12:30:41.761Z"
             }
           ]
         }
@@ -7978,7 +8027,7 @@
               "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
               "author": "graalvm.org",
               "engagement": {
-                "score": 13,
+                "score": 14,
                 "comments": 0
               },
               "observedAt": "2026-05-15T10:04:36.361Z"
@@ -8063,10 +8112,10 @@
     },
     "lightningpixel/modly": {
       "fullName": "lightningpixel/modly",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 5,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -8090,9 +8139,22 @@
               "author": "godlymod",
               "engagement": {
                 "score": 3,
-                "comments": 2
+                "comments": 0
               },
               "observedAt": "2026-05-14T09:21:41.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "lightningpixel/modly",
+              "url": "https://old.reddit.com/r/startups_promotion/comments/1te5th8/urlsifycom_free_forever_link_shortener_url/",
+              "title": "Urlsify.com Free (forever) Link shortener with Analytics",
+              "text": "",
+              "author": "godlymod",
+              "engagement": {
+                "score": 2,
+                "comments": 1
+              },
+              "observedAt": "2026-05-15T23:31:24.000Z"
             },
             {
               "source": "hackernews",
@@ -8119,19 +8181,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T07:57:58.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "lightningpixel/modly",
-              "url": "https://old.reddit.com/r/sideprojects/comments/1tabelm/finished_making_this_url_shortener_completely/",
-              "title": "Made This Free URL Shortener with Indepth Analytics",
-              "text": "",
-              "author": "godlymod",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-13T20:22:17.000Z"
             }
           ]
         },
@@ -8311,13 +8360,26 @@
             {
               "source": "hackernews",
               "fullName": "rowboatlabs/rowboat",
+              "url": "https://www.cnbc.com/2026/05/12/waymo-recalls-3800-robotaxis-after-able-drive-into-standing-water.html",
+              "title": "Waymo updates 3,800 robotaxis after they 'drive into standing water'",
+              "text": "",
+              "author": "drob518",
+              "engagement": {
+                "score": 184,
+                "comments": 178
+              },
+              "observedAt": "2026-05-15T18:00:43.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rowboatlabs/rowboat",
               "url": "https://xeiaso.net/notes/2026/amazonbot-respecting-robots-txt/",
               "title": "Amazonbot is finally respecting robots.txt",
               "text": "",
               "author": "xena",
               "engagement": {
-                "score": 153,
-                "comments": 41
+                "score": 168,
+                "comments": 47
               },
               "observedAt": "2026-05-14T20:22:35.000Z"
             },
@@ -8355,23 +8417,10 @@
               "text": "Robotics is advancing really fast lately, with AI inference, different controllers, software, and parts always changing. I wanted a place that supports many device types, Raspberry Pi, NVDA Jetson, Arduino, ESP32, hardware sources, and maximizes for printability. Instructables, Github, and Thingiverse are currently popular but aren&#x27;t really focused on robotics, So I built orobot.io to try and make printing robots as standardized and accessible as possible. It uses a lot of Agent built conte",
               "author": "xanderjanz",
               "engagement": {
-                "score": 12,
-                "comments": 1
+                "score": 14,
+                "comments": 3
               },
               "observedAt": "2026-05-14T18:10:28.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rowboatlabs/rowboat",
-              "url": "https://www.tomshardware.com/3d-printing/mit-researchers-revive-40-year-old-triangular-zipper-concept-now-made-possible-by-3d-printing-creates-shape-shifting-robots-and-deployable-structures-3d-printed-y-zipper-turns-floppy-tentacles-into-rigid-beams-in-seconds",
-              "title": "MIT researchers revive 40 year old triangular zipper concept",
-              "text": "",
-              "author": "MassPikeMike",
-              "engagement": {
-                "score": 10,
-                "comments": 0
-              },
-              "observedAt": "2026-05-10T18:39:08.000Z"
             }
           ]
         }
@@ -8826,7 +8875,7 @@
     },
     "antirez/ds4": {
       "fullName": "antirez/ds4",
-      "totalMentions7d": 18,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8839,15 +8888,15 @@
               "text": "",
               "author": "caust1c",
               "engagement": {
-                "score": 423,
-                "comments": 179
+                "score": 424,
+                "comments": 181
               },
               "observedAt": "2026-05-14T22:29:12.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 17,
+          "count7d": 12,
           "top": [
             {
               "source": "bluesky",
@@ -8878,19 +8927,6 @@
             {
               "source": "bluesky",
               "fullName": "antirez/ds4",
-              "url": "https://bsky.app/profile/geesawra.industries/post/3mlnupx6rgc2s",
-              "title": "antirez ds4 has rocm support now??",
-              "text": "antirez ds4 has rocm support now??",
-              "author": "geesawra.industries",
-              "engagement": {
-                "score": 3,
-                "comments": 1
-              },
-              "observedAt": "2026-05-12T13:16:30.362Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "antirez/ds4",
               "url": "https://bsky.app/profile/davidgasquez.com/post/3mlsi7enuq22x",
               "title": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
               "text": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
@@ -8913,6 +8949,67 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T17:36:13.863Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/trxx9800.bsky.social/post/3mlkygbzxsp2t",
+              "title": "The what github.com/antirez/ds4",
+              "text": "The what github.com/antirez/ds4",
+              "author": "trxx9800.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T09:44:42.067Z"
+            }
+          ]
+        }
+      }
+    },
+    "debpalash/OmniVoice-Studio": {
+      "fullName": "debpalash/OmniVoice-Studio",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "debpalash/OmniVoice-Studio",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlokr4vyb32o",
+              "title": "https://github.com/debpalash/OmniVoice-Studio",
+              "text": "https://github.com/debpalash/OmniVoice-Studio",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T19:50:51.661Z"
+            }
+          ]
+        }
+      }
+    },
+    "K-Dense-AI/scientific-agent-skills": {
+      "fullName": "K-Dense-AI/scientific-agent-skills",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "K-Dense-AI/scientific-agent-skills",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scie",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T14:04:32.363Z"
             }
           ]
         }

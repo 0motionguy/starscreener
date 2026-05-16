@@ -111,6 +111,41 @@ function makeIoRedisAdapter(client) {
     async get(key) {
       return client.get(key);
     },
+    // B.15 Arc 2 — batched GET. ioredis MGET returns Array<string|null>.
+    async mget(...keys) {
+      if (keys.length === 0) return [];
+      return client.mget(...keys);
+    },
+    // B.15 Arc 2 — pipeline wrapper. Builds N commands into a single round
+    // trip (and a single Upstash request when REST is the backend). Each
+    // pipeline.exec() counts as 1 Upstash request regardless of N
+    // sub-commands — that's the request-count savings for star-activity.
+    pipeline() {
+      const p = client.pipeline();
+      return {
+        _native: p,
+        set(key, value, opts) {
+          if (opts && typeof opts.ex === "number" && opts.ex > 0) {
+            p.set(key, value, "EX", opts.ex);
+          } else {
+            p.set(key, value);
+          }
+          return this;
+        },
+        get(key) {
+          p.get(key);
+          return this;
+        },
+        async exec() {
+          // ioredis pipeline.exec() returns Array<[Error|null, Result]>.
+          // Normalize to Array<{ ok: boolean, value?, error? }> so callers
+          // don't have to know which backend is in use.
+          const raw = await p.exec();
+          if (!raw) return [];
+          return raw.map(([err, value]) => (err ? { ok: false, error: err } : { ok: true, value }));
+        },
+      };
+    },
     async quit() {
       try {
         await client.quit();
@@ -253,6 +288,183 @@ export async function writeDataStore(key, value, opts = {}) {
   ]);
 
   return { source: "redis", writtenAt };
+}
+
+/**
+ * B.15 Arc 2 — Batched read for many slugs in ONE Redis round-trip (and ONE
+ * Upstash REST request when wired through pipeline.exec internally). Returns
+ * an array aligned with the input slugs, each entry null if the slug is
+ * missing / unparseable / Redis disabled.
+ *
+ * Use this instead of `readDataStore` in a loop when reading >10 slugs at
+ * once. For star-activity (2980 slugs), splitting into chunks of N=100 turns
+ * 2980 GETs into 30 MGETs — 99% request reduction against the Upstash quota.
+ *
+ * @param {string[]} keys Array of slugs.
+ * @returns {Promise<Array<unknown | null>>}
+ */
+export async function readDataStoreMany(keys) {
+  if (!Array.isArray(keys) || keys.length === 0) return [];
+  const client = await getClient();
+  if (!client) return keys.map(() => null);
+  // Normalize + map invalid keys to null pre-emptively to keep the response
+  // array shape stable.
+  const validIndices = [];
+  const validKeys = [];
+  for (let i = 0; i < keys.length; i += 1) {
+    const k = typeof keys[i] === "string" ? keys[i].trim() : "";
+    if (!k || INVALID_KEY_LITERALS.has(k)) continue;
+    validIndices.push(i);
+    validKeys.push(`${NAMESPACE}:${k}`);
+  }
+  const result = new Array(keys.length).fill(null);
+  if (validKeys.length === 0) return result;
+  // `mget` may or may not exist on the adapter (ioredis adapter added 2026-05-15,
+  // @upstash/redis exposes it natively). Fall back to parallel single GETs.
+  const raw =
+    typeof client.mget === "function"
+      ? await client.mget(...validKeys)
+      : await Promise.all(validKeys.map((k) => client.get(k)));
+  for (let i = 0; i < validIndices.length; i += 1) {
+    const cell = raw[i];
+    if (cell === null || cell === undefined) continue;
+    if (typeof cell === "string") {
+      try {
+        result[validIndices[i]] = JSON.parse(cell);
+      } catch {
+        // leave null
+      }
+    } else if (typeof cell === "object") {
+      // Upstash REST may auto-decode JSON.
+      result[validIndices[i]] = cell;
+    }
+  }
+  return result;
+}
+
+/**
+ * B.15 Arc 2 — Batched write for many slug/value pairs. Builds a single
+ * pipeline of 2N SETs (payload + meta per entry) and executes in ONE round
+ * trip. Per-entry result reflects which payload AND meta SETs succeeded.
+ *
+ * Critical for staying under Upstash request quotas: pipeline.exec() counts
+ * as 1 Upstash request regardless of N sub-commands.
+ *
+ * @param {Array<{ key: string, value: unknown, opts?: { ttlSeconds?: number } }>} entries
+ * @param {{ stampPerRecord?: boolean; writer?: string; runId?: string; commit?: string }} [globalOpts]
+ *   Applied to all entries (overridable per-entry not supported — keep it
+ *   simple). stampPerRecord and writer/runId/commit follow the same rules
+ *   as single-entry writeDataStore.
+ * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string; results: Array<{ key: string, ok: boolean, error?: string }> }>}
+ */
+export async function writeDataStoreMany(entries, globalOpts = {}) {
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return { source: "skipped", writtenAt: new Date().toISOString(), results: [] };
+  }
+  const writtenAt = new Date().toISOString();
+
+  // Per-record stamping mirrors single-write writeDataStore — applied before
+  // serialization so the stored payload includes the lastRefreshedAt field.
+  if (globalOpts.stampPerRecord !== false) {
+    for (const entry of entries) {
+      if (entry?.value && typeof entry.value === "object") {
+        stampTrackedRepos(entry.value, writtenAt);
+      }
+    }
+  }
+
+  const client = await getClient();
+  if (!client) {
+    return {
+      source: "skipped",
+      writtenAt,
+      results: entries.map((e) => ({ key: e.key, ok: false, error: "redis disabled" })),
+    };
+  }
+
+  // Compose meta with provenance (same logic as single-write writeDataStore).
+  const writer =
+    globalOpts.writer ??
+    (process.env.GITHUB_WORKFLOW
+      ? `github-actions:${process.env.GITHUB_WORKFLOW}`
+      : undefined);
+  const runId = globalOpts.runId ?? process.env.GITHUB_RUN_ID;
+  const commitFull = globalOpts.commit ?? process.env.GITHUB_SHA;
+  const commit = commitFull ? commitFull.slice(0, 7) : undefined;
+  const hasProvenance =
+    writer !== undefined || runId !== undefined || commit !== undefined;
+  const metaValue = hasProvenance
+    ? JSON.stringify({
+        writtenAt,
+        ...(writer !== undefined ? { writer } : {}),
+        ...(runId !== undefined ? { runId } : {}),
+        ...(commit !== undefined ? { commit } : {}),
+      })
+    : writtenAt;
+
+  // Build a single pipeline for all 2N SETs. If the adapter doesn't support
+  // pipeline (older ioredis adapter shape, or a fake), fall back to parallel
+  // single-key SETs — slower but correct.
+  if (typeof client.pipeline !== "function") {
+    const results = await Promise.all(
+      entries.map(async (entry) => {
+        try {
+          const payload = JSON.stringify(entry.value);
+          const setOpts =
+            entry.opts?.ttlSeconds && entry.opts.ttlSeconds > 0
+              ? { ex: entry.opts.ttlSeconds }
+              : undefined;
+          await client.set(`${NAMESPACE}:${entry.key.trim()}`, payload, setOpts);
+          await client.set(`${META_NAMESPACE}:${entry.key.trim()}`, metaValue, setOpts);
+          return { key: entry.key, ok: true };
+        } catch (err) {
+          return { key: entry.key, ok: false, error: String(err?.message ?? err) };
+        }
+      }),
+    );
+    return { source: "redis", writtenAt, results };
+  }
+
+  const pipeline = client.pipeline();
+  const order = []; // remember entry order for result mapping
+  for (const entry of entries) {
+    const normalizedKey = entry.key.trim();
+    if (!normalizedKey || INVALID_KEY_LITERALS.has(normalizedKey)) {
+      // Push synthetic failure tracker — don't add to pipeline; we'll
+      // emit ok:false directly in the result.
+      order.push({ key: entry.key, valid: false });
+      continue;
+    }
+    const payload = JSON.stringify(entry.value);
+    const setOpts =
+      entry.opts?.ttlSeconds && entry.opts.ttlSeconds > 0
+        ? { ex: entry.opts.ttlSeconds }
+        : undefined;
+    pipeline.set(`${NAMESPACE}:${normalizedKey}`, payload, setOpts);
+    pipeline.set(`${META_NAMESPACE}:${normalizedKey}`, metaValue, setOpts);
+    order.push({ key: entry.key, valid: true });
+  }
+  const execResults = await pipeline.exec();
+  // execResults is interleaved [payloadResult0, metaResult0, payloadResult1, ...]
+  // for each valid entry. Map back per entry.
+  const results = [];
+  let cursor = 0;
+  for (const o of order) {
+    if (!o.valid) {
+      results.push({ key: o.key, ok: false, error: "invalid key" });
+      continue;
+    }
+    const payloadR = execResults[cursor];
+    const metaR = execResults[cursor + 1];
+    cursor += 2;
+    if (payloadR && metaR && payloadR.ok && metaR.ok) {
+      results.push({ key: o.key, ok: true });
+    } else {
+      const error = payloadR?.error ?? metaR?.error ?? "pipeline result missing";
+      results.push({ key: o.key, ok: false, error: String(error?.message ?? error) });
+    }
+  }
+  return { source: "redis", writtenAt, results };
 }
 
 /**

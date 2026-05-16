@@ -860,12 +860,12 @@ export default async function HomePage() {
       <FunnelMount step="home_view" flow="discover-repo" />
       <div className="home-surface">
         <section className="page-head">
-          <div>
+          <div className="min-w-0">
             <div className="crumb">
               <b>TREND</b> / TERMINAL / FRONT PAGE
             </div>
-            <h1>One live ranking for open-source breakouts.</h1>
-            <p className="lede">
+            <h1 className="min-w-0 break-words">One live ranking for open-source breakouts.</h1>
+            <p className="lede min-w-0 break-words">
               Repos, skills, and MCP servers ranked by cross-source agreement,
               star velocity, and fresh community attention.
             </p>

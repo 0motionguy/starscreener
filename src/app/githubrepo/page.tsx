@@ -552,12 +552,12 @@ export default async function GithubRepoPage() {
       />
       <div className="home-surface">
         <section className="page-head">
-          <div>
+          <div className="min-w-0">
             <div className="crumb">
               <b>TREND</b> / TERMINAL / GITHUB REPOS
             </div>
-            <h1>Top 50 trending GitHub repos — right now.</h1>
-            <p className="lede">
+            <h1 className="min-w-0 break-words">Top 50 trending GitHub repos — right now.</h1>
+            <p className="lede min-w-0 break-words">
               Default ranking fuses our <b>Curated</b> + <b>Engagement</b>
               feeds. Switch tabs for either source raw, or our composite
               Momentum score.

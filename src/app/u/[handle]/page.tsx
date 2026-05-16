@@ -48,6 +48,7 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { KpiBand, type KpiCell } from "@/components/ui/KpiBand";
 import { PanelHead } from "@/components/ui/PanelHead";
 import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
+import { RepoLink } from "@/components/repo/RepoLink";
 import { IdeaCard } from "@/components/ideas/IdeaCard";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import type { Repo } from "@/lib/types";
@@ -584,20 +585,37 @@ function RecentActivityFeed({
             >
               {event.objectType}
             </span>
-            <Link
-              href={href}
-              style={{
-                color: "var(--v4-ink-100)",
-                textDecoration: "none",
-                flex: 1,
-                minWidth: 0,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {event.objectId}
-            </Link>
+            {event.objectType === "repo" ? (
+              <RepoLink
+                fullName={event.objectId}
+                style={{
+                  color: "var(--v4-ink-100)",
+                  textDecoration: "none",
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {event.objectId}
+              </RepoLink>
+            ) : (
+              <Link
+                href={href}
+                style={{
+                  color: "var(--v4-ink-100)",
+                  textDecoration: "none",
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {event.objectId}
+              </Link>
+            )}
             <span
               style={{
                 color: "var(--v4-ink-400)",

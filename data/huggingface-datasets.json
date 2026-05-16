@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-16T08:21:28.673Z",
+  "fetchedAt": "2026-05-16T14:02:54.797Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -40,8 +40,8 @@
       "id": "PsiBotAI/SynData",
       "author": "PsiBotAI",
       "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
-      "downloads": 18457,
-      "likes": 130,
+      "downloads": 24094,
+      "likes": 131,
       "trendingScore": 85,
       "tags": [
         "language:en",
@@ -166,8 +166,8 @@
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
       "downloads": 5906,
-      "likes": 55,
-      "trendingScore": 54,
+      "likes": 56,
+      "trendingScore": 55,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -468,8 +468,8 @@
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
       "downloads": 207,
-      "likes": 26,
-      "trendingScore": 22,
+      "likes": 27,
+      "trendingScore": 23,
       "tags": [
         "size_categories:10K<n<100K",
         "format:parquet",
@@ -490,8 +490,8 @@
       "id": "Qwen/WebWorldData",
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
-      "downloads": 504,
-      "likes": 23,
+      "downloads": 537,
+      "likes": 28,
       "trendingScore": 21,
       "tags": [
         "task_categories:text-generation",
@@ -1116,6 +1116,41 @@
     },
     {
       "rank": 36,
+      "id": "blanchon/opencs2_dataset",
+      "author": "blanchon",
+      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
+      "downloads": 20467,
+      "likes": 14,
+      "trendingScore": 14,
+      "tags": [
+        "task_categories:video-classification",
+        "task_categories:reinforcement-learning",
+        "task_categories:other",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "modality:video",
+        "modality:audio",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "opencs2",
+        "counter-strike-2",
+        "torchcodec",
+        "video",
+        "audio",
+        "parquet"
+      ],
+      "createdAt": "2026-05-08T00:14:06.000Z",
+      "lastModified": "2026-05-04T15:38:59.000Z"
+    },
+    {
+      "rank": 37,
       "id": "TAAC2026/data_sample_1000",
       "author": "TAAC2026",
       "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
@@ -1140,7 +1175,7 @@
       "lastModified": "2026-04-10T09:07:28.000Z"
     },
     {
-      "rank": 37,
+      "rank": 38,
       "id": "dianetc/OBLIQ-Bench",
       "author": "dianetc",
       "url": "https://huggingface.co/datasets/dianetc/OBLIQ-Bench",
@@ -1169,7 +1204,7 @@
       "lastModified": "2026-05-09T18:30:15.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "5551z/VisCoR_Contrast",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
@@ -1192,7 +1227,7 @@
       "lastModified": "2026-04-30T01:37:13.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "llm-jp/Jagle",
       "author": "llm-jp",
       "url": "https://huggingface.co/datasets/llm-jp/Jagle",
@@ -1208,41 +1243,6 @@
       ],
       "createdAt": "2026-04-11T08:56:17.000Z",
       "lastModified": "2026-05-12T00:53:55.000Z"
-    },
-    {
-      "rank": 40,
-      "id": "blanchon/opencs2_dataset",
-      "author": "blanchon",
-      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
-      "downloads": 20467,
-      "likes": 13,
-      "trendingScore": 13,
-      "tags": [
-        "task_categories:video-classification",
-        "task_categories:reinforcement-learning",
-        "task_categories:other",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:100K<n<1M",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "modality:video",
-        "modality:audio",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "opencs2",
-        "counter-strike-2",
-        "torchcodec",
-        "video",
-        "audio",
-        "parquet"
-      ],
-      "createdAt": "2026-05-08T00:14:06.000Z",
-      "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
       "rank": 41,

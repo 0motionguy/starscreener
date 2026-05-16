@@ -681,6 +681,18 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                               color: cp.color,
                               marginLeft: i === 0 ? 6 : 4,
                               fontWeight: 700,
+                              fontFamily: "var(--font-mono)",
+                              fontSize: 9.5,
+                              letterSpacing: "0.14em",
+                              textTransform: "uppercase",
+                              padding: p === "x402" ? "1px 6px" : undefined,
+                              borderRadius: p === "x402" ? 2 : undefined,
+                              border:
+                                p === "x402" ? `1px solid ${cp.color}66` : undefined,
+                              background:
+                                p === "x402"
+                                  ? "rgba(245, 158, 11, 0.12)"
+                                  : undefined,
                             }}
                           >
                             {cp.label}

@@ -1,9 +1,12 @@
-// Agent Commerce — hero scaffolding (page-head + verdict ribbon + KPI band).
+// Agent Commerce — unified hero band (page-head + verdict + KPI band).
 //
-// Extracted from `src/app/agent-commerce/page.tsx` as part of A8-P2 so the
-// follow-on visible-redesign PR can reshape the hero band without a 2k-line
-// diff. Pure presentation: every value comes in via props.
-
+// A8-P3: reshaped from the three stacked sections that landed in A8-P2 into
+// a single visual panel. The page-head crumb/h1/lede sit at the TOP of the
+// band, the verdict ribbon runs through the middle, and the KPI band sits
+// FLUSH against the bottom — one border, one background, three rows divided
+// only by thin internal lines. Class names are scoped under `.ac-hero-band`
+// so the global `.page-head` / `.verdict` / `.kpi-band` chrome doesn't
+// double up. Pure presentation: every value comes in via props.
 import Link from "next/link";
 
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -28,9 +31,9 @@ export function AgentCommerceHero({
   stats,
 }: AgentCommerceHeroProps) {
   return (
-    <>
-      <section className="page-head">
-        <div>
+    <section className="ac-hero-band" aria-label="Agent Commerce overview">
+      <div className="ac-hero-head">
+        <div className="ac-hero-head__title">
           <div className="crumb">
             <b>Agent Commerce</b> / m2m terminal / x402 · MCP · wallets
           </div>
@@ -41,13 +44,13 @@ export function AgentCommerceHero({
             visibility, and adoption.
           </p>
         </div>
-        <div className="clock">
+        <div className="ac-hero-head__clock">
           <span className="big">{computed}</span>
           <span className="live">updated</span>
         </div>
-      </section>
+      </div>
 
-      <section className="verdict">
+      <div className="ac-hero-verdict">
         <div className="v-stamp">
           <span>commerce radar</span>
           <span className="ts">{stats.totalItems} entities</span>
@@ -65,9 +68,9 @@ export function AgentCommerceHero({
           <Link href="/funding">Funding</Link>
           <Link href="/signals">Signals</Link>
         </div>
-      </section>
+      </div>
 
-      <MetricGrid columns={6} className="kpi-band">
+      <MetricGrid columns={6} className="ac-hero-kpi">
         <Metric label="Total" value={stats.totalItems} sub="entities" pip />
         <Metric label="New 7d" value={stats.thisWeekCount} sub="this week" tone="external" pip />
         <Metric label="x402" value={stats.x402EnabledCount} sub="enabled" tone="accent" pip />
@@ -75,6 +78,6 @@ export function AgentCommerceHero({
         <Metric label="MCP" value={stats.mcpServerCount} sub="servers" tone="consensus" pip />
         <Metric label="AISO ≥80" value={stats.highAisoCount} sub="visible" tone="warning" pip />
       </MetricGrid>
-    </>
+    </section>
   );
 }

@@ -271,13 +271,15 @@ jobs:
         if: |
           success() &&
           (steps.collect_primary.outcome == 'success' || steps.web_fallback.outcome == 'success')
-        run: |
-          if [ -n "$(git status --porcelain data/.twitter-signal-count)" ]; then
-            git add data/.twitter-signal-count
-            git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" \
-              commit -m "ci(twitter): update signal-count checkpoint"
-            git push
-          fi
+        timeout-minutes: 5
+        env:
+          HUSKY: "0"
+        uses: ./.github/actions/git-commit-data
+        with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
+          message: "ci(twitter): update signal-count checkpoint"
+          paths: |
+            data/.twitter-signal-count
 
       - name: Fail if all Twitter collectors failed
         if: |

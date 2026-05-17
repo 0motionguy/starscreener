@@ -6,7 +6,7 @@
 // GitHub issue with the error digest pre-filled). Used by both
 // src/app/error.tsx and src/app/global-error.tsx.
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { AlertOctagon, RefreshCw, Home, Bug } from "lucide-react";
 
@@ -14,6 +14,30 @@ interface Props {
   error: Error & { digest?: string };
   reset: () => void;
   variant?: "default" | "compact";
+}
+
+// Sentry capture with route tag. Centralized here so every route error.tsx
+// consumer gets per-route grouping automatically — the existing 74 route
+// error.tsx files still call captureException themselves (Sentry deduplicates
+// by fingerprint within a short window, so the double-capture is harmless and
+// lets us centralize incrementally).
+function reportToSentryWithRouteTag(error: Error & { digest?: string }): void {
+  if (typeof window === "undefined") return;
+  const sentry = (
+    window as unknown as {
+      Sentry?: {
+        captureException: (
+          e: Error,
+          ctx?: { tags?: Record<string, string> },
+        ) => void;
+      };
+    }
+  ).Sentry;
+  if (sentry?.captureException) {
+    sentry.captureException(error, {
+      tags: { route: window.location.pathname },
+    });
+  }
 }
 
 const BTN_PRIMARY =
@@ -26,6 +50,10 @@ export function ErrorPanel({
   reset,
   variant = "default",
 }: Props): ReactNode {
+  useEffect(() => {
+    reportToSentryWithRouteTag(error);
+  }, [error]);
+
   const digest = error.digest;
   const isProd = process.env.NODE_ENV === "production";
   const isCompact = variant === "compact";

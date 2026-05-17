@@ -45,6 +45,13 @@ export const metadata: Metadata = {
   title: "Trending Repos on X",
   description:
     "TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours.",
+  keywords: [
+    "GitHub repos on Twitter",
+    "X mentions",
+    "developer social",
+    "AI Twitter buzz",
+    "trending repos",
+  ],
   alternates: { canonical: "/twitter" },
 };
 

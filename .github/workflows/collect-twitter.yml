@@ -7,6 +7,9 @@
 # Previous every-3h × 10 repos pattern routinely timed out at 30 min (see
 # run 25983611341) which prevented `writeSourceMeta()` from running and left
 # twitter.json stale at `ts: 2026-05-04` for 13 consecutive days.
+# Follow-up: the free-provider path is now capped at 5 repos, 2 tier-1
+# queries, 1 Nitter page, and 8s per request by default. That keeps freshness
+# recoverable even when instances degrade.
 name: Collect Twitter Signals
 
 on:
@@ -17,7 +20,7 @@ on:
       limit:
         description: "Number of repos to scan"
         required: false
-        default: "50"
+        default: "5"
       mode:
         description: "Collector mode (api or direct)"
         required: false
@@ -54,7 +57,9 @@ jobs:
     # 50 repos × 4 queries × ~10s nitter latency ≈ 33 min, +commit pipeline
     # + fallback retry budget. 30 min was killing the job mid-collect (run
     # 25983611341).
-    timeout-minutes: 90
+    # Follow-up: step-level caps now bound the collector/fallback, so the job
+    # only needs enough budget for install, one bounded fallback, and commit.
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -71,6 +76,9 @@ jobs:
         run: npm ci
 
       - name: Collect Twitter signals
+        id: collect_primary
+        timeout-minutes: 20
+        continue-on-error: true
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           # Provider default flipped to `nitter` 2026-05-08 after the Apify
@@ -87,7 +95,7 @@ jobs:
           # but Vercel's filesystem is read-only / ephemeral so the writes
           # would not persist to the /twitter page.
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
-          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '10' }}
+          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '5' }}
           # 4 queries per repo = full tier-1 coverage. Tier 1 is the set of
           # "impossible to fake coincidentally" signals: repo_slug (owner/name),
           # repo_url (github.com/...), package_name (pip/npm install ...),
@@ -95,7 +103,12 @@ jobs:
           # highest-signal finds — tweets saying "npm i foo" don't hit a
           # slug/url search. Hosted runners default to 10 repos per run so
           # the collector stays inside the 30-minute job timeout.
-          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
+          # Effective default is intentionally smaller than the legacy notes:
+          # 2 tier-1 queries, max tier 1, 1 page, and 8s per request.
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '2' }}
+          TWITTER_COLLECTOR_MAX_TIER: ${{ vars.TWITTER_COLLECTOR_MAX_TIER || '1' }}
+          TWITTER_COLLECTOR_NITTER_PAGES: ${{ vars.TWITTER_COLLECTOR_NITTER_PAGES || '1' }}
+          TWITTER_COLLECTOR_TIMEOUT_MS: ${{ vars.TWITTER_COLLECTOR_TIMEOUT_MS || '8000' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
@@ -117,29 +130,39 @@ jobs:
       # to log in with no creds. Wired 2026-05-08 per forensic audit:
       # Nitter has been default since 2026-05-08 and we need a recovery path
       # for Nitter outages without manual intervention.
+      # Follow-up: the step now gates on the primary step outcome, and the
+      # shell guard checks TWITTER_WEB_ACCOUNTS_JSON before invoking provider=web.
       - name: Web-provider fallback (cookies-gated)
         id: web_fallback
-        if: failure() && env.TWITTER_FALLBACK_COOKIES != ''
+        if: steps.collect_primary.outcome == 'failure' && !cancelled()
+        timeout-minutes: 15
+        continue-on-error: true
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           TWITTER_COLLECTOR_PROVIDER: web
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
-          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '10' }}
-          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
+          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '5' }}
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '2' }}
+          TWITTER_COLLECTOR_MAX_TIER: ${{ vars.TWITTER_COLLECTOR_MAX_TIER || '1' }}
+          TWITTER_COLLECTOR_TIMEOUT_MS: ${{ vars.TWITTER_COLLECTOR_TIMEOUT_MS || '8000' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
           INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
-          TWITTER_FALLBACK_COOKIES: ${{ secrets.TWITTER_FALLBACK_COOKIES }}
           TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
           TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
           TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}-webfb"
-        run: npm run collect:twitter -- --provider web
+        run: |
+          if [ -z "${TWITTER_WEB_ACCOUNTS_JSON:-}" ]; then
+            echo "::warning::TWITTER_WEB_ACCOUNTS_JSON is not configured; skipping web fallback"
+            exit 1
+          fi
+          npm run collect:twitter -- --provider web
 
       - name: Compute Twitter leaderboard + consensus
         if: |
           always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
-          (success() || steps.web_fallback.outcome == 'success')
+          (steps.collect_primary.outcome == 'success' || steps.web_fallback.outcome == 'success')
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: npm run compute:consensus
@@ -151,14 +174,14 @@ jobs:
         # check ensures we only commit when one of the two produced data.
         if: |
           always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
-          (success() || steps.web_fallback.outcome == 'success')
+          (steps.collect_primary.outcome == 'success' || steps.web_fallback.outcome == 'success')
         id: ts
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit updated twitter signals
         if: |
           always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
-          (success() || steps.web_fallback.outcome == 'success')
+          (steps.collect_primary.outcome == 'success' || steps.web_fallback.outcome == 'success')
         # Step-level timeout: the embedded `git-commit-data` action calls
         # `gh pr merge --auto` which blocks indefinitely on required status
         # checks. Without this cap, the whole 30-min job timeout fires and
@@ -245,7 +268,9 @@ jobs:
           fi
 
       - name: Commit health checkpoint
-        if: success()
+        if: |
+          success() &&
+          (steps.collect_primary.outcome == 'success' || steps.web_fallback.outcome == 'success')
         run: |
           if [ -n "$(git status --porcelain data/.twitter-signal-count)" ]; then
             git add data/.twitter-signal-count
@@ -253,6 +278,15 @@ jobs:
               commit -m "ci(twitter): update signal-count checkpoint"
             git push
           fi
+
+      - name: Fail if all Twitter collectors failed
+        if: |
+          always() && !cancelled() &&
+          steps.collect_primary.outcome != 'success' &&
+          steps.web_fallback.outcome != 'success'
+        run: |
+          echo "::error::primary and fallback Twitter collectors failed; see collector logs"
+          exit 1
 
       - name: Upload collector output
         if: failure()

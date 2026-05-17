@@ -88,11 +88,12 @@ jobs:
         # Alchemy) for higher throughput. continue-on-error so a single
         # 429 storm doesn't fail the daily pipeline — fetcher is
         # idempotent and the next tick recovers.
+        timeout-minutes: 6
         continue-on-error: true
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-        run: node scripts/fetch-solana-x402-onchain.mjs --max-pages-per-addr 3
+        run: node scripts/fetch-solana-x402-onchain.mjs --max-pages-per-addr 1
 
       - name: Enrich agent-commerce live signals
         env:

@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-17T07:44:58.822Z",
-  "scanRunId": "sweep-2026-05-17T07:44:41.622Z",
+  "computedAt": "2026-05-17T08:23:46.189Z",
+  "scanRunId": "sweep-2026-05-17T08:23:38.371Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -326,10 +326,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 74,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
-          "count7d": 74,
+          "count7d": 13,
           "top": [
             {
               "source": "hackernews",
@@ -378,7 +378,7 @@
               "text": "Issue trackers typically live outside of your workflow, with poor ergonomics. Epiq aims to solve that, bringing issue tracking into your terminal. Multi-user collaboration is achieved via git using user-scoped immutable event logs that converge in memory. Put my all into it. Let me know what you think.",
               "author": "jolaflow",
               "engagement": {
-                "score": 86,
+                "score": 87,
                 "comments": 44
               },
               "observedAt": "2026-05-16T00:18:03.000Z"
@@ -386,15 +386,15 @@
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://github.com/adamjgmiller/adamsreview",
-              "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-              "text": "I built adamsreview, a Claude Code plugin that runs deeper, multi-stage PR reviews using parallel sub-agents, validation passes, persistent JSON state, and optional ensemble review via Codex CLI and PR bot comments.<p>On my own PRs, it has been catching dramatically more real bugs than Claude’s built-in &#x2F;review, &#x2F;ultrareview, CodeRabbit, Greptile, and Codex’s built-in review, while producing fewer false positives.<p>adamsreview is six Claude Code slash commands packaged as a plugin: re",
-              "author": "adamthegoalie",
+              "url": "https://huggingface.co/bardsai/eu-pii-anonimization-multilang",
+              "title": "Show HN: A 0.3B model that redacts PII in all 24 EU languages offline",
+              "text": "",
+              "author": "mipo57",
               "engagement": {
-                "score": 85,
-                "comments": 55
+                "score": 6,
+                "comments": 3
               },
-              "observedAt": "2026-05-11T02:06:29.000Z"
+              "observedAt": "2026-05-13T13:10:15.000Z"
             }
           ]
         }
@@ -1109,10 +1109,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 18,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -1152,32 +1152,6 @@
                 "comments": 6
               },
               "observedAt": "2026-05-16T08:57:47.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://github.com/farukalpay/Aster-Learning-Engine",
-              "title": "I built a C++20 graphics/game engine to understand rendering",
-              "text": "",
-              "author": "InstantSurface",
-              "engagement": {
-                "score": 6,
-                "comments": 0
-              },
-              "observedAt": "2026-05-15T19:57:08.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://www.bloomberg.com/graphics/2026-ai-identity-theft-scams/",
-              "title": "AI Is Making Digital Fraud Easier, Faster and Harder to Stop",
-              "text": "",
-              "author": "elsewhen",
-              "engagement": {
-                "score": 6,
-                "comments": 1
-              },
-              "observedAt": "2026-05-10T14:45:11.000Z"
             }
           ]
         },
@@ -3709,8 +3683,8 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 158,
-                "comments": 170
+                "score": 165,
+                "comments": 183
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -8520,10 +8494,10 @@
     },
     "withcoral/coral": {
       "fullName": "withcoral/coral",
-      "totalMentions7d": 7,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -8533,23 +8507,10 @@
               "text": "",
               "author": "rustoo",
               "engagement": {
-                "score": 178,
-                "comments": 189
+                "score": 180,
+                "comments": 211
               },
               "observedAt": "2026-05-14T14:17:12.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "withcoral/coral",
-              "url": "https://mochijs.com/",
-              "title": "Show HN: Mochi.js: bun-native high-fidelity browser automation library",
-              "text": "Hi HN,<p>I’m sharing mochi.js (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;0xchasercat&#x2F;mochi\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;0xchasercat&#x2F;mochi</a>), a Bun-native, raw-CDP browser automation framework. It&#x27;s designed to make programmatic browser use more effective by focusing on consistency and measured parity with regular traffic, purely from the JS layer, against stock Chromium.<p>The most common forms of browser automation focus heavily on client-side line by lin",
-              "author": "ccheshirecat",
-              "engagement": {
-                "score": 47,
-                "comments": 20
-              },
-              "observedAt": "2026-05-09T14:01:40.000Z"
             },
             {
               "source": "hackernews",
@@ -8559,7 +8520,7 @@
               "text": "",
               "author": "geox",
               "engagement": {
-                "score": 10,
+                "score": 11,
                 "comments": 3
               },
               "observedAt": "2026-05-13T17:17:31.000Z"
@@ -8567,15 +8528,15 @@
             {
               "source": "hackernews",
               "fullName": "withcoral/coral",
-              "url": "https://grist.org/energy/iran-war-oil-gas-coal-solar-nuclear/",
-              "title": "The Iran war has changed the global energy system forever",
+              "url": "https://thediplomat.com/2026/04/coal-is-rising-in-chinas-clean-energy-transition/",
+              "title": "Coal is rising in China's clean energy transition",
               "text": "",
-              "author": "ohjeez",
+              "author": "leonidasrup",
               "engagement": {
-                "score": 8,
+                "score": 4,
                 "comments": 0
               },
-              "observedAt": "2026-05-09T17:31:41.000Z"
+              "observedAt": "2026-05-15T11:09:23.000Z"
             },
             {
               "source": "hackernews",
@@ -8589,6 +8550,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-13T21:25:25.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "withcoral/coral",
+              "url": "https://www.wsj.com/business/energy-oil/coal-makes-a-comeback-fueled-by-war-in-the-middle-east-fb4cd0a8",
+              "title": "Coal Makes a Comeback, Fueled by War in the Middle East",
+              "text": "",
+              "author": "JumpCrisscross",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T03:58:00.000Z"
             }
           ]
         }
@@ -8842,6 +8816,124 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T14:04:32.363Z"
+            }
+          ]
+        }
+      }
+    },
+    "neilsonnn/image-blaster": {
+      "fullName": "neilsonnn/image-blaster",
+      "totalMentions7d": 11,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "neilsonnn/image-blaster",
+              "url": "https://github.com/neilsonnn/image-blaster",
+              "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+              "text": "",
+              "author": "MattRogish",
+              "engagement": {
+                "score": 187,
+                "comments": 38
+              },
+              "observedAt": "2026-05-15T15:42:37.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 10,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mlvxllfrxt23",
+              "title": "⚡ ALPHA · score 9/10 Image-blaster https://github.com/neilsonnn/image-blaster",
+              "text": "⚡ ALPHA · score 9/10 Image-blaster https://github.com/neilsonnn/image-blaster",
+              "author": "alpha-pipeline.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T18:29:04.873Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlvuxii4r224",
+              "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image https://github.com/neilsonnn/image-blaster (https://news.ycombinator.com/item?id=48150069)",
+              "text": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image https://github.com/neilsonnn/image-blaster (https://news.ycombinator.com/item?id=48150069)",
+              "author": "betterhn20.e-work.xyz",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T17:42:00.863Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/yug1224.com/post/3mlyezjpz6i2u",
+              "title": "1枚の画像から3D環境やメッシュを短時間で生成するClaude向けスキルセットらしい 3D制作の効率化やプロトタイピングにめちゃくちゃ使えそう yug1224 starred neilsonnn/image-blaster https://github.com/neilsonnn/image-blaster",
+              "text": "1枚の画像から3D環境やメッシュを短時間で生成するClaude向けスキルセットらしい 3D制作の効率化やプロトタイピングにめちゃくちゃ使えそう yug1224 starred neilsonnn/image-blaster https://github.com/neilsonnn/image-blaster",
+              "author": "yug1224.com",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T17:34:48.760Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/hnfeed.bsky.social/post/3mlxigi5ppu2p",
+              "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image https://github.com/neilsonnn/image-blaster [comments] [159 points]",
+              "text": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image https://github.com/neilsonnn/image-blaster [comments] [159 points]",
+              "author": "hnfeed.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T09:03:04.574Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/hot.hn/post/3mlxfsxlsys2r",
+              "title": "📰 Image-blaster: Creates 3D environments, SFX, and meshes from a single image 🔗 https://github.com/neilsonnn/image-blaster 💬 Discuss on HN",
+              "text": "📰 Image-blaster: Creates 3D environments, SFX, and meshes from a single image 🔗 https://github.com/neilsonnn/image-blaster 💬 Discuss on HN",
+              "author": "hot.hn",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T08:16:22.164Z"
+            }
+          ]
+        }
+      }
+    },
+    "joeseesun/qiaomu-anything-to-notebooklm": {
+      "fullName": "joeseesun/qiaomu-anything-to-notebooklm",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "joeseesun/qiaomu-anything-to-notebooklm",
+              "url": "https://bsky.app/profile/github-trending.bsky.social/post/3mlvtkkt5mn2s",
+              "title": "🚀 Skyrocketing！ 🚀 (200+ new stars) 📦 joeseesun / qiaomu-anything-to-notebooklm ⭐ 2,403 (+465) 🗒 Python Claude Skill: Multi-source content processor for NotebookLM. Supports WeChat articles, web pa",
+              "text": "🚀 Skyrocketing！ 🚀 (200+ new stars) 📦 joeseesun / qiaomu-anything-to-notebooklm ⭐ 2,403 (+465) 🗒 Python Claude Skill: Multi-source content processor for NotebookLM. Supports WeChat articles, web pages, YouTube, PDF, Markdown, search queries → Podcast/PPT/MindMap/Quiz etc.",
+              "author": "github-trending.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-15T17:16:53.568Z"
             }
           ]
         }

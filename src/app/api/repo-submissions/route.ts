@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { readEnv } from "@/lib/env-helpers";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
 import {
@@ -22,6 +23,12 @@ export const runtime = "nodejs";
 // allow-list, repo normalization) lives in validateRepoSubmissionInput
 // because it composes URL parsing helpers used by other call sites.
 const RepoSubmissionsPostSchema = z.record(z.string(), z.unknown());
+
+// Rate-limit anonymous submissions: each accepted POST can trigger a
+// background GitHub intake job, so the budget is tighter than a pure-write
+// endpoint. (W5.5 HIGH — unauth + no rate-limit + GitHub-API burn.)
+const SUBMISSIONS_PER_HOUR = 10;
+const HOUR_MS = 60 * 60 * 1000;
 
 interface RepoSubmissionsListResponse {
   ok: true;
@@ -64,6 +71,24 @@ export async function POST(
 ): Promise<
   NextResponse<RepoSubmissionsCreateResponse | RepoSubmissionsErrorResponse>
 > {
+  const limit = await checkRateLimitAsync(request, {
+    windowMs: HOUR_MS,
+    maxRequests: SUBMISSIONS_PER_HOUR,
+  });
+  if (!limit.allowed) {
+    const retryAfter = Math.ceil(limit.retryAfterMs / 1000);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `rate limit exceeded — try again in ${retryAfter}s`,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfter) },
+      },
+    );
+  }
+
   const parsedShape = await parseBody(request, RepoSubmissionsPostSchema);
   if (!parsedShape.ok) {
     return parsedShape.response as NextResponse<RepoSubmissionsErrorResponse>;

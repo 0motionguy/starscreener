@@ -12,6 +12,7 @@ import { z } from "zod";
 
 import { parseBody } from "@/lib/api/parse-body";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { generateShortId } from "@/lib/compare/short-id";
 import { getDataStore } from "@/lib/data-store";
 import { absoluteUrl } from "@/lib/seo";
@@ -21,6 +22,11 @@ export const dynamic = "force-dynamic";
 
 const SHORT_ID_RETRY_LIMIT = 5;
 const COMPARE_SHARE_KEY_PREFIX = "compare-share";
+const SHARES_PER_HOUR = 30;
+const HOUR_MS = 60 * 60 * 1000;
+// 90-day TTL on each share record — long enough for legitimate share use,
+// short enough to bound storage growth from anonymous writes (W5.5 HIGH).
+const COMPARE_SHARE_TTL_SECONDS = 90 * 24 * 60 * 60;
 
 const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 
@@ -49,6 +55,30 @@ function compareShareKey(shortId: string): string {
 }
 
 export async function POST(request: Request) {
+  // Rate-limit anonymous shares per-IP so a bot can't fill the namespace.
+  // (W5.5 HIGH — unauth + no rate-limit + no TTL → storage exhaustion.)
+  const limit = await checkRateLimitAsync(request, {
+    windowMs: HOUR_MS,
+    maxRequests: SHARES_PER_HOUR,
+  });
+  if (!limit.allowed) {
+    return NextResponse.json(
+      errorEnvelope(
+        `rate limit exceeded — try again in ${Math.ceil(
+          limit.retryAfterMs / 1000,
+        )}s`,
+        "RATE_LIMITED",
+      ),
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(limit.retryAfterMs / 1000)),
+          "Cache-Control": "no-store",
+        },
+      },
+    );
+  }
+
   const parsed = await parseBody(request, compareShareSchema);
   if (!parsed.ok) return parsed.response;
 
@@ -69,7 +99,9 @@ export async function POST(request: Request) {
         createdAt: now,
       };
 
-      await store.write(compareShareKey(shortId), payload);
+      await store.write(compareShareKey(shortId), payload, {
+        ttlSeconds: COMPARE_SHARE_TTL_SECONDS,
+      });
 
       return NextResponse.json(
         {

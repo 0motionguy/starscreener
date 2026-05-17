@@ -87,14 +87,16 @@ Lives on `/submit` (`src/components/submissions/DropRepoPage.tsx`).
 | - | ---- | ------- | ------------------------ |
 | 1 | `submit_open` | DropRepoPage mount | — |
 | 2 | `submit_fill` | First non-empty change to the repo input on the current mount | — |
-| 3 | `submit_success` | API responded `ok: true` | `kind` (`created` \| `duplicate` \| `already_tracked`) |
+| 3 | `submit_validated` | `handleSubmit` invocation, before the POST is sent | `hasCategory` (boolean), `hasShareUrl` (boolean) |
+| 4 | `submit_success` | API responded `ok: true` | `kind` (`created` \| `duplicate` \| `already_tracked`) |
+| 5 | `submit_error` | `handleSubmit` fetch threw or API responded `ok: false` | `reason` (first 80 chars of error message) |
 
 `submit_fill` fires **once per mount** — clearing the form after a
 successful "created" submission also resets the latch so a follow-up
-submission is captured cleanly. There's no explicit `submit_failure`
-event today: validation failures keep the operator on the form, which
-the dashboard can spot as `submit_fill` without a downstream
-`submit_success`.
+submission is captured cleanly. `submit_validated` fires every submit
+attempt; the gap between it and `submit_success` measures backend
+rejection rate, while `submit_error` carries the truncated reason for
+the dashboard to group by (network vs. duplicate vs. throttle, etc.).
 
 ### `revenue-claim` - repo to revenue claim form to moderation queue
 

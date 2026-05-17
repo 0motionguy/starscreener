@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-16T08:11:27.451Z",
+  "fetchedAt": "2026-05-17T19:13:24.588Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1299,
+  "scannedArticles": 1311,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 11,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,20 +188,20 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 14,
-    "tag-cursor-top-7d": 32,
+    "tag-cursor-top-7d": 28,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 4,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 36,
-    "tag-workflow-top-7d": 34,
-    "tag-workflows-top-7d": 2,
+    "tag-promptengineering-top-7d": 42,
+    "tag-workflow-top-7d": 30,
+    "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 95,
+    "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 35,
-    "tag-n8n-top-7d": 30,
+    "tag-langchain-top-7d": 28,
+    "tag-n8n-top-7d": 36,
     "tag-opensource-top-7d": 100
   },
   "articles": [
@@ -213,10 +213,10 @@
       "author": {
         "username": "syedahmershah",
         "name": "Syed Ahmer Shah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2F43b6a034-629c-4334-a57c-67f51255be00.PNG"
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
       },
-      "reactionsCount": 225,
-      "commentsCount": 91,
+      "reactionsCount": 389,
+      "commentsCount": 150,
       "readingTime": 8,
       "publishedAt": "2026-05-13T09:28:52Z",
       "tags": [
@@ -225,8 +225,36 @@
         "javascript",
         "discuss"
       ],
-      "trendingScore": 91.7,
+      "trendingScore": 152.44,
       "linkedRepos": []
+    },
+    {
+      "id": 3682129,
+      "title": "I Gave Hermes Agent 5 Impossible Tasks",
+      "description": "This is a submission for the Hermes Agent Challenge     Let me be honest with you before we start.  I...",
+      "url": "https://dev.to/syedahmershah/i-gave-hermes-agent-5-impossible-tasks-1k16",
+      "author": {
+        "username": "syedahmershah",
+        "name": "Syed Ahmer Shah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
+      },
+      "reactionsCount": 203,
+      "commentsCount": 66,
+      "readingTime": 9,
+      "publishedAt": "2026-05-16T08:34:50Z",
+      "tags": [
+        "hermesagentchallenge",
+        "devchallenge",
+        "agents",
+        "git"
+      ],
+      "trendingScore": 102.76,
+      "linkedRepos": [
+        {
+          "fullName": "NousResearch/hermes-agent",
+          "location": "body"
+        }
+      ]
     },
     {
       "id": 3592285,
@@ -1232,6 +1260,27 @@
       "linkedRepos": []
     },
     {
+      "id": 3685189,
+      "title": "Dead Internet Theory is happening on DEV",
+      "description": "This is a sad post to write, but I feel like I have to write it just because it's been on my mind...",
+      "url": "https://dev.to/best_codes/i-see-dead-internet-theory-playing-out-in-real-time-on-dev-2nb6",
+      "author": {
+        "username": "best_codes",
+        "name": "BestCodes",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1192466%2F53d79dec-5f31-432e-b1e5-5a1caad6bc01.png"
+      },
+      "reactionsCount": 32,
+      "commentsCount": 18,
+      "readingTime": 4,
+      "publishedAt": "2026-05-16T21:07:34Z",
+      "tags": [
+        "ai",
+        "discuss"
+      ],
+      "trendingScore": 6.1,
+      "linkedRepos": []
+    },
+    {
       "id": 3653439,
       "title": "Run Claude Code Locally for Free with Docker Model Runner",
       "description": "We know that the Claude Code is phenomenal for development and code. But we can easily run out of...",
@@ -1463,6 +1512,29 @@
         "productivity"
       ],
       "trendingScore": 4.73,
+      "linkedRepos": []
+    },
+    {
+      "id": 3682425,
+      "title": "What have you been working on lately?",
+      "description": "Hi community! Would love to talk and get to know what you are working on right now  Could be:  a...",
+      "url": "https://dev.to/lovestaco/what-have-you-been-working-on-lately-193l",
+      "author": {
+        "username": "lovestaco",
+        "name": "Athreya aka Maneshwar",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+      },
+      "reactionsCount": 31,
+      "commentsCount": 24,
+      "readingTime": 1,
+      "publishedAt": "2026-05-16T09:44:19Z",
+      "tags": [
+        "webdev",
+        "beginners",
+        "discuss",
+        "programming"
+      ],
+      "trendingScore": 4.69,
       "linkedRepos": []
     },
     {
@@ -1990,6 +2062,34 @@
       "linkedRepos": []
     },
     {
+      "id": 3652261,
+      "title": "My fully offline AI-assisted Linux development machine",
+      "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
+      "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+      "author": {
+        "username": "deepu105",
+        "name": "Deepu K Sasidharan",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
+      },
+      "reactionsCount": 78,
+      "commentsCount": 23,
+      "readingTime": 13,
+      "publishedAt": "2026-05-11T20:47:59Z",
+      "tags": [
+        "linux",
+        "archlinux",
+        "development",
+        "ai"
+      ],
+      "trendingScore": 3.42,
+      "linkedRepos": [
+        {
+          "fullName": "ajeetdsouza/zoxide",
+          "location": "body"
+        }
+      ]
+    },
+    {
       "id": 3643673,
       "title": "Old PC vs New AI: Can a 2015 Desktop Actually Run Gemma 4? (2B vs 4B Benchmark)",
       "description": "Running modern AI models locally on older hardware sounds almost impossible. But with smaller models...",
@@ -2033,6 +2133,29 @@
         "career"
       ],
       "trendingScore": 3.4,
+      "linkedRepos": []
+    },
+    {
+      "id": 3522448,
+      "title": "Chat to build and schedule your own personal Hacker News email digest! 🎉",
+      "description": "I have been working on a side project for the past few weeks and finally got it polished enough to...",
+      "url": "https://dev.to/anmolbaranwal/chat-to-build-and-schedule-your-own-personal-hacker-news-email-digest-42a4",
+      "author": {
+        "username": "anmolbaranwal",
+        "name": "Anmol Baranwal",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F950976%2F69363f37-b7c5-4f1e-a2fe-29b4e4e33e92.png"
+      },
+      "reactionsCount": 53,
+      "commentsCount": 1,
+      "readingTime": 6,
+      "publishedAt": "2026-05-16T13:15:06Z",
+      "tags": [
+        "showdev",
+        "react",
+        "opensource",
+        "programming"
+      ],
+      "trendingScore": 3.35,
       "linkedRepos": []
     },
     {
@@ -2406,121 +2529,6 @@
         "systemdesign"
       ],
       "trendingScore": 2.68,
-      "linkedRepos": []
-    },
-    {
-      "id": 3652793,
-      "title": "6 best usage-based billing platforms(Developer Guide)",
-      "description": "The best usage-based billing software for developers includes Credyt for real-time AI and API billing...",
-      "url": "https://dev.to/credyt/6-best-usage-based-billing-platformsdeveloper-guide-25f4",
-      "author": {
-        "username": "credyt",
-        "name": "Credyt.ai",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3866836%2F0b97756b-8442-4c20-a886-f9b041ce4a9d.png"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 1,
-      "readingTime": 14,
-      "publishedAt": "2026-05-12T00:35:09Z",
-      "tags": [
-        "ai",
-        "architecture",
-        "saas",
-        "usagebasedbilling"
-      ],
-      "trendingScore": 2.6,
-      "linkedRepos": []
-    },
-    {
-      "id": 3635815,
-      "title": "Por Qué Fallan los Agentes de IA: 3 Modos de Fallo Que Cuestan Tokens y Tiempo",
-      "description": "Los agentes de IA no fallan como el software tradicional: no se bloquean con un stack trace. Fallan...",
-      "url": "https://dev.to/aws-espanol/por-que-fallan-los-agentes-de-ia-3-modos-de-fallo-que-cuestan-tokens-y-tiempo-20b",
-      "author": {
-        "username": "elizabethfuentes12",
-        "name": "Elizabeth Fuentes L",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F717518%2Fb550b165-b8b9-405d-acfb-e5dc846765b0.png"
-      },
-      "reactionsCount": 10,
-      "commentsCount": 1,
-      "readingTime": 9,
-      "publishedAt": "2026-05-08T23:19:28Z",
-      "tags": [
-        "ai",
-        "tutorial",
-        "python",
-        "programming"
-      ],
-      "trendingScore": 2.59,
-      "linkedRepos": []
-    },
-    {
-      "id": 3619097,
-      "title": "Nobody Talks About How Lonely Being a Developer Can Be",
-      "description": "You fixed the bug. The one that had been eating your brain for two days straight.  You lean back. You...",
-      "url": "https://dev.to/web_dev-usman/nobody-talks-about-how-lonely-being-a-developer-can-be-j3h",
-      "author": {
-        "username": "web_dev-usman",
-        "name": "Muhammad Usman",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2467689%2F7cef2b13-fd64-49a8-b296-bac4c5962ec3.png"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 18,
-      "readingTime": 5,
-      "publishedAt": "2026-05-06T07:00:38Z",
-      "tags": [
-        "programming",
-        "webdev",
-        "productivity",
-        "career"
-      ],
-      "trendingScore": 2.52,
-      "linkedRepos": []
-    },
-    {
-      "id": 3591625,
-      "title": "💰Monetize Your AI Agents with LangChain and Kong",
-      "description": "Say you built an AI agent and customers are starting to pay for it. Sooner or later you'll want to...",
-      "url": "https://dev.to/konghq/how-to-monetize-your-ai-agents-with-langchain-and-kong-1fn0",
-      "author": {
-        "username": "tejakummarikuntla",
-        "name": "Teja Kummarikuntla",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F464555%2F37d4c2e0-271e-4b9b-a5dc-a70f856639b1.jpeg"
-      },
-      "reactionsCount": 60,
-      "commentsCount": 1,
-      "readingTime": 13,
-      "publishedAt": "2026-05-05T15:26:47Z",
-      "tags": [
-        "ai",
-        "langchain",
-        "programming",
-        "webdev"
-      ],
-      "trendingScore": 2.5,
-      "linkedRepos": []
-    },
-    {
-      "id": 3603681,
-      "title": "Using Claude Code with Docker Model Runner",
-      "description": "We know that the Claude Code is phenomenal for development and code. But we can easily run out of...",
-      "url": "https://dev.to/pradumnasaraf/using-claude-code-with-docker-model-runner-36eo",
-      "author": {
-        "username": "pradumnasaraf",
-        "name": "Pradumna Saraf",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F682769%2F6d44570c-3d95-4656-ba55-c8a4b0e95f9e.jpg"
-      },
-      "reactionsCount": 20,
-      "commentsCount": 0,
-      "readingTime": 4,
-      "publishedAt": "2026-05-08T09:00:18Z",
-      "tags": [
-        "ai",
-        "docker",
-        "programming",
-        "tutorial"
-      ],
-      "trendingScore": 2.49,
       "linkedRepos": []
     }
   ]

@@ -1,7 +1,7 @@
 // mcp-smithery-rank fetcher.
 //
 //   API           https://registry.smithery.ai/servers (paginated)
-//   Auth          SMITHERY_API_KEY (Bearer)
+//   Auth          Optional SMITHERY_API_KEY (Bearer)
 //   Rate limit    No published cap; we paginate at pageSize=100, < 100 pages
 //   Cache TTL     None — the aggregate key is overwritten each run
 //   Aggregate key mcp-smithery-rank
@@ -70,22 +70,24 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, []);
     }
 
-    const env = loadEnv();
-    if (!env.SMITHERY_API_KEY) {
-      ctx.log.warn('mcp-smithery-rank skipped: SMITHERY_API_KEY not set');
-      const redisPublished = await publishDisabledAggregate();
-      return done(startedAt, 0, redisPublished, []);
-    }
-
     const errors: RunResult['errors'] = [];
-    const headers = { authorization: `Bearer ${env.SMITHERY_API_KEY}` };
+    const env = loadEnv();
+    const headers = env.SMITHERY_API_KEY
+      ? { authorization: `Bearer ${env.SMITHERY_API_KEY}` }
+      : undefined;
+    if (!headers) {
+      ctx.log.warn('SMITHERY_API_KEY not set - using anonymous Smithery registry endpoint');
+    }
 
     const ordered: SmitheryServerEntry[] = [];
     let total = 0;
     try {
       for (let page = 1; page <= MAX_PAGES; page += 1) {
         const url = `${BASE}/servers?page=${page}&pageSize=${PAGE_SIZE}`;
-        const { data } = await ctx.http.json<ListResponse>(url, { headers, timeoutMs: 20_000 });
+        const { data } = await ctx.http.json<ListResponse>(url, {
+          ...(headers ? { headers } : {}),
+          timeoutMs: 20_000,
+        });
         const servers = data.servers ?? [];
         for (const s of servers) ordered.push(s);
         const totalPages = data.pagination?.totalPages ?? 1;
@@ -142,18 +144,6 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
-
-async function publishDisabledAggregate(): Promise<boolean> {
-  const payload: SmitheryRankPayload = {
-    fetchedAt: new Date().toISOString(),
-    total: 0,
-    summary: {},
-    status: 'disabled',
-    reason: 'missing_smithery_api_key',
-  };
-  const result = await writeDataStore('mcp-smithery-rank', payload);
-  return result.source === 'redis';
-}
 
 function done(
   startedAt: string,

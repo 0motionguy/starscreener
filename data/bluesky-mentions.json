@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-17T19:35:38.299Z",
+  "fetchedAt": "2026-05-17T21:08:57.593Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -10189,7 +10189,7 @@
     },
     "docker/docker-agent": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 5,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -10201,13 +10201,41 @@
           "handle": "aheritier.net",
           "displayName": "Arnaud Héritier"
         },
-        "likeCount": 1,
+        "likeCount": 5,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T19:29:43.065Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.65
       },
       "posts": [
+        {
+          "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
+          "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
+          "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
+          "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
+          "author": {
+            "handle": "aheritier.net",
+            "displayName": "Arnaud Héritier"
+          },
+          "likeCount": 5,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:29:43.065Z",
+          "createdUtc": 1779046183,
+          "ageHours": 1.65,
+          "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "docker/docker-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mlnadi46pk24",
           "cid": "bafyreighrywyzm2motizy5n3h2vujxxdjzrbxglqg5jizdrhzdiufgs74m",
@@ -10229,34 +10257,6 @@
             "is-announcement"
           ],
           "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "docker/docker-agent",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
-          "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
-          "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
-          "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
-          "author": {
-            "handle": "aheritier.net",
-            "displayName": "Arnaud Héritier"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-17T19:29:43.065Z",
-          "createdUtc": 1779046183,
-          "ageHours": 0.5,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "docker/docker-agent",
@@ -10426,21 +10426,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
-        "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
-        "bskyUrl": "https://bsky.app/profile/h12o.mastodon.tokyo.ap.brid.gy/post/3mlnoi7m3ag62",
-        "text": "RE: https://mastodon.tokyo/@h12o/116558443608586991 >> 最新版 v0.3.13 中已经修复此问题，请下载最新版使用就可以了，感谢反馈 << https://github.com/nashsu/llm_wiki/issues/55 手元のはVersion 0.23.2 (0.23.2)。",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mm3azngut722",
+        "cid": "bafyreif3gj6agb5h3xx5cdiokkjp3rzvtofwnbqsxsld4pxgjmk7ebhhzy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm3azngut722",
+        "text": "https://github.com/nashsu/llm_wiki",
         "author": {
-          "handle": "h12o.mastodon.tokyo.ap.brid.gy",
-          "displayName": "h12o"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T11:24:42.000Z",
-        "hoursSincePosted": 0.92
+        "createdAt": "2026-05-17T21:01:15Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mm3azngut722",
+          "cid": "bafyreif3gj6agb5h3xx5cdiokkjp3rzvtofwnbqsxsld4pxgjmk7ebhhzy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm3azngut722",
+          "text": "https://github.com/nashsu/llm_wiki",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T21:01:15Z",
+          "createdUtc": 1779051675,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nashsu/llm_wiki",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
           "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
@@ -13727,6 +13755,109 @@
           "linkedRepos": [
             {
               "fullName": "KenKaneki18/CloakBrowser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TwilitRealm/dusklight": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:t4ch43dad547r5pj7rg4pbjb/app.bsky.feed.post/3mm37q3a25h62",
+        "cid": "bafyreieliqcjtbmnbpyxidkozau2ffvoin6dgfuxbw7b2xs6vh3tctfjva",
+        "bskyUrl": "https://bsky.app/profile/pjb.sharkey.slugcat.systems/post/3mm37q3a25h62",
+        "text": "https://github.com/TwilitRealm/dusklight/pull/1550 > Speedrunners suspect that ONE PARTICULAR archer is way more accurate than normal, he keeps sniping them > look inside > On the original console, the first arrow after scene change has a THREE frame delay, which Dusklight did not replicate […]",
+        "author": {
+          "handle": "pjb.sharkey.slugcat.systems",
+          "displayName": "PJB"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T20:38:00.024Z",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:t4ch43dad547r5pj7rg4pbjb/app.bsky.feed.post/3mm37q3a25h62",
+          "cid": "bafyreieliqcjtbmnbpyxidkozau2ffvoin6dgfuxbw7b2xs6vh3tctfjva",
+          "bskyUrl": "https://bsky.app/profile/pjb.sharkey.slugcat.systems/post/3mm37q3a25h62",
+          "text": "https://github.com/TwilitRealm/dusklight/pull/1550 > Speedrunners suspect that ONE PARTICULAR archer is way more accurate than normal, he keeps sniping them > look inside > On the original console, the first arrow after scene change has a THREE frame delay, which Dusklight did not replicate […]",
+          "author": {
+            "handle": "pjb.sharkey.slugcat.systems",
+            "displayName": "PJB"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T20:38:00.024Z",
+          "createdUtc": 1779050280,
+          "ageHours": 0.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TwilitRealm/dusklight",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cli/cli": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
+        "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
+        "bskyUrl": "https://bsky.app/profile/deokgonkimdgkim.bsky.social/post/3mm34bct2mc2l",
+        "text": "github.com/cli/cli/blob... gh는 또 왜! snap 설치하지 말라 하나.. snap 편하고 좋은데. 안 그런가? ㅋ",
+        "author": {
+          "handle": "deokgonkimdgkim.bsky.social",
+          "displayName": "Deokgon Kim"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T19:36:05.054Z",
+        "hoursSincePosted": 1.55
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
+          "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
+          "bskyUrl": "https://bsky.app/profile/deokgonkimdgkim.bsky.social/post/3mm34bct2mc2l",
+          "text": "github.com/cli/cli/blob... gh는 또 왜! snap 설치하지 말라 하나.. snap 편하고 좋은데. 안 그런가? ㅋ",
+          "author": {
+            "handle": "deokgonkimdgkim.bsky.social",
+            "displayName": "Deokgon Kim"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:36:05.054Z",
+          "createdUtc": 1779046565,
+          "ageHours": 1.55,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "cli/cli",
               "matchType": "url",
               "confidence": 1
             }
@@ -23920,7 +24051,7 @@
     },
     "docker--docker-agent": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 5,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -23932,13 +24063,41 @@
           "handle": "aheritier.net",
           "displayName": "Arnaud Héritier"
         },
-        "likeCount": 1,
+        "likeCount": 5,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T19:29:43.065Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.65
       },
       "posts": [
+        {
+          "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
+          "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
+          "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
+          "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
+          "author": {
+            "handle": "aheritier.net",
+            "displayName": "Arnaud Héritier"
+          },
+          "likeCount": 5,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:29:43.065Z",
+          "createdUtc": 1779046183,
+          "ageHours": 1.65,
+          "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "docker/docker-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mlnadi46pk24",
           "cid": "bafyreighrywyzm2motizy5n3h2vujxxdjzrbxglqg5jizdrhzdiufgs74m",
@@ -23960,34 +24119,6 @@
             "is-announcement"
           ],
           "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "docker/docker-agent",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
-          "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
-          "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
-          "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
-          "author": {
-            "handle": "aheritier.net",
-            "displayName": "Arnaud Héritier"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-17T19:29:43.065Z",
-          "createdUtc": 1779046183,
-          "ageHours": 0.5,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "docker/docker-agent",
@@ -24157,21 +24288,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
-        "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
-        "bskyUrl": "https://bsky.app/profile/h12o.mastodon.tokyo.ap.brid.gy/post/3mlnoi7m3ag62",
-        "text": "RE: https://mastodon.tokyo/@h12o/116558443608586991 >> 最新版 v0.3.13 中已经修复此问题，请下载最新版使用就可以了，感谢反馈 << https://github.com/nashsu/llm_wiki/issues/55 手元のはVersion 0.23.2 (0.23.2)。",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mm3azngut722",
+        "cid": "bafyreif3gj6agb5h3xx5cdiokkjp3rzvtofwnbqsxsld4pxgjmk7ebhhzy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm3azngut722",
+        "text": "https://github.com/nashsu/llm_wiki",
         "author": {
-          "handle": "h12o.mastodon.tokyo.ap.brid.gy",
-          "displayName": "h12o"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T11:24:42.000Z",
-        "hoursSincePosted": 0.92
+        "createdAt": "2026-05-17T21:01:15Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mm3azngut722",
+          "cid": "bafyreif3gj6agb5h3xx5cdiokkjp3rzvtofwnbqsxsld4pxgjmk7ebhhzy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm3azngut722",
+          "text": "https://github.com/nashsu/llm_wiki",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T21:01:15Z",
+          "createdUtc": 1779051675,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nashsu/llm_wiki",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
           "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
@@ -27464,46 +27623,129 @@
           ]
         }
       ]
+    },
+    "twilitrealm--dusklight": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:t4ch43dad547r5pj7rg4pbjb/app.bsky.feed.post/3mm37q3a25h62",
+        "cid": "bafyreieliqcjtbmnbpyxidkozau2ffvoin6dgfuxbw7b2xs6vh3tctfjva",
+        "bskyUrl": "https://bsky.app/profile/pjb.sharkey.slugcat.systems/post/3mm37q3a25h62",
+        "text": "https://github.com/TwilitRealm/dusklight/pull/1550 > Speedrunners suspect that ONE PARTICULAR archer is way more accurate than normal, he keeps sniping them > look inside > On the original console, the first arrow after scene change has a THREE frame delay, which Dusklight did not replicate […]",
+        "author": {
+          "handle": "pjb.sharkey.slugcat.systems",
+          "displayName": "PJB"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T20:38:00.024Z",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:t4ch43dad547r5pj7rg4pbjb/app.bsky.feed.post/3mm37q3a25h62",
+          "cid": "bafyreieliqcjtbmnbpyxidkozau2ffvoin6dgfuxbw7b2xs6vh3tctfjva",
+          "bskyUrl": "https://bsky.app/profile/pjb.sharkey.slugcat.systems/post/3mm37q3a25h62",
+          "text": "https://github.com/TwilitRealm/dusklight/pull/1550 > Speedrunners suspect that ONE PARTICULAR archer is way more accurate than normal, he keeps sniping them > look inside > On the original console, the first arrow after scene change has a THREE frame delay, which Dusklight did not replicate […]",
+          "author": {
+            "handle": "pjb.sharkey.slugcat.systems",
+            "displayName": "PJB"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T20:38:00.024Z",
+          "createdUtc": 1779050280,
+          "ageHours": 0.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TwilitRealm/dusklight",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cli--cli": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
+        "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
+        "bskyUrl": "https://bsky.app/profile/deokgonkimdgkim.bsky.social/post/3mm34bct2mc2l",
+        "text": "github.com/cli/cli/blob... gh는 또 왜! snap 설치하지 말라 하나.. snap 편하고 좋은데. 안 그런가? ㅋ",
+        "author": {
+          "handle": "deokgonkimdgkim.bsky.social",
+          "displayName": "Deokgon Kim"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T19:36:05.054Z",
+        "hoursSincePosted": 1.55
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
+          "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
+          "bskyUrl": "https://bsky.app/profile/deokgonkimdgkim.bsky.social/post/3mm34bct2mc2l",
+          "text": "github.com/cli/cli/blob... gh는 또 왜! snap 설치하지 말라 하나.. snap 편하고 좋은데. 안 그런가? ㅋ",
+          "author": {
+            "handle": "deokgonkimdgkim.bsky.social",
+            "displayName": "Deokgon Kim"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:36:05.054Z",
+          "createdUtc": 1779046565,
+          "ageHours": 1.55,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "cli/cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "Tencent/TencentDB-Agent-Memory",
-      "count7d": 1,
-      "likesSum7d": 16
-    },
-    {
-      "fullName": "antirez/ds4",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
       "fullName": "docker/docker-agent",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 5
     },
     {
-      "fullName": "KenKaneki18/CloakBrowser",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "nautechsystems/nautilus_trader",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "openclaw/openclaw",
+      "fullName": "cli/cli",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "ruvnet/RuView",
+      "fullName": "nashsu/llm_wiki",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "TauricResearch/TradingAgents",
+      "fullName": "TwilitRealm/dusklight",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -58,11 +58,25 @@ import type {
 export const revalidate = 1200;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo · Agent Commerce",
+  title: "Agent Commerce — TrendingRepo",
   description:
-    "x402 services, agent wallets, MCP servers, agent-callable APIs and marketplaces. The DefiLlama for the M2M economy.",
-  alternates: { canonical: "/agent-commerce" },
-  robots: { index: false, follow: true },
+    "Live x402 on-chain + AI agent commerce activity — Base, Solana, Dune protocols ranked by 24h volume.",
+  alternates: { canonical: "https://trendingrepo.com/agent-commerce" },
+  openGraph: {
+    title: "Agent Commerce — TrendingRepo",
+    description:
+      "Live x402 on-chain + AI agent commerce activity — Base, Solana, Dune protocols ranked by 24h volume.",
+    url: "https://trendingrepo.com/agent-commerce",
+    type: "website",
+    images: [{ url: "/api/og/agent-commerce", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Agent Commerce — TrendingRepo",
+    description: "Live x402 on-chain + AI agent commerce activity.",
+    images: ["/api/og/agent-commerce"],
+  },
+  robots: { index: true, follow: true },
 };
 
 interface PageProps {

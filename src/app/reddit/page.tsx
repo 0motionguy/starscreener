@@ -33,11 +33,13 @@ export const metadata: Metadata = {
     description: "GitHub repos breaking out across the tech subreddits, live-scored.",
     url: "/reddit",
     type: "website",
+    images: [{ url: "/api/og/reddit", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Repos Trending on Reddit — TrendingRepo",
     description: "GitHub repos breaking out across the tech subreddits, live-scored.",
+    images: ["/api/og/reddit"],
   },
 };
 

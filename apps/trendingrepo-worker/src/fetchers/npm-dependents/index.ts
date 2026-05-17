@@ -100,6 +100,17 @@ const fetcher: Fetcher = {
       seenPkgs.add(pkg);
     }
     ctx.log.info({ roster: items.length, npmPackages: seenPkgs.size }, 'npm-dependents targets resolved');
+    if (seenPkgs.size === 0) {
+      ctx.log.warn({ roster: items.length }, 'npm-dependents found no npm package coordinates');
+      const redisPublished = await publishAggregate('empty', 'no_npm_packages', {
+        roster: items.length,
+        npmPackages: 0,
+        ok: 0,
+        failed: 0,
+        cacheHit: 0,
+      });
+      return done(startedAt, items.length, redisPublished, []);
+    }
 
     const pkgResults = new Map<string, number>();
     let ok = 0;

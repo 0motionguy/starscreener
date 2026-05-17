@@ -65,6 +65,7 @@ loadEnvConfig(ROOT);
 
 const USER_AGENT = "TrendingRepo-TwitterCollector/0.1 (+https://trendingrepo.com)";
 const DEFAULT_BASE_URL = "http://localhost:3023";
+const CLI_CLEANUP_TIMEOUT_MS = 5_000;
 
 type CollectorProvider = "nitter" | "fixture" | "web" | "apify";
 type CollectorMode = "direct" | "api";
@@ -1039,14 +1040,33 @@ async function main(): Promise<void> {
   });
 }
 
+async function cleanupForCliExit(): Promise<void> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  const cleanup = Promise.allSettled([
+    closeCollectorDataStore(),
+    closeAppDataStore(),
+  ]);
+  const cleanupOutcome = await Promise.race([
+    cleanup.then(() => "closed" as const),
+    new Promise<"timeout">((resolveTimeout) => {
+      timeout = setTimeout(() => resolveTimeout("timeout"), CLI_CLEANUP_TIMEOUT_MS);
+    }),
+  ]);
+
+  if (timeout) clearTimeout(timeout);
+  if (cleanupOutcome === "timeout") {
+    console.warn(
+      `[twitter-collector] cleanup timed out after ${CLI_CLEANUP_TIMEOUT_MS}ms; forcing process exit`,
+    );
+  }
+}
+
 main()
   .catch((error) => {
     console.error(error);
     process.exitCode = 1;
   })
   .finally(async () => {
-    await Promise.allSettled([
-      closeCollectorDataStore(),
-      closeAppDataStore(),
-    ]);
+    await cleanupForCliExit();
+    process.exit(process.exitCode ?? 0);
   });

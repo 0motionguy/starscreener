@@ -263,7 +263,6 @@ export const SUBREDDITS = [
   "ChatGPTPromptGenius",
   // --- Extended: Prompts & building ---
   "PromptEngineering",
-  "AIToolTesting",
   "AIBuilders",
   "AIAssisted",
   // --- Extended: Learning & research ---

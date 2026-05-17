@@ -113,6 +113,52 @@ function flattenToStarsById(payload: TrendingPayload): Map<string, number> {
   return out;
 }
 
+function parseEpochSeconds(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return Math.floor(value > 1_000_000_000_000 ? value / 1000 : value);
+  }
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const numeric = Number(trimmed);
+  if (Number.isFinite(numeric)) {
+    return Math.floor(numeric > 1_000_000_000_000 ? numeric / 1000 : numeric);
+  }
+  const parsedMs = Date.parse(trimmed);
+  return Number.isFinite(parsedMs) ? Math.floor(parsedMs / 1000) : null;
+}
+
+export function resolveTrendingSnapshotTs(
+  metaRaw: string | null,
+  currentPayload: TrendingPayload,
+  fallbackNowSeconds: number,
+): number {
+  const candidates: unknown[] = [];
+  if (metaRaw) {
+    const trimmed = metaRaw.trim();
+    if (trimmed) {
+      try {
+        const parsed = JSON.parse(trimmed) as unknown;
+        if (parsed && typeof parsed === 'object') {
+          const record = parsed as Record<string, unknown>;
+          candidates.push(record.writtenAt, record.fetchedAt, record.updatedAt, record.ts);
+        } else {
+          candidates.push(parsed);
+        }
+      } catch {
+        candidates.push(trimmed);
+      }
+    }
+  }
+  candidates.push(currentPayload.fetchedAt, fallbackNowSeconds);
+
+  for (const candidate of candidates) {
+    const ts = parseEpochSeconds(candidate);
+    if (ts !== null && Number.isFinite(ts)) return ts;
+  }
+  return fallbackNowSeconds;
+}
+
 async function readJson<T>(
   redis: RedisHandle,
   key: string,
@@ -201,9 +247,7 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, errors);
     }
     const currentMetaRaw = await redis.get(TRENDING_META_KEY);
-    const currentTs = currentMetaRaw
-      ? Math.floor(Date.parse(currentMetaRaw) / 1000)
-      : now;
+    const currentTs = resolveTrendingSnapshotTs(currentMetaRaw, currentJson, now);
     const currentStars = flattenToStarsById(currentJson);
     if (currentStars.size === 0) {
       const message = 'current trending has zero joinable rows';

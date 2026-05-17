@@ -145,6 +145,16 @@ export function DropRepoPage() {
     setError(null);
     setResult(null);
 
+    // AGN-848 — funnel step "submit_validated". Fires once per submit
+    // attempt, distinguishing form-fill from form-send. Flat props let
+    // the dashboard split on category presence + share URL completeness.
+    captureFunnelStep({
+      step: "submit_validated",
+      flow: "submit-repo",
+      hasCategory: category !== null,
+      hasShareUrl: shareUrl.trim().length > 0,
+    });
+
     try {
       const res = await fetch("/api/repo-submissions", {
         method: "POST",
@@ -193,6 +203,17 @@ export function DropRepoPage() {
         setFillFired(false);
       }
     } catch (err) {
+      const reason = (err instanceof Error ? err.message : String(err)).slice(
+        0,
+        80,
+      );
+      // AGN-848 — funnel step "submit_error". Tag with truncated reason
+      // so the dashboard can group failures without leaking long stacks.
+      captureFunnelStep({
+        step: "submit_error",
+        flow: "submit-repo",
+        reason,
+      });
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setSubmitting(false);

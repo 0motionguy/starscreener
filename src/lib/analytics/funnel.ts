@@ -89,7 +89,9 @@ export type FunnelStep =
   // submit
   | "submit_open"
   | "submit_fill"
+  | "submit_validated"
   | "submit_success"
+  | "submit_error"
   // revenue claim
   | "revenue_claim_open"
   | "revenue_claim_submit_success"

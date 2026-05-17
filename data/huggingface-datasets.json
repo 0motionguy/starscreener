@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-16T19:36:49.514Z",
+  "fetchedAt": "2026-05-17T04:35:55.184Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "TuringEnterprises",
       "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
       "downloads": 5217,
-      "likes": 110,
-      "trendingScore": 91,
+      "likes": 111,
+      "trendingScore": 92,
       "tags": [
         "task_categories:question-answering",
         "language:en",
@@ -41,8 +41,8 @@
       "author": "PsiBotAI",
       "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
       "downloads": 24094,
-      "likes": 131,
-      "trendingScore": 85,
+      "likes": 132,
+      "trendingScore": 86,
       "tags": [
         "language:en",
         "size_categories:100K<n<1M",
@@ -166,8 +166,8 @@
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
       "downloads": 5906,
-      "likes": 57,
-      "trendingScore": 56,
+      "likes": 59,
+      "trendingScore": 58,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -371,6 +371,29 @@
     },
     {
       "rank": 13,
+      "id": "5551z/VisCoR-55K",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
+      "downloads": 207,
+      "likes": 29,
+      "trendingScore": 25,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-24T03:40:42.000Z",
+      "lastModified": "2026-04-30T10:51:23.000Z"
+    },
+    {
+      "rank": 14,
       "id": "nvidia/Nemotron-Image-Training-v3",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Image-Training-v3",
@@ -394,7 +417,7 @@
       "lastModified": "2026-04-28T08:35:01.000Z"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "id": "apptek-com/apptek_callcenter_dialogues",
       "author": "apptek-com",
       "url": "https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues",
@@ -428,7 +451,7 @@
       "lastModified": "2026-05-08T22:49:17.000Z"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "id": "iletisim/dezenformasyon-bultenleri",
       "author": "iletisim",
       "url": "https://huggingface.co/datasets/iletisim/dezenformasyon-bultenleri",
@@ -461,29 +484,6 @@
       ],
       "createdAt": "2026-05-03T09:04:01.000Z",
       "lastModified": "2026-05-03T09:10:37.000Z"
-    },
-    {
-      "rank": 16,
-      "id": "5551z/VisCoR-55K",
-      "author": "5551z",
-      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
-      "downloads": 207,
-      "likes": 28,
-      "trendingScore": 24,
-      "tags": [
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2603.02556",
-        "region:us"
-      ],
-      "createdAt": "2026-04-24T03:40:42.000Z",
-      "lastModified": "2026-04-30T10:51:23.000Z"
     },
     {
       "rank": 17,
@@ -813,6 +813,41 @@
     },
     {
       "rank": 27,
+      "id": "blanchon/opencs2_dataset",
+      "author": "blanchon",
+      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
+      "downloads": 20467,
+      "likes": 16,
+      "trendingScore": 16,
+      "tags": [
+        "task_categories:video-classification",
+        "task_categories:reinforcement-learning",
+        "task_categories:other",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "modality:video",
+        "modality:audio",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "opencs2",
+        "counter-strike-2",
+        "torchcodec",
+        "video",
+        "audio",
+        "parquet"
+      ],
+      "createdAt": "2026-05-08T00:14:06.000Z",
+      "lastModified": "2026-05-04T15:38:59.000Z"
+    },
+    {
+      "rank": 28,
       "id": "ning423/deepseek-hermes-reasoning-traces",
       "author": "ning423",
       "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
@@ -847,7 +882,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": "AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
@@ -874,7 +909,7 @@
       "lastModified": "2026-04-22T10:29:32.000Z"
     },
     {
-      "rank": 29,
+      "rank": 30,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
@@ -917,7 +952,7 @@
       "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
-      "rank": 30,
+      "rank": 31,
       "id": "cais/mmlu",
       "author": "cais",
       "url": "https://huggingface.co/datasets/cais/mmlu",
@@ -948,41 +983,6 @@
       ],
       "createdAt": "2022-03-02T23:29:22.000Z",
       "lastModified": "2024-03-08T20:36:26.000Z"
-    },
-    {
-      "rank": 31,
-      "id": "blanchon/opencs2_dataset",
-      "author": "blanchon",
-      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
-      "downloads": 20467,
-      "likes": 15,
-      "trendingScore": 15,
-      "tags": [
-        "task_categories:video-classification",
-        "task_categories:reinforcement-learning",
-        "task_categories:other",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:100K<n<1M",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "modality:video",
-        "modality:audio",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "opencs2",
-        "counter-strike-2",
-        "torchcodec",
-        "video",
-        "audio",
-        "parquet"
-      ],
-      "createdAt": "2026-05-08T00:14:06.000Z",
-      "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
       "rank": 32,
@@ -1282,8 +1282,8 @@
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
       "downloads": 1331,
-      "likes": 12,
-      "trendingScore": 12,
+      "likes": 13,
+      "trendingScore": 13,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -1332,6 +1332,37 @@
     },
     {
       "rank": 44,
+      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
+      "author": "5CD-AI",
+      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
+      "downloads": 51,
+      "likes": 13,
+      "trendingScore": 12,
+      "tags": [
+        "task_categories:image-to-text",
+        "language:vi",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2408.12480",
+        "region:us",
+        "ocr",
+        "text-recognition",
+        "handwriting",
+        "handwriting-recognition",
+        "vietnamese"
+      ],
+      "createdAt": "2026-05-10T22:38:24.000Z",
+      "lastModified": "2026-05-10T23:25:43.000Z"
+    },
+    {
+      "rank": 45,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -1346,7 +1377,7 @@
       "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
-      "rank": 45,
+      "rank": 46,
       "id": "microsoft/synthetic-computers-at-scale",
       "author": "microsoft",
       "url": "https://huggingface.co/datasets/microsoft/synthetic-computers-at-scale",
@@ -1376,7 +1407,7 @@
       "lastModified": "2026-05-01T06:30:14.000Z"
     },
     {
-      "rank": 46,
+      "rank": 47,
       "id": "clem/ml-intern-sessions",
       "author": "clem",
       "url": "https://huggingface.co/datasets/clem/ml-intern-sessions",
@@ -1408,7 +1439,7 @@
       "lastModified": "2026-05-05T18:26:42.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "bigcode/the-stack-v2",
       "author": "bigcode",
       "url": "https://huggingface.co/datasets/bigcode/the-stack-v2",
@@ -1439,7 +1470,7 @@
       "lastModified": "2024-04-23T15:52:32.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "beyoru/Aesir-Character-CoT-roleplay",
       "author": "beyoru",
       "url": "https://huggingface.co/datasets/beyoru/Aesir-Character-CoT-roleplay",
@@ -1473,7 +1504,7 @@
       "lastModified": "2026-05-03T12:59:09.000Z"
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "armand0e/DeepSeek-v4-Pro-Agent",
       "author": "armand0e",
       "url": "https://huggingface.co/datasets/armand0e/DeepSeek-v4-Pro-Agent",
@@ -1499,49 +1530,6 @@
       ],
       "createdAt": "2026-05-09T06:15:11.000Z",
       "lastModified": "2026-05-12T04:27:13.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "wikimedia/wikipedia",
-      "author": "wikimedia",
-      "url": "https://huggingface.co/datasets/wikimedia/wikipedia",
-      "downloads": 251866,
-      "likes": 1215,
-      "trendingScore": 10,
-      "tags": [
-        "task_categories:text-generation",
-        "task_categories:fill-mask",
-        "task_ids:language-modeling",
-        "task_ids:masked-language-modeling",
-        "language:ab",
-        "language:ace",
-        "language:ady",
-        "language:af",
-        "language:alt",
-        "language:am",
-        "language:ami",
-        "language:an",
-        "language:ang",
-        "language:anp",
-        "language:ar",
-        "language:arc",
-        "language:ary",
-        "language:arz",
-        "language:as",
-        "language:ast",
-        "language:atj",
-        "language:av",
-        "language:avk",
-        "language:awa",
-        "language:ay",
-        "language:az",
-        "language:azb",
-        "language:ba",
-        "language:ban",
-        "language:bar"
-      ],
-      "createdAt": "2022-03-02T23:29:22.000Z",
-      "lastModified": "2024-01-09T09:40:51.000Z"
     }
   ]
 }

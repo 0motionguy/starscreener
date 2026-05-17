@@ -50,6 +50,11 @@ import {
   refreshAgentCommerceFromStore,
 } from "@/lib/agent-commerce";
 import {
+  buildTabCounts,
+  CLIENT_CORPUS_LIMIT,
+  toSlimAgentCommerceTopItems,
+} from "@/lib/agent-commerce/slim";
+import {
   getBaseX402Onchain,
   refreshBaseX402OnchainFromStore,
 } from "@/lib/base-x402-onchain";
@@ -329,7 +334,18 @@ export default async function AgentCommercePage() {
           </p>
         </div>
       ) : (
-        <AgentCommerceFilteredContent items={items} stats={stats}>
+        // Pass a slim, top-N projection to the client island. The full
+        // corpus would ship ~8.8MB of SSR HTML (perf fix 2026-05-17);
+        // top-N keeps the payload under 2MB. Server-side section panels
+        // below still see the full `items` because RSC props never
+        // round-trip through JSON.
+        <AgentCommerceFilteredContent
+          items={toSlimAgentCommerceTopItems(items, CLIENT_CORPUS_LIMIT)}
+          stats={stats}
+          serverTabCounts={buildTabCounts(items, stats.totalItems)}
+          corpusTotal={stats.totalItems}
+          clientCorpusLimit={CLIENT_CORPUS_LIMIT}
+        >
           <SectionHead
             num="// 01"
             title="Composite movers"

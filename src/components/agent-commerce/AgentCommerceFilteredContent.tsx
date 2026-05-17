@@ -7,13 +7,21 @@
 // component reads `useSearchParams()` on the client, so the surrounding RSC
 // shell stays statically prerenderable under `revalidate=1200`.
 //
-// The page passes the full corpus + heavy panel children in via props/render
-// props; this component renders the tab strip, filter bar, browse grid, and
-// the active-filter snapshot. Section panels (movers, score distribution,
-// token economy, on-chain, dune) live as JSX children supplied by the page so
-// they remain server-rendered.
+// Perf fix (2026-05-17): the page used to pass the FULL AgentCommerceItem
+// corpus (~7.6k items × ~2.7KB each → 8.8MB serialized HTML). The client
+// island only needs a thin slice of each item for filter/tab counts + the
+// 12-card browse grid render. Heavy fields (`sources`, `live`, timestamps)
+// stay server-side where the panel components (MoversBoard,
+// TokenEconomyBoards, ScoreDistributionGrid…) still receive the full corpus
+// as RSC props that are NOT round-tripped to client JSON.
+//
+// The page passes a slim-corpus + heavy panel children in via
+// props/render props; this component renders the tab strip, filter bar,
+// browse grid, and the active-filter snapshot. Section panels (movers,
+// score distribution, token economy, on-chain, dune) live as JSX children
+// supplied by the page so they remain server-rendered.
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import type { ReactNode } from "react";
@@ -33,16 +41,58 @@ import {
   parseTab,
   TABS,
   type AgentCommerceFilter,
+  type AgentCommerceTab,
 } from "@/lib/agent-commerce/extract";
 import type {
   AgentCommerceItem,
-  AgentCommerceProtocol,
   AgentCommerceStats,
 } from "@/lib/agent-commerce/types";
 
+/**
+ * Slim shape sent to the client island. Drops `sources`, `live`,
+ * `firstSeenAt`, `lastUpdatedAt` — none of those are read by the filter
+ * logic in `applyFilter`, the tab/protocol counters, or the
+ * `AgentCommerceCard` render path. Keeps the SSR HTML payload small.
+ *
+ * If you add a new filter that needs a heavier field, extend
+ * `toSlimItem()` in `src/lib/agent-commerce/slim.ts` rather than passing
+ * the full `AgentCommerceItem` corpus here.
+ */
+export type SlimAgentCommerceItem = Pick<
+  AgentCommerceItem,
+  | "id"
+  | "slug"
+  | "name"
+  | "brief"
+  | "kind"
+  | "category"
+  | "protocols"
+  | "pricing"
+  | "capabilities"
+  | "links"
+  | "badges"
+  | "scores"
+  | "tags"
+>;
+
 interface AgentCommerceFilteredContentProps {
-  items: AgentCommerceItem[];
+  /**
+   * Top-`clientCorpusLimit` items from the full corpus, slimmed to only
+   * the fields the filter/card render path reads. Sized so the
+   * serialized SSR payload stays under the page's HTML budget.
+   */
+  items: SlimAgentCommerceItem[];
   stats: AgentCommerceStats;
+  /**
+   * Precomputed tab counts over the FULL corpus. The client island only
+   * holds the top-N slice, so it can't recompute these without dropping
+   * accuracy.
+   */
+  serverTabCounts?: Partial<Record<AgentCommerceTab, number>>;
+  /** Full corpus size (before slim/top-N projection). */
+  corpusTotal?: number;
+  /** Same as the server's `CLIENT_CORPUS_LIMIT`; surfaced in UX hints. */
+  clientCorpusLimit?: number;
   /** Section panels keyed by section number — rendered above the browse grid. */
   children: ReactNode;
 }
@@ -58,6 +108,9 @@ function buildBaseQuery(sp: URLSearchParams): URLSearchParams {
 export function AgentCommerceFilteredContent({
   items,
   stats,
+  serverTabCounts,
+  corpusTotal,
+  clientCorpusLimit,
   children,
 }: AgentCommerceFilteredContentProps) {
   const sp = useSearchParams();
@@ -79,36 +132,56 @@ export function AgentCommerceFilteredContent({
     [sp],
   );
 
-  // Per-tab counts for the tab strip — derived client-side because tab counts
-  // change when category/protocol filters mutate the corpus.
+  // Per-tab counts for the tab strip. Prefer the server-precomputed
+  // counts (which see the full corpus) over the client-side fallback
+  // (which only sees the top-N slim slice we shipped).
   const tabCounts = useMemo(() => {
+    if (serverTabCounts) return serverTabCounts;
     const counts: Partial<Record<(typeof TABS)[number], number>> = {};
     for (const tab of TABS) {
       if (tab === "overview" || tab === "signals" || tab === "opportunities") {
         counts[tab] = stats.totalItems;
         continue;
       }
-      const subset = applyFilter(items, {
-        ...filter,
-        tab,
-        category: null,
-        protocols: new Set<AgentCommerceProtocol>(),
-        pricing: null,
-        portalReady: false,
-        query: "",
+      const subset = items.filter((item) => {
+        if (tab === "payments") {
+          return (
+            item.protocols.includes("x402") ||
+            item.protocols.includes("a2a") ||
+            item.kind === "protocol" ||
+            item.kind === "infra"
+          );
+        }
+        if (tab === "marketplaces") return item.kind === "marketplace";
+        if (tab === "apis") return item.kind === "api";
+        if (tab === "wallets") return item.kind === "wallet";
+        if (tab === "mcp") return item.badges.mcpServer || item.kind === "tool";
+        return true;
       });
       counts[tab] = subset.length;
     }
     return counts;
-  }, [items, stats.totalItems, filter]);
+  }, [items, stats.totalItems, serverTabCounts]);
 
   const filtered = useMemo(() => applyFilter(items, filter), [items, filter]);
   const sorted = useMemo(
     () => filtered.slice().sort((a, b) => b.scores.composite - a.scores.composite),
     [filtered],
   );
-  const grid = sorted.slice(0, 60);
   const totalRendered = sorted.length;
+
+  // Pagination: render INITIAL_BROWSE_LIMIT cards on first paint; the
+  // "Load more" button below bumps `visibleCount` in PAGE_SIZE chunks
+  // until all matching items are shown. Reset whenever the filter narrows
+  // so users don't carry an oversize count into a smaller corpus.
+  const INITIAL_BROWSE_LIMIT = 50;
+  const PAGE_SIZE = 50;
+  const [visibleCount, setVisibleCount] = useState(INITIAL_BROWSE_LIMIT);
+  useEffect(() => {
+    setVisibleCount(INITIAL_BROWSE_LIMIT);
+  }, [filter]);
+  const grid = sorted.slice(0, visibleCount);
+  const remaining = Math.max(0, totalRendered - grid.length);
 
   return (
     <>
@@ -194,16 +267,42 @@ export function AgentCommerceFilteredContent({
               </>
             }
             meta={
-              <>
-                <b>{totalRendered}</b> / matching
-              </>
+              corpusTotal && clientCorpusLimit && corpusTotal > clientCorpusLimit ? (
+                <>
+                  <b>{totalRendered}</b> / matching · top{" "}
+                  <b>{clientCorpusLimit}</b> of {corpusTotal}
+                </>
+              ) : (
+                <>
+                  <b>{totalRendered}</b> / matching
+                </>
+              )
             }
           />
           <div className="ac-grid">
-            {grid.slice(0, 12).map((item) => (
+            {grid.map((item) => (
               <AgentCommerceCard key={item.id} item={item} />
             ))}
           </div>
+          {remaining > 0 ? (
+            <div className="ac-load-more">
+              <button
+                type="button"
+                className="ac-load-more__btn"
+                onClick={() =>
+                  setVisibleCount((c) =>
+                    Math.min(c + PAGE_SIZE, totalRendered),
+                  )
+                }
+                aria-label={`Load ${Math.min(PAGE_SIZE, remaining)} more cards`}
+              >
+                Load {Math.min(PAGE_SIZE, remaining)} more ·{" "}
+                <span className="ac-load-more__count">
+                  {grid.length} of {totalRendered}
+                </span>
+              </button>
+            </div>
+          ) : null}
         </>
       ) : (
         <div className="ac-empty">

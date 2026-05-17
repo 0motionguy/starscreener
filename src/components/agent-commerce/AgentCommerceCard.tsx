@@ -15,6 +15,26 @@ import {
   StatusBadges,
 } from "./AgentCommerceBadges";
 
+/**
+ * Fields the card actually renders. Accepting a Pick lets us pass either
+ * the full AgentCommerceItem (from server panels) or the SlimAgentCommerceItem
+ * used by the client browse grid without forcing the caller to widen.
+ */
+type CardItem = Pick<
+  AgentCommerceItem,
+  | "slug"
+  | "name"
+  | "brief"
+  | "kind"
+  | "category"
+  | "protocols"
+  | "pricing"
+  | "capabilities"
+  | "links"
+  | "badges"
+  | "scores"
+>;
+
 const KIND_LABELS: Record<string, string> = {
   api: "API",
   marketplace: "Marketplace",
@@ -59,7 +79,7 @@ function getLogoTone(name: string): string {
   return LOGO_TONES[hash % LOGO_TONES.length];
 }
 
-function primaryHref(item: AgentCommerceItem): string {
+function primaryHref(item: CardItem): string {
   return (
     item.links.website ||
     (item.links.github ? `https://github.com/${item.links.github}` : "") ||
@@ -68,7 +88,7 @@ function primaryHref(item: AgentCommerceItem): string {
   );
 }
 
-export function AgentCommerceCard({ item }: { item: AgentCommerceItem }) {
+export function AgentCommerceCard({ item }: { item: CardItem }) {
   const detailHref = `/agent-commerce/${item.slug}`;
   const externalHref = primaryHref(item);
   const logoTone = getLogoTone(item.name);

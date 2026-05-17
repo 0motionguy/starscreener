@@ -196,10 +196,28 @@ const TAB_TO_CATEGORY: Partial<
   mcp: ["infra"],
 };
 
-export function applyFilter(
-  items: AgentCommerceItem[],
+/**
+ * Filter applied to either the full corpus (server-side panels) or the
+ * slim corpus shipped to the client island. We use a Pick of the fields
+ * actually read so callers can pass either shape without an unsafe cast.
+ */
+type FilterableAgentCommerceItem = Pick<
+  AgentCommerceItem,
+  | "kind"
+  | "category"
+  | "protocols"
+  | "pricing"
+  | "badges"
+  | "name"
+  | "brief"
+  | "capabilities"
+  | "tags"
+>;
+
+export function applyFilter<T extends FilterableAgentCommerceItem>(
+  items: T[],
   filter: AgentCommerceFilter,
-): AgentCommerceItem[] {
+): T[] {
   return items.filter((item) => {
     if (filter.tab !== "overview" && filter.tab !== "signals" && filter.tab !== "opportunities") {
       const kinds = TAB_TO_KIND[filter.tab];

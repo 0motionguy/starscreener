@@ -209,10 +209,10 @@
       "route": "/api/health?soft=1",
       "policy": "dynamic-public",
       "expectsDynamic": true,
-      "reason": "health probe must reflect live state; cron-freshness-check polls this every 15 min",
+      "reason": "health probe reflects live state through a short shared cache; cron-freshness-check polls this every 15 min",
       "ttfbBudgetMs": { "cached": 400, "uncached": 600 },
       "transferBudgetKb": 5,
-      "warmupOnDeploy": false
+      "warmupOnDeploy": true
     }
   ]
 }

@@ -21,6 +21,12 @@ export const runtime = "nodejs";
 
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
+const SOFT_HEALTH_PUBLIC_HEADERS = {
+  "Cache-Control": "public, s-maxage=30, stale-while-revalidate=120",
+} as const;
+const SOFT_HEALTH_ERROR_HEADERS = { "Cache-Control": "no-store" } as const;
+const DETAIL_HEALTH_HEADERS = { "Cache-Control": "private, no-store" } as const;
+const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
 
 type HealthStatus = "ok" | "stale" | "error";
 
@@ -211,6 +217,8 @@ const SOFT_HEALTH_KEYS: Array<{
   { id: "npm", storeKey: "npm-packages", thresholdMs: NPM_STALE_THRESHOLD_MS },
 ];
 
+type SoftHealthItem = (typeof SOFT_HEALTH_KEYS)[number];
+
 async function loadHealthDeps(): Promise<HealthDeps> {
   const [
     collectionRankings,
@@ -273,22 +281,72 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
+function dataStoreMetaKey(storeKey: string): string {
+  return `${DATA_STORE_META_NAMESPACE}:${storeKey}`;
+}
+
+function parseSoftWrittenAt(raw: unknown): string | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "string" && raw.length > 0) {
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw) as { writtenAt?: unknown };
+        return typeof parsed.writtenAt === "string" &&
+          parsed.writtenAt.length > 0
+          ? parsed.writtenAt
+          : null;
+      } catch {
+        return null;
+      }
+    }
+    return raw;
+  }
+  if (typeof raw === "object") {
+    const parsed = raw as { writtenAt?: unknown };
+    return typeof parsed.writtenAt === "string" && parsed.writtenAt.length > 0
+      ? parsed.writtenAt
+      : null;
+  }
+  return null;
+}
+
+async function readSoftHealthEntries(): Promise<
+  Array<readonly [SoftHealthItem, string | null]>
+> {
+  const { getDataStore } = await import("@/lib/data-store");
+  const store = getDataStore();
+  const redis = store.redisClient();
+
+  if (redis?.mget) {
+    try {
+      const raw = await redis.mget(
+        ...SOFT_HEALTH_KEYS.map((item) => dataStoreMetaKey(item.storeKey)),
+      );
+      return SOFT_HEALTH_KEYS.map(
+        (item, index) => [item, parseSoftWrittenAt(raw[index])] as const,
+      );
+    } catch {
+      // Fall back to the public data-store API. That preserves file/memory
+      // fallback when Redis has a transient miss or the raw batched read fails.
+    }
+  }
+
+  return Promise.all(
+    SOFT_HEALTH_KEYS.map(async (item) => {
+      try {
+        return [item, await store.writtenAt(item.storeKey)] as const;
+      } catch {
+        return [item, null] as const;
+      }
+    }),
+  );
+}
+
 async function getPublicSoftHealthBody(): Promise<PublicHealthBody> {
   try {
-    const { getDataStore } = await import("@/lib/data-store");
-    const store = getDataStore();
     const timestamps = new Map<SoftHealthKey, string | null>();
     const staleIds: SoftHealthKey[] = [];
-
-    const entries = await Promise.all(
-      SOFT_HEALTH_KEYS.map(async (item) => {
-        try {
-          return [item, await store.writtenAt(item.storeKey)] as const;
-        } catch {
-          return [item, null] as const;
-        }
-      }),
-    );
+    const entries = await readSoftHealthEntries();
 
     for (const [item, writtenAt] of entries) {
       timestamps.set(item.id, writtenAt);
@@ -399,7 +457,13 @@ export async function GET(
       // Vercel functions do not import/refresh the scanner stack before TTFB.
       scheduleBackgroundRefresh();
       const body = await getPublicSoftHealthBody();
-      return NextResponse.json(body, { status: 200 });
+      return NextResponse.json(body, {
+        status: 200,
+        headers:
+          body.status === "error"
+            ? SOFT_HEALTH_ERROR_HEADERS
+            : SOFT_HEALTH_PUBLIC_HEADERS,
+      });
     }
 
     deps = await loadHealthDeps();
@@ -592,7 +656,10 @@ export async function GET(
       delete minimal.repoMetadata;
     }
 
-    return NextResponse.json(body, { status: anyStale && !soft ? 503 : 200 });
+    return NextResponse.json(body, {
+      status: anyStale && !soft ? 503 : 200,
+      headers: includeDetail ? DETAIL_HEALTH_HEADERS : undefined,
+    });
   } catch (err) {
     console.error("[api:health] failed", err);
     const message = err instanceof Error ? err.message : String(err);
@@ -616,7 +683,10 @@ export async function GET(
           computedAt: fallbackComputedAt,
           error: "health check failed",
         },
-        { status: soft ? 200 : 503 },
+        {
+          status: soft ? 200 : 503,
+          headers: soft ? SOFT_HEALTH_ERROR_HEADERS : undefined,
+        },
       );
     }
 
@@ -702,7 +772,7 @@ export async function GET(
           : { open: [], half_open: [] },
         error: message,
       },
-      { status: 503 },
+      { status: 503, headers: DETAIL_HEALTH_HEADERS },
     );
   }
 }

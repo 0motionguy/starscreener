@@ -42,6 +42,7 @@ import {
   buildTwitterQueryBundle,
   getTwitterScanCandidates,
   ingestTwitterAgentFindings,
+  isTwitterIngestError,
 } from "../src/lib/twitter/service";
 import { ensureTwitterReady, flushTwitterPersist } from "../src/lib/twitter/storage";
 import { getRepoMetadata, listRepoMetadata, type RepoMetadata } from "../src/lib/repo-metadata";
@@ -832,6 +833,14 @@ async function main(): Promise<void> {
   }
 
   const payloads: TwitterIngestRequest[] = [];
+  // 2026-05-17 (session-G W1.B follow-up): a single 409 IDEMPOTENCY_CONFLICT
+  // from the ingest service would propagate out of `ingestPayload` and crash
+  // `main()` before `writeSourceMeta()` ran — leaving `data/_meta/twitter.json`
+  // frozen at 2026-05-04 for 13 days. 409 = "ingest already has this scan with
+  // the same scanId but a different payload" — that's a non-fatal data shape;
+  // we log it and keep going so the run still produces meta + commits whatever
+  // did ingest.
+  let idempotencyConflicts = 0;
 
   log(
     `provider=${options.provider} mode=${options.mode} candidates=${candidates.length} dryRun=${options.dryRun}`,
@@ -913,7 +922,28 @@ async function main(): Promise<void> {
       postsPerRepo: options.postsPerRepo,
     });
     payloads.push(payload);
-    const ingestStatus = await ingestPayload(payload, options);
+    let ingestStatus: "ingested" | "skipped" | "dry-run" | "idempotency_conflict";
+    try {
+      ingestStatus = await ingestPayload(payload, options);
+    } catch (error) {
+      // Tolerate 409 IDEMPOTENCY_CONFLICT — ingest already has a scan for this
+      // scanId with a different payload. From the collector's POV that means
+      // "data already there, move on". Anything else (auth, 5xx, network)
+      // still propagates so the run fails loudly.
+      const isConflict =
+        isTwitterIngestError(error) &&
+        (error.code === "IDEMPOTENCY_CONFLICT" || error.status === 409);
+      if (!isConflict) {
+        throw error;
+      }
+      idempotencyConflicts += 1;
+      ingestStatus = "idempotency_conflict";
+      log(
+        `idempotency_conflict for ${candidate.repo.githubFullName}: ${
+          error instanceof Error ? error.message : String(error)
+        } — continuing to next repo`,
+      );
+    }
 
     logEvent("repo_done", {
       repo: candidate.repo.githubFullName,
@@ -940,7 +970,7 @@ async function main(): Promise<void> {
   const flushScans = payloads.length;
   const flushPosts = payloads.reduce((sum, p) => sum + p.posts.length, 0);
   console.error(
-    `[twitter-collector] FLUSH SUMMARY repoSignals=${flushScans} scans=${flushScans} posts=${flushPosts} dryRun=${options.dryRun} mode=${options.mode}`,
+    `[twitter-collector] FLUSH SUMMARY repoSignals=${flushScans} scans=${flushScans} posts=${flushPosts} idempotencyConflicts=${idempotencyConflicts} dryRun=${options.dryRun} mode=${options.mode}`,
   );
 
   const postCount = payloads.reduce((sum, payload) => sum + payload.posts.length, 0);
@@ -950,7 +980,9 @@ async function main(): Promise<void> {
       `web-provider stats requests=${stats.requests} errors=${stats.errors} healthy=${stats.accountsHealthy} rateLimited=${stats.accountsRateLimited}`,
     );
   }
-  log(`done payloads=${payloads.length} posts=${postCount}`);
+  log(
+    `done payloads=${payloads.length} posts=${postCount} idempotencyConflicts=${idempotencyConflicts}`,
+  );
 
   // F3 unknown-mentions lake — Twitter is the highest-volume mention source;
   // every github URL we see in tweet text becomes a discovery candidate.

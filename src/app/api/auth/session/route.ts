@@ -23,6 +23,7 @@ import {
   SESSION_COOKIE_NAME,
 } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import {
   deriveUserId,
   signSession,
@@ -37,6 +38,14 @@ export const dynamic = "force-dynamic";
 // Keep in sync with SESSION_MAX_AGE_MS in session.ts (30 days, in seconds).
 const SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 const SESSION_CACHE_HEADERS = { "Cache-Control": "private, no-store" };
+
+// Per-IP rate-limit on session minting. 30/hour is plenty for legitimate
+// rotation (tab reload, multi-tab open, dev-server restart) while blocking
+// a determined cookie-mint grinder. W5.5.B MEDIUM finding follow-up.
+const SESSION_RATE_LIMIT = {
+  windowMs: 60 * 60 * 1_000,
+  maxRequests: 30,
+} as const;
 
 interface SessionProbeOk {
   ok: true;
@@ -130,6 +139,22 @@ export async function GET(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<SessionIssuedOk | SessionError>> {
+  // Per-IP rate-limit BEFORE the secret-configured / body-parse paths so a
+  // mint-grinder still hits the budget even when the server returns 503.
+  const rate = await checkRateLimitAsync(request, SESSION_RATE_LIMIT);
+  if (!rate.allowed) {
+    const headers = new Headers(SESSION_CACHE_HEADERS);
+    headers.set("Retry-After", String(Math.ceil(rate.retryAfterMs / 1000)));
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Too many requests",
+        code: "RATE_LIMITED",
+      },
+      { status: 429, headers },
+    );
+  }
+
   // Dev fallback: SESSION_SECRET unset. Return the "local" identity without
   // setting a cookie — AlertConfig's existing dev path picks this up.
   if (!isSecretConfigured()) {

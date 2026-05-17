@@ -38,6 +38,7 @@ import { resolveEmailFrom, sendEmail } from "@/lib/email/send";
 import { renderNewsletterConfirmEmail } from "@/lib/email/templates/newsletter-confirm";
 import { errorEnvelope, serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import {
   mintConfirmToken,
   mintUnsubToken,
@@ -52,6 +53,15 @@ const POST_CACHE_HEADERS = {
 
 /** 1-hour soft rate-limit per email between confirmation re-sends. */
 const RESEND_RATE_LIMIT_MS = 60 * 60 * 1_000;
+
+// Per-IP rate-limit on the subscribe endpoint itself. 5 subscribes per hour
+// per IP is plenty for a real user toggling between addresses; well below
+// the threshold an attacker would need to burn the Resend quota / amplify
+// cost via a flood of confirmation sends. W5.5.B MEDIUM finding follow-up.
+const SUBSCRIBE_RATE_LIMIT = {
+  windowMs: 60 * 60 * 1_000,
+  maxRequests: 5,
+} as const;
 
 const SubscribeSchema = z.object({
   email: z.string().email().max(254),
@@ -100,6 +110,26 @@ async function sendConfirmationEmail(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<SubscribeOk | { ok: false; error: string; code?: string }>> {
+  // Per-IP rate-limit BEFORE Zod parse so a flood of bad payloads also
+  // counts toward the budget. Defense against Resend-quota cost-amplification.
+  const rate = await checkRateLimitAsync(request, SUBSCRIBE_RATE_LIMIT);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Too many requests",
+        code: "RATE_LIMITED",
+      },
+      {
+        status: 429,
+        headers: {
+          ...POST_CACHE_HEADERS,
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
+
   const parsed = await parseBody(request, SubscribeSchema, {
     publicMessage: "invalid email",
     includeDetails: false,

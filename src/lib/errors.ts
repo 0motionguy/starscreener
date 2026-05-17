@@ -33,7 +33,9 @@ export type EngineErrorSource =
   | "npm"
   | "arxiv"
   | "sentry-canary"
-  | "soft-404";
+  | "soft-404"
+  | "http-transient"
+  | "fatal-config";
 
 export class AuthRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
@@ -273,6 +275,26 @@ export class ArxivFatalError extends EngineError {
 export class Soft404RecoverableError extends EngineError {
   readonly category = "recoverable" as const;
   readonly source = "soft-404" as const;
+}
+
+// ── HTTP transient ─────────────────────────────────────────────────────
+
+export class TransientHttpError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "http-transient" as const;
+  readonly httpStatus: number;
+
+  constructor(message: string, httpStatus: number, metadata: Record<string, unknown> = {}) {
+    super(message, metadata);
+    this.httpStatus = httpStatus;
+  }
+}
+
+// ── Fatal config ───────────────────────────────────────────────────────
+
+export class FatalConfigError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "fatal-config" as const;
 }
 
 export function engineErrorTags(error: unknown): Record<string, string> {

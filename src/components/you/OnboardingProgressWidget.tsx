@@ -87,7 +87,7 @@ export function OnboardingProgressWidget({
             letterSpacing: "0.08em",
           }}
         >
-          // 00 Next steps
+          {"// 00 Next steps"}
         </span>
         <span
           style={{

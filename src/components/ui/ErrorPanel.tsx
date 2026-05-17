@@ -21,23 +21,25 @@ interface Props {
 // error.tsx files still call captureException themselves (Sentry deduplicates
 // by fingerprint within a short window, so the double-capture is harmless and
 // lets us centralize incrementally).
+//
+// IMPORTANT: We use a dynamic import here (NOT a `window.Sentry` probe).
+// Codex P2/P3 audit caught a race condition: instrumentation-client.ts lazy-
+// loads Sentry via `requestIdleCallback` with a 2500ms timeout. Early-render
+// errors fire BEFORE `window.Sentry` is populated, so a probe-style check
+// silently no-ops and the error never reaches Sentry. Dynamic import waits
+// for the SDK to be fetched/initialized, so the report always lands.
 function reportToSentryWithRouteTag(error: Error & { digest?: string }): void {
   if (typeof window === "undefined") return;
-  const sentry = (
-    window as unknown as {
-      Sentry?: {
-        captureException: (
-          e: Error,
-          ctx?: { tags?: Record<string, string> },
-        ) => void;
-      };
-    }
-  ).Sentry;
-  if (sentry?.captureException) {
-    sentry.captureException(error, {
-      tags: { route: window.location.pathname },
+  void import("@sentry/nextjs")
+    .then(({ captureException }) => {
+      captureException(error, {
+        tags: { route: window.location.pathname },
+      });
+    })
+    .catch(() => {
+      // If Sentry fails to load (network/CSP/adblock), the error boundary
+      // still renders the UI — capture is best-effort.
     });
-  }
 }
 
 const BTN_PRIMARY =

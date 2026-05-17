@@ -32,6 +32,17 @@ export default async function YouPage() {
         displayName: user.profile.displayName,
       }
     : null;
+  // S3.B — pull the invite-banner dismissal stamp here so the client
+  // renders deterministically without an extra fetch. Stored as ISO
+  // string to avoid serialising Date objects across the server boundary.
+  const inviteBannerDismissedAt = user?.profile.dismissedInviteBannerAt
+    ? user.profile.dismissedInviteBannerAt.toISOString()
+    : null;
 
-  return <YouClient account={account} />;
+  return (
+    <YouClient
+      account={account}
+      inviteBannerDismissedAt={inviteBannerDismissedAt}
+    />
+  );
 }

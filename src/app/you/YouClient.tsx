@@ -40,6 +40,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand, type KpiCell } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
+import { InviteBanner } from "@/components/referrals/InviteBanner";
 
 export interface YouAccountSummary {
   handle: string;
@@ -49,8 +50,16 @@ export interface YouAccountSummary {
 
 export default function YouClient({
   account,
+  inviteBannerDismissedAt,
 }: {
   account: YouAccountSummary | null;
+  /**
+   * ISO timestamp pulled from `profiles.dismissedInviteBannerAt` on the
+   * server. Null when the user has never dismissed (banner shows) or
+   * when there is no account (banner hidden regardless). Undefined when
+   * the caller hasn't migrated yet — same effect as null.
+   */
+  inviteBannerDismissedAt?: string | null;
 }) {
   // Hydration gate — zustand/persist loads from localStorage post-mount,
   // so render a stable placeholder until client state is truly live.
@@ -163,6 +172,9 @@ export default function YouClient({
         kpiBand={<KpiBand cells={kpiCells} />}
         mainPanels={
           <>
+            {account ? (
+              <InviteBanner dismissedAt={inviteBannerDismissedAt} />
+            ) : null}
             <SectionHead
               num="// 01"
               title="Recent activity"

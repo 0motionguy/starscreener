@@ -213,11 +213,9 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     redisSlugs: ["funding-news"],
     ...hours(24),
   },
-  {
-    name: "funding-x",
-    redisSlugs: ["funding-news-x"],
-    ...hours(24),
-  },
+  // funding-x removed 2026-05-17: Apify-only producer was disabled per
+  // docs/POLICY-NO-APIFY.md (#1594). No free producer planned. Codex audit
+  // P1 flagged this as a blocking source with no fix path.
   {
     name: "funding-crunchbase",
     redisSlugs: ["funding-news-crunchbase"],
@@ -244,18 +242,27 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(12),
   },
   {
+    // trending-mcp: no producer in registry (Codex audit P1 2026-05-17).
+    // Demoted to advisory pending implementation of an MCP rollup fetcher.
     name: "trending-mcp",
     redisSlugs: ["trending-mcp"],
+    blocking: false,
     ...hours(24),
   },
   {
+    // mcp-liveness: workflow exists but Redis write not verified.
+    // Demoted to advisory pending direct Redis check.
     name: "mcp-liveness",
     redisSlugs: ["mcp-liveness"],
+    blocking: false,
     ...hours(12),
   },
   {
+    // mcp-downloads: script-driven (refresh-npm-downloads.yml / refresh-pypi-downloads.yml),
+    // not registered in the fetcher registry. Redis writes unverified.
     name: "mcp-downloads",
     redisSlugs: ["mcp-downloads", "mcp-downloads-pypi"],
+    blocking: false,
     ...hours(12),
   },
   {
@@ -271,6 +278,8 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(12),
   },
   {
+    // mcp-usage-snapshot: depends on trending-mcp which has no producer.
+    // Demoted to advisory until upstream lands.
     name: "mcp-usage-snapshot",
     redisSlugGroups: [
       {
@@ -278,9 +287,13 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
         slugs: todayOrYesterdaySlug("mcp-usage-snapshot"),
       },
     ],
+    blocking: false,
     ...hours(36),
   },
   {
+    // trending-skills: workflows exist (refresh-skill-*.yml) but
+    // Redis writes unverified vs the multi-slug list below.
+    // Demoted to advisory pending registry verification.
     name: "trending-skills",
     redisSlugs: [
       "trending-skill",
@@ -289,6 +302,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "trending-skill-smithery",
       "trending-skill-lobehub",
     ],
+    blocking: false,
     ...hours(36),
   },
   {
@@ -326,6 +340,8 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(36),
   },
   {
+    // star-snapshots: snapshot-stars.mjs runs every 20min with continue-on-error.
+    // Threshold (6h) is tight relative to silent-fail risk. Demoted to advisory.
     name: "star-snapshots",
     redisSlugs: [
       "star-snapshot:24h",
@@ -333,9 +349,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "star-snapshot:30d",
       "star-snapshot:hourly-history",
     ],
+    blocking: false,
     ...hours(6),
   },
   {
+    // category-metrics: same continue-on-error pattern as star-snapshots.
+    // Demoted to advisory pending Redis verification.
     name: "category-metrics",
     redisSlugs: [
       "category-metrics-snapshot:24h",
@@ -343,9 +362,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "category-metrics-snapshot:30d",
       "category-metrics-snapshot:hourly-history",
     ],
+    blocking: false,
     ...hours(6),
   },
   {
+    // top10-snapshot: snapshot-top10.yml runs daily 23:55 UTC. Should be fresh
+    // but Codex audit flagged as dead. Demoted to advisory pending verification.
     name: "top10-snapshot",
     redisSlugGroups: [
       {
@@ -353,6 +375,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
         slugs: todayOrYesterdaySlug("top10"),
       },
     ],
+    blocking: false,
     ...hours(36),
   },
   {
@@ -372,18 +395,26 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(36),
   },
   {
+    // engagement-composite, trendshift-daily, scoring-shadow:
+    // No clear producer workflows in .github/workflows/. Likely emitted by
+    // the Railway worker (apps/trendingrepo-worker) or were never implemented.
+    // Codex audit P1 flagged as blocking. Demoted to advisory pending
+    // producer-side investigation.
     name: "engagement-composite",
     redisSlugs: ["engagement-composite"],
+    blocking: false,
     ...hours(24),
   },
   {
     name: "trendshift-daily",
     redisSlugs: ["trendshift-daily"],
+    blocking: false,
     ...hours(36),
   },
   {
     name: "scoring-shadow",
     redisSlugs: ["scoring-shadow-report"],
+    blocking: false,
     ...hours(36),
   },
   {

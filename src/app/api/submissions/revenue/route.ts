@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { parseBody } from "@/lib/api/parse-body";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import {
   listRevenueSubmissions,
   submitRevenueToQueue,
@@ -24,6 +25,12 @@ export const runtime = "nodejs";
 
 // Shape gate only — field-level validation lives in validateRevenueSubmissionInput.
 const RevenueSubmissionsPostSchema = z.record(z.string(), z.unknown());
+
+// Rate-limit anonymous revenue claims tightly — they trigger moderation
+// review and accepting them as overlay rows is high-trust.
+// (W5.5 HIGH — unauth + no rate-limit on a moderation-queue write.)
+const REVENUE_SUBMISSIONS_PER_HOUR = 5;
+const HOUR_MS = 60 * 60 * 1000;
 
 interface RevenueSubmissionsListResponse {
   ok: true;
@@ -65,6 +72,24 @@ export async function POST(
     RevenueSubmissionsCreateResponse | RevenueSubmissionsErrorResponse
   >
 > {
+  const limit = await checkRateLimitAsync(request, {
+    windowMs: HOUR_MS,
+    maxRequests: REVENUE_SUBMISSIONS_PER_HOUR,
+  });
+  if (!limit.allowed) {
+    const retryAfter = Math.ceil(limit.retryAfterMs / 1000);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `rate limit exceeded — try again in ${retryAfter}s`,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfter) },
+      },
+    );
+  }
+
   const parsedShape = await parseBody(request, RevenueSubmissionsPostSchema);
   if (!parsedShape.ok) {
     return parsedShape.response as NextResponse<RevenueSubmissionsErrorResponse>;

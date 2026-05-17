@@ -14,6 +14,8 @@
 // in JSONL append-only logs, not a single trending payload — surfacing
 // a "fresh tweets" count requires its own aggregation pass.
 
+import { cache } from "react";
+
 import { getHnTrendingFile, refreshHackernewsTrendingFromStore } from "./hackernews-trending";
 import { getLobstersTrendingFile, refreshLobstersTrendingFromStore } from "./lobsters-trending";
 import { getDevtoTrendingFile, refreshDevtoTrendingFromStore } from "./devto-trending";
@@ -100,7 +102,7 @@ async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
   }
 }
 
-export async function getSidebarSourceCounts(): Promise<SidebarSourceCounts> {
+export const getSidebarSourceCounts = cache(async function getSidebarSourceCountsImpl(): Promise<SidebarSourceCounts> {
   // Fire all refresh hooks in parallel. Each one is rate-limited to 30s
   // internally and will return { source: "memory", ... } when fresh.
   // Skills + MCP signal-data getters do their own internal store reads
@@ -173,7 +175,7 @@ export async function getSidebarSourceCounts(): Promise<SidebarSourceCounts> {
     arxivPapers,
     citedRepos,
   };
-}
+});
 
 export function emptySidebarSourceCounts(): SidebarSourceCounts {
   return { ...ZERO_COUNTS };

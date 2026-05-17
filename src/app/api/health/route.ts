@@ -7,48 +7,15 @@
 
 import { after, NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
-import {
-  getCollectionRankingsCoverage,
-  getCollectionRankingsFetchedAt,
-  refreshCollectionRankingsFromStore,
-  type CollectionRankingsCoverage,
-} from "@/lib/collection-rankings";
-import {
-  getHotCollectionsFetchedAt,
-  refreshHotCollectionsFromStore,
-} from "@/lib/hot-collections";
-import {
-  getRepoMetadataCount,
-  getRepoMetadataCoveragePct,
-  getRepoMetadataFailures,
-  getRepoMetadataFetchedAt,
-  getRepoMetadataSourceCount,
-  refreshRepoMetadataFromStore,
-} from "@/lib/repo-metadata";
-import {
-  getRecentReposFetchedAt,
-  refreshRecentReposFromStore,
-} from "@/lib/recent-repos";
+import type { CollectionRankingsCoverage } from "@/lib/collection-rankings";
 import {
   DEVTO_STALE_THRESHOLD_MS,
   FAST_DATA_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
   PRODUCTHUNT_STALE_THRESHOLD_MS,
-  getDegradedScannerSources,
-  getScannerSourceHealth,
-  refreshScannerSourceHealthFromStore,
-  type ScannerSourceHealth,
-} from "@/lib/source-health";
-import { sourceHealthTracker } from "@/lib/source-health-tracker";
-import {
-  deltasCoveragePct,
-  deltasCoverageQuality,
-  getDeltasComputedAt,
-  getLastFetchedAt,
-  refreshTrendingFromStore,
-  type DeltaCoverageQuality,
-} from "@/lib/trending";
+} from "@/lib/source-health-thresholds";
+import type { ScannerSourceHealth } from "@/lib/source-health";
+import type { DeltaCoverageQuality } from "@/lib/trending";
 
 export const runtime = "nodejs";
 
@@ -138,27 +105,156 @@ interface HealthBody {
 
 type PublicHealthBody = Pick<
   HealthBody,
-  "status" | "sourceStatus" | "lastFetchedAt" | "computedAt" | "warning" | "error"
+  | "status"
+  | "sourceStatus"
+  | "lastFetchedAt"
+  | "computedAt"
+  | "warning"
+  | "error"
 >;
+
+type HealthDeps = {
+  collectionRankings: typeof import("@/lib/collection-rankings");
+  hotCollections: typeof import("@/lib/hot-collections");
+  repoMetadata: typeof import("@/lib/repo-metadata");
+  recentRepos: typeof import("@/lib/recent-repos");
+  sourceHealth: typeof import("@/lib/source-health");
+  sourceHealthTracker: typeof import("@/lib/source-health-tracker");
+  trending: typeof import("@/lib/trending");
+};
 
 type RefreshTask = {
   label: string;
   run: () => Promise<unknown>;
 };
 
-function canViewDetail(request: NextRequest): boolean {
+type SoftHealthKey =
+  | "trending"
+  | "deltas"
+  | "hotCollections"
+  | "recentRepos"
+  | "repoMetadata"
+  | "collectionRankings"
+  | "reddit"
+  | "bluesky"
+  | "hn"
+  | "producthunt"
+  | "devto"
+  | "lobsters"
+  | "npm";
+
+const SOFT_HEALTH_KEYS: Array<{
+  id: SoftHealthKey;
+  storeKey: string;
+  thresholdMs: number;
+}> = [
+  {
+    id: "trending",
+    storeKey: "trending",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "deltas",
+    storeKey: "deltas",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "hotCollections",
+    storeKey: "hot-collections",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "recentRepos",
+    storeKey: "recent-repos",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "repoMetadata",
+    storeKey: "repo-metadata",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "collectionRankings",
+    storeKey: "collection-rankings",
+    thresholdMs: RANKINGS_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "reddit",
+    storeKey: "reddit-mentions",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "bluesky",
+    storeKey: "bluesky-mentions",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "hn",
+    storeKey: "hackernews-repo-mentions",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "producthunt",
+    storeKey: "producthunt-launches",
+    thresholdMs: PRODUCTHUNT_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "devto",
+    storeKey: "devto-mentions",
+    thresholdMs: DEVTO_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "lobsters",
+    storeKey: "lobsters-mentions",
+    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  { id: "npm", storeKey: "npm-packages", thresholdMs: NPM_STALE_THRESHOLD_MS },
+];
+
+async function loadHealthDeps(): Promise<HealthDeps> {
+  const [
+    collectionRankings,
+    hotCollections,
+    repoMetadata,
+    recentRepos,
+    sourceHealth,
+    sourceHealthTracker,
+    trending,
+  ] = await Promise.all([
+    import("@/lib/collection-rankings"),
+    import("@/lib/hot-collections"),
+    import("@/lib/repo-metadata"),
+    import("@/lib/recent-repos"),
+    import("@/lib/source-health"),
+    import("@/lib/source-health-tracker"),
+    import("@/lib/trending"),
+  ]);
+
+  return {
+    collectionRankings,
+    hotCollections,
+    repoMetadata,
+    recentRepos,
+    sourceHealth,
+    sourceHealthTracker,
+    trending,
+  };
+}
+
+async function canViewDetail(request: NextRequest): Promise<boolean> {
   const cronSecret = process.env.CRON_SECRET?.trim();
+  const { verifyAdminAuth, verifyCronAuth } = await import("@/lib/api/auth");
   return (
     (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
     verifyAdminAuth(request).kind === "ok"
   );
 }
 
-function getCircuitBreakerSummary(): {
+function getCircuitBreakerSummary(deps: HealthDeps): {
   open: string[];
   half_open: string[];
 } {
-  const all = sourceHealthTracker.getAllHealth();
+  const all = deps.sourceHealthTracker.sourceHealthTracker.getAllHealth();
   const open: string[] = [];
   const halfOpen: string[] = [];
   for (const [id, snap] of Object.entries(all)) {
@@ -177,19 +273,74 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
-function createRefreshTasks(): RefreshTask[] {
+async function getPublicSoftHealthBody(): Promise<PublicHealthBody> {
+  try {
+    const { getDataStore } = await import("@/lib/data-store");
+    const store = getDataStore();
+    const timestamps = new Map<SoftHealthKey, string | null>();
+    const staleIds: SoftHealthKey[] = [];
+
+    const entries = await Promise.all(
+      SOFT_HEALTH_KEYS.map(async (item) => {
+        try {
+          return [item, await store.writtenAt(item.storeKey)] as const;
+        } catch {
+          return [item, null] as const;
+        }
+      }),
+    );
+
+    for (const [item, writtenAt] of entries) {
+      timestamps.set(item.id, writtenAt);
+      const age = ageMs(writtenAt);
+      if (age === null || age > item.thresholdMs) {
+        staleIds.push(item.id);
+      }
+    }
+
+    const body: PublicHealthBody = {
+      status: staleIds.length > 0 ? "stale" : "ok",
+      sourceStatus: staleIds.length > 0 ? "degraded" : "ok",
+      lastFetchedAt: timestamps.get("trending") ?? null,
+      computedAt: timestamps.get("deltas") ?? null,
+    };
+
+    if (staleIds.length > 0) {
+      body.warning = `stale sources: ${staleIds.join(", ")}`;
+    }
+
+    return body;
+  } catch (err) {
+    console.warn("[api:health] soft metadata unavailable", err);
+    return {
+      status: "error",
+      sourceStatus: "degraded",
+      lastFetchedAt: null,
+      computedAt: null,
+      error: "health metadata unavailable",
+    };
+  }
+}
+
+function createRefreshTasks(deps: HealthDeps): RefreshTask[] {
   return [
-    { label: "trending", run: refreshTrendingFromStore },
-    { label: "hotCollections", run: refreshHotCollectionsFromStore },
-    { label: "recentRepos", run: refreshRecentReposFromStore },
-    { label: "repoMetadata", run: refreshRepoMetadataFromStore },
+    { label: "trending", run: deps.trending.refreshTrendingFromStore },
+    {
+      label: "hotCollections",
+      run: deps.hotCollections.refreshHotCollectionsFromStore,
+    },
+    { label: "recentRepos", run: deps.recentRepos.refreshRecentReposFromStore },
+    {
+      label: "repoMetadata",
+      run: deps.repoMetadata.refreshRepoMetadataFromStore,
+    },
     {
       label: "collectionRankings",
-      run: refreshCollectionRankingsFromStore,
+      run: deps.collectionRankings.refreshCollectionRankingsFromStore,
     },
     {
       label: "scannerSourceHealth",
-      run: refreshScannerSourceHealthFromStore,
+      run: deps.sourceHealth.refreshScannerSourceHealthFromStore,
     },
   ];
 }
@@ -206,22 +357,28 @@ function countRefreshFailures(
   return results.filter((result) => result.status === "rejected").length;
 }
 
-function scheduleBackgroundRefresh(tasks: RefreshTask[]): void {
+function scheduleBackgroundRefresh(): void {
   after(async () => {
-    const results = await runRefreshTasks(tasks);
-    const failures = results.flatMap((result, index) => {
-      if (result.status !== "rejected") return [];
-      const reason =
-        result.reason instanceof Error
-          ? result.reason.message
-          : String(result.reason);
-      return [`${tasks[index]?.label ?? "unknown"}: ${reason}`];
-    });
-
-    if (failures.length > 0) {
-      console.warn("[api:health] background refresh degraded", {
-        failures,
+    try {
+      const deps = await loadHealthDeps();
+      const tasks = createRefreshTasks(deps);
+      const results = await runRefreshTasks(tasks);
+      const failures = results.flatMap((result, index) => {
+        if (result.status !== "rejected") return [];
+        const reason =
+          result.reason instanceof Error
+            ? result.reason.message
+            : String(result.reason);
+        return [`${tasks[index]?.label ?? "unknown"}: ${reason}`];
       });
+
+      if (failures.length > 0) {
+        console.warn("[api:health] background refresh degraded", {
+          failures,
+        });
+      }
+    } catch (err) {
+      console.warn("[api:health] background refresh failed", err);
     }
   });
 }
@@ -229,32 +386,41 @@ function scheduleBackgroundRefresh(tasks: RefreshTask[]): void {
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<HealthBody | PublicHealthBody>> {
-  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
-  const includeDetail = wantsDetail && canViewDetail(request);
-
+  let soft = false;
+  let includeDetail = false;
+  let deps: HealthDeps | null = null;
   try {
-    const soft = request.nextUrl.searchParams.get("soft") === "1";
+    soft = request.nextUrl.searchParams.get("soft") === "1";
+    const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+    includeDetail = wantsDetail && (await canViewDetail(request));
 
-    const refreshTasks = createRefreshTasks();
-    // Public soft health is an uptime probe. Keep Redis refresh out of its
-    // TTFB path and let Vercel's waitUntil-backed `after()` warm the process
-    // for the next probe. Hard/detail health still waits for fresh data.
-    const refreshResults =
-      soft && !includeDetail ? [] : await runRefreshTasks(refreshTasks);
     if (soft && !includeDetail) {
-      scheduleBackgroundRefresh(refreshTasks);
+      // Public soft health is an uptime probe. Keep it metadata-only so cold
+      // Vercel functions do not import/refresh the scanner stack before TTFB.
+      scheduleBackgroundRefresh();
+      const body = await getPublicSoftHealthBody();
+      return NextResponse.json(body, { status: 200 });
     }
+
+    deps = await loadHealthDeps();
+    const refreshTasks = createRefreshTasks(deps);
+    const refreshResults = await runRefreshTasks(refreshTasks);
     const refreshFailureCount = countRefreshFailures(refreshResults);
 
-    const lastFetchedAt = getLastFetchedAt();
-    const deltasComputedAt = getDeltasComputedAt();
-    const hotCollectionsFetchedAt = getHotCollectionsFetchedAt();
-    const recentReposFetchedAt = getRecentReposFetchedAt();
-    const repoMetadataFetchedAt = getRepoMetadataFetchedAt();
-    const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
+    const lastFetchedAt = deps.trending.getLastFetchedAt();
+    const deltasComputedAt = deps.trending.getDeltasComputedAt();
+    const hotCollectionsFetchedAt =
+      deps.hotCollections.getHotCollectionsFetchedAt();
+    const recentReposFetchedAt = deps.recentRepos.getRecentReposFetchedAt();
+    const repoMetadataFetchedAt =
+      deps.repoMetadata.getRepoMetadataFetchedAt();
+    const collectionRankingsFetchedAt =
+      deps.collectionRankings.getCollectionRankingsFetchedAt();
 
-    const sources = getScannerSourceHealth();
-    const degradedSources = getDegradedScannerSources().map((source) => source.id);
+    const sources = deps.sourceHealth.getScannerSourceHealth();
+    const degradedSources = deps.sourceHealth
+      .getDegradedScannerSources()
+      .map((source) => source.id);
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
       sources.map((source) => [source.id, source]),
     );
@@ -304,10 +470,11 @@ export async function GET(
       (lobsters?.stale ?? false) ||
       (npm?.stale ?? false);
 
-    const coverage = deltasCoveragePct();
+    const coverage = deps.trending.deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
-    const quality = deltasCoverageQuality();
-    const collectionCoverage = getCollectionRankingsCoverage();
+    const quality = deps.trending.deltasCoverageQuality();
+    const collectionCoverage =
+      deps.collectionRankings.getCollectionRankingsCoverage();
 
     const body: HealthBody = {
       status: anyStale ? "stale" : "ok",
@@ -381,14 +548,15 @@ export async function GET(
       coverageQuality: quality,
       collectionCoverage,
       repoMetadata: {
-        count: getRepoMetadataCount(),
-        sourceCount: getRepoMetadataSourceCount(),
-        coveragePct: Math.round(getRepoMetadataCoveragePct() * 10) / 10,
-        failureCount: getRepoMetadataFailures().length,
+        count: deps.repoMetadata.getRepoMetadataCount(),
+        sourceCount: deps.repoMetadata.getRepoMetadataSourceCount(),
+        coveragePct:
+          Math.round(deps.repoMetadata.getRepoMetadataCoveragePct() * 10) / 10,
+        failureCount: deps.repoMetadata.getRepoMetadataFailures().length,
       },
       degradedSources,
       sources,
-      circuitBreakers: getCircuitBreakerSummary(),
+      circuitBreakers: getCircuitBreakerSummary(deps),
     };
 
     if (!anyStale && quality === "partial") {
@@ -428,16 +596,27 @@ export async function GET(
   } catch (err) {
     console.error("[api:health] failed", err);
     const message = err instanceof Error ? err.message : String(err);
+    const fallbackLastFetchedAt = deps?.trending.getLastFetchedAt() ?? null;
+    const fallbackComputedAt = deps?.trending.getDeltasComputedAt() ?? null;
+    const fallbackHotCollectionsFetchedAt =
+      deps?.hotCollections.getHotCollectionsFetchedAt() ?? null;
+    const fallbackRecentReposFetchedAt =
+      deps?.recentRepos.getRecentReposFetchedAt() ?? null;
+    const fallbackRepoMetadataFetchedAt =
+      deps?.repoMetadata.getRepoMetadataFetchedAt() ?? null;
+    const fallbackCollectionRankingsFetchedAt =
+      deps?.collectionRankings.getCollectionRankingsFetchedAt() ?? null;
+
     if (!includeDetail) {
       return NextResponse.json(
         {
           status: "error",
           sourceStatus: "degraded",
-          lastFetchedAt: getLastFetchedAt() ?? null,
-          computedAt: getDeltasComputedAt() ?? null,
+          lastFetchedAt: fallbackLastFetchedAt,
+          computedAt: fallbackComputedAt,
           error: "health check failed",
         },
-        { status: 503 },
+        { status: soft ? 200 : 503 },
       );
     }
 
@@ -445,12 +624,12 @@ export async function GET(
       {
         status: "error",
         sourceStatus: "degraded",
-        lastFetchedAt: getLastFetchedAt() ?? null,
-        computedAt: getDeltasComputedAt() ?? null,
-        hotCollectionsFetchedAt: getHotCollectionsFetchedAt() ?? null,
-        recentReposFetchedAt: getRecentReposFetchedAt(),
-        repoMetadataFetchedAt: getRepoMetadataFetchedAt(),
-        collectionRankingsFetchedAt: getCollectionRankingsFetchedAt(),
+        lastFetchedAt: fallbackLastFetchedAt,
+        computedAt: fallbackComputedAt,
+        hotCollectionsFetchedAt: fallbackHotCollectionsFetchedAt,
+        recentReposFetchedAt: fallbackRecentReposFetchedAt,
+        repoMetadataFetchedAt: fallbackRepoMetadataFetchedAt,
+        collectionRankingsFetchedAt: fallbackCollectionRankingsFetchedAt,
         redditFetchedAt: null,
         redditCold: true,
         blueskyFetchedAt: null,
@@ -518,7 +697,9 @@ export async function GET(
         },
         degradedSources: [],
         sources: [],
-        circuitBreakers: getCircuitBreakerSummary(),
+        circuitBreakers: deps
+          ? getCircuitBreakerSummary(deps)
+          : { open: [], half_open: [] },
         error: message,
       },
       { status: 503 },

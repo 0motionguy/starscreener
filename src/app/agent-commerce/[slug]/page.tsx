@@ -8,6 +8,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { PageHead } from "@/components/ui/PageHead";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import {
   CapabilityChips,
   PricingBadge,
@@ -16,6 +18,7 @@ import {
   StatusBadges,
 } from "@/components/agent-commerce/AgentCommerceBadges";
 import {
+  getAgentCommerceFile,
   getAgentCommerceItem,
   getAgentCommerceItems,
   refreshAgentCommerceFromStore,
@@ -70,24 +73,26 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
   // exists, the panel renders nothing.
   const repoProfile = item.links.github ? getRepoProfile(item.links.github) : null;
   const aisoScan = repoProfile?.aisoScan ?? null;
+  const file = getAgentCommerceFile();
 
   return (
-    <main className="home-surface ac-detail">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <Link href="/agent-commerce">Agent Commerce</Link> / {item.kind} / {item.category}
-          </div>
-        </div>
-      </section>
+    <main className="home-surface ac-detail max-w-[1600px] mx-auto px-4 md:px-6 py-4 md:py-6">
+      <PageHead
+        crumb={
+          <>
+            <b>AGENT</b> · <Link href="/agent-commerce">AGENT-COMMERCE</Link> / {item.kind} / {item.category}
+          </>
+        }
+        h1={item.name}
+        lede={item.brief}
+        clock={<FreshnessBadge source="mcp" lastUpdatedAt={file.fetchedAt} />}
+      />
 
       <header className="ac-detail-head">
         <div className="ac-logo" style={{ background: getGradient(item.name) }}>
           {getInitials(item.name)}
         </div>
         <div>
-          <h1 className="ac-detail-name">{item.name}</h1>
-          <p className="ac-detail-brief">{item.brief}</p>
           <div style={{ marginTop: 10 }}>
             <ProtocolList protocols={item.protocols} />
           </div>

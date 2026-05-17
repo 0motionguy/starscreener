@@ -1,3 +1,15 @@
+/**
+ * @deprecated Currently orphaned — no consumers post-#1606 v4 rebuild.
+ *
+ * Was used for synthetic time-series ("growth curves") which violated
+ * the freshness-honesty rule. Will relight once a real score-history
+ * collector ships and emits per-repo timestamped series. Until then:
+ * do NOT import this file. If you need a sparkline for a different
+ * purpose, evaluate a shared sparkline primitive (or build one with
+ * proper data-store backing) instead of importing this stub.
+ *
+ * Tracking: dead-code sweep #1606 / 2026-05-17.
+ */
 // Tiny SVG sparkline used across the Agent Commerce surfaces (movers board,
 // activity pulse, MiniBoard). Extracted from `src/app/agent-commerce/page.tsx`
 // as part of A8-P2 so co-located sections can render their own bars without

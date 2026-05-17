@@ -82,6 +82,18 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
   if (data.emailProductUpdates !== undefined)
     updateSet.emailProductUpdates = data.emailProductUpdates;
   if (data.emailSystem !== undefined) updateSet.emailSystem = data.emailSystem;
+  // S3.5.B — empty string normalises to null so the column stays
+  // canonically empty rather than carrying a zero-length string.
+  if (data.displayName !== undefined)
+    updateSet.displayName =
+      typeof data.displayName === "string" && data.displayName.trim().length > 0
+        ? data.displayName.trim()
+        : null;
+  if (data.avatarUrl !== undefined)
+    updateSet.avatarUrl =
+      typeof data.avatarUrl === "string" && data.avatarUrl.trim().length > 0
+        ? data.avatarUrl.trim()
+        : null;
 
   const updated = await db
     .update(profiles)

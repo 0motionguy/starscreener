@@ -122,7 +122,9 @@ export const patchAlertRuleSchema = z
   });
 export type PatchAlertRuleInput = z.infer<typeof patchAlertRuleSchema>;
 
-/** PATCH body for `/api/me/profile` — global notification preferences. */
+/** PATCH body for `/api/me/profile` — global notification preferences
+ *  + S3.5.B display profile editing. The new `displayName` and
+ *  `avatarUrl` fields are nullable so users can clear them. */
 export const patchProfilePrefsSchema = z
   .object({
     emailAlertsCadence: z
@@ -133,6 +135,20 @@ export const patchProfilePrefsSchema = z
     emailReferralUpdates: z.boolean().optional(),
     emailProductUpdates: z.boolean().optional(),
     emailSystem: z.boolean().optional(),
+    // S3.5.B — user-controlled profile fields. Length caps deliberately
+    // tight: 80 chars covers any reasonable name; avatar URL is bounded
+    // at 1024 to keep the row payload small. Empty string is normalised
+    // to null at the API boundary so the column ends up canonically
+    // null when the user clears the field.
+    displayName: z.string().max(80).nullish(),
+    avatarUrl: z
+      .string()
+      .max(1024)
+      .url()
+      .refine((u) => u.startsWith("https://"), {
+        message: "avatar URL must be https://",
+      })
+      .nullish(),
   })
   .refine((v) => Object.keys(v).length > 0, {
     message: "patch body must include at least one field",

@@ -25,6 +25,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import { DataStoreFatalError } from "@/lib/errors";
 import type { AisoToolsScan } from "./aiso-tools";
 import { readEnv } from "./env";
 import {
@@ -105,14 +106,16 @@ async function readFileSafe(filePath: string): Promise<RepoProfilesFile> {
     parsed = JSON.parse(raw);
   } catch {
     // Corrupt file — don't destroy it. Throw so caller knows something's off.
-    throw new Error(
+    throw new DataStoreFatalError(
       `[aiso-persist] ${filePath} is not valid JSON; refusing to overwrite`,
+      { filePath },
     );
   }
 
   if (parsed === null || typeof parsed !== "object") {
-    throw new Error(
+    throw new DataStoreFatalError(
       `[aiso-persist] ${filePath} must be a JSON object; refusing to overwrite`,
+      { filePath },
     );
   }
 
@@ -228,8 +231,9 @@ export async function persistAisoScan(
   scan: AisoToolsScan | null,
 ): Promise<void> {
   if (!fullName || !fullName.includes("/")) {
-    throw new Error(
+    throw new DataStoreFatalError(
       `[aiso-persist] refusing to persist without a valid fullName: ${JSON.stringify(fullName)}`,
+      { fullName },
     );
   }
 

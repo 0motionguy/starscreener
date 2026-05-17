@@ -36,6 +36,7 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import { TransientHttpError } from "@/lib/errors";
 import { useWatchlistStore } from "@/lib/store";
 import { cn, getRelativeTime } from "@/lib/utils";
 import {
@@ -519,14 +520,14 @@ export function AlertConfig() {
         "/api/pipeline/alerts/rules",
         USER_FETCH_INIT,
       );
-      if (!res.ok) throw new Error(`status ${res.status}`);
+      if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
       const data = (await res.json()) as {
         ok: boolean;
         rules?: AlertRule[];
         error?: string;
       };
       if (!data.ok || !data.rules) {
-        throw new Error(data.error ?? "failed to load rules");
+        throw new TransientHttpError(data.error ?? "failed to load rules", 0);
       }
       setRules(data.rules);
       setLocalEnabled((prev) => {
@@ -555,14 +556,14 @@ export function AlertConfig() {
         "/api/pipeline/alerts",
         USER_FETCH_INIT,
       );
-      if (!res.ok) throw new Error(`status ${res.status}`);
+      if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
       const data = (await res.json()) as {
         ok: boolean;
         events?: AlertEvent[];
         error?: string;
       };
       if (!data.ok || !data.events) {
-        throw new Error(data.error ?? "failed to load events");
+        throw new TransientHttpError(data.error ?? "failed to load events", 0);
       }
       setEvents(data.events);
       return true;
@@ -612,7 +613,7 @@ export function AlertConfig() {
           `/api/repos?ids=${encodeURIComponent(missing.join(","))}`,
           { signal: controller.signal },
         );
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as { repos?: Repo[] };
         setRepoNames((prev) => {
           const next = { ...prev };

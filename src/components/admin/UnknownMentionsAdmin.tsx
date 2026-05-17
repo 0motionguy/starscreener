@@ -10,6 +10,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+
+import { AdminRecoverableError } from "@/lib/errors";
+
 import {
   CheckCircle2,
   ExternalLink,
@@ -71,7 +74,7 @@ export function UnknownMentionsAdmin({
       const payload = (await res.json()) as
         | { ok: true; data: PromotedUnknownMentionsFile }
         | { ok: false; error: string };
-      if (!payload.ok) throw new Error(payload.error ?? "request failed");
+      if (!payload.ok) throw new AdminRecoverableError(payload.error ?? "request failed");
       setData(payload.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -98,7 +101,7 @@ export function UnknownMentionsAdmin({
       const payload = (await res.json()) as
         | { ok: true; repoPath: string; alreadyTracked?: boolean }
         | { ok: false; error: string };
-      if (!payload.ok) throw new Error(payload.error ?? "promote failed");
+      if (!payload.ok) throw new AdminRecoverableError(payload.error ?? "promote failed");
       setRowState((prev) => ({
         ...prev,
         [fullName]: {

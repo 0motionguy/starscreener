@@ -18,6 +18,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
+import { AdminRecoverableError, TransientHttpError } from "@/lib/errors";
 import { cn } from "@/lib/utils";
 import {
   toastAlertCreated,
@@ -288,9 +289,9 @@ export function AddAlertRuleDialog({
       if (!res.ok || data.ok === false) {
         const err = data as ApiErr;
         if (err.error === "rule_cap_exceeded") {
-          throw new Error("You have hit the 25-rule limit. Delete one first.");
+          throw new AdminRecoverableError("You have hit the 25-rule limit. Delete one first.");
         }
-        throw new Error(err.message || err.error || `HTTP ${res.status}`);
+        throw new TransientHttpError(err.message || err.error || `HTTP ${res.status}`, res.status);
       }
       toastAlertCreated();
       // If a webhook URL was set, the server returned the plaintext secret

@@ -22,6 +22,7 @@
 
 import { randomBytes } from "node:crypto";
 
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   mutateJsonlFile,
   readJsonlFile,
@@ -409,7 +410,7 @@ export async function createIdea(
 ): Promise<CreateIdeaResult> {
   const handle = normalizeWhitespace(input.authorHandle).slice(0, MAX_HANDLE);
   if (!handle) {
-    throw new Error("authorHandle must be a non-empty string");
+    throw new AdminRecoverableError("authorHandle must be a non-empty string");
   }
 
   // Single-element holder instead of a closure-captured `let`. TS's
@@ -517,7 +518,7 @@ export async function moderateIdea(input: {
   await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
     const idx = current.findIndex((r) => r.id === input.id);
     if (idx === -1) {
-      throw new Error(`idea not found: ${input.id}`);
+      throw new AdminRecoverableError(`idea not found: ${input.id}`, { id: input.id });
     }
     const before = current[idx]!;
     beforeStatus = before.status;
@@ -538,7 +539,7 @@ export async function moderateIdea(input: {
   });
 
   if (!updated || !beforeStatus) {
-    throw new Error(`moderateIdea returned no updated row for ${input.id}`);
+    throw new AdminRecoverableError(`moderateIdea returned no updated row for ${input.id}`, { id: input.id });
   }
 
   // Fire-and-forget auto-post. Failures in Twitter (or a missing
@@ -573,11 +574,11 @@ export async function updateIdeaLifecycle(input: {
   await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
     const idx = current.findIndex((r) => r.id === input.id);
     if (idx === -1) {
-      throw new Error(`idea not found: ${input.id}`);
+      throw new AdminRecoverableError(`idea not found: ${input.id}`, { id: input.id });
     }
     const before = current[idx]!;
     if (before.authorId !== input.authorId) {
-      throw new Error(`idea not owned by ${input.authorId}`);
+      throw new AdminRecoverableError(`idea not owned by ${input.authorId}`, { authorId: input.authorId });
     }
     const buildStatus = input.buildStatus ?? before.buildStatus;
     // status auto-promotes to "shipped" the first time buildStatus

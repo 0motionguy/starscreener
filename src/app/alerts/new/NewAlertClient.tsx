@@ -19,6 +19,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+import { TransientHttpError } from "@/lib/errors";
 import type { Repo } from "@/lib/types";
 import type {
   AlertRule,
@@ -209,7 +210,7 @@ export default function NewAlertClient() {
           `/api/repos?ids=${encodeURIComponent(repoIdKey)}`,
           { signal: controller.signal },
         );
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as { repos?: Repo[] };
         const next: Record<string, Repo> = {};
         for (const r of Array.isArray(data.repos) ? data.repos : []) {

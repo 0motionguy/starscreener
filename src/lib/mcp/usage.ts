@@ -28,6 +28,7 @@ import { promises as fs } from "node:fs";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   currentDataDir,
   withFileLock,
@@ -99,30 +100,30 @@ function buildRecord(
   rec: Omit<UsageRecord, "id" | "timestamp">,
 ): UsageRecord {
   if (typeof rec.userId !== "string" || rec.userId.trim().length === 0) {
-    throw new Error("userId must be a non-empty string");
+    throw new AdminRecoverableError("userId must be a non-empty string");
   }
   if (typeof rec.tool !== "string" || rec.tool.trim().length === 0) {
-    throw new Error("tool must be a non-empty string");
+    throw new AdminRecoverableError("tool must be a non-empty string");
   }
   if (rec.method !== "tools/call") {
-    throw new Error(`unsupported method: ${String(rec.method)}`);
+    throw new AdminRecoverableError(`unsupported method: ${String(rec.method)}`, { method: rec.method });
   }
   if (
     typeof rec.tokenUsed !== "number" ||
     !Number.isFinite(rec.tokenUsed) ||
     rec.tokenUsed < 0
   ) {
-    throw new Error("tokenUsed must be a non-negative finite number");
+    throw new AdminRecoverableError("tokenUsed must be a non-negative finite number");
   }
   if (
     typeof rec.durationMs !== "number" ||
     !Number.isFinite(rec.durationMs) ||
     rec.durationMs < 0
   ) {
-    throw new Error("durationMs must be a non-negative finite number");
+    throw new AdminRecoverableError("durationMs must be a non-negative finite number");
   }
   if (rec.status !== "ok" && rec.status !== "error" && rec.status !== "timeout") {
-    throw new Error(`status must be one of ok|error|timeout (got ${rec.status})`);
+    throw new AdminRecoverableError(`status must be one of ok|error|timeout (got ${rec.status})`, { status: rec.status });
   }
 
   const truncatedError =
@@ -282,7 +283,7 @@ export async function listUsageForUser(
     // Reject invalid month strings loudly — callers upstream should already
     // validate query strings, but we don't want a silent "no rows" from a
     // typo'd month.
-    throw new Error(`month must look like "YYYY-MM", got: ${month}`);
+    throw new AdminRecoverableError(`month must look like "YYYY-MM", got: ${month}`, { month });
   }
 
   const all = await readAll();

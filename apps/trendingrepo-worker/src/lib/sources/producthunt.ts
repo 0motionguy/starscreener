@@ -9,6 +9,7 @@
 //     still tries to extract github/x links from the original URL).
 
 import { fetch as undiciFetch } from 'undici';
+import { FatalConfigError, TransientHttpError } from '../errors.js';
 import type { HttpClient } from '../types.js';
 import {
   extractFirstGithubRepoLink,
@@ -90,7 +91,7 @@ let _phCursor = 0;
 export function pickToken(tokens: string[]): string {
   const t = tokens[_phCursor % tokens.length];
   _phCursor += 1;
-  if (!t) throw new Error('producthunt: token pool empty');
+  if (!t) throw new FatalConfigError('producthunt: token pool empty');
   return t;
 }
 
@@ -105,7 +106,7 @@ export async function phGraphQL<T = unknown>(
   opts: PhGraphQLOpts,
 ): Promise<T> {
   const { http, token } = opts;
-  if (!token) throw new Error('PRODUCTHUNT_TOKEN is required');
+  if (!token) throw new FatalConfigError('PRODUCTHUNT_TOKEN is required');
   const { data } = await http.json<{ data?: T; errors?: Array<{ message?: string }> }>(
     PH_GRAPHQL_URL,
     {
@@ -122,7 +123,7 @@ export async function phGraphQL<T = unknown>(
     },
   );
   if (data.errors && data.errors.length > 0) {
-    throw new Error(`PH GraphQL error: ${data.errors.map((e) => e.message).join('; ')}`);
+    throw new TransientHttpError(`PH GraphQL error: ${data.errors.map((e) => e.message).join('; ')}`, 0, { errors: data.errors });
   }
   return data.data as T;
 }

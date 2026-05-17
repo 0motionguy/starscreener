@@ -22,6 +22,7 @@
 // router can record telemetry uniformly across providers.
 
 import OpenAI from 'openai';
+import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
 import type { LlmCallOptions, LlmCallResult } from './shared.js';
 
@@ -35,7 +36,7 @@ function getClient(): OpenAI {
   if (cachedClient) return cachedClient;
   const env = loadEnv();
   if (!env.KIMI_API_KEY) {
-    throw new Error('KIMI_API_KEY not set — analyst fetcher cannot run');
+    throw new FatalConfigError('KIMI_API_KEY not set — analyst fetcher cannot run');
   }
   cachedClient = new OpenAI({
     apiKey: env.KIMI_API_KEY,

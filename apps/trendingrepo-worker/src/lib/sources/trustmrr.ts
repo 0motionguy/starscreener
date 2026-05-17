@@ -5,6 +5,7 @@
 // - URL normalization for website ↔ repo.homepage matching
 // - match pass that produces RevenueOverlay rows
 
+import { FatalConfigError } from '../errors.js';
 import { fetchJsonWithRetry, sleep } from '../util/http-helpers.js';
 
 export const TRUSTMRR_BASE_URL = 'https://trustmrr.com/api/v1';
@@ -67,7 +68,7 @@ export async function fetchAllStartups({
   onPage,
 }: FetchAllStartupsOptions): Promise<FetchAllStartupsResult> {
   if (!apiKey) {
-    throw new Error('fetchAllStartups: apiKey is required');
+    throw new FatalConfigError('fetchAllStartups: apiKey is required');
   }
   const headers = authHeaders(apiKey);
   const collected: TrustmrrStartup[] = [];

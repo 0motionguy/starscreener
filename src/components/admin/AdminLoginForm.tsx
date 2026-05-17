@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { AuthQuarantineError } from "@/lib/errors";
+
 export function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,11 +31,11 @@ export function AdminLoginForm() {
         | { ok: false; reason?: string; error?: string };
       if (!res.ok || data.ok === false) {
         if (data.ok === false && data.reason === "not_configured") {
-          throw new Error(
+          throw new AuthQuarantineError(
             data.error ?? "Admin login not configured. Check .env.local.",
           );
         }
-        throw new Error("Invalid username or password.");
+        throw new AuthQuarantineError("Invalid username or password.");
       }
       router.push(next.startsWith("/admin") ? next : "/admin");
       router.refresh();

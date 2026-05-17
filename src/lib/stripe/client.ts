@@ -11,6 +11,8 @@
 
 import Stripe from "stripe";
 
+import { FatalConfigError } from "@/lib/errors";
+
 /**
  * Pin matches the Stripe Node SDK's current stable API version. Typed as
  * `Stripe.LatestApiVersion` so a future SDK bump that changes the default
@@ -28,7 +30,7 @@ export const STRIPE_API_VERSION: Stripe.LatestApiVersion = "2025-02-24.acacia";
 export function getStripeClient(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key || key.trim().length === 0) {
-    throw new Error(
+    throw new FatalConfigError(
       "STRIPE_SECRET_KEY unset — configure in env to enable checkout.",
     );
   }

@@ -5,6 +5,7 @@
 // re-checked by verifyAdminAuth on every API call). No token paste.
 
 import { RepoLink } from "@/components/repo/RepoLink";
+import { AdminRecoverableError } from "@/lib/errors";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -93,7 +94,7 @@ export function RevenueQueueAdmin() {
         | { ok: true; submissions: AdminSubmission[] }
         | { ok: false; error: string; reason?: string };
       if (!payload.ok) {
-        throw new Error(payload.error ?? "request failed");
+        throw new AdminRecoverableError(payload.error ?? "request failed");
       }
       setSubmissions(payload.submissions);
     } catch (err) {
@@ -121,7 +122,7 @@ export function RevenueQueueAdmin() {
         const payload = (await res.json()) as
           | { ok: true; submission: AdminSubmission }
           | { ok: false; error: string };
-        if (!payload.ok) throw new Error(payload.error ?? "request failed");
+        if (!payload.ok) throw new AdminRecoverableError(payload.error ?? "request failed");
         setSubmissions((prev) =>
           prev.map((row) => (row.id === id ? payload.submission : row)),
         );

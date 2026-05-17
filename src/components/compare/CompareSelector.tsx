@@ -23,6 +23,7 @@ import {
 } from "react";
 import Image from "next/image";
 import { X, Plus, Trash2, Search } from "lucide-react";
+import { TransientHttpError } from "@/lib/errors";
 import { useCompareStore } from "@/lib/store";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -145,7 +146,7 @@ export function CompareSelector() {
           `/api/repos?ids=${encodeURIComponent(missing.join(","))}`,
           { signal: controller.signal },
         );
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as { repos?: Repo[] };
         const items = Array.isArray(data.repos) ? data.repos : [];
         setRefsById((prev) => {

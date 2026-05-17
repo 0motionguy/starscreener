@@ -6,6 +6,7 @@ import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
 
 import { ROUTES } from "@/lib/routes";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
+import { TransientHttpError } from "@/lib/errors";
 import { DropRepoStepStrip } from "./DropRepoStepStrip";
 import {
   DropRepoCategoryPicker,
@@ -102,7 +103,7 @@ export function DropRepoPage() {
         | RepoSubmissionsListResponse
         | RepoSubmissionsErrorResponse;
       if (!res.ok || !data.ok) {
-        throw new Error(data.ok ? `status ${res.status}` : data.error);
+        throw new TransientHttpError(data.ok ? `status ${res.status}` : data.error, res.status);
       }
       setError(null);
       setQueue(data.queue);
@@ -163,7 +164,7 @@ export function DropRepoPage() {
         | RepoSubmissionsCreateResponse
         | RepoSubmissionsErrorResponse;
       if (!res.ok || !data.ok) {
-        throw new Error(data.ok ? `status ${res.status}` : data.error);
+        throw new TransientHttpError(data.ok ? `status ${res.status}` : data.error, res.status);
       }
 
       setResult(data.result);

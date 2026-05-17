@@ -16,6 +16,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
+import { TransientHttpError } from "@/lib/errors";
 import type { Repo } from "@/lib/types";
 import type {
   AlertEvent,
@@ -102,7 +103,7 @@ export default function WatchlistPage() {
           `/api/repos?ids=${encodeURIComponent(repoIdKey)}`,
           { signal: controller.signal },
         );
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as { repos?: Repo[] };
         const next: Record<string, Repo> = {};
         for (const r of Array.isArray(data.repos) ? data.repos : []) {
@@ -636,7 +637,7 @@ function EmptyTrackedState() {
           "/api/repos?sort=trending&period=week&limit=3",
           { signal: controller.signal },
         );
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as { repos?: Repo[] };
         setSuggestions(Array.isArray(data.repos) ? data.repos.slice(0, 3) : []);
       } catch (err) {

@@ -21,6 +21,7 @@ import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   mutateJsonlFile,
   readJsonlFile,
@@ -145,11 +146,11 @@ function validateProofUrl(raw: string): string {
   try {
     parsed = new URL(withScheme);
   } catch {
-    throw new Error("proofUrl must be a valid URL");
+    throw new AdminRecoverableError("proofUrl must be a valid URL");
   }
   const normalized = parsed.toString();
   if (normalized.length > MAX_PROOF_URL_LENGTH) {
-    throw new Error(`proofUrl must be <= ${MAX_PROOF_URL_LENGTH} characters`);
+    throw new AdminRecoverableError(`proofUrl must be <= ${MAX_PROOF_URL_LENGTH} characters`);
   }
   return normalized;
 }
@@ -363,7 +364,7 @@ export async function updateRevenueSubmissionStatus(
     (records) => {
       const index = records.findIndex((record) => record.id === id);
       if (index === -1) {
-        throw new Error(`revenue submission not found: ${id}`);
+        throw new AdminRecoverableError(`revenue submission not found: ${id}`, { id });
       }
       const current = records[index] as RevenueSubmissionRecord;
       updated = {
@@ -381,7 +382,7 @@ export async function updateRevenueSubmissionStatus(
     },
   );
   if (!updated) {
-    throw new Error(`revenue submission not found: ${id}`);
+    throw new AdminRecoverableError(`revenue submission not found: ${id}`, { id });
   }
   return updated;
 }
@@ -395,14 +396,15 @@ export async function submitRevenueToQueue(
 ): Promise<RevenueSubmissionResult> {
   const normalized = normalizeRepoReference(input.repo);
   if (!normalized) {
-    throw new Error(
+    throw new AdminRecoverableError(
       "repo must be a GitHub repo URL or owner/name, for example vercel/next.js",
     );
   }
 
   if (input.mode === "trustmrr_link" && !trustmrrSlugExists(input.trustmrrSlug)) {
-    throw new Error(
+    throw new AdminRecoverableError(
       `Verified-profile slug '${input.trustmrrSlug}' was not found in the cached catalog. Double-check the slug, or wait for the next catalog sync.`,
+      { slug: input.trustmrrSlug },
     );
   }
 

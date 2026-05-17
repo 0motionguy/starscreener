@@ -3,6 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
+import { TransientHttpError } from "@/lib/errors";
+
 import { CompareChartLazy } from "./CompareChartLazy";
 import { CompareSelector } from "./CompareSelector";
 import { CompareStatStrip } from "./CompareStatStrip";
@@ -102,7 +104,7 @@ function useCompareRepos(repoIds: string[]): UseCompareReposResult {
         const res = await fetch(`/api/repos?ids=${idsParam}`, {
           signal: controller.signal,
         });
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as { repos?: Repo[] };
         setRepos(Array.isArray(data.repos) ? data.repos : []);
       } catch (err) {
@@ -143,7 +145,7 @@ function useStarActivityPayloads(
         const res = await fetch(`/api/compare/payloads?repos=${param}`, {
           signal: controller.signal,
         });
-        if (!res.ok) throw new Error(`status ${res.status}`);
+        if (!res.ok) throw new TransientHttpError(`status ${res.status}`, res.status);
         const data = (await res.json()) as ApiPayloadsResponse;
         const map: Record<string, StarActivityPayload> = {};
         for (const row of data.rows ?? []) {

@@ -20,6 +20,7 @@ import {
   type DataStore,
   type RedisClientLike,
 } from "@/lib/data-store";
+import { AdminRecoverableError, FatalConfigError } from "@/lib/errors";
 import {
   TIER_LIST_KEY_PREFIX,
   tierListStoreKey,
@@ -66,7 +67,7 @@ function tierListRedisFactory(url: string, _token?: string): RedisClientLike {
       }) => RedisClientLike;
     };
     if (!_token) {
-      throw new Error(
+      throw new FatalConfigError(
         "[tier-list] Upstash REST URL requires UPSTASH_REDIS_REST_TOKEN.",
       );
     }
@@ -159,7 +160,7 @@ export async function createTierList(
     return payload;
   }
 
-  throw new Error(
+  throw new AdminRecoverableError(
     `[tier-list] Could not allocate a unique short id after ${SHORT_ID_RETRY_LIMIT} attempts.`,
   );
 }

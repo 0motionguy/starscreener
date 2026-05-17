@@ -1,3 +1,4 @@
+import { AdminRecoverableError } from "@/lib/errors";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import {
@@ -52,7 +53,7 @@ export async function runRepoIntakeForSubmission(
 ): Promise<RepoIntakeSummary> {
   const submission = await getRepoSubmissionById(submissionId);
   if (!submission) {
-    throw new Error(`repo intake submission not found: ${submissionId}`);
+    throw new AdminRecoverableError(`repo intake submission not found: ${submissionId}`, { submissionId });
   }
 
   const triggeredAt = new Date().toISOString();
@@ -78,7 +79,7 @@ export async function runRepoIntakeForSubmission(
     });
 
     if (!ingest.ok || !ingest.repo) {
-      throw new Error(ingest.error || "repo intake ingest failed");
+      throw new AdminRecoverableError(ingest.error || "repo intake ingest failed");
     }
 
     const scannedAt = new Date().toISOString();

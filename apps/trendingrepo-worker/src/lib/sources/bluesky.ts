@@ -6,6 +6,7 @@
 // it is a single POST with a tiny payload (the worker's http.json supports
 // POST too).
 
+import { AuthQuarantineError } from '../errors.js';
 import type { HttpClient } from '../types.js';
 
 export const USER_AGENT =
@@ -60,7 +61,7 @@ export async function createSession(
     },
   );
   if (!data?.accessJwt) {
-    throw new Error('createSession: response missing accessJwt');
+    throw new AuthQuarantineError('createSession: response missing accessJwt');
   }
   return data;
 }

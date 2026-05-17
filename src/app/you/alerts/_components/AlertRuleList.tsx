@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { TransientHttpError } from "@/lib/errors";
 import {
   toastAlertDeleted,
   toastAlertError,
@@ -150,10 +151,11 @@ export function AlertRuleList({ initialRules }: AlertRuleListProps) {
           | ApiOk<{ rule: SerializedAlertRule }>
           | ApiErr;
         if (!res.ok || data.ok === false) {
-          throw new Error(
+          throw new TransientHttpError(
             (data as ApiErr).message ||
               (data as ApiErr).error ||
               `HTTP ${res.status}`,
+            res.status,
           );
         }
         // Reconcile with server truth (also captures any updatedAt drift).
@@ -189,10 +191,11 @@ export function AlertRuleList({ initialRules }: AlertRuleListProps) {
       });
       const data = (await res.json()) as ApiOk<unknown> | ApiErr;
       if (!res.ok || data.ok === false) {
-        throw new Error(
+        throw new TransientHttpError(
           (data as ApiErr).message ||
             (data as ApiErr).error ||
             `HTTP ${res.status}`,
+          res.status,
         );
       }
       toastAlertDeleted();

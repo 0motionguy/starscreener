@@ -3,6 +3,8 @@
 //
 // Auth model: OAuth 2.0 user-context bearer token. The operator
 // generates a long-lived token via the Twitter developer console for
+// (sprint 5.6: imports placed below file header)
+//
 // the TrendingRepo posting account and puts it in TWITTER_OAUTH2_USER_TOKEN.
 // Refresh-token rotation is a P1 follow-up — for v1, when the token
 // expires the operator regenerates it manually.
@@ -12,6 +14,7 @@
 // ~5 posts + per-published-idea posts at 1/account/day) sits well
 // under that ceiling.
 
+import { FatalConfigError, TransientHttpError } from "@/lib/errors";
 import type {
   AdapterPostResult,
   AdapterThreadResult,
@@ -48,7 +51,7 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
 
   constructor(opts: ApiV2AdapterOptions) {
     if (!opts.bearerToken) {
-      throw new Error("ApiV2OutboundAdapter: bearerToken is required");
+      throw new FatalConfigError("ApiV2OutboundAdapter: bearerToken is required");
     }
     this.bearerToken = opts.bearerToken;
     this.username = opts.username ?? null;
@@ -81,16 +84,20 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
         // failing message. Partial-thread state is recorded too — the
         // results list gets appended for every post we attempted.
         const text = await res.text();
-        throw new Error(
+        throw new TransientHttpError(
           `Twitter API ${res.status} on post "${post.kind}": ${text.slice(0, 200)}`,
+          res.status,
+          { kind: post.kind },
         );
       }
 
       const payload = (await res.json()) as TwitterTweetResponse;
       const id = payload.data?.id;
       if (!id) {
-        throw new Error(
+        throw new TransientHttpError(
           `Twitter API returned no id for post "${post.kind}": ${JSON.stringify(payload).slice(0, 200)}`,
+          0,
+          { kind: post.kind },
         );
       }
       if (!previousId) firstId = id;
@@ -118,8 +125,9 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
     const url = post.url ? ` ${post.url}` : "";
     const effectiveLength = post.text.length + (post.url ? 24 : 0);
     if (effectiveLength > 280) {
-      throw new Error(
+      throw new FatalConfigError(
         `composed post "${post.kind}" is ${effectiveLength} chars after shortening — over Twitter's 280 cap`,
+        { kind: post.kind, length: effectiveLength },
       );
     }
     return `${post.text}${url}`;

@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { DataStoreFatalError } from '../errors.js';
 import { computeMergeKeys, qualifiedNameSimilarity, serializeMergeKeys } from './dedup-keys.js';
 import type {
   McpServerNormalized,
@@ -68,7 +69,7 @@ async function findByAnyKey(db: SupabaseClient, keyStrings: string[]): Promise<E
     .overlaps('merge_keys', keyStrings)
     .limit(1);
   if (error) {
-    throw new Error(`mergeAndUpsert lookup failed: ${error.message}`);
+    throw new DataStoreFatalError(`mergeAndUpsert lookup failed: ${error.message}`, { code: error.code });
   }
   if (!data || data.length === 0) return null;
   return toExistingRow(data[0] as RawCandidate);
@@ -140,7 +141,7 @@ async function insertNew(
     .select('id')
     .single();
   if (error) {
-    throw new Error(`mergeAndUpsert insert failed (${n.source}/${n.source_id}): ${error.message}`);
+    throw new DataStoreFatalError(`mergeAndUpsert insert failed (${n.source}/${n.source_id}): ${error.message}`, { code: error.code });
   }
   return {
     id: (data as { id: string }).id,
@@ -195,7 +196,7 @@ async function mergeInto(
     .update(patch)
     .eq('id', existing.id);
   if (error) {
-    throw new Error(`mergeAndUpsert merge failed (${existing.id}): ${error.message}`);
+    throw new DataStoreFatalError(`mergeAndUpsert merge failed (${existing.id}): ${error.message}`, { code: error.code });
   }
 
   return {

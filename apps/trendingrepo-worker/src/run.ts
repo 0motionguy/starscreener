@@ -10,6 +10,7 @@
 // (CLI / scheduler) can decide how to respond.
 
 import { captureException, captureMessage } from './lib/sentry.js';
+import { FatalConfigError } from './lib/errors.js';
 import { getLogger } from './lib/log.js';
 import { getRedis, setCurrentFetcherName } from './lib/redis.js';
 import { getDb } from './lib/db.js';
@@ -184,13 +185,13 @@ function emptyResult(name: string, startedAt: string): RunResult {
 function throwOnUseRedisHandle(): RedisHandle {
   return {
     async get() {
-      throw new Error('Redis is not configured');
+      throw new FatalConfigError('Redis is not configured');
     },
     async set() {
-      throw new Error('Redis is not configured');
+      throw new FatalConfigError('Redis is not configured');
     },
     async del() {
-      throw new Error('Redis is not configured');
+      throw new FatalConfigError('Redis is not configured');
     },
     async quit() {
       // no-op
@@ -201,7 +202,7 @@ function throwOnUseRedisHandle(): RedisHandle {
 function throwOnUseDb(): import('@supabase/supabase-js').SupabaseClient {
   return new Proxy({} as import('@supabase/supabase-js').SupabaseClient, {
     get() {
-      throw new Error(
+      throw new FatalConfigError(
         'Supabase is not configured for this fetcher. Set requiresDb=true on the Fetcher to opt in.',
       );
     },

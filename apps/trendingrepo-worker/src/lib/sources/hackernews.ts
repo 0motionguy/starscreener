@@ -1,6 +1,7 @@
 // HackerNews helpers (Firebase + Algolia) for the hackernews fetcher.
 // Mirrors scripts/_hn-shared.mjs. ctx.http handles retries/timeouts.
 
+import { TransientHttpError } from '../errors.js';
 import type { HttpClient } from '../types.js';
 
 export const USER_AGENT =
@@ -52,7 +53,7 @@ export async function fetchTopStoryIds(http: HttpClient): Promise<number[]> {
     useEtagCache: false,
     timeoutMs: 15_000,
   });
-  if (!Array.isArray(data)) throw new Error('topstories.json: expected array');
+  if (!Array.isArray(data)) throw new TransientHttpError('topstories.json: expected array', 0);
   return data.filter((n): n is number => Number.isInteger(n) && n > 0);
 }
 
@@ -123,7 +124,7 @@ export async function searchAlgoliaStories(params: SearchAlgoliaParams): Promise
       timeoutMs: 15_000,
     });
     if (!data || !Array.isArray(data.hits)) {
-      throw new Error(`Algolia search: malformed response on page ${page}`);
+      throw new TransientHttpError(`Algolia search: malformed response on page ${page}`, 0, { page });
     }
     for (const hit of data.hits) all.push(hit);
     nbPages = Number.isFinite(data.nbPages) ? Number(data.nbPages) : page + 1;

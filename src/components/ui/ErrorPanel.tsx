@@ -30,11 +30,13 @@ export function ErrorPanel({
   const isProd = process.env.NODE_ENV === "production";
   const isCompact = variant === "compact";
   const issueTitle = "Error: " + (digest ?? "unknown");
-  const issueBody =
-    "Error digest: " +
-    (digest ?? "n/a") +
-    "\nMessage: " +
-    (error.message ?? "(no message)");
+  const issueBody = [
+    "Error digest: " + (digest ?? "n/a"),
+    !isProd && error.message ? "\nMessage: " + error.message : "",
+    !isProd && error.stack ? "\nStack:\n" + error.stack : "",
+  ]
+    .filter(Boolean)
+    .join("");
   const issueHref =
     "https://github.com/0motionguy/starscreener/issues/new?title=" +
     encodeURIComponent(issueTitle) +

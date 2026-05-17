@@ -31,7 +31,10 @@ import {
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeSourceMeta } from "./_data-meta.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import {
+  closeDataStore as closeCollectorDataStore,
+  writeDataStore,
+} from "./_data-store-write.mjs";
 
 // Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
 // to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
@@ -44,6 +47,7 @@ import {
   ingestTwitterAgentFindings,
   isTwitterIngestError,
 } from "../src/lib/twitter/service";
+import { closeDataStore as closeAppDataStore } from "../src/lib/data-store";
 import { ensureTwitterReady, flushTwitterPersist } from "../src/lib/twitter/storage";
 import { getRepoMetadata, listRepoMetadata, type RepoMetadata } from "../src/lib/repo-metadata";
 import { slugToId } from "../src/lib/utils";
@@ -1035,7 +1039,14 @@ async function main(): Promise<void> {
   });
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await Promise.allSettled([
+      closeCollectorDataStore(),
+      closeAppDataStore(),
+    ]);
+  });

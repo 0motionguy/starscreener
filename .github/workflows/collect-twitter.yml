@@ -29,6 +29,15 @@ permissions:
   contents: write
   pull-requests: write
 
+# Prevent duplicate concurrent runs from cancelling earlier successful ones.
+# cancel-in-progress: false preserves the older run (which may already be
+# committing data) and queues/cancels the newer trigger. Wired 2026-05-17
+# per session-G W1.B Twitter diagnosis: concurrent dispatches were stomping
+# on each other and reducing usable runs.
+concurrency:
+  group: collect-twitter-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   collect:
     runs-on: ubuntu-latest

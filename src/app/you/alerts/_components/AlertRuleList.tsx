@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { TransientHttpError } from "@/lib/errors";
 import {
   toastAlertDeleted,
@@ -35,6 +36,7 @@ import {
 } from "@/lib/toast";
 
 import type { ApiErr, ApiOk, SerializedAlertRule } from "./types";
+import { ALERTS_OPEN_CREATE_EVENT } from "./AddAlertRuleDialog";
 
 // 4 distinct colors per ALERT_RULE_TYPES — matches the picker in
 // AddAlertRuleDialog so users see the same color end-to-end.
@@ -218,26 +220,28 @@ export function AlertRuleList({ initialRules }: AlertRuleListProps) {
 
   if (rules.length === 0) {
     return (
-      <div
-        className="rounded-[2px] px-4 py-8 text-center"
-        style={{
-          border: "1px dashed var(--v3-line-200)",
-          background: "var(--v3-bg-025)",
-        }}
-      >
-        <p
-          className="font-mono text-[11px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-300)" }}
-        >
-          {"// NO ALERT RULES YET"}
-        </p>
-        <p
-          className="mt-2 text-sm"
-          style={{ color: "var(--v3-ink-300)" }}
-        >
-          Add one to get notified about your watched repos.
-        </p>
-      </div>
+      <EmptyState
+        variant="no-data"
+        title="No alerts yet"
+        description="Watch for breakout rank changes, daily digests, or new releases. Set your first rule in 30 seconds."
+        cta={
+          <button
+            type="button"
+            onClick={() =>
+              window.dispatchEvent(new CustomEvent(ALERTS_OPEN_CREATE_EVENT))
+            }
+            className="inline-flex items-center gap-1.5 rounded-[2px] border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors"
+            style={{
+              background: "var(--v3-acc-soft)",
+              border: "1px solid var(--v3-acc-dim)",
+              color: "var(--v3-acc)",
+              fontWeight: 500,
+            }}
+          >
+            Create your first alert
+          </button>
+        }
+      />
     );
   }
 

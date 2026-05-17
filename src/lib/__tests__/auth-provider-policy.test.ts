@@ -114,6 +114,10 @@ test("only known callers may import Clerk hooks (useUser / useAuth)", () => {
     join("src", "components", "layout", "SidebarUserOverlayBridge.tsx"),
     // Auth-form skeleton lives inside a Clerk-rendered tree by construction.
     join("src", "components", "auth", "ClerkAuthForm.tsx"),
+    // Post-signup welcome modal gate (S2.A). Accepts an `authEnabled`
+    // server-resolved prop and short-circuits before invoking useUser()
+    // when ClerkProvider isn't mounted.
+    join("src", "components", "onboarding", "WelcomeModalGate.tsx"),
     // Sign-in / sign-up route surfaces are children of the layout's
     // ClerkProvider and reach Clerk hooks via Clerk's own components.
   ]);

@@ -52,6 +52,19 @@ function setWelcomedCookie(): void {
 }
 
 interface WelcomeModalGateProps {
+  /**
+   * Server-resolved flag mirroring `Boolean(getClerkPublishableKey())`.
+   * Required so Clerk hooks below never execute on environments where
+   * `<ClerkProvider>` did not mount (Vercel Production with only
+   * `pk_test_*` keys; previews with the key disabled). The hook would
+   * otherwise throw "useAuth can only be used within the <ClerkProvider />".
+   *
+   * See `src/lib/__tests__/auth-provider-policy.test.ts` ("only known
+   * callers may import Clerk hooks") — this file is on the allow-list
+   * because it accepts this prop and short-circuits before invoking
+   * `useUser()`.
+   */
+  authEnabled: boolean;
   // Optional override for the displayed name. When null/omitted the
   // gate pulls from Clerk's `useUser()`. Provided as an escape hatch
   // for the server to seed an SSR-friendly value if we ever need it,
@@ -60,8 +73,24 @@ interface WelcomeModalGateProps {
 }
 
 export function WelcomeModalGate({
+  authEnabled,
   displayName: displayNameProp,
-}: WelcomeModalGateProps = {}) {
+}: WelcomeModalGateProps) {
+  if (!authEnabled) return null;
+  return (
+    <WelcomeModalGateInner displayName={displayNameProp} />
+  );
+}
+
+// Inner component isolates the Clerk hook call behind the `authEnabled`
+// gate above. Same render contract as the previous monolithic version —
+// the split is purely so React only invokes `useUser()` when we know
+// ClerkProvider is mounted.
+function WelcomeModalGateInner({
+  displayName: displayNameProp,
+}: {
+  displayName?: string | null;
+}) {
   const { isLoaded, isSignedIn, user } = useUser();
   const [show, setShow] = useState(false);
   // Track whether we've already evaluated the gate condition for this

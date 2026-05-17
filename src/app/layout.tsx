@@ -172,7 +172,7 @@ export default async function RootLayout({
       <IdleMount>
         <ClerkRefHandoff />
       </IdleMount>
-      {clerkPublishableKey ? <WelcomeModalGate /> : null}
+      <WelcomeModalGate authEnabled={Boolean(clerkPublishableKey)} />
       <Header authEnabled={Boolean(clerkPublishableKey)} />
       <MobileDrawerLazy />
       <AppShell>

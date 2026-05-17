@@ -72,7 +72,7 @@ export const revalidate = 60;
 const PAGE_PATH = "/githubrepo";
 const PAGE_TITLE = "Top 50 trending GitHub repos — live";
 const PAGE_DESCRIPTION =
-  "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.";
+  "Live momentum-ranked top 50 trending GitHub repos with cross-source mention chips: Hacker News, Reddit, Bluesky, dev.to, npm, Hugging Face, arXiv, X.";
 const PAGE_OG_TITLE = `${PAGE_TITLE} — ${SITE_NAME}`;
 
 export const metadata: Metadata = {

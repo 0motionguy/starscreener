@@ -119,7 +119,7 @@ export const revalidate = 1800;
 export const metadata: Metadata = {
   title: "Signals — Cross-Source Newsroom",
   description:
-    "Eight-source live signal terminal: Hacker News, GitHub, X, Reddit, Bluesky, Dev.to, Claude RSS, OpenAI RSS — plus volume, consensus stories, and tag-momentum.",
+    "Eight-source live signal terminal: Hacker News, GitHub, X, Reddit, Bluesky, Dev.to, Claude RSS, OpenAI RSS — plus volume and consensus stories.",
   alternates: { canonical: "/signals" },
   openGraph: {
     title: "Signals — Cross-Source Newsroom — TrendingRepo",

@@ -61,8 +61,14 @@ jobs:
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: npm --prefix apps/trendingrepo-worker run fetcher -- crunchbase
-      - if: github.event.inputs.dry_run != 'true'
-        name: Refresh X funding side-channel
+      # 2026-05-17: DISABLED — APIFY policy off (see docs/POLICY-NO-APIFY.md).
+      # The x-funding fetcher in apps/trendingrepo-worker uses Apify to scrape
+      # X/Twitter funding mentions. Step is gated `if: false` so the schedule
+      # keeps running for the RSS + Crunchbase + SEC paths (all free) while
+      # the Apify-only step is skipped. Restore by changing `if:` back to the
+      # dry-run guard ONLY after operator sign-off on the Apify budget.
+      - if: false
+        name: Refresh X funding side-channel (DISABLED — Apify off)
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}

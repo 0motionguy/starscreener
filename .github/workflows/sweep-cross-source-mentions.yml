@@ -103,7 +103,10 @@ jobs:
           # Per-channel auth — each is optional; the channel disables itself
           # when its credential is missing (logged as a one-line warn at
           # sweep start, not a failure).
-          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          # 2026-05-17: APIFY_API_TOKEN intentionally NOT passed (operator
+          # policy off — see docs/POLICY-NO-APIFY.md). The sweep auto-disables
+          # the Apify-Twitter channel when the token is absent; other channels
+          # (Reddit/HN/Bluesky/dev.to/Lobsters/ProductHunt/Tavily) keep running.
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}

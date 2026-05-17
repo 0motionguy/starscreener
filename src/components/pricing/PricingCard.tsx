@@ -3,9 +3,8 @@
 // Renders on the server so the pricing page ships without a JS bundle tax.
 // All copy comes from the tier definition; this component is a dumb layout.
 
-import Link from "next/link";
-
 import type { BillingCadence, TierDefinition } from "@/lib/pricing/tiers";
+import { PricingCtaButton } from "./PricingCtaButton";
 
 export interface PricingCardProps {
   tier: TierDefinition;
@@ -208,19 +207,13 @@ export function PricingCard({ tier, cadence, highlighted = false }: PricingCardP
       </ul>
 
       <footer>
-        {tier.ctaHref.startsWith("/") ? (
-          <Link
-            href={tier.ctaHref}
-            className={ctaClassName}
-            style={{ minHeight: 42 }}
-          >
-            {ctaContent}
-          </Link>
-        ) : (
-          <a href={tier.ctaHref} className={ctaClassName} style={{ minHeight: 42 }}>
-            {ctaContent}
-          </a>
-        )}
+        <PricingCtaButton
+          tier={tier}
+          cadence={cadence}
+          className={ctaClassName}
+        >
+          {ctaContent}
+        </PricingCtaButton>
       </footer>
     </article>
   );

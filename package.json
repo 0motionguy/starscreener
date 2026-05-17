@@ -59,6 +59,8 @@
     "perf:routes:prod": "node scripts/perf-routes.mjs --prod",
     "perf:bundle": "node scripts/perf-bundle.mjs",
     "perf:quick": "npm run build && npm run perf:bundle",
+    "lighthouse:routes:prod": "node scripts/lighthouse-routes.mjs",
+    "lighthouse:routes:prod:desktop": "LH_STRATEGY=desktop node scripts/lighthouse-routes.mjs",
     "audit:status": "node scripts/audit-status.mjs",
     "audit:github-token-callsites": "node scripts/audit-github-token-callsites.mjs",
     "update:badges": "node scripts/update-readme-badges.mjs",

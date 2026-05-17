@@ -128,5 +128,8 @@ awesome-codex-skills/
 # local agent vector DB (per-machine runtime state, regenerated automatically)
 /ruvector.db
 
+# perf audit output (Lighthouse-via-PSI, etc.)
+/.perf/
+
 # clerk configuration (can include secrets)
 /.clerk/

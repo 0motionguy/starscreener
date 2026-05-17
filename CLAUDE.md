@@ -61,6 +61,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Trigger workflow: `gh workflow run collect-twitter.yml`
 - Build graph: `code-review-graph build` (auto-runs via project hook on Edit/Write/Bash; pre-commit hook also runs `code-review-graph detect-changes`)
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)
+- Lighthouse audit: `PAGESPEED_API_KEY=<key> npm run lighthouse:routes:prod` (writes `.perf/lighthouse-mobile-prod.json`)
 
 ## Where to Look First
 - **2026-05-08 rescue handover (read first if you're picking up after the consolidation)** → [docs/RESCUE-2026-05-08-HANDOVER.md](docs/RESCUE-2026-05-08-HANDOVER.md) — branches, tags, the 13 rescue commits, what's outstanding (reddit collector zeros, twitter Apify stale on 386/402 repos), 7 carry-forward learnings.

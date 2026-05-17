@@ -12,6 +12,10 @@
 import type { Metadata } from "next";
 
 import { getOptionalUser } from "@/lib/auth/server";
+import {
+  getOnboardingProgress,
+  type OnboardingProgress,
+} from "@/lib/onboarding/progress";
 
 import YouClient from "./YouClient";
 
@@ -32,17 +36,28 @@ export default async function YouPage() {
         displayName: user.profile.displayName,
       }
     : null;
-  // S3.B — pull the invite-banner dismissal stamp here so the client
-  // renders deterministically without an extra fetch. Stored as ISO
-  // string to avoid serialising Date objects across the server boundary.
+  // S3.B - invite-banner dismissal stamp.
   const inviteBannerDismissedAt = user?.profile.dismissedInviteBannerAt
     ? user.profile.dismissedInviteBannerAt.toISOString()
     : null;
+  // S3.F - onboarding progress for signed-in users.
+  let progress: OnboardingProgress | null = null;
+  if (user) {
+    progress = await getOnboardingProgress({
+      profileId: user.profile.id,
+      emailAlertsCadence: user.profile.emailAlertsCadence as
+        | "realtime"
+        | "daily"
+        | "weekly"
+        | "off",
+    });
+  }
 
   return (
     <YouClient
       account={account}
       inviteBannerDismissedAt={inviteBannerDismissedAt}
+      progress={progress}
     />
   );
 }

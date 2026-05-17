@@ -126,11 +126,13 @@ export const metadata: Metadata = {
     description: "Eight-source live signal terminal with volume, consensus, and tag-momentum.",
     url: "/signals",
     type: "website",
+    images: [{ url: "/api/og/signals", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Signals — Cross-Source Newsroom — TrendingRepo",
     description: "Eight-source live signal terminal with volume, consensus, and tag-momentum.",
+    images: ["/api/og/signals"],
   },
 };
 

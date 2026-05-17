@@ -59,11 +59,13 @@ export const metadata: Metadata = {
     description: "Top developer-written articles by velocity, plus mentioned repos.",
     url: "/devto",
     type: "website",
+    images: [{ url: "/api/og/devto", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending on Dev.to — TrendingRepo",
     description: "Top developer-written articles by velocity, plus mentioned repos.",
+    images: ["/api/og/devto"],
   },
 };
 

@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-16T19:07:08.630Z",
-  "scanRunId": "sweep-2026-05-16T19:07:01.270Z",
+  "computedAt": "2026-05-17T03:36:05.098Z",
+  "scanRunId": "sweep-2026-05-17T03:35:55.092Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -302,26 +302,8 @@
     },
     "ruvnet/ruflo": {
       "fullName": "ruvnet/ruflo",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "ruvnet/ruflo",
-              "url": "https://lichess.org/@/RuyLopez1000/blog/did-the-soviets-collude-in-the-1953-candidates-tournament/PFaoJIPI",
-              "title": "Did the Soviets Collude in the 1953 Candidates Tournament?",
-              "text": "",
-              "author": "fzliu",
-              "engagement": {
-                "score": 5,
-                "comments": 0
-              },
-              "observedAt": "2026-05-10T01:14:38.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 1,
           "top": [
@@ -344,10 +326,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 80,
+      "totalMentions7d": 104,
       "perSource": {
         "hackernews": {
-          "count7d": 80,
+          "count7d": 104,
           "top": [
             {
               "source": "hackernews",
@@ -357,7 +339,7 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 293,
+                "score": 294,
                 "comments": 84
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
@@ -371,22 +353,9 @@
               "author": "zdw",
               "engagement": {
                 "score": 261,
-                "comments": 12
+                "comments": 13
               },
               "observedAt": "2026-05-10T17:05:05.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/",
-              "title": "Gemini API File Search is now multimodal",
-              "text": "",
-              "author": "gmays",
-              "engagement": {
-                "score": 156,
-                "comments": 45
-              },
-              "observedAt": "2026-05-10T03:22:02.000Z"
             },
             {
               "source": "hackernews",
@@ -413,6 +382,19 @@
                 "comments": 55
               },
               "observedAt": "2026-05-11T02:06:29.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://ljtn.github.io/epiq/",
+              "title": "Show HN: Epiq – Distributed Git based issue tracker TUI",
+              "text": "Issue trackers typically live outside of your workflow, with poor ergonomics. Epiq aims to solve that, bringing issue tracking into your terminal. Multi-user collaboration is achieved via git using user-scoped immutable event logs that converge in memory. Put my all into it. Let me know what you think.",
+              "author": "jolaflow",
+              "engagement": {
+                "score": 84,
+                "comments": 45
+              },
+              "observedAt": "2026-05-16T00:18:03.000Z"
             }
           ]
         }
@@ -444,10 +426,10 @@
     },
     "rtk-ai/rtk": {
       "fullName": "rtk-ai/rtk",
-      "totalMentions7d": 4,
+      "totalMentions7d": 3,
       "perSource": {
         "bluesky": {
-          "count7d": 4,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -487,19 +469,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-10T18:52:50.460Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "rtk-ai/rtk",
-              "url": "https://bsky.app/profile/chadfennell.com/post/3mlhi7zrczs2v",
-              "title": "rtk is an excellent way to reduce token spend for agents running shell commands like \"find\" github.com/rtk-ai/rtk Love it.",
-              "text": "rtk is an excellent way to reduce token spend for agents running shell commands like \"find\" github.com/rtk-ai/rtk Love it.",
-              "author": "chadfennell.com",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-10T00:16:55.868Z"
             }
           ]
         }
@@ -1166,7 +1135,7 @@
               "text": "An attempt at a single pass LLVM frontend in ~3000 lines of C without external dependencies, malloc, or an AST. Included are some graphical examples. The IR isn&#x27;t perfect, and the README touches on one particular downfall",
               "author": "glouwbug",
               "engagement": {
-                "score": 99,
+                "score": 100,
                 "comments": 24
               },
               "observedAt": "2026-05-14T01:46:45.000Z"
@@ -1179,8 +1148,8 @@
               "text": "Almost a year ago I started building A Dark Cave, a dark text-based browser game.<p>The game intentionally avoids visuals and embraces minimalism.<p>I use only text, symbols, and sounds to create atmosphere and spark the player&#x27;s imagination.<p>From time to time, I think about adding graphics to my game, since it is one of the most common requests I get from players.<p>I even made a post about what I call the AI Slop Temptation: <a href=\"https:&#x2F;&#x2F;www.reddit.com&#x2F;r&#x2F;incremen",
               "author": "julez_",
               "engagement": {
-                "score": 9,
-                "comments": 3
+                "score": 11,
+                "comments": 6
               },
               "observedAt": "2026-05-16T08:57:47.000Z"
             },
@@ -3714,10 +3683,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 82,
+      "totalMentions7d": 170,
       "perSource": {
         "hackernews": {
-          "count7d": 82,
+          "count7d": 170,
           "top": [
             {
               "source": "hackernews",
@@ -3727,8 +3696,8 @@
               "text": "",
               "author": "mikeevans",
               "engagement": {
-                "score": 479,
-                "comments": 246
+                "score": 481,
+                "comments": 247
               },
               "observedAt": "2026-05-14T20:06:14.000Z"
             },
@@ -3766,23 +3735,23 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 103,
-                "comments": 120
+                "score": 146,
+                "comments": 176
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://arstechnica.com/tech-policy/2026/05/altman-forced-to-confront-claims-at-openai-trial-that-hes-a-prolific-liar/",
-              "title": "Altman forced to confront claims at OpenAI trial that he's a prolific liar",
+              "url": "https://www.openculture.com/2026/05/nearly-50-years-later-wkrp-in-cincinnati-becomes-a-real-radio-station.html",
+              "title": "Nearly 50 Years Later, WKRP in Cincinnati Becomes a Real Radio Station",
               "text": "",
-              "author": "Bender",
+              "author": "bookofjoe",
               "engagement": {
-                "score": 98,
-                "comments": 41
+                "score": 117,
+                "comments": 68
               },
-              "observedAt": "2026-05-13T18:46:51.000Z"
+              "observedAt": "2026-05-12T16:47:38.000Z"
             }
           ]
         }
@@ -4102,10 +4071,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 21,
+      "totalMentions7d": 51,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 47,
           "top": [
             {
               "source": "hackernews",
@@ -4162,15 +4131,15 @@
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://www.ox.ac.uk/news/2026-05-15-why-is-almost-everyone-right-handed-the-answer-may-lie-in-how-we-learned-to-walk",
-              "title": "Bipedalism and brain expansion explain human handedness",
+              "url": "https://cowboystatedaily.com/2026/05/12/scientists-confirm-brain-eating-amoeba-is-widespread-in-yellowstone-and-grand-teton/",
+              "title": "Scientists Confirm 'Brain-Eating Amoeba' Is Widespread Yellowstone Grand Teton",
               "text": "",
-              "author": "geox",
+              "author": "Bender",
               "engagement": {
-                "score": 5,
+                "score": 15,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T16:56:16.000Z"
+              "observedAt": "2026-05-12T23:08:26.000Z"
             }
           ]
         },
@@ -6131,10 +6100,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 36,
+      "totalMentions7d": 35,
       "perSource": {
         "hackernews": {
-          "count7d": 35,
+          "count7d": 34,
           "top": [
             {
               "source": "hackernews",
@@ -6144,7 +6113,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383</a>",
               "author": "varunsharma07",
               "engagement": {
-                "score": 1093,
+                "score": 1094,
                 "comments": 464
               },
               "observedAt": "2026-05-11T21:08:25.000Z"
@@ -6157,7 +6126,7 @@
               "text": "",
               "author": "janandonly",
               "engagement": {
-                "score": 146,
+                "score": 147,
                 "comments": 84
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
@@ -6696,10 +6665,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 9,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -6717,6 +6686,19 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
+              "url": "https://github.com/MukundaKatta/hermes-agentmemory",
+              "title": "Show HN: Hermes-agentmemory, pull-model episodic memory with real deletes",
+              "text": "",
+              "author": "mukundakatta",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T18:00:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
               "url": "https://memnode.dev/articles/agent-memory-vs-vector-db",
               "title": "Vector embeddings are the wrong default for AI agent memory",
               "text": "",
@@ -6730,32 +6712,6 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
-              "url": "https://news.ycombinator.com/item?id=48078195",
-              "title": "Show HN: Sigma Guard – deterministic contradiction checks for graph memory",
-              "text": "I built a small open-source verifier for graph-backed AI memory and GraphRAG-style systems.<p>The basic problem: graph databases can validate schema, but they usually do not know whether two accepted facts contradict each other. An AI memory layer can store both &quot;Acme prefers annual billing&quot; and &quot;Acme rejected annual billing and requires monthly billing.&quot; Both writes may be valid. The contradiction only shows up later when an agent retrieves both and reasons over them.<p>SIGM",
-              "author": "invariantjason",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T20:58:08.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://github.com/MukundaKatta/hermes-agentmemory",
-              "title": "Show HN: Hermes-agentmemory, pull-model episodic memory with real deletes",
-              "text": "",
-              "author": "mukundakatta",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T18:00:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
               "url": "https://github.com/sachinsharma9780/memweave",
               "title": "Local Agent Memory with 98% Recall-5 on LongMemEval-S, no LLMs, no API Key",
               "text": "",
@@ -6765,6 +6721,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T11:03:52.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://dthink.ai/blog/oamp-governed-memory/",
+              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
+              "text": "",
+              "author": "jaikoo",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T10:43:27.000Z"
             }
           ]
         },
@@ -7845,10 +7814,10 @@
     },
     "vercel-labs/zero-native": {
       "fullName": "vercel-labs/zero-native",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
@@ -7875,19 +7844,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-10T23:21:19.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "vercel-labs/zero-native",
-              "url": "https://github.com/vercel-labs/zero-native",
-              "title": "Build native desktop and mobile apps with web UI and Zig",
-              "text": "",
-              "author": "kindkang2024",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-09T23:43:41.000Z"
             }
           ]
         }
@@ -8563,10 +8519,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 43,
+      "totalMentions7d": 41,
       "perSource": {
         "hackernews": {
-          "count7d": 43,
+          "count7d": 41,
           "top": [
             {
               "source": "hackernews",
@@ -8576,7 +8532,7 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 293,
+                "score": 294,
                 "comments": 84
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
@@ -8589,7 +8545,7 @@
               "text": "Hi HN, we’re Sai and Aayush, and we’re building Hypercubic (<a href=\"https:&#x2F;&#x2F;www.hypercubic.ai&#x2F;\">https:&#x2F;&#x2F;www.hypercubic.ai&#x2F;</a>), bringing AI tools to the mainframe and COBOL world. (We did a Launch HN last year: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=45877517\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=45877517</a>.) Today we’re launching Hopper, an agentic development environment for mainframes.<p>You can download it here: <a href=\"h",
               "author": "sai18",
               "engagement": {
-                "score": 96,
+                "score": 97,
                 "comments": 50
               },
               "observedAt": "2026-05-12T17:10:22.000Z"
@@ -8813,7 +8769,7 @@
     },
     "antirez/ds4": {
       "fullName": "antirez/ds4",
-      "totalMentions7d": 14,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8826,15 +8782,15 @@
               "text": "",
               "author": "caust1c",
               "engagement": {
-                "score": 429,
-                "comments": 184
+                "score": 432,
+                "comments": 185
               },
               "observedAt": "2026-05-14T22:29:12.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 13,
+          "count7d": 12,
           "top": [
             {
               "source": "bluesky",
@@ -8865,6 +8821,19 @@
             {
               "source": "bluesky",
               "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/nopnop.bsky.social/post/3mlodadaetc2z",
+              "title": "github.com/antirez/ds4/... progress is here for ROCm/HIP backend.",
+              "text": "github.com/antirez/ds4/... progress is here for ROCm/HIP backend.",
+              "author": "nopnop.bsky.social",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T17:36:13.863Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
               "url": "https://bsky.app/profile/davidgasquez.com/post/3mlsi7enuq22x",
               "title": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
               "text": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
@@ -8874,19 +8843,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T09:15:47.463Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "antirez/ds4",
-              "url": "https://bsky.app/profile/nopnop.bsky.social/post/3mlodadaetc2z",
-              "title": "github.com/antirez/ds4/... progress is here for ROCm/HIP backend.",
-              "text": "github.com/antirez/ds4/... progress is here for ROCm/HIP backend.",
-              "author": "nopnop.bsky.social",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-12T17:36:13.863Z"
             },
             {
               "source": "bluesky",

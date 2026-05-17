@@ -5,7 +5,7 @@
 // expose "degraded but still serving" states so empty-looking feeds are
 // easier to diagnose before they become stale.
 
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 import {
@@ -54,9 +54,6 @@ export const runtime = "nodejs";
 
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
-// Soft health is polled by uptime checks; return cached truth quickly instead
-// of letting a slow Redis/data-store refresh become the outage signal.
-const SOFT_REFRESH_DEADLINE_MS = 150;
 
 type HealthStatus = "ok" | "stale" | "error";
 
@@ -144,6 +141,11 @@ type PublicHealthBody = Pick<
   "status" | "sourceStatus" | "lastFetchedAt" | "computedAt" | "warning" | "error"
 >;
 
+type RefreshTask = {
+  label: string;
+  run: () => Promise<unknown>;
+};
+
 function canViewDetail(request: NextRequest): boolean {
   const cronSecret = process.env.CRON_SECRET?.trim();
   return (
@@ -175,31 +177,52 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
-function settleRefreshWithin(
-  label: string,
-  promise: Promise<unknown>,
-  timeoutMs: number,
-): Promise<PromiseSettledResult<unknown>> {
-  let timeout: ReturnType<typeof setTimeout> | undefined;
-  const guarded: Promise<PromiseSettledResult<unknown>> = promise.then(
-    (value): PromiseFulfilledResult<unknown> => ({ status: "fulfilled", value }),
-    (reason): PromiseRejectedResult => ({ status: "rejected", reason }),
-  );
+function createRefreshTasks(): RefreshTask[] {
+  return [
+    { label: "trending", run: refreshTrendingFromStore },
+    { label: "hotCollections", run: refreshHotCollectionsFromStore },
+    { label: "recentRepos", run: refreshRecentReposFromStore },
+    { label: "repoMetadata", run: refreshRepoMetadataFromStore },
+    {
+      label: "collectionRankings",
+      run: refreshCollectionRankingsFromStore,
+    },
+    {
+      label: "scannerSourceHealth",
+      run: refreshScannerSourceHealthFromStore,
+    },
+  ];
+}
 
-  return Promise.race<PromiseSettledResult<unknown>>([
-    guarded,
-    new Promise<PromiseRejectedResult>((resolve) => {
-      timeout = setTimeout(
-        () =>
-          resolve({
-            status: "rejected",
-            reason: new Error(`${label} refresh timed out after ${timeoutMs}ms`),
-          }),
-        timeoutMs,
-      );
-    }),
-  ]).finally(() => {
-    if (timeout) clearTimeout(timeout);
+async function runRefreshTasks(
+  tasks: RefreshTask[],
+): Promise<PromiseSettledResult<unknown>[]> {
+  return Promise.allSettled(tasks.map((task) => task.run()));
+}
+
+function countRefreshFailures(
+  results: PromiseSettledResult<unknown>[],
+): number {
+  return results.filter((result) => result.status === "rejected").length;
+}
+
+function scheduleBackgroundRefresh(tasks: RefreshTask[]): void {
+  after(async () => {
+    const results = await runRefreshTasks(tasks);
+    const failures = results.flatMap((result, index) => {
+      if (result.status !== "rejected") return [];
+      const reason =
+        result.reason instanceof Error
+          ? result.reason.message
+          : String(result.reason);
+      return [`${tasks[index]?.label ?? "unknown"}: ${reason}`];
+    });
+
+    if (failures.length > 0) {
+      console.warn("[api:health] background refresh degraded", {
+        failures,
+      });
+    }
   });
 }
 
@@ -212,37 +235,16 @@ export async function GET(
   try {
     const soft = request.nextUrl.searchParams.get("soft") === "1";
 
-    // Refresh in-memory caches from the data-store so per-source freshness
-    // reflects the live Redis payload, not the bundled JSON snapshot. Each
-    // refresh call internally rate-limits to 1 read per source per 30s.
-    const refreshTasks: Array<{ label: string; promise: Promise<unknown> }> = [
-      { label: "trending", promise: refreshTrendingFromStore() },
-      { label: "hotCollections", promise: refreshHotCollectionsFromStore() },
-      { label: "recentRepos", promise: refreshRecentReposFromStore() },
-      { label: "repoMetadata", promise: refreshRepoMetadataFromStore() },
-      {
-        label: "collectionRankings",
-        promise: refreshCollectionRankingsFromStore(),
-      },
-      {
-        label: "scannerSourceHealth",
-        promise: refreshScannerSourceHealthFromStore(),
-      },
-    ];
-    const refreshResults = soft
-      ? await Promise.all(
-          refreshTasks.map((task) =>
-            settleRefreshWithin(
-              task.label,
-              task.promise,
-              SOFT_REFRESH_DEADLINE_MS,
-            ),
-          ),
-        )
-      : await Promise.allSettled(refreshTasks.map((task) => task.promise));
-    const refreshFailureCount = refreshResults.filter(
-      (result) => result.status === "rejected",
-    ).length;
+    const refreshTasks = createRefreshTasks();
+    // Public soft health is an uptime probe. Keep Redis refresh out of its
+    // TTFB path and let Vercel's waitUntil-backed `after()` warm the process
+    // for the next probe. Hard/detail health still waits for fresh data.
+    const refreshResults =
+      soft && !includeDetail ? [] : await runRefreshTasks(refreshTasks);
+    if (soft && !includeDetail) {
+      scheduleBackgroundRefresh(refreshTasks);
+    }
+    const refreshFailureCount = countRefreshFailures(refreshResults);
 
     const lastFetchedAt = getLastFetchedAt();
     const deltasComputedAt = getDeltasComputedAt();

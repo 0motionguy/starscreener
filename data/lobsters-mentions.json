@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-17T19:46:59.119Z",
+  "fetchedAt": "2026-05-17T21:30:08.754Z",
   "windowDays": 7,
-  "scannedStories": 78,
+  "scannedStories": 79,
   "mentions": {
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
       "count7d": 1,
@@ -195,6 +195,44 @@
         }
       ]
     },
+    "sander110419/lightroom-cc-on-linux": {
+      "count7d": 1,
+      "scoreSum7d": 19,
+      "topStory": {
+        "shortId": "l34yuj",
+        "title": "Claude Code managed to get Adobe Lightroom working on Linux",
+        "score": 19,
+        "url": "https://github.com/sander110419/lightroom-cc-on-linux",
+        "commentsUrl": "https://lobste.rs/s/l34yuj/claude_code_managed_get_adobe_lightroom",
+        "hoursSincePosted": 8.531944444444445
+      },
+      "stories": [
+        {
+          "shortId": "l34yuj",
+          "title": "Claude Code managed to get Adobe Lightroom working on Linux",
+          "url": "https://github.com/sander110419/lightroom-cc-on-linux",
+          "commentsUrl": "https://lobste.rs/s/l34yuj/claude_code_managed_get_adobe_lightroom",
+          "by": "",
+          "score": 19,
+          "commentCount": 3,
+          "createdUtc": 1779022693,
+          "ageHours": 8.531944444444445,
+          "trendingScore": 0.5558924321139123,
+          "tags": [
+            "linux",
+            "vibecoding"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "sander110419/lightroom-cc-on-linux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo": {
       "count7d": 1,
       "scoreSum7d": 18,
@@ -225,44 +263,6 @@
           "linkedRepos": [
             {
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "sander110419/lightroom-cc-on-linux": {
-      "count7d": 1,
-      "scoreSum7d": 17,
-      "topStory": {
-        "shortId": "l34yuj",
-        "title": "Claude Code managed to get Adobe Lightroom working on Linux",
-        "score": 17,
-        "url": "https://github.com/sander110419/lightroom-cc-on-linux",
-        "commentsUrl": "https://lobste.rs/s/l34yuj/claude_code_managed_get_adobe_lightroom",
-        "hoursSincePosted": 6.812777777777778
-      },
-      "stories": [
-        {
-          "shortId": "l34yuj",
-          "title": "Claude Code managed to get Adobe Lightroom working on Linux",
-          "url": "https://github.com/sander110419/lightroom-cc-on-linux",
-          "commentsUrl": "https://lobste.rs/s/l34yuj/claude_code_managed_get_adobe_lightroom",
-          "by": "",
-          "score": 17,
-          "commentCount": 3,
-          "createdUtc": 1779022693,
-          "ageHours": 6.812777777777778,
-          "trendingScore": 0.6497999785676822,
-          "tags": [
-            "linux",
-            "vibecoding"
-          ],
-          "description": "",
-          "linkedRepos": [
-            {
-              "fullName": "sander110419/lightroom-cc-on-linux",
               "matchType": "url",
               "confidence": 1
             }
@@ -447,14 +447,14 @@
       "scoreSum7d": 26
     },
     {
+      "fullName": "sander110419/lightroom-cc-on-linux",
+      "count7d": 1,
+      "scoreSum7d": 19
+    },
+    {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
       "count7d": 1,
       "scoreSum7d": 18
-    },
-    {
-      "fullName": "sander110419/lightroom-cc-on-linux",
-      "count7d": 1,
-      "scoreSum7d": 17
     },
     {
       "fullName": "jundot/omlx",

@@ -6434,20 +6434,6 @@ body::before {
   min-width: 84px;
 }
 
-.ac-detail-name {
-  color: var(--v4-ink-000);
-  font-family: var(--v4-sans);
-  font-size: var(--v4-text-30);
-  letter-spacing: var(--v4-track-tight-h2);
-  line-height: var(--v4-leading-105);
-}
-
-.ac-detail-brief {
-  max-width: 980px;
-  color: var(--v4-ink-200);
-  font-size: var(--v4-text-13);
-  line-height: var(--v4-leading-155);
-}
 
 .ac-detail-grid {
   align-items: start;

@@ -213,6 +213,37 @@ jobs:
             echo "$CURRENT" > "$CHECKPOINT_FILE"
           fi
 
+          # Secondary check: meta-file age. The line-count check above can
+          # PASS (e.g. 477 > 409) even when the job was cancelled BEFORE
+          # `writeSourceMeta()` fired, leaving data/_meta/twitter.json stale.
+          # That stale meta is what /twitter and freshness probes read, so a
+          # silent failure here is a silent prod-data outage. The cron runs
+          # 3x/day (every ~8h), so 6h+ is a soft warning and 24h+ is a hard
+          # error. Wired 2026-05-17 after a string of cancelled runs left
+          # twitter.json stuck at ts=2026-05-04 for 13 days despite the
+          # line-count monitor showing PASS every run.
+          META_FILE="data/_meta/twitter.json"
+          if [ -f "$META_FILE" ]; then
+            META_TS=$(jq -r '.ts // ""' "$META_FILE")
+            if [ -n "$META_TS" ]; then
+              META_EPOCH=$(date -d "$META_TS" +%s 2>/dev/null || echo "0")
+              NOW_EPOCH=$(date -u +%s)
+              AGE_SEC=$(( NOW_EPOCH - META_EPOCH ))
+              AGE_HR=$(( AGE_SEC / 3600 ))
+              echo "twitter.json age: ${AGE_HR}h (ts=${META_TS})"
+              if [ "$AGE_HR" -gt 24 ]; then
+                echo "::error::twitter.json is ${AGE_HR}h stale — collector is failing silently before writeSourceMeta()"
+                exit 2
+              elif [ "$AGE_HR" -gt 6 ]; then
+                echo "::warning::twitter.json hasn't been updated in ${AGE_HR}h — collector may be crashing before writeSourceMeta()"
+              fi
+            else
+              echo "::warning::$META_FILE has no .ts field — skipping age check"
+            fi
+          else
+            echo "::warning::$META_FILE not found — skipping age check"
+          fi
+
       - name: Commit health checkpoint
         if: success()
         run: |

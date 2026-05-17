@@ -1,47 +1,21 @@
 {
-  "fetchedAt": "2026-05-16T00:17:58.967Z",
+  "fetchedAt": "2026-05-17T08:06:26.500Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 718,
+  "scannedAlgoliaHits": 721,
   "scannedFirebaseItems": 500,
   "mentions": {
     "nooga/let-go": {
-      "count7d": 2,
-      "scoreSum7d": 289,
+      "count7d": 1,
+      "scoreSum7d": 5,
       "topStory": {
-        "id": 48076815,
-        "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
-        "score": 284,
+        "id": 48124008,
+        "title": "Let-go is a Clojure dialect written in Go",
+        "score": 5,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 150.43
+        "hoursSincePosted": 87.73
       },
       "everHitFrontPage": false,
       "stories": [
-        {
-          "id": 48076815,
-          "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
-          "url": "https://github.com/nooga/let-go",
-          "by": "marcingas",
-          "score": 284,
-          "descendants": 85,
-          "createdUtc": 1778349133,
-          "ageHours": 150.43,
-          "velocity": 1.89,
-          "trendingScore": 44.05,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Let-go is a Clojure-like language (~90% compatible with JVM Clojure) written in pure Go. It ships as a ~10MB static binary and cold boots in ~7ms - that's about 50x faster than JVM and 3x faster than Babashka. It has decent throughput on algorithmic workloads - within ballpark of the GraalVM-backed sci. I started this project in 2021 as an elaborate practical joke: I wanted to have an excuse for writing Clojure while pretending to write Go. Jokes aside, it turned out to be pretty decent: it feel",
-          "linkedRepos": [
-            {
-              "fullName": "nooga/let-go",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "id": 48124008,
           "title": "Let-go is a Clojure dialect written in Go",
@@ -50,9 +24,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778689347,
-          "ageHours": 55.93,
-          "velocity": 0.09,
-          "trendingScore": 0.06,
+          "ageHours": 87.73,
+          "velocity": 0.06,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -77,7 +51,7 @@
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
         "score": 171,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 113.22
+        "hoursSincePosted": 145.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -87,11 +61,11 @@
           "url": "https://github.com/tracewayapp/traceway",
           "by": "sebakubisz",
           "score": 171,
-          "descendants": 80,
+          "descendants": 82,
           "createdUtc": 1778483101,
-          "ageHours": 113.22,
-          "velocity": 1.51,
-          "trendingScore": 30.35,
+          "ageHours": 145.02,
+          "velocity": 1.18,
+          "trendingScore": 24.24,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -156,7 +130,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 82,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 130.6
+        "hoursSincePosted": 162.41
       },
       "everHitFrontPage": false,
       "stories": [
@@ -168,9 +142,9 @@
           "score": 82,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 130.6,
-          "velocity": 0.63,
-          "trendingScore": 4.1,
+          "ageHours": 162.41,
+          "velocity": 0.5,
+          "trendingScore": 3.25,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -387,27 +361,27 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "scoreSum7d": 6,
+      "scoreSum7d": 5,
       "topStory": {
-        "id": 48038119,
-        "title": "Claude Code with Bedrock broken again",
-        "score": 6,
-        "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 161.79
+        "id": 48162421,
+        "title": "CC: Anthropic API Error: 500 Internal Server Error",
+        "score": 5,
+        "url": "https://github.com/anthropics/claude-code/issues/59743",
+        "hoursSincePosted": 13.95
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48038119,
-          "title": "Claude Code with Bedrock broken again",
-          "url": "https://github.com/anthropics/claude-code/issues/56595",
-          "by": "evntdrvn",
-          "score": 6,
-          "descendants": 1,
-          "createdUtc": 1778084816,
-          "ageHours": 161.79,
-          "velocity": 0.04,
-          "trendingScore": 0.03,
+          "id": 48162421,
+          "title": "CC: Anthropic API Error: 500 Internal Server Error",
+          "url": "https://github.com/anthropics/claude-code/issues/59743",
+          "by": "brenoRibeiro706",
+          "score": 5,
+          "descendants": 2,
+          "createdUtc": 1778954958,
+          "ageHours": 13.95,
+          "velocity": 0.36,
+          "trendingScore": 0.3,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -488,6 +462,95 @@
         }
       ]
     },
+    "thesysdev/openui": {
+      "count7d": 3,
+      "scoreSum7d": 8,
+      "topStory": {
+        "id": 48153654,
+        "title": "OpenUI Ported to Assembly",
+        "score": 4,
+        "url": "https://github.com/thesysdev/openui/pull/517",
+        "hoursSincePosted": 35.23
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48153654,
+          "title": "OpenUI Ported to Assembly",
+          "url": "https://github.com/thesysdev/openui/pull/517",
+          "by": "BongoBattle",
+          "score": 4,
+          "descendants": 2,
+          "createdUtc": 1778878374,
+          "ageHours": 35.23,
+          "velocity": 0.11,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48158240,
+          "title": "Refactor: Unified codebase for better performance by vishxrad- Pull Request #517",
+          "url": "https://github.com/thesysdev/openui/pull/517",
+          "by": "thunderbong",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778921276,
+          "ageHours": 23.31,
+          "velocity": 0.09,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48131325,
+          "title": "A Streaming First Language for Generative UI",
+          "url": "https://github.com/thesysdev/openui",
+          "by": "ChicknNuggt",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778735467,
+          "ageHours": 74.92,
+          "velocity": 0.03,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "njbrake/agent-of-empires": {
       "count7d": 1,
       "scoreSum7d": 6,
@@ -496,7 +559,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 99.9
+        "hoursSincePosted": 131.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -508,9 +571,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 99.9,
-          "velocity": 0.06,
-          "trendingScore": 0.05,
+          "ageHours": 131.71,
+          "velocity": 0.05,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -575,7 +638,7 @@
         "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
         "score": 5,
         "url": "https://github.com/apernet/hysteria",
-        "hoursSincePosted": 64.43
+        "hoursSincePosted": 96.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -587,9 +650,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778658717,
-          "ageHours": 64.43,
-          "velocity": 0.08,
-          "trendingScore": 0.06,
+          "ageHours": 96.24,
+          "velocity": 0.05,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -638,70 +701,6 @@
           "linkedRepos": [
             {
               "fullName": "VectifyAI/OpenKB",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "thesysdev/openui": {
-      "count7d": 2,
-      "scoreSum7d": 4,
-      "topStory": {
-        "id": 48153654,
-        "title": "OpenUI Ported to Assembly",
-        "score": 2,
-        "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 3.42
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48153654,
-          "title": "OpenUI Ported to Assembly",
-          "url": "https://github.com/thesysdev/openui/pull/517",
-          "by": "BongoBattle",
-          "score": 2,
-          "descendants": 2,
-          "createdUtc": 1778878374,
-          "ageHours": 3.42,
-          "velocity": 0.59,
-          "trendingScore": 0.21,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "thesysdev/openui",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 48131325,
-          "title": "A Streaming First Language for Generative UI",
-          "url": "https://github.com/thesysdev/openui",
-          "by": "ChicknNuggt",
-          "score": 2,
-          "descendants": 1,
-          "createdUtc": 1778735467,
-          "ageHours": 43.11,
-          "velocity": 0.05,
-          "trendingScore": 0.02,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "thesysdev/openui",
               "matchType": "url",
               "confidence": 1
             }
@@ -834,7 +833,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 109.29
+        "hoursSincePosted": 141.1
       },
       "everHitFrontPage": false,
       "stories": [
@@ -846,8 +845,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 109.29,
-          "velocity": 0.04,
+          "ageHours": 141.1,
+          "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -990,7 +989,7 @@
         "title": "Open-source endpoint detection engine for Windows and Linux",
         "score": 3,
         "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 97.28
+        "hoursSincePosted": 129.08
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1002,8 +1001,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778540481,
-          "ageHours": 97.28,
-          "velocity": 0.03,
+          "ageHours": 129.08,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1022,42 +1021,17 @@
       ]
     },
     "vercel-labs/zero-native": {
-      "count7d": 2,
-      "scoreSum7d": 2,
+      "count7d": 1,
+      "scoreSum7d": 1,
       "topStory": {
-        "id": 48079458,
-        "title": "Build native desktop and mobile apps with web UI and Zig",
+        "id": 48089164,
+        "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 144.57
+        "hoursSincePosted": 152.75
       },
       "everHitFrontPage": false,
       "stories": [
-        {
-          "id": 48079458,
-          "title": "Build native desktop and mobile apps with web UI and Zig",
-          "url": "https://github.com/vercel-labs/zero-native",
-          "by": "kindkang2024",
-          "score": 1,
-          "descendants": 1,
-          "createdUtc": 1778370221,
-          "ageHours": 144.57,
-          "velocity": 0.01,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/zero-native",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "id": 48089164,
           "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
@@ -1066,7 +1040,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778455279,
-          "ageHours": 120.94,
+          "ageHours": 152.75,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1250,7 +1224,7 @@
         "title": "Everything Claude Code: performance optimization system for AI agent harnesses",
         "score": 2,
         "url": "https://github.com/affaan-m/everything-claude-code",
-        "hoursSincePosted": 52.28
+        "hoursSincePosted": 84.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1262,8 +1236,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778702473,
-          "ageHours": 52.28,
-          "velocity": 0.04,
+          "ageHours": 84.09,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1290,7 +1264,7 @@
         "title": "Tinyhumansai/openhuman: Your Personal AI super intelligence",
         "score": 2,
         "url": "https://github.com/tinyhumansai/openhuman",
-        "hoursSincePosted": 53.81
+        "hoursSincePosted": 85.62
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1302,8 +1276,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778696946,
-          "ageHours": 53.81,
-          "velocity": 0.04,
+          "ageHours": 85.62,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1329,7 +1303,7 @@
         "title": "AST-outline: AST-based code-navigation CLI",
         "score": 2,
         "url": "https://github.com/aeroxy/ast-outline",
-        "hoursSincePosted": 11.42
+        "hoursSincePosted": 43.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1341,9 +1315,9 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1778849550,
-          "ageHours": 11.42,
-          "velocity": 0.18,
-          "trendingScore": 0.06,
+          "ageHours": 43.23,
+          "velocity": 0.05,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1368,7 +1342,7 @@
         "title": "Floci: Light, fluffy, and always free – The AWS Local Emulator alternative",
         "score": 1,
         "url": "https://github.com/floci-io/floci",
-        "hoursSincePosted": 93.99
+        "hoursSincePosted": 125.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1380,7 +1354,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778552315,
-          "ageHours": 93.99,
+          "ageHours": 125.8,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1446,7 +1420,7 @@
         "title": "PAI Is a Life Operating System",
         "score": 1,
         "url": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
-        "hoursSincePosted": 80.78
+        "hoursSincePosted": 112.58
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1458,7 +1432,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778599881,
-          "ageHours": 80.78,
+          "ageHours": 112.58,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1485,7 +1459,7 @@
         "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
         "score": 1,
         "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
-        "hoursSincePosted": 37.57
+        "hoursSincePosted": 69.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1497,8 +1471,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778755438,
-          "ageHours": 37.57,
-          "velocity": 0.03,
+          "ageHours": 69.37,
+          "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1524,7 +1498,7 @@
         "title": "Write HTML. Render video. Built for agents",
         "score": 1,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 5.46
+        "hoursSincePosted": 37.27
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1536,8 +1510,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778871024,
-          "ageHours": 5.46,
-          "velocity": 0.18,
+          "ageHours": 37.27,
+          "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1554,47 +1528,257 @@
           ]
         }
       ]
-    }
-  },
-  "mentionsByRepoId": {
-    "nooga--let-go": {
-      "count7d": 2,
-      "scoreSum7d": 289,
+    },
+    "neilsonnn/image-blaster": {
+      "count7d": 1,
+      "scoreSum7d": 187,
       "topStory": {
-        "id": 48076815,
-        "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
-        "score": 284,
-        "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 150.43
+        "id": 48150069,
+        "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+        "score": 187,
+        "url": "https://github.com/neilsonnn/image-blaster",
+        "hoursSincePosted": 40.4
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48076815,
-          "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
-          "url": "https://github.com/nooga/let-go",
-          "by": "marcingas",
-          "score": 284,
-          "descendants": 85,
-          "createdUtc": 1778349133,
-          "ageHours": 150.43,
-          "velocity": 1.89,
-          "trendingScore": 44.05,
+          "id": 48150069,
+          "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+          "url": "https://github.com/neilsonnn/image-blaster",
+          "by": "MattRogish",
+          "score": 187,
+          "descendants": 38,
+          "createdUtc": 1778859757,
+          "ageHours": 40.4,
+          "velocity": 4.63,
+          "trendingScore": 50.49,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "neilsonnn/image-blaster",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ztc00/algora-scout": {
+      "count7d": 1,
+      "scoreSum7d": 34,
+      "topStory": {
+        "id": 48164229,
+        "title": "I tried to make Claude make me money on open-source bounties",
+        "score": 34,
+        "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+        "hoursSincePosted": 9.88
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48164229,
+          "title": "I tried to make Claude make me money on open-source bounties",
+          "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+          "by": "ztc00",
+          "score": 34,
+          "descendants": 22,
+          "createdUtc": 1778969634,
+          "ageHours": 9.88,
+          "velocity": 3.44,
+          "trendingScore": 16.86,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "ztc00/algora-scout",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "janosmiko/lfk": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 48149626,
+        "title": "Show HN: LFK – A Fast Kubernetes TUI",
+        "score": 6,
+        "url": "https://github.com/janosmiko/lfk",
+        "hoursSincePosted": 41.04
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48149626,
+          "title": "Show HN: LFK – A Fast Kubernetes TUI",
+          "url": "https://github.com/janosmiko/lfk",
+          "by": "baskInEminence",
+          "score": 6,
+          "descendants": 3,
+          "createdUtc": 1778857459,
+          "ageHours": 41.04,
+          "velocity": 0.15,
+          "trendingScore": 0.15,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
             "is-show-hn"
           ],
           "value_score": 3,
-          "storyText": "Let-go is a Clojure-like language (~90% compatible with JVM Clojure) written in pure Go. It ships as a ~10MB static binary and cold boots in ~7ms - that's about 50x faster than JVM and 3x faster than Babashka. It has decent throughput on algorithmic workloads - within ballpark of the GraalVM-backed sci. I started this project in 2021 as an elaborate practical joke: I wanted to have an excuse for writing Clojure while pretending to write Go. Jokes aside, it turned out to be pretty decent: it feel",
+          "storyText": "A lightweight, keyboard-driven Kubernetes TUI for exploring and managing clusters from terminal.",
           "linkedRepos": [
             {
-              "fullName": "nooga/let-go",
+              "fullName": "janosmiko/lfk",
               "matchType": "url",
               "confidence": 1
             }
           ]
-        },
+        }
+      ]
+    },
+    "byrongamatos/slopsmith": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48145498,
+        "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+        "score": 5,
+        "url": "https://github.com/byrongamatos/slopsmith",
+        "hoursSincePosted": 48.86
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48145498,
+          "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+          "url": "https://github.com/byrongamatos/slopsmith",
+          "by": "steveharing1",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1778829297,
+          "ageHours": 48.86,
+          "velocity": 0.1,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "byrongamatos/slopsmith",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "czlonkowski/n8n-mcp": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48158368,
+        "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+        "score": 2,
+        "url": "https://github.com/czlonkowski/n8n-mcp",
+        "hoursSincePosted": 22.94
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48158368,
+          "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "by": "steveharing1",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778922585,
+          "ageHours": 22.94,
+          "velocity": 0.09,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "czlonkowski/n8n-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NamtaoProductions/savepoint": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48143282,
+        "title": "Savepoint – A CLI for TDD",
+        "score": 2,
+        "url": "https://github.com/NamtaoProductions/savepoint",
+        "hoursSincePosted": 54.97
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48143282,
+          "title": "Savepoint – A CLI for TDD",
+          "url": "https://github.com/NamtaoProductions/savepoint",
+          "by": "rrvsh",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778807283,
+          "ageHours": 54.97,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NamtaoProductions/savepoint",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mentionsByRepoId": {
+    "nooga--let-go": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48124008,
+        "title": "Let-go is a Clojure dialect written in Go",
+        "score": 5,
+        "url": "https://github.com/nooga/let-go",
+        "hoursSincePosted": 87.73
+      },
+      "everHitFrontPage": false,
+      "stories": [
         {
           "id": 48124008,
           "title": "Let-go is a Clojure dialect written in Go",
@@ -1603,9 +1787,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778689347,
-          "ageHours": 55.93,
-          "velocity": 0.09,
-          "trendingScore": 0.06,
+          "ageHours": 87.73,
+          "velocity": 0.06,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1630,7 +1814,7 @@
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
         "score": 171,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 113.22
+        "hoursSincePosted": 145.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1640,11 +1824,11 @@
           "url": "https://github.com/tracewayapp/traceway",
           "by": "sebakubisz",
           "score": 171,
-          "descendants": 80,
+          "descendants": 82,
           "createdUtc": 1778483101,
-          "ageHours": 113.22,
-          "velocity": 1.51,
-          "trendingScore": 30.35,
+          "ageHours": 145.02,
+          "velocity": 1.18,
+          "trendingScore": 24.24,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1709,7 +1893,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 82,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 130.6
+        "hoursSincePosted": 162.41
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1721,9 +1905,9 @@
           "score": 82,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 130.6,
-          "velocity": 0.63,
-          "trendingScore": 4.1,
+          "ageHours": 162.41,
+          "velocity": 0.5,
+          "trendingScore": 3.25,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1940,27 +2124,27 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "scoreSum7d": 6,
+      "scoreSum7d": 5,
       "topStory": {
-        "id": 48038119,
-        "title": "Claude Code with Bedrock broken again",
-        "score": 6,
-        "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 161.79
+        "id": 48162421,
+        "title": "CC: Anthropic API Error: 500 Internal Server Error",
+        "score": 5,
+        "url": "https://github.com/anthropics/claude-code/issues/59743",
+        "hoursSincePosted": 13.95
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48038119,
-          "title": "Claude Code with Bedrock broken again",
-          "url": "https://github.com/anthropics/claude-code/issues/56595",
-          "by": "evntdrvn",
-          "score": 6,
-          "descendants": 1,
-          "createdUtc": 1778084816,
-          "ageHours": 161.79,
-          "velocity": 0.04,
-          "trendingScore": 0.03,
+          "id": 48162421,
+          "title": "CC: Anthropic API Error: 500 Internal Server Error",
+          "url": "https://github.com/anthropics/claude-code/issues/59743",
+          "by": "brenoRibeiro706",
+          "score": 5,
+          "descendants": 2,
+          "createdUtc": 1778954958,
+          "ageHours": 13.95,
+          "velocity": 0.36,
+          "trendingScore": 0.3,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2041,6 +2225,95 @@
         }
       ]
     },
+    "thesysdev--openui": {
+      "count7d": 3,
+      "scoreSum7d": 8,
+      "topStory": {
+        "id": 48153654,
+        "title": "OpenUI Ported to Assembly",
+        "score": 4,
+        "url": "https://github.com/thesysdev/openui/pull/517",
+        "hoursSincePosted": 35.23
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48153654,
+          "title": "OpenUI Ported to Assembly",
+          "url": "https://github.com/thesysdev/openui/pull/517",
+          "by": "BongoBattle",
+          "score": 4,
+          "descendants": 2,
+          "createdUtc": 1778878374,
+          "ageHours": 35.23,
+          "velocity": 0.11,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48158240,
+          "title": "Refactor: Unified codebase for better performance by vishxrad- Pull Request #517",
+          "url": "https://github.com/thesysdev/openui/pull/517",
+          "by": "thunderbong",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778921276,
+          "ageHours": 23.31,
+          "velocity": 0.09,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48131325,
+          "title": "A Streaming First Language for Generative UI",
+          "url": "https://github.com/thesysdev/openui",
+          "by": "ChicknNuggt",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778735467,
+          "ageHours": 74.92,
+          "velocity": 0.03,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "njbrake--agent-of-empires": {
       "count7d": 1,
       "scoreSum7d": 6,
@@ -2049,7 +2322,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 99.9
+        "hoursSincePosted": 131.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2061,9 +2334,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 99.9,
-          "velocity": 0.06,
-          "trendingScore": 0.05,
+          "ageHours": 131.71,
+          "velocity": 0.05,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2128,7 +2401,7 @@
         "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
         "score": 5,
         "url": "https://github.com/apernet/hysteria",
-        "hoursSincePosted": 64.43
+        "hoursSincePosted": 96.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2140,9 +2413,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778658717,
-          "ageHours": 64.43,
-          "velocity": 0.08,
-          "trendingScore": 0.06,
+          "ageHours": 96.24,
+          "velocity": 0.05,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2191,70 +2464,6 @@
           "linkedRepos": [
             {
               "fullName": "VectifyAI/OpenKB",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "thesysdev--openui": {
-      "count7d": 2,
-      "scoreSum7d": 4,
-      "topStory": {
-        "id": 48153654,
-        "title": "OpenUI Ported to Assembly",
-        "score": 2,
-        "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 3.42
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48153654,
-          "title": "OpenUI Ported to Assembly",
-          "url": "https://github.com/thesysdev/openui/pull/517",
-          "by": "BongoBattle",
-          "score": 2,
-          "descendants": 2,
-          "createdUtc": 1778878374,
-          "ageHours": 3.42,
-          "velocity": 0.59,
-          "trendingScore": 0.21,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "thesysdev/openui",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 48131325,
-          "title": "A Streaming First Language for Generative UI",
-          "url": "https://github.com/thesysdev/openui",
-          "by": "ChicknNuggt",
-          "score": 2,
-          "descendants": 1,
-          "createdUtc": 1778735467,
-          "ageHours": 43.11,
-          "velocity": 0.05,
-          "trendingScore": 0.02,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "thesysdev/openui",
               "matchType": "url",
               "confidence": 1
             }
@@ -2387,7 +2596,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 109.29
+        "hoursSincePosted": 141.1
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2399,8 +2608,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 109.29,
-          "velocity": 0.04,
+          "ageHours": 141.1,
+          "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2543,7 +2752,7 @@
         "title": "Open-source endpoint detection engine for Windows and Linux",
         "score": 3,
         "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 97.28
+        "hoursSincePosted": 129.08
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2555,8 +2764,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778540481,
-          "ageHours": 97.28,
-          "velocity": 0.03,
+          "ageHours": 129.08,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2575,42 +2784,17 @@
       ]
     },
     "vercel-labs--zero-native": {
-      "count7d": 2,
-      "scoreSum7d": 2,
+      "count7d": 1,
+      "scoreSum7d": 1,
       "topStory": {
-        "id": 48079458,
-        "title": "Build native desktop and mobile apps with web UI and Zig",
+        "id": 48089164,
+        "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 144.57
+        "hoursSincePosted": 152.75
       },
       "everHitFrontPage": false,
       "stories": [
-        {
-          "id": 48079458,
-          "title": "Build native desktop and mobile apps with web UI and Zig",
-          "url": "https://github.com/vercel-labs/zero-native",
-          "by": "kindkang2024",
-          "score": 1,
-          "descendants": 1,
-          "createdUtc": 1778370221,
-          "ageHours": 144.57,
-          "velocity": 0.01,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/zero-native",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "id": 48089164,
           "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
@@ -2619,7 +2803,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778455279,
-          "ageHours": 120.94,
+          "ageHours": 152.75,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2803,7 +2987,7 @@
         "title": "Everything Claude Code: performance optimization system for AI agent harnesses",
         "score": 2,
         "url": "https://github.com/affaan-m/everything-claude-code",
-        "hoursSincePosted": 52.28
+        "hoursSincePosted": 84.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2815,8 +2999,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778702473,
-          "ageHours": 52.28,
-          "velocity": 0.04,
+          "ageHours": 84.09,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2843,7 +3027,7 @@
         "title": "Tinyhumansai/openhuman: Your Personal AI super intelligence",
         "score": 2,
         "url": "https://github.com/tinyhumansai/openhuman",
-        "hoursSincePosted": 53.81
+        "hoursSincePosted": 85.62
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2855,8 +3039,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778696946,
-          "ageHours": 53.81,
-          "velocity": 0.04,
+          "ageHours": 85.62,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2882,7 +3066,7 @@
         "title": "AST-outline: AST-based code-navigation CLI",
         "score": 2,
         "url": "https://github.com/aeroxy/ast-outline",
-        "hoursSincePosted": 11.42
+        "hoursSincePosted": 43.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2894,9 +3078,9 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1778849550,
-          "ageHours": 11.42,
-          "velocity": 0.18,
-          "trendingScore": 0.06,
+          "ageHours": 43.23,
+          "velocity": 0.05,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2921,7 +3105,7 @@
         "title": "Floci: Light, fluffy, and always free – The AWS Local Emulator alternative",
         "score": 1,
         "url": "https://github.com/floci-io/floci",
-        "hoursSincePosted": 93.99
+        "hoursSincePosted": 125.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2933,7 +3117,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778552315,
-          "ageHours": 93.99,
+          "ageHours": 125.8,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2999,7 +3183,7 @@
         "title": "PAI Is a Life Operating System",
         "score": 1,
         "url": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
-        "hoursSincePosted": 80.78
+        "hoursSincePosted": 112.58
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3011,7 +3195,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778599881,
-          "ageHours": 80.78,
+          "ageHours": 112.58,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -3038,7 +3222,7 @@
         "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
         "score": 1,
         "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
-        "hoursSincePosted": 37.57
+        "hoursSincePosted": 69.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3050,8 +3234,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778755438,
-          "ageHours": 37.57,
-          "velocity": 0.03,
+          "ageHours": 69.37,
+          "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -3077,7 +3261,7 @@
         "title": "Write HTML. Render video. Built for agents",
         "score": 1,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 5.46
+        "hoursSincePosted": 37.27
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3089,8 +3273,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778871024,
-          "ageHours": 5.46,
-          "velocity": 0.18,
+          "ageHours": 37.27,
+          "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -3107,6 +3291,242 @@
           ]
         }
       ]
+    },
+    "neilsonnn--image-blaster": {
+      "count7d": 1,
+      "scoreSum7d": 187,
+      "topStory": {
+        "id": 48150069,
+        "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+        "score": 187,
+        "url": "https://github.com/neilsonnn/image-blaster",
+        "hoursSincePosted": 40.4
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48150069,
+          "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+          "url": "https://github.com/neilsonnn/image-blaster",
+          "by": "MattRogish",
+          "score": 187,
+          "descendants": 38,
+          "createdUtc": 1778859757,
+          "ageHours": 40.4,
+          "velocity": 4.63,
+          "trendingScore": 50.49,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "neilsonnn/image-blaster",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ztc00--algora-scout": {
+      "count7d": 1,
+      "scoreSum7d": 34,
+      "topStory": {
+        "id": 48164229,
+        "title": "I tried to make Claude make me money on open-source bounties",
+        "score": 34,
+        "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+        "hoursSincePosted": 9.88
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48164229,
+          "title": "I tried to make Claude make me money on open-source bounties",
+          "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+          "by": "ztc00",
+          "score": 34,
+          "descendants": 22,
+          "createdUtc": 1778969634,
+          "ageHours": 9.88,
+          "velocity": 3.44,
+          "trendingScore": 16.86,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "ztc00/algora-scout",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "janosmiko--lfk": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 48149626,
+        "title": "Show HN: LFK – A Fast Kubernetes TUI",
+        "score": 6,
+        "url": "https://github.com/janosmiko/lfk",
+        "hoursSincePosted": 41.04
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48149626,
+          "title": "Show HN: LFK – A Fast Kubernetes TUI",
+          "url": "https://github.com/janosmiko/lfk",
+          "by": "baskInEminence",
+          "score": 6,
+          "descendants": 3,
+          "createdUtc": 1778857459,
+          "ageHours": 41.04,
+          "velocity": 0.15,
+          "trendingScore": 0.15,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "A lightweight, keyboard-driven Kubernetes TUI for exploring and managing clusters from terminal.",
+          "linkedRepos": [
+            {
+              "fullName": "janosmiko/lfk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "byrongamatos--slopsmith": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48145498,
+        "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+        "score": 5,
+        "url": "https://github.com/byrongamatos/slopsmith",
+        "hoursSincePosted": 48.86
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48145498,
+          "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+          "url": "https://github.com/byrongamatos/slopsmith",
+          "by": "steveharing1",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1778829297,
+          "ageHours": 48.86,
+          "velocity": 0.1,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "byrongamatos/slopsmith",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "czlonkowski--n8n-mcp": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48158368,
+        "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+        "score": 2,
+        "url": "https://github.com/czlonkowski/n8n-mcp",
+        "hoursSincePosted": 22.94
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48158368,
+          "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "by": "steveharing1",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778922585,
+          "ageHours": 22.94,
+          "velocity": 0.09,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "czlonkowski/n8n-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "namtaoproductions--savepoint": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48143282,
+        "title": "Savepoint – A CLI for TDD",
+        "score": 2,
+        "url": "https://github.com/NamtaoProductions/savepoint",
+        "hoursSincePosted": 54.97
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48143282,
+          "title": "Savepoint – A CLI for TDD",
+          "url": "https://github.com/NamtaoProductions/savepoint",
+          "by": "rrvsh",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778807283,
+          "ageHours": 54.97,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NamtaoProductions/savepoint",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -3114,6 +3534,11 @@
       "fullName": "nooga/let-go",
       "count7d": 3,
       "scoreSum7d": 291
+    },
+    {
+      "fullName": "neilsonnn/image-blaster",
+      "count7d": 1,
+      "scoreSum7d": 187
     },
     {
       "fullName": "tracewayapp/traceway",
@@ -3151,6 +3576,11 @@
       "scoreSum7d": 40
     },
     {
+      "fullName": "ztc00/algora-scout",
+      "count7d": 1,
+      "scoreSum7d": 34
+    },
+    {
       "fullName": "Nightmare-Eclipse/YellowKey",
       "count7d": 1,
       "scoreSum7d": 29
@@ -3166,7 +3596,17 @@
       "scoreSum7d": 14
     },
     {
+      "fullName": "thesysdev/openui",
+      "count7d": 3,
+      "scoreSum7d": 8
+    },
+    {
       "fullName": "njbrake/agent-of-empires",
+      "count7d": 1,
+      "scoreSum7d": 6
+    },
+    {
+      "fullName": "janosmiko/lfk",
       "count7d": 1,
       "scoreSum7d": 6
     },
@@ -3181,12 +3621,12 @@
       "scoreSum7d": 5
     },
     {
-      "fullName": "VectifyAI/OpenKB",
-      "count7d": 2,
-      "scoreSum7d": 4
+      "fullName": "byrongamatos/slopsmith",
+      "count7d": 1,
+      "scoreSum7d": 5
     },
     {
-      "fullName": "thesysdev/openui",
+      "fullName": "VectifyAI/OpenKB",
       "count7d": 2,
       "scoreSum7d": 4
     },
@@ -3267,6 +3707,16 @@
     },
     {
       "fullName": "aeroxy/ast-outline",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "czlonkowski/n8n-mcp",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "NamtaoProductions/savepoint",
       "count7d": 1,
       "scoreSum7d": 2
     },

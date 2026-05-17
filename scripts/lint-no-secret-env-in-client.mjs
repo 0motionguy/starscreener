@@ -28,11 +28,15 @@ function walk(dir) {
     }
     if (!/\.(ts|tsx|js|jsx|mjs|cjs)$/.test(entry)) continue;
     const body = readFileSync(full, "utf8");
-    // Quick skip: file must have "use client" directive on its first
-    // non-blank line (Next.js requirement). We accept either quote style.
+    // Quick skip: file must have "use client" directive as its first
+    // non-comment content (Next.js allows leading single-line + block
+    // comments before the directive). We accept either quote style.
+    const stripped = body
+      .replace(/^\s+/, "") // leading whitespace
+      .replace(/^(\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)+/, ""); // leading comments (single + block)
     if (
-      !/^[\s\n]*"use client"/.test(body) &&
-      !/^[\s\n]*'use client'/.test(body)
+      !stripped.startsWith('"use client"') &&
+      !stripped.startsWith("'use client'")
     )
       continue;
     const matches = body.matchAll(/process\.env\.([A-Z_][A-Z0-9_]*)/g);

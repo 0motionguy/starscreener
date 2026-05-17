@@ -194,6 +194,68 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Baseline security headers applied to every route. HSTS is deliberately
+  // omitted here — it is delivered by Vercel's platform layer for the
+  // trendingrepo.com apex, and re-asserting it from the app would risk a
+  // weaker `max-age` if this file drifted ahead of platform defaults. The
+  // existing Cache-Control headers on ISR routes are also untouched; only
+  // additive policy headers are listed below.
+  //
+  // CSP allowlist rationale:
+  //   - script-src: `'unsafe-inline'` covers the inline pre-paint bootstrap
+  //     and storage-migration shims in `src/app/layout.tsx`. `'unsafe-eval'`
+  //     is needed by a small subset of dynamic-import vendors (ECharts
+  //     option compilation, recharts in dev). `*.clerk.dev` /  `*.clerk.com`
+  //     ship the SignIn/SignUp widget assets; Clerk loads Cloudflare
+  //     Turnstile inline as a bot challenge, hence `challenges.cloudflare.com`.
+  //     `*.vercel-analytics.com` is allow-listed proactively so we can opt in
+  //     to Vercel Analytics later without another CSP roll.
+  //   - connect-src: `https:` covers PostHog (us.i.posthog.com), Sentry
+  //     (which actually tunnels through our same-origin /api/_sentry-tunnel
+  //     so this is belt-and-braces), and the various JSON APIs the client
+  //     hits. `wss:` covers any future websocket transport (none active
+  //     today). `data:` is needed for blob-source EventStreams used by
+  //     the markdown renderer.
+  //   - frame-src: Clerk SignIn renders Turnstile inside an iframe served
+  //     from `challenges.cloudflare.com`; without it the bot challenge fails
+  //     to load and signups stall. Clerk hosted pages (`*.clerk.com`,
+  //     `*.clerk.dev`) embed account-management surfaces.
+  //   - img-src: `https:` + `data:` + `blob:` covers GitHub/Twitter/PH
+  //     avatars (already enumerated in `images.remotePatterns`), data-URI
+  //     SVG icons, and `URL.createObjectURL()` previews.
+  //   - frame-ancestors 'none' is the X-Frame-Options DENY equivalent; both
+  //     are emitted because some scanners only check the legacy header.
+  async headers() {
+    const csp = [
+      "default-src 'self'",
+      "img-src 'self' data: https: blob:",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://challenges.cloudflare.com https://*.vercel-analytics.com",
+      "style-src 'self' 'unsafe-inline'",
+      "font-src 'self' data:",
+      "connect-src 'self' https: wss: data:",
+      "frame-src 'self' https://*.clerk.dev https://*.clerk.com https://challenges.cloudflare.com",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self' https://*.clerk.dev https://*.clerk.com",
+    ].join("; ");
+
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value:
+              "geolocation=(), microphone=(), camera=(), interest-cohort=()",
+          },
+          { key: "Content-Security-Policy", value: csp },
+        ],
+      },
+    ];
+  },
 };
 
 // Sentry wrap — outermost so source-map upload + auto-instrumentation

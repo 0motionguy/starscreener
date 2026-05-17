@@ -1,14 +1,23 @@
+# 2026-05-17: switched from every-3h to 3x/day per operator. Free-providers-only
+# (nitter); xcancel.com removed from rotation in config/nitter-instances.json
+# because the circuit breaker stays chronically open. See docs/POLICY-NO-APIFY.md
+# for the broader "no Apify" stance. Cadence + batch sizing chosen so the
+# collector can finish each run before the 90-minute job timeout fires:
+# 50 repos × 4 queries × ~10s nitter latency ≈ 33 min wall-clock with buffer.
+# Previous every-3h × 10 repos pattern routinely timed out at 30 min (see
+# run 25983611341) which prevented `writeSourceMeta()` from running and left
+# twitter.json stale at `ts: 2026-05-04` for 13 consecutive days.
 name: Collect Twitter Signals
 
 on:
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "23 4,12,20 * * *"
   workflow_dispatch:
     inputs:
       limit:
         description: "Number of repos to scan"
         required: false
-        default: "10"
+        default: "50"
       mode:
         description: "Collector mode (api or direct)"
         required: false
@@ -41,7 +50,11 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 2026-05-17: raised from 30 → 90 to match the 3x/day × 50-repo batch.
+    # 50 repos × 4 queries × ~10s nitter latency ≈ 33 min, +commit pipeline
+    # + fallback retry budget. 30 min was killing the job mid-collect (run
+    # 25983611341).
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2

@@ -173,6 +173,34 @@ describe('advisory side-channel fetchers', () => {
     });
   });
 
+  it('npm-dependents publishes an empty aggregate when the roster has no npm package coordinates', async () => {
+    process.env.NODE_ENV = 'test';
+    delete process.env.LIBRARIES_IO_API_KEY;
+    seedPayload('trending-mcp', {
+      items: [
+        {
+          slug: 'smithery-only',
+          url: 'https://smithery.invalid/example',
+          raw: { sources: ['smithery'] },
+        },
+      ],
+    });
+
+    const { default: fetcher } = await import('../../src/fetchers/npm-dependents/index.js');
+    const result = await fetcher.run(makeContext());
+
+    expect(result.redisPublished).toBe(true);
+    expect(result.itemsSeen).toBe(1);
+    expect(result.metricsWritten).toBe(0);
+    expect(mockState.fetchJsonWithRetry).not.toHaveBeenCalled();
+    expect(readPayload('mcp-dependents')).toMatchObject({
+      summary: {},
+      counts: { roster: 1, npmPackages: 0, ok: 0, failed: 0, cacheHit: 0 },
+      status: 'empty',
+      reason: 'no_npm_packages',
+    });
+  });
+
   it('mcp-smithery-rank uses anonymous Smithery reads when the key is missing', async () => {
     process.env.NODE_ENV = 'test';
     delete process.env.SMITHERY_API_KEY;

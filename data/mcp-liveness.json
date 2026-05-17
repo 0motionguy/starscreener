@@ -1,11 +1,19 @@
 {
-  "fetchedAt": "2026-05-17T04:44:08.314Z",
+  "fetchedAt": "2026-05-17T08:56:34.750Z",
   "summary": {
     "ethanhenrickson/math-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
     "polymarket/polymarket-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "gantta/gantta-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "googlesheets": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -17,47 +25,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "googlesheets": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "gantta/gantta-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "aryankeluskar/polymarket-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "linkupplatform/linkup-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "gmail": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "martin111ma-za5d/swiss-truth-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hamid-vakilzadeh/mcpsemanticscholar": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "agentmail": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "deniselewis200081/rail": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "gvzq/flight-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "rashforddamion/rivalsearch": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -65,7 +33,23 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "adamamer20/paper-search-mcp-openai": {
+    "martin111ma-za5d/swiss-truth-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "rashforddamion/rivalsearch": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "deniselewis200081/rail": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hamid-vakilzadeh/mcpsemanticscholar": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "aryankeluskar/polymarket-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -73,7 +57,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "blockscout/mcp-server": {
+    "standardaccounting/public-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -81,19 +65,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "oevortex/ddg_search": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "standardaccounting/public-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "titansneaker/paper-search-mcp-openai-v2": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "bh-rat/context-awesome": {
+    "agentmail": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -101,7 +73,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "linkupplatform/linkup-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "settlegrid/settlegrid-discovery": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "gvzq/flight-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -109,11 +89,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "clay-inc/clay-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "upstash/context7-mcp": {
+    "zwldarren/akshare-one-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -121,7 +97,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "brave": {
+    "bh-rat/context-awesome": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -129,19 +105,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "cloud101.kr/cloud101kr": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "quantoracle/quantoracle": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "enji/ai-marketing-agent": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "bitpoort/on-chain-data": {
+    "adamamer20/paper-search-mcp-openai": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -149,59 +117,35 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "strale-io/strale": {
+    "brave": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "isdaniel/mcp_weather_server": {
+    "cloud101.kr/cloud101kr": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "linxule/mcp-music-studio": {
+    "upstash/context7-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "hjsh200219/fortuneteller": {
+    "titansneaker/paper-search-mcp-openai-v2": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "slack": {
+    "clay-inc/clay-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "supabase": {
+    "hugeicons/mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "info-g03l/catalunya-2022": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "pinkpixel-dev/web-scout-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "do-droid/seoul-essentials": {
+    "bitpoort/on-chain-data": {
       "isStdio": true,
       "livenessInferred": true
     },
     "senzing/entity-resolution": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "aguskenari86-8bo7/cryptoiz-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ciprianpater/srv-d7aoqmh5pdvs7391dcqg": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "antvis/mcp-server-chart": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "octomil/octomil": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -213,19 +157,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "arjunkmrm/grep": {
+    "linxule/mcp-music-studio": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "tbakerx/instant-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "instagram": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "theconstructionstandard/the-construction-standard": {
+    "blockscout/mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -233,15 +169,59 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "do-droid/seoul-essentials": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ciprianpater/srv-d7aoqmh5pdvs7391dcqg": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "antvis/mcp-server-chart": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hjsh200219/fortuneteller": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "supabase": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "theconstructionstandard/the-construction-standard": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "isdaniel/mcp_weather_server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "enji/ai-marketing-agent": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "minitim222/harvard-mit-course-recommendation": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ucpchecker/ucp-checker": {
+    "aguskenari86-8bo7/cryptoiz-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "hellokitty-v/smithery-mcp-servers": {
+    "octomil/octomil": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "info-g03l/catalunya-2022": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "slack": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "waldzellai/clear-thought": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -249,7 +229,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "zwldarren/akshare-one-mcp": {
+    "davidcho/ca-building-code-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -257,27 +237,19 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "oevortex/ddg_search": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "alexandria-shai-eden/caselaw": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "googledrive": {
+    "instagram": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "kwp-lab/rss-reader-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "agonzalez/prueba-mcp-seeker": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "linxule/lotus-wisdom-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "seahbk1006/seahboonkeong-chat-opendosm": {
+    "strale-io/strale": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -285,19 +257,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "code-rabi/littlesis-mcp": {
+    "googledrive": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "chuhuoyuan/cloudflare": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "spyfree/mingli-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "artvepa80/hefestoai": {
+    "hellokitty-v/smithery-mcp-servers": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -305,7 +269,71 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "faresyoussef94/aws-knowledge-mcp": {
+    "tbakerx/instant-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "code-rabi/littlesis-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ucpchecker/ucp-checker": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "labsofuniverse/legacy-mcp-analyzer": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "modellix/modellix-docs": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jon-ag46/troystack": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "linxule/lotus-wisdom-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "artvepa80/hefestoai": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "maximumsats/maximumsats": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "chuhuoyuan/cloudflare": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "arizeai/docs": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "integsec/turbopentest": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "agonzalez/prueba-mcp-seeker": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jarvis-stark1985/superhero-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "janmacher02-xl8y/czech-vat-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "strale/agent-tools": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "glassnode/glassnode-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -317,67 +345,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "bartek-ywte/gaproll": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jon-ag46/troystack": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "modellix/modellix-docs": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "waldzellai/clear-thought": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "nekzus/npm-sentinel-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "maximumsats/maximumsats": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "smithery-ai/national-weather-service": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "integsec/turbopentest": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jarvis-stark1985/superhero-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "exaltedtrou6/b24-mcp-dev": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "sfiorini/youtube-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "janmacher02-xl8y/czech-vat-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "arizeai/docs": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "labsofuniverse/legacy-mcp-analyzer": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "nexgendata-apify/developer-tools-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "strale/agent-tools": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -385,35 +353,43 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "namewhisper/ens-tools": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ai-research/airesearchass": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "bartek-ywte/gaproll": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jina": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "sfiorini/youtube-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "nexgendata-apify/developer-tools-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "spyfree/mingli-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "parallel/search": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "gamzadongza/danbooru-tags-mcp": {
+    "pinkpixel-dev/web-scout-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "agentidx/agentcrawl": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "glassnode/glassnode-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "davidcho/ca-building-code-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jacksmith3888/wuwa-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "agentidx/zarq-risk": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "namewhisper/ens-tools": {
+    "blake365/macrostrat-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -421,7 +397,55 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "synthetic-ci/vibe-marketing": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "bopmarket/marketplace": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "linell/grimoire-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "smithery-ai/national-weather-service": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "seahbk1006/seahboonkeong-chat-opendosm": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "arjunkmrm/grep": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "contrastcyber/contrastapi": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jacksmith3888/wuwa-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "faresyoussef94/aws-knowledge-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "googletasks": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "kwp-lab/rss-reader-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "agentidx/zarq-risk": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "kkjdaniel/bgg-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -429,15 +453,27 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "onetrip/pulse": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "gamzadongza/danbooru-tags-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "johnanleitner1/last_minute_deals_hq": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "rubenayla/partle": {
+    "wtf-just-happened/stock-moves-explained": {
       "isStdio": true,
       "livenessInferred": true
     },
     "king-of-the-grackles/discourse-forum-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "tavily": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -449,23 +485,23 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "hirofumitorato/japan-ani-search-mcp": {
+    "node2flow/binance": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "suseendar1414/auditsnap": {
+    "exaltedtrou6/b24-mcp-dev": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "greetwell/travel": {
+    "agentidx/agentcrawl": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "aitutor3/calculator-mcp-test": {
+    "googlesuper": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "sgroy10/speclock": {
+    "rubenayla/partle": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -473,31 +509,35 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "sgroy10/speclock": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "suseendar1414/auditsnap": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "dmasdfg8/test": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "fibonex/mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "agentpact/marketplace": {
+    "jobly/jobly-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "gigachadtrey/websimm": {
+    "aitutor3/calculator-mcp-test": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "agentwings/exa-mcp-server": {
+    "hirofumitorato/japan-ani-search-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "santiago.blanco.vilchez/la-final": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "seahbk1006/seahboonkeong-chat-bnmapi": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "cuthongthai/vimo-financial-intelligence": {
+    "cyberweasel777/botindex-mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -505,7 +545,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "jobly/jobly-mcp": {
+    "ing-christopherleon/preciomx": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -521,31 +561,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "hoklims/stacksfinder-mcp": {
+    "agentpact/marketplace": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ing-christopherleon/preciomx": {
+    "santiago.blanco.vilchez/la-final": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "aparajithn/agent-utils": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "santiago.blanco.vilchez/aaa": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "metavolve-labs/intelligence-aeternum": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ragalgo/ragalgo-mcp-server-v1": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "linell/grimoire-mcp": {
+    "greetwell/travel": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -553,19 +577,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "howard-eridani/spark": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "mcp-foundry/real-estate": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "koreafintech/korean-crypto-mcp": {
+    "santiago.blanco.vilchez/aaa": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "coupang-mcp/coupang": {
+    "fruitflies/connect": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -573,7 +593,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "ateam-ai/ateam": {
+    "howard-eridani/spark": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "kennyckk/mcp_hkbus": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -585,23 +609,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "jalpp/chessagine": {
+    "seahbk1006/seahboonkeong-chat-bnmapi": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "actiongate/actiongate": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "cyberweasel777/botindex-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "aparajithn/agent-utils-mcp-new": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "christos/eoa-intermediaries": {
+    "gigachadtrey/websimm": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -609,7 +621,27 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "cuthongthai/vimo-financial-intelligence": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "aparajithn/agent-utils": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "christos/eoa-intermediaries": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "coupang-mcp/coupang": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "slookisen/lokal-norsk-matfinner": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "actiongate/actiongate": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -617,19 +649,19 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "securelend/financial-services": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "aws/docs": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "nexgendata-apify/sports-mcp-server": {
+    "metavolve-labs/intelligence-aeternum": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "garfield-bb/hap_paas2025": {
+    "agentwings/exa-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jalpp/chessagine": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -637,115 +669,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "ren89752/aidroid": {
+    "ateam-ai/ateam": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "lenderwiki/lending-data": {
+    "ragalgo/ragalgo-mcp-server-v1": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "aigen/defi-data": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "moltrust/moltrust-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "aitutor3/icn-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dhanyyudi/bmkg-id": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "santiago.blanco.vilchez/aaav": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "rdassignies/openlegi": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "arjunkmrm/devin": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "composio/context7": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mavengence/ustidnr-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dmasdfg8/test": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "info-kk33/askmia_app": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "securityscan-api/securityscan": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "eliekfouri-g8h8/studio76": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "alperenkocyigit/authorprofilemcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "putput-io/putput-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "boysam2/aidroid": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ckbk/subwayinfo-nyc": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "santiago.blanco.vilchez/cpa-esteban": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "santiago.blanco.vilchez/santiago-cpa": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "intake-triage/steadyfetch": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "wishfinity/add-wish": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "santiago.blanco.vilchez/asd": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "janwilmake/x-search-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "compress-new/compress-tokens": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "rahular101/test-101": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "apteka-health/apteka-cis": {
+    "hoklims/stacksfinder-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -753,15 +685,43 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "safeagent/token-safety": {
+    "nexgendata-apify/sports-mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "petrsovadina/sukl-mcp": {
+    "travisanthonygerber/grid": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "kongyo2/zod": {
+    "koreafintech/korean-crypto-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "arabimaak/gulf-arabic": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "icons8community/icons8mpc": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "aparajithn/agent-utils-mcp-new": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "plith/plith": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "info-kk33/askmia_app": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "frazierlee/onesocial": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "securelend/financial-services": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -769,23 +729,87 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "symdex-100/symdex": {
+    "aigen/defi-data": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "sidearmdrm/sidearm": {
+    "lenderwiki/lending-data": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "checkra1neth/xbirdmcp": {
+    "getkin/agent-infrastructure": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "hegetiby-jwao/woocommerce-mcp-hegetiby": {
+    "mcpdotdirect/starknet-mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "preetrajdeo/autoapply-mcp": {
+    "forage-shopping/forage-shopping": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "moltrust/moltrust-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "saju-from-seoul/saju": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "secureship/docs": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "rdassignies/openlegi": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "mavengence/ustidnr-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "xiaobenyang-com/rfc-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ren89752/aidroid": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "smithery-ai/fetch": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "eren-solutions/report-needs": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "garfield-bb/hap_paas2025": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "reitsmasieto-wq/overcome-stress": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "securityscan-api/securityscan": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "petabloom/podcasts": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "infobip-mcp/search": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hithereiamaliff/mcp-keywords-everywhere": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "invarium-ai/invarium": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -793,7 +817,211 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "composio/context7": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "eliekfouri-g8h8/studio76": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "rabqatab/lexlink-ko-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "dhanyyudi/bmkg-id": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "aryankeluskar/canvas-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "coachsync/barbell-tools": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "imhiroki/toolrank": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "lightpaper/lightpaper": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "chirag127/clear-thought-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "santiago.blanco.vilchez/aaav": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "alperenkocyigit/authorprofilemcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "aitutor3/icn-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "arjunkmrm/devin": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "a7om/atom-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "dante-r-g36u/onehq-comissions-calculator": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ckbk/subwayinfo-nyc": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "intake-triage/steadyfetch": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "geobio/context7": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "wishfinity/add-wish": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "iclickfreedownloads/mcp-server-airbnb": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "voidly/mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "boysam2/aidroid": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "compress-new/compress-tokens": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "santiago.blanco.vilchez/santiago-cpa": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "rahular101/test-101": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "putput-io/putput-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "santiago.blanco.vilchez/cpa-esteban": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "sallvainian/ngss-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "safeagent/token-safety": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "janwilmake/x-search-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "santiago.blanco.vilchez/asd": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "nicks-brn/promptscan": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "plainyogurt21/clintrials-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "checkra1neth/xbirdmcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "atars-mcp/aarnaai": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "apteka-health/apteka-cis": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "petrsovadina/sukl-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "sidearmdrm/sidearm": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "kongyo2/zod": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "symdex-100/symdex": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hegetiby-jwao/woocommerce-mcp-hegetiby": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ebenova/legal-docs": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ahmed2real/thinkzone": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "preetrajdeo/autoapply-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "info-ybpr/gantta-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jl-3044/agentndx": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "flrngel/mcp-painter": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "mrodasensio/aicol": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "lochmueller/muell-io": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hashirsiddiqui15/ami-bookstore-mcp-h": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "iamalexander/readwise-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jan-krat-kj4q/tulugar-real-estate": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -805,7 +1033,23 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "mrodasensio/aicol": {
+    "labelhead/artist-momentum": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "devbrother2024/my-mcp-server-250925": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "koumoul/ademe-opendata": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "nponette/sucesio-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "peerpush/peerpush_mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -813,11 +1057,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "labelhead/artist-momentum": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "xjtlumedia/x23": {
+    "alex-kenny-lee-vfjv/panko-food-safety": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -829,11 +1069,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "lochmueller/muell-io": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ahmed2real/thinkzone": {
+    "xjtlumedia/x23": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -845,11 +1081,19 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "thierrythevenet/talao": {
+    "wangtsiao/pulse-cn-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
     "gaopengbin/cesium-mcp-runtime": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "demomagic/lucy-apro": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "thierrythevenet/talao": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -861,23 +1105,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "peek": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "mshekow/package-version-check-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "fcfrasca/agent-canvas-arena": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "khromov/svelte-llm-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "wzrd/attention-oracle": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ebenova/legal-docs": {
+    "algovault/crypto-quant-signal-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -885,7 +1121,35 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "mgao/jobdatalake": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "fcfrasca/agent-canvas-arena": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "wzrd/attention-oracle": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "scott-noa4/pricepilot": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "nefesh-ai/human-state": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "khromov/svelte-llm-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "science/mcp-atomictoolkit": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "vdineshk/sg-gst-calculator-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -897,7 +1161,23 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "kuibin-dev/hsk-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "waleed-2002/prompt-enhancer": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "vdineshk/sg-cpf-calculator-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "saurabhsharma2u/call-for-papers": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "refetch/web": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -905,19 +1185,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "jan-krat-kj4q/tulugar-real-estate": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "alex-kenny-lee-vfjv/panko-food-safety": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "wcsdproducer/employee-zero": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hashirsiddiqui15/ami-bookstore-mcp-h": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -925,11 +1193,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "kvz/transloadit-mcp-server": {
+    "nicholasemccormick/meetsync-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "wangtsiao/pulse-cn-mcp": {
+    "kvz/transloadit-mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -937,7 +1205,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "exploreaisb/aivsf": {
+    "achilles-safehavencalls/pentagonal": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -945,7 +1213,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "nefesh-ai/human-state": {
+    "exploreaisb/aivsf": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "oilandgas/basinvault": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "toreva/toreva": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -961,15 +1237,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "vdineshk/sg-weather-data-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "sidharth-5u15/cupshup-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "vdineshk/sg-gst-calculator-mcp": {
+    "vdineshk/sg-weather-data-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -977,15 +1249,11 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "conner-m4el/helium-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "srimaan.yarram/vsfclubmcpsrimaan": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "vdineshk/sg-cpf-calculator-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "luis.ticas1/vsfclub4": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -993,7 +1261,35 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "nicholasemccormick/docpulse-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "saty.prasad/vsfclub": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "luis.ticas1/vsfclub4": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "orthosie/fungenerators": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hithereiamaliff/mcp-ltadatamallsg": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "zobr-script/zobr-script": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hypnoticmeditations/meditation-recommender": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "atomadictech-ud4n/aaaa-nexus": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1005,11 +1301,39 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "resumeoptimizerpro/resume-optimizer-pro": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hustcc/mcp-icon": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "dynamycsound/domain-lookup": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "kirandk/vsf1234": {
       "isStdio": true,
       "livenessInferred": true
     },
+    "sincetoday/podcast-commerce-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "learnnaga/ai-103": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "mikechao/metmuseum-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "evan-follis-u0ll/preflight": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "satoshidata/wallet-intelligence": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1025,11 +1349,35 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "kaparnashilpa/vsfclubshilpa": {
+    "nicholasemccormick/loopin-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hexiaochun/xskill-ai": {
       "isStdio": true,
       "livenessInferred": true
     },
     "vdineshk/sg-regulatory-data-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "cyanheads/pubmed-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "plural-online/pinelab": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "cyanheads/arxiv-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "vdineshk/sg-finance-data-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "kaparnashilpa/vsfclubshilpa": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1041,11 +1389,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "vdineshk/sg-finance-data-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "flrngel/mcp-painter": {
+    "vdineshk/sg-workpass-compass-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1053,7 +1397,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "sincetoday/podcast-commerce-mcp": {
+    "acedatacloud-mcp/mcp-sora": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1061,15 +1405,15 @@
       "isStdio": true,
       "livenessInferred": true
     },
+    "cyanheads/openalex-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
     "nostr_ai_tools_jorgenclaw/nostr_ai_tools_jorgenclaw": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "zobr-script/zobr-script": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hustcc/mcp-icon": {
+    "pestsentinel/pest-intelligence": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1078,14 +1422,6 @@
       "livenessInferred": true
     },
     "swamy.fwd/av-weatheropen-api-secure": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "demomagic/lucy-apro": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hypnoticmeditations/meditation-recommender": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1105,19 +1441,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "nicholasemccormick/loopin-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "atomadictech-ud4n/aaaa-nexus": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "vivid/vivid-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "algovault/crypto-quant-signal-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1141,19 +1465,7 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "peek": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
     "janmacher02-xl8y/klaviyo-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "vdineshk/sg-workpass-compass-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "info-ybpr/gantta-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1186,18 +1498,6 @@
       "livenessInferred": true
     },
     "vdineshk/sg-company-lookup-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "nicholasemccormick/meetsync-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "acedatacloud-mcp/mcp-sora": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "nponette/sucesio-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -1257,643 +1557,159 @@
       "isStdio": true,
       "livenessInferred": true
     },
-    "minikdj/birding planner": {
+    "0x01feng/flowspec mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "aisofialuz/agent-memory-hub": {
+    "amilcarex/strapi mcp suite": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "treeeeeeeeeeeeee/lsl-mcp": {
+    "randallt21/monarch money mcp server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "thedavidquan01/ad library mcp": {
+    "fdslk/wechat-mp-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "boltybolterson/agentpulse-mcp": {
+    "arqawa/code_nav mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "thewillmoss/anchor-mcp": {
+    "geekmai90/ticktick mcp cli": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "a2cr/a2cr": {
+    "leandrosflora/consignado mcp local": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "thefranceway/mcp-ad4m": {
+    "ambermem/amber": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "hectortemich/@deonpay/mcp-server": {
+    "theriz78/custom-browser-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "agu-oli/mcp latin tools server": {
+    "formswrite/formswrite mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "praveenm282/university course catalog mcp server": {
+    "panelica/panelica-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/oracle cloud infrastructure (oci) mcp server": {
+    "vinades/mcp-dauthau": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "juanqui/joulescope-mcp": {
+    "dtrain473/strava mcp server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "jbertus/openart-mcp": {
+    "kage1020/docs-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/alibaba cloud mcp server": {
+    "whitehornltd/ibmi-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "trisetiohidayat/notion db mcp helper": {
+    "jagoff/obsidian-mcp-complete": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/ibm cloud mcp server": {
+    "shaktisinhchavda/memory-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "hargurjeet/database-mcp": {
+    "livshitz/mcp-github": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "theogirardin/mcp-lbc": {
+    "parkviewlab/ebony-enriching": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "chirag1749/vybog mcp server": {
+    "multivon-ai/multivon-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/facebook mcp server": {
+    "nikhilgogulwar/universalbench-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/instagram mcp server": {
+    "aigen-protocol/aigen protocol": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "kao273183/mk-spec-master": {
+    "mountainmystic/hederatoolbox": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "xavier-hernandez/speaches-mcp": {
+    "vinaybhosle/shippingrates-mcp-server": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/gcp mcp server": {
+    "ralf/fyndling": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "ahmedselimmansor-ctrl/linkedin mcp server": {
+    "myceliumlabs/prospector-mcp-email-finder": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "thithegoat/of-mcp": {
+    "govbase/govbase": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "saihm-admin/saihm": {
+    "easyreg/private-number-plates": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "abhishek-kumawa/salesforce mcp server": {
+    "zerion/zerion-api": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "alephantai/alephant mcp": {
+    "koumoul/opendata": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "mithun4elp/briefkit-mcp-server": {
+    "autonsol/sol-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "wolido/openaaas-mcp-adapter": {
+    "henry-ships/sparkforge": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "veerps57/memento": {
+    "vestara/america-law-graph": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "dmang-dev/mcp-ppsspp": {
+    "aas-ee/open-websearch": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "yurzs/fatsecret-mcp-server": {
+    "carscout/carscout": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "drbaher/sign-cli": {
+    "florian/weavely": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "sh6drack/zen-mcp": {
+    "atiprashant/buyhatke-mcp": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "teampolarity/cosmos": {
+    "convrgent/aeo-scanner": {
       "isStdio": true,
       "livenessInferred": true
     },
-    "jiayuuwang/vercel mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jiayuuwang/asana mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jiayuuwang/supabase mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jiayuuwang/hubspot mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jiayuuwang/airtable mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "deficlow/hyperstore mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jpzip/jpzip mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "christian-beep383/carryfeed": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dalboki/sonsuchup-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "kao273183/mk-plan-master": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "enmanuelmag/heimdall": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dropdat/@dropdat/mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "xhae123/leafeep-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "evan-crx/permisapi-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "yucx-go/agent-knowledge": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "untitledfinancial/dpx-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "alexzavialov/mcp-travel-art": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "floe-labs/floe payments and credit": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "simonedelvecchio93-ops/homeradar-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ptorsten/humaans-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "deficlow/zipp-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hexiaochun/xskill-ai": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "achilles-safehavencalls/pentagonal": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "atars-mcp/aarnaai": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "orthosie/fungenerators": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "cyanheads/openalex-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "conner-m4el/helium-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "nicholasemccormick/docpulse-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "cyanheads/arxiv-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "pestsentinel/pest-intelligence": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "cyanheads/pubmed-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "evan-follis-u0ll/preflight": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hithereiamaliff/mcp-ltadatamallsg": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "refetch/web": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "satoshidata/wallet-intelligence": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "scott-noa4/pricepilot": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "oilandgas/basinvault": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dynamycsound/domain-lookup": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "plainyogurt21/clintrials-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "kuibin-dev/hsk-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "peerpush/peerpush_mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "lightpaper/lightpaper": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "resumeoptimizerpro/resume-optimizer-pro": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mikechao/metmuseum-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "sallvainian/ngss-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "xiaobenyang-com/rfc-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "wtf-just-happened/stock-moves-explained": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "imhiroki/toolrank": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "chirag127/clear-thought-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mcpdotdirect/starknet-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "koumoul/ademe-opendata": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "geobio/context7": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "devbrother2024/my-mcp-server-250925": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "nicks-brn/promptscan": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "voidly/mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mgao/jobdatalake": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jl-3044/agentndx": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "fruitflies/connect": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "invarium-ai/invarium": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "eren-solutions/report-needs": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "blake365/macrostrat-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "icons8community/icons8mpc": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "smithery-ai/fetch": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "iclickfreedownloads/mcp-server-airbnb": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "coachsync/barbell-tools": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "ai-research/airesearchass": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "plith/plith": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "aryankeluskar/canvas-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "petabloom/podcasts": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "rabqatab/lexlink-ko-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hithereiamaliff/mcp-keywords-everywhere": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "kennyckk/mcp_hkbus": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dante-r-g36u/onehq-comissions-calculator": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "a7om/atom-mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "infobip-mcp/search": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "reitsmasieto-wq/overcome-stress": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "secureship/docs": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "saju-from-seoul/saju": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "forage-shopping/forage-shopping": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "getkin/agent-infrastructure": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "frazierlee/onesocial": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "arabimaak/gulf-arabic": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "travisanthonygerber/grid": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "kkjdaniel/bgg-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "contrastcyber/contrastapi": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "onetrip/pulse": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "node2flow/binance": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "synthetic-ci/vibe-marketing": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "hugeicons/mcp-server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "googletasks": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "googlesuper": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "tavily": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jina": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "amirkhonov/metatrader 5 mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "fromsko/siyuan note mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dattmavis/bpmn-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "masx200/gitlab mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "soumyadeep-ux/gsc mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "lijingle1/puppeteer mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "crtormo/project memory": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "dbugom/tenderai": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "openreview/openreview python mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mariomosca/noteskeep mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "kargatharaakash/stitch mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "guerchele/jira data center mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "aj-bartocci/spynet": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "vladkarpman/screen-buffer-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "vaesonshu/xtai-mcp-data-analysis": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "patissiermongs/dice mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mikkelkrogsholm/documentation fetcher & rag search": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "node2flow-th/n8n management mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "gregm711/clawdaddy mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "snarris/apple eventkit mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "jannafta/propellerads mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "liuhao6741/openclaw memory": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "sacloud/sacloud-mcp": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "s-morgan-jeffries/omnifocus mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "maxli53/bitrix24 mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "henqc/miro mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "keertanachandar/aie8-mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "mcp-tg/snowflake developer mcp server": {
-      "isStdio": true,
-      "livenessInferred": true
-    },
-    "danielfluxman/alexandria2": {
+    "outlook": {
       "isStdio": true,
       "livenessInferred": true
     },
@@ -3998,6 +3814,190 @@
       "livenessInferred": true
     },
     "oluwatunmise-olat/mcp-server-logs-sieve": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "realcrabcut/crabcut": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "cmeans/clipboard-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "segfaultsorcerer/heap-seance": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "shenchensucc/chen's ai copy": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "azoraqua/minestom mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hunterpercival/apex mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "sueinchoi/nonmem-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "ai-nurmamat/mcp session memory bridge": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "mxn2020/forge engine mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "msuicaut/mesh mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "guinnessnet/maipharm domae mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jflamb/fdic bankfind mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "dswillden/digital brain mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "teileelektronik/easyeda pro mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "klutometis/opencode-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "dannymaaz/easypanel mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "rob-9/edstem-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "warnes-innovations/obo-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hlebtkachenko/pohoda mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "markswendsen-code/hopper mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "markswendsen-code/mcp-turo": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "markswendsen-code/zipcar mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "markswendsen-code/petsmart mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "intelagentstudios/intelagent mcp template": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "mcp-telegram/mcp-telegram": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "newageflyfish-max/volthq-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "acedatacloud/fluxmcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "kud/trakt mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "mikan-atomoki/text-to-model": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "moneyflowz367/affilync mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "masonbesmer/discord mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "cleburn/aegis mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "castrillon89/siigo mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "neuzhou/mcphub": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "n24q02m/better telegram mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "hongnoul/mit-dining-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "authensor/authensor-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "nextlevelbuilder/goclaw mcp server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "itunified-io/mcp-cloudflare": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "itunified-io/mcp-opnsense": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "itunified-io/mcp-tailscale": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "0xbrainkid/agentfolio-mcp-server": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "wiseriaai/lucid-mcp": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "jayden-dong/mcphub": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "gunjankum06/mypostmanserver": {
+      "isStdio": true,
+      "livenessInferred": true
+    },
+    "gaopengbin/cesium-mcp": {
       "isStdio": true,
       "livenessInferred": true
     }

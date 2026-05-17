@@ -24,6 +24,8 @@ import { requireUser } from "@/lib/auth/server";
 import { AlertRuleList } from "./_components/AlertRuleList";
 import { AddAlertRuleDialog } from "./_components/AddAlertRuleDialog";
 import { GlobalPreferences } from "./_components/GlobalPreferences";
+import { DigestBanner } from "./_components/DigestBanner";
+import { isEmailConfigured } from "@/lib/email/resend-client";
 import type {
   SerializedAlertRule,
   SerializedProfilePrefs,
@@ -125,6 +127,17 @@ export default async function YouAlertsPage() {
             MCP tool too.
           </p>
         </header>
+
+        <DigestBanner
+          initialCadence={
+            prefs.emailAlertsCadence as
+              | "realtime"
+              | "daily"
+              | "weekly"
+              | "off"
+          }
+          emailConfigured={isEmailConfigured()}
+        />
 
         <section className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>

@@ -4,8 +4,6 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 import {
   getAllPostsFetchedAt,
@@ -14,50 +12,12 @@ import {
   isAllPostsCold,
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
-import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
+import { RedditTrendingFilteredContent } from "@/components/reddit-trending/RedditTrendingFilteredContent";
 import {
   buildAllPostsStats,
   type RedditAllPost,
   type RedditAllPostsFile,
 } from "@/lib/reddit-all";
-
-// Mirrors AllTrendingTabs.TAB_IDS order — first non-active tab with > 0 posts
-// wins as redirect target. Kept inline (not imported) because the source
-// component is "use client" and importing it pulls a client boundary.
-type TrendingTab = "trending-now" | "hot-7d" | "hot-30d" | "by-subreddit";
-const TRENDING_TAB_IDS: TrendingTab[] = [
-  "trending-now",
-  "hot-7d",
-  "hot-30d",
-  "by-subreddit",
-];
-const TRENDING_TAB_WINDOW_HOURS: Record<TrendingTab, number> = {
-  "trending-now": 24,
-  "hot-7d": 168,
-  "hot-30d": 720,
-  "by-subreddit": 168,
-};
-
-function parseTrendingTab(raw: string | string[] | undefined): TrendingTab {
-  const value = Array.isArray(raw) ? raw[0] : raw;
-  if (value && (TRENDING_TAB_IDS as string[]).includes(value)) {
-    return value as TrendingTab;
-  }
-  return "trending-now";
-}
-
-function countPostsInWindow(
-  posts: RedditAllPost[],
-  windowHours: number,
-  nowMs: number,
-): number {
-  const cutoff = nowMs - windowHours * 60 * 60 * 1000;
-  let count = 0;
-  for (const p of posts) {
-    if (p.createdUtc * 1000 >= cutoff) count++;
-  }
-  return count;
-}
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -123,12 +83,7 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-export default async function RedditTrendingPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const resolvedSearchParams = await searchParams;
+export default async function RedditTrendingPage() {
   await refreshRedditAllPostsFromStore();
   let allPostsFetchedAt = getAllPostsFetchedAt();
   let allPostsCold = isAllPostsCold();
@@ -168,50 +123,12 @@ export default async function RedditTrendingPage({
     }
   }
 
-  // SSR-side empty-tab redirect (Phase 5.1). Mirror the client-side
-  // useEffect+router.replace in AllTrendingTabs.tsx but emit it BEFORE any
-  // HTML hits the wire — eliminates the SSR-vs-hydration flash where a user
-  // following a stale `?tab=trending-now` link briefly sees the empty state
-  // before client React replaces it. The client-side redirect stays as a
-  // safety net for in-app tab switches that happen after hydration.
-  // Skip when posts is empty (cold state handled below) or all tabs are
-  // empty (no useful target — let the page render whatever we have).
-  if (posts.length > 0) {
-    const activeTab = parseTrendingTab(resolvedSearchParams.tab);
-    const nowMs = Date.now();
-    const tabCounts: Record<TrendingTab, number> = {
-      "trending-now": countPostsInWindow(
-        posts,
-        TRENDING_TAB_WINDOW_HOURS["trending-now"],
-        nowMs,
-      ),
-      "hot-7d": countPostsInWindow(
-        posts,
-        TRENDING_TAB_WINDOW_HOURS["hot-7d"],
-        nowMs,
-      ),
-      "hot-30d": countPostsInWindow(
-        posts,
-        TRENDING_TAB_WINDOW_HOURS["hot-30d"],
-        nowMs,
-      ),
-      "by-subreddit": countPostsInWindow(
-        posts,
-        TRENDING_TAB_WINDOW_HOURS["by-subreddit"],
-        nowMs,
-      ),
-    };
-    if (tabCounts[activeTab] === 0) {
-      const nextTab = TRENDING_TAB_IDS.find(
-        (t) => t !== activeTab && tabCounts[t] > 0,
-      );
-      if (nextTab) {
-        redirect(`/reddit/trending?tab=${nextTab}`);
-      }
-      // All tabs empty → fall through to render whatever we have. The
-      // EmptyWindow client UI will handle the dead-end gracefully.
-    }
-  }
+  // Empty-tab auto-redirect has been moved to AllTrendingTabs.tsx (client-side
+  // useEffect+router.replace). The SSR variant required `await searchParams`
+  // in this RSC, which forced full-dynamic rendering and broke ISR. Trading
+  // the pre-hydration flash for `revalidate=1800` cacheability matches cache
+  // fix B from #1606. The client-side redirect runs on first paint so the
+  // empty-state flash is at most one frame.
 
   if (allPostsCold) {
     // Pick the most useful variant: if we know when the last successful scrape
@@ -322,29 +239,8 @@ export default async function RedditTrendingPage({
           />
         }
         listEyebrow="Story feed · grouped by subreddit"
-        list={
-          <Suspense fallback={<FeedSkeleton />}>
-            <AllTrendingTabs posts={posts} />
-          </Suspense>
-        }
+        list={<RedditTrendingFilteredContent posts={posts} />}
       />
     </main>
-  );
-}
-
-function FeedSkeleton() {
-  return (
-    <div
-      style={{
-        padding: 24,
-        fontSize: 13,
-        background: "var(--v4-bg-025)",
-        border: "1px solid var(--v4-line-200)",
-        borderRadius: 2,
-        color: "var(--v4-ink-400)",
-      }}
-    >
-      Loading feed...
-    </div>
   );
 }

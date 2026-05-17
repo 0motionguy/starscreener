@@ -34,6 +34,13 @@ export const metadata: Metadata = {
   title: "Research - TrendingRepo",
   description:
     "HuggingFace trending models + arXiv cs.AI / cs.CL / cs.LG recent papers, with cross-links to tracked GitHub repos.",
+  keywords: [
+    "arXiv papers",
+    "Hugging Face models",
+    "AI research",
+    "ML papers",
+    "research trending",
+  ],
   alternates: { canonical: "/research" },
 };
 

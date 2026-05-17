@@ -29,6 +29,13 @@ export function generateMetadata(): Metadata {
   return {
     title: HUB_TITLE,
     description: HUB_DESCRIPTION,
+    keywords: [
+      "GitHub star history",
+      "revenue estimator",
+      "repo treemap",
+      "developer tools",
+      "GitHub analytics",
+    ],
     alternates: { canonical: absoluteUrl("/tools") },
     openGraph: {
       title: HUB_TITLE,

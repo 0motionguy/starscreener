@@ -33,6 +33,14 @@ export const metadata: Metadata = {
   title: "TrendingRepo — Funding Radar",
   description:
     "AI and tech startup funding rounds aggregated from TechCrunch, VentureBeat, and more. Structured extraction with confidence scoring.",
+  keywords: [
+    "startup funding",
+    "venture capital",
+    "seed",
+    "series A",
+    "AI funding",
+    "fundraising signals",
+  ],
   alternates: { canonical: "/funding" },
 };
 

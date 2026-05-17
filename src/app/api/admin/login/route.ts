@@ -36,6 +36,21 @@ export const dynamic = "force-dynamic";
 // the rate-limit store is Upstash-backed when configured. Audit finding APP-11.
 const LOGIN_RATE_LIMIT = { windowMs: 60_000, maxRequests: 5 } as const;
 
+// Secondary global counter. Single-admin assumption: total wrong-password
+// attempts across ALL IPs trip a slow-down at N=20/min. Stops distributed
+// credential-stuffing where an attacker rotates IPs to stay under the per-IP
+// budget. The store key derives from the request IP, so we pass a synthetic
+// request with a stable sentinel forwarded-for header to force a single
+// shared bucket. W5.5.B MEDIUM finding follow-up.
+const LOGIN_GLOBAL_RATE_LIMIT = { windowMs: 60_000, maxRequests: 20 } as const;
+const LOGIN_GLOBAL_SENTINEL_IP = "admin-login-global";
+
+function buildGlobalLoginRateRequest(): Request {
+  return new Request("https://internal/admin-login-global", {
+    headers: { "x-forwarded-for": LOGIN_GLOBAL_SENTINEL_IP },
+  });
+}
+
 interface LoginOk {
   ok: true;
   username: string;
@@ -84,6 +99,39 @@ export async function POST(
         status: 429,
         headers: {
           "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
+
+  // Secondary global counter. Counts every attempt, not just wrong ones —
+  // an attacker who's already inside the per-IP budget can still trip this
+  // by rotating IPs. Single-admin assumption: 20 attempts/min across the
+  // whole deployment is well above any legitimate operator behavior.
+  const globalRate = await checkRateLimitAsync(
+    buildGlobalLoginRateRequest(),
+    LOGIN_GLOBAL_RATE_LIMIT,
+  );
+  if (!globalRate.allowed) {
+    const err = new AdminQuarantineError(
+      "admin login denied: global rate limited",
+    );
+    Sentry.captureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "admin-login",
+      },
+    });
+    return NextResponse.json(
+      {
+        ok: false,
+        reason: "rate_limited",
+        error: "too many login attempts; try again shortly",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(globalRate.retryAfterMs / 1000)),
         },
       },
     );

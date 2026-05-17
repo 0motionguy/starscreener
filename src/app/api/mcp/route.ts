@@ -28,6 +28,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+
 import {
   ERR_INVALID_REQUEST,
   ERR_PARSE,
@@ -50,8 +52,46 @@ const RESPONSE_HEADERS = {
   "Content-Type": "application/json",
 } as const;
 
+// Per-IP rate-limit for JSON-RPC dispatch. 60/min keeps the public read API
+// usable for a single client while blunting batch-flood abuse. W5.5.B MEDIUM
+// finding follow-up.
+const MCP_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 60,
+} as const;
+
+// Hard cap on the number of requests in a single JSON-RPC batch. 20 covers
+// every legitimate MCP client we've seen (Claude Desktop, Cursor, Continue
+// each issue <=5 in their initialize handshake) while keeping a single POST
+// from amplifying the per-IP rate-limit by orders of magnitude.
+const MCP_BATCH_CAP = 20;
+
 // lint-allow: no-parsebody — JSON-RPC 2.0 dispatch; body shape is method-dependent so a single Zod schema doesn't apply. Validation lives per-method in ./_dispatcher.
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  // Per-IP rate-limit BEFORE JSON parse so a flood of garbage payloads also
+  // consumes the budget. JSON-RPC clients are expected to batch where they
+  // can, so 60 POSTs/min/IP is the right gate. Surfaced as a JSON-RPC
+  // error envelope so MCP clients can branch on `error.code`.
+  const rate = await checkRateLimitAsync(request, MCP_RATE_LIMIT);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      rpcError(
+        null,
+        ERR_INVALID_REQUEST,
+        `rate limit exceeded — try again in ${Math.ceil(
+          (rate.retryAfterMs ?? 0) / 1000,
+        )}s`,
+      ),
+      {
+        status: 429,
+        headers: {
+          ...RESPONSE_HEADERS,
+          "Retry-After": String(Math.ceil((rate.retryAfterMs ?? 0) / 1000)),
+        },
+      },
+    );
+  }
+
   let payload: unknown;
   try {
     payload = await request.json();
@@ -65,6 +105,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   // Batch support — JSON-RPC 2.0 allows an array of requests in one POST.
   if (Array.isArray(payload)) {
+    if (payload.length > MCP_BATCH_CAP) {
+      return NextResponse.json(
+        rpcError(
+          null,
+          ERR_INVALID_REQUEST,
+          `batch too large: ${payload.length} > ${MCP_BATCH_CAP}`,
+        ),
+        { status: 400, headers: RESPONSE_HEADERS },
+      );
+    }
     const results: JsonRpcResponse[] = [];
     for (const item of payload) {
       const rpc = item as JsonRpcRequest;

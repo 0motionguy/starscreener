@@ -21,6 +21,7 @@ import { LoaderCircle, Plus, X } from "lucide-react";
 import { AdminRecoverableError, TransientHttpError } from "@/lib/errors";
 import { cn } from "@/lib/utils";
 import {
+  toast,
   toastAlertCreated,
   toastAlertError,
   toastWebhookSecretCopied,
@@ -35,6 +36,14 @@ import type {
   SerializedAlertRule,
 } from "./types";
 import type { AlertRuleType, AlertCadence } from "@/lib/db/schema/alerts";
+import { AlertPresets, type PresetSetters } from "./AlertPresets";
+import { FieldTooltip } from "./FieldTooltip";
+
+// Custom event used by sibling empty-state components to open the
+// create-rule dialog without holding a ref into this component.
+// Exported for tests / other islands; consumers fire:
+//   window.dispatchEvent(new CustomEvent(ALERTS_OPEN_CREATE_EVENT))
+export const ALERTS_OPEN_CREATE_EVENT = "alerts:open-create-dialog";
 
 interface AddAlertRuleDialogProps {
   existingRuleCount: number;
@@ -161,6 +170,21 @@ export function AddAlertRuleDialog({
       dialog.close();
     }
   }, [open]);
+
+  // External open trigger — sibling components (e.g. the EmptyState CTA in
+  // AlertRuleList) dispatch ALERTS_OPEN_CREATE_EVENT to open the dialog
+  // without holding a ref into this island.
+  useEffect(() => {
+    const onOpen = () => {
+      if (existingRuleCount >= 25) {
+        toastAlertError("You have hit the 25-rule limit. Delete one first.");
+        return;
+      }
+      setOpen(true);
+    };
+    window.addEventListener(ALERTS_OPEN_CREATE_EVENT, onOpen);
+    return () => window.removeEventListener(ALERTS_OPEN_CREATE_EVENT, onOpen);
+  }, [existingRuleCount]);
 
   // ESC + backdrop click → close, but only when not submitting AND not
   // sitting on the secret-reveal screen (we want the user to actively
@@ -293,7 +317,26 @@ export function AddAlertRuleDialog({
         }
         throw new TransientHttpError(err.message || err.error || `HTTP ${res.status}`, res.status);
       }
-      toastAlertCreated();
+      // S2.E — first-alert success toast. If this was the user's first
+      // rule (count snapshot taken when the page rendered), use the
+      // richer onboarding-style toast with a link back to /watchlist.
+      // Otherwise, keep the terse confirmation.
+      if (existingRuleCount === 0) {
+        toast.success(
+          "Alert created! First report in ~1h. Until then, explore your watchlist.",
+          {
+            duration: 8000,
+            action: {
+              label: "Watchlist",
+              onClick: () => {
+                window.location.href = "/watchlist";
+              },
+            },
+          },
+        );
+      } else {
+        toastAlertCreated();
+      }
       // If a webhook URL was set, the server returned the plaintext secret
       // exactly once. Switch to the reveal phase and force the user to copy
       // it before continuing.
@@ -393,13 +436,47 @@ export function AddAlertRuleDialog({
               </button>
             </header>
 
+            {/* Quick-start templates — S2.D */}
+            <AlertPresets
+              snapshot={{
+                ruleType,
+                cadence,
+                rankScope,
+                rankMaxRank,
+                rankDirection,
+                mentionMultiplier,
+                mentionWindow,
+              }}
+              setters={
+                {
+                  setName,
+                  setRuleType,
+                  setCadence,
+                  setBreakoutFullName,
+                  setBreakoutMinScore,
+                  setRankScope,
+                  setRankMaxRank,
+                  setRankDirection,
+                  setReleaseFullName,
+                  setReleaseIncludePre,
+                  setMentionFullName,
+                  setMentionMultiplier,
+                  setMentionWindow,
+                } satisfies PresetSetters
+              }
+            />
+
             {/* Step 1 — type picker */}
             <fieldset className="mb-4">
               <legend
-                className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em]"
+                className="mb-2 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em]"
                 style={{ color: "var(--v3-ink-400)" }}
               >
                 {"// 01 · TYPE"}
+                <FieldTooltip
+                  label="Rule type"
+                  content="Pick what you want notified about. 'Breakout' fires on rank change. 'Daily digest' summarizes 24h activity. 'New release' fires on new GitHub releases."
+                />
               </legend>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {RULE_TYPE_OPTIONS.map((opt) => (
@@ -532,10 +609,14 @@ export function AddAlertRuleDialog({
               </legend>
 
               <div
-                className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em]"
+                className="mb-2 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em]"
                 style={{ color: "var(--v3-ink-300)" }}
               >
                 Cadence
+                <FieldTooltip
+                  label="Cadence"
+                  content="How often we check this rule. 1h = realtime, 24h = daily digest."
+                />
               </div>
               <div className="mb-3 flex flex-wrap gap-2">
                 {(["realtime", "daily", "weekly"] as AlertCadence[]).map(
@@ -573,10 +654,14 @@ export function AddAlertRuleDialog({
               </div>
 
               <label
-                className="block font-mono text-[10px] uppercase tracking-[0.14em]"
+                className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em]"
                 style={{ color: "var(--v3-ink-300)" }}
               >
                 Webhook URL (optional, https only)
+                <FieldTooltip
+                  label="Webhook"
+                  content="Send notifications to a URL. Slack/Discord/your-API. Must be HTTPS."
+                />
               </label>
               <input
                 type="url"
@@ -607,6 +692,10 @@ export function AddAlertRuleDialog({
                   onChange={(e) => setUseQuietHours(e.target.checked)}
                 />
                 Per-rule quiet hours (overrides profile default)
+                <FieldTooltip
+                  label="Quiet hours"
+                  content="Suppress notifications during these hours. Useful for sleep / focus."
+                />
               </label>
               {useQuietHours ? (
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">

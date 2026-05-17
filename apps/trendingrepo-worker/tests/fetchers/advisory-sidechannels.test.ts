@@ -3,6 +3,8 @@ import type { FetcherContext, RedisHandle } from '../../src/lib/types.js';
 
 const mockState = vi.hoisted(() => ({
   store: new Map<string, string>(),
+  fetchJsonWithRetry: vi.fn(),
+  sleep: vi.fn(),
 }));
 
 vi.mock('../../src/lib/env.js', () => ({
@@ -56,6 +58,30 @@ vi.mock('../../src/lib/redis.js', () => {
   };
 });
 
+vi.mock('../../src/lib/util/http-helpers.js', () => {
+  class HttpStatusError extends Error {
+    status: number;
+    statusText: string;
+
+    constructor(response: { status: number; statusText: string }, url: string, bodyText = '') {
+      super(
+        `HTTP ${response.status} ${response.statusText}${url ? ` - ${url}` : ''}${
+          bodyText ? ` - ${bodyText}` : ''
+        }`,
+      );
+      this.name = 'HttpStatusError';
+      this.status = response.status;
+      this.statusText = response.statusText;
+    }
+  }
+
+  return {
+    fetchJsonWithRetry: mockState.fetchJsonWithRetry,
+    HttpStatusError,
+    sleep: mockState.sleep,
+  };
+});
+
 const ORIGINAL_ENV = { ...process.env };
 
 function restoreEnv(): void {
@@ -103,40 +129,86 @@ function readPayload<T>(key: string): T {
 afterEach(() => {
   restoreEnv();
   mockState.store.clear();
+  mockState.fetchJsonWithRetry.mockReset();
+  mockState.sleep.mockReset();
   vi.resetModules();
 });
 
 describe('advisory side-channel fetchers', () => {
-  it('npm-dependents publishes a disabled aggregate when Libraries.io key is missing', async () => {
+  it('npm-dependents uses anonymous Libraries.io reads when the key is missing', async () => {
     process.env.NODE_ENV = 'test';
     delete process.env.LIBRARIES_IO_API_KEY;
+    seedPayload('trending-mcp', {
+      items: [
+        {
+          slug: 'context7',
+          raw: { package_name: '@upstash/context7', package_registry: 'npm' },
+        },
+      ],
+    });
+    mockState.fetchJsonWithRetry.mockResolvedValue({
+      dependent_repos_count: 12,
+      dependents_count: 3,
+    });
 
     const { default: fetcher } = await import('../../src/fetchers/npm-dependents/index.js');
     const result = await fetcher.run(makeContext());
 
     expect(result.redisPublished).toBe(true);
-    expect(result.metricsWritten).toBe(0);
+    expect(result.metricsWritten).toBe(1);
+    expect(mockState.fetchJsonWithRetry).toHaveBeenCalledWith(
+      'https://libraries.io/api/npm/%40upstash%2Fcontext7',
+      expect.objectContaining({
+        headers: expect.objectContaining({ accept: 'application/json' }),
+      }),
+    );
     expect(readPayload('mcp-dependents')).toMatchObject({
-      summary: {},
-      counts: { roster: 0, npmPackages: 0, ok: 0, failed: 0, cacheHit: 0 },
-      status: 'disabled',
-      reason: 'missing_libraries_io_api_key',
+      summary: {
+        context7: { count: 15, packageName: '@upstash/context7' },
+      },
+      counts: { roster: 1, npmPackages: 1, ok: 1, failed: 0, cacheHit: 0 },
+      status: 'ok',
     });
   });
 
-  it('mcp-smithery-rank publishes a disabled aggregate when Smithery key is missing', async () => {
+  it('mcp-smithery-rank uses anonymous Smithery reads when the key is missing', async () => {
     process.env.NODE_ENV = 'test';
     delete process.env.SMITHERY_API_KEY;
+    const ctx = makeContext();
+    ctx.http.json = vi.fn(async () => ({
+      data: {
+        servers: [
+          {
+            qualifiedName: '@modelcontextprotocol/server-github',
+            id: 'github',
+            namespace: '@modelcontextprotocol',
+            slug: 'server-github',
+          },
+        ],
+        pagination: { totalPages: 1, totalCount: 1 },
+      },
+      cached: false,
+    }));
 
     const { default: fetcher } = await import('../../src/fetchers/mcp-smithery-rank/index.js');
-    const result = await fetcher.run(makeContext());
+    const result = await fetcher.run(ctx);
 
     expect(result.redisPublished).toBe(true);
+    expect(result.metricsWritten).toBe(2);
+    expect(ctx.http.json).toHaveBeenCalledWith(
+      'https://registry.smithery.ai/servers?page=1&pageSize=100',
+      { timeoutMs: 20_000 },
+    );
     expect(readPayload('mcp-smithery-rank')).toMatchObject({
-      total: 0,
-      summary: {},
-      status: 'disabled',
-      reason: 'missing_smithery_api_key',
+      total: 1,
+      summary: {
+        '@modelcontextprotocol/server-github': {
+          rank: 1,
+          total: 1,
+          qualifiedName: '@modelcontextprotocol/server-github',
+        },
+      },
+      status: 'ok',
     });
   });
 

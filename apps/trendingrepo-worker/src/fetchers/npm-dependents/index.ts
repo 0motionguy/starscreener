@@ -1,17 +1,17 @@
 // npm-dependents fetcher.
 //
-//   API           https://libraries.io/api/<platform>/<package>?api_key=...
+//   API           https://libraries.io/api/<platform>/<package>[?api_key=...]
 //                 (the package GET returns `dependent_repos_count` directly,
 //                 saving a paginated dependents call. We verified this against
 //                 a known package — see plan notes.)
-//   Auth          LIBRARIES_IO_API_KEY (libraries.io free tier; 60 req/min)
-//   Rate limit    Free tier ~60 req/min; we sleep 1100ms between calls
+//   Auth          Optional LIBRARIES_IO_API_KEY (libraries.io free tier; 60 req/min)
+//   Rate limit    Free tier / anonymous; we sleep 1100ms between calls
 //   Cache TTL     7 days per-package (mcp-dependents:<pkg>)
 //   Aggregate key mcp-dependents
 //   Cadence       24h (refresh-mcp-dependents.yml)
 //
-// If LIBRARIES_IO_API_KEY is missing the fetcher logs a warning and exits
-// cleanly — the scorer drops the term via existing renormalization.
+// If LIBRARIES_IO_API_KEY is missing the fetcher uses the anonymous package
+// endpoint, which still returns the dependents counts the scorer needs.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
@@ -65,17 +65,9 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, []);
     }
 
-    const apiKey = process.env.LIBRARIES_IO_API_KEY?.trim();
+    const apiKey = process.env.LIBRARIES_IO_API_KEY?.trim() || null;
     if (!apiKey) {
-      ctx.log.warn('LIBRARIES_IO_API_KEY not set - npm-dependents skipped (scorer drops term)');
-      const redisPublished = await publishAggregate('disabled', 'missing_libraries_io_api_key', {
-        roster: 0,
-        npmPackages: 0,
-        ok: 0,
-        failed: 0,
-        cacheHit: 0,
-      });
-      return done(startedAt, 0, redisPublished, []);
+      ctx.log.warn('LIBRARIES_IO_API_KEY not set - using anonymous Libraries.io package endpoint');
     }
 
     const errors: RunResult['errors'] = [];
@@ -214,10 +206,11 @@ function normalizePkg(raw: string): string | null {
   return trimmed.toLowerCase();
 }
 
-async function fetchDependentCount(apiKey: string, pkg: string): Promise<number | null> {
+async function fetchDependentCount(apiKey: string | null, pkg: string): Promise<number | null> {
   // libraries.io path encodes scoped packages as @scope%2Fname.
   const platformPkg = pkg.startsWith('@') ? encodeURIComponent(pkg) : pkg;
-  const url = `https://libraries.io/api/npm/${platformPkg}?api_key=${encodeURIComponent(apiKey)}`;
+  const baseUrl = `https://libraries.io/api/npm/${platformPkg}`;
+  const url = apiKey ? `${baseUrl}?api_key=${encodeURIComponent(apiKey)}` : baseUrl;
   try {
     const data = await fetchJsonWithRetry<LibrariesIoPackage>(url, {
       attempts: 3,

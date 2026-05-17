@@ -22,6 +22,7 @@ import { Header } from "@/components/layout/Header";
 import { SidebarStream } from "@/components/layout/SidebarStream";
 import { SidebarSkeleton } from "@/components/layout/SidebarSkeleton";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
+import { WelcomeModalGate } from "@/components/onboarding/WelcomeModalGate";
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
@@ -171,6 +172,7 @@ export default async function RootLayout({
       <IdleMount>
         <ClerkRefHandoff />
       </IdleMount>
+      {clerkPublishableKey ? <WelcomeModalGate /> : null}
       <Header authEnabled={Boolean(clerkPublishableKey)} />
       <MobileDrawerLazy />
       <AppShell>

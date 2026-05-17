@@ -278,6 +278,7 @@ jobs:
         with:
           gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "ci(twitter): update signal-count checkpoint"
+          branch-prefix: data-checkpoint
           paths: |
             data/.twitter-signal-count
 

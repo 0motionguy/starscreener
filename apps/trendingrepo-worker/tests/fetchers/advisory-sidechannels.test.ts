@@ -142,7 +142,9 @@ describe('advisory side-channel fetchers', () => {
       items: [
         {
           slug: 'context7',
-          raw: { package_name: '@upstash/context7', package_registry: 'npm' },
+          package_name: '@upstash/context7',
+          package_registry: 'npm',
+          raw: { sources: ['official'] },
         },
       ],
     });

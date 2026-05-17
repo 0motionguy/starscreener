@@ -110,11 +110,7 @@ export function WelcomeModal({
     captureEvent("welcome_modal_cta_clicked", {
       destination: "/you/alerts",
     });
-    // Note: we do NOT call onDismiss() here. The Link navigates away;
-    // the cookie is set by the gate when it sees the modal close on
-    // unmount. (Gate sets the cookie when `show` flips false OR on any
-    // dismiss handler — see WelcomeModalGate.)
-    onDismiss();
+    onDismiss(); // Closes modal + sets cookie via WelcomeModalGate.
   }, [onDismiss]);
 
   return (
@@ -134,7 +130,7 @@ export function WelcomeModal({
         maxWidth: "min(92vw, 30rem)",
         boxShadow: "0 24px 60px -12px rgba(0, 0, 0, 0.6)",
       }}
-      className="welcome-modal"
+      className="welcome-modal backdrop:bg-black/60 backdrop:backdrop-blur-sm"
     >
       <div style={{ padding: "1.25rem 1.5rem 1.5rem" }}>
         {/* WELCOME pill — mono accent at top of card */}

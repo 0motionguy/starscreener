@@ -17,15 +17,21 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Sentry capture if available - feature-detect on window so we
-    // don't take a hard dep on @sentry/nextjs from this boundary.
+    // Sentry capture via dynamic import (NOT a window.Sentry probe).
+    // instrumentation-client.ts lazy-loads Sentry via requestIdleCallback
+    // (up to 2500ms), so early-render errors fire BEFORE window.Sentry is
+    // populated. Dynamic import guarantees the SDK is available when the
+    // error fires. Race condition caught by Codex P2/P3 audit.
     if (typeof window !== "undefined") {
-      const sentry = (
-        window as unknown as {
-          Sentry?: { captureException: (e: Error) => void };
-        }
-      ).Sentry;
-      if (sentry?.captureException) sentry.captureException(error);
+      void import("@sentry/nextjs")
+        .then(({ captureException }) => {
+          captureException(error, {
+            tags: { route: window.location.pathname },
+          });
+        })
+        .catch(() => {
+          // Best-effort — UI still renders if Sentry fails to load.
+        });
     }
     console.error("[app/error] unhandled render error", error);
   }, [error]);

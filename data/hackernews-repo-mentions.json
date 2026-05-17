@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-17T08:06:26.500Z",
+  "fetchedAt": "2026-05-17T10:02:09.796Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 721,
+  "scannedAlgoliaHits": 177,
   "scannedFirebaseItems": 500,
   "mentions": {
     "nooga/let-go": {
@@ -12,7 +12,7 @@
         "title": "Let-go is a Clojure dialect written in Go",
         "score": 5,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 87.73
+        "hoursSincePosted": 89.66
       },
       "everHitFrontPage": false,
       "stories": [
@@ -24,7 +24,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778689347,
-          "ageHours": 87.73,
+          "ageHours": 89.66,
           "velocity": 0.06,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -43,6 +43,45 @@
         }
       ]
     },
+    "neilsonnn/image-blaster": {
+      "count7d": 1,
+      "scoreSum7d": 187,
+      "topStory": {
+        "id": 48150069,
+        "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+        "score": 187,
+        "url": "https://github.com/neilsonnn/image-blaster",
+        "hoursSincePosted": 42.33
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48150069,
+          "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+          "url": "https://github.com/neilsonnn/image-blaster",
+          "by": "MattRogish",
+          "score": 187,
+          "descendants": 38,
+          "createdUtc": 1778859757,
+          "ageHours": 42.33,
+          "velocity": 4.42,
+          "trendingScore": 48.2,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "neilsonnn/image-blaster",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "tracewayapp/traceway": {
       "count7d": 1,
       "scoreSum7d": 171,
@@ -51,7 +90,7 @@
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
         "score": 171,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 145.02
+        "hoursSincePosted": 146.95
       },
       "everHitFrontPage": false,
       "stories": [
@@ -63,9 +102,9 @@
           "score": 171,
           "descendants": 82,
           "createdUtc": 1778483101,
-          "ageHours": 145.02,
-          "velocity": 1.18,
-          "trendingScore": 24.24,
+          "ageHours": 146.95,
+          "velocity": 1.16,
+          "trendingScore": 23.83,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -130,7 +169,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 82,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 162.41
+        "hoursSincePosted": 164.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -142,7 +181,7 @@
           "score": 82,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 162.41,
+          "ageHours": 164.34,
           "velocity": 0.5,
           "trendingScore": 3.25,
           "everHitFrontPage": false,
@@ -320,6 +359,46 @@
         }
       ]
     },
+    "ztc00/algora-scout": {
+      "count7d": 1,
+      "scoreSum7d": 34,
+      "topStory": {
+        "id": 48164229,
+        "title": "I tried to make Claude make me money on open-source bounties",
+        "score": 34,
+        "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+        "hoursSincePosted": 9.88
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48164229,
+          "title": "I tried to make Claude make me money on open-source bounties",
+          "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+          "by": "ztc00",
+          "score": 34,
+          "descendants": 22,
+          "createdUtc": 1778969634,
+          "ageHours": 9.88,
+          "velocity": 3.44,
+          "trendingScore": 16.86,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "ztc00/algora-scout",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Nightmare-Eclipse/YellowKey": {
       "count7d": 1,
       "scoreSum7d": 29,
@@ -367,7 +446,7 @@
         "title": "CC: Anthropic API Error: 500 Internal Server Error",
         "score": 5,
         "url": "https://github.com/anthropics/claude-code/issues/59743",
-        "hoursSincePosted": 13.95
+        "hoursSincePosted": 15.88
       },
       "everHitFrontPage": false,
       "stories": [
@@ -379,9 +458,9 @@
           "score": 5,
           "descendants": 2,
           "createdUtc": 1778954958,
-          "ageHours": 13.95,
-          "velocity": 0.36,
-          "trendingScore": 0.3,
+          "ageHours": 15.88,
+          "velocity": 0.31,
+          "trendingScore": 0.26,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -559,7 +638,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 131.71
+        "hoursSincePosted": 133.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -571,9 +650,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 131.71,
-          "velocity": 0.05,
-          "trendingScore": 0.04,
+          "ageHours": 133.64,
+          "velocity": 0.04,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -584,6 +663,46 @@
           "linkedRepos": [
             {
               "fullName": "njbrake/agent-of-empires",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "janosmiko/lfk": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 48149626,
+        "title": "Show HN: LFK – A Fast Kubernetes TUI",
+        "score": 6,
+        "url": "https://github.com/janosmiko/lfk",
+        "hoursSincePosted": 41.04
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48149626,
+          "title": "Show HN: LFK – A Fast Kubernetes TUI",
+          "url": "https://github.com/janosmiko/lfk",
+          "by": "baskInEminence",
+          "score": 6,
+          "descendants": 3,
+          "createdUtc": 1778857459,
+          "ageHours": 41.04,
+          "velocity": 0.15,
+          "trendingScore": 0.15,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "A lightweight, keyboard-driven Kubernetes TUI for exploring and managing clusters from terminal.",
+          "linkedRepos": [
+            {
+              "fullName": "janosmiko/lfk",
               "matchType": "url",
               "confidence": 1
             }
@@ -638,7 +757,7 @@
         "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
         "score": 5,
         "url": "https://github.com/apernet/hysteria",
-        "hoursSincePosted": 96.24
+        "hoursSincePosted": 98.17
       },
       "everHitFrontPage": false,
       "stories": [
@@ -650,7 +769,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778658717,
-          "ageHours": 96.24,
+          "ageHours": 98.17,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -662,6 +781,45 @@
           "linkedRepos": [
             {
               "fullName": "apernet/hysteria",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "byrongamatos/slopsmith": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48145498,
+        "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+        "score": 5,
+        "url": "https://github.com/byrongamatos/slopsmith",
+        "hoursSincePosted": 50.79
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48145498,
+          "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+          "url": "https://github.com/byrongamatos/slopsmith",
+          "by": "steveharing1",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1778829297,
+          "ageHours": 50.79,
+          "velocity": 0.1,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "byrongamatos/slopsmith",
               "matchType": "url",
               "confidence": 1
             }
@@ -833,7 +991,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 141.1
+        "hoursSincePosted": 143.03
       },
       "everHitFrontPage": false,
       "stories": [
@@ -845,7 +1003,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 141.1,
+          "ageHours": 143.03,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1334,6 +1492,84 @@
         }
       ]
     },
+    "czlonkowski/n8n-mcp": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48158368,
+        "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+        "score": 2,
+        "url": "https://github.com/czlonkowski/n8n-mcp",
+        "hoursSincePosted": 22.94
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48158368,
+          "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "by": "steveharing1",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778922585,
+          "ageHours": 22.94,
+          "velocity": 0.09,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "czlonkowski/n8n-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NamtaoProductions/savepoint": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48143282,
+        "title": "Savepoint – A CLI for TDD",
+        "score": 2,
+        "url": "https://github.com/NamtaoProductions/savepoint",
+        "hoursSincePosted": 54.97
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48143282,
+          "title": "Savepoint – A CLI for TDD",
+          "url": "https://github.com/NamtaoProductions/savepoint",
+          "by": "rrvsh",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778807283,
+          "ageHours": 54.97,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NamtaoProductions/savepoint",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "floci-io/floci": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -1529,187 +1765,29 @@
         }
       ]
     },
-    "neilsonnn/image-blaster": {
+    "orailnoor/DroidDesk": {
       "count7d": 1,
-      "scoreSum7d": 187,
+      "scoreSum7d": 4,
       "topStory": {
-        "id": 48150069,
-        "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
-        "score": 187,
-        "url": "https://github.com/neilsonnn/image-blaster",
-        "hoursSincePosted": 40.4
+        "id": 48161037,
+        "title": "DroidDesk: Turns Android Phone into Linux Desktop",
+        "score": 4,
+        "url": "https://github.com/orailnoor/DroidDesk",
+        "hoursSincePosted": 18.59
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48150069,
-          "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
-          "url": "https://github.com/neilsonnn/image-blaster",
-          "by": "MattRogish",
-          "score": 187,
-          "descendants": 38,
-          "createdUtc": 1778859757,
-          "ageHours": 40.4,
-          "velocity": 4.63,
-          "trendingScore": 50.49,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "neilsonnn/image-blaster",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ztc00/algora-scout": {
-      "count7d": 1,
-      "scoreSum7d": 34,
-      "topStory": {
-        "id": 48164229,
-        "title": "I tried to make Claude make me money on open-source bounties",
-        "score": 34,
-        "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
-        "hoursSincePosted": 9.88
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48164229,
-          "title": "I tried to make Claude make me money on open-source bounties",
-          "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
-          "by": "ztc00",
-          "score": 34,
-          "descendants": 22,
-          "createdUtc": 1778969634,
-          "ageHours": 9.88,
-          "velocity": 3.44,
-          "trendingScore": 16.86,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "ztc00/algora-scout",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "janosmiko/lfk": {
-      "count7d": 1,
-      "scoreSum7d": 6,
-      "topStory": {
-        "id": 48149626,
-        "title": "Show HN: LFK – A Fast Kubernetes TUI",
-        "score": 6,
-        "url": "https://github.com/janosmiko/lfk",
-        "hoursSincePosted": 41.04
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48149626,
-          "title": "Show HN: LFK – A Fast Kubernetes TUI",
-          "url": "https://github.com/janosmiko/lfk",
-          "by": "baskInEminence",
-          "score": 6,
-          "descendants": 3,
-          "createdUtc": 1778857459,
-          "ageHours": 41.04,
-          "velocity": 0.15,
-          "trendingScore": 0.15,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "A lightweight, keyboard-driven Kubernetes TUI for exploring and managing clusters from terminal.",
-          "linkedRepos": [
-            {
-              "fullName": "janosmiko/lfk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "byrongamatos/slopsmith": {
-      "count7d": 1,
-      "scoreSum7d": 5,
-      "topStory": {
-        "id": 48145498,
-        "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
-        "score": 5,
-        "url": "https://github.com/byrongamatos/slopsmith",
-        "hoursSincePosted": 48.86
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48145498,
-          "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
-          "url": "https://github.com/byrongamatos/slopsmith",
-          "by": "steveharing1",
-          "score": 5,
-          "descendants": 1,
-          "createdUtc": 1778829297,
-          "ageHours": 48.86,
-          "velocity": 0.1,
-          "trendingScore": 0.08,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "byrongamatos/slopsmith",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "czlonkowski/n8n-mcp": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 48158368,
-        "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
-        "score": 2,
-        "url": "https://github.com/czlonkowski/n8n-mcp",
-        "hoursSincePosted": 22.94
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48158368,
-          "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
-          "url": "https://github.com/czlonkowski/n8n-mcp",
-          "by": "steveharing1",
-          "score": 2,
+          "id": 48161037,
+          "title": "DroidDesk: Turns Android Phone into Linux Desktop",
+          "url": "https://github.com/orailnoor/DroidDesk",
+          "by": "Einenlum",
+          "score": 4,
           "descendants": 0,
-          "createdUtc": 1778922585,
-          "ageHours": 22.94,
-          "velocity": 0.09,
-          "trendingScore": 0.03,
+          "createdUtc": 1778945207,
+          "ageHours": 18.59,
+          "velocity": 0.22,
+          "trendingScore": 0.13,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1718,46 +1796,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "czlonkowski/n8n-mcp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "NamtaoProductions/savepoint": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 48143282,
-        "title": "Savepoint – A CLI for TDD",
-        "score": 2,
-        "url": "https://github.com/NamtaoProductions/savepoint",
-        "hoursSincePosted": 54.97
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48143282,
-          "title": "Savepoint – A CLI for TDD",
-          "url": "https://github.com/NamtaoProductions/savepoint",
-          "by": "rrvsh",
-          "score": 2,
-          "descendants": 1,
-          "createdUtc": 1778807283,
-          "ageHours": 54.97,
-          "velocity": 0.04,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "NamtaoProductions/savepoint",
+              "fullName": "orailnoor/DroidDesk",
               "matchType": "url",
               "confidence": 1
             }
@@ -1775,7 +1814,7 @@
         "title": "Let-go is a Clojure dialect written in Go",
         "score": 5,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 87.73
+        "hoursSincePosted": 89.66
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1787,7 +1826,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778689347,
-          "ageHours": 87.73,
+          "ageHours": 89.66,
           "velocity": 0.06,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -1806,6 +1845,45 @@
         }
       ]
     },
+    "neilsonnn--image-blaster": {
+      "count7d": 1,
+      "scoreSum7d": 187,
+      "topStory": {
+        "id": 48150069,
+        "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+        "score": 187,
+        "url": "https://github.com/neilsonnn/image-blaster",
+        "hoursSincePosted": 42.33
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48150069,
+          "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
+          "url": "https://github.com/neilsonnn/image-blaster",
+          "by": "MattRogish",
+          "score": 187,
+          "descendants": 38,
+          "createdUtc": 1778859757,
+          "ageHours": 42.33,
+          "velocity": 4.42,
+          "trendingScore": 48.2,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "neilsonnn/image-blaster",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "tracewayapp--traceway": {
       "count7d": 1,
       "scoreSum7d": 171,
@@ -1814,7 +1892,7 @@
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
         "score": 171,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 145.02
+        "hoursSincePosted": 146.95
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1826,9 +1904,9 @@
           "score": 171,
           "descendants": 82,
           "createdUtc": 1778483101,
-          "ageHours": 145.02,
-          "velocity": 1.18,
-          "trendingScore": 24.24,
+          "ageHours": 146.95,
+          "velocity": 1.16,
+          "trendingScore": 23.83,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1893,7 +1971,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 82,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 162.41
+        "hoursSincePosted": 164.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1905,7 +1983,7 @@
           "score": 82,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 162.41,
+          "ageHours": 164.34,
           "velocity": 0.5,
           "trendingScore": 3.25,
           "everHitFrontPage": false,
@@ -2083,6 +2161,46 @@
         }
       ]
     },
+    "ztc00--algora-scout": {
+      "count7d": 1,
+      "scoreSum7d": 34,
+      "topStory": {
+        "id": 48164229,
+        "title": "I tried to make Claude make me money on open-source bounties",
+        "score": 34,
+        "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+        "hoursSincePosted": 9.88
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48164229,
+          "title": "I tried to make Claude make me money on open-source bounties",
+          "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
+          "by": "ztc00",
+          "score": 34,
+          "descendants": 22,
+          "createdUtc": 1778969634,
+          "ageHours": 9.88,
+          "velocity": 3.44,
+          "trendingScore": 16.86,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "ztc00/algora-scout",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "nightmare-eclipse--yellowkey": {
       "count7d": 1,
       "scoreSum7d": 29,
@@ -2130,7 +2248,7 @@
         "title": "CC: Anthropic API Error: 500 Internal Server Error",
         "score": 5,
         "url": "https://github.com/anthropics/claude-code/issues/59743",
-        "hoursSincePosted": 13.95
+        "hoursSincePosted": 15.88
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2142,9 +2260,9 @@
           "score": 5,
           "descendants": 2,
           "createdUtc": 1778954958,
-          "ageHours": 13.95,
-          "velocity": 0.36,
-          "trendingScore": 0.3,
+          "ageHours": 15.88,
+          "velocity": 0.31,
+          "trendingScore": 0.26,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2322,7 +2440,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 131.71
+        "hoursSincePosted": 133.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2334,9 +2452,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 131.71,
-          "velocity": 0.05,
-          "trendingScore": 0.04,
+          "ageHours": 133.64,
+          "velocity": 0.04,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2347,6 +2465,46 @@
           "linkedRepos": [
             {
               "fullName": "njbrake/agent-of-empires",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "janosmiko--lfk": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 48149626,
+        "title": "Show HN: LFK – A Fast Kubernetes TUI",
+        "score": 6,
+        "url": "https://github.com/janosmiko/lfk",
+        "hoursSincePosted": 41.04
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48149626,
+          "title": "Show HN: LFK – A Fast Kubernetes TUI",
+          "url": "https://github.com/janosmiko/lfk",
+          "by": "baskInEminence",
+          "score": 6,
+          "descendants": 3,
+          "createdUtc": 1778857459,
+          "ageHours": 41.04,
+          "velocity": 0.15,
+          "trendingScore": 0.15,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "A lightweight, keyboard-driven Kubernetes TUI for exploring and managing clusters from terminal.",
+          "linkedRepos": [
+            {
+              "fullName": "janosmiko/lfk",
               "matchType": "url",
               "confidence": 1
             }
@@ -2401,7 +2559,7 @@
         "title": "Hysteria: A QUIC-Based Proxy Designed to Resist Censorship",
         "score": 5,
         "url": "https://github.com/apernet/hysteria",
-        "hoursSincePosted": 96.24
+        "hoursSincePosted": 98.17
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2413,7 +2571,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778658717,
-          "ageHours": 96.24,
+          "ageHours": 98.17,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -2425,6 +2583,45 @@
           "linkedRepos": [
             {
               "fullName": "apernet/hysteria",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "byrongamatos--slopsmith": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48145498,
+        "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+        "score": 5,
+        "url": "https://github.com/byrongamatos/slopsmith",
+        "hoursSincePosted": 50.79
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48145498,
+          "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
+          "url": "https://github.com/byrongamatos/slopsmith",
+          "by": "steveharing1",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1778829297,
+          "ageHours": 50.79,
+          "velocity": 0.1,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "byrongamatos/slopsmith",
               "matchType": "url",
               "confidence": 1
             }
@@ -2596,7 +2793,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 141.1
+        "hoursSincePosted": 143.03
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2608,7 +2805,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 141.1,
+          "ageHours": 143.03,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -3097,6 +3294,84 @@
         }
       ]
     },
+    "czlonkowski--n8n-mcp": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48158368,
+        "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+        "score": 2,
+        "url": "https://github.com/czlonkowski/n8n-mcp",
+        "hoursSincePosted": 22.94
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48158368,
+          "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "by": "steveharing1",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778922585,
+          "ageHours": 22.94,
+          "velocity": 0.09,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "czlonkowski/n8n-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "namtaoproductions--savepoint": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48143282,
+        "title": "Savepoint – A CLI for TDD",
+        "score": 2,
+        "url": "https://github.com/NamtaoProductions/savepoint",
+        "hoursSincePosted": 54.97
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48143282,
+          "title": "Savepoint – A CLI for TDD",
+          "url": "https://github.com/NamtaoProductions/savepoint",
+          "by": "rrvsh",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1778807283,
+          "ageHours": 54.97,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NamtaoProductions/savepoint",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "floci-io--floci": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -3292,187 +3567,29 @@
         }
       ]
     },
-    "neilsonnn--image-blaster": {
+    "orailnoor--droiddesk": {
       "count7d": 1,
-      "scoreSum7d": 187,
+      "scoreSum7d": 4,
       "topStory": {
-        "id": 48150069,
-        "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
-        "score": 187,
-        "url": "https://github.com/neilsonnn/image-blaster",
-        "hoursSincePosted": 40.4
+        "id": 48161037,
+        "title": "DroidDesk: Turns Android Phone into Linux Desktop",
+        "score": 4,
+        "url": "https://github.com/orailnoor/DroidDesk",
+        "hoursSincePosted": 18.59
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48150069,
-          "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
-          "url": "https://github.com/neilsonnn/image-blaster",
-          "by": "MattRogish",
-          "score": 187,
-          "descendants": 38,
-          "createdUtc": 1778859757,
-          "ageHours": 40.4,
-          "velocity": 4.63,
-          "trendingScore": 50.49,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "neilsonnn/image-blaster",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ztc00--algora-scout": {
-      "count7d": 1,
-      "scoreSum7d": 34,
-      "topStory": {
-        "id": 48164229,
-        "title": "I tried to make Claude make me money on open-source bounties",
-        "score": 34,
-        "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
-        "hoursSincePosted": 9.88
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48164229,
-          "title": "I tried to make Claude make me money on open-source bounties",
-          "url": "https://github.com/ztc00/algora-scout/blob/main/POST.md",
-          "by": "ztc00",
-          "score": 34,
-          "descendants": 22,
-          "createdUtc": 1778969634,
-          "ageHours": 9.88,
-          "velocity": 3.44,
-          "trendingScore": 16.86,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "ztc00/algora-scout",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "janosmiko--lfk": {
-      "count7d": 1,
-      "scoreSum7d": 6,
-      "topStory": {
-        "id": 48149626,
-        "title": "Show HN: LFK – A Fast Kubernetes TUI",
-        "score": 6,
-        "url": "https://github.com/janosmiko/lfk",
-        "hoursSincePosted": 41.04
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48149626,
-          "title": "Show HN: LFK – A Fast Kubernetes TUI",
-          "url": "https://github.com/janosmiko/lfk",
-          "by": "baskInEminence",
-          "score": 6,
-          "descendants": 3,
-          "createdUtc": 1778857459,
-          "ageHours": 41.04,
-          "velocity": 0.15,
-          "trendingScore": 0.15,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "A lightweight, keyboard-driven Kubernetes TUI for exploring and managing clusters from terminal.",
-          "linkedRepos": [
-            {
-              "fullName": "janosmiko/lfk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "byrongamatos--slopsmith": {
-      "count7d": 1,
-      "scoreSum7d": 5,
-      "topStory": {
-        "id": 48145498,
-        "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
-        "score": 5,
-        "url": "https://github.com/byrongamatos/slopsmith",
-        "hoursSincePosted": 48.86
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48145498,
-          "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
-          "url": "https://github.com/byrongamatos/slopsmith",
-          "by": "steveharing1",
-          "score": 5,
-          "descendants": 1,
-          "createdUtc": 1778829297,
-          "ageHours": 48.86,
-          "velocity": 0.1,
-          "trendingScore": 0.08,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "byrongamatos/slopsmith",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "czlonkowski--n8n-mcp": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 48158368,
-        "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
-        "score": 2,
-        "url": "https://github.com/czlonkowski/n8n-mcp",
-        "hoursSincePosted": 22.94
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48158368,
-          "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
-          "url": "https://github.com/czlonkowski/n8n-mcp",
-          "by": "steveharing1",
-          "score": 2,
+          "id": 48161037,
+          "title": "DroidDesk: Turns Android Phone into Linux Desktop",
+          "url": "https://github.com/orailnoor/DroidDesk",
+          "by": "Einenlum",
+          "score": 4,
           "descendants": 0,
-          "createdUtc": 1778922585,
-          "ageHours": 22.94,
-          "velocity": 0.09,
-          "trendingScore": 0.03,
+          "createdUtc": 1778945207,
+          "ageHours": 18.59,
+          "velocity": 0.22,
+          "trendingScore": 0.13,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3481,46 +3598,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "czlonkowski/n8n-mcp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "namtaoproductions--savepoint": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 48143282,
-        "title": "Savepoint – A CLI for TDD",
-        "score": 2,
-        "url": "https://github.com/NamtaoProductions/savepoint",
-        "hoursSincePosted": 54.97
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48143282,
-          "title": "Savepoint – A CLI for TDD",
-          "url": "https://github.com/NamtaoProductions/savepoint",
-          "by": "rrvsh",
-          "score": 2,
-          "descendants": 1,
-          "createdUtc": 1778807283,
-          "ageHours": 54.97,
-          "velocity": 0.04,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "NamtaoProductions/savepoint",
+              "fullName": "orailnoor/DroidDesk",
               "matchType": "url",
               "confidence": 1
             }
@@ -3647,6 +3725,11 @@
     },
     {
       "fullName": "jundot/omlx",
+      "count7d": 1,
+      "scoreSum7d": 4
+    },
+    {
+      "fullName": "orailnoor/DroidDesk",
       "count7d": 1,
       "scoreSum7d": 4
     },

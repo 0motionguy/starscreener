@@ -56,7 +56,7 @@ const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
 // Soft health is polled by uptime checks; return cached truth quickly instead
 // of letting a slow Redis/data-store refresh become the outage signal.
-const SOFT_REFRESH_DEADLINE_MS = 500;
+const SOFT_REFRESH_DEADLINE_MS = 150;
 
 type HealthStatus = "ok" | "stale" | "error";
 

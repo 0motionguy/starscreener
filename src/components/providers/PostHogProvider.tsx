@@ -4,6 +4,11 @@ import { useEffect, type ReactNode } from "react";
 import { flushPendingFunnelSteps } from "@/lib/analytics/funnel";
 import type { BrowserPostHogClient } from "@/lib/analytics/posthog-client";
 import { resolvePublicPostHogConfig } from "@/lib/analytics/posthog-config";
+import {
+  CONSENT_CHANGED_EVENT,
+  hasAnalyticsConsent,
+  type ConsentState,
+} from "@/lib/consent/cookie";
 // NOTE: type-only import is erased by SWC; no runtime cost.
 
 export function PostHogProvider({ children }: { children: ReactNode }) {
@@ -15,8 +20,13 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
     });
     if (!key) return;
 
+    // S3.5.C — GDPR / CCPA gate. PostHog never loads until the user has
+    // actively granted analytics consent via the ConsentBanner. The
+    // banner dispatches `trendingrepo:consent-changed` so we can flip
+    // into the live state without a page reload when they accept.
     let cancelled = false;
     let triggered = false;
+    let listeningForConsent = false;
 
     const load = async () => {
       if (cancelled || triggered) return;
@@ -59,22 +69,52 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
       window.dispatchEvent(new Event("trendingrepo:posthog-ready"));
     };
 
-    // Idle trigger
+    // Idle / interaction triggers — guarded by the consent gate inside
+    // `loadIfConsented` so they fire-once but don't actually load
+    // posthog until consent is in place.
     type IdleHandle = number;
     const ric = (window as unknown as {
       requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => IdleHandle;
     }).requestIdleCallback;
     let idleId: IdleHandle | null = null;
-    if (ric) {
-      idleId = ric(() => void load(), { timeout: 3000 });
-    } else {
-      idleId = window.setTimeout(load, 1500) as unknown as IdleHandle;
+
+    const events = ["pointerdown", "keydown", "scroll"] as const;
+    const onInteract = () => void loadIfConsented();
+
+    function loadIfConsented() {
+      if (cancelled || triggered) return;
+      if (!hasAnalyticsConsent()) {
+        // Subscribe (once) to the consent-changed event so we can flip
+        // into the live state as soon as the user accepts.
+        if (!listeningForConsent) {
+          listeningForConsent = true;
+          window.addEventListener(
+            CONSENT_CHANGED_EVENT,
+            onConsentChanged as EventListener,
+            { once: true },
+          );
+        }
+        return;
+      }
+      void load();
     }
 
-    // Interaction trigger
-    const onInteract = () => void load();
-    const events = ["pointerdown", "keydown", "scroll"] as const;
-    events.forEach((e) => window.addEventListener(e, onInteract, { once: true, passive: true }));
+    function onConsentChanged(event: CustomEvent<ConsentState>) {
+      listeningForConsent = false;
+      if (cancelled) return;
+      if (event.detail.analytics) {
+        void load();
+      }
+    }
+
+    if (ric) {
+      idleId = ric(() => loadIfConsented(), { timeout: 3000 });
+    } else {
+      idleId = window.setTimeout(loadIfConsented, 1500) as unknown as IdleHandle;
+    }
+    events.forEach((e) =>
+      window.addEventListener(e, onInteract, { once: true, passive: true }),
+    );
 
     return () => {
       cancelled = true;
@@ -82,6 +122,12 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
       if (cancelIdle && idleId !== null) cancelIdle(idleId);
       else if (idleId !== null) clearTimeout(idleId as unknown as number);
       events.forEach((e) => window.removeEventListener(e, onInteract));
+      if (listeningForConsent) {
+        window.removeEventListener(
+          CONSENT_CHANGED_EVENT,
+          onConsentChanged as EventListener,
+        );
+      }
     };
   }, []);
 

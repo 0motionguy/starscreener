@@ -54,6 +54,9 @@ export const runtime = "nodejs";
 
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
+// Soft health is polled by uptime checks; return cached truth quickly instead
+// of letting a slow Redis/data-store refresh become the outage signal.
+const SOFT_REFRESH_DEADLINE_MS = 500;
 
 type HealthStatus = "ok" | "stale" | "error";
 
@@ -172,6 +175,34 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
+function settleRefreshWithin(
+  label: string,
+  promise: Promise<unknown>,
+  timeoutMs: number,
+): Promise<PromiseSettledResult<unknown>> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  const guarded: Promise<PromiseSettledResult<unknown>> = promise.then(
+    (value): PromiseFulfilledResult<unknown> => ({ status: "fulfilled", value }),
+    (reason): PromiseRejectedResult => ({ status: "rejected", reason }),
+  );
+
+  return Promise.race<PromiseSettledResult<unknown>>([
+    guarded,
+    new Promise<PromiseRejectedResult>((resolve) => {
+      timeout = setTimeout(
+        () =>
+          resolve({
+            status: "rejected",
+            reason: new Error(`${label} refresh timed out after ${timeoutMs}ms`),
+          }),
+        timeoutMs,
+      );
+    }),
+  ]).finally(() => {
+    if (timeout) clearTimeout(timeout);
+  });
+}
+
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<HealthBody | PublicHealthBody>> {
@@ -184,14 +215,31 @@ export async function GET(
     // Refresh in-memory caches from the data-store so per-source freshness
     // reflects the live Redis payload, not the bundled JSON snapshot. Each
     // refresh call internally rate-limits to 1 read per source per 30s.
-    const refreshResults = await Promise.allSettled([
-      refreshTrendingFromStore(),
-      refreshHotCollectionsFromStore(),
-      refreshRecentReposFromStore(),
-      refreshRepoMetadataFromStore(),
-      refreshCollectionRankingsFromStore(),
-      refreshScannerSourceHealthFromStore(),
-    ]);
+    const refreshTasks: Array<{ label: string; promise: Promise<unknown> }> = [
+      { label: "trending", promise: refreshTrendingFromStore() },
+      { label: "hotCollections", promise: refreshHotCollectionsFromStore() },
+      { label: "recentRepos", promise: refreshRecentReposFromStore() },
+      { label: "repoMetadata", promise: refreshRepoMetadataFromStore() },
+      {
+        label: "collectionRankings",
+        promise: refreshCollectionRankingsFromStore(),
+      },
+      {
+        label: "scannerSourceHealth",
+        promise: refreshScannerSourceHealthFromStore(),
+      },
+    ];
+    const refreshResults = soft
+      ? await Promise.all(
+          refreshTasks.map((task) =>
+            settleRefreshWithin(
+              task.label,
+              task.promise,
+              SOFT_REFRESH_DEADLINE_MS,
+            ),
+          ),
+        )
+      : await Promise.allSettled(refreshTasks.map((task) => task.promise));
     const refreshFailureCount = refreshResults.filter(
       (result) => result.status === "rejected",
     ).length;

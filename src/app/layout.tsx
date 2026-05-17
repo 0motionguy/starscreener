@@ -19,15 +19,12 @@ import { PostHogIdentifyBridge } from "@/components/analytics/PostHogIdentifyBri
 import { PostHogPageviewBridge } from "@/components/analytics/PostHogPageviewBridge";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
-import { Sidebar } from "@/components/layout/Sidebar";
+import { SidebarStream } from "@/components/layout/SidebarStream";
+import { SidebarSkeleton } from "@/components/layout/SidebarSkeleton";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
-import {
-  getPublicSidebarShell,
-  type SidebarShellResponse,
-} from "@/lib/sidebar-data";
 // MobileDrawer is deferred via a thin client wrapper so framer-motion (the
 // drawer's biggest dep, ~30 kB gzipped) lands in its own chunk instead of
 // the shared bundle. The win propagates to every route. The wrapper file
@@ -156,28 +153,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Build the PUBLIC desktop sidebar shell server-side and pass it to
-  // <Sidebar> as initialShell. The shell is anonymous-safe: it does NOT
-  // call `pipeline.ensureReady()` (the bootstrap warmup did that exactly
-  // once at server start) and does NOT carry any user-keyed fields.
-  // Per-user data (`unreadAlerts`) lands client-side via
-  // <SidebarUserOverlayBridge />, gated on Clerk's session.
+  // Sidebar shell is now built inside <SidebarStream /> behind a
+  // <Suspense> boundary. The 13 data-store refresh hooks fanned out by
+  // getPublicSidebarShell() used to block the layout's RSC stream on
+  // every page (~4.2s cold TTFB). Deferring lets `{children}` paint
+  // first and the sidebar streams in as a follow-up flight.
   //
-  // Do not inline repo hydration or unused legacy facets into the root shell.
-  // The watchlist preview fetches exact watched ids client-side after
-  // localStorage is available, avoiding 40KB+ of repo map in every page's
-  // RSC stream.
-  // Wrapped in try/catch so a transient pipeline / data-store hiccup doesn't
-  // take the whole site down; if it fails, Sidebar falls back to client fetch.
-  let initialSidebarShell: SidebarShellResponse | null = null;
-  try {
-    initialSidebarShell = await getPublicSidebarShell({
-      reposByIdTopN: 0,
-      includeLegacyFacets: false,
-    });
-  } catch {
-    initialSidebarShell = null;
-  }
+  // The shell is anonymous-safe: NO `pipeline.ensureReady()`, NO
+  // user-keyed fields. Per-user data (`unreadAlerts`) still lands
+  // client-side via <SidebarUserOverlayBridge />, gated on Clerk's
+  // session. If the shell build throws, SidebarStream passes
+  // `initialShell={null}` and the client <Sidebar> recovers via its
+  // own fetch.
   const clerkPublishableKey = getClerkPublishableKey();
   const appChrome = (
     <>
@@ -187,8 +174,10 @@ export default async function RootLayout({
       <Header authEnabled={Boolean(clerkPublishableKey)} />
       <MobileDrawerLazy />
       <AppShell>
-        <Sidebar initialShell={initialSidebarShell} />
-        <main id="main-content" className="app-main">{children}</main>
+        <Suspense fallback={<SidebarSkeleton />}>
+          <SidebarStream />
+        </Suspense>
+        <main id="main-content" tabIndex={-1} className="app-main">{children}</main>
       </AppShell>
       <SidebarUserOverlayBridge enabled={Boolean(clerkPublishableKey)} />
       <MobileNavLazy />

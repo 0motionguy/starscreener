@@ -244,15 +244,29 @@ async function main() {
 
   const papers = [];
   const seenPapers = new Set();
+  const fetchedCategories = [];
+  const failedCategories = [];
   for (const [index, category] of CATEGORIES.entries()) {
     if (index > 0) {
       await sleep(CATEGORY_REQUEST_GAP_MS);
     }
-    const xml = await fetchArxivXml(buildEndpoint(category), category);
+    let xml;
+    try {
+      xml = await fetchArxivXml(buildEndpoint(category), category);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      failedCategories.push({ category, error: message });
+      log(`warn: ${category} failed (${message}) - continuing with other categories`);
+      continue;
+    }
     const entries = splitEntries(xml);
     if (entries.length === 0) {
-      throw new Error(`no <entry> blocks in arXiv response for ${category} - API shape changed?`);
+      const message = `no <entry> blocks in arXiv response for ${category} - API shape changed?`;
+      failedCategories.push({ category, error: message });
+      log(`warn: ${message}`);
+      continue;
     }
+    fetchedCategories.push(category);
     log(`${category}: ${entries.length} entries`);
     for (const entry of entries) {
       const norm = parseEntry(entry, tracked);
@@ -263,7 +277,10 @@ async function main() {
   }
 
   if (papers.length === 0) {
-    throw new Error("no papers parsed from arXiv response");
+    const failures = failedCategories
+      .map((failure) => `${failure.category}: ${failure.error}`)
+      .join("; ");
+    throw new Error(`no papers parsed from arXiv response${failures ? ` (${failures})` : ""}`);
   }
   papers.sort((a, b) => {
     const aTime = Date.parse(a.publishedAt ?? a.updatedAt ?? "");
@@ -276,7 +293,9 @@ async function main() {
 
   const payload = {
     fetchedAt,
-    source: `export.arxiv.org/api/query (${CATEGORIES.join(", ")})`,
+    source: `export.arxiv.org/api/query (${fetchedCategories.join(", ")})`,
+    fetchedCategories,
+    failedCategories,
     count: recentPapers.length,
     linkedRepoCount: linkedCount,
     papers: recentPapers,

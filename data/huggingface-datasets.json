@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-17T04:35:55.184Z",
+  "fetchedAt": "2026-05-17T08:35:07.645Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -8,9 +8,9 @@
       "id": "TuringEnterprises/Open-MM-RL",
       "author": "TuringEnterprises",
       "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
-      "downloads": 5217,
-      "likes": 111,
-      "trendingScore": 92,
+      "downloads": 6089,
+      "likes": 112,
+      "trendingScore": 93,
       "tags": [
         "task_categories:question-answering",
         "language:en",
@@ -40,9 +40,9 @@
       "id": "PsiBotAI/SynData",
       "author": "PsiBotAI",
       "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
-      "downloads": 24094,
-      "likes": 132,
-      "trendingScore": 86,
+      "downloads": 29284,
+      "likes": 134,
+      "trendingScore": 87,
       "tags": [
         "language:en",
         "size_categories:100K<n<1M",
@@ -165,9 +165,9 @@
       "id": "AlienKevin/SWE-ZERO-12M-trajectories",
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
-      "downloads": 5906,
-      "likes": 59,
-      "trendingScore": 58,
+      "downloads": 6550,
+      "likes": 61,
+      "trendingScore": 60,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -338,6 +338,29 @@
     },
     {
       "rank": 12,
+      "id": "5551z/VisCoR-55K",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
+      "downloads": 237,
+      "likes": 30,
+      "trendingScore": 26,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-24T03:40:42.000Z",
+      "lastModified": "2026-04-30T10:51:23.000Z"
+    },
+    {
+      "rank": 13,
       "id": "lambda/hermes-agent-reasoning-traces",
       "author": "lambda",
       "url": "https://huggingface.co/datasets/lambda/hermes-agent-reasoning-traces",
@@ -368,29 +391,6 @@
       ],
       "createdAt": "2026-03-30T15:48:57.000Z",
       "lastModified": "2026-04-17T10:06:39.000Z"
-    },
-    {
-      "rank": 13,
-      "id": "5551z/VisCoR-55K",
-      "author": "5551z",
-      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
-      "downloads": 207,
-      "likes": 29,
-      "trendingScore": 25,
-      "tags": [
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2603.02556",
-        "region:us"
-      ],
-      "createdAt": "2026-04-24T03:40:42.000Z",
-      "lastModified": "2026-04-30T10:51:23.000Z"
     },
     {
       "rank": 14,
@@ -518,7 +518,7 @@
       "id": "Qwen/WebWorldData",
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
-      "downloads": 537,
+      "downloads": 554,
       "likes": 28,
       "trendingScore": 21,
       "tags": [
@@ -816,7 +816,7 @@
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
-      "downloads": 20467,
+      "downloads": 20733,
       "likes": 16,
       "trendingScore": 16,
       "tags": [
@@ -986,6 +986,66 @@
     },
     {
       "rank": 32,
+      "id": "alibaba-multimodal-industrial-ai/IndustryBench",
+      "author": "alibaba-multimodal-industrial-ai",
+      "url": "https://huggingface.co/datasets/alibaba-multimodal-industrial-ai/IndustryBench",
+      "downloads": 120,
+      "likes": 16,
+      "trendingScore": 15,
+      "tags": [
+        "task_categories:question-answering",
+        "task_categories:text-generation",
+        "language:zh",
+        "language:en",
+        "language:ru",
+        "language:vi",
+        "license:mit",
+        "size_categories:1K<n<10K",
+        "format:csv",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2605.10267",
+        "region:us"
+      ],
+      "createdAt": "2026-05-12T06:15:11.000Z",
+      "lastModified": "2026-05-13T05:23:50.000Z"
+    },
+    {
+      "rank": 33,
+      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
+      "author": "5CD-AI",
+      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
+      "downloads": 64,
+      "likes": 16,
+      "trendingScore": 15,
+      "tags": [
+        "task_categories:image-to-text",
+        "language:vi",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2408.12480",
+        "region:us",
+        "ocr",
+        "text-recognition",
+        "handwriting",
+        "handwriting-recognition",
+        "vietnamese"
+      ],
+      "createdAt": "2026-05-10T22:38:24.000Z",
+      "lastModified": "2026-05-10T23:25:43.000Z"
+    },
+    {
+      "rank": 34,
       "id": "OwnedByDanes/Usenet-Corpus-1980-2013",
       "author": "OwnedByDanes",
       "url": "https://huggingface.co/datasets/OwnedByDanes/Usenet-Corpus-1980-2013",
@@ -1026,7 +1086,7 @@
       "lastModified": "2026-05-05T16:17:39.000Z"
     },
     {
-      "rank": 33,
+      "rank": 35,
       "id": "badlogicgames/pi-mono",
       "author": "badlogicgames",
       "url": "https://huggingface.co/datasets/badlogicgames/pi-mono",
@@ -1056,7 +1116,7 @@
       "lastModified": "2026-04-06T13:10:36.000Z"
     },
     {
-      "rank": 34,
+      "rank": 36,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
@@ -1099,7 +1159,7 @@
       "lastModified": "2026-04-30T17:12:47.000Z"
     },
     {
-      "rank": 35,
+      "rank": 37,
       "id": "Inferact/codex_swebenchpro_traces",
       "author": "Inferact",
       "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
@@ -1121,36 +1181,7 @@
       "lastModified": "2026-05-07T01:13:21.000Z"
     },
     {
-      "rank": 36,
-      "id": "alibaba-multimodal-industrial-ai/IndustryBench",
-      "author": "alibaba-multimodal-industrial-ai",
-      "url": "https://huggingface.co/datasets/alibaba-multimodal-industrial-ai/IndustryBench",
-      "downloads": 91,
-      "likes": 15,
-      "trendingScore": 14,
-      "tags": [
-        "task_categories:question-answering",
-        "task_categories:text-generation",
-        "language:zh",
-        "language:en",
-        "language:ru",
-        "language:vi",
-        "license:mit",
-        "size_categories:1K<n<10K",
-        "format:csv",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2605.10267",
-        "region:us"
-      ],
-      "createdAt": "2026-05-12T06:15:11.000Z",
-      "lastModified": "2026-05-13T05:23:50.000Z"
-    },
-    {
-      "rank": 37,
+      "rank": 38,
       "id": "TAAC2026/data_sample_1000",
       "author": "TAAC2026",
       "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
@@ -1175,7 +1206,7 @@
       "lastModified": "2026-04-10T09:07:28.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "dianetc/OBLIQ-Bench",
       "author": "dianetc",
       "url": "https://huggingface.co/datasets/dianetc/OBLIQ-Bench",
@@ -1204,11 +1235,11 @@
       "lastModified": "2026-05-09T18:30:15.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "5551z/VisCoR_Contrast",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
-      "downloads": 294,
+      "downloads": 315,
       "likes": 16,
       "trendingScore": 13,
       "tags": [
@@ -1227,11 +1258,11 @@
       "lastModified": "2026-04-30T01:37:13.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "llm-jp/Jagle",
       "author": "llm-jp",
       "url": "https://huggingface.co/datasets/llm-jp/Jagle",
-      "downloads": 637,
+      "downloads": 707,
       "likes": 13,
       "trendingScore": 13,
       "tags": [
@@ -1245,11 +1276,11 @@
       "lastModified": "2026-05-12T00:53:55.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
-      "downloads": 929696,
+      "downloads": 921740,
       "likes": 1311,
       "trendingScore": 13,
       "tags": [
@@ -1277,11 +1308,11 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "Exgentic/agent-llm-traces",
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
-      "downloads": 1331,
+      "downloads": 1356,
       "likes": 13,
       "trendingScore": 13,
       "tags": [
@@ -1307,13 +1338,13 @@
       "lastModified": "2026-05-14T18:50:50.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
-      "downloads": 921226,
-      "likes": 2795,
-      "trendingScore": 12,
+      "downloads": 922535,
+      "likes": 2797,
+      "trendingScore": 13,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -1329,37 +1360,6 @@
       ],
       "createdAt": "2024-04-18T14:33:13.000Z",
       "lastModified": "2025-07-11T20:16:53.000Z"
-    },
-    {
-      "rank": 44,
-      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
-      "author": "5CD-AI",
-      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
-      "downloads": 51,
-      "likes": 13,
-      "trendingScore": 12,
-      "tags": [
-        "task_categories:image-to-text",
-        "language:vi",
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "format:optimized-parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2408.12480",
-        "region:us",
-        "ocr",
-        "text-recognition",
-        "handwriting",
-        "handwriting-recognition",
-        "vietnamese"
-      ],
-      "createdAt": "2026-05-10T22:38:24.000Z",
-      "lastModified": "2026-05-10T23:25:43.000Z"
     },
     {
       "rank": 45,

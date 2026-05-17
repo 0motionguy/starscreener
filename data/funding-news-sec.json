@@ -1,240 +1,8 @@
 {
-  "fetchedAt": "2026-05-16T11:05:27.163Z",
+  "fetchedAt": "2026-05-17T11:10:32.163Z",
   "source": "sec-form-d-edgar",
   "windowDays": 30,
   "signals": [
-    {
-      "id": "sec-form-d-0002133683-26-000001",
-      "headline": "Prism Layer AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133683/000213368326000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133683&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-15T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.935Z",
-      "extracted": {
-        "companyName": "Prism Layer AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1000000,
-        "amountDisplay": "$1M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002112535-26-000002",
-      "headline": "NeuroMuse Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2112535/000211253526000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2112535&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-14T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:25.877Z",
-      "extracted": {
-        "companyName": "NeuroMuse Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 250000,
-        "amountDisplay": "$250K",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-keyword",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002099261-26-000003",
-      "headline": "SiteVue AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2099261/000209926126000003/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2099261&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:22.897Z",
-      "extracted": {
-        "companyName": "SiteVue AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 7000000,
-        "amountDisplay": "$7M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002134582-26-000001",
-      "headline": "Aunthentica AI, Inc filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2134582/000213458226000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134582&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.125Z",
-      "extracted": {
-        "companyName": "Aunthentica AI, Inc",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 100000,
-        "amountDisplay": "$100K",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002134758-26-000001",
-      "headline": "Weston AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2134758/000213475826000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134758&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.468Z",
-      "extracted": {
-        "companyName": "Weston AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 500000,
-        "amountDisplay": "$500K",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002133878-26-000001",
-      "headline": "Nova AI Software Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133878/000213387826000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133878&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.591Z",
-      "extracted": {
-        "companyName": "Nova AI Software Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 38434315,
-        "amountDisplay": "$38.4M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001954117-26-000001",
-      "headline": "Tycho AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/1954117/000195411726000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1954117&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:24.445Z",
-      "extracted": {
-        "companyName": "Tycho AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 8000000,
-        "amountDisplay": "$8M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002077932-26-000002",
-      "headline": "Positron AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2077932/000207793226000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2077932&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-12T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:25.282Z",
-      "extracted": {
-        "companyName": "Positron AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 233885560,
-        "amountDisplay": "$233.9M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other"
-      ]
-    },
     {
       "id": "sec-form-d-0001213900-26-055139",
       "headline": "Ondas Inc. (ONDS) filed Form D",
@@ -242,7 +10,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1646188&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-12T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.117Z",
+      "discoveredAt": "2026-05-17T11:10:31.073Z",
       "extracted": {
         "companyName": "Ondas Inc. (ONDS)",
         "companyWebsite": null,
@@ -271,7 +39,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-12T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.587Z",
+      "discoveredAt": "2026-05-17T11:10:31.554Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
@@ -294,245 +62,13 @@
       ]
     },
     {
-      "id": "sec-form-d-0001231919-26-000471",
-      "headline": "Alpha Design AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2032488/000123191926000471/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2032488&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-11T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:21.788Z",
-      "extracted": {
-        "companyName": "Alpha Design AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 49999237,
-        "amountDisplay": "$50.0M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001231919-26-000470",
-      "headline": "Alpha Design AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2032488/000123191926000470/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2032488&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-11T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:21.904Z",
-      "extracted": {
-        "companyName": "Alpha Design AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 21022474,
-        "amountDisplay": "$21.0M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002134567-26-000001",
-      "headline": "ADAS AI TRAK Corp filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2134567/000213456726000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134567&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-11T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.707Z",
-      "extracted": {
-        "companyName": "ADAS AI TRAK Corp",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 3000000,
-        "amountDisplay": "$3M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Business Services"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:business-services"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002133529-26-000003",
-      "headline": "Hermetic AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133529/000213352926000003/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:22.400Z",
-      "extracted": {
-        "companyName": "Hermetic AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 10925000,
-        "amountDisplay": "$10.9M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002133529-26-000002",
-      "headline": "Hermetic AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133529/000213352926000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:22.518Z",
-      "extracted": {
-        "companyName": "Hermetic AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1500000,
-        "amountDisplay": "$1.5M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002133529-26-000001",
-      "headline": "Hermetic AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133529/000213352926000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:22.633Z",
-      "extracted": {
-        "companyName": "Hermetic AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1925000,
-        "amountDisplay": "$1.9M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002089466-26-000001",
-      "headline": "Navi AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2089466/000208946626000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2089466&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.010Z",
-      "extracted": {
-        "companyName": "Navi AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1476000,
-        "amountDisplay": "$1.5M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002128503-26-000001",
-      "headline": "Glaze AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2128503/000212850326000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128503&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:24.208Z",
-      "extracted": {
-        "companyName": "Glaze AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 41301628,
-        "amountDisplay": "$41.3M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
       "id": "sec-form-d-0002134129-26-000001",
       "headline": "Pentra Robotics, inc. filed Form D",
       "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2134129/000213412926000001/primary_doc.xml)",
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134129&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-07T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.347Z",
+      "discoveredAt": "2026-05-17T11:10:31.325Z",
       "extracted": {
         "companyName": "Pentra Robotics, inc.",
         "companyWebsite": null,
@@ -561,7 +97,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130453&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-05T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.935Z",
+      "discoveredAt": "2026-05-17T11:10:31.918Z",
       "extracted": {
         "companyName": "Sielo Robotics Inc.",
         "companyWebsite": null,
@@ -584,100 +120,13 @@
       ]
     },
     {
-      "id": "sec-form-d-0002133307-26-000001",
-      "headline": "AI Commerce Solutions, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133307/000213330726000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133307&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-04T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:25.042Z",
-      "extracted": {
-        "companyName": "AI Commerce Solutions, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 100000,
-        "amountDisplay": "$100K",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Business Services"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:business-services"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001858523-26-000003",
-      "headline": "Persefoni AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/1858523/000185852326000003/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1858523&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:24.928Z",
-      "extracted": {
-        "companyName": "Persefoni AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 4349962,
-        "amountDisplay": "$4.3M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001675769-26-000001",
-      "headline": "Shield AI Inc filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/1675769/000167576926000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1675769&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:25.764Z",
-      "extracted": {
-        "companyName": "Shield AI Inc",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 591806870,
-        "amountDisplay": "$591.8M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
       "id": "sec-form-d-0002110922-26-000002",
       "headline": "Haply Robotics inc. filed Form D",
       "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2110922/000211092226000002/primary_doc.xml)",
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2110922&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.702Z",
+      "discoveredAt": "2026-05-17T11:10:31.673Z",
       "extracted": {
         "companyName": "Haply Robotics inc.",
         "companyWebsite": null,
@@ -706,7 +155,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2080868&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-30T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.817Z",
+      "discoveredAt": "2026-05-17T11:10:31.792Z",
       "extracted": {
         "companyName": "Luminous Robotics, Inc.",
         "companyWebsite": null,
@@ -735,7 +184,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-30T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:27.048Z",
+      "discoveredAt": "2026-05-17T11:10:32.029Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
@@ -758,187 +207,13 @@
       ]
     },
     {
-      "id": "sec-form-d-0002131995-26-000001",
-      "headline": "Custodia AI, Inc filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2131995/000213199526000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131995&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-28T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:24.809Z",
-      "extracted": {
-        "companyName": "Custodia AI, Inc",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 7201042,
-        "amountDisplay": "$7.2M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001477932-26-002533",
-      "headline": "AI Technology Group Inc. (AIPG) filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/1289047/000147793226002533/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1289047&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-24T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:24.083Z",
-      "extracted": {
-        "companyName": "AI Technology Group Inc. (AIPG)",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 4000000,
-        "amountDisplay": "$4M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002131424-26-000001",
-      "headline": "CoverX AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2131424/000213142426000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131424&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-23T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.238Z",
-      "extracted": {
-        "companyName": "CoverX AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 2000000,
-        "amountDisplay": "$2M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002128700-26-000001",
-      "headline": "HOSTED AI INC filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2128700/000212870026000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128700&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:22.032Z",
-      "extracted": {
-        "companyName": "HOSTED AI INC",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 18673998,
-        "amountDisplay": "$18.7M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002125104-26-000001",
-      "headline": "Outhad AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2125104/000212510426000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2125104&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:25.161Z",
-      "extracted": {
-        "companyName": "Outhad AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 210000,
-        "amountDisplay": "$210K",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002092677-26-000002",
-      "headline": "Hickory AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2092677/000209267726000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2092677&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:22.286Z",
-      "extracted": {
-        "companyName": "Hickory AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 5000000,
-        "amountDisplay": "$5M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Business Services"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:business-services"
-      ]
-    },
-    {
       "id": "sec-form-d-0002130373-26-000001",
       "headline": "Loki Robotics, Inc. filed Form D",
       "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2130373/000213037326000001/primary_doc.xml)",
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130373&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.474Z",
+      "discoveredAt": "2026-05-17T11:10:31.439Z",
       "extracted": {
         "companyName": "Loki Robotics, Inc.",
         "companyWebsite": null,
@@ -967,7 +242,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2065345&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:27.163Z",
+      "discoveredAt": "2026-05-17T11:10:32.163Z",
       "extracted": {
         "companyName": "Autonomous Cyber, Inc.",
         "companyWebsite": null,
@@ -990,42 +265,13 @@
       ]
     },
     {
-      "id": "sec-form-d-0002084004-26-000001",
-      "headline": "Ciphero AI Technologies, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2084004/000208400426000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2084004&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-20T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:25.403Z",
-      "extracted": {
-        "companyName": "Ciphero AI Technologies, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 3250000,
-        "amountDisplay": "$3.3M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
       "id": "sec-form-d-0002130551-26-000001",
       "headline": "Digital Intelligence Robotics Ltd filed Form D",
       "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2130551/000213055126000001/primary_doc.xml)",
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-20T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:26.234Z",
+      "discoveredAt": "2026-05-17T11:10:31.192Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
@@ -1045,93 +291,6 @@
         "ai",
         "ai-confirmed",
         "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002130106-26-000001",
-      "headline": "Undeniable Health AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2130106/000213010626000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130106&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-17T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.354Z",
-      "extracted": {
-        "companyName": "Undeniable Health AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 500000,
-        "amountDisplay": "$500K",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002128992-26-000001",
-      "headline": "HIDENN-AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2128992/000212899226000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128992&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-17T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:23.821Z",
-      "extracted": {
-        "companyName": "HIDENN-AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1500000,
-        "amountDisplay": "$1.5M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002068933-26-000002",
-      "headline": "DEGIMA AI, Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2068933/000206893326000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2068933&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-16T00:00:00.000Z",
-      "discoveredAt": "2026-05-16T11:05:24.331Z",
-      "extracted": {
-        "companyName": "DEGIMA AI, Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium",
-        "industryGroup": "Computers"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:computers"
       ]
     }
   ]

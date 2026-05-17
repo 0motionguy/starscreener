@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-17T17:48:18.350Z",
+  "fetchedAt": "2026-05-17T19:35:38.299Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T15:47:04.324Z",
-        "hoursSincePosted": 2.02
+        "hoursSincePosted": 3.81
       },
       "posts": [
         {
@@ -40,7 +40,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-17T15:47:04.324Z",
           "createdUtc": 1779032824,
-          "ageHours": 2.02,
+          "ageHours": 3.81,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -7932,22 +7932,22 @@
     },
     "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlpnsb725y2h",
-        "cid": "bafyreiee246z526ad4hrwgajnaya6jiwct2ahmfgaoqnvzmmcswpz4bhpy",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlpnsb725y2h",
-        "text": "🟠 OpenClaw beta adds per-sender tool policies and on-demand local model startup OpenClaw v2026.5.12-beta.4 is more than a bugfix beta. It adds per-sender tool policies for channel-scoped requester control,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.4 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm2xrkrms72h",
+        "cid": "bafyreig3uw7exoxkvkavnz7r36ghkga7ktez3c4a75jahsy5tqj5l5sgdm",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm2xrkrms72h",
+        "text": "🟠 OpenClaw beta adds typed tool plugin scaffolding and HTTPS managed proxy support OpenClaw shipped beta v2026.5.16-beta.5 with a new typed tool plugin workflow, including defineToolPlugin plus plugin build,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.5 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-13T06:17:49.239329+00:00",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-17T18:15:40.615273+00:00",
+        "hoursSincePosted": 1.33
       },
       "posts": [
         {
@@ -8021,6 +8021,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm2xrkrms72h",
+          "cid": "bafyreig3uw7exoxkvkavnz7r36ghkga7ktez3c4a75jahsy5tqj5l5sgdm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm2xrkrms72h",
+          "text": "🟠 OpenClaw beta adds typed tool plugin scaffolding and HTTPS managed proxy support OpenClaw shipped beta v2026.5.16-beta.5 with a new typed tool plugin workflow, including defineToolPlugin plus plugin build,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T18:15:40.615273+00:00",
+          "createdUtc": 1779041740,
+          "ageHours": 1.33,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -10161,23 +10189,23 @@
     },
     "docker/docker-agent": {
       "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mlnadi46pk24",
-        "cid": "bafyreighrywyzm2motizy5n3h2vujxxdjzrbxglqg5jizdrhzdiufgs74m",
-        "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mlnadi46pk24",
-        "text": "Docker Agent v1.58 is out. This release improves MCP integrations, fixes agent delegation issues, and includes several CLI and runtime stability fixes. Changelog: github.com/docker/docke... #docker #aiagents #oss",
+        "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
+        "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
+        "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
+        "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
         "author": {
           "handle": "aheritier.net",
           "displayName": "Arnaud Héritier"
         },
-        "likeCount": 2,
-        "repostCount": 1,
+        "likeCount": 1,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T07:11:36.333Z",
-        "hoursSincePosted": 5.13
+        "createdAt": "2026-05-17T19:29:43.065Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -10201,6 +10229,34 @@
             "is-announcement"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "docker/docker-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
+          "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
+          "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
+          "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
+          "author": {
+            "handle": "aheritier.net",
+            "displayName": "Arnaud Héritier"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:29:43.065Z",
+          "createdUtc": 1779046183,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "docker/docker-agent",
@@ -10858,7 +10914,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T17:25:47Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.16
       },
       "posts": [
         {
@@ -10875,7 +10931,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-17T17:25:47Z",
           "createdUtc": 1779038747,
-          "ageHours": 0.5,
+          "ageHours": 2.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -13148,7 +13204,7 @@
     },
     "nautechsystems/nautilus_trader": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -13160,11 +13216,11 @@
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T17:41:06Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.91
       },
       "posts": [
         {
@@ -13176,13 +13232,13 @@
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-17T17:41:06Z",
           "createdUtc": 1779039666,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.91,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -13199,8 +13255,8 @@
     },
     "Tencent/TencentDB-Agent-Memory": {
       "count7d": 1,
-      "likesSum7d": 13,
-      "repostsSum7d": 0,
+      "likesSum7d": 16,
+      "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mm2otmqvbk2k",
@@ -13211,11 +13267,11 @@
           "handle": "sungkim.bsky.social",
           "displayName": "Sung Kim"
         },
-        "likeCount": 13,
-        "repostCount": 0,
+        "likeCount": 16,
+        "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-05-17T15:35:47.062Z",
-        "hoursSincePosted": 2.21
+        "hoursSincePosted": 4
       },
       "posts": [
         {
@@ -13227,13 +13283,13 @@
             "handle": "sungkim.bsky.social",
             "displayName": "Sung Kim"
           },
-          "likeCount": 13,
-          "repostCount": 0,
+          "likeCount": 16,
+          "repostCount": 2,
           "replyCount": 0,
           "createdAt": "2026-05-17T15:35:47.062Z",
           "createdUtc": 1779032147,
-          "ageHours": 2.21,
-          "trendingScore": 13,
+          "ageHours": 4,
+          "trendingScore": 20,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -13575,6 +13631,108 @@
           ]
         }
       ]
+    },
+    "ruvnet/RuView": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm32vhnkxd2x",
+        "cid": "bafyreidguwrfwuh7wnzxrglu4o6qa7ml2p7yhxzykonbm2w6tleixx3nhu",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm32vhnkxd2x",
+        "text": "ruvnet / RuView: π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video. ★59085 https://github.com/ruvnet/RuView",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T19:11:33.590982Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm32vhnkxd2x",
+          "cid": "bafyreidguwrfwuh7wnzxrglu4o6qa7ml2p7yhxzykonbm2w6tleixx3nhu",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm32vhnkxd2x",
+          "text": "ruvnet / RuView: π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video. ★59085 https://github.com/ruvnet/RuView",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:11:33.590982Z",
+          "createdUtc": 1779045093,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "KenKaneki18/CloakBrowser": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mm32csrbn72r",
+        "cid": "bafyreibwntu5h4rueosetvhygnsqhbai4webyfwz6nt3t6j5u7444y4sgy",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mm32csrbn72r",
+        "text": "As AI automation explodes, devs are racing to cloak their bots—privacy tech is now the essential sidekick for every AI tool in the wild. https://github.com/KenKaneki18/CloakBrowser https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T19:01:00.271Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mm32csrbn72r",
+          "cid": "bafyreibwntu5h4rueosetvhygnsqhbai4webyfwz6nt3t6j5u7444y4sgy",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mm32csrbn72r",
+          "text": "As AI automation explodes, devs are racing to cloak their bots—privacy tech is now the essential sidekick for every AI tool in the wild. https://github.com/KenKaneki18/CloakBrowser https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:01:00.271Z",
+          "createdUtc": 1779044460,
+          "ageHours": 0.58,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "KenKaneki18/CloakBrowser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -13596,7 +13754,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T15:47:04.324Z",
-        "hoursSincePosted": 2.02
+        "hoursSincePosted": 3.81
       },
       "posts": [
         {
@@ -13613,7 +13771,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-17T15:47:04.324Z",
           "createdUtc": 1779032824,
-          "ageHours": 2.02,
+          "ageHours": 3.81,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -21505,22 +21663,22 @@
     },
     "openclaw--openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlpnsb725y2h",
-        "cid": "bafyreiee246z526ad4hrwgajnaya6jiwct2ahmfgaoqnvzmmcswpz4bhpy",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlpnsb725y2h",
-        "text": "🟠 OpenClaw beta adds per-sender tool policies and on-demand local model startup OpenClaw v2026.5.12-beta.4 is more than a bugfix beta. It adds per-sender tool policies for channel-scoped requester control,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.4 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm2xrkrms72h",
+        "cid": "bafyreig3uw7exoxkvkavnz7r36ghkga7ktez3c4a75jahsy5tqj5l5sgdm",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm2xrkrms72h",
+        "text": "🟠 OpenClaw beta adds typed tool plugin scaffolding and HTTPS managed proxy support OpenClaw shipped beta v2026.5.16-beta.5 with a new typed tool plugin workflow, including defineToolPlugin plus plugin build,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.5 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-13T06:17:49.239329+00:00",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-17T18:15:40.615273+00:00",
+        "hoursSincePosted": 1.33
       },
       "posts": [
         {
@@ -21594,6 +21752,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm2xrkrms72h",
+          "cid": "bafyreig3uw7exoxkvkavnz7r36ghkga7ktez3c4a75jahsy5tqj5l5sgdm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm2xrkrms72h",
+          "text": "🟠 OpenClaw beta adds typed tool plugin scaffolding and HTTPS managed proxy support OpenClaw shipped beta v2026.5.16-beta.5 with a new typed tool plugin workflow, including defineToolPlugin plus plugin build,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T18:15:40.615273+00:00",
+          "createdUtc": 1779041740,
+          "ageHours": 1.33,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -23734,23 +23920,23 @@
     },
     "docker--docker-agent": {
       "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mlnadi46pk24",
-        "cid": "bafyreighrywyzm2motizy5n3h2vujxxdjzrbxglqg5jizdrhzdiufgs74m",
-        "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mlnadi46pk24",
-        "text": "Docker Agent v1.58 is out. This release improves MCP integrations, fixes agent delegation issues, and includes several CLI and runtime stability fixes. Changelog: github.com/docker/docke... #docker #aiagents #oss",
+        "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
+        "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
+        "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
+        "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
         "author": {
           "handle": "aheritier.net",
           "displayName": "Arnaud Héritier"
         },
-        "likeCount": 2,
-        "repostCount": 1,
+        "likeCount": 1,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T07:11:36.333Z",
-        "hoursSincePosted": 5.13
+        "createdAt": "2026-05-17T19:29:43.065Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -23774,6 +23960,34 @@
             "is-announcement"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "docker/docker-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:f3erjivbx6t52tdt2fih7cuv/app.bsky.feed.post/3mm33vwjqgk2g",
+          "cid": "bafyreicca6h2itayhtmvbyeiwaxz4cb2xjrm7um5hd7o6eb57bvd46cy6y",
+          "bskyUrl": "https://bsky.app/profile/aheritier.net/post/3mm33vwjqgk2g",
+          "text": "2.9K ⭐️ Thank you! 🙏 github.com/docker/docker-agent www.star-history.com?repos=docker... #starhistory #GitHub #OpenSource via #StarHistoryHQ",
+          "author": {
+            "handle": "aheritier.net",
+            "displayName": "Arnaud Héritier"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:29:43.065Z",
+          "createdUtc": 1779046183,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "docker/docker-agent",
@@ -24431,7 +24645,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T17:25:47Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.16
       },
       "posts": [
         {
@@ -24448,7 +24662,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-17T17:25:47Z",
           "createdUtc": 1779038747,
-          "ageHours": 0.5,
+          "ageHours": 2.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26721,7 +26935,7 @@
     },
     "nautechsystems--nautilustrader": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -26733,11 +26947,11 @@
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-17T17:41:06Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.91
       },
       "posts": [
         {
@@ -26749,13 +26963,13 @@
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-17T17:41:06Z",
           "createdUtc": 1779039666,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.91,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -26772,8 +26986,8 @@
     },
     "tencent--tencentdb-agent-memory": {
       "count7d": 1,
-      "likesSum7d": 13,
-      "repostsSum7d": 0,
+      "likesSum7d": 16,
+      "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mm2otmqvbk2k",
@@ -26784,11 +26998,11 @@
           "handle": "sungkim.bsky.social",
           "displayName": "Sung Kim"
         },
-        "likeCount": 13,
-        "repostCount": 0,
+        "likeCount": 16,
+        "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-05-17T15:35:47.062Z",
-        "hoursSincePosted": 2.21
+        "hoursSincePosted": 4
       },
       "posts": [
         {
@@ -26800,13 +27014,13 @@
             "handle": "sungkim.bsky.social",
             "displayName": "Sung Kim"
           },
-          "likeCount": 13,
-          "repostCount": 0,
+          "likeCount": 16,
+          "repostCount": 2,
           "replyCount": 0,
           "createdAt": "2026-05-17T15:35:47.062Z",
           "createdUtc": 1779032147,
-          "ageHours": 2.21,
-          "trendingScore": 13,
+          "ageHours": 4,
+          "trendingScore": 20,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -27148,13 +27362,115 @@
           ]
         }
       ]
+    },
+    "ruvnet--ruview": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm32vhnkxd2x",
+        "cid": "bafyreidguwrfwuh7wnzxrglu4o6qa7ml2p7yhxzykonbm2w6tleixx3nhu",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm32vhnkxd2x",
+        "text": "ruvnet / RuView: π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video. ★59085 https://github.com/ruvnet/RuView",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T19:11:33.590982Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm32vhnkxd2x",
+          "cid": "bafyreidguwrfwuh7wnzxrglu4o6qa7ml2p7yhxzykonbm2w6tleixx3nhu",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm32vhnkxd2x",
+          "text": "ruvnet / RuView: π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video. ★59085 https://github.com/ruvnet/RuView",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:11:33.590982Z",
+          "createdUtc": 1779045093,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kenkaneki18--cloakbrowser": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mm32csrbn72r",
+        "cid": "bafyreibwntu5h4rueosetvhygnsqhbai4webyfwz6nt3t6j5u7444y4sgy",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mm32csrbn72r",
+        "text": "As AI automation explodes, devs are racing to cloak their bots—privacy tech is now the essential sidekick for every AI tool in the wild. https://github.com/KenKaneki18/CloakBrowser https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-17T19:01:00.271Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mm32csrbn72r",
+          "cid": "bafyreibwntu5h4rueosetvhygnsqhbai4webyfwz6nt3t6j5u7444y4sgy",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mm32csrbn72r",
+          "text": "As AI automation explodes, devs are racing to cloak their bots—privacy tech is now the essential sidekick for every AI tool in the wild. https://github.com/KenKaneki18/CloakBrowser https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-17T19:01:00.271Z",
+          "createdUtc": 1779044460,
+          "ageHours": 0.58,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "KenKaneki18/CloakBrowser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "Tencent/TencentDB-Agent-Memory",
       "count7d": 1,
-      "likesSum7d": 13
+      "likesSum7d": 16
     },
     {
       "fullName": "antirez/ds4",
@@ -27162,67 +27478,27 @@
       "likesSum7d": 3
     },
     {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "claration/Impactor",
+      "fullName": "docker/docker-agent",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "golemcloud/golem",
+      "fullName": "KenKaneki18/CloakBrowser",
       "count7d": 1,
       "likesSum7d": 1
-    },
-    {
-      "fullName": "HKUDS/CLI-Anything",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "microsoft/RustTraining",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "NVlabs/cuda-oxide",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "dograh-hq/dograh",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "K-Dense-AI/scientific-agent-skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Light-Heart-Labs/DreamServer",
-      "count7d": 1,
-      "likesSum7d": 0
     },
     {
       "fullName": "nautechsystems/nautilus_trader",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "niri-wm/niri",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "paperclipai/paperclip",
+      "fullName": "ruvnet/RuView",
       "count7d": 1,
       "likesSum7d": 0
     },

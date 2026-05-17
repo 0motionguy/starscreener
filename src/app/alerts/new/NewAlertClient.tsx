@@ -593,7 +593,7 @@ export default function NewAlertClient() {
         }
         rightRail={
           <>
-            <SectionHead num="// 02" title="Preview" meta="LIVE" />
+            <SectionHead num="// 02" title="Preview" />
             <p
               style={{
                 fontFamily: "var(--font-geist-mono), monospace",

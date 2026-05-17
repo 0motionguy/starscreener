@@ -23,7 +23,6 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const runtime = "nodejs";
@@ -261,7 +260,6 @@ export default async function ConsensusPage() {
           <>
             <span className="big">{computedClock}</span>
             <span className="muted">UTC · COMPUTED</span>
-            <LiveDot label="FEED LIVE" />
             <FreshnessBadge source="mcp" lastUpdatedAt={computedAt || null} />
             <Link href="/api/scoring/consensus?limit=100" className="json-link">
               JSON →
@@ -342,7 +340,7 @@ export default async function ConsensusPage() {
             <span className="key">{"// MATRIX · X · OURS RANK → · Y · EXTERNAL RANK ↓"}</span>
             <span style={{ color: "var(--v4-ink-400)" }}>· COLOR · VERDICT BAND</span>
             <span className="right">
-              <LiveDot label="LIVE" />
+              <FreshnessBadge source="mcp" lastUpdatedAt={computedAt || null} />
             </span>
           </div>
           <div className="matrix-legend">

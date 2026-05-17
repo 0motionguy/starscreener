@@ -39,6 +39,8 @@ interface RosterMcpItem {
   slug?: string;
   id?: string;
   url?: string;
+  package_name?: string | null;
+  package_registry?: string | null;
   raw?: Record<string, unknown> & { package_name?: string; package_registry?: string };
 }
 
@@ -182,6 +184,12 @@ async function publishAggregate(
 }
 
 function extractNpmPackage(it: RosterMcpItem): string | null {
+  const topLevel = typeof it.package_name === 'string' ? it.package_name : null;
+  const topLevelRegistry = typeof it.package_registry === 'string' ? it.package_registry.toLowerCase() : null;
+  if (topLevel && (topLevelRegistry === 'npm' || topLevelRegistry === null)) {
+    return normalizePkg(topLevel);
+  }
+
   const raw = (it.raw ?? {}) as Record<string, unknown>;
   const direct = typeof raw.package_name === 'string' ? raw.package_name : null;
   const registry = typeof raw.package_registry === 'string' ? raw.package_registry : null;

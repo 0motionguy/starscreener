@@ -41,6 +41,7 @@ import { KpiBand, type KpiCell } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
 import { InviteBanner } from "@/components/referrals/InviteBanner";
+import { OnboardingCompletedBanner } from "@/components/you/OnboardingCompletedBanner";
 import { OnboardingProgressWidget } from "@/components/you/OnboardingProgressWidget";
 import type { OnboardingProgress } from "@/lib/onboarding/progress";
 
@@ -172,6 +173,8 @@ export default function YouClient({
           <>
             {progress && !progress.allDone ? (
               <OnboardingProgressWidget progress={progress} />
+            ) : progress && progress.allDone ? (
+              <OnboardingCompletedBanner />
             ) : null}
             {account ? (
               <InviteBanner dismissedAt={inviteBannerDismissedAt} />

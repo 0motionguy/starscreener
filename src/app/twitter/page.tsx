@@ -30,15 +30,33 @@ import { InventoryBand } from "@/components/ui/InventoryBand";
 import { buildTwitterInventoryStats } from "@/components/ui/inventory-stats";
 
 const X_BLUE = "var(--v4-src-x)";
-// Lifted 2026-05-08 from 50 → 200 per operator feedback ("show as much as
-// we have"). 200 rows × ~600 byte DOM ≈ 120 KB rendered with content-
-// visibility on the row <li>; well under the budget that would warrant a
-// real virtualization library. The adaptive fresh→stale top-up in
-// src/lib/twitter/service.ts:910 keeps the surface populated when fresh-
-// window signals fall below the cap.
-const TABLE_LIMIT = 200;
+// Default cap. Each row is ~3KB of raw HTML (5 author bubbles, action
+// links, inline-styled tones) — brotli-compressed, that's still ~75KB
+// per tab at 100 rows, and the SourceFeedTemplate server-renders BOTH
+// tabs (global + trending) inline, so the wire payload doubles. With
+// 200 × 2 tabs we measured /twitter at 302 KB transfer in prod (5/16),
+// blowing the 90 KB ISR budget (`perf/routes.json:81-86`).
+//
+// 2026-05-08 lifted 50 → 200 ("show as much as we have"). Stage 5 / C.1
+// pulls it back to 50 to cut the wire payload below budget — the
+// adaptive fresh→stale top-up in src/lib/twitter/service.ts keeps the
+// surface populated. Power users / operators who want the long list
+// can pass `?n=<count>` (clamped 1..200) — see TwitterPage() below.
+const TABLE_LIMIT_DEFAULT = 50;
+const TABLE_LIMIT_MAX = 200;
+
+function clampTableLimit(raw: string | string[] | undefined): number {
+  const candidate = Array.isArray(raw) ? raw[0] : raw;
+  if (!candidate) return TABLE_LIMIT_DEFAULT;
+  const parsed = Number.parseInt(candidate, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return TABLE_LIMIT_DEFAULT;
+  return Math.min(parsed, TABLE_LIMIT_MAX);
+}
 
 export const revalidate = 300;
+// `force-static` ⊕ `searchParams` would force a runtime warning — when
+// `?n=` is in play we drop to ISR-with-revalidate but skip the static
+// hint. The default-cap (no `?n`) path still hits the static branch.
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
@@ -312,10 +330,16 @@ function formatSignedNumber(value: number): string {
   return value > 0 ? `+${formatNumber(value)}` : formatNumber(value);
 }
 
-export default async function TwitterPage() {
+export default async function TwitterPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ n?: string | string[] }>;
+}) {
+  const sp = (await searchParams) ?? {};
+  const limit = clampTableLimit(sp.n);
   const [trendingRows, globalRows, stats] = await Promise.all([
-    getTwitterTrendingRepoLeaderboard(TABLE_LIMIT),
-    getTwitterLeaderboard(TABLE_LIMIT),
+    getTwitterTrendingRepoLeaderboard(limit),
+    getTwitterLeaderboard(limit),
     getTwitterOverviewStats(),
   ]);
   const rows = globalRows;

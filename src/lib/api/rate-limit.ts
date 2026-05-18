@@ -20,6 +20,8 @@
 // `src/lib/pipeline/__tests__/rate-limit.test.ts` (memory) and
 // `src/lib/pipeline/__tests__/rate-limit-upstash.test.ts` (upstash).
 
+import { tierFor, type UserTier } from "@/lib/pricing/tiers";
+
 import { createStore, type RateLimitStore } from "./rate-limit-store";
 
 interface Bucket {
@@ -137,30 +139,55 @@ export interface AsyncRateLimitResult {
  * user, not on the forgeable IP. When `subject` is omitted the limiter falls
  * back to `getClientIp(request)` — which now prefers Vercel's signed
  * `x-vercel-forwarded-for` over the trivially-forgeable `x-forwarded-for`.
+ *
+ * Tier multiplier (S5.A.4, 2026-05-18): pass `tier` to scale `maxRequests` by
+ * the tier's `rateLimitMultiplier`. Free=1×, Pro=10×, Team=25×, Enterprise=100×
+ * (see src/lib/pricing/tiers.ts). The effective cap is rounded UP so a Pro
+ * user always gets at least 10× the free limit. The bucket key carries the
+ * effective cap, so a user upgrading mid-bucket gets a fresh allowance.
+ *
+ * Callers should resolve the tier via `getUserTier(userId)` (or
+ * `getUserTierRecord(userId).tier`) once per request and pass the result.
+ * The limiter does not look up the tier itself — that would force a
+ * mtime stat on every request, including anonymous ones that don't need
+ * tier resolution at all.
  */
 export async function checkRateLimitAsync(
   request: Request,
-  options: Partial<RateLimitOptions> & { subject?: string } = {},
+  options: Partial<RateLimitOptions> & {
+    subject?: string;
+    tier?: UserTier;
+  } = {},
   /** Test hook: inject a store instead of the shared singleton. */
   store: RateLimitStore = getStore(),
 ): Promise<AsyncRateLimitResult> {
   const { windowMs, maxRequests } = { ...DEFAULT_OPTIONS, ...options };
   const subject = options.subject?.trim();
+
+  // Tier multiplier — Free=1× by default, scales up via tier.rateLimitMultiplier.
+  // Math.ceil so a 1.5× multiplier would yield ceil(60 * 1.5) = 90 (never less).
+  const tier = options.tier;
+  const multiplier =
+    tier !== undefined ? tierFor(tier).features.rateLimitMultiplier : 1;
+  const effectiveMax = Math.max(1, Math.ceil(maxRequests * multiplier));
+
   const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
   // Key format:
-  //   - subject path: `rl:u:<userId>:<window>:<max>` (namespaced so a userId
-  //     that happens to be shaped like an IP can never collide)
-  //   - IP path:      `rl:<ip>:<window>:<max>` (unchanged from pre-S3.5
-  //     hardening, so existing rate-limit-routes.test.ts fixtures still
-  //     line up — they pre-seed buckets at the IP-keyed shape)
+  //   - subject path: `rl:u:<userId>:<window>:<effectiveMax>` (namespaced so a
+  //     userId that happens to be shaped like an IP can never collide)
+  //   - IP path:      `rl:<ip>:<window>:<effectiveMax>` (unchanged shape from
+  //     pre-S3.5 hardening, so existing rate-limit-routes.test.ts fixtures
+  //     still line up — they pre-seed buckets at the IP-keyed shape)
+  // effectiveMax is in the key so a user upgrading mid-bucket gets a fresh
+  // allowance (the old bucket TTLs out without blocking the new one).
   const key = subject
-    ? `rl:u:${subject}:${windowMs}:${maxRequests}`
-    : `rl:${getClientIp(request)}:${windowMs}:${maxRequests}`;
+    ? `rl:u:${subject}:${windowMs}:${effectiveMax}`
+    : `rl:${getClientIp(request)}:${windowMs}:${effectiveMax}`;
 
   const { count, ttlRemainingMs } = await store.incrementWithTtl(key, ttlSec);
   const now = Date.now();
 
-  if (count > maxRequests) {
+  if (count > effectiveMax) {
     return {
       allowed: false,
       remaining: 0,
@@ -172,7 +199,7 @@ export async function checkRateLimitAsync(
 
   return {
     allowed: true,
-    remaining: Math.max(0, maxRequests - count),
+    remaining: Math.max(0, effectiveMax - count),
     resetAt: now + ttlRemainingMs,
     retryAfterMs: 0,
     count,

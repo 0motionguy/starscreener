@@ -46,6 +46,15 @@ const DEFAULT_OPTIONS: RateLimitOptions = {
 };
 
 function getClientIp(request: Request): string {
+  // Prefer the Vercel-signed header — it cannot be forged by a client because
+  // Vercel's edge sets it from the real socket address. The legacy
+  // `x-forwarded-for` is trusted only when the Vercel header is absent
+  // (local dev, non-Vercel hosts) AND we still take the leftmost segment.
+  // See security audit note 2026-05-18 for why blind XFF trust was unsafe.
+  const vercel = request.headers.get("x-vercel-forwarded-for");
+  if (vercel) {
+    return vercel.split(",")[0]?.trim() ?? "unknown";
+  }
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
     return forwarded.split(",")[0]?.trim() ?? "unknown";
@@ -122,16 +131,24 @@ export interface AsyncRateLimitResult {
  * Callers should prefer this variant over `checkRateLimit` for any route
  * that is exposed on Vercel serverless and where cross-Lambda enforcement
  * matters. The sync variant remains available for back-compat.
+ *
+ * Subject keying (S3.5 hardening, 2026-05-18): pass `subject` (typically the
+ * authenticated profile id) so authenticated routes key their bucket on the
+ * user, not on the forgeable IP. When `subject` is omitted the limiter falls
+ * back to `getClientIp(request)` — which now prefers Vercel's signed
+ * `x-vercel-forwarded-for` over the trivially-forgeable `x-forwarded-for`.
  */
 export async function checkRateLimitAsync(
   request: Request,
-  options: Partial<RateLimitOptions> = {},
+  options: Partial<RateLimitOptions> & { subject?: string } = {},
   /** Test hook: inject a store instead of the shared singleton. */
   store: RateLimitStore = getStore(),
 ): Promise<AsyncRateLimitResult> {
   const { windowMs, maxRequests } = { ...DEFAULT_OPTIONS, ...options };
+  const subject = options.subject?.trim();
   const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
-  const key = `rl:${getClientIp(request)}:${windowMs}:${maxRequests}`;
+  const principal = subject ? `u:${subject}` : `ip:${getClientIp(request)}`;
+  const key = `rl:${principal}:${windowMs}:${maxRequests}`;
 
   const { count, ttlRemainingMs } = await store.incrementWithTtl(key, ttlSec);
   const now = Date.now();

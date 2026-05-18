@@ -5,37 +5,35 @@
 //
 // Auth: requireUser(). Anonymous callers get a 401 via the helper.
 //
-// Flow:
-//   1. Verify body confirmEmail (case-insensitive) matches profile.email
-//   2. Soft-delete the local profile (set deleted_at = now()). FK cascade
-//      on alertRules / referrals / watchlists already configured at the
-//      schema level — child rows go automatically when we later hard-
-//      delete; for now soft-delete is sufficient for GDPR compliance
-//      because the profile row no longer surfaces in any public read.
-//   3. Best-effort DELETE against Clerk's REST API
-//      (https://api.clerk.com/v1/users/{id}) so the user's identity at
-//      Clerk also goes away. Failures here are LOGGED but do NOT fail
-//      the request — the local PII is what we control and what GDPR
-//      asks us to erase. Ops cleans up orphaned Clerk users out-of-band
-//      if needed.
-//   4. Capture a server-side audit log line + PostHog event hook (the
-//      client emits `account_deleted` before redirecting — see
-//      SettingsClient.tsx).
-//   5. Return 200 { ok: true, signOutRequired: true }. The client is
-//      expected to sign the user out and bounce to home.
-//
-// Rate limit: 3 / minute / IP — destructive endpoint, no legitimate
-// reason to call it more often. Async / Upstash-backed when configured.
+// Hardening pass (2026-05-18, per security audit):
+//   - requireUser() runs BEFORE the rate limiter so anonymous probes can't
+//     drain an authenticated victim's bucket. The limiter is then keyed on
+//     `profile.id`, which is non-spoofable.
+//   - CSRF gate via assertSameOriginRequest — destructive endpoints get
+//     belt-and-braces even with Clerk's SameSite=Lax cookies.
+//   - confirmEmail normalised via NFKC + control-char strip so a zero-width
+//     joiner can't ride past the equality check.
+//   - PII scrub during soft-delete: in addition to `deletedAt`, we null
+//     `email`, `displayName`, `avatarUrl` and disable child alertRules.
+//     The earlier comment claiming FK cascade fires on UPDATE was wrong.
+//   - Audit log hashes profile + clerk ids so the very act of "right to
+//     erasure" doesn't leave durable raw identifiers in third-party log
+//     storage.
+//   - Clerk Admin DELETE uses `redirect: "error"` so the bearer header
+//     can't ride a 30x onto a different host.
 
-import { eq } from "drizzle-orm";
+import { createHash } from "node:crypto";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { requireUser } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
+import { alertRules } from "@/lib/db/schema/alerts";
 import { parseBody } from "@/lib/api/parse-body";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import { assertSameOriginRequest } from "@/lib/api/csrf";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,18 +61,31 @@ function jsonError(
   );
 }
 
+/** Stable short hash for audit logs — never reverse-engineerable. */
+function shortHash(value: string): string {
+  return createHash("sha256").update(value).digest("hex").slice(0, 12);
+}
+
+/** Canonicalise an email before equality compare. */
+function canonicalEmail(value: string): string {
+  return value.normalize("NFKC").replace(/\p{C}/gu, "").trim().toLowerCase();
+}
+
 async function deleteClerkUserBestEffort(clerkUserId: string): Promise<void> {
   const secret = process.env.CLERK_SECRET_KEY;
   if (!secret) {
     console.warn(
       "[account-delete] CLERK_SECRET_KEY missing — skipping Clerk-side delete",
-      { clerkUserId },
+      { clerkUserIdHash: shortHash(clerkUserId) },
     );
     return;
   }
   try {
     const res = await fetch(`https://api.clerk.com/v1/users/${clerkUserId}`, {
       method: "DELETE",
+      // Belt-and-braces: refuse to follow 30x's so the bearer header
+      // can't leak onto a different host if Clerk ever misroutes.
+      redirect: "error",
       headers: {
         Authorization: `Bearer ${secret}`,
         "Content-Type": "application/json",
@@ -83,26 +94,35 @@ async function deleteClerkUserBestEffort(clerkUserId: string): Promise<void> {
     if (!res.ok) {
       const text = await res.text().catch(() => "<no body>");
       console.warn("[account-delete] Clerk delete returned non-2xx", {
-        clerkUserId,
+        clerkUserIdHash: shortHash(clerkUserId),
         status: res.status,
         body: text.slice(0, 400),
       });
     }
   } catch (err) {
     console.warn("[account-delete] Clerk delete threw", {
-      clerkUserId,
+      clerkUserIdHash: shortHash(clerkUserId),
       error: err instanceof Error ? err.message : String(err),
     });
   }
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  // Rate-limit upfront so an attacker can't grind through email guesses
-  // to force-delete other accounts (the email-match check below is the
-  // real defence but rate-limiting cuts off brute force regardless).
+  // 1. CSRF gate — reject obviously cross-site requests before any auth
+  //    lookup happens, so we never authenticate a malicious request.
+  const csrf = assertSameOriginRequest(req);
+  if (csrf) return csrf;
+
+  // 2. Auth first. Then the rate limit can key on profile.id (non-spoofable)
+  //    instead of the trivially-forgeable client IP. Unauthenticated callers
+  //    return 401 via `requireUser`'s redirect contract and never reach the
+  //    rate-limit bucket.
+  const user = await requireUser();
+
   const rate = await checkRateLimitAsync(req, {
     windowMs: 60_000,
     maxRequests: 3,
+    subject: user.profile.id,
   });
   if (!rate.allowed) {
     return NextResponse.json(
@@ -121,7 +141,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const user = await requireUser();
   const parsed = await parseBody(req, deleteAccountSchema, {
     publicMessage: "request body failed validation",
   });
@@ -141,8 +160,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
   }
 
-  const confirmEmail = parsed.data.confirmEmail.trim().toLowerCase();
-  const profileEmail = user.profile.email.toLowerCase();
+  const confirmEmail = canonicalEmail(parsed.data.confirmEmail);
+  const profileEmail = canonicalEmail(user.profile.email);
   if (confirmEmail !== profileEmail) {
     return jsonError(
       400,
@@ -151,24 +170,50 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // Soft-delete locally. We don't hard-delete because (a) referral
-  // attribution still uses these rows and (b) it gives ops a 30-day
-  // window to recover if a user deletes by mistake.
+  // GDPR erasure (S3.5.A hardening, 2026-05-18):
+  //   - Set `deletedAt` so the row no longer surfaces in any public read.
+  //   - SCRUB the PII columns in the same UPDATE — Postgres FK CASCADE
+  //     only fires on DELETE, not UPDATE, so the previous "soft delete is
+  //     enough" claim was wrong. By nulling email + displayName +
+  //     avatarUrl we satisfy GDPR data-minimisation even while the row
+  //     stays around for referral attribution.
+  //   - Disable every child alertRule so the dispatcher never fires email
+  //     for a deleted account in the 30-day grace window before the
+  //     hard-delete cron runs (deferred).
+  // We deliberately keep referrals + watchlists alive (no PII in those
+  // rows, just the parent profile id, which is opaque).
   await db
     .update(profiles)
-    .set({ deletedAt: new Date() })
+    .set({
+      deletedAt: new Date(),
+      email: "",
+      displayName: null,
+      avatarUrl: null,
+    })
     .where(eq(profiles.id, user.profile.id));
+  await db
+    .update(alertRules)
+    .set({ active: false })
+    .where(
+      and(
+        eq(alertRules.profileId, user.profile.id),
+        eq(alertRules.active, true),
+      ),
+    );
 
   // Best-effort Clerk-side delete. We do NOT await this in a way that
   // could block the response on a slow Clerk API — `fetch` here is
-  // bounded by Node's default 5-minute timeout but Clerk usually
-  // returns under 300ms. If it fails we log and move on; local PII is
-  // gone, which is the GDPR contract.
+  // bounded by Node's default timeout. Failures here are LOGGED but do
+  // NOT fail the request; local PII is what GDPR asks us to erase and
+  // that already landed above.
   await deleteClerkUserBestEffort(user.clerkUserId);
 
+  // Audit log uses short hashes — the deletion event lives in Vercel /
+  // Datadog log retention indefinitely, so we don't want raw subject
+  // identifiers there.
   console.warn("[account-delete] account erased", {
-    profileId: user.profile.id,
-    clerkUserId: user.clerkUserId,
+    profileIdHash: shortHash(user.profile.id),
+    clerkUserIdHash: shortHash(user.clerkUserId),
     deletedAt: new Date().toISOString(),
   });
 

@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# .githooks/pre-push — defence-in-depth gate for the auth-provider-policy
+# regression sentinel (see src/lib/__tests__/auth-provider-policy.test.ts).
+#
+# Why this hook exists (2026-05-18 hardening, after WelcomeModalGate
+# regression took main red for ~2 hours on 2026-05-17):
+#
+#   The test is REQUIRED in CI but only catches violations once a PR is
+#   open. The full `npm test` suite runs ~5 minutes, so contributors
+#   often skip it locally. A violation can therefore land on a PR,
+#   trigger a 5-minute CI run, fail, get hotfixed, get pushed again —
+#   easily 30 minutes of cycle time for what is fundamentally a
+#   one-line allow-list omission.
+#
+#   This hook runs JUST the auth-provider-policy test on `git push`.
+#   The test is pure file I/O over the src/ tree (no DB, no network),
+#   completes in under 1 second on a warm cache, and rejects the push
+#   if the policy is violated.
+#
+# Activation (one-time, per local checkout):
+#   npm run hooks:install
+#
+# Bypass (rare, only for emergency main-only ops pushes):
+#   git push --no-verify
+#
+# This hook NEVER runs in CI — Vercel and GitHub Actions checkouts do
+# not execute git hooks. It is purely a local-laptop guardrail.
+
+set -euo pipefail
+
+# Skip if we're inside a CI environment that somehow ran git push
+# (defensive — Vercel + Actions don't set core.hooksPath to .githooks,
+# but a contributor running CI locally via `act` might).
+if [[ "${CI:-}" == "true" || "${GITHUB_ACTIONS:-}" == "true" ]]; then
+  exit 0
+fi
+
+# Quick sanity check that node + the project root are reachable.
+if ! command -v node >/dev/null 2>&1; then
+  echo "[pre-push] node not on PATH — skipping policy check"
+  echo "[pre-push] (this is a soft-skip; CI will catch any regression)"
+  exit 0
+fi
+
+TEST_FILE="src/lib/__tests__/auth-provider-policy.test.ts"
+if [[ ! -f "$TEST_FILE" ]]; then
+  echo "[pre-push] $TEST_FILE missing — skipping policy check"
+  exit 0
+fi
+
+echo "[pre-push] running auth-provider-policy regression sentinel..."
+
+# Run JUST the policy test. node --test on a single .ts file relies on
+# Node's experimental TS support OR tsx — try tsx first because it's
+# already a dependency for the existing npm test pipeline.
+if command -v npx >/dev/null 2>&1; then
+  if npx --no-install tsx --test "$TEST_FILE" >/dev/null 2>&1; then
+    echo "[pre-push] auth-provider-policy: OK"
+    exit 0
+  fi
+fi
+
+# Re-run with output visible so the contributor sees what failed.
+echo "[pre-push] policy test failed. Re-running with full output:"
+npx --no-install tsx --test "$TEST_FILE"
+echo
+echo "[pre-push] push BLOCKED. Fix the violation above or add the file"
+echo "[pre-push] to the ALLOW_LIST in $TEST_FILE."
+echo "[pre-push] Emergency bypass: git push --no-verify"
+exit 1

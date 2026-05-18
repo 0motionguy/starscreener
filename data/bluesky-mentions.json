@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-18T00:09:50.343Z",
+  "fetchedAt": "2026-05-18T04:41:13.391Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -13858,6 +13858,108 @@
           "linkedRepos": [
             {
               "fullName": "cli/cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "neilsonnn/image-blaster": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm3zz43wsy2o",
+        "cid": "bafyreihtzmjivlfazq2k5qem2hsqfserc6tpqbnuem63wazf4m5ja6r4vq",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
+        "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
+        "author": {
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T04:28:18.724704+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm3zz43wsy2o",
+          "cid": "bafyreihtzmjivlfazq2k5qem2hsqfserc6tpqbnuem63wazf4m5ja6r4vq",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
+          "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T04:28:18.724704+00:00",
+          "createdUtc": 1779078498,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "neilsonnn/image-blaster",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cschanhniem/clawping": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mm3ycn3kdi2k",
+        "cid": "bafyreiahcw6qb7unvcnwaix6rwhrygezyrl5vxti6ikilywyq4swcwbweq",
+        "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mm3ycn3kdi2k",
+        "text": "A @Cloudflare Workers-first Telegram watchdog for home servers, mini PCs, NAS boxes, and self-hosted apps. #golang github.com/cschanhniem...",
+        "author": {
+          "handle": "golangch.bsky.social",
+          "displayName": "Golang Articles, News, Packages"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T03:57:53.891347Z",
+        "hoursSincePosted": 0.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mm3ycn3kdi2k",
+          "cid": "bafyreiahcw6qb7unvcnwaix6rwhrygezyrl5vxti6ikilywyq4swcwbweq",
+          "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mm3ycn3kdi2k",
+          "text": "A @Cloudflare Workers-first Telegram watchdog for home servers, mini PCs, NAS boxes, and self-hosted apps. #golang github.com/cschanhniem...",
+          "author": {
+            "handle": "golangch.bsky.social",
+            "displayName": "Golang Articles, News, Packages"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T03:57:53.891347Z",
+          "createdUtc": 1779076673,
+          "ageHours": 0.72,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cschanhniem/clawping",
               "matchType": "url",
               "confidence": 1
             }
@@ -27726,41 +27828,118 @@
           ]
         }
       ]
+    },
+    "neilsonnn--image-blaster": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm3zz43wsy2o",
+        "cid": "bafyreihtzmjivlfazq2k5qem2hsqfserc6tpqbnuem63wazf4m5ja6r4vq",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
+        "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
+        "author": {
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T04:28:18.724704+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm3zz43wsy2o",
+          "cid": "bafyreihtzmjivlfazq2k5qem2hsqfserc6tpqbnuem63wazf4m5ja6r4vq",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
+          "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T04:28:18.724704+00:00",
+          "createdUtc": 1779078498,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "neilsonnn/image-blaster",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cschanhniem--clawping": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mm3ycn3kdi2k",
+        "cid": "bafyreiahcw6qb7unvcnwaix6rwhrygezyrl5vxti6ikilywyq4swcwbweq",
+        "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mm3ycn3kdi2k",
+        "text": "A @Cloudflare Workers-first Telegram watchdog for home servers, mini PCs, NAS boxes, and self-hosted apps. #golang github.com/cschanhniem...",
+        "author": {
+          "handle": "golangch.bsky.social",
+          "displayName": "Golang Articles, News, Packages"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T03:57:53.891347Z",
+        "hoursSincePosted": 0.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mm3ycn3kdi2k",
+          "cid": "bafyreiahcw6qb7unvcnwaix6rwhrygezyrl5vxti6ikilywyq4swcwbweq",
+          "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mm3ycn3kdi2k",
+          "text": "A @Cloudflare Workers-first Telegram watchdog for home servers, mini PCs, NAS boxes, and self-hosted apps. #golang github.com/cschanhniem...",
+          "author": {
+            "handle": "golangch.bsky.social",
+            "displayName": "Golang Articles, News, Packages"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T03:57:53.891347Z",
+          "createdUtc": 1779076673,
+          "ageHours": 0.72,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cschanhniem/clawping",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "docker/docker-agent",
-      "count7d": 1,
-      "likesSum7d": 5
-    },
-    {
-      "fullName": "KenKaneki18/CloakBrowser",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "ruvnet/RuView",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "cli/cli",
+      "fullName": "cschanhniem/clawping",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "nashsu/llm_wiki",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "TwilitRealm/dusklight",
+      "fullName": "neilsonnn/image-blaster",
       "count7d": 1,
       "likesSum7d": 0
     }

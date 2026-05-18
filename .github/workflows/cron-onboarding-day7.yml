@@ -1,0 +1,74 @@
+name: Cron - onboarding day-7 retention
+
+# Fires POST /api/cron/onboarding/day7-retention daily at 10:13 UTC.
+# Late-morning Europe / mid-morning US-East. Deliberately spaced ~30
+# minutes after the day-3 nudge so each cron's outbound traffic doesn't
+# contend with the other's Resend quota.
+#
+# Pre-activation operator step (one-time):
+#   vercel env add DAY7_RETENTION_NOT_BEFORE production
+#   # paste the deploy timestamp so the first run skips pre-rollout users
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.TRENDINGREPO_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "13 10 * * *"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Set true to count eligible without sending"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-onboarding-day7
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/cron/onboarding/day7-retention
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DRY: ${{ inputs.dry || 'false' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+
+          URL="$BASE_URL/api/cron/onboarding/day7-retention"
+          if [ "$DRY" = "true" ]; then
+            URL="$URL?dry=1"
+          fi
+
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$URL" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 4000
+          else
+            head -c 4000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::day7-retention call failed ($code)"
+            exit 1
+          fi
+          if command -v jq >/dev/null 2>&1; then
+            jq -e '.ok == true' /tmp/out > /dev/null
+          fi

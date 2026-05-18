@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-18T10:07:46.060Z",
-  "scanRunId": "sweep-2026-05-18T10:07:38.055Z",
+  "computedAt": "2026-05-18T15:36:15.710Z",
+  "scanRunId": "sweep-2026-05-18T15:36:06.518Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -50,19 +50,6 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/contentful/skill-kit",
-              "title": "Skill-kit – TypeScript SDK for building agent skills as typed state machines",
-              "text": "",
-              "author": "ravel",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T15:14:07.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
               "url": "https://github.com/shang-zhu/violin",
               "title": "Violin: An open-source video translation tool (and agent skills)",
               "text": "",
@@ -98,6 +85,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T18:33:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://github.com/Kotlin/kotlin-agent-skills/",
+              "title": "Kotlin-agent-skills: A collection of skills for projects using Kotlin",
+              "text": "",
+              "author": "rezaprima",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T13:51:10.000Z"
             }
           ]
         },
@@ -273,21 +273,21 @@
       "fullName": "ruvnet/ruflo",
       "totalMentions7d": 1,
       "perSource": {
-        "bluesky": {
+        "hackernews": {
           "count7d": 1,
           "top": [
             {
-              "source": "bluesky",
+              "source": "hackernews",
               "fullName": "ruvnet/ruflo",
-              "url": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
-              "title": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https:/",
-              "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
-              "author": "alexiskirke.bsky.social",
+              "url": "https://www.layoutmaster.dev/",
+              "title": "Show HN: Layoutmaster cures DOM reflow with six simple API",
+              "text": "",
+              "author": "zhxiaoliang",
               "engagement": {
                 "score": 3,
-                "comments": 0
+                "comments": 3
               },
-              "observedAt": "2026-05-10T06:05:47.869Z"
+              "observedAt": "2026-05-18T12:49:32.000Z"
             }
           ]
         }
@@ -1091,24 +1091,11 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 15,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 15,
+          "count7d": 14,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://ratty-term.org/",
-              "title": "Ratty – A terminal emulator with inline 3D graphics",
-              "text": "",
-              "author": "orhunp_",
-              "engagement": {
-                "score": 675,
-                "comments": 244
-              },
-              "observedAt": "2026-05-11T10:13:04.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
@@ -1117,10 +1104,36 @@
               "text": "An attempt at a single pass LLVM frontend in ~3000 lines of C without external dependencies, malloc, or an AST. Included are some graphical examples. The IR isn&#x27;t perfect, and the README touches on one particular downfall",
               "author": "glouwbug",
               "engagement": {
-                "score": 101,
+                "score": 102,
                 "comments": 24
               },
               "observedAt": "2026-05-14T01:46:45.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://github.com/El-EnderJ/NeoCalculator",
+              "title": "Graphing Scientific Calculator Based on the ESP32",
+              "text": "",
+              "author": "uticus",
+              "engagement": {
+                "score": 28,
+                "comments": 9
+              },
+              "observedAt": "2026-05-15T13:29:52.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.economist.com/graphic-detail/2026/05/17/russia-is-starting-to-lose-ground-in-ukraine",
+              "title": "Russia is starting to lose ground in Ukraine",
+              "text": "",
+              "author": "giuliomagnifico",
+              "engagement": {
+                "score": 27,
+                "comments": 47
+              },
+              "observedAt": "2026-05-18T12:56:48.000Z"
             },
             {
               "source": "hackernews",
@@ -1147,19 +1160,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T19:57:08.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://www.numworks.com/buy/",
-              "title": "Numworks Graphing Calculator",
-              "text": "",
-              "author": "kaladin-jasnah",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-13T21:34:03.000Z"
             }
           ]
         }
@@ -3652,10 +3652,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 182,
+      "totalMentions7d": 175,
       "perSource": {
         "hackernews": {
-          "count7d": 182,
+          "count7d": 175,
           "top": [
             {
               "source": "hackernews",
@@ -3678,8 +3678,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 331,
-                "comments": 112
+                "score": 398,
+                "comments": 132
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             },
@@ -3691,7 +3691,7 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 319,
+                "score": 321,
                 "comments": 329
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
@@ -3717,8 +3717,8 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 158,
-                "comments": 201
+                "score": 159,
+                "comments": 204
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
             }
@@ -4622,11 +4622,24 @@
     },
     "Imbad0202/academic-research-skills": {
       "fullName": "Imbad0202/academic-research-skills",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "Imbad0202/academic-research-skills",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm56xmfnrsn2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3945 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1302 stars today 3. https://github.",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3945 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1302 stars today 3. https://github.com/HKUDS/CLI-Anything - Python, 1047 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T15:29:44.771Z"
+            },
             {
               "source": "bluesky",
               "fullName": "Imbad0202/academic-research-skills",
@@ -4966,11 +4979,24 @@
     },
     "CloakHQ/CloakBrowser": {
       "fullName": "CloakHQ/CloakBrowser",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "CloakHQ/CloakBrowser",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm56xw4rwab2",
+              "title": "8. https://github.com/CloakHQ/CloakBrowser - Python, 1391 stars today 9. https://github.com/tech-leads-club/agent-skills - TypeScript, 1244 stars today 10. https://github.com/BigBodyCobain/Shadowbroke",
+              "text": "8. https://github.com/CloakHQ/CloakBrowser - Python, 1391 stars today 9. https://github.com/tech-leads-club/agent-skills - TypeScript, 1244 stars today 10. https://github.com/BigBodyCobain/Shadowbroker - Python, 768 stars today 11. https://github.com/humanlayer/12-factor-agents - TypeScript, 359 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T15:29:53.560Z"
+            },
             {
               "source": "bluesky",
               "fullName": "CloakHQ/CloakBrowser",
@@ -5981,10 +6007,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 22,
+      "totalMentions7d": 25,
       "perSource": {
         "hackernews": {
-          "count7d": 21,
+          "count7d": 24,
           "top": [
             {
               "source": "hackernews",
@@ -6007,7 +6033,7 @@
               "text": "",
               "author": "janandonly",
               "engagement": {
-                "score": 149,
+                "score": 151,
                 "comments": 85
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
@@ -6546,10 +6572,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 9,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -6606,15 +6632,15 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
-              "url": "https://dthink.ai/blog/oamp-governed-memory/",
-              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
+              "url": "https://huggingface.co/papers/2605.15128",
+              "title": "MemEye: A Visual-Centric Evaluation Framework for Multimodal Agent Memory",
               "text": "",
-              "author": "jaikoo",
+              "author": "maxloh",
               "engagement": {
-                "score": 2,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-11T10:43:27.000Z"
+              "observedAt": "2026-05-18T04:30:06.000Z"
             }
           ]
         },
@@ -7189,26 +7215,8 @@
     },
     "jundot/omlx": {
       "fullName": "jundot/omlx",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jundot/omlx",
-              "url": "https://github.com/jundot/omlx",
-              "title": "OMLX: Local LLM Server for Apple Silicon Macs",
-              "text": "",
-              "author": "steveharing1",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T11:00:17.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 2,
           "top": [
@@ -7693,10 +7701,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 15,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -7706,8 +7714,8 @@
               "text": "",
               "author": "rolph",
               "engagement": {
-                "score": 426,
-                "comments": 304
+                "score": 435,
+                "comments": 306
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7789,7 +7797,7 @@
               "text": "A local AWS emulator that starts in 24 ms and uses just 13 MiB of idle memory? Meet Floci — free, open-source, and powered by @graalvm.org 🚀 github.com/floci-io/floci",
               "author": "graalvm.org",
               "engagement": {
-                "score": 16,
+                "score": 21,
                 "comments": 0
               },
               "observedAt": "2026-05-15T10:04:36.361Z"
@@ -8209,7 +8217,7 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8230,7 +8238,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -8244,6 +8252,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-17T13:17:57.572Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "tinyhumansai/openhuman",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm56xmfnrsn2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3945 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1302 stars today 3. https://github.",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3945 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1302 stars today 3. https://github.com/HKUDS/CLI-Anything - Python, 1047 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T15:29:44.771Z"
             },
             {
               "source": "bluesky",
@@ -8826,6 +8847,19 @@
             {
               "source": "bluesky",
               "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
+              "title": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creati",
+              "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
+              "author": "sagalinked.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T04:28:22.267Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
               "url": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mlvxllfrxt23",
               "title": "⚡ ALPHA · score 9/10 Image-blaster https://github.com/neilsonnn/image-blaster",
               "text": "⚡ ALPHA · score 9/10 Image-blaster https://github.com/neilsonnn/image-blaster",
@@ -8848,19 +8882,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T17:42:00.863Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "neilsonnn/image-blaster",
-              "url": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
-              "title": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creati",
-              "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
-              "author": "sagalinked.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T04:28:22.267Z"
             },
             {
               "source": "bluesky",
@@ -8918,11 +8939,24 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "colbymchenry/codegraph",
+              "url": "https://bsky.app/profile/midu.dev/post/3mm4wfdlpne2t",
+              "title": "¡No quemes tokens con tu IA explorando tu proyecto! Crea un grafo semántico local de tu código con esto ✓ -92% tool calls ✓ 71% más rápido explorando código ✓ Claude Code, Cursor, Codex y OpenCode Loc",
+              "text": "¡No quemes tokens con tu IA explorando tu proyecto! Crea un grafo semántico local de tu código con esto ✓ -92% tool calls ✓ 71% más rápido explorando código ✓ Claude Code, Cursor, Codex y OpenCode Local y de código abierto: → github.com/colbymchenry/codegraph",
+              "author": "midu.dev",
+              "engagement": {
+                "score": 7,
+                "comments": 3
+              },
+              "observedAt": "2026-05-18T12:56:17.665Z"
+            },
             {
               "source": "bluesky",
               "fullName": "colbymchenry/codegraph",
@@ -8955,10 +8989,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 70,
+      "totalMentions7d": 72,
       "perSource": {
         "hackernews": {
-          "count7d": 70,
+          "count7d": 72,
           "top": [
             {
               "source": "hackernews",
@@ -8995,7 +9029,7 @@
               "author": "Anon84",
               "engagement": {
                 "score": 206,
-                "comments": 89
+                "comments": 90
               },
               "observedAt": "2026-05-12T10:37:44.000Z"
             },
@@ -9007,7 +9041,7 @@
               "text": "",
               "author": "breve",
               "engagement": {
-                "score": 171,
+                "score": 172,
                 "comments": 65
               },
               "observedAt": "2026-05-16T23:59:47.000Z"
@@ -9015,15 +9049,15 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
-              "url": "https://english.elpais.com/economy-and-business/branded/2026-04-11/european-money-pours-into-palantir-over-100-asset-managers-and-banks-boost-their-investments-in-the-controversial-tech-company.html",
-              "title": "European Money Pours into Palantir",
-              "text": "",
-              "author": "robtherobber",
+              "url": "https://www.tryardent.com/",
+              "title": "Launch HN: Ardent (YC P26) – Postgres sandboxes in seconds with zero migration",
+              "text": "Hey HN! We’re Vikram and Evan from Ardent (<a href=\"https:&#x2F;&#x2F;tryardent.com\">https:&#x2F;&#x2F;tryardent.com</a>). We&#x27;re building database sandboxes for you and your coding agents.<p>In the last two years coding agents have gotten dramatically more capable at handling complex engineering tasks. But without access to a realistic sandbox at the DB layer for testing, they ship garbage that can take down production databases. I spent over a year building an AI Data Engineer that failed ",
+              "author": "vc289",
               "engagement": {
-                "score": 129,
-                "comments": 45
+                "score": 96,
+                "comments": 51
               },
-              "observedAt": "2026-05-11T11:27:08.000Z"
+              "observedAt": "2026-05-13T16:54:03.000Z"
             }
           ]
         }
@@ -9136,8 +9170,8 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 548,
-                "comments": 303
+                "score": 553,
+                "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
             },
@@ -9160,7 +9194,7 @@
     },
     "MinishLab/semble": {
       "fullName": "MinishLab/semble",
-      "totalMentions7d": 15,
+      "totalMentions7d": 16,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9173,15 +9207,15 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 331,
-                "comments": 112
+                "score": 398,
+                "comments": 132
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 14,
+          "count7d": 15,
           "top": [
             {
               "source": "bluesky",
@@ -9195,6 +9229,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T02:23:10.562Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
+              "title": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
+              "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
+              "author": "sirile.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T11:59:57.160Z"
             },
             {
               "source": "bluesky",
@@ -9234,19 +9281,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T08:11:31.866Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/ai-bridge-tech.bsky.social/post/3mm4dl3o6di2s",
-              "title": "コード検索の革命、Sembleが登場。AIエージェント向けに最適化され、従来のgrepと比較してトークン消費量を98%削減。コストと速度を劇的に改善し、AI開発の効率を飛躍的に高めます。効率的なコーディング環境を求める開発者は必見です。 #AI #TechNews https://github.com/MinishLab/semble",
-              "text": "コード検索の革命、Sembleが登場。AIエージェント向けに最適化され、従来のgrepと比較してトークン消費量を98%削減。コストと速度を劇的に改善し、AI開発の効率を飛躍的に高めます。効率的なコーディング環境を求める開発者は必見です。 #AI #TechNews https://github.com/MinishLab/semble",
-              "author": "ai-bridge-tech.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T07:19:29.064Z"
             }
           ]
         }
@@ -9254,10 +9288,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 132,
+      "totalMentions7d": 129,
       "perSource": {
         "hackernews": {
-          "count7d": 131,
+          "count7d": 128,
           "top": [
             {
               "source": "hackernews",
@@ -9280,7 +9314,7 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 319,
+                "score": 321,
                 "comments": 329
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
@@ -9306,8 +9340,8 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 158,
-                "comments": 201
+                "score": 159,
+                "comments": 204
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
             },
@@ -9319,7 +9353,7 @@
               "text": "",
               "author": "steveharing1",
               "engagement": {
-                "score": 119,
+                "score": 121,
                 "comments": 142
               },
               "observedAt": "2026-05-15T16:38:50.000Z"
@@ -9862,6 +9896,30 @@
                 "comments": 0
               },
               "observedAt": "2026-05-17T13:18:31.768Z"
+            }
+          ]
+        }
+      }
+    },
+    "walkinglabs/learn-harness-engineering": {
+      "fullName": "walkinglabs/learn-harness-engineering",
+      "totalMentions7d": 1,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "walkinglabs/learn-harness-engineering",
+              "url": "https://walkinglabs.github.io/learn-harness-engineering/en/",
+              "title": "Learn Harness Engineering",
+              "text": "",
+              "author": "redbell",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T12:17:04.000Z"
             }
           ]
         }

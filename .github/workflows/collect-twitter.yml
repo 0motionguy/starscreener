@@ -85,10 +85,12 @@ jobs:
           # `apidojo/tweet-scraper` actor returned 0 posts on every query for
           # the prior ~2 weeks (last run with non-empty payload was
           # 2026-04-23). 2026-05-17: APIFY operator policy off (see
-          # docs/POLICY-NO-APIFY.md) — `nitter` is now the permanent default
-          # and the APIFY_API_TOKEN env below is intentionally a no-op
-          # (stripped). Re-enabling Apify requires reverting this commit AND
-          # operator sign-off.
+          # docs/POLICY-NO-APIFY.md) — `nitter` is now the permanent default.
+          # 2026-05-18: APIFY_API_TOKEN env reference removed from this
+          # workflow entirely (was already stripped from the env block; the
+          # stale "env below" comment now accurately describes "no env").
+          # Re-enabling Apify requires reverting these commits AND operator
+          # sign-off.
           TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'nitter' }}
           # "direct" writes to .data/twitter-*.jsonl locally (so we can commit
           # them back to main). "api" would POST to Vercel's ingest endpoint,
@@ -113,9 +115,11 @@ jobs:
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
           INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
-          # 2026-05-17: APIFY_API_TOKEN + APIFY_TWITTER_ACTOR intentionally
-          # NOT passed (operator policy off — docs/POLICY-NO-APIFY.md). The
-          # collector now relies on nitter primary + cookies-web fallback.
+          # APIFY_API_TOKEN + APIFY_TWITTER_ACTOR are NOT passed (operator
+          # policy permanently off as of 2026-05-17 — see
+          # docs/POLICY-NO-APIFY.md). Collector relies on nitter primary +
+          # cookies-web fallback. 2026-05-18 cleanup: this comment is the
+          # only remaining trace; no env declarations to remove.
           TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
           TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
           # TWITTER_WEB_DEBUG: "1"  # uncomment when diagnosing empty responses

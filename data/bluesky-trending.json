@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-18T04:41:13.391Z",
+  "fetchedAt": "2026-05-18T08:53:31.635Z",
   "discoveryVersion": "2026-04-21",
   "keywords": [
     "AI agents",
@@ -15,13 +15,13 @@
   "keywordCounts": {
     "AI agents": 89,
     "LLMs": 60,
-    "Coding agents": 120,
-    "MCP": 59,
-    "RAG and retrieval": 30,
-    "Workflow and automation": 120,
-    "Context, prompts, memory": 88,
-    "AI skills": 90,
-    "Open source AI": 30
+    "Coding agents": 60,
+    "MCP": 0,
+    "RAG and retrieval": 0,
+    "Workflow and automation": 0,
+    "Context, prompts, memory": 0,
+    "AI skills": 0,
+    "Open source AI": 0
   },
   "queries": [
     "lang:en \"ai agent\"",
@@ -55,23 +55,7 @@
     "lang:en llm": 30,
     "lang:en \"local llm\"": 30,
     "lang:en \"claude code\"": 30,
-    "lang:en codex": 30,
-    "lang:en cursor": 30,
-    "lang:en cline": 30,
-    "lang:en \"mcp server\"": 30,
-    "lang:en \"model context protocol\"": 29,
-    "lang:en rag": 30,
-    "lang:en workflow": 30,
-    "lang:en automation": 30,
-    "lang:en cli": 30,
-    "lang:en devtools": 30,
-    "lang:en \"context engineering\"": 30,
-    "lang:en \"prompt engineering\"": 28,
-    "lang:en \"agent memory\"": 30,
-    "lang:en \"claude skill\"": 30,
-    "lang:en \"claude skills\"": 30,
-    "lang:en \"ai skills\"": 30,
-    "lang:en \"open source ai\"": 30
+    "lang:en codex": 30
   },
   "queryFamilies": [
     {
@@ -152,7 +136,7 @@
       ]
     }
   ],
-  "scannedPosts": 671,
+  "scannedPosts": 207,
   "posts": [
     {
       "uri": "at://did:plc:oijtzlibd7mlf56jbfohssdz/app.bsky.feed.post/3ml46o7m5rs2b",
@@ -312,7 +296,7 @@
       "replyCount": 92,
       "createdAt": "2026-05-15T02:45:35.830Z",
       "createdUtc": 1778813135,
-      "ageHours": 73.93,
+      "ageHours": 78.13,
       "trendingScore": 2117,
       "content_tags": [],
       "value_score": 0,
@@ -403,13 +387,13 @@
         "handle": "antlervel.vet",
         "displayName": "Stella Sacco"
       },
-      "likeCount": 1001,
+      "likeCount": 1002,
       "repostCount": 101,
       "replyCount": 24,
       "createdAt": "2026-05-15T22:51:37.934Z",
       "createdUtc": 1778885497,
-      "ageHours": 53.83,
-      "trendingScore": 1215,
+      "ageHours": 58.03,
+      "trendingScore": 1216,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -563,6 +547,30 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
+      "uri": "at://did:plc:xbnsfdtxoothg654ujxe3p25/app.bsky.feed.post/3mm2ue7mtg22l",
+      "cid": "bafyreiap7zpczdjbl7xtetjbjowwqdvhlfwqpmvxfr4y3iruccuw3aetde",
+      "bskyUrl": "https://bsky.app/profile/stephenkb.bsky.social/post/3mm2ue7mtg22l",
+      "text": "I was talking to someone in the AI industry* who is fuming about this dynamic. 'These guys are just begging for our industry to be regulated out of existence'. *Or as they would immediately correct me, the LLM industry.",
+      "author": {
+        "handle": "stephenkb.bsky.social",
+        "displayName": "Stephen Bush"
+      },
+      "likeCount": 610,
+      "repostCount": 70,
+      "replyCount": 33,
+      "createdAt": "2026-05-17T17:14:32.432Z",
+      "createdUtc": 1779038072,
+      "ageHours": 15.65,
+      "trendingScore": 766.5,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
       "uri": "at://did:plc:iiaclrkg2ynzmgml4gjycp35/app.bsky.feed.post/3mltyxn7yc227",
       "cid": "bafyreibk4eos2vhqqlabjci2wmclcmlckijfis4oeg7xdkfxxbola45mle",
       "bskyUrl": "https://bsky.app/profile/ethanplaut.bsky.social/post/3mltyxn7yc227",
@@ -576,7 +584,7 @@
       "replyCount": 13,
       "createdAt": "2026-05-14T23:48:21.024Z",
       "createdUtc": 1778802501,
-      "ageHours": 76.88,
+      "ageHours": 81.09,
       "trendingScore": 760.5,
       "content_tags": [],
       "value_score": 0,
@@ -602,30 +610,6 @@
       "createdUtc": 1778417772,
       "ageHours": 66.58,
       "trendingScore": 738,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
-      "uri": "at://did:plc:xbnsfdtxoothg654ujxe3p25/app.bsky.feed.post/3mm2ue7mtg22l",
-      "cid": "bafyreiap7zpczdjbl7xtetjbjowwqdvhlfwqpmvxfr4y3iruccuw3aetde",
-      "bskyUrl": "https://bsky.app/profile/stephenkb.bsky.social/post/3mm2ue7mtg22l",
-      "text": "I was talking to someone in the AI industry* who is fuming about this dynamic. 'These guys are just begging for our industry to be regulated out of existence'. *Or as they would immediately correct me, the LLM industry.",
-      "author": {
-        "handle": "stephenkb.bsky.social",
-        "displayName": "Stephen Bush"
-      },
-      "likeCount": 591,
-      "repostCount": 65,
-      "replyCount": 32,
-      "createdAt": "2026-05-17T17:14:32.432Z",
-      "createdUtc": 1779038072,
-      "ageHours": 11.44,
-      "trendingScore": 737,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -763,13 +747,13 @@
         "handle": "edzitron.com",
         "displayName": "Ed Zitron"
       },
-      "likeCount": 468,
-      "repostCount": 69,
+      "likeCount": 484,
+      "repostCount": 72,
       "replyCount": 9,
       "createdAt": "2026-05-17T20:06:28.664Z",
       "createdUtc": 1779048388,
-      "ageHours": 8.58,
-      "trendingScore": 610.5,
+      "ageHours": 12.78,
+      "trendingScore": 632.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -827,6 +811,30 @@
       "matchedTopicLabel": "AI skills"
     },
     {
+      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2mt3gctk2c",
+      "cid": "bafyreih546urlctsxiosoqg6d4oh56us65pgacrokiusty6acwnxidliaq",
+      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2mt3gctk2c",
+      "text": "Particularly in the context of (appropriate) crackdowns on LLM-generated papers (e.g., on arXiv) and more and more tales of fabricated citations, two reminders: (1) LLMs do not \"cite their sources\" (2) Using an LLM to generate, complete, or fix LaTeX code can result in fabricated citations",
+      "author": {
+        "handle": "cfiesler.bsky.social",
+        "displayName": "Dr. Casey Fiesler"
+      },
+      "likeCount": 350,
+      "repostCount": 113,
+      "replyCount": 6,
+      "createdAt": "2026-05-17T14:59:41.407Z",
+      "createdUtc": 1779029981,
+      "ageHours": 17.9,
+      "trendingScore": 579,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
       "uri": "at://did:plc:xozp2x42jlscikizmdqub37m/app.bsky.feed.post/3ml7u66xci22f",
       "cid": "bafyreiejxgzd7zplq2jw2sy7gdocesac6x5hwgivly2yxvmjkxusqnbl4u",
       "bskyUrl": "https://bsky.app/profile/lissaharris.bsky.social/post/3ml7u66xci22f",
@@ -842,30 +850,6 @@
       "createdUtc": 1778110157,
       "ageHours": 112.74,
       "trendingScore": 564.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
-      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2mt3gctk2c",
-      "cid": "bafyreih546urlctsxiosoqg6d4oh56us65pgacrokiusty6acwnxidliaq",
-      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2mt3gctk2c",
-      "text": "Particularly in the context of (appropriate) crackdowns on LLM-generated papers (e.g., on arXiv) and more and more tales of fabricated citations, two reminders: (1) LLMs do not \"cite their sources\" (2) Using an LLM to generate, complete, or fix LaTeX code can result in fabricated citations",
-      "author": {
-        "handle": "cfiesler.bsky.social",
-        "displayName": "Dr. Casey Fiesler"
-      },
-      "likeCount": 336,
-      "repostCount": 110,
-      "replyCount": 6,
-      "createdAt": "2026-05-17T14:59:41.407Z",
-      "createdUtc": 1779029981,
-      "ageHours": 13.69,
-      "trendingScore": 559,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -981,13 +965,13 @@
         "handle": "spavel.bsky.social",
         "displayName": "Pavel"
       },
-      "likeCount": 374,
+      "likeCount": 375,
       "repostCount": 66,
       "replyCount": 6,
       "createdAt": "2026-05-13T15:20:51.497Z",
       "createdUtc": 1778685651,
-      "ageHours": 109.34,
-      "trendingScore": 509,
+      "ageHours": 113.54,
+      "trendingScore": 510,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1031,13 +1015,13 @@
         "handle": "cfiesler.bsky.social",
         "displayName": "Dr. Casey Fiesler"
       },
-      "likeCount": 350,
-      "repostCount": 67,
+      "likeCount": 355,
+      "repostCount": 69,
       "replyCount": 6,
       "createdAt": "2026-05-17T15:04:35.469Z",
       "createdUtc": 1779030275,
-      "ageHours": 13.61,
-      "trendingScore": 487,
+      "ageHours": 17.82,
+      "trendingScore": 496,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1093,6 +1077,30 @@
       "matchedQuery": "lang:en codex",
       "matchedTopicId": "coding-agents",
       "matchedTopicLabel": "Coding agents"
+    },
+    {
+      "uri": "at://did:plc:mivey63nzylfflvmmjoqcf6u/app.bsky.feed.post/3mm3e52ypys2j",
+      "cid": "bafyreifkv7y5nvdwm2uibou3ps7i4krkcl3tuzywcykc7nvarc3s3bo2hq",
+      "bskyUrl": "https://bsky.app/profile/questauthority.bsky.social/post/3mm3e52ypys2j",
+      "text": "I'm going to use a LLM to code a LLM agent to fix the problems that the other LLM created is peak LLM.",
+      "author": {
+        "handle": "questauthority.bsky.social",
+        "displayName": "The Questionable Authority"
+      },
+      "likeCount": 403,
+      "repostCount": 24,
+      "replyCount": 34,
+      "createdAt": "2026-05-17T21:56:52.568Z",
+      "createdUtc": 1779055012,
+      "ageHours": 10.94,
+      "trendingScore": 468,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:tzb43fx4dkn5ux7zntskveut/app.bsky.feed.post/3ml2p5gg6g22j",
@@ -1265,30 +1273,6 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
-      "uri": "at://did:plc:mivey63nzylfflvmmjoqcf6u/app.bsky.feed.post/3mm3e52ypys2j",
-      "cid": "bafyreifkv7y5nvdwm2uibou3ps7i4krkcl3tuzywcykc7nvarc3s3bo2hq",
-      "bskyUrl": "https://bsky.app/profile/questauthority.bsky.social/post/3mm3e52ypys2j",
-      "text": "I'm going to use a LLM to code a LLM agent to fix the problems that the other LLM created is peak LLM.",
-      "author": {
-        "handle": "questauthority.bsky.social",
-        "displayName": "The Questionable Authority"
-      },
-      "likeCount": 351,
-      "repostCount": 22,
-      "replyCount": 33,
-      "createdAt": "2026-05-17T21:56:52.568Z",
-      "createdUtc": 1779055012,
-      "ageHours": 6.74,
-      "trendingScore": 411.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
       "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2ncnn3rs2c",
       "cid": "bafyreiajcu5yxtfx2mtopov7qua72v3fomjfmgqxqjtf2fb5cjly2yuq64",
       "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2ncnn3rs2c",
@@ -1297,13 +1281,13 @@
         "handle": "cfiesler.bsky.social",
         "displayName": "Dr. Casey Fiesler"
       },
-      "likeCount": 287,
-      "repostCount": 58,
-      "replyCount": 3,
+      "likeCount": 294,
+      "repostCount": 60,
+      "replyCount": 5,
       "createdAt": "2026-05-17T15:08:23.820Z",
       "createdUtc": 1779030503,
-      "ageHours": 13.55,
-      "trendingScore": 404.5,
+      "ageHours": 17.75,
+      "trendingScore": 416.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1337,30 +1321,28 @@
       "matchedTopicLabel": "Workflow and automation"
     },
     {
-      "uri": "at://did:plc:2iusthwjwqo3qndx7srglie3/app.bsky.feed.post/3mkyk45nn5s2l",
-      "cid": "bafyreifac4wojpwzciotmeajithho7m3wzfpbna6v4n3mo4cljqwj7ri2q",
-      "bskyUrl": "https://bsky.app/profile/erinbartram.bsky.social/post/3mkyk45nn5s2l",
-      "text": "what ai skills does a second grader need, senator",
+      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm36ysxkec2o",
+      "cid": "bafyreifvry2egqshhwppaaps3fkmpgjokl2ujycahpx6tuocfqdczsavgq",
+      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm36ysxkec2o",
+      "text": "Think of it like this. Even as a technical ceo - someone who has not written code with any seriousness in years - an LLM does an impression of a software engineer writing a lot of code, which is what you would think an SWE did if you didn’t do the job in 10+ years bsky.app/profile/zeno...",
       "author": {
-        "handle": "erinbartram.bsky.social",
-        "displayName": "Erin Grievances"
+        "handle": "edzitron.com",
+        "displayName": "Ed Zitron"
       },
-      "likeCount": 300,
-      "repostCount": 45,
-      "replyCount": 5,
-      "createdAt": "2026-05-04T01:40:33.404Z",
-      "createdUtc": 1777858833,
-      "ageHours": 221.84,
-      "trendingScore": 392.5,
-      "content_tags": [
-        "is-question"
-      ],
+      "likeCount": 313,
+      "repostCount": 43,
+      "replyCount": 8,
+      "createdAt": "2026-05-17T20:25:01.214Z",
+      "createdUtc": 1779049501,
+      "ageHours": 12.48,
+      "trendingScore": 403,
+      "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
-      "matchedKeyword": "AI skills",
-      "matchedQuery": "lang:en \"ai skills\"",
-      "matchedTopicId": "skills",
-      "matchedTopicLabel": "AI skills"
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
     }
   ]
 }

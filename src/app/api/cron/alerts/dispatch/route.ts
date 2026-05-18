@@ -16,6 +16,7 @@ import { verifyCronAuth } from "@/lib/api/auth";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { withBodySizeLimit } from "@/lib/api-helpers";
 import { dispatchPendingAlerts } from "@/lib/alerts/dispatcher";
+import { withHealthcheck } from "@/lib/healthcheck";
 
 // lint-allow: no-parsebody - no-body cron endpoint; verifyCronAuth is the trust boundary.
 // Force Node runtime — postgres-js + crypto.subtle interop relies on it.
@@ -52,5 +53,6 @@ async function handle(req: NextRequest): Promise<NextResponse> {
 }
 
 // Vercel fires GET; we accept POST too for manual operator runs (curl).
-export const GET = handle;
-export const POST = handle;
+const handler = withHealthcheck("alerts-dispatch", handle);
+export const GET = handler;
+export const POST = handler;

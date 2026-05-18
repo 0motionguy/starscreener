@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { listIdeas, toPublicIdea, hotScore } from "@/lib/ideas";
 import {
@@ -91,7 +92,7 @@ async function pickTopIdeaOfWeek(now: Date = new Date()) {
   return scored[0]?.record ?? null;
 }
 
-export async function POST(
+async function handle(
   request: NextRequest,
 ): Promise<NextResponse<DailyResponse | ErrorResponse>> {
   const deny = authFailureResponse(verifyCronAuth(request));
@@ -157,3 +158,7 @@ export async function POST(
     );
   }
 }
+
+const handler = withHealthcheck("twitter-daily", handle);
+export const GET = handler;
+export const POST = handler;

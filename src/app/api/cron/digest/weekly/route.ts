@@ -33,6 +33,7 @@ import { and, isNotNull, isNull } from "drizzle-orm";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import {
   buildWeeklyDigests,
   type DigestUserEmailMap,
@@ -160,7 +161,7 @@ function getBaseUrl(request: NextRequest): string {
   return `${url.protocol}//${url.host}`;
 }
 
-export async function POST(
+async function handle(
   request: NextRequest,
 ): Promise<NextResponse<DigestCronResponse | { ok: false; error: string }>> {
   const deny = authFailureResponse(verifyCronAuth(request));
@@ -362,9 +363,9 @@ export async function POST(
 
 // GET alias for Vercel Cron (which fires GET). Vercel injects the same
 // Authorization: Bearer header, so the auth pipeline is identical.
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("digest-weekly", handle);
+export const GET = handler;
+export const POST = handler;
 
 // The env-map loader + DigestUserEmailMap type used to be re-exported here
 // for tests. Next 15 rejects non-HTTP-verb exports on route files, so tests

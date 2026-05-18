@@ -13,6 +13,7 @@ import {
   _setGithubFetchSentryForTests,
   githubFetch,
 } from "../github-fetch";
+import { __resetNotifyStateForTests } from "../notify";
 import {
   GitHubTokenPoolExhaustedError,
   type GitHubTokenPool,
@@ -77,10 +78,15 @@ class HangingTelemetryRedis extends FakeRedis {
 afterEach(() => {
   _setRedisForTests(null);
   _resetGithubFetchSentryForTests();
+  __resetNotifyStateForTests();
   globalThis.fetch = ORIGINAL_FETCH;
 });
 
 const ORIGINAL_FETCH = globalThis.fetch;
+
+function nextTick(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
 
 class FakePool implements GitHubTokenPool {
   readonly token = "tok-a-aaaaaaaaaaaaaaaaabcd";
@@ -283,9 +289,11 @@ test("githubFetch quarantines invalid tokens by fingerprint after 401", async ()
   );
 });
 
-test("githubFetch emits typed fatal ops-alert exception when webhook is missing", async () => {
-  const originalWebhook = process.env.OPS_ALERT_WEBHOOK;
-  delete process.env.OPS_ALERT_WEBHOOK;
+test("githubFetch emits typed fatal ops-alert exception when Slack webhook is missing", async () => {
+  const originalCritical = process.env.SLACK_WEBHOOK_CRITICAL;
+  const originalDefault = process.env.SLACK_WEBHOOK_DEFAULT;
+  delete process.env.SLACK_WEBHOOK_CRITICAL;
+  delete process.env.SLACK_WEBHOOK_DEFAULT;
   const exceptions: Array<{ error: unknown; context: unknown }> = [];
   _setGithubFetchSentryForTests({
     captureException: ((error: unknown, context?: unknown) => {
@@ -314,29 +322,37 @@ test("githubFetch emits typed fatal ops-alert exception when webhook is missing"
   };
 
   const result = await githubFetch("/rate_limit", { pool: exhaustedPool });
+  await nextTick();
   assert.equal(result, null);
   assert.equal(exceptions.length >= 2, true);
   const blocked = exceptions.find(
     (entry) =>
       entry.error instanceof Error &&
-      entry.error.message.includes("OPS_ALERT_WEBHOOK missing"),
+      entry.error.message.includes("Slack webhook missing"),
   );
-  assert.ok(blocked, "expected ops-alert blocked exception");
+  assert.ok(blocked, "expected notify blocked exception");
   const tags = (blocked?.context as { tags?: Record<string, string> } | undefined)?.tags;
   assert.equal(tags?.source, "ops-alert");
   assert.equal(tags?.category, "fatal");
   assert.equal(tags?.upstream_source, "github");
 
-  if (originalWebhook === undefined) {
-    delete process.env.OPS_ALERT_WEBHOOK;
+  if (originalCritical === undefined) {
+    delete process.env.SLACK_WEBHOOK_CRITICAL;
   } else {
-    process.env.OPS_ALERT_WEBHOOK = originalWebhook;
+    process.env.SLACK_WEBHOOK_CRITICAL = originalCritical;
+  }
+  if (originalDefault === undefined) {
+    delete process.env.SLACK_WEBHOOK_DEFAULT;
+  } else {
+    process.env.SLACK_WEBHOOK_DEFAULT = originalDefault;
   }
 });
 
-test("githubFetch classifies non-2xx OPS webhook responses as recoverable delivery failures", async () => {
-  const originalWebhook = process.env.OPS_ALERT_WEBHOOK;
-  process.env.OPS_ALERT_WEBHOOK = "https://ops.example/webhook";
+test("githubFetch classifies non-2xx Slack webhook responses as recoverable delivery failures", async () => {
+  const originalCritical = process.env.SLACK_WEBHOOK_CRITICAL;
+  const originalDefault = process.env.SLACK_WEBHOOK_DEFAULT;
+  process.env.SLACK_WEBHOOK_CRITICAL = "https://ops.example/webhook";
+  delete process.env.SLACK_WEBHOOK_DEFAULT;
   const exceptions: Array<{ error: unknown; context: unknown }> = [];
   _setGithubFetchSentryForTests({
     captureException: ((error: unknown, context?: unknown) => {
@@ -347,7 +363,7 @@ test("githubFetch classifies non-2xx OPS webhook responses as recoverable delive
 
   globalThis.fetch = (async (input: RequestInfo | URL) => {
     const url = String(input);
-    if (url === process.env.OPS_ALERT_WEBHOOK) {
+    if (url === process.env.SLACK_WEBHOOK_CRITICAL) {
       return new Response("forbidden", { status: 403 });
     }
     throw new Error(`unexpected fetch url ${url}`);
@@ -373,13 +389,14 @@ test("githubFetch classifies non-2xx OPS webhook responses as recoverable delive
   };
 
   const result = await githubFetch("/rate_limit", { pool: exhaustedPool });
+  await nextTick();
   assert.equal(result, null);
   const deliveryFailure = exceptions.find(
     (entry) =>
       entry.error instanceof Error &&
-      entry.error.message.includes("OPS alert webhook delivery failed"),
+      entry.error.message.includes("notify delivery failed"),
   );
-  assert.ok(deliveryFailure, "expected ops-alert delivery failure exception");
+  assert.ok(deliveryFailure, "expected notify delivery failure exception");
   const tags = (
     deliveryFailure?.context as { tags?: Record<string, string> } | undefined
   )?.tags;
@@ -387,9 +404,83 @@ test("githubFetch classifies non-2xx OPS webhook responses as recoverable delive
   assert.equal(tags?.category, "recoverable");
   assert.equal(tags?.upstream_source, "github");
 
-  if (originalWebhook === undefined) {
-    delete process.env.OPS_ALERT_WEBHOOK;
+  if (originalCritical === undefined) {
+    delete process.env.SLACK_WEBHOOK_CRITICAL;
   } else {
-    process.env.OPS_ALERT_WEBHOOK = originalWebhook;
+    process.env.SLACK_WEBHOOK_CRITICAL = originalCritical;
+  }
+  if (originalDefault === undefined) {
+    delete process.env.SLACK_WEBHOOK_DEFAULT;
+  } else {
+    process.env.SLACK_WEBHOOK_DEFAULT = originalDefault;
+  }
+});
+
+test("githubFetch does not classify notify dedupe as delivery failure", async () => {
+  const originalCritical = process.env.SLACK_WEBHOOK_CRITICAL;
+  const originalDefault = process.env.SLACK_WEBHOOK_DEFAULT;
+  process.env.SLACK_WEBHOOK_CRITICAL = "https://ops.example/webhook";
+  delete process.env.SLACK_WEBHOOK_DEFAULT;
+  const exceptions: Array<{ error: unknown; context: unknown }> = [];
+  _setGithubFetchSentryForTests({
+    captureException: ((error: unknown, context?: unknown) => {
+      exceptions.push({ error, context });
+      return "evt";
+    }) as never,
+  });
+
+  let webhookPosts = 0;
+  globalThis.fetch = (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url === process.env.SLACK_WEBHOOK_CRITICAL) {
+      webhookPosts += 1;
+      return new Response("ok", { status: 200 });
+    }
+    throw new Error(`unexpected fetch url ${url}`);
+  }) as typeof fetch;
+
+  const exhaustedPool: GitHubTokenPool = {
+    getNextToken() {
+      throw new GitHubTokenPoolExhaustedError(1_800_000_000, {
+        allQuarantined: true,
+      });
+    },
+    recordRateLimit() {},
+    quarantine() {},
+    snapshot() {
+      return [];
+    },
+    hydrationStatus() {
+      return { enabled: false, started: false, completed: false };
+    },
+    size() {
+      return 0;
+    },
+  };
+
+  assert.equal(await githubFetch("/rate_limit", { pool: exhaustedPool }), null);
+  await nextTick();
+  assert.equal(await githubFetch("/rate_limit", { pool: exhaustedPool }), null);
+  await nextTick();
+
+  assert.equal(webhookPosts, 1);
+  assert.equal(
+    exceptions.some(
+      (entry) =>
+        entry.error instanceof Error &&
+        entry.error.message.includes("notify delivery failed"),
+    ),
+    false,
+  );
+
+  if (originalCritical === undefined) {
+    delete process.env.SLACK_WEBHOOK_CRITICAL;
+  } else {
+    process.env.SLACK_WEBHOOK_CRITICAL = originalCritical;
+  }
+  if (originalDefault === undefined) {
+    delete process.env.SLACK_WEBHOOK_DEFAULT;
+  } else {
+    process.env.SLACK_WEBHOOK_DEFAULT = originalDefault;
   }
 });

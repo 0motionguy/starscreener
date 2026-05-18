@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { listIdeas, toPublicIdea, hotScore } from "@/lib/ideas";
 import {
@@ -38,7 +39,7 @@ interface ErrorResponse {
   error: string;
 }
 
-export async function POST(
+async function handle(
   request: NextRequest,
 ): Promise<NextResponse<WeeklyResponse | ErrorResponse>> {
   const deny = authFailureResponse(verifyCronAuth(request));
@@ -146,3 +147,7 @@ export async function POST(
     );
   }
 }
+
+const handler = withHealthcheck("twitter-weekly-recap", handle);
+export const GET = handler;
+export const POST = handler;

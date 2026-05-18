@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { getDataStore } from "@/lib/data-store";
 import {
   deriveHealth,
@@ -603,7 +604,7 @@ function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
   };
 }
 
-export async function GET(
+async function handle(
   request: NextRequest,
 ): Promise<
   NextResponse<
@@ -646,3 +647,5 @@ export async function GET(
     );
   }
 }
+
+export const GET = withHealthcheck("freshness-state", handle);

@@ -41,6 +41,7 @@ import { and, arrayOverlaps, eq, isNull, lt, sql } from "drizzle-orm";
 
 import { verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 import {
@@ -254,5 +255,6 @@ async function handle(req: NextRequest): Promise<NextResponse> {
 }
 
 // Vercel fires GET; accept POST too for manual operator invocation (curl).
-export const GET = handle;
-export const POST = handle;
+const handler = withHealthcheck("referrals-qualify", handle);
+export const GET = handler;
+export const POST = handler;

@@ -18,6 +18,7 @@ import {
 } from "@/lib/alerts/dispatcher";
 import { db } from "@/lib/db/client";
 import { alertDeliveryLog } from "@/lib/db/schema/alerts";
+import { withHealthcheck } from "@/lib/healthcheck";
 
 // lint-allow: no-parsebody - no-body cron endpoint; verifyCronAuth is the trust boundary.
 export const runtime = "nodejs";
@@ -57,5 +58,6 @@ async function handle(req: NextRequest): Promise<NextResponse> {
   }
 }
 
-export const GET = handle;
-export const POST = handle;
+const handler = withHealthcheck("alerts-cleanup", handle);
+export const GET = handler;
+export const POST = handler;

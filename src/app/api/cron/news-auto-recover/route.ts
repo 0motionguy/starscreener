@@ -19,6 +19,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 import type { NewsSource } from "@/lib/news/freshness";
 import { blueskyFetchedAt } from "@/lib/bluesky";
@@ -63,7 +64,7 @@ const SKIPPED_SOURCES: { source: string; reason: string }[] = [
   },
 ];
 
-export async function POST(request: NextRequest) {
+async function handle(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -102,6 +103,6 @@ export async function POST(request: NextRequest) {
 
 // GET alias for Vercel Cron, which fires GET (not POST). Matches the
 // convention used by /api/cron/aiso-drain.
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("news-auto-recover", handle);
+export const GET = handler;
+export const POST = handler;

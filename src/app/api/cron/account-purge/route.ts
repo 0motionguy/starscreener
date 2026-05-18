@@ -33,6 +33,7 @@ import { and, isNotNull, lt, sql } from "drizzle-orm";
 import { verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 
@@ -126,5 +127,6 @@ async function handle(
   }
 }
 
-export const GET = handle;
-export const POST = handle;
+const handler = withHealthcheck("account-purge", handle);
+export const GET = handler;
+export const POST = handler;

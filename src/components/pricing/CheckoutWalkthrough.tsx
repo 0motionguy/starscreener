@@ -117,14 +117,15 @@ export function CheckoutWalkthrough({
       } catch {
         // analytics must never throw upstream
       }
+      const { url } = await startCheckout(tier, cadence);
       // S5.B.5 — checkout_started step in the revenue-loop funnel.
+      // Count only sessions that actually got a Stripe Checkout URL.
       captureFunnelStep({
         step: "checkout_started",
         flow: "revenue-loop",
         tier: tier.key,
         cadence,
       });
-      const { url } = await startCheckout(tier, cadence);
       // Hand off to Stripe. We do NOT call onClose() because the page
       // will fully navigate; if the navigation is somehow blocked the
       // modal stays in its current state for the user to retry.

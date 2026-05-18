@@ -1,22 +1,22 @@
 "use client";
 
-// /you/settings client shell (S3.5.B).
+// /you/settings client shell (S3.5.B + S3.5.A).
 //
 // Profile form (display name + avatar URL) PATCHes the existing
-// `/api/me/profile` endpoint which was extended in this PR to accept
-// the two user-controlled fields. The page is intentionally minimal —
-// we leave email cadence + quiet hours to /you/alerts where the full
-// GlobalPreferences picker already lives.
+// `/api/me/profile` endpoint which was extended to accept the two
+// user-controlled fields. The page is intentionally minimal — email
+// cadence + quiet hours live in /you/alerts.
 //
-// A "Danger Zone" placeholder is reserved for the S3.5.A GDPR account
-// deletion flow; this PR ships the layout without the delete API so
-// the next PR can land the destructive endpoint without touching the
-// page shell again.
+// Danger Zone (S3.5.A) shows a DELETE ACCOUNT button that opens a
+// type-to-confirm dialog and POSTs `/api/account/delete` on submit.
+// Successful delete redirects to /sign-out (Clerk's sign-out route)
+// so the session terminates before the user lands back on home.
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 
 import { toast } from "@/lib/toast";
+import { getLoadedBrowserPostHog } from "@/lib/analytics/posthog-client";
 
 export interface SettingsInitialProfile {
   handle: string;
@@ -37,6 +37,51 @@ export default function SettingsClient({
   );
   const [avatarUrl, setAvatarUrl] = useState(initialProfile.avatarUrl ?? "");
   const [busy, setBusy] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteConfirmEmail, setDeleteConfirmEmail] = useState("");
+  const [deleteBusy, setDeleteBusy] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleDeleteAccount() {
+    setDeleteBusy(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch("/api/account/delete", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirmEmail: deleteConfirmEmail.trim() }),
+      });
+      if (!res.ok) {
+        const body = (await res
+          .json()
+          .catch(() => null)) as { message?: string } | null;
+        throw new Error(body?.message ?? `delete failed: ${res.status}`);
+      }
+      try {
+        getLoadedBrowserPostHog()?.capture("account_deleted", {
+          source: "settings_danger_zone",
+        });
+      } catch {
+        // analytics must never throw upstream
+      }
+      // Sign out + bounce to home. Clerk's sign-out route handles the
+      // session cookie clear; we replace the URL so the back button
+      // doesn't return to a now-orphaned /you.
+      window.location.replace("/sign-out");
+    } catch (err) {
+      setDeleteError(
+        err instanceof Error
+          ? err.message
+          : "Couldn't delete account. Please try again.",
+      );
+      setDeleteBusy(false);
+    }
+  }
+
+  const deleteArmed =
+    deleteConfirmEmail.trim().toLowerCase() ===
+    initialProfile.email.toLowerCase();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -213,7 +258,7 @@ export default function SettingsClient({
         >
           <div
             className="mb-4 font-mono text-[10px] uppercase tracking-[0.18em]"
-            style={{ color: "var(--v3-ink-300)" }}
+            style={{ color: "var(--v3-down, var(--v3-ink-300))" }}
           >
             {"// DANGER ZONE"}
           </div>
@@ -221,23 +266,108 @@ export default function SettingsClient({
             className="text-sm"
             style={{ color: "var(--v3-ink-200)", marginBottom: 8 }}
           >
-            Account deletion (GDPR right-to-erasure) ships in the next PR
-            alongside the destructive backend endpoint. Hold off on wiring
-            until then.
+            Deletes your profile, alert rules, referrals, and watchlist.
+            We soft-delete locally and best-effort remove your identity at
+            Clerk. This action is irreversible after a 30-day operator
+            grace window.
           </p>
-          <button
-            type="button"
-            disabled
-            className="inline-flex items-center rounded-[2px] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] opacity-50 cursor-not-allowed"
-            style={{
-              background: "transparent",
-              border: "1px solid var(--v3-down, var(--v3-line-200))",
-              color: "var(--v3-down, var(--v3-ink-300))",
-            }}
-            aria-label="Delete account (coming soon)"
-          >
-            DELETE ACCOUNT
-          </button>
+          {!deleteOpen ? (
+            <button
+              type="button"
+              onClick={() => {
+                setDeleteOpen(true);
+                setDeleteConfirmEmail("");
+                setDeleteError(null);
+              }}
+              className="inline-flex items-center rounded-[2px] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors"
+              style={{
+                background: "transparent",
+                border: "1px solid var(--v3-down, var(--v3-line-200))",
+                color: "var(--v3-down, var(--v3-ink-100))",
+              }}
+              aria-label="Open delete account confirmation"
+            >
+              DELETE ACCOUNT
+            </button>
+          ) : (
+            <div
+              className="rounded-[2px] p-3"
+              style={{
+                background: "var(--v3-bg-025, var(--v3-bg-050))",
+                border: "1px solid var(--v3-down, var(--v3-line-200))",
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+              }}
+            >
+              <p
+                className="text-sm"
+                style={{ color: "var(--v3-ink-100)", margin: 0 }}
+              >
+                Type your account email <code style={{ color: "var(--v3-ink-100)" }}>{initialProfile.email}</code> to confirm.
+              </p>
+              <input
+                type="email"
+                value={deleteConfirmEmail}
+                onChange={(e) =>
+                  setDeleteConfirmEmail(e.target.value.slice(0, 254))
+                }
+                placeholder={initialProfile.email}
+                aria-label="Confirm account email"
+                className="h-10 rounded-[2px] px-3 text-sm outline-none"
+                style={{
+                  background: "var(--v3-bg-075)",
+                  border: "1px solid var(--v3-line-200)",
+                  color: "var(--v3-ink-100)",
+                }}
+              />
+              {deleteError ? (
+                <p
+                  role="alert"
+                  className="text-xs"
+                  style={{
+                    color: "var(--v3-down, #ef4444)",
+                    margin: 0,
+                  }}
+                >
+                  {deleteError}
+                </p>
+              ) : null}
+              <div className="flex items-center justify-end gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDeleteOpen(false);
+                    setDeleteConfirmEmail("");
+                    setDeleteError(null);
+                  }}
+                  disabled={deleteBusy}
+                  className="inline-flex items-center rounded-[2px] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] disabled:opacity-50"
+                  style={{
+                    background: "transparent",
+                    border: "1px solid var(--v3-line-200)",
+                    color: "var(--v3-ink-200)",
+                  }}
+                >
+                  CANCEL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleDeleteAccount()}
+                  disabled={!deleteArmed || deleteBusy}
+                  className="inline-flex items-center rounded-[2px] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] disabled:opacity-40"
+                  style={{
+                    background: "var(--v3-down, transparent)",
+                    border: "1px solid var(--v3-down, #ef4444)",
+                    color: "#fff",
+                    fontWeight: 600,
+                  }}
+                >
+                  {deleteBusy ? "DELETING…" : "PERMANENTLY DELETE"}
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       </div>
     </main>

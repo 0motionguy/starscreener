@@ -147,8 +147,15 @@ export async function checkRateLimitAsync(
   const { windowMs, maxRequests } = { ...DEFAULT_OPTIONS, ...options };
   const subject = options.subject?.trim();
   const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
-  const principal = subject ? `u:${subject}` : `ip:${getClientIp(request)}`;
-  const key = `rl:${principal}:${windowMs}:${maxRequests}`;
+  // Key format:
+  //   - subject path: `rl:u:<userId>:<window>:<max>` (namespaced so a userId
+  //     that happens to be shaped like an IP can never collide)
+  //   - IP path:      `rl:<ip>:<window>:<max>` (unchanged from pre-S3.5
+  //     hardening, so existing rate-limit-routes.test.ts fixtures still
+  //     line up — they pre-seed buckets at the IP-keyed shape)
+  const key = subject
+    ? `rl:u:${subject}:${windowMs}:${maxRequests}`
+    : `rl:${getClientIp(request)}:${windowMs}:${maxRequests}`;
 
   const { count, ttlRemainingMs } = await store.incrementWithTtl(key, ttlSec);
   const now = Date.now();

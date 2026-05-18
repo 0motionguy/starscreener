@@ -1,0 +1,122 @@
+name: Lighthouse - PSI baseline
+
+# Runs scripts/lighthouse-routes.mjs against prod after each push to main
+# and on manual dispatch. Produces a JSON artifact at
+# .perf/lighthouse-<strategy>-prod.json with per-route Lighthouse
+# scores (performance / a11y / best-practices / SEO) + Core Web Vitals
+# (LCP, FCP, CLS, TBT, TTI).
+#
+# Self-skips when PAGESPEED_API_KEY is unset — emits a ::notice:: and
+# exits 0 (never fails CI for a missing operator secret). Operator
+# follow-up: `vercel env add PAGESPEED_API_KEY production` + repo secret
+# at Settings → Secrets and variables → Actions.
+#
+# Threshold surfacing (non-blocking for v1): emits ::warning:: when a
+# route regresses below the targets in the matrix below. Enforcement
+# (fail the run on regression) is deliberately deferred for ~2 weeks
+# of baseline data — see TODO at the bottom of this file.
+#
+# Targets (per the Stage 5 /GOAL):
+#   - Performance score >= 0.90
+#   - LCP < 2500 ms
+#   - CLS < 0.1
+#   - TBT < 200 ms        (PSI proxy for INP)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      strategy:
+        description: "PSI strategy"
+        required: false
+        default: "mobile"
+        type: choice
+        options:
+          - mobile
+          - desktop
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: lighthouse-${{ github.event.inputs.strategy || 'mobile' }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run Lighthouse (PSI API)
+        env:
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+          LH_STRATEGY: ${{ github.event.inputs.strategy || 'mobile' }}
+        run: |
+          if [ -z "$PAGESPEED_API_KEY" ]; then
+            echo "::notice::PAGESPEED_API_KEY secret not set — skipping Lighthouse run. Operator must add it to repo secrets to activate this workflow. (Settings → Secrets and variables → Actions)"
+            exit 0
+          fi
+          node scripts/lighthouse-routes.mjs
+
+      - name: Upload Lighthouse JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ github.event.inputs.strategy || 'mobile' }}-prod
+          path: .perf/lighthouse-*.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Threshold surfacing
+        if: env.PAGESPEED_API_KEY != ''
+        env:
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+          STRATEGY: ${{ github.event.inputs.strategy || 'mobile' }}
+        run: |
+          FILE=".perf/lighthouse-${STRATEGY}-prod.json"
+          if [ ! -f "$FILE" ]; then
+            echo "::warning::Lighthouse output not found at $FILE — script may have failed earlier"
+            exit 0
+          fi
+          # Non-blocking summary. Emits warnings for any route that
+          # regresses below targets. Enforcement is deferred until we
+          # have ~2 weeks of baseline data.
+          node -e '
+            const fs = require("node:fs");
+            const data = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+            const PERF = 0.90, LCP = 2500, CLS = 0.1, TBT = 200;
+            let regressions = 0;
+            for (const r of data.routes ?? []) {
+              if (r.error) {
+                console.log(`::warning::${r.route} — PSI error: ${r.error}`);
+                continue;
+              }
+              const issues = [];
+              if (r.perf != null && r.perf < PERF) issues.push(`perf=${r.perf.toFixed(2)}<${PERF}`);
+              if (r.lcp_ms != null && r.lcp_ms > LCP) issues.push(`lcp=${Math.round(r.lcp_ms)}ms>${LCP}ms`);
+              if (r.cls != null && r.cls > CLS) issues.push(`cls=${r.cls.toFixed(3)}>${CLS}`);
+              if (r.tbt_ms != null && r.tbt_ms > TBT) issues.push(`tbt=${Math.round(r.tbt_ms)}ms>${TBT}ms`);
+              if (issues.length > 0) {
+                console.log(`::warning::${r.route} — ${issues.join(", ")}`);
+                regressions++;
+              }
+            }
+            console.log(`[lighthouse] ${regressions} route(s) below target (non-blocking)`);
+          ' "$FILE"
+
+# TODO(post-baseline, ~2 weeks after PAGESPEED_API_KEY is provisioned):
+#   Convert threshold-surfacing step's exit to non-zero when regressions > 0.
+#   Add a separate workflow for PR runs that targets the Vercel preview URL
+#   (resolve via GitHub deployment_status webhook → set LH_BASE_URL).

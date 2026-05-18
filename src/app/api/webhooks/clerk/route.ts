@@ -233,13 +233,20 @@ async function handleUserCreated(
       profileId: insertedProfile.id,
       firstName: data.first_name,
     });
-    await provider.send({
+    const result = await provider.send({
       to: email,
       from: resolveEmailFrom(),
       subject: rendered.subject,
       html: rendered.html,
       text: rendered.text,
     });
+    if (!result.ok) {
+      console.warn("[clerk-webhook] welcome email send failed", {
+        clerkUserId: data.id,
+        provider: provider.name,
+        error: result.error,
+      });
+    }
   } catch (err) {
     console.warn("[clerk-webhook] welcome email send failed", data.id, err);
   }

@@ -13,7 +13,7 @@
 // link that toggles `email_system=false` without requiring auth (the
 // HMAC binds the link to one profile).
 
-import { createHmac } from "node:crypto";
+import { buildEmailUnsubscribeUrl } from "@/lib/email/unsubscribe";
 
 const SITE = "https://trendingrepo.com";
 
@@ -33,25 +33,11 @@ export interface WelcomeEmailOutput {
   referenceId: string;
 }
 
-function unsubscribeUrl(profileId: string): string {
-  const secret = process.env.EMAIL_UNSUBSCRIBE_SECRET ?? "";
-  if (!secret) {
-    // No secret configured (dev / test) — degrade to the settings link so
-    // the user can self-unsub via the UI instead of a signed query string.
-    return `${SITE}/you/settings`;
-  }
-  const sig = createHmac("sha256", secret)
-    .update(`unsub:system:${profileId}`)
-    .digest("hex")
-    .slice(0, 32);
-  return `${SITE}/api/email/unsubscribe?p=${encodeURIComponent(profileId)}&kind=system&sig=${sig}`;
-}
-
 export function renderWelcomeEmail(
   input: WelcomeEmailInput,
 ): WelcomeEmailOutput {
   const greeting = input.firstName?.trim() || "there";
-  const unsubHref = unsubscribeUrl(input.profileId);
+  const unsubHref = buildEmailUnsubscribeUrl("system", input.profileId);
   const ctaHref = `${SITE}/you/alerts?preset=breakout`;
 
   const subject = "You're in. Catch breakouts before they're cold.";

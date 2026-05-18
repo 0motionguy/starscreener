@@ -31,12 +31,14 @@ const ALLOWED_ORIGIN_SUFFIXES: ReadonlyArray<string> = [
 function hostMatchesAllowlist(host: string): boolean {
   const lowered = host.toLowerCase().split(":")[0]?.trim();
   if (!lowered) return false;
-  return ALLOWED_ORIGIN_SUFFIXES.some(
-    (suffix) =>
-      lowered === suffix ||
-      lowered === suffix.replace(/^\./, "") ||
-      lowered.endsWith(suffix),
-  );
+  return ALLOWED_ORIGIN_SUFFIXES.some((suffix) => {
+    const normalized = suffix.toLowerCase();
+    if (normalized.startsWith(".")) {
+      const bare = normalized.slice(1);
+      return lowered === bare || lowered.endsWith(normalized);
+    }
+    return lowered === normalized;
+  });
 }
 
 /**
@@ -51,10 +53,11 @@ function hostMatchesAllowlist(host: string): boolean {
 export function assertSameOriginRequest(req: NextRequest): NextResponse | null {
   // 1. Sec-Fetch-Site is the cheapest signal — browsers set it without
   //    any opt-in, and it is NOT forwarded on cross-site requests.
+  //    Same-site still falls through to the Origin check because sibling
+  //    subdomains and shared hosting suffixes are part of the threat model.
   const fetchSite = req.headers.get("sec-fetch-site");
   if (
     fetchSite === "same-origin" ||
-    fetchSite === "same-site" ||
     fetchSite === "none"
   ) {
     return null;

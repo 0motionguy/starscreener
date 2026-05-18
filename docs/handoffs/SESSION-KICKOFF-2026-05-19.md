@@ -8,6 +8,15 @@ Two prior sessions (2026-05-17 + 2026-05-18) shipped **17 PRs + 5 hardening PRs 
 
 **Stage 4 is what's left.** It is split across 5 implementation tracks (A–E), 6 operator items (which only the human can unblock), and ~12 stale bot data PRs to flush. Most of Stage 4 is small, surgical, and parallelisable.
 
+## 0.1 Execution addendum (2026-05-18 03:53 UTC)
+
+This kickoff was executed once after PR #1747 merged. Do not repeat the already-completed checks below.
+
+- **S4.A is DONE.** `collect-twitter.yml` run `26011938587` completed successfully from `2026-05-18T03:29:53Z` to `2026-05-18T03:32:11Z` (<3 min). It produced and auto-merged #1748 and #1749; `origin/main` then advanced again with #1750 to `7f7ab234a`.
+- **S4.D is still open.** The 12 pre-#1743 data PRs remain open with only the `automation` label: #1627, #1639, #1657, #1670, #1704, #1714, #1717, #1723, #1726, #1730, #1732, #1738.
+- **Additional ops hardening landed in the follow-up branch.** The branch adds a customer webhook dead-letter digest cron (`GET /api/cron/webhooks/dead-letter-digest` + GitHub Actions schedule), Slack customer-ops notifications, a reusable Healthchecks wrapper, dead-letter timestamps, tests, docs, and a `perf:bundle` fix for standalone Next manifests.
+- **Still remaining from the original code tracks:** S4.B account purge cron, S4.C full Lighthouse/PSI workflow wiring, and S4.E security-helper unit tests.
+
 ## 1. Paste-ready role prompt
 
 Copy everything in the fenced block below into the kickoff message of the fresh session.

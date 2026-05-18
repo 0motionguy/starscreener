@@ -283,7 +283,11 @@ export async function appendDeadLetter(
 ): Promise<void> {
   const p = deadLetterLocation();
   await fs.mkdir(path.dirname(p), { recursive: true });
-  await fs.appendFile(p, JSON.stringify({ ...row, deadLetter: true }) + "\n", "utf8");
+  await fs.appendFile(
+    p,
+    JSON.stringify({ ...row, deadLetter: true, deadLetteredAt: nowIso() }) + "\n",
+    "utf8",
+  );
 }
 
 // ---------------------------------------------------------------------------

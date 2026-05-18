@@ -351,6 +351,7 @@ The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, A
 | `0,30 * * * *`   | `/api/cron/aiso-drain`           | Drain AISO rescan queue (every 30 min)      |
 | `5,35 * * * *`   | `/api/cron/webhooks/scan`        | Enqueue breakout + funding webhook deliveries |
 | `10,40 * * * *`  | `/api/cron/webhooks/flush`       | Drain Slack / Discord webhook queue         |
+| `9 9 * * *`      | `/api/cron/webhooks/dead-letter-digest` | Summarize failed customer webhook deliveries |
 | `*/15 * * * *`   | `/api/health`                    | Unauthed freshness / status probe           |
 
 ### Primary: GitHub Actions
@@ -389,6 +390,7 @@ Deliver breakout, funding, and (phase-2) revenue events to Slack or Discord as s
 
 1. `data/webhook-targets.json` holds a list of operator-configured targets. The scan cron (`/api/cron/webhooks/scan`, every 30 min at :05 / :35) reads the latest derived repos + funding feed and enqueues a row per matching target into `.data/webhook-queue.jsonl`. Enqueue is idempotent — the same (event, subject, target) tuple never duplicates.
 2. The flush cron (`/api/cron/webhooks/flush`, every 30 min at :10 / :40) drains the queue. 5s timeout per POST, 3s gap between POSTs to avoid rate limits. Non-2xx responses bump `attempts`; rows that hit 5 attempts move to `.data/webhook-dead-letter.jsonl` so the queue can drain forward.
+3. The dead-letter digest cron (`/api/cron/webhooks/dead-letter-digest`, daily at 09:09 UTC) reads the dead-letter JSONL file, aggregates recent rows by target/event, and posts a customer-ops Slack summary without exposing webhook URLs.
 
 **Add a Slack target:**
 

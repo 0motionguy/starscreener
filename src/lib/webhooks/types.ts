@@ -69,6 +69,8 @@ export interface WebhookDelivery {
   deliveredAt?: string;
   /** Marker — only set when the row has been moved to dead-letter. */
   deadLetter?: boolean;
+  /** Timestamp set when the drain moves the row into the dead-letter file. */
+  deadLetteredAt?: string;
 }
 
 /** Minimal repo shape the breakout formatter needs. Keeps the import narrow. */

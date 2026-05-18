@@ -1,0 +1,52 @@
+name: Cron - webhooks dead-letter digest
+
+# Daily ops digest for end-user webhook deliveries that exhausted retry budget.
+# Required repo config:
+#   secrets.CRON_SECRET    - must match server CRON_SECRET env
+#   vars.TRENDINGREPO_URL - optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "9 9 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-webhooks-dead-letter-digest
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: GET /api/cron/webhooks/dead-letter-digest
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset - refusing to fire unauthenticated"
+            exit 1
+          fi
+
+          code=$(curl -sS -o /tmp/dead-letter-digest-out -w "%{http_code}" \
+            "$BASE_URL/api/cron/webhooks/dead-letter-digest" \
+            -H "Authorization: Bearer $CRON_SECRET")
+
+          echo "DEAD LETTER DIGEST HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/dead-letter-digest-out >/dev/null 2>&1; then
+            jq . /tmp/dead-letter-digest-out | head -c 2000
+          else
+            head -c 2000 /tmp/dead-letter-digest-out
+          fi
+          echo
+
+          if [ "$code" != "200" ]; then
+            echo "::error::cron/webhooks/dead-letter-digest call failed ($code)"
+            exit 1
+          fi

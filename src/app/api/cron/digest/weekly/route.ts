@@ -18,20 +18,18 @@
 //     call is made even when the provider is configured.
 //
 // User → email mapping:
-//   StarScreener today does NOT persist email addresses. `userId` is
-//   derived from an email HMAC, so the server cannot recover the email
-//   from a rule. Until that changes, operators can provide a JSON map
-//   in `DIGEST_USER_EMAILS_JSON` (format `{ "<userId>": "<email>" }`);
-//   users without an entry are skipped and counted. Once a user→email
-//   table lands, the lookup here should switch to that table and the
-//   env map becomes a test-only override.
+//   Prefer active `profiles.email` rows. The legacy pipeline alert rules
+//   still key by `verifyUserAuth().userId`, so the resolver bridges direct
+//   profile ids, Clerk ids, and signed-session `u_<HMAC(email)>` ids.
+//   `DIGEST_USER_EMAILS_JSON` remains a fallback for local fixtures and any
+//   anonymous/sessionless id that cannot be resolved from profiles.
 //
 // Response shape:
 //   { ok: true, skipped?, attempted, sent, skippedUsers, errors: [...],
 //     durationMs, dryRun }
 
 import { NextRequest, NextResponse } from "next/server";
-import { and, inArray, isNotNull, isNull } from "drizzle-orm";
+import { and, isNotNull, isNull } from "drizzle-orm";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
@@ -39,6 +37,7 @@ import {
   buildWeeklyDigests,
   type DigestUserEmailMap,
   loadUserEmailMapFromEnv,
+  mergeProfileEmailsIntoUserEmailMap,
   collectAlertsByUser,
   pickTopBreakouts,
 } from "@/lib/pipeline/alerts/weekly-digest";
@@ -55,13 +54,15 @@ import { mintUnsubToken } from "@/lib/newsletter/tokens";
 import { db } from "@/lib/db/client";
 import { newsletterSubscribers } from "@/lib/db/schema/newsletter";
 import { profiles } from "@/lib/db/schema/profiles";
+import { deriveUserId } from "@/lib/api/session";
 
 /**
- * Resolve userId → email by querying `profiles.email` (the canonical source
- * since Stage 5 / B.1). Falls back to `DIGEST_USER_EMAILS_JSON` for any
- * userIds the DB doesn't yet cover — primarily useful in test/dev where
- * the env override is more convenient than seeding a profile row, and as
- * a temporary safety net for any user whose Clerk webhook hasn't yet
+ * Resolve userId → email by querying `profiles.email` rows (canonical since
+ * Stage 5 / B.1). Deleted profiles are included in the lookup so they can
+ * suppress stale env fallback entries. Falls back to `DIGEST_USER_EMAILS_JSON`
+ * for any userIds the DB doesn't cover — primarily useful in test/dev where
+ * the env override is more convenient than seeding a profile row, and as a
+ * temporary safety net for any user whose Clerk webhook hasn't yet
  * materialised a profile row.
  *
  * DB rows always win when both are present: the DB is the source of truth
@@ -75,21 +76,21 @@ async function resolveUserEmails(
   const ids = Array.from(new Set(userIds));
   if (ids.length === 0) return envMap;
 
-  const merged = new Map(envMap);
   try {
     const rows = await db
       .select({
+        profileId: profiles.id,
         clerkUserId: profiles.clerkUserId,
         email: profiles.email,
+        deletedAt: profiles.deletedAt,
       })
-      .from(profiles)
-      .where(inArray(profiles.clerkUserId, ids));
-    for (const row of rows) {
-      if (!row.email) continue;
-      const trimmed = row.email.trim();
-      if (trimmed.length === 0 || !trimmed.includes("@")) continue;
-      merged.set(row.clerkUserId, trimmed);
-    }
+      .from(profiles);
+    return mergeProfileEmailsIntoUserEmailMap({
+      userIds: ids,
+      fallbackEmails: envMap,
+      profiles: rows,
+      deriveUserIdFromEmail: deriveUserId,
+    });
   } catch (err) {
     // DB read failure must not crash the digest. Fall through to whatever
     // the env map provided (often empty in prod) — the existing
@@ -99,7 +100,7 @@ async function resolveUserEmails(
       err,
     );
   }
-  return merged;
+  return envMap;
 }
 
 export const runtime = "nodejs";

@@ -8,7 +8,7 @@
 // Contract:
 //   - INPUT: the set of userIds that have rules, the last-7d alert
 //     events grouped by user, the current Repo[] snapshot, and the
-//     operator-provided userId→email map.
+//     resolved userId→email map (profile-backed with env fallback).
 //   - OUTPUT: `DigestInput[]` ready for `renderDigestEmail`, plus the
 //     count of users we had to skip because they had no email on file.
 //
@@ -35,6 +35,26 @@ import type { AlertEvent, AlertEventStore } from "../types";
 
 export type DigestUserEmailMap = ReadonlyMap<string, string>;
 
+export interface DigestProfileEmailRow {
+  profileId: string;
+  clerkUserId: string;
+  email: string | null;
+  /** Non-null means the account was soft-deleted and must not receive mail. */
+  deletedAt?: Date | string | null;
+}
+
+export interface MergeProfileEmailsInput {
+  userIds: Iterable<string>;
+  fallbackEmails: DigestUserEmailMap;
+  profiles: Iterable<DigestProfileEmailRow>;
+  /**
+   * Maps a profile email to the legacy signed-session userId shape
+   * (`u_<hmac>`). Optional because local tests/dev may not configure the
+   * session secret; direct profile/clerk ids still work without it.
+   */
+  deriveUserIdFromEmail?: (email: string) => string;
+}
+
 /**
  * Load `DIGEST_USER_EMAILS_JSON` from the environment. Format:
  *   `{"u_abc":"alice@example.com","u_def":"bob@example.com"}`
@@ -43,9 +63,8 @@ export type DigestUserEmailMap = ReadonlyMap<string, string>;
  * map path is deliberate: with no mapping today the weekly digest can't
  * deliver real emails, so the cron skips every user and logs counts.
  *
- * TODO(auth): replace with a real user table lookup once accounts have
- * email on file. At that point this env map should degrade to a
- * test-only override.
+ * This is now a fallback. The weekly cron merges active `profiles.email`
+ * rows over this map when a profile-backed identity can be matched.
  */
 export function loadUserEmailMapFromEnv(): DigestUserEmailMap {
   const raw = process.env.DIGEST_USER_EMAILS_JSON;
@@ -66,6 +85,57 @@ export function loadUserEmailMapFromEnv(): DigestUserEmailMap {
   } catch {
     return new Map();
   }
+}
+
+/**
+ * Merge profile-backed emails into the digest userId map. The weekly digest
+ * has to bridge two identity eras:
+ *
+ * - legacy pipeline alert rules key by `verifyUserAuth().userId`, commonly
+ *   `u_<HMAC(email)>` for signed browser sessions or arbitrary ids from
+ *   USER_TOKENS_JSON;
+ * - newer account tables key by `profiles.id` / `profiles.clerkUserId`.
+ *
+ * The DB profile email wins when it can be matched to any active digest
+ * userId. Deleted profile identities actively suppress matching env fallback
+ * entries so account deletion cannot leave a digest delivery path behind.
+ * The env map remains a fallback for anonymous/sessionless ids and test
+ * fixtures.
+ */
+export function mergeProfileEmailsIntoUserEmailMap(
+  input: MergeProfileEmailsInput,
+): DigestUserEmailMap {
+  const requested = new Set(input.userIds);
+  const merged = new Map(input.fallbackEmails);
+  if (requested.size === 0) return merged;
+
+  for (const profile of input.profiles) {
+    const email = profile.email?.trim();
+    const candidates = [profile.profileId, profile.clerkUserId];
+    if (email && email.includes("@") && input.deriveUserIdFromEmail) {
+      try {
+        candidates.push(input.deriveUserIdFromEmail(email));
+      } catch {
+        // SESSION_SECRET can be missing in local/dev test contexts. Direct
+        // profile/clerk id matching and env fallback still remain available.
+      }
+    }
+
+    if (profile.deletedAt) {
+      for (const candidate of candidates) {
+        if (requested.has(candidate)) merged.delete(candidate);
+      }
+      continue;
+    }
+
+    if (!email || !email.includes("@")) continue;
+
+    for (const candidate of candidates) {
+      if (requested.has(candidate)) merged.set(candidate, email);
+    }
+  }
+
+  return merged;
 }
 
 // ---------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-18T20:44:50.095Z",
+  "fetchedAt": "2026-05-18T22:13:56.686Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -7,7 +7,7 @@
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -19,13 +19,41 @@
           "handle": "fry69.dev",
           "displayName": "fry69"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-18T18:24:22.787Z",
-        "hoursSincePosted": 2.34
+        "hoursSincePosted": 3.83
       },
       "posts": [
+        {
+          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mm5ipzd2xs27",
+          "cid": "bafyreihiuy4fdqn742f2w7wme2ly5s6vgpyigydjz5j5trlxgr5n3hq6r4",
+          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mm5ipzd2xs27",
+          "text": "There are also incredible things happening currently with DeepSeek 4 Flash running on a local 96/128GB Mac, which leave Gemma 4 in the dust, IMHO. If the hardware is available (there is also CUDA and a ROCm port, but slower), I'd recommend to give this a try -> github.com/antirez/ds4",
+          "author": {
+            "handle": "fry69.dev",
+            "displayName": "fry69"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T18:24:22.787Z",
+          "createdUtc": 1779128662,
+          "ageHours": 3.83,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ipt7y6qaf6fn7oeeduboqe44/app.bsky.feed.post/3mm2phsnaxs2r",
           "cid": "bafyreigqeawwuuk6z5xqk53yhqglagtxmfbiqfunoqpv4g4qvdteralpuy",
@@ -42,34 +70,6 @@
           "createdUtc": 1779032824,
           "ageHours": 3.81,
           "trendingScore": 3,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "antirez/ds4",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mm5ipzd2xs27",
-          "cid": "bafyreihiuy4fdqn742f2w7wme2ly5s6vgpyigydjz5j5trlxgr5n3hq6r4",
-          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mm5ipzd2xs27",
-          "text": "There are also incredible things happening currently with DeepSeek 4 Flash running on a local 96/128GB Mac, which leave Gemma 4 in the dust, IMHO. If the hardware is available (there is also CUDA and a ROCm port, but slower), I'd recommend to give this a try -> github.com/antirez/ds4",
-          "author": {
-            "handle": "fry69.dev",
-            "displayName": "fry69"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-18T18:24:22.787Z",
-          "createdUtc": 1779128662,
-          "ageHours": 2.34,
-          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -3277,7 +3277,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:57:01.000Z",
-        "hoursSincePosted": 0.8
+        "hoursSincePosted": 2.28
       },
       "posts": [
         {
@@ -3327,7 +3327,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:57:01.000Z",
           "createdUtc": 1779134221,
-          "ageHours": 0.8,
+          "ageHours": 2.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3864,7 +3864,7 @@
     },
     "JuliusBrussee/caveman": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -3876,11 +3876,11 @@
           "handle": "marko.tech",
           "displayName": "Marko Bajlovic"
         },
-        "likeCount": 1,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-18T19:41:56.172Z",
-        "hoursSincePosted": 1.05
+        "hoursSincePosted": 2.53
       },
       "posts": [
         {
@@ -3892,13 +3892,13 @@
             "handle": "marko.tech",
             "displayName": "Marko Bajlovic"
           },
-          "likeCount": 1,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-05-18T19:41:56.172Z",
           "createdUtc": 1779133316,
-          "ageHours": 1.05,
-          "trendingScore": 1.5,
+          "ageHours": 2.53,
+          "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -8203,7 +8203,7 @@
       ]
     },
     "openclaw/openclaw": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -8219,7 +8219,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:13:17.486789+00:00",
-        "hoursSincePosted": 1.53
+        "hoursSincePosted": 3.01
       },
       "posts": [
         {
@@ -8319,7 +8319,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:13:17.486789+00:00",
           "createdUtc": 1779131597,
-          "ageHours": 1.53,
+          "ageHours": 3.01,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -10545,7 +10545,7 @@
     },
     "docker/docker-agent": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -10557,11 +10557,11 @@
           "handle": "aheritier.net",
           "displayName": "Arnaud Héritier"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-18T20:31:05.296Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.71
       },
       "posts": [
         {
@@ -10601,13 +10601,13 @@
             "handle": "aheritier.net",
             "displayName": "Arnaud Héritier"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-18T20:31:05.296Z",
           "createdUtc": 1779136265,
-          "ageHours": 0.5,
-          "trendingScore": 4,
+          "ageHours": 1.71,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo",
             "has-mcp",
@@ -15255,7 +15255,7 @@
       ]
     },
     "InsForge/InsForge": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -15272,7 +15272,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T20:26:16.142Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.79
       },
       "posts": [
         {
@@ -15289,7 +15289,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T20:26:16.142Z",
           "createdUtc": 1779135976,
-          "ageHours": 0.5,
+          "ageHours": 1.79,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15351,7 +15351,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:33:37.237Z",
-        "hoursSincePosted": 1.19
+        "hoursSincePosted": 2.67
       },
       "posts": [
         {
@@ -15368,7 +15368,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:33:37.237Z",
           "createdUtc": 1779132817,
-          "ageHours": 1.19,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15402,7 +15402,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:01:05.426Z",
-        "hoursSincePosted": 1.73
+        "hoursSincePosted": 3.21
       },
       "posts": [
         {
@@ -15419,7 +15419,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:01:05.426Z",
           "createdUtc": 1779130865,
-          "ageHours": 1.73,
+          "ageHours": 3.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15453,7 +15453,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T18:34:43Z",
-        "hoursSincePosted": 2.17
+        "hoursSincePosted": 3.65
       },
       "posts": [
         {
@@ -15470,7 +15470,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T18:34:43Z",
           "createdUtc": 1779129283,
-          "ageHours": 2.17,
+          "ageHours": 3.65,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15536,12 +15536,63 @@
           ]
         }
       ]
+    },
+    "nkzw-tech/codiff": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
+        "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm5st7ymjr2c",
+        "text": "📰 Codiff, a local diff review tool, was developed by an HN user who found limitations with reviewing code written by large language models (llms) and built it to address these issues, offering features like file filters, search, ... 🔗 https://github.com/nkzw-tech/codiff/releases #Tech #Dev",
+        "author": {
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T21:25:04.397729+00:00",
+        "hoursSincePosted": 0.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
+          "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm5st7ymjr2c",
+          "text": "📰 Codiff, a local diff review tool, was developed by an HN user who found limitations with reviewing code written by large language models (llms) and built it to address these issues, offering features like file filters, search, ... 🔗 https://github.com/nkzw-tech/codiff/releases #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T21:25:04.397729+00:00",
+          "createdUtc": 1779139504,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nkzw-tech/codiff",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "antirez--ds4": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -15553,13 +15604,41 @@
           "handle": "fry69.dev",
           "displayName": "fry69"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-18T18:24:22.787Z",
-        "hoursSincePosted": 2.34
+        "hoursSincePosted": 3.83
       },
       "posts": [
+        {
+          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mm5ipzd2xs27",
+          "cid": "bafyreihiuy4fdqn742f2w7wme2ly5s6vgpyigydjz5j5trlxgr5n3hq6r4",
+          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mm5ipzd2xs27",
+          "text": "There are also incredible things happening currently with DeepSeek 4 Flash running on a local 96/128GB Mac, which leave Gemma 4 in the dust, IMHO. If the hardware is available (there is also CUDA and a ROCm port, but slower), I'd recommend to give this a try -> github.com/antirez/ds4",
+          "author": {
+            "handle": "fry69.dev",
+            "displayName": "fry69"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T18:24:22.787Z",
+          "createdUtc": 1779128662,
+          "ageHours": 3.83,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ipt7y6qaf6fn7oeeduboqe44/app.bsky.feed.post/3mm2phsnaxs2r",
           "cid": "bafyreigqeawwuuk6z5xqk53yhqglagtxmfbiqfunoqpv4g4qvdteralpuy",
@@ -15576,34 +15655,6 @@
           "createdUtc": 1779032824,
           "ageHours": 3.81,
           "trendingScore": 3,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "antirez/ds4",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mm5ipzd2xs27",
-          "cid": "bafyreihiuy4fdqn742f2w7wme2ly5s6vgpyigydjz5j5trlxgr5n3hq6r4",
-          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mm5ipzd2xs27",
-          "text": "There are also incredible things happening currently with DeepSeek 4 Flash running on a local 96/128GB Mac, which leave Gemma 4 in the dust, IMHO. If the hardware is available (there is also CUDA and a ROCm port, but slower), I'd recommend to give this a try -> github.com/antirez/ds4",
-          "author": {
-            "handle": "fry69.dev",
-            "displayName": "fry69"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-18T18:24:22.787Z",
-          "createdUtc": 1779128662,
-          "ageHours": 2.34,
-          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18811,7 +18862,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:57:01.000Z",
-        "hoursSincePosted": 0.8
+        "hoursSincePosted": 2.28
       },
       "posts": [
         {
@@ -18861,7 +18912,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:57:01.000Z",
           "createdUtc": 1779134221,
-          "ageHours": 0.8,
+          "ageHours": 2.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19398,7 +19449,7 @@
     },
     "juliusbrussee--caveman": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -19410,11 +19461,11 @@
           "handle": "marko.tech",
           "displayName": "Marko Bajlovic"
         },
-        "likeCount": 1,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-18T19:41:56.172Z",
-        "hoursSincePosted": 1.05
+        "hoursSincePosted": 2.53
       },
       "posts": [
         {
@@ -19426,13 +19477,13 @@
             "handle": "marko.tech",
             "displayName": "Marko Bajlovic"
           },
-          "likeCount": 1,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-05-18T19:41:56.172Z",
           "createdUtc": 1779133316,
-          "ageHours": 1.05,
-          "trendingScore": 1.5,
+          "ageHours": 2.53,
+          "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -23737,7 +23788,7 @@
       ]
     },
     "openclaw--openclaw": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -23753,7 +23804,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:13:17.486789+00:00",
-        "hoursSincePosted": 1.53
+        "hoursSincePosted": 3.01
       },
       "posts": [
         {
@@ -23853,7 +23904,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:13:17.486789+00:00",
           "createdUtc": 1779131597,
-          "ageHours": 1.53,
+          "ageHours": 3.01,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -26079,7 +26130,7 @@
     },
     "docker--docker-agent": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -26091,11 +26142,11 @@
           "handle": "aheritier.net",
           "displayName": "Arnaud Héritier"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-18T20:31:05.296Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.71
       },
       "posts": [
         {
@@ -26135,13 +26186,13 @@
             "handle": "aheritier.net",
             "displayName": "Arnaud Héritier"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-18T20:31:05.296Z",
           "createdUtc": 1779136265,
-          "ageHours": 0.5,
-          "trendingScore": 4,
+          "ageHours": 1.71,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo",
             "has-mcp",
@@ -30789,7 +30840,7 @@
       ]
     },
     "insforge--insforge": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -30806,7 +30857,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T20:26:16.142Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.79
       },
       "posts": [
         {
@@ -30823,7 +30874,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T20:26:16.142Z",
           "createdUtc": 1779135976,
-          "ageHours": 0.5,
+          "ageHours": 1.79,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -30885,7 +30936,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:33:37.237Z",
-        "hoursSincePosted": 1.19
+        "hoursSincePosted": 2.67
       },
       "posts": [
         {
@@ -30902,7 +30953,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:33:37.237Z",
           "createdUtc": 1779132817,
-          "ageHours": 1.19,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -30936,7 +30987,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T19:01:05.426Z",
-        "hoursSincePosted": 1.73
+        "hoursSincePosted": 3.21
       },
       "posts": [
         {
@@ -30953,7 +31004,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T19:01:05.426Z",
           "createdUtc": 1779130865,
-          "ageHours": 1.73,
+          "ageHours": 3.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -30987,7 +31038,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T18:34:43Z",
-        "hoursSincePosted": 2.17
+        "hoursSincePosted": 3.65
       },
       "posts": [
         {
@@ -31004,7 +31055,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T18:34:43Z",
           "createdUtc": 1779129283,
-          "ageHours": 2.17,
+          "ageHours": 3.65,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -31070,38 +31121,74 @@
           ]
         }
       ]
+    },
+    "nkzw-tech--codiff": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
+        "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm5st7ymjr2c",
+        "text": "📰 Codiff, a local diff review tool, was developed by an HN user who found limitations with reviewing code written by large language models (llms) and built it to address these issues, offering features like file filters, search, ... 🔗 https://github.com/nkzw-tech/codiff/releases #Tech #Dev",
+        "author": {
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T21:25:04.397729+00:00",
+        "hoursSincePosted": 0.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
+          "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm5st7ymjr2c",
+          "text": "📰 Codiff, a local diff review tool, was developed by an HN user who found limitations with reviewing code written by large language models (llms) and built it to address these issues, offering features like file filters, search, ... 🔗 https://github.com/nkzw-tech/codiff/releases #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T21:25:04.397729+00:00",
+          "createdUtc": 1779139504,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nkzw-tech/codiff",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "antirez/ds4",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 3
     },
     {
       "fullName": "docker/docker-agent",
       "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "Walter-Sparrow/lunar-tear",
-      "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 3
     },
     {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "InsForge/InsForge",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 2,
-      "likesSum7d": 0
+      "likesSum7d": 3
     },
     {
       "fullName": "domcyrus/rustnet",
@@ -31115,6 +31202,21 @@
     },
     {
       "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "InsForge/InsForge",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "nkzw-tech/codiff",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     },

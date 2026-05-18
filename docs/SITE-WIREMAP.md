@@ -194,6 +194,7 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 | cron-digest-weekly | Mon 8am | weekly digest | `/digest`, `/digest/[date]`, email digest via Resend |
 | cron-twitter-outbound | daily `0 14 * * *` | twitter-outbound-runs.jsonl | (worker side, replies / outbound reach) |
 | cron-webhooks-flush | every 30 min | webhook delivery | (server-side only) |
+| cron-webhooks-dead-letter-digest | daily `9 9 * * *` | webhook dead-letter digest | Slack ops notification only |
 | cron-aiso-drain | every 30 min | alert events delivery | `/alerts` events |
 | cron-mcp-usage-rotate | monthly day 1 | mcp-usage rolling window rotate | `/model-usage` |
 | ping-mcp-liveness | every 6h | mcp-liveness | `/mcp` liveness pill |

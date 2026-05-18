@@ -24,6 +24,7 @@ const ROUTES: CronRouteCase[] = [
   { name: "news-auto-recover", path: "/api/cron/news-auto-recover", method: "POST", modulePath: "@/app/api/cron/news-auto-recover/route" },
   { name: "twitter-daily", path: "/api/cron/twitter-daily", method: "POST", modulePath: "@/app/api/cron/twitter-daily/route" },
   { name: "twitter-weekly-recap", path: "/api/cron/twitter-weekly-recap", method: "POST", modulePath: "@/app/api/cron/twitter-weekly-recap/route" },
+  { name: "webhooks-dead-letter-digest", path: "/api/cron/webhooks/dead-letter-digest", method: "GET", modulePath: "@/app/api/cron/webhooks/dead-letter-digest/route" },
   { name: "webhooks-flush", path: "/api/cron/webhooks/flush", method: "POST", modulePath: "@/app/api/cron/webhooks/flush/route" },
   { name: "webhooks-scan", path: "/api/cron/webhooks/scan", method: "POST", modulePath: "@/app/api/cron/webhooks/scan/route" },
 ];

@@ -11,6 +11,8 @@
 // Defaults:
 //   routes config: perf/routes.json
 //   .next/app-build-manifest.json must exist (run `next build` first).
+//   For standalone builds, Next may leave the top-level manifest empty and
+//   write the app page chunk map to .next/standalone/.next instead.
 //
 // Exit codes:
 //   0  no violations
@@ -39,12 +41,20 @@ const strict = Boolean(args.strict);
 const topN = Number.parseInt(args.top ?? "10", 10);
 
 const NEXT_DIR = resolve(".next");
-const APP_MANIFEST = join(NEXT_DIR, "app-build-manifest.json");
-const BUILD_MANIFEST = join(NEXT_DIR, "build-manifest.json");
+const MANIFEST_CANDIDATES = [
+  {
+    app: join(NEXT_DIR, "app-build-manifest.json"),
+    build: join(NEXT_DIR, "build-manifest.json"),
+  },
+  {
+    app: join(NEXT_DIR, "standalone", ".next", "app-build-manifest.json"),
+    build: join(NEXT_DIR, "standalone", ".next", "build-manifest.json"),
+  },
+];
 
-if (!existsSync(APP_MANIFEST)) {
+if (!MANIFEST_CANDIDATES.some((candidate) => existsSync(candidate.app))) {
   console.error(
-    `error: ${APP_MANIFEST} not found. Run \`npm run build\` first.`,
+    `error: ${MANIFEST_CANDIDATES[0].app} not found. Run \`npm run build\` first.`,
   );
   process.exit(2);
 }
@@ -102,10 +112,42 @@ const FORBIDDEN = [
   },
 ];
 
-const appManifest = JSON.parse(readFileSync(APP_MANIFEST, "utf8"));
-const buildManifest = existsSync(BUILD_MANIFEST)
-  ? JSON.parse(readFileSync(BUILD_MANIFEST, "utf8"))
-  : null;
+function readJson(file) {
+  return JSON.parse(readFileSync(file, "utf8"));
+}
+
+function readManifestPair() {
+  const existing = [];
+  for (const candidate of MANIFEST_CANDIDATES) {
+    if (!existsSync(candidate.app)) continue;
+    const app = readJson(candidate.app);
+    const pages = app.pages ?? {};
+    existing.push({ ...candidate, appManifest: app });
+    if (Object.keys(pages).some((key) => key.endsWith("/page"))) {
+      return {
+        appManifest: app,
+        buildManifest: existsSync(candidate.build) ? readJson(candidate.build) : null,
+        appManifestPath: candidate.app,
+        buildManifestPath: existsSync(candidate.build) ? candidate.build : null,
+      };
+    }
+  }
+
+  const fallback = existing[0];
+  return {
+    appManifest: fallback.appManifest,
+    buildManifest: existsSync(fallback.build) ? readJson(fallback.build) : null,
+    appManifestPath: fallback.app,
+    buildManifestPath: existsSync(fallback.build) ? fallback.build : null,
+  };
+}
+
+const {
+  appManifest,
+  buildManifest,
+  appManifestPath,
+  buildManifestPath,
+} = readManifestPair();
 
 // Chunk → size cache (raw bytes from disk)
 const chunkSizeCache = new Map();
@@ -288,6 +330,8 @@ const largestChunks = [...allChunkSizes.entries()]
 
 const summary = {
   runAt: new Date().toISOString(),
+  appManifestPath,
+  buildManifestPath,
   routes: routeTotals.length,
   skippedRoutes,
   violations: violations.length,

@@ -8,8 +8,8 @@ status: living
 
 Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
-- Workflows: `Glob .github/workflows/*.yml` (count = 72)
-- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 14)
+- Workflows: `Glob .github/workflows/*.yml` (count = 63)
+- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 15)
 - Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — kept on disk as documentation of intent (NOT imported, NOT in `FETCHERS[]`, NOT scheduled — see banner comment at `registry.ts:23-27`). They previously emitted "not yet implemented" Sentry warnings every cron tick; PR #93 unwired them but left the directories so a future port can re-add to the array. 3 implementations exist on disk and have full code + tests but are not yet wired: `ai-blogs`, `arxiv`, `github-events` (see banner comment at the top of each `index.ts` for the promotion path). `agent-commerce/` is data-only.)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
@@ -19,7 +19,7 @@ commit.
 
 ---
 
-## 1. GH Actions (.github/workflows/*.yml) - 72 files
+## 1. GH Actions (.github/workflows/*.yml) - 63 files
 
 Source: `Grep -E "^name:|cron:" .github/workflows/<file>.yml`. Only
 `schedule.cron` triggers + the workflow's primary `run:` line are shown.
@@ -49,6 +49,7 @@ Workflows with multiple cron entries list each.
 | cron-pipeline-rebuild.yml | Cron - pipeline rebuild | `0 5 * * 0` (Sun 05:00) | weekly mention store rebuild |
 | cron-twitter-outbound.yml | Cron - Twitter outbound | `0 14 * * *` and `0 16 * * 5` | POST `/api/cron/twitter-daily` (daily) or `/api/cron/twitter-weekly-recap` (Fri) |
 | cron-warmup.yml | Warm Vercel routes (25 public routes) | `*/5 8-21 * * *` | matrix probe via `node scripts/probe-route.mjs`, summarized into `cron-warmup-summary` artifact (30d retention). Captures status, TTFB, transfer size, `cache-control`, `x-vercel-cache`, `x-vercel-id`, `age`. Restored 2026-05-08 from `a4ea0628`. |
+| cron-webhooks-dead-letter-digest.yml | Cron - webhooks dead-letter digest | `9 9 * * *` | GET `/api/cron/webhooks/dead-letter-digest` and Slack-notify recent customer webhook delivery dead letters |
 | cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | POST `/api/cron/webhooks/scan` then `/api/cron/webhooks/flush` |
 | docs-freshness.yml | docs-freshness | `0 13 * * 1` (Mon 13:00) + PR | `node scripts/check-docs-freshness.mjs` |
 | enrich-arxiv.yml | Enrich arXiv signals | `13 */12 * * *` | `node scripts/enrich-arxiv.mjs` |
@@ -111,11 +112,11 @@ Workflows with multiple cron entries list each.
 
 Unclassified: none. Every workflow has a parsed `name:` and trigger.
 
-Total cron-driven workflows: 62. Push/PR-only or dispatch-only: 10.
+Total cron-driven workflows: 63. Push/PR-only or dispatch-only: 10.
 
 ---
 
-## 2. Cron API routes (src/app/api/cron/*/route.ts) - 14 routes
+## 2. Cron API routes (src/app/api/cron/*/route.ts) - 15 routes
 
 Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 `grep -r "/api/cron/<path>" .github/workflows/`.
@@ -132,6 +133,7 @@ Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 | `/api/cron/twitter-daily` | cron-twitter-outbound.yml (`0 14 * * *`) | Bearer `CRON_SECRET` | Daily outbound Twitter thread |
 | `/api/cron/twitter-weekly-recap` | cron-twitter-outbound.yml (`0 16 * * 5`) | Bearer `CRON_SECRET` | Friday weekly recap thread |
 | `/api/cron/webhooks/flush` | cron-webhooks-flush.yml (`5,35 * * * *`) | Bearer `CRON_SECRET` | Drains webhook queue |
+| `/api/cron/webhooks/dead-letter-digest` | cron-webhooks-dead-letter-digest.yml (`9 9 * * *`) | Bearer `CRON_SECRET` | Summarizes recent customer webhook delivery dead letters |
 | `/api/cron/webhooks/scan` | cron-webhooks-flush.yml (`5,35 * * * *`, runs before flush) | Bearer `CRON_SECRET` | Enqueues breakouts + funding rows |
 
 Auth pattern: every route uses `verifyCronAuth` (or equivalent) reading

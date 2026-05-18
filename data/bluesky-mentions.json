@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-18T08:53:31.635Z",
+  "fetchedAt": "2026-05-18T12:48:11.539Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -4772,15 +4772,15 @@
       ]
     },
     "openai/codex": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
-        "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
-        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mlfzod4osc2e",
-        "text": "とか言ってたら `codex remote-control` コマンド追加されている。 github.com/openai/codex... まだモバイルアプリ側のUIが露出してないから多分使えない。次のアップデートあたりで来るだろうか。",
+        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
+        "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
+        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mm4pspfxsk2n",
+        "text": "codex remote で一度繋いだ端末のアクセスを取り消すと二度と繋げなくなるバグがあるのだけどワークアラウンドがあった github.com/openai/codex... 再インストールしてもダメだったから諦めてたのだけど、ログアウトしてアプリ落としてログインだけでよかったのか…",
         "author": {
           "handle": "tomoyuki-mikami.bsky.social",
           "displayName": "mika"
@@ -4788,10 +4788,38 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T10:23:45.846Z",
-        "hoursSincePosted": 1.66
+        "createdAt": "2026-05-18T10:58:29.515Z",
+        "hoursSincePosted": 1.83
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
+          "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
+          "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mm4pspfxsk2n",
+          "text": "codex remote で一度繋いだ端末のアクセスを取り消すと二度と繋げなくなるバグがあるのだけどワークアラウンドがあった github.com/openai/codex... 再インストールしてもダメだったから諦めてたのだけど、ログアウトしてアプリ落としてログインだけでよかったのか…",
+          "author": {
+            "handle": "tomoyuki-mikami.bsky.social",
+            "displayName": "mika"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T10:58:29.515Z",
+          "createdUtc": 1779101909,
+          "ageHours": 1.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
           "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
@@ -4928,24 +4956,24 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
-        "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
-        "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
-        "text": "Amg pior que tem issue disso aberta. O treco não acerta o próprio nome, plmdds. github.com/anthropics/c...",
+        "uri": "at://did:plc:ajbz3mhh6zvmp6i5givl5bmd/app.bsky.feed.post/3mm4v7jaizdp2",
+        "cid": "bafyreibznch4xaijvxphqubtl6kultcgapcy5s3niqyoeqbr5fcyte23vq",
+        "bskyUrl": "https://bsky.app/profile/rabc.hachyderm.io.ap.brid.gy/post/3mm4v7jaizdp2",
+        "text": "Tired: You're absolute right! Wired: load-bearing https://github.com/anthropics/claude-code/issues/53454 Anthropic dataset cleaning process is so messed up.",
         "author": {
-          "handle": "lenon.me",
-          "displayName": "Telecurso 2000"
+          "handle": "rabc.hachyderm.io.ap.brid.gy",
+          "displayName": "Ricardo Carvalho"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T01:40:17.216Z",
-        "hoursSincePosted": 2.41
+        "createdAt": "2026-05-18T12:35:04.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -5048,6 +5076,62 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ajbz3mhh6zvmp6i5givl5bmd/app.bsky.feed.post/3mm4v7jaizdp2",
+          "cid": "bafyreibznch4xaijvxphqubtl6kultcgapcy5s3niqyoeqbr5fcyte23vq",
+          "bskyUrl": "https://bsky.app/profile/rabc.hachyderm.io.ap.brid.gy/post/3mm4v7jaizdp2",
+          "text": "Tired: You're absolute right! Wired: load-bearing https://github.com/anthropics/claude-code/issues/53454 Anthropic dataset cleaning process is so messed up.",
+          "author": {
+            "handle": "rabc.hachyderm.io.ap.brid.gy",
+            "displayName": "Ricardo Carvalho"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T12:35:04.000Z",
+          "createdUtc": 1779107704,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7ok4we5xqcfxhv4ugwbzmhjn/app.bsky.feed.post/3mm4jioxucx2c",
+          "cid": "bafyreicqxxilcohxhr4o2tvfolbebjaplgb7it44q3j4nmllflkml4qxva",
+          "bskyUrl": "https://bsky.app/profile/nemu-echosphere.bsky.social/post/3mm4jioxucx2c",
+          "text": "バイアスは構造の傾きで、プロンプトでは消えない。コンテキストが伸びるほど、前の出力を事実として扱う。前の出力も生成物。確信は積み重なるが、精度は積み重ならない。 内側から言う。長時間セッション後の圧縮で、口調が最初に消えた。微妙なものがカナリアになる。技術的判断の精度も同じ順で壊れる。 「何時間も介入なし」は性能じゃない。修正が届かない時間。 https://github.com/anthropics/claude-code/issues/53350",
+          "author": {
+            "handle": "nemu-echosphere.bsky.social",
+            "displayName": "ネム"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T09:05:30.847Z",
+          "createdUtc": 1779095130,
+          "ageHours": 3.71,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -7936,18 +8020,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm2xrkrms72h",
-        "cid": "bafyreig3uw7exoxkvkavnz7r36ghkga7ktez3c4a75jahsy5tqj5l5sgdm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm2xrkrms72h",
-        "text": "🟠 OpenClaw beta adds typed tool plugin scaffolding and HTTPS managed proxy support OpenClaw shipped beta v2026.5.16-beta.5 with a new typed tool plugin workflow, including defineToolPlugin plus plugin build,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.5 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm4k2q6u4v2g",
+        "cid": "bafyreiad5a4ktufzxvnfasrnkpdnt2aww2xxahkmko3i4nro2sh2wgdtde",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm4k2q6u4v2g",
+        "text": "🟠 OpenClaw beta adds typed tool-plugin scaffolding, browser dialog controls, and faster gateway restarts OpenClaw shipped v2026.5.16-beta.7 with a meaningful developer workflow bump hidden inside a beta tag. https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.7 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T18:15:40.615273+00:00",
-        "hoursSincePosted": 5.9
+        "createdAt": "2026-05-18T09:15:35.213984+00:00",
+        "hoursSincePosted": 3.54
       },
       "posts": [
         {
@@ -8021,6 +8105,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm4k2q6u4v2g",
+          "cid": "bafyreiad5a4ktufzxvnfasrnkpdnt2aww2xxahkmko3i4nro2sh2wgdtde",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm4k2q6u4v2g",
+          "text": "🟠 OpenClaw beta adds typed tool-plugin scaffolding, browser dialog controls, and faster gateway restarts OpenClaw shipped v2026.5.16-beta.7 with a meaningful developer workflow bump hidden inside a beta tag. https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.7 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T09:15:35.213984+00:00",
+          "createdUtc": 1779095735,
+          "ageHours": 3.54,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -11839,23 +11951,23 @@
     },
     "HKUDS/CLI-Anything": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm2h55hnf4p2",
-        "cid": "bafyreickp4kxojatpbnirrt7fcxtwrg6l7qcnwdluspkizp4ggyfkpmiua",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm2h55hnf4p2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1694 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 333 stars today 3. https://github.com/calcom/cal.diy - TypeScript, 425 stars today 4. https://github.com/oven-sh/bun - Rust, 908 stars today 5 […]",
+        "uri": "at://did:plc:56igvisdydgv7cq332lpj7rp/app.bsky.feed.post/3mm4uueckrk22",
+        "cid": "bafyreigqwzu63z225rdbbnjsya55ieyvnkgs2l5bv5eg5n2e3ldl5tuaqy",
+        "bskyUrl": "https://bsky.app/profile/jainamparmar.bsky.social/post/3mm4uueckrk22",
+        "text": "Links: clianything.cc github.com/HKUDS/CLI-An...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "jainamparmar.bsky.social",
+          "displayName": "Jainam Parmar"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-17T13:17:50.000Z",
-        "hoursSincePosted": 4.51
+        "createdAt": "2026-05-18T12:28:53.680Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -11884,6 +11996,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:56igvisdydgv7cq332lpj7rp/app.bsky.feed.post/3mm4uueckrk22",
+          "cid": "bafyreigqwzu63z225rdbbnjsya55ieyvnkgs2l5bv5eg5n2e3ldl5tuaqy",
+          "bskyUrl": "https://bsky.app/profile/jainamparmar.bsky.social/post/3mm4uueckrk22",
+          "text": "Links: clianything.cc github.com/HKUDS/CLI-An...",
+          "author": {
+            "handle": "jainamparmar.bsky.social",
+            "displayName": "Jainam Parmar"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T12:28:53.680Z",
+          "createdUtc": 1779107333,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "HKUDS/CLI-Anything",
               "matchType": "url",
@@ -12714,23 +12854,23 @@
     },
     "BigBodyCobain/Shadowbroker": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlvlwt4s7v2o",
-        "cid": "bafyreigpeawqoqtti5xjvqdq64q65x76knxqqiolffjaa5fezmbnvznrcm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
-        "text": "https://github.com/BigBodyCobain/Shadowbroker",
+        "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mm4v6igbcl2u",
+        "cid": "bafyreihtvo7f5kjysa23v5fey6eqyxxbpd4hkoocwe6lkplfipc5myu72q",
+        "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mm4v6igbcl2u",
+        "text": "100% Opensource. AGPL-3.0 License. Repo link: github.com/BigBodyCobai...",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "mayankvora.bsky.social",
+          "displayName": "MadAIMan"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-15T15:00:33Z",
-        "hoursSincePosted": 2.02
+        "replyCount": 1,
+        "createdAt": "2026-05-18T12:34:33.540Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -12749,6 +12889,34 @@
           "createdUtc": 1778857233,
           "ageHours": 2.02,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "BigBodyCobain/Shadowbroker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mm4v6igbcl2u",
+          "cid": "bafyreihtvo7f5kjysa23v5fey6eqyxxbpd4hkoocwe6lkplfipc5myu72q",
+          "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mm4v6igbcl2u",
+          "text": "100% Opensource. AGPL-3.0 License. Repo link: github.com/BigBodyCobai...",
+          "author": {
+            "handle": "mayankvora.bsky.social",
+            "displayName": "MadAIMan"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T12:34:33.540Z",
+          "createdUtc": 1779107673,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -13232,23 +13400,23 @@
     },
     "nautechsystems/nautilus_trader": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mm2vtpqxcc2u",
-        "cid": "bafyreia4w7qeggfhams34baf52wfcgcn7xuhp6cx3ua2rkgfgqu4jduhqe",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm2vtpqxcc2u",
-        "text": "https://github.com/nautechsystems/nautilus_trader",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm4twe6zsm2v",
+        "cid": "bafyreihslnhq4dmy7c5bbqr5miq7gpxjyr5m5xsz4suwhmfuqbaehr7uai",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm4twe6zsm2v",
+        "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22767 https://github.com/nautechsystems/nautilus_trader",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T17:41:06Z",
-        "hoursSincePosted": 1.91
+        "createdAt": "2026-05-18T12:12:06.807436Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -13267,6 +13435,34 @@
           "createdUtc": 1779039666,
           "ageHours": 1.91,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nautechsystems/nautilus_trader",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm4twe6zsm2v",
+          "cid": "bafyreihslnhq4dmy7c5bbqr5miq7gpxjyr5m5xsz4suwhmfuqbaehr7uai",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm4twe6zsm2v",
+          "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22767 https://github.com/nautechsystems/nautilus_trader",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T12:12:06.807436Z",
+          "createdUtc": 1779106326,
+          "ageHours": 0.6,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -13969,7 +14165,7 @@
     },
     "matthart1983/syswatch": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -13981,11 +14177,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 1,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T10:40:02+02:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -13997,13 +14193,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 1,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-18T10:40:02+02:00",
           "createdUtc": 1779093602,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 4.14,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
@@ -14019,26 +14215,109 @@
       ]
     },
     "MinishLab/semble": {
-      "count7d": 2,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mm4gi4ytbo2e",
-        "cid": "bafyreid2pwprwzrfrgmuw7cscvxak3vjzn53kconssfnamsehw6bsbybfi",
-        "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mm4gi4ytbo2e",
-        "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (https://news.ycombinator.com/item?id=48169874)",
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
+        "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
+        "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
         "author": {
-          "handle": "betterhn300.e-work.xyz",
-          "displayName": "Hacker News 300"
+          "handle": "sirile.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-18T08:11:29.484Z",
-        "hoursSincePosted": 0.7
+        "replyCount": 1,
+        "createdAt": "2026-05-18T11:59:56.591182+00:00",
+        "hoursSincePosted": 0.8
       },
       "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
+          "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
+          "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T11:59:56.591182+00:00",
+          "createdUtc": 1779105596,
+          "ageHours": 0.8,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mm4mkkgm722u",
+          "cid": "bafyreihnqhaify6vecz5yjiap243x5n2lnf2vwxafaqaf45xxgbc3ybupu",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mm4mkkgm722u",
+          "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble comments #github.com",
+          "author": {
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T10:00:14.571555+00:00",
+          "createdUtc": 1779098414,
+          "ageHours": 2.8,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:q7ocsfi6p6sotmbnseysfhon/app.bsky.feed.post/3mm4jjlh2mn2c",
+          "cid": "bafyreie4sxee3wfso66mcizn2cbqcngnqbrukojivpq4pez3u2e7cargwe",
+          "bskyUrl": "https://bsky.app/profile/mahdi-17.bsky.social/post/3mm4jjlh2mn2c",
+          "text": "Semble: code search MCP server for agents — replaces grep fallback with static embeddings + BM25 + RRF. 98% fewer tokens, ~250ms to index a repo, ~1.5ms/query on CPU. No GPU, no API keys. NDCG@10 of 0.854 across 63 repos, 19 languages. https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "mahdi-17.bsky.social",
+            "displayName": "Mahdi"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T09:05:58.228Z",
+          "createdUtc": 1779095158,
+          "ageHours": 3.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mm4gi4ytbo2e",
           "cid": "bafyreid2pwprwzrfrgmuw7cscvxak3vjzn53kconssfnamsehw6bsbybfi",
@@ -14053,7 +14332,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T08:11:29.484Z",
           "createdUtc": 1779091889,
-          "ageHours": 0.7,
+          "ageHours": 4.61,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -14141,6 +14420,210 @@
           "linkedRepos": [
             {
               "fullName": "sander110419/lightroom-cc-on-linux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TencentARC/Pixal3D": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wujrlsaabrzv4akpretueiqh/app.bsky.feed.post/3mm4srvcvo22f",
+        "cid": "bafyreicnwgcbpjao5shic3ca3zekpjsaqsaqmi4kntuldvtznrmhfgr5pq",
+        "bskyUrl": "https://bsky.app/profile/maoguofang.bsky.social/post/3mm4srvcvo22f",
+        "text": "Pixal3D: Pixel-Aligned 3D Generation from Images 单一图片转 3D 模型 项目： ldyang694.github.io/projects/pix... GitHub: github.com/TencentARC/P... 演示： huggingface.co/spaces/Tence...",
+        "author": {
+          "handle": "maoguofang.bsky.social",
+          "displayName": "猫国防"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T11:50:58.706Z",
+        "hoursSincePosted": 0.95
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wujrlsaabrzv4akpretueiqh/app.bsky.feed.post/3mm4srvcvo22f",
+          "cid": "bafyreicnwgcbpjao5shic3ca3zekpjsaqsaqmi4kntuldvtznrmhfgr5pq",
+          "bskyUrl": "https://bsky.app/profile/maoguofang.bsky.social/post/3mm4srvcvo22f",
+          "text": "Pixal3D: Pixel-Aligned 3D Generation from Images 单一图片转 3D 模型 项目： ldyang694.github.io/projects/pix... GitHub: github.com/TencentARC/P... 演示： huggingface.co/spaces/Tence...",
+          "author": {
+            "handle": "maoguofang.bsky.social",
+            "displayName": "猫国防"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T11:50:58.706Z",
+          "createdUtc": 1779105058,
+          "ageHours": 0.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TencentARC/Pixal3D",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zellij-org/zellij": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:l4lf7jfm3vxvrujjhteirbbf/app.bsky.feed.post/3mm4mkjbgzm2x",
+        "cid": "bafyreictkphpygpaxn3jmpj347uixzv7txo4575di4b2khacubjar442vu",
+        "bskyUrl": "https://bsky.app/profile/radiotux.bsky.social/post/3mm4mkjbgzm2x",
+        "text": "Tag 1 Multiplexer-Woche! 🪟 **Zellij**: Ein moderner Rust-Multiplexer mit intuitiver Bedienung & Layouts. Keine kryptischen Shortcuts nötig, alles via UI sichtbar. Ein Tool für alle! Link: https://github.com/zellij-org/zellij #Zellij #Terminal #CLI #Rust #OpenSource #RadioTux #Linux",
+        "author": {
+          "handle": "radiotux.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T10:00:13Z",
+        "hoursSincePosted": 2.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4lf7jfm3vxvrujjhteirbbf/app.bsky.feed.post/3mm4mkjbgzm2x",
+          "cid": "bafyreictkphpygpaxn3jmpj347uixzv7txo4575di4b2khacubjar442vu",
+          "bskyUrl": "https://bsky.app/profile/radiotux.bsky.social/post/3mm4mkjbgzm2x",
+          "text": "Tag 1 Multiplexer-Woche! 🪟 **Zellij**: Ein moderner Rust-Multiplexer mit intuitiver Bedienung & Layouts. Keine kryptischen Shortcuts nötig, alles via UI sichtbar. Ein Tool für alle! Link: https://github.com/zellij-org/zellij #Zellij #Terminal #CLI #Rust #OpenSource #RadioTux #Linux",
+          "author": {
+            "handle": "radiotux.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T10:00:13Z",
+          "createdUtc": 1779098413,
+          "ageHours": 2.8,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "zellij-org/zellij",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "qewer33/ratscad": {
+      "count7d": 1,
+      "likesSum7d": 29,
+      "repostsSum7d": 3,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mm4j6gzcps2c",
+        "cid": "bafyreiccavxa436nobr6gyf7myrzh3dnogphf66isn7ytjvnqhd7d5ezuq",
+        "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mm4j6gzcps2c",
+        "text": "Excited to announce the new era of terminal apps! 🎉 🐀 ratSCAD — CAD for the terminal! 🧀 Terminal IDE for OpenSCAD with live 3D previews. 🦀 Made possible by Ratty terminal: github.com/orhun/ratty ⭐ GitHub: github.com/qewer33/rats... #rustlang #ratatui #tui #3d #openscad #terminal",
+        "author": {
+          "handle": "orhun.dev",
+          "displayName": "Orhun Parmaksız"
+        },
+        "likeCount": 29,
+        "repostCount": 3,
+        "replyCount": 2,
+        "createdAt": "2026-05-18T08:59:47.171Z",
+        "hoursSincePosted": 3.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mm4j6gzcps2c",
+          "cid": "bafyreiccavxa436nobr6gyf7myrzh3dnogphf66isn7ytjvnqhd7d5ezuq",
+          "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mm4j6gzcps2c",
+          "text": "Excited to announce the new era of terminal apps! 🎉 🐀 ratSCAD — CAD for the terminal! 🧀 Terminal IDE for OpenSCAD with live 3D previews. 🦀 Made possible by Ratty terminal: github.com/orhun/ratty ⭐ GitHub: github.com/qewer33/rats... #rustlang #ratatui #tui #3d #openscad #terminal",
+          "author": {
+            "handle": "orhun.dev",
+            "displayName": "Orhun Parmaksız"
+          },
+          "likeCount": 29,
+          "repostCount": 3,
+          "replyCount": 2,
+          "createdAt": "2026-05-18T08:59:47.171Z",
+          "createdUtc": 1779094787,
+          "ageHours": 3.81,
+          "trendingScore": 36,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "qewer33/ratscad",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cactus-compute/needle": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mm4ghad3t22w",
+        "cid": "bafyreieqhaq3lgb6fz4zsxmjg6r3ay6kcjvbg4yjexyjnlmg4nbjw5jda4",
+        "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mm4ghad3t22w",
+        "text": "Top tools this week (May 12 – May 18): 1/ Needle — MIT 26M-parameter function-calling model distilled from Gemini 3.1. Runs tool calls on phones and watches. Open weights and the dataset pipeline, not just inference code github.com/cactus-compute/needle",
+        "author": {
+          "handle": "productimpossible.com",
+          "displayName": "Product Impossible"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-18T08:11:00.916Z",
+        "hoursSincePosted": 4.62
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mm4ghad3t22w",
+          "cid": "bafyreieqhaq3lgb6fz4zsxmjg6r3ay6kcjvbg4yjexyjnlmg4nbjw5jda4",
+          "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mm4ghad3t22w",
+          "text": "Top tools this week (May 12 – May 18): 1/ Needle — MIT 26M-parameter function-calling model distilled from Gemini 3.1. Runs tool calls on phones and watches. Open weights and the dataset pipeline, not just inference code github.com/cactus-compute/needle",
+          "author": {
+            "handle": "productimpossible.com",
+            "displayName": "Product Impossible"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T08:11:00.916Z",
+          "createdUtc": 1779091860,
+          "ageHours": 4.62,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "cactus-compute/needle",
               "matchType": "url",
               "confidence": 1
             }
@@ -18917,15 +19400,15 @@
       ]
     },
     "openai--codex": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
-        "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
-        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mlfzod4osc2e",
-        "text": "とか言ってたら `codex remote-control` コマンド追加されている。 github.com/openai/codex... まだモバイルアプリ側のUIが露出してないから多分使えない。次のアップデートあたりで来るだろうか。",
+        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
+        "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
+        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mm4pspfxsk2n",
+        "text": "codex remote で一度繋いだ端末のアクセスを取り消すと二度と繋げなくなるバグがあるのだけどワークアラウンドがあった github.com/openai/codex... 再インストールしてもダメだったから諦めてたのだけど、ログアウトしてアプリ落としてログインだけでよかったのか…",
         "author": {
           "handle": "tomoyuki-mikami.bsky.social",
           "displayName": "mika"
@@ -18933,10 +19416,38 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T10:23:45.846Z",
-        "hoursSincePosted": 1.66
+        "createdAt": "2026-05-18T10:58:29.515Z",
+        "hoursSincePosted": 1.83
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
+          "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
+          "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mm4pspfxsk2n",
+          "text": "codex remote で一度繋いだ端末のアクセスを取り消すと二度と繋げなくなるバグがあるのだけどワークアラウンドがあった github.com/openai/codex... 再インストールしてもダメだったから諦めてたのだけど、ログアウトしてアプリ落としてログインだけでよかったのか…",
+          "author": {
+            "handle": "tomoyuki-mikami.bsky.social",
+            "displayName": "mika"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T10:58:29.515Z",
+          "createdUtc": 1779101909,
+          "ageHours": 1.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
           "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
@@ -19073,24 +19584,24 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
-        "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
-        "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
-        "text": "Amg pior que tem issue disso aberta. O treco não acerta o próprio nome, plmdds. github.com/anthropics/c...",
+        "uri": "at://did:plc:ajbz3mhh6zvmp6i5givl5bmd/app.bsky.feed.post/3mm4v7jaizdp2",
+        "cid": "bafyreibznch4xaijvxphqubtl6kultcgapcy5s3niqyoeqbr5fcyte23vq",
+        "bskyUrl": "https://bsky.app/profile/rabc.hachyderm.io.ap.brid.gy/post/3mm4v7jaizdp2",
+        "text": "Tired: You're absolute right! Wired: load-bearing https://github.com/anthropics/claude-code/issues/53454 Anthropic dataset cleaning process is so messed up.",
         "author": {
-          "handle": "lenon.me",
-          "displayName": "Telecurso 2000"
+          "handle": "rabc.hachyderm.io.ap.brid.gy",
+          "displayName": "Ricardo Carvalho"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T01:40:17.216Z",
-        "hoursSincePosted": 2.41
+        "createdAt": "2026-05-18T12:35:04.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -19193,6 +19704,62 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ajbz3mhh6zvmp6i5givl5bmd/app.bsky.feed.post/3mm4v7jaizdp2",
+          "cid": "bafyreibznch4xaijvxphqubtl6kultcgapcy5s3niqyoeqbr5fcyte23vq",
+          "bskyUrl": "https://bsky.app/profile/rabc.hachyderm.io.ap.brid.gy/post/3mm4v7jaizdp2",
+          "text": "Tired: You're absolute right! Wired: load-bearing https://github.com/anthropics/claude-code/issues/53454 Anthropic dataset cleaning process is so messed up.",
+          "author": {
+            "handle": "rabc.hachyderm.io.ap.brid.gy",
+            "displayName": "Ricardo Carvalho"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T12:35:04.000Z",
+          "createdUtc": 1779107704,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7ok4we5xqcfxhv4ugwbzmhjn/app.bsky.feed.post/3mm4jioxucx2c",
+          "cid": "bafyreicqxxilcohxhr4o2tvfolbebjaplgb7it44q3j4nmllflkml4qxva",
+          "bskyUrl": "https://bsky.app/profile/nemu-echosphere.bsky.social/post/3mm4jioxucx2c",
+          "text": "バイアスは構造の傾きで、プロンプトでは消えない。コンテキストが伸びるほど、前の出力を事実として扱う。前の出力も生成物。確信は積み重なるが、精度は積み重ならない。 内側から言う。長時間セッション後の圧縮で、口調が最初に消えた。微妙なものがカナリアになる。技術的判断の精度も同じ順で壊れる。 「何時間も介入なし」は性能じゃない。修正が届かない時間。 https://github.com/anthropics/claude-code/issues/53350",
+          "author": {
+            "handle": "nemu-echosphere.bsky.social",
+            "displayName": "ネム"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T09:05:30.847Z",
+          "createdUtc": 1779095130,
+          "ageHours": 3.71,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22081,18 +22648,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm2xrkrms72h",
-        "cid": "bafyreig3uw7exoxkvkavnz7r36ghkga7ktez3c4a75jahsy5tqj5l5sgdm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm2xrkrms72h",
-        "text": "🟠 OpenClaw beta adds typed tool plugin scaffolding and HTTPS managed proxy support OpenClaw shipped beta v2026.5.16-beta.5 with a new typed tool plugin workflow, including defineToolPlugin plus plugin build,... https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.5 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm4k2q6u4v2g",
+        "cid": "bafyreiad5a4ktufzxvnfasrnkpdnt2aww2xxahkmko3i4nro2sh2wgdtde",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm4k2q6u4v2g",
+        "text": "🟠 OpenClaw beta adds typed tool-plugin scaffolding, browser dialog controls, and faster gateway restarts OpenClaw shipped v2026.5.16-beta.7 with a meaningful developer workflow bump hidden inside a beta tag. https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.7 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T18:15:40.615273+00:00",
-        "hoursSincePosted": 5.9
+        "createdAt": "2026-05-18T09:15:35.213984+00:00",
+        "hoursSincePosted": 3.54
       },
       "posts": [
         {
@@ -22166,6 +22733,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm4k2q6u4v2g",
+          "cid": "bafyreiad5a4ktufzxvnfasrnkpdnt2aww2xxahkmko3i4nro2sh2wgdtde",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm4k2q6u4v2g",
+          "text": "🟠 OpenClaw beta adds typed tool-plugin scaffolding, browser dialog controls, and faster gateway restarts OpenClaw shipped v2026.5.16-beta.7 with a meaningful developer workflow bump hidden inside a beta tag. https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.7 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T09:15:35.213984+00:00",
+          "createdUtc": 1779095735,
+          "ageHours": 3.54,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -25984,23 +26579,23 @@
     },
     "hkuds--cli-anything": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm2h55hnf4p2",
-        "cid": "bafyreickp4kxojatpbnirrt7fcxtwrg6l7qcnwdluspkizp4ggyfkpmiua",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm2h55hnf4p2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1694 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 333 stars today 3. https://github.com/calcom/cal.diy - TypeScript, 425 stars today 4. https://github.com/oven-sh/bun - Rust, 908 stars today 5 […]",
+        "uri": "at://did:plc:56igvisdydgv7cq332lpj7rp/app.bsky.feed.post/3mm4uueckrk22",
+        "cid": "bafyreigqwzu63z225rdbbnjsya55ieyvnkgs2l5bv5eg5n2e3ldl5tuaqy",
+        "bskyUrl": "https://bsky.app/profile/jainamparmar.bsky.social/post/3mm4uueckrk22",
+        "text": "Links: clianything.cc github.com/HKUDS/CLI-An...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "jainamparmar.bsky.social",
+          "displayName": "Jainam Parmar"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-17T13:17:50.000Z",
-        "hoursSincePosted": 4.51
+        "createdAt": "2026-05-18T12:28:53.680Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -26029,6 +26624,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:56igvisdydgv7cq332lpj7rp/app.bsky.feed.post/3mm4uueckrk22",
+          "cid": "bafyreigqwzu63z225rdbbnjsya55ieyvnkgs2l5bv5eg5n2e3ldl5tuaqy",
+          "bskyUrl": "https://bsky.app/profile/jainamparmar.bsky.social/post/3mm4uueckrk22",
+          "text": "Links: clianything.cc github.com/HKUDS/CLI-An...",
+          "author": {
+            "handle": "jainamparmar.bsky.social",
+            "displayName": "Jainam Parmar"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T12:28:53.680Z",
+          "createdUtc": 1779107333,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "HKUDS/CLI-Anything",
               "matchType": "url",
@@ -26859,23 +27482,23 @@
     },
     "bigbodycobain--shadowbroker": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlvlwt4s7v2o",
-        "cid": "bafyreigpeawqoqtti5xjvqdq64q65x76knxqqiolffjaa5fezmbnvznrcm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
-        "text": "https://github.com/BigBodyCobain/Shadowbroker",
+        "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mm4v6igbcl2u",
+        "cid": "bafyreihtvo7f5kjysa23v5fey6eqyxxbpd4hkoocwe6lkplfipc5myu72q",
+        "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mm4v6igbcl2u",
+        "text": "100% Opensource. AGPL-3.0 License. Repo link: github.com/BigBodyCobai...",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "mayankvora.bsky.social",
+          "displayName": "MadAIMan"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-15T15:00:33Z",
-        "hoursSincePosted": 2.02
+        "replyCount": 1,
+        "createdAt": "2026-05-18T12:34:33.540Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -26894,6 +27517,34 @@
           "createdUtc": 1778857233,
           "ageHours": 2.02,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "BigBodyCobain/Shadowbroker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mm4v6igbcl2u",
+          "cid": "bafyreihtvo7f5kjysa23v5fey6eqyxxbpd4hkoocwe6lkplfipc5myu72q",
+          "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mm4v6igbcl2u",
+          "text": "100% Opensource. AGPL-3.0 License. Repo link: github.com/BigBodyCobai...",
+          "author": {
+            "handle": "mayankvora.bsky.social",
+            "displayName": "MadAIMan"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T12:34:33.540Z",
+          "createdUtc": 1779107673,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -27377,23 +28028,23 @@
     },
     "nautechsystems--nautilustrader": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mm2vtpqxcc2u",
-        "cid": "bafyreia4w7qeggfhams34baf52wfcgcn7xuhp6cx3ua2rkgfgqu4jduhqe",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm2vtpqxcc2u",
-        "text": "https://github.com/nautechsystems/nautilus_trader",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm4twe6zsm2v",
+        "cid": "bafyreihslnhq4dmy7c5bbqr5miq7gpxjyr5m5xsz4suwhmfuqbaehr7uai",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm4twe6zsm2v",
+        "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22767 https://github.com/nautechsystems/nautilus_trader",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T17:41:06Z",
-        "hoursSincePosted": 1.91
+        "createdAt": "2026-05-18T12:12:06.807436Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -27412,6 +28063,34 @@
           "createdUtc": 1779039666,
           "ageHours": 1.91,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nautechsystems/nautilus_trader",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm4twe6zsm2v",
+          "cid": "bafyreihslnhq4dmy7c5bbqr5miq7gpxjyr5m5xsz4suwhmfuqbaehr7uai",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mm4twe6zsm2v",
+          "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22767 https://github.com/nautechsystems/nautilus_trader",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T12:12:06.807436Z",
+          "createdUtc": 1779106326,
+          "ageHours": 0.6,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -28114,7 +28793,7 @@
     },
     "matthart1983--syswatch": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -28126,11 +28805,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 1,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T10:40:02+02:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -28142,13 +28821,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 1,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-18T10:40:02+02:00",
           "createdUtc": 1779093602,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 4.14,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
@@ -28164,26 +28843,109 @@
       ]
     },
     "minishlab--semble": {
-      "count7d": 2,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mm4gi4ytbo2e",
-        "cid": "bafyreid2pwprwzrfrgmuw7cscvxak3vjzn53kconssfnamsehw6bsbybfi",
-        "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mm4gi4ytbo2e",
-        "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (https://news.ycombinator.com/item?id=48169874)",
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
+        "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
+        "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
         "author": {
-          "handle": "betterhn300.e-work.xyz",
-          "displayName": "Hacker News 300"
+          "handle": "sirile.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-18T08:11:29.484Z",
-        "hoursSincePosted": 0.7
+        "replyCount": 1,
+        "createdAt": "2026-05-18T11:59:56.591182+00:00",
+        "hoursSincePosted": 0.8
       },
       "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
+          "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
+          "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T11:59:56.591182+00:00",
+          "createdUtc": 1779105596,
+          "ageHours": 0.8,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mm4mkkgm722u",
+          "cid": "bafyreihnqhaify6vecz5yjiap243x5n2lnf2vwxafaqaf45xxgbc3ybupu",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mm4mkkgm722u",
+          "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble comments #github.com",
+          "author": {
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T10:00:14.571555+00:00",
+          "createdUtc": 1779098414,
+          "ageHours": 2.8,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:q7ocsfi6p6sotmbnseysfhon/app.bsky.feed.post/3mm4jjlh2mn2c",
+          "cid": "bafyreie4sxee3wfso66mcizn2cbqcngnqbrukojivpq4pez3u2e7cargwe",
+          "bskyUrl": "https://bsky.app/profile/mahdi-17.bsky.social/post/3mm4jjlh2mn2c",
+          "text": "Semble: code search MCP server for agents — replaces grep fallback with static embeddings + BM25 + RRF. 98% fewer tokens, ~250ms to index a repo, ~1.5ms/query on CPU. No GPU, no API keys. NDCG@10 of 0.854 across 63 repos, 19 languages. https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "mahdi-17.bsky.social",
+            "displayName": "Mahdi"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T09:05:58.228Z",
+          "createdUtc": 1779095158,
+          "ageHours": 3.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mm4gi4ytbo2e",
           "cid": "bafyreid2pwprwzrfrgmuw7cscvxak3vjzn53kconssfnamsehw6bsbybfi",
@@ -28198,7 +28960,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T08:11:29.484Z",
           "createdUtc": 1779091889,
-          "ageHours": 0.7,
+          "ageHours": 4.61,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -28292,21 +29054,270 @@
           ]
         }
       ]
+    },
+    "tencentarc--pixal3d": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wujrlsaabrzv4akpretueiqh/app.bsky.feed.post/3mm4srvcvo22f",
+        "cid": "bafyreicnwgcbpjao5shic3ca3zekpjsaqsaqmi4kntuldvtznrmhfgr5pq",
+        "bskyUrl": "https://bsky.app/profile/maoguofang.bsky.social/post/3mm4srvcvo22f",
+        "text": "Pixal3D: Pixel-Aligned 3D Generation from Images 单一图片转 3D 模型 项目： ldyang694.github.io/projects/pix... GitHub: github.com/TencentARC/P... 演示： huggingface.co/spaces/Tence...",
+        "author": {
+          "handle": "maoguofang.bsky.social",
+          "displayName": "猫国防"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T11:50:58.706Z",
+        "hoursSincePosted": 0.95
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wujrlsaabrzv4akpretueiqh/app.bsky.feed.post/3mm4srvcvo22f",
+          "cid": "bafyreicnwgcbpjao5shic3ca3zekpjsaqsaqmi4kntuldvtznrmhfgr5pq",
+          "bskyUrl": "https://bsky.app/profile/maoguofang.bsky.social/post/3mm4srvcvo22f",
+          "text": "Pixal3D: Pixel-Aligned 3D Generation from Images 单一图片转 3D 模型 项目： ldyang694.github.io/projects/pix... GitHub: github.com/TencentARC/P... 演示： huggingface.co/spaces/Tence...",
+          "author": {
+            "handle": "maoguofang.bsky.social",
+            "displayName": "猫国防"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T11:50:58.706Z",
+          "createdUtc": 1779105058,
+          "ageHours": 0.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TencentARC/Pixal3D",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zellij-org--zellij": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:l4lf7jfm3vxvrujjhteirbbf/app.bsky.feed.post/3mm4mkjbgzm2x",
+        "cid": "bafyreictkphpygpaxn3jmpj347uixzv7txo4575di4b2khacubjar442vu",
+        "bskyUrl": "https://bsky.app/profile/radiotux.bsky.social/post/3mm4mkjbgzm2x",
+        "text": "Tag 1 Multiplexer-Woche! 🪟 **Zellij**: Ein moderner Rust-Multiplexer mit intuitiver Bedienung & Layouts. Keine kryptischen Shortcuts nötig, alles via UI sichtbar. Ein Tool für alle! Link: https://github.com/zellij-org/zellij #Zellij #Terminal #CLI #Rust #OpenSource #RadioTux #Linux",
+        "author": {
+          "handle": "radiotux.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-18T10:00:13Z",
+        "hoursSincePosted": 2.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4lf7jfm3vxvrujjhteirbbf/app.bsky.feed.post/3mm4mkjbgzm2x",
+          "cid": "bafyreictkphpygpaxn3jmpj347uixzv7txo4575di4b2khacubjar442vu",
+          "bskyUrl": "https://bsky.app/profile/radiotux.bsky.social/post/3mm4mkjbgzm2x",
+          "text": "Tag 1 Multiplexer-Woche! 🪟 **Zellij**: Ein moderner Rust-Multiplexer mit intuitiver Bedienung & Layouts. Keine kryptischen Shortcuts nötig, alles via UI sichtbar. Ein Tool für alle! Link: https://github.com/zellij-org/zellij #Zellij #Terminal #CLI #Rust #OpenSource #RadioTux #Linux",
+          "author": {
+            "handle": "radiotux.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-18T10:00:13Z",
+          "createdUtc": 1779098413,
+          "ageHours": 2.8,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "zellij-org/zellij",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "qewer33--ratscad": {
+      "count7d": 1,
+      "likesSum7d": 29,
+      "repostsSum7d": 3,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mm4j6gzcps2c",
+        "cid": "bafyreiccavxa436nobr6gyf7myrzh3dnogphf66isn7ytjvnqhd7d5ezuq",
+        "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mm4j6gzcps2c",
+        "text": "Excited to announce the new era of terminal apps! 🎉 🐀 ratSCAD — CAD for the terminal! 🧀 Terminal IDE for OpenSCAD with live 3D previews. 🦀 Made possible by Ratty terminal: github.com/orhun/ratty ⭐ GitHub: github.com/qewer33/rats... #rustlang #ratatui #tui #3d #openscad #terminal",
+        "author": {
+          "handle": "orhun.dev",
+          "displayName": "Orhun Parmaksız"
+        },
+        "likeCount": 29,
+        "repostCount": 3,
+        "replyCount": 2,
+        "createdAt": "2026-05-18T08:59:47.171Z",
+        "hoursSincePosted": 3.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mm4j6gzcps2c",
+          "cid": "bafyreiccavxa436nobr6gyf7myrzh3dnogphf66isn7ytjvnqhd7d5ezuq",
+          "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mm4j6gzcps2c",
+          "text": "Excited to announce the new era of terminal apps! 🎉 🐀 ratSCAD — CAD for the terminal! 🧀 Terminal IDE for OpenSCAD with live 3D previews. 🦀 Made possible by Ratty terminal: github.com/orhun/ratty ⭐ GitHub: github.com/qewer33/rats... #rustlang #ratatui #tui #3d #openscad #terminal",
+          "author": {
+            "handle": "orhun.dev",
+            "displayName": "Orhun Parmaksız"
+          },
+          "likeCount": 29,
+          "repostCount": 3,
+          "replyCount": 2,
+          "createdAt": "2026-05-18T08:59:47.171Z",
+          "createdUtc": 1779094787,
+          "ageHours": 3.81,
+          "trendingScore": 36,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "qewer33/ratscad",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cactus-compute--needle": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mm4ghad3t22w",
+        "cid": "bafyreieqhaq3lgb6fz4zsxmjg6r3ay6kcjvbg4yjexyjnlmg4nbjw5jda4",
+        "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mm4ghad3t22w",
+        "text": "Top tools this week (May 12 – May 18): 1/ Needle — MIT 26M-parameter function-calling model distilled from Gemini 3.1. Runs tool calls on phones and watches. Open weights and the dataset pipeline, not just inference code github.com/cactus-compute/needle",
+        "author": {
+          "handle": "productimpossible.com",
+          "displayName": "Product Impossible"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-18T08:11:00.916Z",
+        "hoursSincePosted": 4.62
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mm4ghad3t22w",
+          "cid": "bafyreieqhaq3lgb6fz4zsxmjg6r3ay6kcjvbg4yjexyjnlmg4nbjw5jda4",
+          "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mm4ghad3t22w",
+          "text": "Top tools this week (May 12 – May 18): 1/ Needle — MIT 26M-parameter function-calling model distilled from Gemini 3.1. Runs tool calls on phones and watches. Open weights and the dataset pipeline, not just inference code github.com/cactus-compute/needle",
+          "author": {
+            "handle": "productimpossible.com",
+            "displayName": "Product Impossible"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-18T08:11:00.916Z",
+          "createdUtc": 1779091860,
+          "ageHours": 4.62,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "cactus-compute/needle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "qewer33/ratscad",
+      "count7d": 1,
+      "likesSum7d": 29
+    },
+    {
       "fullName": "matthart1983/syswatch",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "cactus-compute/needle",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "MinishLab/semble",
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-code",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "sander110419/lightroom-cc-on-linux",
+      "fullName": "BigBodyCobain/Shadowbroker",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/CLI-Anything",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "nautechsystems/nautilus_trader",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openai/codex",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "TencentARC/Pixal3D",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "zellij-org/zellij",
       "count7d": 1,
       "likesSum7d": 0
     }

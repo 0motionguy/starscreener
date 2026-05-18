@@ -4,15 +4,15 @@ export default function YouSettingsLoading() {
       <div className="animate-pulse space-y-5">
         <div className="space-y-2">
           <div
-            className="h-3 w-32 rounded-[2px]"
+            className="h-3 w-full max-w-32 rounded-[2px]"
             style={{ background: "var(--v3-bg-050, var(--v4-bg-050))" }}
           />
           <div
-            className="h-9 w-64 rounded-[2px]"
+            className="h-9 w-full max-w-64 rounded-[2px]"
             style={{ background: "var(--v3-bg-100, var(--v4-bg-100))" }}
           />
           <div
-            className="h-4 w-80 rounded-[2px]"
+            className="h-4 w-full max-w-80 rounded-[2px]"
             style={{ background: "var(--v3-bg-050, var(--v4-bg-050))" }}
           />
         </div>

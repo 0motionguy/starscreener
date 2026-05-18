@@ -3,7 +3,7 @@ export default function AdminSweepCostLoading() {
     <div className="mx-auto max-w-[1400px] px-4 py-4 md:px-6 md:py-6">
       <div className="animate-pulse space-y-4">
         <div
-          className="h-7 w-64 rounded-[2px]"
+          className="h-7 w-full max-w-64 rounded-[2px]"
           style={{ background: "var(--v3-bg-100, var(--v4-bg-100))" }}
         />
         <div

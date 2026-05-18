@@ -1,10 +1,9 @@
-name: Commit data files via PR + auto-merge
+name: Commit data files via PR (async auto-merge via label)
 description: |
   Stage an explicit allowlist of paths, short-circuit if there is no diff,
-  commit on a unique data-bot branch, push that branch, open a PR against
-  main, and enable auto-merge (squash + delete-branch). The PR merges
-  automatically once the required "Typecheck, guards, tests, build, e2e"
-  status check passes.
+  commit on a unique data-bot branch, push that branch, and open a PR
+  against main with the `auto-merge` label so `auto-merge-bot.yml`
+  enables auto-merge asynchronously.
 
   Why this exists (AGN-858 / AGN-861): main is a protected branch — direct
   `git push origin main` from a workflow returns GH006. The previous
@@ -12,6 +11,17 @@ description: |
   on every attempt because the protection rule, not transient ref drift,
   was the blocker. Switching to PR + auto-merge respects the protection
   rule without requiring operator-side rule edits.
+
+  Hardening (2026-05-18, twitter-cancellation root cause): the action
+  USED to call `gh pr merge --auto` inline after `gh pr create`. That
+  call hung indefinitely when concurrent data PRs queued up — see
+  docs/forensic/twitter-cancellation-2026-05-17.md — which let the
+  90-minute job timeout fire on collectors that had already finished in
+  90 seconds. Fix: drop the inline `gh pr merge --auto` and rely on the
+  label-driven `auto-merge-bot.yml` workflow (triggered by
+  `pull_request_target` on label / open / sync) to enable auto-merge
+  out-of-band. Data branches still merge once required checks pass,
+  but the data-collection workflow exits cleanly within seconds.
 
   Path allowlist is required (CLAUDE.md anti-pattern: never `git add -A`).
   Calling workflows must declare:
@@ -42,9 +52,14 @@ inputs:
     required: false
     default: "data"
   pr-label:
-    description: Label applied to the auto-generated PR (must already exist on the repo, or be empty).
+    description: |
+      Comma-separated labels applied to the auto-generated PR. The
+      `auto-merge` label is what `auto-merge-bot.yml` keys on — drop it
+      only when you want the PR to sit open for manual review (e.g. a
+      one-off backfill that needs human eyes). The `automation` label
+      is purely descriptive for the activity feed.
     required: false
-    default: "automation"
+    default: "automation,auto-merge"
   ignore-missing:
     description: |
       When "true", missing paths in the allowlist are silently skipped
@@ -164,7 +179,7 @@ runs:
         # out of the activity feed but operators can click through to the
         # run for full logs.
         RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}"
-        PR_BODY=$(printf 'Automated data refresh from `%s`.\n\n- Files changed: %s\n- Run: %s\n\nAuto-merge enabled — merges once required status checks pass.\n' \
+        PR_BODY=$(printf 'Automated data refresh from `%s`.\n\n- Files changed: %s\n- Run: %s\n\nThe `auto-merge` label is set; `auto-merge-bot.yml` enables\nauto-merge asynchronously, which avoids the `gh pr merge --auto`\nhang surface that timed out Twitter collectors at 90 min (see\n`docs/forensic/twitter-cancellation-2026-05-17.md`). PR merges once\nrequired status checks pass.\n' \
           "$WORKFLOW_NAME" "$FILES_CHANGED" "$RUN_URL")
 
         PR_CREATE_ARGS=(
@@ -184,18 +199,18 @@ runs:
         # point, so the data is durable — surface the failure as a
         # warning and let the operator open the PR manually rather than
         # failing the whole job (AGN-803 follow-up to AGN-858/861).
+        #
+        # Note (2026-05-18): we DELIBERATELY do NOT call `gh pr merge
+        # --auto` here. That call queues on required status checks and
+        # blocks the runner for up to the job timeout when many data
+        # PRs are open, which is what was killing collect-twitter.yml.
+        # The `auto-merge` label applied above triggers
+        # `auto-merge-bot.yml` (pull_request_target: labeled) which
+        # enables auto-merge in a separate, short-lived workflow — same
+        # end state, no blocking on this runner.
         if PR_URL=$(gh pr create "${PR_CREATE_ARGS[@]}" 2>&1); then
           echo "opened PR: $PR_URL"
-          # Enable auto-merge (squash, delete branch on merge). The PR
-          # will sit until the required "Typecheck, guards, tests,
-          # build, e2e" status check reports success, then merge
-          # automatically. If auto-merge isn't enabled at the repo
-          # level, this errors out and the PR stays open for human
-          # merge — surface that as a warning rather than failing the
-          # data-collection job.
-          if ! gh pr merge --auto --squash --delete-branch "$PR_URL"; then
-            echo "::warning::gh pr merge --auto failed for ${PR_URL} — PR is open but not set to auto-merge. Operator must enable repo-level auto-merge or merge manually."
-          fi
+          echo "auto-merge label applied — auto-merge-bot.yml will enable async."
         else
           echo "::warning::gh pr create failed for ${BRANCH}: ${PR_URL}. Data branch is pushed but no PR was opened. Operator must enable Settings → Actions → General → Workflow permissions → 'Allow GitHub Actions to create and approve pull requests', or open the PR manually from ${BRANCH}."
           PR_URL=""

@@ -15,9 +15,14 @@ Thanks for your interest. This guide gets you from clone to a merged PR.
 git clone https://github.com/0motionguy/starscreener.git
 cd starscreener
 npm install
+npm run hooks:install        # arm the local pre-push policy gate (one-time)
 cp .env.example .env.local   # then fill in the required values
 npm run dev                  # starts at http://localhost:3023
 ```
+
+### Pre-push policy gate
+
+`npm run hooks:install` points `core.hooksPath` at `.githooks/`. The committed `.githooks/pre-push` runs **only** the auth-provider-policy regression sentinel (`src/lib/__tests__/auth-provider-policy.test.ts`) — under one second — and refuses to push if any client component imports a Clerk hook without the sanctioned `authEnabled` gate. CI catches the same violation but only after a five-minute round trip; the hook catches it before the push leaves your laptop. Emergency bypass: `git push --no-verify`.
 
 ## Where things live
 

@@ -206,16 +206,28 @@ const nextConfig: NextConfig = {
   //     and storage-migration shims in `src/app/layout.tsx`. `'unsafe-eval'`
   //     is needed by a small subset of dynamic-import vendors (ECharts
   //     option compilation, recharts in dev). `*.clerk.dev` /  `*.clerk.com`
-  //     ship the SignIn/SignUp widget assets; Clerk loads Cloudflare
+  //     cover Clerk dev/preview instances; `clerk.trendingrepo.com` is the
+  //     production Frontend API CNAME (it serves `clerk.browser.js` and
+  //     does not match the `*.clerk.com` wildcard). Clerk loads Cloudflare
   //     Turnstile inline as a bot challenge, hence `challenges.cloudflare.com`.
   //     `*.vercel-analytics.com` is allow-listed proactively so we can opt in
   //     to Vercel Analytics later without another CSP roll.
+  //   - style-src: `fonts.googleapis.com` is needed because the Clerk widget
+  //     runtime injects `<link rel="stylesheet" href="…fonts.googleapis.com…">`
+  //     for the Inter face it uses inside the SignIn / UserButton chrome —
+  //     this happens after clerk.browser.js boots, regardless of our own
+  //     `next/font/google` self-hosting.
+  //   - font-src: `fonts.gstatic.com` is the actual woff2 host that the
+  //     above Google Fonts CSS references.
+  //   - worker-src 'self' blob: is required by Clerk for in-flight session
+  //     token rotation; without it, signed-in sessions throw a CSP warning
+  //     in the console and Clerk falls back to a slower main-thread path.
   //   - connect-src: `https:` covers PostHog (us.i.posthog.com), Sentry
   //     (which actually tunnels through our same-origin /api/_sentry-tunnel
-  //     so this is belt-and-braces), and the various JSON APIs the client
-  //     hits. `wss:` covers any future websocket transport (none active
-  //     today). `data:` is needed for blob-source EventStreams used by
-  //     the markdown renderer.
+  //     so this is belt-and-braces), Clerk's FAPI on the custom CNAME, and
+  //     the various JSON APIs the client hits. `wss:` covers any future
+  //     websocket transport (none active today). `data:` is needed for
+  //     blob-source EventStreams used by the markdown renderer.
   //   - frame-src: Clerk SignIn renders Turnstile inside an iframe served
   //     from `challenges.cloudflare.com`; without it the bot challenge fails
   //     to load and signups stall. Clerk hosted pages (`*.clerk.com`,
@@ -229,9 +241,10 @@ const nextConfig: NextConfig = {
     const csp = [
       "default-src 'self'",
       "img-src 'self' data: https: blob:",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://challenges.cloudflare.com https://*.vercel-analytics.com",
-      "style-src 'self' 'unsafe-inline'",
-      "font-src 'self' data:",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://clerk.trendingrepo.com https://challenges.cloudflare.com https://*.vercel-analytics.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "worker-src 'self' blob:",
       "connect-src 'self' https: wss: data:",
       "frame-src 'self' https://*.clerk.dev https://*.clerk.com https://challenges.cloudflare.com",
       "frame-ancestors 'none'",

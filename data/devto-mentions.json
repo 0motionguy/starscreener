@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-18T15:36:46.821Z",
+  "fetchedAt": "2026-05-18T19:46:58.513Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1308,
+  "scannedArticles": 1301,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 9,
+    "global-rising": 8,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -206,7 +206,7 @@
   },
   "mentions": {
     "ajeetdsouza/zoxide": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 79,
       "commentsSum7d": 23,
       "topArticle": {
@@ -216,7 +216,7 @@
         "author": "deepu105",
         "reactions": 79,
         "comments": 23,
-        "hoursSincePosted": 162.8,
+        "hoursSincePosted": 167,
         "readingTime": 13
       },
       "articles": [
@@ -240,7 +240,35 @@
             "development",
             "ai"
           ],
-          "trendingScore": 3.04,
+          "trendingScore": 2.96,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3694486,
+          "title": "Toward a more POSIX-Friendly PowerShell experience",
+          "description": "I'm a MacOS and Debian user primarily, but my 9-5 is a Windows shop that requires I work from a...",
+          "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
+          "author": {
+            "username": "selfagency",
+            "name": "Daniel Sieradski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F53631%2Ff7a512db-bd17-42c4-8739-7d0bcc4d335e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-18T18:17:02Z",
+          "tags": [
+            "cli",
+            "microsoft",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "ajeetdsouza/zoxide",
@@ -251,7 +279,7 @@
       ]
     },
     "aaif-goose/goose": {
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 50,
       "commentsSum7d": 9,
       "topArticle": {
@@ -261,7 +289,7 @@
         "author": "debs_obrien",
         "reactions": 50,
         "comments": 9,
-        "hoursSincePosted": 115.3,
+        "hoursSincePosted": 119.5,
         "readingTime": 19
       },
       "articles": [
@@ -285,34 +313,7 @@
             "documentation",
             "webdev"
           ],
-          "trendingScore": 1.4,
-          "linkedRepos": [
-            {
-              "fullName": "aaif-goose/goose",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3694339,
-          "title": "The weekend I fell down the MCP rabbit hole",
-          "description": "👋This is the start of a series where I document what I'm learning about Model Context Protocol...",
-          "url": "https://dev.to/anajsana95/the-weekend-i-fell-down-the-mcp-rabbit-hole-a",
-          "author": {
-            "username": "anajsana95",
-            "name": "Ana Jimenez Santamaria",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F344556%2Ff87b2a04-5b88-47b8-949f-a5bd5154f2df.JPG"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-18T15:34:33Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "mcp"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 1.35,
           "linkedRepos": [
             {
               "fullName": "aaif-goose/goose",
@@ -333,7 +334,7 @@
         "author": "nfrankel",
         "reactions": 10,
         "comments": 5,
-        "hoursSincePosted": 102.6,
+        "hoursSincePosted": 106.7,
         "readingTime": 10
       },
       "articles": [
@@ -357,7 +358,7 @@
             "budget",
             "agents"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.14,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -368,9 +369,9 @@
       ]
     },
     "NousResearch/hermes-agent": {
-      "count7d": 12,
-      "reactionsSum7d": 266,
-      "commentsSum7d": 89,
+      "count7d": 13,
+      "reactionsSum7d": 267,
+      "commentsSum7d": 91,
       "topArticle": {
         "id": 3682129,
         "title": "I Gave Hermes Agent 5 Impossible Tasks",
@@ -378,7 +379,7 @@
         "author": "syedahmershah",
         "reactions": 217,
         "comments": 72,
-        "hoursSincePosted": 55,
+        "hoursSincePosted": 59.2,
         "readingTime": 9
       },
       "articles": [
@@ -402,7 +403,7 @@
             "agents",
             "git"
           ],
-          "trendingScore": 75.55,
+          "trendingScore": 70.23,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -421,7 +422,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3904430%2Fbd74576f-cef8-4620-a63e-8a001f1e9d6c.png"
           },
           "reactionsCount": 22,
-          "commentsCount": 12,
+          "commentsCount": 14,
           "readingTime": 12,
           "publishedAt": "2026-05-16T04:05:21Z",
           "tags": [
@@ -430,7 +431,7 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 1.09,
+          "trendingScore": 1.11,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -458,7 +459,7 @@
             "hermes",
             "opensource"
           ],
-          "trendingScore": 0.13,
+          "trendingScore": 0.12,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -495,6 +496,41 @@
           ]
         },
         {
+          "id": 3691887,
+          "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
+          "description": "This is a submission for the Hermes Agent Challenge   A practical deep-dive for engineers, founders,...",
+          "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
+          "author": {
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 16,
+          "publishedAt": "2026-05-18T08:12:05Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.3,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "body"
+            },
+            {
+              "fullName": "nextlevelbuilder/goclaw",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3679358,
           "title": "I built a memory plugin for Hermes Agent that takes deletion seriously",
           "description": "This is a submission for the Hermes Agent Challenge  A few days into using Hermes Agent on my own...",
@@ -523,36 +559,29 @@
           ]
         },
         {
-          "id": 3691887,
-          "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
-          "description": "This is a submission for the Hermes Agent Challenge   A practical deep-dive for engineers, founders,...",
-          "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
+          "id": 3680780,
+          "title": "I Let an AI Agent Run My Consulting Business For a Week — Here's What Happened",
+          "description": "This is a submission for the Hermes Agent Challenge              The Setup   I run a small AI agency...",
+          "url": "https://dev.to/shyam_desigan_c6b74c32b3c/i-let-an-ai-agent-run-my-consulting-business-for-a-week-heres-what-happened-197n",
           "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+            "username": "shyam_desigan_c6b74c32b3c",
+            "name": "Shyam Desigan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3933166%2F115363eb-bfc3-44c2-975b-49c4d908830b.png"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-05-18T08:12:05Z",
+          "readingTime": 7,
+          "publishedAt": "2026-05-16T01:21:28Z",
           "tags": [
             "hermesagentchallenge",
-            "devchallenge",
-            "agents"
+            "agents",
+            "ai",
+            "opensource"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nextlevelbuilder/goclaw",
               "location": "body"
             }
           ]
@@ -575,34 +604,6 @@
             "hermesagentchallenge",
             "devchallenge",
             "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3680780,
-          "title": "I Let an AI Agent Run My Consulting Business For a Week — Here's What Happened",
-          "description": "This is a submission for the Hermes Agent Challenge              The Setup   I run a small AI agency...",
-          "url": "https://dev.to/shyam_desigan_c6b74c32b3c/i-let-an-ai-agent-run-my-consulting-business-for-a-week-heres-what-happened-197n",
-          "author": {
-            "username": "shyam_desigan_c6b74c32b3c",
-            "name": "Shyam Desigan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3933166%2F115363eb-bfc3-44c2-975b-49c4d908830b.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-16T01:21:28Z",
-          "tags": [
-            "hermesagentchallenge",
-            "agents",
-            "ai",
-            "opensource"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -745,43 +746,142 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3660568,
+          "title": "Hermes Agent：会自我成长的 AI 智能体",
+          "description": "Hermes Agent：会自我成长的 AI 智能体    来源：GitHub - NousResearch/hermes-agent 作者：Nous Research |...",
+          "url": "https://dev.to/erikqin/hermes-agenthui-zi-wo-cheng-chang-de-ai-zhi-neng-ti-42j4",
+          "author": {
+            "username": "erikqin",
+            "name": "erikqin",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3898337%2Fbe5c41b2-2931-4c05-8824-eb9fb2a1c485.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-13T06:21:27Z",
+          "tags": [
+            "agents",
+            "ai",
+            "automation",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
-    "vectorize-io/hindsight": {
+    "qdrant/qdrant": {
       "count7d": 1,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3691701,
-        "title": "I Built a 7-Agent Sales Pipeline and the Hardest Part Was the Topology",
-        "url": "https://dev.to/babulu/i-built-a-7-agent-sales-pipeline-and-the-hardest-part-was-the-topology-2i81",
-        "author": "babulu",
+        "id": 3692510,
+        "title": "5 Best Python Vector Database Libraries",
+        "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
+        "author": "tiioluwani",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 7.9,
-        "readingTime": 10
+        "hoursSincePosted": 7.1,
+        "readingTime": 17
       },
       "articles": [
         {
-          "id": 3691701,
-          "title": "I Built a 7-Agent Sales Pipeline and the Hardest Part Was the Topology",
-          "description": "When I started designing VORTEX — a seven-agent pipeline that turns product usage signals into sales...",
-          "url": "https://dev.to/babulu/i-built-a-7-agent-sales-pipeline-and-the-hardest-part-was-the-topology-2i81",
+          "id": 3692510,
+          "title": "5 Best Python Vector Database Libraries",
+          "description": "Most comparisons of Python vector database libraries focus on retrieval speed, indexing algorithms,...",
+          "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
           "author": {
-            "username": "babulu",
-            "name": "Babulu Shaik",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3937395%2Fc0e235ea-1848-4ddc-b156-4fee093daeb0.png"
+            "username": "tiioluwani",
+            "name": "Tiioluwani",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F848139%2Fc64c731e-970e-42e7-be58-2f6876d1a746.png"
           },
           "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-18T07:43:23Z",
+          "readingTime": 17,
+          "publishedAt": "2026-05-18T12:42:35Z",
+          "tags": [
+            "vectordatabase",
+            "python"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "qdrant/qdrant",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "vectorize-io/hindsight": {
+      "count7d": 2,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3693609,
+        "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
+        "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
+        "author": "gehini",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 7,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3693609,
+          "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
+          "description": "The hardest part of running LLMs inside a production pipeline isn't the inference. It's figuring out,...",
+          "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
+          "author": {
+            "username": "gehini",
+            "name": "Gehini Busarapalli",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938045%2F9a2c4cb1-eab9-4bf7-8409-f987e0bfd655.webp"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-18T12:44:59Z",
           "tags": [
             "agents",
+            "ai",
+            "llm",
+            "monitoring"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vectorize-io/hindsight",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3695395,
+          "title": "CRMs store data. I built something that remembers context.",
+          "description": "The first question I get when I tell people we have no database is: \"What do you mean, no...",
+          "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
+          "author": {
+            "username": "sandhyagk",
+            "name": "Sandhya G K",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938594%2F33c002a2-ec2d-4666-a42d-3abbabb292e7.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-18T18:56:33Z",
+          "tags": [
+            "ai",
             "architecture",
-            "showdev",
-            "systemdesign"
+            "rag",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -793,18 +893,63 @@
         }
       ]
     },
+    "tinyhumansai/openhuman": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3693862,
+        "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
+        "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
+        "author": "shubham-kumar-sinha",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 6.3,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3693862,
+          "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
+          "description": "Artificial Intelligence is rapidly moving beyond simple chatbots. Today’s users want AI systems that...",
+          "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
+          "author": {
+            "username": "shubham-kumar-sinha",
+            "name": "Shubham Kumar Sinha",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1135369%2F590a6378-5688-4e39-85cd-09eb3c73570b.jpeg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-18T13:26:18Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "privacy",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openclaw/openclaw": {
       "count7d": 1,
-      "reactionsSum7d": 4,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3691887,
         "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
         "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
         "author": "truongpx396",
-        "reactions": 4,
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 7.4,
+        "hoursSincePosted": 11.6,
         "readingTime": 16
       },
       "articles": [
@@ -818,7 +963,7 @@
             "name": "Truong Phung",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 5,
           "commentsCount": 0,
           "readingTime": 16,
           "publishedAt": "2026-05-18T08:12:05Z",
@@ -827,7 +972,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -847,16 +992,16 @@
     },
     "nextlevelbuilder/goclaw": {
       "count7d": 1,
-      "reactionsSum7d": 4,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3691887,
         "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
         "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
         "author": "truongpx396",
-        "reactions": 4,
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 7.4,
+        "hoursSincePosted": 11.6,
         "readingTime": 16
       },
       "articles": [
@@ -870,7 +1015,7 @@
             "name": "Truong Phung",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 5,
           "commentsCount": 0,
           "readingTime": 16,
           "publishedAt": "2026-05-18T08:12:05Z",
@@ -879,7 +1024,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -908,7 +1053,7 @@
         "author": "tythos",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 81.1,
+        "hoursSincePosted": 85.3,
         "readingTime": 10
       },
       "articles": [
@@ -952,7 +1097,7 @@
         "author": "catadef",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 143.8,
+        "hoursSincePosted": 148,
         "readingTime": 7
       },
       "articles": [
@@ -1141,34 +1286,6 @@
           ]
         },
         {
-          "id": 3686792,
-          "title": "Building a Website with Anthropic's Generator-Evaluator Loop (Harness Engineering)",
-          "description": "Building a Website with Anthropic's Generator-Evaluator Loop   Anthropic recently published...",
-          "url": "https://dev.to/nikhil102/building-a-website-with-anthropics-generator-evaluator-loop-harness-engineering-4olb",
-          "author": {
-            "username": "nikhil102",
-            "name": "Nikhil tiwari",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922500%2Ffba6bd7d-a48c-44af-9f05-df50db196d43.JPG"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-05-17T08:18:22Z",
-          "tags": [
-            "productivity",
-            "automation",
-            "ai",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3662679,
           "title": "Stop Missing Claude Code Permission Prompts — Add Sound Notifications in 10 Seconds",
           "description": "The Problem   You know that moment? You're vibing, Claude is coding for you, you switch to...",
@@ -1186,6 +1303,34 @@
             "macos",
             "ai",
             "programming",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3686792,
+          "title": "Building a Website with Anthropic's Generator-Evaluator Loop (Harness Engineering)",
+          "description": "Building a Website with Anthropic's Generator-Evaluator Loop   Anthropic recently published...",
+          "url": "https://dev.to/nikhil102/building-a-website-with-anthropics-generator-evaluator-loop-harness-engineering-4olb",
+          "author": {
+            "username": "nikhil102",
+            "name": "Nikhil tiwari",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922500%2Ffba6bd7d-a48c-44af-9f05-df50db196d43.JPG"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-17T08:18:22Z",
+          "tags": [
+            "productivity",
+            "automation",
+            "ai",
             "claude"
           ],
           "trendingScore": 0,
@@ -1269,7 +1414,7 @@
         "author": "dmaxdev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 103,
+        "hoursSincePosted": 107.2,
         "readingTime": 11
       },
       "articles": [
@@ -1314,7 +1459,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 73.5,
+        "hoursSincePosted": 77.6,
         "readingTime": 3
       },
       "articles": [
@@ -1359,7 +1504,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 108.6,
+        "hoursSincePosted": 112.8,
         "readingTime": 8
       },
       "articles": [
@@ -1412,7 +1557,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 84.5,
+        "hoursSincePosted": 88.7,
         "readingTime": 6
       },
       "articles": [
@@ -1558,148 +1703,6 @@
         }
       ]
     },
-    "rohitg00/agentmemory": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3677181,
-        "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
-        "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
-        "author": "andrew-ooo",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 76.4,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3677181,
-          "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
-          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
-          "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
-          "author": {
-            "username": "andrew-ooo",
-            "name": "Andrew",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 11,
-          "publishedAt": "2026-05-15T11:13:31Z",
-          "tags": [
-            "agentmemory",
-            "aicodingagents",
-            "claudecode",
-            "cursor"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rohitg00/agentmemory",
-              "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3660048,
-          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
-          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
-          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-05-13T04:32:37Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "devtools",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "iOfficeAI/AionUi",
-              "location": "body"
-            },
-            {
-              "fullName": "rohitg00/agentmemory",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "millionco/react-doctor",
-              "location": "body"
-            },
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mvanhorn/printing-press-library": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3660396,
-        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
-        "author": "adnanc",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 129.6,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3660396,
-          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
-          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
-          "author": {
-            "username": "adnanc",
-            "name": "Adnan Çakmak",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-13T05:58:14Z",
-          "tags": [
-            "anthropicmcp",
-            "claudecode",
-            "claudeapi",
-            "github"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "mvanhorn/printing-press-library",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "mattpocock/skills": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -1711,7 +1714,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 31.6,
+        "hoursSincePosted": 35.8,
         "readingTime": 7
       },
       "articles": [
@@ -1820,7 +1823,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 31.6,
+        "hoursSincePosted": 35.8,
         "readingTime": 7
       },
       "articles": [
@@ -1929,7 +1932,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147.9,
+        "hoursSincePosted": 152,
         "readingTime": 5
       },
       "articles": [
@@ -2043,6 +2046,148 @@
         }
       ]
     },
+    "mvanhorn/printing-press-library": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660396,
+        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+        "author": "adnanc",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 133.8,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3660396,
+          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
+          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+          "author": {
+            "username": "adnanc",
+            "name": "Adnan Çakmak",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-13T05:58:14Z",
+          "tags": [
+            "anthropicmcp",
+            "claudecode",
+            "claudeapi",
+            "github"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mvanhorn/printing-press-library",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "rohitg00/agentmemory": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3677181,
+        "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
+        "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
+        "author": "andrew-ooo",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 80.6,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3677181,
+          "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
+          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
+          "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
+          "author": {
+            "username": "andrew-ooo",
+            "name": "Andrew",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 11,
+          "publishedAt": "2026-05-15T11:13:31Z",
+          "tags": [
+            "agentmemory",
+            "aicodingagents",
+            "claudecode",
+            "cursor"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "tag"
+            }
+          ]
+        },
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai/codex": {
       "count7d": 4,
       "reactionsSum7d": 1,
@@ -2054,7 +2199,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 10.6,
+        "hoursSincePosted": 14.8,
         "readingTime": 10
       },
       "articles": [
@@ -2187,7 +2332,7 @@
         "author": "rentierdigital",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 1.9,
+        "hoursSincePosted": 6.1,
         "readingTime": 10
       },
       "articles": [
@@ -2257,55 +2402,6 @@
         }
       ]
     },
-    "gi-dellav/zerostack": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3690622,
-        "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
-        "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 11.7,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3690622,
-          "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
-          "description": "Three creators flipped to Codex the same day; r/ClaudeAI hit thousands of upvotes on PR-review fatigue. Stack shift, or review-loop shift?",
-          "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-18T03:53:57Z",
-          "tags": [
-            "ai",
-            "codex",
-            "claudecode",
-            "codingagents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "gi-dellav/zerostack",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "farion1231/cc-switch": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2317,7 +2413,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.1,
+        "hoursSincePosted": 135.2,
         "readingTime": 14
       },
       "articles": [
@@ -2386,7 +2482,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.1,
+        "hoursSincePosted": 135.2,
         "readingTime": 14
       },
       "articles": [
@@ -2455,7 +2551,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.1,
+        "hoursSincePosted": 135.2,
         "readingTime": 14
       },
       "articles": [
@@ -2513,6 +2609,100 @@
         }
       ]
     },
+    "gi-dellav/zerostack": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3690622,
+        "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
+        "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 15.9,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3690622,
+          "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
+          "description": "Three creators flipped to Codex the same day; r/ClaudeAI hit thousands of upvotes on PR-review fatigue. Stack shift, or review-loop shift?",
+          "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-18T03:53:57Z",
+          "tags": [
+            "ai",
+            "codex",
+            "claudecode",
+            "codingagents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "gi-dellav/zerostack",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "googleworkspace/cli": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3654146,
+        "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
+        "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
+        "author": "daksh-gargas",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 158,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3654146,
+          "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
+          "description": "gdocs-to-md-mcp",
+          "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
+          "author": {
+            "username": "daksh-gargas",
+            "name": "Daksh Gargas",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F81541%2F8e86e0e4-b356-4178-9fd3-9bde113d855e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-12T05:45:17Z",
+          "tags": [
+            "mcp",
+            "claude",
+            "markdown",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "googleworkspace/cli",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "samber/cc-skills-golang": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -2524,7 +2714,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 84.5,
+        "hoursSincePosted": 88.7,
         "readingTime": 6
       },
       "articles": [
@@ -2562,96 +2752,6 @@
         }
       ]
     },
-    "googleworkspace/cli": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3654146,
-        "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
-        "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
-        "author": "daksh-gargas",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 153.9,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3654146,
-          "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
-          "description": "gdocs-to-md-mcp",
-          "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
-          "author": {
-            "username": "daksh-gargas",
-            "name": "Daksh Gargas",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F81541%2F8e86e0e4-b356-4178-9fd3-9bde113d855e.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-12T05:45:17Z",
-          "tags": [
-            "mcp",
-            "claude",
-            "markdown",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "googleworkspace/cli",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "HKUDS/CLI-Anything": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3690449,
-        "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
-        "author": "wonderlab",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 12.9,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3690449,
-          "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
-          "description": "Introduction    \"Making ALL Software Agent-Native.\"   This is the 68th article in the \"One...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-18T02:45:17Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "cli",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/CLI-Anything",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "TauricResearch/TradingAgents": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2663,7 +2763,7 @@
         "author": "jeet_dhandha_3c9b0d80399a",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.9,
+        "hoursSincePosted": 147.1,
         "readingTime": 4
       },
       "articles": [
@@ -2712,7 +2812,7 @@
         "author": "vainamoinen",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 34.2,
+        "hoursSincePosted": 38.3,
         "readingTime": 6
       },
       "articles": [
@@ -2750,6 +2850,51 @@
         }
       ]
     },
+    "HKUDS/CLI-Anything": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3690449,
+        "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
+        "author": "wonderlab",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 17,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3690449,
+          "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
+          "description": "Introduction    \"Making ALL Software Agent-Native.\"   This is the 68th article in the \"One...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-18T02:45:17Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "cli",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "datawhalechina/easy-vibe": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -2761,7 +2906,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 134,
+        "hoursSincePosted": 138.1,
         "readingTime": 8
       },
       "articles": [
@@ -2806,7 +2951,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 2,
-        "hoursSincePosted": 22.1,
+        "hoursSincePosted": 26.3,
         "readingTime": 3
       },
       "articles": [
@@ -2830,7 +2975,7 @@
             "opensource",
             "agentskills"
           ],
-          "trendingScore": 0.19,
+          "trendingScore": 0.16,
           "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
@@ -2851,7 +2996,7 @@
         "author": "owen_fox",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 144.8,
+        "hoursSincePosted": 149,
         "readingTime": 9
       },
       "articles": [
@@ -2896,7 +3041,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 159.4,
+        "hoursSincePosted": 163.6,
         "readingTime": 9
       },
       "articles": [
@@ -2932,19 +3077,46 @@
     },
     "github/github-mcp-server": {
       "count7d": 2,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
+      "reactionsSum7d": 4,
+      "commentsSum7d": 4,
       "topArticle": {
-        "id": 3665850,
-        "title": "We scanned 50+ MCP servers and found HIGH-severity bugs in Atlassian, GitHub, Cloudflare, and Microsoft — here's what we learned",
-        "url": "https://dev.to/truong_bui_eaec3f963bbe21/we-scanned-50-mcp-servers-and-found-high-severity-bugs-in-atlassian-github-cloudflare-and-3a42",
-        "author": "truong_bui_eaec3f963bbe21",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 115.5,
-        "readingTime": 4
+        "id": 3690301,
+        "title": "The Real Problems Start After Your MCP Server Works",
+        "url": "https://dev.to/madhaviai/the-real-problems-start-after-your-mcp-server-works-2al5",
+        "author": "madhaviai",
+        "reactions": 3,
+        "comments": 3,
+        "hoursSincePosted": 4.7,
+        "readingTime": 3
       },
       "articles": [
+        {
+          "id": 3690301,
+          "title": "The Real Problems Start After Your MCP Server Works",
+          "description": "I've been spending a lot of time building and deploying MCP servers, experimenting with tool...",
+          "url": "https://dev.to/madhaviai/the-real-problems-start-after-your-mcp-server-works-2al5",
+          "author": {
+            "username": "madhaviai",
+            "name": "Madhavi Pasumarthi(#madhaviai)",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936149%2F9538f203-64dd-4b89-a2b0-d28126195c04.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 3,
+          "readingTime": 3,
+          "publishedAt": "2026-05-18T15:02:13Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "llm"
+          ],
+          "trendingScore": 0.39,
+          "linkedRepos": [
+            {
+              "fullName": "github/github-mcp-server",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3665850,
           "title": "We scanned 50+ MCP servers and found HIGH-severity bugs in Atlassian, GitHub, Cloudflare, and Microsoft — here's what we learned",
@@ -2972,33 +3144,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3690301,
-          "title": "The Real Problems Start After Your MCP Server Works",
-          "description": "I've been spending a lot of time building and deploying MCP servers, experimenting with tool...",
-          "url": "https://dev.to/madhaviai/the-real-problems-start-after-your-mcp-server-works-2al5",
-          "author": {
-            "username": "madhaviai",
-            "name": "Madhavi Pasumarthi(#madhaviai)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936149%2F9538f203-64dd-4b89-a2b0-d28126195c04.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-18T15:02:13Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/github-mcp-server",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -3013,7 +3158,7 @@
         "author": "mir_mursalin_ankur",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.1,
+        "hoursSincePosted": 28.3,
         "readingTime": 53
       },
       "articles": [
@@ -3062,7 +3207,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 148.5,
+        "hoursSincePosted": 152.7,
         "readingTime": 10
       },
       "articles": [
@@ -3107,7 +3252,7 @@
         "author": "laurent_guitton_038649364",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.9,
+        "hoursSincePosted": 140,
         "readingTime": 13
       },
       "articles": [
@@ -3152,7 +3297,7 @@
         "author": "omarmusayev",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 92.2,
+        "hoursSincePosted": 96.4,
         "readingTime": 4
       },
       "articles": [
@@ -3176,7 +3321,7 @@
             "cli",
             "framework"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -3253,7 +3398,7 @@
         "author": "armorbreak",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 63.7,
+        "hoursSincePosted": 67.8,
         "readingTime": 4
       },
       "articles": [
@@ -3287,6 +3432,51 @@
         }
       ]
     },
+    "openai/openai-agents-python": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3687442,
+        "title": "An AI agent resource pack is more than a prompt",
+        "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
+        "author": "doramagic",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 29.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3687442,
+          "title": "An AI agent resource pack is more than a prompt",
+          "description": "The problem   When developers ask an AI coding agent to build an agent workflow, the first...",
+          "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
+          "author": {
+            "username": "doramagic",
+            "name": "Tang Weigang",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936036%2F9206ba55-8d8f-457e-a399-6e3316ef715f.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-17T14:13:44Z",
+          "tags": [
+            "ai",
+            "python",
+            "agents",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "floci-io/floci": {
       "count7d": 2,
       "reactionsSum7d": 6,
@@ -3298,7 +3488,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147.9,
+        "hoursSincePosted": 152,
         "readingTime": 5
       },
       "articles": [
@@ -3379,7 +3569,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147.9,
+        "hoursSincePosted": 152,
         "readingTime": 5
       },
       "articles": [
@@ -3421,51 +3611,6 @@
         }
       ]
     },
-    "openai/openai-agents-python": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3687442,
-        "title": "An AI agent resource pack is more than a prompt",
-        "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
-        "author": "doramagic",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 25.4,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3687442,
-          "title": "An AI agent resource pack is more than a prompt",
-          "description": "The problem   When developers ask an AI coding agent to build an agent workflow, the first...",
-          "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
-          "author": {
-            "username": "doramagic",
-            "name": "Tang Weigang",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936036%2F9206ba55-8d8f-457e-a399-6e3316ef715f.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-17T14:13:44Z",
-          "tags": [
-            "ai",
-            "python",
-            "agents",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "czlonkowski/n8n-mcp": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -3477,7 +3622,7 @@
         "author": "ratamaha",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 100.8,
+        "hoursSincePosted": 105,
         "readingTime": 2
       },
       "articles": [
@@ -3539,51 +3684,6 @@
         }
       ]
     },
-    "Tracer-Cloud/opensre": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3686207,
-        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-        "author": "arshtechpro",
-        "reactions": 5,
-        "comments": 1,
-        "hoursSincePosted": 6.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3686207,
-          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
-          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-          "author": {
-            "username": "arshtechpro",
-            "name": "ArshTechPro",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 1,
-          "readingTime": 3,
-          "publishedAt": "2026-05-18T09:00:18Z",
-          "tags": [
-            "ai",
-            "sre",
-            "devops",
-            "opensource"
-          ],
-          "trendingScore": 0.58,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "henrygd/beszel": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -3595,7 +3695,7 @@
         "author": "vikasprogrammer",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 60,
+        "hoursSincePosted": 64.1,
         "readingTime": 5
       },
       "articles": [
@@ -3628,11 +3728,56 @@
           ]
         }
       ]
+    },
+    "Tracer-Cloud/opensre": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3686207,
+        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+        "author": "arshtechpro",
+        "reactions": 5,
+        "comments": 1,
+        "hoursSincePosted": 10.8,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3686207,
+          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
+          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+          "author": {
+            "username": "arshtechpro",
+            "name": "ArshTechPro",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 1,
+          "readingTime": 3,
+          "publishedAt": "2026-05-18T09:00:18Z",
+          "tags": [
+            "ai",
+            "sre",
+            "devops",
+            "opensource"
+          ],
+          "trendingScore": 0.36,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "ajeetdsouza--zoxide": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 79,
       "commentsSum7d": 23,
       "topArticle": {
@@ -3642,7 +3787,7 @@
         "author": "deepu105",
         "reactions": 79,
         "comments": 23,
-        "hoursSincePosted": 162.8,
+        "hoursSincePosted": 167,
         "readingTime": 13
       },
       "articles": [
@@ -3666,7 +3811,35 @@
             "development",
             "ai"
           ],
-          "trendingScore": 3.04,
+          "trendingScore": 2.96,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3694486,
+          "title": "Toward a more POSIX-Friendly PowerShell experience",
+          "description": "I'm a MacOS and Debian user primarily, but my 9-5 is a Windows shop that requires I work from a...",
+          "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
+          "author": {
+            "username": "selfagency",
+            "name": "Daniel Sieradski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F53631%2Ff7a512db-bd17-42c4-8739-7d0bcc4d335e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-18T18:17:02Z",
+          "tags": [
+            "cli",
+            "microsoft",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "ajeetdsouza/zoxide",
@@ -3677,7 +3850,7 @@
       ]
     },
     "aaif-goose--goose": {
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 50,
       "commentsSum7d": 9,
       "topArticle": {
@@ -3687,7 +3860,7 @@
         "author": "debs_obrien",
         "reactions": 50,
         "comments": 9,
-        "hoursSincePosted": 115.3,
+        "hoursSincePosted": 119.5,
         "readingTime": 19
       },
       "articles": [
@@ -3711,34 +3884,7 @@
             "documentation",
             "webdev"
           ],
-          "trendingScore": 1.4,
-          "linkedRepos": [
-            {
-              "fullName": "aaif-goose/goose",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3694339,
-          "title": "The weekend I fell down the MCP rabbit hole",
-          "description": "👋This is the start of a series where I document what I'm learning about Model Context Protocol...",
-          "url": "https://dev.to/anajsana95/the-weekend-i-fell-down-the-mcp-rabbit-hole-a",
-          "author": {
-            "username": "anajsana95",
-            "name": "Ana Jimenez Santamaria",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F344556%2Ff87b2a04-5b88-47b8-949f-a5bd5154f2df.JPG"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-18T15:34:33Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "mcp"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 1.35,
           "linkedRepos": [
             {
               "fullName": "aaif-goose/goose",
@@ -3759,7 +3905,7 @@
         "author": "nfrankel",
         "reactions": 10,
         "comments": 5,
-        "hoursSincePosted": 102.6,
+        "hoursSincePosted": 106.7,
         "readingTime": 10
       },
       "articles": [
@@ -3783,7 +3929,7 @@
             "budget",
             "agents"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.14,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -3794,9 +3940,9 @@
       ]
     },
     "nousresearch--hermes-agent": {
-      "count7d": 12,
-      "reactionsSum7d": 266,
-      "commentsSum7d": 89,
+      "count7d": 13,
+      "reactionsSum7d": 267,
+      "commentsSum7d": 91,
       "topArticle": {
         "id": 3682129,
         "title": "I Gave Hermes Agent 5 Impossible Tasks",
@@ -3804,7 +3950,7 @@
         "author": "syedahmershah",
         "reactions": 217,
         "comments": 72,
-        "hoursSincePosted": 55,
+        "hoursSincePosted": 59.2,
         "readingTime": 9
       },
       "articles": [
@@ -3828,7 +3974,7 @@
             "agents",
             "git"
           ],
-          "trendingScore": 75.55,
+          "trendingScore": 70.23,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3847,7 +3993,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3904430%2Fbd74576f-cef8-4620-a63e-8a001f1e9d6c.png"
           },
           "reactionsCount": 22,
-          "commentsCount": 12,
+          "commentsCount": 14,
           "readingTime": 12,
           "publishedAt": "2026-05-16T04:05:21Z",
           "tags": [
@@ -3856,7 +4002,7 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 1.09,
+          "trendingScore": 1.11,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3884,7 +4030,7 @@
             "hermes",
             "opensource"
           ],
-          "trendingScore": 0.13,
+          "trendingScore": 0.12,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3921,6 +4067,41 @@
           ]
         },
         {
+          "id": 3691887,
+          "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
+          "description": "This is a submission for the Hermes Agent Challenge   A practical deep-dive for engineers, founders,...",
+          "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
+          "author": {
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 16,
+          "publishedAt": "2026-05-18T08:12:05Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.3,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "body"
+            },
+            {
+              "fullName": "nextlevelbuilder/goclaw",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3679358,
           "title": "I built a memory plugin for Hermes Agent that takes deletion seriously",
           "description": "This is a submission for the Hermes Agent Challenge  A few days into using Hermes Agent on my own...",
@@ -3949,36 +4130,29 @@
           ]
         },
         {
-          "id": 3691887,
-          "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
-          "description": "This is a submission for the Hermes Agent Challenge   A practical deep-dive for engineers, founders,...",
-          "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
+          "id": 3680780,
+          "title": "I Let an AI Agent Run My Consulting Business For a Week — Here's What Happened",
+          "description": "This is a submission for the Hermes Agent Challenge              The Setup   I run a small AI agency...",
+          "url": "https://dev.to/shyam_desigan_c6b74c32b3c/i-let-an-ai-agent-run-my-consulting-business-for-a-week-heres-what-happened-197n",
           "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+            "username": "shyam_desigan_c6b74c32b3c",
+            "name": "Shyam Desigan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3933166%2F115363eb-bfc3-44c2-975b-49c4d908830b.png"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-05-18T08:12:05Z",
+          "readingTime": 7,
+          "publishedAt": "2026-05-16T01:21:28Z",
           "tags": [
             "hermesagentchallenge",
-            "devchallenge",
-            "agents"
+            "agents",
+            "ai",
+            "opensource"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nextlevelbuilder/goclaw",
               "location": "body"
             }
           ]
@@ -4001,34 +4175,6 @@
             "hermesagentchallenge",
             "devchallenge",
             "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3680780,
-          "title": "I Let an AI Agent Run My Consulting Business For a Week — Here's What Happened",
-          "description": "This is a submission for the Hermes Agent Challenge              The Setup   I run a small AI agency...",
-          "url": "https://dev.to/shyam_desigan_c6b74c32b3c/i-let-an-ai-agent-run-my-consulting-business-for-a-week-heres-what-happened-197n",
-          "author": {
-            "username": "shyam_desigan_c6b74c32b3c",
-            "name": "Shyam Desigan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3933166%2F115363eb-bfc3-44c2-975b-49c4d908830b.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-16T01:21:28Z",
-          "tags": [
-            "hermesagentchallenge",
-            "agents",
-            "ai",
-            "opensource"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4171,43 +4317,142 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3660568,
+          "title": "Hermes Agent：会自我成长的 AI 智能体",
+          "description": "Hermes Agent：会自我成长的 AI 智能体    来源：GitHub - NousResearch/hermes-agent 作者：Nous Research |...",
+          "url": "https://dev.to/erikqin/hermes-agenthui-zi-wo-cheng-chang-de-ai-zhi-neng-ti-42j4",
+          "author": {
+            "username": "erikqin",
+            "name": "erikqin",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3898337%2Fbe5c41b2-2931-4c05-8824-eb9fb2a1c485.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-13T06:21:27Z",
+          "tags": [
+            "agents",
+            "ai",
+            "automation",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
-    "vectorize-io--hindsight": {
+    "qdrant--qdrant": {
       "count7d": 1,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3691701,
-        "title": "I Built a 7-Agent Sales Pipeline and the Hardest Part Was the Topology",
-        "url": "https://dev.to/babulu/i-built-a-7-agent-sales-pipeline-and-the-hardest-part-was-the-topology-2i81",
-        "author": "babulu",
+        "id": 3692510,
+        "title": "5 Best Python Vector Database Libraries",
+        "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
+        "author": "tiioluwani",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 7.9,
-        "readingTime": 10
+        "hoursSincePosted": 7.1,
+        "readingTime": 17
       },
       "articles": [
         {
-          "id": 3691701,
-          "title": "I Built a 7-Agent Sales Pipeline and the Hardest Part Was the Topology",
-          "description": "When I started designing VORTEX — a seven-agent pipeline that turns product usage signals into sales...",
-          "url": "https://dev.to/babulu/i-built-a-7-agent-sales-pipeline-and-the-hardest-part-was-the-topology-2i81",
+          "id": 3692510,
+          "title": "5 Best Python Vector Database Libraries",
+          "description": "Most comparisons of Python vector database libraries focus on retrieval speed, indexing algorithms,...",
+          "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
           "author": {
-            "username": "babulu",
-            "name": "Babulu Shaik",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3937395%2Fc0e235ea-1848-4ddc-b156-4fee093daeb0.png"
+            "username": "tiioluwani",
+            "name": "Tiioluwani",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F848139%2Fc64c731e-970e-42e7-be58-2f6876d1a746.png"
           },
           "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-18T07:43:23Z",
+          "readingTime": 17,
+          "publishedAt": "2026-05-18T12:42:35Z",
+          "tags": [
+            "vectordatabase",
+            "python"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "qdrant/qdrant",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "vectorize-io--hindsight": {
+      "count7d": 2,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3693609,
+        "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
+        "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
+        "author": "gehini",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 7,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3693609,
+          "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
+          "description": "The hardest part of running LLMs inside a production pipeline isn't the inference. It's figuring out,...",
+          "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
+          "author": {
+            "username": "gehini",
+            "name": "Gehini Busarapalli",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938045%2F9a2c4cb1-eab9-4bf7-8409-f987e0bfd655.webp"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-18T12:44:59Z",
           "tags": [
             "agents",
+            "ai",
+            "llm",
+            "monitoring"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vectorize-io/hindsight",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3695395,
+          "title": "CRMs store data. I built something that remembers context.",
+          "description": "The first question I get when I tell people we have no database is: \"What do you mean, no...",
+          "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
+          "author": {
+            "username": "sandhyagk",
+            "name": "Sandhya G K",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938594%2F33c002a2-ec2d-4666-a42d-3abbabb292e7.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-18T18:56:33Z",
+          "tags": [
+            "ai",
             "architecture",
-            "showdev",
-            "systemdesign"
+            "rag",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4219,18 +4464,63 @@
         }
       ]
     },
+    "tinyhumansai--openhuman": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3693862,
+        "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
+        "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
+        "author": "shubham-kumar-sinha",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 6.3,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3693862,
+          "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
+          "description": "Artificial Intelligence is rapidly moving beyond simple chatbots. Today’s users want AI systems that...",
+          "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
+          "author": {
+            "username": "shubham-kumar-sinha",
+            "name": "Shubham Kumar Sinha",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1135369%2F590a6378-5688-4e39-85cd-09eb3c73570b.jpeg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-18T13:26:18Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "privacy",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openclaw--openclaw": {
       "count7d": 1,
-      "reactionsSum7d": 4,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3691887,
         "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
         "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
         "author": "truongpx396",
-        "reactions": 4,
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 7.4,
+        "hoursSincePosted": 11.6,
         "readingTime": 16
       },
       "articles": [
@@ -4244,7 +4534,7 @@
             "name": "Truong Phung",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 5,
           "commentsCount": 0,
           "readingTime": 16,
           "publishedAt": "2026-05-18T08:12:05Z",
@@ -4253,7 +4543,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4273,16 +4563,16 @@
     },
     "nextlevelbuilder--goclaw": {
       "count7d": 1,
-      "reactionsSum7d": 4,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3691887,
         "title": "🔮 Hermes Agent 🤖: A Practical Guide 🔥 — and How It Stacks Up Against OpenClaw & GoClaw 📊",
         "url": "https://dev.to/truongpx396/hermes-agent-the-self-improving-agent-framework-and-how-it-compares-to-openclaw-goclaw-22mc",
         "author": "truongpx396",
-        "reactions": 4,
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 7.4,
+        "hoursSincePosted": 11.6,
         "readingTime": 16
       },
       "articles": [
@@ -4296,7 +4586,7 @@
             "name": "Truong Phung",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 5,
           "commentsCount": 0,
           "readingTime": 16,
           "publishedAt": "2026-05-18T08:12:05Z",
@@ -4305,7 +4595,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4334,7 +4624,7 @@
         "author": "tythos",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 81.1,
+        "hoursSincePosted": 85.3,
         "readingTime": 10
       },
       "articles": [
@@ -4378,7 +4668,7 @@
         "author": "catadef",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 143.8,
+        "hoursSincePosted": 148,
         "readingTime": 7
       },
       "articles": [
@@ -4567,34 +4857,6 @@
           ]
         },
         {
-          "id": 3686792,
-          "title": "Building a Website with Anthropic's Generator-Evaluator Loop (Harness Engineering)",
-          "description": "Building a Website with Anthropic's Generator-Evaluator Loop   Anthropic recently published...",
-          "url": "https://dev.to/nikhil102/building-a-website-with-anthropics-generator-evaluator-loop-harness-engineering-4olb",
-          "author": {
-            "username": "nikhil102",
-            "name": "Nikhil tiwari",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922500%2Ffba6bd7d-a48c-44af-9f05-df50db196d43.JPG"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-05-17T08:18:22Z",
-          "tags": [
-            "productivity",
-            "automation",
-            "ai",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3662679,
           "title": "Stop Missing Claude Code Permission Prompts — Add Sound Notifications in 10 Seconds",
           "description": "The Problem   You know that moment? You're vibing, Claude is coding for you, you switch to...",
@@ -4612,6 +4874,34 @@
             "macos",
             "ai",
             "programming",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3686792,
+          "title": "Building a Website with Anthropic's Generator-Evaluator Loop (Harness Engineering)",
+          "description": "Building a Website with Anthropic's Generator-Evaluator Loop   Anthropic recently published...",
+          "url": "https://dev.to/nikhil102/building-a-website-with-anthropics-generator-evaluator-loop-harness-engineering-4olb",
+          "author": {
+            "username": "nikhil102",
+            "name": "Nikhil tiwari",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922500%2Ffba6bd7d-a48c-44af-9f05-df50db196d43.JPG"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-17T08:18:22Z",
+          "tags": [
+            "productivity",
+            "automation",
+            "ai",
             "claude"
           ],
           "trendingScore": 0,
@@ -4695,7 +4985,7 @@
         "author": "dmaxdev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 103,
+        "hoursSincePosted": 107.2,
         "readingTime": 11
       },
       "articles": [
@@ -4740,7 +5030,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 73.5,
+        "hoursSincePosted": 77.6,
         "readingTime": 3
       },
       "articles": [
@@ -4785,7 +5075,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 108.6,
+        "hoursSincePosted": 112.8,
         "readingTime": 8
       },
       "articles": [
@@ -4838,7 +5128,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 84.5,
+        "hoursSincePosted": 88.7,
         "readingTime": 6
       },
       "articles": [
@@ -4984,148 +5274,6 @@
         }
       ]
     },
-    "rohitg00--agentmemory": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3677181,
-        "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
-        "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
-        "author": "andrew-ooo",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 76.4,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3677181,
-          "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
-          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
-          "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
-          "author": {
-            "username": "andrew-ooo",
-            "name": "Andrew",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 11,
-          "publishedAt": "2026-05-15T11:13:31Z",
-          "tags": [
-            "agentmemory",
-            "aicodingagents",
-            "claudecode",
-            "cursor"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rohitg00/agentmemory",
-              "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3660048,
-          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
-          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
-          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-05-13T04:32:37Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "devtools",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "iOfficeAI/AionUi",
-              "location": "body"
-            },
-            {
-              "fullName": "rohitg00/agentmemory",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "millionco/react-doctor",
-              "location": "body"
-            },
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mvanhorn--printing-press-library": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3660396,
-        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
-        "author": "adnanc",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 129.6,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3660396,
-          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
-          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
-          "author": {
-            "username": "adnanc",
-            "name": "Adnan Çakmak",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-13T05:58:14Z",
-          "tags": [
-            "anthropicmcp",
-            "claudecode",
-            "claudeapi",
-            "github"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "mvanhorn/printing-press-library",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "mattpocock--skills": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -5137,7 +5285,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 31.6,
+        "hoursSincePosted": 35.8,
         "readingTime": 7
       },
       "articles": [
@@ -5246,7 +5394,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 31.6,
+        "hoursSincePosted": 35.8,
         "readingTime": 7
       },
       "articles": [
@@ -5355,7 +5503,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147.9,
+        "hoursSincePosted": 152,
         "readingTime": 5
       },
       "articles": [
@@ -5469,6 +5617,148 @@
         }
       ]
     },
+    "mvanhorn--printing-press-library": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660396,
+        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+        "author": "adnanc",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 133.8,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3660396,
+          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
+          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+          "author": {
+            "username": "adnanc",
+            "name": "Adnan Çakmak",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-13T05:58:14Z",
+          "tags": [
+            "anthropicmcp",
+            "claudecode",
+            "claudeapi",
+            "github"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mvanhorn/printing-press-library",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "rohitg00--agentmemory": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3677181,
+        "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
+        "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
+        "author": "andrew-ooo",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 80.6,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3677181,
+          "title": "agentmemory Review: Persistent Memory for AI Coding Agents",
+          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
+          "url": "https://dev.to/andrew-ooo/agentmemory-review-persistent-memory-for-ai-coding-agents-55g2",
+          "author": {
+            "username": "andrew-ooo",
+            "name": "Andrew",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 11,
+          "publishedAt": "2026-05-15T11:13:31Z",
+          "tags": [
+            "agentmemory",
+            "aicodingagents",
+            "claudecode",
+            "cursor"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "tag"
+            }
+          ]
+        },
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai--codex": {
       "count7d": 4,
       "reactionsSum7d": 1,
@@ -5480,7 +5770,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 10.6,
+        "hoursSincePosted": 14.8,
         "readingTime": 10
       },
       "articles": [
@@ -5613,7 +5903,7 @@
         "author": "rentierdigital",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 1.9,
+        "hoursSincePosted": 6.1,
         "readingTime": 10
       },
       "articles": [
@@ -5683,55 +5973,6 @@
         }
       ]
     },
-    "gi-dellav--zerostack": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3690622,
-        "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
-        "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 11.7,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3690622,
-          "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
-          "description": "Three creators flipped to Codex the same day; r/ClaudeAI hit thousands of upvotes on PR-review fatigue. Stack shift, or review-loop shift?",
-          "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-18T03:53:57Z",
-          "tags": [
-            "ai",
-            "codex",
-            "claudecode",
-            "codingagents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "gi-dellav/zerostack",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "farion1231--cc-switch": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5743,7 +5984,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.1,
+        "hoursSincePosted": 135.2,
         "readingTime": 14
       },
       "articles": [
@@ -5812,7 +6053,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.1,
+        "hoursSincePosted": 135.2,
         "readingTime": 14
       },
       "articles": [
@@ -5881,7 +6122,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.1,
+        "hoursSincePosted": 135.2,
         "readingTime": 14
       },
       "articles": [
@@ -5939,6 +6180,100 @@
         }
       ]
     },
+    "gi-dellav--zerostack": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3690622,
+        "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
+        "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 15.9,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3690622,
+          "title": "Codex Pulling Ahead of Claude Code? Read the 2026 Shift",
+          "description": "Three creators flipped to Codex the same day; r/ClaudeAI hit thousands of upvotes on PR-review fatigue. Stack shift, or review-loop shift?",
+          "url": "https://dev.to/max_quimby/codex-pulling-ahead-of-claude-code-read-the-2026-shift-7m9",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-18T03:53:57Z",
+          "tags": [
+            "ai",
+            "codex",
+            "claudecode",
+            "codingagents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "gi-dellav/zerostack",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "googleworkspace--cli": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3654146,
+        "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
+        "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
+        "author": "daksh-gargas",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 158,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3654146,
+          "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
+          "description": "gdocs-to-md-mcp",
+          "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
+          "author": {
+            "username": "daksh-gargas",
+            "name": "Daksh Gargas",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F81541%2F8e86e0e4-b356-4178-9fd3-9bde113d855e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-12T05:45:17Z",
+          "tags": [
+            "mcp",
+            "claude",
+            "markdown",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "googleworkspace/cli",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "samber--cc-skills-golang": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -5950,7 +6285,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 84.5,
+        "hoursSincePosted": 88.7,
         "readingTime": 6
       },
       "articles": [
@@ -5988,96 +6323,6 @@
         }
       ]
     },
-    "googleworkspace--cli": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3654146,
-        "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
-        "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
-        "author": "daksh-gargas",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 153.9,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3654146,
-          "title": "Google's Workspace CLI returns raw JSON. `gdocs-to-md-mcp` returns markdown. Here's why that matters.",
-          "description": "gdocs-to-md-mcp",
-          "url": "https://dev.to/daksh-gargas/googles-workspace-cli-returns-raw-json-gdocs-to-md-mcp-returns-markdown-heres-why-that-1eh8",
-          "author": {
-            "username": "daksh-gargas",
-            "name": "Daksh Gargas",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F81541%2F8e86e0e4-b356-4178-9fd3-9bde113d855e.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-12T05:45:17Z",
-          "tags": [
-            "mcp",
-            "claude",
-            "markdown",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "googleworkspace/cli",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "hkuds--cli-anything": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3690449,
-        "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
-        "author": "wonderlab",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 12.9,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3690449,
-          "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
-          "description": "Introduction    \"Making ALL Software Agent-Native.\"   This is the 68th article in the \"One...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-18T02:45:17Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "cli",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/CLI-Anything",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "tauricresearch--tradingagents": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6089,7 +6334,7 @@
         "author": "jeet_dhandha_3c9b0d80399a",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.9,
+        "hoursSincePosted": 147.1,
         "readingTime": 4
       },
       "articles": [
@@ -6138,7 +6383,7 @@
         "author": "vainamoinen",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 34.2,
+        "hoursSincePosted": 38.3,
         "readingTime": 6
       },
       "articles": [
@@ -6176,6 +6421,51 @@
         }
       ]
     },
+    "hkuds--cli-anything": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3690449,
+        "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
+        "author": "wonderlab",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 17,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3690449,
+          "title": "One Open Source Project a Day (No. 68): CLI-Anything - Making Every Piece of Software Agent-Native",
+          "description": "Introduction    \"Making ALL Software Agent-Native.\"   This is the 68th article in the \"One...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-68-cli-anything-making-every-piece-of-software-agent-native-537b",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-18T02:45:17Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "cli",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "datawhalechina--easy-vibe": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -6187,7 +6477,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 134,
+        "hoursSincePosted": 138.1,
         "readingTime": 8
       },
       "articles": [
@@ -6232,7 +6522,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 2,
-        "hoursSincePosted": 22.1,
+        "hoursSincePosted": 26.3,
         "readingTime": 3
       },
       "articles": [
@@ -6256,7 +6546,7 @@
             "opensource",
             "agentskills"
           ],
-          "trendingScore": 0.19,
+          "trendingScore": 0.16,
           "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
@@ -6277,7 +6567,7 @@
         "author": "owen_fox",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 144.8,
+        "hoursSincePosted": 149,
         "readingTime": 9
       },
       "articles": [
@@ -6322,7 +6612,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 159.4,
+        "hoursSincePosted": 163.6,
         "readingTime": 9
       },
       "articles": [
@@ -6358,19 +6648,46 @@
     },
     "github--github-mcp-server": {
       "count7d": 2,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
+      "reactionsSum7d": 4,
+      "commentsSum7d": 4,
       "topArticle": {
-        "id": 3665850,
-        "title": "We scanned 50+ MCP servers and found HIGH-severity bugs in Atlassian, GitHub, Cloudflare, and Microsoft — here's what we learned",
-        "url": "https://dev.to/truong_bui_eaec3f963bbe21/we-scanned-50-mcp-servers-and-found-high-severity-bugs-in-atlassian-github-cloudflare-and-3a42",
-        "author": "truong_bui_eaec3f963bbe21",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 115.5,
-        "readingTime": 4
+        "id": 3690301,
+        "title": "The Real Problems Start After Your MCP Server Works",
+        "url": "https://dev.to/madhaviai/the-real-problems-start-after-your-mcp-server-works-2al5",
+        "author": "madhaviai",
+        "reactions": 3,
+        "comments": 3,
+        "hoursSincePosted": 4.7,
+        "readingTime": 3
       },
       "articles": [
+        {
+          "id": 3690301,
+          "title": "The Real Problems Start After Your MCP Server Works",
+          "description": "I've been spending a lot of time building and deploying MCP servers, experimenting with tool...",
+          "url": "https://dev.to/madhaviai/the-real-problems-start-after-your-mcp-server-works-2al5",
+          "author": {
+            "username": "madhaviai",
+            "name": "Madhavi Pasumarthi(#madhaviai)",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936149%2F9538f203-64dd-4b89-a2b0-d28126195c04.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 3,
+          "readingTime": 3,
+          "publishedAt": "2026-05-18T15:02:13Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "llm"
+          ],
+          "trendingScore": 0.39,
+          "linkedRepos": [
+            {
+              "fullName": "github/github-mcp-server",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3665850,
           "title": "We scanned 50+ MCP servers and found HIGH-severity bugs in Atlassian, GitHub, Cloudflare, and Microsoft — here's what we learned",
@@ -6398,33 +6715,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3690301,
-          "title": "The Real Problems Start After Your MCP Server Works",
-          "description": "I've been spending a lot of time building and deploying MCP servers, experimenting with tool...",
-          "url": "https://dev.to/madhaviai/the-real-problems-start-after-your-mcp-server-works-2al5",
-          "author": {
-            "username": "madhaviai",
-            "name": "Madhavi Pasumarthi(#madhaviai)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936149%2F9538f203-64dd-4b89-a2b0-d28126195c04.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-18T15:02:13Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/github-mcp-server",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -6439,7 +6729,7 @@
         "author": "mir_mursalin_ankur",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.1,
+        "hoursSincePosted": 28.3,
         "readingTime": 53
       },
       "articles": [
@@ -6488,7 +6778,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 148.5,
+        "hoursSincePosted": 152.7,
         "readingTime": 10
       },
       "articles": [
@@ -6533,7 +6823,7 @@
         "author": "laurent_guitton_038649364",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.9,
+        "hoursSincePosted": 140,
         "readingTime": 13
       },
       "articles": [
@@ -6578,7 +6868,7 @@
         "author": "omarmusayev",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 92.2,
+        "hoursSincePosted": 96.4,
         "readingTime": 4
       },
       "articles": [
@@ -6602,7 +6892,7 @@
             "cli",
             "framework"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -6679,7 +6969,7 @@
         "author": "armorbreak",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 63.7,
+        "hoursSincePosted": 67.8,
         "readingTime": 4
       },
       "articles": [
@@ -6713,6 +7003,51 @@
         }
       ]
     },
+    "openai--openai-agents-python": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3687442,
+        "title": "An AI agent resource pack is more than a prompt",
+        "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
+        "author": "doramagic",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 29.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3687442,
+          "title": "An AI agent resource pack is more than a prompt",
+          "description": "The problem   When developers ask an AI coding agent to build an agent workflow, the first...",
+          "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
+          "author": {
+            "username": "doramagic",
+            "name": "Tang Weigang",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936036%2F9206ba55-8d8f-457e-a399-6e3316ef715f.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-17T14:13:44Z",
+          "tags": [
+            "ai",
+            "python",
+            "agents",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "floci-io--floci": {
       "count7d": 2,
       "reactionsSum7d": 6,
@@ -6724,7 +7059,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147.9,
+        "hoursSincePosted": 152,
         "readingTime": 5
       },
       "articles": [
@@ -6805,7 +7140,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147.9,
+        "hoursSincePosted": 152,
         "readingTime": 5
       },
       "articles": [
@@ -6847,51 +7182,6 @@
         }
       ]
     },
-    "openai--openai-agents-python": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3687442,
-        "title": "An AI agent resource pack is more than a prompt",
-        "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
-        "author": "doramagic",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 25.4,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3687442,
-          "title": "An AI agent resource pack is more than a prompt",
-          "description": "The problem   When developers ask an AI coding agent to build an agent workflow, the first...",
-          "url": "https://dev.to/doramagic/an-ai-agent-resource-pack-is-more-than-a-prompt-1cia",
-          "author": {
-            "username": "doramagic",
-            "name": "Tang Weigang",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936036%2F9206ba55-8d8f-457e-a399-6e3316ef715f.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-17T14:13:44Z",
-          "tags": [
-            "ai",
-            "python",
-            "agents",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "czlonkowski--n8n-mcp": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -6903,7 +7193,7 @@
         "author": "ratamaha",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 100.8,
+        "hoursSincePosted": 105,
         "readingTime": 2
       },
       "articles": [
@@ -6965,51 +7255,6 @@
         }
       ]
     },
-    "tracer-cloud--opensre": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3686207,
-        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-        "author": "arshtechpro",
-        "reactions": 5,
-        "comments": 1,
-        "hoursSincePosted": 6.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3686207,
-          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
-          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-          "author": {
-            "username": "arshtechpro",
-            "name": "ArshTechPro",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 1,
-          "readingTime": 3,
-          "publishedAt": "2026-05-18T09:00:18Z",
-          "tags": [
-            "ai",
-            "sre",
-            "devops",
-            "opensource"
-          ],
-          "trendingScore": 0.58,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "henrygd--beszel": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -7021,7 +7266,7 @@
         "author": "vikasprogrammer",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 60,
+        "hoursSincePosted": 64.1,
         "readingTime": 5
       },
       "articles": [
@@ -7054,22 +7299,67 @@
           ]
         }
       ]
+    },
+    "tracer-cloud--opensre": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3686207,
+        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+        "author": "arshtechpro",
+        "reactions": 5,
+        "comments": 1,
+        "hoursSincePosted": 10.8,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3686207,
+          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
+          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+          "author": {
+            "username": "arshtechpro",
+            "name": "ArshTechPro",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 1,
+          "readingTime": 3,
+          "publishedAt": "2026-05-18T09:00:18Z",
+          "tags": [
+            "ai",
+            "sre",
+            "devops",
+            "opensource"
+          ],
+          "trendingScore": 0.36,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "NousResearch/hermes-agent",
-      "count7d": 12,
-      "reactionsSum7d": 266
+      "count7d": 13,
+      "reactionsSum7d": 267
     },
     {
       "fullName": "ajeetdsouza/zoxide",
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 79
     },
     {
       "fullName": "aaif-goose/goose",
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 50
     },
     {
@@ -7093,18 +7383,23 @@
       "reactionsSum7d": 5
     },
     {
+      "fullName": "nextlevelbuilder/goclaw",
+      "count7d": 1,
+      "reactionsSum7d": 5
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "reactionsSum7d": 5
+    },
+    {
       "fullName": "Tracer-Cloud/opensre",
       "count7d": 1,
       "reactionsSum7d": 5
     },
     {
-      "fullName": "nextlevelbuilder/goclaw",
-      "count7d": 1,
-      "reactionsSum7d": 4
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
+      "fullName": "github/github-mcp-server",
+      "count7d": 2,
       "reactionsSum7d": 4
     },
     {
@@ -7133,7 +7428,7 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "github/github-mcp-server",
+      "fullName": "vectorize-io/hindsight",
       "count7d": 2,
       "reactionsSum7d": 1
     },
@@ -7158,12 +7453,17 @@
       "reactionsSum7d": 1
     },
     {
+      "fullName": "qdrant/qdrant",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
       "fullName": "samber/cc-skills-golang",
       "count7d": 1,
       "reactionsSum7d": 1
     },
     {
-      "fullName": "vectorize-io/hindsight",
+      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "reactionsSum7d": 1
     },

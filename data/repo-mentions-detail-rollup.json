@@ -1,28 +1,15 @@
 {
-  "computedAt": "2026-05-17T19:12:57.796Z",
-  "scanRunId": "sweep-2026-05-17T19:12:49.062Z",
+  "computedAt": "2026-05-18T03:51:15.881Z",
+  "scanRunId": "sweep-2026-05-18T03:51:07.704Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
       "fullName": "modem-dev/hunk",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
-            {
-              "source": "bluesky",
-              "fullName": "modem-dev/hunk",
-              "url": "https://bsky.app/profile/dubhead.bsky.social/post/3mljzmv72yk2e",
-              "title": "リヴュー向きな diff ツール。Typescript 製。 Review-first terminal diff viewer for agentic coders github.com/modem-dev/hunk",
-              "text": "リヴュー向きな diff ツール。Typescript 製。 Review-first terminal diff viewer for agentic coders github.com/modem-dev/hunk",
-              "author": "dubhead.bsky.social",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T00:33:40.763Z"
-            },
             {
               "source": "bluesky",
               "fullName": "modem-dev/hunk",
@@ -439,7 +426,7 @@
               "text": "ちなみに、Rust token killerというツール（https://github.com/rtk-ai/rtk）があるんですけれど、これめっちゃいいです。どの生成AIでも非常に効率よくトークン消費を抑えることが出来るので、入れ得です。",
               "author": "tunsns.net",
               "engagement": {
-                "score": 3,
+                "score": 4,
                 "comments": 0
               },
               "observedAt": "2026-05-17T13:40:36.465Z"
@@ -1112,7 +1099,7 @@
       "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
             {
               "source": "hackernews",
@@ -1122,8 +1109,8 @@
               "text": "",
               "author": "orhunp_",
               "engagement": {
-                "score": 674,
-                "comments": 243
+                "score": 675,
+                "comments": 244
               },
               "observedAt": "2026-05-11T10:13:04.000Z"
             },
@@ -1149,27 +1136,22 @@
               "author": "julez_",
               "engagement": {
                 "score": 12,
-                "comments": 8
+                "comments": 9
               },
               "observedAt": "2026-05-16T08:57:47.000Z"
-            }
-          ]
-        },
-        "bluesky": {
-          "count7d": 1,
-          "top": [
+            },
             {
-              "source": "bluesky",
+              "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
-              "title": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, s",
-              "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
-              "author": "ai-linkstream.bsky.social",
+              "url": "https://github.com/El-EnderJ/NeoCalculator",
+              "title": "Graphing Scientific Calculator Based on the ESP32",
+              "text": "",
+              "author": "uticus",
               "engagement": {
-                "score": 0,
+                "score": 2,
                 "comments": 0
               },
-              "observedAt": "2026-05-10T22:50:27.867Z"
+              "observedAt": "2026-05-15T13:29:52.000Z"
             }
           ]
         }
@@ -3631,37 +3613,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 154,
+      "totalMentions7d": 100,
       "perSource": {
         "hackernews": {
-          "count7d": 154,
+          "count7d": 100,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
-              "title": "Codex is now in the ChatGPT mobile app",
-              "text": "",
-              "author": "mikeevans",
-              "engagement": {
-                "score": 483,
-                "comments": 247
-              },
-              "observedAt": "2026-05-14T20:06:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.openculture.com/2024/10/the-greatest-shot-in-television.html",
-              "title": "The greatest shot in television: James Burke had one chance to nail this scene (2024)",
-              "text": "",
-              "author": "susam",
-              "engagement": {
-                "score": 363,
-                "comments": 192
-              },
-              "observedAt": "2026-05-11T02:43:34.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3670,8 +3626,8 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 292,
-                "comments": 308
+                "score": 316,
+                "comments": 326
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -3696,10 +3652,36 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 155,
-                "comments": 197
+                "score": 157,
+                "comments": 199
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://firethering.com/chatgpt-bank-account-plaid-openai/",
+              "title": "OpenAI is connecting ChatGPT to bank accounts via Plaid",
+              "text": "",
+              "author": "steveharing1",
+              "engagement": {
+                "score": 119,
+                "comments": 142
+              },
+              "observedAt": "2026-05-15T16:38:50.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://arstechnica.com/tech-policy/2026/05/altman-forced-to-confront-claims-at-openai-trial-that-hes-a-prolific-liar/",
+              "title": "Altman forced to confront claims at OpenAI trial that he's a prolific liar",
+              "text": "",
+              "author": "Bender",
+              "engagement": {
+                "score": 98,
+                "comments": 41
+              },
+              "observedAt": "2026-05-13T18:46:51.000Z"
             }
           ]
         }
@@ -5960,10 +5942,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 14,
+      "totalMentions7d": 18,
       "perSource": {
         "hackernews": {
-          "count7d": 13,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -5987,7 +5969,7 @@
               "author": "janandonly",
               "engagement": {
                 "score": 149,
-                "comments": 84
+                "comments": 85
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
             },
@@ -6007,6 +5989,19 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
+              "title": "Meta employees protest against mouse tracking tech at US offices",
+              "text": "",
+              "author": "delichon",
+              "engagement": {
+                "score": 73,
+                "comments": 87
+              },
+              "observedAt": "2026-05-12T20:58:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
               "url": "https://github.com/GlycemicGPT/GlycemicGPT",
               "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
               "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
@@ -6016,19 +6011,6 @@
                 "comments": 61
               },
               "observedAt": "2026-05-15T04:48:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.gridtravel.app",
-              "title": "Show HN: GridTravel – A community based travel app for users to share routes",
-              "text": "Hey HN,<p>My co-founders and I have been building GridTravel, a free iOS app for planning and sharing travel routes with turn-by-turn GPS nav. We just launched yesterday after App Store approval.<p>We&#x27;re three 21-year-old cofounders and best friends since middle school. We built GridTravel after years of frustration navigating new cities on every trip we took together.<p>The idea: most people either search Google for &quot;top 10 places to visit in…&quot; lists or go on social media to get ",
-              "author": "knuaym9",
-              "engagement": {
-                "score": 59,
-                "comments": 39
-              },
-              "observedAt": "2026-05-14T22:05:30.000Z"
             }
           ]
         },
@@ -6989,7 +6971,7 @@
     },
     "HKUDS/AI-Trader": {
       "fullName": "HKUDS/AI-Trader",
-      "totalMentions7d": 4,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
           "count7d": 2,
@@ -7023,7 +7005,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -7037,19 +7019,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T15:31:59.873Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "HKUDS/AI-Trader",
-              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljvdfgat42t",
-              "title": "https://github.com/HKUDS/AI-Trader",
-              "text": "https://github.com/HKUDS/AI-Trader",
-              "author": "tom-doerr.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-10T23:16:43.360Z"
             }
           ]
         }
@@ -7661,10 +7630,10 @@
     },
     "vercel-labs/zero-native": {
       "fullName": "vercel-labs/zero-native",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -7678,19 +7647,6 @@
                 "comments": 63
               },
               "observedAt": "2026-05-13T01:45:02.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "vercel-labs/zero-native",
-              "url": "https://github.com/vercel-labs/zero-native",
-              "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
-              "text": "",
-              "author": "maxloh",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-10T23:21:19.000Z"
             }
           ]
         }
@@ -7707,12 +7663,12 @@
               "source": "hackernews",
               "fullName": "floci-io/floci",
               "url": "https://stateofsurveillance.org/news/flock-cameras-destroyed-nationwide-ice-backlash-2026/",
-              "title": "Americans Are Smashing Flock Cameras",
+              "title": "At least 25 Flock cameras have been destroyed in five states since April 2025",
               "text": "",
               "author": "rolph",
               "engagement": {
-                "score": 348,
-                "comments": 248
+                "score": 419,
+                "comments": 313
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -8345,15 +8301,15 @@
             {
               "source": "hackernews",
               "fullName": "crynta/terax-ai",
-              "url": "https://github.com/crynta/terax-ai",
-              "title": "Building an Open Source 7MB AI Terminal with Agents and Code Editor (Rust/Tauri)",
+              "url": "https://github.com/rcarmo/ios-terax-ai",
+              "title": "Rcarmo/iOS-terax-AI: Personal fork of Terax for integration with iOS-Linux-kit",
               "text": "",
-              "author": "crynta",
+              "author": "rcarmo",
               "engagement": {
-                "score": 3,
-                "comments": 1
+                "score": 1,
+                "comments": 0
               },
-              "observedAt": "2026-05-08T11:55:30.000Z"
+              "observedAt": "2026-05-17T21:02:32.000Z"
             }
           ]
         }
@@ -8792,7 +8748,7 @@
               "text": "",
               "author": "MattRogish",
               "engagement": {
-                "score": 187,
+                "score": 193,
                 "comments": 38
               },
               "observedAt": "2026-05-15T15:42:37.000Z"
@@ -8947,7 +8903,7 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 295,
+                "score": 297,
                 "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
@@ -8986,7 +8942,7 @@
               "text": "",
               "author": "breve",
               "engagement": {
-                "score": 161,
+                "score": 169,
                 "comments": 65
               },
               "observedAt": "2026-05-16T23:59:47.000Z"
@@ -9115,8 +9071,8 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 510,
-                "comments": 283
+                "score": 544,
+                "comments": 298
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
             },

@@ -103,9 +103,12 @@ const EnvSchema = z.object({
   DIGEST_ENABLED: z.string().optional(),
   // Resend-verified sender, e.g. `TrendingRepo Digest <digest@domain>`.
   EMAIL_FROM: z.string().optional(),
-  // Stop-gap userId → email map until accounts persist email addresses.
-  // Format: `{"<userId>":"<email>"}`. Accepted as a string here and parsed
-  // at runtime by `loadUserEmailMapFromEnv`.
+  // Fallback userId → email map. Since Stage 5 / B.1 the weekly digest
+  // resolves email primarily from `profiles.email` (Clerk webhook populated).
+  // This env is kept for local dev / test fixtures and as a safety net for
+  // userIds whose Clerk webhook hasn't yet materialised a profile row.
+  // Format: `{"<userId>":"<email>"}`. Parsed at runtime by
+  // `loadUserEmailMapFromEnv`.
   DIGEST_USER_EMAILS_JSON: z.string().optional(),
 });
 

@@ -31,12 +31,13 @@
 //     durationMs, dryRun }
 
 import { NextRequest, NextResponse } from "next/server";
-import { and, isNotNull, isNull } from "drizzle-orm";
+import { and, inArray, isNotNull, isNull } from "drizzle-orm";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
 import {
   buildWeeklyDigests,
+  type DigestUserEmailMap,
   loadUserEmailMapFromEnv,
   collectAlertsByUser,
   pickTopBreakouts,
@@ -53,6 +54,53 @@ import { renderNewsletterDigestEmail } from "@/lib/email/templates/newsletter-di
 import { mintUnsubToken } from "@/lib/newsletter/tokens";
 import { db } from "@/lib/db/client";
 import { newsletterSubscribers } from "@/lib/db/schema/newsletter";
+import { profiles } from "@/lib/db/schema/profiles";
+
+/**
+ * Resolve userId → email by querying `profiles.email` (the canonical source
+ * since Stage 5 / B.1). Falls back to `DIGEST_USER_EMAILS_JSON` for any
+ * userIds the DB doesn't yet cover — primarily useful in test/dev where
+ * the env override is more convenient than seeding a profile row, and as
+ * a temporary safety net for any user whose Clerk webhook hasn't yet
+ * materialised a profile row.
+ *
+ * DB rows always win when both are present: the DB is the source of truth
+ * once `profiles.email` is populated by the Clerk `user.created/updated`
+ * webhook.
+ */
+async function resolveUserEmails(
+  userIds: Iterable<string>,
+): Promise<DigestUserEmailMap> {
+  const envMap = loadUserEmailMapFromEnv();
+  const ids = Array.from(new Set(userIds));
+  if (ids.length === 0) return envMap;
+
+  const merged = new Map(envMap);
+  try {
+    const rows = await db
+      .select({
+        clerkUserId: profiles.clerkUserId,
+        email: profiles.email,
+      })
+      .from(profiles)
+      .where(inArray(profiles.clerkUserId, ids));
+    for (const row of rows) {
+      if (!row.email) continue;
+      const trimmed = row.email.trim();
+      if (trimmed.length === 0 || !trimmed.includes("@")) continue;
+      merged.set(row.clerkUserId, trimmed);
+    }
+  } catch (err) {
+    // DB read failure must not crash the digest. Fall through to whatever
+    // the env map provided (often empty in prod) — the existing
+    // skippedUsers counter then reflects the lookup gap.
+    console.warn(
+      "[api:cron:digest:weekly] profile email lookup failed; using env fallback",
+      err,
+    );
+  }
+  return merged;
+}
 
 export const runtime = "nodejs";
 
@@ -169,11 +217,12 @@ export async function POST(
       console.warn("[api:cron:digest:weekly] getDerivedRepos failed", err);
       repos = [];
     }
+    const userEmails = await resolveUserEmails(activeUserIds);
     const { digests, skippedUsers } = buildWeeklyDigests({
       activeUserIds,
       alertsByUser,
       repos,
-      userEmails: loadUserEmailMapFromEnv(),
+      userEmails,
       generatedAt: new Date().toISOString(),
     });
 

@@ -19,12 +19,13 @@
 // the 64-byte hash, hex-encoded). Verification cost is comparable to
 // bcrypt cost-10 (~100ms) and avoids a new package.
 
-import { and, count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, isNotNull } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes, scryptSync } from "node:crypto";
 
 import { requireUser } from "@/lib/auth/server";
 import { parseBody } from "@/lib/api/parse-body";
+import { deriveUserId } from "@/lib/api/session";
 import { db } from "@/lib/db/client";
 import {
   alertRules,
@@ -33,6 +34,7 @@ import {
 import {
   createAlertRuleSchema,
 } from "@/lib/api/alert-rules/schemas";
+import { featureLimit } from "@/lib/pricing/entitlements";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -41,7 +43,14 @@ export const dynamic = "force-dynamic";
 // Constants
 // ---------------------------------------------------------------------------
 
-const MAX_ACTIVE_RULES_PER_USER = 25;
+/**
+ * Hard system ceiling, regardless of tier. Team tier is "unlimited" (-1 in
+ * entitlements) but unlimited still needs a global guardrail against
+ * pathological scripted abuse. 500 is generous for any realistic user;
+ * a real team scenario landing here is a billing conversation, not a code
+ * problem.
+ */
+const HARD_SYSTEM_CEILING = 500;
 const DEFAULT_PAGE_LIMIT = 50;
 const MAX_PAGE_LIMIT = 100;
 
@@ -190,7 +199,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // 25-active-rule cap.
+  // Tier-aware quota. S5.A.3 — was a fixed 25-rule cap; now reads
+  // `featureLimit(userId, "alerts.max")` (Free=3, Pro=60, Team=-1
+  // i.e. unlimited). entitlements is keyed by HMAC(SESSION_SECRET,
+  // email) per src/lib/api/session.ts:178, same as user-tiers.jsonl.
+  const tierUserId = deriveUserId(user.profile.email);
+  const tierAlertsMax = await featureLimit(tierUserId, "alerts.max");
+  // -1 = unlimited (Team / Enterprise). Map to HARD_SYSTEM_CEILING.
+  const effectiveLimit =
+    tierAlertsMax === -1 ? HARD_SYSTEM_CEILING : tierAlertsMax;
+
   const activeRows = await db
     .select({ n: count() })
     .from(alertRules)
@@ -201,12 +219,61 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       ),
     );
   const activeCount = Number(activeRows[0]?.n ?? 0);
-  if (activeCount >= MAX_ACTIVE_RULES_PER_USER) {
-    return jsonError(
-      429,
-      "rule_cap_exceeded",
-      `Max ${MAX_ACTIVE_RULES_PER_USER} active rules per user`,
+  if (activeCount >= effectiveLimit) {
+    // 402 = quota exceeded → client surfaces the paywall upsell (S5.A.5).
+    // For Team users who hit the system ceiling, the 402 still routes to
+    // /pricing but the error message hints at "enterprise" via copy.
+    const isSystemCeiling = tierAlertsMax === -1;
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "quota_exceeded",
+        feature: "alerts.max",
+        limit: effectiveLimit,
+        current: activeCount,
+        upgradeUrl: "/pricing",
+        message: isSystemCeiling
+          ? `You've reached the system ceiling of ${HARD_SYSTEM_CEILING} active rules. Contact us for an Enterprise plan.`
+          : `You've reached your plan's alert rule limit (${effectiveLimit}). Upgrade for more.`,
+      },
+      { status: 402 },
     );
+  }
+
+  // Webhook quota — counts existing rules with a webhookUrl set.
+  // Applies only when this new rule supplies a webhookUrl.
+  if (data.webhookUrl) {
+    const tierWebhooksMax = await featureLimit(tierUserId, "webhooks.max");
+    if (tierWebhooksMax !== -1) {
+      const webhookRows = await db
+        .select({ n: count() })
+        .from(alertRules)
+        .where(
+          and(
+            eq(alertRules.profileId, user.profile.id),
+            eq(alertRules.active, true),
+            isNotNull(alertRules.webhookUrl),
+          ),
+        );
+      const webhookCount = Number(webhookRows[0]?.n ?? 0);
+      if (webhookCount >= tierWebhooksMax) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "quota_exceeded",
+            feature: "webhooks.max",
+            limit: tierWebhooksMax,
+            current: webhookCount,
+            upgradeUrl: "/pricing",
+            message:
+              tierWebhooksMax === 0
+                ? "Webhook delivery is not available on the Free plan. Upgrade to Pro."
+                : `You've reached your plan's webhook target limit (${tierWebhooksMax}). Upgrade for more.`,
+          },
+          { status: 402 },
+        );
+      }
+    }
   }
 
   // Webhook secret generation — only if user supplied a webhook URL.

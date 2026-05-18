@@ -22,6 +22,10 @@ import {
   ALERT_CADENCES,
   ALERT_RULE_TYPES,
 } from "@/lib/db/schema/alerts";
+import {
+  AVATAR_URL_ALLOWLIST_HINT,
+  isAllowedAvatarUrl,
+} from "@/lib/api/avatar-url";
 
 // ---------------------------------------------------------------------------
 // Shared primitives
@@ -124,7 +128,16 @@ export type PatchAlertRuleInput = z.infer<typeof patchAlertRuleSchema>;
 
 /** PATCH body for `/api/me/profile` — global notification preferences
  *  + S3.5.B display profile editing. The new `displayName` and
- *  `avatarUrl` fields are nullable so users can clear them. */
+ *  `avatarUrl` fields are nullable so users can clear them.
+ *
+ *  Security (S3.5 hardening, 2026-05-18):
+ *  - `avatarUrl` is hostname-allowlisted via `isAllowedAvatarUrl` to
+ *    close the SSRF surface. Any server-side fetcher that later reads
+ *    this column can trust that the host is one of a small set of
+ *    public avatar CDNs.
+ *  - `displayName` is stripped of C-class control codepoints (zero-width,
+ *    RTL override, etc.) before validation. The length cap still binds.
+ */
 export const patchProfilePrefsSchema = z
   .object({
     emailAlertsCadence: z
@@ -140,13 +153,16 @@ export const patchProfilePrefsSchema = z
     // at 1024 to keep the row payload small. Empty string is normalised
     // to null at the API boundary so the column ends up canonically
     // null when the user clears the field.
-    displayName: z.string().max(80).nullish(),
+    displayName: z
+      .string()
+      .max(80)
+      .transform((v) => v.normalize("NFKC").replace(/\p{C}/gu, "").trim())
+      .nullish(),
     avatarUrl: z
       .string()
       .max(1024)
-      .url()
-      .refine((u) => u.startsWith("https://"), {
-        message: "avatar URL must be https://",
+      .refine((u) => isAllowedAvatarUrl(u), {
+        message: `avatar URL host is not in the allowlist. ${AVATAR_URL_ALLOWLIST_HINT}`,
       })
       .nullish(),
   })

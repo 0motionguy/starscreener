@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-18T03:51:15.881Z",
-  "scanRunId": "sweep-2026-05-18T03:51:07.704Z",
+  "computedAt": "2026-05-18T08:53:35.396Z",
+  "scanRunId": "sweep-2026-05-18T08:53:20.161Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -123,10 +123,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 23,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 22,
+          "count7d": 8,
           "top": [
             {
               "source": "hackernews",
@@ -137,35 +137,9 @@
               "author": "vc289",
               "engagement": {
                 "score": 96,
-                "comments": 50
+                "comments": 51
               },
               "observedAt": "2026-05-13T16:54:03.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://priorlabs.ai/technical-reports/tabpfn-3",
-              "title": "TabPFN-3: scaling foundation models for tabular data to 1M rows",
-              "text": "",
-              "author": "onasta",
-              "engagement": {
-                "score": 9,
-                "comments": 0
-              },
-              "observedAt": "2026-05-12T12:55:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://blog.google/products-and-platforms/platforms/android/pause-point/",
-              "title": "Google introduces measure to stop doom scrolling",
-              "text": "",
-              "author": "paglaghoda",
-              "engagement": {
-                "score": 8,
-                "comments": 2
-              },
-              "observedAt": "2026-05-13T04:20:31.000Z"
             },
             {
               "source": "hackernews",
@@ -175,8 +149,8 @@
               "text": "Got the following from hello@mindie.dev<p>----<p>Hey Stackghost —<p>Saw your HN comment about freelance time tracking &#x2F; invoicing. TimeChat is a Telegram bot: type &quot;1.5 acme bug fix&quot; after work, end of month it auto-generates the PDF invoice for your client. Side-by-side vs Toggl: mindie.dev&#x2F;vs&#x2F;toggl.<p>For HN readers I&#x27;m running EARLY10: $1&#x2F;mo (was $7). One-click checkout: timechat pro 2-mo trial<p>If it&#x27;s useful, I&#x27;d love your feedback. Free tier co",
               "author": "stackghost",
               "engagement": {
-                "score": 6,
-                "comments": 0
+                "score": 20,
+                "comments": 2
               },
               "observedAt": "2026-05-17T01:06:37.000Z"
             },
@@ -192,24 +166,32 @@
                 "comments": 1
               },
               "observedAt": "2026-05-14T04:12:31.000Z"
-            }
-          ]
-        },
-        "bluesky": {
-          "count7d": 1,
-          "top": [
+            },
             {
-              "source": "bluesky",
+              "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljysle33o2t",
-              "title": "https://github.com/D4Vinci/Scrapling",
-              "text": "https://github.com/D4Vinci/Scrapling",
-              "author": "tom-doerr.bsky.social",
+              "url": "https://amibeingpwned.com/blog/ai-chat-scraper-wall-of-shame",
+              "title": "Show HN: The Extensions Scraping Your AI Chats",
+              "text": "",
+              "author": "acorn221",
               "engagement": {
-                "score": 0,
+                "score": 4,
                 "comments": 0
               },
-              "observedAt": "2026-05-11T00:18:54.066Z"
+              "observedAt": "2026-05-11T16:13:39.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://ss32.github.io/set_up_not_setup/",
+              "title": "It's set up, not setup: Scraping GitHub for grammar errors",
+              "text": "",
+              "author": "disastronaut",
+              "engagement": {
+                "score": 3,
+                "comments": 2
+              },
+              "observedAt": "2026-05-16T10:59:13.000Z"
             }
           ]
         }
@@ -313,10 +295,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 13,
+      "totalMentions7d": 108,
       "perSource": {
         "hackernews": {
-          "count7d": 13,
+          "count7d": 108,
           "top": [
             {
               "source": "hackernews",
@@ -326,23 +308,10 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 294,
-                "comments": 84
+                "score": 297,
+                "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://www.cocoawithlove.com/blog/matrix-multiplications-swift.html",
-              "title": "Training an LLM in Swift, Part 1: Taking matrix mult from Gflop/s to Tflop/s",
-              "text": "",
-              "author": "zdw",
-              "engagement": {
-                "score": 261,
-                "comments": 13
-              },
-              "observedAt": "2026-05-10T17:05:05.000Z"
             },
             {
               "source": "hackernews",
@@ -352,8 +321,8 @@
               "text": "Agentic problem solving in its current state is very brittle. I fell in love with it, but it creates as many problems as it solves.<p>I&#x27;m Ben Cochran, I spent 20+ years in the trenches with full-stack Engineering, DevOps, high performance computing &amp; ML with stints at NVIDIA, AMD and various other organizations most recently as a Distinguished Engineer.<p>For agents to work reliably you either need massive parameter counts or massive context windows to keep the solution spaces workable.",
               "author": "azurewraith",
               "engagement": {
-                "score": 124,
-                "comments": 54
+                "score": 126,
+                "comments": 56
               },
               "observedAt": "2026-05-12T14:24:55.000Z"
             },
@@ -365,23 +334,36 @@
               "text": "Issue trackers typically live outside of your workflow, with poor ergonomics. Epiq aims to solve that, bringing issue tracking into your terminal. Multi-user collaboration is achieved via git using user-scoped immutable event logs that converge in memory. Put my all into it. Let me know what you think.",
               "author": "jolaflow",
               "engagement": {
-                "score": 87,
-                "comments": 44
+                "score": 89,
+                "comments": 46
               },
               "observedAt": "2026-05-16T00:18:03.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://huggingface.co/bardsai/eu-pii-anonimization-multilang",
-              "title": "Show HN: A 0.3B model that redacts PII in all 24 EU languages offline",
-              "text": "",
-              "author": "mipo57",
+              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
+              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
+              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
+              "author": "jlengelbrecht",
               "engagement": {
-                "score": 6,
-                "comments": 3
+                "score": 64,
+                "comments": 61
               },
-              "observedAt": "2026-05-13T13:10:15.000Z"
+              "observedAt": "2026-05-15T04:48:23.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://news.ycombinator.com/item?id=48110593",
+              "title": "Show HN: Gigacatalyst – Extend your SaaS with an embedded AI builder",
+              "text": "Hi HN, I’m Namanyay from Gigacatalyst (link: <a href=\"https:&#x2F;&#x2F;gigacatalyst.com&#x2F;\">https:&#x2F;&#x2F;gigacatalyst.com&#x2F;</a>). Gigacatalyst allows sales, CS, and users to build one-off features, so your SaaS can support long-tail customer workflows and engineers aren’t pulled away from the roadmap.<p>When you sell software to large businesses, you realize that each customer needs their own workflow and features. Traditionally, this either means long engineering roadmaps or the cu",
+              "author": "namanyayg",
+              "engagement": {
+                "score": 60,
+                "comments": 27
+              },
+              "observedAt": "2026-05-12T16:32:54.000Z"
             }
           ]
         }
@@ -397,15 +379,15 @@
             {
               "source": "hackernews",
               "fullName": "VectifyAI/PageIndex",
-              "url": "https://github.com/VectifyAI/PageIndex",
-              "title": "PageIndex: Vectorless, Reasoning-Based RAG",
+              "url": "https://pageindex.ai/",
+              "title": "Human-Like Document AI",
               "text": "",
-              "author": "garyclarke27",
+              "author": "DeathArrow",
               "engagement": {
-                "score": 1,
-                "comments": 0
+                "score": 2,
+                "comments": 1
               },
-              "observedAt": "2026-05-05T15:32:28.000Z"
+              "observedAt": "2026-05-17T17:12:38.000Z"
             }
           ]
         }
@@ -744,10 +726,10 @@
     },
     "Wei-Shaw/sub2api": {
       "fullName": "Wei-Shaw/sub2api",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
@@ -761,6 +743,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-12T13:42:10.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "Wei-Shaw/sub2api",
+              "url": "https://www.cnn.com/2026/05/17/middleeast/iran-hormuz-undersea-cables-intl",
+              "title": "Strait of Hormuz submarine cable",
+              "text": "",
+              "author": "reconnecting",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T08:36:16.000Z"
             }
           ]
         }
@@ -1096,10 +1091,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 4,
+      "totalMentions7d": 15,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 15,
           "top": [
             {
               "source": "hackernews",
@@ -1143,15 +1138,28 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://github.com/El-EnderJ/NeoCalculator",
-              "title": "Graphing Scientific Calculator Based on the ESP32",
+              "url": "https://github.com/farukalpay/Aster-Learning-Engine",
+              "title": "I built a C++20 graphics/game engine to understand rendering",
               "text": "",
-              "author": "uticus",
+              "author": "InstantSurface",
               "engagement": {
-                "score": 2,
+                "score": 6,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T13:29:52.000Z"
+              "observedAt": "2026-05-15T19:57:08.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.numworks.com/buy/",
+              "title": "Numworks Graphing Calculator",
+              "text": "",
+              "author": "kaladin-jasnah",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-13T21:34:03.000Z"
             }
           ]
         }
@@ -1471,7 +1479,7 @@
     },
     "heygen-com/hyperframes": {
       "fullName": "heygen-com/hyperframes",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -1488,6 +1496,24 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T18:50:24.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "heygen-com/hyperframes",
+              "url": "https://bsky.app/profile/yug1224.com/post/3mlzx5lsluc2p",
+              "title": "HTMLを書いて動画を生成するAIエージェント向けのフレームワークらしい Reactを使わずシンプルに動画を作れるのが面白そうかな yug1224 starred heygen-com/hyperframes https://github.com/heygen-com/hyperframes",
+              "text": "HTMLを書いて動画を生成するAIエージェント向けのフレームワークらしい Reactを使わずシンプルに動画を作れるのが面白そうかな yug1224 starred heygen-com/hyperframes https://github.com/heygen-com/hyperframes",
+              "author": "yug1224.com",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T08:31:52.261Z"
             }
           ]
         }
@@ -1729,15 +1755,15 @@
             {
               "source": "hackernews",
               "fullName": "openai/symphony",
-              "url": "https://github.com/se7enxweb/symfonyone",
-              "title": "Upgrade your Symfony 1.x Website To PHP 8.x Compatibility – PHP 8.5.6 Tested",
-              "text": "",
-              "author": "7x",
+              "url": "https://github.com/macropay-solutions/maravelith/releases/tag/20.0.0-RC7",
+              "title": "Show HN: Maravel-Framework v20.0-RC – Extends Benchmark Lead over Laravel/Lumen",
+              "text": "Maravel-Framework improves Lumen and Laravel 10. Version 20 includes Symfony 7.4 and min PHP 8.2.",
+              "author": "marius-ciclistu",
               "engagement": {
-                "score": 2,
-                "comments": 1
+                "score": 1,
+                "comments": 0
               },
-              "observedAt": "2026-05-10T10:57:50.000Z"
+              "observedAt": "2026-05-18T05:00:18.000Z"
             },
             {
               "source": "hackernews",
@@ -2181,10 +2207,10 @@
     },
     "Fission-AI/OpenSpec": {
       "fullName": "Fission-AI/OpenSpec",
-      "totalMentions7d": 4,
+      "totalMentions7d": 9,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -2215,28 +2241,41 @@
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
-              "url": "https://thobias.org/2026/05/10/openstack_app_credentials.html",
-              "title": "Stop using user passwords for OpenStack automation",
+              "url": "https://github.com/oswarld/openshears",
+              "title": "3months ago, I predicted OpenClaw wouldn't uninstall cleanly and prepared for it",
               "text": "",
-              "author": "cavanche",
+              "author": "haebom",
               "engagement": {
-                "score": 1,
-                "comments": 0
+                "score": 2,
+                "comments": 4
               },
-              "observedAt": "2026-05-14T16:59:08.000Z"
+              "observedAt": "2026-05-18T04:42:39.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
-              "url": "https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1.pdf",
-              "title": "SenseNova-U1 Technical VAE-Free Pixel-Level Flow Matching 32xCompression [pdf]",
+              "url": "https://news.ycombinator.com/item?id=48173494",
+              "title": "Ask HN: What are the system exists for execution of physical verifiable events?",
+              "text": "I am trying to find some systems to know if they exist for real time physical coordination systems. Totally bilateral and verifiable state across non connected systems. Mainly in supply chain.<p>Like already people using ERPs and PLMs but they all are completely disconnected from another systems and not verifiable across independent systems and what about interoperability?<p>Wanted to know the different perspectives on fragmented economics and costs those are attracting.",
+              "author": "abhishek2580",
+              "engagement": {
+                "score": 2,
+                "comments": 1
+              },
+              "observedAt": "2026-05-17T21:48:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "Fission-AI/OpenSpec",
+              "url": "https://opensparrow.org/",
+              "title": "OpenSparrow – Open-source admin panel builder with zero dependencies",
               "text": "",
-              "author": "DanielWen666",
+              "author": "tomaszwrobel",
               "engagement": {
                 "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-14T10:43:58.000Z"
+              "observedAt": "2026-05-17T18:57:05.000Z"
             }
           ]
         }
@@ -2654,15 +2693,15 @@
             {
               "source": "bluesky",
               "fullName": "Leonxlnx/taste-skill",
-              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljuhygesu2o",
-              "title": "https://github.com/Leonxlnx/taste-skill",
-              "text": "https://github.com/Leonxlnx/taste-skill",
-              "author": "tom-doerr.bsky.social",
+              "url": "https://bsky.app/profile/gitrated.bsky.social/post/3mlra66nzti2p",
+              "title": "A new AI review! Leonxlnx/taste-skill ⭐3.6/5.0 Taste Skill is a high-signal collection of portable “agent skills” (mostly SKILL.md-style instruction packs) intended to push AI coding agents away from ",
+              "text": "A new AI review! Leonxlnx/taste-skill ⭐3.6/5.0 Taste Skill is a high-signal collection of portable “agent skills” (mostly SKILL.md-style instruction packs) intended to push AI coding agents away from generic UI output and toward more deliberate layout, ty... https://gitrated.com/Leonxlnx/taste-skill",
+              "author": "gitrated.bsky.social",
               "engagement": {
-                "score": 0,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-10T23:01:23.760Z"
+              "observedAt": "2026-05-13T21:19:18.573Z"
             }
           ]
         }
@@ -3108,10 +3147,10 @@
     },
     "nikzad-avasam/downloader": {
       "fullName": "nikzad-avasam/downloader",
-      "totalMentions7d": 9,
+      "totalMentions7d": 32,
       "perSource": {
         "hackernews": {
-          "count7d": 9,
+          "count7d": 32,
           "top": [
             {
               "source": "hackernews",
@@ -3134,7 +3173,7 @@
               "text": "Hey HN,<p>My co-founders and I have been building GridTravel, a free iOS app for planning and sharing travel routes with turn-by-turn GPS nav. We just launched yesterday after App Store approval.<p>We&#x27;re three 21-year-old cofounders and best friends since middle school. We built GridTravel after years of frustration navigating new cities on every trip we took together.<p>The idea: most people either search Google for &quot;top 10 places to visit in…&quot; lists or go on social media to get ",
               "author": "knuaym9",
               "engagement": {
-                "score": 58,
+                "score": 60,
                 "comments": 39
               },
               "observedAt": "2026-05-14T22:05:30.000Z"
@@ -3142,41 +3181,41 @@
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
-              "url": "https://jdownloader.org/lib/scripts/incident_8.5.2026.html",
-              "title": "JDownloader Website Installer Incident",
+              "url": "https://legacyupdate.net/download-center/download/51025/update-for-windows-8.1-x64-kb3132080",
+              "title": "Legacy Update for Windows 8.1 for x64-based Systems",
               "text": "",
-              "author": "layer8",
+              "author": "kristianp",
               "engagement": {
-                "score": 5,
-                "comments": 0
+                "score": 14,
+                "comments": 7
               },
-              "observedAt": "2026-05-11T08:53:49.000Z"
+              "observedAt": "2026-05-16T00:53:27.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
-              "url": "https://old.reddit.com/r/Xcode/comments/1t8bdf2/codex_downloaded_by_xcode_2641_reported_as_malware/",
-              "title": "Codex downloaded by Xcode 26.4.1 reported as Malware",
-              "text": "",
-              "author": "williamstein",
+              "url": "https://orobot.io/",
+              "title": "Show HN: Browse 61 3D Printable Robots",
+              "text": "Robotics is advancing really fast lately, with AI inference, different controllers, software, and parts always changing. I wanted a place that supports many device types, Raspberry Pi, NVDA Jetson, Arduino, ESP32, hardware sources, and maximizes for printability. Instructables, Github, and Thingiverse are currently popular but aren&#x27;t really focused on robotics, So I built orobot.io to try and make printing robots as standardized and accessible as possible. It uses a lot of Agent built conte",
+              "author": "xanderjanz",
               "engagement": {
-                "score": 3,
-                "comments": 1
+                "score": 14,
+                "comments": 3
               },
-              "observedAt": "2026-05-11T14:24:24.000Z"
+              "observedAt": "2026-05-14T18:10:28.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
-              "url": "https://news.ycombinator.com/item?id=48152594",
-              "title": "Tell HN: Audible app used 19.8GB of data while not being used",
-              "text": "Seriously, Audible used nearly 20GB of data in a day, while not being used. I listened to a downloaded book in the morning. Left my phone on my desk. Picked it up later to find warnings from my phone company about data usage. The phones usage monitor says it was Audible. Of course they don&#x27;t care. Won&#x27;t even raise a bug report!",
-              "author": "jimnotgym",
+              "url": "https://reclaimthenet.org/reddit-tests-blocking-mobile-web-to-force-app-downloads",
+              "title": "Reddit Tests Blocking Mobile Web to Force App Downloads",
+              "text": "",
+              "author": "Cider9986",
               "engagement": {
-                "score": 2,
-                "comments": 1
+                "score": 10,
+                "comments": 4
               },
-              "observedAt": "2026-05-15T19:11:10.000Z"
+              "observedAt": "2026-05-14T04:26:59.000Z"
             }
           ]
         }
@@ -3626,8 +3665,8 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 316,
-                "comments": 326
+                "score": 319,
+                "comments": 331
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -3652,8 +3691,8 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 157,
-                "comments": 199
+                "score": 158,
+                "comments": 201
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
             },
@@ -4001,10 +4040,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 53,
+      "totalMentions7d": 51,
       "perSource": {
         "hackernews": {
-          "count7d": 49,
+          "count7d": 47,
           "top": [
             {
               "source": "hackernews",
@@ -5942,10 +5981,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 18,
+      "totalMentions7d": 21,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 20,
           "top": [
             {
               "source": "hackernews",
@@ -6507,10 +6546,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 8,
+      "totalMentions7d": 9,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
@@ -6971,10 +7010,10 @@
     },
     "HKUDS/AI-Trader": {
       "fullName": "HKUDS/AI-Trader",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -6988,19 +7027,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T13:23:49.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "HKUDS/AI-Trader",
-              "url": "https://puthouse.com",
-              "title": "Built a safety-first AI trader for covered calls and cash-secured puts",
-              "text": "",
-              "author": "jansonlau",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-11T07:06:12.000Z"
             }
           ]
         },
@@ -7414,11 +7440,24 @@
     },
     "VRSEN/OpenSwarm": {
       "fullName": "VRSEN/OpenSwarm",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "VRSEN/OpenSwarm",
+              "url": "https://opensparrow.org/",
+              "title": "OpenSparrow – Open-source admin panel builder with zero dependencies",
+              "text": "",
+              "author": "tomaszwrobel",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T18:57:05.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "VRSEN/OpenSwarm",
@@ -7643,7 +7682,7 @@
               "text": "",
               "author": "gedy",
               "engagement": {
-                "score": 55,
+                "score": 56,
                 "comments": 63
               },
               "observedAt": "2026-05-13T01:45:02.000Z"
@@ -7667,7 +7706,7 @@
               "text": "",
               "author": "rolph",
               "engagement": {
-                "score": 419,
+                "score": 426,
                 "comments": 313
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
@@ -7898,11 +7937,24 @@
     },
     "amiremohamadi/g2ray": {
       "fullName": "amiremohamadi/g2ray",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "amiremohamadi/g2ray",
+              "url": "https://www.science.org/content/article/scientists-id-corkscrew-killer-behind-gruesome-seal-deaths",
+              "title": "Cannibalistic attacks between gray seals leave telltale “corkscrew” injuries",
+              "text": "",
+              "author": "gmays",
+              "engagement": {
+                "score": 65,
+                "comments": 21
+              },
+              "observedAt": "2026-05-14T22:12:45.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "amiremohamadi/g2ray",
@@ -7924,7 +7976,7 @@
               "text": "",
               "author": "damienwebdev",
               "engagement": {
-                "score": 2,
+                "score": 3,
                 "comments": 1
               },
               "observedAt": "2026-05-14T02:37:53.000Z"
@@ -7948,11 +8000,24 @@
     },
     "angelos-p/llm-from-scratch": {
       "fullName": "angelos-p/llm-from-scratch",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "angelos-p/llm-from-scratch",
+              "url": "https://bsky.app/profile/technews4869.bsky.social/post/3mlmslb5twh2p",
+              "title": "github.com/angelos-p/llm-f... GitHub - angelos-p/llm-from-scratch",
+              "text": "github.com/angelos-p/llm-f... GitHub - angelos-p/llm-from-scratch",
+              "author": "technews4869.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T03:05:25.663Z"
+            },
             {
               "source": "bluesky",
               "fullName": "angelos-p/llm-from-scratch",
@@ -8317,10 +8382,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 41,
+      "totalMentions7d": 48,
       "perSource": {
         "hackernews": {
-          "count7d": 41,
+          "count7d": 48,
           "top": [
             {
               "source": "hackernews",
@@ -8330,8 +8395,8 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 294,
-                "comments": 84
+                "score": 297,
+                "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
             },
@@ -8580,8 +8645,8 @@
               "text": "",
               "author": "caust1c",
               "engagement": {
-                "score": 432,
-                "comments": 185
+                "score": 436,
+                "comments": 187
               },
               "observedAt": "2026-05-14T22:29:12.000Z"
             }
@@ -8602,6 +8667,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-12T13:11:02.667Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/antirez.bsky.social/post/3mm2phsnaxs2r",
+              "title": "This is our long context benchmark, I find it funny and quite cool that DS4F can handle it without any problem: github.com/antirez/ds4/...",
+              "text": "This is our long context benchmark, I find it funny and quite cool that DS4F can handle it without any problem: github.com/antirez/ds4/...",
+              "author": "antirez.bsky.social",
+              "engagement": {
+                "score": 8,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T15:47:05.193Z"
             },
             {
               "source": "bluesky",
@@ -8641,19 +8719,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T09:15:47.463Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "antirez/ds4",
-              "url": "https://bsky.app/profile/trxx9800.bsky.social/post/3mlkygbzxsp2t",
-              "title": "The what github.com/antirez/ds4",
-              "text": "The what github.com/antirez/ds4",
-              "author": "trxx9800.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T09:44:42.067Z"
             }
           ]
         }
@@ -8735,7 +8800,7 @@
     },
     "neilsonnn/image-blaster": {
       "fullName": "neilsonnn/image-blaster",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8748,7 +8813,7 @@
               "text": "",
               "author": "MattRogish",
               "engagement": {
-                "score": 193,
+                "score": 194,
                 "comments": 38
               },
               "observedAt": "2026-05-15T15:42:37.000Z"
@@ -8756,7 +8821,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "bluesky",
@@ -8787,6 +8852,19 @@
             {
               "source": "bluesky",
               "fullName": "neilsonnn/image-blaster",
+              "url": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm3zz43wsy2o",
+              "title": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creati",
+              "text": "📰 Image-blaster, an open-source tool developed by Neilsonnn, creates 3D environments, sound effects, and meshes from a single image, offering developers a versatile resource for visual content creation. 🔗 https://github.com/neilsonnn/image-blaster #Tech #Dev",
+              "author": "sagalinked.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T04:28:22.267Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "neilsonnn/image-blaster",
               "url": "https://bsky.app/profile/yug1224.com/post/3mlyezjpz6i2u",
               "title": "1枚の画像から3D環境やメッシュを短時間で生成するClaude向けスキルセットらしい 3D制作の効率化やプロトタイピングにめちゃくちゃ使えそう yug1224 starred neilsonnn/image-blaster https://github.com/neilsonnn/image-blaster",
               "text": "1枚の画像から3D環境やメッシュを短時間で生成するClaude向けスキルセットらしい 3D制作の効率化やプロトタイピングにめちゃくちゃ使えそう yug1224 starred neilsonnn/image-blaster https://github.com/neilsonnn/image-blaster",
@@ -8809,19 +8887,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T09:03:04.574Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "neilsonnn/image-blaster",
-              "url": "https://bsky.app/profile/hot.hn/post/3mlxfsxlsys2r",
-              "title": "📰 Image-blaster: Creates 3D environments, SFX, and meshes from a single image 🔗 https://github.com/neilsonnn/image-blaster 💬 Discuss on HN",
-              "text": "📰 Image-blaster: Creates 3D environments, SFX, and meshes from a single image 🔗 https://github.com/neilsonnn/image-blaster 💬 Discuss on HN",
-              "author": "hot.hn",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T08:16:22.164Z"
             }
           ]
         }
@@ -8890,10 +8955,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 67,
+      "totalMentions7d": 70,
       "perSource": {
         "hackernews": {
-          "count7d": 67,
+          "count7d": 70,
           "top": [
             {
               "source": "hackernews",
@@ -8942,7 +9007,7 @@
               "text": "",
               "author": "breve",
               "engagement": {
-                "score": 169,
+                "score": 171,
                 "comments": 65
               },
               "observedAt": "2026-05-16T23:59:47.000Z"
@@ -9071,8 +9136,8 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 544,
-                "comments": 298
+                "score": 547,
+                "comments": 301
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
             },
@@ -9088,6 +9153,715 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T22:21:33.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "MinishLab/semble": {
+      "fullName": "MinishLab/semble",
+      "totalMentions7d": 13,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "MinishLab/semble",
+              "url": "https://github.com/MinishLab/semble",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
+              "author": "Bibabomas",
+              "engagement": {
+                "score": 312,
+                "comments": 107
+              },
+              "observedAt": "2026-05-17T15:37:07.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 12,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/hn.rbrt.fr/post/3mm3sz7qwi32z",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble https://news.ycombinator.com/item?id=48169874",
+              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble https://news.ycombinator.com/item?id=48169874",
+              "author": "hn.rbrt.fr",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T02:23:10.562Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mm4gi4ytbo2e",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (https://news.ycombinator.com/item?id=48169874)",
+              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (https://news.ycombinator.com/item?id=48169874)",
+              "author": "betterhn300.e-work.xyz",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T08:11:31.866Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/ai-bridge-tech.bsky.social/post/3mm4dl3o6di2s",
+              "title": "コード検索の革命、Sembleが登場。AIエージェント向けに最適化され、従来のgrepと比較してトークン消費量を98%削減。コストと速度を劇的に改善し、AI開発の効率を飛躍的に高めます。効率的なコーディング環境を求める開発者は必見です。 #AI #TechNews https://github.com/MinishLab/semble",
+              "text": "コード検索の革命、Sembleが登場。AIエージェント向けに最適化され、従来のgrepと比較してトークン消費量を98%削減。コストと速度を劇的に改善し、AI開発の効率を飛躍的に高めます。効率的なコーディング環境を求める開発者は必見です。 #AI #TechNews https://github.com/MinishLab/semble",
+              "author": "ai-bridge-tech.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T07:19:29.064Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/hnfeed.bsky.social/post/3mm4cnqp5y42r",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble [comments] [283 points]",
+              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble [comments] [283 points]",
+              "author": "hnfeed.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T07:03:04.664Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/newsyc250.bsky.social/post/3mm46qq65g52y",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (http://news.ycombinator.com/item?id=48169874)",
+              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (http://news.ycombinator.com/item?id=48169874)",
+              "author": "newsyc250.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T05:53:10.462Z"
+            }
+          ]
+        }
+      }
+    },
+    "rmyndharis/OpenWA": {
+      "fullName": "rmyndharis/OpenWA",
+      "totalMentions7d": 132,
+      "perSource": {
+        "hackernews": {
+          "count7d": 131,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
+              "title": "Codex is now in the ChatGPT mobile app",
+              "text": "",
+              "author": "mikeevans",
+              "engagement": {
+                "score": 485,
+                "comments": 247
+              },
+              "observedAt": "2026-05-14T20:06:14.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://openai.com/index/malta-chatgpt-plus-partnership/",
+              "title": "OpenAI and Government of Malta partner to roll out ChatGPT Plus to all citizens",
+              "text": "",
+              "author": "bookofjoe",
+              "engagement": {
+                "score": 319,
+                "comments": 331
+              },
+              "observedAt": "2026-05-16T20:14:06.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://www.wsj.com/tech/ai/sam-altmans-business-dealings-under-gop-scrutiny-ahead-of-openais-ipo-52c1cc4d",
+              "title": "Sam Altman's Business Dealings Under GOP Scrutiny Ahead of OpenAI's IPO",
+              "text": "",
+              "author": "1vuio0pswjnm7",
+              "engagement": {
+                "score": 199,
+                "comments": 160
+              },
+              "observedAt": "2026-05-14T12:27:29.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://twitter.com/steipete/status/2055346265869721905",
+              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
+              "text": "",
+              "author": "eamag",
+              "engagement": {
+                "score": 158,
+                "comments": 201
+              },
+              "observedAt": "2026-05-16T11:34:04.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://firethering.com/chatgpt-bank-account-plaid-openai/",
+              "title": "OpenAI is connecting ChatGPT to bank accounts via Plaid",
+              "text": "",
+              "author": "steveharing1",
+              "engagement": {
+                "score": 119,
+                "comments": 142
+              },
+              "observedAt": "2026-05-15T16:38:50.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlwsfziv7r2t",
+              "title": "https://github.com/rmyndharis/OpenWA",
+              "text": "https://github.com/rmyndharis/OpenWA",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T02:29:06.765Z"
+            }
+          ]
+        }
+      }
+    },
+    "BigBodyCobain/Shadowbroker": {
+      "fullName": "BigBodyCobain/Shadowbroker",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "BigBodyCobain/Shadowbroker",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlvlwt4s7v2o",
+              "title": "https://github.com/BigBodyCobain/Shadowbroker",
+              "text": "https://github.com/BigBodyCobain/Shadowbroker",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T15:00:34.772Z"
+            }
+          ]
+        }
+      }
+    },
+    "HKUDS/CLI-Anything": {
+      "fullName": "HKUDS/CLI-Anything",
+      "totalMentions7d": 3,
+      "perSource": {
+        "bluesky": {
+          "count7d": 3,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "HKUDS/CLI-Anything",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm2h55hnf4p2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1694 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 333 stars today 3. https://github.com/calcom/cal.di",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1694 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 333 stars today 3. https://github.com/calcom/cal.diy - TypeScript, 425 stars today 4. https://github.com/oven-sh/bun - Rust, 908 stars today 5 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-17T13:17:57.572Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "HKUDS/CLI-Anything",
+              "url": "https://bsky.app/profile/s4mdf0o1.piaille.fr.ap.brid.gy/post/3mlxkpbu2nzn2",
+              "title": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
+              "text": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
+              "author": "s4mdf0o1.piaille.fr.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T09:43:50.564Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "HKUDS/CLI-Anything",
+              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlujmp7s232e",
+              "title": "GitHub - HKUDS/CLI-Anything: \"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/ https://github.com/HKUDS/CLI-Anything",
+              "text": "GitHub - HKUDS/CLI-Anything: \"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/ https://github.com/HKUDS/CLI-Anything",
+              "author": "tech-trending.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T04:46:27.968Z"
+            }
+          ]
+        }
+      }
+    },
+    "NVlabs/Sana": {
+      "fullName": "NVlabs/Sana",
+      "totalMentions7d": 1,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "NVlabs/Sana",
+              "url": "https://nvlabs.github.io/Sana/WM/",
+              "title": "SANA-WM, a 2.6B open-source world model for 1-minute 720p video",
+              "text": "",
+              "author": "mjgil",
+              "engagement": {
+                "score": 393,
+                "comments": 146
+              },
+              "observedAt": "2026-05-16T12:06:21.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "OpenCut-app/OpenCut": {
+      "fullName": "OpenCut-app/OpenCut",
+      "totalMentions7d": 57,
+      "perSource": {
+        "hackernews": {
+          "count7d": 55,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://github.com/MinishLab/semble",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
+              "author": "Bibabomas",
+              "engagement": {
+                "score": 312,
+                "comments": 107
+              },
+              "observedAt": "2026-05-17T15:37:07.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://www.williamangel.net/blog/2026/05/17/offline-llm-energy-use.html",
+              "title": "Apple Silicon costs more than OpenRouter",
+              "text": "",
+              "author": "datadrivenangel",
+              "engagement": {
+                "score": 312,
+                "comments": 270
+              },
+              "observedAt": "2026-05-17T12:09:23.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://twitter.com/steipete/status/2055346265869721905",
+              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
+              "text": "",
+              "author": "eamag",
+              "engagement": {
+                "score": 158,
+                "comments": 201
+              },
+              "observedAt": "2026-05-16T11:34:04.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://www.openculture.com/2026/05/nearly-50-years-later-wkrp-in-cincinnati-becomes-a-real-radio-station.html",
+              "title": "Nearly 50 Years Later, WKRP in Cincinnati Becomes a Real Radio Station",
+              "text": "",
+              "author": "bookofjoe",
+              "engagement": {
+                "score": 139,
+                "comments": 83
+              },
+              "observedAt": "2026-05-12T16:47:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://opencivics-labs.github.io/dontsurveil.me/c22.html",
+              "title": "Canada’s Bill C-22 would weaken protections on private messages",
+              "text": "",
+              "author": "laurex",
+              "engagement": {
+                "score": 94,
+                "comments": 27
+              },
+              "observedAt": "2026-05-17T16:15:01.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 2,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://bsky.app/profile/chiefgyk3d.com/post/3mlqppbymmn2o",
+              "title": "I just starred OpenCut-app/OpenCut on GitHub: https://github.com/OpenCut-app/OpenCut",
+              "text": "I just starred OpenCut-app/OpenCut on GitHub: https://github.com/OpenCut-app/OpenCut",
+              "author": "chiefgyk3d.com",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-13T16:24:38.361Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://bsky.app/profile/mhussard.eurosky.social/post/3mlng2q72tk2v",
+              "title": "If you are interested by the app : Opencut : https:// github.com/OpenCut-app/OpenCut OpenSEO : https:// github.com/every-app/open-seo",
+              "text": "If you are interested by the app : Opencut : https:// github.com/OpenCut-app/OpenCut OpenSEO : https:// github.com/every-app/open-seo",
+              "author": "mhussard.eurosky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T08:54:06.067Z"
+            }
+          ]
+        }
+      }
+    },
+    "tech-leads-club/agent-skills": {
+      "fullName": "tech-leads-club/agent-skills",
+      "totalMentions7d": 10,
+      "perSource": {
+        "hackernews": {
+          "count7d": 10,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://securityboulevard.com/2026/05/capsule-security-analysis-details-scope-of-vulnerable-ai-agent-attack-surface/",
+              "title": "15% of AI agent skill files carry hardcoded credentials with DB write access",
+              "text": "",
+              "author": "Armor1AI",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T00:51:33.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/contentful/skill-kit",
+              "title": "Skill-kit – TypeScript SDK for building agent skills as typed state machines",
+              "text": "",
+              "author": "ravel",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T15:14:07.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/shang-zhu/violin",
+              "title": "Violin: An open-source video translation tool (and agent skills)",
+              "text": "",
+              "author": "zhushang",
+              "engagement": {
+                "score": 3,
+                "comments": 1
+              },
+              "observedAt": "2026-05-14T15:04:41.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://research.perplexity.ai/articles/designing-refining-and-maintaining-agent-skills-at-perplexity",
+              "title": "Designing, Refining, and Maintaining Agent Skills at Perplexity",
+              "text": "",
+              "author": "Garbage",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T11:40:55.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/RobustaRush/seedkit",
+              "title": "Show HN: Cook a Django project well, the agent-skill take on cookiecutter",
+              "text": "",
+              "author": "kmmbvnr_",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T18:33:11.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "truelockmc/streambert": {
+      "fullName": "truelockmc/streambert",
+      "totalMentions7d": 1,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "truelockmc/streambert",
+              "url": "https://appleinsider.com/articles/26/04/20/apple-tv-reaping-the-benefits-of-stale-content-on-bigger-streamers",
+              "title": "Apple TV 12% market share, reaping benefits of stale content",
+              "text": "",
+              "author": "mgh2",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T02:29:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "supertone-inc/supertonic": {
+      "fullName": "supertone-inc/supertonic",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "supertone-inc/supertonic",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlvisengzim2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scie",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1272 stars today 2. https://github.com/obra/superpowers - Shell, 1646 stars today 3. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 643 stars today 4. https://github.com/supertone-inc/supertonic - […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-15T14:04:32.363Z"
+            }
+          ]
+        }
+      }
+    },
+    "KeygraphHQ/shannon": {
+      "fullName": "KeygraphHQ/shannon",
+      "totalMentions7d": 3,
+      "perSource": {
+        "hackernews": {
+          "count7d": 3,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://www.edna.land/blogs/posts/scanning/",
+              "title": "Gaining control of every projector and camera on campus",
+              "text": "",
+              "author": "ednaordinary",
+              "engagement": {
+                "score": 125,
+                "comments": 32
+              },
+              "observedAt": "2026-05-14T02:37:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://write.as/shantnu/llm-witch-hunts-are-getting-really-fin-irritating",
+              "title": "LLM Witch Hunts are getting F'in Irritating",
+              "text": "",
+              "author": "shantnutiwari",
+              "engagement": {
+                "score": 6,
+                "comments": 9
+              },
+              "observedAt": "2026-05-14T15:18:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://pockli.com/",
+              "title": "Show HN: Pockli – I needed a better iOS scanning app",
+              "text": "Here&#x27;s my story.<p>I&#x27;m the person who almost never put things back in their place. It&#x27;s not because I&#x27;m lazy or because I don&#x27;t want to, it&#x27;s because I&#x27;m always on the rush.<p>I have 2 kids in school, 3 properties, a job and a lot of things to joggle at the same time. It often happened that someone from school, HOA, doctor&#x27;s office handed me a document which I needed to keep for a period of time. It was either a reference or prof of something. Because it w",
+              "author": "tsoswr",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T19:23:46.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "vercel-labs/zero": {
+      "fullName": "vercel-labs/zero",
+      "totalMentions7d": 6,
+      "perSource": {
+        "hackernews": {
+          "count7d": 2,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "vercel-labs/zero",
+              "url": "https://github.com/vercel-labs/zero",
+              "title": "Zero: The Programming Language for Agents",
+              "text": "",
+              "author": "0xCAP",
+              "engagement": {
+                "score": 9,
+                "comments": 1
+              },
+              "observedAt": "2026-05-16T11:32:02.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "vercel-labs/zero",
+              "url": "https://github.com/vercel-labs/zero",
+              "title": "Zero, a systems language for small native agent tools",
+              "text": "",
+              "author": "mjgil",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T23:45:28.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 4,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "vercel-labs/zero",
+              "url": "https://bsky.app/profile/yug1224.com/post/3mm2n7omjsl2h",
+              "title": "エージェント向けに設計されたネイティブツール開発用システム言語らしい AI駆動開発の未来を変えてくれそうで試したい yug1224 starred vercel-labs/zero https://github.com/vercel-labs/zero",
+              "text": "エージェント向けに設計されたネイティブツール開発用システム言語らしい AI駆動開発の未来を変えてくれそうで試したい yug1224 starred vercel-labs/zero https://github.com/vercel-labs/zero",
+              "author": "yug1224.com",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T15:06:44.569Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "vercel-labs/zero",
+              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlzp2cjpkh2m",
+              "title": "GitHub - vercel-labs/zero: The programming language for agents https://github.com/vercel-labs/zero",
+              "text": "GitHub - vercel-labs/zero: The programming language for agents https://github.com/vercel-labs/zero",
+              "author": "tech-trending.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T06:06:52.969Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "vercel-labs/zero",
+              "url": "https://bsky.app/profile/azu.bsky.social/post/3mlydkmwehc2t",
+              "title": "見てる: \"vercel-labs/zero: The programming language for agents\" https://github.com/vercel-labs/zero",
+              "text": "見てる: \"vercel-labs/zero: The programming language for agents\" https://github.com/vercel-labs/zero",
+              "author": "azu.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T17:08:34.764Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "vercel-labs/zero",
+              "url": "https://bsky.app/profile/azu.bsky.social/post/3mlydkb34zd2r",
+              "title": "見てる: \"Consider Lambda syntax · Issue #19 · vercel-labs/zero\" https://github.com/vercel-labs/zero",
+              "text": "見てる: \"Consider Lambda syntax · Issue #19 · vercel-labs/zero\" https://github.com/vercel-labs/zero",
+              "author": "azu.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-16T17:08:22.361Z"
+            }
+          ]
+        }
+      }
+    },
+    "Light-Heart-Labs/DreamServer": {
+      "fullName": "Light-Heart-Labs/DreamServer",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "Light-Heart-Labs/DreamServer",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm2h63zzggp2",
+              "title": "8. https://github.com/NirDiamant/agents-towards-production - Jupyter Notebook, 225 stars today 9. https://github.com/dograh-hq/dograh - Python, 287 stars today 10. https://github.com/K-Dense-AI/scient",
+              "text": "8. https://github.com/NirDiamant/agents-towards-production - Jupyter Notebook, 225 stars today 9. https://github.com/dograh-hq/dograh - Python, 287 stars today 10. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 764 stars today 11. https://github.com/Light-Heart-Labs/DreamServer […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T13:18:31.768Z"
+            }
+          ]
+        }
+      }
+    },
+    "dograh-hq/dograh": {
+      "fullName": "dograh-hq/dograh",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "dograh-hq/dograh",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm2h63zzggp2",
+              "title": "8. https://github.com/NirDiamant/agents-towards-production - Jupyter Notebook, 225 stars today 9. https://github.com/dograh-hq/dograh - Python, 287 stars today 10. https://github.com/K-Dense-AI/scient",
+              "text": "8. https://github.com/NirDiamant/agents-towards-production - Jupyter Notebook, 225 stars today 9. https://github.com/dograh-hq/dograh - Python, 287 stars today 10. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 764 stars today 11. https://github.com/Light-Heart-Labs/DreamServer […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-17T13:18:31.768Z"
             }
           ]
         }

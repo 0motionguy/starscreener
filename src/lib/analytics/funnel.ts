@@ -58,6 +58,8 @@ function enqueueFunnelStep(props: FunnelStepProps): void {
  * 5. `submit-repo`       /submit open -> form fill -> submit success
  * 6. `revenue-claim`     repo-detail/direct -> claim revenue form -> submit success
  * 7. `account-auth`      header account CTA -> hosted auth -> webhook success
+ * 8. `alert-activation`  /you/alerts -> alert created -> digest opt-in
+ * 9. `revenue-loop`      paywall -> checkout start -> checkout complete
  */
 export type FunnelFlow =
   | "discover-repo"
@@ -67,9 +69,8 @@ export type FunnelFlow =
   | "submit-repo"
   | "revenue-claim"
   | "account-auth"
-  // S5.B.5 — revenue loop. Five-event funnel:
-  //   signup → welcome_modal_cta_clicked → alert_created
-  //         → checkout_started → checkout_completed
+  // S5.B.5 alert activation and paid conversion. Keep flow semantics
+  // documented in docs/POSTHOG-FUNNELS.md before adding capture calls.
   | "alert-activation"
   | "revenue-loop";
 

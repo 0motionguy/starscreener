@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-17T19:47:19.831Z",
+  "fetchedAt": "2026-05-18T04:53:01.124Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -22,6 +22,22 @@
     },
     {
       "rank": 2,
+      "id": "TencentARC/Pixal3D",
+      "author": "TencentARC",
+      "url": "https://huggingface.co/spaces/TencentARC/Pixal3D",
+      "likes": 153,
+      "trendingScore": 140,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-04-30T14:43:47.000Z",
+      "lastModified": "2026-05-15T09:00:53.000Z",
+      "models": []
+    },
+    {
+      "rank": 3,
       "id": "r3gm/wan2-2-fp8da-aoti-preview2",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-preview2",
@@ -35,22 +51,6 @@
       ],
       "createdAt": "2025-11-18T23:17:30.000Z",
       "lastModified": "2026-05-02T04:24:15.000Z",
-      "models": []
-    },
-    {
-      "rank": 3,
-      "id": "TencentARC/Pixal3D",
-      "author": "TencentARC",
-      "url": "https://huggingface.co/spaces/TencentARC/Pixal3D",
-      "likes": 148,
-      "trendingScore": 135,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-04-30T14:43:47.000Z",
-      "lastModified": "2026-05-15T09:00:53.000Z",
       "models": []
     },
     {
@@ -95,8 +95,8 @@
       "id": "mikeee/qwen-7b-chat",
       "author": "mikeee",
       "url": "https://huggingface.co/spaces/mikeee/qwen-7b-chat",
-      "likes": 250,
-      "trendingScore": 98,
+      "likes": 262,
+      "trendingScore": 103,
       "sdk": "docker",
       "tags": [
         "docker",
@@ -111,8 +111,8 @@
       "id": "Supertone/supertonic-3",
       "author": "Supertone",
       "url": "https://huggingface.co/spaces/Supertone/supertonic-3",
-      "likes": 112,
-      "trendingScore": 94,
+      "likes": 115,
+      "trendingScore": 95,
       "sdk": "static",
       "tags": [
         "static",
@@ -198,8 +198,8 @@
       "id": "techfreakworm/LTX2.3-Studio",
       "author": "techfreakworm",
       "url": "https://huggingface.co/spaces/techfreakworm/LTX2.3-Studio",
-      "likes": 95,
-      "trendingScore": 63,
+      "likes": 103,
+      "trendingScore": 67,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -227,10 +227,26 @@
     },
     {
       "rank": 14,
+      "id": "ysharma/fast-image-studio",
+      "author": "ysharma",
+      "url": "https://huggingface.co/spaces/ysharma/fast-image-studio",
+      "likes": 72,
+      "trendingScore": 57,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-04-29T14:15:57.000Z",
+      "lastModified": "2026-04-30T12:10:32.000Z",
+      "models": []
+    },
+    {
+      "rank": 15,
       "id": "prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
       "author": "prithivMLmods",
       "url": "https://huggingface.co/spaces/prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
-      "likes": 1441,
+      "likes": 1442,
       "trendingScore": 55,
       "sdk": "gradio",
       "tags": [
@@ -240,22 +256,6 @@
       ],
       "createdAt": "2025-12-19T05:20:19.000Z",
       "lastModified": "2026-05-17T02:27:17.000Z",
-      "models": []
-    },
-    {
-      "rank": 15,
-      "id": "ysharma/fast-image-studio",
-      "author": "ysharma",
-      "url": "https://huggingface.co/spaces/ysharma/fast-image-studio",
-      "likes": 70,
-      "trendingScore": 55,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-04-29T14:15:57.000Z",
-      "lastModified": "2026-04-30T12:10:32.000Z",
       "models": []
     },
     {
@@ -280,8 +280,8 @@
       "id": "ResembleAI/Dramabox",
       "author": "ResembleAI",
       "url": "https://huggingface.co/spaces/ResembleAI/Dramabox",
-      "likes": 52,
-      "trendingScore": 52,
+      "likes": 54,
+      "trendingScore": 54,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -296,8 +296,8 @@
       "id": "cbensimon/wan2-2-fp8da-aoti-preview2",
       "author": "cbensimon",
       "url": "https://huggingface.co/spaces/cbensimon/wan2-2-fp8da-aoti-preview2",
-      "likes": 52,
-      "trendingScore": 49,
+      "likes": 55,
+      "trendingScore": 51,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -329,7 +329,7 @@
       "id": "selfit-camera/Omni-Image-Editor",
       "author": "selfit-camera",
       "url": "https://huggingface.co/spaces/selfit-camera/Omni-Image-Editor",
-      "likes": 1706,
+      "likes": 1707,
       "trendingScore": 44,
       "sdk": "gradio",
       "tags": [
@@ -361,8 +361,8 @@
       "id": "akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
       "author": "akhaliq",
       "url": "https://huggingface.co/spaces/akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
-      "likes": 50,
-      "trendingScore": 43,
+      "likes": 51,
+      "trendingScore": 44,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -555,6 +555,23 @@
     },
     {
       "rank": 34,
+      "id": "Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
+      "author": "Onise",
+      "url": "https://huggingface.co/spaces/Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
+      "likes": 33,
+      "trendingScore": 28,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "mcp-server",
+        "region:us"
+      ],
+      "createdAt": "2026-04-30T19:11:32.000Z",
+      "lastModified": "2026-05-13T17:12:57.000Z",
+      "models": []
+    },
+    {
+      "rank": 35,
       "id": "mteb/leaderboard",
       "author": "mteb",
       "url": "https://huggingface.co/spaces/mteb/leaderboard",
@@ -571,7 +588,7 @@
       "models": []
     },
     {
-      "rank": 35,
+      "rank": 36,
       "id": "HuggingFaceTB/smol-training-playbook",
       "author": "HuggingFaceTB",
       "url": "https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook",
@@ -591,7 +608,7 @@
       "models": []
     },
     {
-      "rank": 36,
+      "rank": 37,
       "id": "linoyts/Qwen-Image-Edit-2511-AnyPose",
       "author": "linoyts",
       "url": "https://huggingface.co/spaces/linoyts/Qwen-Image-Edit-2511-AnyPose",
@@ -605,23 +622,6 @@
       ],
       "createdAt": "2025-12-28T08:15:28.000Z",
       "lastModified": "2025-12-29T13:46:27.000Z",
-      "models": []
-    },
-    {
-      "rank": 37,
-      "id": "Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
-      "author": "Onise",
-      "url": "https://huggingface.co/spaces/Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
-      "likes": 29,
-      "trendingScore": 24,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "mcp-server",
-        "region:us"
-      ],
-      "createdAt": "2026-04-30T19:11:32.000Z",
-      "lastModified": "2026-05-13T17:12:57.000Z",
       "models": []
     },
     {
@@ -824,18 +824,18 @@
     },
     {
       "rank": 50,
-      "id": "black-forest-labs/FLUX.2-dev",
-      "author": "black-forest-labs",
-      "url": "https://huggingface.co/spaces/black-forest-labs/FLUX.2-dev",
-      "likes": 908,
-      "trendingScore": 16,
+      "id": "Lakonik/AsymFLUX.2-klein",
+      "author": "Lakonik",
+      "url": "https://huggingface.co/spaces/Lakonik/AsymFLUX.2-klein",
+      "likes": 18,
+      "trendingScore": 18,
       "sdk": "gradio",
       "tags": [
         "gradio",
         "region:us"
       ],
-      "createdAt": "2025-11-17T13:58:19.000Z",
-      "lastModified": "2026-05-12T11:52:25.000Z",
+      "createdAt": "2026-05-13T16:06:55.000Z",
+      "lastModified": "2026-05-14T02:05:05.000Z",
       "models": []
     }
   ]

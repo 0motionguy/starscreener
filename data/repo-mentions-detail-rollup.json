@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-18T08:53:35.396Z",
-  "scanRunId": "sweep-2026-05-18T08:53:20.161Z",
+  "computedAt": "2026-05-18T10:07:46.060Z",
+  "scanRunId": "sweep-2026-05-18T10:07:38.055Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -3652,11 +3652,37 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 100,
+      "totalMentions7d": 182,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 182,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
+              "title": "Codex is now in the ChatGPT mobile app",
+              "text": "",
+              "author": "mikeevans",
+              "engagement": {
+                "score": 485,
+                "comments": 247
+              },
+              "observedAt": "2026-05-14T20:06:14.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/MinishLab/semble",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
+              "author": "Bibabomas",
+              "engagement": {
+                "score": 331,
+                "comments": 112
+              },
+              "observedAt": "2026-05-17T15:37:07.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3666,7 +3692,7 @@
               "author": "bookofjoe",
               "engagement": {
                 "score": 319,
-                "comments": 331
+                "comments": 329
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -3695,32 +3721,6 @@
                 "comments": 201
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://firethering.com/chatgpt-bank-account-plaid-openai/",
-              "title": "OpenAI is connecting ChatGPT to bank accounts via Plaid",
-              "text": "",
-              "author": "steveharing1",
-              "engagement": {
-                "score": 119,
-                "comments": 142
-              },
-              "observedAt": "2026-05-15T16:38:50.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://arstechnica.com/tech-policy/2026/05/altman-forced-to-confront-claims-at-openai-trial-that-hes-a-prolific-liar/",
-              "title": "Altman forced to confront claims at OpenAI trial that he's a prolific liar",
-              "text": "",
-              "author": "Bender",
-              "engagement": {
-                "score": 98,
-                "comments": 41
-              },
-              "observedAt": "2026-05-13T18:46:51.000Z"
             }
           ]
         }
@@ -5981,10 +5981,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 21,
+      "totalMentions7d": 22,
       "perSource": {
         "hackernews": {
-          "count7d": 20,
+          "count7d": 21,
           "top": [
             {
               "source": "hackernews",
@@ -7707,7 +7707,7 @@
               "author": "rolph",
               "engagement": {
                 "score": 426,
-                "comments": 313
+                "comments": 304
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -8814,7 +8814,7 @@
               "author": "MattRogish",
               "engagement": {
                 "score": 194,
-                "comments": 38
+                "comments": 39
               },
               "observedAt": "2026-05-15T15:42:37.000Z"
             }
@@ -8968,7 +8968,7 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 297,
+                "score": 298,
                 "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
@@ -9136,8 +9136,8 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 547,
-                "comments": 301
+                "score": 548,
+                "comments": 303
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
             },
@@ -9160,7 +9160,7 @@
     },
     "MinishLab/semble": {
       "fullName": "MinishLab/semble",
-      "totalMentions7d": 13,
+      "totalMentions7d": 15,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9173,15 +9173,15 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 312,
-                "comments": 107
+                "score": 331,
+                "comments": 112
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 12,
+          "count7d": 14,
           "top": [
             {
               "source": "bluesky",
@@ -9195,6 +9195,32 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T02:23:10.562Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/hnbest.bsky.social/post/3mm4mkkgm722u",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble comments #github.com",
+              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble comments #github.com",
+              "author": "hnbest.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T10:00:14.862Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/mahdi-17.bsky.social/post/3mm4jjlh2mn2c",
+              "title": "Semble: code search MCP server for agents — replaces grep fallback with static embeddings + BM25 + RRF. 98% fewer tokens, ~250ms to index a repo, ~1.5ms/query on CPU. No GPU, no API keys. NDCG@10 of 0",
+              "text": "Semble: code search MCP server for agents — replaces grep fallback with static embeddings + BM25 + RRF. 98% fewer tokens, ~250ms to index a repo, ~1.5ms/query on CPU. No GPU, no API keys. NDCG@10 of 0.854 across 63 repos, 19 languages. https://github.com/MinishLab/semble",
+              "author": "mahdi-17.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T09:06:04.373Z"
             },
             {
               "source": "bluesky",
@@ -9221,32 +9247,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T07:19:29.064Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/hnfeed.bsky.social/post/3mm4cnqp5y42r",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble [comments] [283 points]",
-              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble [comments] [283 points]",
-              "author": "hnfeed.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T07:03:04.664Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/newsyc250.bsky.social/post/3mm46qq65g52y",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (http://news.ycombinator.com/item?id=48169874)",
-              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (http://news.ycombinator.com/item?id=48169874)",
-              "author": "newsyc250.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T05:53:10.462Z"
             }
           ]
         }
@@ -9281,7 +9281,7 @@
               "author": "bookofjoe",
               "engagement": {
                 "score": 319,
-                "comments": 331
+                "comments": 329
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },

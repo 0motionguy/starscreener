@@ -250,12 +250,27 @@ export function CheckoutWalkthrough({
                 margin: 0,
               }}
             >
-              Cancel anytime — no commitment
+              30-day money-back guarantee
             </h2>
             <p style={{ fontSize: 13, color: "var(--v2-ink-200)", margin: 0 }}>
-              You can cancel from your Stripe dashboard or by replying to any
-              billing email. We keep your watchlist + alert rules even if you
-              downgrade back to Free.
+              If TrendingRepo doesn&apos;t earn its keep in the first 30 days,
+              reply to any billing email and we&apos;ll refund the full charge —
+              no questions, no exit interview.
+            </p>
+            <p style={{ fontSize: 13, color: "var(--v2-ink-200)", margin: 0 }}>
+              You can cancel anytime from{" "}
+              <code
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: 12,
+                  color: "var(--v2-ink-100)",
+                }}
+              >
+                /you/settings
+              </code>{" "}
+              (Stripe-hosted portal — your card never touches our servers). We
+              keep your watchlist and alert rules even if you downgrade back to
+              Free.
             </p>
             <p
               style={{
@@ -266,8 +281,7 @@ export function CheckoutWalkthrough({
                 borderTop: "1px solid var(--v2-line-100)",
               }}
             >
-              Next step opens a hosted Stripe Checkout in this tab. Your card
-              never touches our servers.
+              Next step opens a hosted Stripe Checkout in this tab.
             </p>
           </section>
         )}

@@ -312,6 +312,26 @@ export function AddAlertRuleDialog({
         | ApiErr;
       if (!res.ok || data.ok === false) {
         const err = data as ApiErr;
+        // S5.A.3: 402 quota_exceeded is a paywall trigger. Surface the
+        // upgrade CTA via Sonner action button rather than the standard
+        // error toast so the user sees the path forward in one click.
+        if (res.status === 402 && err.error === "quota_exceeded") {
+          const upgradeUrl =
+            typeof (err as ApiErr & { upgradeUrl?: string }).upgradeUrl === "string"
+              ? (err as ApiErr & { upgradeUrl?: string }).upgradeUrl!
+              : "/pricing";
+          toast.info(err.message ?? "You've hit your plan's limit.", {
+            duration: 10000,
+            action: {
+              label: "Upgrade",
+              onClick: () => {
+                window.location.href = upgradeUrl;
+              },
+            },
+          });
+          setSubmitting(false);
+          return;
+        }
         if (err.error === "rule_cap_exceeded") {
           throw new AdminRecoverableError("You have hit the 25-rule limit. Delete one first.");
         }

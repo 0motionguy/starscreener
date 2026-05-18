@@ -23,6 +23,8 @@ import { profiles } from "@/lib/db/schema/profiles";
 import { referralCodes, referrals } from "@/lib/db/schema/referrals";
 import { reserveHandleFromClerk } from "@/lib/auth/handle";
 import { posthogCapture } from "@/lib/analytics/posthog";
+import { getEmailProvider, resolveEmailFrom } from "@/lib/email/send";
+import { renderWelcomeEmail } from "@/lib/email/templates/welcome";
 import { deriveCode } from "@/lib/referrals/code";
 import { verifyRefCookie } from "@/lib/referrals/cookie";
 import {
@@ -213,6 +215,33 @@ async function handleUserCreated(
     });
   } catch (err) {
     console.warn("[clerk-webhook] referral attribution failed", data.id, err);
+  }
+
+  // ---------------------------------------------------------------------
+  // S5.B.2 — fire-and-forget welcome email. Best-effort: never throw
+  // out of this block, because Resend failure must not block account
+  // creation either. No code-side dedup — onConflictDoUpdate above means
+  // a retried user.created webhook re-renders + re-sends the welcome;
+  // operator-side Resend dedup or a future profiles.welcomeEmailSentAt
+  // column would tighten this, but a duplicate welcome is a minor UX
+  // issue (one email, same content) rather than a security/data issue.
+  // ---------------------------------------------------------------------
+  try {
+    const provider = getEmailProvider();
+    const rendered = renderWelcomeEmail({
+      handle: insertedProfile.handle,
+      profileId: insertedProfile.id,
+      firstName: data.first_name,
+    });
+    await provider.send({
+      to: email,
+      from: resolveEmailFrom(),
+      subject: rendered.subject,
+      html: rendered.html,
+      text: rendered.text,
+    });
+  } catch (err) {
+    console.warn("[clerk-webhook] welcome email send failed", data.id, err);
   }
 
   posthogCapture("funnel_step", {

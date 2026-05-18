@@ -23,6 +23,33 @@ export interface SettingsInitialProfile {
   email: string;
   displayName: string | null;
   avatarUrl: string | null;
+  /** Effective billing tier (post-expiry resolution). */
+  tier: "free" | "pro" | "team" | "enterprise";
+  /** ISO timestamp when the tier expires; null for free / enterprise. */
+  tierExpiresAt: string | null;
+  /**
+   * True when the user has a Stripe customer record (i.e. has completed
+   * at least one checkout). Controls visibility of "Manage billing".
+   */
+  hasStripeCustomer: boolean;
+}
+
+const TIER_LABEL: Record<SettingsInitialProfile["tier"], string> = {
+  free: "Free",
+  pro: "Pro",
+  team: "Team",
+  enterprise: "Enterprise",
+};
+
+function formatRenewalDate(iso: string | null): string | null {
+  if (!iso) return null;
+  const parsed = Date.parse(iso);
+  if (!Number.isFinite(parsed)) return null;
+  return new Date(parsed).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 interface SettingsClientProps {
@@ -37,10 +64,43 @@ export default function SettingsClient({
   );
   const [avatarUrl, setAvatarUrl] = useState(initialProfile.avatarUrl ?? "");
   const [busy, setBusy] = useState(false);
+  const [portalBusy, setPortalBusy] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteConfirmEmail, setDeleteConfirmEmail] = useState("");
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const tierLabel = TIER_LABEL[initialProfile.tier];
+  const renewalDate = formatRenewalDate(initialProfile.tierExpiresAt);
+  const isPaidTier =
+    initialProfile.tier === "pro" || initialProfile.tier === "team";
+
+  async function handleOpenPortal() {
+    setPortalBusy(true);
+    try {
+      const res = await fetch("/api/billing/portal", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+      const body = (await res
+        .json()
+        .catch(() => null)) as { ok?: boolean; url?: string; error?: string } | null;
+      if (!res.ok || !body?.ok || !body.url) {
+        const reason = body?.error ?? `portal request failed: ${res.status}`;
+        throw new Error(reason);
+      }
+      window.location.assign(body.url);
+    } catch (err) {
+      console.warn("[settings] open portal failed", err);
+      toast.info(
+        err instanceof Error
+          ? err.message
+          : "Couldn't open billing portal. Please try again.",
+      );
+      setPortalBusy(false);
+    }
+  }
 
   async function handleDeleteAccount() {
     setDeleteBusy(true);
@@ -247,6 +307,92 @@ export default function SettingsClient({
               </button>
             </div>
           </form>
+        </section>
+
+        <section
+          className="mt-6 rounded-[2px] p-4 md:p-5"
+          style={{
+            background: "var(--v3-bg-050)",
+            border: "1px solid var(--v3-line-200)",
+          }}
+        >
+          <div
+            className="mb-4 font-mono text-[10px] uppercase tracking-[0.18em]"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
+            {"// BILLING"}
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-0.5">
+              <div className="flex items-baseline gap-2">
+                <span
+                  className="font-mono text-[10px] uppercase tracking-[0.16em]"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
+                  Current plan
+                </span>
+                <span
+                  className="text-base"
+                  style={{
+                    color: "var(--v3-ink-000)",
+                    fontFamily: "var(--font-geist), Inter, sans-serif",
+                    fontWeight: 510,
+                  }}
+                >
+                  {tierLabel}
+                </span>
+              </div>
+              {isPaidTier && renewalDate ? (
+                <span
+                  className="font-mono text-[11px]"
+                  style={{ color: "var(--v3-ink-300)" }}
+                >
+                  Renews {renewalDate}
+                </span>
+              ) : null}
+              {!isPaidTier ? (
+                <span
+                  className="font-mono text-[11px]"
+                  style={{ color: "var(--v3-ink-300)" }}
+                >
+                  Free tier · 3 alert rules, 5 watched repos.
+                </span>
+              ) : null}
+            </div>
+
+            <div className="flex items-center gap-2">
+              {isPaidTier && initialProfile.hasStripeCustomer ? (
+                <button
+                  type="button"
+                  onClick={() => void handleOpenPortal()}
+                  disabled={portalBusy}
+                  className="inline-flex items-center rounded-[2px] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors disabled:opacity-50"
+                  style={{
+                    background: "var(--v3-bg-075)",
+                    border: "1px solid var(--v3-line-200)",
+                    color: "var(--v3-ink-100)",
+                    fontWeight: 500,
+                  }}
+                >
+                  {portalBusy ? "OPENING…" : "MANAGE BILLING"}
+                </button>
+              ) : (
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center rounded-[2px] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors"
+                  style={{
+                    background: "var(--v3-bg-075)",
+                    border: "1px solid var(--v3-acc, var(--v3-line-200))",
+                    color: "var(--v3-acc, var(--v3-ink-100))",
+                    fontWeight: 500,
+                  }}
+                >
+                  UPGRADE TO PRO
+                </Link>
+              )}
+            </div>
+          </div>
         </section>
 
         <section

@@ -13,9 +13,8 @@
 // HMAC-signed unsubscribe link that toggles `email_referral_updates=false`
 // without requiring auth (the HMAC binds the link to one profile).
 
-import { createHmac } from "node:crypto";
-
 import type { ReferralMilestoneKey } from "@/lib/db/schema/referrals";
+import { buildEmailUnsubscribeUrl } from "@/lib/email/unsubscribe";
 
 export type MilestoneKey = ReferralMilestoneKey;
 
@@ -87,15 +86,6 @@ function escapeHtml(s: string): string {
     .replace(/'/g, "&#39;");
 }
 
-function base64url(input: Buffer | string): string {
-  const buf = typeof input === "string" ? Buffer.from(input, "utf8") : input;
-  return buf
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
-}
-
 /**
  * Build a SESSION_SECRET-HMAC unsubscribe URL. Format:
  *
@@ -111,12 +101,7 @@ function base64url(input: Buffer | string): string {
  * this template is still safe to render in dev without env wiring.
  */
 function unsubscribeUrl(profileId: string): string {
-  const secret = process.env.SESSION_SECRET?.trim();
-  if (!secret) return `${SITE}/you?action=unsubscribe-referral-updates`;
-  const sig = createHmac("sha256", secret)
-    .update(`referral_updates:${profileId}`)
-    .digest();
-  return `${SITE}/api/email/unsubscribe?scope=referral_updates&p=${encodeURIComponent(profileId)}&t=${base64url(sig)}`;
+  return buildEmailUnsubscribeUrl("referral_updates", profileId);
 }
 
 /**

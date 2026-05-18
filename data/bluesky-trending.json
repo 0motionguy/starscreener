@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-18T08:53:31.635Z",
+  "fetchedAt": "2026-05-18T12:48:11.539Z",
   "discoveryVersion": "2026-04-21",
   "keywords": [
     "AI agents",
@@ -15,13 +15,13 @@
   "keywordCounts": {
     "AI agents": 89,
     "LLMs": 60,
-    "Coding agents": 60,
-    "MCP": 0,
-    "RAG and retrieval": 0,
-    "Workflow and automation": 0,
-    "Context, prompts, memory": 0,
-    "AI skills": 0,
-    "Open source AI": 0
+    "Coding agents": 120,
+    "MCP": 59,
+    "RAG and retrieval": 30,
+    "Workflow and automation": 120,
+    "Context, prompts, memory": 89,
+    "AI skills": 90,
+    "Open source AI": 30
   },
   "queries": [
     "lang:en \"ai agent\"",
@@ -55,7 +55,23 @@
     "lang:en llm": 30,
     "lang:en \"local llm\"": 30,
     "lang:en \"claude code\"": 30,
-    "lang:en codex": 30
+    "lang:en codex": 30,
+    "lang:en cursor": 30,
+    "lang:en cline": 30,
+    "lang:en \"mcp server\"": 30,
+    "lang:en \"model context protocol\"": 29,
+    "lang:en rag": 30,
+    "lang:en workflow": 30,
+    "lang:en automation": 30,
+    "lang:en cli": 30,
+    "lang:en devtools": 30,
+    "lang:en \"context engineering\"": 30,
+    "lang:en \"prompt engineering\"": 29,
+    "lang:en \"agent memory\"": 30,
+    "lang:en \"claude skill\"": 30,
+    "lang:en \"claude skills\"": 30,
+    "lang:en \"ai skills\"": 30,
+    "lang:en \"open source ai\"": 30
   },
   "queryFamilies": [
     {
@@ -136,7 +152,7 @@
       ]
     }
   ],
-  "scannedPosts": 207,
+  "scannedPosts": 672,
   "posts": [
     {
       "uri": "at://did:plc:oijtzlibd7mlf56jbfohssdz/app.bsky.feed.post/3ml46o7m5rs2b",
@@ -291,13 +307,13 @@
         "handle": "cwarzel.bsky.social",
         "displayName": "Charlie Warzel"
       },
-      "likeCount": 1599,
+      "likeCount": 1601,
       "repostCount": 236,
       "replyCount": 92,
       "createdAt": "2026-05-15T02:45:35.830Z",
       "createdUtc": 1778813135,
-      "ageHours": 78.13,
-      "trendingScore": 2117,
+      "ageHours": 82.04,
+      "trendingScore": 2119,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -392,7 +408,7 @@
       "replyCount": 24,
       "createdAt": "2026-05-15T22:51:37.934Z",
       "createdUtc": 1778885497,
-      "ageHours": 58.03,
+      "ageHours": 61.94,
       "trendingScore": 1216,
       "content_tags": [],
       "value_score": 0,
@@ -416,7 +432,7 @@
       "replyCount": 15,
       "createdAt": "2026-05-11T02:56:43.878Z",
       "createdUtc": 1778468203,
-      "ageHours": 169.74,
+      "ageHours": 177.86,
       "trendingScore": 1213.5,
       "content_tags": [],
       "value_score": 0,
@@ -512,7 +528,7 @@
       "replyCount": 10,
       "createdAt": "2026-05-12T09:02:25.455Z",
       "createdUtc": 1778576545,
-      "ageHours": 139.65,
+      "ageHours": 147.76,
       "trendingScore": 863,
       "content_tags": [],
       "value_score": 0,
@@ -555,13 +571,13 @@
         "handle": "stephenkb.bsky.social",
         "displayName": "Stephen Bush"
       },
-      "likeCount": 610,
-      "repostCount": 70,
-      "replyCount": 33,
+      "likeCount": 622,
+      "repostCount": 71,
+      "replyCount": 36,
       "createdAt": "2026-05-17T17:14:32.432Z",
       "createdUtc": 1779038072,
-      "ageHours": 15.65,
-      "trendingScore": 766.5,
+      "ageHours": 19.56,
+      "trendingScore": 782,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -584,7 +600,7 @@
       "replyCount": 13,
       "createdAt": "2026-05-14T23:48:21.024Z",
       "createdUtc": 1778802501,
-      "ageHours": 81.09,
+      "ageHours": 85,
       "trendingScore": 760.5,
       "content_tags": [],
       "value_score": 0,
@@ -704,7 +720,7 @@
       "replyCount": 2,
       "createdAt": "2026-04-21T03:38:29.785Z",
       "createdUtc": 1776742709,
-      "ageHours": 649.05,
+      "ageHours": 657.16,
       "trendingScore": 689,
       "content_tags": [],
       "value_score": 0,
@@ -747,13 +763,13 @@
         "handle": "edzitron.com",
         "displayName": "Ed Zitron"
       },
-      "likeCount": 484,
-      "repostCount": 72,
+      "likeCount": 501,
+      "repostCount": 76,
       "replyCount": 9,
       "createdAt": "2026-05-17T20:06:28.664Z",
       "createdUtc": 1779048388,
-      "ageHours": 12.78,
-      "trendingScore": 632.5,
+      "ageHours": 16.7,
+      "trendingScore": 657.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -787,6 +803,30 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
+      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2mt3gctk2c",
+      "cid": "bafyreih546urlctsxiosoqg6d4oh56us65pgacrokiusty6acwnxidliaq",
+      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2mt3gctk2c",
+      "text": "Particularly in the context of (appropriate) crackdowns on LLM-generated papers (e.g., on arXiv) and more and more tales of fabricated citations, two reminders: (1) LLMs do not \"cite their sources\" (2) Using an LLM to generate, complete, or fix LaTeX code can result in fabricated citations",
+      "author": {
+        "handle": "cfiesler.bsky.social",
+        "displayName": "Dr. Casey Fiesler"
+      },
+      "likeCount": 358,
+      "repostCount": 114,
+      "replyCount": 6,
+      "createdAt": "2026-05-17T14:59:41.407Z",
+      "createdUtc": 1779029981,
+      "ageHours": 21.81,
+      "trendingScore": 589,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
       "uri": "at://did:plc:qgz7jtmlddfn3dikhimzlqu5/app.bsky.feed.post/3mkzt5ssyq22g",
       "cid": "bafyreichr25egk35zmdrmzqt2vyru62bpozsburrr3k34mplciwd2c5yta",
       "bskyUrl": "https://bsky.app/profile/kattenbarge.bsky.social/post/3mkzt5ssyq22g",
@@ -809,30 +849,6 @@
       "matchedQuery": "lang:en \"ai skills\"",
       "matchedTopicId": "skills",
       "matchedTopicLabel": "AI skills"
-    },
-    {
-      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2mt3gctk2c",
-      "cid": "bafyreih546urlctsxiosoqg6d4oh56us65pgacrokiusty6acwnxidliaq",
-      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2mt3gctk2c",
-      "text": "Particularly in the context of (appropriate) crackdowns on LLM-generated papers (e.g., on arXiv) and more and more tales of fabricated citations, two reminders: (1) LLMs do not \"cite their sources\" (2) Using an LLM to generate, complete, or fix LaTeX code can result in fabricated citations",
-      "author": {
-        "handle": "cfiesler.bsky.social",
-        "displayName": "Dr. Casey Fiesler"
-      },
-      "likeCount": 350,
-      "repostCount": 113,
-      "replyCount": 6,
-      "createdAt": "2026-05-17T14:59:41.407Z",
-      "createdUtc": 1779029981,
-      "ageHours": 17.9,
-      "trendingScore": 579,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:xozp2x42jlscikizmdqub37m/app.bsky.feed.post/3ml7u66xci22f",
@@ -867,13 +883,63 @@
         "handle": "srirachamander.bsky.social",
         "displayName": "🔞🦎Ander the Salamander🦎🔞commissions open!"
       },
-      "likeCount": 427,
+      "likeCount": 428,
       "repostCount": 62,
       "replyCount": 7,
       "createdAt": "2026-05-15T02:27:48.821Z",
       "createdUtc": 1778812068,
-      "ageHours": 74.22,
-      "trendingScore": 554.5,
+      "ageHours": 82.34,
+      "trendingScore": 555.5,
+      "content_tags": [
+        "is-question"
+      ],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "RAG and retrieval",
+      "matchedQuery": "lang:en rag",
+      "matchedTopicId": "retrieval",
+      "matchedTopicLabel": "RAG and retrieval"
+    },
+    {
+      "uri": "at://did:plc:unkqxy3fxjckrxrqstopn3qb/app.bsky.feed.post/3mm2ywogrec2q",
+      "cid": "bafyreifhlvm3kjszlsq74toeu6zbga6tnju4ffwq5rndahvb2y2eux64mm",
+      "bskyUrl": "https://bsky.app/profile/robdenbleyker.com/post/3mm2ywogrec2q",
+      "text": "my grandfather used to roll hotdogs at the gas station before automation replaced him",
+      "author": {
+        "handle": "robdenbleyker.com",
+        "displayName": "Rob DenBleyker"
+      },
+      "likeCount": 487,
+      "repostCount": 28,
+      "replyCount": 9,
+      "createdAt": "2026-05-17T18:36:26.909Z",
+      "createdUtc": 1779042986,
+      "ageHours": 18.2,
+      "trendingScore": 547.5,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "Workflow and automation",
+      "matchedQuery": "lang:en automation",
+      "matchedTopicId": "workflow",
+      "matchedTopicLabel": "Workflow and automation"
+    },
+    {
+      "uri": "at://did:plc:fvgalo2u53v54rmssfv5khdn/app.bsky.feed.post/3mm2sknoqwk22",
+      "cid": "bafyreicfqiqb22n4oleefbjv6edclxi25sdyrdf3k7jalggwfdvgtpyxky",
+      "bskyUrl": "https://bsky.app/profile/puppikeco.bsky.social/post/3mm2sknoqwk22",
+      "text": "Scent hound activated 🐽 Musky morning pits and a sweaty cum rag jock. I know @puphawks.bsky.social wants 1 pit. Now who wants the other??",
+      "author": {
+        "handle": "puppikeco.bsky.social",
+        "displayName": "Pup Pike"
+      },
+      "likeCount": 466,
+      "repostCount": 35,
+      "replyCount": 13,
+      "createdAt": "2026-05-17T16:42:21.014Z",
+      "createdUtc": 1779036141,
+      "ageHours": 20.1,
+      "trendingScore": 542.5,
       "content_tags": [
         "is-question"
       ],
@@ -907,30 +973,6 @@
       "matchedQuery": "lang:en rag",
       "matchedTopicId": "retrieval",
       "matchedTopicLabel": "RAG and retrieval"
-    },
-    {
-      "uri": "at://did:plc:unkqxy3fxjckrxrqstopn3qb/app.bsky.feed.post/3mm2ywogrec2q",
-      "cid": "bafyreifhlvm3kjszlsq74toeu6zbga6tnju4ffwq5rndahvb2y2eux64mm",
-      "bskyUrl": "https://bsky.app/profile/robdenbleyker.com/post/3mm2ywogrec2q",
-      "text": "my grandfather used to roll hotdogs at the gas station before automation replaced him",
-      "author": {
-        "handle": "robdenbleyker.com",
-        "displayName": "Rob DenBleyker"
-      },
-      "likeCount": 460,
-      "repostCount": 28,
-      "replyCount": 9,
-      "createdAt": "2026-05-17T18:36:26.909Z",
-      "createdUtc": 1779042986,
-      "ageHours": 10.08,
-      "trendingScore": 520.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "Workflow and automation",
-      "matchedQuery": "lang:en automation",
-      "matchedTopicId": "workflow",
-      "matchedTopicLabel": "Workflow and automation"
     },
     {
       "uri": "at://did:plc:e3wtuvycahzvn5v43hkiqkz2/app.bsky.feed.post/3mkymomfwys2k",
@@ -970,7 +1012,7 @@
       "replyCount": 6,
       "createdAt": "2026-05-13T15:20:51.497Z",
       "createdUtc": 1778685651,
-      "ageHours": 113.54,
+      "ageHours": 117.46,
       "trendingScore": 510,
       "content_tags": [],
       "value_score": 0,
@@ -981,30 +1023,28 @@
       "matchedTopicLabel": "AI agents"
     },
     {
-      "uri": "at://did:plc:fvgalo2u53v54rmssfv5khdn/app.bsky.feed.post/3mm2sknoqwk22",
-      "cid": "bafyreicfqiqb22n4oleefbjv6edclxi25sdyrdf3k7jalggwfdvgtpyxky",
-      "bskyUrl": "https://bsky.app/profile/puppikeco.bsky.social/post/3mm2sknoqwk22",
-      "text": "Scent hound activated 🐽 Musky morning pits and a sweaty cum rag jock. I know @puphawks.bsky.social wants 1 pit. Now who wants the other??",
+      "uri": "at://did:plc:mivey63nzylfflvmmjoqcf6u/app.bsky.feed.post/3mm3e52ypys2j",
+      "cid": "bafyreifkv7y5nvdwm2uibou3ps7i4krkcl3tuzywcykc7nvarc3s3bo2hq",
+      "bskyUrl": "https://bsky.app/profile/questauthority.bsky.social/post/3mm3e52ypys2j",
+      "text": "I'm going to use a LLM to code a LLM agent to fix the problems that the other LLM created is peak LLM.",
       "author": {
-        "handle": "puppikeco.bsky.social",
-        "displayName": "Pup Pike"
+        "handle": "questauthority.bsky.social",
+        "displayName": "The Questionable Authority"
       },
-      "likeCount": 438,
-      "repostCount": 31,
-      "replyCount": 12,
-      "createdAt": "2026-05-17T16:42:21.014Z",
-      "createdUtc": 1779036141,
-      "ageHours": 11.98,
-      "trendingScore": 506,
-      "content_tags": [
-        "is-question"
-      ],
+      "likeCount": 439,
+      "repostCount": 26,
+      "replyCount": 35,
+      "createdAt": "2026-05-17T21:56:52.568Z",
+      "createdUtc": 1779055012,
+      "ageHours": 14.86,
+      "trendingScore": 508.5,
+      "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
-      "matchedKeyword": "RAG and retrieval",
-      "matchedQuery": "lang:en rag",
-      "matchedTopicId": "retrieval",
-      "matchedTopicLabel": "RAG and retrieval"
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2n3tuer22c",
@@ -1015,13 +1055,13 @@
         "handle": "cfiesler.bsky.social",
         "displayName": "Dr. Casey Fiesler"
       },
-      "likeCount": 355,
-      "repostCount": 69,
+      "likeCount": 360,
+      "repostCount": 70,
       "replyCount": 6,
       "createdAt": "2026-05-17T15:04:35.469Z",
       "createdUtc": 1779030275,
-      "ageHours": 17.82,
-      "trendingScore": 496,
+      "ageHours": 21.73,
+      "trendingScore": 503,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1077,30 +1117,6 @@
       "matchedQuery": "lang:en codex",
       "matchedTopicId": "coding-agents",
       "matchedTopicLabel": "Coding agents"
-    },
-    {
-      "uri": "at://did:plc:mivey63nzylfflvmmjoqcf6u/app.bsky.feed.post/3mm3e52ypys2j",
-      "cid": "bafyreifkv7y5nvdwm2uibou3ps7i4krkcl3tuzywcykc7nvarc3s3bo2hq",
-      "bskyUrl": "https://bsky.app/profile/questauthority.bsky.social/post/3mm3e52ypys2j",
-      "text": "I'm going to use a LLM to code a LLM agent to fix the problems that the other LLM created is peak LLM.",
-      "author": {
-        "handle": "questauthority.bsky.social",
-        "displayName": "The Questionable Authority"
-      },
-      "likeCount": 403,
-      "repostCount": 24,
-      "replyCount": 34,
-      "createdAt": "2026-05-17T21:56:52.568Z",
-      "createdUtc": 1779055012,
-      "ageHours": 10.94,
-      "trendingScore": 468,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:tzb43fx4dkn5ux7zntskveut/app.bsky.feed.post/3ml2p5gg6g22j",
@@ -1237,7 +1253,7 @@
       "replyCount": 3,
       "createdAt": "2026-05-11T16:20:06.158Z",
       "createdUtc": 1778516406,
-      "ageHours": 156.35,
+      "ageHours": 164.47,
       "trendingScore": 430.5,
       "content_tags": [
         "is-announcement"
@@ -1248,6 +1264,54 @@
       "matchedQuery": "lang:en cursor",
       "matchedTopicId": "coding-agents",
       "matchedTopicLabel": "Coding agents"
+    },
+    {
+      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm36ysxkec2o",
+      "cid": "bafyreifvry2egqshhwppaaps3fkmpgjokl2ujycahpx6tuocfqdczsavgq",
+      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm36ysxkec2o",
+      "text": "Think of it like this. Even as a technical ceo - someone who has not written code with any seriousness in years - an LLM does an impression of a software engineer writing a lot of code, which is what you would think an SWE did if you didn’t do the job in 10+ years bsky.app/profile/zeno...",
+      "author": {
+        "handle": "edzitron.com",
+        "displayName": "Ed Zitron"
+      },
+      "likeCount": 328,
+      "repostCount": 47,
+      "replyCount": 8,
+      "createdAt": "2026-05-17T20:25:01.214Z",
+      "createdUtc": 1779049501,
+      "ageHours": 16.39,
+      "trendingScore": 426,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
+      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2ncnn3rs2c",
+      "cid": "bafyreiajcu5yxtfx2mtopov7qua72v3fomjfmgqxqjtf2fb5cjly2yuq64",
+      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2ncnn3rs2c",
+      "text": "So when you get LLM output with links or citations to scholarly work: those citations aren't there because the model consulted them and they actually represent the source of the information. They were included because they look like what should appear near that kind of text.",
+      "author": {
+        "handle": "cfiesler.bsky.social",
+        "displayName": "Dr. Casey Fiesler"
+      },
+      "likeCount": 299,
+      "repostCount": 61,
+      "replyCount": 5,
+      "createdAt": "2026-05-17T15:08:23.820Z",
+      "createdUtc": 1779030503,
+      "ageHours": 21.66,
+      "trendingScore": 423.5,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:u2zs2typsklaohqmfyxiunvy/app.bsky.feed.post/3mkts3v36722d",
@@ -1273,76 +1337,28 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
-      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2ncnn3rs2c",
-      "cid": "bafyreiajcu5yxtfx2mtopov7qua72v3fomjfmgqxqjtf2fb5cjly2yuq64",
-      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2ncnn3rs2c",
-      "text": "So when you get LLM output with links or citations to scholarly work: those citations aren't there because the model consulted them and they actually represent the source of the information. They were included because they look like what should appear near that kind of text.",
+      "uri": "at://did:plc:e6n7jxtu2qrhwvp3j6ib6sq6/app.bsky.feed.post/3mm3hmdm4kc23",
+      "cid": "bafyreiei4pidrnkxn6s5wdcjlwn3bt7oo7ksqlj3xnxl3gasyxfrhxox6q",
+      "bskyUrl": "https://bsky.app/profile/proptermalone.bsky.social/post/3mm3hmdm4kc23",
+      "text": "btw the other day i was using Claude Code to pull together documents related to an years-old ongoing annoyance with the water company I'll talk about in more detail sometime and it suggested then executed a research avenue that hadn't occurred to me which hit pay dirt",
       "author": {
-        "handle": "cfiesler.bsky.social",
-        "displayName": "Dr. Casey Fiesler"
+        "handle": "proptermalone.bsky.social",
+        "displayName": "post malone ergo propter malone"
       },
-      "likeCount": 294,
-      "repostCount": 60,
-      "replyCount": 5,
-      "createdAt": "2026-05-17T15:08:23.820Z",
-      "createdUtc": 1779030503,
-      "ageHours": 17.75,
-      "trendingScore": 416.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
-      "uri": "at://did:plc:pgppxekvpklq6smlilrxg7ke/app.bsky.feed.post/3ml56jyb6m22n",
-      "cid": "bafyreibpkokgyovjahpnd2br734jpz56vjqo2oagqktcphlqjr33zvpxzq",
-      "bskyUrl": "https://bsky.app/profile/mattielubchansky.com/post/3ml56jyb6m22n",
-      "text": "cartooning is so solitary all the time, i love talking to other artists and finding out that i have the workflow of an absolute maniac",
-      "author": {
-        "handle": "mattielubchansky.com",
-        "displayName": "mattie lubchansky"
-      },
-      "likeCount": 373,
+      "likeCount": 371,
       "repostCount": 14,
-      "replyCount": 5,
-      "createdAt": "2026-05-05T21:56:51.304Z",
-      "createdUtc": 1778018211,
-      "ageHours": 156.09,
-      "trendingScore": 403.5,
+      "replyCount": 14,
+      "createdAt": "2026-05-17T22:59:06.133Z",
+      "createdUtc": 1779058746,
+      "ageHours": 13.82,
+      "trendingScore": 406,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
-      "matchedKeyword": "Workflow and automation",
-      "matchedQuery": "lang:en workflow",
-      "matchedTopicId": "workflow",
-      "matchedTopicLabel": "Workflow and automation"
-    },
-    {
-      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm36ysxkec2o",
-      "cid": "bafyreifvry2egqshhwppaaps3fkmpgjokl2ujycahpx6tuocfqdczsavgq",
-      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm36ysxkec2o",
-      "text": "Think of it like this. Even as a technical ceo - someone who has not written code with any seriousness in years - an LLM does an impression of a software engineer writing a lot of code, which is what you would think an SWE did if you didn’t do the job in 10+ years bsky.app/profile/zeno...",
-      "author": {
-        "handle": "edzitron.com",
-        "displayName": "Ed Zitron"
-      },
-      "likeCount": 313,
-      "repostCount": 43,
-      "replyCount": 8,
-      "createdAt": "2026-05-17T20:25:01.214Z",
-      "createdUtc": 1779049501,
-      "ageHours": 12.48,
-      "trendingScore": 403,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
+      "matchedKeyword": "Coding agents",
+      "matchedQuery": "lang:en \"claude code\"",
+      "matchedTopicId": "coding-agents",
+      "matchedTopicLabel": "Coding agents"
     }
   ]
 }

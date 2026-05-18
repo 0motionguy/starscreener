@@ -10,6 +10,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { CheckoutSuccess } from "@/components/pricing/CheckoutSuccess";
 import { PricingCard } from "@/components/pricing/PricingCard";
 import { PricingFAQ } from "@/components/pricing/PricingFAQ";
 import { TierComparison } from "@/components/pricing/TierComparison";
@@ -47,12 +48,21 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 interface PricingPageProps {
-  searchParams?: Promise<{ cadence?: string | string[] }>;
+  searchParams?: Promise<{
+    cadence?: string | string[];
+    checkout?: string | string[];
+    session_id?: string | string[];
+  }>;
 }
 
 function resolveCadence(raw: string | string[] | undefined): BillingCadence {
   const value = Array.isArray(raw) ? raw[0] : raw;
   return value === "yearly" ? "yearly" : "monthly";
+}
+
+function firstParam(raw: string | string[] | undefined): string | undefined {
+  if (!raw) return undefined;
+  return Array.isArray(raw) ? raw[0] : raw;
 }
 
 // -----------------------------------------------------------------------------
@@ -96,12 +106,21 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
 
   const nextCadence: BillingCadence = cadence === "yearly" ? "monthly" : "yearly";
 
+  // S5.A.6 — post-Stripe-checkout success surface. Stripe redirects to
+  // /pricing?checkout=success&session_id=cs_test_... after a successful
+  // session. The CheckoutSuccess island polls /api/auth/session for the
+  // tier flip and surfaces a "Welcome to Pro" confirmation.
+  const checkoutSuccess = firstParam(params?.checkout) === "success";
+  const sessionId = firstParam(params?.session_id);
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
+
+      {checkoutSuccess ? <CheckoutSuccess sessionId={sessionId} /> : null}
 
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-8 md:py-12">
         {/* Hero */}

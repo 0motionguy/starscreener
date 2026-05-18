@@ -19,6 +19,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { getDataStore } from "@/lib/data-store";
 import { touchDailyAggregates } from "@/lib/llm/aggregate";
 import { getStreamHandle } from "@/lib/llm/redis-streams";
@@ -53,7 +54,7 @@ interface AggregateResult {
   days_touched: number;
 }
 
-export async function POST(request: NextRequest) {
+async function handle(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -76,9 +77,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("llm-aggregate", handle);
+export const GET = handler;
+export const POST = handler;
 
 async function runAggregate(): Promise<AggregateResult> {
   const stream = await getStreamHandle();

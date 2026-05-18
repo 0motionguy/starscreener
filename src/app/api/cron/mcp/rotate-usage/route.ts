@@ -23,6 +23,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { rotateUsage } from "@/lib/mcp/usage";
 
 export const runtime = "nodejs";
@@ -35,7 +36,7 @@ const RESPONSE_HEADERS = {
 const RETENTION_DAYS = 365;
 const RETENTION_MS = RETENTION_DAYS * 24 * 60 * 60 * 1000;
 
-export async function POST(request: NextRequest) {
+async function handle(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -67,6 +68,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("mcp-rotate-usage", handle);
+export const GET = handler;
+export const POST = handler;

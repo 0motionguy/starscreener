@@ -30,6 +30,7 @@ import * as Sentry from "@sentry/nextjs";
 import { posthogCapture } from "./analytics/posthog";
 import {
   engineErrorTags,
+  EngineError,
   GithubInvalidTokenError,
   GithubPoolExhaustedError,
   GithubRateLimitError,
@@ -37,6 +38,7 @@ import {
   OpsAlertFatalError,
   OpsAlertRecoverableError,
 } from "./errors";
+import { notify, type NotifyResult } from "./notify";
 import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
@@ -131,7 +133,7 @@ export async function githubFetch(
             ...engineErrorTags(wrapped),
           },
         });
-        void alertOps("github-pool-exhausted", wrapped.metadata);
+        void alertGithubError(wrapped);
         console.warn(
           `[github-fetch] pool exhausted on ${method} ${pathOrUrl}: ${err.message}`,
         );
@@ -199,6 +201,7 @@ export async function githubFetch(
           ...engineErrorTags(wrapped),
         },
       });
+      void alertGithubError(wrapped);
       console.warn(
         `[github-fetch] network error on ${method} ${pathOrUrl}: ${
           err instanceof Error ? err.message : String(err)
@@ -233,20 +236,19 @@ export async function githubFetch(
         reason: "invalid_token",
         untilTimestamp: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
       });
-      sentryCaptureException(
-        new GithubInvalidTokenError("GitHub token rejected with 401", {
-          operation,
-          statusCode: res.status,
-        }),
-        {
-          tags: {
-            pool: "github",
-            alert: "github-pool-key-invalid",
-            source: "github",
-            category: "quarantine",
-          },
+      const wrapped = new GithubInvalidTokenError("GitHub token rejected with 401", {
+        operation,
+        statusCode: res.status,
+      });
+      sentryCaptureException(wrapped, {
+        tags: {
+          pool: "github",
+          alert: "github-pool-key-invalid",
+          source: "github",
+          category: "quarantine",
         },
-      );
+      });
+      void alertGithubError(wrapped);
       console.warn(
         `[github-fetch] 401 on ${method} ${pathOrUrl} tok=${redactToken(token)} — quarantined`,
       );
@@ -267,21 +269,20 @@ export async function githubFetch(
         reason: "rate_limit",
         untilTimestamp: headerLimits.resetUnixSec,
       });
-      sentryCaptureException(
-        new GithubRateLimitError("GitHub token hit rate limit", {
-          operation,
-          statusCode: res.status,
-          resetUnixSec: headerLimits.resetUnixSec,
-        }),
-        {
-          tags: {
-            pool: "github",
-            alert: "github-pool-rate-limit",
-            source: "github",
-            category: "quarantine",
-          },
+      const wrapped = new GithubRateLimitError("GitHub token hit rate limit", {
+        operation,
+        statusCode: res.status,
+        resetUnixSec: headerLimits.resetUnixSec,
+      });
+      sentryCaptureException(wrapped, {
+        tags: {
+          pool: "github",
+          alert: "github-pool-rate-limit",
+          source: "github",
+          category: "quarantine",
         },
-      );
+      });
+      void alertGithubError(wrapped);
     } else if (res.status === 403 && token) {
       await quarantineKey({
         keyFingerprint: githubKeyFingerprint(token),
@@ -382,61 +383,104 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function alertOps(
-  event: string,
-  metadata: Record<string, unknown>,
-): Promise<void> {
-  const url = process.env.OPS_ALERT_WEBHOOK?.trim();
-  if (!url) {
-    const blocked = new OpsAlertFatalError(
-      "ops alert blocked: OPS_ALERT_WEBHOOK missing",
-      { event, source: "github", metadata },
-    );
-    sentryCaptureException(blocked, {
-      level: "error",
-      tags: {
-        pool: "github",
-        alert: "ops-alert-blocked",
-        upstream_source: "github",
-        ...engineErrorTags(blocked),
-      },
-      extra: { event, metadata },
-    });
-    return;
+async function alertGithubError(error: EngineError): Promise<void> {
+  let severity: "critical" | "ops";
+  let source: string;
+  let title: string;
+  let idempotencyKey: string;
+  if (error instanceof GithubPoolExhaustedError) {
+    severity = "critical";
+    source = "github.pool-exhausted";
+    title = "GitHub token pool exhausted";
+    idempotencyKey = source;
+  } else if (error instanceof GithubRateLimitError) {
+    severity = "critical";
+    source = "github.rate-limit";
+    title = "GitHub token hit rate limit";
+    idempotencyKey = `${source}:${String(error.metadata.resetUnixSec ?? "unknown")}`;
+  } else if (error instanceof GithubInvalidTokenError) {
+    severity = "ops";
+    source = "github.token-invalid";
+    title = "GitHub token rejected (invalid/forbidden)";
+    idempotencyKey = `${source}:${String(error.metadata.operation ?? "unknown")}:${String(
+      error.metadata.statusCode ?? "unknown",
+    )}`;
+  } else if (error instanceof GithubRecoverableError) {
+    severity = "ops";
+    source = "github.network-error";
+    title = "GitHub network/server error";
+    idempotencyKey = `${source}:${String(error.metadata.operation ?? "unknown")}:${String(
+      error.metadata.statusCode ?? "network",
+    )}`;
+  } else {
+    severity = "ops";
+    source = "github.unknown";
+    title = "GitHub engine error";
+    idempotencyKey = source;
   }
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        event,
-        source: "github",
-        metadata,
-        at: new Date().toISOString(),
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`OPS webhook HTTP ${response.status}`);
-    }
-  } catch (error) {
-    const failed = new OpsAlertRecoverableError(
-      "OPS alert webhook delivery failed",
-      {
-        event,
-        source: "github",
-        message: error instanceof Error ? error.message : String(error),
-      },
-    );
-    sentryCaptureException(failed, {
-      tags: {
-        pool: "github",
-        alert: "ops-alert-delivery-failed",
-        upstream_source: "github",
-        ...engineErrorTags(failed),
-      },
-    });
-    // Alert failures must not break the caller handling the original outage.
+  const result = await notify({
+    severity,
+    source,
+    title,
+    message: error.message,
+    context: error.metadata,
+    idempotencyKey,
+  });
+  if (!result.delivered && shouldCaptureGithubNotifyFailure(result)) {
+    captureGithubNotifyFailure(error, source, result);
   }
+}
+
+function shouldCaptureGithubNotifyFailure(result: NotifyResult): boolean {
+  return (
+    result.reason === "no_webhook_configured" ||
+    result.reason === "post_failed" ||
+    result.reason === "post_timeout" ||
+    result.reason === "post_threw"
+  );
+}
+
+function captureGithubNotifyFailure(
+  original: EngineError,
+  notifySource: string,
+  result: NotifyResult,
+): void {
+  const missingWebhook = result.reason === "no_webhook_configured";
+  const failure = missingWebhook
+    ? new OpsAlertFatalError("notify blocked: Slack webhook missing", {
+        source: "github",
+        notifySource,
+        notifyReason: result.reason,
+        originalError: original.name,
+        metadata: original.metadata,
+      })
+    : new OpsAlertRecoverableError("notify delivery failed", {
+        source: "github",
+        notifySource,
+        notifyReason: result.reason,
+        originalError: original.name,
+        metadata: original.metadata,
+      });
+
+  sentryCaptureException(failure, {
+    level: missingWebhook ? "error" : "warning",
+    tags: {
+      pool: "github",
+      alert: missingWebhook
+        ? "github-notify-blocked"
+        : "github-notify-delivery-failed",
+      upstream_source: "github",
+      ...engineErrorTags(failure),
+    },
+    extra: {
+      notify: result,
+      originalError: {
+        name: original.name,
+        message: original.message,
+        metadata: original.metadata,
+      },
+    },
+  });
 }
 
 export function _setGithubFetchSentryForTests(deps: {

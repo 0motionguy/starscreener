@@ -30,6 +30,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import {
   appendDeadLetter,
   loadTargets,
@@ -319,7 +320,7 @@ async function runFlush(): Promise<FlushResult> {
 // Handler
 // ---------------------------------------------------------------------------
 
-export async function POST(request: NextRequest) {
+async function handle(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -343,6 +344,6 @@ export async function POST(request: NextRequest) {
 }
 
 // GET alias so Vercel Cron (which fires GET) works without extra config.
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("webhooks-flush", handle);
+export const GET = handler;
+export const POST = handler;

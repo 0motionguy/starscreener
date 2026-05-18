@@ -18,6 +18,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
   getFundingSignals,
@@ -195,7 +196,7 @@ async function runScan(): Promise<ScanResult> {
 // Handler
 // ---------------------------------------------------------------------------
 
-export async function POST(request: NextRequest) {
+async function handle(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -218,6 +219,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("webhooks-scan", handle);
+export const GET = handler;
+export const POST = handler;

@@ -60,6 +60,7 @@ import { z } from "zod";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
 import { withBodySizeLimit } from "@/lib/api-helpers";
+import { withHealthcheck } from "@/lib/healthcheck";
 import { persistAisoScan } from "@/lib/aiso-persist";
 import {
   readQueue,
@@ -303,7 +304,7 @@ function sleep(ms: number): Promise<void> {
 // Handler
 // ---------------------------------------------------------------------------
 
-export async function POST(request: NextRequest) {
+async function handle(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -341,6 +342,6 @@ export async function POST(request: NextRequest) {
 // auth/body pipeline is identical — parseBody() short-circuits to `{}` when
 // the request has no JSON body, which is the case for cron triggers (they
 // can't send a body), so `limit` falls back to the default (10).
-export async function GET(request: NextRequest) {
-  return POST(request);
-}
+const handler = withHealthcheck("aiso-drain", handle);
+export const GET = handler;
+export const POST = handler;

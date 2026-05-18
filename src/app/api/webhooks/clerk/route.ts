@@ -25,6 +25,7 @@ import { reserveHandleFromClerk } from "@/lib/auth/handle";
 import { posthogCapture } from "@/lib/analytics/posthog";
 import { getEmailProvider, resolveEmailFrom } from "@/lib/email/send";
 import { renderWelcomeEmail } from "@/lib/email/templates/welcome";
+import { notify } from "@/lib/notify";
 import { deriveCode } from "@/lib/referrals/code";
 import { verifyRefCookie } from "@/lib/referrals/cookie";
 import {
@@ -261,6 +262,22 @@ async function handleUserCreated(
     referral_present: Boolean(
       data.unsafe_metadata?.trRef?.code || req.cookies.get("tr_ref")?.value,
     ),
+  });
+
+  void notify({
+    severity: "signals",
+    source: "clerk.sign_up",
+    audience: "customer",
+    title: `🎉 New signup: ${insertedProfile.handle ?? data.id}`,
+    message: `Profile: \`${insertedProfile.id ?? data.id}\``,
+    context: {
+      user_id: data.id,
+      profile_id: insertedProfile.id,
+      handle: insertedProfile.handle,
+    },
+    idempotencyKey: `clerk-sign-up:${data.id}`,
+  }).catch(() => {
+    /* fire-and-forget */
   });
 }
 

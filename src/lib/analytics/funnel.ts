@@ -66,7 +66,12 @@ export type FunnelFlow =
   | "compare-add"
   | "submit-repo"
   | "revenue-claim"
-  | "account-auth";
+  | "account-auth"
+  // S5.B.5 — revenue loop. Five-event funnel:
+  //   signup → welcome_modal_cta_clicked → alert_created
+  //         → checkout_started → checkout_completed
+  | "alert-activation"
+  | "revenue-loop";
 
 /**
  * Canonical step identifiers. Listed centrally so any regression in
@@ -100,7 +105,15 @@ export type FunnelStep =
   | "sign_in_view"
   | "sign_up_view"
   | "sign_in_success"
-  | "sign_up_success";
+  | "sign_up_success"
+  // S5.B.5 alert activation
+  | "alert_created"
+  | "digest_subscribed"
+  // S5.B.5 revenue loop
+  | "paywall_shown"
+  | "checkout_started"
+  | "checkout_completed"
+  | "subscription_canceled";
 
 interface FunnelStepProps {
   step: FunnelStep;

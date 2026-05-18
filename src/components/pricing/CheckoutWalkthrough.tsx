@@ -21,6 +21,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 import type { BillingCadence, TierDefinition } from "@/lib/pricing/tiers";
 import { getLoadedBrowserPostHog } from "@/lib/analytics/posthog-client";
 
@@ -116,6 +117,13 @@ export function CheckoutWalkthrough({
       } catch {
         // analytics must never throw upstream
       }
+      // S5.B.5 — checkout_started step in the revenue-loop funnel.
+      captureFunnelStep({
+        step: "checkout_started",
+        flow: "revenue-loop",
+        tier: tier.key,
+        cadence,
+      });
       const { url } = await startCheckout(tier, cadence);
       // Hand off to Stripe. We do NOT call onClose() because the page
       // will fully navigate; if the navigation is somehow blocked the

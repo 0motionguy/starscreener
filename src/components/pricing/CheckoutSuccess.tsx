@@ -19,6 +19,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 import { getLoadedBrowserPostHog } from "@/lib/analytics/posthog-client";
 
 interface SessionProbeResponse {
@@ -92,6 +93,13 @@ export function CheckoutSuccess({ sessionId }: { sessionId?: string }) {
             } catch {
               // analytics must never throw
             }
+            // S5.B.5 — checkout_completed step in the revenue-loop funnel.
+            captureFunnelStep({
+              step: "checkout_completed",
+              flow: "revenue-loop",
+              tier: body.tier,
+              session_id: sessionId,
+            });
           }
           return;
         }

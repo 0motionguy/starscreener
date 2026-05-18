@@ -18,6 +18,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 import { AdminRecoverableError, TransientHttpError } from "@/lib/errors";
 import { cn } from "@/lib/utils";
 import {
@@ -320,6 +321,16 @@ export function AddAlertRuleDialog({
             typeof (err as ApiErr & { upgradeUrl?: string }).upgradeUrl === "string"
               ? (err as ApiErr & { upgradeUrl?: string }).upgradeUrl!
               : "/pricing";
+          // S5.B.5 — paywall_shown step in the revenue-loop funnel.
+          captureFunnelStep({
+            step: "paywall_shown",
+            flow: "revenue-loop",
+            feature:
+              typeof (err as ApiErr & { feature?: string }).feature === "string"
+                ? (err as ApiErr & { feature?: string }).feature
+                : undefined,
+            source: "add_alert_rule_dialog",
+          });
           toast.info(err.message ?? "You've hit your plan's limit.", {
             duration: 10000,
             action: {
@@ -341,6 +352,14 @@ export function AddAlertRuleDialog({
       // rule (count snapshot taken when the page rendered), use the
       // richer onboarding-style toast with a link back to /watchlist.
       // Otherwise, keep the terse confirmation.
+      // S5.B.5 — alert_created step in the alert-activation funnel.
+      captureFunnelStep({
+        step: "alert_created",
+        flow: "alert-activation",
+        ruleType,
+        cadence,
+        is_first_rule: existingRuleCount === 0,
+      });
       if (existingRuleCount === 0) {
         toast.success(
           "Alert created! First report in ~1h. Until then, explore your watchlist.",

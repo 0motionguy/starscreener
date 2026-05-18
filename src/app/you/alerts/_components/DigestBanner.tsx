@@ -19,6 +19,7 @@
 import { useState } from "react";
 
 import { toast } from "@/lib/toast";
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 import { getLoadedBrowserPostHog } from "@/lib/analytics/posthog-client";
 import type { EmailAlertsCadence } from "@/lib/db/schema/profiles";
 
@@ -81,7 +82,7 @@ export function DigestBanner({
       if (!res.ok) {
         throw new Error(`profile patch failed: ${res.status}`);
       }
-      // Fire-and-forget product analytics.
+      // Fire-and-forget product analytics + canonical funnel step.
       try {
         getLoadedBrowserPostHog()?.capture("digest_subscribe", {
           cadence,
@@ -91,6 +92,13 @@ export function DigestBanner({
       } catch {
         // analytics must never throw upstream
       }
+      // S5.B.5 — digest_subscribed step in the alert-activation funnel.
+      captureFunnelStep({
+        step: "digest_subscribed",
+        flow: "alert-activation",
+        cadence,
+        source: "digest_banner",
+      });
       toast.info(
         cadence === "daily"
           ? "Daily digest scheduled — first email at 9am your time."

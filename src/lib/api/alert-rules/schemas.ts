@@ -161,7 +161,7 @@ export const patchProfilePrefsSchema = z
     avatarUrl: z
       .string()
       .max(1024)
-      .refine((u) => isAllowedAvatarUrl(u), {
+      .refine((u) => u.trim().length === 0 || isAllowedAvatarUrl(u), {
         message: `avatar URL host is not in the allowlist. ${AVATAR_URL_ALLOWLIST_HINT}`,
       })
       .nullish(),

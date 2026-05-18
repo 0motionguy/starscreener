@@ -1,0 +1,75 @@
+name: Cron - onboarding day-3 nudge
+
+# Fires POST /api/cron/onboarding/day3-nudge daily at 09:37 UTC.
+# Off the :00/:30 marks per the platform's anti-thundering-herd
+# convention. 09:37 UTC ≈ mid-morning Europe / late-morning US-East —
+# decent open-rate window.
+#
+# Pre-activation operator step (one-time):
+#   vercel env add DAY3_NUDGE_NOT_BEFORE production
+#   # paste the deploy timestamp (e.g. 2026-05-18T07:00:00Z) so the
+#   # first run skips every user older than the welcome-email rollout
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.TRENDINGREPO_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "37 9 * * *"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Set true to count eligible without sending"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-onboarding-day3
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/cron/onboarding/day3-nudge
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DRY: ${{ inputs.dry || 'false' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+
+          URL="$BASE_URL/api/cron/onboarding/day3-nudge"
+          if [ "$DRY" = "true" ]; then
+            URL="$URL?dry=1"
+          fi
+
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$URL" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 4000
+          else
+            head -c 4000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::day3-nudge call failed ($code)"
+            exit 1
+          fi
+          if command -v jq >/dev/null 2>&1; then
+            jq -e '.ok == true' /tmp/out > /dev/null
+          fi

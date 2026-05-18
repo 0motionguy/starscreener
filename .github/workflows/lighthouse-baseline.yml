@@ -1,0 +1,126 @@
+name: Lighthouse baseline (W18-B)
+# Compares PR perf against .perf/lighthouse-baseline-2026-05-18.json.
+# Fails if any of perf / a11y / seo / best-practices regresses > 5 pts
+# on the five critical routes below.
+#
+# Requires repo secret PAGESPEED_API_KEY (Google PageSpeed Insights v5).
+# Without a key the run is skipped — PSI anonymous bucket rate-limits
+# at ~5 req/sec but in practice 429s within the first call from CI IPs.
+#
+# To regenerate the baseline file after intentional perf improvements:
+#   PAGESPEED_API_KEY=… node scripts/lighthouse-routes.mjs
+#   mv .perf/lighthouse-mobile-prod.json .perf/lighthouse-baseline-<DATE>.json
+#   git commit -am "perf: regen lighthouse baseline"
+
+on:
+  pull_request:
+    paths:
+      - 'src/app/**'
+      - 'src/components/**'
+      - 'src/lib/**'
+      - 'next.config.ts'
+      - 'package.json'
+      - '.github/workflows/lighthouse-baseline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  baseline:
+    if: ${{ github.event.pull_request.draft == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LH_BASE_URL: https://trendingrepo.com
+      PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Skip if no API key
+        if: env.PAGESPEED_API_KEY == ''
+        run: |
+          echo "::warning::PAGESPEED_API_KEY not set — skipping Lighthouse baseline. Add the secret to enable."
+          exit 0
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22
+
+      - name: Run Lighthouse on critical routes
+        if: env.PAGESPEED_API_KEY != ''
+        run: |
+          mkdir -p .perf
+          node -e "
+          const ROUTES = ['/', '/githubrepo', '/skills', '/repo/vercel/next.js', '/funding'];
+          const KEY = process.env.PAGESPEED_API_KEY;
+          const BASE = process.env.LH_BASE_URL;
+          async function run(route, strategy) {
+            const url = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
+            url.searchParams.set('url', BASE + route);
+            url.searchParams.set('strategy', strategy);
+            for (const c of ['performance','accessibility','best-practices','seo']) url.searchParams.append('category', c);
+            url.searchParams.set('key', KEY);
+            const r = await fetch(url.toString());
+            if (!r.ok) throw new Error(route + ' ' + strategy + ' HTTP ' + r.status);
+            const j = await r.json();
+            const c = j?.lighthouseResult?.categories ?? {};
+            const a = j?.lighthouseResult?.audits ?? {};
+            return { route, strategy, perf: c.performance?.score, a11y: c.accessibility?.score, bp: c['best-practices']?.score, seo: c.seo?.score, lcp_ms: a['largest-contentful-paint']?.numericValue, cls: a['cumulative-layout-shift']?.numericValue };
+          }
+          (async () => {
+            const out = { run_date: new Date().toISOString(), routes: [] };
+            for (const r of ROUTES) {
+              for (const s of ['mobile','desktop']) {
+                process.stdout.write(r + ' [' + s + '] ');
+                const result = await run(r, s);
+                out.routes.push(result);
+                console.log('perf=' + (result.perf*100).toFixed(0) + ' a11y=' + (result.a11y*100).toFixed(0));
+                await new Promise(r => setTimeout(r, 2000));
+              }
+            }
+            require('fs').writeFileSync('.perf/lighthouse-pr.json', JSON.stringify(out, null, 2));
+          })();
+          "
+
+      - name: Compare against baseline
+        if: env.PAGESPEED_API_KEY != ''
+        id: compare
+        run: |
+          node -e "
+          const fs = require('fs');
+          const baseline = JSON.parse(fs.readFileSync('.perf/lighthouse-baseline-2026-05-18.json', 'utf8'));
+          const pr = JSON.parse(fs.readFileSync('.perf/lighthouse-pr.json', 'utf8'));
+          const REGRESSION_PTS = 0.05;
+          const failures = [];
+          for (const cur of pr.routes) {
+            const baseRoute = baseline.routes.find(b => b.route === cur.route);
+            if (!baseRoute) continue;
+            const base = cur.strategy === 'mobile' ? baseRoute.lighthouse_mobile : baseRoute.lighthouse_desktop;
+            if (!base || base.perf == null) {
+              console.log('SKIP', cur.route, cur.strategy, '(no baseline)');
+              continue;
+            }
+            for (const k of ['perf','a11y','bp','seo']) {
+              if (cur[k] == null || base[k] == null) continue;
+              const delta = cur[k] - base[k];
+              if (delta < -REGRESSION_PTS) {
+                failures.push(cur.route + ' [' + cur.strategy + '] ' + k + ': ' + (base[k]*100).toFixed(0) + ' -> ' + (cur[k]*100).toFixed(0) + ' (Δ=' + (delta*100).toFixed(0) + ')');
+              }
+            }
+          }
+          if (failures.length) {
+            console.error('LIGHTHOUSE REGRESSIONS:');
+            for (const f of failures) console.error('  ' + f);
+            process.exit(1);
+          }
+          console.log('OK — no regressions > 5 pts on tracked routes.');
+          "
+
+      - name: Upload PR results
+        if: env.PAGESPEED_API_KEY != '' && always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        with:
+          name: lighthouse-pr
+          path: .perf/lighthouse-pr.json

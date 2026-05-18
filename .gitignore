@@ -128,8 +128,10 @@ awesome-codex-skills/
 # local agent vector DB (per-machine runtime state, regenerated automatically)
 /ruvector.db
 
-# perf audit output (Lighthouse-via-PSI, etc.)
-/.perf/
+# perf audit output (Lighthouse-via-PSI, etc.) — ignore per-run output
+# but track the named baseline file referenced by the lighthouse-baseline workflow.
+/.perf/*
+!/.perf/lighthouse-baseline-*.json
 
 # clerk configuration (can include secrets)
 /.clerk/

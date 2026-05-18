@@ -34,6 +34,7 @@ import {
   buildWeeklyDigests,
   collectAlertsByUser,
   loadUserEmailMapFromEnv,
+  mergeProfileEmailsIntoUserEmailMap,
 } from "../alerts/weekly-digest";
 import { ConsoleProvider } from "../../email/providers/console";
 import { ResendProvider } from "../../email/providers/resend";
@@ -343,6 +344,95 @@ test("loadUserEmailMapFromEnv: tolerates garbage JSON", () => {
   process.env.DIGEST_USER_EMAILS_JSON = "not-json{";
   assert.equal(loadUserEmailMapFromEnv().size, 0);
   delete process.env.DIGEST_USER_EMAILS_JSON;
+});
+
+test("mergeProfileEmailsIntoUserEmailMap: DB rows win for profile and Clerk ids", () => {
+  const out = mergeProfileEmailsIntoUserEmailMap({
+    userIds: ["profile-a", "clerk-b"],
+    fallbackEmails: new Map([
+      ["profile-a", "stale-profile@example.com"],
+      ["clerk-b", "stale-clerk@example.com"],
+    ]),
+    profiles: [
+      {
+        profileId: "profile-a",
+        clerkUserId: "clerk-a",
+        email: " profile@example.com ",
+        deletedAt: null,
+      },
+      {
+        profileId: "profile-b",
+        clerkUserId: "clerk-b",
+        email: "clerk@example.com",
+        deletedAt: null,
+      },
+    ],
+  });
+
+  assert.equal(out.get("profile-a"), "profile@example.com");
+  assert.equal(out.get("clerk-b"), "clerk@example.com");
+});
+
+test("mergeProfileEmailsIntoUserEmailMap: resolves signed-session email HMAC ids", () => {
+  const out = mergeProfileEmailsIntoUserEmailMap({
+    userIds: ["u_alice_hmac"],
+    fallbackEmails: new Map(),
+    profiles: [
+      {
+        profileId: "profile-a",
+        clerkUserId: "clerk-a",
+        email: "alice@example.com",
+        deletedAt: null,
+      },
+    ],
+    deriveUserIdFromEmail: (email) =>
+      email === "alice@example.com" ? "u_alice_hmac" : "u_other",
+  });
+
+  assert.equal(out.get("u_alice_hmac"), "alice@example.com");
+});
+
+test("mergeProfileEmailsIntoUserEmailMap: suppresses soft-deleted profile identities", () => {
+  const out = mergeProfileEmailsIntoUserEmailMap({
+    userIds: ["profile-deleted", "clerk-deleted", "u_deleted_hmac", "external"],
+    fallbackEmails: new Map([
+      ["profile-deleted", "fallback-profile@example.com"],
+      ["clerk-deleted", "fallback-clerk@example.com"],
+      ["u_deleted_hmac", "fallback-derived@example.com"],
+      ["external", "external@example.com"],
+    ]),
+    profiles: [
+      {
+        profileId: "profile-deleted",
+        clerkUserId: "clerk-deleted",
+        email: "deleted@example.com",
+        deletedAt: new Date("2026-05-18T00:00:00.000Z"),
+      },
+    ],
+    deriveUserIdFromEmail: () => "u_deleted_hmac",
+  });
+
+  assert.equal(out.has("profile-deleted"), false);
+  assert.equal(out.has("clerk-deleted"), false);
+  assert.equal(out.has("u_deleted_hmac"), false);
+  assert.equal(out.get("external"), "external@example.com");
+});
+
+test("mergeProfileEmailsIntoUserEmailMap: ignores invalid profile emails", () => {
+  const out = mergeProfileEmailsIntoUserEmailMap({
+    userIds: ["profile-a"],
+    fallbackEmails: new Map([["profile-a", "fallback@example.com"]]),
+    profiles: [
+      {
+        profileId: "profile-a",
+        clerkUserId: "clerk-a",
+        email: "not-an-email",
+        deletedAt: null,
+      },
+    ],
+  });
+
+  assert.equal(out.get("profile-a"), "fallback@example.com");
 });
 
 // ---------------------------------------------------------------------------

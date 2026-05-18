@@ -1,0 +1,78 @@
+name: Cron - account purge (30d hard-delete)
+
+# Fires POST /api/cron/account-purge daily at 04:17 UTC. Hard-deletes
+# profiles whose `deleted_at` is older than 30 days (see route header
+# for the FK cascade chain). Off the :00/:30 minute marks to avoid the
+# global cron thundering herd.
+#
+# The 30-day window is the grace period from /api/account/delete (#1742).
+# Anyone who hasn't reactivated within that window loses the row + every
+# cascading dependent.
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.TRENDINGREPO_URL   — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
+#
+# Manual operator usage:
+#   gh workflow run cron-account-purge.yml --field dry=true
+# A dry run logs the ids that WOULD be deleted without touching the DB.
+
+on:
+  schedule:
+    - cron: "17 4 * * *" # UTC, daily at 04:17
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Set true to log ids without deleting"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-account-purge
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/cron/account-purge
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DRY: ${{ inputs.dry || 'false' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+
+          URL="$BASE_URL/api/cron/account-purge"
+          if [ "$DRY" = "true" ]; then
+            URL="$URL?dry=1"
+          fi
+
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$URL" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 4000
+          else
+            head -c 4000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::account-purge call failed ($code)"
+            exit 1
+          fi
+          if command -v jq >/dev/null 2>&1; then
+            jq -e '.ok == true' /tmp/out > /dev/null
+          fi

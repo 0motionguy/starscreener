@@ -98,7 +98,6 @@ export function CheckoutSuccess({ sessionId }: { sessionId?: string }) {
               step: "checkout_completed",
               flow: "revenue-loop",
               tier: body.tier,
-              session_id: sessionId,
             });
           }
           return;

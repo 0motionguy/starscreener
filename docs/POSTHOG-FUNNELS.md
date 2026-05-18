@@ -125,6 +125,37 @@ sign-up after the user lands on the auth surface.
 subscription. `sign_up_success` is already covered by the required
 `user.created` subscription.
 
+### `alert-activation` - alerts surface to first rule and digest opt-in
+
+Lives on `/you/alerts` (`src/app/you/alerts/_components`). This funnel starts
+once the user is on the alerts product surface. Upstream account CTA and signup
+events stay in `account-auth`; the welcome modal also emits direct PostHog
+events (`welcome_modal_*`) that are not `funnel_step` events.
+
+| # | Step | Trigger | Notable extra properties |
+| - | ---- | ------- | ------------------------ |
+| 1 | `alert_created` | `AddAlertRuleDialog` receives a successful `POST /api/me/alert-rules` response | `ruleType`, `cadence`, `is_first_rule` |
+| 2 | `digest_subscribed` | `DigestBanner` successfully patches `/api/me/profile` after Daily / Weekly selection | `cadence`, `source` (`digest_banner`) |
+
+Use this flow to measure whether a signed-in user reaches a durable alerting
+setup. `digest_subscribed` is intentionally optional because realtime alerts
+can be useful without email digest opt-in.
+
+### `revenue-loop` - alert paywall to paid checkout
+
+Captures the upgrade path from an alerts quota wall into Stripe Checkout and
+back to the local billing confirmation screen.
+
+| # | Step | Trigger | Notable extra properties |
+| - | ---- | ------- | ------------------------ |
+| 1 | `paywall_shown` | `AddAlertRuleDialog` receives `402 quota_exceeded` from `POST /api/me/alert-rules` | `feature`, `source` (`add_alert_rule_dialog`) |
+| 2 | `checkout_started` | `CheckoutWalkthrough` receives a Stripe Checkout URL from `POST /api/checkout/stripe` | `tier`, `cadence` |
+| 3 | `checkout_completed` | `CheckoutSuccess` confirms the user session resolved to a paid tier after returning from Stripe | `tier` |
+
+`subscription_canceled` is reserved in the typed `FunnelStep` union for the
+Stripe cancellation surface/webhook, but it is not emitted yet. Do not include
+it in dashboard funnels until a call site lands.
+
 ---
 
 ## Adding a new flow

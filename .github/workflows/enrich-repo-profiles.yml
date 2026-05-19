@@ -96,10 +96,12 @@ jobs:
             --queue data/profile-completion-queue.json
 
       - name: Compute commit timestamp
+        if: github.ref == 'refs/heads/main'
         id: ts
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
+        if: github.ref == 'refs/heads/main'
         timeout-minutes: 5
         uses: ./.github/actions/git-commit-data
         with:
@@ -109,3 +111,8 @@ jobs:
           ignore-missing: "true"
           paths: |
             data/repo-profiles.json
+
+      - name: Skip data commit on non-main ref
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "Skipping data commit because this run is on ${GITHUB_REF}; data PRs are only opened from main."

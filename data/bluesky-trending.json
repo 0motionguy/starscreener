@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-19T08:38:56.635Z",
+  "fetchedAt": "2026-05-19T12:20:31.995Z",
   "discoveryVersion": "2026-04-21",
   "keywords": [
     "AI agents",
@@ -13,15 +13,15 @@
     "Open source AI"
   ],
   "keywordCounts": {
-    "AI agents": 0,
-    "LLMs": 0,
-    "Coding agents": 0,
-    "MCP": 0,
-    "RAG and retrieval": 0,
-    "Workflow and automation": 0,
-    "Context, prompts, memory": 0,
-    "AI skills": 0,
-    "Open source AI": 0
+    "AI agents": 89,
+    "LLMs": 60,
+    "Coding agents": 120,
+    "MCP": 59,
+    "RAG and retrieval": 30,
+    "Workflow and automation": 120,
+    "Context, prompts, memory": 89,
+    "AI skills": 90,
+    "Open source AI": 29
   },
   "queries": [
     "lang:en \"ai agent\"",
@@ -48,7 +48,31 @@
     "lang:en \"ai skills\"",
     "lang:en \"open source ai\""
   ],
-  "queryCounts": {},
+  "queryCounts": {
+    "lang:en \"ai agent\"": 29,
+    "lang:en agentic": 30,
+    "lang:en \"multi agent\"": 30,
+    "lang:en llm": 30,
+    "lang:en \"local llm\"": 30,
+    "lang:en \"claude code\"": 30,
+    "lang:en codex": 30,
+    "lang:en cursor": 30,
+    "lang:en cline": 30,
+    "lang:en \"mcp server\"": 30,
+    "lang:en \"model context protocol\"": 29,
+    "lang:en rag": 30,
+    "lang:en workflow": 30,
+    "lang:en automation": 30,
+    "lang:en cli": 30,
+    "lang:en devtools": 30,
+    "lang:en \"context engineering\"": 30,
+    "lang:en \"prompt engineering\"": 29,
+    "lang:en \"agent memory\"": 30,
+    "lang:en \"claude skill\"": 30,
+    "lang:en \"claude skills\"": 30,
+    "lang:en \"ai skills\"": 30,
+    "lang:en \"open source ai\"": 29
+  },
   "queryFamilies": [
     {
       "id": "agents",
@@ -128,7 +152,7 @@
       ]
     }
   ],
-  "scannedPosts": 0,
+  "scannedPosts": 674,
   "posts": [
     {
       "uri": "at://did:plc:oijtzlibd7mlf56jbfohssdz/app.bsky.feed.post/3ml46o7m5rs2b",
@@ -288,7 +312,7 @@
       "replyCount": 92,
       "createdAt": "2026-05-15T02:45:35.830Z",
       "createdUtc": 1778813135,
-      "ageHours": 97.8,
+      "ageHours": 105.58,
       "trendingScore": 2125,
       "content_tags": [],
       "value_score": 0,
@@ -331,13 +355,13 @@
         "handle": "coreyryung.bsky.social",
         "displayName": "Corey Rayburn Yung"
       },
-      "likeCount": 1094,
-      "repostCount": 256,
-      "replyCount": 16,
+      "likeCount": 1285,
+      "repostCount": 291,
+      "replyCount": 17,
       "createdAt": "2026-05-18T21:40:34.041Z",
       "createdUtc": 1779140434,
-      "ageHours": 6.88,
-      "trendingScore": 1614,
+      "ageHours": 14.67,
+      "trendingScore": 1875.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -408,7 +432,7 @@
       "replyCount": 24,
       "createdAt": "2026-05-15T22:51:37.934Z",
       "createdUtc": 1778885497,
-      "ageHours": 77.7,
+      "ageHours": 85.48,
       "trendingScore": 1217,
       "content_tags": [],
       "value_score": 0,
@@ -571,13 +595,13 @@
         "handle": "stephenkb.bsky.social",
         "displayName": "Stephen Bush"
       },
-      "likeCount": 636,
+      "likeCount": 638,
       "repostCount": 71,
       "replyCount": 37,
       "createdAt": "2026-05-17T17:14:32.432Z",
       "createdUtc": 1779038072,
-      "ageHours": 35.32,
-      "trendingScore": 796.5,
+      "ageHours": 43.1,
+      "trendingScore": 798.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -659,6 +683,30 @@
       "matchedTopicLabel": "RAG and retrieval"
     },
     {
+      "uri": "at://did:plc:oofa3qqoiszsmajbigfqskqv/app.bsky.feed.post/3mm6rndpi6s2n",
+      "cid": "bafyreidu55hiqlc3mdt5ktg2n222x55rcd66hohuwtwj4mc3jhtg3vkgo4",
+      "bskyUrl": "https://bsky.app/profile/chriswarcraft.bsky.social/post/3mm6rndpi6s2n",
+      "text": "I think my inherent disgust towards LLM AI is because it divorces the user from the weight of creation. What brilliance illuminated your life? What insights left you breathless? What strange paths did you wander? What work did you put in towards understanding what it means to be human?",
+      "author": {
+        "handle": "chriswarcraft.bsky.social",
+        "displayName": "Chris Kluwe"
+      },
+      "likeCount": 537,
+      "repostCount": 87,
+      "replyCount": 15,
+      "createdAt": "2026-05-19T06:36:36.432Z",
+      "createdUtc": 1779172596,
+      "ageHours": 5.73,
+      "trendingScore": 718.5,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
       "uri": "at://did:plc:zvoftk5sp6uamea5mlrgriub/app.bsky.feed.post/3mknep3hhtc2i",
       "cid": "bafyreidpjo5bbt7mhhzdaxylelgbkivjayk434tdj77yvq4cpel73anzym",
       "bskyUrl": "https://bsky.app/profile/jdzombi.com/post/3mknep3hhtc2i",
@@ -707,6 +755,30 @@
       "matchedTopicLabel": "LLMs"
     },
     {
+      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm35xnx7qs2o",
+      "cid": "bafyreicsfpn7nio7ddiwtjfcmjthnnf22thspq7dwtrg4tbguntwuq23la",
+      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm35xnx7qs2o",
+      "text": "Like yeah of course CEOs think AI is amazing! They don’t really do stressful or hard work, and do an impression of someone with a real job, which means an LLM feels like their equal (but it always says they’re right!)",
+      "author": {
+        "handle": "edzitron.com",
+        "displayName": "Ed Zitron"
+      },
+      "likeCount": 528,
+      "repostCount": 79,
+      "replyCount": 9,
+      "createdAt": "2026-05-17T20:06:28.664Z",
+      "createdUtc": 1779048388,
+      "ageHours": 40.23,
+      "trendingScore": 690.5,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
       "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mjy2n37vi22v",
       "cid": "bafyreidcvlv23qitk5srdsattifw3ojv2ujxe5ibqk5pvelnuikqnyxfs4",
       "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mjy2n37vi22v",
@@ -720,7 +792,7 @@
       "replyCount": 2,
       "createdAt": "2026-04-21T03:38:29.785Z",
       "createdUtc": 1776742709,
-      "ageHours": 672.92,
+      "ageHours": 680.7,
       "trendingScore": 689,
       "content_tags": [],
       "value_score": 0,
@@ -729,30 +801,6 @@
       "matchedQuery": "lang:en \"claude skill\"",
       "matchedTopicId": "skills",
       "matchedTopicLabel": "AI skills"
-    },
-    {
-      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm35xnx7qs2o",
-      "cid": "bafyreicsfpn7nio7ddiwtjfcmjthnnf22thspq7dwtrg4tbguntwuq23la",
-      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm35xnx7qs2o",
-      "text": "Like yeah of course CEOs think AI is amazing! They don’t really do stressful or hard work, and do an impression of someone with a real job, which means an LLM feels like their equal (but it always says they’re right!)",
-      "author": {
-        "handle": "edzitron.com",
-        "displayName": "Ed Zitron"
-      },
-      "likeCount": 524,
-      "repostCount": 79,
-      "replyCount": 9,
-      "createdAt": "2026-05-17T20:06:28.664Z",
-      "createdUtc": 1779048388,
-      "ageHours": 32.45,
-      "trendingScore": 686.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:b35wwuj336x4ufo5dyykfolz/app.bsky.feed.post/3mlqt6k5ix22p",
@@ -803,21 +851,21 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
-      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2mt3gctk2c",
-      "cid": "bafyreih546urlctsxiosoqg6d4oh56us65pgacrokiusty6acwnxidliaq",
-      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2mt3gctk2c",
-      "text": "Particularly in the context of (appropriate) crackdowns on LLM-generated papers (e.g., on arXiv) and more and more tales of fabricated citations, two reminders: (1) LLMs do not \"cite their sources\" (2) Using an LLM to generate, complete, or fix LaTeX code can result in fabricated citations",
+      "uri": "at://did:plc:3vyl2i7k2fuk7lbnmlxh3vof/app.bsky.feed.post/3mm52ykytk22t",
+      "cid": "bafyreidipr3ahloco2n67kv2isfwdzy4jhukes2rtvzfr3lj6yvtu5yyda",
+      "bskyUrl": "https://bsky.app/profile/lauren.rotatingsandwiches.com/post/3mm52ykytk22t",
+      "text": "if you've seen how Fortune 500 CEOs send emails, you start to understand why conversations harvested from stoned idiots leaning out the window of their car as they try to remember what they like on their burrito is the most valuable training data in the LLM industry",
       "author": {
-        "handle": "cfiesler.bsky.social",
-        "displayName": "Dr. Casey Fiesler"
+        "handle": "lauren.rotatingsandwiches.com",
+        "displayName": "lauren"
       },
-      "likeCount": 368,
-      "repostCount": 114,
-      "replyCount": 5,
-      "createdAt": "2026-05-17T14:59:41.407Z",
-      "createdUtc": 1779029981,
-      "ageHours": 37.56,
-      "trendingScore": 598.5,
+      "likeCount": 511,
+      "repostCount": 40,
+      "replyCount": 17,
+      "createdAt": "2026-05-18T14:18:37.377Z",
+      "createdUtc": 1779113917,
+      "ageHours": 22.03,
+      "trendingScore": 599.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -827,21 +875,21 @@
       "matchedTopicLabel": "LLMs"
     },
     {
-      "uri": "at://did:plc:3vyl2i7k2fuk7lbnmlxh3vof/app.bsky.feed.post/3mm52ykytk22t",
-      "cid": "bafyreidipr3ahloco2n67kv2isfwdzy4jhukes2rtvzfr3lj6yvtu5yyda",
-      "bskyUrl": "https://bsky.app/profile/lauren.rotatingsandwiches.com/post/3mm52ykytk22t",
-      "text": "if you've seen how Fortune 500 CEOs send emails, you start to understand why conversations harvested from stoned idiots leaning out the window of their car as they try to remember what they like on their burrito is the most valuable training data in the LLM industry",
+      "uri": "at://did:plc:rrjvo5jwuateqep2i7ih5ckl/app.bsky.feed.post/3mm2mt3gctk2c",
+      "cid": "bafyreih546urlctsxiosoqg6d4oh56us65pgacrokiusty6acwnxidliaq",
+      "bskyUrl": "https://bsky.app/profile/cfiesler.bsky.social/post/3mm2mt3gctk2c",
+      "text": "Particularly in the context of (appropriate) crackdowns on LLM-generated papers (e.g., on arXiv) and more and more tales of fabricated citations, two reminders: (1) LLMs do not \"cite their sources\" (2) Using an LLM to generate, complete, or fix LaTeX code can result in fabricated citations",
       "author": {
-        "handle": "lauren.rotatingsandwiches.com",
-        "displayName": "lauren"
+        "handle": "cfiesler.bsky.social",
+        "displayName": "Dr. Casey Fiesler"
       },
-      "likeCount": 504,
-      "repostCount": 40,
-      "replyCount": 17,
-      "createdAt": "2026-05-18T14:18:37.377Z",
-      "createdUtc": 1779113917,
-      "ageHours": 14.25,
-      "trendingScore": 592.5,
+      "likeCount": 369,
+      "repostCount": 114,
+      "replyCount": 5,
+      "createdAt": "2026-05-17T14:59:41.407Z",
+      "createdUtc": 1779029981,
+      "ageHours": 45.35,
+      "trendingScore": 599.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -883,13 +931,13 @@
         "handle": "puppikeco.bsky.social",
         "displayName": "Pup Pike"
       },
-      "likeCount": 491,
+      "likeCount": 494,
       "repostCount": 36,
       "replyCount": 13,
       "createdAt": "2026-05-17T16:42:21.014Z",
       "createdUtc": 1779036141,
-      "ageHours": 35.85,
-      "trendingScore": 569.5,
+      "ageHours": 43.64,
+      "trendingScore": 572.5,
       "content_tags": [
         "is-question"
       ],
@@ -933,13 +981,13 @@
         "handle": "robdenbleyker.com",
         "displayName": "Rob DenBleyker"
       },
-      "likeCount": 497,
+      "likeCount": 498,
       "repostCount": 28,
       "replyCount": 9,
       "createdAt": "2026-05-17T18:36:26.909Z",
       "createdUtc": 1779042986,
-      "ageHours": 33.95,
-      "trendingScore": 557.5,
+      "ageHours": 41.73,
+      "trendingScore": 558.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -947,6 +995,30 @@
       "matchedQuery": "lang:en automation",
       "matchedTopicId": "workflow",
       "matchedTopicLabel": "Workflow and automation"
+    },
+    {
+      "uri": "at://did:plc:6jsvyhtxrkb4d2wrlwd2avmm/app.bsky.feed.post/3mm53xi3po22e",
+      "cid": "bafyreigjhnzmg32njy327bndt3rkqgejsfgur2vwn2xuu23nse5ylfbi5m",
+      "bskyUrl": "https://bsky.app/profile/webdevs.firefox.com/post/3mm53xi3po22e",
+      "text": "Chrome shipped an LLM Prompt API to the web platform. At Mozilla, we oppose this API. Here's why:",
+      "author": {
+        "handle": "webdevs.firefox.com",
+        "displayName": "Firefox for Web Developers"
+      },
+      "likeCount": 340,
+      "repostCount": 104,
+      "replyCount": 15,
+      "createdAt": "2026-05-18T14:35:54.513Z",
+      "createdUtc": 1779114954,
+      "ageHours": 21.74,
+      "trendingScore": 555.5,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:4rndwwuyhrtlv2oufdcujjch/app.bsky.feed.post/3mluburry2c2k",
@@ -962,7 +1034,7 @@
       "replyCount": 7,
       "createdAt": "2026-05-15T02:27:48.821Z",
       "createdUtc": 1778812068,
-      "ageHours": 98.1,
+      "ageHours": 105.88,
       "trendingScore": 555.5,
       "content_tags": [
         "is-question"
@@ -988,7 +1060,7 @@
       "replyCount": 38,
       "createdAt": "2026-05-17T21:56:52.568Z",
       "createdUtc": 1779055012,
-      "ageHours": 30.61,
+      "ageHours": 38.39,
       "trendingScore": 545,
       "content_tags": [],
       "value_score": 0,
@@ -1007,13 +1079,13 @@
         "handle": "cfiesler.bsky.social",
         "displayName": "Dr. Casey Fiesler"
       },
-      "likeCount": 378,
+      "likeCount": 379,
       "repostCount": 77,
       "replyCount": 6,
       "createdAt": "2026-05-17T15:04:35.469Z",
       "createdUtc": 1779030275,
-      "ageHours": 37.48,
-      "trendingScore": 535,
+      "ageHours": 45.27,
+      "trendingScore": 536,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1079,13 +1151,13 @@
         "handle": "spavel.bsky.social",
         "displayName": "Pavel"
       },
-      "likeCount": 375,
+      "likeCount": 376,
       "repostCount": 66,
-      "replyCount": 7,
+      "replyCount": 8,
       "createdAt": "2026-05-13T15:20:51.497Z",
       "createdUtc": 1778685651,
-      "ageHours": 133.21,
-      "trendingScore": 510.5,
+      "ageHours": 140.99,
+      "trendingScore": 512,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1143,30 +1215,6 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
-      "uri": "at://did:plc:6jsvyhtxrkb4d2wrlwd2avmm/app.bsky.feed.post/3mm53xi3po22e",
-      "cid": "bafyreigjhnzmg32njy327bndt3rkqgejsfgur2vwn2xuu23nse5ylfbi5m",
-      "bskyUrl": "https://bsky.app/profile/webdevs.firefox.com/post/3mm53xi3po22e",
-      "text": "Chrome shipped an LLM Prompt API to the web platform. At Mozilla, we oppose this API. Here's why:",
-      "author": {
-        "handle": "webdevs.firefox.com",
-        "displayName": "Firefox for Web Developers"
-      },
-      "likeCount": 293,
-      "repostCount": 88,
-      "replyCount": 13,
-      "createdAt": "2026-05-18T14:35:54.513Z",
-      "createdUtc": 1779114954,
-      "ageHours": 13.96,
-      "trendingScore": 475.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
       "uri": "at://did:plc:m4hcx7fornr745oorfsvhslc/app.bsky.feed.post/3mm4fb6uuqc2i",
       "cid": "bafyreidby22rdr5vfmxi5rvbv6ar2zlijp3nc36q7digc2s77cvmyi2ltm",
       "bskyUrl": "https://bsky.app/profile/sexabolition.blog/post/3mm4fb6uuqc2i",
@@ -1175,13 +1223,13 @@
         "handle": "sexabolition.blog",
         "displayName": "Mallory Moore"
       },
-      "likeCount": 380,
+      "likeCount": 386,
       "repostCount": 45,
       "replyCount": 3,
       "createdAt": "2026-05-18T07:49:44.333Z",
       "createdUtc": 1779090584,
-      "ageHours": 20.73,
-      "trendingScore": 471.5,
+      "ageHours": 28.51,
+      "trendingScore": 477.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1215,6 +1263,30 @@
       "matchedTopicLabel": "Coding agents"
     },
     {
+      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm36ysxkec2o",
+      "cid": "bafyreifvry2egqshhwppaaps3fkmpgjokl2ujycahpx6tuocfqdczsavgq",
+      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm36ysxkec2o",
+      "text": "Think of it like this. Even as a technical ceo - someone who has not written code with any seriousness in years - an LLM does an impression of a software engineer writing a lot of code, which is what you would think an SWE did if you didn’t do the job in 10+ years bsky.app/profile/zeno...",
+      "author": {
+        "handle": "edzitron.com",
+        "displayName": "Ed Zitron"
+      },
+      "likeCount": 357,
+      "repostCount": 52,
+      "replyCount": 8,
+      "createdAt": "2026-05-17T20:25:01.214Z",
+      "createdUtc": 1779049501,
+      "ageHours": 39.92,
+      "trendingScore": 465,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
       "uri": "at://did:plc:vcepp6trx4vpe5ourxso4tjl/app.bsky.feed.post/3ml22yh6q722o",
       "cid": "bafyreicfc4quizsdlco6vxnjb6rpwbtpyfqt7djsjvkvet6pkhqmjuz7fi",
       "bskyUrl": "https://bsky.app/profile/404media.co/post/3ml22yh6q722o",
@@ -1237,30 +1309,6 @@
       "matchedQuery": "lang:en automation",
       "matchedTopicId": "workflow",
       "matchedTopicLabel": "Workflow and automation"
-    },
-    {
-      "uri": "at://did:plc:qc6xzgctorfsm35w6i3vdebx/app.bsky.feed.post/3mm36ysxkec2o",
-      "cid": "bafyreifvry2egqshhwppaaps3fkmpgjokl2ujycahpx6tuocfqdczsavgq",
-      "bskyUrl": "https://bsky.app/profile/edzitron.com/post/3mm36ysxkec2o",
-      "text": "Think of it like this. Even as a technical ceo - someone who has not written code with any seriousness in years - an LLM does an impression of a software engineer writing a lot of code, which is what you would think an SWE did if you didn’t do the job in 10+ years bsky.app/profile/zeno...",
-      "author": {
-        "handle": "edzitron.com",
-        "displayName": "Ed Zitron"
-      },
-      "likeCount": 354,
-      "repostCount": 52,
-      "replyCount": 8,
-      "createdAt": "2026-05-17T20:25:01.214Z",
-      "createdUtc": 1779049501,
-      "ageHours": 32.14,
-      "trendingScore": 462,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:fv2nxxac24oxk5fqztfazyuc/app.bsky.feed.post/3mlp3qmpak22c",
@@ -1311,30 +1359,6 @@
       "matchedQuery": "lang:en rag",
       "matchedTopicId": "retrieval",
       "matchedTopicLabel": "RAG and retrieval"
-    },
-    {
-      "uri": "at://did:plc:e6n7jxtu2qrhwvp3j6ib6sq6/app.bsky.feed.post/3mm3hmdm4kc23",
-      "cid": "bafyreiei4pidrnkxn6s5wdcjlwn3bt7oo7ksqlj3xnxl3gasyxfrhxox6q",
-      "bskyUrl": "https://bsky.app/profile/proptermalone.bsky.social/post/3mm3hmdm4kc23",
-      "text": "btw the other day i was using Claude Code to pull together documents related to an years-old ongoing annoyance with the water company I'll talk about in more detail sometime and it suggested then executed a research avenue that hadn't occurred to me which hit pay dirt",
-      "author": {
-        "handle": "proptermalone.bsky.social",
-        "displayName": "post malone ergo propter malone"
-      },
-      "likeCount": 402,
-      "repostCount": 16,
-      "replyCount": 15,
-      "createdAt": "2026-05-17T22:59:06.133Z",
-      "createdUtc": 1779058746,
-      "ageHours": 29.57,
-      "trendingScore": 441.5,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "Coding agents",
-      "matchedQuery": "lang:en \"claude code\"",
-      "matchedTopicId": "coding-agents",
-      "matchedTopicLabel": "Coding agents"
     }
   ]
 }

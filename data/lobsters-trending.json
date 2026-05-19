@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-19T16:00:36.513Z",
+  "fetchedAt": "2026-05-19T18:25:04.016Z",
   "windowHours": 72,
-  "scannedTotal": 77,
+  "scannedTotal": 79,
   "stories": [
     {
       "shortId": "29pm2f",
@@ -113,11 +113,11 @@
       "url": "https://www.openbsd.org/79.html",
       "commentsUrl": "https://lobste.rs/s/wwcjoc/openbsd_7_9_released",
       "by": "",
-      "score": 25,
-      "commentCount": 2,
+      "score": 48,
+      "commentCount": 4,
       "createdUtc": 1779197409,
-      "ageHours": 2.5075,
-      "trendingScore": 2.612380333087812,
+      "ageHours": 4.915277777777778,
+      "trendingScore": 2.6395311559925774,
       "tags": [
         "openbsd",
         "release"
@@ -139,6 +139,23 @@
       "tags": [
         "linux",
         "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "zotppg",
+      "title": "Type out the code",
+      "url": "https://haskellforall.com/2026/05/type-out-the-code",
+      "commentsUrl": "https://lobste.rs/s/zotppg/type_out_code",
+      "by": "",
+      "score": 34,
+      "commentCount": 2,
+      "createdUtc": 1779201447,
+      "ageHours": 3.7936111111111113,
+      "trendingScore": 2.438119042592024,
+      "tags": [
+        "programming"
       ],
       "description": "",
       "linkedRepos": []
@@ -459,23 +476,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "zotppg",
-      "title": "Type out the code",
-      "url": "https://haskellforall.com/2026/05/type-out-the-code",
-      "commentsUrl": "https://lobste.rs/s/zotppg/type_out_code",
-      "by": "",
-      "score": 7,
-      "commentCount": 0,
-      "createdUtc": 1779201447,
-      "ageHours": 1.3858333333333333,
-      "trendingScore": 1.1235688120945133,
-      "tags": [
-        "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
       "shortId": "bnfm0h",
       "title": "Let's Encrypt Stopping Issuance for Potential Incident",
       "url": "https://letsencrypt.status.io/",
@@ -634,6 +634,24 @@
         "hardware"
       ],
       "description": "<p>AFAIU this is a wired device even if promotional images seem to suggest different.</p>\n",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "maqmo2",
+      "title": "How we used Quint to find over 10 bugs in SQLite while hardening Turso",
+      "url": "https://turso.tech/blog/how-we-used-quint-to-find-over-10-bugs-in-sqlite",
+      "commentsUrl": "https://lobste.rs/s/maqmo2/how_we_used_quint_find_over_10_bugs_sqlite",
+      "by": "",
+      "score": 10,
+      "commentCount": 1,
+      "createdUtc": 1779205399,
+      "ageHours": 2.6958333333333333,
+      "trendingScore": 0.9827227011836208,
+      "tags": [
+        "databases",
+        "formalmethods"
+      ],
+      "description": "",
       "linkedRepos": []
     },
     {
@@ -881,25 +899,6 @@
         "meta"
       ],
       "description": "<p>There've been endless discussions about whether we should ban LLM-generated text, or change the ai/vibecoding tags, or etc.  The general consensus seems to be (???) flag low-effort/uninformative stories as spam and move on.</p>\n<p>My proposal here is that <em>comments</em> on these stories that just say \"this is LLM slop\" or something equivalent should be flagged as off-topic.  Clearly everyone has different thresholds for what triggers their \"slop-o-meter\" but at least 80% of the reason I re",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "njobov",
-      "title": "let-go: Almost Clojure written in Go",
-      "url": "https://github.com/nooga/let-go",
-      "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
-      "by": "",
-      "score": 11,
-      "commentCount": 1,
-      "createdUtc": 1778443677,
-      "ageHours": 3.3833333333333333,
-      "trendingScore": 0.8806752213857781,
-      "tags": [
-        "clojure",
-        "go",
-        "lisp"
-      ],
-      "description": "",
       "linkedRepos": []
     }
   ]

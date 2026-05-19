@@ -53,6 +53,28 @@
       "owner": "funding"
     },
     {
+      "route": "/revenue",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1600 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "revenue"
+    },
+    {
+      "route": "/agent-commerce",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1600 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "agent-commerce"
+    },
+    {
       "route": "/api/health?soft=1",
       "policy": "dynamic-public",
       "expectsDynamic": true,

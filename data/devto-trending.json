@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-19T09:48:39.286Z",
+  "fetchedAt": "2026-05-19T15:27:59.539Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1287,
+  "scannedArticles": 1283,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -187,20 +187,20 @@
     "tag-agentic-top-7d": 6,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 21,
+    "tag-codex-top-7d": 19,
     "tag-cursor-top-7d": 26,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 4,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 39,
+    "tag-promptengineering-top-7d": 30,
     "tag-workflow-top-7d": 25,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 97,
+    "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 28,
+    "tag-langchain-top-7d": 25,
     "tag-n8n-top-7d": 39,
     "tag-opensource-top-7d": 100
   },
@@ -370,6 +370,38 @@
       "linkedRepos": []
     },
     {
+      "id": 3701157,
+      "title": "Hermes Just Killed OpenClaw (Here's Why)",
+      "description": "A technical comparison of Hermes Agent and OpenClaw through the five claims that actually matter: memory, skills, sandboxing, messaging, and persistent infrastructure.",
+      "url": "https://dev.to/tahosin/hermes-just-killed-openclaw-heres-why-4c23",
+      "author": {
+        "username": "tahosin",
+        "name": "S M Tahosin",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886453%2F0f012a95-ad46-4c17-97e8-125ec8b4978d.png"
+      },
+      "reactionsCount": 29,
+      "commentsCount": 12,
+      "readingTime": 13,
+      "publishedAt": "2026-05-19T13:12:33Z",
+      "tags": [
+        "hermesagentchallenge",
+        "devchallenge",
+        "agents",
+        "discuss"
+      ],
+      "trendingScore": 41.33,
+      "linkedRepos": [
+        {
+          "fullName": "openclaw/openclaw",
+          "location": "body"
+        },
+        {
+          "fullName": "NousResearch/hermes-agent",
+          "location": "body"
+        }
+      ]
+    },
+    {
       "id": 3623725,
       "title": "Embed These Websites In Your Blog Today",
       "description": "I stumbled onto the DEV supported URL embeds list, which revealed some interesting supported...",
@@ -456,6 +488,28 @@
         "discuss"
       ],
       "trendingScore": 30.34,
+      "linkedRepos": []
+    },
+    {
+      "id": 3622377,
+      "title": "Terminal Superpowers You Should Be Using in 2026",
+      "description": "I live in my terminal. Here's what I use to stay fast.   Fuzzy finder (fzf) Terminal motions Sudo...",
+      "url": "https://dev.to/aws/terminal-superpowers-you-should-be-using-in-2026-38b4",
+      "author": {
+        "username": "hacksore",
+        "name": "Sean Boult",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F828306%2Fbf0bbed7-7874-4a26-8137-bb761a4b7f23.png"
+      },
+      "reactionsCount": 13,
+      "commentsCount": 0,
+      "readingTime": 3,
+      "publishedAt": "2026-05-19T15:00:00Z",
+      "tags": [
+        "productivity",
+        "cli",
+        "zsh"
+      ],
+      "trendingScore": 28.96,
       "linkedRepos": []
     },
     {
@@ -1278,6 +1332,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3656535,
+      "title": "AI Didn't Make Software Engineering Easier. It Made the Hard Parts Harder.",
+      "description": "When I started using AI tools seriously across my side projects, I expected the work to get easier....",
+      "url": "https://dev.to/iampraveen/ai-didnt-make-software-engineering-easier-it-made-the-hard-parts-harder-39n4",
+      "author": {
+        "username": "iampraveen",
+        "name": "Praveen Rajamani",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2566801%2F3cd6c6be-4327-41a8-b198-eddda5912540.jpg"
+      },
+      "reactionsCount": 81,
+      "commentsCount": 49,
+      "readingTime": 5,
+      "publishedAt": "2026-05-14T13:57:11Z",
+      "tags": [
+        "discuss",
+        "ai",
+        "webdev",
+        "career"
+      ],
+      "trendingScore": 7.51,
+      "linkedRepos": []
+    },
+    {
       "id": 3695943,
       "title": "Honesty is the best Policy. The Secret Wars on the use of AI on DEV",
       "description": "I recommend reading the post by @best_codes that talks about how people are using AI on dev.to.     ...",
@@ -1372,29 +1449,6 @@
           "location": "body"
         }
       ]
-    },
-    {
-      "id": 3656535,
-      "title": "AI Didn't Make Software Engineering Easier. It Made the Hard Parts Harder.",
-      "description": "When I started using AI tools seriously across my side projects, I expected the work to get easier....",
-      "url": "https://dev.to/iampraveen/ai-didnt-make-software-engineering-easier-it-made-the-hard-parts-harder-39n4",
-      "author": {
-        "username": "iampraveen",
-        "name": "Praveen Rajamani",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2566801%2F3cd6c6be-4327-41a8-b198-eddda5912540.jpg"
-      },
-      "reactionsCount": 74,
-      "commentsCount": 45,
-      "readingTime": 5,
-      "publishedAt": "2026-05-14T13:57:11Z",
-      "tags": [
-        "discuss",
-        "ai",
-        "webdev",
-        "career"
-      ],
-      "trendingScore": 6.57,
-      "linkedRepos": []
     },
     {
       "id": 3643702,
@@ -2477,52 +2531,6 @@
         "programming"
       ],
       "trendingScore": 3.35,
-      "linkedRepos": []
-    },
-    {
-      "id": 3624003,
-      "title": "Anthropic just rented Elon Musk's data center. The price of a Claude token is about to make sense.",
-      "description": "A 300 megawatt deal, a $180 a month decision, and the strange feeling of having a vendor solve your...",
-      "url": "https://dev.to/thegdsks/anthropic-just-rented-elon-musks-data-center-the-price-of-a-claude-token-is-about-to-make-sense-lc3",
-      "author": {
-        "username": "thegdsks",
-        "name": "GDS K S",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3592860%2F7dec468f-4f91-4b1d-9d24-99091e204707.jpg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 0,
-      "readingTime": 6,
-      "publishedAt": "2026-05-07T13:25:45Z",
-      "tags": [
-        "anthropic",
-        "ai",
-        "infrastructure",
-        "startup"
-      ],
-      "trendingScore": 3.33,
-      "linkedRepos": []
-    },
-    {
-      "id": 3619287,
-      "title": "I Programmed an AI in 6502 Assembly - It Worked",
-      "description": "In 1975 the 6502 processed 8-bit values through memory and control flow. A Claude Code skill now uses...",
-      "url": "https://dev.to/newellpaul/i-programmed-an-ai-in-6502-assembly-it-worked-gpi",
-      "author": {
-        "username": "newellpaul",
-        "name": "Paul Newell",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F172670%2Ff6157e1c-7e08-4ff5-8370-a657633a4ff2.jpeg"
-      },
-      "reactionsCount": 48,
-      "commentsCount": 3,
-      "readingTime": 5,
-      "publishedAt": "2026-05-06T12:21:00Z",
-      "tags": [
-        "ai",
-        "webdev",
-        "programming",
-        "productivity"
-      ],
-      "trendingScore": 3.33,
       "linkedRepos": []
     }
   ]

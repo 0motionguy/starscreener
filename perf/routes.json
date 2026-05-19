@@ -49,6 +49,17 @@
       "ttfbBudgetMs": { "cached": 400, "uncached": 600 },
       "transferBudgetKb": 5,
       "warmupOnDeploy": true
+    },
+    {
+      "route": "/repo/[owner]/[name]",
+      "policy": "dynamic-public",
+      "expectsDynamic": true,
+      "reason": "per-repo profile — `export const dynamic = 'force-dynamic'` so per-repo data isn't pinned to ISR; unbounded slug space",
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": false,
+      "owner": "repo-detail"
     }
   ]
 }

@@ -9,6 +9,8 @@
 // compare + category OG cards). MCP tools + admin pipeline routes continue
 // to read the in-memory stores.
 
+import { cache } from "react";
+
 import type { Repo } from "./types";
 import {
   getRepoMetadata,
@@ -109,8 +111,12 @@ function computeCacheKey(): string {
  * rank in one pass so consumers get the same shape that the in-memory
  * pipeline would have produced after recomputeAll(). Cached after the first
  * call.
+ *
+ * Wrapped in `React.cache()` so multiple sibling RSC components calling
+ * `getDerivedRepos()` during the same request share a single computation
+ * frame (saves the `computeCacheKey()` floor walk + Map lookups on hits).
  */
-export function getDerivedRepos(): Repo[] {
+export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
   const cacheKey = computeCacheKey();
   if (_cache && _cacheKey === cacheKey) return _cache;
   _byFullName = null;
@@ -380,10 +386,10 @@ export function getDerivedRepos(): Repo[] {
   _cache = sorted;
   _cacheKey = cacheKey;
   return sorted;
-}
+});
 
 /** Case-insensitive lookup by `owner/name`. */
-export function getDerivedRepoByFullName(fullName: string): Repo | null {
+export const getDerivedRepoByFullName = cache(function getDerivedRepoByFullNameImpl(fullName: string): Repo | null {
   if (!_byFullName) {
     const repos = getDerivedRepos();
     const byFullName = new Map<string, Repo>();
@@ -403,10 +409,10 @@ export function getDerivedRepoByFullName(fullName: string): Repo | null {
     _byFullName = byFullName;
   }
   return _byFullName.get(fullName.toLowerCase()) ?? null;
-}
+});
 
 /** Lookup by slug id (e.g. `vercel--next-js`). */
-export function getDerivedRepoById(id: string): Repo | null {
+export const getDerivedRepoById = cache(function getDerivedRepoByIdImpl(id: string): Repo | null {
   if (!_byId) {
     const repos = getDerivedRepos();
     const byId = new Map<string, Repo>();
@@ -416,12 +422,12 @@ export function getDerivedRepoById(id: string): Repo | null {
     _byId = byId;
   }
   return _byId.get(id) ?? null;
-}
+});
 
 /** Track count for pagination/debug across OSS + supplemental recent repos. */
-export function getDerivedRepoCount(): number {
+export const getDerivedRepoCount = cache(function getDerivedRepoCountImpl(): number {
   return getDerivedRepos().length;
-}
+});
 
 // Test-only cache reset. Also clears the pipeline-jsonl loader's mtime
 // cache via its dedicated reset hook so a test can reset everything in

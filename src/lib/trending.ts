@@ -13,6 +13,8 @@
 // change in lockstep — they read whatever's in the in-memory cache, which
 // is updated by the refresh hook.
 
+import { cache } from "react";
+
 import trending from "../../data/trending.json";
 import deltasData from "../../data/deltas.json";
 import type { Repo } from "./types";
@@ -390,7 +392,7 @@ export interface TrendingTopMover {
  * remain available for freshness diagnostics, but cold-start history must not
  * hide the source feed's own 24h ranking.
  */
-export function getTopMoversByDelta24h(limit: number): TrendingTopMover[] {
+export const getTopMoversByDelta24h = cache(function getTopMoversByDelta24hImpl(limit: number): TrendingTopMover[] {
   if (limit <= 0) return [];
   const byRepo = new Map<string, TrendingTopMover>();
   const languages: TrendingLanguage[] = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -414,7 +416,7 @@ export function getTopMoversByDelta24h(limit: number): TrendingTopMover[] {
   const movers = Array.from(byRepo.values());
   movers.sort((a, b) => b.starsDelta24h - a.starsDelta24h);
   return movers.slice(0, limit);
-}
+});
 
 /**
  * Project the delta values for this repo onto a fresh Repo copy. Replaces

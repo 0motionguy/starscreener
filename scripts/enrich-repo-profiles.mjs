@@ -802,8 +802,8 @@ async function callKimiJson({ systemPrompt, userMessage }) {
       }),
     });
     if (!response.ok) {
-      const body = await response.text().catch(() => "");
-      throw new Error(`Kimi ${response.status}: ${truncateText(body, 240)}`);
+      await response.arrayBuffer().catch(() => null);
+      throw new Error(`Kimi ${response.status} ${response.statusText || "request failed"}`);
     }
     return parseKimiJson(await readKimiStream(response));
   } finally {

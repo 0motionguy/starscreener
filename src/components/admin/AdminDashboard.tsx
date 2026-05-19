@@ -59,6 +59,43 @@ interface IdeaPreview {
   createdAt: string;
 }
 
+interface RepoProfileBacklogRow {
+  fullName: string;
+  rank: number | null;
+  status: string;
+  websiteUrl: string | null;
+  websiteSource: string | null;
+  lastProfiledAt: string;
+  nextScanAfter: string | null;
+  error: string | null;
+}
+
+interface RepoProfileStatusSummary {
+  generatedAt: string | null;
+  counts: {
+    total: number;
+    scanned: number;
+    scanPending: number;
+    scanRunning: number;
+    queued: number;
+    noWebsite: number;
+    scanFailed: number;
+    rateLimited: number;
+    failed: number;
+    withAiso: number;
+    withExpertBrief: number;
+    actionableBacklog: number;
+  };
+  budget: {
+    dailyScanBudget: number | null;
+    recentAisoSubmissions24h: number;
+    remainingToday: number | null;
+    windowHours: number;
+    latestAisoScanAt: string | null;
+  };
+  backlogPreview: RepoProfileBacklogRow[];
+}
+
 interface Overview {
   ok: true;
   generatedAt: string;
@@ -72,6 +109,7 @@ interface Overview {
     preview: RepoQueueRow[];
   };
   aisoRescanQueue: { total: number };
+  repoProfileStatus: RepoProfileStatusSummary;
   ideasQueue: {
     pending: number;
     published: number;
@@ -174,6 +212,34 @@ function statusColor(status: ScannerStatus): CSSProperties {
     background: "color-mix(in srgb, var(--v3-sig-red) 10%, transparent)",
     color: "var(--v3-sig-red)",
   };
+}
+
+function repoProfileStatusColor(status: string): CSSProperties {
+  if (status === "scanned") {
+    return {
+      borderColor: "var(--v3-sig-green)",
+      background: "color-mix(in srgb, var(--v3-sig-green) 10%, transparent)",
+      color: "var(--v3-sig-green)",
+    };
+  }
+  if (status === "rate_limited" || status === "scan_failed") {
+    return {
+      borderColor: "var(--v3-sig-red)",
+      background: "color-mix(in srgb, var(--v3-sig-red) 10%, transparent)",
+      color: "var(--v3-sig-red)",
+    };
+  }
+  return {
+    borderColor: "var(--v3-sig-amber)",
+    background: "color-mix(in srgb, var(--v3-sig-amber) 10%, transparent)",
+    color: "var(--v3-sig-amber)",
+  };
+}
+
+function repoHref(fullName: string): string {
+  const [owner, name] = fullName.split("/");
+  if (!owner || !name) return "/githubrepo";
+  return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
 }
 
 export function AdminDashboard() {
@@ -425,6 +491,209 @@ export function AdminDashboard() {
             {/* Drop attempts (7d) — includes silent 'already tracked' bypass */}
             <section className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-4">
               <DropEventsTile />
+            </section>
+
+            {/* Repo-profile AISO scan backlog */}
+            <section
+              className="mb-6 rounded-[2px]"
+              style={{
+                background: "var(--v3-bg-050)",
+                border: "1px solid var(--v3-line-200)",
+              }}
+            >
+              <div
+                className="flex flex-wrap items-center justify-between gap-3 px-3 py-2"
+                style={{
+                  background: "var(--v3-bg-025)",
+                  borderBottom: "1px solid var(--v3-line-100)",
+                }}
+              >
+                <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em]">
+                  <span
+                    aria-hidden
+                    className="inline-block"
+                    style={{
+                      width: 6,
+                      height: 6,
+                      background:
+                        overview.repoProfileStatus.counts.actionableBacklog > 0
+                          ? "var(--v3-sig-amber)"
+                          : "var(--v3-sig-green)",
+                      borderRadius: 1,
+                    }}
+                  />
+                  <span style={{ color: "var(--v3-ink-300)" }}>
+                    {"// REPO PROFILE AISO SCANS"}
+                  </span>
+                </span>
+                <span
+                  className="font-mono text-[10px] tabular-nums tracking-[0.14em]"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
+                  {overview.repoProfileStatus.counts.scanPending} PENDING ·{" "}
+                  {overview.repoProfileStatus.counts.rateLimited} RATE LIMITED ·{" "}
+                  {overview.repoProfileStatus.counts.actionableBacklog} BACKLOG ·{" "}
+                  {overview.repoProfileStatus.budget.remainingToday ?? "∞"} BUDGET LEFT
+                </span>
+              </div>
+              <div className="p-4">
+                <div className="mb-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+                  <StatTile
+                    label="Scanned"
+                    value={overview.repoProfileStatus.counts.scanned}
+                  />
+                  <StatTile
+                    label="With AISO"
+                    value={overview.repoProfileStatus.counts.withAiso}
+                  />
+                  <StatTile
+                    label="Kimi briefs"
+                    value={overview.repoProfileStatus.counts.withExpertBrief}
+                  />
+                  <StatTile
+                    label="AISO 24h"
+                    value={`${overview.repoProfileStatus.budget.recentAisoSubmissions24h}/${overview.repoProfileStatus.budget.dailyScanBudget ?? "∞"}`}
+                  />
+                </div>
+                <div
+                  className="mb-3 grid grid-cols-1 gap-2 font-mono text-[10px] uppercase tracking-[0.14em] md:grid-cols-3"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
+                  <span>
+                    Latest AISO:{" "}
+                    <span style={{ color: "var(--v3-ink-200)" }}>
+                      {fmtWhen(overview.repoProfileStatus.budget.latestAisoScanAt)}
+                    </span>
+                  </span>
+                  <span>
+                    Generated:{" "}
+                    <span style={{ color: "var(--v3-ink-200)" }}>
+                      {fmtWhen(overview.repoProfileStatus.generatedAt)}
+                    </span>
+                  </span>
+                  <span>
+                    No website:{" "}
+                    <span style={{ color: "var(--v3-ink-200)" }}>
+                      {overview.repoProfileStatus.counts.noWebsite}
+                    </span>
+                  </span>
+                </div>
+
+                {overview.repoProfileStatus.backlogPreview.length === 0 ? (
+                  <div
+                    className="rounded-[2px] px-3 py-3 font-mono text-[11px] uppercase tracking-[0.14em]"
+                    style={{
+                      border: "1px dashed var(--v3-line-200)",
+                      background: "var(--v3-bg-025)",
+                      color: "var(--v3-ink-400)",
+                    }}
+                  >
+                    {"// NO ACTIONABLE REPO-PROFILE SCAN BACKLOG"}
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr style={{ borderBottom: "1px solid var(--v3-line-200)" }}>
+                          <th
+                            className="px-2 py-2 text-left font-mono text-[10px] uppercase tracking-[0.16em]"
+                            style={{ color: "var(--v3-ink-400)" }}
+                          >
+                            Rank
+                          </th>
+                          <th
+                            className="px-2 py-2 text-left font-mono text-[10px] uppercase tracking-[0.16em]"
+                            style={{ color: "var(--v3-ink-400)" }}
+                          >
+                            Repo
+                          </th>
+                          <th
+                            className="px-2 py-2 text-left font-mono text-[10px] uppercase tracking-[0.16em]"
+                            style={{ color: "var(--v3-ink-400)" }}
+                          >
+                            Status
+                          </th>
+                          <th
+                            className="px-2 py-2 text-left font-mono text-[10px] uppercase tracking-[0.16em]"
+                            style={{ color: "var(--v3-ink-400)" }}
+                          >
+                            Website
+                          </th>
+                          <th
+                            className="px-2 py-2 text-left font-mono text-[10px] uppercase tracking-[0.16em]"
+                            style={{ color: "var(--v3-ink-400)" }}
+                          >
+                            Last
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {overview.repoProfileStatus.backlogPreview.map((row) => (
+                          <tr
+                            key={row.fullName}
+                            style={{ borderBottom: "1px solid var(--v3-line-100)" }}
+                          >
+                            <td
+                              className="px-2 py-2 font-mono tabular-nums text-[11px]"
+                              style={{ color: "var(--v3-ink-300)" }}
+                            >
+                              {row.rank ?? "—"}
+                            </td>
+                            <td
+                              className="px-2 py-2"
+                              style={{
+                                color: "var(--v3-ink-100)",
+                                fontWeight: 500,
+                              }}
+                            >
+                              <Link
+                                href={repoHref(row.fullName)}
+                                className="underline transition-colors"
+                                style={{ color: "var(--v3-ink-100)" }}
+                              >
+                                {row.fullName}
+                              </Link>
+                            </td>
+                            <td className="px-2 py-2">
+                              <span
+                                className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+                                style={repoProfileStatusColor(row.status)}
+                              >
+                                {row.status}
+                              </span>
+                            </td>
+                            <td
+                              className="max-w-[260px] truncate px-2 py-2 font-mono text-[11px]"
+                              style={{ color: "var(--v3-ink-200)" }}
+                              title={row.websiteUrl ?? ""}
+                            >
+                              {row.websiteUrl}
+                            </td>
+                            <td
+                              className="px-2 py-2 font-mono tabular-nums text-[11px]"
+                              style={{ color: "var(--v3-ink-200)" }}
+                            >
+                              {fmtWhen(row.lastProfiledAt)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {overview.repoProfileStatus.counts.actionableBacklog >
+                    overview.repoProfileStatus.backlogPreview.length ? (
+                      <p
+                        className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em]"
+                        style={{ color: "var(--v3-ink-400)" }}
+                      >
+                        {`// +${
+                          overview.repoProfileStatus.counts.actionableBacklog -
+                          overview.repoProfileStatus.backlogPreview.length
+                        } MORE NOT SHOWN`}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+              </div>
             </section>
 
             {/* Issues */}

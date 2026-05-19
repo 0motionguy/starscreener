@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-18T20:06:17.791Z",
+  "fetchedAt": "2026-05-19T04:37:41.536Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -41,10 +41,11 @@
       "author": "PsiBotAI",
       "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
       "downloads": 33959,
-      "likes": 139,
-      "trendingScore": 92,
+      "likes": 140,
+      "trendingScore": 93,
       "tags": [
         "language:en",
+        "license:cc-by-4.0",
         "size_categories:100K<n<1M",
         "format:parquet",
         "modality:tabular",
@@ -56,7 +57,7 @@
         "region:us"
       ],
       "createdAt": "2026-04-21T09:17:18.000Z",
-      "lastModified": "2026-05-14T02:00:47.000Z"
+      "lastModified": "2026-05-19T03:09:19.000Z"
     },
     {
       "rank": 3,
@@ -100,8 +101,8 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 2923,
-      "likes": 124,
-      "trendingScore": 68,
+      "likes": 136,
+      "trendingScore": 69,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -286,6 +287,37 @@
     },
     {
       "rank": 10,
+      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
+      "author": "5CD-AI",
+      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
+      "downloads": 78,
+      "likes": 34,
+      "trendingScore": 31,
+      "tags": [
+        "task_categories:image-to-text",
+        "language:vi",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2408.12480",
+        "region:us",
+        "ocr",
+        "text-recognition",
+        "handwriting",
+        "handwriting-recognition",
+        "vietnamese"
+      ],
+      "createdAt": "2026-05-10T22:38:24.000Z",
+      "lastModified": "2026-05-18T17:14:55.000Z"
+    },
+    {
+      "rank": 11,
       "id": "5551z/VisCoR-55K",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
@@ -308,7 +340,7 @@
       "lastModified": "2026-04-30T10:51:23.000Z"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "id": "Roman1111111/claude-opus-4.6-10000x",
       "author": "Roman1111111",
       "url": "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x",
@@ -330,7 +362,7 @@
       "lastModified": "2026-04-05T13:42:24.000Z"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "id": "jamiequint/sf_criminal_court",
       "author": "jamiequint",
       "url": "https://huggingface.co/datasets/jamiequint/sf_criminal_court",
@@ -358,37 +390,6 @@
       ],
       "createdAt": "2026-05-04T21:12:03.000Z",
       "lastModified": "2026-05-04T23:34:38.000Z"
-    },
-    {
-      "rank": 13,
-      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
-      "author": "5CD-AI",
-      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
-      "downloads": 78,
-      "likes": 31,
-      "trendingScore": 28,
-      "tags": [
-        "task_categories:image-to-text",
-        "language:vi",
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "format:optimized-parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2408.12480",
-        "region:us",
-        "ocr",
-        "text-recognition",
-        "handwriting",
-        "handwriting-recognition",
-        "vietnamese"
-      ],
-      "createdAt": "2026-05-10T22:38:24.000Z",
-      "lastModified": "2026-05-18T17:14:55.000Z"
     },
     {
       "rank": 14,
@@ -587,8 +588,8 @@
       "author": "alibaba-multimodal-industrial-ai",
       "url": "https://huggingface.co/datasets/alibaba-multimodal-industrial-ai/IndustryBench",
       "downloads": 143,
-      "likes": 24,
-      "trendingScore": 23,
+      "likes": 25,
+      "trendingScore": 24,
       "tags": [
         "task_categories:question-answering",
         "task_categories:text-generation",
@@ -754,6 +755,38 @@
     },
     {
       "rank": 25,
+      "id": "openai/gsm8k",
+      "author": "openai",
+      "url": "https://huggingface.co/datasets/openai/gsm8k",
+      "downloads": 923053,
+      "likes": 1320,
+      "trendingScore": 20,
+      "tags": [
+        "benchmark:official",
+        "benchmark:eval-yaml",
+        "task_categories:text-generation",
+        "annotations_creators:crowdsourced",
+        "language_creators:crowdsourced",
+        "multilinguality:monolingual",
+        "source_datasets:original",
+        "language:en",
+        "license:mit",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2110.14168",
+        "region:us",
+        "math-word-problems"
+      ],
+      "createdAt": "2022-04-12T10:22:10.000Z",
+      "lastModified": "2026-03-23T10:18:13.000Z"
+    },
+    {
+      "rank": 26,
       "id": "ShadenA/MathNet",
       "author": "ShadenA",
       "url": "https://huggingface.co/datasets/ShadenA/MathNet",
@@ -796,7 +829,7 @@
       "lastModified": "2026-04-27T23:48:47.000Z"
     },
     {
-      "rank": 26,
+      "rank": 27,
       "id": "SWE-bench/SWE-bench_Verified",
       "author": "SWE-bench",
       "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
@@ -819,7 +852,7 @@
       "lastModified": "2026-02-27T20:36:38.000Z"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": "unh1nge/comfyui-character-composer",
       "author": "unh1nge",
       "url": "https://huggingface.co/datasets/unh1nge/comfyui-character-composer",
@@ -847,7 +880,7 @@
       "lastModified": "2026-05-07T19:19:01.000Z"
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
@@ -869,38 +902,6 @@
       ],
       "createdAt": "2024-04-18T14:33:13.000Z",
       "lastModified": "2025-07-11T20:16:53.000Z"
-    },
-    {
-      "rank": 29,
-      "id": "openai/gsm8k",
-      "author": "openai",
-      "url": "https://huggingface.co/datasets/openai/gsm8k",
-      "downloads": 923053,
-      "likes": 1318,
-      "trendingScore": 18,
-      "tags": [
-        "benchmark:official",
-        "benchmark:eval-yaml",
-        "task_categories:text-generation",
-        "annotations_creators:crowdsourced",
-        "language_creators:crowdsourced",
-        "multilinguality:monolingual",
-        "source_datasets:original",
-        "language:en",
-        "license:mit",
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2110.14168",
-        "region:us",
-        "math-word-problems"
-      ],
-      "createdAt": "2022-04-12T10:22:10.000Z",
-      "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
       "rank": 30,
@@ -1494,11 +1495,7 @@
       "trendingScore": 11,
       "tags": [
         "license:mit",
-        "size_categories:1K<n<10K",
-        "format:imagefolder",
         "modality:image",
-        "library:datasets",
-        "library:mlcroissant",
         "region:us",
         "ai-generated",
         "dreamcore",
@@ -1507,7 +1504,7 @@
         "gpt-image"
       ],
       "createdAt": "2026-05-16T12:14:28.000Z",
-      "lastModified": "2026-05-16T18:04:18.000Z"
+      "lastModified": "2026-05-18T22:03:11.000Z"
     }
   ]
 }

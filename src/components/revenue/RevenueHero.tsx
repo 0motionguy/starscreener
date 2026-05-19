@@ -1,6 +1,7 @@
 // RevenueHero — page-head for /revenue with segmented category filter.
 // Mirrors the .rev-head + .page-eyebrow/.page-title chrome from 10-revenue.html.
-// Freshness wires honest verdict via classifyFreshness("repos", fetchedAt).
+// Freshness wires honest verdict via classifyFreshness("revenue", fetchedAt) —
+// 36h budget matching the daily-ish TrustMRR catalog sync cadence.
 //
 // URL contract: ?cat=all|dev-tools|ai|saas|content|analytics|fintech|education
 
@@ -31,7 +32,7 @@ export function RevenueHero({
   ossMatchCount,
   fetchedAt,
 }: RevenueHeroProps) {
-  const fresh = classifyFreshness("repos", fetchedAt ?? null);
+  const fresh = classifyFreshness("revenue", fetchedAt ?? null);
   const statusLabel =
     fresh.status === "live" ? "LIVE" : fresh.status === "warn" ? "WARM" : "STALE";
 

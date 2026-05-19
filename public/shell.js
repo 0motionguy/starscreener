@@ -348,7 +348,16 @@
   }
 
   function detailHref(ref) {
-    return '04-repo-detail.html?repo=' + encodeURIComponent(ref || '');
+    // Repo refs are owner/name; map to the Next.js dynamic route. Encode each
+    // segment separately so '/' between owner and name stays a real slash.
+    const r = (ref || '').toString();
+    const slash = r.indexOf('/');
+    if (slash === -1) {
+      return '/repo/' + encodeURIComponent(r);
+    }
+    const owner = encodeURIComponent(r.slice(0, slash));
+    const name = encodeURIComponent(r.slice(slash + 1));
+    return '/repo/' + owner + '/' + name;
   }
 
   function bindRepoHover() {

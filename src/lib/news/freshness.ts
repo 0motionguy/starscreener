@@ -28,7 +28,10 @@ export type NewsSource =
   | "skills"
   | "arxiv"
   | "repos"
-  | "huggingface";
+  | "huggingface"
+  | "funding"
+  | "revenue"
+  | "agent_commerce";
 
 export type FreshnessStatus = "live" | "warn" | "cold";
 
@@ -77,6 +80,15 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   // (one tick + 5h grace) keeps the badge honest without firing on a
   // single skipped run.
   huggingface: HUGGINGFACE_STALE_THRESHOLD_MS,
+  // Funding aggregator runs hourly (TechCrunch / VentureBeat / Sifted /
+  // Crunchbase / SEC Form D / etc.). 6h budget = 1h cron + 5h grace.
+  funding: 6 * 60 * 60 * 1000,
+  // Revenue (TrustMRR catalog) refreshes daily-ish via the Apify sync.
+  // 36h budget = 24h cron + 12h grace before the badge goes cold.
+  revenue: 36 * 60 * 60 * 1000,
+  // Agent-commerce (x402 + MCP + a2a + on-chain via Dune) runs hourly.
+  // 6h budget = 1h cron + 5h grace.
+  agent_commerce: 6 * 60 * 60 * 1000,
 };
 
 /** Soft warn threshold = 50% of the stale threshold. Past it the badge

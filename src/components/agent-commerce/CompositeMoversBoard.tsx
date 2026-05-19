@@ -64,7 +64,7 @@ export function CompositeMoversBoard({ items, limit = 10 }: CompositeMoversBoard
               color: "var(--fg-muted)",
             }}
           >
-            no items in the corpus yet — TODO: trigger agent-commerce fetcher.
+            no agent-commerce records are loaded yet. Collector status is cold.
           </div>
         ) : (
           ranked.map((it, idx) => {
@@ -209,8 +209,8 @@ const badgeA2a: React.CSSProperties = {
   color: "var(--up)",
 };
 const badgePortal: React.CSSProperties = {
-  background: "rgba(245,158,11,0.14)",
-  color: "#f59e0b",
+  background: "var(--warning-soft, rgba(245,158,11,0.14))",
+  color: "var(--warning)",
 };
 const scoreStyle: React.CSSProperties = {
   fontFamily: "var(--font-mono)",

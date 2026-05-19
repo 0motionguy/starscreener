@@ -6,10 +6,8 @@
 //   Size  = total mention volume (28-84px diameter).
 //   Color = tier class (.bubble.hot|.warm|.neutral|.cool).
 //
-// Each bubble is a real <a> link to /repo/{owner}/{name} so the chart is
-// keyboard-navigable. Axis labels + legend are absolute-positioned siblings.
-
-import Link from "next/link";
+// Each bubble is a real <a> link to the rebuilt repo-detail route so the
+// chart is keyboard-navigable without client-side JS.
 
 import type { BreakoutTier } from "./TierHeatStrip";
 
@@ -128,19 +126,18 @@ export function BubbleMap({ bubbles, hotCount, warmCount, emergingCount }: Bubbl
           const cls = TIER_CLASS[b.tier];
           const title = `${b.fullName} — +${b.velocityPct.toFixed(1)}% velocity · ${b.sourceCount} sources · ${b.mentionVolume.toLocaleString()} mentions`;
           return (
-            <Link
+            <a
               key={b.fullName}
               className={`bubble ${cls}`}
               style={{ left, top, width: diameter, height: diameter }}
               href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
               title={title}
-              prefetch={false}
             >
               <span className="bubble-name">{b.short}</span>
               {b.velocityPct >= 1 && (
                 <span className="bubble-delta">+{Math.round(b.velocityPct)}%</span>
               )}
-            </Link>
+            </a>
           );
         })}
 
@@ -154,7 +151,7 @@ export function BubbleMap({ bubbles, hotCount, warmCount, emergingCount }: Bubbl
             <span className="lg-dot" style={{ background: "var(--warning)" }} /> Warm · 8–15%
           </div>
           <div className="lg-row">
-            <span className="lg-dot" style={{ background: "#878787" }} /> Early · 4–8%
+            <span className="lg-dot" style={{ background: "var(--fg-subtle)" }} /> Early · 4–8%
           </div>
           <div className="lg-row">
             <span className="lg-dot" style={{ background: "var(--info)" }} /> Emerging ·

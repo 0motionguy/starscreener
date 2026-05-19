@@ -115,6 +115,15 @@ export interface IdeaRecord {
   moderatedAt: string | null;
   moderationNote: string | null;
   approvedAutomatically: boolean;
+  /**
+   * Claim ownership (Phase 4C). Optional/back-compatible — pre-existing
+   * rows have undefined for both. Set by `claimIdea` when a signed-in
+   * user picks the idea up; `buildStatus` flips from "exploring" →
+   * "scoping" at the same moment so the public surface reflects that
+   * someone is actively scoping it.
+   */
+  claimedBy?: string;
+  claimedAt?: string;
 }
 
 export interface PublicIdea {
@@ -131,6 +140,9 @@ export interface PublicIdea {
   tags: string[];
   createdAt: string;
   publishedAt: string | null;
+  /** Claim ownership exposed to the public surface (Phase 4C). */
+  claimedBy?: string;
+  claimedAt?: string;
 }
 
 export interface CreateIdeaInput {
@@ -391,6 +403,8 @@ export function toPublicIdea(record: IdeaRecord): PublicIdea {
     tags: record.tags,
     createdAt: record.createdAt,
     publishedAt: record.publishedAt,
+    ...(record.claimedBy !== undefined ? { claimedBy: record.claimedBy } : {}),
+    ...(record.claimedAt !== undefined ? { claimedAt: record.claimedAt } : {}),
   };
 }
 
@@ -607,6 +621,98 @@ export async function updateIdeaLifecycle(input: {
     throw new Error("updateIdeaLifecycle produced no result");
   }
   return updated;
+}
+
+/**
+ * Outcome class for `claimIdea`. The route maps these directly to HTTP:
+ *   - "claimed"          → 200 (first-time claim by this user)
+ *   - "already-by-self"  → 200 (idempotent re-claim by same user)
+ *   - "already-by-other" → 409 (someone else owns it)
+ *   - "not-found"        → 404
+ *   - "not-claimable"    → 409 (idea was rejected / shipped / archived)
+ */
+export type ClaimIdeaOutcome =
+  | { kind: "claimed"; record: IdeaRecord }
+  | { kind: "already-by-self"; record: IdeaRecord }
+  | { kind: "already-by-other"; record: IdeaRecord }
+  | { kind: "not-found" }
+  | { kind: "not-claimable"; reason: string };
+
+/**
+ * Claim ownership of an idea (Phase 4C).
+ *
+ * Sets `claimedBy` + `claimedAt` and flips `buildStatus` from
+ * "exploring" → "scoping" so the public lifecycle reflects that someone
+ * is actively scoping the work. If the idea is already past "scoping"
+ * (e.g. building/shipped), the buildStatus is left untouched and only
+ * the claim metadata is recorded.
+ *
+ * Idempotent for the same user. If a different user has already
+ * claimed, returns `already-by-other` so the route can 409 without
+ * overwriting the existing owner.
+ */
+export async function claimIdea(
+  ideaId: string,
+  userId: string,
+): Promise<ClaimIdeaOutcome> {
+  const holder: { value: ClaimIdeaOutcome | null } = { value: null };
+  const now = new Date().toISOString();
+
+  await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
+    const idx = current.findIndex((r) => r.id === ideaId);
+    if (idx === -1) {
+      holder.value = { kind: "not-found" };
+      return current;
+    }
+    const before = current[idx]!;
+
+    // Rejected / shipped / archived ideas are not claimable. "shipped"
+    // is owned-by-history; "archived" is closed; "rejected" is private.
+    if (
+      before.status === "rejected" ||
+      before.status === "shipped" ||
+      before.status === "archived"
+    ) {
+      holder.value = {
+        kind: "not-claimable",
+        reason: `idea is ${before.status}`,
+      };
+      return current;
+    }
+
+    if (before.claimedBy && before.claimedBy === userId) {
+      // Same-user re-claim is a no-op apart from the response shape.
+      holder.value = { kind: "already-by-self", record: before };
+      return current;
+    }
+    if (before.claimedBy && before.claimedBy !== userId) {
+      holder.value = { kind: "already-by-other", record: before };
+      return current;
+    }
+
+    // Flip "exploring" → "scoping" on first claim. Leave any further-along
+    // status (building/shipped/abandoned) untouched — claiming an idea
+    // that's mid-build shouldn't regress its lifecycle.
+    const nextBuildStatus: IdeaBuildStatus =
+      before.buildStatus === "exploring" ? "scoping" : before.buildStatus;
+
+    const updated: IdeaRecord = {
+      ...before,
+      claimedBy: userId,
+      claimedAt: now,
+      buildStatus: nextBuildStatus,
+      updatedAt: now,
+    };
+    const next = [...current];
+    next[idx] = updated;
+    holder.value = { kind: "claimed", record: updated };
+    return next;
+  });
+
+  if (!holder.value) {
+    throw new Error("claimIdea transaction did not produce a result");
+  }
+  return holder.value;
 }
 
 // ---------------------------------------------------------------------------

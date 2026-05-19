@@ -59,6 +59,31 @@ export interface IdeaContribution {
   createdAt: string;
 }
 
+/**
+ * Public projection of a contribution — strips the raw Clerk userId so
+ * GET responses don't expose internal identity handles. The contribution
+ * id, idea id, type, body, and mentions are safe; the userId is not. A
+ * future iteration can replace this with a derived authorHandle once a
+ * users table is populated; until then the field is simply omitted.
+ *
+ * Mirrors the `toPublicIdea` boundary in src/lib/ideas.ts.
+ */
+export type PublicIdeaContribution = Omit<IdeaContribution, "userId">;
+
+export function toPublicContribution(
+  record: IdeaContribution,
+): PublicIdeaContribution {
+  return {
+    id: record.id,
+    ideaId: record.ideaId,
+    type: record.type,
+    body: record.body,
+    mentionsRepos: record.mentionsRepos,
+    mentionsSkills: record.mentionsSkills,
+    createdAt: record.createdAt,
+  };
+}
+
 export interface CreateContributionInput {
   ideaId: string;
   userId: string;

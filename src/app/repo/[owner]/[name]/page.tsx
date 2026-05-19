@@ -69,8 +69,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const { owner, name } = await params;
   const fullName = `${owner}/${name}`;
 
-  await refreshTrendingFromStore().catch(() => undefined);
-  await refreshRepoProfilesFromStore().catch(() => undefined);
+  // Trending + profiles + star-activity + github-events are independent
+  // store reads; serialising them adds 3 round-trips of dead latency.
+  // Parallelise via Promise.all — each refresh has its own internal
+  // 30s rate-limit + in-flight dedupe so a parallel call is still cheap.
+  await Promise.all([
+    refreshTrendingFromStore().catch(() => undefined),
+    refreshRepoProfilesFromStore().catch(() => undefined),
+    refreshStarActivityFromStore(fullName).catch(() => undefined),
+  ]);
 
   const repo = (() => {
     try {
@@ -84,7 +91,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  await refreshStarActivityFromStore(fullName).catch(() => undefined);
   const starActivity = (() => {
     try {
       return getStarActivity(fullName);

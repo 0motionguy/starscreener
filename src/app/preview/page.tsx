@@ -24,10 +24,19 @@ interface Tile {
 }
 
 export default async function PreviewPage() {
-  await refreshTrendingFromStore().catch(() => undefined);
+  // refresh + sidebar counts + ideas read are independent — fan them
+  // out in parallel so cold launcher loads don't serially wait for 3
+  // round trips. trackedRepos is a sync getter on the in-memory cache
+  // populated by refreshTrendingFromStore, so it stays after the Promise.
+  const [, counts, ideasOpen] = await Promise.all([
+    refreshTrendingFromStore().catch(() => undefined),
+    getSidebarSourceCounts().catch(() => null),
+    listIdeas()
+      .then((rows) => rows.filter((i) => i.status === "published").length)
+      .catch(() => 0),
+  ]);
 
   const trackedRepos = safe(() => getTrackedRepoCount(), 0);
-  const counts = await getSidebarSourceCounts().catch(() => null);
   const mentions24h = counts
     ? counts.hackernewsStories +
       counts.lobstersStories +
@@ -36,9 +45,6 @@ export default async function PreviewPage() {
       counts.redditPosts +
       counts.producthuntLaunches
     : 0;
-  const ideasOpen = await listIdeas()
-    .then((rows) => rows.filter((i) => i.status === "published").length)
-    .catch(() => 0);
 
   const tiles: Tile[] = [
     {

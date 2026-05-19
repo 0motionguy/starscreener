@@ -20,8 +20,10 @@ import { getIdeaById } from "@/lib/ideas";
 import {
   appendContribution,
   listContributions,
+  toPublicContribution,
   validateContributionInput,
   type IdeaContribution,
+  type PublicIdeaContribution,
 } from "@/lib/idea-contributions";
 
 // Shape gate only — field-level validation lives in
@@ -44,12 +46,17 @@ export const dynamic = "force-dynamic";
 
 interface ContributionsListResponse {
   ok: true;
-  contributions: IdeaContribution[];
+  contributions: PublicIdeaContribution[];
   total: number;
 }
 
 interface ContributionsCreateResponse {
   ok: true;
+  /**
+   * The author's own record on POST — returns the full IdeaContribution
+   * (incl. userId) so the caller can correlate their submission, since
+   * the userId is their own and not new information.
+   */
   contribution: IdeaContribution;
 }
 
@@ -100,10 +107,13 @@ export async function GET(
     if (deny) return deny;
 
     const contributions = await listContributions(id);
+    // Strip userId before returning — raw Clerk identifiers must never
+    // be exposed publicly. POSTers see their own full record (above).
+    const publicContributions = contributions.map(toPublicContribution);
     return NextResponse.json({
       ok: true,
-      contributions,
-      total: contributions.length,
+      contributions: publicContributions,
+      total: publicContributions.length,
     });
   } catch (err) {
     return serverError<ContributionsErrorResponse>(err, {

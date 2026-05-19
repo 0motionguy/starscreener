@@ -75,6 +75,17 @@
       "owner": "agent-commerce"
     },
     {
+      "route": "/tools",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1600 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
       "route": "/api/health?soft=1",
       "policy": "dynamic-public",
       "expectsDynamic": true,
@@ -93,6 +104,17 @@
       "firstLoadJsBudgetKb": 600,
       "warmupOnDeploy": false,
       "owner": "repo-detail"
+    },
+    {
+      "route": "/build",
+      "policy": "dynamic-private",
+      "expectsDynamic": true,
+      "reason": "Clerk-gated build workflow dashboard — per-user repo + draft state, anon redirects to /sign-in",
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": false,
+      "owner": "build"
     }
   ]
 }

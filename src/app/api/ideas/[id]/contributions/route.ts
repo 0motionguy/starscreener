@@ -15,6 +15,7 @@ import { z } from "zod";
 import { requireUser } from "@/lib/auth/server";
 import { serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { getIdeaById } from "@/lib/ideas";
 import {
   appendContribution,
@@ -26,6 +27,17 @@ import {
 // Shape gate only — field-level validation lives in
 // validateContributionInput, same split as /api/ideas POST.
 const ContributionsPostSchema = z.record(z.string(), z.unknown());
+
+// Per-user rate-limit on contribution POST. Each append rewrites
+// idea-contributions.jsonl under a file lock; without a cap, an
+// authenticated attacker (or a compromised session) can drive storage
+// amplification + lock contention by spamming comments. 30/min is well
+// above any plausible human cadence (one every 2s) while keeping a
+// determined flooder out. Mirrors the /api/me/profile PATCH pattern.
+const CONTRIBUTIONS_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 30,
+} as const;
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -115,6 +127,27 @@ export async function POST(
   }
 
   const user = await requireUser();
+
+  const rate = await checkRateLimitAsync(request, {
+    ...CONTRIBUTIONS_RATE_LIMIT,
+    subject: user.profile.id,
+  });
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "rate limit exceeded — try again shortly",
+        code: "RATE_LIMITED",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+          "Cache-Control": "private, no-store",
+        },
+      },
+    );
+  }
 
   try {
     const deny = await ensurePubliclyVisible(id);

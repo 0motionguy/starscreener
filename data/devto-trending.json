@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-19T15:27:59.539Z",
+  "fetchedAt": "2026-05-19T19:54:29.567Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1283,
+  "scannedArticles": 1280,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 8,
+    "global-rising": 13,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -556,6 +556,29 @@
         "discuss"
       ],
       "trendingScore": 25.28,
+      "linkedRepos": []
+    },
+    {
+      "id": 3701968,
+      "title": "Gemini 3.5 Flash Developer Guide",
+      "description": "Gemini 3.5 Flash is generally available (GA), stable, and ready for scaled production use. As our...",
+      "url": "https://dev.to/googleai/gemini-35-flash-developer-guide-1i46",
+      "author": {
+        "username": "pat_loeber",
+        "name": "Patrick Loeber",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F442102%2Fbd7918bd-50e9-4d39-b9a2-fba8e364a8ed.jpg"
+      },
+      "reactionsCount": 29,
+      "commentsCount": 1,
+      "readingTime": 8,
+      "publishedAt": "2026-05-19T17:55:34Z",
+      "tags": [
+        "ai",
+        "gemini",
+        "google",
+        "llm"
+      ],
+      "trendingScore": 23.54,
       "linkedRepos": []
     },
     {
@@ -1309,6 +1332,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3656535,
+      "title": "AI Didn't Make Software Engineering Easier. It Made the Hard Parts Harder.",
+      "description": "When I started using AI tools seriously across my side projects, I expected the work to get easier....",
+      "url": "https://dev.to/iampraveen/ai-didnt-make-software-engineering-easier-it-made-the-hard-parts-harder-39n4",
+      "author": {
+        "username": "iampraveen",
+        "name": "Praveen Rajamani",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2566801%2F3cd6c6be-4327-41a8-b198-eddda5912540.jpg"
+      },
+      "reactionsCount": 81,
+      "commentsCount": 56,
+      "readingTime": 5,
+      "publishedAt": "2026-05-14T13:57:11Z",
+      "tags": [
+        "discuss",
+        "ai",
+        "webdev",
+        "career"
+      ],
+      "trendingScore": 8.1,
+      "linkedRepos": []
+    },
+    {
       "id": 3620449,
       "title": "Best ROAS Optimization Tools: Get More Revenue from Every Ad Dollar",
       "description": "You open your ads dashboard and the number jumps out immediately.  ROAS was 4.2x last quarter. Now...",
@@ -1332,26 +1378,24 @@
       "linkedRepos": []
     },
     {
-      "id": 3656535,
-      "title": "AI Didn't Make Software Engineering Easier. It Made the Hard Parts Harder.",
-      "description": "When I started using AI tools seriously across my side projects, I expected the work to get easier....",
-      "url": "https://dev.to/iampraveen/ai-didnt-make-software-engineering-easier-it-made-the-hard-parts-harder-39n4",
+      "id": 3702702,
+      "title": "Understanding Reinforcement Learning with Human Feedback Part 2: Aligning Pretrained Models",
+      "description": "In the previous article, we explored the concept of pre-training and its limitations without a...",
+      "url": "https://dev.to/rijultp/understanding-reinforcement-learning-with-human-feedback-part-2-aligning-pretrained-models-58ho",
       "author": {
-        "username": "iampraveen",
-        "name": "Praveen Rajamani",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2566801%2F3cd6c6be-4327-41a8-b198-eddda5912540.jpg"
+        "username": "rijultp",
+        "name": "Rijul Rajesh",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1207862%2Ff06197aa-d585-4225-94a6-86243238376f.png"
       },
-      "reactionsCount": 81,
-      "commentsCount": 49,
-      "readingTime": 5,
-      "publishedAt": "2026-05-14T13:57:11Z",
+      "reactionsCount": 15,
+      "commentsCount": 0,
+      "readingTime": 2,
+      "publishedAt": "2026-05-19T17:29:56Z",
       "tags": [
-        "discuss",
         "ai",
-        "webdev",
-        "career"
+        "machinelearning"
       ],
-      "trendingScore": 7.51,
+      "trendingScore": 7.32,
       "linkedRepos": []
     },
     {
@@ -1443,6 +1487,34 @@
         "python"
       ],
       "trendingScore": 6.65,
+      "linkedRepos": [
+        {
+          "fullName": "HexmosTech/git-lrc",
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "id": 3703180,
+      "title": "What Happens When You Run `npm run dev`",
+      "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
+      "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
+      "author": {
+        "username": "lovestaco",
+        "name": "Athreya aka Maneshwar",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+      },
+      "reactionsCount": 8,
+      "commentsCount": 0,
+      "readingTime": 6,
+      "publishedAt": "2026-05-19T18:45:40Z",
+      "tags": [
+        "webdev",
+        "programming",
+        "javascript",
+        "beginners"
+      ],
+      "trendingScore": 6.3,
       "linkedRepos": [
         {
           "fullName": "HexmosTech/git-lrc",
@@ -1931,6 +2003,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3702170,
+      "title": "AI isn't replacing junior devs. Your org chart is.",
+      "description": "Two contradicting takes on AI and junior developers aren't actually contradicting. One describes individual disposition, the other organizational design. The real risk is making pipeline decisions by accident.",
+      "url": "https://dev.to/aws/ai-isnt-replacing-junior-devs-your-org-chart-is-1edp",
+      "author": {
+        "username": "dennistraub",
+        "name": "Dennis Traub",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F752988%2Fea2b8598-0758-4ffa-b8d7-d904360f46e4.png"
+      },
+      "reactionsCount": 15,
+      "commentsCount": 0,
+      "readingTime": 5,
+      "publishedAt": "2026-05-19T15:50:26Z",
+      "tags": [
+        "ai",
+        "software",
+        "career",
+        "leadership"
+      ],
+      "trendingScore": 4.34,
+      "linkedRepos": []
+    },
+    {
       "id": 3682577,
       "title": "Best AI Tools for CMOs in 2026: The Stack Smart Marketing Leaders Are Actually Using",
       "description": "Your marketing stack probably costs more than some startups raise in seed funding.  And somehow,...",
@@ -2409,128 +2504,26 @@
       ]
     },
     {
-      "id": 3636782,
-      "title": "Cómo Guiar Asistentes de IA para Construir Agentes Listos para Producción: 8 Patrones Esenciales",
-      "description": "Cuando le pides a un asistente de IA como Kiro (el asistente de IA de AWS), Claude Code o ChatGPT...",
-      "url": "https://dev.to/aws-espanol/como-guiar-asistentes-de-ia-para-construir-agentes-listos-para-produccion-8-patrones-esenciales-1ifd",
+      "id": 3696406,
+      "title": "Demystifying AI Agents with Turtle & Gemma",
+      "description": "🐢 Speaking into Canvas   If you're anything like me, your very first taste of \"programming\"...",
+      "url": "https://dev.to/googleai/demystifying-ai-agents-with-turtle-gemma-4ajj",
       "author": {
-        "username": "elizabethfuentes12",
-        "name": "Elizabeth Fuentes L",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F717518%2Fb550b165-b8b9-405d-acfb-e5dc846765b0.png"
+        "username": "bebechien",
+        "name": "bebechien",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3714120%2F58c2015b-b06c-4f0e-9cb0-1014430d9773.png"
       },
-      "reactionsCount": 5,
-      "commentsCount": 0,
-      "readingTime": 16,
-      "publishedAt": "2026-05-11T18:54:52Z",
-      "tags": [
-        "ai",
-        "tutorial",
-        "programming",
-        "python"
-      ],
-      "trendingScore": 3.43,
-      "linkedRepos": []
-    },
-    {
-      "id": 3652261,
-      "title": "My fully offline AI-assisted Linux development machine",
-      "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
-      "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
-      "author": {
-        "username": "deepu105",
-        "name": "Deepu K Sasidharan",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
-      },
-      "reactionsCount": 78,
-      "commentsCount": 23,
-      "readingTime": 13,
-      "publishedAt": "2026-05-11T20:47:59Z",
-      "tags": [
-        "linux",
-        "archlinux",
-        "development",
-        "ai"
-      ],
-      "trendingScore": 3.42,
-      "linkedRepos": [
-        {
-          "fullName": "ajeetdsouza/zoxide",
-          "location": "body"
-        }
-      ]
-    },
-    {
-      "id": 3643673,
-      "title": "Old PC vs New AI: Can a 2015 Desktop Actually Run Gemma 4? (2B vs 4B Benchmark)",
-      "description": "Running modern AI models locally on older hardware sounds almost impossible. But with smaller models...",
-      "url": "https://dev.to/gramli/old-pc-vs-new-ai-can-a-2015-desktop-actually-run-gemma-4-2b-vs-4b-benchmark-2eg6",
-      "author": {
-        "username": "gramli",
-        "name": "Daniel Balcarek",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3669374%2F0ad6f20b-8faa-45a4-a8ef-ef83e702d37b.png"
-      },
-      "reactionsCount": 22,
-      "commentsCount": 18,
-      "readingTime": 29,
-      "publishedAt": "2026-05-14T06:23:32Z",
-      "tags": [
-        "devchallenge",
-        "gemmachallenge",
-        "gemma",
-        "ai"
-      ],
-      "trendingScore": 3.4,
-      "linkedRepos": []
-    },
-    {
-      "id": 3686207,
-      "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-      "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
-      "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-      "author": {
-        "username": "arshtechpro",
-        "name": "ArshTechPro",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 1,
+      "reactionsCount": 36,
+      "commentsCount": 2,
       "readingTime": 3,
-      "publishedAt": "2026-05-18T09:00:18Z",
+      "publishedAt": "2026-05-19T00:37:24Z",
       "tags": [
+        "turtle",
+        "gemma",
         "ai",
-        "sre",
-        "devops",
-        "opensource"
+        "agents"
       ],
-      "trendingScore": 3.4,
-      "linkedRepos": [
-        {
-          "fullName": "Tracer-Cloud/opensre",
-          "location": "body"
-        }
-      ]
-    },
-    {
-      "id": 3522448,
-      "title": "Chat to build and schedule your own personal Hacker News email digest! 🎉",
-      "description": "I have been working on a side project for the past few weeks and finally got it polished enough to...",
-      "url": "https://dev.to/anmolbaranwal/chat-to-build-and-schedule-your-own-personal-hacker-news-email-digest-42a4",
-      "author": {
-        "username": "anmolbaranwal",
-        "name": "Anmol Baranwal",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F950976%2F69363f37-b7c5-4f1e-a2fe-29b4e4e33e92.png"
-      },
-      "reactionsCount": 53,
-      "commentsCount": 1,
-      "readingTime": 6,
-      "publishedAt": "2026-05-16T13:15:06Z",
-      "tags": [
-        "showdev",
-        "react",
-        "opensource",
-        "programming"
-      ],
-      "trendingScore": 3.35,
+      "trendingScore": 3.49,
       "linkedRepos": []
     }
   ]

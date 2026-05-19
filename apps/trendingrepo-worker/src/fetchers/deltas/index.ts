@@ -30,6 +30,10 @@ import type {
   RunResult,
 } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
+import {
+  deltasToToolboxEvents,
+  postToolboxEvents,
+} from '../../lib/toolbox-ingest.js';
 
 const TRENDING_KEY = 'ss:data:v1:trending';
 const TRENDING_META_KEY = 'ss:meta:v1:trending';
@@ -51,8 +55,10 @@ type WindowKey = (typeof WINDOWS)[number]['key'];
 const EXACT_THRESHOLD_S = 60;
 
 interface TrendingRow {
-  repo_id?: string;
+  repo_id?: string | number;
+  repo_name?: string;
   stars?: string | number;
+  forks?: string | number;
   [k: string]: unknown;
 }
 interface TrendingPayload {
@@ -78,12 +84,23 @@ interface DeltaValue {
   age_seconds?: number;
 }
 
+interface RepoStats {
+  stars: number;
+  forks: number | null;
+  fullName: string | null;
+}
+
 interface RepoEntry {
   stars_now: number;
+  forks_now?: number | null;
   delta_1h: DeltaValue;
   delta_24h: DeltaValue;
   delta_7d: DeltaValue;
   delta_30d: DeltaValue;
+  fork_delta_1h?: DeltaValue;
+  fork_delta_24h?: DeltaValue;
+  fork_delta_7d?: DeltaValue;
+  fork_delta_30d?: DeltaValue;
 }
 
 export interface DeltasPayload {
@@ -93,20 +110,40 @@ export interface DeltasPayload {
   repos: Record<string, RepoEntry>;
 }
 
-function flattenToStarsById(payload: TrendingPayload): Map<string, number> {
-  const out = new Map<string, number>();
+function parseNonNegativeInteger(value: unknown): number | null {
+  const parsed = Number.parseInt(String(value ?? ''), 10);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+}
+
+function normalizeFullName(value: unknown): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(trimmed)) return null;
+  return trimmed;
+}
+
+function flattenToRepoStatsById(payload: TrendingPayload): Map<string, RepoStats> {
+  const out = new Map<string, RepoStats>();
   const buckets = payload?.buckets;
   if (!buckets) return out;
   for (const langMap of Object.values(buckets)) {
     for (const rows of Object.values(langMap)) {
       if (!Array.isArray(rows)) continue;
       for (const row of rows) {
-        const id = row?.repo_id;
+        const id = String(row?.repo_id ?? '').trim();
         if (!id) continue;
-        const stars = Number.parseInt(String(row.stars ?? '0'), 10);
-        if (!Number.isFinite(stars)) continue;
+        const stars = parseNonNegativeInteger(row.stars);
+        if (stars === null) continue;
+        const forks = parseNonNegativeInteger(row.forks);
+        const fullName = normalizeFullName(row.repo_name);
         const prev = out.get(id);
-        if (prev === undefined || stars > prev) out.set(id, stars);
+        if (prev === undefined || stars > prev.stars) {
+          out.set(id, { stars, forks, fullName });
+        } else if (!prev.fullName && fullName) {
+          prev.fullName = fullName;
+        } else if (prev.forks === null && forks !== null) {
+          prev.forks = forks;
+        }
       }
     }
   }
@@ -248,12 +285,16 @@ const fetcher: Fetcher = {
     }
     const currentMetaRaw = await redis.get(TRENDING_META_KEY);
     const currentTs = resolveTrendingSnapshotTs(currentMetaRaw, currentJson, now);
-    const currentStars = flattenToStarsById(currentJson);
-    if (currentStars.size === 0) {
+    const currentStats = flattenToRepoStatsById(currentJson);
+    if (currentStats.size === 0) {
       const message = 'current trending has zero joinable rows';
       ctx.log.warn(message);
       errors.push({ stage: 'flatten-current', message });
       return done(startedAt, 0, false, errors);
+    }
+    const repoFullNamesById = new Map<string, string>();
+    for (const [repoId, stats] of currentStats.entries()) {
+      if (stats.fullName) repoFullNamesById.set(repoId, stats.fullName);
     }
 
     // 2) Stash the current snapshot under its own key so we can read it
@@ -284,7 +325,7 @@ const fetcher: Fetcher = {
     //    (b) outside buffer but inside index ⇒ cold-start fallback.
     const windowPicks: Record<WindowKey, (PickedSnapshot & { basis: DeltaValue['basis'] }) | null> =
       { '1h': null, '24h': null, '7d': null, '30d': null };
-    const historicalStars: Record<WindowKey, Map<string, number> | null> = {
+    const historicalStats: Record<WindowKey, Map<string, RepoStats> | null> = {
       '1h': null,
       '24h': null,
       '7d': null,
@@ -308,8 +349,8 @@ const fetcher: Fetcher = {
       if (picked && basis !== 'no-history') {
         windowPicks[w.key] = { ...picked, basis };
         const histPayload = await readJson<TrendingPayload>(redis, picked.key);
-        historicalStars[w.key] = histPayload
-          ? flattenToStarsById(histPayload)
+        historicalStats[w.key] = histPayload
+          ? flattenToRepoStatsById(histPayload)
           : new Map();
       } else {
         windowPicks[w.key] = null;
@@ -326,32 +367,46 @@ const fetcher: Fetcher = {
     };
     const repos: Record<string, RepoEntry> = {};
 
-    for (const [repoId, starsNow] of currentStars.entries()) {
+    for (const [repoId, stats] of currentStats.entries()) {
       const entry: RepoEntry = {
-        stars_now: starsNow,
+        stars_now: stats.stars,
         delta_1h: { value: null, basis: 'no-history' },
         delta_24h: { value: null, basis: 'no-history' },
         delta_7d: { value: null, basis: 'no-history' },
         delta_30d: { value: null, basis: 'no-history' },
       };
+      if (stats.forks !== null) {
+        entry.forks_now = stats.forks;
+        entry.fork_delta_1h = { value: null, basis: 'no-history' };
+        entry.fork_delta_24h = { value: null, basis: 'no-history' };
+        entry.fork_delta_7d = { value: null, basis: 'no-history' };
+        entry.fork_delta_30d = { value: null, basis: 'no-history' };
+      }
       for (const w of WINDOWS) {
         const pick = windowPicks[w.key];
         const field = `delta_${w.key}` as keyof Pick<
           RepoEntry,
           'delta_1h' | 'delta_24h' | 'delta_7d' | 'delta_30d'
         >;
+        const forkField = `fork_delta_${w.key}` as keyof Pick<
+          RepoEntry,
+          'fork_delta_1h' | 'fork_delta_24h' | 'fork_delta_7d' | 'fork_delta_30d'
+        >;
         if (!pick) {
           coverage['no-history'] += 1;
           continue;
         }
-        const histStars = historicalStars[w.key]?.get(repoId);
-        if (histStars === undefined) {
+        const histStats = historicalStats[w.key]?.get(repoId);
+        if (!histStats) {
           entry[field] = { value: null, basis: 'repo-not-tracked' };
+          if (stats.forks !== null) {
+            entry[forkField] = { value: null, basis: 'repo-not-tracked' };
+          }
           coverage['repo-not-tracked'] += 1;
           continue;
         }
         const delta: DeltaValue = {
-          value: starsNow - histStars,
+          value: stats.stars - histStats.stars,
           basis: pick.basis,
           from_ts: pick.ts,
         };
@@ -359,6 +414,20 @@ const fetcher: Fetcher = {
           delta.age_seconds = currentTs - pick.ts;
         }
         entry[field] = delta;
+        if (stats.forks !== null) {
+          const forkDelta: DeltaValue =
+            histStats.forks === null
+              ? { value: null, basis: 'repo-not-tracked' }
+              : {
+                  value: stats.forks - histStats.forks,
+                  basis: pick.basis,
+                  from_ts: pick.ts,
+                };
+          if (forkDelta.basis === 'cold-start') {
+            forkDelta.age_seconds = currentTs - pick.ts;
+          }
+          entry[forkField] = forkDelta;
+        }
         coverage[pick.basis] += 1;
       }
       repos[repoId] = entry;
@@ -384,17 +453,25 @@ const fetcher: Fetcher = {
     };
 
     const result = await writeDataStore('deltas', payload);
+    const toolboxResult = await postToolboxEvents(
+      deltasToToolboxEvents(payload, repoFullNamesById),
+    );
     ctx.log.info(
       {
-        repos: currentStars.size,
+        repos: currentStats.size,
         snapshots: index.length,
         coverage,
         redisSource: result.source,
+        toolboxStatus: toolboxResult.status,
+        toolboxAccepted: toolboxResult.accepted,
+        toolboxRejected: toolboxResult.rejected,
+        toolboxReason: toolboxResult.reason,
+        toolboxHttpStatus: toolboxResult.http_status,
       },
       'deltas published',
     );
 
-    return done(startedAt, currentStars.size, result.source === 'redis', errors);
+    return done(startedAt, currentStats.size, result.source === 'redis', errors);
   },
 };
 

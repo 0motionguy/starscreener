@@ -10,6 +10,10 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
 import {
+  hnMentionsToToolboxEvents,
+  postToolboxEvents,
+} from '../../lib/toolbox-ingest.js';
+import {
   fetchTopStoryIds,
   fetchItemsBatched,
   searchAlgoliaStories,
@@ -359,6 +363,9 @@ const fetcher: Fetcher = {
 
     const trendingResult = await writeDataStore('hackernews-trending', trendingPayload);
     const mentionsResult = await writeDataStore('hackernews-repo-mentions', mentionsPayload);
+    const toolboxResult = await postToolboxEvents(
+      hnMentionsToToolboxEvents(mentionsPayload),
+    );
 
     const itemsSeen = rawItems.length + algoliaHits.length;
     ctx.log.info(
@@ -367,6 +374,11 @@ const fetcher: Fetcher = {
         mentions: Object.keys(mentions).length,
         trendingRedis: trendingResult.source,
         mentionsRedis: mentionsResult.source,
+        toolboxStatus: toolboxResult.status,
+        toolboxAccepted: toolboxResult.accepted,
+        toolboxRejected: toolboxResult.rejected,
+        toolboxReason: toolboxResult.reason,
+        toolboxHttpStatus: toolboxResult.http_status,
       },
       'hackernews published',
     );

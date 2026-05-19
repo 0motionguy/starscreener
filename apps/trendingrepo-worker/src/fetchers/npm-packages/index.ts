@@ -7,6 +7,10 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
+import {
+  npmPackagesToToolboxEvents,
+  postToolboxEvents,
+} from '../../lib/toolbox-ingest.js';
 import { fetchJsonWithRetry, HttpStatusError, sleep } from '../../lib/util/http-helpers.js';
 import {
   WINDOWS,
@@ -268,8 +272,20 @@ const fetcher: Fetcher = {
       packages: rows,
     };
     const result = await writeDataStore('npm-packages', payload);
+    const toolboxResult = await postToolboxEvents(
+      npmPackagesToToolboxEvents(payload),
+    );
     ctx.log.info(
-      { rows: rows.length, queries: queries.length, redisSource: result.source },
+      {
+        rows: rows.length,
+        queries: queries.length,
+        redisSource: result.source,
+        toolboxStatus: toolboxResult.status,
+        toolboxAccepted: toolboxResult.accepted,
+        toolboxRejected: toolboxResult.rejected,
+        toolboxReason: toolboxResult.reason,
+        toolboxHttpStatus: toolboxResult.http_status,
+      },
       'npm-packages published',
     );
     return done(startedAt, rows.length, result.source === 'redis');

@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-19T15:27:25.941Z",
-  "scanRunId": "sweep-2026-05-19T15:27:17.126Z",
+  "computedAt": "2026-05-19T19:54:11.857Z",
+  "scanRunId": "sweep-2026-05-19T19:54:02.301Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -29,10 +29,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 10,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 9,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
@@ -76,19 +76,6 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/RobustaRush/seedkit",
-              "title": "Show HN: Cook a Django project well, the agent-skill take on cookiecutter",
-              "text": "",
-              "author": "kmmbvnr_",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-12T18:33:11.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
               "url": "https://github.com/hymhub/skill-indexer",
               "title": "An open question about how AI agent skills should be distributed",
               "text": "",
@@ -98,6 +85,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T10:35:39.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://github.com/Kotlin/kotlin-agent-skills/",
+              "title": "Kotlin-agent-skills: A collection of skills for projects using Kotlin",
+              "text": "",
+              "author": "rezaprima",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T13:51:10.000Z"
             }
           ]
         },
@@ -395,10 +395,10 @@
     },
     "rtk-ai/rtk": {
       "fullName": "rtk-ai/rtk",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -416,15 +416,15 @@
             {
               "source": "bluesky",
               "fullName": "rtk-ai/rtk",
-              "url": "https://bsky.app/profile/qdrddr.bsky.social/post/3mlre2zpuw227",
-              "title": "rtk — Your AI coding agent is drowning in CLI noise. RTK compresses outputs by 89%. Open source, Rust. github.com/rtk-ai/rtk",
-              "text": "rtk — Your AI coding agent is drowning in CLI noise. RTK compresses outputs by 89%. Open source, Rust. github.com/rtk-ai/rtk",
-              "author": "qdrddr.bsky.social",
+              "url": "https://bsky.app/profile/clofresh.bsky.social/post/3mm7pks5mtk2f",
+              "title": "There’s such an exciting opportunity to optimize token usage for local LLMs. Some other exciting token optimizations: * MTP for Qwen 3.6 and Gemma 4 (blog.google/innovation-a...) * RTK (github.com/rtk",
+              "text": "There’s such an exciting opportunity to optimize token usage for local LLMs. Some other exciting token optimizations: * MTP for Qwen 3.6 and Gemma 4 (blog.google/innovation-a...) * RTK (github.com/rtk-ai/rtk) * cymbal (github.com/1broseidon/c...) * pi agent harness (minimal system prompt)",
+              "author": "clofresh.bsky.social",
               "engagement": {
                 "score": 1,
-                "comments": 1
+                "comments": 0
               },
-              "observedAt": "2026-05-13T22:29:08.366Z"
+              "observedAt": "2026-05-19T15:32:07.613Z"
             },
             {
               "source": "bluesky",
@@ -434,10 +434,23 @@
               "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
               "author": "ghtrend.newsmast.social.ap.brid.gy",
               "engagement": {
-                "score": 0,
+                "score": 1,
                 "comments": 0
               },
               "observedAt": "2026-05-19T15:17:52.060Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "rtk-ai/rtk",
+              "url": "https://bsky.app/profile/qdrddr.bsky.social/post/3mlre2zpuw227",
+              "title": "rtk — Your AI coding agent is drowning in CLI noise. RTK compresses outputs by 89%. Open source, Rust. github.com/rtk-ai/rtk",
+              "text": "rtk — Your AI coding agent is drowning in CLI noise. RTK compresses outputs by 89%. Open source, Rust. github.com/rtk-ai/rtk",
+              "author": "qdrddr.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-13T22:29:08.366Z"
             },
             {
               "source": "bluesky",
@@ -1130,11 +1143,24 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 8,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 14,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://github.com/glouw/nibble",
+              "title": "Show HN: Nibble",
+              "text": "An attempt at a single pass LLVM frontend in ~3000 lines of C without external dependencies, malloc, or an AST. Included are some graphical examples. The IR isn&#x27;t perfect, and the README touches on one particular downfall",
+              "author": "glouwbug",
+              "engagement": {
+                "score": 102,
+                "comments": 24
+              },
+              "observedAt": "2026-05-14T01:46:45.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
@@ -1144,7 +1170,7 @@
               "author": "giuliomagnifico",
               "engagement": {
                 "score": 56,
-                "comments": 69
+                "comments": 76
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -1186,19 +1212,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T19:57:08.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://compendiumlabs.ai/blog/gum",
-              "title": "Gum – a graphics language for humans and LLMs",
-              "text": "",
-              "author": "iamlemec",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-12T19:56:59.000Z"
             }
           ]
         }
@@ -3709,10 +3722,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 177,
+      "totalMentions7d": 176,
       "perSource": {
         "hackernews": {
-          "count7d": 177,
+          "count7d": 176,
           "top": [
             {
               "source": "hackernews",
@@ -3722,10 +3735,23 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1031,
-                "comments": 521
+                "score": 1055,
+                "comments": 550
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://twitter.com/karpathy/status/2056753169888334312",
+              "title": "I’ve joined Anthropic",
+              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
+              "author": "dmarcos",
+              "engagement": {
+                "score": 897,
+                "comments": 351
+              },
+              "observedAt": "2026-05-19T15:07:45.000Z"
             },
             {
               "source": "hackernews",
@@ -3748,8 +3774,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 436,
-                "comments": 146
+                "score": 439,
+                "comments": 147
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             },
@@ -3761,23 +3787,10 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 329,
+                "score": 330,
                 "comments": 336
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.wsj.com/tech/ai/sam-altmans-business-dealings-under-gop-scrutiny-ahead-of-openais-ipo-52c1cc4d",
-              "title": "Sam Altman's Business Dealings Under GOP Scrutiny Ahead of OpenAI's IPO",
-              "text": "",
-              "author": "1vuio0pswjnm7",
-              "engagement": {
-                "score": 199,
-                "comments": 162
-              },
-              "observedAt": "2026-05-14T12:27:29.000Z"
             }
           ]
         }
@@ -6121,11 +6134,24 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 16,
+      "totalMentions7d": 24,
       "perSource": {
         "hackernews": {
-          "count7d": 16,
+          "count7d": 24,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
+              "title": "Meta employees protest against mouse tracking tech at US offices",
+              "text": "",
+              "author": "delichon",
+              "engagement": {
+                "score": 73,
+                "comments": 88
+              },
+              "observedAt": "2026-05-12T20:58:18.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
@@ -6160,7 +6186,7 @@
               "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
               "author": "mrcoldbrew",
               "engagement": {
-                "score": 50,
+                "score": 54,
                 "comments": 6
               },
               "observedAt": "2026-05-18T15:40:42.000Z"
@@ -6177,19 +6203,6 @@
                 "comments": 3
               },
               "observedAt": "2026-05-18T13:04:02.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/world/americas/colombian-singer-shakira-acquitted-tax-fraud-spain-2026-05-18/",
-              "title": "Colombian singer Shakira acquitted of tax fraud in Spain",
-              "text": "",
-              "author": "fodmap",
-              "engagement": {
-                "score": 19,
-                "comments": 9
-              },
-              "observedAt": "2026-05-18T09:00:39.000Z"
             }
           ]
         }
@@ -6668,10 +6681,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 8,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -7784,10 +7797,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 11,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 10,
           "top": [
             {
               "source": "hackernews",
@@ -7797,8 +7810,8 @@
               "text": "",
               "author": "rolph",
               "engagement": {
-                "score": 440,
-                "comments": 313
+                "score": 441,
+                "comments": 315
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7844,15 +7857,15 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
-              "url": "https://jasonhunyar.substack.com/p/inside-the-belly-of-the-beast-the",
-              "title": "The Link Between Flock Safety, Dunwoody, and Attorney General Chris Carr",
-              "text": "",
-              "author": "apwheele",
+              "url": "https://github.com/struct-dot-ai/logbox",
+              "title": "Show HN: Logbox – let Claude monitor your dev logs",
+              "text": "TL;DR: logbox is an open-source tool that pipes dev server logs to a local sqlite db with `&lt;your-dev-server-cmd&gt; | logbox collect`. Give Claude Code access by running `claude mcp add logbox -- logbox serve`.<p>I used to copy &amp; paste logs into Claude Code when manually testing my server in dev. I wanted to give it its own verification loop.<p>I initially tried having it boot the server itself and follow the logs. It was good at knowing if the server booted properly, but it capped out an",
+              "author": "nimeshmc",
               "engagement": {
-                "score": 2,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T20:13:55.000Z"
+              "observedAt": "2026-05-19T19:03:14.000Z"
             }
           ]
         },
@@ -8174,12 +8187,12 @@
               "source": "hackernews",
               "fullName": "playcanvas/supersplat",
               "url": "https://superspl.at/scene/84df8849",
-              "title": "Gaussian Splat of a Strawberry",
-              "text": "",
+              "title": "Show HN: Gaussian Splat of a Strawberry",
+              "text": "The Setup:<p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;nzOwmSC.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2",
               "author": "danybittel",
               "engagement": {
-                "score": 282,
-                "comments": 121
+                "score": 420,
+                "comments": 166
               },
               "observedAt": "2026-05-19T10:38:47.000Z"
             }
@@ -8313,10 +8326,10 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
@@ -8330,6 +8343,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-13T18:29:06.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tinyhumansai/openhuman",
+              "url": "https://www.notesasm.com/",
+              "title": "Show HN: Coding agent where a second agent QAs every PR in a real browser",
+              "text": "Hi HN. I&#x27;ve been building this for the last few months and it&#x27;s at a state where outside eyes would help more than another week of solo iteration.<p>It&#x27;s a kanban board where each ticket runs two agents back to back:<p>Build agent: runs in a sandboxed temp dir against a shallow clone of the user&#x27;s repo, makes the change, pushes a branch, opens a PR. Uses the Claude Agent SDK.<p>QA agent: waits for the preview deploy to come up, then drives a real browser via Browserbase again",
+              "author": "kavin_key",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T18:54:10.000Z"
             }
           ]
         },
@@ -9069,6 +9095,19 @@
             {
               "source": "bluesky",
               "fullName": "colbymchenry/codegraph",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7orb2udi62",
+              "title": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 star",
+              "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T15:17:52.060Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "colbymchenry/codegraph",
               "url": "https://bsky.app/profile/mahdi-17.bsky.social/post/3mlyvbwj3mq2g",
               "title": "codegraph pre-indexes your codebase into a local knowledge graph for Claude Code — so it spends fewer tokens and tool calls hunting for context it could have looked up directly. 100% local, no cloud r",
               "text": "codegraph pre-indexes your codebase into a local knowledge graph for Claude Code — so it spends fewer tokens and tool calls hunting for context it could have looked up directly. 100% local, no cloud round-trips. https://github.com/colbymchenry/codegraph",
@@ -9091,19 +9130,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T15:31:54.871Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "colbymchenry/codegraph",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7orb2udi62",
-              "title": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 star",
-              "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T15:17:52.060Z"
             }
           ]
         }
@@ -9111,10 +9137,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 75,
+      "totalMentions7d": 76,
       "perSource": {
         "hackernews": {
-          "count7d": 75,
+          "count7d": 76,
           "top": [
             {
               "source": "hackernews",
@@ -9124,8 +9150,8 @@
               "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
               "author": "lukaspetersson",
               "engagement": {
-                "score": 322,
-                "comments": 244
+                "score": 347,
+                "comments": 264
               },
               "observedAt": "2026-05-18T18:12:18.000Z"
             },
@@ -9163,8 +9189,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983</a>",
               "author": "asar",
               "engagement": {
-                "score": 226,
-                "comments": 173
+                "score": 274,
+                "comments": 197
               },
               "observedAt": "2026-05-18T17:20:43.000Z"
             },
@@ -9292,8 +9318,8 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 565,
-                "comments": 308
+                "score": 566,
+                "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
             },
@@ -9342,8 +9368,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 436,
-                "comments": 146
+                "score": 439,
+                "comments": 147
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             }
@@ -9423,10 +9449,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 143,
+      "totalMentions7d": 146,
       "perSource": {
         "hackernews": {
-          "count7d": 142,
+          "count7d": 145,
           "top": [
             {
               "source": "hackernews",
@@ -9436,10 +9462,23 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1031,
-                "comments": 521
+                "score": 1055,
+                "comments": 550
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://twitter.com/karpathy/status/2056753169888334312",
+              "title": "I’ve joined Anthropic",
+              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
+              "author": "dmarcos",
+              "engagement": {
+                "score": 897,
+                "comments": 351
+              },
+              "observedAt": "2026-05-19T15:07:45.000Z"
             },
             {
               "source": "hackernews",
@@ -9462,7 +9501,7 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 329,
+                "score": 330,
                 "comments": 336
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
@@ -9479,19 +9518,6 @@
                 "comments": 162
               },
               "observedAt": "2026-05-14T12:27:29.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
-              "url": "https://twitter.com/steipete/status/2055346265869721905",
-              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
-              "text": "",
-              "author": "eamag",
-              "engagement": {
-                "score": 161,
-                "comments": 205
-              },
-              "observedAt": "2026-05-16T11:34:04.000Z"
             }
           ]
         },
@@ -10126,8 +10152,8 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 143,
-                "comments": 15
+                "score": 148,
+                "comments": 16
               },
               "observedAt": "2026-05-18T12:17:04.000Z"
             }

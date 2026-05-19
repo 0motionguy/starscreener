@@ -1,6 +1,8 @@
 // Trending hub — phase 1A. Wires the data spine (derived repos + cross-source
 // mentions + sidebar counts + freshness) onto the new HTML chrome.
 
+import { Suspense } from "react";
+
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
@@ -87,10 +89,18 @@ export default async function TrendingHubPage({ searchParams }: Props) {
             marginTop: 8,
           }}
         >
-          <TrendingTable repos={sorted} fetchedAt={fetchedAt} limit={50} />
+          <TrendingTable repos={sorted} fetchedAt={fetchedAt} window={timeWindow} limit={50} />
           <aside style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <TopMoversRail limit={5} />
-            <SourceHealthGrid />
+            {/* Stream below-the-fold rail/grid so the main table renders
+                immediately. SourceHealthGrid awaits getSidebarSourceCounts
+                (already React.cache-deduped with KpiStrip / Sidebar) but
+                streaming it past the first paint avoids holding the shell. */}
+            <Suspense fallback={<div className="card" style={{ minHeight: 220 }} aria-hidden />}>
+              <TopMoversRail limit={5} />
+            </Suspense>
+            <Suspense fallback={<div className="card" style={{ minHeight: 280 }} aria-hidden />}>
+              <SourceHealthGrid />
+            </Suspense>
           </aside>
         </div>
       ) : (

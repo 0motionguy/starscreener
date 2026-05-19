@@ -177,7 +177,9 @@ export async function Sidebar() {
 
       <div className="nav-group">
         <div className="nav-label">Tools</div>
-        <NavLink href="/tools">
+        {/* Tertiary nav — disable prefetch so a single trending hub
+            view doesn't fan out 5+ extra RSC payload fetches on hover. */}
+        <NavLink href="/tools" prefetch={false}>
           <span className="nav-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM9 9h4v4H9z" />
@@ -189,7 +191,7 @@ export async function Sidebar() {
 
       <div className="nav-group">
         <div className="nav-label">Builder</div>
-        <NavLink href="/ideas" pill="NEW">
+        <NavLink href="/ideas" pill="NEW" prefetch={false}>
           <span className="nav-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="8" cy="8" r="6" />
@@ -198,7 +200,7 @@ export async function Sidebar() {
           </span>
           <span>Ideas</span>
         </NavLink>
-        <NavLink href="/build" pill="NEW">
+        <NavLink href="/build" pill="NEW" prefetch={false}>
           <span className="nav-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M3 13L8 3l5 10M5.5 10h5" />
@@ -210,7 +212,7 @@ export async function Sidebar() {
 
       <div className="nav-group">
         <div className="nav-label">Account</div>
-        <NavLink href="/account">
+        <NavLink href="/account" prefetch={false}>
           <span className="nav-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="8" cy="5" r="2.5" />
@@ -221,7 +223,7 @@ export async function Sidebar() {
         </NavLink>
       </div>
 
-      <Link className="sidebar-drop" href="/drop">
+      <Link className="sidebar-drop" href="/drop" prefetch={false}>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
           <path d="M10 3v10m0 0l-4-4m4 4l4-4M3 17h14" />
         </svg>
@@ -237,7 +239,7 @@ export async function Sidebar() {
         <div className="uc-pitch">
           Smart alerts, <b>6-way compare</b>, full 5-yr history, RSS/webhook feeds, CSV export, API access.
         </div>
-        <Link className="uc-cta" href="/account?tab=billing">
+        <Link className="uc-cta" href="/account?tab=billing" prefetch={false}>
           Go PRO · $19/mo
         </Link>
         <div className="uc-price">or Team $49/mo · 7 seats</div>

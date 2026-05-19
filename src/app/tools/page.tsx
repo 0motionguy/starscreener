@@ -10,7 +10,7 @@
 //                                       to client-side Zustand. Server renders 0
 //                                       and a "Sign in to see yours" copy hook.
 //   - listTierLists()                — NOT exported on tier-list/store (Phase 4B
-//                                       restoration). Static 0 with TODO note.
+//                                       restoration). Static 0 with honest copy.
 //   - getDigestStats()               — NOT exported on digest/queries. We fall
 //                                       back to listAvailableDigestDates() count.
 //   - getActivityMetrics()           — NOT exported on star-activity. We surface
@@ -120,27 +120,25 @@ export default async function ToolsPage({ searchParams }: Props) {
   const trackedCount = safe(() => getTrackedRepoCount(), 0);
   const treemap = safe(() => countCategoryBuckets(), { categories: 0, repos: 0 });
 
-  // Top 10 archive count.
-  const top10Archived = await safeAsync(
-    () => countArchivedTop10Snapshots(200),
-    0,
-  );
-
-  // Today's snapshot existence (for the foot pill).
-  const todaySnap = await safeAsync(
-    () => readTop10Snapshot(todayUtcDate()),
-    null,
-  );
+  // Parallelize independent data fetches — saves ~4 sequential awaits.
+  // Each safeAsync is a separate independent payload; no ordering needed.
+  const [top10Archived, todaySnap, allIdeas, submissions, digestDates] =
+    await Promise.all([
+      safeAsync(() => countArchivedTop10Snapshots(200), 0),
+      safeAsync(() => readTop10Snapshot(todayUtcDate()), null),
+      safeAsync(() => listIdeas(), []),
+      safeAsync(() => listRevenueSubmissions(), []),
+      safeAsync(() => listAvailableDigestDates(), []),
+    ]);
 
   // Ideas — published + shipped counts.
-  const allIdeas = await safeAsync(() => listIdeas(), []);
   const ideasPublished = allIdeas.filter((i) => i.status === "published").length;
   const ideasShipped = allIdeas.filter((i) => i.status === "shipped").length;
   // Top conviction headline (most-recent published).
   const topIdea =
     allIdeas.find((i) => i.status === "published") ?? null;
 
-  // Revenue overlays + submissions.
+  // Revenue overlays.
   const overlays = safe(() => listRevenueOverlays(), []);
   const overlaysMeta = safe(() => getRevenueOverlaysMeta(), {
     generatedAt: null as string | null,
@@ -148,7 +146,6 @@ export default async function ToolsPage({ searchParams }: Props) {
     catalogGeneratedAt: null as string | null,
     matchedCount: 0,
   });
-  const submissions = await safeAsync(() => listRevenueSubmissions(), []);
   const lastWeekMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const submissionsApprovedThisWeek = submissions.filter((s) => {
     if (s.status !== "approved") return false;
@@ -157,7 +154,6 @@ export default async function ToolsPage({ searchParams }: Props) {
   }).length;
 
   // Digest — fallback to date-list count since getDigestStats isn't exported.
-  const digestDates = await safeAsync(() => listAvailableDigestDates(), []);
   const digestIssues = digestDates.length;
 
   // KPI strip values. Some are derived; others are static-but-honest until

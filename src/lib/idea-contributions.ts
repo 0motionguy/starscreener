@@ -17,6 +17,7 @@ import { randomBytes } from "node:crypto";
 
 import {
   appendJsonlFile,
+  mutateJsonlFile,
   readJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 
@@ -281,4 +282,29 @@ export async function appendContribution(
   };
   await appendJsonlFile(IDEA_CONTRIBUTIONS_FILE, record);
   return record;
+}
+
+/**
+ * GDPR cascade — wipe every contribution authored by a user. Called from
+ * the Clerk `user.deleted` webhook so the contributions store doesn't
+ * retain the Clerk userId after the upstream identity is gone. Returns
+ * the number of rows removed for telemetry.
+ *
+ * NOTE: hard-delete is the chosen strategy because contributions carry
+ * mutable body text (user-authored) — anonymizing without deletion would
+ * leave the body visible while only nulling the author, which doesn't
+ * satisfy GDPR right-to-erasure. The audit trail of "user X said Y"
+ * disappears entirely.
+ */
+export async function deleteContributionsByUser(userId: string): Promise<number> {
+  let removed = 0;
+  await mutateJsonlFile<IdeaContribution>(
+    IDEA_CONTRIBUTIONS_FILE,
+    (current) => {
+      const next = current.filter((r) => r.userId !== userId);
+      removed = current.length - next.length;
+      return next;
+    },
+  );
+  return removed;
 }

@@ -118,3 +118,19 @@ export async function unsaveIdea(
   }
   return holder.value;
 }
+
+/**
+ * GDPR cascade — wipe every saved-row for a user. Called from the
+ * Clerk `user.deleted` webhook so the user-saved store doesn't retain
+ * the Clerk userId after the upstream identity is gone. Returns the
+ * number of rows removed for telemetry.
+ */
+export async function deleteAllSavedByUser(userId: string): Promise<number> {
+  let removed = 0;
+  await mutateJsonlFile<SavedIdea>(SAVED_IDEAS_FILE, (current) => {
+    const next = current.filter((r) => r.userId !== userId);
+    removed = current.length - next.length;
+    return next;
+  });
+  return removed;
+}

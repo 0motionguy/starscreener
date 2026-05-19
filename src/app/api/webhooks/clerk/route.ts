@@ -403,12 +403,44 @@ async function handleUserUpdated(data: ClerkUserPayload): Promise<void> {
 }
 
 async function handleUserDeleted(data: ClerkUserPayload): Promise<void> {
-  // Soft delete — keeps referral attribution intact even after the
-  // referred user removes their account, but they no longer receive
-  // emails (lazy-create won't pull a deleted row back into circulation
-  // because the unique key still exists).
+  // Soft delete profiles row — keeps referral attribution intact even
+  // after the referred user removes their account, but they no longer
+  // receive emails (lazy-create won't pull a deleted row back into
+  // circulation because the unique key still exists).
   await db
     .update(profiles)
     .set({ deletedAt: new Date() })
     .where(eq(profiles.clerkUserId, data.id));
+
+  // GDPR cascade — wipe the new Phase 4C user-keyed stores. These hold
+  // raw Clerk userId values and would otherwise outlive the upstream
+  // identity. Errors are logged but not thrown so a single store
+  // failure doesn't abort the rest of the cascade.
+  try {
+    const { deleteAllSavedByUser } = await import("@/lib/saved-ideas");
+    const removed = await deleteAllSavedByUser(data.id);
+    if (removed > 0) {
+      console.info("[clerk-webhook] user.deleted cascade saved-ideas", {
+        userId: data.id,
+        removed,
+      });
+    }
+  } catch (err) {
+    console.error("[clerk-webhook] saved-ideas cascade failed", err);
+  }
+
+  try {
+    const { deleteContributionsByUser } = await import(
+      "@/lib/idea-contributions"
+    );
+    const removed = await deleteContributionsByUser(data.id);
+    if (removed > 0) {
+      console.info("[clerk-webhook] user.deleted cascade idea-contributions", {
+        userId: data.id,
+        removed,
+      });
+    }
+  } catch (err) {
+    console.error("[clerk-webhook] idea-contributions cascade failed", err);
+  }
 }

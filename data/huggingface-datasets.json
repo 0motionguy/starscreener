@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-19T10:11:02.328Z",
+  "fetchedAt": "2026-05-19T15:53:52.787Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -41,8 +41,8 @@
       "author": "PsiBotAI",
       "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
       "downloads": 35727,
-      "likes": 143,
-      "trendingScore": 95,
+      "likes": 145,
+      "trendingScore": 96,
       "tags": [
         "language:en",
         "license:cc-by-4.0",
@@ -65,8 +65,8 @@
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
       "downloads": 7573,
-      "likes": 76,
-      "trendingScore": 73,
+      "likes": 77,
+      "trendingScore": 74,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -129,7 +129,7 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 3170,
-      "likes": 137,
+      "likes": 141,
       "trendingScore": 69,
       "tags": [
         "task_categories:text-generation",
@@ -261,8 +261,8 @@
       "author": "5CD-AI",
       "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
       "downloads": 171,
-      "likes": 37,
-      "trendingScore": 34,
+      "likes": 38,
+      "trendingScore": 35,
       "tags": [
         "task_categories:image-to-text",
         "language:vi",
@@ -617,7 +617,7 @@
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
       "downloads": 933210,
-      "likes": 1322,
+      "likes": 1321,
       "trendingScore": 22,
       "tags": [
         "benchmark:official",
@@ -645,6 +645,41 @@
     },
     {
       "rank": 22,
+      "id": "blanchon/opencs2_dataset",
+      "author": "blanchon",
+      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
+      "downloads": 21674,
+      "likes": 22,
+      "trendingScore": 22,
+      "tags": [
+        "task_categories:video-classification",
+        "task_categories:reinforcement-learning",
+        "task_categories:other",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "modality:video",
+        "modality:audio",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "opencs2",
+        "counter-strike-2",
+        "torchcodec",
+        "video",
+        "audio",
+        "parquet"
+      ],
+      "createdAt": "2026-05-08T00:14:06.000Z",
+      "lastModified": "2026-05-04T15:38:59.000Z"
+    },
+    {
+      "rank": 23,
       "id": "Modotte/CodeX-2M-Thinking",
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
@@ -681,41 +716,6 @@
       ],
       "createdAt": "2025-11-15T16:35:25.000Z",
       "lastModified": "2026-02-10T07:23:38.000Z"
-    },
-    {
-      "rank": 23,
-      "id": "blanchon/opencs2_dataset",
-      "author": "blanchon",
-      "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
-      "downloads": 21674,
-      "likes": 21,
-      "trendingScore": 21,
-      "tags": [
-        "task_categories:video-classification",
-        "task_categories:reinforcement-learning",
-        "task_categories:other",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:100K<n<1M",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "modality:video",
-        "modality:audio",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "opencs2",
-        "counter-strike-2",
-        "torchcodec",
-        "video",
-        "audio",
-        "parquet"
-      ],
-      "createdAt": "2026-05-08T00:14:06.000Z",
-      "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
       "rank": 24,
@@ -1383,8 +1383,8 @@
       "author": "LukaDev13",
       "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
       "downloads": 1860,
-      "likes": 13,
-      "trendingScore": 12,
+      "likes": 14,
+      "trendingScore": 13,
       "tags": [
         "license:mit",
         "modality:image",
@@ -1400,6 +1400,34 @@
     },
     {
       "rank": 47,
+      "id": "sensenova/SenseNova-SI-8M",
+      "author": "sensenova",
+      "url": "https://huggingface.co/datasets/sensenova/SenseNova-SI-8M",
+      "downloads": 2981,
+      "likes": 12,
+      "trendingScore": 12,
+      "tags": [
+        "task_categories:visual-question-answering",
+        "task_categories:question-answering",
+        "language:en",
+        "license:apache-2.0",
+        "size_categories:1M<n<10M",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2511.13719",
+        "region:us"
+      ],
+      "createdAt": "2026-04-29T05:03:39.000Z",
+      "lastModified": "2026-05-13T04:54:38.000Z"
+    },
+    {
+      "rank": 48,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -1414,7 +1442,7 @@
       "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "microsoft/synthetic-computers-at-scale",
       "author": "microsoft",
       "url": "https://huggingface.co/datasets/microsoft/synthetic-computers-at-scale",
@@ -1444,7 +1472,7 @@
       "lastModified": "2026-05-01T06:30:14.000Z"
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "clem/ml-intern-sessions",
       "author": "clem",
       "url": "https://huggingface.co/datasets/clem/ml-intern-sessions",
@@ -1474,37 +1502,6 @@
       ],
       "createdAt": "2026-05-01T13:12:36.000Z",
       "lastModified": "2026-05-05T18:26:42.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "bigcode/the-stack-v2",
-      "author": "bigcode",
-      "url": "https://huggingface.co/datasets/bigcode/the-stack-v2",
-      "downloads": 20049,
-      "likes": 559,
-      "trendingScore": 11,
-      "tags": [
-        "task_categories:text-generation",
-        "language_creators:crowdsourced",
-        "language_creators:expert-generated",
-        "multilinguality:multilingual",
-        "language:code",
-        "license:other",
-        "size_categories:1B<n<10B",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:mlcroissant",
-        "library:polars",
-        "arxiv:2402.19173",
-        "arxiv:2107.03374",
-        "arxiv:2207.14157",
-        "region:us"
-      ],
-      "createdAt": "2024-02-26T04:26:48.000Z",
-      "lastModified": "2024-04-23T15:52:32.000Z"
     }
   ]
 }

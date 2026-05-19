@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-18T19:46:38.405Z",
-  "scanRunId": "sweep-2026-05-18T19:46:29.451Z",
+  "computedAt": "2026-05-19T03:41:30.934Z",
+  "scanRunId": "sweep-2026-05-19T03:41:21.402Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -1117,8 +1117,8 @@
               "text": "",
               "author": "giuliomagnifico",
               "engagement": {
-                "score": 44,
-                "comments": 53
+                "score": 53,
+                "comments": 59
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -1130,8 +1130,8 @@
               "text": "",
               "author": "uticus",
               "engagement": {
-                "score": 34,
-                "comments": 10
+                "score": 37,
+                "comments": 11
               },
               "observedAt": "2026-05-15T13:29:52.000Z"
             },
@@ -3652,11 +3652,24 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 169,
+      "totalMentions7d": 181,
       "perSource": {
         "hackernews": {
-          "count7d": 169,
+          "count7d": 181,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
+              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
+              "text": "",
+              "author": "nycdatasci",
+              "engagement": {
+                "score": 836,
+                "comments": 429
+              },
+              "observedAt": "2026-05-18T17:38:22.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3678,23 +3691,10 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 424,
-                "comments": 137
+                "score": 428,
+                "comments": 139
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
-              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
-              "text": "",
-              "author": "nycdatasci",
-              "engagement": {
-                "score": 405,
-                "comments": 198
-              },
-              "observedAt": "2026-05-18T17:38:22.000Z"
             },
             {
               "source": "hackernews",
@@ -3704,8 +3704,8 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 327,
-                "comments": 331
+                "score": 328,
+                "comments": 333
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -3718,7 +3718,7 @@
               "author": "1vuio0pswjnm7",
               "engagement": {
                 "score": 199,
-                "comments": 161
+                "comments": 162
               },
               "observedAt": "2026-05-14T12:27:29.000Z"
             }
@@ -6007,24 +6007,11 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 32,
+      "totalMentions7d": 33,
       "perSource": {
         "hackernews": {
-          "count7d": 31,
+          "count7d": 32,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
-              "title": "Postmortem: TanStack NPM supply-chain compromise",
-              "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383</a>",
-              "author": "varunsharma07",
-              "engagement": {
-                "score": 1094,
-                "comments": 464
-              },
-              "observedAt": "2026-05-11T21:08:25.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
@@ -6033,7 +6020,7 @@
               "text": "",
               "author": "janandonly",
               "engagement": {
-                "score": 151,
+                "score": 152,
                 "comments": 85
               },
               "observedAt": "2026-05-14T20:06:53.000Z"
@@ -6063,6 +6050,19 @@
                 "comments": 87
               },
               "observedAt": "2026-05-12T20:58:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/legal/government/new-york-california-pension-leaders-oppose-extreme-spacex-control-structure-2026-05-14/",
+              "title": "New York, California pension leaders oppose 'extreme' SpaceX control structure",
+              "text": "",
+              "author": "2OEH8eoCRo0",
+              "engagement": {
+                "score": 72,
+                "comments": 126
+              },
+              "observedAt": "2026-05-14T12:21:55.000Z"
             },
             {
               "source": "hackernews",
@@ -7701,10 +7701,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 14,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -7715,7 +7715,7 @@
               "author": "rolph",
               "engagement": {
                 "score": 440,
-                "comments": 308
+                "comments": 310
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7761,15 +7761,15 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
-              "url": "https://www.reuters.com/legal/government/family-florida-mass-shooting-victim-sues-openai-us-court-2026-05-11/",
-              "title": "Family of Florida mass shooting victim sues OpenAI in US court",
+              "url": "https://jasonhunyar.substack.com/p/inside-the-belly-of-the-beast-the",
+              "title": "The Link Between Flock Safety, Dunwoody, and Attorney General Chris Carr",
               "text": "",
-              "author": "tartoran",
+              "author": "apwheele",
               "engagement": {
-                "score": 5,
+                "score": 2,
                 "comments": 0
               },
-              "observedAt": "2026-05-11T21:39:56.000Z"
+              "observedAt": "2026-05-15T20:13:55.000Z"
             }
           ]
         },
@@ -8952,7 +8952,7 @@
               "text": "¡No quemes tokens con tu IA explorando tu proyecto! Crea un grafo semántico local de tu código con esto ✓ -92% tool calls ✓ 71% más rápido explorando código ✓ Claude Code, Cursor, Codex y OpenCode Local y de código abierto: → github.com/colbymchenry/codegraph",
               "author": "midu.dev",
               "engagement": {
-                "score": 8,
+                "score": 9,
                 "comments": 3
               },
               "observedAt": "2026-05-18T12:56:17.665Z"
@@ -8989,10 +8989,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 78,
+      "totalMentions7d": 80,
       "perSource": {
         "hackernews": {
-          "count7d": 78,
+          "count7d": 80,
           "top": [
             {
               "source": "hackernews",
@@ -9036,28 +9036,28 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
+              "url": "https://andonlabs.com/blog/andon-fm",
+              "title": "We let AIs run radio stations",
+              "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
+              "author": "lukaspetersson",
+              "engagement": {
+                "score": 196,
+                "comments": 175
+              },
+              "observedAt": "2026-05-18T18:12:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
               "url": "https://electrek.co/2026/05/16/fisker-ocean-open-source-ev-story-after-bankruptcy/",
               "title": "Fisker went bankrupt and owners built an open source car company from the ashes",
               "text": "",
               "author": "breve",
               "engagement": {
-                "score": 174,
+                "score": 175,
                 "comments": 65
               },
               "observedAt": "2026-05-16T23:59:47.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://www.tryardent.com/",
-              "title": "Launch HN: Ardent (YC P26) – Postgres sandboxes in seconds with zero migration",
-              "text": "Hey HN! We’re Vikram and Evan from Ardent (<a href=\"https:&#x2F;&#x2F;tryardent.com\">https:&#x2F;&#x2F;tryardent.com</a>). We&#x27;re building database sandboxes for you and your coding agents.<p>In the last two years coding agents have gotten dramatically more capable at handling complex engineering tasks. But without access to a realistic sandbox at the DB layer for testing, they ship garbage that can take down production databases. I spent over a year building an AI Data Engineer that failed ",
-              "author": "vc289",
-              "engagement": {
-                "score": 97,
-                "comments": 51
-              },
-              "observedAt": "2026-05-13T16:54:03.000Z"
             }
           ]
         }
@@ -9170,7 +9170,7 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 560,
+                "score": 561,
                 "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
@@ -9194,7 +9194,7 @@
     },
     "MinishLab/semble": {
       "fullName": "MinishLab/semble",
-      "totalMentions7d": 16,
+      "totalMentions7d": 18,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9207,16 +9207,29 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 424,
-                "comments": 137
+                "score": 428,
+                "comments": 139
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 15,
+          "count7d": 17,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm6gp7ymf22y",
+              "title": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternat",
+              "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
+              "author": "sagalinked.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T03:20:49.062Z"
+            },
             {
               "source": "bluesky",
               "fullName": "MinishLab/semble",
@@ -9229,6 +9242,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T02:23:10.562Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mm6fvzphlt2a",
+              "title": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
+              "text": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
+              "author": "tech-trending.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T03:06:44.065Z"
             },
             {
               "source": "bluesky",
@@ -9255,32 +9281,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T10:00:14.862Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/mahdi-17.bsky.social/post/3mm4jjlh2mn2c",
-              "title": "Semble: code search MCP server for agents — replaces grep fallback with static embeddings + BM25 + RRF. 98% fewer tokens, ~250ms to index a repo, ~1.5ms/query on CPU. No GPU, no API keys. NDCG@10 of 0",
-              "text": "Semble: code search MCP server for agents — replaces grep fallback with static embeddings + BM25 + RRF. 98% fewer tokens, ~250ms to index a repo, ~1.5ms/query on CPU. No GPU, no API keys. NDCG@10 of 0.854 across 63 repos, 19 languages. https://github.com/MinishLab/semble",
-              "author": "mahdi-17.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T09:06:04.373Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mm4gi4ytbo2e",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (https://news.ycombinator.com/item?id=48169874)",
-              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble (https://news.ycombinator.com/item?id=48169874)",
-              "author": "betterhn300.e-work.xyz",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T08:11:31.866Z"
             }
           ]
         }
@@ -9288,11 +9288,24 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 144,
+      "totalMentions7d": 142,
       "perSource": {
         "hackernews": {
-          "count7d": 143,
+          "count7d": 141,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
+              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
+              "text": "",
+              "author": "nycdatasci",
+              "engagement": {
+                "score": 836,
+                "comments": 429
+              },
+              "observedAt": "2026-05-18T17:38:22.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "rmyndharis/OpenWA",
@@ -9309,26 +9322,13 @@
             {
               "source": "hackernews",
               "fullName": "rmyndharis/OpenWA",
-              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
-              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
-              "text": "",
-              "author": "nycdatasci",
-              "engagement": {
-                "score": 405,
-                "comments": 198
-              },
-              "observedAt": "2026-05-18T17:38:22.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
               "url": "https://openai.com/index/malta-chatgpt-plus-partnership/",
               "title": "OpenAI and Government of Malta partner to roll out ChatGPT Plus to all citizens",
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 327,
-                "comments": 331
+                "score": 328,
+                "comments": 333
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -9341,7 +9341,7 @@
               "author": "1vuio0pswjnm7",
               "engagement": {
                 "score": 199,
-                "comments": 161
+                "comments": 162
               },
               "observedAt": "2026-05-14T12:27:29.000Z"
             },
@@ -9353,7 +9353,7 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 159,
+                "score": 161,
                 "comments": 204
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
@@ -9916,8 +9916,8 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 78,
-                "comments": 7
+                "score": 127,
+                "comments": 14
               },
               "observedAt": "2026-05-18T12:17:04.000Z"
             }

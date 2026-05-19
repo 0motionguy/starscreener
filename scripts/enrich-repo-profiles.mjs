@@ -42,6 +42,32 @@ const GITHUB_DELAY_MS = optionInt("github-delay-ms", "PROFILE_ENRICH_GITHUB_DELA
 const AISO_SCAN_DELAY_MS = optionInt("aiso-delay-ms", "PROFILE_ENRICH_AISO_DELAY_MS", 1_000, 0, 60_000);
 const AISO_WAIT_MS = optionInt("aiso-wait-ms", "PROFILE_ENRICH_AISO_WAIT_MS", 90_000, 5_000, 600_000);
 const AISO_POLL_MS = optionInt("aiso-poll-ms", "PROFILE_ENRICH_AISO_POLL_MS", 2_000, 500, 30_000);
+const AISO_DAILY_SCAN_BUDGET = optionInt("aiso-daily-budget", "PROFILE_ENRICH_AISO_DAILY_SCAN_BUDGET", 30, 0, 1_000);
+const AISO_SOURCE = optionString("aiso-source", "PROFILE_ENRICH_AISO_SOURCE", "api");
+const AISO_PROJECT_NAME = optionString("aiso-project", "PROFILE_ENRICH_AISO_PROJECT", "TrendingRepo repo profile enrichment");
+const AISO_PROJECT_URL = optionString("aiso-project-url", "PROFILE_ENRICH_AISO_PROJECT_URL", "https://trendingrepo.com");
+const AISO_PROMOTION_SECRET = optionString(
+  "aiso-promotion-secret",
+  "PROFILE_ENRICH_AISO_PROMOTION_SECRET",
+  process.env.AISO_TRENDINGREPO_SECRET ?? "",
+);
+const AISO_BILLING_TIER = optionString("aiso-billing-tier", "PROFILE_ENRICH_AISO_BILLING_TIER", "free");
+const AISO_PROFILE = optionString("aiso-profile", "PROFILE_ENRICH_AISO_PROFILE", "");
+const KIMI_API_KEY = optionString("kimi-api-key", "KIMI_API_KEY", "");
+const KIMI_ENABLED = optionBool("kimi", "PROFILE_ENRICH_KIMI", Boolean(KIMI_API_KEY));
+const KIMI_BASE_URL = optionString("kimi-base-url", "KIMI_BASE_URL", "https://api.kimi.com/coding/v1").replace(/\/+$/, "");
+const KIMI_MODEL = optionString("kimi-model", "KIMI_MODEL", "kimi-for-coding");
+const KIMI_MAX_REPOS = optionInt(
+  "kimi-max-repos",
+  "PROFILE_ENRICH_KIMI_MAX_REPOS",
+  Math.min(LIMIT, MAX_SCANS > 0 ? MAX_SCANS : 3),
+  0,
+  1_000,
+);
+const KIMI_TTL_DAYS = optionInt("kimi-ttl-days", "PROFILE_ENRICH_KIMI_TTL_DAYS", 1, 1, 30);
+const KIMI_TIMEOUT_MS = optionInt("kimi-timeout-ms", "PROFILE_ENRICH_KIMI_TIMEOUT_MS", 45_000, 5_000, 120_000);
+const KIMI_MAX_TOKENS = optionInt("kimi-max-tokens", "PROFILE_ENRICH_KIMI_MAX_TOKENS", 520, 120, 2_000);
+const KIMI_DELAY_MS = optionInt("kimi-delay-ms", "PROFILE_ENRICH_KIMI_DELAY_MS", 500, 0, 30_000);
 
 function clampInt(raw, fallback, min, max) {
   const parsed = Number.parseInt(String(raw ?? ""), 10);
@@ -206,8 +232,33 @@ function truncateError(error) {
   return String(error?.message ?? error).replace(/\s+/g, " ").trim().slice(0, 500);
 }
 
+function truncateText(value, maxLength) {
+  return String(value ?? "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
 function normalizeRepoKey(fullName) {
   return String(fullName ?? "").toLowerCase();
+}
+
+function repoProfileUrl(fullName) {
+  const [owner, name] = String(fullName ?? "").split("/");
+  if (!owner || !name) return AISO_PROJECT_URL;
+  return `https://trendingrepo.com/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
+function aisoProjectName(fullName) {
+  const suffix = String(fullName ?? "").trim();
+  return truncateText(suffix ? `TrendingRepo: ${suffix}` : AISO_PROJECT_NAME, 80);
+}
+
+function isFreshIso(iso, days) {
+  const ts = Date.parse(iso ?? "");
+  if (!Number.isFinite(ts)) return false;
+  const ageMs = Date.now() - ts;
+  return ageMs >= 0 && ageMs <= days * 86_400_000;
 }
 
 function buildMetadataIndex(metadataFile) {
@@ -526,11 +577,38 @@ function existingScanIsFresh(existing, websiteUrl) {
   return Date.now() - profiledAt < RESCAN_DAYS * 86_400_000;
 }
 
-async function submitAisoScan(baseUrl, websiteUrl) {
+function countRecentAisoSubmissions(profilesByRepo) {
+  let count = 0;
+  for (const profile of profilesByRepo.values()) {
+    if (!profile?.aisoScan?.scanId) continue;
+    const scanAt = profile.aisoScan.completedAt ?? profile.lastProfiledAt;
+    if (isFreshIso(scanAt, 1)) count += 1;
+  }
+  return count;
+}
+
+async function submitAisoScan(baseUrl, websiteUrl, candidate) {
+  const headers = {
+    "content-type": "application/json",
+    "x-aiso-source": AISO_SOURCE,
+    "x-aiso-project": aisoProjectName(candidate?.fullName),
+    "x-aiso-project-url": repoProfileUrl(candidate?.fullName),
+  };
+  if (AISO_PROMOTION_SECRET) {
+    headers["x-aiso-promotion-secret"] = AISO_PROMOTION_SECRET;
+  }
+  const body = {
+    url: websiteUrl,
+    source: AISO_SOURCE,
+    projectName: aisoProjectName(candidate?.fullName),
+    projectUrl: repoProfileUrl(candidate?.fullName),
+    billingTier: AISO_BILLING_TIER,
+  };
+  if (AISO_PROFILE) body.profile = AISO_PROFILE;
   return fetchJsonWithRetry(`${baseUrl}/api/scan`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ url: websiteUrl }),
+    headers,
+    body: JSON.stringify(body),
     attempts: 1,
     timeoutMs: 20_000,
   });
@@ -545,7 +623,7 @@ async function fetchAisoScan(baseUrl, scanId) {
   });
 }
 
-async function runAisoScan({ baseUrl, websiteUrl, existing, scanIdOverride = null }) {
+async function runAisoScan({ baseUrl, websiteUrl, existing, candidate, scanIdOverride = null }) {
   if (!AISO_ENABLED) {
     return {
       status: existing?.aisoScan ? "scanned" : "scan_pending",
@@ -569,7 +647,7 @@ async function runAisoScan({ baseUrl, websiteUrl, existing, scanIdOverride = nul
     : null;
   if (!submitted) {
     try {
-      submitted = await submitAisoScan(baseUrl, websiteUrl);
+      submitted = await submitAisoScan(baseUrl, websiteUrl, candidate);
     } catch (err) {
       const status = err instanceof HttpStatusError && err.status === 429
         ? "rate_limited"
@@ -643,6 +721,219 @@ async function runAisoScan({ baseUrl, websiteUrl, existing, scanIdOverride = nul
   };
 }
 
+function existingBriefIsFresh(existing) {
+  return Boolean(
+    existing?.expertTrendBrief?.provider === "kimi" &&
+      existing.expertTrendBrief.summary &&
+      isFreshIso(existing.expertTrendBrief.generatedAt, KIMI_TTL_DAYS),
+  );
+}
+
+function parseKimiJson(text) {
+  const trimmed = String(text ?? "").trim();
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    const firstBrace = trimmed.indexOf("{");
+    const lastBrace = trimmed.lastIndexOf("}");
+    if (firstBrace === -1 || lastBrace <= firstBrace) return null;
+    try {
+      return JSON.parse(trimmed.slice(firstBrace, lastBrace + 1));
+    } catch {
+      return null;
+    }
+  }
+}
+
+async function readKimiStream(response) {
+  if (!response.body) return "";
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let text = "";
+
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split(/\r?\n/);
+    buffer = lines.pop() ?? "";
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith("data:")) continue;
+      const payload = trimmed.slice(5).trim();
+      if (!payload || payload === "[DONE]") continue;
+      try {
+        const chunk = JSON.parse(payload);
+        const delta = chunk?.choices?.[0]?.delta;
+        if (typeof delta?.content === "string") text += delta.content;
+      } catch {
+        // Ignore malformed keepalive or proxy lines; the final JSON validator
+        // below decides whether the accumulated model output is usable.
+      }
+    }
+  }
+  return text;
+}
+
+async function callKimiJson({ systemPrompt, userMessage }) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), KIMI_TIMEOUT_MS);
+  try {
+    const response = await fetch(`${KIMI_BASE_URL}/chat/completions`, {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        authorization: `Bearer ${KIMI_API_KEY}`,
+        "content-type": "application/json",
+        accept: "text/event-stream",
+        "user-agent": "claude-cli/1.0",
+      },
+      body: JSON.stringify({
+        model: KIMI_MODEL,
+        max_tokens: KIMI_MAX_TOKENS,
+        temperature: 0.25,
+        stream: true,
+        response_format: { type: "json_object" },
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage },
+        ],
+      }),
+    });
+    if (!response.ok) {
+      const body = await response.text().catch(() => "");
+      throw new Error(`Kimi ${response.status}: ${truncateText(body, 240)}`);
+    }
+    return parseKimiJson(await readKimiStream(response));
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function safeStringArray(value, maxItems, maxLength) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => truncateText(item, maxLength))
+    .filter(Boolean)
+    .slice(0, maxItems);
+}
+
+function normalizeExpertTrendBrief(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const headline = truncateText(raw.headline, 120);
+  const summary = truncateText(raw.summary, 600);
+  if (!headline || !summary) return null;
+  return {
+    provider: "kimi",
+    model: KIMI_MODEL,
+    generatedAt: new Date().toISOString(),
+    headline,
+    summary,
+    drivers: safeStringArray(raw.drivers, 4, 180),
+    evidence: safeStringArray(raw.evidence, 4, 180),
+    caveats: safeStringArray(raw.caveats, 3, 180),
+  };
+}
+
+function buildKimiFacts({ candidate, baseProfile, scanResult, phLaunch, npmPackages }) {
+  const metadata = candidate.metadata ?? {};
+  const scan = scanResult?.aisoScan ?? baseProfile.aisoScan ?? null;
+  return {
+    repo: {
+      fullName: baseProfile.fullName,
+      rank24h: candidate.rank,
+      selectedFrom: candidate.selectedFrom,
+      githubUrl: baseProfile.surfaces.githubUrl,
+      description: truncateText(metadata.description, 320),
+      language: metadata.language ?? null,
+      topics: Array.isArray(metadata.topics) ? metadata.topics.slice(0, 12) : [],
+      stars: metadata.stars ?? null,
+      forks: metadata.forks ?? null,
+      openIssues: metadata.openIssues ?? null,
+      createdAt: metadata.createdAt ?? null,
+      pushedAt: metadata.pushedAt ?? null,
+    },
+    surfaces: {
+      websiteUrl: baseProfile.websiteUrl,
+      websiteSource: baseProfile.websiteSource,
+      docsUrl: baseProfile.surfaces.docsUrl,
+      npmPackages: npmPackages.slice(0, 5).map((pkg) => ({
+        name: pkg.name,
+        homepage: pkg.homepage ?? null,
+        downloads7d: pkg.downloads7d ?? null,
+        weeklyDownloads: pkg.discovery?.weeklyDownloads ?? null,
+      })),
+      productHunt: phLaunch
+        ? {
+            id: phLaunch.id ?? null,
+            name: phLaunch.name ?? null,
+            tagline: phLaunch.tagline ?? null,
+            votesCount: phLaunch.votesCount ?? null,
+            commentsCount: phLaunch.commentsCount ?? null,
+            website: phLaunch.website ?? null,
+          }
+        : null,
+    },
+    aiso: scan
+      ? {
+          status: scan.status,
+          score: scan.score ?? null,
+          tier: scan.tier ?? null,
+          runtimeVisibility: scan.runtimeVisibility ?? null,
+          completedAt: scan.completedAt ?? null,
+          topDimensions: (scan.dimensions ?? [])
+            .slice()
+            .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+            .slice(0, 5)
+            .map((dimension) => ({
+              key: dimension.key,
+              label: dimension.label,
+              score: dimension.score,
+              status: dimension.status,
+              issuesCount: dimension.issuesCount,
+            })),
+          topIssues: (scan.issues ?? []).slice(0, 5).map((issue) => ({
+            severity: issue.severity,
+            title: issue.title,
+            fix: issue.fix,
+          })),
+        }
+      : null,
+  };
+}
+
+async function buildExpertTrendBrief(context) {
+  if (!KIMI_ENABLED || !KIMI_API_KEY) {
+    return context.existing?.expertTrendBrief ?? null;
+  }
+  if (existingBriefIsFresh(context.existing)) {
+    return context.existing.expertTrendBrief;
+  }
+
+  const facts = buildKimiFacts(context);
+  const systemPrompt = [
+    "You are an expert open-source trend analyst for TrendingRepo.",
+    "Use only the supplied facts. Do not invent adoption, revenue, customers, or benchmarks.",
+    "Explain why the repository is trending now and how its website/AISO surface affects AI discoverability.",
+    "Return strict JSON only with keys: headline, summary, drivers, evidence, caveats.",
+  ].join(" ");
+  const userMessage = JSON.stringify(
+    {
+      task:
+        "Write a concise expert trend brief for a repo profile page. Keep summary under 110 words. drivers/evidence/caveats are short bullet strings.",
+      facts,
+    },
+    null,
+    2,
+  );
+
+  const parsed = await callKimiJson({ systemPrompt, userMessage });
+  const brief = normalizeExpertTrendBrief(parsed);
+  if (!brief) throw new Error("Kimi returned unusable JSON");
+  return brief;
+}
+
 async function writeProfilesFile(profilesByRepo, selection, { mirrorToStore = false } = {}) {
   const profiles = Array.from(profilesByRepo.values()).sort((a, b) => {
     const ar = a.rank ?? Number.MAX_SAFE_INTEGER;
@@ -713,17 +1004,21 @@ async function main() {
     source: MODE,
     limit: LIMIT,
     maxScans: MAX_SCANS,
+    dailyScanBudget: AISO_DAILY_SCAN_BUDGET,
     fromQueue: queueRepos.length,
     scanned: 0,
     queued: 0,
     noWebsite: 0,
     failed: 0,
+    expertBriefs: 0,
   };
   let scansStarted = 0;
+  let kimiStarted = 0;
+  const recentAisoSubmissions = countRecentAisoSubmissions(profilesByRepo);
   let aisoRateLimited = false;
 
   console.log(
-    `repo profiles: mode=${MODE} candidates=${candidates.length} fromQueue=${queueRepos.length} maxScans=${MAX_SCANS} aiso=${AISO_ENABLED ? aisoBaseUrl : "disabled"}`,
+    `repo profiles: mode=${MODE} candidates=${candidates.length} fromQueue=${queueRepos.length} maxScans=${MAX_SCANS} dailyBudget=${AISO_DAILY_SCAN_BUDGET} recent24h=${recentAisoSubmissions} aiso=${AISO_ENABLED ? aisoBaseUrl : "disabled"} kimi=${KIMI_ENABLED && KIMI_API_KEY ? `${KIMI_MODEL} max=${KIMI_MAX_REPOS}` : "disabled"}`,
   );
 
   for (const candidate of candidates) {
@@ -755,10 +1050,31 @@ async function main() {
         productHuntLaunchId: phLaunch?.id ?? null,
       },
       aisoScan: existing?.aisoScan ?? null,
+      expertTrendBrief: existing?.expertTrendBrief ?? null,
       error: null,
     };
 
     if (!websiteUrl) {
+      if (KIMI_ENABLED && KIMI_API_KEY && kimiStarted < KIMI_MAX_REPOS && !existingBriefIsFresh(existing)) {
+        try {
+          baseProfile.expertTrendBrief = await buildExpertTrendBrief({
+            candidate,
+            baseProfile,
+            existing,
+            scanResult: null,
+            phLaunch,
+            npmPackages,
+          });
+          if (baseProfile.expertTrendBrief !== existing?.expertTrendBrief) {
+            selection.expertBriefs += 1;
+          }
+        } catch (err) {
+          console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
+        } finally {
+          kimiStarted += 1;
+          if (KIMI_DELAY_MS > 0) await sleep(KIMI_DELAY_MS);
+        }
+      }
       selection.noWebsite += 1;
       profilesByRepo.set(key, baseProfile);
       console.log(`skip no website: ${candidate.fullName}`);
@@ -781,8 +1097,14 @@ async function main() {
         websiteUrl,
         existing,
         scanIdOverride,
+        candidate,
       });
-    } else if (aisoRateLimited || scansStarted >= MAX_SCANS) {
+    } else if (
+      aisoRateLimited ||
+      scansStarted >= MAX_SCANS ||
+      (AISO_DAILY_SCAN_BUDGET > 0 &&
+        recentAisoSubmissions + scansStarted >= AISO_DAILY_SCAN_BUDGET)
+    ) {
       scanResult = {
         status: "scan_pending",
         aisoScan: existing?.aisoScan ?? null,
@@ -794,6 +1116,7 @@ async function main() {
         baseUrl: aisoBaseUrl,
         websiteUrl,
         existing,
+        candidate,
       });
       if (scanResult.countedAsScan) {
         scansStarted += 1;
@@ -811,11 +1134,34 @@ async function main() {
       selection.queued += 1;
     }
 
+    let expertTrendBrief = baseProfile.expertTrendBrief;
+    if (KIMI_ENABLED && KIMI_API_KEY && kimiStarted < KIMI_MAX_REPOS && !existingBriefIsFresh(existing)) {
+      try {
+        expertTrendBrief = await buildExpertTrendBrief({
+          candidate,
+          baseProfile,
+          existing,
+          scanResult,
+          phLaunch,
+          npmPackages,
+        });
+        if (expertTrendBrief !== existing?.expertTrendBrief) {
+          selection.expertBriefs += 1;
+        }
+      } catch (err) {
+        console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
+      } finally {
+        kimiStarted += 1;
+        if (KIMI_DELAY_MS > 0) await sleep(KIMI_DELAY_MS);
+      }
+    }
+
     profilesByRepo.set(key, {
       ...baseProfile,
       status: scanResult.status,
       nextScanAfter: scanResult.status === "scanned" ? futureIso(RESCAN_DAYS) : null,
       aisoScan: scanResult.aisoScan,
+      expertTrendBrief,
       error: scanResult.error,
     });
     console.log(`${scanResult.status}: ${candidate.fullName} -> ${websiteUrl}`);
@@ -826,7 +1172,7 @@ async function main() {
     mirrorToStore: true,
   });
   console.log(
-    `repo profiles wrote ${OUT_FILE} scanned=${selection.scanned} queued=${selection.queued} noWebsite=${selection.noWebsite} failed=${selection.failed} [redis: ${redisResult?.source ?? "skipped"}]`,
+    `repo profiles wrote ${OUT_FILE} scanned=${selection.scanned} queued=${selection.queued} noWebsite=${selection.noWebsite} failed=${selection.failed} expertBriefs=${selection.expertBriefs} [redis: ${redisResult?.source ?? "skipped"}]`,
   );
 }
 

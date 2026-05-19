@@ -1,0 +1,111 @@
+name: Refresh repo profiles
+
+# Restores the scheduled repo-profile enrichment lane. The worker fetcher
+# resolves fast surfaces and queues profiles, but this workflow is the lane
+# that submits real website scans to AISO and writes the persisted expert
+# trend brief used by /repo/[owner]/[name].
+
+on:
+  schedule:
+    - cron: "41 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "profile enrichment mode"
+        required: false
+        default: "incremental"
+        type: choice
+        options:
+          - top
+          - incremental
+          - catchup
+      limit:
+        description: "candidate limit"
+        required: false
+        default: "75"
+        type: string
+      max_scans:
+        description: "new AISO scans allowed this run"
+        required: false
+        default: "3"
+        type: string
+      kimi_max_repos:
+        description: "Kimi expert briefs allowed this run"
+        required: false
+        default: "3"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: repo-profile-refresh
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node 22
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Enrich repo profiles
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_WORKFLOW: ${{ github.workflow }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SHA: ${{ github.sha }}
+          PROFILE_ENRICH_AISO_BASE_URL: https://aiso.tools
+          PROFILE_ENRICH_AISO_SOURCE: api
+          PROFILE_ENRICH_AISO_PROJECT: TrendingRepo repo profile enrichment
+          PROFILE_ENRICH_AISO_PROJECT_URL: https://trendingrepo.com
+          PROFILE_ENRICH_AISO_PROMOTION_SECRET: ${{ secrets.AISO_TRENDINGREPO_SECRET }}
+          PROFILE_ENRICH_AISO_BILLING_TIER: ${{ vars.PROFILE_ENRICH_AISO_BILLING_TIER || 'free' }}
+          PROFILE_ENRICH_AISO_PROFILE: ${{ vars.PROFILE_ENRICH_AISO_PROFILE || '' }}
+          PROFILE_ENRICH_AISO_DAILY_SCAN_BUDGET: ${{ vars.PROFILE_ENRICH_AISO_DAILY_SCAN_BUDGET || '30' }}
+          PROFILE_ENRICH_KIMI: ${{ vars.PROFILE_ENRICH_KIMI || 'true' }}
+          PROFILE_ENRICH_KIMI_MAX_REPOS: ${{ github.event.inputs.kimi_max_repos || vars.PROFILE_ENRICH_KIMI_MAX_REPOS || '3' }}
+          PROFILE_ENRICH_KIMI_TIMEOUT_MS: ${{ vars.PROFILE_ENRICH_KIMI_TIMEOUT_MS || '45000' }}
+          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+          KIMI_BASE_URL: ${{ vars.KIMI_BASE_URL || 'https://api.kimi.com/coding/v1' }}
+          KIMI_MODEL: ${{ vars.KIMI_MODEL || 'kimi-for-coding' }}
+        run: |
+          MODE="${{ github.event.inputs.mode || 'incremental' }}"
+          LIMIT="${{ github.event.inputs.limit || vars.PROFILE_ENRICH_LIMIT || '75' }}"
+          MAX_SCANS="${{ github.event.inputs.max_scans || vars.PROFILE_ENRICH_MAX_SCANS || '3' }}"
+          node scripts/enrich-repo-profiles.mjs \
+            --mode "$MODE" \
+            --limit "$LIMIT" \
+            --max-scans "$MAX_SCANS" \
+            --queue data/profile-completion-queue.json
+
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit if changed
+        timeout-minutes: 5
+        uses: ./.github/actions/git-commit-data
+        with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(data): refresh repo profiles ${{ steps.ts.outputs.value }}"
+          ignore-missing: "true"
+          paths: |
+            data/repo-profiles.json

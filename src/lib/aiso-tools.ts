@@ -51,6 +51,12 @@ interface ScanSubmitResponse {
   status: AisoScanStatus;
 }
 
+interface AisoScanSubmitOptions {
+  source?: string | null;
+  projectName?: string | null;
+  projectUrl?: string | null;
+}
+
 interface ScanPayload {
   scanId: string;
   url: string;
@@ -160,11 +166,22 @@ async function fetchJson<T>(
 async function submitScan(
   baseUrl: string,
   targetUrl: string,
+  options: AisoScanSubmitOptions = {},
 ): Promise<ScanSubmitResponse | null> {
   return fetchJson<ScanSubmitResponse>(`${baseUrl}/api/scan`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ url: targetUrl }),
+    headers: {
+      "content-type": "application/json",
+      ...(options.source ? { "x-aiso-source": options.source } : {}),
+      ...(options.projectName ? { "x-aiso-project": options.projectName } : {}),
+      ...(options.projectUrl ? { "x-aiso-project-url": options.projectUrl } : {}),
+    },
+    body: JSON.stringify({
+      url: targetUrl,
+      ...(options.source ? { source: options.source } : {}),
+      ...(options.projectName ? { projectName: options.projectName } : {}),
+      ...(options.projectUrl ? { projectUrl: options.projectUrl } : {}),
+    }),
   });
 }
 
@@ -239,6 +256,7 @@ async function pollScan(
 
 export async function getAisoToolsScan(
   targetUrl: string | null,
+  options: AisoScanSubmitOptions = {},
 ): Promise<AisoToolsScan | null> {
   if (!targetUrl) return null;
 
@@ -262,7 +280,7 @@ export async function getAisoToolsScan(
     return cached.value;
   }
 
-  const submitted = await submitScan(baseUrl, targetUrl);
+  const submitted = await submitScan(baseUrl, targetUrl, options);
   if (!submitted?.scanId) {
     memoryCache.set(cacheKey, {
       expiresAt: Date.now() + FAILED_CACHE_TTL_MS,

@@ -64,10 +64,10 @@ interface PhLaunchesPayload {
 interface RepoProfile {
   fullName: string;
   rank: number | null;
-  selectedFrom: 'manual_include' | 'trending_top_24h';
+  selectedFrom: string;
   websiteUrl: string | null;
   websiteSource: 'producthunt' | 'github_homepage' | 'npm_homepage' | null;
-  status: 'no_website' | 'scan_pending';
+  status: 'scanned' | 'scan_pending' | 'scan_running' | 'scan_failed' | 'rate_limited' | 'no_website';
   lastProfiledAt: string;
   nextScanAfter: string | null;
   surfaces: {
@@ -76,7 +76,17 @@ interface RepoProfile {
     npmPackages: string[];
     productHuntLaunchId: string | number | null;
   };
-  aisoScan: null;
+  aisoScan: unknown | null;
+  expertTrendBrief?: {
+    provider: 'kimi';
+    model: string;
+    generatedAt: string;
+    headline: string;
+    summary: string;
+    drivers: string[];
+    evidence: string[];
+    caveats: string[];
+  } | null;
   error: string | null;
 }
 
@@ -86,10 +96,11 @@ interface RepoProfilesPayload {
   selection: {
     source: 'top';
     limit: number;
-    scanned: 0;
+    scanned: number;
     queued: number;
     noWebsite: number;
-    failed: 0;
+    failed: number;
+    expertBriefs?: number;
   };
   profiles: RepoProfile[];
 }
@@ -151,12 +162,14 @@ const fetcher: Fetcher = {
       'repo-metadata',
       'npm-packages',
       'producthunt-launches',
+      'repo-profiles',
     ] as const;
     const reads = await Promise.allSettled([
       readDataStore<TrendingPayload>('trending'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
       readDataStore<NpmPackagesPayload>('npm-packages'),
       readDataStore<PhLaunchesPayload>('producthunt-launches'),
+      readDataStore<RepoProfilesPayload>('repo-profiles'),
     ]);
     const readFailures: Array<{ key: string; err: string }> = [];
     const values = reads.map((r, i) => {
@@ -173,11 +186,12 @@ const fetcher: Fetcher = {
         'repo-profiles: some reads failed; degrading those sources to null',
       );
     }
-    const [trending, repoMetadata, npmPackages, phLaunches] = values as [
+    const [trending, repoMetadata, npmPackages, phLaunches, existingProfiles] = values as [
       TrendingPayload | null,
       RepoMetadataPayload | null,
       NpmPackagesPayload | null,
       PhLaunchesPayload | null,
+      RepoProfilesPayload | null,
     ];
 
     const metadataByRepo = new Map<string, RepoMetadataItem>();
@@ -205,6 +219,10 @@ const fetcher: Fetcher = {
     }
 
     const rankMap = buildTrendingRankMap(trending);
+    const existingByRepo = new Map<string, RepoProfile>();
+    for (const profile of existingProfiles?.profiles ?? []) {
+      if (profile?.fullName) existingByRepo.set(normalizeRepoKey(profile.fullName), profile);
+    }
     const candidates: Array<{ fullName: string; rank: number | null; key: string }> = [];
     for (const [key, rank] of rankMap.entries()) {
       if (candidates.length >= TOP_LIMIT) break;
@@ -216,8 +234,10 @@ const fetcher: Fetcher = {
     }
 
     const now = new Date().toISOString();
+    let scanned = 0;
     let queued = 0;
     let noWebsite = 0;
+    let failed = 0;
     const profiles: RepoProfile[] = [];
 
     for (const candidate of candidates) {
@@ -253,26 +273,38 @@ const fetcher: Fetcher = {
         npmPkgs
           .map((pkg) => cleanUrl(pkg.homepage))
           .find((url) => url && /docs|documentation|readme/i.test(url)) ?? null;
+      const existing = existingByRepo.get(candidate.key) ?? null;
+      const preserveExistingEnrichment = Boolean(
+        existing && existing.websiteUrl === websiteUrl,
+      );
+      const status = preserveExistingEnrichment && existing
+        ? existing.status
+        : websiteUrl
+          ? 'scan_pending'
+          : 'no_website';
       const profile: RepoProfile = {
         fullName: meta?.fullName ?? candidate.fullName,
         rank: candidate.rank,
         selectedFrom: 'trending_top_24h',
         websiteUrl,
         websiteSource,
-        status: websiteUrl ? 'scan_pending' : 'no_website',
+        status,
         lastProfiledAt: now,
-        nextScanAfter: null,
+        nextScanAfter: preserveExistingEnrichment ? existing?.nextScanAfter ?? null : null,
         surfaces: {
           githubUrl,
           docsUrl,
           npmPackages: npmPkgs.map((pkg) => pkg.name),
           productHuntLaunchId: phLaunch?.id ?? null,
         },
-        aisoScan: null,
-        error: null,
+        aisoScan: preserveExistingEnrichment ? existing?.aisoScan ?? null : null,
+        expertTrendBrief: existing?.expertTrendBrief ?? null,
+        error: preserveExistingEnrichment ? existing?.error ?? null : null,
       };
       profiles.push(profile);
-      if (websiteUrl) queued += 1;
+      if (profile.status === 'scanned') scanned += 1;
+      else if (profile.status === 'scan_failed') failed += 1;
+      else if (websiteUrl) queued += 1;
       else noWebsite += 1;
     }
 
@@ -282,10 +314,10 @@ const fetcher: Fetcher = {
       selection: {
         source: 'top',
         limit: TOP_LIMIT,
-        scanned: 0,
+        scanned,
         queued,
         noWebsite,
-        failed: 0,
+        failed,
       },
       profiles,
     };

@@ -31,6 +31,17 @@
       "owner": "breakout"
     },
     {
+      "route": "/market-signals",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1600 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "market-signals"
+    },
+    {
       "route": "/api/health?soft=1",
       "policy": "dynamic-public",
       "expectsDynamic": true,

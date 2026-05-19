@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-18T19:46:58.513Z",
+  "fetchedAt": "2026-05-19T03:41:48.056Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1301,
+  "scannedArticles": 1297,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 8,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -197,7 +197,7 @@
     "tag-workflow-top-7d": 30,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 93,
+    "tag-cli-top-7d": 96,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 28,
@@ -205,79 +205,6 @@
     "tag-opensource-top-7d": 100
   },
   "mentions": {
-    "ajeetdsouza/zoxide": {
-      "count7d": 2,
-      "reactionsSum7d": 79,
-      "commentsSum7d": 23,
-      "topArticle": {
-        "id": 3652261,
-        "title": "My fully offline AI-assisted Linux development machine",
-        "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
-        "author": "deepu105",
-        "reactions": 79,
-        "comments": 23,
-        "hoursSincePosted": 167,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3652261,
-          "title": "My fully offline AI-assisted Linux development machine",
-          "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
-          "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
-          "author": {
-            "username": "deepu105",
-            "name": "Deepu K Sasidharan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
-          },
-          "reactionsCount": 79,
-          "commentsCount": 23,
-          "readingTime": 13,
-          "publishedAt": "2026-05-11T20:47:59Z",
-          "tags": [
-            "linux",
-            "archlinux",
-            "development",
-            "ai"
-          ],
-          "trendingScore": 2.96,
-          "linkedRepos": [
-            {
-              "fullName": "ajeetdsouza/zoxide",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3694486,
-          "title": "Toward a more POSIX-Friendly PowerShell experience",
-          "description": "I'm a MacOS and Debian user primarily, but my 9-5 is a Windows shop that requires I work from a...",
-          "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
-          "author": {
-            "username": "selfagency",
-            "name": "Daniel Sieradski",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F53631%2Ff7a512db-bd17-42c4-8739-7d0bcc4d335e.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-18T18:17:02Z",
-          "tags": [
-            "cli",
-            "microsoft",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ajeetdsouza/zoxide",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "aaif-goose/goose": {
       "count7d": 1,
       "reactionsSum7d": 50,
@@ -289,7 +216,7 @@
         "author": "debs_obrien",
         "reactions": 50,
         "comments": 9,
-        "hoursSincePosted": 119.5,
+        "hoursSincePosted": 127.4,
         "readingTime": 19
       },
       "articles": [
@@ -313,7 +240,7 @@
             "documentation",
             "webdev"
           ],
-          "trendingScore": 1.35,
+          "trendingScore": 1.27,
           "linkedRepos": [
             {
               "fullName": "aaif-goose/goose",
@@ -334,7 +261,7 @@
         "author": "nfrankel",
         "reactions": 10,
         "comments": 5,
-        "hoursSincePosted": 106.7,
+        "hoursSincePosted": 114.7,
         "readingTime": 10
       },
       "articles": [
@@ -358,7 +285,7 @@
             "budget",
             "agents"
           ],
-          "trendingScore": 0.14,
+          "trendingScore": 0.13,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -369,48 +296,20 @@
       ]
     },
     "NousResearch/hermes-agent": {
-      "count7d": 13,
-      "reactionsSum7d": 267,
-      "commentsSum7d": 91,
+      "count7d": 11,
+      "reactionsSum7d": 52,
+      "commentsSum7d": 22,
       "topArticle": {
-        "id": 3682129,
-        "title": "I Gave Hermes Agent 5 Impossible Tasks",
-        "url": "https://dev.to/syedahmershah/i-gave-hermes-agent-5-impossible-tasks-1k16",
-        "author": "syedahmershah",
-        "reactions": 217,
-        "comments": 72,
-        "hoursSincePosted": 59.2,
-        "readingTime": 9
+        "id": 3681236,
+        "title": "I Ran Hermes Agent on the Same Task for 7 Days. The Skill File on Day 7 Looked Nothing Like Day 1.",
+        "url": "https://dev.to/sreejit_/i-ran-hermes-agent-on-the-same-task-for-7-days-the-skill-file-on-day-7-looked-nothing-like-day-1-2oa8",
+        "author": "sreejit_",
+        "reactions": 24,
+        "comments": 17,
+        "hoursSincePosted": 71.6,
+        "readingTime": 12
       },
       "articles": [
-        {
-          "id": 3682129,
-          "title": "I Gave Hermes Agent 5 Impossible Tasks",
-          "description": "This is a submission for the Hermes Agent Challenge     Let me be honest with you before we start.  I...",
-          "url": "https://dev.to/syedahmershah/i-gave-hermes-agent-5-impossible-tasks-1k16",
-          "author": {
-            "username": "syedahmershah",
-            "name": "Syed Ahmer Shah",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
-          },
-          "reactionsCount": 217,
-          "commentsCount": 72,
-          "readingTime": 9,
-          "publishedAt": "2026-05-16T08:34:50Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "git"
-          ],
-          "trendingScore": 70.23,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3681236,
           "title": "I Ran Hermes Agent on the Same Task for 7 Days. The Skill File on Day 7 Looked Nothing Like Day 1.",
@@ -421,8 +320,8 @@
             "name": "Sreejit Pradhan",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3904430%2Fbd74576f-cef8-4620-a63e-8a001f1e9d6c.png"
           },
-          "reactionsCount": 22,
-          "commentsCount": 14,
+          "reactionsCount": 24,
+          "commentsCount": 17,
           "readingTime": 12,
           "publishedAt": "2026-05-16T04:05:21Z",
           "tags": [
@@ -431,7 +330,7 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 1.11,
+          "trendingScore": 1.25,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -487,7 +386,7 @@
             "ai",
             "agents"
           ],
-          "trendingScore": 0.07,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -514,7 +413,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.3,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -559,6 +458,33 @@
           ]
         },
         {
+          "id": 3683856,
+          "title": "Samskara and the Self-Improving Agent: A Vedic Lens on Hermes Agent",
+          "description": "submitted for the #hermesagentchallenge Write track              Where I Am Writing This From   I am...",
+          "url": "https://dev.to/divinesouljoy/samskara-and-the-self-improving-agent-a-vedic-lens-on-hermes-agent-58g1",
+          "author": {
+            "username": "divinesouljoy",
+            "name": "Joydeep Das",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923225%2Ff82d9269-a7a2-46ca-8dde-8b5c916f9af7.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-16T14:51:38Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3680780,
           "title": "I Let an AI Agent Run My Consulting Business For a Week — Here's What Happened",
           "description": "This is a submission for the Hermes Agent Challenge              The Setup   I run a small AI agency...",
@@ -577,33 +503,6 @@
             "agents",
             "ai",
             "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3683856,
-          "title": "Samskara and the Self-Improving Agent: A Vedic Lens on Hermes Agent",
-          "description": "submitted for the #hermesagentchallenge Write track              Where I Am Writing This From   I am...",
-          "url": "https://dev.to/divinesouljoy/samskara-and-the-self-improving-agent-a-vedic-lens-on-hermes-agent-58g1",
-          "author": {
-            "username": "divinesouljoy",
-            "name": "Joydeep Das",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923225%2Ff82d9269-a7a2-46ca-8dde-8b5c916f9af7.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-16T14:51:38Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -746,192 +645,75 @@
               "location": "body"
             }
           ]
+        }
+      ]
+    },
+    "CloakHQ/CloakBrowser": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3694867,
+        "title": "Anti-detect browser benchmark 2026: 7 stealth tools, 31 Cloudflare targets, 651 verdicts",
+        "url": "https://dev.to/ianlpaterson/anti-detect-browser-benchmark-2026-7-stealth-tools-31-cloudflare-targets-651-verdicts-4361",
+        "author": "ianlpaterson",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 7.7,
+        "readingTime": 16
+      },
+      "articles": [
+        {
+          "id": 3694867,
+          "title": "Anti-detect browser benchmark 2026: 7 stealth tools, 31 Cloudflare targets, 651 verdicts",
+          "description": "I built a scraper. Cloudflare killed it in 48 hours.   I built a web scraper for Canadian...",
+          "url": "https://dev.to/ianlpaterson/anti-detect-browser-benchmark-2026-7-stealth-tools-31-cloudflare-targets-651-verdicts-4361",
+          "author": {
+            "username": "ianlpaterson",
+            "name": "Ian L. Paterson",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3796710%2F44ffae12-52df-4924-82e1-40341621e8e0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 16,
+          "publishedAt": "2026-05-18T20:00:02Z",
+          "tags": [
+            "webdev",
+            "python",
+            "security",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "CloakHQ/CloakBrowser",
+              "location": "body"
+            }
+          ]
         },
         {
-          "id": 3660568,
-          "title": "Hermes Agent：会自我成长的 AI 智能体",
-          "description": "Hermes Agent：会自我成长的 AI 智能体    来源：GitHub - NousResearch/hermes-agent 作者：Nous Research |...",
-          "url": "https://dev.to/erikqin/hermes-agenthui-zi-wo-cheng-chang-de-ai-zhi-neng-ti-42j4",
+          "id": 3694962,
+          "title": "One install command wires 8 CLI coding agents to a shared stealth Chromium",
+          "description": "I use a bunch of CLI coding agents — Claude Code, Codex CLI, pi, opencode, Gemini CLI, Kiro, Amp,...",
+          "url": "https://dev.to/imper_7cde72b79d2529291ec/one-install-command-wires-8-cli-coding-agents-to-a-shared-stealth-chromium-3e50",
           "author": {
-            "username": "erikqin",
-            "name": "erikqin",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3898337%2Fbe5c41b2-2931-4c05-8824-eb9fb2a1c485.jpg"
+            "username": "imper_7cde72b79d2529291ec",
+            "name": "imper",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812341%2F4a3e352b-d42f-4efe-bb2c-23e8703e87bb.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
           "readingTime": 2,
-          "publishedAt": "2026-05-13T06:21:27Z",
+          "publishedAt": "2026-05-18T16:58:37Z",
           "tags": [
-            "agents",
             "ai",
-            "automation",
+            "cli",
             "opensource"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "qdrant/qdrant": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3692510,
-        "title": "5 Best Python Vector Database Libraries",
-        "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
-        "author": "tiioluwani",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 7.1,
-        "readingTime": 17
-      },
-      "articles": [
-        {
-          "id": 3692510,
-          "title": "5 Best Python Vector Database Libraries",
-          "description": "Most comparisons of Python vector database libraries focus on retrieval speed, indexing algorithms,...",
-          "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
-          "author": {
-            "username": "tiioluwani",
-            "name": "Tiioluwani",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F848139%2Fc64c731e-970e-42e7-be58-2f6876d1a746.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 17,
-          "publishedAt": "2026-05-18T12:42:35Z",
-          "tags": [
-            "vectordatabase",
-            "python"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "qdrant/qdrant",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "vectorize-io/hindsight": {
-      "count7d": 2,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3693609,
-        "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
-        "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
-        "author": "gehini",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 7,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3693609,
-          "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
-          "description": "The hardest part of running LLMs inside a production pipeline isn't the inference. It's figuring out,...",
-          "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
-          "author": {
-            "username": "gehini",
-            "name": "Gehini Busarapalli",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938045%2F9a2c4cb1-eab9-4bf7-8409-f987e0bfd655.webp"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-18T12:44:59Z",
-          "tags": [
-            "agents",
-            "ai",
-            "llm",
-            "monitoring"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "vectorize-io/hindsight",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3695395,
-          "title": "CRMs store data. I built something that remembers context.",
-          "description": "The first question I get when I tell people we have no database is: \"What do you mean, no...",
-          "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
-          "author": {
-            "username": "sandhyagk",
-            "name": "Sandhya G K",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938594%2F33c002a2-ec2d-4666-a42d-3abbabb292e7.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-18T18:56:33Z",
-          "tags": [
-            "ai",
-            "architecture",
-            "rag",
-            "showdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "vectorize-io/hindsight",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "tinyhumansai/openhuman": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3693862,
-        "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
-        "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
-        "author": "shubham-kumar-sinha",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 6.3,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3693862,
-          "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
-          "description": "Artificial Intelligence is rapidly moving beyond simple chatbots. Today’s users want AI systems that...",
-          "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
-          "author": {
-            "username": "shubham-kumar-sinha",
-            "name": "Shubham Kumar Sinha",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1135369%2F590a6378-5688-4e39-85cd-09eb3c73570b.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-18T13:26:18Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "privacy",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "tinyhumansai/openhuman",
+              "fullName": "CloakHQ/CloakBrowser",
               "location": "body"
             }
           ]
@@ -949,7 +731,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 11.6,
+        "hoursSincePosted": 19.5,
         "readingTime": 16
       },
       "articles": [
@@ -972,7 +754,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.3,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -1001,7 +783,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 11.6,
+        "hoursSincePosted": 19.5,
         "readingTime": 16
       },
       "articles": [
@@ -1024,7 +806,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.3,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -1053,7 +835,7 @@
         "author": "tythos",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 85.3,
+        "hoursSincePosted": 93.2,
         "readingTime": 10
       },
       "articles": [
@@ -1087,7 +869,7 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 10,
+      "count7d": 9,
       "reactionsSum7d": 3,
       "commentsSum7d": 1,
       "topArticle": {
@@ -1097,7 +879,7 @@
         "author": "catadef",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 148,
+        "hoursSincePosted": 155.9,
         "readingTime": 7
       },
       "articles": [
@@ -1193,34 +975,6 @@
             },
             {
               "fullName": "anthropics/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3652629,
-          "title": "Five MCP Servers Before Claude Code Writes a Single Line",
-          "description": "Claude Code went from research preview to a meaningful share of all public GitHub commits...",
-          "url": "https://dev.to/studiomeyer_io/five-mcp-servers-before-claude-code-writes-a-single-line-18f8",
-          "author": {
-            "username": "studiomeyer_io",
-            "name": "Matthias | StudioMeyer",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3866458%2F170ce662-470b-4f78-ac37-58a9a2a00220.PNG"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-12T00:19:57Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "hooks",
-            "aiworkflow"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
               "location": "body"
             }
           ]
@@ -1403,96 +1157,6 @@
         }
       ]
     },
-    "github/spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3668345,
-        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-        "author": "dmaxdev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 107.2,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3668345,
-          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
-          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-          "author": {
-            "username": "dmaxdev",
-            "name": "Maksim Danilchenko",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-14T08:37:46Z",
-          "tags": [
-            "specdrivendevelopment",
-            "python",
-            "claudecode",
-            "githubspeckit"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Alishahryar1/free-claude-code": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3678242,
-        "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
-        "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
-        "author": "recca0120",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 77.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3678242,
-          "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
-          "description": "An open-source proxy that lets you keep using Claude Code CLI, VS Code, and JetBrains interfaces while routing API calls to NVIDIA NIM, OpenRouter, DeepSeek, or local models.",
-          "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-15T14:09:35Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "proxy",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-plugins-official": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1504,7 +1168,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112.8,
+        "hoursSincePosted": 120.7,
         "readingTime": 8
       },
       "articles": [
@@ -1557,7 +1221,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 88.7,
+        "hoursSincePosted": 96.6,
         "readingTime": 6
       },
       "articles": [
@@ -1703,6 +1367,96 @@
         }
       ]
     },
+    "Alishahryar1/free-claude-code": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3678242,
+        "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
+        "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
+        "author": "recca0120",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 85.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3678242,
+          "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
+          "description": "An open-source proxy that lets you keep using Claude Code CLI, VS Code, and JetBrains interfaces while routing API calls to NVIDIA NIM, OpenRouter, DeepSeek, or local models.",
+          "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
+          "author": {
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-15T14:09:35Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "proxy",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github/spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3668345,
+        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+        "author": "dmaxdev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 115.1,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3668345,
+          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
+          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+          "author": {
+            "username": "dmaxdev",
+            "name": "Maksim Danilchenko",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-14T08:37:46Z",
+          "tags": [
+            "specdrivendevelopment",
+            "python",
+            "claudecode",
+            "githubspeckit"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "mattpocock/skills": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -1714,7 +1468,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 35.8,
+        "hoursSincePosted": 43.7,
         "readingTime": 7
       },
       "articles": [
@@ -1823,7 +1577,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 35.8,
+        "hoursSincePosted": 43.7,
         "readingTime": 7
       },
       "articles": [
@@ -1932,7 +1686,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 152,
+        "hoursSincePosted": 159.9,
         "readingTime": 5
       },
       "articles": [
@@ -2057,7 +1811,7 @@
         "author": "adnanc",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133.8,
+        "hoursSincePosted": 141.7,
         "readingTime": 7
       },
       "articles": [
@@ -2102,7 +1856,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 80.6,
+        "hoursSincePosted": 88.5,
         "readingTime": 11
       },
       "articles": [
@@ -2199,7 +1953,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 14.8,
+        "hoursSincePosted": 22.7,
         "readingTime": 10
       },
       "articles": [
@@ -2332,7 +2086,7 @@
         "author": "rentierdigital",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 6.1,
+        "hoursSincePosted": 14,
         "readingTime": 10
       },
       "articles": [
@@ -2413,7 +2167,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.2,
+        "hoursSincePosted": 143.2,
         "readingTime": 14
       },
       "articles": [
@@ -2482,7 +2236,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.2,
+        "hoursSincePosted": 143.2,
         "readingTime": 14
       },
       "articles": [
@@ -2551,7 +2305,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.2,
+        "hoursSincePosted": 143.2,
         "readingTime": 14
       },
       "articles": [
@@ -2620,7 +2374,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 15.9,
+        "hoursSincePosted": 23.8,
         "readingTime": 9
       },
       "articles": [
@@ -2669,7 +2423,7 @@
         "author": "daksh-gargas",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158,
+        "hoursSincePosted": 165.9,
         "readingTime": 4
       },
       "articles": [
@@ -2714,7 +2468,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 88.7,
+        "hoursSincePosted": 96.6,
         "readingTime": 6
       },
       "articles": [
@@ -2763,7 +2517,7 @@
         "author": "jeet_dhandha_3c9b0d80399a",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 147.1,
+        "hoursSincePosted": 155,
         "readingTime": 4
       },
       "articles": [
@@ -2812,7 +2566,7 @@
         "author": "vainamoinen",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 38.3,
+        "hoursSincePosted": 46.2,
         "readingTime": 6
       },
       "articles": [
@@ -2861,7 +2615,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 17,
+        "hoursSincePosted": 24.9,
         "readingTime": 8
       },
       "articles": [
@@ -2906,7 +2660,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 138.1,
+        "hoursSincePosted": 146,
         "readingTime": 8
       },
       "articles": [
@@ -2951,7 +2705,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 2,
-        "hoursSincePosted": 26.3,
+        "hoursSincePosted": 34.2,
         "readingTime": 3
       },
       "articles": [
@@ -2975,7 +2729,7 @@
             "opensource",
             "agentskills"
           ],
-          "trendingScore": 0.16,
+          "trendingScore": 0.12,
           "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
@@ -2996,7 +2750,7 @@
         "author": "owen_fox",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 149,
+        "hoursSincePosted": 156.9,
         "readingTime": 9
       },
       "articles": [
@@ -3041,7 +2795,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 163.6,
+        "hoursSincePosted": 171.5,
         "readingTime": 9
       },
       "articles": [
@@ -3086,7 +2840,7 @@
         "author": "madhaviai",
         "reactions": 3,
         "comments": 3,
-        "hoursSincePosted": 4.7,
+        "hoursSincePosted": 12.7,
         "readingTime": 3
       },
       "articles": [
@@ -3109,7 +2863,7 @@
             "mcp",
             "llm"
           ],
-          "trendingScore": 0.39,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "github/github-mcp-server",
@@ -3158,7 +2912,7 @@
         "author": "mir_mursalin_ankur",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 28.3,
+        "hoursSincePosted": 36.2,
         "readingTime": 53
       },
       "articles": [
@@ -3196,6 +2950,51 @@
         }
       ]
     },
+    "vectorize-io/hindsight": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3695395,
+        "title": "CRMs store data. I built something that remembers context.",
+        "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
+        "author": "sandhyagk",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 8.8,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3695395,
+          "title": "CRMs store data. I built something that remembers context.",
+          "description": "The first question I get when I tell people we have no database is: \"What do you mean, no...",
+          "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
+          "author": {
+            "username": "sandhyagk",
+            "name": "Sandhya G K",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938594%2F33c002a2-ec2d-4666-a42d-3abbabb292e7.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-18T18:56:33Z",
+          "tags": [
+            "ai",
+            "architecture",
+            "rag",
+            "showdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vectorize-io/hindsight",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "cocoindex-io/cocoindex": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -3207,7 +3006,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 160.6,
         "readingTime": 10
       },
       "articles": [
@@ -3252,7 +3051,7 @@
         "author": "laurent_guitton_038649364",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 140,
+        "hoursSincePosted": 147.9,
         "readingTime": 13
       },
       "articles": [
@@ -3297,7 +3096,7 @@
         "author": "omarmusayev",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 96.4,
+        "hoursSincePosted": 104.3,
         "readingTime": 4
       },
       "articles": [
@@ -3387,6 +3186,51 @@
         }
       ]
     },
+    "ajeetdsouza/zoxide": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3694486,
+        "title": "Toward a more POSIX-Friendly PowerShell experience",
+        "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
+        "author": "selfagency",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 9.4,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3694486,
+          "title": "Toward a more POSIX-Friendly PowerShell experience",
+          "description": "I'm a MacOS and Debian user primarily, but my 9-5 is a Windows shop that requires I work from a...",
+          "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
+          "author": {
+            "username": "selfagency",
+            "name": "Daniel Sieradski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F53631%2Ff7a512db-bd17-42c4-8739-7d0bcc4d335e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-18T18:17:02Z",
+          "tags": [
+            "cli",
+            "microsoft",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "cli/cli": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -3398,7 +3242,7 @@
         "author": "armorbreak",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.8,
+        "hoursSincePosted": 75.7,
         "readingTime": 4
       },
       "articles": [
@@ -3432,6 +3276,51 @@
         }
       ]
     },
+    "anomalyco/opencode": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3695081,
+        "title": "/disconnect for opencode — a tiny TUI plugin I wish existed before I made it",
+        "url": "https://dev.to/imper_7cde72b79d2529291ec/disconnect-for-opencode-a-tiny-tui-plugin-i-wish-existed-before-i-made-it-20j9",
+        "author": "imper_7cde72b79d2529291ec",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 10.3,
+        "readingTime": 2
+      },
+      "articles": [
+        {
+          "id": 3695081,
+          "title": "/disconnect for opencode — a tiny TUI plugin I wish existed before I made it",
+          "description": "I use opencode as my daily TUI coding agent. It's good. But there's one thing that kept biting...",
+          "url": "https://dev.to/imper_7cde72b79d2529291ec/disconnect-for-opencode-a-tiny-tui-plugin-i-wish-existed-before-i-made-it-20j9",
+          "author": {
+            "username": "imper_7cde72b79d2529291ec",
+            "name": "imper",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812341%2F4a3e352b-d42f-4efe-bb2c-23e8703e87bb.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-18T17:23:30Z",
+          "tags": [
+            "opencode",
+            "cli",
+            "typescript",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/opencode",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
     "openai/openai-agents-python": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -3443,7 +3332,7 @@
         "author": "doramagic",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 29.6,
+        "hoursSincePosted": 37.5,
         "readingTime": 3
       },
       "articles": [
@@ -3488,7 +3377,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 152,
+        "hoursSincePosted": 159.9,
         "readingTime": 5
       },
       "articles": [
@@ -3569,7 +3458,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 152,
+        "hoursSincePosted": 159.9,
         "readingTime": 5
       },
       "articles": [
@@ -3622,7 +3511,7 @@
         "author": "ratamaha",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105,
+        "hoursSincePosted": 112.9,
         "readingTime": 2
       },
       "articles": [
@@ -3684,6 +3573,51 @@
         }
       ]
     },
+    "Tracer-Cloud/opensre": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3686207,
+        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+        "author": "arshtechpro",
+        "reactions": 5,
+        "comments": 1,
+        "hoursSincePosted": 18.7,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3686207,
+          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
+          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+          "author": {
+            "username": "arshtechpro",
+            "name": "ArshTechPro",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 1,
+          "readingTime": 3,
+          "publishedAt": "2026-05-18T09:00:18Z",
+          "tags": [
+            "ai",
+            "sre",
+            "devops",
+            "opensource"
+          ],
+          "trendingScore": 0.21,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "henrygd/beszel": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -3695,7 +3629,7 @@
         "author": "vikasprogrammer",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 64.1,
+        "hoursSincePosted": 72.1,
         "readingTime": 5
       },
       "articles": [
@@ -3728,127 +3662,9 @@
           ]
         }
       ]
-    },
-    "Tracer-Cloud/opensre": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3686207,
-        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-        "author": "arshtechpro",
-        "reactions": 5,
-        "comments": 1,
-        "hoursSincePosted": 10.8,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3686207,
-          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
-          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-          "author": {
-            "username": "arshtechpro",
-            "name": "ArshTechPro",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 1,
-          "readingTime": 3,
-          "publishedAt": "2026-05-18T09:00:18Z",
-          "tags": [
-            "ai",
-            "sre",
-            "devops",
-            "opensource"
-          ],
-          "trendingScore": 0.36,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "location": "body"
-            }
-          ]
-        }
-      ]
     }
   },
   "mentionsByRepoId": {
-    "ajeetdsouza--zoxide": {
-      "count7d": 2,
-      "reactionsSum7d": 79,
-      "commentsSum7d": 23,
-      "topArticle": {
-        "id": 3652261,
-        "title": "My fully offline AI-assisted Linux development machine",
-        "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
-        "author": "deepu105",
-        "reactions": 79,
-        "comments": 23,
-        "hoursSincePosted": 167,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3652261,
-          "title": "My fully offline AI-assisted Linux development machine",
-          "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
-          "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
-          "author": {
-            "username": "deepu105",
-            "name": "Deepu K Sasidharan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
-          },
-          "reactionsCount": 79,
-          "commentsCount": 23,
-          "readingTime": 13,
-          "publishedAt": "2026-05-11T20:47:59Z",
-          "tags": [
-            "linux",
-            "archlinux",
-            "development",
-            "ai"
-          ],
-          "trendingScore": 2.96,
-          "linkedRepos": [
-            {
-              "fullName": "ajeetdsouza/zoxide",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3694486,
-          "title": "Toward a more POSIX-Friendly PowerShell experience",
-          "description": "I'm a MacOS and Debian user primarily, but my 9-5 is a Windows shop that requires I work from a...",
-          "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
-          "author": {
-            "username": "selfagency",
-            "name": "Daniel Sieradski",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F53631%2Ff7a512db-bd17-42c4-8739-7d0bcc4d335e.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-18T18:17:02Z",
-          "tags": [
-            "cli",
-            "microsoft",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ajeetdsouza/zoxide",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "aaif-goose--goose": {
       "count7d": 1,
       "reactionsSum7d": 50,
@@ -3860,7 +3676,7 @@
         "author": "debs_obrien",
         "reactions": 50,
         "comments": 9,
-        "hoursSincePosted": 119.5,
+        "hoursSincePosted": 127.4,
         "readingTime": 19
       },
       "articles": [
@@ -3884,7 +3700,7 @@
             "documentation",
             "webdev"
           ],
-          "trendingScore": 1.35,
+          "trendingScore": 1.27,
           "linkedRepos": [
             {
               "fullName": "aaif-goose/goose",
@@ -3905,7 +3721,7 @@
         "author": "nfrankel",
         "reactions": 10,
         "comments": 5,
-        "hoursSincePosted": 106.7,
+        "hoursSincePosted": 114.7,
         "readingTime": 10
       },
       "articles": [
@@ -3929,7 +3745,7 @@
             "budget",
             "agents"
           ],
-          "trendingScore": 0.14,
+          "trendingScore": 0.13,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -3940,48 +3756,20 @@
       ]
     },
     "nousresearch--hermes-agent": {
-      "count7d": 13,
-      "reactionsSum7d": 267,
-      "commentsSum7d": 91,
+      "count7d": 11,
+      "reactionsSum7d": 52,
+      "commentsSum7d": 22,
       "topArticle": {
-        "id": 3682129,
-        "title": "I Gave Hermes Agent 5 Impossible Tasks",
-        "url": "https://dev.to/syedahmershah/i-gave-hermes-agent-5-impossible-tasks-1k16",
-        "author": "syedahmershah",
-        "reactions": 217,
-        "comments": 72,
-        "hoursSincePosted": 59.2,
-        "readingTime": 9
+        "id": 3681236,
+        "title": "I Ran Hermes Agent on the Same Task for 7 Days. The Skill File on Day 7 Looked Nothing Like Day 1.",
+        "url": "https://dev.to/sreejit_/i-ran-hermes-agent-on-the-same-task-for-7-days-the-skill-file-on-day-7-looked-nothing-like-day-1-2oa8",
+        "author": "sreejit_",
+        "reactions": 24,
+        "comments": 17,
+        "hoursSincePosted": 71.6,
+        "readingTime": 12
       },
       "articles": [
-        {
-          "id": 3682129,
-          "title": "I Gave Hermes Agent 5 Impossible Tasks",
-          "description": "This is a submission for the Hermes Agent Challenge     Let me be honest with you before we start.  I...",
-          "url": "https://dev.to/syedahmershah/i-gave-hermes-agent-5-impossible-tasks-1k16",
-          "author": {
-            "username": "syedahmershah",
-            "name": "Syed Ahmer Shah",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
-          },
-          "reactionsCount": 217,
-          "commentsCount": 72,
-          "readingTime": 9,
-          "publishedAt": "2026-05-16T08:34:50Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "git"
-          ],
-          "trendingScore": 70.23,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3681236,
           "title": "I Ran Hermes Agent on the Same Task for 7 Days. The Skill File on Day 7 Looked Nothing Like Day 1.",
@@ -3992,8 +3780,8 @@
             "name": "Sreejit Pradhan",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3904430%2Fbd74576f-cef8-4620-a63e-8a001f1e9d6c.png"
           },
-          "reactionsCount": 22,
-          "commentsCount": 14,
+          "reactionsCount": 24,
+          "commentsCount": 17,
           "readingTime": 12,
           "publishedAt": "2026-05-16T04:05:21Z",
           "tags": [
@@ -4002,7 +3790,7 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 1.11,
+          "trendingScore": 1.25,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4058,7 +3846,7 @@
             "ai",
             "agents"
           ],
-          "trendingScore": 0.07,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4085,7 +3873,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.3,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4130,6 +3918,33 @@
           ]
         },
         {
+          "id": 3683856,
+          "title": "Samskara and the Self-Improving Agent: A Vedic Lens on Hermes Agent",
+          "description": "submitted for the #hermesagentchallenge Write track              Where I Am Writing This From   I am...",
+          "url": "https://dev.to/divinesouljoy/samskara-and-the-self-improving-agent-a-vedic-lens-on-hermes-agent-58g1",
+          "author": {
+            "username": "divinesouljoy",
+            "name": "Joydeep Das",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923225%2Ff82d9269-a7a2-46ca-8dde-8b5c916f9af7.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-16T14:51:38Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3680780,
           "title": "I Let an AI Agent Run My Consulting Business For a Week — Here's What Happened",
           "description": "This is a submission for the Hermes Agent Challenge              The Setup   I run a small AI agency...",
@@ -4148,33 +3963,6 @@
             "agents",
             "ai",
             "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3683856,
-          "title": "Samskara and the Self-Improving Agent: A Vedic Lens on Hermes Agent",
-          "description": "submitted for the #hermesagentchallenge Write track              Where I Am Writing This From   I am...",
-          "url": "https://dev.to/divinesouljoy/samskara-and-the-self-improving-agent-a-vedic-lens-on-hermes-agent-58g1",
-          "author": {
-            "username": "divinesouljoy",
-            "name": "Joydeep Das",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923225%2Ff82d9269-a7a2-46ca-8dde-8b5c916f9af7.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-16T14:51:38Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4317,192 +4105,75 @@
               "location": "body"
             }
           ]
+        }
+      ]
+    },
+    "cloakhq--cloakbrowser": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3694867,
+        "title": "Anti-detect browser benchmark 2026: 7 stealth tools, 31 Cloudflare targets, 651 verdicts",
+        "url": "https://dev.to/ianlpaterson/anti-detect-browser-benchmark-2026-7-stealth-tools-31-cloudflare-targets-651-verdicts-4361",
+        "author": "ianlpaterson",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 7.7,
+        "readingTime": 16
+      },
+      "articles": [
+        {
+          "id": 3694867,
+          "title": "Anti-detect browser benchmark 2026: 7 stealth tools, 31 Cloudflare targets, 651 verdicts",
+          "description": "I built a scraper. Cloudflare killed it in 48 hours.   I built a web scraper for Canadian...",
+          "url": "https://dev.to/ianlpaterson/anti-detect-browser-benchmark-2026-7-stealth-tools-31-cloudflare-targets-651-verdicts-4361",
+          "author": {
+            "username": "ianlpaterson",
+            "name": "Ian L. Paterson",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3796710%2F44ffae12-52df-4924-82e1-40341621e8e0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 16,
+          "publishedAt": "2026-05-18T20:00:02Z",
+          "tags": [
+            "webdev",
+            "python",
+            "security",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "CloakHQ/CloakBrowser",
+              "location": "body"
+            }
+          ]
         },
         {
-          "id": 3660568,
-          "title": "Hermes Agent：会自我成长的 AI 智能体",
-          "description": "Hermes Agent：会自我成长的 AI 智能体    来源：GitHub - NousResearch/hermes-agent 作者：Nous Research |...",
-          "url": "https://dev.to/erikqin/hermes-agenthui-zi-wo-cheng-chang-de-ai-zhi-neng-ti-42j4",
+          "id": 3694962,
+          "title": "One install command wires 8 CLI coding agents to a shared stealth Chromium",
+          "description": "I use a bunch of CLI coding agents — Claude Code, Codex CLI, pi, opencode, Gemini CLI, Kiro, Amp,...",
+          "url": "https://dev.to/imper_7cde72b79d2529291ec/one-install-command-wires-8-cli-coding-agents-to-a-shared-stealth-chromium-3e50",
           "author": {
-            "username": "erikqin",
-            "name": "erikqin",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3898337%2Fbe5c41b2-2931-4c05-8824-eb9fb2a1c485.jpg"
+            "username": "imper_7cde72b79d2529291ec",
+            "name": "imper",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812341%2F4a3e352b-d42f-4efe-bb2c-23e8703e87bb.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
           "readingTime": 2,
-          "publishedAt": "2026-05-13T06:21:27Z",
+          "publishedAt": "2026-05-18T16:58:37Z",
           "tags": [
-            "agents",
             "ai",
-            "automation",
+            "cli",
             "opensource"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "qdrant--qdrant": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3692510,
-        "title": "5 Best Python Vector Database Libraries",
-        "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
-        "author": "tiioluwani",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 7.1,
-        "readingTime": 17
-      },
-      "articles": [
-        {
-          "id": 3692510,
-          "title": "5 Best Python Vector Database Libraries",
-          "description": "Most comparisons of Python vector database libraries focus on retrieval speed, indexing algorithms,...",
-          "url": "https://dev.to/actiandev/5-best-python-vector-database-libraries-2235",
-          "author": {
-            "username": "tiioluwani",
-            "name": "Tiioluwani",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F848139%2Fc64c731e-970e-42e7-be58-2f6876d1a746.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 17,
-          "publishedAt": "2026-05-18T12:42:35Z",
-          "tags": [
-            "vectordatabase",
-            "python"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "qdrant/qdrant",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "vectorize-io--hindsight": {
-      "count7d": 2,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3693609,
-        "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
-        "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
-        "author": "gehini",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 7,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3693609,
-          "title": "I Used Hindsight to Make My Groq Agent Decisions Auditable — Here's What That Actually Looks Like",
-          "description": "The hardest part of running LLMs inside a production pipeline isn't the inference. It's figuring out,...",
-          "url": "https://dev.to/gehini/i-used-hindsight-to-make-my-groq-agent-decisions-auditable-heres-what-that-actually-looks-like-3nnj",
-          "author": {
-            "username": "gehini",
-            "name": "Gehini Busarapalli",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938045%2F9a2c4cb1-eab9-4bf7-8409-f987e0bfd655.webp"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-18T12:44:59Z",
-          "tags": [
-            "agents",
-            "ai",
-            "llm",
-            "monitoring"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "vectorize-io/hindsight",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3695395,
-          "title": "CRMs store data. I built something that remembers context.",
-          "description": "The first question I get when I tell people we have no database is: \"What do you mean, no...",
-          "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
-          "author": {
-            "username": "sandhyagk",
-            "name": "Sandhya G K",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938594%2F33c002a2-ec2d-4666-a42d-3abbabb292e7.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-18T18:56:33Z",
-          "tags": [
-            "ai",
-            "architecture",
-            "rag",
-            "showdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "vectorize-io/hindsight",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "tinyhumansai--openhuman": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3693862,
-        "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
-        "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
-        "author": "shubham-kumar-sinha",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 6.3,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3693862,
-          "title": "OpenHuman: The Open-Source AI Assistant That Wants to Become Your Second Brain",
-          "description": "Artificial Intelligence is rapidly moving beyond simple chatbots. Today’s users want AI systems that...",
-          "url": "https://dev.to/shubham-kumar-sinha/openhuman-the-open-source-ai-assistant-that-wants-to-become-your-second-brain-23ob",
-          "author": {
-            "username": "shubham-kumar-sinha",
-            "name": "Shubham Kumar Sinha",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1135369%2F590a6378-5688-4e39-85cd-09eb3c73570b.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-18T13:26:18Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "privacy",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "tinyhumansai/openhuman",
+              "fullName": "CloakHQ/CloakBrowser",
               "location": "body"
             }
           ]
@@ -4520,7 +4191,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 11.6,
+        "hoursSincePosted": 19.5,
         "readingTime": 16
       },
       "articles": [
@@ -4543,7 +4214,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.3,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4572,7 +4243,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 11.6,
+        "hoursSincePosted": 19.5,
         "readingTime": 16
       },
       "articles": [
@@ -4595,7 +4266,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.3,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4624,7 +4295,7 @@
         "author": "tythos",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 85.3,
+        "hoursSincePosted": 93.2,
         "readingTime": 10
       },
       "articles": [
@@ -4658,7 +4329,7 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 10,
+      "count7d": 9,
       "reactionsSum7d": 3,
       "commentsSum7d": 1,
       "topArticle": {
@@ -4668,7 +4339,7 @@
         "author": "catadef",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 148,
+        "hoursSincePosted": 155.9,
         "readingTime": 7
       },
       "articles": [
@@ -4764,34 +4435,6 @@
             },
             {
               "fullName": "anthropics/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3652629,
-          "title": "Five MCP Servers Before Claude Code Writes a Single Line",
-          "description": "Claude Code went from research preview to a meaningful share of all public GitHub commits...",
-          "url": "https://dev.to/studiomeyer_io/five-mcp-servers-before-claude-code-writes-a-single-line-18f8",
-          "author": {
-            "username": "studiomeyer_io",
-            "name": "Matthias | StudioMeyer",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3866458%2F170ce662-470b-4f78-ac37-58a9a2a00220.PNG"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-12T00:19:57Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "hooks",
-            "aiworkflow"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
               "location": "body"
             }
           ]
@@ -4974,96 +4617,6 @@
         }
       ]
     },
-    "github--spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3668345,
-        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-        "author": "dmaxdev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 107.2,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3668345,
-          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
-          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-          "author": {
-            "username": "dmaxdev",
-            "name": "Maksim Danilchenko",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-14T08:37:46Z",
-          "tags": [
-            "specdrivendevelopment",
-            "python",
-            "claudecode",
-            "githubspeckit"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "alishahryar1--free-claude-code": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3678242,
-        "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
-        "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
-        "author": "recca0120",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 77.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3678242,
-          "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
-          "description": "An open-source proxy that lets you keep using Claude Code CLI, VS Code, and JetBrains interfaces while routing API calls to NVIDIA NIM, OpenRouter, DeepSeek, or local models.",
-          "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-15T14:09:35Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "proxy",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics--claude-plugins-official": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5075,7 +4628,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112.8,
+        "hoursSincePosted": 120.7,
         "readingTime": 8
       },
       "articles": [
@@ -5128,7 +4681,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 88.7,
+        "hoursSincePosted": 96.6,
         "readingTime": 6
       },
       "articles": [
@@ -5274,6 +4827,96 @@
         }
       ]
     },
+    "alishahryar1--free-claude-code": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3678242,
+        "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
+        "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
+        "author": "recca0120",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 85.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3678242,
+          "title": "Free Claude Code: Route Claude Code API Calls to Free Alternatives",
+          "description": "An open-source proxy that lets you keep using Claude Code CLI, VS Code, and JetBrains interfaces while routing API calls to NVIDIA NIM, OpenRouter, DeepSeek, or local models.",
+          "url": "https://dev.to/recca0120/free-claude-code-route-claude-code-api-calls-to-free-alternatives-hik",
+          "author": {
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-15T14:09:35Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "proxy",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github--spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3668345,
+        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+        "author": "dmaxdev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 115.1,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3668345,
+          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
+          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+          "author": {
+            "username": "dmaxdev",
+            "name": "Maksim Danilchenko",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-14T08:37:46Z",
+          "tags": [
+            "specdrivendevelopment",
+            "python",
+            "claudecode",
+            "githubspeckit"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "mattpocock--skills": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -5285,7 +4928,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 35.8,
+        "hoursSincePosted": 43.7,
         "readingTime": 7
       },
       "articles": [
@@ -5394,7 +5037,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 35.8,
+        "hoursSincePosted": 43.7,
         "readingTime": 7
       },
       "articles": [
@@ -5503,7 +5146,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 152,
+        "hoursSincePosted": 159.9,
         "readingTime": 5
       },
       "articles": [
@@ -5628,7 +5271,7 @@
         "author": "adnanc",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133.8,
+        "hoursSincePosted": 141.7,
         "readingTime": 7
       },
       "articles": [
@@ -5673,7 +5316,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 80.6,
+        "hoursSincePosted": 88.5,
         "readingTime": 11
       },
       "articles": [
@@ -5770,7 +5413,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 14.8,
+        "hoursSincePosted": 22.7,
         "readingTime": 10
       },
       "articles": [
@@ -5903,7 +5546,7 @@
         "author": "rentierdigital",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 6.1,
+        "hoursSincePosted": 14,
         "readingTime": 10
       },
       "articles": [
@@ -5984,7 +5627,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.2,
+        "hoursSincePosted": 143.2,
         "readingTime": 14
       },
       "articles": [
@@ -6053,7 +5696,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.2,
+        "hoursSincePosted": 143.2,
         "readingTime": 14
       },
       "articles": [
@@ -6122,7 +5765,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 135.2,
+        "hoursSincePosted": 143.2,
         "readingTime": 14
       },
       "articles": [
@@ -6191,7 +5834,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 15.9,
+        "hoursSincePosted": 23.8,
         "readingTime": 9
       },
       "articles": [
@@ -6240,7 +5883,7 @@
         "author": "daksh-gargas",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158,
+        "hoursSincePosted": 165.9,
         "readingTime": 4
       },
       "articles": [
@@ -6285,7 +5928,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 88.7,
+        "hoursSincePosted": 96.6,
         "readingTime": 6
       },
       "articles": [
@@ -6334,7 +5977,7 @@
         "author": "jeet_dhandha_3c9b0d80399a",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 147.1,
+        "hoursSincePosted": 155,
         "readingTime": 4
       },
       "articles": [
@@ -6383,7 +6026,7 @@
         "author": "vainamoinen",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 38.3,
+        "hoursSincePosted": 46.2,
         "readingTime": 6
       },
       "articles": [
@@ -6432,7 +6075,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 17,
+        "hoursSincePosted": 24.9,
         "readingTime": 8
       },
       "articles": [
@@ -6477,7 +6120,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 138.1,
+        "hoursSincePosted": 146,
         "readingTime": 8
       },
       "articles": [
@@ -6522,7 +6165,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 2,
-        "hoursSincePosted": 26.3,
+        "hoursSincePosted": 34.2,
         "readingTime": 3
       },
       "articles": [
@@ -6546,7 +6189,7 @@
             "opensource",
             "agentskills"
           ],
-          "trendingScore": 0.16,
+          "trendingScore": 0.12,
           "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
@@ -6567,7 +6210,7 @@
         "author": "owen_fox",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 149,
+        "hoursSincePosted": 156.9,
         "readingTime": 9
       },
       "articles": [
@@ -6612,7 +6255,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 163.6,
+        "hoursSincePosted": 171.5,
         "readingTime": 9
       },
       "articles": [
@@ -6657,7 +6300,7 @@
         "author": "madhaviai",
         "reactions": 3,
         "comments": 3,
-        "hoursSincePosted": 4.7,
+        "hoursSincePosted": 12.7,
         "readingTime": 3
       },
       "articles": [
@@ -6680,7 +6323,7 @@
             "mcp",
             "llm"
           ],
-          "trendingScore": 0.39,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "github/github-mcp-server",
@@ -6729,7 +6372,7 @@
         "author": "mir_mursalin_ankur",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 28.3,
+        "hoursSincePosted": 36.2,
         "readingTime": 53
       },
       "articles": [
@@ -6767,6 +6410,51 @@
         }
       ]
     },
+    "vectorize-io--hindsight": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3695395,
+        "title": "CRMs store data. I built something that remembers context.",
+        "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
+        "author": "sandhyagk",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 8.8,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3695395,
+          "title": "CRMs store data. I built something that remembers context.",
+          "description": "The first question I get when I tell people we have no database is: \"What do you mean, no...",
+          "url": "https://dev.to/sandhyagk/crms-store-data-i-built-something-that-remembers-context-5101",
+          "author": {
+            "username": "sandhyagk",
+            "name": "Sandhya G K",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3938594%2F33c002a2-ec2d-4666-a42d-3abbabb292e7.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-18T18:56:33Z",
+          "tags": [
+            "ai",
+            "architecture",
+            "rag",
+            "showdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vectorize-io/hindsight",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "cocoindex-io--cocoindex": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6778,7 +6466,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 160.6,
         "readingTime": 10
       },
       "articles": [
@@ -6823,7 +6511,7 @@
         "author": "laurent_guitton_038649364",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 140,
+        "hoursSincePosted": 147.9,
         "readingTime": 13
       },
       "articles": [
@@ -6868,7 +6556,7 @@
         "author": "omarmusayev",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 96.4,
+        "hoursSincePosted": 104.3,
         "readingTime": 4
       },
       "articles": [
@@ -6958,6 +6646,51 @@
         }
       ]
     },
+    "ajeetdsouza--zoxide": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3694486,
+        "title": "Toward a more POSIX-Friendly PowerShell experience",
+        "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
+        "author": "selfagency",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 9.4,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3694486,
+          "title": "Toward a more POSIX-Friendly PowerShell experience",
+          "description": "I'm a MacOS and Debian user primarily, but my 9-5 is a Windows shop that requires I work from a...",
+          "url": "https://dev.to/selfagency/toward-a-more-posix-friendly-powershell-experience-ea4",
+          "author": {
+            "username": "selfagency",
+            "name": "Daniel Sieradski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F53631%2Ff7a512db-bd17-42c4-8739-7d0bcc4d335e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-18T18:17:02Z",
+          "tags": [
+            "cli",
+            "microsoft",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "cli--cli": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6969,7 +6702,7 @@
         "author": "armorbreak",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.8,
+        "hoursSincePosted": 75.7,
         "readingTime": 4
       },
       "articles": [
@@ -7003,6 +6736,51 @@
         }
       ]
     },
+    "anomalyco--opencode": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3695081,
+        "title": "/disconnect for opencode — a tiny TUI plugin I wish existed before I made it",
+        "url": "https://dev.to/imper_7cde72b79d2529291ec/disconnect-for-opencode-a-tiny-tui-plugin-i-wish-existed-before-i-made-it-20j9",
+        "author": "imper_7cde72b79d2529291ec",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 10.3,
+        "readingTime": 2
+      },
+      "articles": [
+        {
+          "id": 3695081,
+          "title": "/disconnect for opencode — a tiny TUI plugin I wish existed before I made it",
+          "description": "I use opencode as my daily TUI coding agent. It's good. But there's one thing that kept biting...",
+          "url": "https://dev.to/imper_7cde72b79d2529291ec/disconnect-for-opencode-a-tiny-tui-plugin-i-wish-existed-before-i-made-it-20j9",
+          "author": {
+            "username": "imper_7cde72b79d2529291ec",
+            "name": "imper",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812341%2F4a3e352b-d42f-4efe-bb2c-23e8703e87bb.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-18T17:23:30Z",
+          "tags": [
+            "opencode",
+            "cli",
+            "typescript",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/opencode",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
     "openai--openai-agents-python": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -7014,7 +6792,7 @@
         "author": "doramagic",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 29.6,
+        "hoursSincePosted": 37.5,
         "readingTime": 3
       },
       "articles": [
@@ -7059,7 +6837,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 152,
+        "hoursSincePosted": 159.9,
         "readingTime": 5
       },
       "articles": [
@@ -7140,7 +6918,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 152,
+        "hoursSincePosted": 159.9,
         "readingTime": 5
       },
       "articles": [
@@ -7193,7 +6971,7 @@
         "author": "ratamaha",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105,
+        "hoursSincePosted": 112.9,
         "readingTime": 2
       },
       "articles": [
@@ -7255,6 +7033,51 @@
         }
       ]
     },
+    "tracer-cloud--opensre": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3686207,
+        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+        "author": "arshtechpro",
+        "reactions": 5,
+        "comments": 1,
+        "hoursSincePosted": 18.7,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3686207,
+          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
+          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
+          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
+          "author": {
+            "username": "arshtechpro",
+            "name": "ArshTechPro",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 1,
+          "readingTime": 3,
+          "publishedAt": "2026-05-18T09:00:18Z",
+          "tags": [
+            "ai",
+            "sre",
+            "devops",
+            "opensource"
+          ],
+          "trendingScore": 0.21,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "henrygd--beszel": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -7266,7 +7089,7 @@
         "author": "vikasprogrammer",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 64.1,
+        "hoursSincePosted": 72.1,
         "readingTime": 5
       },
       "articles": [
@@ -7299,63 +7122,13 @@
           ]
         }
       ]
-    },
-    "tracer-cloud--opensre": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3686207,
-        "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-        "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-        "author": "arshtechpro",
-        "reactions": 5,
-        "comments": 1,
-        "hoursSincePosted": 10.8,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3686207,
-          "title": "OpenSRE: Build Your Own AI Incident-Investigation Agent",
-          "description": "Most AI coding tools stop at the editor. They help you write code. But the hardest, most stressful...",
-          "url": "https://dev.to/arshtechpro/opensre-build-your-own-ai-incident-investigation-agent-4ijd",
-          "author": {
-            "username": "arshtechpro",
-            "name": "ArshTechPro",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 1,
-          "readingTime": 3,
-          "publishedAt": "2026-05-18T09:00:18Z",
-          "tags": [
-            "ai",
-            "sre",
-            "devops",
-            "opensource"
-          ],
-          "trendingScore": 0.36,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "location": "body"
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "NousResearch/hermes-agent",
-      "count7d": 13,
-      "reactionsSum7d": 267
-    },
-    {
-      "fullName": "ajeetdsouza/zoxide",
-      "count7d": 2,
-      "reactionsSum7d": 79
+      "count7d": 11,
+      "reactionsSum7d": 52
     },
     {
       "fullName": "aaif-goose/goose",
@@ -7404,7 +7177,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 10,
+      "count7d": 9,
       "reactionsSum7d": 3
     },
     {
@@ -7428,11 +7201,6 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "vectorize-io/hindsight",
-      "count7d": 2,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "datawhalechina/easy-vibe",
       "count7d": 1,
       "reactionsSum7d": 1
@@ -7453,22 +7221,17 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "qdrant/qdrant",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "samber/cc-skills-golang",
       "count7d": 1,
       "reactionsSum7d": 1
     },
     {
-      "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
-      "reactionsSum7d": 1
+      "fullName": "addyosmani/agent-skills",
+      "count7d": 2,
+      "reactionsSum7d": 0
     },
     {
-      "fullName": "addyosmani/agent-skills",
+      "fullName": "CloakHQ/CloakBrowser",
       "count7d": 2,
       "reactionsSum7d": 0
     },
@@ -7493,7 +7256,17 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "ajeetdsouza/zoxide",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "Alishahryar1/free-claude-code",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "anomalyco/opencode",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -7579,6 +7352,11 @@
     },
     {
       "fullName": "tirth8205/code-review-graph",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "vectorize-io/hindsight",
       "count7d": 1,
       "reactionsSum7d": 0
     }

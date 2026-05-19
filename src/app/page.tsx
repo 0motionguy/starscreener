@@ -1,64 +1,126 @@
-// Placeholder home — Phase 0 foundation. Phase 1A replaces this with the
-// full Trending hub. Renders inside the shell layout (sidebar + topbar +
-// ticker + main + statusbar grid).
+// Trending hub — phase 1A. Wires the data spine (derived repos + cross-source
+// mentions + sidebar counts + freshness) onto the new HTML chrome.
 
-import { refreshTrendingFromStore, getTrending, getLastFetchedAt } from "@/lib/trending";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
+import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
+import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
+
+import { TrendingHubHero, type CategoryId, type WindowId, CATEGORIES, WINDOWS } from "@/components/trending/TrendingHubHero";
+import { KpiStrip } from "@/components/trending/KpiStrip";
+import { TrendingTable } from "@/components/trending/TrendingTable";
+import { TopMoversRail } from "@/components/trending/TopMoversRail";
+import { SourceHealthGrid } from "@/components/trending/SourceHealthGrid";
 
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "TrendingRepo — rebuild in progress",
-  robots: { index: false, follow: false },
+  title: "TrendingRepo — the radar for everything AI",
+  description:
+    "Real-time trend discovery across GitHub, HN, Reddit, X, Bluesky, ProductHunt, Dev.to and 23 more. Updated every 30 min.",
 };
 
-export default async function HomePage() {
-  await refreshTrendingFromStore();
-  const repos = getTrending("past_24_hours", "All");
-  const repoCount = repos.length;
-  const fetchedAt = getLastFetchedAt() || null;
-  const verdict = fetchedAt ? classifyFreshness("repos", fetchedAt) : null;
+interface Props {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
 
+export default async function TrendingHubPage({ searchParams }: Props) {
+  const params = (await searchParams) ?? {};
+  const rawCat = typeof params.cat === "string" ? params.cat : "repos";
+  const rawWin = typeof params.window === "string" ? params.window : "24h";
+  const category = (CATEGORIES.find((c) => c.id === rawCat)?.id ?? "repos") as CategoryId;
+  const timeWindow = (WINDOWS.find((w) => w.id === rawWin)?.id ?? "24h") as WindowId;
+
+  await refreshTrendingFromStore().catch(() => undefined);
+
+  const repos = (() => {
+    try {
+      return getDerivedRepos();
+    } catch {
+      return [];
+    }
+  })();
+
+  const sorted = [...repos].sort((a, b) => {
+    if (timeWindow === "7d") return (b.starsDelta7d ?? 0) - (a.starsDelta7d ?? 0);
+    if (timeWindow === "30d") return (b.starsDelta30d ?? 0) - (a.starsDelta30d ?? 0);
+    return (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0);
+  });
+
+  const counts = await getSidebarSourceCounts().catch(() => null);
+  const switcherCounts: Partial<Record<CategoryId, number>> = {
+    repos: (() => {
+      try {
+        return getDerivedRepoCount();
+      } catch {
+        return repos.length;
+      }
+    })(),
+    skills: counts?.skillsItems ?? 0,
+    mcp: counts?.mcpItems ?? 0,
+    agents: counts?.agentRepos ?? 0,
+    llms: (counts?.hfModels ?? 0) + (counts?.hfDatasets ?? 0) + (counts?.hfSpaces ?? 0),
+  };
+
+  const fetchedAt = (() => {
+    try {
+      return getLastFetchedAt() || null;
+    } catch {
+      return null;
+    }
+  })();
+
+  // The 4 non-repos panels are empty until Phase 1A-extension wires their
+  // dedicated data. Render an honest empty state when category isn't 'repos'.
   return (
-    <div style={{ padding: "16px 22px 32px", maxWidth: 1280 }}>
-      <div className="page-head">
-        <div>
-          <div className="page-eyebrow">
-            <span className="live-dot" /> <b>PHASE 0</b> · foundation shell wired · data spine alive
-          </div>
-          <h1 className="page-title">TrendingRepo — Phase 1A pending</h1>
-          <p className="page-sub">
-            UI v4 dismantled · shell.css + shell.js live · Sidebar, Topbar, Ticker, Statusbar mounted ·
-            phase-by-phase rebuild in progress. Phase 1A: Trending hub.
-          </p>
-        </div>
-      </div>
+    <div style={{ padding: "16px 22px 32px", maxWidth: 1400, margin: "0 auto" }}>
+      <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
 
-      <div className="card" style={{ marginTop: 18 }}>
-        <div className="card-head">
-          <h2 className="card-title">
-            ▸ <b>Data spine probe</b>
-          </h2>
+      <KpiStrip />
+
+      {category === "repos" ? (
+        <div
+          className="trending-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) 320px",
+            gap: 18,
+            marginTop: 8,
+          }}
+        >
+          <TrendingTable repos={sorted} fetchedAt={fetchedAt} limit={50} />
+          <aside style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <TopMoversRail limit={5} />
+            <SourceHealthGrid />
+          </aside>
         </div>
-        <div className="card-body">
-          <dl style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: "8px 16px", margin: 0 }}>
-            <dt style={{ color: "var(--fg-faint)" }}>repos cached</dt>
-            <dd style={{ margin: 0, fontFamily: "var(--font-mono)" }}>{repoCount}</dd>
-            <dt style={{ color: "var(--fg-faint)" }}>fetchedAt</dt>
-            <dd style={{ margin: 0, fontFamily: "var(--font-mono)" }}>{fetchedAt ?? "—"}</dd>
-            <dt style={{ color: "var(--fg-faint)" }}>freshness</dt>
-            <dd style={{ margin: 0, fontFamily: "var(--font-mono)" }}>
-              {verdict ? `${verdict.status} · ${verdict.ageLabel}` : "—"}
-            </dd>
-          </dl>
-          <p style={{ color: "var(--fg-muted)", fontSize: 12, marginTop: 16 }}>
-            See{" "}
-            <code style={{ color: "var(--accent)" }}>docs/UI-REBUILD-CONTRACT.md</code> and{" "}
-            <code style={{ color: "var(--accent)" }}>docs/HANDOVER-2026-05-19-REBUILD.md</code> for the
-            surfaces preserved across the teardown.
+      ) : (
+        <div
+          className="empty"
+          style={{
+            marginTop: 16,
+            padding: "60px 28px",
+            background: "var(--surface)",
+            border: "1px dashed var(--border)",
+            borderRadius: "var(--r-1)",
+            textAlign: "center",
+          }}
+        >
+          <h2 style={{ color: "var(--fg-bright)", fontSize: 18, marginBottom: 8 }}>
+            {category === "skills"
+              ? "Skills hub"
+              : category === "mcp"
+                ? "MCP servers hub"
+                : category === "agents"
+                  ? "Agents hub"
+                  : "LLMs · HF models hub"}
+          </h2>
+          <p style={{ color: "var(--fg-muted)", fontSize: 12, maxWidth: 560, margin: "0 auto" }}>
+            Same terminal table layout, ranked by adoption + cross-source mentions. Data wires available
+            ({(switcherCounts[category] ?? 0).toLocaleString()} items cached) — UI deferred to
+            Phase 1A-extension. Switch back to <b>Repos</b> for the full live table.
           </p>
         </div>
-      </div>
+      )}
     </div>
   );
 }

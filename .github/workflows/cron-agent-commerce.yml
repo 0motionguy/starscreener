@@ -98,7 +98,7 @@ jobs:
       - name: Enrich agent-commerce live signals
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_POOL || github.token }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_POOL || github.token }}
         run: node scripts/fetch-agent-commerce-live.mjs --concurrency 6
 
       - name: Enrich agent-commerce social mentions

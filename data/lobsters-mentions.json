@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-19T16:00:36.513Z",
+  "fetchedAt": "2026-05-19T18:25:04.016Z",
   "windowDays": 7,
-  "scannedStories": 77,
+  "scannedStories": 79,
   "mentions": {
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
       "count7d": 1,
@@ -270,6 +270,44 @@
         }
       ]
     },
+    "tomekw/stcc": {
+      "count7d": 1,
+      "scoreSum7d": 12,
+      "topStory": {
+        "shortId": "pk139i",
+        "title": "The Super Tiny Compiler, but in Ada",
+        "score": 12,
+        "url": "https://github.com/tomekw/stcc",
+        "commentsUrl": "https://lobste.rs/s/pk139i/super_tiny_compiler_ada",
+        "hoursSincePosted": 4.574722222222222
+      },
+      "stories": [
+        {
+          "shortId": "pk139i",
+          "title": "The Super Tiny Compiler, but in Ada",
+          "url": "https://github.com/tomekw/stcc",
+          "commentsUrl": "https://lobste.rs/s/pk139i/super_tiny_compiler_ada",
+          "by": "",
+          "score": 12,
+          "commentCount": 3,
+          "createdUtc": 1779198635,
+          "ageHours": 4.574722222222222,
+          "trendingScore": 0.7118117172448903,
+          "tags": [
+            "plt",
+            "programming"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "tomekw/stcc",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "jundot/omlx": {
       "count7d": 1,
       "scoreSum7d": 8,
@@ -455,6 +493,11 @@
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
       "count7d": 1,
       "scoreSum7d": 18
+    },
+    {
+      "fullName": "tomekw/stcc",
+      "count7d": 1,
+      "scoreSum7d": 12
     },
     {
       "fullName": "jundot/omlx",

@@ -8,6 +8,17 @@ handover-2026-05-09: see tasks/HANDOVER-2026-05-09-push-wave.md — runbook EXEC
 
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
+## ✅ UI v6 rebuild — Phase A complete (2026-05-19)
+
+14 routes shipped on `fix/csp-clerk-cname-fonts` since the shell
+foundation commit `8fdc0af7f`. Compare + Tier-List APIs restored;
+13 admin + 9 OG routes still 410-stubbed in HOSTUP soak. See
+[docs/HANDOVER-2026-05-19-REBUILD.md](../docs/HANDOVER-2026-05-19-REBUILD.md)
+for the full summary and route → commit table, and
+[docs/UI-V6-SHELL.md](../docs/UI-V6-SHELL.md) for the shell token /
+`window.TR.*` API / markup-contract reference. Nothing in this entry
+is shipped to `main` yet.
+
 ## Audit notes — 2026-05-05
 
 Drift-audit method (Phase 1.0.D): cross-checked every OPEN ticket header (54 unique AGN ticket IDs in this file) against `git log --all --oneline | grep -oE 'AGN-[0-9]+'`. The complete set of AGN tickets that have shipped in commit subjects across all branches is: AGN-365, AGN-469, AGN-513, AGN-650, AGN-695, AGN-696, AGN-702, AGN-703, AGN-704, AGN-733, AGN-792, AGN-795, AGN-799, AGN-903, AGN-949.

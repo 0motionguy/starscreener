@@ -1,7 +1,26 @@
 ﻿---
-last-verified: 2026-05-05
+last-verified: 2026-05-19
 verified-by: claude
 status: living
+---
+
+## What just shipped (2026-05-19)
+
+- UI v6 rebuild Phase A landed on `fix/csp-clerk-cname-fonts`: 14 routes
+  shipped across 13 commits since the shell foundation (`8fdc0af7f`).
+- Rebuilt routes: `/`, `/repo/[owner]/[name]`, `/breakout`,
+  `/market-signals`, `/funding`, `/revenue`, `/agent-commerce`,
+  `/tools` (absorbed legacy `/build`), `/account`, `/drop`, `/ideas`,
+  `/ideas/[id]`, `/preview`.
+- Compare (4 routes) and Tier-List (3 routes) APIs are **restored**;
+  13 admin + 9 OG routes remain 410-stubbed and continue the 48h HOSTUP
+  access-log soak. None of this has shipped to `main` yet — production
+  on HOSTUP is still the pre-rebuild UI.
+- Shell design system source-of-truth: `public/shell.css` +
+  `public/shell.js`; quick reference at [UI-V6-SHELL.md](UI-V6-SHELL.md);
+  rebuild handoff summary at
+  [HANDOVER-2026-05-19-REBUILD.md](HANDOVER-2026-05-19-REBUILD.md).
+
 ---
 
 # OPERATOR â€” TrendingRepo full-stack situational awareness

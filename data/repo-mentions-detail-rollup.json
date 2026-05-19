@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-19T08:38:59.424Z",
-  "scanRunId": "sweep-2026-05-19T08:38:44.430Z",
+  "computedAt": "2026-05-19T09:48:08.342Z",
+  "scanRunId": "sweep-2026-05-19T09:48:00.046Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -112,7 +112,7 @@
               "text": "get better output by getting your agents to be consistent on engineering tasks https://github.com/addyosmani/agent-skills",
               "author": "laurenlol.com",
               "engagement": {
-                "score": 0,
+                "score": 1,
                 "comments": 0
               },
               "observedAt": "2026-05-15T17:00:06.663Z"
@@ -1144,7 +1144,7 @@
               "author": "giuliomagnifico",
               "engagement": {
                 "score": 55,
-                "comments": 64
+                "comments": 65
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -3696,10 +3696,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 180,
+      "totalMentions7d": 181,
       "perSource": {
         "hackernews": {
-          "count7d": 180,
+          "count7d": 181,
           "top": [
             {
               "source": "hackernews",
@@ -3709,8 +3709,8 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 935,
-                "comments": 461
+                "score": 953,
+                "comments": 469
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
             },
@@ -3735,7 +3735,7 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 433,
+                "score": 434,
                 "comments": 144
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
@@ -3749,7 +3749,7 @@
               "author": "bookofjoe",
               "engagement": {
                 "score": 328,
-                "comments": 333
+                "comments": 336
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -6082,10 +6082,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 10,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -6108,7 +6108,7 @@
               "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
               "author": "mrcoldbrew",
               "engagement": {
-                "score": 44,
+                "score": 45,
                 "comments": 6
               },
               "observedAt": "2026-05-18T15:40:42.000Z"
@@ -9046,10 +9046,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 68,
+      "totalMentions7d": 70,
       "perSource": {
         "hackernews": {
-          "count7d": 68,
+          "count7d": 70,
           "top": [
             {
               "source": "hackernews",
@@ -9085,8 +9085,8 @@
               "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
               "author": "lukaspetersson",
               "engagement": {
-                "score": 246,
-                "comments": 199
+                "score": 261,
+                "comments": 209
               },
               "observedAt": "2026-05-18T18:12:18.000Z"
             },
@@ -9227,7 +9227,7 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 563,
+                "score": 564,
                 "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
@@ -9264,7 +9264,7 @@
     },
     "MinishLab/semble": {
       "fullName": "MinishLab/semble",
-      "totalMentions7d": 18,
+      "totalMentions7d": 19,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9277,7 +9277,7 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 433,
+                "score": 434,
                 "comments": 144
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
@@ -9285,7 +9285,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 17,
+          "count7d": 18,
           "top": [
             {
               "source": "bluesky",
@@ -9316,6 +9316,19 @@
             {
               "source": "bluesky",
               "fullName": "MinishLab/semble",
+              "url": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mm72omiq4u2j",
+              "title": "⚡ ALPHA · score 8/10 Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble",
+              "text": "⚡ ALPHA · score 8/10 Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble",
+              "author": "alpha-pipeline.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T09:18:23.460Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "MinishLab/semble",
               "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mm6fvzphlt2a",
               "title": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
               "text": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
@@ -9338,19 +9351,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-18T11:59:57.160Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/hnbest.bsky.social/post/3mm4mkkgm722u",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble comments #github.com",
-              "text": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep https://github.com/MinishLab/semble comments #github.com",
-              "author": "hnbest.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T10:00:14.862Z"
             }
           ]
         }
@@ -9358,10 +9358,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 143,
+      "totalMentions7d": 144,
       "perSource": {
         "hackernews": {
-          "count7d": 142,
+          "count7d": 143,
           "top": [
             {
               "source": "hackernews",
@@ -9371,8 +9371,8 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 935,
-                "comments": 461
+                "score": 953,
+                "comments": 469
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
             },
@@ -9398,7 +9398,7 @@
               "author": "bookofjoe",
               "engagement": {
                 "score": 328,
-                "comments": 333
+                "comments": 336
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
@@ -10061,7 +10061,7 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 135,
+                "score": 137,
                 "comments": 14
               },
               "observedAt": "2026-05-18T12:17:04.000Z"

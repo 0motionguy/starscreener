@@ -31,6 +31,16 @@
       "owner": "breakout"
     },
     {
+      "route": "/preview",
+      "policy": "isr",
+      "revalidateSeconds": 3600,
+      "ttfbBudgetMs": { "cached": 600, "uncached": 1500 },
+      "transferBudgetKb": 110,
+      "firstLoadJsBudgetKb": 500,
+      "warmupOnDeploy": false,
+      "owner": "preview"
+    },
+    {
       "route": "/market-signals",
       "policy": "isr",
       "revalidateSeconds": 1800,

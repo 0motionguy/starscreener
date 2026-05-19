@@ -15,10 +15,10 @@ import { resolve } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import {
-  getRepoProfilesGeneratedAt,
   readRepoProfilesFileSync,
   refreshRepoProfilesFromStore,
 } from "@/lib/repo-profiles";
+import { summarizeRepoProfileStatus } from "@/lib/repo-profile-status";
 
 export const runtime = "nodejs";
 
@@ -77,34 +77,7 @@ function stringifyScanOverrides(values: unknown): string | null {
 }
 
 function summarizeProfiles() {
-  const file = readRepoProfilesFileSync();
-  const counts = {
-    total: file.profiles.length,
-    scanned: file.profiles.filter((profile) => profile.status === "scanned").length,
-    queued: file.profiles.filter(
-      (profile) =>
-        profile.status === "scan_pending" || profile.status === "scan_running",
-    ).length,
-    noWebsite: file.profiles.filter((profile) => profile.status === "no_website")
-      .length,
-    failed: file.profiles.filter(
-      (profile) =>
-        profile.status === "scan_failed" || profile.status === "rate_limited",
-    ).length,
-  };
-  const recent = file.profiles.slice(0, 12).map((profile) => ({
-    fullName: profile.fullName,
-    rank: profile.rank,
-    status: profile.status,
-    websiteUrl: profile.websiteUrl,
-    lastProfiledAt: profile.lastProfiledAt,
-  }));
-  return {
-    generatedAt: getRepoProfilesGeneratedAt(),
-    selection: file.selection,
-    counts,
-    recent,
-  };
+  return summarizeRepoProfileStatus(readRepoProfilesFileSync());
 }
 
 function runEnricher(args: string[]): Promise<{

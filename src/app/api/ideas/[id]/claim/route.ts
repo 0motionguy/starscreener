@@ -13,10 +13,22 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { requireUser } from "@/lib/auth/server";
 import { serverError } from "@/lib/api/error-response";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { claimIdea, toPublicIdea, type PublicIdea } from "@/lib/ideas";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+// Per-user rate-limit on claim POST. Idempotent for the calling user
+// but each call rewrites ideas.jsonl under a global lock — without a
+// cap, an authed attacker can both (a) enumerate idea IDs via the
+// 200/404/409 response discrimination and (b) drive lock contention
+// across the whole moderation queue. 20/min is well above any human
+// claim cadence.
+const CLAIM_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 20,
+} as const;
 
 interface ClaimSuccessResponse {
   ok: true;
@@ -28,7 +40,7 @@ interface ClaimSuccessResponse {
 interface ClaimConflictResponse {
   ok: false;
   error: string;
-  code: "ALREADY_CLAIMED" | "NOT_CLAIMABLE";
+  code: "ALREADY_CLAIMED" | "NOT_CLAIMABLE" | "RATE_LIMITED";
   idea?: PublicIdea;
 }
 
@@ -43,7 +55,7 @@ interface RouteContext {
 }
 
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   context: RouteContext,
 ): Promise<
   NextResponse<ClaimSuccessResponse | ClaimConflictResponse | ClaimErrorResponse>
@@ -57,6 +69,27 @@ export async function POST(
   }
 
   const user = await requireUser();
+
+  const rate = await checkRateLimitAsync(request, {
+    ...CLAIM_RATE_LIMIT,
+    subject: user.profile.id,
+  });
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "rate limit exceeded — try again shortly",
+        code: "RATE_LIMITED",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+          "Cache-Control": "private, no-store",
+        },
+      },
+    );
+  }
 
   try {
     const outcome = await claimIdea(id, user.clerkUserId);

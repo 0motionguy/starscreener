@@ -6,7 +6,7 @@
 // The UI reads data/repo-profiles.json and never has to launch a scan on page
 // load.
 
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -242,6 +242,91 @@ class KimiHttpError extends Error {
 
 function shouldStopKimiForRun(error) {
   return error?.name === "KimiHttpError" && [401, 402, 403, 429].includes(error.status);
+}
+
+function countProfileStatuses(profilesByRepo) {
+  const counts = {
+    total: 0,
+    scanned: 0,
+    scanPending: 0,
+    noWebsite: 0,
+    scanFailed: 0,
+    scanRunning: 0,
+    withAiso: 0,
+    withExpertBrief: 0,
+  };
+  for (const profile of profilesByRepo.values()) {
+    counts.total += 1;
+    if (profile?.status === "scanned") counts.scanned += 1;
+    else if (profile?.status === "scan_pending") counts.scanPending += 1;
+    else if (profile?.status === "no_website") counts.noWebsite += 1;
+    else if (profile?.status === "scan_failed") counts.scanFailed += 1;
+    else if (profile?.status === "scan_running") counts.scanRunning += 1;
+    if (profile?.aisoScan?.scanId || profile?.aisoScan?.id) counts.withAiso += 1;
+    if (profile?.expertTrendBrief) counts.withExpertBrief += 1;
+  }
+  return counts;
+}
+
+async function appendGithubStepSummary({
+  selection,
+  profileCounts,
+  aisoBaseUrl,
+  recentAisoSubmissions,
+  scansStarted,
+  kimiStarted,
+  kimiDisabledReason,
+}) {
+  const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+  if (!summaryPath) return;
+  const remainingBudget =
+    AISO_DAILY_SCAN_BUDGET > 0
+      ? Math.max(0, AISO_DAILY_SCAN_BUDGET - recentAisoSubmissions - scansStarted)
+      : "unlimited";
+  const kimiState = !KIMI_ENABLED
+    ? "disabled"
+    : !KIMI_API_KEY
+      ? "missing key"
+      : kimiDisabledReason
+        ? `stopped: ${kimiDisabledReason}`
+        : `${KIMI_MODEL} attempts=${kimiStarted}/${KIMI_MAX_REPOS}`;
+  const lines = [
+    "## Repo Profile Enrichment",
+    "",
+    "| Metric | Value |",
+    "| --- | ---: |",
+    `| Mode | ${MODE} |`,
+    `| Candidate limit | ${LIMIT} |`,
+    `| New AISO submissions this run | ${scansStarted} |`,
+    `| AISO submissions already in last 24h | ${recentAisoSubmissions} |`,
+    `| AISO daily budget remaining | ${remainingBudget} |`,
+    `| AISO base URL | ${aisoBaseUrl} |`,
+    `| Kimi | ${kimiState} |`,
+    `| Expert briefs written | ${selection.expertBriefs} |`,
+    "",
+    "| Current Repo-Profile State | Count |",
+    "| --- | ---: |",
+    `| Total profiles | ${profileCounts.total} |`,
+    `| Scanned | ${profileCounts.scanned} |`,
+    `| Scan pending | ${profileCounts.scanPending} |`,
+    `| No website | ${profileCounts.noWebsite} |`,
+    `| Scan failed | ${profileCounts.scanFailed} |`,
+    `| With AISO scan id | ${profileCounts.withAiso} |`,
+    `| With expert brief | ${profileCounts.withExpertBrief} |`,
+    "",
+    "| This Run | Count |",
+    "| --- | ---: |",
+    `| Scanned or reused | ${selection.scanned} |`,
+    `| Queued | ${selection.queued} |`,
+    `| No website | ${selection.noWebsite} |`,
+    `| Failed | ${selection.failed} |`,
+    "",
+  ];
+  try {
+    await appendFile(summaryPath, `${lines.join("\n")}\n`);
+  } catch (err) {
+    console.warn(`failed to write GitHub step summary: ${truncateError(err)}`);
+  }
 }
 
 function truncateText(value, maxLength) {
@@ -1027,6 +1112,7 @@ async function main() {
   let scansStarted = 0;
   let kimiStarted = 0;
   let kimiStoppedForRun = false;
+  let kimiDisabledReason = "";
   const recentAisoSubmissions = countRecentAisoSubmissions(profilesByRepo);
   let aisoRateLimited = false;
 
@@ -1090,7 +1176,8 @@ async function main() {
         } catch (err) {
           if (shouldStopKimiForRun(err)) {
             kimiStoppedForRun = true;
-            console.warn(`kimi disabled for remainder of run: ${truncateError(err)}`);
+            kimiDisabledReason = truncateError(err);
+            console.warn(`kimi disabled for remainder of run: ${kimiDisabledReason}`);
           } else {
             console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
           }
@@ -1181,7 +1268,8 @@ async function main() {
       } catch (err) {
         if (shouldStopKimiForRun(err)) {
           kimiStoppedForRun = true;
-          console.warn(`kimi disabled for remainder of run: ${truncateError(err)}`);
+          kimiDisabledReason = truncateError(err);
+          console.warn(`kimi disabled for remainder of run: ${kimiDisabledReason}`);
         } else {
           console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
         }
@@ -1205,6 +1293,15 @@ async function main() {
 
   const redisResult = await writeProfilesFile(profilesByRepo, selection, {
     mirrorToStore: true,
+  });
+  await appendGithubStepSummary({
+    selection,
+    profileCounts: countProfileStatuses(profilesByRepo),
+    aisoBaseUrl,
+    recentAisoSubmissions,
+    scansStarted,
+    kimiStarted,
+    kimiDisabledReason,
   });
   console.log(
     `repo profiles wrote ${OUT_FILE} scanned=${selection.scanned} queued=${selection.queued} noWebsite=${selection.noWebsite} failed=${selection.failed} expertBriefs=${selection.expertBriefs} [redis: ${redisResult?.source ?? "skipped"}]`,

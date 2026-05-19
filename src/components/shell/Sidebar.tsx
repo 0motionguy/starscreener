@@ -187,6 +187,15 @@ export async function Sidebar() {
           </span>
           <span>All Tools</span>
         </NavLink>
+        <NavLink href="/preview" pill="NEW" prefetch={false}>
+          <span className="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <rect x="2.5" y="3" width="11" height="8" rx="1" />
+              <path d="M5 13h6M8 11v2" />
+            </svg>
+          </span>
+          <span>Surface preview</span>
+        </NavLink>
       </div>
 
       <div className="nav-group">

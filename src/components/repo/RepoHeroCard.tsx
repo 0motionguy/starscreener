@@ -6,8 +6,6 @@
 // buttons are inert — Set Alert / Compare / Tier list will get their own
 // client wires in a later phase. Watching count is server-side baseline.
 
-import Link from "next/link";
-
 import type { Repo } from "@/lib/types";
 
 import { WatchButton } from "./WatchButton";
@@ -34,8 +32,8 @@ export function RepoHeroCard({ repo }: RepoHeroCardProps) {
         <div
           className="repo-avatar xl"
           style={{
-            background: "#000",
-            color: "#fff",
+            background: "var(--surface-3)",
+            color: "var(--fg-bright)",
             fontFamily: "var(--font-display)",
             fontWeight: 800,
           }}
@@ -105,7 +103,13 @@ export function RepoHeroCard({ repo }: RepoHeroCardProps) {
               </svg>
               Compare
             </button>
-            <Link className="btn ghost" href="/tier-list">
+            <button
+              type="button"
+              className="btn ghost"
+              disabled
+              aria-disabled="true"
+              title="Tier list rebuild pending"
+            >
               <svg
                 width="14"
                 height="14"
@@ -119,7 +123,7 @@ export function RepoHeroCard({ repo }: RepoHeroCardProps) {
                 <path d="M5 6h6m-6 3h6m-6 3h3" />
               </svg>
               Tier list
-            </Link>
+            </button>
             {visible ? (
               <a
                 className="btn ghost"

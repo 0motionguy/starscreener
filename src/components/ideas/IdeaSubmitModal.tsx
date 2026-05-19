@@ -7,7 +7,7 @@
 // Anon users see a sign-in prompt; the API would 401 them anyway but we
 // short-circuit so the form never has to round-trip.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface IdeaSubmitModalProps {
   signedIn: boolean;
@@ -37,6 +37,8 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const onAction = (e: Event) => {
@@ -46,6 +48,7 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
       );
       if (!trigger) return;
       e.preventDefault();
+      triggerRef.current = trigger;
       setOpen(true);
       setErrorMsg(null);
       setSuccessId(null);
@@ -59,7 +62,22 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
     setForm(EMPTY);
     setSuccessId(null);
     setErrorMsg(null);
+    queueMicrotask(() => triggerRef.current?.focus?.());
   }, []);
+
+  // Esc-to-close + initial focus on the close button.
+  useEffect(() => {
+    if (!open) return;
+    closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, close]);
 
   const onSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -119,11 +137,21 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
   if (!open) return null;
 
   return (
-    <div className="modal-backdrop" role="dialog" aria-modal="true">
-      <div className="modal idea-submit-modal">
+    <div
+      className="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="idea-submit-modal-title"
+      onClick={close}
+    >
+      <div
+        className="modal idea-submit-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <header className="modal-head">
-          <h2>Submit an idea</h2>
+          <h2 id="idea-submit-modal-title">Submit an idea</h2>
           <button
+            ref={closeBtnRef}
             type="button"
             className="modal-close"
             aria-label="Close"

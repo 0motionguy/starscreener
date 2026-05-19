@@ -119,6 +119,7 @@ export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
               value={draft}
               onChange={onChange}
               rows={2}
+              aria-label="Comment draft"
             />
             <AtMentionMenu
               query={menuQuery}

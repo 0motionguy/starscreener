@@ -4,7 +4,7 @@
 // template (no AI). The user picks a trending repo and we surface a
 // boilerplate idea draft they can edit before submitting.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface IdeaTrendModalProps {
   trendingRepos: { fullName: string; pitch: string }[];
@@ -13,6 +13,8 @@ interface IdeaTrendModalProps {
 export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
   const [open, setOpen] = useState(false);
   const [pickedIdx, setPickedIdx] = useState(0);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const onAction = (e: Event) => {
@@ -22,13 +24,31 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
       );
       if (!trigger) return;
       e.preventDefault();
+      triggerRef.current = trigger;
       setOpen(true);
     };
     document.addEventListener("click", onAction);
     return () => document.removeEventListener("click", onAction);
   }, []);
 
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    setOpen(false);
+    queueMicrotask(() => triggerRef.current?.focus?.());
+  }, []);
+
+  // Esc-to-close + initial focus on the close button.
+  useEffect(() => {
+    if (!open) return;
+    closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, close]);
 
   if (!open) return null;
 
@@ -41,11 +61,21 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
     : "Choose a trend to seed the draft.";
 
   return (
-    <div className="modal-backdrop" role="dialog" aria-modal="true">
-      <div className="modal idea-trend-modal">
+    <div
+      className="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="idea-trend-modal-title"
+      onClick={close}
+    >
+      <div
+        className="modal idea-trend-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <header className="modal-head">
-          <h2>Generate from a trend</h2>
+          <h2 id="idea-trend-modal-title">Generate from a trend</h2>
           <button
+            ref={closeBtnRef}
             type="button"
             className="modal-close"
             aria-label="Close"
@@ -56,7 +86,7 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
         </header>
         <div className="modal-body">
           <p className="modal-hint">
-            v1 uses a static template — AI draft generation lands in Phase 4C.
+            Pick a live repo signal to seed an editable idea draft.
           </p>
           <div className="trend-picker">
             {trendingRepos.length === 0 ? (
@@ -77,11 +107,21 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
           <div className="trend-draft">
             <label>
               <span>Draft title</span>
-              <input type="text" defaultValue={draftTitle} key={draftTitle} />
+              <input
+                type="text"
+                defaultValue={draftTitle}
+                key={draftTitle}
+                aria-label="Draft title"
+              />
             </label>
             <label>
               <span>Draft pitch</span>
-              <textarea rows={4} defaultValue={draftPitch} key={draftPitch} />
+              <textarea
+                rows={4}
+                defaultValue={draftPitch}
+                key={draftPitch}
+                aria-label="Draft pitch"
+              />
             </label>
           </div>
           <div className="modal-actions">

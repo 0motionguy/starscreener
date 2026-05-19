@@ -164,7 +164,7 @@ export function Topbar({ crumbs }: TopbarProps) {
             <path d="M3 12V8a5 5 0 0110 0v4l1 2H2l1-2zM6 14a2 2 0 004 0" />
           </svg>
         </Link>
-        <Link className="avatar-btn" href="/account">
+        <Link className="avatar-btn" href="/account" aria-label="Account">
           <span className="avatar">MK</span>
           <span style={{ display: "none" }} className="avatar-name">
             You
@@ -207,6 +207,7 @@ export function Topbar({ crumbs }: TopbarProps) {
               autoFocus
               name="q"
               placeholder="Search repos, mentions, owners, models…"
+              aria-label="Search"
               style={{
                 flex: 1,
                 background: "transparent",

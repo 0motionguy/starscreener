@@ -1,11 +1,10 @@
 "use client";
 
 // IdeaBriefModal — "Generate brief" overlay. Triggered from per-row Brief
-// button (data-idea-action="brief" data-idea-id="<id>"). v1 renders an
-// 8-block static template; Phase 4C will replace the static text with
-// AI-generated content + a "Copy to clipboard" / "Save as draft" wire.
+// button (data-idea-action="brief" data-idea-id="<id>"). Renders an
+// 8-block deterministic template for now.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const BLOCKS: { title: string; body: string }[] = [
   {
@@ -45,6 +44,8 @@ const BLOCKS: { title: string; body: string }[] = [
 export function IdeaBriefModal() {
   const [open, setOpen] = useState(false);
   const [ideaId, setIdeaId] = useState<string | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const onAction = (e: Event) => {
@@ -54,6 +55,7 @@ export function IdeaBriefModal() {
       );
       if (!trigger) return;
       e.preventDefault();
+      triggerRef.current = trigger;
       setIdeaId(trigger.dataset.ideaId ?? null);
       setOpen(true);
     };
@@ -64,16 +66,44 @@ export function IdeaBriefModal() {
   const close = useCallback(() => {
     setOpen(false);
     setIdeaId(null);
+    // Return focus to the trigger that opened the modal.
+    queueMicrotask(() => triggerRef.current?.focus?.());
   }, []);
+
+  // Esc-to-close + initial focus on the close button.
+  useEffect(() => {
+    if (!open) return;
+    closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, close]);
 
   if (!open) return null;
 
   return (
-    <div className="modal-backdrop" role="dialog" aria-modal="true">
-      <div className="modal idea-brief-modal">
+    <div
+      className="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="idea-brief-modal-title"
+      onClick={close}
+    >
+      <div
+        className="modal idea-brief-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <header className="modal-head">
-          <h2>Build brief {ideaId ? <small>· {ideaId}</small> : null}</h2>
+          <h2 id="idea-brief-modal-title">
+            Build brief {ideaId ? <small>· {ideaId}</small> : null}
+          </h2>
           <button
+            ref={closeBtnRef}
             type="button"
             className="modal-close"
             aria-label="Close"
@@ -84,8 +114,7 @@ export function IdeaBriefModal() {
         </header>
         <div className="modal-body">
           <p className="modal-hint">
-            Static template — AI brief generation lands in Phase 4C. Use the
-            blocks below as a starting structure for the build brief.
+            Use the blocks below as a starting structure for the build brief.
           </p>
           <div className="brief-blocks">
             {BLOCKS.map((b) => (

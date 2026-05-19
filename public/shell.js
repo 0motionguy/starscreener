@@ -90,6 +90,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindTabsets() {
     $$('[data-tabset]').forEach(set => {
+      if (set.dataset.trBound === '1') return;
+      set.dataset.trBound = '1';
       const tabs = $$('[data-tab]', set);
       tabs.forEach(t => {
         t.addEventListener('click', () => {
@@ -119,6 +121,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindSegmented() {
     $$('.segmented').forEach(seg => {
+      if (seg.dataset.trBound === '1') return;
+      seg.dataset.trBound = '1';
       const btns = $$('button', seg);
       btns.forEach(b => {
         b.addEventListener('click', () => {
@@ -180,6 +184,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindWatchButtons() {
     $$('[data-watch-toggle]').forEach(btn => {
+      if (btn.dataset.trBound === '1') return;
+      btn.dataset.trBound = '1';
       btn.addEventListener('click', () => {
         const isOn = btn.classList.toggle('on');
         const label = btn.childNodes[1];
@@ -203,6 +209,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindAlertConfig() {
     $$('[data-alert-toggle]').forEach(btn => {
+      if (btn.dataset.trBound === '1') return;
+      btn.dataset.trBound = '1';
       const panel = document.querySelector('[data-alert-panel]');
       if (!panel) return;
       // Start expanded by default to show the value prop; collapse on second click
@@ -218,6 +226,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindFeedChips() {
     $$('.feed-filter').forEach(row => {
+      if (row.dataset.trBound === '1') return;
+      row.dataset.trBound = '1';
       const chips = $$('.feed-chip', row);
       chips.forEach(c => {
         c.addEventListener('click', () => {
@@ -451,6 +461,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindShareMenus() {
     $$('.share-wrap').forEach(wrap => {
+      if (wrap.dataset.trBound === '1') return;
+      wrap.dataset.trBound = '1';
       const btn = $('.share-btn', wrap);
       const menu = $('.share-menu', wrap);
       if (!btn || !menu) return;
@@ -549,8 +561,43 @@
     bindShareMenus();
     bindFadeUp();
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
-  else boot();
+
+  /* ─────────────────────────────────────────────────────────────
+     Rebind on client-side route transitions
+     Next.js App Router swaps DOM without a full page reload, which
+     leaves new .spark / .segmented / [data-tabset] / .share-wrap
+     / [data-counter] / .fade-up elements unbound. All bind* helpers
+     are idempotent via data-tr-bound, so we can safely re-run them
+     whenever the subtree changes. Debounced to coalesce rapid mutations.
+     ───────────────────────────────────────────────────────────── */
+  function rebindAll() {
+    renderAllSparks();
+    bindTabsets();
+    bindSegmented();
+    bindNavParents();
+    bindWatchButtons();
+    bindAlertConfig();
+    bindFeedChips();
+    bindShareMenus();
+    mergeSourcesIntoMentions();
+    tickCounters();
+    bindFadeUp();
+  }
+  function startRebindObserver() {
+    if (!('MutationObserver' in window)) return;
+    const main = document.querySelector('main, .app') || document.body;
+    let t;
+    new MutationObserver(() => {
+      clearTimeout(t);
+      t = setTimeout(rebindAll, 50);
+    }).observe(main, { childList: true, subtree: true });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { boot(); startRebindObserver(); });
+  } else {
+    boot();
+    startRebindObserver();
+  }
 
   // Re-render sparks on resize (debounced)
   let resizeT;

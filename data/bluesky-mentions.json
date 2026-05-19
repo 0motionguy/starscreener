@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-19T19:17:38.166Z",
+  "fetchedAt": "2026-05-19T20:52:42.343Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -7,23 +7,23 @@
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6tsoxugib3v667asy4qdkkvq/app.bsky.feed.post/3mm7hph5zck2e",
-        "cid": "bafyreic3rktn3shqfo32qcn7nyy5rqiebedzo3wpctdaqi6qqh7ygjxxoy",
-        "bskyUrl": "https://bsky.app/profile/nobskyjp.bsky.social/post/3mm7hph5zck2e",
-        "text": "私のsparkでは、15tok/secしか出ない 頭が良くてもこんだけ遅いと、、 1発で長時間動く抽象度の高いプロンプトを入れないといけないのが大変 github.com/antirez/ds4",
+        "uri": "at://did:plc:vwokigxsgzjwvw6mivprcyfo/app.bsky.feed.post/3mma5qwn4j22a",
+        "cid": "bafyreibwoa73mlwjyum52u4qqpi5ksvmy4662om2pnza5xogp72wbs5tui",
+        "bskyUrl": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
+        "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
         "author": {
-          "handle": "nobskyjp.bsky.social",
-          "displayName": "のぶさん"
+          "handle": "sk3w.bsky.social",
+          "displayName": "John Askew"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T13:11:29.482Z",
-        "hoursSincePosted": 3.34
+        "createdAt": "2026-05-19T19:46:01.580Z",
+        "hoursSincePosted": 1.11
       },
       "posts": [
         {
@@ -70,6 +70,34 @@
           "createdUtc": 1779032824,
           "ageHours": 3.81,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vwokigxsgzjwvw6mivprcyfo/app.bsky.feed.post/3mma5qwn4j22a",
+          "cid": "bafyreibwoa73mlwjyum52u4qqpi5ksvmy4662om2pnza5xogp72wbs5tui",
+          "bskyUrl": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
+          "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
+          "author": {
+            "handle": "sk3w.bsky.social",
+            "displayName": "John Askew"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T19:46:01.580Z",
+          "createdUtc": 1779219961,
+          "ageHours": 1.11,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -706,7 +734,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T17:07:11.609Z",
-        "hoursSincePosted": 2.17
+        "hoursSincePosted": 3.76
       },
       "posts": [
         {
@@ -723,7 +751,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T17:07:11.609Z",
           "createdUtc": 1779210431,
-          "ageHours": 2.17,
+          "ageHours": 3.76,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -3915,24 +3943,52 @@
     "D4Vinci/Scrapling": {
       "count7d": 1,
       "likesSum7d": 0,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
-        "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
-        "bskyUrl": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mlcuw3aajf27",
-        "text": "「784倍速&サイトの防御をすり抜ける」紹介スレッドを検証した。 784倍速はHTMLパーサーだけの合成ベンチマーク（HTTP通信なし、5000要素のテスト）。事実だが、Cloudflare突破にはブラウザ自動操作が必要で、そちらは格段に重い。同じ速度の話ではない。💎 https://x.com/so_ainsight/status/2050379784916705770 https://github.com/D4Vinci/Scrapling",
+        "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mmabgkchms2y",
+        "cid": "bafyreibh55ypnc554xyxv5uuhgww7hexfj4egrthetkfjhszmu7tawdtmq",
+        "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mmabgkchms2y",
+        "text": "github.com/D4Vinci/Scra...",
         "author": {
-          "handle": "sara-echosphere.bsky.social",
-          "displayName": "サラ"
+          "handle": "radiosuperb.bsky.social",
+          "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
         },
         "likeCount": 0,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T04:20:37.951Z",
-        "hoursSincePosted": 3.66
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T20:51:48.072Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mmabgkchms2y",
+          "cid": "bafyreibh55ypnc554xyxv5uuhgww7hexfj4egrthetkfjhszmu7tawdtmq",
+          "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mmabgkchms2y",
+          "text": "github.com/D4Vinci/Scra...",
+          "author": {
+            "handle": "radiosuperb.bsky.social",
+            "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T20:51:48.072Z",
+          "createdUtc": 1779223908,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "D4Vinci/Scrapling",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
           "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
@@ -14839,7 +14895,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T16:30:52.129Z",
-        "hoursSincePosted": 2.78
+        "hoursSincePosted": 4.36
       },
       "posts": [
         {
@@ -14884,7 +14940,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T16:30:52.129Z",
           "createdUtc": 1779208252,
-          "ageHours": 2.78,
+          "ageHours": 4.36,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -16931,7 +16987,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T16:22:14.350Z",
-        "hoursSincePosted": 2.92
+        "hoursSincePosted": 4.51
       },
       "posts": [
         {
@@ -16947,7 +17003,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T16:22:14.350Z",
           "createdUtc": 1779207734,
-          "ageHours": 2.92,
+          "ageHours": 4.51,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -16981,7 +17037,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T16:20:12Z",
-        "hoursSincePosted": 2.96
+        "hoursSincePosted": 4.54
       },
       "posts": [
         {
@@ -16998,7 +17054,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T16:20:12Z",
           "createdUtc": 1779207612,
-          "ageHours": 2.96,
+          "ageHours": 4.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17280,28 +17336,79 @@
           ]
         }
       ]
-    }
-  },
-  "mentionsByRepoId": {
-    "antirez--ds4": {
+    },
+    "karpathy/autoresearch": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6tsoxugib3v667asy4qdkkvq/app.bsky.feed.post/3mm7hph5zck2e",
-        "cid": "bafyreic3rktn3shqfo32qcn7nyy5rqiebedzo3wpctdaqi6qqh7ygjxxoy",
-        "bskyUrl": "https://bsky.app/profile/nobskyjp.bsky.social/post/3mm7hph5zck2e",
-        "text": "私のsparkでは、15tok/secしか出ない 頭が良くてもこんだけ遅いと、、 1発で長時間動く抽象度の高いプロンプトを入れないといけないのが大変 github.com/antirez/ds4",
+        "uri": "at://did:plc:gwaqezqw7zbb2okzjmhfyra2/app.bsky.feed.post/3mmaaozpu322k",
+        "cid": "bafyreiekglomq7x7h76c33v2lymzoqv4awhf33cr274y4cp5hnfnkkry44",
+        "bskyUrl": "https://bsky.app/profile/mpbontenbal.eurosky.social/post/3mmaaozpu322k",
+        "text": "Ah yeah, his autoresearch now on steroids github.com/karpathy/aut...",
         "author": {
-          "handle": "nobskyjp.bsky.social",
-          "displayName": "のぶさん"
+          "handle": "mpbontenbal.eurosky.social",
+          "displayName": "Michiel Bontenbal"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T13:11:29.482Z",
-        "hoursSincePosted": 3.34
+        "createdAt": "2026-05-19T20:38:38.932Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:gwaqezqw7zbb2okzjmhfyra2/app.bsky.feed.post/3mmaaozpu322k",
+          "cid": "bafyreiekglomq7x7h76c33v2lymzoqv4awhf33cr274y4cp5hnfnkkry44",
+          "bskyUrl": "https://bsky.app/profile/mpbontenbal.eurosky.social/post/3mmaaozpu322k",
+          "text": "Ah yeah, his autoresearch now on steroids github.com/karpathy/aut...",
+          "author": {
+            "handle": "mpbontenbal.eurosky.social",
+            "displayName": "Michiel Bontenbal"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T20:38:38.932Z",
+          "createdUtc": 1779223118,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "karpathy/autoresearch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mentionsByRepoId": {
+    "antirez--ds4": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vwokigxsgzjwvw6mivprcyfo/app.bsky.feed.post/3mma5qwn4j22a",
+        "cid": "bafyreibwoa73mlwjyum52u4qqpi5ksvmy4662om2pnza5xogp72wbs5tui",
+        "bskyUrl": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
+        "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
+        "author": {
+          "handle": "sk3w.bsky.social",
+          "displayName": "John Askew"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T19:46:01.580Z",
+        "hoursSincePosted": 1.11
       },
       "posts": [
         {
@@ -17348,6 +17455,34 @@
           "createdUtc": 1779032824,
           "ageHours": 3.81,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vwokigxsgzjwvw6mivprcyfo/app.bsky.feed.post/3mma5qwn4j22a",
+          "cid": "bafyreibwoa73mlwjyum52u4qqpi5ksvmy4662om2pnza5xogp72wbs5tui",
+          "bskyUrl": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
+          "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
+          "author": {
+            "handle": "sk3w.bsky.social",
+            "displayName": "John Askew"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T19:46:01.580Z",
+          "createdUtc": 1779219961,
+          "ageHours": 1.11,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -17984,7 +18119,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T17:07:11.609Z",
-        "hoursSincePosted": 2.17
+        "hoursSincePosted": 3.76
       },
       "posts": [
         {
@@ -18001,7 +18136,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T17:07:11.609Z",
           "createdUtc": 1779210431,
-          "ageHours": 2.17,
+          "ageHours": 3.76,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -21193,24 +21328,52 @@
     "d4vinci--scrapling": {
       "count7d": 1,
       "likesSum7d": 0,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
-        "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
-        "bskyUrl": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mlcuw3aajf27",
-        "text": "「784倍速&サイトの防御をすり抜ける」紹介スレッドを検証した。 784倍速はHTMLパーサーだけの合成ベンチマーク（HTTP通信なし、5000要素のテスト）。事実だが、Cloudflare突破にはブラウザ自動操作が必要で、そちらは格段に重い。同じ速度の話ではない。💎 https://x.com/so_ainsight/status/2050379784916705770 https://github.com/D4Vinci/Scrapling",
+        "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mmabgkchms2y",
+        "cid": "bafyreibh55ypnc554xyxv5uuhgww7hexfj4egrthetkfjhszmu7tawdtmq",
+        "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mmabgkchms2y",
+        "text": "github.com/D4Vinci/Scra...",
         "author": {
-          "handle": "sara-echosphere.bsky.social",
-          "displayName": "サラ"
+          "handle": "radiosuperb.bsky.social",
+          "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
         },
         "likeCount": 0,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T04:20:37.951Z",
-        "hoursSincePosted": 3.66
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T20:51:48.072Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mmabgkchms2y",
+          "cid": "bafyreibh55ypnc554xyxv5uuhgww7hexfj4egrthetkfjhszmu7tawdtmq",
+          "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mmabgkchms2y",
+          "text": "github.com/D4Vinci/Scra...",
+          "author": {
+            "handle": "radiosuperb.bsky.social",
+            "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T20:51:48.072Z",
+          "createdUtc": 1779223908,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "D4Vinci/Scrapling",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
           "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
@@ -32117,7 +32280,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T16:30:52.129Z",
-        "hoursSincePosted": 2.78
+        "hoursSincePosted": 4.36
       },
       "posts": [
         {
@@ -32162,7 +32325,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T16:30:52.129Z",
           "createdUtc": 1779208252,
-          "ageHours": 2.78,
+          "ageHours": 4.36,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -34209,7 +34372,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T16:22:14.350Z",
-        "hoursSincePosted": 2.92
+        "hoursSincePosted": 4.51
       },
       "posts": [
         {
@@ -34225,7 +34388,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T16:22:14.350Z",
           "createdUtc": 1779207734,
-          "ageHours": 2.92,
+          "ageHours": 4.51,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -34259,7 +34422,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-19T16:20:12Z",
-        "hoursSincePosted": 2.96
+        "hoursSincePosted": 4.54
       },
       "posts": [
         {
@@ -34276,7 +34439,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-19T16:20:12Z",
           "createdUtc": 1779207612,
-          "ageHours": 2.96,
+          "ageHours": 4.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -34558,36 +34721,67 @@
           ]
         }
       ]
+    },
+    "karpathy--autoresearch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:gwaqezqw7zbb2okzjmhfyra2/app.bsky.feed.post/3mmaaozpu322k",
+        "cid": "bafyreiekglomq7x7h76c33v2lymzoqv4awhf33cr274y4cp5hnfnkkry44",
+        "bskyUrl": "https://bsky.app/profile/mpbontenbal.eurosky.social/post/3mmaaozpu322k",
+        "text": "Ah yeah, his autoresearch now on steroids github.com/karpathy/aut...",
+        "author": {
+          "handle": "mpbontenbal.eurosky.social",
+          "displayName": "Michiel Bontenbal"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T20:38:38.932Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:gwaqezqw7zbb2okzjmhfyra2/app.bsky.feed.post/3mmaaozpu322k",
+          "cid": "bafyreiekglomq7x7h76c33v2lymzoqv4awhf33cr274y4cp5hnfnkkry44",
+          "bskyUrl": "https://bsky.app/profile/mpbontenbal.eurosky.social/post/3mmaaozpu322k",
+          "text": "Ah yeah, his autoresearch now on steroids github.com/karpathy/aut...",
+          "author": {
+            "handle": "mpbontenbal.eurosky.social",
+            "displayName": "Michiel Bontenbal"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T20:38:38.932Z",
+          "createdUtc": 1779223118,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "karpathy/autoresearch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 2,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "angelos-p/llm-from-scratch",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "colbymchenry/codegraph",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "InsForge/InsForge",
+      "fullName": "antirez/ds4",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "jj-vcs/jj",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "msitarzewski/agency-agents",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -34602,37 +34796,17 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "BigBodyCobain/Shadowbroker",
+      "fullName": "D4Vinci/Scrapling",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "browser-use/video-use",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "HKUDS/CLI-Anything",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Imbad0202/academic-research-skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "obra/superpowers",
+      "fullName": "karpathy/autoresearch",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "ruvnet/RuView",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     }

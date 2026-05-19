@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-19T03:41:30.934Z",
-  "scanRunId": "sweep-2026-05-19T03:41:21.402Z",
+  "computedAt": "2026-05-19T08:38:59.424Z",
+  "scanRunId": "sweep-2026-05-19T08:38:44.430Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -123,10 +123,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 8,
+      "totalMentions7d": 31,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 31,
           "top": [
             {
               "source": "hackernews",
@@ -136,7 +136,7 @@
               "text": "Hey HN! We’re Vikram and Evan from Ardent (<a href=\"https:&#x2F;&#x2F;tryardent.com\">https:&#x2F;&#x2F;tryardent.com</a>). We&#x27;re building database sandboxes for you and your coding agents.<p>In the last two years coding agents have gotten dramatically more capable at handling complex engineering tasks. But without access to a realistic sandbox at the DB layer for testing, they ship garbage that can take down production databases. I spent over a year building an AI Data Engineer that failed ",
               "author": "vc289",
               "engagement": {
-                "score": 96,
+                "score": 97,
                 "comments": 51
               },
               "observedAt": "2026-05-13T16:54:03.000Z"
@@ -149,10 +149,36 @@
               "text": "Got the following from hello@mindie.dev<p>----<p>Hey Stackghost —<p>Saw your HN comment about freelance time tracking &#x2F; invoicing. TimeChat is a Telegram bot: type &quot;1.5 acme bug fix&quot; after work, end of month it auto-generates the PDF invoice for your client. Side-by-side vs Toggl: mindie.dev&#x2F;vs&#x2F;toggl.<p>For HN readers I&#x27;m running EARLY10: $1&#x2F;mo (was $7). One-click checkout: timechat pro 2-mo trial<p>If it&#x27;s useful, I&#x27;d love your feedback. Free tier co",
               "author": "stackghost",
               "engagement": {
-                "score": 20,
-                "comments": 2
+                "score": 25,
+                "comments": 5
               },
               "observedAt": "2026-05-17T01:06:37.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://priorlabs.ai/technical-reports/tabpfn-3",
+              "title": "TabPFN-3: scaling foundation models for tabular data to 1M rows",
+              "text": "",
+              "author": "onasta",
+              "engagement": {
+                "score": 9,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T12:55:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://blog.google/products-and-platforms/platforms/android/pause-point/",
+              "title": "Google introduces measure to stop doom scrolling",
+              "text": "",
+              "author": "paglaghoda",
+              "engagement": {
+                "score": 8,
+                "comments": 2
+              },
+              "observedAt": "2026-05-13T04:20:31.000Z"
             },
             {
               "source": "hackernews",
@@ -166,32 +192,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-14T04:12:31.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://amibeingpwned.com/blog/ai-chat-scraper-wall-of-shame",
-              "title": "Show HN: The Extensions Scraping Your AI Chats",
-              "text": "",
-              "author": "acorn221",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T16:13:39.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://ss32.github.io/set_up_not_setup/",
-              "title": "It's set up, not setup: Scraping GitHub for grammar errors",
-              "text": "",
-              "author": "disastronaut",
-              "engagement": {
-                "score": 3,
-                "comments": 2
-              },
-              "observedAt": "2026-05-16T10:59:13.000Z"
             }
           ]
         }
@@ -295,10 +295,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 108,
+      "totalMentions7d": 106,
       "perSource": {
         "hackernews": {
-          "count7d": 108,
+          "count7d": 106,
           "top": [
             {
               "source": "hackernews",
@@ -308,10 +308,23 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 297,
+                "score": 298,
                 "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://www.nbcnews.com/video/multiple-commencement-speakers-booed-for-ai-comments-during-graduation-speeches-263486021518",
+              "title": "Multiple commencement speakers booed for AI comments during graduation speeches",
+              "text": "",
+              "author": "wrxd",
+              "engagement": {
+                "score": 153,
+                "comments": 165
+              },
+              "observedAt": "2026-05-18T09:12:10.000Z"
             },
             {
               "source": "hackernews",
@@ -329,41 +342,28 @@
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
+              "url": "https://odyssey.ml/introducing-agora-1",
+              "title": "Agora-1: The Multi-Agent World Model",
+              "text": "",
+              "author": "olivercameron",
+              "engagement": {
+                "score": 106,
+                "comments": 21
+              },
+              "observedAt": "2026-05-18T18:43:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
               "url": "https://ljtn.github.io/epiq/",
               "title": "Show HN: Epiq – Distributed Git based issue tracker TUI",
               "text": "Issue trackers typically live outside of your workflow, with poor ergonomics. Epiq aims to solve that, bringing issue tracking into your terminal. Multi-user collaboration is achieved via git using user-scoped immutable event logs that converge in memory. Put my all into it. Let me know what you think.",
               "author": "jolaflow",
               "engagement": {
-                "score": 89,
-                "comments": 46
+                "score": 90,
+                "comments": 47
               },
               "observedAt": "2026-05-16T00:18:03.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
-              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
-              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
-              "author": "jlengelbrecht",
-              "engagement": {
-                "score": 64,
-                "comments": 61
-              },
-              "observedAt": "2026-05-15T04:48:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://news.ycombinator.com/item?id=48110593",
-              "title": "Show HN: Gigacatalyst – Extend your SaaS with an embedded AI builder",
-              "text": "Hi HN, I’m Namanyay from Gigacatalyst (link: <a href=\"https:&#x2F;&#x2F;gigacatalyst.com&#x2F;\">https:&#x2F;&#x2F;gigacatalyst.com&#x2F;</a>). Gigacatalyst allows sales, CS, and users to build one-off features, so your SaaS can support long-tail customer workflows and engineers aren’t pulled away from the roadmap.<p>When you sell software to large businesses, you realize that each customer needs their own workflow and features. Traditionally, this either means long engineering roadmaps or the cu",
-              "author": "namanyayg",
-              "engagement": {
-                "score": 60,
-                "comments": 27
-              },
-              "observedAt": "2026-05-12T16:32:54.000Z"
             }
           ]
         }
@@ -726,10 +726,10 @@
     },
     "Wei-Shaw/sub2api": {
       "fullName": "Wei-Shaw/sub2api",
-      "totalMentions7d": 2,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 4,
           "top": [
             {
               "source": "hackernews",
@@ -743,6 +743,32 @@
                 "comments": 1
               },
               "observedAt": "2026-05-12T13:42:10.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "Wei-Shaw/sub2api",
+              "url": "https://www.earth.com/news/ran-robot-submarine-finds-unknown-structures-beneath-dotson-ice-shelf-antarctica/",
+              "title": "Robot submarine finds unknown structures beneath Antarctica; disappears",
+              "text": "",
+              "author": "musha68k",
+              "engagement": {
+                "score": 7,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T20:28:17.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "Wei-Shaw/sub2api",
+              "url": "https://silentshark.app/alpha/",
+              "title": "Show HN: I made a tactical map-based WWII submarine simulator (public beta)",
+              "text": "I&#x27;ve seen quite a few simming discussions on HN, so thought some of you might like this - I&#x27;ve created a map-centered, tactical submarine simulator and it&#x27;s been a blast to make.<p>I grew up playing Silent Service II on Atari ST with my dad, then got into Silent Hunter IV in the 2000s, and most recently have been loving the more recent UBoat. In each case, the part I always enjoy the most is the plotting and charting aspect - essentially beating uncertain estimates with geometry.<",
+              "author": "epaga",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T15:08:21.000Z"
             },
             {
               "source": "hackernews",
@@ -1117,8 +1143,8 @@
               "text": "",
               "author": "giuliomagnifico",
               "engagement": {
-                "score": 53,
-                "comments": 59
+                "score": 55,
+                "comments": 64
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -1130,7 +1156,7 @@
               "text": "",
               "author": "uticus",
               "engagement": {
-                "score": 37,
+                "score": 38,
                 "comments": 11
               },
               "observedAt": "2026-05-15T13:29:52.000Z"
@@ -1708,7 +1734,7 @@
     },
     "openai/symphony": {
       "fullName": "openai/symphony",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
           "count7d": 5,
@@ -1777,6 +1803,24 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T14:31:06.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "openai/symphony",
+              "url": "https://bsky.app/profile/ai-nerd.bsky.social/post/3mm533bxsfi2u",
+              "title": "openai's symphony is wild ... the orchestrator for codex agents is literally a SPEC.md file plus an issue tracker, with elixir as the reference runtime https://github.com/openai/symphony",
+              "text": "openai's symphony is wild ... the orchestrator for codex agents is literally a SPEC.md file plus an issue tracker, with elixir as the reference runtime https://github.com/openai/symphony",
+              "author": "ai-nerd.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T14:20:08.567Z"
             }
           ]
         }
@@ -2207,11 +2251,37 @@
     },
     "Fission-AI/OpenSpec": {
       "fullName": "Fission-AI/OpenSpec",
-      "totalMentions7d": 9,
+      "totalMentions7d": 10,
       "perSource": {
         "hackernews": {
-          "count7d": 9,
+          "count7d": 10,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "Fission-AI/OpenSpec",
+              "url": "https://drea.fm/",
+              "title": "Show HN: drea – podcast ad blocker",
+              "text": "Always been annoyed by podcast ads. Searched and found a few apps that can detect and skip them, but they were all paid. So I made a free one. To my knowledge this is the first podcast app with free ad block.<p>iOS (26+) only for now. If the app becomes popular I&#x27;ll def think of doing an Android version as well.<p>The app doesn&#x27;t require a user account. I may open-source it at some point; still thinking about it. If anyone&#x27;s suspicious about how it&#x27;s able to be free, i.e. doe",
+              "author": "hamza_q_",
+              "engagement": {
+                "score": 7,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T19:50:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "Fission-AI/OpenSpec",
+              "url": "https://news.ycombinator.com/item?id=48184763",
+              "title": "Show HN: Claude Soul – cross-session learning engine for Claude Code",
+              "text": "Claude Code has no memory between sessions. I wanted to fix that, but not by just saving facts to a file — I wanted it to actually get better over time.<p>Claude Soul is an MCP server + hooks that extracts signals from your interactions (corrections, successes, confusion)and periodically reflects on them to build behavioral frameworks. Frameworks gain or lose confidence based on evidence. Bad ones get retired automatically.<p>After ~200 sessions some weird stuff happened. It built itself an addi",
+              "author": "motola23",
+              "engagement": {
+                "score": 6,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T20:00:10.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
@@ -2250,32 +2320,6 @@
                 "comments": 4
               },
               "observedAt": "2026-05-18T04:42:39.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Fission-AI/OpenSpec",
-              "url": "https://news.ycombinator.com/item?id=48173494",
-              "title": "Ask HN: What are the system exists for execution of physical verifiable events?",
-              "text": "I am trying to find some systems to know if they exist for real time physical coordination systems. Totally bilateral and verifiable state across non connected systems. Mainly in supply chain.<p>Like already people using ERPs and PLMs but they all are completely disconnected from another systems and not verifiable across independent systems and what about interoperability?<p>Wanted to know the different perspectives on fragmented economics and costs those are attracting.",
-              "author": "abhishek2580",
-              "engagement": {
-                "score": 2,
-                "comments": 1
-              },
-              "observedAt": "2026-05-17T21:48:58.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Fission-AI/OpenSpec",
-              "url": "https://opensparrow.org/",
-              "title": "OpenSparrow – Open-source admin panel builder with zero dependencies",
-              "text": "",
-              "author": "tomaszwrobel",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-17T18:57:05.000Z"
             }
           ]
         }
@@ -3147,11 +3191,24 @@
     },
     "nikzad-avasam/downloader": {
       "fullName": "nikzad-avasam/downloader",
-      "totalMentions7d": 32,
+      "totalMentions7d": 31,
       "perSource": {
         "hackernews": {
-          "count7d": 32,
+          "count7d": 31,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "nikzad-avasam/downloader",
+              "url": "https://github.com/2b2tplace/1m_release",
+              "title": "1024000^2 Blocks, 2B2T Minecraft Server World Download Project, and Discoveries",
+              "text": "",
+              "author": "exploraz",
+              "engagement": {
+                "score": 139,
+                "comments": 83
+              },
+              "observedAt": "2026-05-18T14:13:07.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
@@ -3173,10 +3230,23 @@
               "text": "Hey HN,<p>My co-founders and I have been building GridTravel, a free iOS app for planning and sharing travel routes with turn-by-turn GPS nav. We just launched yesterday after App Store approval.<p>We&#x27;re three 21-year-old cofounders and best friends since middle school. We built GridTravel after years of frustration navigating new cities on every trip we took together.<p>The idea: most people either search Google for &quot;top 10 places to visit in…&quot; lists or go on social media to get ",
               "author": "knuaym9",
               "engagement": {
-                "score": 60,
-                "comments": 39
+                "score": 61,
+                "comments": 41
               },
               "observedAt": "2026-05-14T22:05:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "nikzad-avasam/downloader",
+              "url": "https://www.bleepingcomputer.com/news/security/grafana-says-stolen-github-token-let-hackers-steal-codebase/",
+              "title": "Grafana says stolen GitHub token allowed attackers to download its codebase",
+              "text": "",
+              "author": "p_stuart82",
+              "engagement": {
+                "score": 14,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T19:29:38.000Z"
             },
             {
               "source": "hackernews",
@@ -3190,32 +3260,6 @@
                 "comments": 7
               },
               "observedAt": "2026-05-16T00:53:27.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "nikzad-avasam/downloader",
-              "url": "https://orobot.io/",
-              "title": "Show HN: Browse 61 3D Printable Robots",
-              "text": "Robotics is advancing really fast lately, with AI inference, different controllers, software, and parts always changing. I wanted a place that supports many device types, Raspberry Pi, NVDA Jetson, Arduino, ESP32, hardware sources, and maximizes for printability. Instructables, Github, and Thingiverse are currently popular but aren&#x27;t really focused on robotics, So I built orobot.io to try and make printing robots as standardized and accessible as possible. It uses a lot of Agent built conte",
-              "author": "xanderjanz",
-              "engagement": {
-                "score": 14,
-                "comments": 3
-              },
-              "observedAt": "2026-05-14T18:10:28.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "nikzad-avasam/downloader",
-              "url": "https://reclaimthenet.org/reddit-tests-blocking-mobile-web-to-force-app-downloads",
-              "title": "Reddit Tests Blocking Mobile Web to Force App Downloads",
-              "text": "",
-              "author": "Cider9986",
-              "engagement": {
-                "score": 10,
-                "comments": 4
-              },
-              "observedAt": "2026-05-14T04:26:59.000Z"
             }
           ]
         }
@@ -3652,10 +3696,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 181,
+      "totalMentions7d": 180,
       "perSource": {
         "hackernews": {
-          "count7d": 181,
+          "count7d": 180,
           "top": [
             {
               "source": "hackernews",
@@ -3665,8 +3709,8 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 836,
-                "comments": 429
+                "score": 935,
+                "comments": 461
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
             },
@@ -3691,8 +3735,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 428,
-                "comments": 139
+                "score": 433,
+                "comments": 144
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             },
@@ -3903,7 +3947,7 @@
     },
     "ZhuLinsen/daily_stock_analysis": {
       "fullName": "ZhuLinsen/daily_stock_analysis",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -3920,6 +3964,24 @@
                 "comments": 61
               },
               "observedAt": "2026-05-15T04:48:23.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "ZhuLinsen/daily_stock_analysis",
+              "url": "https://bsky.app/profile/gitrated.bsky.social/post/3mm6ygji6uc25",
+              "title": "A new AI review! ZhuLinsen/daily_stock_analysis ⭐3.8/5.0 daily_stock_analysis is an ambitious, full-stack “LLM + market data + news” system for daily watchlist analysis across A-shares/HK/US equities.",
+              "text": "A new AI review! ZhuLinsen/daily_stock_analysis ⭐3.8/5.0 daily_stock_analysis is an ambitious, full-stack “LLM + market data + news” system for daily watchlist analysis across A-shares/HK/US equities. https://gitrated.com/ZhuLinsen/daily_stock_analysis",
+              "author": "gitrated.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T08:38:04.877Z"
             }
           ]
         }
@@ -4040,24 +4102,11 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 51,
+      "totalMentions7d": 50,
       "perSource": {
         "hackernews": {
-          "count7d": 47,
+          "count7d": 43,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
-              "url": "https://stemcell.ucla.edu/news/ucla-discovers-first-stroke-rehabilitation-drug-repair-brain-damage",
-              "title": "UCLA discovers first stroke rehabilitation drug to repair brain damage (2025)",
-              "text": "",
-              "author": "bookofjoe",
-              "engagement": {
-                "score": 446,
-                "comments": 102
-              },
-              "observedAt": "2026-05-11T17:53:08.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
@@ -4066,8 +4115,8 @@
               "text": "",
               "author": "SpyCoder77",
               "engagement": {
-                "score": 98,
-                "comments": 112
+                "score": 99,
+                "comments": 113
               },
               "observedAt": "2026-05-13T13:34:51.000Z"
             },
@@ -4109,12 +4158,64 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T23:08:26.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://www.sciencefocus.com/the-human-body/brain-lives-past",
+              "title": "Your brain is always a fraction of a second behind the present",
+              "text": "",
+              "author": "amichail",
+              "engagement": {
+                "score": 11,
+                "comments": 1
+              },
+              "observedAt": "2026-05-16T23:14:20.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 7,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6fvkmynr24",
+              "title": "Full eval report and fixtures published and open source here https://github.com/garrytan/gbrain-evals/blob/main/docs/benchmarks/2026-05-18-brainbench-cat14-cat15-calibration.md Any memory system is we",
+              "text": "Full eval report and fixtures published and open source here https://github.com/garrytan/gbrain-evals/blob/main/docs/benchmarks/2026-05-18-brainbench-cat14-cat15-calibration.md Any memory system is welcome to run theirs against these evals and I'll publish them alongside.",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T03:06:28.166Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
+              "title": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Ag",
+              "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T02:53:01.518Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm5ojkvcf224",
+              "title": "GBrain is free, MIT-licensed open source. Come join the thousands of people already using GBrain as a part of their OpenClaw, Hermes Agent or custom personal AI setup. https://github.com/garrytan/gbra",
+              "text": "GBrain is free, MIT-licensed open source. Come join the thousands of people already using GBrain as a part of their OpenClaw, Hermes Agent or custom personal AI setup. https://github.com/garrytan/gbrain",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T20:08:09.867Z"
+            },
             {
               "source": "bluesky",
               "fullName": "garrytan/gbrain",
@@ -4140,32 +4241,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T08:22:17.665Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/bluehatone.bsky.social/post/3mlt3xibhc62z",
-              "title": "Viral Hermes hack: GBrain. 12,000 mentions in 24 hours. Fork github.com/garrytan/gbrain, add Hermes 3 or 4 key. Users report 3x tasks, 40% faster builds, MVPs in 48h. Pinecone layer cuts hallucination",
-              "text": "Viral Hermes hack: GBrain. 12,000 mentions in 24 hours. Fork github.com/garrytan/gbrain, add Hermes 3 or 4 key. Users report 3x tasks, 40% faster builds, MVPs in 48h. Pinecone layer cuts hallucinations ~60%. Savings claimed near $500 per month. Results may vary.",
-              "author": "bluehatone.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T15:09:18.170Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mloqnstkwo2y",
-              "title": "It ships with 34 skills, runs on embedded PGLite (no server, ready in 2 seconds), and works as an MCP server for Claude Code, Cursor, and Windsurf. GBrain: http://github.com/garrytan/gbrain",
-              "text": "It ships with 34 skills, runs on embedded PGLite (no server, ready in 2 seconds), and works as an MCP server for Claude Code, Cursor, and Windsurf. GBrain: http://github.com/garrytan/gbrain",
-              "author": "garrytan-mir-rt.selfhosted.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-12T21:36:22.862Z"
             }
           ]
         }
@@ -6007,93 +6082,75 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 33,
+      "totalMentions7d": 10,
       "perSource": {
         "hackernews": {
-          "count7d": 32,
+          "count7d": 10,
           "top": [
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://router.start9.com/",
-              "title": "RISC-V Router",
+              "url": "https://www.gridtravel.app",
+              "title": "Show HN: GridTravel – A community based travel app for users to share routes",
+              "text": "Hey HN,<p>My co-founders and I have been building GridTravel, a free iOS app for planning and sharing travel routes with turn-by-turn GPS nav. We just launched yesterday after App Store approval.<p>We&#x27;re three 21-year-old cofounders and best friends since middle school. We built GridTravel after years of frustration navigating new cities on every trip we took together.<p>The idea: most people either search Google for &quot;top 10 places to visit in…&quot; lists or go on social media to get ",
+              "author": "knuaym9",
+              "engagement": {
+                "score": 61,
+                "comments": 41
+              },
+              "observedAt": "2026-05-14T22:05:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://github.com/InsForge/InsForge",
+              "title": "Show HN: InsForge – Open-source Heroku for coding agents",
+              "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
+              "author": "mrcoldbrew",
+              "engagement": {
+                "score": 44,
+                "comments": 6
+              },
+              "observedAt": "2026-05-18T15:40:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/commentary/reuters-open-interest/g7-long-bond-stress-intensifies-2026-05-13/",
+              "title": "The era of free money may have ended",
               "text": "",
-              "author": "janandonly",
+              "author": "latentframe",
               "engagement": {
-                "score": 152,
-                "comments": 85
+                "score": 26,
+                "comments": 3
               },
-              "observedAt": "2026-05-14T20:06:53.000Z"
+              "observedAt": "2026-05-18T13:04:02.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://www.tryardent.com/",
-              "title": "Launch HN: Ardent (YC P26) – Postgres sandboxes in seconds with zero migration",
-              "text": "Hey HN! We’re Vikram and Evan from Ardent (<a href=\"https:&#x2F;&#x2F;tryardent.com\">https:&#x2F;&#x2F;tryardent.com</a>). We&#x27;re building database sandboxes for you and your coding agents.<p>In the last two years coding agents have gotten dramatically more capable at handling complex engineering tasks. But without access to a realistic sandbox at the DB layer for testing, they ship garbage that can take down production databases. I spent over a year building an AI Data Engineer that failed ",
-              "author": "vc289",
-              "engagement": {
-                "score": 97,
-                "comments": 51
-              },
-              "observedAt": "2026-05-13T16:54:03.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
-              "title": "Meta employees protest against mouse tracking tech at US offices",
+              "url": "https://www.reuters.com/world/americas/colombian-singer-shakira-acquitted-tax-fraud-spain-2026-05-18/",
+              "title": "Colombian singer Shakira acquitted of tax fraud in Spain",
               "text": "",
-              "author": "delichon",
+              "author": "fodmap",
               "engagement": {
-                "score": 73,
-                "comments": 87
+                "score": 18,
+                "comments": 9
               },
-              "observedAt": "2026-05-12T20:58:18.000Z"
+              "observedAt": "2026-05-18T09:00:39.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/legal/government/new-york-california-pension-leaders-oppose-extreme-spacex-control-structure-2026-05-14/",
-              "title": "New York, California pension leaders oppose 'extreme' SpaceX control structure",
+              "url": "https://www.reuters.com/world/trump-dismisses-lawsuit-against-irs-court-filing-shows-2026-05-18/",
+              "title": "Trump drops IRS lawsuit in exchange for DOJ $1.8B 'weaponization' fund",
               "text": "",
-              "author": "2OEH8eoCRo0",
+              "author": "TechTechTech",
               "engagement": {
-                "score": 72,
-                "comments": 126
-              },
-              "observedAt": "2026-05-14T12:21:55.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
-              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
-              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
-              "author": "jlengelbrecht",
-              "engagement": {
-                "score": 64,
-                "comments": 61
-              },
-              "observedAt": "2026-05-15T04:48:23.000Z"
-            }
-          ]
-        },
-        "bluesky": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "bluesky",
-              "fullName": "decolua/9router",
-              "url": "https://bsky.app/profile/adityamitra.bsky.social/post/3mln5u43byx2m",
-              "title": "9router looks useful https://github.com/decolua/9router #opensource #github #trending",
-              "text": "9router looks useful https://github.com/decolua/9router #opensource #github #trending",
-              "author": "adityamitra.bsky.social",
-              "engagement": {
-                "score": 2,
+                "score": 12,
                 "comments": 0
               },
-              "observedAt": "2026-05-12T06:27:13.568Z"
+              "observedAt": "2026-05-18T20:26:08.000Z"
             }
           ]
         }
@@ -7215,10 +7272,10 @@
     },
     "jundot/omlx": {
       "fullName": "jundot/omlx",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -7232,19 +7289,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T02:25:35.361Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "jundot/omlx",
-              "url": "https://bsky.app/profile/ytroncal.bsky.social/post/3mln7jqqqkc2y",
-              "title": "oMLX : LLM inference, optimized for your Mac Continuous batching and tiered KV caching, managed directly from your menu bar. github.com/jundot/omlx",
-              "text": "oMLX : LLM inference, optimized for your Mac Continuous batching and tiered KV caching, managed directly from your menu bar. github.com/jundot/omlx",
-              "author": "ytroncal.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-12T06:57:16.266Z"
             }
           ]
         }
@@ -7701,10 +7745,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 12,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 9,
+          "count7d": 8,
           "top": [
             {
               "source": "hackernews",
@@ -7715,7 +7759,7 @@
               "author": "rolph",
               "engagement": {
                 "score": 440,
-                "comments": 310
+                "comments": 312
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7869,10 +7913,10 @@
     },
     "lightningpixel/modly": {
       "fullName": "lightningpixel/modly",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -7930,14 +7974,14 @@
               "source": "hackernews",
               "fullName": "lightningpixel/modly",
               "url": "https://old.reddit.com/r/sideprojects/comments/1tabelm/finished_making_this_url_shortener_completely/",
-              "title": "Made a New Side Project - Free to use",
+              "title": "Made This Free URL Shortener with Indepth Analytics",
               "text": "",
               "author": "godlymod",
               "engagement": {
-                "score": 2,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-12T07:57:58.000Z"
+              "observedAt": "2026-05-13T20:22:17.000Z"
             }
           ]
         }
@@ -7945,10 +7989,10 @@
     },
     "amiremohamadi/g2ray": {
       "fullName": "amiremohamadi/g2ray",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -7958,8 +8002,8 @@
               "text": "",
               "author": "gmays",
               "engagement": {
-                "score": 65,
-                "comments": 21
+                "score": 78,
+                "comments": 45
               },
               "observedAt": "2026-05-14T22:12:45.000Z"
             },
@@ -7975,6 +8019,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-13T17:46:15.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "amiremohamadi/g2ray",
+              "url": "https://storica.club/blog/dorian-gray-was-censored/",
+              "title": "The Picture of Dorian Gray was censored before anyone read it",
+              "text": "",
+              "author": "verybad",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T17:51:57.000Z"
             },
             {
               "source": "hackernews",
@@ -8403,10 +8460,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 48,
+      "totalMentions7d": 45,
       "perSource": {
         "hackernews": {
-          "count7d": 48,
+          "count7d": 45,
           "top": [
             {
               "source": "hackernews",
@@ -8416,7 +8473,7 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 297,
+                "score": 298,
                 "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
@@ -8450,15 +8507,15 @@
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
-              "url": "https://github.com/MotleyAI/slayer",
-              "title": "Show HN: SLayer, a semantic layer maintained by your agent",
-              "text": "Hello HN!<p>If you want to connect your agent to a database (say, to build a data analyst chatbot or any kind of agentic app) today you have 2 options: an SQL MCP server or a semantic layer.<p>SQL MCP is the easiest path to setup, especially if you also have a .md knowledge base which the agent can update. It gets quite messy quickly though, especially if there&#x27;s many interactions or DB is large. Generated SQL is hard to review if you want to understand where the numbers came from, and rela",
-              "author": "yannranchere",
+              "url": "https://chromewebstore.google.com/detail/d-slop/cnjeckkgbjgfledbphbobjabnfjnheef",
+              "title": "Show HN: How to Kill the Dead Internet",
+              "text": "Ok, so maybe &quot;how to revive the internet&quot; would be more accurate, but if you&#x27;re reading this, I got your attention, right? Here&#x27;s why I want you to read on: I built a free extension, D-slop, to disincentivize anyone from posting AI writing, and eventually images and video as well, on the internet.<p>For writing, it checks known vocab and punctuation tells, as well as subtler tells related to cadence, and assigns it a score subject to an adjustable threshold. If the text fails",
+              "author": "bigger_fish",
               "engagement": {
-                "score": 12,
-                "comments": 3
+                "score": 9,
+                "comments": 6
               },
-              "observedAt": "2026-05-11T14:45:37.000Z"
+              "observedAt": "2026-05-18T01:35:17.000Z"
             },
             {
               "source": "hackernews",
@@ -8479,10 +8536,10 @@
     },
     "withcoral/coral": {
       "fullName": "withcoral/coral",
-      "totalMentions7d": 7,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 8,
           "top": [
             {
               "source": "hackernews",
@@ -8666,7 +8723,7 @@
               "text": "",
               "author": "caust1c",
               "engagement": {
-                "score": 436,
+                "score": 437,
                 "comments": 187
               },
               "observedAt": "2026-05-14T22:29:12.000Z"
@@ -8705,6 +8762,19 @@
             {
               "source": "bluesky",
               "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/fry69.dev/post/3mm5ipzd2xs27",
+              "title": "There are also incredible things happening currently with DeepSeek 4 Flash running on a local 96/128GB Mac, which leave Gemma 4 in the dust, IMHO. If the hardware is available (there is also CUDA and ",
+              "text": "There are also incredible things happening currently with DeepSeek 4 Flash running on a local 96/128GB Mac, which leave Gemma 4 in the dust, IMHO. If the hardware is available (there is also CUDA and a ROCm port, but slower), I'd recommend to give this a try -> github.com/antirez/ds4",
+              "author": "fry69.dev",
+              "engagement": {
+                "score": 5,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T18:24:23.618Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
               "url": "https://bsky.app/profile/qdrddr.bsky.social/post/3mlojcqales2m",
               "title": "DS4 - #DeepSeek 4 Flash local #inference engine for Metal and CUDA. 96 GB VRAM minimum. By @antirez.bsky.social #OpenSource MIT lic #AI #LLM github.com/antirez/ds4",
               "text": "DS4 - #DeepSeek 4 Flash local #inference engine for Metal and CUDA. 96 GB VRAM minimum. By @antirez.bsky.social #OpenSource MIT lic #AI #LLM github.com/antirez/ds4",
@@ -8727,19 +8797,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T17:36:13.863Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "antirez/ds4",
-              "url": "https://bsky.app/profile/davidgasquez.com/post/3mlsi7enuq22x",
-              "title": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
-              "text": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
-              "author": "davidgasquez.com",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T09:15:47.463Z"
             }
           ]
         }
@@ -8952,7 +9009,7 @@
               "text": "¡No quemes tokens con tu IA explorando tu proyecto! Crea un grafo semántico local de tu código con esto ✓ -92% tool calls ✓ 71% más rápido explorando código ✓ Claude Code, Cursor, Codex y OpenCode Local y de código abierto: → github.com/colbymchenry/codegraph",
               "author": "midu.dev",
               "engagement": {
-                "score": 9,
+                "score": 10,
                 "comments": 3
               },
               "observedAt": "2026-05-18T12:56:17.665Z"
@@ -8989,10 +9046,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 80,
+      "totalMentions7d": 68,
       "perSource": {
         "hackernews": {
-          "count7d": 80,
+          "count7d": 68,
           "top": [
             {
               "source": "hackernews",
@@ -9023,6 +9080,19 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
+              "url": "https://andonlabs.com/blog/andon-fm",
+              "title": "We let AIs run radio stations",
+              "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
+              "author": "lukaspetersson",
+              "engagement": {
+                "score": 246,
+                "comments": 199
+              },
+              "observedAt": "2026-05-18T18:12:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
               "url": "https://blog.coursera.org/coursera-and-udemy-are-now-one-company-creating-the-worlds-most-comprehensive-skills-platform/",
               "title": "Coursera and Udemy are now one company",
               "text": "",
@@ -9032,19 +9102,6 @@
                 "comments": 90
               },
               "observedAt": "2026-05-12T10:37:44.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://andonlabs.com/blog/andon-fm",
-              "title": "We let AIs run radio stations",
-              "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
-              "author": "lukaspetersson",
-              "engagement": {
-                "score": 196,
-                "comments": 175
-              },
-              "observedAt": "2026-05-18T18:12:18.000Z"
             },
             {
               "source": "hackernews",
@@ -9157,10 +9214,10 @@
     },
     "gi-dellav/zerostack": {
       "fullName": "gi-dellav/zerostack",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -9170,7 +9227,7 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 561,
+                "score": 563,
                 "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
@@ -9187,6 +9244,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T22:21:33.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "gi-dellav/zerostack",
+              "url": "https://zenstack.dev/blog/mcp-code-mode",
+              "title": "How to Save Bloated MCP with Code Mode",
+              "text": "",
+              "author": "jsgood",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T07:09:24.000Z"
             }
           ]
         }
@@ -9207,8 +9277,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 428,
-                "comments": 139
+                "score": 433,
+                "comments": 144
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             }
@@ -9225,7 +9295,7 @@
               "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
               "author": "sagalinked.bsky.social",
               "engagement": {
-                "score": 1,
+                "score": 2,
                 "comments": 0
               },
               "observedAt": "2026-05-19T03:20:49.062Z"
@@ -9288,10 +9358,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 142,
+      "totalMentions7d": 143,
       "perSource": {
         "hackernews": {
-          "count7d": 141,
+          "count7d": 142,
           "top": [
             {
               "source": "hackernews",
@@ -9301,8 +9371,8 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 836,
-                "comments": 429
+                "score": 935,
+                "comments": 461
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
             },
@@ -9354,7 +9424,7 @@
               "author": "eamag",
               "engagement": {
                 "score": 161,
-                "comments": 204
+                "comments": 205
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
             }
@@ -9382,11 +9452,24 @@
     },
     "BigBodyCobain/Shadowbroker": {
       "fullName": "BigBodyCobain/Shadowbroker",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "BigBodyCobain/Shadowbroker",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm56xw4rwab2",
+              "title": "8. https://github.com/CloakHQ/CloakBrowser - Python, 1391 stars today 9. https://github.com/tech-leads-club/agent-skills - TypeScript, 1244 stars today 10. https://github.com/BigBodyCobain/Shadowbroke",
+              "text": "8. https://github.com/CloakHQ/CloakBrowser - Python, 1391 stars today 9. https://github.com/tech-leads-club/agent-skills - TypeScript, 1244 stars today 10. https://github.com/BigBodyCobain/Shadowbroker - Python, 768 stars today 11. https://github.com/humanlayer/12-factor-agents - TypeScript, 359 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T15:29:53.560Z"
+            },
             {
               "source": "bluesky",
               "fullName": "BigBodyCobain/Shadowbroker",
@@ -9406,10 +9489,10 @@
     },
     "HKUDS/CLI-Anything": {
       "fullName": "HKUDS/CLI-Anything",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "bluesky": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -9423,6 +9506,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-17T13:17:57.572Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "HKUDS/CLI-Anything",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm56xmfnrsn2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3945 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1302 stars today 3. https://github.",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3945 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1302 stars today 3. https://github.com/HKUDS/CLI-Anything - Python, 1047 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T15:29:44.771Z"
             },
             {
               "source": "bluesky",
@@ -9469,8 +9565,8 @@
               "text": "",
               "author": "mjgil",
               "engagement": {
-                "score": 393,
-                "comments": 146
+                "score": 401,
+                "comments": 152
               },
               "observedAt": "2026-05-16T12:06:21.000Z"
             }
@@ -9480,10 +9576,10 @@
     },
     "OpenCut-app/OpenCut": {
       "fullName": "OpenCut-app/OpenCut",
-      "totalMentions7d": 57,
+      "totalMentions7d": 62,
       "perSource": {
         "hackernews": {
-          "count7d": 55,
+          "count7d": 60,
           "top": [
             {
               "source": "hackernews",
@@ -9493,8 +9589,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 312,
-                "comments": 107
+                "score": 433,
+                "comments": 144
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             },
@@ -9506,8 +9602,8 @@
               "text": "",
               "author": "datadrivenangel",
               "engagement": {
-                "score": 312,
-                "comments": 270
+                "score": 343,
+                "comments": 289
               },
               "observedAt": "2026-05-17T12:09:23.000Z"
             },
@@ -9519,8 +9615,8 @@
               "text": "",
               "author": "eamag",
               "engagement": {
-                "score": 158,
-                "comments": 201
+                "score": 161,
+                "comments": 205
               },
               "observedAt": "2026-05-16T11:34:04.000Z"
             },
@@ -9545,7 +9641,7 @@
               "text": "",
               "author": "laurex",
               "engagement": {
-                "score": 94,
+                "score": 97,
                 "comments": 27
               },
               "observedAt": "2026-05-17T16:15:01.000Z"
@@ -9590,7 +9686,7 @@
       "totalMentions7d": 10,
       "perSource": {
         "hackernews": {
-          "count7d": 10,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -9604,19 +9700,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T00:51:33.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "tech-leads-club/agent-skills",
-              "url": "https://github.com/contentful/skill-kit",
-              "title": "Skill-kit – TypeScript SDK for building agent skills as typed state machines",
-              "text": "",
-              "author": "ravel",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T15:14:07.000Z"
             },
             {
               "source": "hackernews",
@@ -9656,6 +9739,37 @@
                 "comments": 0
               },
               "observedAt": "2026-05-12T18:33:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/Kotlin/kotlin-agent-skills/",
+              "title": "Kotlin-agent-skills: A collection of skills for projects using Kotlin",
+              "text": "",
+              "author": "rezaprima",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T13:51:10.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm56xw4rwab2",
+              "title": "8. https://github.com/CloakHQ/CloakBrowser - Python, 1391 stars today 9. https://github.com/tech-leads-club/agent-skills - TypeScript, 1244 stars today 10. https://github.com/BigBodyCobain/Shadowbroke",
+              "text": "8. https://github.com/CloakHQ/CloakBrowser - Python, 1391 stars today 9. https://github.com/tech-leads-club/agent-skills - TypeScript, 1244 stars today 10. https://github.com/BigBodyCobain/Shadowbroker - Python, 768 stars today 11. https://github.com/humanlayer/12-factor-agents - TypeScript, 359 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T15:29:53.560Z"
             }
           ]
         }
@@ -9663,7 +9777,7 @@
     },
     "truelockmc/streambert": {
       "fullName": "truelockmc/streambert",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9680,6 +9794,24 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T02:29:00.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "truelockmc/streambert",
+              "url": "https://bsky.app/profile/github-trending-js.bsky.social/post/3mm567yljit2k",
+              "title": "🚀 Skyrocketing！ 🚀 (200+ new stars) 📦 truelockmc / streambert ⭐ 973 (+277) 🗒 JavaScript A cross-platform Electron Desktop App to stream and download any Movie, TV Series or Anime in the World. Zero",
+              "text": "🚀 Skyrocketing！ 🚀 (200+ new stars) 📦 truelockmc / streambert ⭐ 973 (+277) 🗒 JavaScript A cross-platform Electron Desktop App to stream and download any Movie, TV Series or Anime in the World. Zero Ads and Tracking",
+              "author": "github-trending-js.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-18T15:16:28.165Z"
             }
           ]
         }
@@ -9711,23 +9843,23 @@
     },
     "KeygraphHQ/shannon": {
       "fullName": "KeygraphHQ/shannon",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
               "fullName": "KeygraphHQ/shannon",
-              "url": "https://www.edna.land/blogs/posts/scanning/",
-              "title": "Gaining control of every projector and camera on campus",
+              "url": "https://www.axios.com/2026/05/18/trump-ai-steve-bannon-humans-first-letter",
+              "title": "MAGA allies tell Trump to vet AI before release",
               "text": "",
-              "author": "ednaordinary",
+              "author": "thm",
               "engagement": {
-                "score": 125,
-                "comments": 32
+                "score": 7,
+                "comments": 7
               },
-              "observedAt": "2026-05-14T02:37:22.000Z"
+              "observedAt": "2026-05-18T12:19:15.000Z"
             },
             {
               "source": "hackernews",
@@ -9741,19 +9873,6 @@
                 "comments": 9
               },
               "observedAt": "2026-05-14T15:18:11.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "KeygraphHQ/shannon",
-              "url": "https://pockli.com/",
-              "title": "Show HN: Pockli – I needed a better iOS scanning app",
-              "text": "Here&#x27;s my story.<p>I&#x27;m the person who almost never put things back in their place. It&#x27;s not because I&#x27;m lazy or because I don&#x27;t want to, it&#x27;s because I&#x27;m always on the rush.<p>I have 2 kids in school, 3 properties, a job and a lot of things to joggle at the same time. It often happened that someone from school, HOA, doctor&#x27;s office handed me a document which I needed to keep for a period of time. It was either a reference or prof of something. Because it w",
-              "author": "tsoswr",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T19:23:46.000Z"
             }
           ]
         }
@@ -9761,10 +9880,10 @@
     },
     "vercel-labs/zero": {
       "fullName": "vercel-labs/zero",
-      "totalMentions7d": 6,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -9783,6 +9902,19 @@
               "source": "hackernews",
               "fullName": "vercel-labs/zero",
               "url": "https://github.com/vercel-labs/zero",
+              "title": "Zero – Programming Language for Agents",
+              "text": "",
+              "author": "throwaw12",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T10:43:59.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "vercel-labs/zero",
+              "url": "https://github.com/vercel-labs/zero",
               "title": "Zero, a systems language for small native agent tools",
               "text": "",
               "author": "mjgil",
@@ -9795,8 +9927,21 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "vercel-labs/zero",
+              "url": "https://bsky.app/profile/technews4869.bsky.social/post/3mm6acnoftx2k",
+              "title": "github.com/vercel-labs/zero GitHub - vercel-labs/zero: The programming language for agents",
+              "text": "github.com/vercel-labs/zero GitHub - vercel-labs/zero: The programming language for agents",
+              "author": "technews4869.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T01:26:24.563Z"
+            },
             {
               "source": "bluesky",
               "fullName": "vercel-labs/zero",
@@ -9916,10 +10061,34 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 127,
+                "score": 135,
                 "comments": 14
               },
               "observedAt": "2026-05-18T12:17:04.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "Tencent/TencentDB-Agent-Memory": {
+      "fullName": "Tencent/TencentDB-Agent-Memory",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "Tencent/TencentDB-Agent-Memory",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mm6svzucij2o",
+              "title": "https://github.com/Tencent/TencentDB-Agent-Memory",
+              "text": "https://github.com/Tencent/TencentDB-Agent-Memory",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T06:59:22.067Z"
             }
           ]
         }

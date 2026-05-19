@@ -285,7 +285,27 @@ export default async function RevenuePage({ searchParams }: Props) {
     },
   );
 
-  // Per-pill counts: query the leaderboard with each pill's category once.
+  // Per-pill counts: previously called getLeaderboard() 7 times (one per
+  // non-"all" pill), each scanning the entire ~thousands-row startups
+  // corpus. Walk the full catalog rows once and bucket by category to
+  // collapse 7N → 1N work.
+  const allCatalog = safe(
+    () =>
+      getLeaderboard({ category: "__all__", limit: Number.MAX_SAFE_INTEGER }),
+    {
+      rows: [],
+      totalInFilter: 0,
+      totalMrrCents: 0,
+      topMrrCents: 0,
+      generatedAt: null,
+      availableCategories: [] as string[],
+    },
+  );
+  const countByCategory = new Map<string, number>();
+  for (const row of allCatalog.rows) {
+    if (!row.category) continue;
+    countByCategory.set(row.category, (countByCategory.get(row.category) ?? 0) + 1);
+  }
   const categoryPills: CategoryPillItem[] = LEADERBOARD_PILL_IDS.map((id) => {
     const label =
       CATEGORY_FILTERS.find((c) => c.id === id)?.label ??
@@ -304,10 +324,7 @@ export default async function RevenuePage({ searchParams }: Props) {
           LEADERBOARD_CATEGORIES.length,
       };
     }
-    const count = safe(
-      () => getLeaderboard({ category: trustmrrName, limit: 1 }).totalInFilter,
-      0,
-    );
+    const count = trustmrrName ? countByCategory.get(trustmrrName) ?? 0 : 0;
     return { id, label, count };
   });
 

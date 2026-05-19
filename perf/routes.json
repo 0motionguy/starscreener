@@ -115,6 +115,39 @@
       "firstLoadJsBudgetKb": 600,
       "warmupOnDeploy": false,
       "owner": "build"
+    },
+    {
+      "route": "/ideas",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1600 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "ideas"
+    },
+    {
+      "route": "/ideas/[id]",
+      "policy": "dynamic-public",
+      "expectsDynamic": true,
+      "reason": "per-idea workspace — `export const dynamic = 'force-dynamic'` because per-id reactions + contributions vary; unbounded slug space",
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": false,
+      "owner": "ideas"
+    },
+    {
+      "route": "/drop",
+      "policy": "dynamic-public",
+      "expectsDynamic": true,
+      "reason": "4-step submission funnel — `export const dynamic = 'force-dynamic'`. Per-IP rate-limit on POST + per-user queue state when signed in; URL-state survives reload via localStorage draft.",
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 130,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": false,
+      "owner": "drop"
     }
   ]
 }

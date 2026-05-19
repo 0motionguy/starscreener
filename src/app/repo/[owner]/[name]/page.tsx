@@ -94,6 +94,7 @@ import { getWhyNarrative } from "@/lib/why-narrative";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
+import { WhyTrendingNarrative } from "@/components/repo-detail/WhyTrendingNarrative";
 
 // ISR over force-dynamic: the 12+ refresh hooks above each share the
 // data-store's 30s rate-limit + dedupe, so calling them on every request
@@ -436,6 +437,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
         <div className="repo-profile-topline">
           <CompletenessStrip repo={repo} />
           <WhyBadge narrative={whyNarrative} variant="full" />
+          <WhyTrendingNarrative repo={repo} profile={profile} />
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}

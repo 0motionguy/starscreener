@@ -61,7 +61,11 @@ import {
   getTrustmrrClaimOverlay,
   refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
-import { refreshRepoProfilesFromStore } from "@/lib/repo-profiles";
+import {
+  getRepoProfile,
+  refreshRepoProfilesFromStore,
+  type RepoExpertTrendBrief,
+} from "@/lib/repo-profiles";
 import {
   getFundingEventsForRepo,
   type RepoFundingEvent,
@@ -122,6 +126,7 @@ export interface CanonicalRepoProfile {
   twitter: TwitterRepoPanel | null;
   npm: CanonicalRepoProfileNpm;
   productHunt: Launch | null;
+  expertTrendBrief: RepoExpertTrendBrief | null;
   revenue: CanonicalRepoProfileRevenue;
   funding: RepoFundingEvent[];
   related: RelatedRepoItem[];
@@ -506,6 +511,7 @@ export async function buildCanonicalRepoProfile(
 
   // --- Synchronous loaders (all are mtime/memo cached internally) ---------
   const reasons = getRepoReasons(repo.fullName);
+  const persistedRepoProfile = getRepoProfile(repo.fullName);
   const freshness = getFreshnessSnapshot();
   const related = getRelatedReposFor(repo.fullName);
   const productHunt = getLaunchForRepo(repo.fullName);
@@ -611,6 +617,7 @@ export async function buildCanonicalRepoProfile(
       dependents: npmDependents,
     },
     productHunt,
+    expertTrendBrief: persistedRepoProfile?.expertTrendBrief ?? null,
     revenue: {
       verified: verifiedRevenue,
       selfReported: selfReportedRevenue,

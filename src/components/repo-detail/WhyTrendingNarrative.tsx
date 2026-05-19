@@ -34,11 +34,135 @@ function getTopSignalSource(
   return max > 0 ? { platform: topPlatform, count: max } : null;
 }
 
+const eyebrowStyle = {
+  margin: "0 0 6px",
+  fontFamily: "var(--v4-mono, ui-monospace, monospace)",
+  fontSize: 10,
+  letterSpacing: "0.12em",
+  textTransform: "uppercase",
+  color: "var(--v4-ink-400, var(--v3-ink-400))",
+} as const;
+
+const listStyle = {
+  margin: 0,
+  paddingLeft: 18,
+  lineHeight: 1.45,
+  fontSize: 12,
+  color: "var(--v4-ink-200, var(--v3-ink-200))",
+} as const;
+
 export function WhyTrendingNarrative({
   repo,
   profile,
 }: WhyTrendingNarrativeProps) {
   if (!repo) return null;
+
+  const expertBrief = profile.expertTrendBrief;
+  if (expertBrief?.headline && expertBrief.summary) {
+    const drivers = expertBrief.drivers?.filter(Boolean).slice(0, 4) ?? [];
+    const evidence = expertBrief.evidence?.filter(Boolean).slice(0, 4) ?? [];
+    const caveats = expertBrief.caveats?.filter(Boolean).slice(0, 2) ?? [];
+
+    return (
+      <section
+        className="repo-narrative repo-narrative--expert"
+        aria-label="Expert trend brief"
+        style={{
+          padding: "14px 16px",
+          margin: "0.75rem 0",
+          border: "1px solid var(--v4-line-100, rgba(255,255,255,0.1))",
+          borderLeft: "3px solid var(--v4-acc, var(--v3-acc, #ff5e1a))",
+          background: "var(--v4-bg-100, var(--v3-bg-100, transparent))",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            gap: 12,
+            marginBottom: 8,
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 15,
+              lineHeight: 1.3,
+              color: "var(--v4-ink-100, var(--v3-ink-100))",
+            }}
+          >
+            {expertBrief.headline}
+          </h2>
+          <span
+            style={{
+              flexShrink: 0,
+              fontFamily: "var(--v4-mono, ui-monospace, monospace)",
+              fontSize: 10,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "var(--v4-ink-400, var(--v3-ink-400))",
+            }}
+          >
+            {expertBrief.provider} / {expertBrief.model}
+          </span>
+        </div>
+        <p
+          style={{
+            margin: 0,
+            lineHeight: 1.55,
+            fontSize: 14,
+            color: "var(--v4-ink-100, var(--v3-ink-100))",
+          }}
+        >
+          {expertBrief.summary}
+        </p>
+        {drivers.length > 0 || evidence.length > 0 ? (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))",
+              gap: 12,
+              marginTop: 12,
+            }}
+          >
+            {drivers.length > 0 ? (
+              <div>
+                <p style={eyebrowStyle}>Drivers</p>
+                <ul style={listStyle}>
+                  {drivers.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {evidence.length > 0 ? (
+              <div>
+                <p style={eyebrowStyle}>Evidence</p>
+                <ul style={listStyle}>
+                  {evidence.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+        {caveats.length > 0 ? (
+          <p
+            style={{
+              margin: "10px 0 0",
+              lineHeight: 1.45,
+              fontSize: 12,
+              color: "var(--v4-ink-300, var(--v3-ink-300))",
+            }}
+          >
+            {caveats.join(" ")}
+          </p>
+        ) : null}
+      </section>
+    );
+  }
 
   const sentences: string[] = [];
 

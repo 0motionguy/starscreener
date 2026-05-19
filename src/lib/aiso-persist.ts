@@ -186,6 +186,7 @@ function makeMinimalProfile(
       productHuntLaunchId: null,
     },
     aisoScan: scan,
+    expertTrendBrief: null,
     error: null,
   };
 }

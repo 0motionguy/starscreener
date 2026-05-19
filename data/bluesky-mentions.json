@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-18T22:13:56.686Z",
+  "fetchedAt": "2026-05-19T04:33:33.542Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -3265,10 +3265,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm5ojkvcf224",
-        "cid": "bafyreifdfwdp2nrwco4d7w66hxtoyvanlroznv4uwk6fungzaj4dvi4lii",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm5ojkvcf224",
-        "text": "GBrain is free, MIT-licensed open source. Come join the thousands of people already using GBrain as a part of their OpenClaw, Hermes Agent or custom personal AI setup. https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm6f5jaecj24",
+        "cid": "bafyreics5ncc5xth6w7jfvgyv65l3s3kwwczx47v6avhpk3tc7ldluwmfe",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
+        "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -3276,8 +3276,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T19:57:01.000Z",
-        "hoursSincePosted": 2.28
+        "createdAt": "2026-05-19T02:39:02.000Z",
+        "hoursSincePosted": 1.91
       },
       "posts": [
         {
@@ -3306,6 +3306,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm6f5jaecj24",
+          "cid": "bafyreics5ncc5xth6w7jfvgyv65l3s3kwwczx47v6avhpk3tc7ldluwmfe",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
+          "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T02:39:02.000Z",
+          "createdUtc": 1779158342,
+          "ageHours": 1.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -8208,18 +8236,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm5lhiz6qm2a",
-        "cid": "bafyreiepz4kk563tghw262jardwuajdetssc5fyp62vtieux5om7eufks4",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm5lhiz6qm2a",
-        "text": "🟠 OpenClaw 2026.5.18 ships plugin tooling, browser dialog handling, and a Node 22.19 floor OpenClaw released v2026.5.18 with workflow-changing additions including typed simple-tool plugin scaffolding, browser modal... https://github.com/openclaw/openclaw/releases/tag/v2026.5.18 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm66fbygf32x",
+        "cid": "bafyreieov772tglre7bm2uddq37s5mo7byt3o5j5icnfm4jkffcc7unyvy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm66fbygf32x",
+        "text": "🟠 OpenClaw 2026.5.19-beta.1 lands with browser dialog control, typed plugin tooling, and a new Node 22.19 floor OpenClaw shipped 2026.5.19-beta.1 with several workflow-changing upgrades hiding inside a beta cut. https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T19:13:17.486789+00:00",
-        "hoursSincePosted": 3.01
+        "createdAt": "2026-05-19T00:52:04.128179+00:00",
+        "hoursSincePosted": 3.69
       },
       "posts": [
         {
@@ -8293,6 +8321,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm66fbygf32x",
+          "cid": "bafyreieov772tglre7bm2uddq37s5mo7byt3o5j5icnfm4jkffcc7unyvy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm66fbygf32x",
+          "text": "🟠 OpenClaw 2026.5.19-beta.1 lands with browser dialog control, typed plugin tooling, and a new Node 22.19 floor OpenClaw shipped 2026.5.19-beta.1 with several workflow-changing upgrades hiding inside a beta cut. https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T00:52:04.128179+00:00",
+          "createdUtc": 1779151924,
+          "ageHours": 3.69,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -13703,21 +13759,48 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
-        "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxbuc2en62q",
-        "text": "https://github.com/browser-use/browser-use",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm6cvqhklx2s",
+        "cid": "bafyreigwegkfnhojqfhl2zdcik2pwnuj2m4pjrfmmxmb2v3bqyotywb42y",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm6cvqhklx2s",
+        "text": "🔴 browser-use 0.12.7 ships a dense security patch set plus CLI/session hardening browser-use released v0.12.7 with multiple security fixes packed into what looks like a routine point release. https://github.com/browser-use/browser-use/releases/tag/0.12.7 #AI #AgentWyre",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T07:05:31Z",
-        "hoursSincePosted": 3.57
+        "createdAt": "2026-05-19T02:12:51.158141+00:00",
+        "hoursSincePosted": 2.35
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm6cvqhklx2s",
+          "cid": "bafyreigwegkfnhojqfhl2zdcik2pwnuj2m4pjrfmmxmb2v3bqyotywb42y",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm6cvqhklx2s",
+          "text": "🔴 browser-use 0.12.7 ships a dense security patch set plus CLI/session hardening browser-use released v0.12.7 with multiple security fixes packed into what looks like a routine point release. https://github.com/browser-use/browser-use/releases/tag/0.12.7 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T02:12:51.158141+00:00",
+          "createdUtc": 1779156771,
+          "ageHours": 2.35,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "browser-use/browser-use",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
           "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
@@ -14565,25 +14648,82 @@
       ]
     },
     "MinishLab/semble": {
-      "count7d": 4,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
-        "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
-        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
-        "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm6gp7ymf22y",
+        "cid": "bafyreib2wm4mcsvigyu2wrxvlf3lk3wbhzcc3ep3cere3u74c6rvyp6cum",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm6gp7ymf22y",
+        "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
         "author": {
-          "handle": "sirile.bsky.social"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-18T11:59:56.591182+00:00",
-        "hoursSincePosted": 0.8
+        "replyCount": 0,
+        "createdAt": "2026-05-19T03:20:44.887564+00:00",
+        "hoursSincePosted": 1.21
       },
       "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm6gp7ymf22y",
+          "cid": "bafyreib2wm4mcsvigyu2wrxvlf3lk3wbhzcc3ep3cere3u74c6rvyp6cum",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm6gp7ymf22y",
+          "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T03:20:44.887564+00:00",
+          "createdUtc": 1779160844,
+          "ageHours": 1.21,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mm6fvzphlt2a",
+          "cid": "bafyreifx33af4pgq3kf67qmjwjzmteleptcotdqw6hkbyfwqdxutlttbzy",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mm6fvzphlt2a",
+          "text": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T03:06:43.013Z",
+          "createdUtc": 1779160003,
+          "ageHours": 1.45,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
           "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
@@ -15555,7 +15695,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T21:25:04.397729+00:00",
-        "hoursSincePosted": 0.81
+        "hoursSincePosted": 7.14
       },
       "posts": [
         {
@@ -15572,7 +15712,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T21:25:04.397729+00:00",
           "createdUtc": 1779139504,
-          "ageHours": 0.81,
+          "ageHours": 7.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15581,6 +15721,287 @@
           "linkedRepos": [
             {
               "fullName": "nkzw-tech/codiff",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "strukto-ai/mirage": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mm6gfvi6pz2a",
+        "cid": "bafyreieupi3pbnbsipyn2tdg7idozrwb5ppkmajknwa4ppmjfe2prbfhmi",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mm6gfvi6pz2a",
+        "text": "Mirage A Unified Virtual Filesystem For AI Agents. https://github.com/strukto-ai/mirage",
+        "author": {
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T03:15:35.344616+00:00",
+        "hoursSincePosted": 1.3
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mm6gfvi6pz2a",
+          "cid": "bafyreieupi3pbnbsipyn2tdg7idozrwb5ppkmajknwa4ppmjfe2prbfhmi",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mm6gfvi6pz2a",
+          "text": "Mirage A Unified Virtual Filesystem For AI Agents. https://github.com/strukto-ai/mirage",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T03:15:35.344616+00:00",
+          "createdUtc": 1779160535,
+          "ageHours": 1.3,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "strukto-ai/mirage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Donchitos/Claude-Code-Game-Studios": {
+      "count7d": 2,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:niijlef6kqqslagbf5hlb762/app.bsky.feed.post/3mm6fjifljk2b",
+        "cid": "bafyreihxvlsjgfsbbpwlv4exf3ups4yaqo45mt3rgwotjwmrdclii6sy5a",
+        "bskyUrl": "https://bsky.app/profile/impossible.bsky.social/post/3mm6fjifljk2b",
+        "text": "This is the project in question. github.com/Donchitos/Cl... Most of these projects feel like toys or performance art masquerading as useful tools...",
+        "author": {
+          "handle": "impossible.bsky.social",
+          "displayName": "Scott Anderson"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-19T02:59:42.230Z",
+        "hoursSincePosted": 1.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:niijlef6kqqslagbf5hlb762/app.bsky.feed.post/3mm6fjifljk2b",
+          "cid": "bafyreihxvlsjgfsbbpwlv4exf3ups4yaqo45mt3rgwotjwmrdclii6sy5a",
+          "bskyUrl": "https://bsky.app/profile/impossible.bsky.social/post/3mm6fjifljk2b",
+          "text": "This is the project in question. github.com/Donchitos/Cl... Most of these projects feel like toys or performance art masquerading as useful tools...",
+          "author": {
+            "handle": "impossible.bsky.social",
+            "displayName": "Scott Anderson"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-19T02:59:42.230Z",
+          "createdUtc": 1779159582,
+          "ageHours": 1.56,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:spxpslnaahdrez5zg2knsz7y/app.bsky.feed.post/3mm6fqe2n7k2t",
+          "cid": "bafyreifl2clzskrtcu2o4enltenvjn2xnyltovcmefuetcdtm6cbp5zfqa",
+          "bskyUrl": "https://bsky.app/profile/dphrygian.com/post/3mm6fqe2n7k2t",
+          "text": "It was this one: github.com/Donchitos/Cl...",
+          "author": {
+            "handle": "dphrygian.com",
+            "displayName": "David Lindsey Pittman"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-19T03:03:32.559Z",
+          "createdUtc": 1779159812,
+          "ageHours": 1.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "shiyu-coder/Kronos": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
+        "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
+        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm6d2uxapp2c",
+        "text": "Kronos 是一個專為金融市場 K 線設計的開源基礎模型。它用全球超過 45 個交易所的數據訓練，目前看來是第一個針對 K 線序列的 decoder-only 模型。官方有提供 fine-tuning 腳本，可以調整模型來適應不同任務。 目前應用情境可能需要自行探索，但對於研究金融市場數據的團隊來說，Kronos 提供了一個新的切入點。 #Kronos #金融科技 #開源模型 #LLM https://github.com/shiyu-coder/Kronos",
+        "author": {
+          "handle": "wsx5031060310guy.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T02:15:44.461Z",
+        "hoursSincePosted": 2.3
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
+          "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
+          "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm6d2uxapp2c",
+          "text": "Kronos 是一個專為金融市場 K 線設計的開源基礎模型。它用全球超過 45 個交易所的數據訓練，目前看來是第一個針對 K 線序列的 decoder-only 模型。官方有提供 fine-tuning 腳本，可以調整模型來適應不同任務。 目前應用情境可能需要自行探索，但對於研究金融市場數據的團隊來說，Kronos 提供了一個新的切入點。 #Kronos #金融科技 #開源模型 #LLM https://github.com/shiyu-coder/Kronos",
+          "author": {
+            "handle": "wsx5031060310guy.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T02:15:44.461Z",
+          "createdUtc": 1779156944,
+          "ageHours": 2.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "shiyu-coder/Kronos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/zero": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mm6acnoftx2k",
+        "cid": "bafyreigch3hvmjuia56u4jvzld2tpwctvnph347xjv7hwo75dhygasnwji",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mm6acnoftx2k",
+        "text": "github.com/vercel-labs/zero GitHub - vercel-labs/zero: The programming language for agents",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T01:26:23.958Z",
+        "hoursSincePosted": 3.12
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mm6acnoftx2k",
+          "cid": "bafyreigch3hvmjuia56u4jvzld2tpwctvnph347xjv7hwo75dhygasnwji",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mm6acnoftx2k",
+          "text": "github.com/vercel-labs/zero GitHub - vercel-labs/zero: The programming language for agents",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T01:26:23.958Z",
+          "createdUtc": 1779153983,
+          "ageHours": 3.12,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/zero",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "github/awesome-copilot": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm67ptpaza2s",
+        "cid": "bafyreidrmk3bzap42ztt7qekeq2chn2ips6wh3bpu5ix26elzgfwjsbpsm",
+        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm67ptpaza2s",
+        "text": "GitHub 官方整理了一個 awesome-copilot 資源庫，裡面有社群貢獻的各種 Copilot agents、skills 和設定。 目前看下來，如果你想最大化 Copilot 的使用效益，這裡提供很多實用的指令、workflow 和 plugin。甚至還有針對 AI agent 設計的 `llms.txt` 檔案，方便機器讀取結構化清單。 實測後會發現，這些資源對於客製化 Copilot 或是探索更多應用場景確實有幫助，值得花時間研究。 #GitHubCopilot #AI開發 #開發工具 https://github.com/github/awesome-copilot",
+        "author": {
+          "handle": "wsx5031060310guy.bsky.social"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T01:15:52.830Z",
+        "hoursSincePosted": 3.29
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm67ptpaza2s",
+          "cid": "bafyreidrmk3bzap42ztt7qekeq2chn2ips6wh3bpu5ix26elzgfwjsbpsm",
+          "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm67ptpaza2s",
+          "text": "GitHub 官方整理了一個 awesome-copilot 資源庫，裡面有社群貢獻的各種 Copilot agents、skills 和設定。 目前看下來，如果你想最大化 Copilot 的使用效益，這裡提供很多實用的指令、workflow 和 plugin。甚至還有針對 AI agent 設計的 `llms.txt` 檔案，方便機器讀取結構化清單。 實測後會發現，這些資源對於客製化 Copilot 或是探索更多應用場景確實有幫助，值得花時間研究。 #GitHubCopilot #AI開發 #開發工具 https://github.com/github/awesome-copilot",
+          "author": {
+            "handle": "wsx5031060310guy.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T01:15:52.830Z",
+          "createdUtc": 1779153352,
+          "ageHours": 3.29,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "github/awesome-copilot",
               "matchType": "url",
               "confidence": 1
             }
@@ -18850,10 +19271,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm5ojkvcf224",
-        "cid": "bafyreifdfwdp2nrwco4d7w66hxtoyvanlroznv4uwk6fungzaj4dvi4lii",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm5ojkvcf224",
-        "text": "GBrain is free, MIT-licensed open source. Come join the thousands of people already using GBrain as a part of their OpenClaw, Hermes Agent or custom personal AI setup. https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm6f5jaecj24",
+        "cid": "bafyreics5ncc5xth6w7jfvgyv65l3s3kwwczx47v6avhpk3tc7ldluwmfe",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
+        "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -18861,8 +19282,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T19:57:01.000Z",
-        "hoursSincePosted": 2.28
+        "createdAt": "2026-05-19T02:39:02.000Z",
+        "hoursSincePosted": 1.91
       },
       "posts": [
         {
@@ -18891,6 +19312,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm6f5jaecj24",
+          "cid": "bafyreics5ncc5xth6w7jfvgyv65l3s3kwwczx47v6avhpk3tc7ldluwmfe",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
+          "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T02:39:02.000Z",
+          "createdUtc": 1779158342,
+          "ageHours": 1.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -23793,18 +24242,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm5lhiz6qm2a",
-        "cid": "bafyreiepz4kk563tghw262jardwuajdetssc5fyp62vtieux5om7eufks4",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm5lhiz6qm2a",
-        "text": "🟠 OpenClaw 2026.5.18 ships plugin tooling, browser dialog handling, and a Node 22.19 floor OpenClaw released v2026.5.18 with workflow-changing additions including typed simple-tool plugin scaffolding, browser modal... https://github.com/openclaw/openclaw/releases/tag/v2026.5.18 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm66fbygf32x",
+        "cid": "bafyreieov772tglre7bm2uddq37s5mo7byt3o5j5icnfm4jkffcc7unyvy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm66fbygf32x",
+        "text": "🟠 OpenClaw 2026.5.19-beta.1 lands with browser dialog control, typed plugin tooling, and a new Node 22.19 floor OpenClaw shipped 2026.5.19-beta.1 with several workflow-changing upgrades hiding inside a beta cut. https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T19:13:17.486789+00:00",
-        "hoursSincePosted": 3.01
+        "createdAt": "2026-05-19T00:52:04.128179+00:00",
+        "hoursSincePosted": 3.69
       },
       "posts": [
         {
@@ -23878,6 +24327,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm66fbygf32x",
+          "cid": "bafyreieov772tglre7bm2uddq37s5mo7byt3o5j5icnfm4jkffcc7unyvy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm66fbygf32x",
+          "text": "🟠 OpenClaw 2026.5.19-beta.1 lands with browser dialog control, typed plugin tooling, and a new Node 22.19 floor OpenClaw shipped 2026.5.19-beta.1 with several workflow-changing upgrades hiding inside a beta cut. https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T00:52:04.128179+00:00",
+          "createdUtc": 1779151924,
+          "ageHours": 3.69,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -29288,21 +29765,48 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
-        "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlxbuc2en62q",
-        "text": "https://github.com/browser-use/browser-use",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm6cvqhklx2s",
+        "cid": "bafyreigwegkfnhojqfhl2zdcik2pwnuj2m4pjrfmmxmb2v3bqyotywb42y",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm6cvqhklx2s",
+        "text": "🔴 browser-use 0.12.7 ships a dense security patch set plus CLI/session hardening browser-use released v0.12.7 with multiple security fixes packed into what looks like a routine point release. https://github.com/browser-use/browser-use/releases/tag/0.12.7 #AI #AgentWyre",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T07:05:31Z",
-        "hoursSincePosted": 3.57
+        "createdAt": "2026-05-19T02:12:51.158141+00:00",
+        "hoursSincePosted": 2.35
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm6cvqhklx2s",
+          "cid": "bafyreigwegkfnhojqfhl2zdcik2pwnuj2m4pjrfmmxmb2v3bqyotywb42y",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm6cvqhklx2s",
+          "text": "🔴 browser-use 0.12.7 ships a dense security patch set plus CLI/session hardening browser-use released v0.12.7 with multiple security fixes packed into what looks like a routine point release. https://github.com/browser-use/browser-use/releases/tag/0.12.7 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T02:12:51.158141+00:00",
+          "createdUtc": 1779156771,
+          "ageHours": 2.35,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "browser-use/browser-use",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlxbuc2en62q",
           "cid": "bafyreid7rrbyvd3vs2ybp5jksaevjbjdpa5aqjirocmawfsdgf4ydioyzu",
@@ -30150,25 +30654,82 @@
       ]
     },
     "minishlab--semble": {
-      "count7d": 4,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
-        "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
-        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mm4tam45ye2s",
-        "text": "Grep fallback is the dirty secret of code agents – they burn through tokens reading entire files when they can't find what they need. https://github.com/MinishLab/semble",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm6gp7ymf22y",
+        "cid": "bafyreib2wm4mcsvigyu2wrxvlf3lk3wbhzcc3ep3cere3u74c6rvyp6cum",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm6gp7ymf22y",
+        "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
         "author": {
-          "handle": "sirile.bsky.social"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-18T11:59:56.591182+00:00",
-        "hoursSincePosted": 0.8
+        "replyCount": 0,
+        "createdAt": "2026-05-19T03:20:44.887564+00:00",
+        "hoursSincePosted": 1.21
       },
       "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm6gp7ymf22y",
+          "cid": "bafyreib2wm4mcsvigyu2wrxvlf3lk3wbhzcc3ep3cere3u74c6rvyp6cum",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm6gp7ymf22y",
+          "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T03:20:44.887564+00:00",
+          "createdUtc": 1779160844,
+          "ageHours": 1.21,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mm6fvzphlt2a",
+          "cid": "bafyreifx33af4pgq3kf67qmjwjzmteleptcotdqw6hkbyfwqdxutlttbzy",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mm6fvzphlt2a",
+          "text": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T03:06:43.013Z",
+          "createdUtc": 1779160003,
+          "ageHours": 1.45,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mm4tam45ye2s",
           "cid": "bafyreiejwnlovsgvmpq26wdp4uhunzykjsndskfsmu6h4it6pr6euyzrlm",
@@ -31140,7 +31701,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-18T21:25:04.397729+00:00",
-        "hoursSincePosted": 0.81
+        "hoursSincePosted": 7.14
       },
       "posts": [
         {
@@ -31157,7 +31718,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-18T21:25:04.397729+00:00",
           "createdUtc": 1779139504,
-          "ageHours": 0.81,
+          "ageHours": 7.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -31172,41 +31733,322 @@
           ]
         }
       ]
+    },
+    "strukto-ai--mirage": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mm6gfvi6pz2a",
+        "cid": "bafyreieupi3pbnbsipyn2tdg7idozrwb5ppkmajknwa4ppmjfe2prbfhmi",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mm6gfvi6pz2a",
+        "text": "Mirage A Unified Virtual Filesystem For AI Agents. https://github.com/strukto-ai/mirage",
+        "author": {
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T03:15:35.344616+00:00",
+        "hoursSincePosted": 1.3
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mm6gfvi6pz2a",
+          "cid": "bafyreieupi3pbnbsipyn2tdg7idozrwb5ppkmajknwa4ppmjfe2prbfhmi",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mm6gfvi6pz2a",
+          "text": "Mirage A Unified Virtual Filesystem For AI Agents. https://github.com/strukto-ai/mirage",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T03:15:35.344616+00:00",
+          "createdUtc": 1779160535,
+          "ageHours": 1.3,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "strukto-ai/mirage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "donchitos--claude-code-game-studios": {
+      "count7d": 2,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:niijlef6kqqslagbf5hlb762/app.bsky.feed.post/3mm6fjifljk2b",
+        "cid": "bafyreihxvlsjgfsbbpwlv4exf3ups4yaqo45mt3rgwotjwmrdclii6sy5a",
+        "bskyUrl": "https://bsky.app/profile/impossible.bsky.social/post/3mm6fjifljk2b",
+        "text": "This is the project in question. github.com/Donchitos/Cl... Most of these projects feel like toys or performance art masquerading as useful tools...",
+        "author": {
+          "handle": "impossible.bsky.social",
+          "displayName": "Scott Anderson"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-19T02:59:42.230Z",
+        "hoursSincePosted": 1.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:niijlef6kqqslagbf5hlb762/app.bsky.feed.post/3mm6fjifljk2b",
+          "cid": "bafyreihxvlsjgfsbbpwlv4exf3ups4yaqo45mt3rgwotjwmrdclii6sy5a",
+          "bskyUrl": "https://bsky.app/profile/impossible.bsky.social/post/3mm6fjifljk2b",
+          "text": "This is the project in question. github.com/Donchitos/Cl... Most of these projects feel like toys or performance art masquerading as useful tools...",
+          "author": {
+            "handle": "impossible.bsky.social",
+            "displayName": "Scott Anderson"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-19T02:59:42.230Z",
+          "createdUtc": 1779159582,
+          "ageHours": 1.56,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:spxpslnaahdrez5zg2knsz7y/app.bsky.feed.post/3mm6fqe2n7k2t",
+          "cid": "bafyreifl2clzskrtcu2o4enltenvjn2xnyltovcmefuetcdtm6cbp5zfqa",
+          "bskyUrl": "https://bsky.app/profile/dphrygian.com/post/3mm6fqe2n7k2t",
+          "text": "It was this one: github.com/Donchitos/Cl...",
+          "author": {
+            "handle": "dphrygian.com",
+            "displayName": "David Lindsey Pittman"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-19T03:03:32.559Z",
+          "createdUtc": 1779159812,
+          "ageHours": 1.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "shiyu-coder--kronos": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
+        "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
+        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm6d2uxapp2c",
+        "text": "Kronos 是一個專為金融市場 K 線設計的開源基礎模型。它用全球超過 45 個交易所的數據訓練，目前看來是第一個針對 K 線序列的 decoder-only 模型。官方有提供 fine-tuning 腳本，可以調整模型來適應不同任務。 目前應用情境可能需要自行探索，但對於研究金融市場數據的團隊來說，Kronos 提供了一個新的切入點。 #Kronos #金融科技 #開源模型 #LLM https://github.com/shiyu-coder/Kronos",
+        "author": {
+          "handle": "wsx5031060310guy.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T02:15:44.461Z",
+        "hoursSincePosted": 2.3
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
+          "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
+          "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm6d2uxapp2c",
+          "text": "Kronos 是一個專為金融市場 K 線設計的開源基礎模型。它用全球超過 45 個交易所的數據訓練，目前看來是第一個針對 K 線序列的 decoder-only 模型。官方有提供 fine-tuning 腳本，可以調整模型來適應不同任務。 目前應用情境可能需要自行探索，但對於研究金融市場數據的團隊來說，Kronos 提供了一個新的切入點。 #Kronos #金融科技 #開源模型 #LLM https://github.com/shiyu-coder/Kronos",
+          "author": {
+            "handle": "wsx5031060310guy.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T02:15:44.461Z",
+          "createdUtc": 1779156944,
+          "ageHours": 2.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "shiyu-coder/Kronos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs--zero": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mm6acnoftx2k",
+        "cid": "bafyreigch3hvmjuia56u4jvzld2tpwctvnph347xjv7hwo75dhygasnwji",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mm6acnoftx2k",
+        "text": "github.com/vercel-labs/zero GitHub - vercel-labs/zero: The programming language for agents",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T01:26:23.958Z",
+        "hoursSincePosted": 3.12
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mm6acnoftx2k",
+          "cid": "bafyreigch3hvmjuia56u4jvzld2tpwctvnph347xjv7hwo75dhygasnwji",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mm6acnoftx2k",
+          "text": "github.com/vercel-labs/zero GitHub - vercel-labs/zero: The programming language for agents",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T01:26:23.958Z",
+          "createdUtc": 1779153983,
+          "ageHours": 3.12,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/zero",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "github--awesome-copilot": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm67ptpaza2s",
+        "cid": "bafyreidrmk3bzap42ztt7qekeq2chn2ips6wh3bpu5ix26elzgfwjsbpsm",
+        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm67ptpaza2s",
+        "text": "GitHub 官方整理了一個 awesome-copilot 資源庫，裡面有社群貢獻的各種 Copilot agents、skills 和設定。 目前看下來，如果你想最大化 Copilot 的使用效益，這裡提供很多實用的指令、workflow 和 plugin。甚至還有針對 AI agent 設計的 `llms.txt` 檔案，方便機器讀取結構化清單。 實測後會發現，這些資源對於客製化 Copilot 或是探索更多應用場景確實有幫助，值得花時間研究。 #GitHubCopilot #AI開發 #開發工具 https://github.com/github/awesome-copilot",
+        "author": {
+          "handle": "wsx5031060310guy.bsky.social"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-19T01:15:52.830Z",
+        "hoursSincePosted": 3.29
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm67ptpaza2s",
+          "cid": "bafyreidrmk3bzap42ztt7qekeq2chn2ips6wh3bpu5ix26elzgfwjsbpsm",
+          "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm67ptpaza2s",
+          "text": "GitHub 官方整理了一個 awesome-copilot 資源庫，裡面有社群貢獻的各種 Copilot agents、skills 和設定。 目前看下來，如果你想最大化 Copilot 的使用效益，這裡提供很多實用的指令、workflow 和 plugin。甚至還有針對 AI agent 設計的 `llms.txt` 檔案，方便機器讀取結構化清單。 實測後會發現，這些資源對於客製化 Copilot 或是探索更多應用場景確實有幫助，值得花時間研究。 #GitHubCopilot #AI開發 #開發工具 https://github.com/github/awesome-copilot",
+          "author": {
+            "handle": "wsx5031060310guy.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-19T01:15:52.830Z",
+          "createdUtc": 1779153352,
+          "ageHours": 3.29,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "github/awesome-copilot",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "antirez/ds4",
-      "count7d": 1,
+      "fullName": "Donchitos/Claude-Code-Game-Studios",
+      "count7d": 2,
       "likesSum7d": 3
     },
     {
-      "fullName": "docker/docker-agent",
-      "count7d": 1,
-      "likesSum7d": 3
+      "fullName": "MinishLab/semble",
+      "count7d": 2,
+      "likesSum7d": 1
     },
     {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "github/awesome-copilot",
       "count7d": 1,
-      "likesSum7d": 3
+      "likesSum7d": 1
     },
     {
-      "fullName": "domcyrus/rustnet",
+      "fullName": "strukto-ai/mirage",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "Doorman11991/smallcode",
+      "fullName": "vercel-labs/zero",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "browser-use/browser-use",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "InsForge/InsForge",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -31221,7 +32063,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "sipeed/picoclaw",
+      "fullName": "shiyu-coder/Kronos",
       "count7d": 1,
       "likesSum7d": 0
     }

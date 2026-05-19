@@ -232,6 +232,18 @@ function truncateError(error) {
   return String(error?.message ?? error).replace(/\s+/g, " ").trim().slice(0, 500);
 }
 
+class KimiHttpError extends Error {
+  constructor(status, statusText) {
+    super(`Kimi ${status} ${statusText || "request failed"}`);
+    this.name = "KimiHttpError";
+    this.status = status;
+  }
+}
+
+function shouldStopKimiForRun(error) {
+  return error?.name === "KimiHttpError" && [401, 402, 403, 429].includes(error.status);
+}
+
 function truncateText(value, maxLength) {
   return String(value ?? "")
     .replace(/\s+/g, " ")
@@ -803,7 +815,7 @@ async function callKimiJson({ systemPrompt, userMessage }) {
     });
     if (!response.ok) {
       await response.arrayBuffer().catch(() => null);
-      throw new Error(`Kimi ${response.status} ${response.statusText || "request failed"}`);
+      throw new KimiHttpError(response.status, response.statusText);
     }
     return parseKimiJson(await readKimiStream(response));
   } finally {
@@ -1014,6 +1026,7 @@ async function main() {
   };
   let scansStarted = 0;
   let kimiStarted = 0;
+  let kimiStoppedForRun = false;
   const recentAisoSubmissions = countRecentAisoSubmissions(profilesByRepo);
   let aisoRateLimited = false;
 
@@ -1055,7 +1068,13 @@ async function main() {
     };
 
     if (!websiteUrl) {
-      if (KIMI_ENABLED && KIMI_API_KEY && kimiStarted < KIMI_MAX_REPOS && !existingBriefIsFresh(existing)) {
+      if (
+        KIMI_ENABLED &&
+        KIMI_API_KEY &&
+        !kimiStoppedForRun &&
+        kimiStarted < KIMI_MAX_REPOS &&
+        !existingBriefIsFresh(existing)
+      ) {
         try {
           baseProfile.expertTrendBrief = await buildExpertTrendBrief({
             candidate,
@@ -1069,7 +1088,12 @@ async function main() {
             selection.expertBriefs += 1;
           }
         } catch (err) {
-          console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
+          if (shouldStopKimiForRun(err)) {
+            kimiStoppedForRun = true;
+            console.warn(`kimi disabled for remainder of run: ${truncateError(err)}`);
+          } else {
+            console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
+          }
         } finally {
           kimiStarted += 1;
           if (KIMI_DELAY_MS > 0) await sleep(KIMI_DELAY_MS);
@@ -1135,7 +1159,13 @@ async function main() {
     }
 
     let expertTrendBrief = baseProfile.expertTrendBrief;
-    if (KIMI_ENABLED && KIMI_API_KEY && kimiStarted < KIMI_MAX_REPOS && !existingBriefIsFresh(existing)) {
+    if (
+      KIMI_ENABLED &&
+      KIMI_API_KEY &&
+      !kimiStoppedForRun &&
+      kimiStarted < KIMI_MAX_REPOS &&
+      !existingBriefIsFresh(existing)
+    ) {
       try {
         expertTrendBrief = await buildExpertTrendBrief({
           candidate,
@@ -1149,7 +1179,12 @@ async function main() {
           selection.expertBriefs += 1;
         }
       } catch (err) {
-        console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
+        if (shouldStopKimiForRun(err)) {
+          kimiStoppedForRun = true;
+          console.warn(`kimi disabled for remainder of run: ${truncateError(err)}`);
+        } else {
+          console.warn(`kimi skipped ${candidate.fullName}: ${truncateError(err)}`);
+        }
       } finally {
         kimiStarted += 1;
         if (KIMI_DELAY_MS > 0) await sleep(KIMI_DELAY_MS);

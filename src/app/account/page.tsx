@@ -50,7 +50,7 @@ import { AccountBillingPanel } from "@/components/account/AccountBillingPanel";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Account — TrendingRepo",
+  title: "Account",
   description:
     "Your profile, watchlist, alerts, referrals, billing, API keys and drop queue on TrendingRepo.",
   robots: { index: false, follow: false },
@@ -120,7 +120,7 @@ export default async function AccountPage({ searchParams }: Props) {
   );
 
   // Drops — global recent (no per-user filter exists yet, so we surface
-  // recent 7-day events as the "your drops" preview alongside a TODO note).
+  // recent 7-day events as the "your drops" preview).
   // When recordDropEvent() learns a userId field this query trivially
   // becomes a filter.
   const recentDrops = await safe(

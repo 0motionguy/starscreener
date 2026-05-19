@@ -41,7 +41,7 @@ import type { CategoryPillItem } from "@/components/revenue/CategoryFilterPills"
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "Revenue Terminal — TrendingRepo",
+  title: "Revenue Terminal",
   description:
     "Verified MRR for the trending repo desk. Direct read-only sync with Stripe, Lemon Squeezy, Paddle. OSS-matched startups + the broader dev-adjacent catalog.",
 };

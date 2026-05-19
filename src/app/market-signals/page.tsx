@@ -35,7 +35,7 @@ import { ArxivPapersTable } from "@/components/market-signals/ArxivPapersTable";
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "Market Signals — TrendingRepo",
+  title: "Market Signals",
   description:
     "Live cross-source telemetry across 30+ feeds. GitHub, X, HN, Reddit, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face — one cockpit.",
 };

@@ -52,7 +52,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Build — TrendingRepo",
+  title: "Build",
   description:
     "Turn GitHub progress into public build updates. Detected signals, suggested drafts, and a project timeline you control.",
 };

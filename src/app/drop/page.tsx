@@ -56,7 +56,7 @@ import { DropYourQueue } from "@/components/drop/DropYourQueue";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Drop a repo — TrendingRepo",
+  title: "Drop a repo",
   description:
     "Paste a GitHub URL. We auto-fetch metadata, scan cross-source mentions, score it against our momentum + consensus model, and surface promoted drops to /trending.",
 };

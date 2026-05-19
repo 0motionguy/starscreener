@@ -43,7 +43,7 @@ import { FoundersCta } from "@/components/funding/FoundersCta";
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "Funding Radar — TrendingRepo",
+  title: "Funding Radar",
   description:
     "Capital flows for AI + tech. Funding signals from 35+ sources — TechCrunch, VentureBeat, Sifted, Crunchbase, SEC Form D, Newcomer, The Information and more. Structured rounds with company / amount / investors / confidence scoring.",
 };

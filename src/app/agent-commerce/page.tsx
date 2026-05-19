@@ -46,7 +46,7 @@ import { TopFacilitatorsTable } from "@/components/agent-commerce/TopFacilitator
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "Agent Commerce — TrendingRepo",
+  title: "Agent Commerce",
   description:
     "Live x402 on-chain activity (Base, Solana), MCP server health, portal-ready APIs, agent infrastructure ranked by composite score.",
 };

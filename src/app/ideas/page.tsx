@@ -9,14 +9,13 @@
 // URL contract: ?q=&sort=hot|new|easy|launch|saved&filter=trending|...
 // Render policy: revalidate = 600 (10 min) — matches the moderation cadence.
 //
-// Backend gaps shipped as empty states / stubs (Phase 4C):
+// Backend gaps shipped as honest empty states:
 //   - Contributions feed (per-row collapsible + workspace tab)
 //   - Claim ownership wire
 //   - Save (POST /api/me/saved)
 //   - AI generation for trend-modal / brief
 
-import { auth } from "@clerk/nextjs/server";
-
+import { getOptionalUser } from "@/lib/auth/server";
 import {
   hotScore,
   listIdeas,
@@ -49,7 +48,8 @@ import { IdeasSummaryBar } from "@/components/ideas/IdeasSummaryBar";
 export const revalidate = 600;
 
 export const metadata = {
-  title: "Ideas Board — TrendingRepo",
+  // Layout template adds " — TrendingRepo" automatically; don't double-prefix.
+  title: "Ideas Board",
   description:
     "Where contribution meets opportunity. Builders post unmet needs from trending repos. The community scores demand with Would Build / Use / Buy / Invest. The best ideas get claimed and shipped.",
 };
@@ -187,7 +187,7 @@ function applySort(
         return (scoresById.get(b.id) ?? 0) - (scoresById.get(a.id) ?? 0);
       });
     case "saved":
-      // No backend yet — keep listing order. Phase 4C wires this.
+      // Saved-state backend is not wired yet, so keep listing order.
       return records;
     case "hot":
     default:
@@ -207,7 +207,8 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
     typeof params.filter === "string" ? params.filter : undefined,
   );
 
-  const { userId } = await auth();
+  const loadedUser = await getOptionalUser();
+  const userId = loadedUser?.clerkUserId ?? null;
   const signedIn = !!userId;
 
   const all = await safeAsync(() => listIdeas(), [] as IdeaRecord[]);

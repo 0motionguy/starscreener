@@ -7,15 +7,14 @@
 // Render policy: dynamic = "force-dynamic" — per-idea reactions and
 // contributions vary per request, so ISR would pin stale per-id data.
 //
-// Backend gaps shipped as empty states (Phase 4C):
+// Backend gaps shipped as honest empty states:
 //   - Contributions feed
 //   - Claim wire (POST /api/ideas/[id]/claim)
 //   - Save wire (POST /api/me/saved)
 
 import { notFound } from "next/navigation";
 
-import { auth } from "@clerk/nextjs/server";
-
+import { getOptionalUser } from "@/lib/auth/server";
 import { getIdeaById } from "@/lib/ideas";
 import {
   countReactions,
@@ -49,14 +48,6 @@ function parseTab(raw: string | undefined): IdeaTab {
   return (id ?? "overview") as IdeaTab;
 }
 
-function safe<T>(fn: () => T, fallback: T): T {
-  try {
-    return fn();
-  } catch {
-    return fallback;
-  }
-}
-
 async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
   try {
     return await fn();
@@ -71,7 +62,7 @@ export async function generateMetadata({ params }: Props) {
     () => getIdeaById(id),
     null as Awaited<ReturnType<typeof getIdeaById>>,
   );
-  if (!idea) return { title: "Idea not found — TrendingRepo" };
+  if (!idea) return { title: "Idea not found" };
   return {
     title: `${idea.title} — Ideas — TrendingRepo`,
     description: idea.pitch,
@@ -89,7 +80,8 @@ export default async function IdeaWorkspacePage({
   const idea = await getIdeaById(id);
   if (!idea) notFound();
 
-  const { userId } = await auth();
+  const loadedUser = await getOptionalUser();
+  const userId = loadedUser?.clerkUserId ?? null;
   const signedIn = !!userId;
 
   const records = await safeAsync(

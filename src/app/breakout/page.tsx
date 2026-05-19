@@ -47,7 +47,7 @@ import {
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "Breakout — TrendingRepo",
+  title: "Breakout",
   description:
     "Repos accelerating disproportionately to their star base. Velocity × consensus × mention diversity, not absolute count.",
 };

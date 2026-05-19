@@ -12,6 +12,7 @@ import { z } from "zod";
 import { requireUser } from "@/lib/auth/server";
 import { serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { getIdeaById } from "@/lib/ideas";
 import { listSavedIdeas, saveIdea, type SavedIdea } from "@/lib/saved-ideas";
 
@@ -21,6 +22,15 @@ export const dynamic = "force-dynamic";
 const SavedPostSchema = z.object({
   ideaId: z.string().min(1).max(64),
 });
+
+// Per-user rate-limit on save toggles. Each save reads + rewrites
+// user-saved.jsonl under a file lock; an authed attacker hammering the
+// endpoint forces IO + lock contention across all signed-in users.
+// 60/min is well above any debounced UI toggle cadence.
+const SAVED_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 60,
+} as const;
 
 interface SavedListResponse {
   ok: true;
@@ -40,9 +50,7 @@ interface SavedErrorResponse {
   code?: string;
 }
 
-export async function GET(
-  _request: NextRequest,
-): Promise<NextResponse<SavedListResponse | SavedErrorResponse>> {
+export async function GET(): Promise<NextResponse<SavedListResponse | SavedErrorResponse>> {
   const user = await requireUser();
   try {
     const saved = await listSavedIdeas(user.clerkUserId);
@@ -59,6 +67,27 @@ export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<SavedCreateResponse | SavedErrorResponse>> {
   const user = await requireUser();
+
+  const rate = await checkRateLimitAsync(request, {
+    ...SAVED_RATE_LIMIT,
+    subject: user.profile.id,
+  });
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "rate limit exceeded — try again shortly",
+        code: "RATE_LIMITED",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+          "Cache-Control": "private, no-store",
+        },
+      },
+    );
+  }
 
   const parsed = await parseBody(request, SavedPostSchema);
   if (!parsed.ok) {

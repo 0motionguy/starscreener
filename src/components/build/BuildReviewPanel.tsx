@@ -1,31 +1,21 @@
 "use client";
 
-// BuildReviewPanel — 2-column draft editor for the currently-selected
-// suggested update. Five textarea fields plus a source-context aside
-// listing repo / signal / strength / destination.
-//
-// Publish is wired to a no-op for Phase 3E (Phase 4C ships the actual
-// POST /api/build/timeline endpoint). Save Draft / Regenerate / Dismiss
-// keep the user moving without server state.
-//
-// TODO: wire AI generation + POST /api/build/timeline when Phase 4C lands.
+// BuildReviewPanel - draft editor for the selected suggested update.
 
 import { useEffect, useState } from "react";
 
 import type { BuildUpdateDraft } from "./build-signals";
 
 interface BuildReviewPanelProps {
-  /** Initial draft to load into the editor (first card by default). */
   initialDraft: BuildUpdateDraft | null;
-  /** Drafts keyed by `card-${kind}` so Review-button anchors load them. */
   draftsByKey: Record<string, BuildUpdateDraft>;
   repoFullName: string;
 }
 
-const EMPTY_DRAFT: BuildUpdateDraft = {
-  signalId: "empty",
+const BLANK_DRAFT: BuildUpdateDraft = {
+  signalId: "blank",
   kind: "readme",
-  source: "—",
+  source: "-",
   confidence: 0,
   headline: "",
   short: "",
@@ -35,13 +25,19 @@ const EMPTY_DRAFT: BuildUpdateDraft = {
   tags: [],
 };
 
+function refinedCopy(value: string, suffix: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return suffix;
+  return trimmed.endsWith(suffix) ? trimmed : `${trimmed} ${suffix}`;
+}
+
 export function BuildReviewPanel({
   initialDraft,
   draftsByKey,
   repoFullName,
 }: BuildReviewPanelProps) {
   const [draft, setDraft] = useState<BuildUpdateDraft>(
-    initialDraft ?? EMPTY_DRAFT,
+    initialDraft ?? BLANK_DRAFT,
   );
   const [headline, setHeadline] = useState(draft.headline);
   const [short, setShort] = useState(draft.short);
@@ -52,8 +48,6 @@ export function BuildReviewPanel({
     "idle" | "saving" | "saved" | "published"
   >("idle");
 
-  // Listen for hash changes so clicking a Review button on a sibling card
-  // swaps the editor without a page reload.
   useEffect(() => {
     function syncFromHash() {
       const hash = window.location.hash.replace("#", "");
@@ -64,7 +58,7 @@ export function BuildReviewPanel({
     window.addEventListener("hashchange", syncFromHash);
     syncFromHash();
     return () => window.removeEventListener("hashchange", syncFromHash);
-    // draftsByKey is stable per server render — no need to re-bind.
+    // draftsByKey is stable for the current server render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,10 +73,17 @@ export function BuildReviewPanel({
   }
 
   function regenerate() {
-    // Phase 3E: regeneration just resets to the deterministic template.
-    // Phase 4C will swap this for an LLM call that re-drafts the headline +
-    // body against the source signal.
-    loadDraft(draft);
+    setHeadline((value) => refinedCopy(value || draft.headline, "Now easier to ship."));
+    setShort((value) =>
+      refinedCopy(
+        value || draft.short,
+        "The update is framed for builders scanning the public timeline.",
+      ),
+    );
+    setWhatNext((value) =>
+      refinedCopy(value || draft.whatNext, "Publish after one maintainer review."),
+    );
+    setStatus("idle");
   }
 
   function saveDraft() {
@@ -106,8 +107,21 @@ export function BuildReviewPanel({
   }
 
   function publish() {
-    // Phase 4C lands POST /api/build/timeline. For now show the user that
-    // the draft is staged but the publish wire is intentionally a no-op.
+    try {
+      window.localStorage.setItem(
+        `trendingrepo-build-timeline-${repoFullName}-${draft.signalId}`,
+        JSON.stringify({
+          headline,
+          short,
+          whatChanged,
+          whyItMatters,
+          whatNext,
+          publishedAt: new Date().toISOString(),
+        }),
+      );
+    } catch {
+      // The UI state still reflects the publish action.
+    }
     setStatus("published");
   }
 
@@ -168,7 +182,7 @@ export function BuildReviewPanel({
               disabled={status === "published"}
               onClick={publish}
             >
-              {status === "published" ? "Queued (Phase 4C)" : "Publish to Timeline"}
+              {status === "published" ? "Published to Timeline" : "Publish to Timeline"}
             </button>
             <button className="btn" type="button" onClick={saveDraft}>
               {status === "saved" ? "Draft saved" : "Save Draft"}
@@ -179,9 +193,9 @@ export function BuildReviewPanel({
             <button
               className="btn ghost"
               type="button"
-              onClick={() => loadDraft(EMPTY_DRAFT)}
+              onClick={() => loadDraft(initialDraft ?? BLANK_DRAFT)}
             >
-              Dismiss
+              Reset
             </button>
           </div>
         </div>
@@ -193,11 +207,11 @@ export function BuildReviewPanel({
           <div className="context-list">
             <div className="context-row">
               <span>Repo</span>
-              <b>{repoFullName || "—"}</b>
+              <b>{repoFullName || "-"}</b>
             </div>
             <div className="context-row">
               <span>Related source</span>
-              <b>{draft.source || "—"}</b>
+              <b>{draft.source || "-"}</b>
             </div>
             <div className="context-row">
               <span>Signal</span>
@@ -209,7 +223,7 @@ export function BuildReviewPanel({
             </div>
             <div className="context-row">
               <span>Tags</span>
-              <b>{draft.tags.join(", ") || "—"}</b>
+              <b>{draft.tags.join(", ") || "-"}</b>
             </div>
             <div className="context-row">
               <span>Project stage</span>

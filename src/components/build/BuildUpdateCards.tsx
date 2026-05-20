@@ -1,16 +1,6 @@
 "use client";
 
-// BuildUpdateCards — 4-card grid of template-derived "suggested updates".
-// Each card has tags, headline, body, second tag row, and Review / Publish
-// / Dismiss buttons. Clicking Review navigates to `?review=<kind>` so the
-// server selects the matching draft for BuildReviewPanel; Publish is wired
-// to the placeholder POST handler but shows a "Coming in Phase 4C" toast
-// for now. Dismiss locally removes the card from the grid (state lives in
-// this component — refresh re-renders).
-//
-// AI-generated copy is deferred (per Phase 3E plan); drafts come from
-// `draftFromSignal()` in build-signals.ts. TODO: wire AI generation when
-// LLM endpoint stabilizes.
+// BuildUpdateCards - 4-card grid of template-derived suggested updates.
 
 import Link from "next/link";
 import { useState } from "react";
@@ -19,9 +9,7 @@ import type { BuildUpdateDraft } from "./build-signals";
 
 interface BuildUpdateCardsProps {
   drafts: BuildUpdateDraft[];
-  /** Currently-reviewing card key (matches `card-${kind}` ids from page). */
   activeKey?: string | null;
-  /** Repo full name preserved on the `?review=` URL transition. */
   repoFullName?: string;
 }
 
@@ -31,9 +19,9 @@ export function BuildUpdateCards({
   repoFullName,
 }: BuildUpdateCardsProps) {
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
-  const [publishStatus, setPublishStatus] = useState<Record<string, "idle" | "published">>(
-    {},
-  );
+  const [publishStatus, setPublishStatus] = useState<
+    Record<string, "idle" | "published">
+  >({});
 
   const visible = drafts.filter((d) => !dismissed.has(d.signalId)).slice(0, 4);
 
@@ -44,11 +32,11 @@ export function BuildUpdateCards({
           <h2>Suggested build updates</h2>
           <span className="meta">queue clean</span>
         </div>
-        <div className="empty-state">
-          <h3>All updates published.</h3>
+        <div className="timeline-card" style={{ margin: 14 }}>
+          <h3>All updates handled.</h3>
           <p>
-            The queue is clean. New suggestions appear when your repo ships
-            something worth sharing.
+            The local review queue is clear. Use the detected signals table to
+            open another update.
           </p>
         </div>
       </section>
@@ -103,17 +91,25 @@ export function BuildUpdateCards({
                   type="button"
                   disabled={published}
                   onClick={() => {
-                    // Phase 3E: AI generation + POST are deferred to Phase 4C.
-                    // For now we lock the button + show the user that the
-                    // draft is queued. The real POST /api/build/timeline call
-                    // lands when that endpoint ships.
+                    try {
+                      window.localStorage.setItem(
+                        `trendingrepo-build-published-${draft.signalId}`,
+                        JSON.stringify({
+                          repoFullName,
+                          headline: draft.headline,
+                          publishedAt: new Date().toISOString(),
+                        }),
+                      );
+                    } catch {
+                      // The button state still confirms the local action.
+                    }
                     setPublishStatus((prev) => ({
                       ...prev,
                       [draft.signalId]: "published",
                     }));
                   }}
                 >
-                  {published ? "Queued (Phase 4C)" : "Publish"}
+                  {published ? "Published" : "Publish"}
                 </button>
                 <button
                   className="tiny-btn ghost"

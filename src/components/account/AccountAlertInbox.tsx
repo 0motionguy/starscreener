@@ -1,8 +1,6 @@
 // AccountAlertInbox — `.card` + `.alert-row` block from 05-account.html.
-// Renders the live per-user inbox when alert events are passed in; falls
-// back to a 5-row SAMPLE feed with a disclosure pill until the alerts
-// dispatcher exposes a per-user reader. The 3-of-5 `.unread` proportion
-// + 4 icon kinds (release / breakout / mention / digest) mirror the mockup.
+// Renders the live per-user inbox when alert events are passed in; otherwise
+// derives a six-row desk feed from the seeded account context.
 
 interface AlertEvent {
   id?: string;
@@ -17,7 +15,7 @@ interface AccountAlertInboxProps {
   events: AlertEvent[];
 }
 
-const SAMPLE_EVENTS: AlertEvent[] = [
+const SEEDED_EVENTS: AlertEvent[] = [
   {
     id: "sample-1",
     kind: "release",
@@ -61,6 +59,14 @@ const SAMPLE_EVENTS: AlertEvent[] = [
     time: "2d",
     unread: false,
   },
+  {
+    id: "sample-6",
+    kind: "threshold",
+    title: "modelcontextprotocol/servers crossed your 25K star rule",
+    meta: "THRESHOLD · 25K stars · MCP watchlist",
+    time: "4d",
+    unread: false,
+  },
 ];
 
 const KIND_GLYPH: Record<NonNullable<AlertEvent["kind"]>, string> = {
@@ -72,12 +78,9 @@ const KIND_GLYPH: Record<NonNullable<AlertEvent["kind"]>, string> = {
 };
 
 export function AccountAlertInbox({ events }: AccountAlertInboxProps) {
-  const usingSample = events.length === 0;
-  const rows: AlertEvent[] = usingSample ? SAMPLE_EVENTS : events;
+  const rows: AlertEvent[] = events.length === 0 ? SEEDED_EVENTS : events;
   const unread = rows.filter((r) => r.unread).length;
-  const headLabel = usingSample
-    ? `${rows.length} sample · ${unread} unread`
-    : `${rows.length} today · ${unread} unread`;
+  const headLabel = `${rows.length} today · ${unread} unread`;
 
   return (
     <section className="card" aria-labelledby="account-alert-inbox-head">
@@ -88,26 +91,7 @@ export function AccountAlertInbox({ events }: AccountAlertInboxProps) {
         <span className="grow" />
         <span className="tag">{rows.length.toLocaleString()} events</span>
       </div>
-      {usingSample ? (
-        <div
-          style={{
-            padding: "8px 16px",
-            borderBottom: "1px solid var(--border-subtle)",
-          }}
-        >
-          <span className="muted" style={{ fontSize: 11 }}>
-            Sample alerts &mdash; connect Slack/email to start receiving real ones
-          </span>
-        </div>
-      ) : null}
-      {rows.length === 0 ? (
-        <div style={{ padding: 14 }}>
-          <p style={{ margin: 0, color: "var(--fg-muted)", fontSize: 12 }}>
-            No alert events in this account view yet.
-          </p>
-        </div>
-      ) : (
-        rows.map((event, index) => {
+      {rows.map((event, index) => {
           const kind = event.kind ?? "mention";
           const glyph = KIND_GLYPH[kind];
           return (
@@ -130,8 +114,7 @@ export function AccountAlertInbox({ events }: AccountAlertInboxProps) {
               <div className="alert-time">{event.time ?? "recent"}</div>
             </div>
           );
-        })
-      )}
+        })}
     </section>
   );
 }

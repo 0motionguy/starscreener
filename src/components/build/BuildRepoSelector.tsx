@@ -1,14 +1,4 @@
-// BuildRepoSelector — 2-column panel: left "connect", right "selected".
-//
-// Server component. Renders the .connect-state card (Clerk-handled GitHub
-// social linkage messaging + permission list) on the left, and either:
-//   - an empty .repo-state card with a small dropdown to pick a tracked
-//     repo (if no `?repo=` is set), or
-//   - the selected repo card with 6-cell .score-grid metrics derived from
-//     the Repo object (if `?repo=owner/name` is set).
-//
-// The dropdown is rendered server-side as a <form GET> so submitting reloads
-// the page with `?repo=owner/name`. No client state needed.
+// BuildRepoSelector - 2-column connection and selected-repo panel.
 
 import Link from "next/link";
 
@@ -25,9 +15,9 @@ function formatStars(n: number): string {
 }
 
 function ageHours(iso: string | null): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const ts = Date.parse(iso);
-  if (!Number.isFinite(ts)) return "—";
+  if (!Number.isFinite(ts)) return "-";
   const ageMs = Date.now() - ts;
   const hours = Math.floor(ageMs / (60 * 60 * 1000));
   if (hours < 1) return `${Math.max(1, Math.floor(ageMs / (60 * 1000)))}m`;
@@ -35,27 +25,20 @@ function ageHours(iso: string | null): string {
   return `${Math.floor(hours / 24)}d`;
 }
 
-/**
- * Visibility score = stars-driven 0-100 ladder.
- * 100k+ → 100, 10k → 85, 1k → 60, <100 → 25.
- */
 function visibilityScore(stars: number): number {
   if (stars >= 100_000) return 100;
-  if (stars >= 10_000) return 80 + Math.min(20, Math.floor((stars - 10_000) / 4_500));
+  if (stars >= 10_000) {
+    return 80 + Math.min(20, Math.floor((stars - 10_000) / 4_500));
+  }
   if (stars >= 1_000) return 55 + Math.floor((stars - 1_000) / 200);
   if (stars >= 100) return 25 + Math.floor((stars - 100) / 40);
   return Math.max(5, Math.floor(stars / 5));
 }
 
-/** Build momentum = momentumScore (already 0-100). */
 function buildMomentum(repo: Repo): number {
   return Math.round(repo.momentumScore ?? 0);
 }
 
-/**
- * Launch readiness = weighted blend of momentum, contributors, releases.
- * Deterministic from data; AI-free.
- */
 function launchReadiness(repo: Repo): number {
   const momentum = repo.momentumScore ?? 0;
   const contribBoost = Math.min(20, Math.floor((repo.contributors ?? 0) / 10));
@@ -150,18 +133,18 @@ export function BuildRepoSelector({
         ) : (
           <div className="repo-state">
             <div className="repo-head">
-              <div className="repo-mark">??</div>
+              <div className="repo-mark">TR</div>
               <div>
-                <h3>No repo selected</h3>
-                <p>Pick a tracked repo to start detecting build signals.</p>
+                <h3>Select tracked repo</h3>
+                <p>Pick a tracked repo to inspect build signals.</p>
               </div>
             </div>
             <form method="GET" action="/build">
               <label className="field-label">
-                Select tracked repo
+                Tracked repo
                 <select className="field" name="repo" defaultValue="">
                   <option value="" disabled>
-                    Choose a repo…
+                    Choose a repo
                   </option>
                   {trackedRepos.slice(0, 200).map((r) => (
                     <option key={r.fullName} value={r.fullName}>

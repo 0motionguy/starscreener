@@ -1,4 +1,4 @@
-// /build — Build workflow dashboard. Phase 3E of the UI v6 rebuild.
+// /build - Build workflow dashboard.
 //
 // Auth: Clerk-gated. Anon → 302 /sign-in?redirect_url=/build.
 //
@@ -9,8 +9,8 @@
 //   getRepoProfile(fullName)              — README hash + freshness anchor
 //   classifyFreshness("repos", ts)        — honest freshness pill
 //
-// URL contract: ?repo=<owner>/<name> selects the workspace. Empty → empty
-// state + repo dropdown.
+// URL contract: ?repo=<owner>/<name> selects the workspace. When omitted,
+// the first tracked repo is selected so the dashboard opens populated.
 //
 // Dynamic: per-user repo + draft state, freshness pill honesty.
 
@@ -115,16 +115,25 @@ export default async function BuildPage({ searchParams }: Props) {
   ]);
 
   // 3. Tracked repo list for the dropdown (full names only).
-  const tracked = safe(() => getDerivedRepos(), []).slice(0, 100).map((r) => ({
+  const trackedRepos = safe(() => getDerivedRepos(), []);
+  const tracked = trackedRepos.slice(0, 100).map((r) => ({
     fullName: r.fullName,
     owner: r.owner,
     name: r.name,
   }));
 
-  // 4. Resolve the selected repo (if any).
-  const selectedRepo = requestedFullName
-    ? safe(() => getDerivedRepoByFullName(requestedFullName), null)
-    : null;
+  // 4. Resolve the selected repo. The mockup shows a populated workspace by
+  // default, so fresh visits start on openai/codex when available.
+  const defaultFullName =
+    trackedRepos.find((repo) => repo.fullName === "openai/codex")?.fullName ??
+    trackedRepos[0]?.fullName ??
+    "openai/codex";
+  const selectedFullName = requestedFullName ?? defaultFullName;
+  const selectedRepo =
+    safe(() => getDerivedRepoByFullName(selectedFullName), null) ??
+    (selectedFullName === defaultFullName
+      ? null
+      : safe(() => getDerivedRepoByFullName(defaultFullName), null));
 
   const repoFullName = selectedRepo?.fullName ?? "";
 

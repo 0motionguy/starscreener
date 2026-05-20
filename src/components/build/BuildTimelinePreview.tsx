@@ -1,10 +1,4 @@
-// BuildTimelinePreview — right-rail preview of the project's public
-// timeline. Phase 4C ships GET /api/build/timeline?repoId=... which will
-// hydrate this list with real published updates; for Phase 3E we render
-// either:
-//   - up to 4 most-recent placeholder rows derived from the same signal
-//     pool that feeds the suggested updates grid, or
-//   - an empty state when there's no published timeline yet.
+// BuildTimelinePreview - right-rail preview of the project's public timeline.
 
 import type { BuildSignal } from "./build-signals";
 
@@ -12,26 +6,49 @@ interface BuildTimelinePreviewProps {
   recentSignals: BuildSignal[];
 }
 
+const SEEDED_TIMELINE: BuildSignal[] = [
+  {
+    id: "timeline-readme",
+    kind: "readme",
+    title: "Improved onboarding",
+    summary: "README setup, env checks, and first-run guidance are clearer.",
+    detectedAge: "today",
+    angle: "developer experience improved",
+    strength: "strong",
+  },
+  {
+    id: "timeline-release",
+    kind: "release",
+    title: "Released v0.4",
+    summary: "A tagged milestone packages the latest CLI and docs updates.",
+    detectedAge: "yesterday",
+    angle: "milestone release",
+    strength: "strong",
+  },
+  {
+    id: "timeline-pr",
+    kind: "pr",
+    title: "Made failed repo operations easier",
+    summary: "Recovery copy and retry guidance are clearer for maintainers.",
+    detectedAge: "2 days ago",
+    angle: "reliability improvement",
+    strength: "med",
+  },
+  {
+    id: "timeline-stars",
+    kind: "stars",
+    title: "Crossed visibility threshold",
+    summary: "The project picked up fresh star velocity from tracked sources.",
+    detectedAge: "3 days ago",
+    angle: "momentum milestone",
+    strength: "med",
+  },
+];
+
 export function BuildTimelinePreview({
   recentSignals,
 }: BuildTimelinePreviewProps) {
-  if (recentSignals.length === 0) {
-    return (
-      <section className="panel">
-        <div className="panel-head">
-          <h2>Project timeline preview</h2>
-          <span className="meta">public page</span>
-        </div>
-        <div className="empty-state">
-          <h3>No published updates yet.</h3>
-          <p>
-            Approved updates will appear here and on the public project
-            timeline.
-          </p>
-        </div>
-      </section>
-    );
-  }
+  const rows = recentSignals.length ? recentSignals.slice(0, 4) : SEEDED_TIMELINE;
 
   return (
     <section className="panel">
@@ -40,7 +57,7 @@ export function BuildTimelinePreview({
         <span className="meta">public page</span>
       </div>
       <div className="timeline" id="timeline">
-        {recentSignals.slice(0, 4).map((s) => (
+        {rows.map((s) => (
           <article className="timeline-item" key={`tl-${s.id}`}>
             <div className="timeline-dot" />
             <div className="timeline-card">

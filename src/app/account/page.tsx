@@ -29,6 +29,8 @@ import { tierFor } from "@/lib/pricing/tiers";
 import { getPrivateWatchlist } from "@/lib/watchlist/private-store";
 import { readRecentDropEvents } from "@/lib/drop-events";
 import { deriveCode } from "@/lib/referrals/code";
+import { getReferralStats } from "@/lib/referrals";
+import { listAlertsForUser } from "@/lib/alerts";
 import { getProfile } from "@/lib/profile";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import {
@@ -198,13 +200,19 @@ export default async function AccountPage({ searchParams }: Props) {
   const referralCode = deriveCode(handle, profileId);
   const referralUrl = `https://trendingrepo.com/r/${referralCode}`;
 
+  // Real referral counters + alert events from the DB. Both readers
+  // degrade to empty/0 when DATABASE_URL is unset, so we don't need to
+  // wrap them in safe() — the throw paths are absorbed inside the reader.
+  const referralStats = await getReferralStats(profileId);
+  const alertEvents = await listAlertsForUser(profileId);
+
   // Computed counts for stats strip + sub-nav badges.
   const watchingCount = watchlistFullNames.length;
   const watchingCap = tier.features.maxWatchlistRepos;
-  const referralInvites = Math.max(loaded?.profile.referralCredits ?? 0, 12);
+  const referralInvites = referralStats.invites;
   const dropsCount = Math.max(recentDrops.length, 4);
-  const alerts24h = 3;
-  const alertEventsCount = 6;
+  const alerts24h = alertEvents.filter((event) => event.unread).length;
+  const alertEventsCount = alertEvents.length;
   const apiKeysCount = 3;
   const compareRunsThisWeek = 7;
 
@@ -245,19 +253,19 @@ export default async function AccountPage({ searchParams }: Props) {
           {tab === "overview" && (
             <>
               <AccountWatchlistPreview repos={watchlistRepos} />
-              <AccountAlertInbox events={[]} />
+              <AccountAlertInbox events={alertEvents} />
             </>
           )}
           {tab === "watchlist" && (
             <AccountWatchlistPreview repos={watchlistRepos} expanded />
           )}
-          {tab === "alerts" && <AccountAlertInbox events={[]} />}
+          {tab === "alerts" && <AccountAlertInbox events={alertEvents} />}
           {tab === "referrals" && (
             <AccountReferralsCard
               referralUrl={referralUrl}
               invites={referralInvites}
-              paidConversions={4}
-              creditBalance={80}
+              paidConversions={referralStats.paidConversions}
+              creditBalance={referralStats.creditBalance}
             />
           )}
           {tab === "billing" && (

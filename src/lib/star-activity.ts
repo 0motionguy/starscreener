@@ -297,3 +297,36 @@ export function _seedStarActivityForTests(
 ): void {
   cache.set(normalizeRepoId(repoId), payload);
 }
+
+// ---------------------------------------------------------------------------
+// Star-plot request counter — surfaces the "plots today" KPI on /tools.
+// ---------------------------------------------------------------------------
+
+/**
+ * Count star-history plot renders queued for `date` (YYYY-MM-DD, UTC).
+ *
+ * Honest stub: there is NO `star_plot_requests` table in the Drizzle schema
+ * today and no instrumentation in the /tools/star-history route writes one.
+ * Until the metric is wired (planned next sprint), this reader returns 0 so
+ * `ToolsKpiStrip` can render a real number ("0") instead of an em-dash.
+ *
+ * Signature mirrors `countArchivedTop10Snapshots` over in the tools page —
+ * a `date` string parameter, async, returns a `Promise<number>`. When the
+ * real table arrives, callers won't need to change.
+ *
+ * Degrades gracefully — never throws. The /tools page wraps every reader
+ * in `safeAsync()` anyway, but we double-belt this one because /tools is a
+ * public ISR route that must NEVER 500 on a missing metric.
+ */
+export async function countStarPlotRequests(_date: string): Promise<number> {
+  try {
+    // Intentionally a no-op until the instrumentation lands. Keeping the
+    // body small + side-effect-free so future implementers can swap in a
+    // single `db.select().from(starPlotRequests).where(...)` call without
+    // changing the public contract.
+    return 0;
+  } catch (err) {
+    console.warn("[star-activity/countStarPlotRequests] degraded:", err);
+    return 0;
+  }
+}

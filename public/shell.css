@@ -426,6 +426,10 @@ img { max-width: 100%; display: block; }
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .tick {
   display: flex; align-items: center; gap: 8px;
   letter-spacing: 0.02em;

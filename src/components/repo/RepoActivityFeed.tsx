@@ -21,12 +21,24 @@ export const FEED_FILTERS = [
 ] as const;
 export type FeedFilter = (typeof FEED_FILTERS)[number];
 
+export const FEED_SORTS = ["default", "newest"] as const;
+export type FeedSort = (typeof FEED_SORTS)[number];
+
 interface RepoActivityFeedProps {
   repo: Repo;
   events: NormalizedGithubEvent[];
   fundingEvents: RepoFundingEvent[];
   fetchedAt: string | null;
   activeFilter?: FeedFilter;
+  activeSort?: FeedSort;
+}
+
+function buildFeedHref(feed: FeedFilter, sort: FeedSort): string {
+  const params = new URLSearchParams();
+  if (feed !== "all") params.set("feed", feed);
+  if (sort !== "default") params.set("sort", sort);
+  const qs = params.toString();
+  return qs ? `?${qs}` : "?";
 }
 
 interface FeedRow {
@@ -620,6 +632,7 @@ export function RepoActivityFeed({
   fundingEvents,
   fetchedAt,
   activeFilter = "all",
+  activeSort = "default",
 }: RepoActivityFeedProps) {
   const nowMs = Date.now();
   const allRows = dedupeRows([
@@ -699,7 +712,7 @@ export function RepoActivityFeed({
           return (
             <Link
               key={chip.id}
-              href={chip.id === "all" ? "?" : `?feed=${chip.id}`}
+              href={buildFeedHref(chip.id, activeSort)}
               className={`feed-chip${isActive ? " on" : ""}`}
               aria-current={isActive ? "true" : undefined}
               prefetch={false}
@@ -710,12 +723,24 @@ export function RepoActivityFeed({
           );
         })}
         <span className="grow" />
-        <button type="button" className="feed-chip">
-          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-            <path d="M3 6h10M5 9h6M7 12h2" />
-          </svg>
-          Newest
-        </button>
+        {(() => {
+          const newestActive = activeSort === "newest";
+          const nextSort: FeedSort = newestActive ? "default" : "newest";
+          return (
+            <Link
+              href={buildFeedHref(activeFilter, nextSort)}
+              className={`feed-chip${newestActive ? " on" : ""}`}
+              aria-current={newestActive ? "true" : undefined}
+              prefetch={false}
+              scroll={false}
+            >
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                <path d="M3 6h10M5 9h6M7 12h2" />
+              </svg>
+              Newest
+            </Link>
+          );
+        })()}
       </div>
 
       {rows.map((row) => (

@@ -37,7 +37,9 @@ import { RepoValueStrip } from "@/components/repo/RepoValueStrip";
 import {
   RepoActivityFeed,
   FEED_FILTERS,
+  FEED_SORTS,
   type FeedFilter,
+  type FeedSort,
 } from "@/components/repo/RepoActivityFeed";
 import { MaintainersRow } from "@/components/repo/MaintainersRow";
 import { ReleasesCard } from "@/components/repo/ReleasesCard";
@@ -170,6 +172,11 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     (FEED_FILTERS as readonly string[]).includes(rawFeed)
       ? (rawFeed as FeedFilter)
       : "all";
+  const rawSort = typeof sp.sort === "string" ? sp.sort : "default";
+  const activeFeedSort: FeedSort =
+    (FEED_SORTS as readonly string[]).includes(rawSort)
+      ? (rawSort as FeedSort)
+      : "default";
 
   // Trending + profiles + star-activity + github-events are independent
   // store reads; serialising them adds 3 round-trips of dead latency.
@@ -282,6 +289,7 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
           fundingEvents={fundingEvents}
           fetchedAt={fetchedAt}
           activeFilter={activeFeedFilter}
+          activeSort={activeFeedSort}
         />
 
         <aside className="col gap-4">

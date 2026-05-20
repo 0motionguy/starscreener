@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-20T09:38:13.705Z",
-  "scanRunId": "sweep-2026-05-20T09:37:31.187Z",
+  "computedAt": "2026-05-20T15:25:03.570Z",
+  "scanRunId": "sweep-2026-05-20T15:24:53.612Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -50,6 +50,19 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
+              "url": "https://github.com/agentkit-seo/agentkit-seo",
+              "title": "Show HN: AgentKit SEO - a career context file that installs as agent skills",
+              "text": "I was job hunting across countries and kept running into the same two problems.<p>First: every platform optimises for different things. LinkedIn wants keywords. ATS parsers want specific formatting. GitHub rewards README quality. A portfolio has to be crawlable. Staying consistent across all of them without a system is nearly impossible.<p>Second: every AI agent session starts from scratch. Paste a context dump, watch it burn half the window fetching your links, get generic output. The agent has",
+              "author": "renatomignone",
+              "engagement": {
+                "score": 3,
+                "comments": 1
+              },
+              "observedAt": "2026-05-19T20:11:40.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
               "url": "https://github.com/shang-zhu/violin",
               "title": "Violin: An open-source video translation tool (and agent skills)",
               "text": "",
@@ -85,19 +98,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T23:19:52.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/agentkit-seo/agentkit-seo",
-              "title": "Show HN: AgentKit SEO - a career context file that installs as agent skills",
-              "text": "I was job hunting across countries and kept running into the same two problems.<p>First: every platform optimises for different things. LinkedIn wants keywords. ATS parsers want specific formatting. GitHub rewards README quality. A portfolio has to be crawlable. Staying consistent across all of them without a system is nearly impossible.<p>Second: every AI agent session starts from scratch. Paste a context dump, watch it burn half the window fetching your links, get generic output. The agent has",
-              "author": "renatomignone",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-19T20:11:40.000Z"
             }
           ]
         },
@@ -395,11 +395,24 @@
     },
     "rtk-ai/rtk": {
       "fullName": "rtk-ai/rtk",
-      "totalMentions7d": 7,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "rtk-ai/rtk",
+              "url": "https://github.com/rtmx-ai/rtmx",
+              "title": "RTMX: Intent Layer for Agentic Engineering",
+              "text": "",
+              "author": "ryan4rtmx",
+              "engagement": {
+                "score": 2,
+                "comments": 1
+              },
+              "observedAt": "2026-05-20T13:59:08.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "rtk-ai/rtk",
@@ -439,7 +452,7 @@
               "text": "🎉 50,000 ⭐ on GitHub. 5 months ago, a weekend hack. Huge thanks to the contributors and to everyone who starred, opened an issue, or shared the project. 100% community-driven and hard work. Built at night, in Northern France. RTK Cloud coming soon. → github.com/rtk-ai/rtk #rust #opensource #ai",
               "author": "rtk-ai.app",
               "engagement": {
-                "score": 2,
+                "score": 3,
                 "comments": 0
               },
               "observedAt": "2026-05-19T22:31:47.566Z"
@@ -1148,10 +1161,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 13,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 13,
+          "count7d": 14,
           "top": [
             {
               "source": "hackernews",
@@ -3732,24 +3745,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 178,
+      "totalMentions7d": 106,
       "perSource": {
         "hackernews": {
-          "count7d": 178,
+          "count7d": 106,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://twitter.com/karpathy/status/2056753169888334312",
-              "title": "I’ve joined Anthropic",
-              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
-              "author": "dmarcos",
-              "engagement": {
-                "score": 1315,
-                "comments": 555
-              },
-              "observedAt": "2026-05-19T15:07:45.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3758,49 +3758,62 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1077,
-                "comments": 574
+                "score": 1081,
+                "comments": 578
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/work-with-codex-from-anywhere/",
-              "title": "Codex is now in the ChatGPT mobile app",
+              "url": "https://openai.com/index/malta-chatgpt-plus-partnership/",
+              "title": "OpenAI and Government of Malta partner to roll out ChatGPT Plus to all citizens",
               "text": "",
-              "author": "mikeevans",
+              "author": "bookofjoe",
               "engagement": {
-                "score": 486,
-                "comments": 247
+                "score": 331,
+                "comments": 338
               },
-              "observedAt": "2026-05-14T20:06:14.000Z"
+              "observedAt": "2026-05-16T20:14:06.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/antoinezambelli/forge",
-              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
-              "author": "zambelli",
+              "url": "https://openai.com/index/advancing-content-provenance/",
+              "title": "OpenAI Adopts Google's SynthID Watermark for AI Images with Verification Tool",
+              "text": "",
+              "author": "smooke",
               "engagement": {
-                "score": 475,
-                "comments": 172
+                "score": 314,
+                "comments": 171
               },
-              "observedAt": "2026-05-19T12:23:07.000Z"
+              "observedAt": "2026-05-19T19:34:30.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/MinishLab/semble",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
-              "author": "Bibabomas",
+              "url": "https://www.wsj.com/tech/ai/sam-altmans-business-dealings-under-gop-scrutiny-ahead-of-openais-ipo-52c1cc4d",
+              "title": "Sam Altman's Business Dealings Under GOP Scrutiny Ahead of OpenAI's IPO",
+              "text": "",
+              "author": "1vuio0pswjnm7",
               "engagement": {
-                "score": 439,
-                "comments": 147
+                "score": 199,
+                "comments": 162
               },
-              "observedAt": "2026-05-17T15:37:07.000Z"
+              "observedAt": "2026-05-14T12:27:29.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://twitter.com/steipete/status/2055346265869721905",
+              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
+              "text": "",
+              "author": "eamag",
+              "engagement": {
+                "score": 161,
+                "comments": 205
+              },
+              "observedAt": "2026-05-16T11:34:04.000Z"
             }
           ]
         }
@@ -4746,11 +4759,24 @@
     },
     "Imbad0202/academic-research-skills": {
       "fullName": "Imbad0202/academic-research-skills",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "bluesky": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "Imbad0202/academic-research-skills",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://g",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-20T15:17:05.722Z"
+            },
             {
               "source": "bluesky",
               "fullName": "Imbad0202/academic-research-skills",
@@ -6209,8 +6235,8 @@
               "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
               "author": "mrcoldbrew",
               "engagement": {
-                "score": 56,
-                "comments": 6
+                "score": 58,
+                "comments": 7
               },
               "observedAt": "2026-05-18T15:40:42.000Z"
             }
@@ -6691,7 +6717,7 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 7,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
           "count7d": 5,
@@ -6764,7 +6790,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -6791,6 +6817,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T15:31:49.865Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
+              "title": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com",
+              "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
+              "author": "boardwire.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-20T15:18:39.572Z"
             }
           ]
         }
@@ -7810,7 +7849,7 @@
       "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -7821,7 +7860,7 @@
               "author": "rolph",
               "engagement": {
                 "score": 442,
-                "comments": 320
+                "comments": 321
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7880,21 +7919,8 @@
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
-            {
-              "source": "bluesky",
-              "fullName": "floci-io/floci",
-              "url": "https://bsky.app/profile/midu.dev/post/3mlqhkpalur2z",
-              "title": "Este proyecto te permite tener AWS en local y gratis. Sin cuentas ni trucos. Perfecto para practicar. Se llama Floci y tiene 47 servicios: S3, SQS, Lambda, DynamoDB, RDS... github.com/floci-io/floci",
-              "text": "Este proyecto te permite tener AWS en local y gratis. Sin cuentas ni trucos. Perfecto para practicar. Se llama Floci y tiene 47 servicios: S3, SQS, Lambda, DynamoDB, RDS... github.com/floci-io/floci",
-              "author": "midu.dev",
-              "engagement": {
-                "score": 31,
-                "comments": 0
-              },
-              "observedAt": "2026-05-13T13:58:54.961Z"
-            },
             {
               "source": "bluesky",
               "fullName": "floci-io/floci",
@@ -8175,8 +8201,8 @@
               "text": "The Setup:<p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;nzOwmSC.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2",
               "author": "danybittel",
               "engagement": {
-                "score": 498,
-                "comments": 190
+                "score": 508,
+                "comments": 193
               },
               "observedAt": "2026-05-19T10:38:47.000Z"
             }
@@ -8310,7 +8336,7 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
           "count7d": 2,
@@ -8344,7 +8370,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -8358,6 +8384,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-17T13:17:57.572Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "tinyhumansai/openhuman",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://g",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-20T15:17:05.722Z"
             },
             {
               "source": "bluesky",
@@ -9058,10 +9097,10 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -9114,6 +9153,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T15:31:54.871Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "colbymchenry/codegraph",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://g",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-20T15:17:05.722Z"
             }
           ]
         }
@@ -9121,10 +9173,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 81,
+      "totalMentions7d": 58,
       "perSource": {
         "hackernews": {
-          "count7d": 81,
+          "count7d": 58,
           "top": [
             {
               "source": "hackernews",
@@ -9134,8 +9186,8 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 475,
-                "comments": 172
+                "score": 587,
+                "comments": 210
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -9147,8 +9199,8 @@
               "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
               "author": "lukaspetersson",
               "engagement": {
-                "score": 359,
-                "comments": 269
+                "score": 362,
+                "comments": 270
               },
               "observedAt": "2026-05-18T18:12:18.000Z"
             },
@@ -9160,7 +9212,7 @@
               "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
               "author": "pycassa",
               "engagement": {
-                "score": 299,
+                "score": 300,
                 "comments": 85
               },
               "observedAt": "2026-05-13T21:40:18.000Z"
@@ -9173,23 +9225,23 @@
               "text": "<a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983</a>",
               "author": "asar",
               "engagement": {
-                "score": 279,
-                "comments": 213
+                "score": 282,
+                "comments": 219
               },
               "observedAt": "2026-05-18T17:20:43.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
-              "url": "https://ossresistance.com/",
-              "title": "Open Source Resistance: keep OSS alive on company time",
+              "url": "https://electrek.co/2026/05/16/fisker-ocean-open-source-ev-story-after-bankruptcy/",
+              "title": "Fisker went bankrupt and owners built an open source car company from the ashes",
               "text": "",
-              "author": "mikemcquaid",
+              "author": "breve",
               "engagement": {
-                "score": 275,
-                "comments": 84
+                "score": 176,
+                "comments": 65
               },
-              "observedAt": "2026-05-13T15:13:37.000Z"
+              "observedAt": "2026-05-16T23:59:47.000Z"
             }
           ]
         }
@@ -9302,7 +9354,7 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 569,
+                "score": 570,
                 "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
@@ -9352,8 +9404,8 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 439,
-                "comments": 147
+                "score": 440,
+                "comments": 150
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
             }
@@ -9433,10 +9485,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 144,
+      "totalMentions7d": 135,
       "perSource": {
         "hackernews": {
-          "count7d": 143,
+          "count7d": 133,
           "top": [
             {
               "source": "hackernews",
@@ -9446,8 +9498,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 1315,
-                "comments": 555
+                "score": 1384,
+                "comments": 587
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
             },
@@ -9459,10 +9511,23 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1077,
-                "comments": 574
+                "score": 1081,
+                "comments": 578
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://github.com/antoinezambelli/forge",
+              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
+              "author": "zambelli",
+              "engagement": {
+                "score": 587,
+                "comments": 210
+              },
+              "observedAt": "2026-05-19T12:23:07.000Z"
             },
             {
               "source": "hackernews",
@@ -9480,19 +9545,6 @@
             {
               "source": "hackernews",
               "fullName": "rmyndharis/OpenWA",
-              "url": "https://github.com/antoinezambelli/forge",
-              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
-              "author": "zambelli",
-              "engagement": {
-                "score": 475,
-                "comments": 172
-              },
-              "observedAt": "2026-05-19T12:23:07.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
               "url": "https://openai.com/index/malta-chatgpt-plus-partnership/",
               "title": "OpenAI and Government of Malta partner to roll out ChatGPT Plus to all citizens",
               "text": "",
@@ -9506,8 +9558,21 @@
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+              "title": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - ",
+              "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-20T15:17:34.372Z"
+            },
             {
               "source": "bluesky",
               "fullName": "rmyndharis/OpenWA",
@@ -10227,7 +10292,7 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 150,
+                "score": 154,
                 "comments": 17
               },
               "observedAt": "2026-05-18T12:17:04.000Z"

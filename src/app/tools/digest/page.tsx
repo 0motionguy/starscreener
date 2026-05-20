@@ -678,7 +678,7 @@ function DigestPageStyles() {
         align-items: center;
         justify-content: center;
         background: var(--accent);
-        color: #0b0e11;
+        color: var(--bg);
         font-family: var(--font-mono);
         font-size: 12.5px;
         font-weight: 600;

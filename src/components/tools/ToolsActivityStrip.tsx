@@ -72,7 +72,7 @@ export function ToolsActivityStrip({
                   className="ac-row"
                   style={{ color: "var(--fg-faint)", fontStyle: "italic" }}
                 >
-                  <span>No activity in the last 7 days.</span>
+                  <span>Fresh activity is warming for this lane.</span>
                 </div>
               ) : (
                 group.rows.map((row, index) => (

@@ -47,7 +47,7 @@ export function ToolsChartsSection({
         </ToolCard>
         <ToolCard
           number="02"
-          route="#treemap"
+          route="/tools/treemap"
           routeLabel="CHART"
           title="Treemap"
           description={

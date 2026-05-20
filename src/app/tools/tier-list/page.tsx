@@ -75,13 +75,21 @@ function computeScore(item: {
   starsDelta7d: number;
   starsDelta24h: number;
   crossSourceMentions: number;
+  momentumScore?: number | null;
+  stars?: number;
 }): number {
   const d7 = Number.isFinite(item.starsDelta7d) ? item.starsDelta7d : 0;
   const d24 = Number.isFinite(item.starsDelta24h) ? item.starsDelta24h : 0;
   const mentions = Number.isFinite(item.crossSourceMentions)
     ? item.crossSourceMentions
     : 0;
-  return d7 * 0.6 + d24 * 1.2 + mentions * 40;
+  const liveScore = d7 * 0.6 + d24 * 1.2 + mentions * 40;
+  if (liveScore > 0) return liveScore;
+  const momentum = Number.isFinite(item.momentumScore ?? NaN)
+    ? item.momentumScore ?? 0
+    : 0;
+  const stars = Number.isFinite(item.stars ?? NaN) ? item.stars ?? 0 : 0;
+  return momentum + Math.log10(stars + 1);
 }
 
 function readSeed(
@@ -124,6 +132,8 @@ export default async function TierListPage({ searchParams }: Props) {
           starsDelta7d: repo.starsDelta7d,
           starsDelta24h: repo.starsDelta24h,
           crossSourceMentions: mentions,
+          momentumScore: repo.momentumScore,
+          stars: repo.stars,
         }),
         starsDelta7d: repo.starsDelta7d,
         starsDelta24h: repo.starsDelta24h,
@@ -133,7 +143,6 @@ export default async function TierListPage({ searchParams }: Props) {
       };
       return item;
     })
-    .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, MAX_REPOS);
 
@@ -190,6 +199,8 @@ export default async function TierListPage({ searchParams }: Props) {
             starsDelta7d: repo.starsDelta7d,
             starsDelta24h: repo.starsDelta24h,
             crossSourceMentions: mentions,
+            momentumScore: repo.momentumScore,
+            stars: repo.stars,
           }),
           starsDelta7d: repo.starsDelta7d,
           starsDelta24h: repo.starsDelta24h,
@@ -361,7 +372,7 @@ function TierListPageStyles() {
       }
       .tier-highlight-eyebrow-tag {
         background: var(--accent);
-        color: #0a0a0a;
+        color: var(--bg);
         padding: 2px 7px;
         font-weight: 700;
         letter-spacing: 0.10em;
@@ -435,7 +446,7 @@ function TierListPageStyles() {
         gap: 0;
         padding: 8px 14px;
         min-width: 64px;
-        color: #0a0a0a;
+        color: var(--bg);
         border-radius: 4px;
         flex-shrink: 0;
       }

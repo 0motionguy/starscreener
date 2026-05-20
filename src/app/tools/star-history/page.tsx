@@ -350,7 +350,7 @@ export default async function StarHistoryPage({ searchParams }: Props) {
       <section className="sh-chart-card">
         <div className="sh-chart-head">
           <div className="sh-eyebrow">
-            <span className="num">// 01</span>
+            <span className="num">{"// 01"}</span>
             <span className="title">Cumulative star history · 30 days</span>
             <span className="meta">
               {geom ? (
@@ -385,7 +385,7 @@ export default async function StarHistoryPage({ searchParams }: Props) {
 
       <section className="sh-picker">
         <div className="sh-eyebrow">
-          <span className="num">// 02</span>
+          <span className="num">{"// 02"}</span>
           <span className="title">Switch repo</span>
           <span className="meta">
             top <b>{movers.length}</b> by 7-day star delta
@@ -635,7 +635,7 @@ function EmptyChart({ fullName }: { fullName: string }) {
         ◌
       </span>
       <div>
-        <div className="sh-empty-title">No star history yet</div>
+        <div className="sh-empty-title">Star history backfill queued</div>
         <div className="sh-empty-sub">
           {fullName
             ? `Waiting on the first star-activity bucket for ${fullName}. The daily appender runs once per UTC day.`

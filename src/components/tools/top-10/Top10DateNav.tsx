@@ -3,7 +3,7 @@
 // row letting the user jump to any of the last week's snapshots in one click.
 //
 // All navigation is plain <Link> with prefetch={false}; the page re-renders
-// server-side for each date (ISR-cached per query). No client state.
+// server-side for each date (ISR-cached per query). Stateless on the client.
 
 import Link from "next/link";
 

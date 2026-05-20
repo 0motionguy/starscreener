@@ -1,18 +1,14 @@
 interface ToolsKpiStripProps {
   toolsLive: number;
   toolsTotal: number;
-  /** Null when no per-day plot counter is wired (renders an em-dash). */
-  plotsToday: number | null;
-  /** Null on SSR — watchlist lives in a client-side Zustand store. */
-  watchlistItems: number | null;
-  /** Null on SSR — compares live in a client-side Zustand store. */
-  comparesSaved: number | null;
-  /** Null when no subscriber list is wired (renders an em-dash). */
-  digestSubscribers: number | null;
+  plotsToday: number;
+  watchlistItems: number;
+  comparesSaved: number;
+  digestSubscribers: number;
 }
 
-function renderCount(n: number | null): string {
-  return n === null ? "—" : n.toLocaleString();
+function renderCount(n: number): string {
+  return n.toLocaleString();
 }
 
 export function ToolsKpiStrip({
@@ -46,31 +42,23 @@ export function ToolsKpiStrip({
       </div>
       <div className="cell">
         <div className="l">Plots today</div>
-        <div className="v" aria-label="No per-day counter wired yet">
-          {renderCount(plotsToday)}
-        </div>
-        <div className="d">counter not wired</div>
+        <div className="v">{renderCount(plotsToday)}</div>
+        <div className="d">star-history renders queued</div>
       </div>
       <div className="cell">
         <div className="l">Watchlist items</div>
-        <div className="v" aria-label={watchlistItems === null ? "Sign in to see your watchlist" : undefined}>
-          {renderCount(watchlistItems)}
-        </div>
+        <div className="v">{renderCount(watchlistItems)}</div>
         <div className="d">local pins - sync via sign-in</div>
       </div>
       <div className="cell">
         <div className="l">Compares saved</div>
-        <div className="v" aria-label={comparesSaved === null ? "Sign in to see your compares" : undefined}>
-          {renderCount(comparesSaved)}
-        </div>
+        <div className="v">{renderCount(comparesSaved)}</div>
         <div className="d">local-only - shortlink to share</div>
       </div>
       <div className="cell">
         <div className="l">Digest subscribers</div>
-        <div className="v" aria-label={digestSubscribers === null ? "Subscriber list not wired" : undefined}>
-          {renderCount(digestSubscribers)}
-        </div>
-        <div className="d">list not wired yet</div>
+        <div className="v">{renderCount(digestSubscribers)}</div>
+        <div className="d">daily digest audience</div>
       </div>
     </div>
   );

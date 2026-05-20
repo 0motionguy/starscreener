@@ -140,9 +140,9 @@ function MentionStrip({ value, max }: { value: number; max: number }) {
 }
 
 const TIER_COLOR: Record<TierLetter, { bg: string; fg: string }> = {
-  S: { bg: "var(--accent)", fg: "#0a0a0a" },
-  A: { bg: "var(--cyan)", fg: "#0a0a0a" },
-  B: { bg: "var(--up)", fg: "#0a0a0a" },
+  S: { bg: "var(--accent)", fg: "var(--bg)" },
+  A: { bg: "var(--cyan)", fg: "var(--bg)" },
+  B: { bg: "var(--up)", fg: "var(--bg)" },
   C: { bg: "var(--surface-4)", fg: "var(--fg-bright)" },
   D: { bg: "var(--surface-3)", fg: "var(--fg-muted)" },
 };

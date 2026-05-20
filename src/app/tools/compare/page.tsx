@@ -9,8 +9,8 @@
 // repo is matched against those slices. Repos outside the top-50 get a
 // null tier and render the "off-list" sublabel.
 //
-// Empty-state (`?repos=` absent or all entries invalid) shows four
-// curated preset comparisons built from the top movers by 7d star delta.
+// Default view (`?repos=` absent or all entries invalid) opens the top
+// curated comparison built from the largest 7d movers.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -235,15 +235,24 @@ export default async function ComparePage({ searchParams }: Props) {
 
   const allRepos = getDerivedRepos();
   const tierIndex = buildTierIndex(allRepos);
-  const entries = resolveEntries(requested, tierIndex);
+  const presets = buildCuratedPresets(allRepos);
+  const requestedEntries = resolveEntries(requested, tierIndex);
+  const defaultPreset =
+    presets.find((preset) => preset.repos.length >= MAX_REPOS) ?? presets[0] ?? null;
+  const fallbackNames =
+    requestedEntries.length > 0
+      ? []
+      : (defaultPreset?.repos ?? allRepos.slice(0, MAX_REPOS).map((repo) => repo.fullName));
+  const entries =
+    requestedEntries.length > 0
+      ? requestedEntries
+      : resolveEntries(fallbackNames.slice(0, MAX_REPOS), tierIndex);
 
   const fetchedAt = getLastFetchedAt();
   // Selected names = the ones we successfully resolved (so remove-links
   // stay self-consistent against the rendered table).
   const selectedFullNames = entries.map((e) => e.repo.fullName);
   const hasRepos = entries.length > 0;
-
-  const presets = hasRepos ? [] : buildCuratedPresets(allRepos);
 
   return (
     <div className="cmp-page">
@@ -264,13 +273,13 @@ export default async function ComparePage({ searchParams }: Props) {
           />
         </section>
       ) : (
-        <EmptyState presets={presets} />
+        <CompareFallback presets={presets} />
       )}
     </div>
   );
 }
 
-function EmptyState({ presets }: { presets: CuratedPreset[] }) {
+function CompareFallback({ presets }: { presets: CuratedPreset[] }) {
   return (
     <section className="cmp-empty" aria-label="Suggested comparisons">
       <div className="cmp-empty-eyebrow">
@@ -285,7 +294,7 @@ function EmptyState({ presets }: { presets: CuratedPreset[] }) {
         {presets.length === 0 ? (
           <div className="cmp-empty-fallback">
             <div className="cmp-empty-fallback-title">
-              No repos in the comparison yet
+              Comparison presets are warming
             </div>
             <div className="cmp-empty-fallback-body">
               Pass at least two <code>owner/name</code> pairs separated by

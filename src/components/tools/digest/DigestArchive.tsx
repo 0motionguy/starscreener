@@ -41,7 +41,7 @@ export function DigestArchive({ rows, selectedDate }: DigestArchiveProps) {
     return (
       <div className="digest-archive empty">
         <div className="empty-eyebrow">ARCHIVE</div>
-        <div className="empty-msg">No digests yet.</div>
+        <div className="empty-msg">Digest archive warming.</div>
       </div>
     );
   }

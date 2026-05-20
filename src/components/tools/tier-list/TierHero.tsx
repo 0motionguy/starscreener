@@ -101,6 +101,7 @@ function StatCell({
 function HighlightCard({ highlighted }: { highlighted: HighlightedRepo }) {
   const { item, tier, rank } = highlighted;
   const logo = repoLogoUrl(item.fullName, 80);
+  const href = `/repo/${encodeURIComponent(item.owner)}/${encodeURIComponent(item.name)}`;
   const deltaSign = item.starsDelta24h > 0 ? "+" : "";
   const delta7Sign = item.starsDelta7d > 0 ? "+" : "";
   return (
@@ -129,7 +130,7 @@ function HighlightCard({ highlighted }: { highlighted: HighlightedRepo }) {
         )}
         <div className="tier-highlight-meta">
           <Link
-            href={`/repo/${encodeURIComponent(item.fullName)}`}
+            href={href}
             className="tier-highlight-name"
             prefetch={false}
           >

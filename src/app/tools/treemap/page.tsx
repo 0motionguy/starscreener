@@ -566,7 +566,7 @@ function EmptyBoard() {
     <div className="tm-empty">
       <span className="tm-empty-icon" aria-hidden="true">▦</span>
       <div>
-        <div className="tm-empty-title">No repos to plot</div>
+        <div className="tm-empty-title">Treemap data is warming</div>
         <div className="tm-empty-sub">
           The derived-repos corpus is empty or every repo metric value is
           zero. The treemap will populate once the trending pipeline

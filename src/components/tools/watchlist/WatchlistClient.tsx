@@ -270,10 +270,10 @@ export function WatchlistClient({ reposById }: WatchlistClientProps) {
             ◌
           </div>
           <div className="wl-empty-body">
-            <div className="wl-empty-title">No pins yet</div>
+            <div className="wl-empty-title">Suggested pins ready</div>
             <p className="wl-empty-sub">
-              Drop an <code>owner/name</code> into the box above, or pick
-              from the curated suggestions below. Every pin tracks live
+              Drop an <code>owner/name</code> into the box above, or pin
+              one of the curated suggestions below. Every repo tracks live
               stars, deltas, mentions, and breakout flags.
             </p>
           </div>
@@ -444,7 +444,7 @@ function WatchlistClientStyles() {
         height: 30px;
         padding: 0 14px;
         background: var(--accent);
-        color: var(--void-0, #000);
+        color: var(--bg);
         border: 0;
         border-radius: 2px;
         font-family: var(--font-mono);
@@ -460,7 +460,7 @@ function WatchlistClientStyles() {
         grid-column: 2 / 4;
         font-family: var(--font-mono);
         font-size: 10.5px;
-        color: var(--dn, #c83a3a);
+        color: var(--down);
       }
 
       /* Skeleton (pre-hydration) ----------------------------------------- */
@@ -588,7 +588,7 @@ function WatchlistClientStyles() {
         font-variant-numeric: tabular-nums;
       }
       .wl-delta-num.up { color: var(--up); }
-      .wl-delta-num.dn { color: var(--dn, #c83a3a); }
+      .wl-delta-num.dn { color: var(--down); }
       .wl-delta-num.fl { color: var(--fg-faint); }
       .wl-delta-lbl {
         font-family: var(--font-mono);
@@ -626,7 +626,7 @@ function WatchlistClientStyles() {
         font-weight: 700;
         letter-spacing: 0.10em;
         text-transform: uppercase;
-        color: var(--void-0, #000);
+        color: var(--bg);
       }
       .wl-flag.hot { background: var(--accent); }
       .wl-flag.warn { background: var(--up); }
@@ -651,8 +651,8 @@ function WatchlistClientStyles() {
         transition: all var(--d-fast) var(--ease);
       }
       .wl-remove:hover {
-        color: var(--dn, #c83a3a);
-        border-color: var(--dn, #c83a3a);
+        color: var(--down);
+        border-color: var(--down);
       }
 
       @media (max-width: 1100px) {

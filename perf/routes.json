@@ -96,6 +96,93 @@
       "owner": "tools"
     },
     {
+      "route": "/tools/star-history",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 160,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/treemap",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 170,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/watchlist",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 170,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": false,
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/compare",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 170,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/tier-list",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 160,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/top-10",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 160,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/digest",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 160,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
+      "route": "/tools/revenue-estimate",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 170,
+      "firstLoadJsBudgetKb": 620,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/10 8-21 * * *",
+      "owner": "tools"
+    },
+    {
       "route": "/api/health?soft=1",
       "policy": "dynamic-public",
       "expectsDynamic": true,

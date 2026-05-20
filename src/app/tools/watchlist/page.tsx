@@ -279,7 +279,7 @@ function WatchlistPageStyles() {
       .watchlist-tool .wl-pin:hover { color: var(--fg-bright); border-color: var(--border); }
       .watchlist-tool .wl-pin.on {
         background: var(--accent);
-        color: var(--void-0, #000);
+        color: var(--bg);
         border-color: var(--accent);
       }
       .watchlist-tool .wl-pin-icon {

@@ -5,7 +5,7 @@
 // when the email vendor is picked) and the primary CTA routes to /account
 // where the user can manage their notification preferences.
 //
-// Server component. No state, no client JS.
+// Stateless server component; no client JS.
 
 import Link from "next/link";
 
@@ -31,7 +31,7 @@ export function DigestSubscribeCta({
         </h3>
         <p className="cta-sub">
           One email each morning. Top movers, breakout repos, funding
-          headlines, and the news the trend desk is reading. No filler.
+          headlines, and the news the trend desk is reading. Zero filler.
           {typeof subscriberCount === "number" && subscriberCount > 0 ? (
             <>
               {" "}

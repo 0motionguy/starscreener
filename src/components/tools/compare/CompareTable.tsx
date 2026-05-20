@@ -339,7 +339,7 @@ function DeltaCell({
         <span className="cmp-cell-value" style={{ color: "var(--fg-faint)" }}>
           —
         </span>
-        <span className="cmp-cell-sub">no signal yet</span>
+        <span className="cmp-cell-sub">signal pending</span>
       </div>
     );
   }

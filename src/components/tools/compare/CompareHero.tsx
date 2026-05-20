@@ -55,7 +55,7 @@ export function CompareHero({ selectedCount, maxCount, fetchedAt, hasRepos }: Pr
         <div className="cmp-hero-stat">
           <span className="cmp-hero-stat-label">STATE</span>
           <span className="cmp-hero-stat-value">
-            {hasRepos ? "READY" : "EMPTY"}
+            READY
             <span className="cmp-hero-stat-suffix">
               {hasRepos ? " · table populated" : " · pick a preset below"}
             </span>

@@ -50,8 +50,7 @@ export function WatchlistSuggestions({ repos }: WatchlistSuggestionsProps) {
       </div>
       {repos.length === 0 ? (
         <div className="wl-suggestions-empty">
-          No suggestions available right now. Check back once the trending
-          pipeline has surfaced movers.
+          Suggested pins are warming from the latest trending movers.
         </div>
       ) : (
         <div className="wl-suggestions-grid">

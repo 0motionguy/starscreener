@@ -43,17 +43,17 @@ interface TierListBoardProps {
 const TIER_TONE: Record<TierLetter, { bg: string; fg: string; border: string }> = {
   S: {
     bg: "var(--accent)",
-    fg: "#0a0a0a",
+    fg: "var(--bg)",
     border: "var(--accent)",
   },
   A: {
     bg: "var(--cyan)",
-    fg: "#062421",
+    fg: "var(--bg)",
     border: "var(--cyan)",
   },
   B: {
     bg: "var(--up)",
-    fg: "#04140a",
+    fg: "var(--bg)",
     border: "var(--up)",
   },
   C: {
@@ -111,7 +111,7 @@ function TierRowView({
           <span className="tier-desc">{row.description}</span>
         </div>
         {empty ? (
-          <div className="tier-empty">No repos in this tier</div>
+          <div className="tier-empty">Next ranked repo lands here</div>
         ) : (
           <div className="tier-tiles">
             {row.items.map((item) => (
@@ -136,13 +136,14 @@ function TierTile({
   highlighted: boolean;
 }) {
   const logo = repoLogoUrl(item.fullName, 64);
+  const href = `/repo/${encodeURIComponent(item.owner)}/${encodeURIComponent(item.name)}`;
   const deltaSign = item.starsDelta24h > 0 ? "+" : "";
   const deltaTone =
     item.starsDelta24h > 0 ? "up" : item.starsDelta24h < 0 ? "down" : "flat";
   return (
     <Link
       className={`tier-tile${highlighted ? " tier-tile--highlight" : ""}`}
-      href={`/repo/${encodeURIComponent(item.fullName)}`}
+      href={href}
       title={`${item.fullName} — score ${formatScore(item.score)}`}
       prefetch={false}
     >

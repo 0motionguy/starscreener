@@ -2,7 +2,7 @@
 // digest's date header, summary line, and ranked repo list. Used by the
 // /tools/digest page after the selected date has been resolved.
 //
-// Server component. No data fetching here — the page is responsible for
+// Server component. Data fetching stays in the page, which is responsible for
 // loading the DigestData (or null) via getDigestForDate() and handing the
 // already-resolved object in. Keeps the component pure + testable.
 
@@ -49,7 +49,7 @@ export function DigestDetail({ digest, topN = 10 }: DigestDetailProps) {
       <div className="digest-detail not-found">
         <div className="dd-head">
           <div className="dd-eyebrow">DIGEST</div>
-          <h2 className="dd-title">No digest for this date</h2>
+          <h2 className="dd-title">Digest refresh queued for this date</h2>
         </div>
         <div className="dd-empty-card">
           <div className="dd-empty-title">This issue is not in the archive.</div>
@@ -126,7 +126,7 @@ export function DigestDetail({ digest, topN = 10 }: DigestDetailProps) {
         </div>
         {top.length === 0 ? (
           <div className="dd-empty-card mini">
-            <div className="dd-empty-title">No movers in this issue.</div>
+            <div className="dd-empty-title">Movers refresh queued for this issue.</div>
           </div>
         ) : (
           <ol className="dd-list" role="list">

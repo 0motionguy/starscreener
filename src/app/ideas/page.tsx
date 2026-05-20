@@ -39,6 +39,19 @@ export const metadata = {
   title: "Ideas Board",
   description:
     "Where contribution meets opportunity. Builders post unmet needs from trending repos. The community scores demand with Would Build / Use / Buy / Invest. The best ideas get claimed and shipped.",
+  openGraph: {
+    title: "Ideas Board — TrendingRepo",
+    description:
+      "Buildable opportunities from repo trends, open-source gaps, and developer demand.",
+    images: [
+      {
+        url: "/og/ideas.png",
+        width: 1200,
+        height: 630,
+        alt: "TrendingRepo Ideas Board",
+      },
+    ],
+  },
 };
 
 interface Props {
@@ -294,11 +307,38 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
 
         <IdeasBoardToolbar q={q} sort={sort} filter={filter} />
 
-        <section className="ideas-cols" aria-label="Ideas board">
-          <div className="ideas-list">
-            {q && !queryHadMatches ? (
-              <div className="ideas-match-note">
-                Closest live opportunities for <code>{q}</code>
+        <div
+          className="ideas-cols"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) 320px",
+            gap: 18,
+            marginTop: 18,
+          }}
+        >
+          <div
+            className="ideas-list"
+            id="ideas-board-panel"
+            role="tabpanel"
+            aria-labelledby={`ideas-filter-${filter || "all"}`}
+          >
+            {rendered.length === 0 ? (
+              <div
+                className="ideas-empty"
+                style={{
+                  padding: 32,
+                  textAlign: "center",
+                  color: "var(--fg-faint)",
+                }}
+              >
+                {q ? (
+                  <>
+                    No ideas match <code>{q}</code>. Try a different keyword,
+                    repo, or tag.
+                  </>
+                ) : (
+                  "No ideas in this slice yet — submit the first one."
+                )}
               </div>
             ) : null}
             {rendered.map((idea, index) => (
@@ -324,6 +364,22 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
       <IdeaSubmitModal signedIn={signedIn} />
       <IdeaTrendModal trendingRepos={trendingRepos} />
       <IdeaBriefModal />
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            itemListElement: rendered.slice(0, 25).map((idea, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: idea.title,
+              url: `https://trendingrepo.com/ideas/${idea.id}`,
+            })),
+          }),
+        }}
+      />
     </>
   );
 }

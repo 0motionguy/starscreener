@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 
 const WINDOWS = [
   { id: "1h", label: "1H" },
@@ -24,8 +24,7 @@ export function BreakoutHero({
   fetchedAt,
 }: BreakoutHeroProps) {
   const fresh = classifyFreshness("repos", fetchedAt ?? null);
-  const statusLabel =
-    fresh.status === "live" ? "LIVE" : fresh.status === "warn" ? "WARM" : "STALE";
+  const statusLabel = getStatusLabel(fresh.status);
 
   return (
     <div className="page-head">

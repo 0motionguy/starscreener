@@ -2,7 +2,7 @@
 // and 5-way category switcher. Server component; switcher reads `?cat=` and
 // `?window=` query params from props.
 
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 import { getLastFetchedAt, getTrackedRepoCount } from "@/lib/trending";
 import Link from "next/link";
 
@@ -53,7 +53,7 @@ export function TrendingHubHero({ category, window: timeWindow, counts }: Trendi
       <div className="page-head">
         <div>
           <div className="page-eyebrow">
-            <span className={`live-dot ${fresh?.status ?? "cold"}`} /> <b>{fresh?.status === "live" ? "LIVE" : fresh?.status === "warn" ? "WARM" : "STALE"}</b> · scanned{" "}
+            <span className={`live-dot ${fresh?.status ?? "cold"}`} /> <b>{fresh ? getStatusLabel(fresh.status) : "STALE"}</b> · scanned{" "}
             {fresh?.ageLabel ?? "—"} · 30 mention sources · {tracked.toLocaleString()} candidates
           </div>
           <h1 className="page-title">Trending — the radar for everything AI</h1>

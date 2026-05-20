@@ -128,6 +128,27 @@ export interface FreshnessVerdict {
 }
 
 /**
+ * Canonical LIVE/WARM/STALE label per FreshnessStatus. Use this everywhere a
+ * page-eyebrow or status pill needs the human label, so we have exactly one
+ * source of truth for the chrome wording and no inline ternaries floating
+ * around the codebase.
+ */
+export const STATUS_LABEL: Record<FreshnessStatus, string> = {
+  live: "LIVE",
+  warn: "WARM",
+  cold: "STALE",
+};
+
+/**
+ * Get the canonical status label (LIVE / WARM / STALE). Drop-in replacement
+ * for the inline `status === "live" ? "LIVE" : status === "warn" ? "WARM" : "STALE"`
+ * ternary pattern.
+ */
+export function getStatusLabel(status: FreshnessStatus): string {
+  return STATUS_LABEL[status];
+}
+
+/**
  * Classify a source's freshness given its last `fetchedAt`. Page-level
  * consumers use this to decide whether data is live, warning, or cold.
  *

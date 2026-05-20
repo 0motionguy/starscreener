@@ -2,7 +2,22 @@
 
 import { getTrackedRepoCount, getLastFetchedAt } from "@/lib/trending";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, type FreshnessStatus } from "@/lib/news/freshness";
+
+// Statusbar's "PIPE" indicator uses LIVE/WARN/COLD (not the canonical
+// LIVE/WARM/STALE) because the pipe-health terminology predates the
+// freshness pill design. Keep the variant local; no inline ternary.
+const PIPE_LABEL: Record<FreshnessStatus, string> = {
+  live: "LIVE",
+  warn: "WARN",
+  cold: "COLD",
+};
+
+const PIPE_DOT: Record<FreshnessStatus, string> = {
+  live: "up",
+  warn: "warn",
+  cold: "down",
+};
 
 export async function Statusbar() {
   const trackedCount = (() => {
@@ -32,12 +47,14 @@ export async function Statusbar() {
       counts.producthuntLaunches
     : 0;
 
-  const dot = fresh?.status === "live" ? "up" : fresh?.status === "warn" ? "warn" : "down";
+  const status: FreshnessStatus = fresh?.status ?? "cold";
+  const dot = PIPE_DOT[status];
+  const pipeLabel = PIPE_LABEL[status];
 
   return (
     <footer className="statusbar">
       <span className="seg">
-        <span className={`dot ${dot}`} /> <b>PIPE</b> {fresh?.status === "live" ? "LIVE" : fresh?.status === "warn" ? "WARN" : "COLD"}
+        <span className={`dot ${dot}`} /> <b>PIPE</b> {pipeLabel}
       </span>
       <span className="seg">
         <b>LAST SCAN</b> {fresh?.ageLabel ?? "—"}

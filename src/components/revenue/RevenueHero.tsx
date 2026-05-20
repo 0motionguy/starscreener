@@ -7,7 +7,7 @@
 
 import Link from "next/link";
 
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 
 export const CATEGORY_FILTERS = [
   { id: "all", label: "All" },
@@ -33,8 +33,7 @@ export function RevenueHero({
   fetchedAt,
 }: RevenueHeroProps) {
   const fresh = classifyFreshness("revenue", fetchedAt ?? null);
-  const statusLabel =
-    fresh.status === "live" ? "LIVE" : fresh.status === "warn" ? "WARM" : "STALE";
+  const statusLabel = getStatusLabel(fresh.status);
 
   return (
     <div className="rev-head">

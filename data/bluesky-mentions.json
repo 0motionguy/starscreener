@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-19T20:52:42.343Z",
+  "fetchedAt": "2026-05-20T05:16:16.654Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -17381,6 +17381,57 @@
           "linkedRepos": [
             {
               "fullName": "karpathy/autoresearch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "walkinglabs/learn-harness-engineering": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmaxu3xlxh2s",
+        "cid": "bafyreic3ku5ygcsyza6ia6rahhtjgbfwkbb4tfz6lstdvs4xctuzccl45q",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmaxu3xlxh2s",
+        "text": "https://github.com/walkinglabs/learn-harness-engineering",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T03:33:04Z",
+        "hoursSincePosted": 1.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmaxu3xlxh2s",
+          "cid": "bafyreic3ku5ygcsyza6ia6rahhtjgbfwkbb4tfz6lstdvs4xctuzccl45q",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmaxu3xlxh2s",
+          "text": "https://github.com/walkinglabs/learn-harness-engineering",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T03:33:04Z",
+          "createdUtc": 1779247984,
+          "ageHours": 1.72,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "walkinglabs/learn-harness-engineering",
               "matchType": "url",
               "confidence": 1
             }
@@ -34772,43 +34823,64 @@
           ]
         }
       ]
+    },
+    "walkinglabs--learn-harness-engineering": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmaxu3xlxh2s",
+        "cid": "bafyreic3ku5ygcsyza6ia6rahhtjgbfwkbb4tfz6lstdvs4xctuzccl45q",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmaxu3xlxh2s",
+        "text": "https://github.com/walkinglabs/learn-harness-engineering",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T03:33:04Z",
+        "hoursSincePosted": 1.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmaxu3xlxh2s",
+          "cid": "bafyreic3ku5ygcsyza6ia6rahhtjgbfwkbb4tfz6lstdvs4xctuzccl45q",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmaxu3xlxh2s",
+          "text": "https://github.com/walkinglabs/learn-harness-engineering",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T03:33:04Z",
+          "createdUtc": 1779247984,
+          "ageHours": 1.72,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "walkinglabs/learn-harness-engineering",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "antirez/ds4",
+      "fullName": "walkinglabs/learn-harness-engineering",
       "count7d": 1,
       "likesSum7d": 1
-    },
-    {
-      "fullName": "jj-vcs/jj",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "ratatui/ratatui",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "666ghj/MiroFish",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "D4Vinci/Scrapling",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "karpathy/autoresearch",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ruvnet/RuView",
-      "count7d": 1,
-      "likesSum7d": 0
     }
   ]
 }

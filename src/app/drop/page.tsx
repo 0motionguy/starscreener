@@ -42,12 +42,11 @@ import { refreshTrendingFromStore, getAllFullNames } from "@/lib/trending";
 
 import { DropCategoryPicker } from "@/components/drop/DropCategoryPicker";
 import { DropHero } from "@/components/drop/DropHero";
-import { DropPreviewCard } from "@/components/drop/DropPreviewCard";
+import { DropPreviewLive } from "@/components/drop/DropPreviewLive";
 import { DropPromotionRules } from "@/components/drop/DropPromotionRules";
 import { DropStepStrip } from "@/components/drop/DropStepStrip";
 import { DropSubmitButton } from "@/components/drop/DropSubmitButton";
 import { DropTagPool } from "@/components/drop/DropTagPool";
-import { DropUrlInputCard } from "@/components/drop/DropUrlInputCard";
 import { DropWhyTextarea } from "@/components/drop/DropWhyTextarea";
 import { DropYourQueue } from "@/components/drop/DropYourQueue";
 
@@ -178,25 +177,24 @@ export default async function DropPage({ searchParams }: PageProps) {
       ) : null}
 
       {step >= 2 ? (
-        <DropUrlInputCard />
-      ) : null}
-
-      {step >= 2 ? (
-        <div
-          className="preview-grid"
-          style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 14 }}
-        >
-          <DropPreviewCard metadata={null} />
-          <aside className="col gap-4">
-            <DropYourQueue
-              signedIn={signedIn}
-              submissions={submissionsBundle.submissions}
-              totalCount={total}
-              liveCount={liveCount}
-            />
-            <DropPromotionRules />
-          </aside>
-        </div>
+        <DropPreviewLive.Provider>
+          <DropPreviewLive.UrlSlot />
+          <div
+            className="preview-grid"
+            style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 14 }}
+          >
+            <DropPreviewLive.PreviewSlot />
+            <aside className="col gap-4">
+              <DropYourQueue
+                signedIn={signedIn}
+                submissions={submissionsBundle.submissions}
+                totalCount={total}
+                liveCount={liveCount}
+              />
+              <DropPromotionRules />
+            </aside>
+          </div>
+        </DropPreviewLive.Provider>
       ) : null}
 
       {step >= 3 ? (

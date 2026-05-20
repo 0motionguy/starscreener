@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-20T09:56:51.817Z",
+  "fetchedAt": "2026-05-20T16:01:50.418Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -65,8 +65,8 @@
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
       "downloads": 8670,
-      "likes": 87,
-      "trendingScore": 83,
+      "likes": 91,
+      "trendingScore": 87,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -92,9 +92,9 @@
       "id": "angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
-      "downloads": 3170,
-      "likes": 146,
-      "trendingScore": 71,
+      "downloads": 3507,
+      "likes": 153,
+      "trendingScore": 72,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -191,6 +191,37 @@
     },
     {
       "rank": 7,
+      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
+      "author": "5CD-AI",
+      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
+      "downloads": 268,
+      "likes": 44,
+      "trendingScore": 40,
+      "tags": [
+        "task_categories:image-to-text",
+        "language:vi",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2408.12480",
+        "region:us",
+        "ocr",
+        "text-recognition",
+        "handwriting",
+        "handwriting-recognition",
+        "vietnamese"
+      ],
+      "createdAt": "2026-05-10T22:38:24.000Z",
+      "lastModified": "2026-05-18T17:14:55.000Z"
+    },
+    {
+      "rank": 8,
       "id": "nvidia/Nemotron-Personas-Korea",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea",
@@ -222,7 +253,7 @@
       "lastModified": "2026-04-23T07:42:48.000Z"
     },
     {
-      "rank": 8,
+      "rank": 9,
       "id": "Jackrong/GLM-5.1-Reasoning-1M-Cleaned",
       "author": "Jackrong",
       "url": "https://huggingface.co/datasets/Jackrong/GLM-5.1-Reasoning-1M-Cleaned",
@@ -254,37 +285,6 @@
       ],
       "createdAt": "2026-04-17T05:02:12.000Z",
       "lastModified": "2026-04-19T05:05:17.000Z"
-    },
-    {
-      "rank": 9,
-      "id": "5CD-AI/Viet-Handwriting-OCR-v2",
-      "author": "5CD-AI",
-      "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
-      "downloads": 268,
-      "likes": 41,
-      "trendingScore": 38,
-      "tags": [
-        "task_categories:image-to-text",
-        "language:vi",
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "format:optimized-parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2408.12480",
-        "region:us",
-        "ocr",
-        "text-recognition",
-        "handwriting",
-        "handwriting-recognition",
-        "vietnamese"
-      ],
-      "createdAt": "2026-05-10T22:38:24.000Z",
-      "lastModified": "2026-05-18T17:14:55.000Z"
     },
     {
       "rank": 10,
@@ -429,9 +429,9 @@
       "id": "TeichAI/DeepSeek-v4-Pro-Agent",
       "author": "TeichAI",
       "url": "https://huggingface.co/datasets/TeichAI/DeepSeek-v4-Pro-Agent",
-      "downloads": 2316,
-      "likes": 31,
-      "trendingScore": 26,
+      "downloads": 2623,
+      "likes": 38,
+      "trendingScore": 27,
       "tags": [
         "size_categories:1K<n<10K",
         "format:json",
@@ -458,8 +458,8 @@
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
       "downloads": 648,
-      "likes": 42,
-      "trendingScore": 26,
+      "likes": 43,
+      "trendingScore": 27,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -648,8 +648,8 @@
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
-      "downloads": 21674,
-      "likes": 22,
+      "downloads": 22227,
+      "likes": 24,
       "trendingScore": 22,
       "tags": [
         "task_categories:video-classification",
@@ -683,8 +683,8 @@
       "id": "Modotte/CodeX-2M-Thinking",
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
-      "downloads": 5986,
-      "likes": 96,
+      "downloads": 5917,
+      "likes": 99,
       "trendingScore": 21,
       "tags": [
         "task_categories:text-generation",
@@ -1148,6 +1148,27 @@
     },
     {
       "rank": 38,
+      "id": "LukaDev13/Liminal-Dreamcore-1K",
+      "author": "LukaDev13",
+      "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
+      "downloads": 2076,
+      "likes": 16,
+      "trendingScore": 15,
+      "tags": [
+        "license:mit",
+        "modality:image",
+        "region:us",
+        "ai-generated",
+        "dreamcore",
+        "aesthetic",
+        "image-collection",
+        "gpt-image"
+      ],
+      "createdAt": "2026-05-16T12:14:28.000Z",
+      "lastModified": "2026-05-18T22:03:11.000Z"
+    },
+    {
+      "rank": 39,
       "id": "OwnedByDanes/Usenet-Corpus-1980-2013",
       "author": "OwnedByDanes",
       "url": "https://huggingface.co/datasets/OwnedByDanes/Usenet-Corpus-1980-2013",
@@ -1188,7 +1209,7 @@
       "lastModified": "2026-05-05T16:17:39.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "badlogicgames/pi-mono",
       "author": "badlogicgames",
       "url": "https://huggingface.co/datasets/badlogicgames/pi-mono",
@@ -1218,7 +1239,7 @@
       "lastModified": "2026-04-06T13:10:36.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
@@ -1261,7 +1282,7 @@
       "lastModified": "2026-04-30T17:12:47.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "Inferact/codex_swebenchpro_traces",
       "author": "Inferact",
       "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
@@ -1283,7 +1304,7 @@
       "lastModified": "2026-05-07T01:13:21.000Z"
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "5551z/VisCoR_Contrast",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
@@ -1306,7 +1327,7 @@
       "lastModified": "2026-04-30T01:37:13.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "llm-jp/Jagle",
       "author": "llm-jp",
       "url": "https://huggingface.co/datasets/llm-jp/Jagle",
@@ -1324,7 +1345,7 @@
       "lastModified": "2026-05-12T00:53:55.000Z"
     },
     {
-      "rank": 44,
+      "rank": 45,
       "id": "TAAC2026/data_sample_1000",
       "author": "TAAC2026",
       "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
@@ -1349,7 +1370,7 @@
       "lastModified": "2026-04-10T09:07:28.000Z"
     },
     {
-      "rank": 45,
+      "rank": 46,
       "id": "dianetc/OBLIQ-Bench",
       "author": "dianetc",
       "url": "https://huggingface.co/datasets/dianetc/OBLIQ-Bench",
@@ -1378,34 +1399,13 @@
       "lastModified": "2026-05-09T18:30:15.000Z"
     },
     {
-      "rank": 46,
-      "id": "LukaDev13/Liminal-Dreamcore-1K",
-      "author": "LukaDev13",
-      "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
-      "downloads": 2076,
-      "likes": 14,
-      "trendingScore": 13,
-      "tags": [
-        "license:mit",
-        "modality:image",
-        "region:us",
-        "ai-generated",
-        "dreamcore",
-        "aesthetic",
-        "image-collection",
-        "gpt-image"
-      ],
-      "createdAt": "2026-05-16T12:14:28.000Z",
-      "lastModified": "2026-05-18T22:03:11.000Z"
-    },
-    {
       "rank": 47,
       "id": "sensenova/SenseNova-SI-8M",
       "author": "sensenova",
       "url": "https://huggingface.co/datasets/sensenova/SenseNova-SI-8M",
       "downloads": 3111,
-      "likes": 12,
-      "trendingScore": 12,
+      "likes": 13,
+      "trendingScore": 13,
       "tags": [
         "task_categories:visual-question-answering",
         "task_categories:question-answering",
@@ -1428,6 +1428,57 @@
     },
     {
       "rank": 48,
+      "id": "HuggingFaceBio/carbon-pretraining-corpus",
+      "author": "HuggingFaceBio",
+      "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
+      "downloads": 869,
+      "likes": 13,
+      "trendingScore": 13,
+      "tags": [
+        "task_categories:text-generation",
+        "license:other",
+        "size_categories:100M<n<1B",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2502.07272",
+        "region:us",
+        "biology",
+        "genomics",
+        "dna"
+      ],
+      "createdAt": "2026-05-07T11:46:53.000Z",
+      "lastModified": "2026-05-14T12:41:15.000Z"
+    },
+    {
+      "rank": 49,
+      "id": "tinixai/ocr_annual_financials",
+      "author": "tinixai",
+      "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
+      "downloads": 6384,
+      "likes": 16,
+      "trendingScore": 13,
+      "tags": [
+        "task_categories:document-question-answering",
+        "task_categories:text-generation",
+        "language:vi",
+        "license:cc-by-nc-4.0",
+        "size_categories:10K<n<100K",
+        "modality:document",
+        "modality:text",
+        "library:datasets",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-05-12T15:11:00.000Z",
+      "lastModified": "2026-05-18T15:35:53.000Z"
+    },
+    {
+      "rank": 50,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -1440,68 +1491,6 @@
       ],
       "createdAt": "2026-04-30T16:21:51.000Z",
       "lastModified": "2026-05-01T19:27:38.000Z"
-    },
-    {
-      "rank": 49,
-      "id": "microsoft/synthetic-computers-at-scale",
-      "author": "microsoft",
-      "url": "https://huggingface.co/datasets/microsoft/synthetic-computers-at-scale",
-      "downloads": 1156,
-      "likes": 12,
-      "trendingScore": 11,
-      "tags": [
-        "task_categories:other",
-        "language:en",
-        "license:mit",
-        "size_categories:n<1K",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2604.28181",
-        "region:us",
-        "synthetic",
-        "computer-use",
-        "agents",
-        "persona",
-        "filesystem"
-      ],
-      "createdAt": "2026-04-30T06:36:57.000Z",
-      "lastModified": "2026-05-01T06:30:14.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "clem/ml-intern-sessions",
-      "author": "clem",
-      "url": "https://huggingface.co/datasets/clem/ml-intern-sessions",
-      "downloads": 1457,
-      "likes": 12,
-      "trendingScore": 11,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:other",
-        "size_categories:n<1K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "coding-agent",
-        "ml-intern",
-        "session-traces",
-        "claude-code",
-        "hf-agent-trace-viewer"
-      ],
-      "createdAt": "2026-05-01T13:12:36.000Z",
-      "lastModified": "2026-05-05T18:26:42.000Z"
     }
   ]
 }

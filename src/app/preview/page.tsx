@@ -154,7 +154,7 @@ export default async function PreviewPage() {
       route: "/drop",
       title: "Drop a repo · premium submit",
       desc:
-        "4-step flow: URL → preview → categorize → submit. Live metadata fetch, cross-source pre-scan, projected score, promote-probability indicator.",
+        "4-step flow: URL → preview → categorize → submit. Live metadata fetch, cross-source pre-scan, review score, promotion readiness indicator.",
       foot: "4-step · auto-fetch · live preview",
       previewVariant: "drop",
     },

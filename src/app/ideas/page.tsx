@@ -358,7 +358,7 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
           <div className="ideas-rail">
             <IdeaSelectedPreviewPanel idea={selectedIdea} />
           </div>
-        </section>
+        </div>
       </main>
 
       <IdeaSubmitModal signedIn={signedIn} />

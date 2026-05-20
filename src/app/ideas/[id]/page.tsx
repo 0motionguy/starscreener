@@ -126,7 +126,7 @@ export default async function IdeaWorkspacePage({
               mine={mine}
               signedIn={signedIn}
             />
-            <IdeaDetailSnapshotGrid idea={idea} counts={counts} />
+            <IdeaDetailSnapshotGrid idea={idea} counts={counts} tally={tally} />
             <IdeaDetailTabs ideaId={idea.id} active={tab} />
             <div
               className="idea-tab-body"

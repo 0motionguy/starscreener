@@ -1,19 +1,19 @@
-import { Suspense } from "react";
-
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import type { Repo } from "@/lib/types";
 
-import { CategorySignalPanel } from "@/components/trending/CategorySignalPanel";
-import { CrossSourceRail } from "@/components/trending/CrossSourceRail";
 import { FeaturedRepos } from "@/components/trending/FeaturedRepos";
 import { TrendingFilters, type LanguageStat } from "@/components/trending/TrendingFilters";
-import { TrendingHubHero, type CategoryId, type WindowId, CATEGORIES, WINDOWS } from "@/components/trending/TrendingHubHero";
+import {
+  TrendingHubHero,
+  type CategoryId,
+  type WindowId,
+  CATEGORIES,
+  WINDOWS,
+} from "@/components/trending/TrendingHubHero";
 import { KpiStrip } from "@/components/trending/KpiStrip";
 import { TrendingTable } from "@/components/trending/TrendingTable";
-import { TopMoversRail } from "@/components/trending/TopMoversRail";
-import { SourceHealthGrid } from "@/components/trending/SourceHealthGrid";
 
 export const revalidate = 1800;
 
@@ -33,18 +33,28 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const params = (await searchParams) ?? {};
   const rawCat = typeof params.cat === "string" ? params.cat : "repos";
   const rawWin = typeof params.window === "string" ? params.window : "24h";
-  const rawLang = typeof params.lang === "string" ? params.lang.toLowerCase() : "all";
+  const rawLang =
+    typeof params.lang === "string" ? params.lang.toLowerCase() : "all";
   const rawSort = typeof params.sort === "string" ? params.sort : "momentum";
-  const category = (CATEGORIES.find((c) => c.id === rawCat)?.id ?? "repos") as CategoryId;
-  const timeWindow = (WINDOWS.find((w) => w.id === rawWin)?.id ?? "24h") as WindowId;
+  const category = (CATEGORIES.find((c) => c.id === rawCat)?.id ??
+    "repos") as CategoryId;
+  const timeWindow = (WINDOWS.find((w) => w.id === rawWin)?.id ??
+    "24h") as WindowId;
   const sort = normalizeSort(rawSort);
 
   await refreshTrendingFromStore().catch(() => undefined);
 
   const repos = safe(() => getDerivedRepos(), []);
   const languageStats = getLanguageStats(repos);
-  const language = rawLang === "all" || languageStats.some((item) => item.language.toLowerCase() === rawLang) ? rawLang : "all";
-  const filtered = language === "all" ? repos : repos.filter((repo) => repo.language?.toLowerCase() === language);
+  const language =
+    rawLang === "all" ||
+    languageStats.some((item) => item.language.toLowerCase() === rawLang)
+      ? rawLang
+      : "all";
+  const filtered =
+    language === "all"
+      ? repos
+      : repos.filter((repo) => repo.language?.toLowerCase() === language);
   const sorted = sortRepos(filtered, timeWindow, sort);
 
   const counts = await getSidebarSourceCounts().catch(() => null);
@@ -53,57 +63,44 @@ export default async function TrendingHubPage({ searchParams }: Props) {
     skills: counts?.skillsItems ?? 0,
     mcp: counts?.mcpItems ?? 0,
     agents: counts?.agentRepos ?? 0,
-    llms: (counts?.hfModels ?? 0) + (counts?.hfDatasets ?? 0) + (counts?.hfSpaces ?? 0),
+    llms:
+      (counts?.hfModels ?? 0) +
+      (counts?.hfDatasets ?? 0) +
+      (counts?.hfSpaces ?? 0),
   };
 
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
 
   return (
     <div className="route-shell">
-      <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
+      <TrendingHubHero
+        category={category}
+        window={timeWindow}
+        counts={switcherCounts}
+      />
 
       <KpiStrip />
 
-      {category === "repos" ? (
-        <>
-          <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
-          <TrendingFilters
-            activeLanguage={language}
-            activeSort={sort}
-            category={category}
-            window={timeWindow}
-            languages={languageStats}
-          />
+      <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
+      <TrendingFilters
+        activeLanguage={language}
+        activeSort={sort}
+        category={category}
+        window={timeWindow}
+        languages={languageStats}
+      />
 
-          <div className="trending-grid">
-            <TrendingTable
-              repos={sorted}
-              fetchedAt={fetchedAt}
-              window={timeWindow}
-              limit={50}
-              category={category}
-              language={language}
-              sort={sort}
-            />
-            <aside className="right-rail">
-              <Suspense fallback={<div className="card rail-skeleton" aria-hidden />}>
-                <TopMoversRail limit={8} />
-              </Suspense>
-              <CrossSourceRail repos={sorted} limit={3} />
-              <Suspense fallback={<div className="card rail-skeleton" aria-hidden />}>
-                <SourceHealthGrid />
-              </Suspense>
-            </aside>
-          </div>
-        </>
-      ) : (
-        <CategorySignalPanel
-          category={category}
+      <div className="trending-grid trending-grid-wide">
+        <TrendingTable
+          repos={sorted}
+          fetchedAt={fetchedAt}
           window={timeWindow}
-          count={switcherCounts[category] ?? 0}
-          repos={sorted.length ? sorted : sortRepos(repos, timeWindow, sort)}
+          limit={50}
+          category={category}
+          language={language}
+          sort={sort}
         />
-      )}
+      </div>
     </div>
   );
 }
@@ -126,11 +123,18 @@ function deltaForWindow(repo: Repo, timeWindow: WindowId): number {
 }
 
 function mentionScore(repo: Repo): number {
-  return (repo.mentions?.total24h ?? repo.mentionCount24h ?? 0) + (repo.channelsFiring ?? 0) * 100;
+  return (
+    (repo.mentions?.total24h ?? repo.mentionCount24h ?? 0) +
+    (repo.channelsFiring ?? 0) * 100
+  );
 }
 
 function consensusScore(repo: Repo): number {
-  return (repo.crossSignalScore ?? 0) * 100 + (repo.momentumScore ?? 0) + mentionScore(repo);
+  return (
+    (repo.crossSignalScore ?? 0) * 100 +
+    (repo.momentumScore ?? 0) +
+    mentionScore(repo)
+  );
 }
 
 function getLanguageStats(repos: Repo[]): LanguageStat[] {
@@ -140,11 +144,15 @@ function getLanguageStats(repos: Repo[]): LanguageStat[] {
     if (!language) continue;
     counts.set(language, (counts.get(language) ?? 0) + 1);
   }
-  return Array.from(counts, ([language, count]) => ({ language, count })).sort((a, b) => b.count - a.count);
+  return Array.from(counts, ([language, count]) => ({ language, count })).sort(
+    (a, b) => b.count - a.count,
+  );
 }
 
 function normalizeSort(value: string): SortId {
-  return value === "mentions" || value === "stars" || value === "consensus" ? value : "momentum";
+  return value === "mentions" || value === "stars" || value === "consensus"
+    ? value
+    : "momentum";
 }
 
 function safe<T>(fn: () => T, fallback: T): T {

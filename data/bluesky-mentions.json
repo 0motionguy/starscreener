@@ -1,29 +1,29 @@
 {
-  "fetchedAt": "2026-05-20T08:36:44.765Z",
+  "fetchedAt": "2026-05-20T12:04:02.011Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vwokigxsgzjwvw6mivprcyfo/app.bsky.feed.post/3mma5qwn4j22a",
-        "cid": "bafyreibwoa73mlwjyum52u4qqpi5ksvmy4662om2pnza5xogp72wbs5tui",
-        "bskyUrl": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
-        "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
+        "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mmbpjhf72k2x",
+        "cid": "bafyreianue7yk64rbli7u3ddrt56nyfp2hbuojc5dxgvkqicagxattuqcy",
+        "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mmbpjhf72k2x",
+        "text": "Very interesting and fresh approach to how agent harnesses can operate when being deeply integrated with model inference. Worth a look 👀 -> github.com/antirez/ds4",
         "author": {
-          "handle": "sk3w.bsky.social",
-          "displayName": "John Askew"
+          "handle": "fry69.dev",
+          "displayName": "fry69"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T19:46:01.580Z",
-        "hoursSincePosted": 1.11
+        "createdAt": "2026-05-20T10:36:37.802Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
         {
@@ -126,6 +126,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mmbpjhf72k2x",
+          "cid": "bafyreianue7yk64rbli7u3ddrt56nyfp2hbuojc5dxgvkqicagxattuqcy",
+          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mmbpjhf72k2x",
+          "text": "Very interesting and fresh approach to how agent harnesses can operate when being deeply integrated with model inference. Worth a look 👀 -> github.com/antirez/ds4",
+          "author": {
+            "handle": "fry69.dev",
+            "displayName": "fry69"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:36:37.802Z",
+          "createdUtc": 1779273397,
+          "ageHours": 1.46,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -17546,28 +17574,344 @@
           ]
         }
       ]
+    },
+    "wiltodelta/remove-ai-watermarks": {
+      "count7d": 5,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmbtmor2ow2s",
+        "cid": "bafyreihlhv3twfodzrjepz2wbnlo7fzlnihocs7iz56b42pxygvfcdipvy",
+        "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmbtmor2ow2s",
+        "text": "🕳️ ALPHA · score 7/10 Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks",
+        "author": {
+          "handle": "alpha-pipeline.bsky.social",
+          "displayName": "Alpha Pipeline"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T11:50:00.321Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmbtmor2ow2s",
+          "cid": "bafyreihlhv3twfodzrjepz2wbnlo7fzlnihocs7iz56b42pxygvfcdipvy",
+          "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmbtmor2ow2s",
+          "text": "🕳️ ALPHA · score 7/10 Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks",
+          "author": {
+            "handle": "alpha-pipeline.bsky.social",
+            "displayName": "Alpha Pipeline"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T11:50:00.321Z",
+          "createdUtc": 1779277800,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mmbskd43pl22",
+          "cid": "bafyreifocjonb6kyjabyr6xqvqr3rgayg7q3m6svlyooinyrwved6f4ksm",
+          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mmbskd43pl22",
+          "text": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks (https://news.ycombinator.com/item?id=48200569)",
+          "author": {
+            "handle": "betterhn300.e-work.xyz",
+            "displayName": "Hacker News 300"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T11:30:47.437Z",
+          "createdUtc": 1779276647,
+          "ageHours": 0.55,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:rrpul7rxm2s4opncn6pwr475/app.bsky.feed.post/3mmbq42gkcc2b",
+          "cid": "bafyreian36sp3hu2hxsqd63m63p6pma2ux5jwmok2thefjx7svb67zl4bi",
+          "bskyUrl": "https://bsky.app/profile/todaystopainews.bsky.social/post/3mmbq42gkcc2b",
+          "text": "CLI and library for removing visible (Gemini) and invisible (SynthID, C2PA, EXIF) AI watermarks from images github.com/wiltodelta/r... #ai #artificialintelligence #synthID #gemini #tech #news",
+          "author": {
+            "handle": "todaystopainews.bsky.social",
+            "displayName": "Today's Top AI News"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:47:01.742Z",
+          "createdUtc": 1779274021,
+          "ageHours": 1.28,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmbnio6s2u2v",
+          "cid": "bafyreiahbcqygul4ovbfnlk7lajj6ob6xqqaytxv2k6izgqnsahpxve3gq",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmbnio6s2u2v",
+          "text": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks https://news.ycombinator.com/item?id=48200569",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:00:23.803229+00:00",
+          "createdUtc": 1779271223,
+          "ageHours": 2.06,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmblintyw32b",
+          "cid": "bafyreidbn3bbycruz5fotdxhqk4mwh66emeuz57ao2h4vn6fwogsvwe4h4",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmblintyw32b",
+          "text": "AI画像生成モデルが埋め込む可視・不可視の透かしやメタデータを一括除去できるツールらしい プライバシー保護や画像加工の際に便利そう yug1224 starred wiltodelta/remove-ai-watermarks https://github.com/wiltodelta/remove-ai-watermarks",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T09:24:34.961Z",
+          "createdUtc": 1779269074,
+          "ageHours": 2.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "apache/hertzbeat": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:7ph35uy6ffeqc4mkxze3j6zw/app.bsky.feed.post/3mmbqigiapo2y",
+        "cid": "bafyreibhzgdo633nym6ps3bncryi3ishfzyetpj4xvm22prt5nphyxdrva",
+        "bskyUrl": "https://bsky.app/profile/vritrasec.bsky.social/post/3mmbqigiapo2y",
+        "text": "An AI-powered next-generation open source real-time observability system. 🔗 https://github.com/apache/hertzbeat",
+        "author": {
+          "handle": "vritrasec.bsky.social",
+          "displayName": "VritraSec"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-20T10:53:56.883379+00:00",
+        "hoursSincePosted": 1.17
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7ph35uy6ffeqc4mkxze3j6zw/app.bsky.feed.post/3mmbqigiapo2y",
+          "cid": "bafyreibhzgdo633nym6ps3bncryi3ishfzyetpj4xvm22prt5nphyxdrva",
+          "bskyUrl": "https://bsky.app/profile/vritrasec.bsky.social/post/3mmbqigiapo2y",
+          "text": "An AI-powered next-generation open source real-time observability system. 🔗 https://github.com/apache/hertzbeat",
+          "author": {
+            "handle": "vritrasec.bsky.social",
+            "displayName": "VritraSec"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T10:53:56.883379+00:00",
+          "createdUtc": 1779274436,
+          "ageHours": 1.17,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "apache/hertzbeat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "sleuth-io/sx": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmbpajhorr2p",
+        "cid": "bafyreigkpizqmduxaxvrhgwkx6hv5vhpcl6nuh3f5pzk7puczxvwkkqsrm",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmbpajhorr2p",
+        "text": "github.com/sleuth-io/sx GitHub - sleuth-io/sx: sx is a package manager for AI coding assistants",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T10:31:36.942Z",
+        "hoursSincePosted": 1.54
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmbpajhorr2p",
+          "cid": "bafyreigkpizqmduxaxvrhgwkx6hv5vhpcl6nuh3f5pzk7puczxvwkkqsrm",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmbpajhorr2p",
+          "text": "github.com/sleuth-io/sx GitHub - sleuth-io/sx: sx is a package manager for AI coding assistants",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:31:36.942Z",
+          "createdUtc": 1779273096,
+          "ageHours": 1.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "sleuth-io/sx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "erweixin/RaTeX": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mmbmirvdhy2a",
+        "cid": "bafyreibe3rkozjwtx2z5yxym5fx4ihfbjmr2h5bkt3q75urdvcsdb3usfm",
+        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mmbmirvdhy2a",
+        "text": "RaTeX is open-source at github.com/erweixin/RaTeX.",
+        "author": {
+          "handle": "rustaceans.bsky.social",
+          "displayName": "Rust Bytes"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-20T09:42:33.998Z",
+        "hoursSincePosted": 2.36
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mmbmirvdhy2a",
+          "cid": "bafyreibe3rkozjwtx2z5yxym5fx4ihfbjmr2h5bkt3q75urdvcsdb3usfm",
+          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mmbmirvdhy2a",
+          "text": "RaTeX is open-source at github.com/erweixin/RaTeX.",
+          "author": {
+            "handle": "rustaceans.bsky.social",
+            "displayName": "Rust Bytes"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T09:42:33.998Z",
+          "createdUtc": 1779270153,
+          "ageHours": 2.36,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "erweixin/RaTeX",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "antirez--ds4": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vwokigxsgzjwvw6mivprcyfo/app.bsky.feed.post/3mma5qwn4j22a",
-        "cid": "bafyreibwoa73mlwjyum52u4qqpi5ksvmy4662om2pnza5xogp72wbs5tui",
-        "bskyUrl": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
-        "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
+        "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mmbpjhf72k2x",
+        "cid": "bafyreianue7yk64rbli7u3ddrt56nyfp2hbuojc5dxgvkqicagxattuqcy",
+        "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mmbpjhf72k2x",
+        "text": "Very interesting and fresh approach to how agent harnesses can operate when being deeply integrated with model inference. Worth a look 👀 -> github.com/antirez/ds4",
         "author": {
-          "handle": "sk3w.bsky.social",
-          "displayName": "John Askew"
+          "handle": "fry69.dev",
+          "displayName": "fry69"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T19:46:01.580Z",
-        "hoursSincePosted": 1.11
+        "createdAt": "2026-05-20T10:36:37.802Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
         {
@@ -17670,6 +18014,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mmbpjhf72k2x",
+          "cid": "bafyreianue7yk64rbli7u3ddrt56nyfp2hbuojc5dxgvkqicagxattuqcy",
+          "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mmbpjhf72k2x",
+          "text": "Very interesting and fresh approach to how agent harnesses can operate when being deeply integrated with model inference. Worth a look 👀 -> github.com/antirez/ds4",
+          "author": {
+            "handle": "fry69.dev",
+            "displayName": "fry69"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:36:37.802Z",
+          "createdUtc": 1779273397,
+          "ageHours": 1.46,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -35090,26 +35462,347 @@
           ]
         }
       ]
+    },
+    "wiltodelta--remove-ai-watermarks": {
+      "count7d": 5,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmbtmor2ow2s",
+        "cid": "bafyreihlhv3twfodzrjepz2wbnlo7fzlnihocs7iz56b42pxygvfcdipvy",
+        "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmbtmor2ow2s",
+        "text": "🕳️ ALPHA · score 7/10 Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks",
+        "author": {
+          "handle": "alpha-pipeline.bsky.social",
+          "displayName": "Alpha Pipeline"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T11:50:00.321Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmbtmor2ow2s",
+          "cid": "bafyreihlhv3twfodzrjepz2wbnlo7fzlnihocs7iz56b42pxygvfcdipvy",
+          "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmbtmor2ow2s",
+          "text": "🕳️ ALPHA · score 7/10 Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks",
+          "author": {
+            "handle": "alpha-pipeline.bsky.social",
+            "displayName": "Alpha Pipeline"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T11:50:00.321Z",
+          "createdUtc": 1779277800,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mmbskd43pl22",
+          "cid": "bafyreifocjonb6kyjabyr6xqvqr3rgayg7q3m6svlyooinyrwved6f4ksm",
+          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mmbskd43pl22",
+          "text": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks (https://news.ycombinator.com/item?id=48200569)",
+          "author": {
+            "handle": "betterhn300.e-work.xyz",
+            "displayName": "Hacker News 300"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T11:30:47.437Z",
+          "createdUtc": 1779276647,
+          "ageHours": 0.55,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:rrpul7rxm2s4opncn6pwr475/app.bsky.feed.post/3mmbq42gkcc2b",
+          "cid": "bafyreian36sp3hu2hxsqd63m63p6pma2ux5jwmok2thefjx7svb67zl4bi",
+          "bskyUrl": "https://bsky.app/profile/todaystopainews.bsky.social/post/3mmbq42gkcc2b",
+          "text": "CLI and library for removing visible (Gemini) and invisible (SynthID, C2PA, EXIF) AI watermarks from images github.com/wiltodelta/r... #ai #artificialintelligence #synthID #gemini #tech #news",
+          "author": {
+            "handle": "todaystopainews.bsky.social",
+            "displayName": "Today's Top AI News"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:47:01.742Z",
+          "createdUtc": 1779274021,
+          "ageHours": 1.28,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmbnio6s2u2v",
+          "cid": "bafyreiahbcqygul4ovbfnlk7lajj6ob6xqqaytxv2k6izgqnsahpxve3gq",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmbnio6s2u2v",
+          "text": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks https://news.ycombinator.com/item?id=48200569",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:00:23.803229+00:00",
+          "createdUtc": 1779271223,
+          "ageHours": 2.06,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmblintyw32b",
+          "cid": "bafyreidbn3bbycruz5fotdxhqk4mwh66emeuz57ao2h4vn6fwogsvwe4h4",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmblintyw32b",
+          "text": "AI画像生成モデルが埋め込む可視・不可視の透かしやメタデータを一括除去できるツールらしい プライバシー保護や画像加工の際に便利そう yug1224 starred wiltodelta/remove-ai-watermarks https://github.com/wiltodelta/remove-ai-watermarks",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T09:24:34.961Z",
+          "createdUtc": 1779269074,
+          "ageHours": 2.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "apache--hertzbeat": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:7ph35uy6ffeqc4mkxze3j6zw/app.bsky.feed.post/3mmbqigiapo2y",
+        "cid": "bafyreibhzgdo633nym6ps3bncryi3ishfzyetpj4xvm22prt5nphyxdrva",
+        "bskyUrl": "https://bsky.app/profile/vritrasec.bsky.social/post/3mmbqigiapo2y",
+        "text": "An AI-powered next-generation open source real-time observability system. 🔗 https://github.com/apache/hertzbeat",
+        "author": {
+          "handle": "vritrasec.bsky.social",
+          "displayName": "VritraSec"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-20T10:53:56.883379+00:00",
+        "hoursSincePosted": 1.17
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7ph35uy6ffeqc4mkxze3j6zw/app.bsky.feed.post/3mmbqigiapo2y",
+          "cid": "bafyreibhzgdo633nym6ps3bncryi3ishfzyetpj4xvm22prt5nphyxdrva",
+          "bskyUrl": "https://bsky.app/profile/vritrasec.bsky.social/post/3mmbqigiapo2y",
+          "text": "An AI-powered next-generation open source real-time observability system. 🔗 https://github.com/apache/hertzbeat",
+          "author": {
+            "handle": "vritrasec.bsky.social",
+            "displayName": "VritraSec"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T10:53:56.883379+00:00",
+          "createdUtc": 1779274436,
+          "ageHours": 1.17,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "apache/hertzbeat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "sleuth-io--sx": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmbpajhorr2p",
+        "cid": "bafyreigkpizqmduxaxvrhgwkx6hv5vhpcl6nuh3f5pzk7puczxvwkkqsrm",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmbpajhorr2p",
+        "text": "github.com/sleuth-io/sx GitHub - sleuth-io/sx: sx is a package manager for AI coding assistants",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T10:31:36.942Z",
+        "hoursSincePosted": 1.54
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmbpajhorr2p",
+          "cid": "bafyreigkpizqmduxaxvrhgwkx6hv5vhpcl6nuh3f5pzk7puczxvwkkqsrm",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmbpajhorr2p",
+          "text": "github.com/sleuth-io/sx GitHub - sleuth-io/sx: sx is a package manager for AI coding assistants",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T10:31:36.942Z",
+          "createdUtc": 1779273096,
+          "ageHours": 1.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "sleuth-io/sx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "erweixin--ratex": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mmbmirvdhy2a",
+        "cid": "bafyreibe3rkozjwtx2z5yxym5fx4ihfbjmr2h5bkt3q75urdvcsdb3usfm",
+        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mmbmirvdhy2a",
+        "text": "RaTeX is open-source at github.com/erweixin/RaTeX.",
+        "author": {
+          "handle": "rustaceans.bsky.social",
+          "displayName": "Rust Bytes"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-20T09:42:33.998Z",
+        "hoursSincePosted": 2.36
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mmbmirvdhy2a",
+          "cid": "bafyreibe3rkozjwtx2z5yxym5fx4ihfbjmr2h5bkt3q75urdvcsdb3usfm",
+          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mmbmirvdhy2a",
+          "text": "RaTeX is open-source at github.com/erweixin/RaTeX.",
+          "author": {
+            "handle": "rustaceans.bsky.social",
+            "displayName": "Rust Bytes"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T09:42:33.998Z",
+          "createdUtc": 1779270153,
+          "ageHours": 2.36,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "erweixin/RaTeX",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "walkinglabs/learn-harness-engineering",
+      "fullName": "wiltodelta/remove-ai-watermarks",
+      "count7d": 5,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "apache/hertzbeat",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "getagentseal/codeburn",
+      "fullName": "antirez/ds4",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "gi-dellav/zerostack",
+      "fullName": "erweixin/RaTeX",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "openai/codex",
+      "fullName": "sleuth-io/sx",
       "count7d": 1,
       "likesSum7d": 0
     }

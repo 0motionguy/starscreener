@@ -1,3 +1,7 @@
+// AccountReferralsCard — shareable invite link + 3-cell metric strip.
+// When no referral activity exists yet (invites/paid/credits all zero)
+// we surface an empty-state badge so the panel doesn't look broken.
+
 interface AccountReferralsCardProps {
   referralUrl: string;
   invites: number;
@@ -11,12 +15,24 @@ export function AccountReferralsCard({
   paidConversions,
   creditBalance,
 }: AccountReferralsCardProps) {
+  const hasActivity =
+    invites > 0 || paidConversions > 0 || creditBalance > 0;
   return (
-    <section className="card">
+    <section className="card" aria-labelledby="account-referrals-head">
       <div className="card-head">
-        <h2 className="card-title">
-          <b>Referrals</b> · shareable invite link
+        <h2 className="card-title" id="account-referrals-head">
+          <b>Referrals</b> &middot; shareable invite link
         </h2>
+        <span className="grow" />
+        {hasActivity ? null : (
+          <span
+            className="tag"
+            style={{ color: "var(--fg-muted)" }}
+            title="Share the link below to start earning credits"
+          >
+            No referral activity yet
+          </span>
+        )}
       </div>
       <div style={{ padding: 14, display: "grid", gap: 12 }}>
         <code

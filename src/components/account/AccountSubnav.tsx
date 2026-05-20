@@ -91,7 +91,13 @@ function countFor(tab: AccountTab, props: AccountSubnavProps): number | null {
 
 export function AccountSubnav(props: AccountSubnavProps) {
   return (
-    <aside className="acc-subnav" role="navigation" aria-label="Account sections">
+    <aside
+      className="acc-subnav"
+      role="tablist"
+      aria-label="Account sections"
+      data-tabset
+      data-panel-group="account"
+    >
       {ACCOUNT_TABS.map((tab) => {
         const count = countFor(tab.id, props);
         const isActive = props.active === tab.id;
@@ -101,7 +107,12 @@ export function AccountSubnav(props: AccountSubnavProps) {
             href={{ pathname: "/account", query: { tab: tab.id } }}
             className={`acc-subnav-link${isActive ? " on" : ""}`}
             prefetch={false}
+            role="tab"
             aria-current={isActive ? "page" : undefined}
+            aria-selected={isActive}
+            aria-controls={`account-panel-${tab.id}`}
+            id={`account-tab-${tab.id}`}
+            data-tab={tab.id}
           >
             <TabIcon tab={tab.id} />
             <span>{tab.label}</span>

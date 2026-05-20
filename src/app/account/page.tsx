@@ -30,6 +30,8 @@ import { getPrivateWatchlist } from "@/lib/watchlist/private-store";
 import { readRecentDropEvents } from "@/lib/drop-events";
 import { deriveCode } from "@/lib/referrals/code";
 import { getProfile } from "@/lib/profile";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 
 import { AccountIdentityHero } from "@/components/account/AccountIdentityHero";
 import { AccountYouStats } from "@/components/account/AccountYouStats";
@@ -38,7 +40,10 @@ import {
   ACCOUNT_TABS,
   type AccountTab,
 } from "@/components/account/AccountSubnav";
-import { AccountWatchlistPreview } from "@/components/account/AccountWatchlistPreview";
+import {
+  AccountWatchlistPreview,
+  type AccountWatchlistRow,
+} from "@/components/account/AccountWatchlistPreview";
 import { AccountAlertInbox } from "@/components/account/AccountAlertInbox";
 import { AccountReferralsCard } from "@/components/account/AccountReferralsCard";
 import { AccountApiKeys } from "@/components/account/AccountApiKeys";
@@ -101,9 +106,35 @@ export default async function AccountPage({ searchParams }: Props) {
   const tier = tierFor(tierKey);
   const tierRecord = await safe(() => getUserTierRecord(userId), null);
 
-  // Watchlist preview
+  // Watchlist preview — enrich each fullName with derived repo stats so
+  // AccountWatchlistPreview can emit the shell.js spark contract per row.
   const wlist = await safe(() => getPrivateWatchlist(userId), null);
-  const watchlistRepos = wlist?.repoFullNames ?? [];
+  const watchlistFullNames = wlist?.repoFullNames ?? [];
+  await safe(async () => {
+    await refreshTrendingFromStore();
+  }, undefined);
+  const watchlistRepos: AccountWatchlistRow[] = watchlistFullNames.map(
+    (fullName) => {
+      const [owner = "", name = ""] = fullName.split("/");
+      let row: AccountWatchlistRow = { fullName, owner, name };
+      try {
+        const derived = getDerivedRepoByFullName(fullName);
+        if (derived) {
+          row = {
+            ...row,
+            language: derived.language ?? null,
+            category: derived.categoryId ?? null,
+            stars: derived.stars ?? null,
+            starsDelta24h: derived.starsDelta24h ?? null,
+            sparklineData: derived.sparklineData ?? null,
+          };
+        }
+      } catch {
+        // ignored — keep the bare row so the surface still renders
+      }
+      return row;
+    },
+  );
 
   // Activity feed (public profile = ideas + reactions). Falls back to []
   // when there's no DB or no public activity yet.
@@ -133,7 +164,7 @@ export default async function AccountPage({ searchParams }: Props) {
   const referralUrl = `https://trendingrepo.com/r/${referralCode}`;
 
   // Computed counts for stats strip + sub-nav badges.
-  const watchingCount = watchlistRepos.length;
+  const watchingCount = watchlistFullNames.length;
   const watchingCap = tier.features.maxWatchlistRepos;
   const referralInvites = loaded?.profile.referralCredits ?? 0;
   const dropsCount = recentDrops.length;

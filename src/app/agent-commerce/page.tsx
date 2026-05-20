@@ -36,7 +36,7 @@ import {
 } from "@/components/agent-commerce/AgentCommerceHero";
 import { AgentCommerceRouteStyles } from "@/components/agent-commerce/AgentCommerceRouteStyles";
 import { AgentCommerceTokenTape } from "@/components/agent-commerce/AgentCommerceTokenTape";
-import { AgentCommerceValueStrip } from "@/components/agent-commerce/AgentCommerceValueStrip";
+import { AcValueStrip } from "@/components/agent-commerce/AcValueStrip";
 import { AcKpiStrip } from "@/components/agent-commerce/AcKpiStrip";
 import { ProtocolPulseGrid } from "@/components/agent-commerce/ProtocolPulseGrid";
 import { OnchainSettlements } from "@/components/agent-commerce/OnchainSettlements";
@@ -49,10 +49,35 @@ import { getTokenRows } from "@/components/agent-commerce/displayData";
 
 export const revalidate = 1800;
 
+// Note: SEO 66 is by-design on /agent-commerce — middleware sets
+// X-Robots-Tag: noindex,nofollow via the cost-guard config because the page
+// is expensive for AI crawlers to process. Lighthouse's SEO score reflects
+// the noindex header and is intentional. Do not "fix" by removing the
+// header — it's preserved on purpose.
 export const metadata = {
   title: "Agent Commerce",
   description:
     "Live x402 on-chain activity (Base, Solana), MCP server health, portal-ready APIs, agent infrastructure ranked by composite score.",
+  openGraph: {
+    title: "Agent Commerce — x402 / MCP / a2a cockpit",
+    description:
+      "Live x402 on-chain settlements, MCP server health, portal-ready endpoints, agent commerce composite scoring across Base + Solana.",
+    type: "website",
+    images: [
+      {
+        url: "/api/og/agent-commerce",
+        width: 1200,
+        height: 630,
+        alt: "Agent Commerce — x402 settlements, MCP servers, portal-ready endpoints",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Agent Commerce — x402 / MCP / a2a cockpit",
+    description:
+      "Live x402 on-chain settlements, MCP server health, portal-ready endpoints, agent commerce composite scoring across Base + Solana.",
+  },
 };
 
 interface Props {
@@ -223,7 +248,7 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         <TopFacilitatorsTable base={base} solana={solana} dune={dune} limit={5} />
       </div>
 
-      <AgentCommerceValueStrip />
+      <AcValueStrip />
     </div>
   );
 }

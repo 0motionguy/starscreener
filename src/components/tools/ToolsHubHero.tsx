@@ -1,8 +1,3 @@
-// ToolsHubHero — Phase 3A page-head with segmented filter
-// (All / Charts / Estimators / Contribute). Freshness pill wires through
-// classifyFreshness("repos", fetchedAt) since the tools surface aggregates
-// the same momentum pipeline.
-
 import Link from "next/link";
 
 import { FreshnessPill } from "@/components/shell/FreshnessPill";
@@ -47,7 +42,7 @@ export function ToolsHubHero({
         >
           <FreshnessPill source="repos" fetchedAt={fetchedAt} prefix="TOOLBOX" />
           <span style={{ color: "var(--fg-faint)" }}>
-            · /tools · {toolsLive} of {toolsTotal} utilities · charts, estimators, contributor surfaces
+            /tools - {toolsLive} of {toolsTotal} utilities - charts, estimators, contributor surfaces
           </span>
         </div>
         <h1 className="page-title">Tools for the trend desk.</h1>
@@ -59,14 +54,14 @@ export function ToolsHubHero({
         </p>
       </div>
       <div className="segmented" role="group" aria-label="Tool filter">
-        {TOOLS_FILTERS.map((f) => (
+        {TOOLS_FILTERS.map((item) => (
           <Link
-            key={f.id}
-            href={f.id === "all" ? { query: {} } : { query: { filter: f.id } }}
-            className={f.id === filter ? "on" : ""}
+            key={item.id}
+            href={item.id === "all" ? "/tools" : `/tools?filter=${item.id}`}
+            className={item.id === filter ? "on" : ""}
             prefetch={false}
           >
-            {f.label}
+            {item.label}
           </Link>
         ))}
       </div>

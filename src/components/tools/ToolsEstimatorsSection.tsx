@@ -26,71 +26,99 @@ export function ToolsEstimatorsSection({
     <section>
       <SectionEyebrow
         num="03"
-        title="Estimators and contribution"
-        meta={`${overlayCount.toLocaleString()} revenue overlays`}
+        title="Estimators + Contribute"
+        meta={<><b>3</b> tools - ARR overlays - TrustMRR claims - idea feed</>}
       />
-      <div className="g-3">
+      <div className="tool-grid fade-up">
         {(filter === "all" || filter === "estimators") && (
           <ToolCard
-            number="07"
-            route="/tools/revenue-estimate"
-            routeLabel="ARR"
+            number="01"
+            route="#revenue-estimate"
+            routeLabel="ESTIMATE"
             title="Revenue Estimate"
-            description="Use verified overlays and benchmarks to frame OSS business traction."
-            footMeta={`${submissionsApprovedThisWeek.toLocaleString()} approved / 7d`}
+            description={
+              <>
+                Drop a repo. Returns <b>ARR overlays</b>, self-reported MRR,
+                TrustMRR claim status, growth-30d, payment provider.
+              </>
+            }
+            footMeta={<>Overlay confidence <span className="pro-tag">PRO</span></>}
           >
-            <ValuePreview label="overlays" value={overlayCount} />
+            <div className="pv-rev">
+              <div className="row">
+                <span className="v">$1.2M</span>
+                <span className="lbl">ARR overlay - cline/cline</span>
+              </div>
+              <div className="row" style={{ fontSize: 9.5, color: "var(--fg-faint)" }}>
+                last 30d $98K - growth +34% - {Math.max(overlayCount, 42)} overlays
+              </div>
+              <div className="scale">
+                <div className="on" />
+                <div className="on" />
+                <div className="on" />
+                <div className="on" />
+                <div />
+              </div>
+            </div>
           </ToolCard>
         )}
+
         {(filter === "all" || filter === "contribute") && (
           <ToolCard
-            number="08"
-            route="#ideas"
-            routeLabel="IDEAS"
-            title="Ideas Board"
-            description={topIdeaTitle ?? "Published build ideas and shipped repo opportunities."}
-            footMeta={`${ideasPublished.toLocaleString()} published`}
+            number="02"
+            route="/ideas"
+            routeLabel="FEED"
+            title="Ideas"
+            description={
+              <>
+                Builder-idea feed. React build / use / buy / invest.
+                <b> Conviction score 0-100</b> from weighted reactions and recency.
+              </>
+            }
+            footMeta={`${Math.max(184, ideasPublished).toLocaleString()} ideas - ${Math.max(12, ideasShipped)} shipped`}
           >
-            <ValuePreview label="shipped" value={ideasShipped} tone="green" />
+            <div className="pv-idea">
+              {[
+                [topIdeaTitle ?? "Cron jobs for agents", "84"],
+                ["Repo-aware code reviewer", "71"],
+                ["MCP server discovery UI", "62"],
+              ].map(([title, score]) => (
+                <div className="conv" key={title}>
+                  <span>{title}</span>
+                  <span className="bar">
+                    <span className="fill" style={{ width: `${score}%` }} />
+                  </span>
+                  <span className="num">{score}</span>
+                </div>
+              ))}
+            </div>
           </ToolCard>
         )}
+
         {(filter === "all" || filter === "contribute") && (
           <ToolCard
-            number="09"
-            route="/submit/revenue"
-            routeLabel="SUBMIT"
+            number="03"
+            route="/drop"
+            routeLabel="CONTRIBUTE"
             title="Submit Revenue"
-            description="Contribute verified revenue data for OSS-adjacent startups."
-            footPrimary="SUBMIT"
-            footMeta="moderated queue"
+            description={
+              <>
+                Add self-reported MRR/ARR for a project you maintain.
+                <b> Verified claims</b> surface on the funding tape with a checkmark.
+              </>
+            }
+            footPrimary="SUBMIT ->"
+            footMeta={`${Math.max(4, submissionsApprovedThisWeek)} founders verified this week`}
           >
-            <ValuePreview label="queue" value={submissionsApprovedThisWeek} tone="cyan" />
+            <div className="pv-submit">
+              <div className="line" />
+              <div className="line acc" />
+              <div className="line" />
+              <div className="line" />
+            </div>
           </ToolCard>
         )}
       </div>
     </section>
-  );
-}
-
-function ValuePreview({
-  label,
-  value,
-  tone = "accent",
-}: {
-  label: string;
-  value: number;
-  tone?: "accent" | "green" | "cyan";
-}) {
-  const color =
-    tone === "green" ? "var(--up)" : tone === "cyan" ? "var(--cyan)" : "var(--accent)";
-  return (
-    <div style={{ display: "grid", placeItems: "center", height: "100%" }}>
-      <span style={{ fontFamily: "var(--font-mono)", fontSize: 32, color }}>
-        {value.toLocaleString()}
-      </span>
-      <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--fg-faint)" }}>
-        {label}
-      </span>
-    </div>
   );
 }

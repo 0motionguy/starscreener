@@ -21,76 +21,50 @@ export function ToolsChartsSection({
       <SectionEyebrow
         num="01"
         title="Charts"
-        meta={`${trackedRepoCount.toLocaleString()} tracked repos`}
+        meta={<><b>2</b> live - multi-repo plots</>}
       />
-      <div className="g-3" style={{ alignItems: "stretch" }}>
+      <div className="tool-grid compact fade-up">
         <ToolCard
           number="01"
-          route="/tools/star-history"
+          route="#starhistory"
           routeLabel="CHART"
           title="Star History"
-          description="Compare momentum curves for tracked repos without leaving the desk."
-          footMeta={`${trackedRepoCount.toLocaleString()} repos indexed`}
+          description={
+            <>
+              Plot up to <b>6 repos head-to-head</b> with editorial export themes
+              (Blueprint, Neon, NYT). Server-rendered PNGs for embed.
+            </>
+          }
+          footMeta={<>{trackedRepoCount.toLocaleString()} repos - PNG export <span className="pro-tag">PRO</span></>}
         >
-          <PreviewBars values={[30, 48, 44, 68, 84, 76, 96]} />
-        </ToolCard>
-        <ToolCard
-          number="02"
-          route="/tools/treemap"
-          routeLabel="MAP"
-          title="Treemap"
-          description="Scan category concentration and spot where repo velocity is clustering."
-          footMeta={`${treemapCategoryCount.toLocaleString()} categories`}
-        >
-          <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr 0.8fr", gap: 4, height: "100%" }}>
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <span
-                key={i}
-                style={{
-                  minHeight: i % 2 ? 34 : 22,
-                  background: i === 1 ? "var(--accent)" : "var(--surface-3)",
-                  opacity: i === 1 ? 0.85 : 1,
-                }}
-              />
-            ))}
+          <div className="pv-stars">
+            <svg viewBox="0 0 240 80" preserveAspectRatio="none" aria-hidden="true">
+              <path className="l1" d="M0,70 Q40,60 60,50 Q90,32 130,22 Q170,14 200,8 L240,4" />
+              <path className="l2" d="M0,72 Q40,68 60,62 Q90,52 130,46 Q170,40 200,34 L240,28" />
+              <path className="l3" d="M0,74 Q40,72 60,70 Q90,66 130,62 Q170,58 200,54 L240,48" />
+            </svg>
           </div>
         </ToolCard>
         <ToolCard
-          number="03"
-          route="/market-signals"
-          routeLabel="SIGNALS"
-          title="Market Signals"
-          description="Jump into npm, arXiv, and cross-source signal walls from the tool hub."
-          footMeta={`${treemapRepoCount.toLocaleString()} repo rows`}
+          number="02"
+          route="#treemap"
+          routeLabel="CHART"
+          title="Treemap"
+          description={
+            <>
+              Sector treemap of trending repos: <b>area scales with momentum</b>,
+              color encodes category. Drill into any tile.
+            </>
+          }
+          footMeta={`${treemapRepoCount.toLocaleString()} repos - ${treemapCategoryCount.toLocaleString()} sectors`}
         >
-          <PreviewBars values={[18, 36, 28, 58, 40, 72, 63]} tone="cyan" />
+          <div className="pv-tree">
+            <div className="t1" />
+            <div className="t2" />
+            <div className="t3" />
+          </div>
         </ToolCard>
       </div>
     </section>
-  );
-}
-
-function PreviewBars({
-  values,
-  tone = "accent",
-}: {
-  values: number[];
-  tone?: "accent" | "cyan";
-}) {
-  return (
-    <div style={{ display: "flex", alignItems: "end", gap: 5, height: "100%" }}>
-      {values.map((value, index) => (
-        <span
-          key={`${value}-${index}`}
-          style={{
-            flex: 1,
-            height: `${value}%`,
-            minHeight: 8,
-            background: tone === "cyan" ? "var(--cyan)" : "var(--accent)",
-            opacity: 0.35 + index / (values.length * 1.7),
-          }}
-        />
-      ))}
-    </div>
   );
 }

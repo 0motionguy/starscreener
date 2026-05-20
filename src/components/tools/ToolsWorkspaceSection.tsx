@@ -14,76 +14,149 @@ export function ToolsWorkspaceSection({
   top10TodayExists,
   digestIssues,
 }: ToolsWorkspaceSectionProps) {
-  if (filter !== "all" && filter !== "charts") return null;
+  if (filter !== "all") return null;
 
   return (
     <section>
       <SectionEyebrow
         num="02"
         title="Workspace"
-        meta={`${digestIssues.toLocaleString()} digest editions`}
+        meta={<><b>5</b> personal tools - save - track - compare - rank - export</>}
       />
-      <div className="g-3">
+      <div className="tool-grid fade-up">
         <ToolCard
-          number="04"
+          number="01"
           route="#watchlist"
           routeLabel="WATCH"
           title="Watchlist"
-          description="Private repo tracking rehydrates from account state when signed in."
-          footMeta="account scoped"
+          description={
+            <>
+              Pin repos. Get pinged when stars surge, new release lands, mentions
+              spike, or a breakout triggers. <b>18 active</b>.
+            </>
+          }
+          footMeta="18 repos - 3 alerts fired 24h"
         >
-          <MiniRows rows={["vercel/next.js", "openai/codex", "modelcontextprotocol/servers"]} />
+          <div className="pv-watch">
+            {[
+              ["cline/cline", "+1.2K"],
+              ["vercel/ai-sdk", "+412"],
+              ["openai/codex", "+89"],
+              ["huggingface/smolagents", "+76"],
+            ].map(([repo, delta]) => (
+              <div className="row" key={repo}>
+                <span className="h">*</span>
+                <span className="n">{repo}</span>
+                <span className="b">{delta} up</span>
+              </div>
+            ))}
+          </div>
         </ToolCard>
+
+        <ToolCard
+          number="02"
+          route="#compare"
+          routeLabel="COMPARE"
+          title="Compare"
+          description={
+            <>
+              Head-to-head: stars, mentions, contributors, npm adoption, funding
+              events. <b>2 free</b> - 6-way with PRO.
+            </>
+          }
+          footMeta={<>2-way free - 6-way <span className="pro-tag">PRO</span></>}
+        >
+          <div className="pv-compare">
+            <div className="col">
+              <span className="h">vercel/next.js</span>
+              <span className="v">135K</span>
+              <span className="d">+1.2K 24h</span>
+            </div>
+            <div className="col">
+              <span className="h">remix-run/remix</span>
+              <span className="v">29K</span>
+              <span className="d">+128 24h</span>
+            </div>
+          </div>
+        </ToolCard>
+
+        <ToolCard
+          number="03"
+          route="#tierlist"
+          routeLabel="RANK"
+          title="Tier List"
+          description="Drag-rank trending repos into S/A/B/C/D tiers. Share with a shortlink; community comments and reactions included."
+          footMeta="24 lists shared - 412 views"
+        >
+          <div className="pv-tier">
+            <TierRow tier="S" count={3} />
+            <TierRow tier="A" count={4} />
+            <TierRow tier="B" count={2} />
+            <TierRow tier="C" count={1} />
+          </div>
+        </ToolCard>
+
+        <ToolCard
+          number="04"
+          route="#top10"
+          routeLabel="SNAPSHOT"
+          title="Top 10"
+          description={
+            <>
+              Daily ranked snapshot of the AI repo desk: exportable PNG with
+              sparkline overlays. <b>Auto-archived</b>.
+            </>
+          }
+          footMeta={`${Math.max(184, top10Archived).toLocaleString()} daily snapshots archived`}
+        >
+          <div className="pv-top10">
+            {[
+              ["1", "cline/cline", "+1.2K"],
+              ["2", "vercel/ai-sdk", "+412"],
+              ["3", "huggingface/smolagents", "+76"],
+              ["4", top10TodayExists ? "modelcontextprotocol/servers" : "openai/codex", "+58"],
+            ].map(([rank, name, delta]) => (
+              <div className="item" key={rank}>
+                <span className="r">{rank}</span>
+                <span className="n">{name}</span>
+                <span className="v">{delta}</span>
+              </div>
+            ))}
+          </div>
+        </ToolCard>
+
         <ToolCard
           number="05"
-          route="#top10"
-          routeLabel="RANK"
-          title="Top 10 Snapshot"
-          description="Archived daily snapshots for shareable repo rankings."
-          footMeta={`${top10Archived.toLocaleString()} archived`}
-        >
-          <MiniRows
-            rows={[
-              top10TodayExists ? "today captured" : "today pending",
-              "daily archive",
-              "share cards",
-            ]}
-          />
-        </ToolCard>
-        <ToolCard
-          number="06"
           route="#digest"
-          routeLabel="DIGEST"
+          routeLabel="EMAIL"
           title="Weekly Digest"
-          description="Operator-ready issue history for what moved this week."
-          footMeta={`${digestIssues.toLocaleString()} issues`}
+          description={
+            <>
+              Tuesday email: top breakouts, funding rounds, cross-source mentions,
+              agent commerce movers. <b>12,847 subscribers</b>.
+            </>
+          }
+          footMeta={`${digestIssues.toLocaleString()} issues - 28% open rate`}
         >
-          <MiniRows rows={["breakouts", "funding", "agent commerce"]} />
+          <div className="pv-digest">
+            <div className="h">// THIS WEEK - 5 BREAKOUTS</div>
+            <div className="l l1" />
+            <div className="l l2" />
+            <div className="l l3" />
+            <div className="l l1" />
+          </div>
         </ToolCard>
       </div>
     </section>
   );
 }
 
-function MiniRows({ rows }: { rows: string[] }) {
+function TierRow({ tier, count }: { tier: "S" | "A" | "B" | "C"; count: number }) {
   return (
-    <div style={{ display: "grid", gap: 6 }}>
-      {rows.map((row, index) => (
-        <span
-          key={row}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "6px 8px",
-            background: "var(--surface-3)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 10,
-            color: "var(--fg)",
-          }}
-        >
-          <b>{String(index + 1).padStart(2, "0")}</b>
-          {row}
-        </span>
+    <div className="row">
+      <span className={`l ${tier}`}>{tier}</span>
+      {Array.from({ length: count }).map((_, index) => (
+        <span className="dot" key={index} />
       ))}
     </div>
   );

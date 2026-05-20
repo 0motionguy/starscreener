@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-20T09:37:57.992Z",
+  "fetchedAt": "2026-05-20T15:25:32.480Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1282,
+  "scannedArticles": 1268,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,12 +179,12 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 13,
+    "global-rising": 15,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
     "tag-agents-top-7d": 100,
-    "tag-agentic-top-7d": 6,
+    "tag-agentic-top-7d": 9,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 19,
@@ -193,7 +193,7 @@
     "tag-llms-top-7d": 2,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 28,
+    "tag-promptengineering-top-7d": 29,
     "tag-workflow-top-7d": 25,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
@@ -738,6 +738,29 @@
         "tutorial"
       ],
       "trendingScore": 17.22,
+      "linkedRepos": []
+    },
+    {
+      "id": 3688463,
+      "title": "Should You Still Learn Coding in the Age of AI? The Question Every Developer Is Quietly Asking",
+      "description": "A few years ago, the roadmap felt clear.  Learn programming. Build projects. Practice algorithms. Get...",
+      "url": "https://dev.to/hadil/should-you-still-learn-coding-in-the-age-of-ai-the-question-every-developer-is-quietly-asking-4bg0",
+      "author": {
+        "username": "hadil",
+        "name": "Hadil Ben Abdallah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1209000%2Fb29d37d8-2efe-4391-9796-a6f8a483f1bd.png"
+      },
+      "reactionsCount": 30,
+      "commentsCount": 13,
+      "readingTime": 6,
+      "publishedAt": "2026-05-20T09:25:25Z",
+      "tags": [
+        "programming",
+        "ai",
+        "python",
+        "coding"
+      ],
+      "trendingScore": 16.98,
       "linkedRepos": []
     },
     {
@@ -1802,6 +1825,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3693795,
+      "title": "Rediscovering Domain-Driven Design, one MCP server at a time",
+      "description": "Developers are reinventing Bounded Contexts and Anti-Corruption Layers for MCP servers without knowing it. The patterns already exist - and they've been battle-tested for 20 years.",
+      "url": "https://dev.to/aws/rediscovering-domain-driven-design-one-mcp-server-at-a-time-1i79",
+      "author": {
+        "username": "dennistraub",
+        "name": "Dennis Traub",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F752988%2Fea2b8598-0758-4ffa-b8d7-d904360f46e4.png"
+      },
+      "reactionsCount": 52,
+      "commentsCount": 21,
+      "readingTime": 6,
+      "publishedAt": "2026-05-18T13:17:09Z",
+      "tags": [
+        "ai",
+        "architecture",
+        "mcp",
+        "systemdesign"
+      ],
+      "trendingScore": 5.52,
+      "linkedRepos": []
+    },
+    {
       "id": 3695578,
       "title": "Top 7 Featured DEV Posts of the Week",
       "description": "Welcome to this week's Top 7, where the DEV editorial team handpicks their favorite posts from the...",
@@ -1843,29 +1889,6 @@
         "mcp"
       ],
       "trendingScore": 5.4,
-      "linkedRepos": []
-    },
-    {
-      "id": 3693795,
-      "title": "Rediscovering Domain-Driven Design, one MCP server at a time",
-      "description": "Developers are reinventing Bounded Contexts and Anti-Corruption Layers for MCP servers without knowing it. The patterns already exist - and they've been battle-tested for 20 years.",
-      "url": "https://dev.to/aws/rediscovering-domain-driven-design-one-mcp-server-at-a-time-1i79",
-      "author": {
-        "username": "dennistraub",
-        "name": "Dennis Traub",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F752988%2Fea2b8598-0758-4ffa-b8d7-d904360f46e4.png"
-      },
-      "reactionsCount": 18,
-      "commentsCount": 5,
-      "readingTime": 6,
-      "publishedAt": "2026-05-18T13:17:09Z",
-      "tags": [
-        "ai",
-        "architecture",
-        "mcp",
-        "systemdesign"
-      ],
-      "trendingScore": 5.22,
       "linkedRepos": []
     },
     {
@@ -2503,29 +2526,6 @@
           "location": "body"
         }
       ]
-    },
-    {
-      "id": 3589148,
-      "title": "I Built My Mom an AI Recipe Helper for Mother's Day",
-      "description": "A project about a fridge, Strands agents &amp; trying to keep up with Mom's seasons.           My...",
-      "url": "https://dev.to/aws/i-built-my-mom-an-ai-recipe-helper-for-mothers-day-2hc5",
-      "author": {
-        "username": "ifeanyiro",
-        "name": "Ifeanyi O.",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1228459%2Fd99a6804-bbdc-45d0-bf2a-e118d31c7b19.jpeg"
-      },
-      "reactionsCount": 21,
-      "commentsCount": 5,
-      "readingTime": 9,
-      "publishedAt": "2026-05-08T07:53:25Z",
-      "tags": [
-        "aws",
-        "ai",
-        "agents",
-        "mothersday"
-      ],
-      "trendingScore": 3.6,
-      "linkedRepos": []
     }
   ]
 }

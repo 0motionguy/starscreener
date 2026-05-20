@@ -113,7 +113,7 @@ export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilte
               {group.title}
             </div>
           )}
-          <div className="col" style={{ gap: 2 }}>
+          <div className="col" style={{ gap: 2 }} role="group" aria-label={group.title}>
             {group.entries.map((entry) => {
               const on = allOn || selected.has(entry.slug);
               return (
@@ -122,6 +122,13 @@ export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilte
                   href={toggleHref(entry.slug, selected, window)}
                   prefetch={false}
                   className={`src-toggle ${on ? "on" : "off"}`}
+                  // The element is a link (navigates to ?src=…), not a button.
+                  // Keep <a> semantics and use aria-pressed to expose the
+                  // toggle state. role="button" on an anchor that navigates
+                  // would be a lie to assistive tech.
+                  aria-pressed={on}
+                  aria-label={`Toggle ${entry.label}`}
+                  data-source={entry.slug}
                 >
                   <span className="src-dot" style={{ background: entry.colorVar }} />
                   <span>{entry.label}</span>

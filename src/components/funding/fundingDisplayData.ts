@@ -373,3 +373,59 @@ export function slugify(value: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+/**
+ * Publisher slug → list of substring tokens that should match against the
+ * concatenated `headline + sourceUrl + sourcePlatform` haystack (lowercased)
+ * to decide whether a signal belongs to that publisher. Stays in sync with
+ * `FundingSourcePills.PUBLISHERS` so the pill UI and the body filter agree.
+ *
+ * Exported so tests can pin the contract.
+ */
+export const PUBLISHER_SLUG_MATCH: Record<string, readonly string[]> = {
+  techcrunch: ["techcrunch.com", "tc-", "techcrunch"],
+  venturebeat: ["venturebeat.com", "venturebeat"],
+  sifted: ["sifted.eu", "sifted"],
+  crunchbase: ["crunchbase.com", "crunchbase"],
+  "sec-form-d": ["sec.gov", "edgar", "form d", "form-d"],
+  "the-information": ["theinformation.com", "the information"],
+  newcomer: ["newcomer.co", "newcomer"],
+  "tc-ai": ["techcrunch.com/category/artificial-intelligence"],
+  "vb-ai": ["venturebeat.com/ai"],
+  "eu-startups": ["eu-startups.com"],
+  "tech-eu": ["tech.eu"],
+  "silicon-canals": ["siliconcanals.com"],
+  yc: ["ycombinator.com", "y combinator"],
+  "twitter-x": ["twitter.com", "x.com", "t.co/"],
+};
+
+/**
+ * Filter funding signals to the rows belonging to a single publisher slug
+ * (as emitted by `FundingSourcePills`). Returns the input array unchanged
+ * when `activeSource` is undefined / empty / unknown — matching the
+ * "no filter applied" no-op semantics of `filterReposBySources` so the
+ * caller can pass the raw URL-derived value without first checking
+ * presence.
+ *
+ * Contract:
+ * - Single-source filter, driven by `?source=<slug>` on the funding URL.
+ *   The funding pills emit one source per click; this helper narrows
+ *   downstream consumers (FundingTape, TopRoundsTable, SectorHeatmap,
+ *   InvestorChips, CapitalFlowChart) to that publisher's slice.
+ * - Match is substring-based against the signal's concatenated
+ *   `headline + sourceUrl + sourcePlatform` (lowercased) so a TechCrunch
+ *   article still matches when the upstream sourcePlatform is normalized
+ *   to "newsapi" but the URL points at techcrunch.com.
+ */
+export function filterFundingBySources(
+  signals: FundingSignal[],
+  activeSource: string | undefined,
+): FundingSignal[] {
+  if (!activeSource) return signals;
+  const tokens = PUBLISHER_SLUG_MATCH[activeSource];
+  if (!tokens || tokens.length === 0) return signals;
+  return signals.filter((s) => {
+    const blob = `${s.headline} ${s.sourceUrl} ${s.sourcePlatform}`.toLowerCase();
+    return tokens.some((t) => blob.includes(t));
+  });
+}

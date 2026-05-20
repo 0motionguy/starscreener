@@ -8,8 +8,29 @@ interface CompositeMoversBoardProps {
   limit?: number;
 }
 
+/**
+ * Derive a tier classification for a composite-movers row.
+ *
+ * Tiers map to row treatment:
+ *   - hot:   top third (rank ≤ ceil(limit/3)) — high-momentum / mover.
+ *   - warm:  mid third — sustained signal.
+ *   - early: bottom third — emerging signal, lower confidence.
+ *
+ * Returns the data-tier attribute value so the row carries both the
+ * `tier-{hot|warm|early}` className and a corresponding data attribute
+ * for shell.js / future binding.
+ */
+function tierFor(rank: number, total: number): "hot" | "warm" | "early" {
+  const hotCutoff = Math.max(1, Math.ceil(total / 3));
+  const warmCutoff = Math.max(hotCutoff + 1, Math.ceil((total * 2) / 3));
+  if (rank <= hotCutoff) return "hot";
+  if (rank <= warmCutoff) return "warm";
+  return "early";
+}
+
 export function CompositeMoversBoard({ items, limit = 10 }: CompositeMoversBoardProps) {
   const ranked = getCompositeMoverRows(items, limit);
+  const total = ranked.length;
 
   return (
     <div className="panel fade-up" style={{ marginBottom: 14 }}>
@@ -21,10 +42,19 @@ export function CompositeMoversBoard({ items, limit = 10 }: CompositeMoversBoard
         </span>
       </div>
       <div>
-        {ranked.map((it, idx) => (
-          <div className="mover" key={it.id} style={moverStyle}>
+        {ranked.map((it, idx) => {
+          const rank = idx + 1;
+          const tier = tierFor(rank, total);
+          return (
+          <div
+            className={`mover composite-row tier-${tier}`}
+            key={it.id}
+            style={moverStyle}
+            data-tier={tier}
+            data-rank={rank}
+          >
             <span className="r" style={rStyle}>
-              {idx + 1}
+              {rank}
             </span>
             <div className="lg" style={lgStyle}>
               {it.glyph}
@@ -65,7 +95,8 @@ export function CompositeMoversBoard({ items, limit = 10 }: CompositeMoversBoard
               {Math.abs(it.delta).toFixed(1)}
             </span>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

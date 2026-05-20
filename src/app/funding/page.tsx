@@ -39,7 +39,10 @@ import { InvestorChips } from "@/components/funding/InvestorChips";
 import { SecFormDFeed } from "@/components/funding/SecFormDFeed";
 import { ConfidenceChipsBlock } from "@/components/funding/ConfidenceChipsBlock";
 import { FoundersCta } from "@/components/funding/FoundersCta";
-import { ensureFundingSignals } from "@/components/funding/fundingDisplayData";
+import {
+  ensureFundingSignals,
+  filterFundingBySources,
+} from "@/components/funding/fundingDisplayData";
 
 export const revalidate = 1800;
 
@@ -457,9 +460,15 @@ export default async function FundingPage({ searchParams }: Props) {
   // Apply selected period window to the body signals. Fill from realistic
   // seeded rows only when the live accessor exposes fewer rows than the mockup.
   const rawWindowed = filterByPeriod(allSignals, period);
-  const windowed = ensureFundingSignals(rawWindowed, 18);
+  // URL-driven source filter — narrows tape, top-rounds, sector heatmap,
+  // capital flow chart, investor chips, SEC mini-feed, confidence chips
+  // when a `FundingSourcePills` slug is active. Pills themselves still
+  // render against the unfiltered counts so the user sees full publisher
+  // totals while their drilldown is active.
+  const sourceFilteredRaw = filterFundingBySources(rawWindowed, activeSource);
+  const windowed = ensureFundingSignals(sourceFilteredRaw, 18);
   const displayTotalRounds = Math.max(
-    rawWindowed.length,
+    sourceFilteredRaw.length,
     stats.thisWeekCount,
     thisWeek.length,
     142,
@@ -496,7 +505,9 @@ export default async function FundingPage({ searchParams }: Props) {
 
   // Tape uses the freshest signals across the whole feed (not period-filtered)
   // so the ticker stays alive even on a YTD window with quiet recent days.
-  const tapeSignals = [...allSignals]
+  // Source filter still applies — clicking a publisher pill narrows the
+  // ticker to that publisher's rounds.
+  const tapeSignals = filterFundingBySources([...allSignals], activeSource)
     .filter((s) => s.extracted?.amount && s.extracted.amount > 0)
     .sort(
       (a, b) =>
@@ -504,8 +515,12 @@ export default async function FundingPage({ searchParams }: Props) {
     );
 
   // 30-day window for the area chart, regardless of segmented selection —
-  // chart x-axis is always last 30 days.
-  const last30 = ensureFundingSignals(filterByPeriod(allSignals, "30d"), 18);
+  // chart x-axis is always last 30 days. Source filter applies so the chart
+  // mirrors the active publisher drilldown.
+  const last30 = ensureFundingSignals(
+    filterFundingBySources(filterByPeriod(allSignals, "30d"), activeSource),
+    18,
+  );
 
   // SEC mini-feed: prefer the dedicated slug; if empty, derive from main
   // signals matching SEC sources / "Form D" headlines.
@@ -554,8 +569,11 @@ export default async function FundingPage({ searchParams }: Props) {
           </div>
 
           <div>
+            {/* Pills always render unfiltered totals — they're the drilldown
+                navigator, so they need to show full per-publisher counts
+                independent of the active source. */}
             <FundingSourcePills
-              signals={windowed}
+              signals={ensureFundingSignals(rawWindowed, 18)}
               totalSources={totalSources}
               liveSources={liveSources}
               period={period}

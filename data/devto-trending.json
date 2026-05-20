@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-19T19:54:29.567Z",
+  "fetchedAt": "2026-05-20T03:42:45.155Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1280,
+  "scannedArticles": 1282,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 13,
+    "global-rising": 14,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -193,7 +193,7 @@
     "tag-llms-top-7d": 4,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 30,
+    "tag-promptengineering-top-7d": 28,
     "tag-workflow-top-7d": 25,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
@@ -829,6 +829,34 @@
       ],
       "trendingScore": 15.8,
       "linkedRepos": []
+    },
+    {
+      "id": 3693063,
+      "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
+      "description": "The promise of AI is transformative. The reality is distributed, fragile, and increasingly complex....",
+      "url": "https://dev.to/anthonymax/the-concept-of-automatic-fallbacks-and-how-bifrost-implements-it-592p",
+      "author": {
+        "username": "anthonymax",
+        "name": "Anthony Max",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2103048%2F716988a5-9c51-49bf-acef-191bc6dd2fee.jpeg"
+      },
+      "reactionsCount": 39,
+      "commentsCount": 2,
+      "readingTime": 5,
+      "publishedAt": "2026-05-19T22:49:23Z",
+      "tags": [
+        "ai",
+        "webdev",
+        "programming",
+        "api"
+      ],
+      "trendingScore": 15.23,
+      "linkedRepos": [
+        {
+          "fullName": "maximhq/bifrost",
+          "location": "body"
+        }
+      ]
     },
     {
       "id": 3547654,
@@ -1795,6 +1823,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3704774,
+      "title": "Google AI Edge Gallery Now Runs MCP On-Device. The Privacy Architecture",
+      "description": "This is a submission for the Google I/O Writing Challenge     On-device AI has spent most of its...",
+      "url": "https://dev.to/om_shree_0709/google-ai-edge-gallery-now-runs-mcp-on-device-the-privacy-architecture-5075",
+      "author": {
+        "username": "om_shree_0709",
+        "name": "Om Shree",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2900392%2F78ad1723-16ab-4e46-b39c-7f3feb416d23.jpg"
+      },
+      "reactionsCount": 14,
+      "commentsCount": 0,
+      "readingTime": 5,
+      "publishedAt": "2026-05-20T00:44:23Z",
+      "tags": [
+        "googleiochallenge",
+        "devchallenge",
+        "ai",
+        "mcp"
+      ],
+      "trendingScore": 5.4,
+      "linkedRepos": []
+    },
+    {
       "id": 3693795,
       "title": "Rediscovering Domain-Driven Design, one MCP server at a time",
       "description": "Developers are reinventing Bounded Contexts and Anti-Corruption Layers for MCP servers without knowing it. The patterns already exist - and they've been battle-tested for 20 years.",
@@ -1855,6 +1906,29 @@
       "publishedAt": "2026-05-17T17:34:31Z",
       "tags": [
         "hackathon"
+      ],
+      "trendingScore": 5.03,
+      "linkedRepos": []
+    },
+    {
+      "id": 3696406,
+      "title": "Demystifying AI Agents with Turtle & Gemma",
+      "description": "🐢 Speaking into Canvas   If you're anything like me, your very first taste of \"programming\"...",
+      "url": "https://dev.to/googleai/demystifying-ai-agents-with-turtle-gemma-4ajj",
+      "author": {
+        "username": "bebechien",
+        "name": "bebechien",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3714120%2F58c2015b-b06c-4f0e-9cb0-1014430d9773.png"
+      },
+      "reactionsCount": 42,
+      "commentsCount": 10,
+      "readingTime": 3,
+      "publishedAt": "2026-05-19T00:37:24Z",
+      "tags": [
+        "turtle",
+        "gemma",
+        "ai",
+        "agents"
       ],
       "trendingScore": 5.03,
       "linkedRepos": []
@@ -1975,6 +2049,29 @@
         "productivity",
         "showdev",
         "tooling"
+      ],
+      "trendingScore": 4.68,
+      "linkedRepos": []
+    },
+    {
+      "id": 3694750,
+      "title": "API Calls Done Right: From Messy Fetch to Clean Data Layer",
+      "description": "I've seen this file in almost every frontend project I've ever touched.  It's usually called api.js...",
+      "url": "https://dev.to/gavincettolo/api-calls-done-right-from-messy-fetch-to-clean-data-layer-419i",
+      "author": {
+        "username": "gavincettolo",
+        "name": "Gavin Cettolo",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3353748%2Fe37c0e94-b63c-4a02-88bc-ad4e130a2ee5.jpg"
+      },
+      "reactionsCount": 22,
+      "commentsCount": 22,
+      "readingTime": 10,
+      "publishedAt": "2026-05-19T07:30:00Z",
+      "tags": [
+        "typescript",
+        "javascript",
+        "webdev",
+        "beginners"
       ],
       "trendingScore": 4.68,
       "linkedRepos": []
@@ -2428,102 +2525,6 @@
         "mothersday"
       ],
       "trendingScore": 3.6,
-      "linkedRepos": []
-    },
-    {
-      "id": 3643074,
-      "title": "Tracking my cardio with OpenClaw and Gemma 4",
-      "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4  I've been using GPT models as my...",
-      "url": "https://dev.to/fdocr/tracking-my-cardio-with-openclaw-and-gemma-4-3dka",
-      "author": {
-        "username": "fdocr",
-        "name": "Fernando",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F19165%2Fefa51160-41cf-448d-909b-6ad82cec68d2.jpg"
-      },
-      "reactionsCount": 9,
-      "commentsCount": 0,
-      "readingTime": 3,
-      "publishedAt": "2026-05-11T13:00:00Z",
-      "tags": [
-        "devchallenge",
-        "gemmachallenge",
-        "gemma"
-      ],
-      "trendingScore": 3.58,
-      "linkedRepos": []
-    },
-    {
-      "id": 3585496,
-      "title": "Stop Using useEffect Like This: 5 Patterns That Are Silently Breaking Your React App",
-      "description": "I was doing a code review for a colleague when I found it.  The component had five useEffect...",
-      "url": "https://dev.to/gavincettolo/stop-using-useeffect-like-this-5-patterns-that-are-silently-breaking-your-react-app-5e5f",
-      "author": {
-        "username": "gavincettolo",
-        "name": "Gavin Cettolo",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3353748%2Fe37c0e94-b63c-4a02-88bc-ad4e130a2ee5.jpg"
-      },
-      "reactionsCount": 26,
-      "commentsCount": 43,
-      "readingTime": 9,
-      "publishedAt": "2026-05-05T07:30:00Z",
-      "tags": [
-        "react",
-        "javascript",
-        "webdev",
-        "beginners"
-      ],
-      "trendingScore": 3.55,
-      "linkedRepos": []
-    },
-    {
-      "id": 3630098,
-      "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-      "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
-      "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-      "author": {
-        "username": "_4f268336f6580845cdc475",
-        "name": "Charles Wu",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 0,
-      "readingTime": 7,
-      "publishedAt": "2026-05-08T02:35:02Z",
-      "tags": [
-        "ai",
-        "machinelearning",
-        "rag",
-        "agents"
-      ],
-      "trendingScore": 3.53,
-      "linkedRepos": [
-        {
-          "fullName": "garrytan/gbrain",
-          "location": "body"
-        }
-      ]
-    },
-    {
-      "id": 3696406,
-      "title": "Demystifying AI Agents with Turtle & Gemma",
-      "description": "🐢 Speaking into Canvas   If you're anything like me, your very first taste of \"programming\"...",
-      "url": "https://dev.to/googleai/demystifying-ai-agents-with-turtle-gemma-4ajj",
-      "author": {
-        "username": "bebechien",
-        "name": "bebechien",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3714120%2F58c2015b-b06c-4f0e-9cb0-1014430d9773.png"
-      },
-      "reactionsCount": 36,
-      "commentsCount": 2,
-      "readingTime": 3,
-      "publishedAt": "2026-05-19T00:37:24Z",
-      "tags": [
-        "turtle",
-        "gemma",
-        "ai",
-        "agents"
-      ],
-      "trendingScore": 3.49,
       "linkedRepos": []
     }
   ]

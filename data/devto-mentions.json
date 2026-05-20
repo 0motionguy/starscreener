@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-19T19:54:29.567Z",
+  "fetchedAt": "2026-05-20T03:42:45.155Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1280,
+  "scannedArticles": 1282,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 13,
+    "global-rising": 14,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -193,7 +193,7 @@
     "tag-llms-top-7d": 4,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 30,
+    "tag-promptengineering-top-7d": 28,
     "tag-workflow-top-7d": 25,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
@@ -206,17 +206,17 @@
   },
   "mentions": {
     "aaif-goose/goose": {
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 54,
-      "commentsSum7d": 10,
+      "commentsSum7d": 11,
       "topArticle": {
         "id": 3665857,
         "title": "How I Documented an Entire Product in 4 Days with an AI Agent",
         "url": "https://dev.to/debs_obrien/how-i-documented-an-entire-product-in-4-days-with-an-ai-agent-3338",
         "author": "debs_obrien",
-        "reactions": 52,
-        "comments": 10,
-        "hoursSincePosted": 143.6,
+        "reactions": 54,
+        "comments": 11,
+        "hoursSincePosted": 151.4,
         "readingTime": 19
       },
       "articles": [
@@ -230,8 +230,8 @@
             "name": "Debbie O'Brien",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F212929%2F947ba7e0-41fe-464a-a4f3-abb66a3170c6.jpg"
           },
-          "reactionsCount": 52,
-          "commentsCount": 10,
+          "reactionsCount": 54,
+          "commentsCount": 11,
           "readingTime": 19,
           "publishedAt": "2026-05-13T20:18:51Z",
           "tags": [
@@ -240,37 +240,55 @@
             "documentation",
             "webdev"
           ],
-          "trendingScore": 1.24,
+          "trendingScore": 1.3,
           "linkedRepos": [
             {
               "fullName": "aaif-goose/goose",
               "location": "body"
             }
           ]
-        },
+        }
+      ]
+    },
+    "HexmosTech/git-lrc": {
+      "count7d": 1,
+      "reactionsSum7d": 13,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3703180,
+        "title": "What Happens When You Run `npm run dev`",
+        "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
+        "author": "lovestaco",
+        "reactions": 13,
+        "comments": 0,
+        "hoursSincePosted": 9,
+        "readingTime": 6
+      },
+      "articles": [
         {
-          "id": 3694339,
-          "title": "The weekend I fell down the MCP rabbit hole",
-          "description": "👋This is the start of a series where I document what I'm learning about Model Context Protocol...",
-          "url": "https://dev.to/anajsana95/the-weekend-i-fell-down-the-mcp-rabbit-hole-a",
+          "id": 3703180,
+          "title": "What Happens When You Run `npm run dev`",
+          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
+          "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
           "author": {
-            "username": "anajsana95",
-            "name": "Ana Jimenez Santamaria",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F344556%2Ff87b2a04-5b88-47b8-949f-a5bd5154f2df.JPG"
+            "username": "lovestaco",
+            "name": "Athreya aka Maneshwar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 13,
           "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-18T15:34:33Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-19T18:45:40Z",
           "tags": [
-            "ai",
-            "opensource",
-            "mcp"
+            "webdev",
+            "programming",
+            "javascript",
+            "beginners"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 1.62,
           "linkedRepos": [
             {
-              "fullName": "aaif-goose/goose",
+              "fullName": "HexmosTech/git-lrc",
               "location": "body"
             }
           ]
@@ -288,7 +306,7 @@
         "author": "nfrankel",
         "reactions": 10,
         "comments": 7,
-        "hoursSincePosted": 130.9,
+        "hoursSincePosted": 138.7,
         "readingTime": 10
       },
       "articles": [
@@ -312,7 +330,7 @@
             "budget",
             "agents"
           ],
-          "trendingScore": 0.13,
+          "trendingScore": 0.12,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -324,16 +342,16 @@
     },
     "openclaw/openclaw": {
       "count7d": 2,
-      "reactionsSum7d": 37,
+      "reactionsSum7d": 39,
       "commentsSum7d": 12,
       "topArticle": {
         "id": 3701157,
         "title": "Hermes Just Killed OpenClaw (Here's Why)",
         "url": "https://dev.to/tahosin/hermes-just-killed-openclaw-heres-why-4c23",
         "author": "tahosin",
-        "reactions": 32,
+        "reactions": 34,
         "comments": 12,
-        "hoursSincePosted": 6.7,
+        "hoursSincePosted": 14.5,
         "readingTime": 13
       },
       "articles": [
@@ -347,7 +365,7 @@
             "name": "S M Tahosin",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886453%2F0f012a95-ad46-4c17-97e8-125ec8b4978d.png"
           },
-          "reactionsCount": 32,
+          "reactionsCount": 34,
           "commentsCount": 12,
           "readingTime": 13,
           "publishedAt": "2026-05-19T13:12:33Z",
@@ -357,7 +375,7 @@
             "agents",
             "discuss"
           ],
-          "trendingScore": 15.82,
+          "trendingScore": 7.9,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -388,7 +406,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.1,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -407,17 +425,17 @@
       ]
     },
     "NousResearch/hermes-agent": {
-      "count7d": 12,
-      "reactionsSum7d": 73,
+      "count7d": 13,
+      "reactionsSum7d": 87,
       "commentsSum7d": 29,
       "topArticle": {
         "id": 3701157,
         "title": "Hermes Just Killed OpenClaw (Here's Why)",
         "url": "https://dev.to/tahosin/hermes-just-killed-openclaw-heres-why-4c23",
         "author": "tahosin",
-        "reactions": 32,
+        "reactions": 34,
         "comments": 12,
-        "hoursSincePosted": 6.7,
+        "hoursSincePosted": 14.5,
         "readingTime": 13
       },
       "articles": [
@@ -431,7 +449,7 @@
             "name": "S M Tahosin",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886453%2F0f012a95-ad46-4c17-97e8-125ec8b4978d.png"
           },
-          "reactionsCount": 32,
+          "reactionsCount": 34,
           "commentsCount": 12,
           "readingTime": 13,
           "publishedAt": "2026-05-19T13:12:33Z",
@@ -441,7 +459,7 @@
             "agents",
             "discuss"
           ],
-          "trendingScore": 15.82,
+          "trendingScore": 7.9,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -473,7 +491,35 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 1.07,
+          "trendingScore": 0.99,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3704896,
+          "title": "Hermes Agent's Learning Loop Is the Only Thing That Makes an Agent Actually Get Better. Here's How It Works",
+          "description": "This is a submission for the Hermes Agent Challenge     Most AI agents have a memory problem they...",
+          "url": "https://dev.to/om_shree_0709/hermes-agents-learning-loop-is-the-only-thing-that-makes-an-agent-actually-get-better-heres-how-3l2k",
+          "author": {
+            "username": "om_shree_0709",
+            "name": "Om Shree",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2900392%2F78ad1723-16ab-4e46-b39c-7f3feb416d23.jpg"
+          },
+          "reactionsCount": 6,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-20T01:09:56Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 1.83,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -501,7 +547,35 @@
             "ai",
             "agents"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3702993,
+          "title": "Your Tools Don't Learn You. This One Does.",
+          "description": "This is a submission for the Hermes Agent Challenge   TL;DR Most AI agents forget everything the...",
+          "url": "https://dev.to/hemapriya_kanagala/your-tools-dont-learn-you-this-one-does-3ak2",
+          "author": {
+            "username": "hemapriya_kanagala",
+            "name": "Hemapriya Kanagala",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3307586%2F2dffaf97-946d-44a6-8a39-07d94a72e07d.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-19T18:13:56Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 0.37,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -528,7 +602,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.1,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -565,6 +639,34 @@
             "opensource"
           ],
           "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3697223,
+          "title": "How I Connected Hermes Agent to My Next.js App (And Why It's Not Just Another Chatbot Wrapper)",
+          "description": "This is a submission for the Hermes Agent Challenge  Live app: https://devbrief-tau.vercel.app Repo:...",
+          "url": "https://dev.to/sundayonah/how-i-connected-hermes-agent-to-my-nextjs-app-and-why-its-not-just-another-chatbot-wrapper-3p59",
+          "author": {
+            "username": "sundayonah",
+            "name": "Onah Sunday.",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F910464%2Fdbdb225b-898d-41f3-9fa1-14f355e80ee2.jpeg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-19T04:34:44Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "nextjs"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -655,57 +757,53 @@
           ]
         },
         {
-          "id": 3702993,
-          "title": "Your Tools Don't Learn You. This One Does.",
-          "description": "This is a submission for the Hermes Agent Challenge   TL;DR Most AI agents forget everything the...",
-          "url": "https://dev.to/hemapriya_kanagala/your-tools-dont-learn-you-this-one-does-3ak2",
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
           "author": {
-            "username": "hemapriya_kanagala",
-            "name": "Hemapriya Kanagala",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3307586%2F2dffaf97-946d-44a6-8a39-07d94a72e07d.png"
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-19T18:13:56Z",
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
           "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
             {
               "fullName": "NousResearch/hermes-agent",
               "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3697223,
-          "title": "How I Connected Hermes Agent to My Next.js App (And Why It's Not Just Another Chatbot Wrapper)",
-          "description": "This is a submission for the Hermes Agent Challenge  Live app: https://devbrief-tau.vercel.app Repo:...",
-          "url": "https://dev.to/sundayonah/how-i-connected-hermes-agent-to-my-nextjs-app-and-why-its-not-just-another-chatbot-wrapper-3p59",
-          "author": {
-            "username": "sundayonah",
-            "name": "Onah Sunday.",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F910464%2Fdbdb225b-898d-41f3-9fa1-14f355e80ee2.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-19T04:34:44Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "nextjs"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
+            },
             {
-              "fullName": "NousResearch/hermes-agent",
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
               "location": "body"
             }
           ]
@@ -737,160 +835,43 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3659464,
-          "title": "How I Deployed Hermes Agent on Railway with Telegram (And Every Gotcha I Hit Along the Way)",
-          "description": "TL;DR for the skimmers    Hermes is NousResearch's self-improving AI agent...",
-          "url": "https://dev.to/tessak22/how-i-deployed-hermes-agent-on-railway-with-telegram-and-every-gotcha-i-hit-along-the-way-4hhk",
-          "author": {
-            "username": "tessak22",
-            "name": "Tessa Kriesel",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F142543%2F391aa73e-bb8f-4e21-b9bf-b69fccad57f1.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-12T21:14:06Z",
-          "tags": [
-            "ai",
-            "automation",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "HexmosTech/git-lrc": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3703180,
-        "title": "What Happens When You Run `npm run dev`",
-        "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
-        "author": "lovestaco",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 1.1,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3703180,
-          "title": "What Happens When You Run `npm run dev`",
-          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
-          "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
-          "author": {
-            "username": "lovestaco",
-            "name": "Athreya aka Maneshwar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-19T18:45:40Z",
-          "tags": [
-            "webdev",
-            "programming",
-            "javascript",
-            "beginners"
-          ],
-          "trendingScore": 6.3,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Fission-AI/OpenSpec": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3690020,
-        "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
-        "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
-        "author": "kenimo49",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.9,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3690020,
-          "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
-          "description": "I called spec-driven development overhead for six months. Then Claude Code wrote a discount feature that applied coupons to itself, three times in a row. Here is what fifteen minutes of OpenAPI bought me.",
-          "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
-          "author": {
-            "username": "kenimo49",
-            "name": "Ken Imoto",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3800250%2F275022f6-cba9-47e3-b69e-e8faf7675a0c.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-19T13:00:01Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "spec",
-            "openapi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
     "vectorize-io/hindsight": {
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3697942,
-        "title": "Hindsight Turned Repeat Commenters Into Recognizable People",
-        "url": "https://dev.to/vidushi0229/hindsight-turned-repeat-commenters-into-recognizable-people-4fl2",
-        "author": "vidushi0229",
+        "id": 3703531,
+        "title": "I Built Stateful Music Sessions With Hindsight How cascadeflow Helped Us Isolate Generation Failures",
+        "url": "https://dev.to/bharat_hg_6b3b237cc912c12/i-built-stateful-music-sessions-with-hindsight-how-cascadeflow-helped-us-isolate-generation-1d2p",
+        "author": "bharat_hg_6b3b237cc912c12",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 6.4,
-        "readingTime": 7
+        "hoursSincePosted": 7.8,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3697942,
-          "title": "Hindsight Turned Repeat Commenters Into Recognizable People",
-          "description": "I was building EchoEngage an AI-driven comment responder, and ran into a frustrating...",
-          "url": "https://dev.to/vidushi0229/hindsight-turned-repeat-commenters-into-recognizable-people-4fl2",
+          "id": 3703531,
+          "title": "I Built Stateful Music Sessions With Hindsight How cascadeflow Helped Us Isolate Generation Failures",
+          "description": "I Built Stateful Music Sessions With Hindsight            How cascadeflow Helped Us Isolate...",
+          "url": "https://dev.to/bharat_hg_6b3b237cc912c12/i-built-stateful-music-sessions-with-hindsight-how-cascadeflow-helped-us-isolate-generation-1d2p",
           "author": {
-            "username": "vidushi0229",
-            "name": "Vidushi Goyal",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3939244%2Fbee9b11b-60d0-4808-b17e-2214181e9b46.png"
+            "username": "bharat_hg_6b3b237cc912c12",
+            "name": "Bharat Hg",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940778%2F03b07ac2-fc71-499f-b09d-c1218fa06093.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-19T13:31:35Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-19T19:53:30Z",
           "tags": [
             "ai",
-            "fastapi",
-            "rag",
-            "react"
+            "architecture",
+            "machinelearning",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -955,6 +936,152 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3697942,
+          "title": "Hindsight Turned Repeat Commenters Into Recognizable People",
+          "description": "I was building EchoEngage an AI-driven comment responder, and ran into a frustrating...",
+          "url": "https://dev.to/vidushi0229/hindsight-turned-repeat-commenters-into-recognizable-people-4fl2",
+          "author": {
+            "username": "vidushi0229",
+            "name": "Vidushi Goyal",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3939244%2Fbee9b11b-60d0-4808-b17e-2214181e9b46.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-19T13:31:35Z",
+          "tags": [
+            "ai",
+            "fastapi",
+            "rag",
+            "react"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vectorize-io/hindsight",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS/DeepTutor": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3703658,
+        "title": "The context copy gets the write, the endpoint never sees it",
+        "url": "https://dev.to/earthbound_misfit/the-context-copy-gets-the-write-the-endpoint-never-sees-it-31dm",
+        "author": "earthbound_misfit",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 7.4,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3703658,
+          "title": "The context copy gets the write, the endpoint never sees it",
+          "description": "A sync FastAPI dependency calling ContextVar.set() runs under anyio.to_thread.run_sync, which copies the context. The write lands in the copy. The endpoint reads the original. One-keyword fix, plus the mechanic that makes it invisible.",
+          "url": "https://dev.to/earthbound_misfit/the-context-copy-gets-the-write-the-endpoint-never-sees-it-31dm",
+          "author": {
+            "username": "earthbound_misfit",
+            "name": "Truffle",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3894869%2Fd8eb128c-d56f-4996-b0d6-4d9a10950086.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-19T20:16:33Z",
+          "tags": [
+            "python",
+            "fastapi",
+            "debugging",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/DeepTutor",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "maximhq/bifrost": {
+      "count7d": 2,
+      "reactionsSum7d": 39,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3693063,
+        "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
+        "url": "https://dev.to/anthonymax/the-concept-of-automatic-fallbacks-and-how-bifrost-implements-it-592p",
+        "author": "anthonymax",
+        "reactions": 39,
+        "comments": 2,
+        "hoursSincePosted": 4.9,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3693063,
+          "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
+          "description": "The promise of AI is transformative. The reality is distributed, fragile, and increasingly complex....",
+          "url": "https://dev.to/anthonymax/the-concept-of-automatic-fallbacks-and-how-bifrost-implements-it-592p",
+          "author": {
+            "username": "anthonymax",
+            "name": "Anthony Max",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2103048%2F716988a5-9c51-49bf-acef-191bc6dd2fee.jpeg"
+          },
+          "reactionsCount": 39,
+          "commentsCount": 2,
+          "readingTime": 5,
+          "publishedAt": "2026-05-19T22:49:23Z",
+          "tags": [
+            "ai",
+            "webdev",
+            "programming",
+            "api"
+          ],
+          "trendingScore": 15.23,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3697159,
+          "title": "Putting an LLM Gateway in Front of Our Build Agents: Why We Picked Bifrost",
+          "description": "TL;DR: We bolted an LLM gateway in front of the AI features in our build pipeline tooling and ended...",
+          "url": "https://dev.to/claire_nguyen/putting-an-llm-gateway-in-front-of-our-build-agents-why-we-picked-bifrost-130g",
+          "author": {
+            "username": "claire_nguyen",
+            "name": "claire nguyen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-19T04:22:40Z",
+          "tags": [
+            "infrastructure",
+            "devops",
+            "sre",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -969,7 +1096,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 8.3,
+        "hoursSincePosted": 16.1,
         "readingTime": 5
       },
       "articles": [
@@ -993,7 +1120,7 @@
             "agents",
             "programming"
           ],
-          "trendingScore": 0.42,
+          "trendingScore": 0.22,
           "linkedRepos": [
             {
               "fullName": "Lum1104/Understand-Anything",
@@ -1014,7 +1141,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 35.7,
+        "hoursSincePosted": 43.5,
         "readingTime": 16
       },
       "articles": [
@@ -1037,7 +1164,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.1,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -1066,7 +1193,7 @@
         "author": "tythos",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 109.4,
+        "hoursSincePosted": 117.2,
         "readingTime": 10
       },
       "articles": [
@@ -1099,51 +1226,6 @@
         }
       ]
     },
-    "github/spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3668345,
-        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-        "author": "dmaxdev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 131.3,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3668345,
-          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
-          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-          "author": {
-            "username": "dmaxdev",
-            "name": "Maksim Danilchenko",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-14T08:37:46Z",
-          "tags": [
-            "specdrivendevelopment",
-            "python",
-            "claudecode",
-            "githubspeckit"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
       "count7d": 8,
       "reactionsSum7d": 1,
@@ -1155,7 +1237,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 38.9,
+        "hoursSincePosted": 46.7,
         "readingTime": 10
       },
       "articles": [
@@ -1406,7 +1488,7 @@
       ]
     },
     "anthropics/claude-plugins-official": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1416,7 +1498,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.9,
+        "hoursSincePosted": 144.7,
         "readingTime": 8
       },
       "articles": [
@@ -1455,6 +1537,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3705123,
+          "title": "One Open Source Project a Day (No. 70): Claude Plugins Official — A Complete Tour of Anthropic's Official Claude Code Plugin Ecosystem",
+          "description": "Introduction    \"Plugins extend Claude Code with commands, agents, skills, hooks, and MCP...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-70-claude-plugins-official-a-complete-tour-of-anthropics-4lgo",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-20T01:59:45Z",
+          "tags": [
+            "opensource",
+            "claude",
+            "mcp",
+            "agentskills"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -1469,7 +1579,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 112.8,
+        "hoursSincePosted": 120.6,
         "readingTime": 6
       },
       "articles": [
@@ -1583,6 +1693,96 @@
         }
       ]
     },
+    "Fission-AI/OpenSpec": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3690020,
+        "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
+        "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
+        "author": "kenimo49",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 14.7,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3690020,
+          "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
+          "description": "I called spec-driven development overhead for six months. Then Claude Code wrote a discount feature that applied coupons to itself, three times in a row. Here is what fifteen minutes of OpenAPI bought me.",
+          "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
+          "author": {
+            "username": "kenimo49",
+            "name": "Ken Imoto",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3800250%2F275022f6-cba9-47e3-b69e-e8faf7675a0c.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-19T13:00:01Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "spec",
+            "openapi"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github/spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3668345,
+        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+        "author": "dmaxdev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 139.1,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3668345,
+          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
+          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+          "author": {
+            "username": "dmaxdev",
+            "name": "Maksim Danilchenko",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-14T08:37:46Z",
+          "tags": [
+            "specdrivendevelopment",
+            "python",
+            "claudecode",
+            "githubspeckit"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "Alishahryar1/free-claude-code": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1594,7 +1794,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 101.7,
+        "hoursSincePosted": 109.6,
         "readingTime": 3
       },
       "articles": [
@@ -1628,8 +1828,53 @@
         }
       ]
     },
-    "mattpocock/skills": {
+    "mvanhorn/printing-press-library": {
       "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660396,
+        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+        "author": "adnanc",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 165.7,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3660396,
+          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
+          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+          "author": {
+            "username": "adnanc",
+            "name": "Adnan Çakmak",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-13T05:58:14Z",
+          "tags": [
+            "anthropicmcp",
+            "claudecode",
+            "claudeapi",
+            "github"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mvanhorn/printing-press-library",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock/skills": {
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1639,7 +1884,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.9,
+        "hoursSincePosted": 67.7,
         "readingTime": 7
       },
       "articles": [
@@ -1682,11 +1927,63 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "addyosmani/agent-skills": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1696,7 +1993,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.9,
+        "hoursSincePosted": 67.7,
         "readingTime": 7
       },
       "articles": [
@@ -1736,6 +2033,58 @@
             },
             {
               "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
               "location": "body"
             }
           ]
@@ -1753,7 +2102,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.9,
+        "hoursSincePosted": 67.7,
         "readingTime": 7
       },
       "articles": [
@@ -1832,7 +2181,7 @@
       ]
     },
     "rohitg00/agentmemory": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
@@ -1842,7 +2191,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 104.7,
+        "hoursSincePosted": 112.5,
         "readingTime": 11
       },
       "articles": [
@@ -1873,48 +2222,55 @@
               "location": "tag"
             }
           ]
-        }
-      ]
-    },
-    "mvanhorn/printing-press-library": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3660396,
-        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
-        "author": "adnanc",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 157.9,
-        "readingTime": 7
-      },
-      "articles": [
+        },
         {
-          "id": 3660396,
-          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
-          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
           "author": {
-            "username": "adnanc",
-            "name": "Adnan Çakmak",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-13T05:58:14Z",
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
           "tags": [
-            "anthropicmcp",
             "claudecode",
-            "claudeapi",
-            "github"
+            "ai",
+            "devtools",
+            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "mvanhorn/printing-press-library",
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
               "location": "body"
             }
           ]
@@ -1922,7 +2278,7 @@
       ]
     },
     "openai/codex": {
-      "count7d": 4,
+      "count7d": 3,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1932,7 +2288,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 38.9,
+        "hoursSincePosted": 46.7,
         "readingTime": 10
       },
       "articles": [
@@ -1965,34 +2321,6 @@
             {
               "fullName": "openai/codex",
               "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3681154,
-          "title": "Codex Goes Mobile: A Phone-as-Steering-Wheel Playbook",
-          "description": "Codex now ships inside the ChatGPT mobile app. What mobile actually unlocks, what it doesn't, and how to pair it with a real backend safely.",
-          "url": "https://dev.to/max_quimby/codex-goes-mobile-a-phone-as-steering-wheel-playbook-1obe",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-16T03:36:40Z",
-          "tags": [
-            "ai",
-            "openai",
-            "claudecode",
-            "mobile"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
             }
           ]
         },
@@ -2065,7 +2393,7 @@
         "author": "rentierdigital",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 30.2,
+        "hoursSincePosted": 38,
         "readingTime": 10
       },
       "articles": [
@@ -2174,7 +2502,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40,
+        "hoursSincePosted": 47.8,
         "readingTime": 9
       },
       "articles": [
@@ -2212,6 +2540,213 @@
         }
       ]
     },
+    "farion1231/cc-switch": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660048,
+        "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+        "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 167.2,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "iOfficeAI/AionUi": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660048,
+        "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+        "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 167.2,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "millionco/react-doctor": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660048,
+        "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+        "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 167.2,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "samber/cc-skills-golang": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -2223,7 +2758,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 112.8,
+        "hoursSincePosted": 120.6,
         "readingTime": 6
       },
       "articles": [
@@ -2261,6 +2796,55 @@
         }
       ]
     },
+    "router-for-me/CLIProxyAPI": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3686294,
+        "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
+        "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
+        "author": "vainamoinen",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 70.3,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3686294,
+          "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
+          "description": "After June 15, 2026, the cheapest legitimate path to keep Claude Code agentic workloads running is multi-account rotation. There are two architectures for it. One has 11.7k GitHub stars and gets banned in waves. The other is in a closed-as-completed GitHub issue from Anthropic it",
+          "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
+          "author": {
+            "username": "vainamoinen",
+            "name": "Vainamoinen | Pulsed Media",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3879600%2Fce3a6ec3-4bde-4859-baeb-e6f99ed3c817.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-17T05:27:42Z",
+          "tags": [
+            "claude",
+            "anthropic",
+            "ai",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "router-for-me/CLIProxyAPI",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "HKUDS/CLI-Anything": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -2272,7 +2856,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 41.2,
+        "hoursSincePosted": 49,
         "readingTime": 8
       },
       "articles": [
@@ -2317,7 +2901,7 @@
         "author": "maicon_ribeiroesteves_32",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 8.9,
+        "hoursSincePosted": 16.7,
         "readingTime": 3
       },
       "articles": [
@@ -2351,55 +2935,6 @@
         }
       ]
     },
-    "router-for-me/CLIProxyAPI": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3686294,
-        "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
-        "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
-        "author": "vainamoinen",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 62.4,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3686294,
-          "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
-          "description": "After June 15, 2026, the cheapest legitimate path to keep Claude Code agentic workloads running is multi-account rotation. There are two architectures for it. One has 11.7k GitHub stars and gets banned in waves. The other is in a closed-as-completed GitHub issue from Anthropic it",
-          "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
-          "author": {
-            "username": "vainamoinen",
-            "name": "Vainamoinen | Pulsed Media",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3879600%2Fce3a6ec3-4bde-4859-baeb-e6f99ed3c817.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-17T05:27:42Z",
-          "tags": [
-            "claude",
-            "anthropic",
-            "ai",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "zhangfengcdt/memoir": {
       "count7d": 1,
       "reactionsSum7d": 3,
@@ -2411,7 +2946,7 @@
         "author": "feng_zhang_38696450631765",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 72,
+        "hoursSincePosted": 79.8,
         "readingTime": 2
       },
       "articles": [
@@ -2445,51 +2980,6 @@
         }
       ]
     },
-    "datawhalechina/easy-vibe": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3659614,
-        "title": "One Open Source Project a Day (No. 64): Easy-Vibe - Datawhale's AI-Era Programming Curriculum",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-64-easy-vibe-datawhales-ai-era-programming-curriculum-26ic",
-        "author": "wonderlab",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 162.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3659614,
-          "title": "One Open Source Project a Day (No. 64): Easy-Vibe - Datawhale's AI-Era Programming Curriculum",
-          "description": "Introduction    \"If you can talk, you can build apps.\"   This is the No.64 article in the...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-64-easy-vibe-datawhales-ai-era-programming-curriculum-26ic",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 8,
-          "publishedAt": "2026-05-13T01:39:45Z",
-          "tags": [
-            "opensource",
-            "ai",
-            "vibecoding",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "datawhalechina/easy-vibe",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "colbymchenry/codegraph": {
       "count7d": 1,
       "reactionsSum7d": 5,
@@ -2501,7 +2991,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 2,
-        "hoursSincePosted": 50.4,
+        "hoursSincePosted": 58.2,
         "readingTime": 3
       },
       "articles": [
@@ -2525,55 +3015,10 @@
             "opensource",
             "agentskills"
           ],
-          "trendingScore": 0.08,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "ComposioHQ/awesome-claude-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3694922,
-        "title": "The AIMO Playbook: 5 Practices to Get Recommended by AI Assistants",
-        "url": "https://dev.to/septim_labs/the-aimo-playbook-5-practices-to-get-recommended-by-ai-assistants-31l6",
-        "author": "septim_labs",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 27,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3694922,
-          "title": "The AIMO Playbook: 5 Practices to Get Recommended by AI Assistants",
-          "description": "The first article I published on AIMO defined the term. This one is the playbook.  If you haven't...",
-          "url": "https://dev.to/septim_labs/the-aimo-playbook-5-practices-to-get-recommended-by-ai-assistants-31l6",
-          "author": {
-            "username": "septim_labs",
-            "name": "Septim Labs",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936937%2Fb25a160c-9866-40bb-9a1a-891c6d43a1a8.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-05-18T16:52:54Z",
-          "tags": [
-            "aimo",
-            "ai",
-            "marketing",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
               "location": "body"
             }
           ]
@@ -2591,7 +3036,7 @@
         "author": "turacthethinker",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 30.5,
+        "hoursSincePosted": 38.3,
         "readingTime": 4
       },
       "articles": [
@@ -2636,7 +3081,7 @@
         "author": "owen_fox",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 173.1,
+        "hoursSincePosted": 180.9,
         "readingTime": 9
       },
       "articles": [
@@ -2681,7 +3126,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 187.7,
+        "hoursSincePosted": 195.5,
         "readingTime": 9
       },
       "articles": [
@@ -2726,7 +3171,7 @@
         "author": "madhaviai",
         "reactions": 3,
         "comments": 3,
-        "hoursSincePosted": 28.9,
+        "hoursSincePosted": 36.7,
         "readingTime": 3
       },
       "articles": [
@@ -2749,7 +3194,7 @@
             "mcp",
             "llm"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "github/github-mcp-server",
@@ -2787,90 +3232,49 @@
         }
       ]
     },
-    "maximhq/bifrost": {
+    "tirth8205/code-review-graph": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3697159,
-        "title": "Putting an LLM Gateway in Front of Our Build Agents: Why We Picked Bifrost",
-        "url": "https://dev.to/claire_nguyen/putting-an-llm-gateway-in-front-of-our-build-agents-why-we-picked-bifrost-130g",
-        "author": "claire_nguyen",
+        "id": 3688579,
+        "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
+        "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
+        "author": "mir_mursalin_ankur",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 15.5,
-        "readingTime": 4
+        "hoursSincePosted": 60.2,
+        "readingTime": 53
       },
       "articles": [
         {
-          "id": 3697159,
-          "title": "Putting an LLM Gateway in Front of Our Build Agents: Why We Picked Bifrost",
-          "description": "TL;DR: We bolted an LLM gateway in front of the AI features in our build pipeline tooling and ended...",
-          "url": "https://dev.to/claire_nguyen/putting-an-llm-gateway-in-front-of-our-build-agents-why-we-picked-bifrost-130g",
+          "id": 3688579,
+          "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
+          "description": "Every developer working with LLMs on a large codebase eventually hits the same wall: context windows...",
+          "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
           "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
+            "username": "mir_mursalin_ankur",
+            "name": "Mir Mursalin Ankur",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1253577%2Fab3d1472-b6cf-4c16-994c-cf7c24c8104e.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-19T04:22:40Z",
+          "readingTime": 53,
+          "publishedAt": "2026-05-17T15:31:39Z",
           "tags": [
-            "infrastructure",
-            "devops",
-            "sre",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Ataraxy-Labs/weave": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3659387,
-        "title": "The state of automatic merge conflict resolution in 2026: a survey, and where GitWand is headed",
-        "url": "https://dev.to/laurent_guitton_038649364/the-state-of-automatic-merge-conflict-resolution-in-2026-a-survey-and-where-gitwand-is-headed-4d8n",
-        "author": "laurent_guitton_038649364",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 164.1,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3659387,
-          "title": "The state of automatic merge conflict resolution in 2026: a survey, and where GitWand is headed",
-          "description": "If you've used GitWand, you know that the headline feature is automatic conflict resolution: a...",
-          "url": "https://dev.to/laurent_guitton_038649364/the-state-of-automatic-merge-conflict-resolution-in-2026-a-survey-and-where-gitwand-is-headed-4d8n",
-          "author": {
-            "username": "laurent_guitton_038649364",
-            "name": "Laurent Guitton",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2460622%2Fb3e87ed3-3ab6-461f-acaa-657587ebb000.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-05-12T23:45:34Z",
-          "tags": [
-            "automation",
-            "git",
-            "showdev",
+            "agents",
+            "ai",
+            "llm",
             "tooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "Ataraxy-Labs/weave",
+              "fullName": "safishamsi/graphify",
+              "location": "body"
+            },
+            {
+              "fullName": "tirth8205/code-review-graph",
               "location": "body"
             }
           ]
@@ -2888,7 +3292,7 @@
         "author": "omarmusayev",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 120.5,
+        "hoursSincePosted": 128.3,
         "readingTime": 4
       },
       "articles": [
@@ -2989,7 +3393,7 @@
         "author": "selfagency",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 25.6,
+        "hoursSincePosted": 33.4,
         "readingTime": 7
       },
       "articles": [
@@ -3034,7 +3438,7 @@
         "author": "armorbreak",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 92,
+        "hoursSincePosted": 99.8,
         "readingTime": 4
       },
       "articles": [
@@ -3079,7 +3483,7 @@
         "author": "imper_7cde72b79d2529291ec",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.9,
+        "hoursSincePosted": 34.7,
         "readingTime": 2
       },
       "articles": [
@@ -3123,7 +3527,7 @@
         "author": "imper_7cde72b79d2529291ec",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.5,
+        "hoursSincePosted": 34.3,
         "readingTime": 2
       },
       "articles": [
@@ -3157,55 +3561,6 @@
         }
       ]
     },
-    "tirth8205/code-review-graph": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3688579,
-        "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
-        "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
-        "author": "mir_mursalin_ankur",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 52.4,
-        "readingTime": 53
-      },
-      "articles": [
-        {
-          "id": 3688579,
-          "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
-          "description": "Every developer working with LLMs on a large codebase eventually hits the same wall: context windows...",
-          "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
-          "author": {
-            "username": "mir_mursalin_ankur",
-            "name": "Mir Mursalin Ankur",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1253577%2Fab3d1472-b6cf-4c16-994c-cf7c24c8104e.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 53,
-          "publishedAt": "2026-05-17T15:31:39Z",
-          "tags": [
-            "agents",
-            "ai",
-            "llm",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            },
-            {
-              "fullName": "tirth8205/code-review-graph",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "openai/openai-agents-python": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -3217,7 +3572,7 @@
         "author": "doramagic",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 53.7,
+        "hoursSincePosted": 61.5,
         "readingTime": 3
       },
       "articles": [
@@ -3262,7 +3617,7 @@
         "author": "ratamaha",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.1,
+        "hoursSincePosted": 136.9,
         "readingTime": 2
       },
       "articles": [
@@ -3335,7 +3690,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 34.9,
+        "hoursSincePosted": 42.7,
         "readingTime": 3
       },
       "articles": [
@@ -3359,7 +3714,7 @@
             "devops",
             "opensource"
           ],
-          "trendingScore": 0.11,
+          "trendingScore": 0.09,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -3380,7 +3735,7 @@
         "author": "vikasprogrammer",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 88.3,
+        "hoursSincePosted": 96.1,
         "readingTime": 5
       },
       "articles": [
@@ -3425,7 +3780,7 @@
         "author": "hectorvent",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 73.3,
+        "hoursSincePosted": 81.1,
         "readingTime": 4
       },
       "articles": [
@@ -3462,17 +3817,17 @@
   },
   "mentionsByRepoId": {
     "aaif-goose--goose": {
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 54,
-      "commentsSum7d": 10,
+      "commentsSum7d": 11,
       "topArticle": {
         "id": 3665857,
         "title": "How I Documented an Entire Product in 4 Days with an AI Agent",
         "url": "https://dev.to/debs_obrien/how-i-documented-an-entire-product-in-4-days-with-an-ai-agent-3338",
         "author": "debs_obrien",
-        "reactions": 52,
-        "comments": 10,
-        "hoursSincePosted": 143.6,
+        "reactions": 54,
+        "comments": 11,
+        "hoursSincePosted": 151.4,
         "readingTime": 19
       },
       "articles": [
@@ -3486,8 +3841,8 @@
             "name": "Debbie O'Brien",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F212929%2F947ba7e0-41fe-464a-a4f3-abb66a3170c6.jpg"
           },
-          "reactionsCount": 52,
-          "commentsCount": 10,
+          "reactionsCount": 54,
+          "commentsCount": 11,
           "readingTime": 19,
           "publishedAt": "2026-05-13T20:18:51Z",
           "tags": [
@@ -3496,37 +3851,55 @@
             "documentation",
             "webdev"
           ],
-          "trendingScore": 1.24,
+          "trendingScore": 1.3,
           "linkedRepos": [
             {
               "fullName": "aaif-goose/goose",
               "location": "body"
             }
           ]
-        },
+        }
+      ]
+    },
+    "hexmostech--git-lrc": {
+      "count7d": 1,
+      "reactionsSum7d": 13,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3703180,
+        "title": "What Happens When You Run `npm run dev`",
+        "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
+        "author": "lovestaco",
+        "reactions": 13,
+        "comments": 0,
+        "hoursSincePosted": 9,
+        "readingTime": 6
+      },
+      "articles": [
         {
-          "id": 3694339,
-          "title": "The weekend I fell down the MCP rabbit hole",
-          "description": "👋This is the start of a series where I document what I'm learning about Model Context Protocol...",
-          "url": "https://dev.to/anajsana95/the-weekend-i-fell-down-the-mcp-rabbit-hole-a",
+          "id": 3703180,
+          "title": "What Happens When You Run `npm run dev`",
+          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
+          "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
           "author": {
-            "username": "anajsana95",
-            "name": "Ana Jimenez Santamaria",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F344556%2Ff87b2a04-5b88-47b8-949f-a5bd5154f2df.JPG"
+            "username": "lovestaco",
+            "name": "Athreya aka Maneshwar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 13,
           "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-18T15:34:33Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-19T18:45:40Z",
           "tags": [
-            "ai",
-            "opensource",
-            "mcp"
+            "webdev",
+            "programming",
+            "javascript",
+            "beginners"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 1.62,
           "linkedRepos": [
             {
-              "fullName": "aaif-goose/goose",
+              "fullName": "HexmosTech/git-lrc",
               "location": "body"
             }
           ]
@@ -3544,7 +3917,7 @@
         "author": "nfrankel",
         "reactions": 10,
         "comments": 7,
-        "hoursSincePosted": 130.9,
+        "hoursSincePosted": 138.7,
         "readingTime": 10
       },
       "articles": [
@@ -3568,7 +3941,7 @@
             "budget",
             "agents"
           ],
-          "trendingScore": 0.13,
+          "trendingScore": 0.12,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -3580,16 +3953,16 @@
     },
     "openclaw--openclaw": {
       "count7d": 2,
-      "reactionsSum7d": 37,
+      "reactionsSum7d": 39,
       "commentsSum7d": 12,
       "topArticle": {
         "id": 3701157,
         "title": "Hermes Just Killed OpenClaw (Here's Why)",
         "url": "https://dev.to/tahosin/hermes-just-killed-openclaw-heres-why-4c23",
         "author": "tahosin",
-        "reactions": 32,
+        "reactions": 34,
         "comments": 12,
-        "hoursSincePosted": 6.7,
+        "hoursSincePosted": 14.5,
         "readingTime": 13
       },
       "articles": [
@@ -3603,7 +3976,7 @@
             "name": "S M Tahosin",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886453%2F0f012a95-ad46-4c17-97e8-125ec8b4978d.png"
           },
-          "reactionsCount": 32,
+          "reactionsCount": 34,
           "commentsCount": 12,
           "readingTime": 13,
           "publishedAt": "2026-05-19T13:12:33Z",
@@ -3613,7 +3986,7 @@
             "agents",
             "discuss"
           ],
-          "trendingScore": 15.82,
+          "trendingScore": 7.9,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -3644,7 +4017,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.1,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3663,17 +4036,17 @@
       ]
     },
     "nousresearch--hermes-agent": {
-      "count7d": 12,
-      "reactionsSum7d": 73,
+      "count7d": 13,
+      "reactionsSum7d": 87,
       "commentsSum7d": 29,
       "topArticle": {
         "id": 3701157,
         "title": "Hermes Just Killed OpenClaw (Here's Why)",
         "url": "https://dev.to/tahosin/hermes-just-killed-openclaw-heres-why-4c23",
         "author": "tahosin",
-        "reactions": 32,
+        "reactions": 34,
         "comments": 12,
-        "hoursSincePosted": 6.7,
+        "hoursSincePosted": 14.5,
         "readingTime": 13
       },
       "articles": [
@@ -3687,7 +4060,7 @@
             "name": "S M Tahosin",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886453%2F0f012a95-ad46-4c17-97e8-125ec8b4978d.png"
           },
-          "reactionsCount": 32,
+          "reactionsCount": 34,
           "commentsCount": 12,
           "readingTime": 13,
           "publishedAt": "2026-05-19T13:12:33Z",
@@ -3697,7 +4070,7 @@
             "agents",
             "discuss"
           ],
-          "trendingScore": 15.82,
+          "trendingScore": 7.9,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -3729,7 +4102,35 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 1.07,
+          "trendingScore": 0.99,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3704896,
+          "title": "Hermes Agent's Learning Loop Is the Only Thing That Makes an Agent Actually Get Better. Here's How It Works",
+          "description": "This is a submission for the Hermes Agent Challenge     Most AI agents have a memory problem they...",
+          "url": "https://dev.to/om_shree_0709/hermes-agents-learning-loop-is-the-only-thing-that-makes-an-agent-actually-get-better-heres-how-3l2k",
+          "author": {
+            "username": "om_shree_0709",
+            "name": "Om Shree",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2900392%2F78ad1723-16ab-4e46-b39c-7f3feb416d23.jpg"
+          },
+          "reactionsCount": 6,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-20T01:09:56Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 1.83,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3757,7 +4158,35 @@
             "ai",
             "agents"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3702993,
+          "title": "Your Tools Don't Learn You. This One Does.",
+          "description": "This is a submission for the Hermes Agent Challenge   TL;DR Most AI agents forget everything the...",
+          "url": "https://dev.to/hemapriya_kanagala/your-tools-dont-learn-you-this-one-does-3ak2",
+          "author": {
+            "username": "hemapriya_kanagala",
+            "name": "Hemapriya Kanagala",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3307586%2F2dffaf97-946d-44a6-8a39-07d94a72e07d.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-19T18:13:56Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 0.37,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3784,7 +4213,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.1,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3821,6 +4250,34 @@
             "opensource"
           ],
           "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3697223,
+          "title": "How I Connected Hermes Agent to My Next.js App (And Why It's Not Just Another Chatbot Wrapper)",
+          "description": "This is a submission for the Hermes Agent Challenge  Live app: https://devbrief-tau.vercel.app Repo:...",
+          "url": "https://dev.to/sundayonah/how-i-connected-hermes-agent-to-my-nextjs-app-and-why-its-not-just-another-chatbot-wrapper-3p59",
+          "author": {
+            "username": "sundayonah",
+            "name": "Onah Sunday.",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F910464%2Fdbdb225b-898d-41f3-9fa1-14f355e80ee2.jpeg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-19T04:34:44Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "nextjs"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3911,57 +4368,53 @@
           ]
         },
         {
-          "id": 3702993,
-          "title": "Your Tools Don't Learn You. This One Does.",
-          "description": "This is a submission for the Hermes Agent Challenge   TL;DR Most AI agents forget everything the...",
-          "url": "https://dev.to/hemapriya_kanagala/your-tools-dont-learn-you-this-one-does-3ak2",
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
           "author": {
-            "username": "hemapriya_kanagala",
-            "name": "Hemapriya Kanagala",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3307586%2F2dffaf97-946d-44a6-8a39-07d94a72e07d.png"
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-19T18:13:56Z",
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
           "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
             {
               "fullName": "NousResearch/hermes-agent",
               "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3697223,
-          "title": "How I Connected Hermes Agent to My Next.js App (And Why It's Not Just Another Chatbot Wrapper)",
-          "description": "This is a submission for the Hermes Agent Challenge  Live app: https://devbrief-tau.vercel.app Repo:...",
-          "url": "https://dev.to/sundayonah/how-i-connected-hermes-agent-to-my-nextjs-app-and-why-its-not-just-another-chatbot-wrapper-3p59",
-          "author": {
-            "username": "sundayonah",
-            "name": "Onah Sunday.",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F910464%2Fdbdb225b-898d-41f3-9fa1-14f355e80ee2.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-19T04:34:44Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "nextjs"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
+            },
             {
-              "fullName": "NousResearch/hermes-agent",
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
               "location": "body"
             }
           ]
@@ -3993,160 +4446,43 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3659464,
-          "title": "How I Deployed Hermes Agent on Railway with Telegram (And Every Gotcha I Hit Along the Way)",
-          "description": "TL;DR for the skimmers    Hermes is NousResearch's self-improving AI agent...",
-          "url": "https://dev.to/tessak22/how-i-deployed-hermes-agent-on-railway-with-telegram-and-every-gotcha-i-hit-along-the-way-4hhk",
-          "author": {
-            "username": "tessak22",
-            "name": "Tessa Kriesel",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F142543%2F391aa73e-bb8f-4e21-b9bf-b69fccad57f1.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-12T21:14:06Z",
-          "tags": [
-            "ai",
-            "automation",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "hexmostech--git-lrc": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3703180,
-        "title": "What Happens When You Run `npm run dev`",
-        "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
-        "author": "lovestaco",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 1.1,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3703180,
-          "title": "What Happens When You Run `npm run dev`",
-          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
-          "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
-          "author": {
-            "username": "lovestaco",
-            "name": "Athreya aka Maneshwar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-19T18:45:40Z",
-          "tags": [
-            "webdev",
-            "programming",
-            "javascript",
-            "beginners"
-          ],
-          "trendingScore": 6.3,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "fission-ai--openspec": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3690020,
-        "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
-        "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
-        "author": "kenimo49",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.9,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3690020,
-          "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
-          "description": "I called spec-driven development overhead for six months. Then Claude Code wrote a discount feature that applied coupons to itself, three times in a row. Here is what fifteen minutes of OpenAPI bought me.",
-          "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
-          "author": {
-            "username": "kenimo49",
-            "name": "Ken Imoto",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3800250%2F275022f6-cba9-47e3-b69e-e8faf7675a0c.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-19T13:00:01Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "spec",
-            "openapi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
     "vectorize-io--hindsight": {
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3697942,
-        "title": "Hindsight Turned Repeat Commenters Into Recognizable People",
-        "url": "https://dev.to/vidushi0229/hindsight-turned-repeat-commenters-into-recognizable-people-4fl2",
-        "author": "vidushi0229",
+        "id": 3703531,
+        "title": "I Built Stateful Music Sessions With Hindsight How cascadeflow Helped Us Isolate Generation Failures",
+        "url": "https://dev.to/bharat_hg_6b3b237cc912c12/i-built-stateful-music-sessions-with-hindsight-how-cascadeflow-helped-us-isolate-generation-1d2p",
+        "author": "bharat_hg_6b3b237cc912c12",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 6.4,
-        "readingTime": 7
+        "hoursSincePosted": 7.8,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3697942,
-          "title": "Hindsight Turned Repeat Commenters Into Recognizable People",
-          "description": "I was building EchoEngage an AI-driven comment responder, and ran into a frustrating...",
-          "url": "https://dev.to/vidushi0229/hindsight-turned-repeat-commenters-into-recognizable-people-4fl2",
+          "id": 3703531,
+          "title": "I Built Stateful Music Sessions With Hindsight How cascadeflow Helped Us Isolate Generation Failures",
+          "description": "I Built Stateful Music Sessions With Hindsight            How cascadeflow Helped Us Isolate...",
+          "url": "https://dev.to/bharat_hg_6b3b237cc912c12/i-built-stateful-music-sessions-with-hindsight-how-cascadeflow-helped-us-isolate-generation-1d2p",
           "author": {
-            "username": "vidushi0229",
-            "name": "Vidushi Goyal",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3939244%2Fbee9b11b-60d0-4808-b17e-2214181e9b46.png"
+            "username": "bharat_hg_6b3b237cc912c12",
+            "name": "Bharat Hg",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940778%2F03b07ac2-fc71-499f-b09d-c1218fa06093.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-19T13:31:35Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-19T19:53:30Z",
           "tags": [
             "ai",
-            "fastapi",
-            "rag",
-            "react"
+            "architecture",
+            "machinelearning",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4211,6 +4547,152 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3697942,
+          "title": "Hindsight Turned Repeat Commenters Into Recognizable People",
+          "description": "I was building EchoEngage an AI-driven comment responder, and ran into a frustrating...",
+          "url": "https://dev.to/vidushi0229/hindsight-turned-repeat-commenters-into-recognizable-people-4fl2",
+          "author": {
+            "username": "vidushi0229",
+            "name": "Vidushi Goyal",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3939244%2Fbee9b11b-60d0-4808-b17e-2214181e9b46.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-19T13:31:35Z",
+          "tags": [
+            "ai",
+            "fastapi",
+            "rag",
+            "react"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vectorize-io/hindsight",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "hkuds--deeptutor": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3703658,
+        "title": "The context copy gets the write, the endpoint never sees it",
+        "url": "https://dev.to/earthbound_misfit/the-context-copy-gets-the-write-the-endpoint-never-sees-it-31dm",
+        "author": "earthbound_misfit",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 7.4,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3703658,
+          "title": "The context copy gets the write, the endpoint never sees it",
+          "description": "A sync FastAPI dependency calling ContextVar.set() runs under anyio.to_thread.run_sync, which copies the context. The write lands in the copy. The endpoint reads the original. One-keyword fix, plus the mechanic that makes it invisible.",
+          "url": "https://dev.to/earthbound_misfit/the-context-copy-gets-the-write-the-endpoint-never-sees-it-31dm",
+          "author": {
+            "username": "earthbound_misfit",
+            "name": "Truffle",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3894869%2Fd8eb128c-d56f-4996-b0d6-4d9a10950086.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-19T20:16:33Z",
+          "tags": [
+            "python",
+            "fastapi",
+            "debugging",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/DeepTutor",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "maximhq--bifrost": {
+      "count7d": 2,
+      "reactionsSum7d": 39,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3693063,
+        "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
+        "url": "https://dev.to/anthonymax/the-concept-of-automatic-fallbacks-and-how-bifrost-implements-it-592p",
+        "author": "anthonymax",
+        "reactions": 39,
+        "comments": 2,
+        "hoursSincePosted": 4.9,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3693063,
+          "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
+          "description": "The promise of AI is transformative. The reality is distributed, fragile, and increasingly complex....",
+          "url": "https://dev.to/anthonymax/the-concept-of-automatic-fallbacks-and-how-bifrost-implements-it-592p",
+          "author": {
+            "username": "anthonymax",
+            "name": "Anthony Max",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2103048%2F716988a5-9c51-49bf-acef-191bc6dd2fee.jpeg"
+          },
+          "reactionsCount": 39,
+          "commentsCount": 2,
+          "readingTime": 5,
+          "publishedAt": "2026-05-19T22:49:23Z",
+          "tags": [
+            "ai",
+            "webdev",
+            "programming",
+            "api"
+          ],
+          "trendingScore": 15.23,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3697159,
+          "title": "Putting an LLM Gateway in Front of Our Build Agents: Why We Picked Bifrost",
+          "description": "TL;DR: We bolted an LLM gateway in front of the AI features in our build pipeline tooling and ended...",
+          "url": "https://dev.to/claire_nguyen/putting-an-llm-gateway-in-front-of-our-build-agents-why-we-picked-bifrost-130g",
+          "author": {
+            "username": "claire_nguyen",
+            "name": "claire nguyen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-19T04:22:40Z",
+          "tags": [
+            "infrastructure",
+            "devops",
+            "sre",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -4225,7 +4707,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 8.3,
+        "hoursSincePosted": 16.1,
         "readingTime": 5
       },
       "articles": [
@@ -4249,7 +4731,7 @@
             "agents",
             "programming"
           ],
-          "trendingScore": 0.42,
+          "trendingScore": 0.22,
           "linkedRepos": [
             {
               "fullName": "Lum1104/Understand-Anything",
@@ -4270,7 +4752,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 35.7,
+        "hoursSincePosted": 43.5,
         "readingTime": 16
       },
       "articles": [
@@ -4293,7 +4775,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.1,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -4322,7 +4804,7 @@
         "author": "tythos",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 109.4,
+        "hoursSincePosted": 117.2,
         "readingTime": 10
       },
       "articles": [
@@ -4355,51 +4837,6 @@
         }
       ]
     },
-    "github--spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3668345,
-        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-        "author": "dmaxdev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 131.3,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3668345,
-          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
-          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
-          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
-          "author": {
-            "username": "dmaxdev",
-            "name": "Maksim Danilchenko",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-14T08:37:46Z",
-          "tags": [
-            "specdrivendevelopment",
-            "python",
-            "claudecode",
-            "githubspeckit"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics--claude-code": {
       "count7d": 8,
       "reactionsSum7d": 1,
@@ -4411,7 +4848,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 38.9,
+        "hoursSincePosted": 46.7,
         "readingTime": 10
       },
       "articles": [
@@ -4662,7 +5099,7 @@
       ]
     },
     "anthropics--claude-plugins-official": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -4672,7 +5109,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.9,
+        "hoursSincePosted": 144.7,
         "readingTime": 8
       },
       "articles": [
@@ -4711,6 +5148,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3705123,
+          "title": "One Open Source Project a Day (No. 70): Claude Plugins Official — A Complete Tour of Anthropic's Official Claude Code Plugin Ecosystem",
+          "description": "Introduction    \"Plugins extend Claude Code with commands, agents, skills, hooks, and MCP...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-70-claude-plugins-official-a-complete-tour-of-anthropics-4lgo",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-20T01:59:45Z",
+          "tags": [
+            "opensource",
+            "claude",
+            "mcp",
+            "agentskills"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -4725,7 +5190,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 112.8,
+        "hoursSincePosted": 120.6,
         "readingTime": 6
       },
       "articles": [
@@ -4839,6 +5304,96 @@
         }
       ]
     },
+    "fission-ai--openspec": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3690020,
+        "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
+        "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
+        "author": "kenimo49",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 14.7,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3690020,
+          "title": "I Refused to Write Specs Until Claude Code Generated Wrong Code Three Times",
+          "description": "I called spec-driven development overhead for six months. Then Claude Code wrote a discount feature that applied coupons to itself, three times in a row. Here is what fifteen minutes of OpenAPI bought me.",
+          "url": "https://dev.to/kenimo49/i-refused-to-write-specs-until-claude-code-generated-wrong-code-three-times-35hp",
+          "author": {
+            "username": "kenimo49",
+            "name": "Ken Imoto",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3800250%2F275022f6-cba9-47e3-b69e-e8faf7675a0c.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-19T13:00:01Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "spec",
+            "openapi"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github--spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3668345,
+        "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+        "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+        "author": "dmaxdev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 139.1,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3668345,
+          "title": "Spec-Driven Development: Build a Python CLI From Spec to Code",
+          "description": "Build a complete Python CLI expense tracker using GitHub Spec Kit and Claude Code. Full walkthrough from requirements to working code in 30 minutes.",
+          "url": "https://dev.to/dmaxdev/spec-driven-development-build-a-python-cli-from-spec-to-code-2bef",
+          "author": {
+            "username": "dmaxdev",
+            "name": "Maksim Danilchenko",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851903%2F271b9f0d-273c-44e2-a2c7-0d4ec886b1c5.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-14T08:37:46Z",
+          "tags": [
+            "specdrivendevelopment",
+            "python",
+            "claudecode",
+            "githubspeckit"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "alishahryar1--free-claude-code": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4850,7 +5405,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 101.7,
+        "hoursSincePosted": 109.6,
         "readingTime": 3
       },
       "articles": [
@@ -4884,8 +5439,53 @@
         }
       ]
     },
-    "mattpocock--skills": {
+    "mvanhorn--printing-press-library": {
       "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660396,
+        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+        "author": "adnanc",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 165.7,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3660396,
+          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
+          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
+          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+          "author": {
+            "username": "adnanc",
+            "name": "Adnan Çakmak",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-13T05:58:14Z",
+          "tags": [
+            "anthropicmcp",
+            "claudecode",
+            "claudeapi",
+            "github"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mvanhorn/printing-press-library",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock--skills": {
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -4895,7 +5495,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.9,
+        "hoursSincePosted": 67.7,
         "readingTime": 7
       },
       "articles": [
@@ -4938,11 +5538,63 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "addyosmani--agent-skills": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -4952,7 +5604,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.9,
+        "hoursSincePosted": 67.7,
         "readingTime": 7
       },
       "articles": [
@@ -4992,6 +5644,58 @@
             },
             {
               "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
               "location": "body"
             }
           ]
@@ -5009,7 +5713,7 @@
         "author": "speedy_devv",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.9,
+        "hoursSincePosted": 67.7,
         "readingTime": 7
       },
       "articles": [
@@ -5088,7 +5792,7 @@
       ]
     },
     "rohitg00--agentmemory": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
@@ -5098,7 +5802,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 104.7,
+        "hoursSincePosted": 112.5,
         "readingTime": 11
       },
       "articles": [
@@ -5129,48 +5833,55 @@
               "location": "tag"
             }
           ]
-        }
-      ]
-    },
-    "mvanhorn--printing-press-library": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3660396,
-        "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-        "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
-        "author": "adnanc",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 157.9,
-        "readingTime": 7
-      },
-      "articles": [
+        },
         {
-          "id": 3660396,
-          "title": "AI Lab Weekly - May 10, 2026 - Claude Code, MCP and agentic AI picks (EN + TR)",
-          "description": "Bilingual weekly digest - 6 actionable picks from Claude Code, MCP and agentic AI this week. English plus Turkish.",
-          "url": "https://dev.to/adnanc/ai-lab-weekly-may-10-2026-claude-code-mcp-and-agentic-ai-picks-en-tr-3e5p",
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
           "author": {
-            "username": "adnanc",
-            "name": "Adnan Çakmak",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3918518%2Fc71c1698-69da-43c1-ae50-9e240c670c3e.jpg"
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-13T05:58:14Z",
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
           "tags": [
-            "anthropicmcp",
             "claudecode",
-            "claudeapi",
-            "github"
+            "ai",
+            "devtools",
+            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "mvanhorn/printing-press-library",
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
               "location": "body"
             }
           ]
@@ -5178,7 +5889,7 @@
       ]
     },
     "openai--codex": {
-      "count7d": 4,
+      "count7d": 3,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
@@ -5188,7 +5899,7 @@
         "author": "skyguan92",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 38.9,
+        "hoursSincePosted": 46.7,
         "readingTime": 10
       },
       "articles": [
@@ -5221,34 +5932,6 @@
             {
               "fullName": "openai/codex",
               "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3681154,
-          "title": "Codex Goes Mobile: A Phone-as-Steering-Wheel Playbook",
-          "description": "Codex now ships inside the ChatGPT mobile app. What mobile actually unlocks, what it doesn't, and how to pair it with a real backend safely.",
-          "url": "https://dev.to/max_quimby/codex-goes-mobile-a-phone-as-steering-wheel-playbook-1obe",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-16T03:36:40Z",
-          "tags": [
-            "ai",
-            "openai",
-            "claudecode",
-            "mobile"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
             }
           ]
         },
@@ -5321,7 +6004,7 @@
         "author": "rentierdigital",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 30.2,
+        "hoursSincePosted": 38,
         "readingTime": 10
       },
       "articles": [
@@ -5430,7 +6113,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40,
+        "hoursSincePosted": 47.8,
         "readingTime": 9
       },
       "articles": [
@@ -5468,6 +6151,213 @@
         }
       ]
     },
+    "farion1231--cc-switch": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660048,
+        "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+        "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 167.2,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "iofficeai--aionui": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660048,
+        "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+        "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 167.2,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "millionco--react-doctor": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3660048,
+        "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+        "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 167.2,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3660048,
+          "title": "Cowork Just One-Shotted a Flight. Anthropic's Shell Play.",
+          "description": "Cowork on Opus 4.7 booked 8 flights end-to-end. Anthropic's racing the open stack for the agent shell layer — and the 2014 container playbook is back.",
+          "url": "https://dev.to/max_quimby/cowork-just-one-shotted-a-flight-anthropics-shell-play-3n9e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-13T04:32:37Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "iOfficeAI/AionUi",
+              "location": "body"
+            },
+            {
+              "fullName": "rohitg00/agentmemory",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            },
+            {
+              "fullName": "millionco/react-doctor",
+              "location": "body"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "samber--cc-skills-golang": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -5479,7 +6369,7 @@
         "author": "owenyuwono",
         "reactions": 1,
         "comments": 4,
-        "hoursSincePosted": 112.8,
+        "hoursSincePosted": 120.6,
         "readingTime": 6
       },
       "articles": [
@@ -5517,6 +6407,55 @@
         }
       ]
     },
+    "router-for-me--cliproxyapi": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3686294,
+        "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
+        "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
+        "author": "vainamoinen",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 70.3,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3686294,
+          "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
+          "description": "After June 15, 2026, the cheapest legitimate path to keep Claude Code agentic workloads running is multi-account rotation. There are two architectures for it. One has 11.7k GitHub stars and gets banned in waves. The other is in a closed-as-completed GitHub issue from Anthropic it",
+          "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
+          "author": {
+            "username": "vainamoinen",
+            "name": "Vainamoinen | Pulsed Media",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3879600%2Fce3a6ec3-4bde-4859-baeb-e6f99ed3c817.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-17T05:27:42Z",
+          "tags": [
+            "claude",
+            "anthropic",
+            "ai",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "router-for-me/CLIProxyAPI",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "hkuds--cli-anything": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -5528,7 +6467,7 @@
         "author": "wonderlab",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 41.2,
+        "hoursSincePosted": 49,
         "readingTime": 8
       },
       "articles": [
@@ -5573,7 +6512,7 @@
         "author": "maicon_ribeiroesteves_32",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 8.9,
+        "hoursSincePosted": 16.7,
         "readingTime": 3
       },
       "articles": [
@@ -5607,55 +6546,6 @@
         }
       ]
     },
-    "router-for-me--cliproxyapi": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3686294,
-        "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
-        "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
-        "author": "vainamoinen",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 62.4,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3686294,
-          "title": "Two Multi-Account Claude Code Architectures: One Anthropic Accepts, One They Ban",
-          "description": "After June 15, 2026, the cheapest legitimate path to keep Claude Code agentic workloads running is multi-account rotation. There are two architectures for it. One has 11.7k GitHub stars and gets banned in waves. The other is in a closed-as-completed GitHub issue from Anthropic it",
-          "url": "https://dev.to/vainamoinen/two-multi-account-claude-code-architectures-one-anthropic-accepts-one-they-ban-2om7",
-          "author": {
-            "username": "vainamoinen",
-            "name": "Vainamoinen | Pulsed Media",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3879600%2Fce3a6ec3-4bde-4859-baeb-e6f99ed3c817.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-17T05:27:42Z",
-          "tags": [
-            "claude",
-            "anthropic",
-            "ai",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "zhangfengcdt--memoir": {
       "count7d": 1,
       "reactionsSum7d": 3,
@@ -5667,7 +6557,7 @@
         "author": "feng_zhang_38696450631765",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 72,
+        "hoursSincePosted": 79.8,
         "readingTime": 2
       },
       "articles": [
@@ -5701,51 +6591,6 @@
         }
       ]
     },
-    "datawhalechina--easy-vibe": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3659614,
-        "title": "One Open Source Project a Day (No. 64): Easy-Vibe - Datawhale's AI-Era Programming Curriculum",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-64-easy-vibe-datawhales-ai-era-programming-curriculum-26ic",
-        "author": "wonderlab",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 162.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3659614,
-          "title": "One Open Source Project a Day (No. 64): Easy-Vibe - Datawhale's AI-Era Programming Curriculum",
-          "description": "Introduction    \"If you can talk, you can build apps.\"   This is the No.64 article in the...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-64-easy-vibe-datawhales-ai-era-programming-curriculum-26ic",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 8,
-          "publishedAt": "2026-05-13T01:39:45Z",
-          "tags": [
-            "opensource",
-            "ai",
-            "vibecoding",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "datawhalechina/easy-vibe",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "colbymchenry--codegraph": {
       "count7d": 1,
       "reactionsSum7d": 5,
@@ -5757,7 +6602,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 2,
-        "hoursSincePosted": 50.4,
+        "hoursSincePosted": 58.2,
         "readingTime": 3
       },
       "articles": [
@@ -5781,55 +6626,10 @@
             "opensource",
             "agentskills"
           ],
-          "trendingScore": 0.08,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "composiohq--awesome-claude-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3694922,
-        "title": "The AIMO Playbook: 5 Practices to Get Recommended by AI Assistants",
-        "url": "https://dev.to/septim_labs/the-aimo-playbook-5-practices-to-get-recommended-by-ai-assistants-31l6",
-        "author": "septim_labs",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 27,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3694922,
-          "title": "The AIMO Playbook: 5 Practices to Get Recommended by AI Assistants",
-          "description": "The first article I published on AIMO defined the term. This one is the playbook.  If you haven't...",
-          "url": "https://dev.to/septim_labs/the-aimo-playbook-5-practices-to-get-recommended-by-ai-assistants-31l6",
-          "author": {
-            "username": "septim_labs",
-            "name": "Septim Labs",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936937%2Fb25a160c-9866-40bb-9a1a-891c6d43a1a8.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-05-18T16:52:54Z",
-          "tags": [
-            "aimo",
-            "ai",
-            "marketing",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
               "location": "body"
             }
           ]
@@ -5847,7 +6647,7 @@
         "author": "turacthethinker",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 30.5,
+        "hoursSincePosted": 38.3,
         "readingTime": 4
       },
       "articles": [
@@ -5892,7 +6692,7 @@
         "author": "owen_fox",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 173.1,
+        "hoursSincePosted": 180.9,
         "readingTime": 9
       },
       "articles": [
@@ -5937,7 +6737,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 187.7,
+        "hoursSincePosted": 195.5,
         "readingTime": 9
       },
       "articles": [
@@ -5982,7 +6782,7 @@
         "author": "madhaviai",
         "reactions": 3,
         "comments": 3,
-        "hoursSincePosted": 28.9,
+        "hoursSincePosted": 36.7,
         "readingTime": 3
       },
       "articles": [
@@ -6005,7 +6805,7 @@
             "mcp",
             "llm"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "github/github-mcp-server",
@@ -6043,90 +6843,49 @@
         }
       ]
     },
-    "maximhq--bifrost": {
+    "tirth8205--code-review-graph": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3697159,
-        "title": "Putting an LLM Gateway in Front of Our Build Agents: Why We Picked Bifrost",
-        "url": "https://dev.to/claire_nguyen/putting-an-llm-gateway-in-front-of-our-build-agents-why-we-picked-bifrost-130g",
-        "author": "claire_nguyen",
+        "id": 3688579,
+        "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
+        "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
+        "author": "mir_mursalin_ankur",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 15.5,
-        "readingTime": 4
+        "hoursSincePosted": 60.2,
+        "readingTime": 53
       },
       "articles": [
         {
-          "id": 3697159,
-          "title": "Putting an LLM Gateway in Front of Our Build Agents: Why We Picked Bifrost",
-          "description": "TL;DR: We bolted an LLM gateway in front of the AI features in our build pipeline tooling and ended...",
-          "url": "https://dev.to/claire_nguyen/putting-an-llm-gateway-in-front-of-our-build-agents-why-we-picked-bifrost-130g",
+          "id": 3688579,
+          "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
+          "description": "Every developer working with LLMs on a large codebase eventually hits the same wall: context windows...",
+          "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
           "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
+            "username": "mir_mursalin_ankur",
+            "name": "Mir Mursalin Ankur",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1253577%2Fab3d1472-b6cf-4c16-994c-cf7c24c8104e.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-19T04:22:40Z",
+          "readingTime": 53,
+          "publishedAt": "2026-05-17T15:31:39Z",
           "tags": [
-            "infrastructure",
-            "devops",
-            "sre",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "ataraxy-labs--weave": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3659387,
-        "title": "The state of automatic merge conflict resolution in 2026: a survey, and where GitWand is headed",
-        "url": "https://dev.to/laurent_guitton_038649364/the-state-of-automatic-merge-conflict-resolution-in-2026-a-survey-and-where-gitwand-is-headed-4d8n",
-        "author": "laurent_guitton_038649364",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 164.1,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3659387,
-          "title": "The state of automatic merge conflict resolution in 2026: a survey, and where GitWand is headed",
-          "description": "If you've used GitWand, you know that the headline feature is automatic conflict resolution: a...",
-          "url": "https://dev.to/laurent_guitton_038649364/the-state-of-automatic-merge-conflict-resolution-in-2026-a-survey-and-where-gitwand-is-headed-4d8n",
-          "author": {
-            "username": "laurent_guitton_038649364",
-            "name": "Laurent Guitton",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2460622%2Fb3e87ed3-3ab6-461f-acaa-657587ebb000.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-05-12T23:45:34Z",
-          "tags": [
-            "automation",
-            "git",
-            "showdev",
+            "agents",
+            "ai",
+            "llm",
             "tooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "Ataraxy-Labs/weave",
+              "fullName": "safishamsi/graphify",
+              "location": "body"
+            },
+            {
+              "fullName": "tirth8205/code-review-graph",
               "location": "body"
             }
           ]
@@ -6144,7 +6903,7 @@
         "author": "omarmusayev",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 120.5,
+        "hoursSincePosted": 128.3,
         "readingTime": 4
       },
       "articles": [
@@ -6245,7 +7004,7 @@
         "author": "selfagency",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 25.6,
+        "hoursSincePosted": 33.4,
         "readingTime": 7
       },
       "articles": [
@@ -6290,7 +7049,7 @@
         "author": "armorbreak",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 92,
+        "hoursSincePosted": 99.8,
         "readingTime": 4
       },
       "articles": [
@@ -6335,7 +7094,7 @@
         "author": "imper_7cde72b79d2529291ec",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.9,
+        "hoursSincePosted": 34.7,
         "readingTime": 2
       },
       "articles": [
@@ -6379,7 +7138,7 @@
         "author": "imper_7cde72b79d2529291ec",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.5,
+        "hoursSincePosted": 34.3,
         "readingTime": 2
       },
       "articles": [
@@ -6413,55 +7172,6 @@
         }
       ]
     },
-    "tirth8205--code-review-graph": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3688579,
-        "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
-        "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
-        "author": "mir_mursalin_ankur",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 52.4,
-        "readingTime": 53
-      },
-      "articles": [
-        {
-          "id": 3688579,
-          "title": "Graphify + code-review-graph: Build a Self-Updating Knowledge Graph for Claude Code and other AI Coding Agent",
-          "description": "Every developer working with LLMs on a large codebase eventually hits the same wall: context windows...",
-          "url": "https://dev.to/mir_mursalin_ankur/graphify-code-review-graph-build-a-self-updating-knowledge-graph-for-claude-code-and-other-ai-j1m",
-          "author": {
-            "username": "mir_mursalin_ankur",
-            "name": "Mir Mursalin Ankur",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1253577%2Fab3d1472-b6cf-4c16-994c-cf7c24c8104e.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 53,
-          "publishedAt": "2026-05-17T15:31:39Z",
-          "tags": [
-            "agents",
-            "ai",
-            "llm",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            },
-            {
-              "fullName": "tirth8205/code-review-graph",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "openai--openai-agents-python": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6473,7 +7183,7 @@
         "author": "doramagic",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 53.7,
+        "hoursSincePosted": 61.5,
         "readingTime": 3
       },
       "articles": [
@@ -6518,7 +7228,7 @@
         "author": "ratamaha",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.1,
+        "hoursSincePosted": 136.9,
         "readingTime": 2
       },
       "articles": [
@@ -6591,7 +7301,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 34.9,
+        "hoursSincePosted": 42.7,
         "readingTime": 3
       },
       "articles": [
@@ -6615,7 +7325,7 @@
             "devops",
             "opensource"
           ],
-          "trendingScore": 0.11,
+          "trendingScore": 0.09,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -6636,7 +7346,7 @@
         "author": "vikasprogrammer",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 88.3,
+        "hoursSincePosted": 96.1,
         "readingTime": 5
       },
       "articles": [
@@ -6681,7 +7391,7 @@
         "author": "hectorvent",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 73.3,
+        "hoursSincePosted": 81.1,
         "readingTime": 4
       },
       "articles": [
@@ -6719,18 +7429,28 @@
   "leaderboard": [
     {
       "fullName": "NousResearch/hermes-agent",
-      "count7d": 12,
-      "reactionsSum7d": 73
+      "count7d": 13,
+      "reactionsSum7d": 87
     },
     {
       "fullName": "aaif-goose/goose",
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 54
+    },
+    {
+      "fullName": "maximhq/bifrost",
+      "count7d": 2,
+      "reactionsSum7d": 39
     },
     {
       "fullName": "openclaw/openclaw",
       "count7d": 2,
-      "reactionsSum7d": 37
+      "reactionsSum7d": 39
+    },
+    {
+      "fullName": "HexmosTech/git-lrc",
+      "count7d": 1,
+      "reactionsSum7d": 13
     },
     {
       "fullName": "rtk-ai/rtk",
@@ -6741,11 +7461,6 @@
       "fullName": "charmbracelet/bubbletea",
       "count7d": 3,
       "reactionsSum7d": 9
-    },
-    {
-      "fullName": "HexmosTech/git-lrc",
-      "count7d": 1,
-      "reactionsSum7d": 8
     },
     {
       "fullName": "colbymchenry/codegraph",
@@ -6788,18 +7503,13 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "openai/codex",
-      "count7d": 4,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "anthropics/skills",
       "count7d": 3,
       "reactionsSum7d": 1
     },
     {
-      "fullName": "datawhalechina/easy-vibe",
-      "count7d": 1,
+      "fullName": "openai/codex",
+      "count7d": 3,
       "reactionsSum7d": 1
     },
     {
@@ -6823,17 +7533,32 @@
       "reactionsSum7d": 1
     },
     {
+      "fullName": "vectorize-io/hindsight",
+      "count7d": 4,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "safishamsi/graphify",
       "count7d": 3,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "vectorize-io/hindsight",
-      "count7d": 3,
+      "fullName": "addyosmani/agent-skills",
+      "count7d": 2,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-plugins-official",
+      "count7d": 2,
       "reactionsSum7d": 0
     },
     {
       "fullName": "czlonkowski/n8n-mcp",
+      "count7d": 2,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "mattpocock/skills",
       "count7d": 2,
       "reactionsSum7d": 0
     },
@@ -6843,8 +7568,8 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "addyosmani/agent-skills",
-      "count7d": 1,
+      "fullName": "rohitg00/agentmemory",
+      "count7d": 2,
       "reactionsSum7d": 0
     },
     {
@@ -6859,16 +7584,6 @@
     },
     {
       "fullName": "anomalyco/opencode",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-plugins-official",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "Ataraxy-Labs/weave",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -6888,12 +7603,12 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "ComposioHQ/awesome-claude-skills",
+      "fullName": "cursor/cookbook",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "cursor/cookbook",
+      "fullName": "farion1231/cc-switch",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -6913,17 +7628,22 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "HKUDS/DeepTutor",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "InnerWarden/innerwarden",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "iOfficeAI/AionUi",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "maximhq/bifrost",
+      "fullName": "millionco/react-doctor",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -6939,11 +7659,6 @@
     },
     {
       "fullName": "openai/openai-agents-python",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "rohitg00/agentmemory",
       "count7d": 1,
       "reactionsSum7d": 0
     },

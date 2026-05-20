@@ -7,58 +7,92 @@ interface ActivityRow {
   hover?: string;
 }
 
-const ACTIVITY_GROUPS: Array<{ eyebrow: string; rows: ActivityRow[] }> = [
-  {
-    eyebrow: "Watchlist - triggered",
-    rows: [
-      { repo: "cline/cline", label: "* +14% in 24h", ago: "02:14", hover: "cline/cline" },
-      { repo: "vercel/next.js", label: "new release v15.3", ago: "04:32", hover: "vercel/next.js" },
-      { repo: "openai/whisper", label: "breakout - 6 mention sources", ago: "12:18", hover: "openai/whisper" },
-    ],
-  },
-  {
-    eyebrow: "Compares - saved",
-    rows: [
-      { repo: "next.js vs remix vs sveltekit", ago: "03:51" },
-      { repo: "cline vs aider vs continue", ago: "11:22" },
-      { repo: "langchain vs llamaindex", ago: "yesterday" },
-    ],
-  },
-  {
-    eyebrow: "Tier lists - published",
-    rows: [
-      { repo: "\"AI coding agents - S-tier\"", label: "412 views", ago: "2d" },
-      { repo: "\"MCP servers - my picks\"", label: "128 views", ago: "4d" },
-      { repo: "\"LLM inference engines\"", label: "76 views", ago: "1w" },
-    ],
-  },
-];
+interface ActivityGroup {
+  eyebrow: string;
+  rows: ActivityRow[];
+  /** Total events in the 7-day window for this group's header meta. */
+  count: number;
+}
 
-export function ToolsActivityStrip() {
+export interface ToolsActivityStripProps {
+  /** Newly-published ideas in the last 7 days. */
+  ideasPublished: ActivityRow[];
+  ideasPublishedCount: number;
+  /** Revenue overlays added/refreshed in the last 7 days. */
+  overlaysAdded: ActivityRow[];
+  overlaysAddedCount: number;
+  /** Revenue submissions approved in the last 7 days. */
+  submissionsApproved: ActivityRow[];
+  submissionsApprovedCount: number;
+}
+
+export function ToolsActivityStrip({
+  ideasPublished,
+  ideasPublishedCount,
+  overlaysAdded,
+  overlaysAddedCount,
+  submissionsApproved,
+  submissionsApprovedCount,
+}: ToolsActivityStripProps) {
+  const groups: ActivityGroup[] = [
+    {
+      eyebrow: "Ideas - published",
+      rows: ideasPublished,
+      count: ideasPublishedCount,
+    },
+    {
+      eyebrow: "Overlays - added",
+      rows: overlaysAdded,
+      count: overlaysAddedCount,
+    },
+    {
+      eyebrow: "Submissions - approved",
+      rows: submissionsApproved,
+      count: submissionsApprovedCount,
+    },
+  ];
+
+  const totalEvents =
+    ideasPublishedCount + overlaysAddedCount + submissionsApprovedCount;
+
   return (
     <section>
       <SectionEyebrow
         num="04"
-        title="Recent activity - yours"
-        meta={<>Last 24h - <b>11</b> events</>}
+        title="Recent activity - 7 days"
+        meta={<>Last 7d - <b>{totalEvents}</b> events</>}
       />
       <div className="activity fade-up">
-        {ACTIVITY_GROUPS.map((group) => (
+        {groups.map((group) => (
           <div className="act-card" key={group.eyebrow}>
             <div className="ac-eyebrow">| {group.eyebrow}</div>
             <div className="ac-list">
-              {group.rows.map((row) => (
-                <div className="ac-row" key={`${group.eyebrow}-${row.repo}`}>
-                  <span
-                    className="repo"
-                    {...(row.hover ? { "data-repo-hover": true, "data-repo": row.hover } : {})}
-                  >
-                    {row.repo}
-                  </span>
-                  {row.label ? <span className="lbl">{row.label}</span> : null}
-                  <span className="ago">{row.ago}</span>
+              {group.rows.length === 0 ? (
+                <div
+                  className="ac-row"
+                  style={{ color: "var(--fg-faint)", fontStyle: "italic" }}
+                >
+                  <span>No activity in the last 7 days.</span>
                 </div>
-              ))}
+              ) : (
+                group.rows.map((row, index) => (
+                  <div
+                    className="ac-row"
+                    key={`${group.eyebrow}-${row.repo}-${index}`}
+                  >
+                    <span
+                      className="repo"
+                      {...(row.hover
+                        ? { "data-repo-hover": true, "data-repo": row.hover }
+                        : {})}
+                    >
+                      {row.repo}
+                    </span>
+                    {row.label ? <span className="lbl">{row.label}</span> : null}
+                    <span className="ago">{row.ago}</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         ))}

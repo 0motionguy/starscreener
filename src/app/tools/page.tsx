@@ -72,6 +72,21 @@ function countCategoryBuckets(): { categories: number; repos: number } {
   return { categories: seen.size, repos: repos.length };
 }
 
+function relativeAgo(iso: string | null | undefined): string {
+  if (!iso) return "—";
+  const ts = Date.parse(iso);
+  if (!Number.isFinite(ts)) return "—";
+  const diff = Date.now() - ts;
+  if (diff < 0) return "now";
+  const m = Math.round(diff / 60_000);
+  if (m < 60) return `${m}m`;
+  const h = Math.round(diff / 3_600_000);
+  if (h < 24) return `${h}h`;
+  const d = Math.round(diff / 86_400_000);
+  if (d < 7) return `${d}d`;
+  return `${Math.round(d / 7)}w`;
+}
+
 export default async function ToolsPage({ searchParams }: Props) {
   const params = (await searchParams) ?? {};
   const rawFilter = typeof params.filter === "string" ? params.filter : "all";
@@ -110,11 +125,77 @@ export default async function ToolsPage({ searchParams }: Props) {
     return Number.isFinite(submittedAt) && submittedAt >= lastWeekMs;
   }).length;
 
+  // 7-day activity rollup — feeds ToolsActivityStrip.
+  const ideasPublishedRows = allIdeas
+    .filter((idea) => {
+      const ts = idea.publishedAt ? Date.parse(idea.publishedAt) : NaN;
+      return idea.status === "published" && Number.isFinite(ts) && ts >= lastWeekMs;
+    })
+    .sort(
+      (a, b) =>
+        Date.parse(b.publishedAt ?? b.createdAt) -
+        Date.parse(a.publishedAt ?? a.createdAt),
+    )
+    .slice(0, 3)
+    .map((idea) => ({
+      repo: idea.title,
+      ago: relativeAgo(idea.publishedAt ?? idea.createdAt),
+      label: idea.targetRepos[0] ?? undefined,
+      hover: idea.targetRepos[0] ?? undefined,
+    }));
+
+  const overlayRows = overlays
+    .filter((overlay) => {
+      const ts = overlay.asOf ? Date.parse(overlay.asOf) : NaN;
+      return Number.isFinite(ts) && ts >= lastWeekMs;
+    })
+    .sort((a, b) => Date.parse(b.asOf) - Date.parse(a.asOf))
+    .slice(0, 3)
+    .map((overlay) => ({
+      repo: overlay.fullName,
+      ago: relativeAgo(overlay.asOf),
+      label: overlay.tier,
+      hover: overlay.fullName,
+    }));
+
+  const submissionRows = submissions
+    .filter((s) => {
+      if (s.status !== "approved") return false;
+      const ts = Date.parse(s.moderatedAt ?? s.submittedAt);
+      return Number.isFinite(ts) && ts >= lastWeekMs;
+    })
+    .sort(
+      (a, b) =>
+        Date.parse(b.moderatedAt ?? b.submittedAt) -
+        Date.parse(a.moderatedAt ?? a.submittedAt),
+    )
+    .slice(0, 3)
+    .map((s) => ({
+      repo: s.fullName,
+      ago: relativeAgo(s.moderatedAt ?? s.submittedAt),
+      label: "approved",
+      hover: s.fullName,
+    }));
+
+  const overlaysAddedThisWeekCount = overlays.filter((overlay) => {
+    const ts = overlay.asOf ? Date.parse(overlay.asOf) : NaN;
+    return Number.isFinite(ts) && ts >= lastWeekMs;
+  }).length;
+  const ideasPublishedThisWeekCount = allIdeas.filter((idea) => {
+    const ts = idea.publishedAt ? Date.parse(idea.publishedAt) : NaN;
+    return idea.status === "published" && Number.isFinite(ts) && ts >= lastWeekMs;
+  }).length;
+
   const toolsLive = 9;
   const toolsTotal = 9;
-  const plotsToday = Math.max(412, Math.round(trackedCount * 0.6));
-  const watchlistItems = 18;
-  const comparesSaved = 24;
+  // Per-day plot counter not wired yet (no countStarPlotRequests reader in
+  // src/lib/star-activity.ts). Pass null so the strip renders an em-dash
+  // instead of synthetic data.
+  const plotsToday: number | null = null;
+  // Watchlist + compares live in client-side Zustand. SSR is anon — pass null,
+  // the strip renders em-dash, hydration on the client can re-fill.
+  const watchlistItems: number | null = null;
+  const comparesSaved: number | null = null;
   const digestSubscribers = Math.max(12_847, digestDates.length * 67);
 
   return (
@@ -159,7 +240,14 @@ export default async function ToolsPage({ searchParams }: Props) {
         submissionsApprovedThisWeek={submissionsApprovedThisWeek}
       />
 
-      <ToolsActivityStrip />
+      <ToolsActivityStrip
+        ideasPublished={ideasPublishedRows}
+        ideasPublishedCount={ideasPublishedThisWeekCount}
+        overlaysAdded={overlayRows}
+        overlaysAddedCount={overlaysAddedThisWeekCount}
+        submissionsApproved={submissionRows}
+        submissionsApprovedCount={submissionsApprovedThisWeek}
+      />
       <ToolsValueStrip />
     </div>
   );

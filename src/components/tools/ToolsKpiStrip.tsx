@@ -1,10 +1,17 @@
 interface ToolsKpiStripProps {
   toolsLive: number;
   toolsTotal: number;
-  plotsToday: number;
-  watchlistItems: number;
-  comparesSaved: number;
+  /** Null when no per-day plot counter is wired (renders an em-dash). */
+  plotsToday: number | null;
+  /** Null on SSR — watchlist lives in a client-side Zustand store. */
+  watchlistItems: number | null;
+  /** Null on SSR — compares live in a client-side Zustand store. */
+  comparesSaved: number | null;
   digestSubscribers: number;
+}
+
+function renderCount(n: number | null): string {
+  return n === null ? "—" : n.toLocaleString();
 }
 
 export function ToolsKpiStrip({
@@ -38,19 +45,29 @@ export function ToolsKpiStrip({
       </div>
       <div className="cell">
         <div className="l">Plots today</div>
-        <div className="v" data-counter data-target={plotsToday}>
-          {plotsToday.toLocaleString()}
-        </div>
+        {plotsToday === null ? (
+          <div className="v" aria-label="No per-day counter wired yet">
+            {renderCount(plotsToday)}
+          </div>
+        ) : (
+          <div className="v" data-counter data-target={plotsToday}>
+            {renderCount(plotsToday)}
+          </div>
+        )}
         <div className="d up">+38% vs 7-day avg</div>
       </div>
       <div className="cell">
         <div className="l">Watchlist items</div>
-        <div className="v">{watchlistItems.toLocaleString()}</div>
+        <div className="v" aria-label={watchlistItems === null ? "Sign in to see your watchlist" : undefined}>
+          {renderCount(watchlistItems)}
+        </div>
         <div className="d">3 alerts triggered 24h</div>
       </div>
       <div className="cell">
         <div className="l">Compares saved</div>
-        <div className="v">{comparesSaved.toLocaleString()}</div>
+        <div className="v" aria-label={comparesSaved === null ? "Sign in to see your compares" : undefined}>
+          {renderCount(comparesSaved)}
+        </div>
         <div className="d">2 with shortlink shares</div>
       </div>
       <div className="cell">

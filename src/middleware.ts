@@ -46,6 +46,12 @@ const isProtectedRoute = createRouteMatcher([
   "/you/alerts(.*)",
   "/you/refer(.*)",
   "/api/me/(.*)",
+  // /account and /build are Clerk-gated product routes. Adding them here
+  // lets the without-Clerk middleware path redirect anon traffic to
+  // /sign-in instead of letting the page-level auth() call crash with a
+  // 500 when CLERK_SECRET_KEY is unset (local-without-Clerk dev).
+  "/account(.*)",
+  "/build(.*)",
 ]);
 
 // Routes that are still public in the product sense, but need Clerk's

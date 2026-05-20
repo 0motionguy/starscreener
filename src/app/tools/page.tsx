@@ -186,8 +186,8 @@ export default async function ToolsPage({ searchParams }: Props) {
     return idea.status === "published" && Number.isFinite(ts) && ts >= lastWeekMs;
   }).length;
 
-  const toolsLive = 9;
-  const toolsTotal = 9;
+  const toolsLive = 10;
+  const toolsTotal = 10;
   // Per-day plot counter not wired yet (no countStarPlotRequests reader in
   // src/lib/star-activity.ts). Pass null so the strip renders an em-dash
   // instead of synthetic data.
@@ -196,7 +196,9 @@ export default async function ToolsPage({ searchParams }: Props) {
   // the strip renders em-dash, hydration on the client can re-fill.
   const watchlistItems: number | null = null;
   const comparesSaved: number | null = null;
-  const digestSubscribers = Math.max(12_847, digestDates.length * 67);
+  // No subscriber list wired (digest is one-way email send via cron). Pass
+  // null so the strip renders an em-dash instead of a fake count.
+  const digestSubscribers: number | null = null;
 
   return (
     <div className="tools-page" style={{ padding: "16px 22px 32px", maxWidth: 1500, margin: "0 auto" }}>
@@ -228,7 +230,7 @@ export default async function ToolsPage({ searchParams }: Props) {
         filter={filter}
         top10Archived={top10Archived}
         top10TodayExists={Boolean(todaySnap)}
-        digestIssues={Math.max(184, digestDates.length)}
+        digestIssues={digestDates.length}
       />
 
       <ToolsEstimatorsSection

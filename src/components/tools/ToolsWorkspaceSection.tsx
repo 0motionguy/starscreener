@@ -26,16 +26,11 @@ export function ToolsWorkspaceSection({
       <div className="tool-grid fade-up">
         <ToolCard
           number="01"
-          route="#watchlist"
+          route="/tools/watchlist"
           routeLabel="WATCH"
           title="Watchlist"
-          description={
-            <>
-              Pin repos. Get pinged when stars surge, new release lands, mentions
-              spike, or a breakout triggers. <b>18 active</b>.
-            </>
-          }
-          footMeta="18 repos - 3 alerts fired 24h"
+          description="Pin repos to track stars, mentions, and breakouts in one place."
+          footMeta="Local-only pins - sync via /sign-in"
         >
           <div className="pv-watch">
             {[
@@ -55,7 +50,7 @@ export function ToolsWorkspaceSection({
 
         <ToolCard
           number="02"
-          route="#compare"
+          route="/tools/compare"
           routeLabel="COMPARE"
           title="Compare"
           description={
@@ -86,7 +81,7 @@ export function ToolsWorkspaceSection({
           routeLabel="RANK"
           title="Tier List"
           description="Drag-rank trending repos into S/A/B/C/D tiers. Share with a shortlink; community comments and reactions included."
-          footMeta="24 lists shared - 412 views"
+          footMeta="Top 50 ranked - S to D tiers - seed deep-link"
         >
           <div className="pv-tier">
             <TierRow tier="S" count={3} />
@@ -107,7 +102,7 @@ export function ToolsWorkspaceSection({
               sparkline overlays. <b>Auto-archived</b>.
             </>
           }
-          footMeta={`${Math.max(184, top10Archived).toLocaleString()} daily snapshots archived`}
+          footMeta={`${top10Archived.toLocaleString()} daily snapshots archived`}
         >
           <div className="pv-top10">
             {[
@@ -130,13 +125,8 @@ export function ToolsWorkspaceSection({
           route="/tools/digest"
           routeLabel="EMAIL"
           title="Weekly Digest"
-          description={
-            <>
-              Tuesday email: top breakouts, funding rounds, cross-source mentions,
-              agent commerce movers. <b>12,847 subscribers</b>.
-            </>
-          }
-          footMeta={`${digestIssues.toLocaleString()} issues - 28% open rate`}
+          description="Tuesday email: top breakouts, funding rounds, cross-source mentions, agent commerce movers."
+          footMeta={`${digestIssues.toLocaleString()} issues`}
         >
           <div className="pv-digest">
             <div className="h">{"// THIS WEEK - 5 BREAKOUTS"}</div>

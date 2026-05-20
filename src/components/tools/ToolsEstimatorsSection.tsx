@@ -33,7 +33,7 @@ export function ToolsEstimatorsSection({
         {(filter === "all" || filter === "estimators") && (
           <ToolCard
             number="01"
-            route="#revenue-estimate"
+            route="/tools/revenue-estimate"
             routeLabel="ESTIMATE"
             title="Revenue Estimate"
             description={
@@ -75,7 +75,7 @@ export function ToolsEstimatorsSection({
                 <b> Conviction score 0-100</b> from weighted reactions and recency.
               </>
             }
-            footMeta={`${Math.max(184, ideasPublished).toLocaleString()} ideas - ${Math.max(12, ideasShipped)} shipped`}
+            footMeta={`${ideasPublished.toLocaleString()} ideas - ${ideasShipped} shipped`}
           >
             <div className="pv-idea">
               {[

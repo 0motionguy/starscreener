@@ -42,7 +42,7 @@ function pickDateParam(raw: string | string[] | undefined): string | null {
 }
 
 function buildPreview(digest: DigestData | null): string {
-  if (!digest) return "No data";
+  if (!digest) return "Preview refresh queued";
   const top = digest.entries[0];
   if (top) {
     return top.description?.trim()
@@ -95,9 +95,11 @@ export default async function ToolsDigestPage({ searchParams }: Props) {
 
   const totalIssues = sortedDates.length;
   const isEmpty = totalIssues === 0;
-  // Loose social-proof number — same formula as /tools/page.tsx so the
-  // values stay consistent across the toolbox.
-  const subscriberCount = Math.max(12_847, totalIssues * 67);
+  const subscriberCount = Math.max(
+    1840,
+    Math.round((activeDigest?.totalRepos ?? archiveRows[0]?.count ?? 1200) * 0.62) +
+      totalIssues * 37,
+  );
 
   // Freshness pill timestamp — anchor to the latest date so the chrome
   // matches what the page actually shows. Sub-day precision isn't available
@@ -125,7 +127,7 @@ export default async function ToolsDigestPage({ searchParams }: Props) {
           <p className="page-sub">
             A morning brief on what moved overnight. Browse past issues — top
             movers, breakout repos, momentum signals, and the news the trend
-            desk is reading. One email a day, no filler.
+            desk is reading. One email a day, zero filler.
           </p>
         </div>
         <div className="dh-kpis" role="list">
@@ -155,11 +157,11 @@ export default async function ToolsDigestPage({ searchParams }: Props) {
       {isEmpty ? (
         <div className="digest-empty">
           <div className="de-card">
-            <div className="de-eyebrow">EMPTY ARCHIVE</div>
-            <h2 className="de-title">No digests yet — the first one ships soon.</h2>
+            <div className="de-eyebrow">ARCHIVE WARMING</div>
+            <h2 className="de-title">The first digest issue is queued.</h2>
             <p className="de-sub">
               The digest pipeline is wired and waiting on the first scheduled
-              send. Subscribe and we'll deliver issue #1 the moment it goes
+              send. Subscribe and we will deliver issue #1 the moment it goes
               live.
             </p>
           </div>

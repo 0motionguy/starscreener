@@ -7,7 +7,8 @@ interface ToolsKpiStripProps {
   watchlistItems: number | null;
   /** Null on SSR — compares live in a client-side Zustand store. */
   comparesSaved: number | null;
-  digestSubscribers: number;
+  /** Null when no subscriber list is wired (renders an em-dash). */
+  digestSubscribers: number | null;
 }
 
 function renderCount(n: number | null): string {
@@ -41,41 +42,35 @@ export function ToolsKpiStrip({
           {toolsLive}{" "}
           <span style={{ color: "var(--fg-faint)", fontSize: 14 }}>/ {toolsTotal}</span>
         </div>
-        <div className="d">100% green</div>
+        <div className="d">charts - estimators - workspace</div>
       </div>
       <div className="cell">
         <div className="l">Plots today</div>
-        {plotsToday === null ? (
-          <div className="v" aria-label="No per-day counter wired yet">
-            {renderCount(plotsToday)}
-          </div>
-        ) : (
-          <div className="v" data-counter data-target={plotsToday}>
-            {renderCount(plotsToday)}
-          </div>
-        )}
-        <div className="d up">+38% vs 7-day avg</div>
+        <div className="v" aria-label="No per-day counter wired yet">
+          {renderCount(plotsToday)}
+        </div>
+        <div className="d">counter not wired</div>
       </div>
       <div className="cell">
         <div className="l">Watchlist items</div>
         <div className="v" aria-label={watchlistItems === null ? "Sign in to see your watchlist" : undefined}>
           {renderCount(watchlistItems)}
         </div>
-        <div className="d">3 alerts triggered 24h</div>
+        <div className="d">local pins - sync via sign-in</div>
       </div>
       <div className="cell">
         <div className="l">Compares saved</div>
         <div className="v" aria-label={comparesSaved === null ? "Sign in to see your compares" : undefined}>
           {renderCount(comparesSaved)}
         </div>
-        <div className="d">2 with shortlink shares</div>
+        <div className="d">local-only - shortlink to share</div>
       </div>
       <div className="cell">
         <div className="l">Digest subscribers</div>
-        <div className="v" data-counter data-target={digestSubscribers}>
-          {digestSubscribers.toLocaleString()}
+        <div className="v" aria-label={digestSubscribers === null ? "Subscriber list not wired" : undefined}>
+          {renderCount(digestSubscribers)}
         </div>
-        <div className="d up">+412 last week</div>
+        <div className="d">list not wired yet</div>
       </div>
     </div>
   );

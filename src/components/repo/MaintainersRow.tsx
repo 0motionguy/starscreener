@@ -7,14 +7,14 @@ interface MaintainersRowProps {
 }
 
 const PALETTE: { bg: string; fg: string }[] = [
-  { bg: "#1a1a1a", fg: "#ff6b35" },
-  { bg: "#050505", fg: "#ffffff" },
-  { bg: "#271a37", fg: "#a78bfa" },
-  { bg: "#03263a", fg: "#60a5fa" },
-  { bg: "#1d2618", fg: "#22c55e" },
-  { bg: "#381c1c", fg: "#ff4d4d" },
-  { bg: "#1e1a14", fg: "#ffb547" },
-  { bg: "#14241d", fg: "#3ad6c5" },
+  { bg: "var(--accent)", fg: "var(--bg)" },
+  { bg: "var(--surface-4)", fg: "var(--fg-bright)" },
+  { bg: "var(--violet)", fg: "var(--bg)" },
+  { bg: "var(--info)", fg: "var(--bg)" },
+  { bg: "var(--up)", fg: "var(--bg)" },
+  { bg: "var(--down)", fg: "var(--bg)" },
+  { bg: "var(--warning)", fg: "var(--bg)" },
+  { bg: "var(--cyan)", fg: "var(--bg)" },
 ];
 
 function avatarLabel(login: string): string {

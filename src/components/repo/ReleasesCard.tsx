@@ -47,6 +47,12 @@ function fallbackRows(repo: Repo, nowMs: number): ReleaseRow[] {
     age: "live",
     variant: "b",
   });
+  rows.push({
+    tag: "maintainer-pulse",
+    notes: `${repo.contributors.toLocaleString()} contributors tracked in repo metadata`,
+    age: "30d",
+    variant: "a",
+  });
   return rows;
 }
 

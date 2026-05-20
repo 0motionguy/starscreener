@@ -22,10 +22,31 @@ function formatBaselineWatchers(repo: Repo): number {
   return Math.max(1, Math.round(mentionBase / 12 + starBase));
 }
 
+function buildHeroTags(repo: Repo): string[] {
+  const raw = [
+    ...(repo.tags ?? []),
+    ...(repo.topics ?? []),
+    repo.language,
+    repo.categoryId,
+    repo.collectionNames?.[0],
+    repo.lastReleaseTag ? "recent release" : null,
+    repo.movementStatus ? `${repo.movementStatus} velocity` : null,
+    (repo.channelsFiring ?? 0) > 0 ? `${repo.channelsFiring} sources` : null,
+  ];
+
+  return Array.from(
+    new Set(
+      raw
+        .filter(Boolean)
+        .map((tag) => String(tag).replace(/[_-]/g, " ").toUpperCase()),
+    ),
+  ).slice(0, 6);
+}
+
 export function RepoHeroCard({ repo, profile }: RepoHeroCardProps) {
   const trendBadgeRank =
     typeof repo.rank === "number" && repo.rank > 0 ? `#${repo.rank}` : null;
-  const tags = (repo.tags ?? repo.topics ?? []).slice(0, 5);
+  const tags = buildHeroTags(repo);
   const avatarSeed = deriveAvatarSeed(repo.name || repo.owner);
   const npmPackage = profile?.surfaces.npmPackages[0] ?? null;
   const visible = repo.url;

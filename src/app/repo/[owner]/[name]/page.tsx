@@ -131,7 +131,7 @@ function deriveChartEvents(
     .filter((event): event is ChartEvent => Boolean(event))
     .slice(0, 4);
 
-  if (derived.length >= 3) return derived;
+  if (derived.length >= 4) return derived.slice(0, 4);
 
   if (repo.lastReleaseTag) {
     derived.push({
@@ -158,6 +158,40 @@ function deriveChartEvents(
       label: `${repo.channelsFiring} sources`,
       color: "var(--info)",
     });
+  }
+
+  const mentionTotal = repo.mentions?.total7d ?? repo.mentionCount24h ?? 0;
+  const fallbackEvents: ChartEvent[] = [
+    {
+      x: 0.18,
+      y: 0.36,
+      label: repo.createdAt ? "repo launch" : "first tracked",
+      color: "var(--accent)",
+    },
+    {
+      x: 0.46,
+      y: 0.26,
+      label: mentionTotal > 0 ? `${mentionTotal.toLocaleString()} mentions` : "source pickup",
+      color: "var(--warning)",
+    },
+    {
+      x: 0.68,
+      y: 0.2,
+      label: repo.rank > 0 ? `rank #${repo.rank}` : "trend score",
+      color: "var(--info)",
+    },
+    {
+      x: 0.92,
+      y: 0.14,
+      label: repo.lastReleaseTag ?? "latest activity",
+      color: "var(--up)",
+    },
+  ];
+
+  for (const event of fallbackEvents) {
+    if (derived.length >= 4) break;
+    if (derived.some((item) => item.label === event.label)) continue;
+    derived.push(event);
   }
 
   return derived.slice(0, 4);

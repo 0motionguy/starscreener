@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { RepoFundingEvent } from "@/lib/funding/repo-events";
 import type { NormalizedGithubEvent } from "@/lib/github-events";
 import type {
@@ -7,11 +9,24 @@ import type {
 } from "@/lib/types";
 import { FreshnessPill } from "@/components/shell/FreshnessPill";
 
+export const FEED_FILTERS = [
+  "all",
+  "mentions",
+  "releases",
+  "stars",
+  "funding",
+  "breakouts",
+  "arxiv",
+  "npm",
+] as const;
+export type FeedFilter = (typeof FEED_FILTERS)[number];
+
 interface RepoActivityFeedProps {
   repo: Repo;
   events: NormalizedGithubEvent[];
   fundingEvents: RepoFundingEvent[];
   fetchedAt: string | null;
+  activeFilter?: FeedFilter;
 }
 
 interface FeedRow {
@@ -589,14 +604,25 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
   return sourceRows;
 }
 
+const FILTER_TO_KIND: Record<Exclude<FeedFilter, "all">, FeedRow["kind"]> = {
+  mentions: "mention",
+  releases: "release",
+  stars: "star",
+  funding: "fund",
+  breakouts: "breakout",
+  arxiv: "arxiv",
+  npm: "npm",
+};
+
 export function RepoActivityFeed({
   repo,
   events,
   fundingEvents,
   fetchedAt,
+  activeFilter = "all",
 }: RepoActivityFeedProps) {
   const nowMs = Date.now();
-  const rows = dedupeRows([
+  const allRows = dedupeRows([
     ...derivedRows(repo, nowMs),
     ...mentionRows(repo, nowMs),
     ...events
@@ -605,28 +631,53 @@ export function RepoActivityFeed({
       .filter((row): row is FeedRow => Boolean(row)),
     ...fundingEvents.slice(0, 3).map((event) => fundingToRow(event, nowMs)),
     ...signalRows(repo, nowMs),
-  ]).slice(0, 13);
+  ]);
+  const filteredRows =
+    activeFilter === "all"
+      ? allRows
+      : allRows.filter((row) => row.kind === FILTER_TO_KIND[activeFilter]);
+  const rows = filteredRows.slice(0, 13);
 
   const mentionUniverse = repo.mentions?.total7d ?? 0;
   const totals = {
-    all: Math.max(rows.length, mentionUniverse + events.length + fundingEvents.length),
+    all: Math.max(
+      allRows.length,
+      mentionUniverse + events.length + fundingEvents.length,
+    ),
     mentions: Math.max(
-      rows.filter((r) => r.kind === "mention").length,
+      allRows.filter((r) => r.kind === "mention").length,
       mentionUniverse,
     ),
     releases: Math.max(
-      rows.filter((r) => r.kind === "release").length,
+      allRows.filter((r) => r.kind === "release").length,
       repo.lastReleaseTag ? 1 : 0,
     ),
     stars: Math.max(
-      rows.filter((r) => r.kind === "star").length,
+      allRows.filter((r) => r.kind === "star").length,
       repo.starsDelta24h > 0 || repo.starsDelta7d > 0 ? 1 : 0,
     ),
     funding: Math.max(fundingEvents.length, repo.funding?.count ?? 0),
-    breakouts: rows.filter((r) => r.kind === "breakout").length,
-    arxiv: Math.max(rows.filter((r) => r.kind === "arxiv").length, repo.linkedArxivIds?.length ?? 0),
-    npm: Math.max(rows.filter((r) => r.kind === "npm").length, repo.mentions?.perSource.npm?.count7d ?? 0),
+    breakouts: allRows.filter((r) => r.kind === "breakout").length,
+    arxiv: Math.max(
+      allRows.filter((r) => r.kind === "arxiv").length,
+      repo.linkedArxivIds?.length ?? 0,
+    ),
+    npm: Math.max(
+      allRows.filter((r) => r.kind === "npm").length,
+      repo.mentions?.perSource.npm?.count7d ?? 0,
+    ),
   };
+
+  const filterChips: { id: FeedFilter; label: string; count: number }[] = [
+    { id: "all", label: "All", count: totals.all },
+    { id: "mentions", label: "Mentions", count: totals.mentions },
+    { id: "releases", label: "Releases", count: totals.releases },
+    { id: "stars", label: "Star surges", count: totals.stars },
+    { id: "funding", label: "Funding", count: totals.funding },
+    { id: "breakouts", label: "Breakouts", count: totals.breakouts },
+    { id: "arxiv", label: "arXiv", count: totals.arxiv },
+    { id: "npm", label: "NPM", count: totals.npm },
+  ];
 
   const [owner, name] = repo.fullName.split("/");
   const feedHref = `/api/repos/${encodeURIComponent(owner ?? repo.owner)}/${encodeURIComponent(name ?? repo.name)}/events`;
@@ -642,31 +693,23 @@ export function RepoActivityFeed({
         <FreshnessPill source="repos" fetchedAt={fetchedAt} />
       </div>
 
-      <div className="feed-filter">
-        <button type="button" className="feed-chip on">
-          All <span className="ct">{totals.all}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          Mentions <span className="ct">{totals.mentions}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          Releases <span className="ct">{totals.releases}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          Star surges <span className="ct">{totals.stars}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          Funding <span className="ct">{totals.funding}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          Breakouts <span className="ct">{totals.breakouts}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          arXiv <span className="ct">{totals.arxiv}</span>
-        </button>
-        <button type="button" className="feed-chip">
-          NPM <span className="ct">{totals.npm}</span>
-        </button>
+      <div className="feed-filter" data-tabset role="tablist" aria-label="Activity feed filter">
+        {filterChips.map((chip) => {
+          const isActive = chip.id === activeFilter;
+          return (
+            <Link
+              key={chip.id}
+              href={chip.id === "all" ? "?" : `?feed=${chip.id}`}
+              className={`feed-chip${isActive ? " on" : ""}`}
+              role="tab"
+              aria-selected={isActive}
+              prefetch={false}
+              scroll={false}
+            >
+              {chip.label} <span className="ct">{chip.count.toLocaleString()}</span>
+            </Link>
+          );
+        })}
         <span className="grow" />
         <button type="button" className="feed-chip">
           <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">

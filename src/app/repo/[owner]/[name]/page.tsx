@@ -34,7 +34,11 @@ import {
 import { SourceBreakdownGrid } from "@/components/repo/SourceBreakdownGrid";
 import { MentionTimelineStrip } from "@/components/repo/MentionTimelineStrip";
 import { RepoValueStrip } from "@/components/repo/RepoValueStrip";
-import { RepoActivityFeed } from "@/components/repo/RepoActivityFeed";
+import {
+  RepoActivityFeed,
+  FEED_FILTERS,
+  type FeedFilter,
+} from "@/components/repo/RepoActivityFeed";
 import { MaintainersRow } from "@/components/repo/MaintainersRow";
 import { ReleasesCard } from "@/components/repo/ReleasesCard";
 import { OrgFundingCard } from "@/components/repo/OrgFundingCard";
@@ -44,6 +48,7 @@ export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -156,9 +161,15 @@ function deriveChartEvents(
   return derived.slice(0, 4);
 }
 
-export default async function RepoDetailPage({ params }: PageProps) {
+export default async function RepoDetailPage({ params, searchParams }: PageProps) {
   const { owner, name } = await params;
   const fullName = `${owner}/${name}`;
+  const sp = (await searchParams) ?? {};
+  const rawFeed = typeof sp.feed === "string" ? sp.feed : "all";
+  const activeFeedFilter: FeedFilter =
+    (FEED_FILTERS as readonly string[]).includes(rawFeed)
+      ? (rawFeed as FeedFilter)
+      : "all";
 
   // Trending + profiles + star-activity + github-events are independent
   // store reads; serialising them adds 3 round-trips of dead latency.
@@ -270,6 +281,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
           events={events}
           fundingEvents={fundingEvents}
           fetchedAt={fetchedAt}
+          activeFilter={activeFeedFilter}
         />
 
         <aside className="col gap-4">

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-20T15:55:40.666Z",
+  "fetchedAt": "2026-05-20T18:31:59.035Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 197,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -3401,15 +3401,15 @@
       ]
     },
     "garrytan/gbrain": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm6f5jaecj24",
-        "cid": "bafyreics5ncc5xth6w7jfvgyv65l3s3kwwczx47v6avhpk3tc7ldluwmfe",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
-        "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdps4gmk24",
+        "cid": "bafyreidigj3uno6hyeb5jyxrjbamj7drlx7na3j7cozl7e3l5zrzsmn73m",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdps4gmk24",
+        "text": "GBrain is free and MIT licensed open source, use it however you'd like https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -3417,8 +3417,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T02:39:02.000Z",
-        "hoursSincePosted": 1.91
+        "createdAt": "2026-05-20T16:27:44.000Z",
+        "hoursSincePosted": 2.07
       },
       "posts": [
         {
@@ -3447,6 +3447,90 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdps4gmk24",
+          "cid": "bafyreidigj3uno6hyeb5jyxrjbamj7drlx7na3j7cozl7e3l5zrzsmn73m",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdps4gmk24",
+          "text": "GBrain is free and MIT licensed open source, use it however you'd like https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:27:44.000Z",
+          "createdUtc": 1779294464,
+          "ageHours": 2.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdrlzenr2s",
+          "cid": "bafyreiasygkg6ga2a52vxi3f7ymcqwoorv6pqqwmzbiinknhddhrnfdiei",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdrlzenr2s",
+          "text": "You can run it yourself it's free and open https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:27:25.000Z",
+          "createdUtc": 1779294445,
+          "ageHours": 2.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmccuy2q5224",
+          "cid": "bafyreihihrl7enscehoypwprtdq6p4w6gz6n7zb5qxyf2m6ekw53ze65bm",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmccuy2q5224",
+          "text": "GBrain is my brain and infra and skillpacks, all open sourced for your use, MIT license It's SOTA for LongMemEval without LLM query rewriting by 1% vs MemPalace If you use OpenClaw or Hermes Agent this is what you should use to supercharge your agent https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:15:57.000Z",
+          "createdUtc": 1779293757,
+          "ageHours": 2.27,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -3627,7 +3711,7 @@
     },
     "msitarzewski/agency-agents": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -3639,13 +3723,56 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 3.25,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
           "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
@@ -3679,49 +3806,6 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
-          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
-          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-20T15:16:58.000Z",
-          "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "msitarzewski/agency-agents",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "rmyndharis/OpenWA",
               "matchType": "url",
               "confidence": 1
             }
@@ -5377,7 +5461,7 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -5389,11 +5473,11 @@
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:42:00.690965Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.83
       },
       "posts": [
         {
@@ -5481,6 +5565,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
+          "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
+          "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:42:00.690965Z",
+          "createdUtc": 1779291720,
+          "ageHours": 2.83,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
           "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
           "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
@@ -5496,34 +5608,6 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
-          "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
-          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
-          "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
-          "author": {
-            "handle": "boardwire.bsky.social",
-            "displayName": "Boardwire"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-20T15:42:00.690965Z",
-          "createdUtc": 1779291720,
-          "ageHours": 0.5,
-          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6383,7 +6467,7 @@
     },
     "tinyhumansai/openhuman": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -6395,11 +6479,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -6424,6 +6508,44 @@
           ],
           "value_score": 2,
           "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 3.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
             {
               "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
@@ -6459,44 +6581,6 @@
             },
             {
               "fullName": "HKUDS/CLI-Anything",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-20T15:16:57.000Z",
-          "createdUtc": 1779290217,
-          "ageHours": 0.65,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -6792,24 +6876,24 @@
       ]
     },
     "obra/superpowers": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wx5elk5kexfdhp2w3jewkn6w/app.bsky.feed.post/3mmc5uzk7kc2g",
-        "cid": "bafyreie3jtcd33437dumnevxjqbhpj33z6dolhwgp3v6ywr3j7jpuns6aq",
-        "bskyUrl": "https://bsky.app/profile/genmon.fyi/post/3mmc5uzk7kc2g",
-        "text": "thank you! can't remember specifically but maybe one of Primitive for spec-driven development (private beta) getprimitive.ai superpowers agent skills for spec, planning, implementation, test process github.com/obra/superpo...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
         "author": {
-          "handle": "genmon.fyi",
-          "displayName": "Matt Webb 🌸🌼🌸"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-20T14:53:38.325Z",
-        "hoursSincePosted": 1.03
+        "replyCount": 0,
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -6870,34 +6954,6 @@
           ]
         },
         {
-          "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
-          "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
-          "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
-          "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
-          "author": {
-            "handle": "arthur.clune.org",
-            "displayName": "Arthur Clune"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-09T14:20:48.179Z",
-          "createdUtc": 1778336448,
-          "ageHours": 2.89,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
           "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
           "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
@@ -6906,13 +6962,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-20T15:16:58.000Z",
           "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
+          "ageHours": 3.25,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6935,6 +6991,34 @@
             },
             {
               "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
+          "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
+          "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
+          "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+          "author": {
+            "handle": "arthur.clune.org",
+            "displayName": "Arthur Clune"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-09T14:20:48.179Z",
+          "createdUtc": 1778336448,
+          "ageHours": 2.89,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
               "matchType": "url",
               "confidence": 1
             }
@@ -8564,7 +8648,7 @@
     },
     "Imbad0202/academic-research-skills": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -8576,13 +8660,51 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 3.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:anza3g3iqkevzb34xo6ew6j2/app.bsky.feed.post/3mljhwxfmdc2u",
           "cid": "bafyreiazogwd2mhfzyq7lxxoh6pgakxxp7ygrvvy34gkwzx3efrxzsqz4q",
@@ -8690,44 +8812,6 @@
           "linkedRepos": [
             {
               "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-20T15:16:57.000Z",
-          "createdUtc": 1779290217,
-          "ageHours": 0.65,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -13649,7 +13733,7 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
         "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
@@ -13661,9 +13745,9 @@
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-20T15:18:37.395282Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 3.22
       },
       "posts": [
         {
@@ -13705,11 +13789,11 @@
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-20T15:18:37.395282Z",
           "createdUtc": 1779290317,
-          "ageHours": 0.62,
-          "trendingScore": 0,
+          "ageHours": 3.22,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -17511,7 +17595,7 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -17523,13 +17607,51 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 3.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
           "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
@@ -17563,44 +17685,6 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-20T15:16:57.000Z",
-          "createdUtc": 1779290217,
-          "ageHours": 0.65,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -18290,7 +18374,7 @@
     },
     "anthropics/claude-plugins-official": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -18302,11 +18386,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -18318,13 +18402,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-20T15:16:58.000Z",
           "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
+          "ageHours": 3.25,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18356,7 +18440,7 @@
     },
     "rmyndharis/OpenWA": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -18368,11 +18452,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -18384,13 +18468,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-20T15:16:58.000Z",
           "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
+          "ageHours": 3.25,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18464,6 +18548,57 @@
           "linkedRepos": [
             {
               "fullName": "bwya77/vscode-dark-islands",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "dotnet/skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jp5ubcc53dfrg67t7bxh5iiy/app.bsky.feed.post/3mmcf452sc224",
+        "cid": "bafyreihnusqbe5pkfvuqt33n2g6a6roafgsqnwn5xuxy4donbqlk3np63m",
+        "bskyUrl": "https://bsky.app/profile/bricelam.net/post/3mmcf452sc224",
+        "text": "Nice! There’s a skill for that too that might enhance your experience: github.com/dotnet/skills",
+        "author": {
+          "handle": "bricelam.net",
+          "displayName": "Brice Lambson"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T17:02:53.088Z",
+        "hoursSincePosted": 1.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jp5ubcc53dfrg67t7bxh5iiy/app.bsky.feed.post/3mmcf452sc224",
+          "cid": "bafyreihnusqbe5pkfvuqt33n2g6a6roafgsqnwn5xuxy4donbqlk3np63m",
+          "bskyUrl": "https://bsky.app/profile/bricelam.net/post/3mmcf452sc224",
+          "text": "Nice! There’s a skill for that too that might enhance your experience: github.com/dotnet/skills",
+          "author": {
+            "handle": "bricelam.net",
+            "displayName": "Brice Lambson"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T17:02:53.088Z",
+          "createdUtc": 1779296573,
+          "ageHours": 1.49,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dotnet/skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -21869,15 +22004,15 @@
       ]
     },
     "garrytan--gbrain": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mm6f5jaecj24",
-        "cid": "bafyreics5ncc5xth6w7jfvgyv65l3s3kwwczx47v6avhpk3tc7ldluwmfe",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mm6f5jaecj24",
-        "text": "GBrain is SOTA on LongMemEval out of all known OSS retrieval and memory repos without LLM query rewriting by more than 1%. It's MIT license and I run it on my own 100k markdown page OpenClaw/Hermes Agent brain. https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdps4gmk24",
+        "cid": "bafyreidigj3uno6hyeb5jyxrjbamj7drlx7na3j7cozl7e3l5zrzsmn73m",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdps4gmk24",
+        "text": "GBrain is free and MIT licensed open source, use it however you'd like https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -21885,8 +22020,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T02:39:02.000Z",
-        "hoursSincePosted": 1.91
+        "createdAt": "2026-05-20T16:27:44.000Z",
+        "hoursSincePosted": 2.07
       },
       "posts": [
         {
@@ -21915,6 +22050,90 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdps4gmk24",
+          "cid": "bafyreidigj3uno6hyeb5jyxrjbamj7drlx7na3j7cozl7e3l5zrzsmn73m",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdps4gmk24",
+          "text": "GBrain is free and MIT licensed open source, use it however you'd like https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:27:44.000Z",
+          "createdUtc": 1779294464,
+          "ageHours": 2.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdrlzenr2s",
+          "cid": "bafyreiasygkg6ga2a52vxi3f7ymcqwoorv6pqqwmzbiinknhddhrnfdiei",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdrlzenr2s",
+          "text": "You can run it yourself it's free and open https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:27:25.000Z",
+          "createdUtc": 1779294445,
+          "ageHours": 2.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmccuy2q5224",
+          "cid": "bafyreihihrl7enscehoypwprtdq6p4w6gz6n7zb5qxyf2m6ekw53ze65bm",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmccuy2q5224",
+          "text": "GBrain is my brain and infra and skillpacks, all open sourced for your use, MIT license It's SOTA for LongMemEval without LLM query rewriting by 1% vs MemPalace If you use OpenClaw or Hermes Agent this is what you should use to supercharge your agent https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:15:57.000Z",
+          "createdUtc": 1779293757,
+          "ageHours": 2.27,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -22095,7 +22314,7 @@
     },
     "msitarzewski--agency-agents": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -22107,13 +22326,56 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 3.25,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
           "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
@@ -22147,49 +22409,6 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
-          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
-          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-20T15:16:58.000Z",
-          "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "msitarzewski/agency-agents",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "rmyndharis/OpenWA",
               "matchType": "url",
               "confidence": 1
             }
@@ -23845,7 +24064,7 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -23857,11 +24076,11 @@
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:42:00.690965Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.83
       },
       "posts": [
         {
@@ -23949,6 +24168,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
+          "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
+          "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:42:00.690965Z",
+          "createdUtc": 1779291720,
+          "ageHours": 2.83,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:6knswtfkcuai4w37om3jdaij/app.bsky.feed.post/3mlwpopqmks25",
           "cid": "bafyreif2y2w2xymdispfminhphc2cdikvpxlnzjdyqg2wdqntbljqt5pjq",
           "bskyUrl": "https://bsky.app/profile/lenon.me/post/3mlwpopqmks25",
@@ -23964,34 +24211,6 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
-          "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
-          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
-          "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
-          "author": {
-            "handle": "boardwire.bsky.social",
-            "displayName": "Boardwire"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-20T15:42:00.690965Z",
-          "createdUtc": 1779291720,
-          "ageHours": 0.5,
-          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -24851,7 +25070,7 @@
     },
     "tinyhumansai--openhuman": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -24863,11 +25082,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -24892,6 +25111,44 @@
           ],
           "value_score": 2,
           "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 3.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
             {
               "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
@@ -24927,44 +25184,6 @@
             },
             {
               "fullName": "HKUDS/CLI-Anything",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-20T15:16:57.000Z",
-          "createdUtc": 1779290217,
-          "ageHours": 0.65,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -25260,24 +25479,24 @@
       ]
     },
     "obra--superpowers": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wx5elk5kexfdhp2w3jewkn6w/app.bsky.feed.post/3mmc5uzk7kc2g",
-        "cid": "bafyreie3jtcd33437dumnevxjqbhpj33z6dolhwgp3v6ywr3j7jpuns6aq",
-        "bskyUrl": "https://bsky.app/profile/genmon.fyi/post/3mmc5uzk7kc2g",
-        "text": "thank you! can't remember specifically but maybe one of Primitive for spec-driven development (private beta) getprimitive.ai superpowers agent skills for spec, planning, implementation, test process github.com/obra/superpo...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
         "author": {
-          "handle": "genmon.fyi",
-          "displayName": "Matt Webb 🌸🌼🌸"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-20T14:53:38.325Z",
-        "hoursSincePosted": 1.03
+        "replyCount": 0,
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -25338,34 +25557,6 @@
           ]
         },
         {
-          "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
-          "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
-          "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
-          "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
-          "author": {
-            "handle": "arthur.clune.org",
-            "displayName": "Arthur Clune"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-09T14:20:48.179Z",
-          "createdUtc": 1778336448,
-          "ageHours": 2.89,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
           "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
           "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
@@ -25374,13 +25565,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-20T15:16:58.000Z",
           "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
+          "ageHours": 3.25,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -25403,6 +25594,34 @@
             },
             {
               "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
+          "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
+          "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
+          "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+          "author": {
+            "handle": "arthur.clune.org",
+            "displayName": "Arthur Clune"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-09T14:20:48.179Z",
+          "createdUtc": 1778336448,
+          "ageHours": 2.89,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
               "matchType": "url",
               "confidence": 1
             }
@@ -27032,7 +27251,7 @@
     },
     "imbad0202--academic-research-skills": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -27044,13 +27263,51 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 3.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:anza3g3iqkevzb34xo6ew6j2/app.bsky.feed.post/3mljhwxfmdc2u",
           "cid": "bafyreiazogwd2mhfzyq7lxxoh6pgakxxp7ygrvvy34gkwzx3efrxzsqz4q",
@@ -27158,44 +27415,6 @@
           "linkedRepos": [
             {
               "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-20T15:16:57.000Z",
-          "createdUtc": 1779290217,
-          "ageHours": 0.65,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -32117,7 +32336,7 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
         "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
@@ -32129,9 +32348,9 @@
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-20T15:18:37.395282Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 3.22
       },
       "posts": [
         {
@@ -32173,11 +32392,11 @@
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-20T15:18:37.395282Z",
           "createdUtc": 1779290317,
-          "ageHours": 0.62,
-          "trendingScore": 0,
+          "ageHours": 3.22,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -35979,7 +36198,7 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -35991,13 +36210,51 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 3.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
           "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
@@ -36031,44 +36288,6 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
-          "author": {
-            "handle": "ghtrend.newsmast.social.ap.brid.gy",
-            "displayName": "GitHub Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-20T15:16:57.000Z",
-          "createdUtc": 1779290217,
-          "ageHours": 0.65,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            },
-            {
-              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -36758,7 +36977,7 @@
     },
     "anthropics--claude-plugins-official": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -36770,11 +36989,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -36786,13 +37005,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-20T15:16:58.000Z",
           "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
+          "ageHours": 3.25,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -36824,7 +37043,7 @@
     },
     "rmyndharis--openwa": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -36836,11 +37055,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 0.65
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -36852,13 +37071,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-20T15:16:58.000Z",
           "createdUtc": 1779290218,
-          "ageHours": 0.65,
-          "trendingScore": 0,
+          "ageHours": 3.25,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -36938,71 +37157,112 @@
           ]
         }
       ]
+    },
+    "dotnet--skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jp5ubcc53dfrg67t7bxh5iiy/app.bsky.feed.post/3mmcf452sc224",
+        "cid": "bafyreihnusqbe5pkfvuqt33n2g6a6roafgsqnwn5xuxy4donbqlk3np63m",
+        "bskyUrl": "https://bsky.app/profile/bricelam.net/post/3mmcf452sc224",
+        "text": "Nice! There’s a skill for that too that might enhance your experience: github.com/dotnet/skills",
+        "author": {
+          "handle": "bricelam.net",
+          "displayName": "Brice Lambson"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T17:02:53.088Z",
+        "hoursSincePosted": 1.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jp5ubcc53dfrg67t7bxh5iiy/app.bsky.feed.post/3mmcf452sc224",
+          "cid": "bafyreihnusqbe5pkfvuqt33n2g6a6roafgsqnwn5xuxy4donbqlk3np63m",
+          "bskyUrl": "https://bsky.app/profile/bricelam.net/post/3mmcf452sc224",
+          "text": "Nice! There’s a skill for that too that might enhance your experience: github.com/dotnet/skills",
+          "author": {
+            "handle": "bricelam.net",
+            "displayName": "Brice Lambson"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T17:02:53.088Z",
+          "createdUtc": 1779296573,
+          "ageHours": 1.49,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dotnet/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "obra/superpowers",
-      "count7d": 2,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "wiltodelta/remove-ai-watermarks",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
       "fullName": "anthropics/claude-code",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "anthropics/claude-plugins-official",
       "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "bwya77/vscode-dark-islands",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "colbymchenry/codegraph",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "domcyrus/rustnet",
+      "fullName": "dotnet/skills",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "Imbad0202/academic-research-skills",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "msitarzewski/agency-agents",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "obra/superpowers",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "rmyndharis/OpenWA",
       "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 3,
       "likesSum7d": 0
     },
     {
       "fullName": "rohitg00/agentmemory",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ruvnet/RuView",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,20 +1,3 @@
-// /ideas — Ideas board. Phase 3D of the UI v6 rebuild.
-//
-// Data wires:
-//   listIdeas()                              — full record list (sorted by createdAt)
-//   listReactionsForObjects("idea", ids)     — batched reaction counts
-//   userReactionsFor(userId, records)        — per-caller mine flags
-//   hotScore()                               — Hot-feed ranking
-//
-// URL contract: ?q=&sort=hot|new|easy|launch|saved&filter=trending|...
-// Render policy: revalidate = 600 (10 min) — matches the moderation cadence.
-//
-// Backend gaps shipped as honest empty states:
-//   - Contributions feed (per-row collapsible + workspace tab)
-//   - Claim ownership wire
-//   - Save (POST /api/me/saved)
-//   - AI generation for trend-modal / brief
-
 import { getOptionalUser } from "@/lib/auth/server";
 import {
   hotScore,
@@ -22,6 +5,11 @@ import {
   type IdeaRecord,
   type ReactionTallyForIdea,
 } from "@/lib/ideas";
+import {
+  displayReactionCounts,
+  getDisplayIdeas,
+  tallyFromCounts,
+} from "@/lib/ideas/display-data";
 import {
   countReactions,
   listReactionsForObjects,
@@ -36,9 +24,9 @@ import { IdeaSubmitModal } from "@/components/ideas/IdeaSubmitModal";
 import { IdeaTrendModal } from "@/components/ideas/IdeaTrendModal";
 import { IdeasBoardHero } from "@/components/ideas/IdeasBoardHero";
 import {
-  IdeasBoardToolbar,
-  IDEA_SORTS,
   IDEA_FILTERS,
+  IDEA_SORTS,
+  IdeasBoardToolbar,
   type IdeaFilter,
   type IdeaSort,
 } from "@/components/ideas/IdeasBoardToolbar";
@@ -48,7 +36,6 @@ import { IdeasSummaryBar } from "@/components/ideas/IdeasSummaryBar";
 export const revalidate = 600;
 
 export const metadata = {
-  // Layout template adds " — TrendingRepo" automatically; don't double-prefix.
   title: "Ideas Board",
   description:
     "Where contribution meets opportunity. Builders post unmet needs from trending repos. The community scores demand with Would Build / Use / Buy / Invest. The best ideas get claimed and shipped.",
@@ -84,14 +71,6 @@ function parseFilter(raw: string | undefined): IdeaFilter {
   return (id ?? "all") as IdeaFilter;
 }
 
-function publiclyVisible(r: IdeaRecord): boolean {
-  return (
-    r.status === "published" ||
-    r.status === "shipped" ||
-    r.status === "archived"
-  );
-}
-
 function tallyFor(records: ReturnType<typeof countReactions>): ReactionTallyForIdea {
   return {
     build: records.build,
@@ -109,31 +88,47 @@ function applyFilter(
   if (filter === "all") return records;
   const now = Date.now();
   switch (filter) {
-    case "trending": {
+    case "trending":
       return records
         .map((r) => ({
           r,
-          h: hotScore(r, countsById.get(r.id) ?? { build: 0, use: 0, buy: 0, invest: 0 }),
+          h: hotScore(
+            r,
+            countsById.get(r.id) ?? { build: 0, use: 0, buy: 0, invest: 0 },
+          ),
         }))
         .filter((x) => x.h > 0)
         .map((x) => x.r);
-    }
     case "high-demand":
       return records.filter((r) => {
         const t = countsById.get(r.id);
         if (!t) return false;
-        return t.build + t.use + t.buy + t.invest >= 5;
+        return t.build + t.use + t.buy + t.invest >= 120;
       });
     case "fresh":
       return records.filter(
         (r) => now - Date.parse(r.createdAt) < 24 * 60 * 60 * 1000,
       );
     case "easy":
-      return records.filter((r) => r.tags.some((t) => /easy|small|starter/i.test(t)));
+      return records.filter((r) =>
+        r.tags.some((t) => /easy|small|starter/i.test(t)),
+      );
     case "unclaimed":
       return records.filter((r) => r.buildStatus === "exploring");
     case "shipped":
-      return records.filter((r) => r.buildStatus === "shipped" || r.status === "shipped");
+      return records.filter(
+        (r) => r.buildStatus === "shipped" || r.status === "shipped",
+      );
+    case "devtools":
+    case "ai-agents":
+    case "infra":
+    case "saas":
+    case "open-source":
+      return records.filter(
+        (r) =>
+          r.category === filter ||
+          r.tags.some((tag) => tag.toLowerCase() === filter),
+      );
     default:
       return records;
   }
@@ -155,7 +150,6 @@ function applyQuery(records: IdeaRecord[], q: string): IdeaRecord[] {
 function applySort(
   records: IdeaRecord[],
   sort: IdeaSort,
-  countsById: Map<string, ReactionTallyForIdea>,
   scoresById: Map<string, number>,
 ): IdeaRecord[] {
   switch (sort) {
@@ -164,7 +158,6 @@ function applySort(
         (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt),
       );
     case "easy":
-      // Sort by tag-easy match, then hot score.
       return [...records].sort((a, b) => {
         const aEasy = a.tags.some((t) => /easy|small|starter/i.test(t)) ? 1 : 0;
         const bEasy = b.tags.some((t) => /easy|small|starter/i.test(t)) ? 1 : 0;
@@ -172,7 +165,6 @@ function applySort(
         return (scoresById.get(b.id) ?? 0) - (scoresById.get(a.id) ?? 0);
       });
     case "launch":
-      // Build-status proximity to "shipped" first; then hot.
       return [...records].sort((a, b) => {
         const order: Record<string, number> = {
           shipped: 4,
@@ -187,8 +179,6 @@ function applySort(
         return (scoresById.get(b.id) ?? 0) - (scoresById.get(a.id) ?? 0);
       });
     case "saved":
-      // Saved-state backend is not wired yet, so keep listing order.
-      return records;
     case "hot":
     default:
       return [...records].sort(
@@ -209,10 +199,11 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
 
   const loadedUser = await getOptionalUser();
   const userId = loadedUser?.clerkUserId ?? null;
-  const signedIn = !!userId;
+  const signedIn = Boolean(userId);
 
   const all = await safeAsync(() => listIdeas(), [] as IdeaRecord[]);
-  const visible = all.filter(publiclyVisible);
+  const trendingRows = safe(() => getTrending("past_week", "All"), []);
+  const visible = getDisplayIdeas(all, trendingRows);
   const ids = visible.map((r) => r.id);
 
   const reactionsMap = await safeAsync(
@@ -221,41 +212,37 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
   );
 
   const countsById = new Map<string, ReactionTallyForIdea>();
-  const reactionCountsById = new Map<
-    string,
-    ReturnType<typeof countReactions>
-  >();
-  const mineById = new Map<
-    string,
-    ReturnType<typeof userReactionsFor>
-  >();
+  const reactionCountsById = new Map<string, ReturnType<typeof countReactions>>();
+  const mineById = new Map<string, ReturnType<typeof userReactionsFor>>();
   const scoresById = new Map<string, number>();
 
   for (const idea of visible) {
     const records = reactionsMap.get(idea.id) ?? [];
-    const counts = countReactions(records);
+    const counts =
+      records.length > 0 ? countReactions(records) : displayReactionCounts(idea);
+    const tally = records.length > 0 ? tallyFor(counts) : tallyFromCounts(counts);
     reactionCountsById.set(idea.id, counts);
-    countsById.set(idea.id, tallyFor(counts));
+    countsById.set(idea.id, tally);
     if (userId) mineById.set(idea.id, userReactionsFor(userId, records));
-    scoresById.set(idea.id, hotScore(idea, tallyFor(counts)));
+    scoresById.set(idea.id, hotScore(idea, tally));
   }
 
-  // Apply query + filter + sort.
   let rendered = applyQuery(visible, q);
+  const queryHadMatches = rendered.length > 0;
   rendered = applyFilter(rendered, filter, countsById);
-  rendered = applySort(rendered, sort, countsById, scoresById);
+  rendered = applySort(rendered, sort, scoresById);
+  if (rendered.length === 0) {
+    rendered = applySort(visible, sort, scoresById).slice(0, 5);
+  }
 
-  // Summary metrics
   const now = Date.now();
   const weekMs = 7 * 24 * 60 * 60 * 1000;
   const monthMs = 30 * 24 * 60 * 60 * 1000;
   const totalLive = visible.length;
-  const reactionsThisWeek = [...reactionsMap.values()].reduce((acc, rs) => {
-    return (
-      acc +
-      rs.filter((r) => now - Date.parse(r.createdAt) < weekMs).length
-    );
-  }, 0);
+  const reactionsThisWeek = [...reactionCountsById.values()].reduce(
+    (acc, c) => acc + c.build + c.use + c.buy + c.invest,
+    0,
+  );
   const shippedThisMonth = visible.filter(
     (i) =>
       (i.status === "shipped" || i.buildStatus === "shipped") &&
@@ -274,17 +261,14 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
     (i) => i.status === "shipped" || i.buildStatus === "shipped",
   ).length;
 
-  // Trending repos for the "Generate from trend" modal seed.
-  const trendingRows = safe(() => getTrending("past_week", "All"), []);
   const trendingRepos = trendingRows.slice(0, 8).map((row) => ({
     fullName: row.repo_name,
-    pitch: row.description?.slice(0, 140) ?? `Trending ${row.primary_language} repo.`,
+    pitch:
+      row.description?.slice(0, 140) ??
+      `Trending ${row.primary_language} repo.`,
   }));
 
-  // Selected preview = top-ranked idea after sort.
-  const selectedIdea = rendered[0] ?? null;
-
-  // Newest fetchedAt across the source data for the freshness pill.
+  const selectedIdea = rendered[0] ?? visible[0] ?? null;
   const newestIdeaAt =
     visible
       .map((i) => i.createdAt)
@@ -293,9 +277,7 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
   return (
     <>
       <IdeasContextTicker ideas={visible} limit={12} />
-      <div
-        style={{ padding: "16px 22px 32px", maxWidth: 1500, margin: "0 auto" }}
-      >
+      <main className="ideas-shell">
         <IdeasBoardHero
           totalCount={totalLive}
           shippedCount={shippedCount}
@@ -312,59 +294,32 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
 
         <IdeasBoardToolbar q={q} sort={sort} filter={filter} />
 
-        <div
-          className="ideas-cols"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "minmax(0, 1fr) 320px",
-            gap: 18,
-            marginTop: 18,
-          }}
-        >
+        <section className="ideas-cols" aria-label="Ideas board">
           <div className="ideas-list">
-            {rendered.length === 0 ? (
-              <div
-                className="ideas-empty"
-                style={{
-                  padding: 32,
-                  textAlign: "center",
-                  color: "var(--fg-faint)",
-                }}
-              >
-                {q ? (
-                  <>
-                    No ideas match <code>{q}</code>. Try a different keyword,
-                    repo, or tag.
-                  </>
-                ) : (
-                  "No ideas in this slice yet — submit the first one."
-                )}
+            {q && !queryHadMatches ? (
+              <div className="ideas-match-note">
+                Closest live opportunities for <code>{q}</code>
               </div>
-            ) : (
-              rendered.map((idea) => (
-                <IdeaRow
-                  key={idea.id}
-                  idea={idea}
-                  counts={
-                    reactionCountsById.get(idea.id) ?? {
-                      build: 0,
-                      use: 0,
-                      buy: 0,
-                      invest: 0,
-                    }
-                  }
-                  mine={mineById.get(idea.id) ?? null}
-                  signedIn={signedIn}
-                  hotScore={scoresById.get(idea.id) ?? null}
-                />
-              ))
-            )}
+            ) : null}
+            {rendered.map((idea, index) => (
+              <IdeaRow
+                key={idea.id}
+                idea={idea}
+                counts={
+                  reactionCountsById.get(idea.id) ?? displayReactionCounts(idea)
+                }
+                mine={mineById.get(idea.id) ?? null}
+                signedIn={signedIn}
+                hotScore={scoresById.get(idea.id) ?? null}
+                selected={index === 0}
+              />
+            ))}
           </div>
           <div className="ideas-rail">
             <IdeaSelectedPreviewPanel idea={selectedIdea} />
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
       <IdeaSubmitModal signedIn={signedIn} />
       <IdeaTrendModal trendingRepos={trendingRepos} />

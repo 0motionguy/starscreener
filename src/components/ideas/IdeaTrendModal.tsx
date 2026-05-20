@@ -1,9 +1,5 @@
 "use client";
 
-// IdeaTrendModal — "Generate from trend" overlay. v1 renders a static
-// template (no AI). The user picks a trending repo and we surface a
-// boilerplate idea draft they can edit before submitting.
-
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface IdeaTrendModalProps {
@@ -36,7 +32,6 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
     queueMicrotask(() => triggerRef.current?.focus?.());
   }, []);
 
-  // Esc-to-close + initial focus on the close button.
   useEffect(() => {
     if (!open) return;
     closeBtnRef.current?.focus();
@@ -52,13 +47,26 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
 
   if (!open) return null;
 
-  const picked = trendingRepos[pickedIdx];
-  const draftTitle = picked
-    ? `Make ${picked.fullName.split("/")[1] ?? picked.fullName} usable in minutes`
-    : "Pick a trending repo";
-  const draftPitch = picked
-    ? `${picked.pitch}. There's room for a launcher / wrapper that gets new users to first value in <5 min.`
-    : "Choose a trend to seed the draft.";
+  const repos =
+    trendingRepos.length > 0
+      ? trendingRepos
+      : [
+          {
+            fullName: "modelcontextprotocol/servers",
+            pitch:
+              "MCP servers keep surfacing setup, health, and hosted visibility pain",
+          },
+          {
+            fullName: "openai/codex",
+            pitch:
+              "Agent tooling needs clearer workflow replay and failed-tool-call debugging",
+          },
+        ];
+  const picked = repos[pickedIdx] ?? repos[0]!;
+  const draftTitle = `Make ${
+    picked.fullName.split("/")[1] ?? picked.fullName
+  } usable in minutes`;
+  const draftPitch = `${picked.pitch}. There's room for a launcher or wrapper that gets new users to first value in under five minutes.`;
 
   return (
     <div
@@ -81,7 +89,7 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
             aria-label="Close"
             onClick={close}
           >
-            ×
+            x
           </button>
         </header>
         <div className="modal-body">
@@ -89,20 +97,16 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
             Pick a live repo signal to seed an editable idea draft.
           </p>
           <div className="trend-picker">
-            {trendingRepos.length === 0 ? (
-              <p>No trending repos available — try again later.</p>
-            ) : (
-              trendingRepos.slice(0, 6).map((r, i) => (
-                <button
-                  key={r.fullName}
-                  type="button"
-                  className={`trend-pick ${i === pickedIdx ? "on" : ""}`}
-                  onClick={() => setPickedIdx(i)}
-                >
-                  {r.fullName}
-                </button>
-              ))
-            )}
+            {repos.slice(0, 6).map((r, i) => (
+              <button
+                key={r.fullName}
+                type="button"
+                className={`trend-pick ${i === pickedIdx ? "on" : ""}`}
+                onClick={() => setPickedIdx(i)}
+              >
+                {r.fullName}
+              </button>
+            ))}
           </div>
           <div className="trend-draft">
             <label>

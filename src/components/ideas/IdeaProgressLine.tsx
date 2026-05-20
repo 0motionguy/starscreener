@@ -1,29 +1,37 @@
-// IdeaProgressLine — horizontal 4-step progress: exploring → scoping →
-// building → shipped (abandoned renders as an off-state marker). Active
-// step derives from idea.buildStatus.
-
 import type { IdeaBuildStatus } from "@/lib/ideas";
 
 interface IdeaProgressLineProps {
   buildStatus: IdeaBuildStatus;
+  claimed?: boolean;
 }
 
-const STEPS: { id: IdeaBuildStatus; label: string }[] = [
-  { id: "exploring", label: "Open" },
-  { id: "scoping", label: "Scoping" },
+const STEPS = [
+  { id: "open", label: "Open" },
+  { id: "claimed", label: "Claimed" },
+  { id: "repo", label: "Repo attached" },
   { id: "building", label: "Building" },
-  { id: "shipped", label: "Shipped" },
-];
+  { id: "launched", label: "Launched" },
+] as const;
 
-export function IdeaProgressLine({ buildStatus }: IdeaProgressLineProps) {
-  const activeIdx = STEPS.findIndex((s) => s.id === buildStatus);
+function activeIndex(buildStatus: IdeaBuildStatus, claimed: boolean): number {
+  if (buildStatus === "shipped") return 4;
+  if (buildStatus === "building") return 3;
+  if (buildStatus === "scoping") return claimed ? 1 : 0;
+  return claimed ? 1 : 0;
+}
+
+export function IdeaProgressLine({
+  buildStatus,
+  claimed = false,
+}: IdeaProgressLineProps) {
+  const activeIdx = activeIndex(buildStatus, claimed);
   const paused = buildStatus === "abandoned";
   return (
     <div
       className={`progress-line ${paused ? "paused" : ""}`}
       role="progressbar"
       aria-label="Build progress"
-      aria-valuenow={activeIdx >= 0 ? activeIdx + 1 : 1}
+      aria-valuenow={activeIdx + 1}
       aria-valuemin={1}
       aria-valuemax={STEPS.length}
     >
@@ -34,15 +42,11 @@ export function IdeaProgressLine({ buildStatus }: IdeaProgressLineProps) {
             i <= activeIdx ? "done" : ""
           } ${i === activeIdx ? "active" : ""}`}
         >
-          <span className="progress-dot" />
+          <span className="progress-dot">{i + 1}</span>
           <span className="progress-label">{s.label}</span>
         </div>
       ))}
-      {paused ? (
-        <span className="progress-paused" title="Build abandoned">
-          abandoned
-        </span>
-      ) : null}
+      {paused ? <span className="progress-paused">paused</span> : null}
     </div>
   );
 }

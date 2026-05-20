@@ -11,6 +11,7 @@ import type {
   ReactionCounts,
   UserReactionState,
 } from "@/lib/reactions-shape";
+import { ideaEvidenceLabel } from "@/lib/ideas/display-data";
 
 import { IdeaInlineComments } from "./IdeaInlineComments";
 import { IdeaMarkMini } from "./IdeaMarkMini";
@@ -22,6 +23,7 @@ interface IdeaRowProps {
   mine: UserReactionState | null;
   signedIn: boolean;
   hotScore: number | null;
+  selected?: boolean;
 }
 
 const STATUS_PILL: Record<string, { label: string; cls: string }> = {
@@ -57,6 +59,7 @@ export function IdeaRow({
   mine,
   signedIn,
   hotScore,
+  selected = false,
 }: IdeaRowProps) {
   const pill = STATUS_PILL[idea.status] ?? STATUS_PILL.published!;
   const buildLabel = BUILD_STATUS_LABEL[idea.buildStatus] ?? idea.buildStatus;
@@ -64,7 +67,7 @@ export function IdeaRow({
     counts.build + counts.use + counts.buy + counts.invest;
 
   return (
-    <article className="idea-row" data-idea-id={idea.id}>
+    <article className={`idea-row ${selected ? "selected" : ""}`} data-idea-id={idea.id}>
       <div className="idea-row-main">
         <IdeaMarkMini ideaId={idea.id} />
         <div className="idea-row-content">
@@ -118,11 +121,7 @@ export function IdeaRow({
         <div className="idea-col">
           <div className="col-label">Evidence</div>
           <div className="col-value">
-            {idea.targetRepos.length > 0
-              ? `${idea.targetRepos.length} repo${
-                  idea.targetRepos.length === 1 ? "" : "s"
-                } cited`
-              : "No repos cited"}
+            {ideaEvidenceLabel(idea)}
           </div>
           <div className="col-hint">@{idea.authorHandle}</div>
         </div>
@@ -152,10 +151,27 @@ export function IdeaRow({
           <button
             type="button"
             className="row-action"
+            data-idea-action="claim"
+            data-idea-id={idea.id}
+            aria-label={`Claim ${idea.title}`}
+          >
+            Claim
+          </button>
+          <button
+            type="button"
+            className="row-action"
             data-idea-action="brief"
             data-idea-id={idea.id}
           >
             Brief
+          </button>
+          <button
+            type="button"
+            className="row-action"
+            data-watch-toggle
+            aria-label={`Save ${idea.title}`}
+          >
+            Save
           </button>
         </div>
       </aside>

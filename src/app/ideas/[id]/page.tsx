@@ -1,26 +1,18 @@
-// /ideas/[id] — Idea workspace. Phase 3D of the UI v6 rebuild.
-//
-// Renders the gradient hero, snapshot grid, 4-tab body
-// (Overview / Contributions / Build brief / Related repos), and the
-// sticky side stack (workspace facts + progress + claimed box).
-//
-// Render policy: dynamic = "force-dynamic" — per-idea reactions and
-// contributions vary per request, so ISR would pin stale per-id data.
-//
-// Backend gaps shipped as honest empty states:
-//   - Contributions feed
-//   - Claim wire (POST /api/ideas/[id]/claim)
-//   - Save wire (POST /api/me/saved)
-
 import { notFound } from "next/navigation";
 
 import { getOptionalUser } from "@/lib/auth/server";
-import { getIdeaById } from "@/lib/ideas";
+import { getIdeaById, listIdeas, type IdeaRecord } from "@/lib/ideas";
+import {
+  displayReactionCounts,
+  getDisplayIdeaById,
+  tallyFromCounts,
+} from "@/lib/ideas/display-data";
 import {
   countReactions,
   listReactionsForObject,
   userReactionsFor,
 } from "@/lib/reactions";
+import { getTrending } from "@/lib/trending";
 
 import { IdeaBriefModal } from "@/components/ideas/IdeaBriefModal";
 import { IdeaBriefTab } from "@/components/ideas/IdeaBriefTab";
@@ -28,8 +20,8 @@ import { IdeaContributionsTab } from "@/components/ideas/IdeaContributionsTab";
 import { IdeaDetailSnapshotGrid } from "@/components/ideas/IdeaDetailSnapshotGrid";
 import { IdeaDetailSummary } from "@/components/ideas/IdeaDetailSummary";
 import {
-  IdeaDetailTabs,
   IDEA_TABS,
+  IdeaDetailTabs,
   type IdeaTab,
 } from "@/components/ideas/IdeaDetailTabs";
 import { IdeaOverviewTab } from "@/components/ideas/IdeaOverviewTab";
@@ -56,15 +48,38 @@ async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
   }
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
-  const idea = await safeAsync(
+function safe<T>(fn: () => T, fallback: T): T {
+  try {
+    return fn();
+  } catch {
+    return fallback;
+  }
+}
+
+async function loadDisplayIdea(id: string): Promise<IdeaRecord | null> {
+  const real = await safeAsync(
     () => getIdeaById(id),
     null as Awaited<ReturnType<typeof getIdeaById>>,
   );
+  if (
+    real &&
+    (real.status === "published" ||
+      real.status === "shipped" ||
+      real.status === "archived")
+  ) {
+    return real;
+  }
+  const all = await safeAsync(() => listIdeas(), [] as IdeaRecord[]);
+  const rows = safe(() => getTrending("past_week", "All"), []);
+  return getDisplayIdeaById(id, all, rows);
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
+  const idea = await loadDisplayIdea(id);
   if (!idea) return { title: "Idea not found" };
   return {
-    title: `${idea.title} — Ideas — TrendingRepo`,
+    title: `${idea.title} - Ideas - TrendingRepo`,
     description: idea.pitch,
   };
 }
@@ -77,33 +92,26 @@ export default async function IdeaWorkspacePage({
   const sp = (await searchParams) ?? {};
   const tab = parseTab(typeof sp.tab === "string" ? sp.tab : undefined);
 
-  const idea = await getIdeaById(id);
+  const idea = await loadDisplayIdea(id);
   if (!idea) notFound();
 
   const loadedUser = await getOptionalUser();
   const userId = loadedUser?.clerkUserId ?? null;
-  const signedIn = !!userId;
+  const signedIn = Boolean(userId);
 
   const records = await safeAsync(
-    () => listReactionsForObject("idea", id),
+    () => listReactionsForObject("idea", idea.id),
     [] as Awaited<ReturnType<typeof listReactionsForObject>>,
   );
-  const counts = countReactions(records);
+  const counts =
+    records.length > 0 ? countReactions(records) : displayReactionCounts(idea);
   const mine = userId ? userReactionsFor(userId, records) : null;
+  const tally = tallyFromCounts(counts);
 
   return (
     <>
-      <div
-        style={{ padding: "16px 22px 32px", maxWidth: 1500, margin: "0 auto" }}
-      >
-        <div
-          className="idea-detail-cols"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "minmax(0, 1fr) 340px",
-            gap: 18,
-          }}
-        >
+      <main className="idea-detail-shell">
+        <div className="idea-detail-cols">
           <div className="idea-detail-main">
             <IdeaDetailSummary
               idea={idea}
@@ -111,12 +119,12 @@ export default async function IdeaWorkspacePage({
               mine={mine}
               signedIn={signedIn}
             />
-            <IdeaDetailSnapshotGrid idea={idea} counts={counts} />
-            <IdeaDetailTabs ideaId={idea.id} active={tab} />
+            <IdeaDetailSnapshotGrid idea={idea} counts={counts} tally={tally} />
+            <IdeaDetailTabs ideaId={idea.id} active={tab} contributionCount={5} />
             <div className="idea-tab-body">
               {tab === "overview" ? <IdeaOverviewTab idea={idea} /> : null}
               {tab === "contributions" ? (
-                <IdeaContributionsTab ideaId={idea.id} />
+                <IdeaContributionsTab ideaId={idea.id} signedIn={signedIn} />
               ) : null}
               {tab === "brief" ? <IdeaBriefTab idea={idea} /> : null}
               {tab === "related" ? <IdeaRelatedReposTab idea={idea} /> : null}
@@ -124,7 +132,7 @@ export default async function IdeaWorkspacePage({
           </div>
           <IdeaSideStack idea={idea} counts={counts} signedIn={signedIn} />
         </div>
-      </div>
+      </main>
       <IdeaBriefModal />
     </>
   );

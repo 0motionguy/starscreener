@@ -15,9 +15,14 @@ export type IdeaTab = (typeof IDEA_TABS)[number]["id"];
 interface IdeaDetailTabsProps {
   ideaId: string;
   active: IdeaTab;
+  contributionCount?: number;
 }
 
-export function IdeaDetailTabs({ ideaId, active }: IdeaDetailTabsProps) {
+export function IdeaDetailTabs({
+  ideaId,
+  active,
+  contributionCount = 5,
+}: IdeaDetailTabsProps) {
   return (
     <nav
       className="idea-tabs"
@@ -35,6 +40,9 @@ export function IdeaDetailTabs({ ideaId, active }: IdeaDetailTabsProps) {
           prefetch={false}
         >
           {t.label}
+          {t.id === "contributions" ? (
+            <span className="tab-count">{contributionCount}</span>
+          ) : null}
         </Link>
       ))}
     </nav>

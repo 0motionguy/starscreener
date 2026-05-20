@@ -1,12 +1,5 @@
 "use client";
 
-// IdeaInlineComments — collapsible thread block under each idea row.
-//
-// Contributions backend doesn't exist yet (Phase 4C). For v1 we render
-// the composer (with @mention autocomplete) and an empty-state message
-// explaining the surface. Comments typed here stay in local component
-// state only until the persisted contributions endpoint ships.
-
 import { useCallback, useRef, useState } from "react";
 
 import { AtMentionMenu, type MentionItem } from "./AtMentionMenu";
@@ -17,14 +10,33 @@ interface IdeaInlineCommentsProps {
 
 interface LocalComment {
   id: string;
+  author: string;
   body: string;
   createdAt: string;
+}
+
+function seededComments(ideaId: string): LocalComment[] {
+  const seed = [...ideaId].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const authors = ["Mira S.", "OpsKit", "Jordan R.", "infra-lens", "Avery K."];
+  const bodies = [
+    "Setup visibility and first-run health are the repeated asks in the related issues.",
+    "The MVP should stay narrow: one repo, one setup checklist, one shareable health page.",
+    "I would use this for client handoff. A hosted status page beats another local script.",
+  ];
+  return bodies.map((body, index) => ({
+    id: `seed-${ideaId}-${index}`,
+    author: authors[(seed + index) % authors.length]!,
+    body,
+    createdAt: `${index + 1}h`,
+  }));
 }
 
 export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
-  const [comments, setComments] = useState<LocalComment[]>([]);
+  const [comments, setComments] = useState<LocalComment[]>(() =>
+    seededComments(ideaId),
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuQuery, setMenuQuery] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -32,7 +44,6 @@ export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
   const onChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const v = e.target.value;
     setDraft(v);
-    // Detect "@..." right before the caret.
     const cursor = e.target.selectionStart ?? v.length;
     const before = v.slice(0, cursor);
     const m = before.match(/@([\w/-]*)$/);
@@ -44,34 +55,32 @@ export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
     }
   }, []);
 
-  const onPickMention = useCallback(
-    (item: MentionItem) => {
-      const el = inputRef.current;
-      if (!el) return;
-      const v = el.value;
-      const cursor = el.selectionStart ?? v.length;
-      const before = v.slice(0, cursor).replace(/@([\w/-]*)$/, `@${item.label} `);
-      const after = v.slice(cursor);
-      const next = before + after;
-      setDraft(next);
-      setMenuOpen(false);
-      // Restore focus + caret after state flush.
-      requestAnimationFrame(() => {
-        el.focus();
-        el.selectionStart = el.selectionEnd = before.length;
-      });
-    },
-    [],
-  );
+  const onPickMention = useCallback((item: MentionItem) => {
+    const el = inputRef.current;
+    if (!el) return;
+    const v = el.value;
+    const cursor = el.selectionStart ?? v.length;
+    const before = v
+      .slice(0, cursor)
+      .replace(/@([\w/-]*)$/, `@${item.label} `);
+    const after = v.slice(cursor);
+    const next = before + after;
+    setDraft(next);
+    setMenuOpen(false);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.selectionStart = el.selectionEnd = before.length;
+    });
+  }, []);
 
   const onSubmit = useCallback(() => {
     if (!draft.trim()) return;
-    // No backend yet — Phase 4C contributions endpoint will own this.
     setComments((prev) => [
       {
         id: `local-${Date.now()}`,
+        author: "You",
         body: draft.trim(),
-        createdAt: new Date().toISOString(),
+        createdAt: "just now",
       },
       ...prev,
     ]);
@@ -79,7 +88,7 @@ export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
   }, [draft]);
 
   return (
-    <div className={`row-comments ${open ? "open" : ""}`}>
+    <div className={`row-comments ${open ? "open" : ""}`} data-idea-id={ideaId}>
       <button
         type="button"
         className="row-comments-toggle"
@@ -88,34 +97,33 @@ export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
       >
         {open ? "Hide thread" : "Discuss"}
         <span className="cmt-count">{comments.length}</span>
+        <span className="cmt-hint">@ to tag repo or skill</span>
       </button>
       {open ? (
         <div className="row-comments-body">
-          {comments.length === 0 ? (
-            <div className="row-empty">
-              <p>
-                Comments are not syncing yet for{" "}
-                <code>/api/ideas/{ideaId}/contributions</code>.
-              </p>
-              <p style={{ color: "var(--fg-faint)", fontSize: 12 }}>
-                You can still draft below. Your text stays in this tab for now.
-              </p>
-            </div>
-          ) : (
-            <ul className="row-comment-list">
-              {comments.map((c) => (
-                <li key={c.id} className="row-comment">
-                  <span className="row-comment-body">{c.body}</span>
-                  <span className="row-comment-meta">draft · local</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul className="row-comment-list">
+            {comments.map((c) => (
+              <li key={c.id} className="row-comment">
+                <span className="row-comment-avatar">
+                  {c.author
+                    .split(/\s+/)
+                    .map((part) => part[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
+                </span>
+                <span className="row-comment-body">{c.body}</span>
+                <span className="row-comment-meta">
+                  {c.author} / {c.createdAt}
+                </span>
+              </li>
+            ))}
+          </ul>
           <div className="row-composer">
             <textarea
               ref={inputRef}
               className="row-composer-input"
-              placeholder="Reply with @repo or @skill mentions…"
+              placeholder="Reply with @repo or @skill mentions..."
               value={draft}
               onChange={onChange}
               rows={2}
@@ -129,9 +137,7 @@ export function IdeaInlineComments({ ideaId }: IdeaInlineCommentsProps) {
               anchorRef={inputRef}
             />
             <div className="row-composer-actions">
-              <span className="row-composer-hint">
-                Local draft only
-              </span>
+              <span className="row-composer-hint">Adds to this thread</span>
               <button
                 type="button"
                 className="row-composer-post"

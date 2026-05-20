@@ -1,41 +1,51 @@
-// IdeaRelatedReposTab — cards for each entry in idea.targetRepos. We
-// don't fetch repo profiles here (cheap to defer); each card links to
-// /repo/[owner]/[name] which handles its own data load.
-
 import Link from "next/link";
 
 import type { IdeaRecord } from "@/lib/ideas";
+import { relatedReposForIdea } from "@/lib/ideas/display-data";
 
 interface IdeaRelatedReposTabProps {
   idea: IdeaRecord;
 }
 
 export function IdeaRelatedReposTab({ idea }: IdeaRelatedReposTabProps) {
-  if (idea.targetRepos.length === 0) {
-    return (
-      <section className="tab-pane tab-related">
-        <p className="muted">
-          No related repos cited. When contributors drop GitHub URLs in the
-          discussion (Phase 4C), they&apos;ll surface here.
-        </p>
-      </section>
-    );
-  }
+  const repos = relatedReposForIdea(idea);
   return (
     <section className="tab-pane tab-related">
-      <div className="related-cards">
-        {idea.targetRepos.map((repo) => (
-          <Link
-            key={repo}
-            href={`/repo/${repo}`}
-            className="related-card"
-            prefetch={false}
-          >
-            <div className="rc-name">{repo}</div>
-            <div className="rc-meta">github.com/{repo}</div>
-            <div className="rc-cta">Open repo profile →</div>
-          </Link>
-        ))}
+      <div className="section-block">
+        <div className="section-title">
+          <h2>Related repos</h2>
+          <span>evidence links</span>
+        </div>
+        <div className="related-cards">
+          {repos.map((repo, index) => (
+            <Link
+              key={repo}
+              href={`/repo/${repo}`}
+              className="related-card"
+              prefetch={false}
+            >
+              <div className="rc-rank">0{index + 1}</div>
+              <div>
+                <div className="rc-name">{repo}</div>
+                <div className="rc-meta">
+                  {index === 0
+                    ? "primary evidence"
+                    : index === 1
+                      ? "adjacent demand"
+                      : "launch channel"}
+                </div>
+              </div>
+              <div className="rc-cta">Open repo profile</div>
+              <div className="repo-reason">
+                Relevance: repeated demand around {idea.category ?? "developer"}
+                workflows and setup confidence.
+              </div>
+            </Link>
+          ))}
+        </div>
+        <Link href="/drop" className="btn" prefetch={false}>
+          Add related repo
+        </Link>
       </div>
     </section>
   );

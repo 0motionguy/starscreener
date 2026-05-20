@@ -20,6 +20,11 @@ export const IDEA_FILTERS = [
   { id: "easy", label: "Easy wins" },
   { id: "unclaimed", label: "Unclaimed" },
   { id: "shipped", label: "Shipped" },
+  { id: "devtools", label: "DevTools" },
+  { id: "ai-agents", label: "AI agents" },
+  { id: "infra", label: "Infra" },
+  { id: "saas", label: "SaaS" },
+  { id: "open-source", label: "Open source" },
 ] as const;
 
 export type IdeaSort = (typeof IDEA_SORTS)[number]["id"];

@@ -2,7 +2,7 @@
 
 // IdeaBriefModal — "Generate brief" overlay. Triggered from per-row Brief
 // button (data-idea-action="brief" data-idea-id="<id>"). Renders an
-// 8-block deterministic template for now.
+// 8-block deterministic brief template.
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -25,7 +25,7 @@ const BLOCKS: { title: string; body: string }[] = [
   },
   {
     title: "Tech stack",
-    body: "Next.js + TS, hosting on Vercel or HOSTUP, Postgres for state, Clerk for auth. Reuse the upstream lib as a dependency, no fork.",
+    body: "Next.js + TS, HOSTUP or self-hosted runtime, Postgres for state, Clerk for auth. Reuse the upstream lib as a dependency, no fork.",
   },
   {
     title: "Distribution",

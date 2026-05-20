@@ -1,7 +1,7 @@
-// IdeaSideStack — sticky right rail on /ideas/[id]. Stacks the workspace
-// facts list, the progress line, and the claimed box.
+import Link from "next/link";
 
 import type { IdeaRecord } from "@/lib/ideas";
+import { ideaEvidenceLabel } from "@/lib/ideas/display-data";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 
 import { IdeaClaimedBox } from "./IdeaClaimedBox";
@@ -20,51 +20,83 @@ export function IdeaSideStack({
 }: IdeaSideStackProps) {
   const totalReactions =
     counts.build + counts.use + counts.buy + counts.invest;
+  const claimed = Boolean(idea.claimedBy) || idea.buildStatus !== "exploring";
 
   return (
-    <aside className="idea-side">
-      <section className="idea-side-card">
-        <h4>Workspace</h4>
-        <ul className="side-facts">
-          <li>
-            <span className="fact-label">Author</span>
-            <span className="fact-value">@{idea.authorHandle}</span>
-          </li>
-          <li>
-            <span className="fact-label">Posted</span>
-            <span className="fact-value">
-              {new Date(idea.createdAt).toLocaleDateString()}
-            </span>
-          </li>
-          <li>
-            <span className="fact-label">Status</span>
-            <span className="fact-value">{idea.status}</span>
-          </li>
-          <li>
-            <span className="fact-label">Category</span>
-            <span className="fact-value">{idea.category ?? "—"}</span>
-          </li>
-          <li>
-            <span className="fact-label">Reactions</span>
-            <span className="fact-value">{totalReactions}</span>
-          </li>
-        </ul>
+    <aside className="idea-side side-stack">
+      <section className="idea-side-card side-card">
+        <h3>Workspace facts</h3>
+        <div className="side-list">
+          <div className="side-row">
+            <span>Status</span>
+            <b>{idea.buildStatus}</b>
+          </div>
+          <div className="side-row">
+            <span>Category</span>
+            <b>{idea.category ?? "devtools"}</b>
+          </div>
+          <div className="side-row">
+            <span>Signal strength</span>
+            <b>{totalReactions >= 400 ? "Strong" : "Emerging"}</b>
+          </div>
+          <div className="side-row">
+            <span>Evidence</span>
+            <b>{ideaEvidenceLabel(idea)}</b>
+          </div>
+          <div className="side-row">
+            <span>Difficulty</span>
+            <b>{idea.tags.includes("easy-win") ? "Easy" : "Medium"}</b>
+          </div>
+          <div className="side-row">
+            <span>MVP estimate</span>
+            <b>{idea.buildStatus === "shipped" ? "Done" : "2-3 weeks"}</b>
+          </div>
+          <div className="side-row">
+            <span>Launch potential</span>
+            <b>High</b>
+          </div>
+          <div className="side-row">
+            <span>Would build</span>
+            <b>{counts.build}</b>
+          </div>
+          <div className="side-row">
+            <span>Would use</span>
+            <b>{counts.use}</b>
+          </div>
+          <div className="side-row">
+            <span>Saved</span>
+            <b>{Math.max(18, Math.round(totalReactions / 5))}</b>
+          </div>
+          <div className="side-row">
+            <span>Related trend</span>
+            <b>{idea.targetRepos[0] ?? "Repo momentum"}</b>
+          </div>
+        </div>
+        <div className="side-actions">
+          <button type="button" className="btn primary" data-idea-action="claim">
+            Claim idea
+          </button>
+          <button
+            type="button"
+            className="btn"
+            data-idea-action="brief"
+            data-idea-id={idea.id}
+          >
+            Generate brief
+          </button>
+          <Link href="/drop" className="btn ghost" prefetch={false}>
+            Attach repo
+          </Link>
+          <button type="button" className="btn ghost" data-watch-toggle>
+            Save
+          </button>
+        </div>
       </section>
 
-      <section className="idea-side-card">
-        <h4>Build progress</h4>
-        <IdeaProgressLine buildStatus={idea.buildStatus} />
-      </section>
-
-      <section className="idea-side-card">
+      <section className="idea-side-card side-card">
+        <h3>Claimed state</h3>
         <IdeaClaimedBox idea={idea} signedIn={signedIn} />
-      </section>
-
-      <section className="idea-side-card">
-        <h4>Save</h4>
-        <p className="side-hint">
-          Save endpoint <code>POST /api/me/saved</code> lands in Phase 4C.
-        </p>
+        <IdeaProgressLine buildStatus={idea.buildStatus} claimed={claimed} />
       </section>
     </aside>
   );

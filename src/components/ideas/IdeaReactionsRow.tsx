@@ -1,14 +1,5 @@
 "use client";
 
-// IdeaReactionsRow — six tappable reaction chips. The four committed
-// reaction types (build/use/buy/invest) write through to /api/reactions;
-// the two "expression" ones (fire/target) toggle local-only — backend
-// doesn't model them yet (Phase 4C extension).
-//
-// Auth gating: anonymous callers see a one-shot inline "Sign in to react"
-// message instead of an alert(). We rely on the API to reject anon POSTs
-// — UI optimism is bounded by the server's "ok: false / 401" response.
-
 import { useCallback, useState } from "react";
 
 import {
@@ -28,17 +19,17 @@ interface IdeaReactionsRowProps {
 interface ChipDef {
   type: ReactionType | "fire" | "target";
   label: string;
-  emoji: string;
+  icon: string;
   weighted: boolean;
 }
 
 const CHIPS: ChipDef[] = [
-  { type: "fire", label: "Fire", emoji: "🔥", weighted: false },
-  { type: "build", label: "Build", emoji: "💡", weighted: true },
-  { type: "use", label: "Use", emoji: "🚀", weighted: true },
-  { type: "target", label: "Target", emoji: "🎯", weighted: false },
-  { type: "buy", label: "Buy", emoji: "✓", weighted: true },
-  { type: "invest", label: "Invest", emoji: "💸", weighted: true },
+  { type: "fire", label: "Fire", icon: "*", weighted: false },
+  { type: "build", label: "Build", icon: "+", weighted: true },
+  { type: "use", label: "Use", icon: "^", weighted: true },
+  { type: "target", label: "Target", icon: "o", weighted: false },
+  { type: "buy", label: "Buy", icon: "$", weighted: true },
+  { type: "invest", label: "Invest", icon: "%", weighted: true },
 ];
 
 export function IdeaReactionsRow({
@@ -51,8 +42,6 @@ export function IdeaReactionsRow({
   const [mine, setMine] = useState<UserReactionState>(
     initialMine ?? { build: false, use: false, buy: false, invest: false },
   );
-  // Local-only expression chips. Persisted to localStorage so a refresh
-  // doesn't reset them but the server still doesn't know.
   const [localChips, setLocalChips] = useState<Record<string, boolean>>(() => {
     if (typeof window === "undefined") return {};
     try {
@@ -73,7 +62,6 @@ export function IdeaReactionsRow({
       }
       setBusy(rt);
       setErrorMsg(null);
-      // Optimistic
       const wasOn = mine[rt];
       setCounts((c) => ({ ...c, [rt]: Math.max(0, c[rt] + (wasOn ? -1 : 1)) }));
       setMine((m) => ({ ...m, [rt]: !wasOn }));
@@ -89,11 +77,9 @@ export function IdeaReactionsRow({
           }),
         });
         if (!res.ok) {
-          // Rollback
           setCounts((c) => ({ ...c, [rt]: Math.max(0, c[rt] + (wasOn ? 1 : -1)) }));
           setMine((m) => ({ ...m, [rt]: wasOn }));
-          if (res.status === 401) setErrorMsg("Sign in to react");
-          else setErrorMsg("Couldn't save reaction — try again");
+          setErrorMsg(res.status === 401 ? "Sign in to react" : "Couldn't save reaction");
         } else {
           const json = (await res.json()) as {
             counts: ReactionCounts;
@@ -120,7 +106,7 @@ export function IdeaReactionsRow({
         try {
           window.localStorage.setItem(`idea-expr:${ideaId}`, JSON.stringify(next));
         } catch {
-          /* quota — ignore */
+          /* ignore storage quota */
         }
         return next;
       });
@@ -149,7 +135,7 @@ export function IdeaReactionsRow({
             onClick={onClick}
           >
             <span className="ireact-emoji" aria-hidden="true">
-              {c.emoji}
+              {c.icon}
             </span>
             <span className="ireact-label">{c.label}</span>
             {c.weighted && count > 0 ? (

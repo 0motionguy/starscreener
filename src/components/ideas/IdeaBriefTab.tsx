@@ -1,6 +1,4 @@
-// IdeaBriefTab — 8 brief-block cards. Static templates for v1; the
-// scaffold is identical to IdeaBriefModal so AI-generated content slots
-// in by replacing the BLOCKS source in Phase 4C.
+// IdeaBriefTab — 8 deterministic brief-block cards.
 
 import type { IdeaRecord } from "@/lib/ideas";
 
@@ -34,7 +32,7 @@ function blocksFor(idea: IdeaRecord): Block[] {
     },
     {
       title: "Tech stack",
-      body: `Next.js + TS, hosting on Vercel or HOSTUP, Postgres for state, Clerk for auth. Reuse ${repo} as a dependency, no fork.`,
+      body: `Next.js + TS, HOSTUP or self-hosted runtime, Postgres for state, Clerk for auth. Reuse ${repo} as a dependency, no fork.`,
     },
     {
       title: "Distribution",
@@ -56,8 +54,7 @@ export function IdeaBriefTab({ idea }: IdeaBriefTabProps) {
   return (
     <section className="tab-pane tab-brief">
       <p className="brief-note">
-        Static template — Phase 4C will replace these blocks with AI-generated
-        content (and a Save / Copy / Push to /build wire).
+        Draft structure for scoping the opportunity before it moves into build.
       </p>
       <div className="brief-blocks">
         {blocks.map((b) => (
@@ -66,6 +63,17 @@ export function IdeaBriefTab({ idea }: IdeaBriefTabProps) {
             <p>{b.body}</p>
           </article>
         ))}
+      </div>
+      <div className="brief-actions">
+        <button type="button" className="btn primary">
+          Save brief
+        </button>
+        <button type="button" className="btn ghost" data-idea-action="claim">
+          Claim idea
+        </button>
+        <a className="btn ghost" href="/drop">
+          Attach repo
+        </a>
       </div>
     </section>
   );

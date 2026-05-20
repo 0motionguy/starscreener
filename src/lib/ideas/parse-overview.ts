@@ -19,8 +19,8 @@
 // summary instead.
 //
 // Returns a partial — every field may be absent. Consumers MUST render an
-// empty-state per absent section instead of hiding it (mockup parity rule:
-// the 4 section blocks always render, even when empty).
+// deterministic display copy per absent section so the four mockup blocks
+// always remain visible.
 
 export interface OverviewMvp {
   mustHave: string[];
@@ -103,7 +103,7 @@ function joinParagraphs(lines: string[]): string {
  *
  * Returns a partial object — fields are only populated when the
  * corresponding heading is present in the body. Sections without a
- * heading should render an empty-state in the UI, not be hidden.
+ * heading still keeps its section visible in the UI.
  */
 export function parseOverview(body: string | null | undefined): ParsedOverview {
   if (!body || typeof body !== "string") return {};

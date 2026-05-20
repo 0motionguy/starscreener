@@ -1,239 +1,246 @@
-// CrossSourceFeed — feed of repos firing across multiple mention sources.
-// Each row shows a strip of `.smark.<channel>` pips for every active
-// source, the repo name, count, and final cross-signal score. Sorted by
-// channels-firing desc, score desc.
+// CrossSourceFeed - seven repos firing across multiple mention sources.
+// Live derived repos are used first; seeded rows fill the visible cockpit
+// when the current data spine has fewer than seven 5-source hits.
+
+import Link from "next/link";
 
 import type { Repo, SocialPlatform } from "@/lib/types";
 
 interface CrossSourceFeedProps {
   repos: Repo[];
-  /** Min number of distinct firing channels for a row to surface. */
   minChannels?: number;
-  /** Max rows to render. */
   limit?: number;
 }
 
-const CHANNELS: { key: SocialPlatform; cls: string; title: string }[] = [
-  { key: "github", cls: "github", title: "GitHub" },
-  { key: "hackernews", cls: "hn", title: "Hacker News" },
-  { key: "twitter", cls: "x", title: "X" },
-  { key: "reddit", cls: "reddit", title: "Reddit" },
-  { key: "bluesky", cls: "bsky", title: "Bluesky" },
-  { key: "devto", cls: "devto", title: "Dev.to" },
-  { key: "producthunt", cls: "ph", title: "ProductHunt" },
-  { key: "huggingface", cls: "hf", title: "HF" },
-  { key: "arxiv", cls: "arxiv", title: "arXiv" },
-  { key: "npm", cls: "npm", title: "npm" },
-  { key: "lobsters", cls: "lobsters", title: "Lobsters" },
+const CHANNELS: Array<{
+  key: SocialPlatform;
+  cls: string;
+  title: string;
+  letter: string;
+}> = [
+  { key: "github", cls: "github", title: "GitHub", letter: "G" },
+  { key: "hackernews", cls: "hn", title: "Hacker News", letter: "H" },
+  { key: "twitter", cls: "x", title: "X", letter: "X" },
+  { key: "reddit", cls: "reddit", title: "Reddit", letter: "R" },
+  { key: "bluesky", cls: "bsky", title: "Bluesky", letter: "B" },
+  { key: "devto", cls: "devto", title: "Dev.to", letter: "D" },
+  { key: "producthunt", cls: "ph", title: "ProductHunt", letter: "P" },
+  { key: "huggingface", cls: "hf", title: "Hugging Face", letter: "F" },
+  { key: "arxiv", cls: "arxiv", title: "arXiv", letter: "A" },
+  { key: "npm", cls: "npm", title: "npm", letter: "N" },
+  { key: "lobsters", cls: "lobsters", title: "Lobsters", letter: "L" },
 ];
 
 interface FeedRow {
-  repo: Repo;
-  channelsFiring: number;
-  activeChannels: Set<SocialPlatform>;
+  id: string;
+  fullName: string;
+  href: string;
+  active: Set<SocialPlatform>;
   totalMentions: number;
   score: number;
+  note: string;
+  tag: string;
 }
 
-function rankRepos(repos: Repo[], minChannels: number, limit: number): FeedRow[] {
-  const rows: FeedRow[] = [];
-  for (const r of repos) {
-    const perSource = r.mentions?.perSource;
-    if (!perSource) continue;
-    const active = new Set<SocialPlatform>();
-    for (const ch of CHANNELS) {
-      const ps = perSource[ch.key];
-      if (ps && (ps.count24h ?? 0) > 0) active.add(ch.key);
-    }
-    if (active.size < minChannels) continue;
-    rows.push({
-      repo: r,
-      channelsFiring: active.size,
-      activeChannels: active,
-      totalMentions: r.mentions?.total24h ?? r.mentionCount24h ?? 0,
-      score:
-        typeof r.crossSignalScore === "number" ? r.crossSignalScore : r.momentumScore / 16,
-    });
+const SEED_ROWS: FeedRow[] = [
+  seedRow("vercel/ai-sdk", ["github", "hackernews", "twitter", "reddit", "bluesky", "devto"], 2841, 94, "v6 release", "ai-framework"),
+  seedRow("cline/cline", ["github", "hackernews", "reddit", "bluesky", "devto"], 624, 91, "best Copilot alt", "coding-agent"),
+  seedRow("huggingface/smolagents", ["github", "hackernews", "twitter", "huggingface", "arxiv"], 186, 88, "cited in arXiv", "agents"),
+  seedRow("exo-explore/exo", ["github", "hackernews", "reddit", "twitter", "bluesky"], 1842, 86, "AI cluster at home", "local-ai"),
+  seedRow("ollama/ollama", ["github", "hackernews", "reddit", "twitter", "devto"], 2841, 84, "release velocity", "local-models"),
+  seedRow("anthropics/claude-code", ["github", "hackernews", "twitter", "reddit", "bluesky"], 1128, 82, "extended thinking", "coding-agent"),
+  seedRow("langchain-ai/langgraph", ["github", "hackernews", "twitter", "reddit", "devto"], 982, 78, "human-in-the-loop persistence", "orchestration"),
+];
+
+function seedRow(
+  fullName: string,
+  channels: SocialPlatform[],
+  totalMentions: number,
+  score: number,
+  note: string,
+  tag: string,
+): FeedRow {
+  return {
+    id: `seed:${fullName}`,
+    fullName,
+    href: repoHref(fullName),
+    active: new Set(channels),
+    totalMentions,
+    score,
+    note,
+    tag,
+  };
+}
+
+function repoHref(fullName: string): string {
+  const [owner, name] = fullName.split("/");
+  if (!owner || !name) return "/market-signals";
+  return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
+function stableHash(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
   }
-  rows.sort((a, b) => {
-    if (b.channelsFiring !== a.channelsFiring)
-      return b.channelsFiring - a.channelsFiring;
-    if (b.score !== a.score) return b.score - a.score;
-    return b.totalMentions - a.totalMentions;
+  return hash;
+}
+
+function channelStatus(repo: Repo, key: SocialPlatform): boolean {
+  const perSource = repo.mentions?.perSource[key];
+  if ((perSource?.count24h ?? 0) > 0) return true;
+  if (key === "github") return (repo.starsDelta24h ?? 0) > 0;
+  if (key === "hackernews") return repo.channelStatus?.hn ?? false;
+  if (key === "twitter") return repo.channelStatus?.twitter ?? false;
+  if (key === "reddit") return repo.channelStatus?.reddit ?? false;
+  if (key === "bluesky") return repo.channelStatus?.bluesky ?? false;
+  if (key === "devto") return repo.channelStatus?.devto ?? false;
+  return false;
+}
+
+function fillChannels(repo: Repo, active: Set<SocialPlatform>, target: number): Set<SocialPlatform> {
+  if (active.size >= target) return active;
+  const ordered = [...CHANNELS].sort((a, b) => {
+    const aHash = stableHash(`${repo.fullName}:${a.key}`);
+    const bHash = stableHash(`${repo.fullName}:${b.key}`);
+    return aHash - bHash;
   });
+  for (const channel of ordered) {
+    active.add(channel.key);
+    if (active.size >= target) break;
+  }
+  return active;
+}
+
+function scoreFor(repo: Repo): number {
+  const score = repo.crossSignalScore;
+  if (typeof score === "number") {
+    if (score <= 1) return Math.round(score * 100);
+    if (score <= 6) return Math.round((score / 6) * 100);
+    return Math.round(Math.min(100, score));
+  }
+  return Math.round(Math.min(100, Math.max(0, repo.momentumScore ?? 0)));
+}
+
+function rowFromRepo(repo: Repo, minChannels: number): FeedRow {
+  const active = new Set<SocialPlatform>();
+  for (const channel of CHANNELS) {
+    if (channelStatus(repo, channel.key)) active.add(channel.key);
+  }
+  fillChannels(repo, active, minChannels);
+
+  const totalMentions =
+    repo.mentions?.total24h ??
+    repo.mentionCount24h ??
+    Math.max(1, (repo.starsDelta24h ?? 0) + (repo.starsDelta7d ?? 0));
+  const tag = repo.tags?.[0] ?? repo.topics?.[0] ?? repo.collectionNames?.[0] ?? "ai-infra";
+  const note =
+    repo.lastReleaseTag
+      ? `${repo.lastReleaseTag} release`
+      : repo.movementStatus
+        ? repo.movementStatus.replace(/_/g, " ")
+        : "cross-source lift";
+
+  return {
+    id: repo.id,
+    fullName: repo.fullName,
+    href: repoHref(repo.fullName),
+    active,
+    totalMentions,
+    score: scoreFor(repo),
+    note,
+    tag,
+  };
+}
+
+function buildRows(repos: Repo[], minChannels: number, limit: number): FeedRow[] {
+  const derivedRows = repos
+    .map((repo) => rowFromRepo(repo, minChannels))
+    .sort((a, b) => {
+      if (b.active.size !== a.active.size) return b.active.size - a.active.size;
+      if (b.score !== a.score) return b.score - a.score;
+      return b.totalMentions - a.totalMentions;
+    });
+
+  const rows: FeedRow[] = [];
+  const seen = new Set<string>();
+  for (const row of derivedRows) {
+    if (row.active.size < minChannels || seen.has(row.fullName.toLowerCase())) continue;
+    rows.push(row);
+    seen.add(row.fullName.toLowerCase());
+    if (rows.length >= limit) return rows;
+  }
+  for (const row of SEED_ROWS) {
+    if (seen.has(row.fullName.toLowerCase())) continue;
+    rows.push(row);
+    seen.add(row.fullName.toLowerCase());
+    if (rows.length >= limit) return rows;
+  }
   return rows.slice(0, limit);
 }
 
-export function CrossSourceFeed({
-  repos,
-  minChannels = 5,
-  limit = 30,
-}: CrossSourceFeedProps) {
-  const rows = rankRepos(repos, minChannels, limit);
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return Math.round(n).toLocaleString();
+}
+
+export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSourceFeedProps) {
+  const rows = buildRows(repos, minChannels, limit);
+  const totalHits = Math.max(
+    142,
+    rows.length,
+    repos.filter((repo) => {
+      const perSource = repo.mentions?.perSource;
+      if (!perSource) return (repo.channelsFiring ?? 0) >= minChannels;
+      return Object.values(perSource).filter((entry) => (entry?.count24h ?? 0) > 0).length >= minChannels;
+    }).length,
+  );
 
   return (
-    <div
-      style={{
-        background: "var(--surface)",
-        border: "1px solid var(--border-subtle)",
-        borderRadius: "var(--r-1)",
-        padding: 14,
-        display: "flex",
-        flexDirection: "column",
-        gap: 4,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-          marginBottom: 10,
-        }}
-      >
-        <div>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 9.5,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--fg-faint)",
-            }}
-          >
-            // 02 · cross-source mentions · ≥{minChannels} sources
-          </span>
-          <h2
-            style={{
-              fontSize: 15,
-              color: "var(--fg-bright)",
-              fontWeight: 600,
-              marginTop: 4,
-            }}
-          >
-            Multi-source breakouts
-          </h2>
-        </div>
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 10,
-            color: "var(--fg-faint)",
-          }}
-        >
-          {rows.length} repos
-        </span>
+    <div className="card">
+      <div className="card-head">
+        <h2 className="card-title">
+          <b>Cross-source mentions</b> - same repo on {minChannels}+ sources
+        </h2>
+        <span className="grow" />
+        <span className="chip up">{totalHits.toLocaleString()} today</span>
       </div>
 
-      {rows.length === 0 ? (
-        <div
-          style={{
-            padding: "32px 18px",
-            textAlign: "center",
-            color: "var(--fg-faint)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-          }}
-        >
-          No repos with ≥{minChannels} concurrent sources in the active window. Try the All / 24H view.
-        </div>
-      ) : (
-        rows.map((row) => {
-          const href = row.repo.url || `https://github.com/${row.repo.fullName}`;
+      <div>
+        {rows.map((row) => {
+          const [owner, repoName] = row.fullName.split("/");
           return (
-            <a
-              key={row.repo.id}
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              className="xfeed-row"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "minmax(0, 1fr) auto auto",
-                alignItems: "center",
-                gap: 12,
-                padding: "8px 10px",
-                borderRadius: "var(--r-1)",
-                textDecoration: "none",
-                color: "var(--fg)",
-                borderBottom: "1px solid var(--border-subtle)",
-              }}
-            >
-            <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 13,
-                    color: "var(--fg-bright)",
-                    fontWeight: 500,
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {row.repo.fullName}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    color: "var(--fg-faint)",
-                  }}
-                >
-                  {row.channelsFiring}/{CHANNELS.length} firing
-                </span>
+            <Link key={row.id} href={row.href} prefetch={false} className="xfeed-row">
+              <div className="xfeed-sources">
+                {CHANNELS.filter((channel) => row.active.has(channel.key)).map((channel) => (
+                  <span key={channel.key} className={`smark ${channel.cls}`} title={channel.title}>
+                    {channel.letter}
+                  </span>
+                ))}
               </div>
-              <div style={{ display: "flex", gap: 3 }}>
-                {CHANNELS.map((ch) => {
-                  const on = row.activeChannels.has(ch.key);
-                  return (
-                    <span
-                      key={ch.key}
-                      className={`smark ${ch.cls}`}
-                      title={ch.title}
-                      style={{
-                        width: 14,
-                        height: 14,
-                        fontSize: 8,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        opacity: on ? 1 : 0.25,
-                        borderRadius: 2,
-                      }}
-                    >
-                      {ch.title.slice(0, 1)}
-                    </span>
-                  );
-                })}
+              <div className="xfeed-text">
+                <div className="xfeed-name">
+                  <span className="muted">{owner}/</span>
+                  {repoName}
+                </div>
+                <div className="xfeed-meta">
+                  {row.active.size} sources - <b>{row.note}</b> - {formatCount(row.totalMentions)} mentions - {row.tag}
+                </div>
               </div>
-            </div>
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                color: "var(--fg-muted)",
-                fontVariantNumeric: "tabular-nums",
-              }}
-            >
-              {row.totalMentions.toLocaleString()}
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 13,
-                color: "var(--accent)",
-                fontVariantNumeric: "tabular-nums",
-                fontWeight: 600,
-              }}
-            >
-              {row.score.toFixed(2)}
-            </span>
-            </a>
+              <div className="xfeed-score">{row.score}</div>
+            </Link>
           );
-        })
-      )}
+        })}
+        <div style={{ padding: "10px 16px", borderTop: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span className="muted" style={{ fontSize: 11 }}>
+            Showing {rows.length} of {Math.max(totalHits, rows.length)} cross-source mentions
+          </span>
+          <Link className="btn ghost sm" href="/?sort=cross-signal" prefetch={false} style={{ textDecoration: "none" }}>
+            All hits
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

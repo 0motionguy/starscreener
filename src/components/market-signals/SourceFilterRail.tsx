@@ -1,23 +1,21 @@
-// SourceFilterRail — left rail with per-source `.src-toggle.on` toggles.
-// URL `?src=` carries the comma-separated list of enabled source slugs;
-// missing or empty == "all enabled". Server component — link toggling
-// is plain navigation (Next router handles the rerender).
+// SourceFilterRail - 30 source toggles using the shell .src-toggle contract.
+// URL ?src= carries comma-separated enabled source slugs; missing or empty
+// means all enabled.
 
 import Link from "next/link";
 
-import type { SidebarSourceCounts } from "@/lib/sidebar-source-counts";
+export type MarketSourceTotals = Record<string, number>;
 
 interface SourceFilterRailProps {
   selected: Set<string>;
-  counts: SidebarSourceCounts | null;
+  sourceTotals: MarketSourceTotals;
   window: string;
 }
 
 interface SourceEntry {
   slug: string;
   label: string;
-  cls: string;
-  count: number;
+  colorVar: string;
 }
 
 interface SourceGroup {
@@ -25,74 +23,57 @@ interface SourceGroup {
   entries: SourceEntry[];
 }
 
-function buildGroups(counts: SidebarSourceCounts | null): SourceGroup[] {
-  const c = counts ?? {
-    hackernewsStories: 0,
-    lobstersStories: 0,
-    devtoArticles: 0,
-    blueskyPosts: 0,
-    redditPosts: 0,
-    producthuntLaunches: 0,
-    fundingSignals: 0,
-    npmPackages: 0,
-    skillsItems: 0,
-    mcpItems: 0,
-    agentRepos: 0,
-    twitterRepos: 0,
-    hfModels: 0,
-    hfDatasets: 0,
-    hfSpaces: 0,
-    arxivPapers: 0,
-    citedRepos: 0,
-    revenueOverlays: 0,
-  };
+const SOURCE_GROUPS: SourceGroup[] = [
+  {
+    title: "Social feeds",
+    entries: [
+      { slug: "github", label: "GitHub", colorVar: "var(--src-github)" },
+      { slug: "hn", label: "Hacker News", colorVar: "var(--src-hackernews)" },
+      { slug: "reddit", label: "Reddit", colorVar: "var(--src-reddit)" },
+      { slug: "x", label: "X / Twitter", colorVar: "var(--src-x)" },
+      { slug: "bsky", label: "Bluesky", colorVar: "var(--src-bluesky)" },
+      { slug: "ph", label: "ProductHunt", colorVar: "var(--src-producthunt)" },
+      { slug: "devto", label: "Dev.to", colorVar: "var(--src-dev)" },
+      { slug: "lobsters", label: "Lobsters", colorVar: "var(--src-lobsters)" },
+    ],
+  },
+  {
+    title: "Data sources",
+    entries: [
+      { slug: "arxiv", label: "arXiv", colorVar: "var(--src-arxiv)" },
+      { slug: "npm", label: "NPM downloads", colorVar: "var(--src-npm)" },
+      { slug: "hf-models", label: "HF models", colorVar: "var(--src-huggingface)" },
+      { slug: "hf-datasets", label: "HF datasets", colorVar: "var(--src-huggingface)" },
+      { slug: "hf-spaces", label: "HF spaces", colorVar: "var(--src-huggingface)" },
+      { slug: "skills", label: "Skills", colorVar: "var(--violet)" },
+      { slug: "mcp", label: "MCP registries", colorVar: "var(--cyan)" },
+      { slug: "agent-repos", label: "Agent repos", colorVar: "var(--up)" },
+      { slug: "funding", label: "Funding news", colorVar: "var(--warning)" },
+      { slug: "revenue", label: "Revenue overlays", colorVar: "var(--gold)" },
+      { slug: "pypi", label: "PyPI", colorVar: "var(--violet)" },
+      { slug: "openrouter", label: "OpenRouter", colorVar: "var(--info)" },
+    ],
+  },
+  {
+    title: "AI labs",
+    entries: [
+      { slug: "openai", label: "OpenAI RSS", colorVar: "var(--src-openai)" },
+      { slug: "anthropic", label: "Anthropic RSS", colorVar: "var(--src-claude)" },
+      { slug: "google", label: "Google AI", colorVar: "var(--info)" },
+      { slug: "meta", label: "Meta AI", colorVar: "var(--cyan)" },
+      { slug: "mistral", label: "Mistral", colorVar: "var(--warning)" },
+      { slug: "cohere", label: "Cohere", colorVar: "var(--up)" },
+      { slug: "deepseek", label: "DeepSeek", colorVar: "var(--src-arxiv)" },
+      { slug: "xai", label: "xAI", colorVar: "var(--src-x)" },
+      { slug: "perplexity", label: "Perplexity", colorVar: "var(--violet)" },
+      { slug: "qwen", label: "Qwen", colorVar: "var(--src-huggingface)" },
+    ],
+  },
+];
 
-  return [
-    {
-      title: "Feed sources",
-      entries: [
-        { slug: "github", label: "GitHub", cls: "github", count: 0 },
-        { slug: "hn", label: "Hacker News", cls: "hn", count: c.hackernewsStories },
-        { slug: "x", label: "X / Twitter", cls: "x", count: c.twitterRepos },
-        { slug: "reddit", label: "Reddit", cls: "reddit", count: c.redditPosts },
-        { slug: "bsky", label: "Bluesky", cls: "bsky", count: c.blueskyPosts },
-        { slug: "devto", label: "Dev.to", cls: "devto", count: c.devtoArticles },
-        { slug: "lobsters", label: "Lobsters", cls: "lobsters", count: c.lobstersStories },
-        { slug: "ph", label: "ProductHunt", cls: "ph", count: c.producthuntLaunches },
-      ],
-    },
-    {
-      title: "Data sources",
-      entries: [
-        { slug: "npm", label: "npm", cls: "npm", count: c.npmPackages },
-        { slug: "arxiv", label: "arXiv", cls: "arxiv", count: c.arxivPapers },
-        { slug: "hf-models", label: "HF Models", cls: "hf", count: c.hfModels },
-        { slug: "hf-datasets", label: "HF Datasets", cls: "hf", count: c.hfDatasets },
-        { slug: "hf-spaces", label: "HF Spaces", cls: "hf", count: c.hfSpaces },
-        { slug: "funding", label: "Funding", cls: "funding", count: c.fundingSignals },
-        { slug: "skills", label: "Skills", cls: "skills", count: c.skillsItems },
-        { slug: "mcp", label: "MCP", cls: "mcp", count: c.mcpItems },
-      ],
-    },
-    {
-      title: "AI labs",
-      entries: [
-        { slug: "openai", label: "OpenAI", cls: "openai", count: 0 },
-        { slug: "anthropic", label: "Anthropic", cls: "anthropic", count: 0 },
-        { slug: "google", label: "Google AI", cls: "google", count: 0 },
-        { slug: "meta", label: "Meta AI", cls: "meta", count: 0 },
-        { slug: "mistral", label: "Mistral", cls: "mistral", count: 0 },
-        { slug: "cohere", label: "Cohere", cls: "cohere", count: 0 },
-      ],
-    },
-  ];
-}
+const SOURCE_TOTAL = SOURCE_GROUPS.reduce((sum, group) => sum + group.entries.length, 0);
 
-function toggleHref(
-  slug: string,
-  selected: Set<string>,
-  window: string,
-): string {
+function toggleHref(slug: string, selected: Set<string>, window: string): string {
   const next = new Set(selected);
   if (next.has(slug)) next.delete(slug);
   else next.add(slug);
@@ -100,113 +81,67 @@ function toggleHref(
   if (window) params.set("window", window);
   if (next.size > 0) params.set("src", Array.from(next).sort().join(","));
   const qs = params.toString();
-  return qs ? `/market-signals?${qs}` : `/market-signals`;
+  return qs ? `/market-signals?${qs}` : "/market-signals";
 }
 
-export function SourceFilterRail({ selected, counts, window }: SourceFilterRailProps) {
-  const groups = buildGroups(counts);
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 10_000) return `${Math.round(n / 1_000)}K`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return Math.max(0, Math.round(n)).toLocaleString();
+}
+
+export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilterRailProps) {
   const allOn = selected.size === 0;
 
   return (
-    <aside
-      className="src-rail"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 14,
-        padding: 14,
-        background: "var(--surface)",
-        border: "1px solid var(--border-subtle)",
-        borderRadius: "var(--r-1)",
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 10,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: "var(--fg-faint)",
-          }}
-        >
-          Source filter
-        </span>
-        <Link
-          href={window ? `/market-signals?window=${window}` : "/market-signals"}
-          prefetch={false}
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 10,
-            color: allOn ? "var(--accent)" : "var(--fg-faint)",
-            textDecoration: "none",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-          }}
-        >
-          All
-        </Link>
+    <aside className="card src-rail">
+      <div className="card-title" style={{ paddingBottom: 10 }}>
+        <b>Mention sources</b> - {SOURCE_TOTAL}
       </div>
-      {groups.map((g) => (
-        <div key={g.title} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 9,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "var(--fg-faint)",
-            }}
-          >
-            {g.title}
-          </span>
-          {g.entries.map((e) => {
-            const on = allOn || selected.has(e.slug);
-            return (
-              <Link
-                key={e.slug}
-                href={toggleHref(e.slug, selected, window)}
-                prefetch={false}
-                className={`src-toggle${on ? " on" : ""}`}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "6px 8px",
-                  border: `1px solid ${on ? "var(--accent)" : "var(--border-subtle)"}`,
-                  borderRadius: "var(--r-1)",
-                  background: on ? "var(--surface-2)" : "transparent",
-                  color: on ? "var(--fg-bright)" : "var(--fg-muted)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  textDecoration: "none",
-                }}
-              >
-                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span
-                    className={`smark ${e.cls}`}
-                    style={{
-                      display: "inline-flex",
-                      width: 12,
-                      height: 12,
-                      fontSize: 8,
-                      borderRadius: 2,
-                    }}
-                    aria-hidden="true"
-                  />
-                  {e.label}
-                </span>
-                {e.count > 0 && (
-                  <span style={{ color: "var(--fg-faint)", fontSize: 10 }}>
-                    {e.count.toLocaleString()}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
+
+      {SOURCE_GROUPS.map((group, groupIndex) => (
+        <div key={group.title}>
+          {groupIndex > 0 && <div className="divider" />}
+          {groupIndex > 0 && (
+            <div className="card-title" style={{ paddingBottom: 8 }}>
+              {group.title}
+            </div>
+          )}
+          {groupIndex === 0 && (
+            <div className="card-title" style={{ paddingBottom: 8 }}>
+              {group.title}
+            </div>
+          )}
+          <div className="col" style={{ gap: 2 }}>
+            {group.entries.map((entry) => {
+              const on = allOn || selected.has(entry.slug);
+              return (
+                <Link
+                  key={entry.slug}
+                  href={toggleHref(entry.slug, selected, window)}
+                  prefetch={false}
+                  className={`src-toggle ${on ? "on" : "off"}`}
+                >
+                  <span className="src-dot" style={{ background: entry.colorVar }} />
+                  <span>{entry.label}</span>
+                  <span className="src-count">{formatCount(sourceTotals[entry.slug] ?? 0)}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       ))}
+
+      <div className="divider" />
+      <Link
+        href={window ? `/market-signals?window=${window}` : "/market-signals"}
+        prefetch={false}
+        className="btn ghost sm"
+        style={{ justifyContent: "center", textDecoration: "none" }}
+      >
+        Reset sources
+      </Link>
     </aside>
   );
 }

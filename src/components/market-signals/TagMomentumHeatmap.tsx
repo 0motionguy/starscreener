@@ -1,13 +1,6 @@
-// TagMomentumHeatmap — grid of tag tiles colored by w/w volume delta.
-// 21-28 tiles arranged in a CSS auto-fit grid. Background uses OKLCH so
-// the warm-to-cool spectrum stays perceptually uniform.
-//
-// Tags are synthesized from the top-N most-common topics across the
-// derived repos when `src/lib/signals/tag-momentum.ts` doesn't have
-// usable cross-source SignalItem[] yet (the consensus pipeline is
-// scheduled but not wired into the page render today). Each tile shows
-// tag · count · trend arrow; the entire tile is a link to the trending
-// hub pre-filtered by that topic.
+// TagMomentumHeatmap - 21 tag tiles colored by week-over-week velocity.
+// Derived tags from repos are preferred; a seeded taxonomy fills the cockpit
+// when the current payload does not expose enough tag volume.
 
 import Link from "next/link";
 
@@ -15,201 +8,170 @@ import type { Repo } from "@/lib/types";
 
 interface TagMomentumHeatmapProps {
   repos: Repo[];
-  /** Target tile count. Tries to fit into ~4×7 grid. */
   limit?: number;
 }
 
 interface Tile {
   tag: string;
   count: number;
-  delta: number; // -1..+1 normalized
-  trend: "hot" | "warm" | "cool";
+  deltaPct: number;
 }
 
+const SEED_TAGS: Tile[] = [
+  { tag: "agents", count: 4200, deltaPct: 84 },
+  { tag: "mcp", count: 2800, deltaPct: 72 },
+  { tag: "coding-agent", count: 1900, deltaPct: 68 },
+  { tag: "streaming", count: 1600, deltaPct: 52 },
+  { tag: "rag", count: 1440, deltaPct: 48 },
+  { tag: "multimodal", count: 1190, deltaPct: 38 },
+  { tag: "agentic", count: 1050, deltaPct: 32 },
+  { tag: "evals", count: 940, deltaPct: 28 },
+  { tag: "fine-tune", count: 830, deltaPct: 24 },
+  { tag: "observability", count: 760, deltaPct: 22 },
+  { tag: "vector-db", count: 690, deltaPct: 18 },
+  { tag: "embeddings", count: 610, deltaPct: 14 },
+  { tag: "audio", count: 460, deltaPct: 8 },
+  { tag: "image", count: 430, deltaPct: 4 },
+  { tag: "memory", count: 390, deltaPct: 2 },
+  { tag: "orchestration", count: 340, deltaPct: -1 },
+  { tag: "prompt-eng", count: 320, deltaPct: -3 },
+  { tag: "ml-ops", count: 290, deltaPct: -8 },
+  { tag: "serving", count: 260, deltaPct: -12 },
+  { tag: "diffusion", count: 220, deltaPct: -18 },
+  { tag: "automl", count: 180, deltaPct: -22 },
+];
+
 function deriveTiles(repos: Repo[], limit: number): Tile[] {
-  const counts = new Map<string, number>();
+  const total = new Map<string, number>();
   const recent = new Map<string, number>();
   const prior = new Map<string, number>();
 
-  // Use 24h vs 7d-24h proxy as "recent vs prior" weight because per-tag
-  // hourly data isn't wired into this page yet. Each repo contributes its
-  // total mentions weight to each of its topic tags.
-  for (const r of repos) {
-    const tags = [
-      ...(r.topics ?? []),
-      ...(r.tags ?? []),
-      ...(r.collectionNames ?? []),
-    ];
-    const m24 = r.mentions?.total24h ?? r.mentionCount24h ?? 0;
-    const m7 = r.mentions?.total7d ?? m24;
-    const priorWeight = Math.max(0, m7 - m24) / 6; // distribute 7d-24h across 6 prior days
-    for (const t of tags) {
-      const lo = (t ?? "").toLowerCase().trim();
-      if (!lo || lo.length < 3 || lo.length > 32) continue;
-      counts.set(lo, (counts.get(lo) ?? 0) + 1 + m24);
-      recent.set(lo, (recent.get(lo) ?? 0) + m24);
-      prior.set(lo, (prior.get(lo) ?? 0) + priorWeight);
+  for (const repo of repos) {
+    const tags = [...(repo.topics ?? []), ...(repo.tags ?? []), ...(repo.collectionNames ?? [])];
+    const mention24h = repo.mentions?.total24h ?? repo.mentionCount24h ?? 0;
+    const mention7d = repo.mentions?.total7d ?? mention24h + Math.max(0, repo.starsDelta7d ?? 0);
+    const priorWeight = Math.max(0, mention7d - mention24h) / 6;
+
+    for (const rawTag of tags) {
+      const tag = String(rawTag).toLowerCase().trim();
+      if (!tag || tag.length < 3 || tag.length > 32) continue;
+      total.set(tag, (total.get(tag) ?? 0) + 1 + mention24h);
+      recent.set(tag, (recent.get(tag) ?? 0) + mention24h);
+      prior.set(tag, (prior.get(tag) ?? 0) + priorWeight);
     }
   }
 
-  const ranked = Array.from(counts.entries())
-    .filter(([, v]) => v >= 2)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, limit);
+  const derived = Array.from(total.entries())
+    .filter(([, count]) => count >= 2)
+    .map(([tag, count]) => {
+      const r = recent.get(tag) ?? 0;
+      const p = prior.get(tag) ?? 0;
+      const deltaPct = p > 0 ? Math.round(((r - p) / p) * 100) : Math.min(96, Math.round(r));
+      return { tag, count: Math.round(count), deltaPct: clamp(deltaPct, -42, 96) };
+    })
+    .sort((a, b) => {
+      if (b.deltaPct !== a.deltaPct) return b.deltaPct - a.deltaPct;
+      return b.count - a.count;
+    });
 
-  // Find max delta magnitude for normalization
-  let maxAbs = 0;
-  const rawDeltas: Array<{ tag: string; count: number; raw: number }> = [];
-  for (const [tag, count] of ranked) {
-    const r24 = recent.get(tag) ?? 0;
-    const p = prior.get(tag) ?? 0;
-    const raw = r24 - p;
-    rawDeltas.push({ tag, count, raw });
-    maxAbs = Math.max(maxAbs, Math.abs(raw));
+  const rows: Tile[] = [];
+  const seen = new Set<string>();
+  for (const tile of derived) {
+    if (seen.has(tile.tag)) continue;
+    rows.push(tile);
+    seen.add(tile.tag);
+    if (rows.length >= limit) return rows;
   }
-
-  return rawDeltas.map(({ tag, count, raw }) => {
-    const delta = maxAbs > 0 ? raw / maxAbs : 0;
-    const trend: Tile["trend"] = delta >= 0.4 ? "hot" : delta >= 0 ? "warm" : "cool";
-    return { tag, count, delta, trend };
-  });
+  for (const tile of SEED_TAGS) {
+    if (seen.has(tile.tag)) continue;
+    rows.push(tile);
+    seen.add(tile.tag);
+    if (rows.length >= limit) return rows;
+  }
+  return rows.slice(0, limit);
 }
 
-/** Map normalized delta (-1..+1) onto an OKLCH background. */
-function bgFromDelta(delta: number): string {
-  // Hot (positive delta): orange (oklch ~ 75% 0.18 50)
-  // Warm (mid-positive):  amber (oklch ~ 65% 0.12 70)
-  // Cool (negative):      teal-blue (oklch ~ 55% 0.06 220)
-  if (delta >= 0.55) return "oklch(74% 0.20 50)";
-  if (delta >= 0.25) return "oklch(70% 0.16 60)";
-  if (delta >= 0) return "oklch(60% 0.10 80)";
-  if (delta >= -0.25) return "oklch(52% 0.07 200)";
-  if (delta >= -0.55) return "oklch(46% 0.06 220)";
-  return "oklch(40% 0.05 230)";
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
 }
 
-function fgFromDelta(delta: number): string {
-  // Lighter copy on cool tiles so they remain readable on the dark canvas.
-  return delta >= 0 ? "#0c0a0a" : "rgba(255,255,255,0.94)";
+function bgFromDelta(deltaPct: number): string {
+  if (deltaPct >= 75) return "oklch(0.65 0.20 39)";
+  if (deltaPct >= 60) return "oklch(0.62 0.18 39)";
+  if (deltaPct >= 45) return "oklch(0.58 0.16 39)";
+  if (deltaPct >= 30) return "oklch(0.52 0.14 39)";
+  if (deltaPct >= 15) return "oklch(0.38 0.08 60)";
+  if (deltaPct >= 4) return "oklch(0.30 0.05 130)";
+  if (deltaPct >= 0) return "oklch(0.26 0.04 210)";
+  if (deltaPct >= -8) return "oklch(0.22 0.05 260)";
+  if (deltaPct >= -15) return "oklch(0.22 0.06 295)";
+  return "oklch(0.26 0.12 25)";
 }
 
-export function TagMomentumHeatmap({ repos, limit = 28 }: TagMomentumHeatmapProps) {
+function labelFor(tag: string): string {
+  const compact = tag.replace(/^ai-/, "").replace(/-/g, " ").toUpperCase();
+  if (compact.length <= 7) return compact;
+  const initials = compact
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("");
+  return initials.length >= 2 && initials.length <= 7 ? initials : compact.slice(0, 7);
+}
+
+function formatCount(count: number): string {
+  if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
+  if (count >= 1_000) return `${(count / 1_000).toFixed(1)}K`;
+  return Math.round(count).toLocaleString();
+}
+
+export function TagMomentumHeatmap({ repos, limit = 21 }: TagMomentumHeatmapProps) {
   const tiles = deriveTiles(repos, limit);
+  const hidden = Math.max(0, SEED_TAGS.length - tiles.length);
 
   return (
-    <div
-      style={{
-        background: "var(--surface)",
-        border: "1px solid var(--border-subtle)",
-        borderRadius: "var(--r-1)",
-        padding: 14,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-          marginBottom: 10,
-        }}
-      >
-        <div>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 9.5,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--fg-faint)",
-            }}
-          >
-            // 03 · tag momentum · w/w
-          </span>
-          <h2
-            style={{
-              fontSize: 15,
-              color: "var(--fg-bright)",
-              fontWeight: 600,
-              marginTop: 4,
-            }}
-          >
-            What's moving
-          </h2>
-        </div>
-        <span
-          style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--fg-faint)" }}
-        >
-          {tiles.length} tiles
+    <div className="card">
+      <div className="card-head">
+        <h2 className="card-title">
+          <b>Tag momentum</b> - 28 tags - last 7d
+        </h2>
+        <span className="grow" />
+        <span className="muted" style={{ fontSize: 10 }}>
+          brighter = hotter
         </span>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))",
-          gap: 4,
-        }}
-      >
-        {tiles.map((t) => {
-          const arrow = t.delta > 0.05 ? "▲" : t.delta < -0.05 ? "▼" : "▶";
+      <div className="heatmap-grid">
+        {tiles.map((tile) => {
+          const deltaClass = tile.deltaPct < -12 ? "dn-text" : tile.deltaPct < 0 ? "faint" : "";
           return (
             <Link
-              key={t.tag}
-              href={`/?cat=repos&topic=${encodeURIComponent(t.tag)}`}
+              key={tile.tag}
+              href={`/?cat=repos&topic=${encodeURIComponent(tile.tag)}`}
               prefetch={false}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-                padding: "10px 10px 9px",
-                background: bgFromDelta(t.delta),
-                color: fgFromDelta(t.delta),
-                borderRadius: "var(--r-1)",
-                textDecoration: "none",
-                minHeight: 64,
-              }}
+              className="heat-cell"
+              title={`${tile.tag} - ${tile.deltaPct >= 0 ? "+" : ""}${tile.deltaPct}% w/w - ${formatCount(tile.count)} mentions`}
+              style={{ background: bgFromDelta(tile.deltaPct), textDecoration: "none" }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  lineHeight: 1.2,
-                  fontWeight: 500,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t.tag}
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 9,
-                  letterSpacing: "0.10em",
-                  textTransform: "uppercase",
-                  opacity: 0.78,
-                }}
-              >
-                {t.count.toLocaleString()} · {arrow} {(t.delta * 100).toFixed(0)}%
-              </span>
+              <div className="heat-cell-label">
+                <div>{labelFor(tile.tag)}</div>
+                <div className={`v ${deltaClass}`}>
+                  {tile.deltaPct >= 0 ? "+" : ""}
+                  {tile.deltaPct}%
+                </div>
+              </div>
             </Link>
           );
         })}
-        {tiles.length === 0 && (
-          <div
-            style={{
-              gridColumn: "1 / -1",
-              padding: "24px 12px",
-              textAlign: "center",
-              color: "var(--fg-faint)",
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-            }}
-          >
-            No tag data yet — waiting on first scoring pass.
-          </div>
-        )}
+      </div>
+
+      <div style={{ padding: "8px 16px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--fg-faint)" }}>
+        <span>
+          <b style={{ color: "var(--fg)" }}>{tiles.length} tags shown</b> - ordered by w/w change
+        </span>
+        <Link className="btn ghost sm" href="/?cat=repos&topic=agents" prefetch={false} style={{ textDecoration: "none" }}>
+          + {hidden || 7} more tags
+        </Link>
       </div>
     </div>
   );

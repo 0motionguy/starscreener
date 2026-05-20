@@ -1,15 +1,9 @@
-// BreakoutList — table of .bk-row rows. One row per breakout repo.
-//
-// Per HTML spec the grid is:
-//   [tier mark | repo identity + why | velocity bar | source pips | sparkline | meta]
-// Mobile reflows handled in shell.css via the .bk-row @media rules.
+// BreakoutList - eight populated breakout rows from the v6 HTML reference.
 
-import Link from "next/link";
+import type { CSSProperties } from "react";
 
-import type { Repo } from "@/lib/types";
-import { synthesizeWhy } from "@/lib/why-narrative";
+import type { Repo, SocialPlatform } from "@/lib/types";
 
-import { MentionSourcePips } from "@/components/trending/MentionSourcePips";
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
 
 import type { BreakoutTier } from "./TierHeatStrip";
@@ -17,14 +11,17 @@ import type { BreakoutTier } from "./TierHeatStrip";
 export interface BreakoutListItem {
   repo: Repo;
   tier: BreakoutTier;
-  /** Velocity as percentage (e.g. 24.1). */
   velocityPct: number;
+  starsDelta: number;
+  sources: SocialPlatform[];
+  why: string;
+  tags: string[];
 }
 
 interface BreakoutListProps {
   items: BreakoutListItem[];
-  /** Total breakouts found vs. displayed (footer copy). */
   totalCount: number;
+  windowLabel: string;
 }
 
 const TIER_MARK_CLASS: Record<BreakoutTier, string> = {
@@ -37,8 +34,22 @@ const TIER_MARK_CLASS: Record<BreakoutTier, string> = {
 const VEL_BAR_CLASS: Record<BreakoutTier, string> = {
   hot: "",
   warm: "warm",
-  early: "",
+  early: "warm",
   emerging: "cool",
+};
+
+const SOURCE_MARKS: Partial<Record<SocialPlatform, { cls: string; label: string }>> = {
+  github: { cls: "github", label: "G" },
+  hackernews: { cls: "hn", label: "H" },
+  twitter: { cls: "x", label: "X" },
+  reddit: { cls: "reddit", label: "R" },
+  bluesky: { cls: "bsky", label: "B" },
+  devto: { cls: "devto", label: "D" },
+  producthunt: { cls: "ph", label: "P" },
+  huggingface: { cls: "hf", label: "F" },
+  arxiv: { cls: "arxiv", label: "A" },
+  npm: { cls: "npm", label: "N" },
+  lobsters: { cls: "lobsters", label: "L" },
 };
 
 function formatStars(stars: number): string {
@@ -49,51 +60,74 @@ function formatStars(stars: number): string {
   return stars.toLocaleString();
 }
 
-function formatDelta(d: number): string {
-  if (d >= 1000) {
-    const k = d / 1000;
+function formatDelta(delta: number): string {
+  if (delta >= 1000) {
+    const k = delta / 1000;
     return `+${k.toFixed(k >= 10 ? 0 : 1)}K`;
   }
-  return `+${d.toLocaleString()}`;
+  return `+${delta.toLocaleString()}`;
 }
 
-/** Map velocity percentage to the .vel-bar width custom property. */
 function velocityToCss(pct: number): string {
-  const clamped = Math.max(2, Math.min(100, pct * 4)); // 25% velocity → bar full
+  const clamped = Math.max(6, Math.min(100, pct * 4));
   return `${clamped.toFixed(0)}%`;
 }
 
-export function BreakoutList({ items, totalCount }: BreakoutListProps) {
-  const shown = items.length;
+function tagClass(tier: BreakoutTier, index: number): string {
+  if (tier === "hot" && index === 0) return "brand";
+  if (tier === "warm" && index === 0) return "warn";
+  if (tier === "emerging" && index === 0) return "info";
+  return "";
+}
 
+function avatarLabel(owner: string, name: string): string {
+  return `${owner[0] ?? ""}${name[0] ?? ""}`.toUpperCase() || "TR";
+}
+
+function SourceMarks({ sources }: { sources: SocialPlatform[] }) {
+  const visible = sources
+    .map((source) => SOURCE_MARKS[source])
+    .filter((mark): mark is { cls: string; label: string } => Boolean(mark))
+    .slice(0, 5);
+
+  return (
+    <>
+      {visible.map((mark) => (
+        <span key={`${mark.cls}-${mark.label}`} className={`smark ${mark.cls}`}>
+          {mark.label}
+        </span>
+      ))}
+    </>
+  );
+}
+
+export function BreakoutList({
+  items,
+  totalCount,
+  windowLabel,
+}: BreakoutListProps) {
   return (
     <div className="card" style={{ marginTop: 18 }}>
       <div className="card-head">
         <h2 className="card-title">
-          ▌ <b>Top breakouts</b> · 24h · with reasoning
+          | <b>Top breakouts</b> - {windowLabel} - with reasoning
         </h2>
         <span className="grow" />
         <span className="chip up">
-          {items.filter((i) => i.tier === "hot").length} hot
+          {items.filter((item) => item.tier === "hot").length} hot
         </span>
       </div>
 
-      {items.length === 0 && (
-        <div style={{ padding: "24px 16px", color: "var(--fg-muted)", fontSize: 12 }}>
-          No breakouts surfaced this window. Either the trending pipeline is cold or all
-          tracked repos are below the 4% velocity threshold.
-        </div>
-      )}
-
       {items.map((item, idx) => {
-        const { repo, tier, velocityPct } = item;
-        const [owner, name] = repo.fullName.split("/");
+        const { repo, tier, velocityPct, starsDelta } = item;
+        const [owner = "", name = repo.fullName] = repo.fullName.split("/");
         const detailHref = `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
-        const why = synthesizeWhy(repo);
         const tierMarkExtra = TIER_MARK_CLASS[tier];
         const velExtra = VEL_BAR_CLASS[tier];
         const stars = typeof repo.stars === "number" ? repo.stars : 0;
-        const delta = typeof repo.starsDelta24h === "number" ? repo.starsDelta24h : 0;
+        const tags = item.tags.length > 0
+          ? item.tags
+          : [repo.language ?? "repo", tier].map((tag) => tag.toUpperCase());
 
         return (
           <div className="bk-row" key={repo.id ?? repo.fullName}>
@@ -113,66 +147,69 @@ export function BreakoutList({ items, totalCount }: BreakoutListProps) {
                     color: "var(--accent)",
                   }}
                 >
-                  {(owner || "?").slice(0, 2).toUpperCase()}
+                  {avatarLabel(owner, name)}
                 </div>
-                <Link href={detailHref} className="repo-name" prefetch={false}>
+                <a href={detailHref} className="repo-name" data-repo-hover data-repo={repo.fullName}>
                   <span className="muted">{owner}/</span>
                   {name}
-                </Link>
-                {repo.language && <span className="tag">{repo.language.toUpperCase()}</span>}
-                {tier === "emerging" && <span className="tag info">○ EMERGING</span>}
-                {tier === "early" && <span className="tag">● EARLY</span>}
-                {tier === "warm" && <span className="tag warn">◆ WARM</span>}
+                </a>
+                {tags.slice(0, 2).map((tag, tagIdx) => {
+                  const cls = tagClass(tier, tagIdx);
+                  return (
+                    <span key={`${repo.fullName}-${tag}`} className={`tag${cls ? " " + cls : ""}`}>
+                      {tag}
+                    </span>
+                  );
+                })}
               </div>
               <p className="bk-why">
-                <b>Why:</b> {why.text}
+                <b>Why:</b> {item.why}
               </p>
             </div>
 
             <div className={`bk-vel${velExtra ? " " + velExtra : ""}`}>
               <span>
-                +{velocityPct.toFixed(1)}% <span className="up-text">▲</span>
+                +{velocityPct.toFixed(1)}% <span className="up-text">UP</span>
               </span>
               <div
                 className="vel-bar"
-                style={{ ["--v" as string]: velocityToCss(velocityPct) } as React.CSSProperties}
+                style={{ "--v": velocityToCss(velocityPct) } as CSSProperties}
               />
             </div>
 
             <div className="bk-sources">
-              <MentionSourcePips repo={repo} />
+              <SourceMarks sources={item.sources} />
             </div>
 
             <div className="bk-spark">
-              <RepoSparkline repo={repo} variant={delta >= 0 ? "up" : "down"} />
+              <RepoSparkline repo={repo} variant="up" />
             </div>
 
             <div className="bk-meta">
-              <div className="star">{formatStars(stars)} ★</div>
+              <div className="star">{formatStars(stars)} stars</div>
               <div className="delta">
-                {formatDelta(delta)} 24h
+                {formatDelta(starsDelta)} {windowLabel}
               </div>
             </div>
           </div>
         );
       })}
 
-      {items.length > 0 && (
-        <div
-          style={{
-            padding: "12px 16px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderTop: "1px solid var(--border-subtle)",
-          }}
-        >
-          <span className="muted" style={{ fontSize: 11 }}>
-            Showing {shown.toLocaleString()} of {totalCount.toLocaleString()} breakouts ·
-            velocity-weighted
-          </span>
-        </div>
-      )}
+      <div
+        style={{
+          padding: "12px 16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderTop: "1px solid var(--border-subtle)",
+        }}
+      >
+        <span className="muted" style={{ fontSize: 11 }}>
+          Showing {items.length.toLocaleString()} of {totalCount.toLocaleString()} breakouts -
+          velocity-weighted
+        </span>
+        <span className="chip accent">radar feed</span>
+      </div>
     </div>
   );
 }

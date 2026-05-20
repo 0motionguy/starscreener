@@ -16,7 +16,20 @@ import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
-const LANGUAGES = ['All', 'Python', 'TypeScript', 'Rust', 'Go'] as const;
+// 2026-05-20: expanded from 5 → 10 languages alongside scripts/scrape-trending.mjs
+// + src/lib/trending.ts. Goal: grow distinct-repo coverage from ~684 → 1400+.
+const LANGUAGES = [
+  'All',
+  'Python',
+  'TypeScript',
+  'Rust',
+  'Go',
+  'JavaScript',
+  'Java',
+  'C++',
+  'C#',
+  'Kotlin',
+] as const;
 const TRENDS_PAUSE_MS = 1500;
 const TRENDS_URL = 'https://api.ossinsight.io/v1/trends/repos/';
 const HOT_COLLECTIONS_URL = 'https://api.ossinsight.io/v1/collections/hot/';

@@ -34,6 +34,7 @@ import {
 } from "@/components/ideas/IdeaDetailTabs";
 import { IdeaOverviewTab } from "@/components/ideas/IdeaOverviewTab";
 import { IdeaRelatedReposTab } from "@/components/ideas/IdeaRelatedReposTab";
+import { IdeaShareMenu } from "@/components/ideas/IdeaShareMenu";
 import { IdeaSideStack } from "@/components/ideas/IdeaSideStack";
 
 export const dynamic = "force-dynamic";
@@ -105,6 +106,12 @@ export default async function IdeaWorkspacePage({
           }}
         >
           <div className="idea-detail-main">
+            <div
+              className="idea-share-strip"
+              style={{ display: "flex", justifyContent: "flex-end", padding: "0 0 6px" }}
+            >
+              <IdeaShareMenu ideaId={idea.id} ideaTitle={idea.title} />
+            </div>
             <IdeaDetailSummary
               idea={idea}
               counts={counts}
@@ -113,10 +120,15 @@ export default async function IdeaWorkspacePage({
             />
             <IdeaDetailSnapshotGrid idea={idea} counts={counts} />
             <IdeaDetailTabs ideaId={idea.id} active={tab} />
-            <div className="idea-tab-body">
+            <div
+              className="idea-tab-body"
+              data-panel={tab}
+              data-panel-group="idea-tabs"
+              id={`idea-panel-${tab}`}
+            >
               {tab === "overview" ? <IdeaOverviewTab idea={idea} /> : null}
               {tab === "contributions" ? (
-                <IdeaContributionsTab ideaId={idea.id} />
+                <IdeaContributionsTab ideaId={idea.id} signedIn={signedIn} />
               ) : null}
               {tab === "brief" ? <IdeaBriefTab idea={idea} /> : null}
               {tab === "related" ? <IdeaRelatedReposTab idea={idea} /> : null}

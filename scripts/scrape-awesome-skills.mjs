@@ -29,7 +29,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
@@ -153,6 +153,9 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const result = await writeDataStore("awesome-skills", payload);
+  if (result.source === "redis") {
+    await verifyMetaLanded("awesome-skills", result.writtenAt);
+  }
 
   log(`wrote ${OUT_PATH} [redis: ${result.source}]`);
   log(`  ${payload.counts.uniqueSkills} unique skill repos across ${payload.counts.lists}/${payload.counts.listsAttempted} lists`);

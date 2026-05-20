@@ -14,7 +14,7 @@ const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
 
 // data-store mirror — collector dual-writes file + Redis per CLAUDE.md
 // convention. Skips silently when REDIS_URL/Upstash env is absent.
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded } from "./_data-store-write.mjs";
 
 const FACILITATORS = {
   Coinbase: [
@@ -174,6 +174,9 @@ async function main() {
   const ds = await writeDataStore("base-x402-onchain", payload, {
     stampPerRecord: false,
   });
+  if (ds.source === "redis") {
+    await verifyMetaLanded("base-x402-onchain", ds.writtenAt);
+  }
   console.log(`[x402] data-store: ${ds.source} @ ${ds.writtenAt}`);
 }
 

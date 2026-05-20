@@ -1,10 +1,34 @@
 {
-  "fetchedAt": "2026-05-19T20:08:50.921Z",
+  "fetchedAt": "2026-05-20T04:41:03.078Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
     {
       "rank": 1,
+      "id": "PsiBotAI/SynData",
+      "author": "PsiBotAI",
+      "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
+      "downloads": 35727,
+      "likes": 146,
+      "trendingScore": 97,
+      "tags": [
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-04-21T09:17:18.000Z",
+      "lastModified": "2026-05-19T03:09:19.000Z"
+    },
+    {
+      "rank": 2,
       "id": "TuringEnterprises/Open-MM-RL",
       "author": "TuringEnterprises",
       "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
@@ -36,37 +60,13 @@
       "lastModified": "2026-05-13T07:32:18.000Z"
     },
     {
-      "rank": 2,
-      "id": "PsiBotAI/SynData",
-      "author": "PsiBotAI",
-      "url": "https://huggingface.co/datasets/PsiBotAI/SynData",
-      "downloads": 35727,
-      "likes": 145,
-      "trendingScore": 96,
-      "tags": [
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:100K<n<1M",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-04-21T09:17:18.000Z",
-      "lastModified": "2026-05-19T03:09:19.000Z"
-    },
-    {
       "rank": 3,
       "id": "AlienKevin/SWE-ZERO-12M-trajectories",
       "author": "AlienKevin",
       "url": "https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories",
       "downloads": 7573,
-      "likes": 81,
-      "trendingScore": 77,
+      "likes": 84,
+      "trendingScore": 80,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -93,7 +93,7 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 3170,
-      "likes": 144,
+      "likes": 146,
       "trendingScore": 71,
       "tags": [
         "task_categories:text-generation",
@@ -261,8 +261,8 @@
       "author": "5CD-AI",
       "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
       "downloads": 171,
-      "likes": 38,
-      "trendingScore": 35,
+      "likes": 41,
+      "trendingScore": 38,
       "tags": [
         "task_categories:image-to-text",
         "language:vi",
@@ -458,8 +458,8 @@
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
       "downloads": 604,
-      "likes": 39,
-      "trendingScore": 25,
+      "likes": 41,
+      "trendingScore": 26,
       "tags": [
         "task_categories:text-generation",
         "language:en",

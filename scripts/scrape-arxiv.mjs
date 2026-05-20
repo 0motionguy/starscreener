@@ -39,7 +39,7 @@ import { fetchWithTimeout, sleep, parseRetryAfterMs } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
@@ -304,6 +304,9 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const redis = await writeDataStore("arxiv-recent", payload);
+  if (redis.source === "redis") {
+    await verifyMetaLanded("arxiv-recent", redis.writtenAt);
+  }
 
   log(`wrote ${OUT_PATH} [redis: ${redis.source}]`);
   log(`  ${recentPapers.length} recent papers; ${linkedCount} cross-link to tracked repos`);

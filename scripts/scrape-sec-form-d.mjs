@@ -56,7 +56,7 @@ import { resolve } from "path";
 import { writeFileSync, mkdirSync, existsSync } from "fs";
 
 import "./_load-env.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded } from "./_data-store-write.mjs";
 import { ingestFundingSecFormdToToolbox } from "./_toolbox-ingest.mjs";
 
 const PROJECT_ROOT = resolve(process.cwd());
@@ -484,6 +484,7 @@ async function main() {
         "funding-news-sec data-store write skipped; set REDIS_URL or Upstash env",
       );
     }
+    await verifyMetaLanded("funding-news-sec", redisResult.writtenAt);
     console.log("[sec-form-d] redis write ok -> funding-news-sec");
 
     // TOOLBOX dual-write: emit `funding.sec.formd` per Form D filing.

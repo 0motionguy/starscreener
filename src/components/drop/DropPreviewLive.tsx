@@ -1,19 +1,5 @@
 "use client";
 
-// DropPreviewLive — client context provider + two slots that lift the
-// URL → metadata fetch from DropUrlInputCard into shared state, then
-// re-render DropPreviewCard with the live snapshot. Layout faithful:
-//   <DropPreviewLive.Provider>
-//     <DropPreviewLive.UrlSlot />        ← full-width url-card
-//     <div className="preview-grid">
-//       <DropPreviewLive.PreviewSlot />  ← preview-card column
-//       <aside>…</aside>
-//     </div>
-//   </DropPreviewLive.Provider>
-//
-// Without this lift the URL fetch result never reaches the preview card
-// because the two siblings can't share React state directly.
-
 import { createContext, useContext, useMemo, useState } from "react";
 
 import {
@@ -98,7 +84,6 @@ function toPreviewMetadata(md: FetchedMetadata): DropPreviewMetadata {
     stars: md.stars ?? null,
     forks: md.forks ?? null,
     contributors: md.contributors ?? null,
-    pypiWeekly: null,
     mentions: extractMentions(md.raw),
     fetchedAt: new Date().toISOString(),
   };
@@ -106,10 +91,13 @@ function toPreviewMetadata(md: FetchedMetadata): DropPreviewMetadata {
 
 interface ProviderProps {
   children: React.ReactNode;
+  initialMetadata?: DropPreviewMetadata | null;
 }
 
-function Provider({ children }: ProviderProps) {
-  const [metadata, setMetadata] = useState<DropPreviewMetadata | null>(null);
+function Provider({ children, initialMetadata = null }: ProviderProps) {
+  const [metadata, setMetadata] = useState<DropPreviewMetadata | null>(
+    initialMetadata,
+  );
   const value = useMemo(() => ({ metadata, setMetadata }), [metadata]);
   return (
     <DropPreviewContext.Provider value={value}>

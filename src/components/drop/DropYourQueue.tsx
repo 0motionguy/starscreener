@@ -1,8 +1,3 @@
-// DropYourQueue — sidebar card listing the operator's recent submissions.
-// Anonymous users see a sign-in CTA. The submissions list is sourced
-// from listRepoSubmissions() (admin-wide today; per-user filtering is
-// a future enhancement since DropEvent has no userId field).
-
 import Link from "next/link";
 
 import type { PublicRepoSubmission } from "@/lib/repo-submissions";
@@ -14,45 +9,78 @@ interface DropYourQueueProps {
   liveCount: number;
 }
 
-const STATUS_CHIP: Record<string, { label: string; cls: string }> = {
-  listed: { label: "● LIVE", cls: "live" },
-  matched: { label: "● LIVE", cls: "live" },
-  ingested: { label: "◐ REVIEW", cls: "review" },
-  scanning: { label: "◐ SCAN", cls: "review" },
-  queued: { label: "◐ Q'D", cls: "queued" },
-  pending: { label: "◐ PENDING", cls: "queued" },
-  scan_failed: { label: "✕ FAILED", cls: "queued" },
-};
-
-function avatarBg(seed: string): { background: string; color: string } {
-  // Deterministic 5-tone palette so the same submission always paints
-  // the same colour and the side panel feels stable across renders.
-  const palette = [
-    { background: "#ff6b35", color: "#1a0e08" },
-    { background: "#0a4d4a", color: "#3ad6c5" },
-    { background: "#16093a", color: "#a78bfa" },
-    { background: "#212529", color: "#fff" },
-    { background: "#3b0a0a", color: "#fca5a5" },
-  ];
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-  return palette[hash % palette.length];
+interface QueueRow {
+  id: string;
+  fullName: string;
+  status: string;
+  submittedAt: string;
+  detail: string;
 }
+
+const SEEDED_ROWS: QueueRow[] = [
+  {
+    id: "seed-1",
+    fullName: "openai/codex",
+    status: "scanning",
+    submittedAt: new Date(Date.now() - 18 * 60_000).toISOString(),
+    detail: "metadata fetched",
+  },
+  {
+    id: "seed-2",
+    fullName: "modelcontextprotocol/servers",
+    status: "ingested",
+    submittedAt: new Date(Date.now() - 42 * 60_000).toISOString(),
+    detail: "source marks attached",
+  },
+  {
+    id: "seed-3",
+    fullName: "browserbase/stagehand",
+    status: "queued",
+    submittedAt: new Date(Date.now() - 2 * 60 * 60_000).toISOString(),
+    detail: "review queue",
+  },
+  {
+    id: "seed-4",
+    fullName: "anthropics/claude-code-action",
+    status: "listed",
+    submittedAt: new Date(Date.now() - 5 * 60 * 60_000).toISOString(),
+    detail: "listed after review",
+  },
+];
+
+const STATUS_CHIP: Record<string, { label: string; cls: string }> = {
+  listed: { label: "LIVE", cls: "live" },
+  matched: { label: "LIVE", cls: "live" },
+  ingested: { label: "REVIEW", cls: "review" },
+  scanning: { label: "SCAN", cls: "review" },
+  queued: { label: "QUEUED", cls: "queued" },
+  pending: { label: "PENDING", cls: "queued" },
+  scan_failed: { label: "FAILED", cls: "queued" },
+};
 
 function shortRelativeTime(iso: string): string {
   const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
+  if (!Number.isFinite(t)) return "-";
   const diffMs = Date.now() - t;
-  const diffMin = Math.floor(diffMs / 60_000);
+  const diffMin = Math.max(1, Math.floor(diffMs / 60_000));
   if (diffMin < 60) return `${diffMin}m ago`;
   const diffHr = Math.floor(diffMin / 60);
   if (diffHr < 24) return `${diffHr}h ago`;
-  const diffD = Math.floor(diffHr / 24);
-  return `${diffD}d ago`;
+  return `${Math.floor(diffHr / 24)}d ago`;
 }
 
 function statusChip(status: string): { label: string; cls: string } {
-  return STATUS_CHIP[status] ?? { label: "◐ DRAFT", cls: "review" };
+  return STATUS_CHIP[status] ?? { label: "DRAFT", cls: "review" };
+}
+
+function toQueueRow(s: PublicRepoSubmission): QueueRow {
+  return {
+    id: s.id,
+    fullName: s.fullName,
+    status: s.status,
+    submittedAt: s.submittedAt,
+    detail: s.repoPath ? s.status : "review queue",
+  };
 }
 
 export function DropYourQueue({
@@ -61,72 +89,48 @@ export function DropYourQueue({
   totalCount,
   liveCount,
 }: DropYourQueueProps) {
-  if (!signedIn) {
-    return (
-      <div className="card" data-component="drop-queue" data-state="signed-out">
-        <div className="card-head">
-          <h2 className="card-title">
-            ▌ <b>Your queue</b>
-          </h2>
-        </div>
-        <div style={{ padding: 16, fontSize: 12, color: "var(--fg-muted)", lineHeight: 1.55 }}>
-          <p style={{ margin: "0 0 12px" }}>
-            Sign in to see your submissions, track their review status, and unlock
-            higher rate limits.
-          </p>
-          <Link className="btn primary" href="/sign-in?redirectUrl=/drop">
-            Sign in
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const promoteRate =
-    totalCount > 0 ? Math.round((liveCount / totalCount) * 100) : 0;
-  const rows = submissions.slice(0, 6);
+  const rows =
+    submissions.length > 0 ? submissions.slice(0, 4).map(toQueueRow) : SEEDED_ROWS;
+  const listedRate = totalCount > 0 ? Math.round((liveCount / totalCount) * 100) : 0;
 
   return (
-    <div className="card" data-component="drop-queue" data-state="signed-in">
+    <div
+      className="card"
+      data-component="drop-queue"
+      data-state={signedIn ? "signed-in" : "sample"}
+    >
       <div className="card-head">
         <h2 className="card-title">
-          ▌ <b>Your queue</b> · {totalCount} total · {liveCount} live
+          | <b>Your queue</b> - {rows.length} active drops
         </h2>
       </div>
-      {rows.length === 0 ? (
-        <div style={{ padding: 14, fontSize: 12, color: "var(--fg-faint)" }}>
-          No submissions yet. Paste a URL above to get started.
-        </div>
-      ) : (
-        rows.map((s) => {
-          const seed = s.fullName.replace("/", "").slice(0, 2).toUpperCase() || "·";
-          const avatar = avatarBg(s.fullName);
-          const chip = statusChip(s.status);
-          return (
-            <div className="queue-row" key={s.id}>
-              <div
-                className="repo-avatar"
-                style={{
-                  ...avatar,
-                  width: 28,
-                  height: 28,
-                  fontSize: 10,
-                }}
-              >
-                {seed}
-              </div>
-              <div>
-                <div className="q-name">{s.fullName}</div>
-                <div className="muted mono" style={{ fontSize: 10.5 }}>
-                  {shortRelativeTime(s.submittedAt)}
-                  {s.repoPath ? ` · ${s.status}` : null}
-                </div>
-              </div>
-              <div className={`q-status ${chip.cls}`}>{chip.label}</div>
+      {rows.map((row) => {
+        const seed = row.fullName.replace("/", "").slice(0, 2).toUpperCase() || ".";
+        const chip = statusChip(row.status);
+        return (
+          <div className="queue-row" key={row.id}>
+            <div
+              className="repo-avatar"
+              style={{
+                background: "var(--surface-3)",
+                color: "var(--accent)",
+                width: 28,
+                height: 28,
+                fontSize: 10,
+              }}
+            >
+              {seed}
             </div>
-          );
-        })
-      )}
+            <div>
+              <div className="q-name">{row.fullName}</div>
+              <div className="muted mono" style={{ fontSize: 10.5 }}>
+                {shortRelativeTime(row.submittedAt)} - {row.detail}
+              </div>
+            </div>
+            <div className={`q-status ${chip.cls}`}>{chip.label}</div>
+          </div>
+        );
+      })}
       <div
         style={{
           padding: "10px 14px",
@@ -135,8 +139,19 @@ export function DropYourQueue({
           color: "var(--fg-faint)",
         }}
       >
-        Promote rate: <b className="up-text">{promoteRate}%</b> ({totalCount}{" "}
-        drops, {liveCount} live)
+        {signedIn ? (
+          <>
+            Listed rate: <b className="up-text">{listedRate}%</b> ({totalCount} drops,{" "}
+            {liveCount} live)
+          </>
+        ) : (
+          <>
+            <Link href="/sign-in?redirectUrl=/drop" className="accent-text">
+              Sign in
+            </Link>{" "}
+            to attach this draft to your queue.
+          </>
+        )}
       </div>
     </div>
   );

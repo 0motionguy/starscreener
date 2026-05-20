@@ -1,0 +1,492 @@
+.dropScope {
+  --drop-gap: 14px;
+}
+
+.dropScope :global(.drop-hero) {
+  margin: 0 auto;
+  max-width: 760px;
+  padding: 28px 24px 14px;
+  text-align: center;
+}
+
+.dropScope :global(.drop-hero h1) {
+  color: var(--fg-bright);
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+
+.dropScope :global(.drop-hero h1 .accent) {
+  color: var(--accent);
+}
+
+.dropScope :global(.drop-hero p) {
+  color: var(--fg-muted);
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 52ch;
+}
+
+.dropScope :global(.steps) {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-1);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 22px 0 18px;
+  overflow: hidden;
+}
+
+.dropScope :global(.step) {
+  align-items: center;
+  border-right: 1px solid var(--border-subtle);
+  color: var(--fg-faint);
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  position: relative;
+  text-decoration: none;
+}
+
+.dropScope :global(.step:last-child) {
+  border-right: 0;
+}
+
+.dropScope :global(.step::after) {
+  background: var(--surface);
+  border-right: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border-subtle);
+  content: "";
+  height: 10px;
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  z-index: 1;
+}
+
+.dropScope :global(.step:last-child::after) {
+  display: none;
+}
+
+.dropScope :global(.step.active) {
+  background: var(--surface-2);
+  color: var(--fg-bright);
+}
+
+.dropScope :global(.step.done) {
+  color: var(--fg);
+}
+
+.dropScope :global(.step-num) {
+  align-items: center;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-round);
+  color: var(--fg-faint);
+  display: grid;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  height: 28px;
+  justify-items: center;
+  width: 28px;
+}
+
+.dropScope :global(.step.active .step-num) {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+  color: var(--bg);
+}
+
+.dropScope :global(.step.done .step-num) {
+  background: var(--up);
+  border-color: var(--up);
+  color: var(--bg);
+}
+
+.dropScope :global(.step-text) {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.dropScope :global(.step-text b) {
+  color: currentColor;
+  display: block;
+  font-size: 12px;
+  text-transform: none;
+}
+
+.dropScope :global(.url-card) {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-1);
+  margin-bottom: var(--drop-gap);
+  padding: 20px;
+}
+
+.dropScope :global(.url-input-wrap) {
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-1);
+  display: flex;
+  padding: 4px;
+  transition:
+    border-color var(--d-fast) var(--ease),
+    box-shadow var(--d-fast) var(--ease);
+}
+
+.dropScope :global(.url-input-wrap:focus-within) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.dropScope :global(.url-input-wrap .prefix) {
+  align-items: center;
+  align-self: stretch;
+  border-right: 1px solid var(--border);
+  color: var(--fg-faint);
+  display: flex;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 0 12px;
+}
+
+.dropScope :global(.url-input-wrap input) {
+  background: transparent;
+  border: 0;
+  color: var(--fg);
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0;
+  min-width: 0;
+  outline: 0;
+  padding: 14px 12px;
+}
+
+.dropScope :global(.url-input-wrap input::placeholder) {
+  color: var(--fg-faint);
+}
+
+.dropScope :global(.url-input-wrap .btn) {
+  margin: 4px;
+  white-space: nowrap;
+}
+
+.dropScope :global(.preview-status) {
+  align-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-1);
+  color: var(--up);
+  display: flex;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  gap: 10px;
+  margin: -2px 0 var(--drop-gap);
+  padding: 12px 14px;
+}
+
+.dropScope :global(.preview-status.loading) {
+  color: var(--warning);
+}
+
+.dropScope :global(.preview-status[data-state="error"]) {
+  color: var(--down);
+}
+
+.dropScope :global(.preview-status .ok-tick) {
+  background: color-mix(in oklab, var(--up) 18%, transparent);
+  border-radius: var(--r-round);
+  color: var(--up);
+  display: grid;
+  height: 18px;
+  place-items: center;
+  width: 18px;
+}
+
+.dropScope :global(.preview-grid) {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  margin-bottom: var(--drop-gap);
+}
+
+.dropScope :global(.preview-card) {
+  background: var(--surface);
+  border: 1px solid var(--accent-soft);
+  border-radius: var(--r-1);
+  overflow: hidden;
+  padding: 18px;
+  position: relative;
+}
+
+.dropScope :global(.preview-card::before) {
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in oklab, var(--accent) 34%, transparent);
+  border-radius: var(--r-pill);
+  color: var(--accent);
+  content: "LIVE PREVIEW";
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0;
+  padding: 3px 8px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.dropScope :global(.picker-grid) {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  padding: 14px;
+}
+
+.dropScope :global(.pick) {
+  align-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-1);
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 10px;
+  text-align: center;
+  transition:
+    background var(--d-fast) var(--ease),
+    border-color var(--d-fast) var(--ease),
+    color var(--d-fast) var(--ease);
+}
+
+.dropScope :global(.pick:hover) {
+  background: var(--surface-3);
+  border-color: var(--border-hover);
+}
+
+.dropScope :global(.pick.on) {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+.dropScope :global(.pick-icon) {
+  color: var(--fg-subtle);
+  height: 24px;
+  width: 24px;
+}
+
+.dropScope :global(.pick.on .pick-icon),
+.dropScope :global(.pick.on .pick-label) {
+  color: var(--accent);
+}
+
+.dropScope :global(.pick-label) {
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.dropScope :global(.pick-count) {
+  color: var(--fg-faint);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+
+.dropScope :global(.tag-pool) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 14px;
+}
+
+.dropScope :global(.tag-pick) {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  padding: 6px 12px;
+  transition:
+    border-color var(--d-fast) var(--ease),
+    color var(--d-fast) var(--ease),
+    background var(--d-fast) var(--ease);
+}
+
+.dropScope :global(.tag-pick:hover:not(:disabled)) {
+  border-color: var(--border-hover);
+  color: var(--fg);
+}
+
+.dropScope :global(.tag-pick.on) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.dropScope :global(.tag-pick:disabled) {
+  color: var(--fg-disabled);
+  cursor: not-allowed;
+}
+
+.dropScope :global(.tag-pick .x) {
+  margin-left: 4px;
+  opacity: 0.65;
+}
+
+.dropScope :global(.why-input) {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-1);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 120px;
+  outline: 0;
+  padding: 12px 14px;
+  resize: vertical;
+  width: 100%;
+}
+
+.dropScope :global(.why-input:focus) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.dropScope :global(.queue-row) {
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 30px minmax(0, 1fr) 70px;
+  padding: 11px 14px;
+}
+
+.dropScope :global(.queue-row:last-of-type) {
+  border-bottom: 0;
+}
+
+.dropScope :global(.q-name) {
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropScope :global(.q-status) {
+  background: var(--surface-2);
+  border-radius: var(--r-pill);
+  color: var(--fg-faint);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0;
+  padding: 2px 7px;
+  text-align: center;
+}
+
+.dropScope :global(.q-status.live) {
+  background: color-mix(in oklab, var(--up) 16%, transparent);
+  border: 1px solid color-mix(in oklab, var(--up) 30%, transparent);
+  color: var(--up);
+}
+
+.dropScope :global(.q-status.review) {
+  background: color-mix(in oklab, var(--warning) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--warning) 28%, transparent);
+  color: var(--warning);
+}
+
+.dropScope :global(.q-status.queued) {
+  background: color-mix(in oklab, var(--info) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--info) 28%, transparent);
+  color: var(--info);
+}
+
+.dropScope :global(.drop-submit-footer) {
+  align-items: center;
+  background: var(--graphite);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 12px 14px;
+}
+
+.dropScope :global(.drop-submit-status) {
+  color: var(--fg-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .dropScope :global(.preview-grid) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .dropScope :global(.steps) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dropScope :global(.step::after) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .dropScope :global(.drop-hero) {
+    padding: 20px 0 10px;
+    text-align: left;
+  }
+
+  .dropScope :global(.drop-hero h1) {
+    font-size: 32px;
+  }
+
+  .dropScope :global(.drop-hero p) {
+    margin: 0;
+  }
+
+  .dropScope :global(.url-input-wrap) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dropScope :global(.url-input-wrap .prefix) {
+    border-bottom: 1px solid var(--border);
+    border-right: 0;
+    padding: 10px 12px;
+  }
+
+  .dropScope :global(.url-input-wrap .btn) {
+    justify-content: center;
+  }
+}

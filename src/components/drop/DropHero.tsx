@@ -1,14 +1,8 @@
-// DropHero — title + lede + inline stats line.
-//
-// Echoes the `06-drop-repo.html` `.drop-hero` block. Server component:
-// the stats numbers are passed in by the page so the live tracked-repo
-// count + avg review time stay accurate as data refreshes.
-
 interface DropHeroProps {
   trackedReposCount: number;
   avgReviewHours: number;
-  promoteRatePct: number;
-  recentPromotedCount: number;
+  listedRatePct: number;
+  recentListedCount: number;
   recentTotalCount: number;
 }
 
@@ -19,8 +13,8 @@ function formatNumber(value: number): string {
 export function DropHero({
   trackedReposCount,
   avgReviewHours,
-  promoteRatePct,
-  recentPromotedCount,
+  listedRatePct,
+  recentListedCount,
   recentTotalCount,
 }: DropHeroProps) {
   return (
@@ -30,14 +24,13 @@ export function DropHero({
       </h1>
       <p>
         Paste a GitHub URL. We auto-fetch metadata, scan for cross-source
-        mentions, score it against our momentum + consensus model, and
-        (if it passes review) surface it to{" "}
-        <b>{formatNumber(trackedReposCount)}</b> tracked repos. Average
-        review: <b>{avgReviewHours} hours</b>. Recent drops:{" "}
+        mentions, attach the review packet, and surface accepted drops to{" "}
+        <b>{formatNumber(trackedReposCount)}</b> tracked repos. Average review:{" "}
+        <b>{avgReviewHours} hours</b>. Recent listed drops:{" "}
         <b className="up-text">
-          {recentPromotedCount} of {recentTotalCount} promoted
+          {recentListedCount} of {recentTotalCount} listed
         </b>{" "}
-        ({promoteRatePct}%).
+        ({listedRatePct}%).
       </p>
     </div>
   );

@@ -38,7 +38,6 @@ export type DropDisplayCategoryId = (typeof DROP_DISPLAY_CATEGORIES)[number]["id
 // submit we project to the closed set via DISPLAY_TAG_TO_ENUM.
 export const DROP_DISPLAY_TAGS: ReadonlyArray<string> = [
   "CLI",
-  "PYTHON",
   "DEV-TOOL",
   "AI",
   "AGENTS",
@@ -82,7 +81,6 @@ const DISPLAY_TAG_TO_ENUM: Record<string, string> = {
   AI: "INFERENCE",
   INFERENCE: "INFERENCE",
   MCP: "FRAMEWORK",
-  PYTHON: "DATA",
   STREAMING: "INFERENCE",
   OBSERVABILITY: "DATA",
   MEMORY: "DATA",

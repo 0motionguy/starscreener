@@ -1,23 +1,26 @@
-// DropPromotionRules — sidebar card listing what gets promoted vs. what
-// doesn't. Mirrors `06-drop-repo.html`'s "What gets promoted" panel
-// (5 do-rules + 2 don't-rules).
-
 const DO_RULES: ReadonlyArray<{ head: string; tail: string }> = [
-  { head: "Real, working repo", tail: " — not vapor, not a fork" },
-  { head: "AI / dev-tools / agents / MCP / skills", tail: " — our beat" },
-  { head: "README + LICENSE", tail: " — table stakes" },
-  { head: "≥10 stars", tail: " OR ≥1 cross-source mention" },
+  { head: "Real, working repo", tail: " - not vapor, not a fork" },
+  { head: "AI / dev-tools / agents / MCP / skills", tail: " - our beat" },
+  { head: "README + LICENSE", tail: " - table stakes" },
+  { head: "10+ stars", tail: " OR 1+ cross-source mention" },
   { head: "Open-source license", tail: " (OSI-approved)" },
 ];
 
 const DONT_RULES: ReadonlyArray<string> = [
   "No spam, no SEO link farms, no AI-generated repo dumps",
-  "No 'Awesome list' mirrors without commentary",
+  "No awesome-list mirrors without commentary",
 ];
 
 function CheckIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--up)" strokeWidth="2">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="var(--up)"
+      strokeWidth="2"
+    >
       <path d="M3 8l3 3 7-7" />
     </svg>
   );
@@ -25,7 +28,14 @@ function CheckIcon() {
 
 function XIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--down)" strokeWidth="2">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="var(--down)"
+      strokeWidth="2"
+    >
       <path d="M4 4l8 8M12 4L4 12" />
     </svg>
   );
@@ -36,7 +46,7 @@ export function DropPromotionRules() {
     <div className="card" data-component="drop-rules">
       <div className="card-head">
         <h2 className="card-title">
-          ▌ <b>What gets promoted</b>
+          | <b>What passes review</b>
         </h2>
       </div>
       <div
@@ -51,7 +61,11 @@ export function DropPromotionRules() {
         }}
       >
         {DO_RULES.map((r) => (
-          <div className="row gap-2" key={r.head} style={{ alignItems: "flex-start" }}>
+          <div
+            className="row gap-2"
+            key={r.head}
+            style={{ alignItems: "flex-start" }}
+          >
             <CheckIcon />
             <span>
               <b style={{ color: "var(--fg)" }}>{r.head}</b>
@@ -59,9 +73,13 @@ export function DropPromotionRules() {
             </span>
           </div>
         ))}
-        <div className="divider" style={{ margin: "4px 0" }}></div>
+        <div className="divider" style={{ margin: "4px 0" }} />
         {DONT_RULES.map((line) => (
-          <div className="row gap-2" key={line} style={{ alignItems: "flex-start" }}>
+          <div
+            className="row gap-2"
+            key={line}
+            style={{ alignItems: "flex-start" }}
+          >
             <XIcon />
             <span>{line}</span>
           </div>

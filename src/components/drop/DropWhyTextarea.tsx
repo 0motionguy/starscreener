@@ -115,7 +115,7 @@ export function DropWhyTextarea({ initialValue = "" }: DropWhyTextareaProps) {
           <span className={specific.className}>● {specific.label}</span>
           <span className="divider v"></span>
           <span>
-            Avg promote time: <b className="up-text">14h</b>
+            Avg review time: <b className="up-text">14h</b>
           </span>
         </div>
       </div>

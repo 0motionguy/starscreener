@@ -111,7 +111,7 @@ export function DropCategoryPicker({ initialSelection }: DropCategoryPickerProps
   );
 
   return (
-    <div className="card">
+    <div className="card" data-component="drop-category">
       <div className="card-head">
         <h2 className="card-title">
           ▌ <b>Step 3 · Categorize</b> · pick the closest fit · single category

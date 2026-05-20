@@ -1,17 +1,10 @@
 // TrendingTable emits the main `.tdata` contract for the Trending hub.
 // Rows are derived from Repo[]; shell.js renders sparkline SVGs from data-points.
-//
-// Column set: # · Repository · ★ Stars · 24H · 7D · 30D · Chart · Mentions · Actions
-//   - 24H / 7D / 30D show the *star delta* for that window (color-coded).
-//   - Chart is a single sparkline column between 30D and Mentions.
-//   - Mentions emits .smark logos per active source via MentionCell.
-//   - Rank 01/02/03 get gold/silver/bronze styling on top of .rank.top.
 
 import Link from "next/link";
 
 import type { Repo } from "@/lib/types";
 import { classifyFreshness } from "@/lib/news/freshness";
-import { repoLogoUrl } from "@/lib/logos";
 import type { CategoryId, WindowId } from "./TrendingHubHero";
 import { MentionCell } from "./MentionSourcePips";
 import { RepoSparkline } from "./RepoSparkline";
@@ -40,12 +33,7 @@ export function TrendingTable({
 }: TrendingTableProps) {
   const top = repos.slice(0, limit);
   const fresh = fetchedAt ? classifyFreshness("repos", fetchedAt) : null;
-  const freshCls =
-    fresh?.status === "live"
-      ? "fresh-live"
-      : fresh?.status === "warn"
-        ? "fresh-warm"
-        : "fresh-cold";
+  const freshCls = fresh?.status === "live" ? "fresh-live" : fresh?.status === "warn" ? "fresh-warm" : "fresh-cold";
   const windowLabel = timeWindow.toUpperCase();
 
   return (
@@ -82,14 +70,12 @@ export function TrendingTable({
           <tr>
             <th className="col-rank">#</th>
             <th>Repository</th>
-            <th className="num">
-              <span className="stars-symbol" aria-hidden="true">★</span> Stars
-            </th>
-            <th className="num">24H</th>
-            <th className="num">7D</th>
-            <th className="num">30D</th>
-            <th className="col-spark">Chart</th>
+            <th className="num">Stars</th>
+            <th className="col-velocity">Velocity ({windowLabel})</th>
+            <th className="col-spark">7d</th>
+            <th className="col-spark">30d</th>
             <th className="num col-meta">Mentions</th>
+            <th className="col-meta">Fresh</th>
             <th className="col-actions">Actions</th>
           </tr>
         </thead>
@@ -98,68 +84,29 @@ export function TrendingTable({
             const owner = repo.owner;
             const name = repo.name;
             const stars = repo.stars ?? 0;
-            const d24h = repo.starsDelta24h ?? 0;
-            const d7d = repo.starsDelta7d ?? 0;
-            const d30d = repo.starsDelta30d ?? 0;
+            const delta = deltaForWindow(repo, timeWindow);
+            const pct = stars > 0 ? (delta / stars) * 100 : 0;
+            const velocityPctRaw = Math.min(100, Math.max(4, Math.abs(pct) * 10));
+            const velocityCls = delta >= 0 ? "velocity up" : "velocity dn";
+            const rowFresh = repo.lastCommitAt ? classifyFreshness("repos", repo.lastCommitAt) : fresh;
+            const rowFreshCls =
+              rowFresh?.status === "live"
+                ? "fresh-live"
+                : rowFresh?.status === "warn"
+                  ? "fresh-warm"
+                  : "fresh-cold";
             const detailHref = `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
             const points = repo.sparklineData ?? [];
-            const rankTier =
-              idx === 0
-                ? "rank-gold"
-                : idx === 1
-                  ? "rank-silver"
-                  : idx === 2
-                    ? "rank-bronze"
-                    : "";
 
             return (
               <tr key={repo.id} className="stagger-row" style={{ animationDelay: `${Math.min(idx * 0.03, 0.4)}s` }}>
                 <td data-label="Rank">
-                  <span className={`rank${idx < 3 ? " top" : ""} ${rankTier}`.trim()}>
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
+                  <span className={`rank${idx < 3 ? " top" : ""}`}>{String(idx + 1).padStart(2, "0")}</span>
                 </td>
                 <td data-label="Repo">
                   <div className="repo-id">
-                    <div
-                      className="repo-avatar avatar-token"
-                      aria-hidden="true"
-                      style={{ position: "relative", overflow: "hidden" }}
-                    >
-                      <span
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          display: "grid",
-                          placeItems: "center",
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 11,
-                          fontWeight: 700,
-                          color: "var(--fg-muted)",
-                          background: "var(--surface-3)",
-                          zIndex: 0,
-                        }}
-                      >
-                        {owner.slice(0, 2).toUpperCase()}
-                      </span>
-                      <img
-                        src={repoLogoUrl(repo.fullName, 40) ?? ""}
-                        alt=""
-                        width={28}
-                        height={28}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        style={{
-                          position: "relative",
-                          display: "block",
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          borderRadius: 2,
-                          zIndex: 1,
-                        }}
-                      />
+                    <div className="repo-avatar avatar-token" aria-hidden="true">
+                      {owner.slice(0, 2).toUpperCase()}
                     </div>
                     <div className="repo-text">
                       <Link className="repo-name" href={detailHref} data-repo-hover data-repo={`${owner}/${name}`} prefetch={false}>
@@ -170,24 +117,33 @@ export function TrendingTable({
                     </div>
                   </div>
                 </td>
-                <td className="num stars-cell" data-label="Stars">
-                  <span className="stars-symbol" aria-hidden="true">★</span>{" "}
-                  <span className="stars-value">{compact(stars)}</span>
+                <td className="num" data-label="Stars">
+                  {compact(stars)}{" "}
+                  {delta !== 0 && (
+                    <span className={delta >= 0 ? "up-text" : "dn-text"}>
+                      {delta >= 0 ? `+${compact(delta)}` : compact(delta)}
+                    </span>
+                  )}
                 </td>
-                <td className="num delta-cell" data-label="24H">
-                  {formatDelta(d24h)}
+                <td data-label="Velocity">
+                  <div className={velocityCls}>
+                    <span className="num">{pct >= 0 ? `+${pct.toFixed(1)}%` : `${pct.toFixed(1)}%`}</span>
+                    <div className="velocity-bar" style={{ ["--v" as string]: `${velocityPctRaw}%` }} />
+                  </div>
                 </td>
-                <td className="num delta-cell" data-label="7D">
-                  {formatDelta(d7d)}
+                <td data-label="Trend7d">
+                  <RepoSparkline data={points.slice(-14)} repo={repo} />
                 </td>
-                <td className="num delta-cell" data-label="30D">
-                  {formatDelta(d30d)}
-                </td>
-                <td data-label="Chart">
+                <td data-label="Trend30d">
                   <RepoSparkline data={points.slice(-30)} repo={repo} />
                 </td>
                 <td className="num mention-pack-cell" data-label="Mentions">
                   <MentionCell repo={repo} />
+                </td>
+                <td data-label="Fresh">
+                  <span className={`fresh ${rowFreshCls}`}>
+                    <span className="pip" /> {rowFresh?.ageLabel ?? "no timestamp"}
+                  </span>
                 </td>
                 <td className="row-actions-cell" data-label="Actions">
                   <TrendingRowActions repo={`${owner}/${name}`} />
@@ -222,13 +178,10 @@ export function TrendingTable({
   );
 }
 
-function formatDelta(value: number): React.ReactNode {
-  if (value === 0) {
-    return <span className="delta-zero">—</span>;
-  }
-  const cls = value > 0 ? "up-text" : "dn-text";
-  const prefix = value > 0 ? "+" : "";
-  return <span className={cls}>{prefix}{compact(value)}</span>;
+function deltaForWindow(repo: Repo, window: WindowId): number {
+  if (window === "7d") return repo.starsDelta7d ?? 0;
+  if (window === "30d") return repo.starsDelta30d ?? 0;
+  return repo.starsDelta24h ?? 0;
 }
 
 function sortLabel(sort: string): string {

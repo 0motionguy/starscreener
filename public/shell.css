@@ -829,36 +829,6 @@ img { max-width: 100%; display: block; }
 }
 .rank.top { color: var(--accent); }
 
-/* Podium tier highlighting for top 3 rows. Layered on top of .top so the
- * "top-3 should pop" treatment is unambiguous in scan order. */
-.rank.rank-gold {
-  color: var(--accent);
-  font-weight: 800;
-  font-size: 15px;
-}
-.rank.rank-silver {
-  color: var(--warning);
-  font-weight: 700;
-  font-size: 14px;
-}
-.rank.rank-bronze {
-  color: var(--up);
-  font-weight: 700;
-  font-size: 14px;
-}
-
-/* Orange ★ accent on the Stars header + each row's star cell. */
-.stars-symbol {
-  color: var(--accent);
-  font-size: 12px;
-  margin-right: 2px;
-}
-.stars-cell .stars-value {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--fg-bright);
-}
-
 /* Velocity bar */
 .velocity {
   display: flex; align-items: center; gap: 8px;

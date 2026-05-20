@@ -127,6 +127,17 @@
       "owner": "build"
     },
     {
+      "route": "/account",
+      "policy": "dynamic-private",
+      "expectsDynamic": true,
+      "reason": "Clerk-gated account dashboard - per-user profile, watchlist, alerts, API keys, drops, referrals, and timeline; anon redirects to /sign-in",
+      "ttfbBudgetMs": { "cached": 800, "uncached": 1800 },
+      "transferBudgetKb": 140,
+      "firstLoadJsBudgetKb": 600,
+      "warmupOnDeploy": false,
+      "owner": "account"
+    },
+    {
       "route": "/ideas",
       "policy": "isr",
       "revalidateSeconds": 600,

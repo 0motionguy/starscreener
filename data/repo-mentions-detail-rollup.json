@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-19T19:54:11.857Z",
-  "scanRunId": "sweep-2026-05-19T19:54:02.301Z",
+  "computedAt": "2026-05-20T03:42:57.867Z",
+  "scanRunId": "sweep-2026-05-20T03:41:52.518Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -29,10 +29,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 8,
+      "totalMentions7d": 10,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -76,28 +76,28 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/hymhub/skill-indexer",
-              "title": "An open question about how AI agent skills should be distributed",
+              "url": "https://github.com/JustVugg/gutenberg-cli",
+              "title": "Show HN: Gutenberg – Any URL to verified CLI and MCP server and agent skills",
               "text": "",
-              "author": "1749207188",
+              "author": "vforno",
               "engagement": {
                 "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-19T10:35:39.000Z"
+              "observedAt": "2026-05-19T23:19:52.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/Kotlin/kotlin-agent-skills/",
-              "title": "Kotlin-agent-skills: A collection of skills for projects using Kotlin",
-              "text": "",
-              "author": "rezaprima",
+              "url": "https://github.com/agentkit-seo/agentkit-seo",
+              "title": "Show HN: AgentKit SEO - a career context file that installs as agent skills",
+              "text": "I was job hunting across countries and kept running into the same two problems.<p>First: every platform optimises for different things. LinkedIn wants keywords. ATS parsers want specific formatting. GitHub rewards README quality. A portfolio has to be crawlable. Staying consistent across all of them without a system is nearly impossible.<p>Second: every AI agent session starts from scratch. Paste a context dump, watch it burn half the window fetching your links, get generic output. The agent has",
+              "author": "renatomignone",
               "engagement": {
                 "score": 1,
-                "comments": 0
+                "comments": 1
               },
-              "observedAt": "2026-05-18T13:51:10.000Z"
+              "observedAt": "2026-05-19T20:11:40.000Z"
             }
           ]
         },
@@ -395,10 +395,28 @@
     },
     "rtk-ai/rtk": {
       "fullName": "rtk-ai/rtk",
-      "totalMentions7d": 5,
+      "totalMentions7d": 7,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "rtk-ai/rtk",
+              "url": "https://github.com/rtk-ai/rtk",
+              "title": "RTK: Rust Token Killer",
+              "text": "",
+              "author": "learningpodsio",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-19T23:34:36.000Z"
+            }
+          ]
+        },
         "bluesky": {
-          "count7d": 5,
+          "count7d": 6,
           "top": [
             {
               "source": "bluesky",
@@ -416,12 +434,25 @@
             {
               "source": "bluesky",
               "fullName": "rtk-ai/rtk",
+              "url": "https://bsky.app/profile/rtk-ai.app/post/3mmagzcwx6c2g",
+              "title": "🎉 50,000 ⭐ on GitHub. 5 months ago, a weekend hack. Huge thanks to the contributors and to everyone who starred, opened an issue, or shared the project. 100% community-driven and hard work. Built at ",
+              "text": "🎉 50,000 ⭐ on GitHub. 5 months ago, a weekend hack. Huge thanks to the contributors and to everyone who starred, opened an issue, or shared the project. 100% community-driven and hard work. Built at night, in Northern France. RTK Cloud coming soon. → github.com/rtk-ai/rtk #rust #opensource #ai",
+              "author": "rtk-ai.app",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T22:31:47.566Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "rtk-ai/rtk",
               "url": "https://bsky.app/profile/clofresh.bsky.social/post/3mm7pks5mtk2f",
               "title": "There’s such an exciting opportunity to optimize token usage for local LLMs. Some other exciting token optimizations: * MTP for Qwen 3.6 and Gemma 4 (blog.google/innovation-a...) * RTK (github.com/rtk",
               "text": "There’s such an exciting opportunity to optimize token usage for local LLMs. Some other exciting token optimizations: * MTP for Qwen 3.6 and Gemma 4 (blog.google/innovation-a...) * RTK (github.com/rtk-ai/rtk) * cymbal (github.com/1broseidon/c...) * pi agent harness (minimal system prompt)",
               "author": "clofresh.bsky.social",
               "engagement": {
-                "score": 1,
+                "score": 2,
                 "comments": 0
               },
               "observedAt": "2026-05-19T15:32:07.613Z"
@@ -451,19 +482,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-13T22:29:08.366Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "rtk-ai/rtk",
-              "url": "https://bsky.app/profile/djioliat.bsky.social/post/3mlsmxfqbnc24",
-              "title": "Économisez des tokens Claude code ou autre agent IA avec : github.com/rtk-ai/rtk",
-              "text": "Économisez des tokens Claude code ou autre agent IA avec : github.com/rtk-ai/rtk",
-              "author": "djioliat.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T10:40:47.862Z"
             }
           ]
         }
@@ -1143,10 +1161,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 14,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
-          "count7d": 14,
+          "count7d": 13,
           "top": [
             {
               "source": "hackernews",
@@ -1170,7 +1188,7 @@
               "author": "giuliomagnifico",
               "engagement": {
                 "score": 56,
-                "comments": 76
+                "comments": 77
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -3722,24 +3740,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 176,
+      "totalMentions7d": 72,
       "perSource": {
         "hackernews": {
-          "count7d": 176,
+          "count7d": 72,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
-              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
-              "text": "",
-              "author": "nycdatasci",
-              "engagement": {
-                "score": 1055,
-                "comments": 550
-              },
-              "observedAt": "2026-05-18T17:38:22.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3748,10 +3753,23 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 897,
-                "comments": 351
+                "score": 1217,
+                "comments": 506
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
+              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
+              "text": "",
+              "author": "nycdatasci",
+              "engagement": {
+                "score": 1068,
+                "comments": 569
+              },
+              "observedAt": "2026-05-18T17:38:22.000Z"
             },
             {
               "source": "hackernews",
@@ -3761,7 +3779,7 @@
               "text": "",
               "author": "mikeevans",
               "engagement": {
-                "score": 485,
+                "score": 486,
                 "comments": 247
               },
               "observedAt": "2026-05-14T20:06:14.000Z"
@@ -3787,8 +3805,8 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 330,
-                "comments": 336
+                "score": 331,
+                "comments": 337
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             }
@@ -6134,23 +6152,36 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 24,
+      "totalMentions7d": 28,
       "perSource": {
         "hackernews": {
-          "count7d": 24,
+          "count7d": 28,
           "top": [
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/sustainability/society-equity/meta-us-employees-organize-protest-against-mouse-tracking-tech-2026-05-12/",
-              "title": "Meta employees protest against mouse tracking tech at US offices",
-              "text": "",
-              "author": "delichon",
+              "url": "https://www.tryardent.com/",
+              "title": "Launch HN: Ardent (YC P26) – Postgres sandboxes in seconds with zero migration",
+              "text": "Hey HN! We’re Vikram and Evan from Ardent (<a href=\"https:&#x2F;&#x2F;tryardent.com\">https:&#x2F;&#x2F;tryardent.com</a>). We&#x27;re building database sandboxes for you and your coding agents.<p>In the last two years coding agents have gotten dramatically more capable at handling complex engineering tasks. But without access to a realistic sandbox at the DB layer for testing, they ship garbage that can take down production databases. I spent over a year building an AI Data Engineer that failed ",
+              "author": "vc289",
               "engagement": {
-                "score": 73,
-                "comments": 88
+                "score": 98,
+                "comments": 51
               },
-              "observedAt": "2026-05-12T20:58:18.000Z"
+              "observedAt": "2026-05-13T16:54:03.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/legal/government/new-york-california-pension-leaders-oppose-extreme-spacex-control-structure-2026-05-14/",
+              "title": "New York, California pension leaders oppose 'extreme' SpaceX control structure",
+              "text": "",
+              "author": "2OEH8eoCRo0",
+              "engagement": {
+                "score": 72,
+                "comments": 126
+              },
+              "observedAt": "2026-05-14T12:21:55.000Z"
             },
             {
               "source": "hackernews",
@@ -6186,23 +6217,10 @@
               "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
               "author": "mrcoldbrew",
               "engagement": {
-                "score": 54,
+                "score": 55,
                 "comments": 6
               },
               "observedAt": "2026-05-18T15:40:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/commentary/reuters-open-interest/g7-long-bond-stress-intensifies-2026-05-13/",
-              "title": "The era of free money may have ended",
-              "text": "",
-              "author": "latentframe",
-              "engagement": {
-                "score": 26,
-                "comments": 3
-              },
-              "observedAt": "2026-05-18T13:04:02.000Z"
             }
           ]
         }
@@ -7811,7 +7829,7 @@
               "author": "rolph",
               "engagement": {
                 "score": 441,
-                "comments": 315
+                "comments": 319
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7831,19 +7849,6 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
-              "url": "https://en.wikipedia.org/wiki/Swatch_Internet_Time",
-              "title": "Swatch Internet Time",
-              "text": "",
-              "author": "florianmari",
-              "engagement": {
-                "score": 7,
-                "comments": 2
-              },
-              "observedAt": "2026-05-12T20:53:44.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "floci-io/floci",
               "url": "https://www.techpolicy.press/stochastic-flocks-and-the-critical-problem-of-useful-ai/",
               "title": "Stochastic Flocks and the Critical Problem of 'Useful' AI",
               "text": "",
@@ -7857,13 +7862,26 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
+              "url": "https://flowingdata.com/2026/05/07/divorce-and-occupation-2026/",
+              "title": "Occupations with the Highest Divorce Rates",
+              "text": "",
+              "author": "gmays",
+              "engagement": {
+                "score": 5,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T21:26:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "floci-io/floci",
               "url": "https://github.com/struct-dot-ai/logbox",
               "title": "Show HN: Logbox – let Claude monitor your dev logs",
               "text": "TL;DR: logbox is an open-source tool that pipes dev server logs to a local sqlite db with `&lt;your-dev-server-cmd&gt; | logbox collect`. Give Claude Code access by running `claude mcp add logbox -- logbox serve`.<p>I used to copy &amp; paste logs into Claude Code when manually testing my server in dev. I wanted to give it its own verification loop.<p>I initially tried having it boot the server itself and follow the logs. It was good at knowing if the server booted properly, but it capped out an",
               "author": "nimeshmc",
               "engagement": {
-                "score": 3,
-                "comments": 0
+                "score": 4,
+                "comments": 1
               },
               "observedAt": "2026-05-19T19:03:14.000Z"
             }
@@ -8191,8 +8209,8 @@
               "text": "The Setup:<p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;nzOwmSC.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2",
               "author": "danybittel",
               "engagement": {
-                "score": 420,
-                "comments": 166
+                "score": 486,
+                "comments": 186
               },
               "observedAt": "2026-05-19T10:38:47.000Z"
             }
@@ -9137,10 +9155,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 76,
+      "totalMentions7d": 81,
       "perSource": {
         "hackernews": {
-          "count7d": 76,
+          "count7d": 81,
           "top": [
             {
               "source": "hackernews",
@@ -9150,10 +9168,23 @@
               "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
               "author": "lukaspetersson",
               "engagement": {
-                "score": 347,
-                "comments": 264
+                "score": 358,
+                "comments": 266
               },
               "observedAt": "2026-05-18T18:12:18.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
+              "url": "https://github.com/antoinezambelli/forge",
+              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
+              "author": "zambelli",
+              "engagement": {
+                "score": 320,
+                "comments": 118
+              },
+              "observedAt": "2026-05-19T12:23:07.000Z"
             },
             {
               "source": "hackernews",
@@ -9171,6 +9202,19 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
+              "url": "https://cursor.com/blog/composer-2-5",
+              "title": "Cursor Introduces Composer 2.5",
+              "text": "<a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983</a>",
+              "author": "asar",
+              "engagement": {
+                "score": 279,
+                "comments": 208
+              },
+              "observedAt": "2026-05-18T17:20:43.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
               "url": "https://ossresistance.com/",
               "title": "Open Source Resistance: keep OSS alive on company time",
               "text": "",
@@ -9180,32 +9224,6 @@
                 "comments": 84
               },
               "observedAt": "2026-05-13T15:13:37.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://cursor.com/blog/composer-2-5",
-              "title": "Cursor Introduces Composer 2.5",
-              "text": "<a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983</a>",
-              "author": "asar",
-              "engagement": {
-                "score": 274,
-                "comments": 197
-              },
-              "observedAt": "2026-05-18T17:20:43.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://electrek.co/2026/05/16/fisker-ocean-open-source-ev-story-after-bankruptcy/",
-              "title": "Fisker went bankrupt and owners built an open source car company from the ashes",
-              "text": "",
-              "author": "breve",
-              "engagement": {
-                "score": 176,
-                "comments": 65
-              },
-              "observedAt": "2026-05-16T23:59:47.000Z"
             }
           ]
         }
@@ -9318,7 +9336,7 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 566,
+                "score": 568,
                 "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
@@ -9449,24 +9467,11 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 146,
+      "totalMentions7d": 144,
       "perSource": {
         "hackernews": {
-          "count7d": 145,
+          "count7d": 143,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
-              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
-              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
-              "text": "",
-              "author": "nycdatasci",
-              "engagement": {
-                "score": 1055,
-                "comments": 550
-              },
-              "observedAt": "2026-05-18T17:38:22.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "rmyndharis/OpenWA",
@@ -9475,10 +9480,23 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 897,
-                "comments": 351
+                "score": 1217,
+                "comments": 506
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/",
+              "title": "Elon Musk has lost his lawsuit against Sam Altman and OpenAI",
+              "text": "",
+              "author": "nycdatasci",
+              "engagement": {
+                "score": 1068,
+                "comments": 569
+              },
+              "observedAt": "2026-05-18T17:38:22.000Z"
             },
             {
               "source": "hackernews",
@@ -9488,7 +9506,7 @@
               "text": "",
               "author": "mikeevans",
               "engagement": {
-                "score": 485,
+                "score": 486,
                 "comments": 247
               },
               "observedAt": "2026-05-14T20:06:14.000Z"
@@ -9501,23 +9519,23 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 330,
-                "comments": 336
+                "score": 331,
+                "comments": 337
               },
               "observedAt": "2026-05-16T20:14:06.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "rmyndharis/OpenWA",
-              "url": "https://www.wsj.com/tech/ai/sam-altmans-business-dealings-under-gop-scrutiny-ahead-of-openais-ipo-52c1cc4d",
-              "title": "Sam Altman's Business Dealings Under GOP Scrutiny Ahead of OpenAI's IPO",
-              "text": "",
-              "author": "1vuio0pswjnm7",
+              "url": "https://github.com/antoinezambelli/forge",
+              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
+              "author": "zambelli",
               "engagement": {
-                "score": 199,
-                "comments": 162
+                "score": 320,
+                "comments": 118
               },
-              "observedAt": "2026-05-14T12:27:29.000Z"
+              "observedAt": "2026-05-19T12:23:07.000Z"
             }
           ]
         },
@@ -10139,7 +10157,7 @@
     },
     "walkinglabs/learn-harness-engineering": {
       "fullName": "walkinglabs/learn-harness-engineering",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -10152,10 +10170,28 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 148,
+                "score": 150,
                 "comments": 16
               },
               "observedAt": "2026-05-18T12:17:04.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "walkinglabs/learn-harness-engineering",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmaxu3xlxh2s",
+              "title": "https://github.com/walkinglabs/learn-harness-engineering",
+              "text": "https://github.com/walkinglabs/learn-harness-engineering",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-20T03:33:05.263Z"
             }
           ]
         }

@@ -50,7 +50,11 @@ export function AcKpiStrip({
     >
       <div className="cell" style={cellStyle}>
         <div style={labelStyle}>Items tracked</div>
-        <div style={valueStyle}>{itemsTracked.toLocaleString()}</div>
+        <div style={valueStyle}>
+          <span data-counter data-target={itemsTracked}>
+            {itemsTracked.toLocaleString()}
+          </span>
+        </div>
         <div style={descStyle}>apis · marketplaces · wallets · protocols</div>
       </div>
       <div className="cell" style={cellStyle}>

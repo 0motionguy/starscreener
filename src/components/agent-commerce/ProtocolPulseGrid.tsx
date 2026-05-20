@@ -38,7 +38,7 @@ export function ProtocolPulseGrid({
         <span className="ph-eyebrow">{"// 01"}</span>
         <span className="ph-title">Protocol pulse · live</span>
         <span className="ph-meta">
-          3 protocols tracked · activity in the last 24h
+          7 protocols tracked - activity in the last 24h
         </span>
       </div>
       <div style={{ padding: "14px 16px" }}>

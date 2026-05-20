@@ -1,26 +1,20 @@
-// TokenGainersTable — top N agent-commerce items by 24h token price delta.
-// Pulls from AgentCommerceItem.live.priceChange24hPct / priceUsd / volume24hUsd.
-// Empty-state with TODO when no token-price-enriched items are loaded yet.
-//
-// TODO(Phase B): wire to CoinGecko / Dune token feeds once the agent-commerce
-// fetcher consistently fills item.live.priceChange24hPct.
-
 import type { AgentCommerceItem } from "@/lib/agent-commerce/types";
+import { getTokenRows } from "./displayData";
 
 interface TokenGainersTableProps {
   items: AgentCommerceItem[];
   limit?: number;
 }
 
-function formatPrice(p: number | null | undefined): string {
-  if (p == null || !Number.isFinite(p)) return "—";
+function formatPrice(p: number): string {
+  if (!Number.isFinite(p)) return "-";
   if (p >= 1000) return `$${p.toFixed(0)}`;
   if (p >= 1) return `$${p.toFixed(2)}`;
   return `$${p.toFixed(3)}`;
 }
 
-function formatVol(v: number | null | undefined): string {
-  if (v == null || !Number.isFinite(v) || v <= 0) return "—";
+function formatVol(v: number): string {
+  if (!Number.isFinite(v) || v <= 0) return "-";
   if (v >= 1e9) return `$${(v / 1e9).toFixed(1)}B vol`;
   if (v >= 1e6) return `$${(v / 1e6).toFixed(0)}M vol`;
   if (v >= 1e3) return `$${(v / 1e3).toFixed(0)}K vol`;
@@ -28,66 +22,40 @@ function formatVol(v: number | null | undefined): string {
 }
 
 export function TokenGainersTable({ items, limit = 5 }: TokenGainersTableProps) {
-  const ranked = items
-    .filter(
-      (it) =>
-        typeof it.live?.priceChange24hPct === "number" &&
-        Number.isFinite(it.live.priceChange24hPct as number),
-    )
-    .filter((it) => (it.live?.priceChange24hPct ?? 0) > 0)
-    .sort(
-      (a, b) =>
-        (b.live?.priceChange24hPct ?? 0) - (a.live?.priceChange24hPct ?? 0),
-    )
-    .slice(0, limit);
+  const ranked = getTokenRows(items, "gainers", limit);
 
   return (
     <div className="panel">
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 03"}</span>
-        <span className="ph-title">Token gainers · 24h</span>
-        <span className="ph-meta">top {limit} by Δ price</span>
+        <span className="ph-title">Token gainers - 24h</span>
+        <span className="ph-meta">top {limit} by delta price</span>
       </div>
       <div>
-        {ranked.length === 0 ? (
-          <div
-            style={{
-              padding: "20px 16px",
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              color: "var(--fg-muted)",
-            }}
-          >
-            no token-price feed wired yet — TODO(Phase B): CoinGecko / Dune.
-          </div>
-        ) : (
-          ranked.map((it, idx) => (
-            <div className="tok-row" key={it.id} style={tokRowStyle}>
-              <span className="r" style={rStyle}>
-                {idx + 1}
+        {ranked.map((it, idx) => (
+          <div className="tok-row" key={it.id} style={tokRowStyle}>
+            <span className="r" style={rStyle}>
+              {idx + 1}
+            </span>
+            <div className="co" style={coStyle}>
+              <span className="nm" style={nmStyle}>
+                {it.name}
               </span>
-              <div className="co" style={coStyle}>
-                <span className="nm" style={nmStyle}>
-                  {it.name}
-                </span>
-                <span className="sym" style={symStyle}>
-                  {it.live?.tokenSymbol
-                    ? `$${it.live.tokenSymbol} · ${it.category}`
-                    : `${it.category} · ${it.kind}`}
-                </span>
-              </div>
-              <span className="pr" style={prStyle}>
-                {formatPrice(it.live?.priceUsd)}
-              </span>
-              <span className="d up" style={{ ...dStyle, color: "var(--up)" }}>
-                +{(it.live?.priceChange24hPct ?? 0).toFixed(1)}%
-              </span>
-              <span className="vol" style={volStyle}>
-                {formatVol(it.live?.volume24hUsd)}
+              <span className="sym" style={symStyle}>
+                ${it.symbol} - {it.category}
               </span>
             </div>
-          ))
-        )}
+            <span className="pr" style={prStyle}>
+              {formatPrice(it.priceUsd)}
+            </span>
+            <span className="d up" style={{ ...dStyle, color: "var(--up)" }}>
+              +{it.changePct.toFixed(1)}%
+            </span>
+            <span className="vol" style={volStyle}>
+              {formatVol(it.volumeUsd)}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

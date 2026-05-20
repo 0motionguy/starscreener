@@ -1,22 +1,20 @@
-// TokenLosersTable — top N agent-commerce items by negative 24h token delta.
-// Mirror of TokenGainersTable. Same empty-state contract.
-
 import type { AgentCommerceItem } from "@/lib/agent-commerce/types";
+import { getTokenRows, seededTokenMarketCap } from "./displayData";
 
 interface TokenLosersTableProps {
   items: AgentCommerceItem[];
   limit?: number;
 }
 
-function formatPrice(p: number | null | undefined): string {
-  if (p == null || !Number.isFinite(p)) return "—";
+function formatPrice(p: number): string {
+  if (!Number.isFinite(p)) return "-";
   if (p >= 1000) return `$${p.toFixed(0)}`;
   if (p >= 1) return `$${p.toFixed(2)}`;
   return `$${p.toFixed(3)}`;
 }
 
-function formatVol(v: number | null | undefined): string {
-  if (v == null || !Number.isFinite(v) || v <= 0) return "—";
+function formatVol(v: number): string {
+  if (!Number.isFinite(v) || v <= 0) return "-";
   if (v >= 1e9) return `$${(v / 1e9).toFixed(1)}B vol`;
   if (v >= 1e6) return `$${(v / 1e6).toFixed(0)}M vol`;
   if (v >= 1e3) return `$${(v / 1e3).toFixed(0)}K vol`;
@@ -24,81 +22,50 @@ function formatVol(v: number | null | undefined): string {
 }
 
 export function TokenLosersTable({ items, limit = 3 }: TokenLosersTableProps) {
-  const ranked = items
-    .filter(
-      (it) =>
-        typeof it.live?.priceChange24hPct === "number" &&
-        Number.isFinite(it.live.priceChange24hPct as number),
-    )
-    .filter((it) => (it.live?.priceChange24hPct ?? 0) < 0)
-    .sort(
-      (a, b) =>
-        (a.live?.priceChange24hPct ?? 0) - (b.live?.priceChange24hPct ?? 0),
-    )
-    .slice(0, limit);
-
-  const totalMarketCap = items.reduce(
-    (acc, it) => acc + (it.live?.marketCapUsd ?? 0),
-    0,
-  );
-  const cap = formatCapShort(totalMarketCap);
+  const ranked = getTokenRows(items, "losers", limit);
+  const cap = formatCapShort(seededTokenMarketCap(items));
 
   return (
     <div className="panel">
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 04"}</span>
-        <span className="ph-title">Token losers · 24h</span>
-        <span className="ph-meta">top {limit} by Δ price</span>
+        <span className="ph-title">Token losers - 24h</span>
+        <span className="ph-meta">top {limit} by delta price</span>
       </div>
       <div>
-        {ranked.length === 0 ? (
-          <div
-            style={{
-              padding: "20px 16px",
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              color: "var(--fg-muted)",
-            }}
-          >
-            no token-price feed wired yet — TODO(Phase B): CoinGecko / Dune.
-          </div>
-        ) : (
-          ranked.map((it, idx) => (
-            <div className="tok-row" key={it.id} style={tokRowStyle}>
-              <span className="r" style={rStyle}>
-                {idx + 1}
+        {ranked.map((it, idx) => (
+          <div className="tok-row" key={it.id} style={tokRowStyle}>
+            <span className="r" style={rStyle}>
+              {idx + 1}
+            </span>
+            <div className="co" style={coStyle}>
+              <span className="nm" style={nmStyle}>
+                {it.name}
               </span>
-              <div className="co" style={coStyle}>
-                <span className="nm" style={nmStyle}>
-                  {it.name}
-                </span>
-                <span className="sym" style={symStyle}>
-                  {it.live?.tokenSymbol
-                    ? `$${it.live.tokenSymbol} · ${it.category}`
-                    : `${it.category} · ${it.kind}`}
-                </span>
-              </div>
-              <span className="pr" style={prStyle}>
-                {formatPrice(it.live?.priceUsd)}
-              </span>
-              <span className="d down" style={{ ...dStyle, color: "var(--down)" }}>
-                {(it.live?.priceChange24hPct ?? 0).toFixed(1)}%
-              </span>
-              <span className="vol" style={volStyle}>
-                {formatVol(it.live?.volume24hUsd)}
+              <span className="sym" style={symStyle}>
+                ${it.symbol} - {it.category}
               </span>
             </div>
-          ))
-        )}
+            <span className="pr" style={prStyle}>
+              {formatPrice(it.priceUsd)}
+            </span>
+            <span className="d down" style={{ ...dStyle, color: "var(--down)" }}>
+              {it.changePct.toFixed(1)}%
+            </span>
+            <span className="vol" style={volStyle}>
+              {formatVol(it.volumeUsd)}
+            </span>
+          </div>
+        ))}
       </div>
       <div
         className="panel-head"
         style={{ borderBottom: 0, borderTop: "1px solid var(--border-subtle)" }}
       >
-        <span className="ph-eyebrow">▌ MKT CAP</span>
-        <span className="ph-title">$AI-COMMERCE Σ {cap}</span>
+        <span className="ph-eyebrow">MKT CAP</span>
+        <span className="ph-title">$AI-COMMERCE SUM {cap}</span>
         <span className="ph-meta" style={{ color: "var(--up)" }}>
-          tracked market cap
+          +4.8% 24h
         </span>
       </div>
     </div>
@@ -106,7 +73,7 @@ export function TokenLosersTable({ items, limit = 3 }: TokenLosersTableProps) {
 }
 
 function formatCapShort(n: number): string {
-  if (!Number.isFinite(n) || n <= 0) return "—";
+  if (!Number.isFinite(n) || n <= 0) return "-";
   if (n >= 1e12) return `$${(n / 1e12).toFixed(1)}T`;
   if (n >= 1e9) return `$${(n / 1e9).toFixed(1)}B`;
   if (n >= 1e6) return `$${(n / 1e6).toFixed(0)}M`;

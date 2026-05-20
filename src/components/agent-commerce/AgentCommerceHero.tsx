@@ -41,7 +41,11 @@ export function AgentCommerceHero({
     <div className="page-head">
       <div>
         <div className="page-eyebrow" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <FreshnessPill source="repos" fetchedAt={fetchedAt ?? null} prefix="AGENT COMMERCE" />
+          <FreshnessPill
+            source="agent_commerce"
+            fetchedAt={fetchedAt ?? null}
+            prefix="AGENT COMMERCE"
+          />
           <span style={{ color: "var(--fg-faint)" }}>
             · /agent-commerce · the M2M economy · x402 + MCP + a2a + wallets + APIs
           </span>

@@ -1,11 +1,16 @@
-// TopMoversRail — right-column "Top movers · 24h velocity" card.
+// TopMoversRail renders the right-column "Top movers · 24h velocity" card.
 
-import { getTopMoversByDelta24h } from "@/lib/trending";
+import Link from "next/link";
 
-export function TopMoversRail({ limit = 5 }: { limit?: number }) {
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { RepoSparkline } from "./RepoSparkline";
+
+export function TopMoversRail({ limit = 8 }: { limit?: number }) {
   const movers = (() => {
     try {
-      return getTopMoversByDelta24h(limit);
+      return [...getDerivedRepos()]
+        .sort((a, b) => (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0))
+        .slice(0, limit);
     } catch {
       return [];
     }
@@ -15,69 +20,40 @@ export function TopMoversRail({ limit = 5 }: { limit?: number }) {
     <div className="card">
       <div className="card-head">
         <h2 className="card-title">
-          ▸ <b>Top movers</b> · 24h velocity
+          <b>Top movers</b> · 24h velocity
         </h2>
       </div>
       <div className="card-body">
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {movers.map((m) => {
-            const [owner, name] = m.fullName.split("/");
-            const delta = m.starsDelta24h;
+        <div className="side-list">
+          {movers.map((repo) => {
+            const href = `/repo/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}`;
+            const delta = repo.starsDelta24h ?? 0;
+            const pct = repo.stars ? (delta / repo.stars) * 100 : 0;
             return (
-              <div
-                key={m.id}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "22px 1fr auto",
-                  gap: 10,
-                  alignItems: "center",
-                  paddingBottom: 8,
-                  borderBottom: "1px solid var(--border-subtle)",
-                }}
-              >
-                <div
-                  className="repo-avatar"
-                  style={{
-                    width: 22,
-                    height: 22,
-                    background: "var(--surface-3)",
-                    color: "var(--accent)",
-                    fontSize: 9,
-                  }}
-                >
-                  {(owner || "?").slice(0, 2).toUpperCase()}
+              <Link key={repo.id} className="side-row mover-row" href={href} data-repo-hover data-repo={repo.fullName} prefetch={false}>
+                <div className="repo-avatar avatar-token mini" aria-hidden="true">
+                  {repo.owner.slice(0, 2).toUpperCase()}
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
-                  <a
-                    href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 12,
-                      color: "var(--fg)",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {m.fullName}
-                  </a>
-                  <span className="muted" style={{ fontSize: 10.5 }}>
-                    {m.language ?? "—"} · +{delta.toLocaleString()} ★
+                <div className="side-copy">
+                  <span className="side-name">{repo.fullName}</span>
+                  <span className="muted">
+                    {compact(repo.stars)} stars · {repo.language ?? "mixed"}
                   </span>
+                  <RepoSparkline data={repo.sparklineData?.slice(-8)} repo={repo} />
                 </div>
-                <div className={delta >= 0 ? "up-text" : "dn-text"} style={{ fontFamily: "var(--font-mono)", fontSize: 11 }}>
-                  +{delta.toLocaleString()}
+                <div className={delta >= 0 ? "side-delta up-text" : "side-delta dn-text"}>
+                  {delta >= 0 ? "+" : ""}
+                  {pct.toFixed(1)}%
                 </div>
-              </div>
+              </Link>
             );
           })}
-          {movers.length === 0 && (
-            <p className="muted" style={{ fontSize: 12, margin: 0 }}>
-              No movers cached yet.
-            </p>
-          )}
         </div>
       </div>
     </div>
   );
+}
+
+function compact(value: number): string {
+  return Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(value);
 }

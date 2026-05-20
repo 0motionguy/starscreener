@@ -17,6 +17,20 @@ const CHANNELS: { key: SocialPlatform; cls: string; title: string }[] = [
   { key: "lobsters", cls: "lobsters", title: "Lobsters" },
 ];
 
+const SOURCE_MARKS: Record<string, string> = {
+  github: "G",
+  hn: "H",
+  x: "X",
+  reddit: "R",
+  bsky: "B",
+  devto: "D",
+  ph: "P",
+  hf: "F",
+  arxiv: "A",
+  npm: "N",
+  lobsters: "L",
+};
+
 interface MentionSourcePipsProps {
   repo: Pick<Repo, "mentions">;
 }
@@ -44,10 +58,23 @@ export function MentionCell({ repo }: MentionCellProps) {
     repo.mentions?.total24h ??
     repo.mentionCount24h ??
     0;
+  const active = CHANNELS.filter(({ key }) => {
+    const channel = repo.mentions?.perSource?.[key];
+    return !!channel && (channel.count24h ?? channel.count7d ?? 0) > 0;
+  });
+  const top = active[0];
+
   return (
     <div className="mention-pack">
-      <MentionSourcePips repo={repo} />
+      <span className="ms-pips">
+        {active.slice(0, 6).map(({ key, cls, title }) => (
+          <span key={key} className={`smark ${cls}`} title={title}>
+            {SOURCE_MARKS[cls] ?? "·"}
+          </span>
+        ))}
+      </span>
       <span className="ms-count">{count.toLocaleString()}</span>
+      {top && <span className="ms-top">live on {top.title}</span>}
     </div>
   );
 }

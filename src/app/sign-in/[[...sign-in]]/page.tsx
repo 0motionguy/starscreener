@@ -1,19 +1,12 @@
-// Clerk hosted sign-in page: full-page, branded.
+// Clerk hosted sign-in page — minimal stub during UI v4 teardown.
 //
-// Catch-all route: covers /sign-in, /sign-in/factor-one, /sign-in/sso-callback, etc.
-// Required by Clerk's <SignIn /> component when used as a hosted page (vs modal).
-//
-// Why a hosted page in addition to the modal:
-//   - Better SEO landing experience (Google can index /sign-in)
-//   - Cleaner deep-link target for the header CTA: /sign-in?redirect_url=/u/foo
-//   - Required for /sign-up to function as a route (paired)
-//
-// The modal-based <SignInButton mode="modal" /> still works elsewhere; this
-// just gives operators a route-based fallback.
+// Renders Clerk's <SignIn /> component directly with appearance inherited
+// from ClerkProvider in root layout. The custom wrappers (ClerkAuthForm,
+// AuthUnavailable, FunnelMount) lived in src/components/ and have been
+// archived. The rebuild can re-introduce funnel tracking + custom
+// fallback UI on top of this stub.
 
-import { AuthUnavailable } from "@/components/auth/AuthUnavailable";
-import { FunnelMount } from "@/components/analytics/FunnelMount";
-import { ClerkAuthForm } from "@/components/auth/ClerkAuthForm";
+import { SignIn } from "@clerk/nextjs";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import {
   buildAuthHref,
@@ -36,22 +29,42 @@ export default async function Page({ searchParams }: SignInPageProps) {
   const redirectUrl = getAuthRedirectFromSearchParams(params);
   const signUpUrl = buildAuthHref("/sign-up", redirectUrl);
 
+  if (!clerkPublishableKey) {
+    return (
+      <div
+        style={{
+          minHeight: "100dvh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 48,
+          color: "#e6e6e6",
+          textAlign: "center",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>
+            Sign-in unavailable
+          </h1>
+          <p style={{ opacity: 0.6 }}>
+            Authentication is temporarily disabled. Please try again later.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      <FunnelMount
-        step="sign_in_view"
-        flow="account-auth"
-        properties={{ redirect_present: redirectUrl !== "/" }}
-      />
-      {clerkPublishableKey ? (
-        <ClerkAuthForm
-          mode="sign-in"
-          signUpUrl={signUpUrl}
-          fallbackRedirectUrl={redirectUrl}
-        />
-      ) : (
-        <AuthUnavailable action="sign in" />
-      )}
+    <div
+      style={{
+        minHeight: "100dvh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 48,
+      }}
+    >
+      <SignIn signUpUrl={signUpUrl} fallbackRedirectUrl={redirectUrl} />
     </div>
   );
 }

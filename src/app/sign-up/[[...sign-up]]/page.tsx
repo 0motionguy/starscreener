@@ -1,23 +1,14 @@
-// Clerk hosted sign-up page: full-page, branded.
+// Clerk hosted sign-up page — minimal stub during UI v4 teardown.
 //
-// Catch-all route: covers /sign-up, /sign-up/verify-email-address, etc.
-// Required by Clerk's <SignUp /> component when used as a hosted page.
-//
-// Referral handoff:
-//   The <ClerkRefHandoff /> mounted in root layout already fetches the
-//   signed `tr_ref` cookie from /api/referrals/intake on every page mount
-//   and stores it in localStorage as `trRef`. The Clerk webhook handler
-//   at src/app/api/webhooks/clerk/route.ts reads it via the user.created
-//   event's `unsafe_metadata.trRef` and credits the referrer.
-//
-//   The hosted form is rendered through <ClerkAuthForm />, which reads
-//   the verified localStorage handoff and passes it into Clerk's
-//   `unsafeMetadata` prop. The webhook then credits the signup from
-//   `unsafe_metadata.trRef`.
+// Referral handoff still works: <ClerkRefHandoff /> in root layout reads
+// the signed `tr_ref` cookie and stores it in localStorage as `trRef`.
+// To restore unsafe_metadata referral threading, the rebuild needs to
+// reintroduce the wrapper that reads localStorage and passes it into
+// Clerk's `unsafeMetadata` prop (this stub does NOT thread the referral
+// into Clerk — direct webhook will still credit if user_metadata is set
+// via Clerk webhook by other means).
 
-import { AuthUnavailable } from "@/components/auth/AuthUnavailable";
-import { FunnelMount } from "@/components/analytics/FunnelMount";
-import { ClerkAuthForm } from "@/components/auth/ClerkAuthForm";
+import { SignUp } from "@clerk/nextjs";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import {
   buildAuthHref,
@@ -40,22 +31,42 @@ export default async function Page({ searchParams }: SignUpPageProps) {
   const redirectUrl = getAuthRedirectFromSearchParams(params);
   const signInUrl = buildAuthHref("/sign-in", redirectUrl);
 
+  if (!clerkPublishableKey) {
+    return (
+      <div
+        style={{
+          minHeight: "100dvh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 48,
+          color: "#e6e6e6",
+          textAlign: "center",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>
+            Sign-up unavailable
+          </h1>
+          <p style={{ opacity: 0.6 }}>
+            Authentication is temporarily disabled. Please try again later.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      <FunnelMount
-        step="sign_up_view"
-        flow="account-auth"
-        properties={{ redirect_present: redirectUrl !== "/" }}
-      />
-      {clerkPublishableKey ? (
-        <ClerkAuthForm
-          mode="sign-up"
-          signInUrl={signInUrl}
-          fallbackRedirectUrl={redirectUrl}
-        />
-      ) : (
-        <AuthUnavailable action="sign up" />
-      )}
+    <div
+      style={{
+        minHeight: "100dvh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 48,
+      }}
+    >
+      <SignUp signInUrl={signInUrl} fallbackRedirectUrl={redirectUrl} />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { useClientSession } from "@/components/layout/useClientSession";
+import { useClientSession } from "@/lib/hooks/useClientSession";
 import { getLoadedBrowserPostHog } from "@/lib/analytics/posthog-client";
 
 export function PostHogIdentifyBridge() {

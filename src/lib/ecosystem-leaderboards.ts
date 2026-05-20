@@ -1,4 +1,4 @@
-import type { SignalRow } from "@/components/signal/SignalTable";
+import type { SignalRow } from "@/lib/signal-row";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
 import { resolveLogoUrl } from "./logo-url";
 import { mcpEntityLogoUrl, repoLogoUrl } from "./logos";

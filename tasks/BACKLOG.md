@@ -25,6 +25,26 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 ## Doc-hygiene follow-ups (2026-05-05 drift audit)
 - [ ] Relocate worklog/coverage files older than 30 days to `docs/archive/worklogs/`. Sweep at root for `AGN-*-WORKLOG.md` and `AGN-*-COVERAGE-REPORT.md` whose `last-touched` frontmatter is past the 30-day budget; move + update any inbound links. Done when root contains no worklog/coverage file older than 30 days and a follow-up audit re-runs cleanly.
 
+## UI v6 rebuild — Wave D deferred dismantling (2026-05-20)
+
+Items deliberately deferred from the v6 UI rebuild sweep per operator
+decision ("conservative dismantling"). The rebuild ships the UI work
+only; cleanup runs as a separate sprint once the rebuild is stable.
+
+- [ ] Delete `_archive/ui-v4/**` (830 files, 5.4MB). TS already excludes it; no `src/` imports reference it. Verify with `grep -r "_archive/ui-v4" src/` returning empty, then `git rm -r _archive/ui-v4/`. Owner: CTO. Done when the archive directory is gone and the next `npm run build` succeeds.
+- [ ] Delete 4 PARKED `src/lib/` subdirectories: `src/lib/charts/`, `src/lib/compare/`, `src/lib/onboarding/`, `src/lib/skills/`. Each has a `_PARKED.md` marker and zero external consumers per the 2026-05-19 audit. Verify per-directory with `grep -r "from \"@/lib/<dir>" src/` before removal. Owner: CTO. Done when no `_PARKED.md` files remain under `src/lib/` and typecheck stays green.
+- [ ] Delete 4 dead scripts: `scripts/scrape-sec-form-d.mjs`, `scripts/purge-twitter-synthetic-data.ts`, `scripts/reconcile-repo-stores.mjs`, `scripts/reset-data.mjs`. Verify with `grep -r "<script-name>" .github/workflows/ package.json` returning empty. Owner: platform engineer. Done when each script's path is gone and CI still passes.
+- [ ] Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts`. Verify no `.github/workflows/*.yml` schedule references the path. Owner: platform engineer. Done when the route file is gone and no scheduled workflow names the endpoint.
+- [ ] Flip `TOOLBOX_READ_*` feature flags ON per source (8 readers: HN, Reddit, Bluesky, DevTo, Lobsters, NPM, RSS, ArXiv). Currently all OFF in production despite the dual-write workflows landing the data in the Toolbox spine. Phase B migration; out of scope for the rebuild. Owner: CTO. Done when each flag is ON in prod env, soak passes 7-day reliability check, and the legacy JSONL writes can be retired.
+
+## Pre-existing TypeScript errors blocking strict typecheck (2026-05-20)
+
+Discovered during Wave A verification; NOT caused by the rebuild but
+flagged here so Wave B agents fix them as part of their route work.
+
+- [ ] `src/app/revenue/page.tsx:368` — `RevenueLeaderboard` call missing required prop `nextLimit`. Pre-dates the rebuild (last touched at commit `0a79c30dc`). Owner: br worktree (Codex agent, /revenue route). Done when typecheck reports zero errors against this file.
+- [ ] `src/components/tools/ToolsActivityStrip.tsx:47,51` — discriminated union narrowing fails on `.hover` and `.label` accesses (one variant of the input row type lacks both fields). Working-tree modification from prior session. Owner: bl worktree (Codex agent, /tools route). Done when typecheck reports zero errors against this file.
+
 ## From audit (2026-05-04) — not in Sprint 1
 - [ ] Profile completeness scanner (owner: data quality engineer). Done when a scanner report is generated and each profile field has pass/fail coverage output. Target sprint: Sprint 3.
 - [ ] Image coverage backfill (owner: frontend/data engineer). Done when missing image slots are enumerated and backfill pipeline raises coverage above agreed threshold. Target sprint: Sprint 3.

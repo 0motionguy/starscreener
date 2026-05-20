@@ -122,7 +122,10 @@ export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilte
                   href={toggleHref(entry.slug, selected, window)}
                   prefetch={false}
                   className={`src-toggle ${on ? "on" : "off"}`}
-                  role="button"
+                  // The element is a link (navigates to ?src=…), not a button.
+                  // Keep <a> semantics and use aria-pressed to expose the
+                  // toggle state. role="button" on an anchor that navigates
+                  // would be a lie to assistive tech.
                   aria-pressed={on}
                   aria-label={`Toggle ${entry.label}`}
                   data-source={entry.slug}

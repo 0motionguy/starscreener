@@ -499,6 +499,72 @@ export async function readDataStore(key) {
 }
 
 /**
+ * M-15 guard — read back `ss:meta:v1:<slug>` and assert its writtenAt
+ * matches `expectedWrittenAt`. Throws on mismatch so the calling script
+ * (and its workflow) fails LOUD when the SET resolved locally but never
+ * actually landed in Redis.
+ *
+ * Background: when the workflow runner was migrated from a TOOLBOX-VPS
+ * self-hosted runner to GitHub-hosted `ubuntu-latest` (2026-05-15), the
+ * `REDIS_URL` secret pointed at a hostname only reachable from inside
+ * the TOOLBOX network. ioredis's `enableOfflineQueue=true` queued the
+ * SET, the script's `closeDataStore()` then quit the never-connected
+ * client, the SETs were dropped, but the script logged
+ * `[redis: redis]` and the workflow exited success. The
+ * `huggingface-{trending,datasets,spaces}` slugs went silently stale
+ * for ~6 days before /api/worker/health surfaced the gap. This helper
+ * makes the next such regression visible within one cron tick.
+ *
+ * @param {string} key Slug, e.g. "huggingface-trending"
+ * @param {string} expectedWrittenAt The writtenAt returned by writeDataStore
+ * @returns {Promise<void>} resolves on match; rejects otherwise
+ */
+export async function verifyMetaLanded(key, expectedWrittenAt) {
+  if (typeof key !== "string" || !key.trim()) {
+    throw new Error("[data-store-write] verifyMetaLanded: key must be a non-empty string");
+  }
+  if (typeof expectedWrittenAt !== "string" || !expectedWrittenAt) {
+    throw new Error("[data-store-write] verifyMetaLanded: expectedWrittenAt must be a non-empty string");
+  }
+  const client = await getClient();
+  if (!client) {
+    // Redis disabled (DATA_STORE_DISABLE=1 or no env) — writeDataStore
+    // returned source="skipped"; nothing to verify.
+    return;
+  }
+  const raw = await client.get(`${META_NAMESPACE}:${key.trim()}`);
+  if (raw === null || raw === undefined) {
+    throw new Error(
+      `[data-store-write] verifyMetaLanded: meta key "${META_NAMESPACE}:${key}" is missing after write ` +
+        `(expected writtenAt=${expectedWrittenAt}). Redis SET silently dropped — check REDIS_URL ` +
+        `reachability from this runner.`,
+    );
+  }
+  let actual;
+  if (typeof raw === "string") {
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw);
+        actual = typeof parsed.writtenAt === "string" ? parsed.writtenAt : null;
+      } catch {
+        actual = null;
+      }
+    } else {
+      actual = raw; // bare ISO shape (back-compat)
+    }
+  } else if (typeof raw === "object" && raw !== null) {
+    actual = typeof raw.writtenAt === "string" ? raw.writtenAt : null;
+  }
+  if (actual !== expectedWrittenAt) {
+    throw new Error(
+      `[data-store-write] verifyMetaLanded: meta writtenAt mismatch for "${key}" ` +
+        `(expected=${expectedWrittenAt} actual=${actual ?? "<unparseable>"}). ` +
+        `Redis is either responding from a stale replica or the SET landed elsewhere.`,
+    );
+  }
+}
+
+/**
  * Gracefully close the underlying Redis connection. Optional — ioredis lets
  * the process exit cleanly even with a live client. Useful in long-running
  * scripts (e.g. test harness) that want explicit cleanup.

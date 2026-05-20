@@ -31,7 +31,7 @@ import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded, closeDataStore } from "./_data-store-write.mjs";
 import { ingestHuggingfaceModelsToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
@@ -274,6 +274,13 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const redis = await writeDataStore("huggingface-trending", payload);
+  // M-15 guard — assert the meta SET actually landed in Redis. Without
+  // this, a runner that can't reach REDIS_URL silently queues + drops
+  // SETs while the script logs success. See verifyMetaLanded() docs in
+  // _data-store-write.mjs for the full incident narrative.
+  if (redis.source === "redis") {
+    await verifyMetaLanded("huggingface-trending", redis.writtenAt);
+  }
 
   // Dual-write to TOOLBOX (`trending.huggingface.models`, capped at 100).
   const toolboxResult = await ingestHuggingfaceModelsToToolbox(payload);

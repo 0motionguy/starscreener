@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-20T12:04:02.011Z",
+  "fetchedAt": "2026-05-20T15:55:40.666Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -3627,23 +3627,23 @@
     },
     "msitarzewski/agency-agents": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
-        "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7orb2udi62",
-        "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T15:17:39.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -3679,6 +3679,49 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
               "matchType": "url",
               "confidence": 1
             }
@@ -5333,23 +5376,23 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ajbz3mhh6zvmp6i5givl5bmd/app.bsky.feed.post/3mm4v7jaizdp2",
-        "cid": "bafyreibznch4xaijvxphqubtl6kultcgapcy5s3niqyoeqbr5fcyte23vq",
-        "bskyUrl": "https://bsky.app/profile/rabc.hachyderm.io.ap.brid.gy/post/3mm4v7jaizdp2",
-        "text": "Tired: You're absolute right! Wired: load-bearing https://github.com/anthropics/claude-code/issues/53454 Anthropic dataset cleaning process is so messed up.",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
+        "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
+        "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
         "author": {
-          "handle": "rabc.hachyderm.io.ap.brid.gy",
-          "displayName": "Ricardo Carvalho"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T12:35:04.000Z",
+        "createdAt": "2026-05-20T15:42:00.690965Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
@@ -5453,6 +5496,34 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
+          "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
+          "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:42:00.690965Z",
+          "createdUtc": 1779291720,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6316,10 +6387,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
@@ -6327,8 +6398,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T15:16:57.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -6388,6 +6459,44 @@
             },
             {
               "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 0.65,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -6683,24 +6792,24 @@
       ]
     },
     "obra/superpowers": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:wx5elk5kexfdhp2w3jewkn6w/app.bsky.feed.post/3mmc5uzk7kc2g",
+        "cid": "bafyreie3jtcd33437dumnevxjqbhpj33z6dolhwgp3v6ywr3j7jpuns6aq",
+        "bskyUrl": "https://bsky.app/profile/genmon.fyi/post/3mmc5uzk7kc2g",
+        "text": "thank you! can't remember specifically but maybe one of Primitive for spec-driven development (private beta) getprimitive.ai superpowers agent skills for spec, planning, implementation, test process github.com/obra/superpo...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "genmon.fyi",
+          "displayName": "Matt Webb 🌸🌼🌸"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T14:53:38.325Z",
+        "hoursSincePosted": 1.03
       },
       "posts": [
         {
@@ -6732,6 +6841,35 @@
           ]
         },
         {
+          "uri": "at://did:plc:wx5elk5kexfdhp2w3jewkn6w/app.bsky.feed.post/3mmc5uzk7kc2g",
+          "cid": "bafyreie3jtcd33437dumnevxjqbhpj33z6dolhwgp3v6ywr3j7jpuns6aq",
+          "bskyUrl": "https://bsky.app/profile/genmon.fyi/post/3mmc5uzk7kc2g",
+          "text": "thank you! can't remember specifically but maybe one of Primitive for spec-driven development (private beta) getprimitive.ai superpowers agent skills for spec, planning, implementation, test process github.com/obra/superpo...",
+          "author": {
+            "handle": "genmon.fyi",
+            "displayName": "Matt Webb 🌸🌼🌸"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T14:53:38.325Z",
+          "createdUtc": 1779288818,
+          "ageHours": 1.03,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
           "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
           "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
@@ -6754,6 +6892,49 @@
           "linkedRepos": [
             {
               "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
               "matchType": "url",
               "confidence": 1
             }
@@ -8387,10 +8568,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
@@ -8398,8 +8579,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T15:16:57.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -8509,6 +8690,44 @@
           "linkedRepos": [
             {
               "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 0.65,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -13428,23 +13647,23 @@
     },
     "rohitg00/agentmemory": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
-        "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
-        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
-        "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
+        "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
+        "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
         "author": {
-          "handle": "alexiskirke.bsky.social",
-          "displayName": "Alexis Kirke"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T09:17:41.707647+00:00",
-        "hoursSincePosted": 2.22
+        "createdAt": "2026-05-20T15:18:37.395282Z",
+        "hoursSincePosted": 0.62
       },
       "posts": [
         {
@@ -13463,6 +13682,34 @@
           "createdUtc": 1778836661,
           "ageHours": 2.22,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
+          "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
+          "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:18:37.395282Z",
+          "createdUtc": 1779290317,
+          "ageHours": 0.62,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -14968,19 +15215,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mm7stxnam22q",
-        "cid": "bafyreibx42fcxiej3axfitn4qfgwmh65x2qshh6hjyaucny3f27z4t3fnu",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mm7stxnam22q",
-        "text": "RuView – See through walls with WiFi https://github.com/ruvnet/RuView",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmbwj3hv672q",
+        "cid": "bafyreibwkmuy7qukzlztmvf7p4p5jjuyneq3xfpzijdx67xbt3plmsnxnm",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmbwj3hv672q",
+        "text": "📰 RuView utilizes WiFi to create an image of objects behind walls, offering a unique method for non-invasive surveillance and inspection. 🔗 https://github.com/ruvnet/RuView #Tech #Dev",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T16:30:52.129Z",
-        "hoursSincePosted": 4.36
+        "createdAt": "2026-05-20T12:41:37.157571+00:00",
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -14999,6 +15246,34 @@
           "createdUtc": 1779045093,
           "ageHours": 4.97,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmbwj3hv672q",
+          "cid": "bafyreibwkmuy7qukzlztmvf7p4p5jjuyneq3xfpzijdx67xbt3plmsnxnm",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmbwj3hv672q",
+          "text": "📰 RuView utilizes WiFi to create an image of objects behind walls, offering a unique method for non-invasive surveillance and inspection. 🔗 https://github.com/ruvnet/RuView #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T12:41:37.157571+00:00",
+          "createdUtc": 1779280897,
+          "ageHours": 3.23,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -16264,21 +16539,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iwrp6gl45usipvzqbd6mn5tc/app.bsky.feed.post/3mm5mltct2c2m",
-        "cid": "bafyreicrwbjipydlp6r3tzsgrei3ytvnnli3syecmiyvvdogqxei6nppxm",
-        "bskyUrl": "https://bsky.app/profile/hubabuba.bsky.social/post/3mm5mltct2c2m",
-        "text": "RustNet is now on Nix! ❄️🦀 It’s officially merged into nixpkgs-unstable and ready to use. Test it instantly via Flakes (requires sudo for libpcap packet parsing): sudo nix run github:nixos/nixpkgs/nixpkgs-unstable#rustnet github.com/domcyrus/rustnet #nixos #rust #tui #networking",
+        "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
+        "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
+        "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmbyxlqa4f2x",
+        "text": "🍻 rustnet 🍻 Cross-platform network monitoring terminal UI with deep packet inspection 🔗 https://github.com/domcyrus/rustnet #homebrew #newpkg #macos #linux #formula",
         "author": {
-          "handle": "hubabuba.bsky.social",
-          "displayName": "Huba Buba"
+          "handle": "homebrew-new-pkgs.bsky.social",
+          "displayName": "Homebrew New Packages"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T19:33:37.237Z",
-        "hoursSincePosted": 2.67
+        "createdAt": "2026-05-20T13:25:35.772158+00:00",
+        "hoursSincePosted": 2.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
+          "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
+          "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmbyxlqa4f2x",
+          "text": "🍻 rustnet 🍻 Cross-platform network monitoring terminal UI with deep packet inspection 🔗 https://github.com/domcyrus/rustnet #homebrew #newpkg #macos #linux #formula",
+          "author": {
+            "handle": "homebrew-new-pkgs.bsky.social",
+            "displayName": "Homebrew New Packages"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T13:25:35.772158+00:00",
+          "createdUtc": 1779283535,
+          "ageHours": 2.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "domcyrus/rustnet",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:iwrp6gl45usipvzqbd6mn5tc/app.bsky.feed.post/3mm5mltct2c2m",
           "cid": "bafyreicrwbjipydlp6r3tzsgrei3ytvnnli3syecmiyvvdogqxei6nppxm",
@@ -17208,23 +17511,23 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
-        "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7orb2udi62",
-        "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-19T15:17:39.000Z",
-        "hoursSincePosted": 4
+        "replyCount": 1,
+        "createdAt": "2026-05-20T15:16:57.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -17260,6 +17563,44 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 0.65,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -17576,24 +17917,24 @@
       ]
     },
     "wiltodelta/remove-ai-watermarks": {
-      "count7d": 5,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmbtmor2ow2s",
-        "cid": "bafyreihlhv3twfodzrjepz2wbnlo7fzlnihocs7iz56b42pxygvfcdipvy",
-        "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmbtmor2ow2s",
-        "text": "🕳️ ALPHA · score 7/10 Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks",
+        "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mmbvz74b4j2r",
+        "cid": "bafyreib5pilgkjxcjrfrdpbpztuoifss2sbjg72idkanyoe4pu34bn2jbm",
+        "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mmbvz74b4j2r",
+        "text": "2/2 esta tecnología. La herramienta apunta a watermarks de servicios como DALL-E, Midjourney o Stable Diffusion. No se especifica el método técnico exacto ni la efectividad real del sistema. Fuente: https://github.com/wiltodelta/remove-ai-watermarks",
         "author": {
-          "handle": "alpha-pipeline.bsky.social",
-          "displayName": "Alpha Pipeline"
+          "handle": "eltableroglobal.bsky.social",
+          "displayName": "El tablero global"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T11:50:00.321Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-20T12:32:48.347Z",
+        "hoursSincePosted": 3.38
       },
       "posts": [
         {
@@ -17612,6 +17953,62 @@
           "createdUtc": 1779277800,
           "ageHours": 0.5,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mmbvz74b4j2r",
+          "cid": "bafyreib5pilgkjxcjrfrdpbpztuoifss2sbjg72idkanyoe4pu34bn2jbm",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mmbvz74b4j2r",
+          "text": "2/2 esta tecnología. La herramienta apunta a watermarks de servicios como DALL-E, Midjourney o Stable Diffusion. No se especifica el método técnico exacto ni la efectividad real del sistema. Fuente: https://github.com/wiltodelta/remove-ai-watermarks",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T12:32:48.347Z",
+          "createdUtc": 1779280368,
+          "ageHours": 3.38,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mmbvhwfzp32z",
+          "cid": "bafyreicvzanpqipwf7ol3q5ds62jvl5ndnnlkkssdb2exhbl7cmi5zzr7u",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mmbvhwfzp32z",
+          "text": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks https://news.ycombinator.com/item?id=48200569",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T12:23:08Z",
+          "createdUtc": 1779279788,
+          "ageHours": 3.54,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -17884,6 +18281,189 @@
           "linkedRepos": [
             {
               "fullName": "erweixin/RaTeX",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 0.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rmyndharis/OpenWA": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 0.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bwya77/vscode-dark-islands": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmc2vghp442s",
+        "cid": "bafyreibhxjehk26ftawhdizhdija5tmstoncdaws46wbovn3wwblt5rfya",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmc2vghp442s",
+        "text": "Islands Dark : un theme VSCode inspiré de JetBrains, avec panneaux flottants effet verre, coins arrondis et animations. S'installe en une ligne de commande. https://github.com/bwya77/vscode-dark-islands",
+        "author": {
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T16:00:10+02:00",
+        "hoursSincePosted": 1.93
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmc2vghp442s",
+          "cid": "bafyreibhxjehk26ftawhdizhdija5tmstoncdaws46wbovn3wwblt5rfya",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmc2vghp442s",
+          "text": "Islands Dark : un theme VSCode inspiré de JetBrains, avec panneaux flottants effet verre, coins arrondis et animations. S'installe en une ligne de commande. https://github.com/bwya77/vscode-dark-islands",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:00:10+02:00",
+          "createdUtc": 1779285610,
+          "ageHours": 1.93,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bwya77/vscode-dark-islands",
               "matchType": "url",
               "confidence": 1
             }
@@ -21515,23 +22095,23 @@
     },
     "msitarzewski--agency-agents": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
-        "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7orb2udi62",
-        "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T15:17:39.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -21567,6 +22147,49 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
               "matchType": "url",
               "confidence": 1
             }
@@ -23221,23 +23844,23 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ajbz3mhh6zvmp6i5givl5bmd/app.bsky.feed.post/3mm4v7jaizdp2",
-        "cid": "bafyreibznch4xaijvxphqubtl6kultcgapcy5s3niqyoeqbr5fcyte23vq",
-        "bskyUrl": "https://bsky.app/profile/rabc.hachyderm.io.ap.brid.gy/post/3mm4v7jaizdp2",
-        "text": "Tired: You're absolute right! Wired: load-bearing https://github.com/anthropics/claude-code/issues/53454 Anthropic dataset cleaning process is so messed up.",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
+        "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
+        "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
         "author": {
-          "handle": "rabc.hachyderm.io.ap.brid.gy",
-          "displayName": "Ricardo Carvalho"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T12:35:04.000Z",
+        "createdAt": "2026-05-20T15:42:00.690965Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
@@ -23341,6 +23964,34 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
+          "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
+          "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:42:00.690965Z",
+          "createdUtc": 1779291720,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -24204,10 +24855,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
@@ -24215,8 +24866,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T15:16:57.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -24276,6 +24927,44 @@
             },
             {
               "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 0.65,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -24571,24 +25260,24 @@
       ]
     },
     "obra--superpowers": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:wx5elk5kexfdhp2w3jewkn6w/app.bsky.feed.post/3mmc5uzk7kc2g",
+        "cid": "bafyreie3jtcd33437dumnevxjqbhpj33z6dolhwgp3v6ywr3j7jpuns6aq",
+        "bskyUrl": "https://bsky.app/profile/genmon.fyi/post/3mmc5uzk7kc2g",
+        "text": "thank you! can't remember specifically but maybe one of Primitive for spec-driven development (private beta) getprimitive.ai superpowers agent skills for spec, planning, implementation, test process github.com/obra/superpo...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "genmon.fyi",
+          "displayName": "Matt Webb 🌸🌼🌸"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T14:53:38.325Z",
+        "hoursSincePosted": 1.03
       },
       "posts": [
         {
@@ -24620,6 +25309,35 @@
           ]
         },
         {
+          "uri": "at://did:plc:wx5elk5kexfdhp2w3jewkn6w/app.bsky.feed.post/3mmc5uzk7kc2g",
+          "cid": "bafyreie3jtcd33437dumnevxjqbhpj33z6dolhwgp3v6ywr3j7jpuns6aq",
+          "bskyUrl": "https://bsky.app/profile/genmon.fyi/post/3mmc5uzk7kc2g",
+          "text": "thank you! can't remember specifically but maybe one of Primitive for spec-driven development (private beta) getprimitive.ai superpowers agent skills for spec, planning, implementation, test process github.com/obra/superpo...",
+          "author": {
+            "handle": "genmon.fyi",
+            "displayName": "Matt Webb 🌸🌼🌸"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T14:53:38.325Z",
+          "createdUtc": 1779288818,
+          "ageHours": 1.03,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
           "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
           "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
@@ -24642,6 +25360,49 @@
           "linkedRepos": [
             {
               "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
               "matchType": "url",
               "confidence": 1
             }
@@ -26275,10 +27036,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
@@ -26286,8 +27047,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "createdAt": "2026-05-20T15:16:57.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -26397,6 +27158,44 @@
           "linkedRepos": [
             {
               "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 0.65,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -31316,23 +32115,23 @@
     },
     "rohitg00--agentmemory": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
-        "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
-        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
-        "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
+        "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
+        "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
         "author": {
-          "handle": "alexiskirke.bsky.social",
-          "displayName": "Alexis Kirke"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T09:17:41.707647+00:00",
-        "hoursSincePosted": 2.22
+        "createdAt": "2026-05-20T15:18:37.395282Z",
+        "hoursSincePosted": 0.62
       },
       "posts": [
         {
@@ -31351,6 +32150,34 @@
           "createdUtc": 1778836661,
           "ageHours": 2.22,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
+          "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
+          "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:18:37.395282Z",
+          "createdUtc": 1779290317,
+          "ageHours": 0.62,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -32856,19 +33683,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mm7stxnam22q",
-        "cid": "bafyreibx42fcxiej3axfitn4qfgwmh65x2qshh6hjyaucny3f27z4t3fnu",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mm7stxnam22q",
-        "text": "RuView – See through walls with WiFi https://github.com/ruvnet/RuView",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmbwj3hv672q",
+        "cid": "bafyreibwkmuy7qukzlztmvf7p4p5jjuyneq3xfpzijdx67xbt3plmsnxnm",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmbwj3hv672q",
+        "text": "📰 RuView utilizes WiFi to create an image of objects behind walls, offering a unique method for non-invasive surveillance and inspection. 🔗 https://github.com/ruvnet/RuView #Tech #Dev",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T16:30:52.129Z",
-        "hoursSincePosted": 4.36
+        "createdAt": "2026-05-20T12:41:37.157571+00:00",
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -32887,6 +33714,34 @@
           "createdUtc": 1779045093,
           "ageHours": 4.97,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmbwj3hv672q",
+          "cid": "bafyreibwkmuy7qukzlztmvf7p4p5jjuyneq3xfpzijdx67xbt3plmsnxnm",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmbwj3hv672q",
+          "text": "📰 RuView utilizes WiFi to create an image of objects behind walls, offering a unique method for non-invasive surveillance and inspection. 🔗 https://github.com/ruvnet/RuView #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T12:41:37.157571+00:00",
+          "createdUtc": 1779280897,
+          "ageHours": 3.23,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -34152,21 +35007,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iwrp6gl45usipvzqbd6mn5tc/app.bsky.feed.post/3mm5mltct2c2m",
-        "cid": "bafyreicrwbjipydlp6r3tzsgrei3ytvnnli3syecmiyvvdogqxei6nppxm",
-        "bskyUrl": "https://bsky.app/profile/hubabuba.bsky.social/post/3mm5mltct2c2m",
-        "text": "RustNet is now on Nix! ❄️🦀 It’s officially merged into nixpkgs-unstable and ready to use. Test it instantly via Flakes (requires sudo for libpcap packet parsing): sudo nix run github:nixos/nixpkgs/nixpkgs-unstable#rustnet github.com/domcyrus/rustnet #nixos #rust #tui #networking",
+        "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
+        "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
+        "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmbyxlqa4f2x",
+        "text": "🍻 rustnet 🍻 Cross-platform network monitoring terminal UI with deep packet inspection 🔗 https://github.com/domcyrus/rustnet #homebrew #newpkg #macos #linux #formula",
         "author": {
-          "handle": "hubabuba.bsky.social",
-          "displayName": "Huba Buba"
+          "handle": "homebrew-new-pkgs.bsky.social",
+          "displayName": "Homebrew New Packages"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T19:33:37.237Z",
-        "hoursSincePosted": 2.67
+        "createdAt": "2026-05-20T13:25:35.772158+00:00",
+        "hoursSincePosted": 2.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
+          "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
+          "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmbyxlqa4f2x",
+          "text": "🍻 rustnet 🍻 Cross-platform network monitoring terminal UI with deep packet inspection 🔗 https://github.com/domcyrus/rustnet #homebrew #newpkg #macos #linux #formula",
+          "author": {
+            "handle": "homebrew-new-pkgs.bsky.social",
+            "displayName": "Homebrew New Packages"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T13:25:35.772158+00:00",
+          "createdUtc": 1779283535,
+          "ageHours": 2.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "domcyrus/rustnet",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:iwrp6gl45usipvzqbd6mn5tc/app.bsky.feed.post/3mm5mltct2c2m",
           "cid": "bafyreicrwbjipydlp6r3tzsgrei3ytvnnli3syecmiyvvdogqxei6nppxm",
@@ -35096,23 +35979,23 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7orb2udi62",
-        "cid": "bafyreidd2eeh6csytjedehr3yx336my4jpgfje3zmppc2bb6dl57cbuotu",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7orb2udi62",
-        "text": "8. https://github.com/rtk-ai/rtk - Rust, 667 stars today 9. https://github.com/msitarzewski/agency-agents - Shell, 983 stars today 10. https://github.com/colbymchenry/codegraph - TypeScript, 1869 stars today 11. https://github.com/multica-ai/andrej-karpathy-skills - 2014 stars today 12 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-19T15:17:39.000Z",
-        "hoursSincePosted": 4
+        "replyCount": 1,
+        "createdAt": "2026-05-20T15:16:57.000Z",
+        "hoursSincePosted": 0.65
       },
       "posts": [
         {
@@ -35148,6 +36031,44 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
+          "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T15:16:57.000Z",
+          "createdUtc": 1779290217,
+          "ageHours": 0.65,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -35464,24 +36385,24 @@
       ]
     },
     "wiltodelta--remove-ai-watermarks": {
-      "count7d": 5,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmbtmor2ow2s",
-        "cid": "bafyreihlhv3twfodzrjepz2wbnlo7fzlnihocs7iz56b42pxygvfcdipvy",
-        "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmbtmor2ow2s",
-        "text": "🕳️ ALPHA · score 7/10 Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks",
+        "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mmbvz74b4j2r",
+        "cid": "bafyreib5pilgkjxcjrfrdpbpztuoifss2sbjg72idkanyoe4pu34bn2jbm",
+        "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mmbvz74b4j2r",
+        "text": "2/2 esta tecnología. La herramienta apunta a watermarks de servicios como DALL-E, Midjourney o Stable Diffusion. No se especifica el método técnico exacto ni la efectividad real del sistema. Fuente: https://github.com/wiltodelta/remove-ai-watermarks",
         "author": {
-          "handle": "alpha-pipeline.bsky.social",
-          "displayName": "Alpha Pipeline"
+          "handle": "eltableroglobal.bsky.social",
+          "displayName": "El tablero global"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T11:50:00.321Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-20T12:32:48.347Z",
+        "hoursSincePosted": 3.38
       },
       "posts": [
         {
@@ -35500,6 +36421,62 @@
           "createdUtc": 1779277800,
           "ageHours": 0.5,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mmbvz74b4j2r",
+          "cid": "bafyreib5pilgkjxcjrfrdpbpztuoifss2sbjg72idkanyoe4pu34bn2jbm",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mmbvz74b4j2r",
+          "text": "2/2 esta tecnología. La herramienta apunta a watermarks de servicios como DALL-E, Midjourney o Stable Diffusion. No se especifica el método técnico exacto ni la efectividad real del sistema. Fuente: https://github.com/wiltodelta/remove-ai-watermarks",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T12:32:48.347Z",
+          "createdUtc": 1779280368,
+          "ageHours": 3.38,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mmbvhwfzp32z",
+          "cid": "bafyreicvzanpqipwf7ol3q5ds62jvl5ndnnlkkssdb2exhbl7cmi5zzr7u",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mmbvhwfzp32z",
+          "text": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images https://github.com/wiltodelta/remove-ai-watermarks https://news.ycombinator.com/item?id=48200569",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T12:23:08Z",
+          "createdUtc": 1779279788,
+          "ageHours": 3.54,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -35778,31 +36755,254 @@
           ]
         }
       ]
+    },
+    "anthropics--claude-plugins-official": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 0.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rmyndharis--openwa": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T15:16:58.000Z",
+        "hoursSincePosted": 0.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
+          "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
+          "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T15:16:58.000Z",
+          "createdUtc": 1779290218,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bwya77--vscode-dark-islands": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmc2vghp442s",
+        "cid": "bafyreibhxjehk26ftawhdizhdija5tmstoncdaws46wbovn3wwblt5rfya",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmc2vghp442s",
+        "text": "Islands Dark : un theme VSCode inspiré de JetBrains, avec panneaux flottants effet verre, coins arrondis et animations. S'installe en une ligne de commande. https://github.com/bwya77/vscode-dark-islands",
+        "author": {
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T16:00:10+02:00",
+        "hoursSincePosted": 1.93
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmc2vghp442s",
+          "cid": "bafyreibhxjehk26ftawhdizhdija5tmstoncdaws46wbovn3wwblt5rfya",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmc2vghp442s",
+          "text": "Islands Dark : un theme VSCode inspiré de JetBrains, avec panneaux flottants effet verre, coins arrondis et animations. S'installe en une ligne de commande. https://github.com/bwya77/vscode-dark-islands",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T16:00:10+02:00",
+          "createdUtc": 1779285610,
+          "ageHours": 1.93,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bwya77/vscode-dark-islands",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "obra/superpowers",
+      "count7d": 2,
+      "likesSum7d": 2
+    },
+    {
       "fullName": "wiltodelta/remove-ai-watermarks",
-      "count7d": 5,
-      "likesSum7d": 1
+      "count7d": 2,
+      "likesSum7d": 0
     },
     {
-      "fullName": "apache/hertzbeat",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "antirez/ds4",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "erweixin/RaTeX",
+      "fullName": "anthropics/claude-plugins-official",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "sleuth-io/sx",
+      "fullName": "bwya77/vscode-dark-islands",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "colbymchenry/codegraph",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "domcyrus/rustnet",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Imbad0202/academic-research-skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "msitarzewski/agency-agents",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "rmyndharis/OpenWA",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "rohitg00/agentmemory",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ruvnet/RuView",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     }

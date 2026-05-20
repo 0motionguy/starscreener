@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-20T18:31:59.035Z",
+  "fetchedAt": "2026-05-20T21:10:17.444Z",
   "windowDays": 7,
-  "scannedPosts": 197,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -3418,7 +3418,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T16:27:44.000Z",
-        "hoursSincePosted": 2.07
+        "hoursSincePosted": 4.71
       },
       "posts": [
         {
@@ -3468,7 +3468,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T16:27:44.000Z",
           "createdUtc": 1779294464,
-          "ageHours": 2.07,
+          "ageHours": 4.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3496,7 +3496,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T16:27:25.000Z",
           "createdUtc": 1779294445,
-          "ageHours": 2.08,
+          "ageHours": 4.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3524,7 +3524,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T16:15:57.000Z",
           "createdUtc": 1779293757,
-          "ageHours": 2.27,
+          "ageHours": 4.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8934,18 +8934,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm66fbygf32x",
-        "cid": "bafyreieov772tglre7bm2uddq37s5mo7byt3o5j5icnfm4jkffcc7unyvy",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm66fbygf32x",
-        "text": "🟠 OpenClaw 2026.5.19-beta.1 lands with browser dialog control, typed plugin tooling, and a new Node 22.19 floor OpenClaw shipped 2026.5.19-beta.1 with several workflow-changing upgrades hiding inside a beta cut. https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmcssli32n2c",
+        "cid": "bafyreiby7qfkqartwsegvh55porzp5kiwymobywyex6zbmlfrasynpkfbi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmcssli32n2c",
+        "text": "🟠 OpenClaw v2026.5.19 raises the Node.js floor to 22.19 and adds a new image build arg OpenClaw shipped v2026.5.19 with two operator-facing changes hidden inside a routine-looking release: the minimum supported Node.js... https://github.com/openclaw/openclaw/releases/tag/v2026.5.19 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T00:52:04.128179+00:00",
-        "hoursSincePosted": 3.69
+        "createdAt": "2026-05-20T21:08:01.240227+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -9019,6 +9019,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmcssli32n2c",
+          "cid": "bafyreiby7qfkqartwsegvh55porzp5kiwymobywyex6zbmlfrasynpkfbi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmcssli32n2c",
+          "text": "🟠 OpenClaw v2026.5.19 raises the Node.js floor to 22.19 and adds a new image build arg OpenClaw shipped v2026.5.19 with two operator-facing changes hidden inside a routine-looking release: the minimum supported Node.js... https://github.com/openclaw/openclaw/releases/tag/v2026.5.19 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T21:08:01.240227+00:00",
+          "createdUtc": 1779311281,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -11787,23 +11815,23 @@
     },
     "NousResearch/hermes-agent": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:txfqncx66asrjzitxfur3of6/app.bsky.feed.post/3mlnnhex5uc2h",
-        "cid": "bafyreicbmrx6qyh4rsg447imtggbq7wqsjciol67knqimlldvj3na6rfy4",
-        "bskyUrl": "https://bsky.app/profile/tilmonedwards.com/post/3mlnnhex5uc2h",
-        "text": "Tried hermes for a bit, it seems like the Eclipse of coding agents. It does everything and your first session with it will be going through settings and disabling stuff. Like, it comes bundled with a skill for managing modded Minecraft servers?? github.com/NousResearch...",
+        "uri": "at://did:plc:l3ew7x4vzptgqeecfulu477l/app.bsky.feed.post/3mmcl6wkkxs2o",
+        "cid": "bafyreig2fohrb24pkew4icebvvxopz5w2cfb3yucmifczwuhhehgavxghq",
+        "bskyUrl": "https://bsky.app/profile/guillemhs.eurosky.social/post/3mmcl6wkkxs2o",
+        "text": "Necessito una màquina per posar això github.com/NousResearch...",
         "author": {
-          "handle": "tilmonedwards.com",
-          "displayName": "Tilmon Edwards (Dirigo)"
+          "handle": "guillemhs.eurosky.social",
+          "displayName": "Guillem"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T11:06:25.885Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-20T18:51:49.379Z",
+        "hoursSincePosted": 2.31
       },
       "posts": [
         {
@@ -11827,6 +11855,34 @@
             "has-md-file"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l3ew7x4vzptgqeecfulu477l/app.bsky.feed.post/3mmcl6wkkxs2o",
+          "cid": "bafyreig2fohrb24pkew4icebvvxopz5w2cfb3yucmifczwuhhehgavxghq",
+          "bskyUrl": "https://bsky.app/profile/guillemhs.eurosky.social/post/3mmcl6wkkxs2o",
+          "text": "Necessito una màquina per posar això github.com/NousResearch...",
+          "author": {
+            "handle": "guillemhs.eurosky.social",
+            "displayName": "Guillem"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T18:51:49.379Z",
+          "createdUtc": 1779303109,
+          "ageHours": 2.31,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -13731,25 +13787,53 @@
     },
     "rohitg00/agentmemory": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
-        "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
-        "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcpsfqhnt2s",
+        "cid": "bafyreigeq5dqx75jnxu5eklgbzfezyx5s3tu3kdxwh6lsveqng4neobiea",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcpsfqhnt2s",
+        "text": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://github.com/rohitg00/agentmemory",
         "author": {
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-20T15:18:37.395282Z",
-        "hoursSincePosted": 3.22
+        "replyCount": 0,
+        "createdAt": "2026-05-20T20:14:16.261932Z",
+        "hoursSincePosted": 0.93
       },
       "posts": [
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcpsfqhnt2s",
+          "cid": "bafyreigeq5dqx75jnxu5eklgbzfezyx5s3tu3kdxwh6lsveqng4neobiea",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcpsfqhnt2s",
+          "text": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T20:14:16.261932Z",
+          "createdUtc": 1779308056,
+          "ageHours": 0.93,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
           "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
@@ -18573,7 +18657,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T17:02:53.088Z",
-        "hoursSincePosted": 1.49
+        "hoursSincePosted": 4.12
       },
       "posts": [
         {
@@ -18590,7 +18674,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T17:02:53.088Z",
           "createdUtc": 1779296573,
-          "ageHours": 1.49,
+          "ageHours": 4.12,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -18599,6 +18683,210 @@
           "linkedRepos": [
             {
               "fullName": "dotnet/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "leejet/stable-diffusion.cpp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mmcq5wxv2k2s",
+        "cid": "bafyreibvckvmt2gak7y3a7anf2jmzveke5i3sxswyqzh4itfz3xar3sh4m",
+        "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mmcq5wxv2k2s",
+        "text": "okay this makes something of a difference. temporal tiling is less egregious now, down to maybe `badness 5000` github.com/leejet/stabl...",
+        "author": {
+          "handle": "barredspirals.comint.su",
+          "displayName": "lexi"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-20T20:20:44.969Z",
+        "hoursSincePosted": 0.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mmcq5wxv2k2s",
+          "cid": "bafyreibvckvmt2gak7y3a7anf2jmzveke5i3sxswyqzh4itfz3xar3sh4m",
+          "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mmcq5wxv2k2s",
+          "text": "okay this makes something of a difference. temporal tiling is less egregious now, down to maybe `badness 5000` github.com/leejet/stabl...",
+          "author": {
+            "handle": "barredspirals.comint.su",
+            "displayName": "lexi"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T20:20:44.969Z",
+          "createdUtc": 1779308444,
+          "ageHours": 0.83,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "leejet/stable-diffusion.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ComposioHQ/awesome-codex-skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcpxxytld2o",
+        "cid": "bafyreibaz42i5jo7mddmukdkcva432ytujziygszzhqfgsdeu35c3dusiu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcpxxytld2o",
+        "text": "https://github.com/ComposioHQ/awesome-codex-skills",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T20:17:24Z",
+        "hoursSincePosted": 0.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcpxxytld2o",
+          "cid": "bafyreibaz42i5jo7mddmukdkcva432ytujziygszzhqfgsdeu35c3dusiu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcpxxytld2o",
+          "text": "https://github.com/ComposioHQ/awesome-codex-skills",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T20:17:24Z",
+          "createdUtc": 1779308244,
+          "ageHours": 0.88,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ComposioHQ/awesome-codex-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "CherryHQ/cherry-studio": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mmcpcpqyvm2a",
+        "cid": "bafyreidtqm5oj3dccklhgkhv42jlgw2yiexc44y7wkd3srrit7iitfvuny",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mmcpcpqyvm2a",
+        "text": "🚀 GitHub Intelligence Drop slidev (TypeScript • 🟢) ⭐ 46.6K → https://github.com/slidevjs/slidev cherry-studio (TypeScript • 🟢) ⭐ 46K → https://github.com/CherryHQ/cherry-studio ⚡ Only signal. Zero noise.",
+        "author": {
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T20:05:31.301653+00:00",
+        "hoursSincePosted": 1.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mmcpcpqyvm2a",
+          "cid": "bafyreidtqm5oj3dccklhgkhv42jlgw2yiexc44y7wkd3srrit7iitfvuny",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mmcpcpqyvm2a",
+          "text": "🚀 GitHub Intelligence Drop slidev (TypeScript • 🟢) ⭐ 46.6K → https://github.com/slidevjs/slidev cherry-studio (TypeScript • 🟢) ⭐ 46K → https://github.com/CherryHQ/cherry-studio ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T20:05:31.301653+00:00",
+          "createdUtc": 1779307531,
+          "ageHours": 1.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "CherryHQ/cherry-studio",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "OpenMOSS/MOSS-TTS-Nano": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcnfj5gz72s",
+        "cid": "bafyreife6owgz7jdbe37ytso32gswxkr2hwplmpd2e3j7qmczt7kecyh3y",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcnfj5gz72s",
+        "text": "https://github.com/OpenMOSS/MOSS-TTS-Nano",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T19:31:17Z",
+        "hoursSincePosted": 1.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcnfj5gz72s",
+          "cid": "bafyreife6owgz7jdbe37ytso32gswxkr2hwplmpd2e3j7qmczt7kecyh3y",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcnfj5gz72s",
+          "text": "https://github.com/OpenMOSS/MOSS-TTS-Nano",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T19:31:17Z",
+          "createdUtc": 1779305477,
+          "ageHours": 1.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "OpenMOSS/MOSS-TTS-Nano",
               "matchType": "url",
               "confidence": 1
             }
@@ -22021,7 +22309,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T16:27:44.000Z",
-        "hoursSincePosted": 2.07
+        "hoursSincePosted": 4.71
       },
       "posts": [
         {
@@ -22071,7 +22359,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T16:27:44.000Z",
           "createdUtc": 1779294464,
-          "ageHours": 2.07,
+          "ageHours": 4.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -22099,7 +22387,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T16:27:25.000Z",
           "createdUtc": 1779294445,
-          "ageHours": 2.08,
+          "ageHours": 4.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -22127,7 +22415,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T16:15:57.000Z",
           "createdUtc": 1779293757,
-          "ageHours": 2.27,
+          "ageHours": 4.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -27537,18 +27825,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mm66fbygf32x",
-        "cid": "bafyreieov772tglre7bm2uddq37s5mo7byt3o5j5icnfm4jkffcc7unyvy",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mm66fbygf32x",
-        "text": "🟠 OpenClaw 2026.5.19-beta.1 lands with browser dialog control, typed plugin tooling, and a new Node 22.19 floor OpenClaw shipped 2026.5.19-beta.1 with several workflow-changing upgrades hiding inside a beta cut. https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmcssli32n2c",
+        "cid": "bafyreiby7qfkqartwsegvh55porzp5kiwymobywyex6zbmlfrasynpkfbi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmcssli32n2c",
+        "text": "🟠 OpenClaw v2026.5.19 raises the Node.js floor to 22.19 and adds a new image build arg OpenClaw shipped v2026.5.19 with two operator-facing changes hidden inside a routine-looking release: the minimum supported Node.js... https://github.com/openclaw/openclaw/releases/tag/v2026.5.19 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T00:52:04.128179+00:00",
-        "hoursSincePosted": 3.69
+        "createdAt": "2026-05-20T21:08:01.240227+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -27622,6 +27910,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmcssli32n2c",
+          "cid": "bafyreiby7qfkqartwsegvh55porzp5kiwymobywyex6zbmlfrasynpkfbi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmcssli32n2c",
+          "text": "🟠 OpenClaw v2026.5.19 raises the Node.js floor to 22.19 and adds a new image build arg OpenClaw shipped v2026.5.19 with two operator-facing changes hidden inside a routine-looking release: the minimum supported Node.js... https://github.com/openclaw/openclaw/releases/tag/v2026.5.19 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T21:08:01.240227+00:00",
+          "createdUtc": 1779311281,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -30390,23 +30706,23 @@
     },
     "nousresearch--hermes-agent": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:txfqncx66asrjzitxfur3of6/app.bsky.feed.post/3mlnnhex5uc2h",
-        "cid": "bafyreicbmrx6qyh4rsg447imtggbq7wqsjciol67knqimlldvj3na6rfy4",
-        "bskyUrl": "https://bsky.app/profile/tilmonedwards.com/post/3mlnnhex5uc2h",
-        "text": "Tried hermes for a bit, it seems like the Eclipse of coding agents. It does everything and your first session with it will be going through settings and disabling stuff. Like, it comes bundled with a skill for managing modded Minecraft servers?? github.com/NousResearch...",
+        "uri": "at://did:plc:l3ew7x4vzptgqeecfulu477l/app.bsky.feed.post/3mmcl6wkkxs2o",
+        "cid": "bafyreig2fohrb24pkew4icebvvxopz5w2cfb3yucmifczwuhhehgavxghq",
+        "bskyUrl": "https://bsky.app/profile/guillemhs.eurosky.social/post/3mmcl6wkkxs2o",
+        "text": "Necessito una màquina per posar això github.com/NousResearch...",
         "author": {
-          "handle": "tilmonedwards.com",
-          "displayName": "Tilmon Edwards (Dirigo)"
+          "handle": "guillemhs.eurosky.social",
+          "displayName": "Guillem"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T11:06:25.885Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-20T18:51:49.379Z",
+        "hoursSincePosted": 2.31
       },
       "posts": [
         {
@@ -30430,6 +30746,34 @@
             "has-md-file"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l3ew7x4vzptgqeecfulu477l/app.bsky.feed.post/3mmcl6wkkxs2o",
+          "cid": "bafyreig2fohrb24pkew4icebvvxopz5w2cfb3yucmifczwuhhehgavxghq",
+          "bskyUrl": "https://bsky.app/profile/guillemhs.eurosky.social/post/3mmcl6wkkxs2o",
+          "text": "Necessito una màquina per posar això github.com/NousResearch...",
+          "author": {
+            "handle": "guillemhs.eurosky.social",
+            "displayName": "Guillem"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T18:51:49.379Z",
+          "createdUtc": 1779303109,
+          "ageHours": 2.31,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -32334,25 +32678,53 @@
     },
     "rohitg00--agentmemory": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmc7bqlnhh2j",
-        "cid": "bafyreifrim6qdhqjvfnjkhuo24magzsgvbwrl4ksxviqdj4q3dbh42hjp4",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmc7bqlnhh2j",
-        "text": "Agentmemory library ships persistent memory for AI coding agents. Claims #1 benchmark for coding agent recall. Gained 1,626 GitHub stars today. #Agentmemory #CodingAgents #GitHub 🔗 https://github.com/rohitg00/agentmemory",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcpsfqhnt2s",
+        "cid": "bafyreigeq5dqx75jnxu5eklgbzfezyx5s3tu3kdxwh6lsveqng4neobiea",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcpsfqhnt2s",
+        "text": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://github.com/rohitg00/agentmemory",
         "author": {
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-20T15:18:37.395282Z",
-        "hoursSincePosted": 3.22
+        "replyCount": 0,
+        "createdAt": "2026-05-20T20:14:16.261932Z",
+        "hoursSincePosted": 0.93
       },
       "posts": [
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcpsfqhnt2s",
+          "cid": "bafyreigeq5dqx75jnxu5eklgbzfezyx5s3tu3kdxwh6lsveqng4neobiea",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcpsfqhnt2s",
+          "text": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T20:14:16.261932Z",
+          "createdUtc": 1779308056,
+          "ageHours": 0.93,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mluyrpisxv2z",
           "cid": "bafyreiewsbnsxbgwo5hhzlhgutfyldbylvxr5tm7kjmzjyayfsdwqjxx4e",
@@ -37176,7 +37548,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T17:02:53.088Z",
-        "hoursSincePosted": 1.49
+        "hoursSincePosted": 4.12
       },
       "posts": [
         {
@@ -37193,7 +37565,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T17:02:53.088Z",
           "createdUtc": 1779296573,
-          "ageHours": 1.49,
+          "ageHours": 4.12,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -37208,21 +37580,220 @@
           ]
         }
       ]
+    },
+    "leejet--stable-diffusion-cpp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mmcq5wxv2k2s",
+        "cid": "bafyreibvckvmt2gak7y3a7anf2jmzveke5i3sxswyqzh4itfz3xar3sh4m",
+        "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mmcq5wxv2k2s",
+        "text": "okay this makes something of a difference. temporal tiling is less egregious now, down to maybe `badness 5000` github.com/leejet/stabl...",
+        "author": {
+          "handle": "barredspirals.comint.su",
+          "displayName": "lexi"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-20T20:20:44.969Z",
+        "hoursSincePosted": 0.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mmcq5wxv2k2s",
+          "cid": "bafyreibvckvmt2gak7y3a7anf2jmzveke5i3sxswyqzh4itfz3xar3sh4m",
+          "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mmcq5wxv2k2s",
+          "text": "okay this makes something of a difference. temporal tiling is less egregious now, down to maybe `badness 5000` github.com/leejet/stabl...",
+          "author": {
+            "handle": "barredspirals.comint.su",
+            "displayName": "lexi"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-20T20:20:44.969Z",
+          "createdUtc": 1779308444,
+          "ageHours": 0.83,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "leejet/stable-diffusion.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "composiohq--awesome-codex-skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcpxxytld2o",
+        "cid": "bafyreibaz42i5jo7mddmukdkcva432ytujziygszzhqfgsdeu35c3dusiu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcpxxytld2o",
+        "text": "https://github.com/ComposioHQ/awesome-codex-skills",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T20:17:24Z",
+        "hoursSincePosted": 0.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcpxxytld2o",
+          "cid": "bafyreibaz42i5jo7mddmukdkcva432ytujziygszzhqfgsdeu35c3dusiu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcpxxytld2o",
+          "text": "https://github.com/ComposioHQ/awesome-codex-skills",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T20:17:24Z",
+          "createdUtc": 1779308244,
+          "ageHours": 0.88,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ComposioHQ/awesome-codex-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cherryhq--cherry-studio": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mmcpcpqyvm2a",
+        "cid": "bafyreidtqm5oj3dccklhgkhv42jlgw2yiexc44y7wkd3srrit7iitfvuny",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mmcpcpqyvm2a",
+        "text": "🚀 GitHub Intelligence Drop slidev (TypeScript • 🟢) ⭐ 46.6K → https://github.com/slidevjs/slidev cherry-studio (TypeScript • 🟢) ⭐ 46K → https://github.com/CherryHQ/cherry-studio ⚡ Only signal. Zero noise.",
+        "author": {
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T20:05:31.301653+00:00",
+        "hoursSincePosted": 1.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mmcpcpqyvm2a",
+          "cid": "bafyreidtqm5oj3dccklhgkhv42jlgw2yiexc44y7wkd3srrit7iitfvuny",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mmcpcpqyvm2a",
+          "text": "🚀 GitHub Intelligence Drop slidev (TypeScript • 🟢) ⭐ 46.6K → https://github.com/slidevjs/slidev cherry-studio (TypeScript • 🟢) ⭐ 46K → https://github.com/CherryHQ/cherry-studio ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T20:05:31.301653+00:00",
+          "createdUtc": 1779307531,
+          "ageHours": 1.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "CherryHQ/cherry-studio",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openmoss--moss-tts-nano": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcnfj5gz72s",
+        "cid": "bafyreife6owgz7jdbe37ytso32gswxkr2hwplmpd2e3j7qmczt7kecyh3y",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcnfj5gz72s",
+        "text": "https://github.com/OpenMOSS/MOSS-TTS-Nano",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T19:31:17Z",
+        "hoursSincePosted": 1.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcnfj5gz72s",
+          "cid": "bafyreife6owgz7jdbe37ytso32gswxkr2hwplmpd2e3j7qmczt7kecyh3y",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcnfj5gz72s",
+          "text": "https://github.com/OpenMOSS/MOSS-TTS-Nano",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T19:31:17Z",
+          "createdUtc": 1779305477,
+          "ageHours": 1.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "OpenMOSS/MOSS-TTS-Nano",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "rohitg00/agentmemory",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
-      "fullName": "anthropics/claude-plugins-official",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "colbymchenry/codegraph",
+      "fullName": "ComposioHQ/awesome-codex-skills",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -37232,27 +37803,7 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "Imbad0202/academic-research-skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "msitarzewski/agency-agents",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "obra/superpowers",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "rmyndharis/OpenWA",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
+      "fullName": "leejet/stable-diffusion.cpp",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -37262,7 +37813,22 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "rohitg00/agentmemory",
+      "fullName": "CherryHQ/cherry-studio",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "NousResearch/hermes-agent",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "OpenMOSS/MOSS-TTS-Nano",
       "count7d": 1,
       "likesSum7d": 0
     }

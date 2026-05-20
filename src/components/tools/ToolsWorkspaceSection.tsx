@@ -82,7 +82,7 @@ export function ToolsWorkspaceSection({
 
         <ToolCard
           number="03"
-          route="#tierlist"
+          route="/tools/tier-list"
           routeLabel="RANK"
           title="Tier List"
           description="Drag-rank trending repos into S/A/B/C/D tiers. Share with a shortlink; community comments and reactions included."
@@ -98,7 +98,7 @@ export function ToolsWorkspaceSection({
 
         <ToolCard
           number="04"
-          route="#top10"
+          route="/tools/top-10"
           routeLabel="SNAPSHOT"
           title="Top 10"
           description={
@@ -127,7 +127,7 @@ export function ToolsWorkspaceSection({
 
         <ToolCard
           number="05"
-          route="#digest"
+          route="/tools/digest"
           routeLabel="EMAIL"
           title="Weekly Digest"
           description={

@@ -26,7 +26,7 @@ export function ToolsChartsSection({
       <div className="tool-grid compact fade-up">
         <ToolCard
           number="01"
-          route="#starhistory"
+          route="/tools/star-history"
           routeLabel="CHART"
           title="Star History"
           description={

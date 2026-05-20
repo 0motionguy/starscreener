@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-20T21:10:17.444Z",
+  "fetchedAt": "2026-05-20T22:43:54.784Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -4229,23 +4229,51 @@
       "count7d": 1,
       "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mm5n2p53bs2j",
-        "cid": "bafyreictyv3isiajb7ysusj7dvdolu4dwhzokn2lh4l4ielnhbf72lupbu",
-        "bskyUrl": "https://bsky.app/profile/marko.tech/post/3mm5n2p53bs2j",
-        "text": "caveman to shut that up github.com/JuliusBrusse...",
+        "uri": "at://did:plc:ksiq6fjuxlxn5abhgfhqd5gw/app.bsky.feed.post/3mmcv7qs3xs2q",
+        "cid": "bafyreibcva3qbhk4v67eycqvt5vimwmfr5wfg5sypt7a6fumbu63rwjtiq",
+        "bskyUrl": "https://bsky.app/profile/punishedlynx.lesbian.cat/post/3mmcv7qs3xs2q",
+        "text": "tem essa daqui tambem github.com/JuliusBrusse...",
         "author": {
-          "handle": "marko.tech",
-          "displayName": "Marko Bajlovic"
+          "handle": "punishedlynx.lesbian.cat",
+          "displayName": " 𝜗𝜚°⋆ lynx ᝰ🚬"
         },
         "likeCount": 3,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-18T19:41:56.172Z",
-        "hoursSincePosted": 2.53
+        "replyCount": 2,
+        "createdAt": "2026-05-20T21:51:14.308Z",
+        "hoursSincePosted": 0.88
       },
       "posts": [
+        {
+          "uri": "at://did:plc:ksiq6fjuxlxn5abhgfhqd5gw/app.bsky.feed.post/3mmcv7qs3xs2q",
+          "cid": "bafyreibcva3qbhk4v67eycqvt5vimwmfr5wfg5sypt7a6fumbu63rwjtiq",
+          "bskyUrl": "https://bsky.app/profile/punishedlynx.lesbian.cat/post/3mmcv7qs3xs2q",
+          "text": "tem essa daqui tambem github.com/JuliusBrusse...",
+          "author": {
+            "handle": "punishedlynx.lesbian.cat",
+            "displayName": " 𝜗𝜚°⋆ lynx ᝰ🚬"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-20T21:51:14.308Z",
+          "createdUtc": 1779313874,
+          "ageHours": 0.88,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mm5n2p53bs2j",
           "cid": "bafyreictyv3isiajb7ysusj7dvdolu4dwhzokn2lh4l4ielnhbf72lupbu",
@@ -8212,23 +8240,23 @@
     },
     "ruvnet/ruflo": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mli3pxhpvw2h",
-        "cid": "bafyreibd2mbe7azk7bnyosk6eej3bpqpopv674l7pqjnhatek5d7yfjiry",
-        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
-        "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
+        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mmcwlbcypx2s",
+        "cid": "bafyreifuizgayoejtxaxioh447xpftairphrh7eens7xzyowfys62xaz6q",
+        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmcwlbcypx2s",
+        "text": "目前 Claude 的 agent 協作平台 Ruflo 已經開源。它主打多 agent 協作，能夠部署跨機器、跨團隊的 agent swarms，並支援 RAG 整合與 Claude Code 原生整合。 Ruflo 描述能協調 100+ 個專門的 AI agent，並提供自學習記憶和聯邦通訊功能。主要是在讓 agent 不只是獨立運行，而是能有效協作。對於想用 Claude 建構複雜 agent 系統的人來說，這個專案值得關注。 #Ruflo #Claude #AgentOrchestration #RAG https://github.com/ruvnet/ruflo",
         "author": {
-          "handle": "alexiskirke.bsky.social",
-          "displayName": "Alexis Kirke"
+          "handle": "wsx5031060310guy.bsky.social",
+          "displayName": "Mike Feng"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T06:05:47.561885+00:00",
-        "hoursSincePosted": 4.57
+        "createdAt": "2026-05-20T22:15:34.235Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -8247,6 +8275,35 @@
           "createdUtc": 1778393147,
           "ageHours": 4.57,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mmcwlbcypx2s",
+          "cid": "bafyreifuizgayoejtxaxioh447xpftairphrh7eens7xzyowfys62xaz6q",
+          "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmcwlbcypx2s",
+          "text": "目前 Claude 的 agent 協作平台 Ruflo 已經開源。它主打多 agent 協作，能夠部署跨機器、跨團隊的 agent swarms，並支援 RAG 整合與 Claude Code 原生整合。 Ruflo 描述能協調 100+ 個專門的 AI agent，並提供自學習記憶和聯邦通訊功能。主要是在讓 agent 不只是獨立運行，而是能有效協作。對於想用 Claude 建構複雜 agent 系統的人來說，這個專案值得關注。 #Ruflo #Claude #AgentOrchestration #RAG https://github.com/ruvnet/ruflo",
+          "author": {
+            "handle": "wsx5031060310guy.bsky.social",
+            "displayName": "Mike Feng"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T22:15:34.235Z",
+          "createdUtc": 1779315334,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -8945,7 +9002,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T21:08:01.240227+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.6
       },
       "posts": [
         {
@@ -9045,7 +9102,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T21:08:01.240227+00:00",
           "createdUtc": 1779311281,
-          "ageHours": 0.5,
+          "ageHours": 1.6,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -13803,7 +13860,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T20:14:16.261932Z",
-        "hoursSincePosted": 0.93
+        "hoursSincePosted": 2.49
       },
       "posts": [
         {
@@ -13820,7 +13877,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T20:14:16.261932Z",
           "createdUtc": 1779308056,
-          "ageHours": 0.93,
+          "ageHours": 2.49,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -18708,7 +18765,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T20:20:44.969Z",
-        "hoursSincePosted": 0.83
+        "hoursSincePosted": 2.39
       },
       "posts": [
         {
@@ -18725,7 +18782,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-20T20:20:44.969Z",
           "createdUtc": 1779308444,
-          "ageHours": 0.83,
+          "ageHours": 2.39,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -18759,7 +18816,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T20:17:24Z",
-        "hoursSincePosted": 0.88
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -18776,7 +18833,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T20:17:24Z",
           "createdUtc": 1779308244,
-          "ageHours": 0.88,
+          "ageHours": 2.44,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -18810,7 +18867,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T20:05:31.301653+00:00",
-        "hoursSincePosted": 1.08
+        "hoursSincePosted": 2.64
       },
       "posts": [
         {
@@ -18827,7 +18884,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T20:05:31.301653+00:00",
           "createdUtc": 1779307531,
-          "ageHours": 1.08,
+          "ageHours": 2.64,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -18861,7 +18918,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T19:31:17Z",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 3.21
       },
       "posts": [
         {
@@ -18878,7 +18935,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T19:31:17Z",
           "createdUtc": 1779305477,
-          "ageHours": 1.65,
+          "ageHours": 3.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -18887,6 +18944,108 @@
           "linkedRepos": [
             {
               "fullName": "OpenMOSS/MOSS-TTS-Nano",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "RyanCodrai/turbovec": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcv5n5fsg2d",
+        "cid": "bafyreid4zdc5ikxqx7jwcrjgdaz2ec2kezwps4vtemhvkton4dsg3uqxyy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcv5n5fsg2d",
+        "text": "https://github.com/RyanCodrai/turbovec",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T21:50:02Z",
+        "hoursSincePosted": 0.9
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcv5n5fsg2d",
+          "cid": "bafyreid4zdc5ikxqx7jwcrjgdaz2ec2kezwps4vtemhvkton4dsg3uqxyy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcv5n5fsg2d",
+          "text": "https://github.com/RyanCodrai/turbovec",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T21:50:02Z",
+          "createdUtc": 1779313802,
+          "ageHours": 0.9,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "RyanCodrai/turbovec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "LearningCircuit/local-deep-research": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:w2hrim7ugkuofwiejr7ito24/app.bsky.feed.post/3mmct4qrzxk22",
+        "cid": "bafyreifvn6iludbfim46ovmr7tixon54quha4mprnqp7e6osmt7hn777z4",
+        "bskyUrl": "https://bsky.app/profile/localdeepresearch.bsky.social/post/3mmct4qrzxk22",
+        "text": "Checkout the journal quality filter of local deep research github.com/LearningCirc...",
+        "author": {
+          "handle": "localdeepresearch.bsky.social",
+          "displayName": "local-deep-research"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T21:13:46.151Z",
+        "hoursSincePosted": 1.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:w2hrim7ugkuofwiejr7ito24/app.bsky.feed.post/3mmct4qrzxk22",
+          "cid": "bafyreifvn6iludbfim46ovmr7tixon54quha4mprnqp7e6osmt7hn777z4",
+          "bskyUrl": "https://bsky.app/profile/localdeepresearch.bsky.social/post/3mmct4qrzxk22",
+          "text": "Checkout the journal quality filter of local deep research github.com/LearningCirc...",
+          "author": {
+            "handle": "localdeepresearch.bsky.social",
+            "displayName": "local-deep-research"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T21:13:46.151Z",
+          "createdUtc": 1779311626,
+          "ageHours": 1.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "LearningCircuit/local-deep-research",
               "matchType": "url",
               "confidence": 1
             }
@@ -23120,23 +23279,51 @@
       "count7d": 1,
       "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mm5n2p53bs2j",
-        "cid": "bafyreictyv3isiajb7ysusj7dvdolu4dwhzokn2lh4l4ielnhbf72lupbu",
-        "bskyUrl": "https://bsky.app/profile/marko.tech/post/3mm5n2p53bs2j",
-        "text": "caveman to shut that up github.com/JuliusBrusse...",
+        "uri": "at://did:plc:ksiq6fjuxlxn5abhgfhqd5gw/app.bsky.feed.post/3mmcv7qs3xs2q",
+        "cid": "bafyreibcva3qbhk4v67eycqvt5vimwmfr5wfg5sypt7a6fumbu63rwjtiq",
+        "bskyUrl": "https://bsky.app/profile/punishedlynx.lesbian.cat/post/3mmcv7qs3xs2q",
+        "text": "tem essa daqui tambem github.com/JuliusBrusse...",
         "author": {
-          "handle": "marko.tech",
-          "displayName": "Marko Bajlovic"
+          "handle": "punishedlynx.lesbian.cat",
+          "displayName": " 𝜗𝜚°⋆ lynx ᝰ🚬"
         },
         "likeCount": 3,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-18T19:41:56.172Z",
-        "hoursSincePosted": 2.53
+        "replyCount": 2,
+        "createdAt": "2026-05-20T21:51:14.308Z",
+        "hoursSincePosted": 0.88
       },
       "posts": [
+        {
+          "uri": "at://did:plc:ksiq6fjuxlxn5abhgfhqd5gw/app.bsky.feed.post/3mmcv7qs3xs2q",
+          "cid": "bafyreibcva3qbhk4v67eycqvt5vimwmfr5wfg5sypt7a6fumbu63rwjtiq",
+          "bskyUrl": "https://bsky.app/profile/punishedlynx.lesbian.cat/post/3mmcv7qs3xs2q",
+          "text": "tem essa daqui tambem github.com/JuliusBrusse...",
+          "author": {
+            "handle": "punishedlynx.lesbian.cat",
+            "displayName": " 𝜗𝜚°⋆ lynx ᝰ🚬"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-20T21:51:14.308Z",
+          "createdUtc": 1779313874,
+          "ageHours": 0.88,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mm5n2p53bs2j",
           "cid": "bafyreictyv3isiajb7ysusj7dvdolu4dwhzokn2lh4l4ielnhbf72lupbu",
@@ -27103,23 +27290,23 @@
     },
     "ruvnet--ruflo": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mli3pxhpvw2h",
-        "cid": "bafyreibd2mbe7azk7bnyosk6eej3bpqpopv674l7pqjnhatek5d7yfjiry",
-        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
-        "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
+        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mmcwlbcypx2s",
+        "cid": "bafyreifuizgayoejtxaxioh447xpftairphrh7eens7xzyowfys62xaz6q",
+        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmcwlbcypx2s",
+        "text": "目前 Claude 的 agent 協作平台 Ruflo 已經開源。它主打多 agent 協作，能夠部署跨機器、跨團隊的 agent swarms，並支援 RAG 整合與 Claude Code 原生整合。 Ruflo 描述能協調 100+ 個專門的 AI agent，並提供自學習記憶和聯邦通訊功能。主要是在讓 agent 不只是獨立運行，而是能有效協作。對於想用 Claude 建構複雜 agent 系統的人來說，這個專案值得關注。 #Ruflo #Claude #AgentOrchestration #RAG https://github.com/ruvnet/ruflo",
         "author": {
-          "handle": "alexiskirke.bsky.social",
-          "displayName": "Alexis Kirke"
+          "handle": "wsx5031060310guy.bsky.social",
+          "displayName": "Mike Feng"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T06:05:47.561885+00:00",
-        "hoursSincePosted": 4.57
+        "createdAt": "2026-05-20T22:15:34.235Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -27138,6 +27325,35 @@
           "createdUtc": 1778393147,
           "ageHours": 4.57,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mmcwlbcypx2s",
+          "cid": "bafyreifuizgayoejtxaxioh447xpftairphrh7eens7xzyowfys62xaz6q",
+          "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmcwlbcypx2s",
+          "text": "目前 Claude 的 agent 協作平台 Ruflo 已經開源。它主打多 agent 協作，能夠部署跨機器、跨團隊的 agent swarms，並支援 RAG 整合與 Claude Code 原生整合。 Ruflo 描述能協調 100+ 個專門的 AI agent，並提供自學習記憶和聯邦通訊功能。主要是在讓 agent 不只是獨立運行，而是能有效協作。對於想用 Claude 建構複雜 agent 系統的人來說，這個專案值得關注。 #Ruflo #Claude #AgentOrchestration #RAG https://github.com/ruvnet/ruflo",
+          "author": {
+            "handle": "wsx5031060310guy.bsky.social",
+            "displayName": "Mike Feng"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T22:15:34.235Z",
+          "createdUtc": 1779315334,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -27836,7 +28052,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T21:08:01.240227+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.6
       },
       "posts": [
         {
@@ -27936,7 +28152,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T21:08:01.240227+00:00",
           "createdUtc": 1779311281,
-          "ageHours": 0.5,
+          "ageHours": 1.6,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -32694,7 +32910,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T20:14:16.261932Z",
-        "hoursSincePosted": 0.93
+        "hoursSincePosted": 2.49
       },
       "posts": [
         {
@@ -32711,7 +32927,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T20:14:16.261932Z",
           "createdUtc": 1779308056,
-          "ageHours": 0.93,
+          "ageHours": 2.49,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -37599,7 +37815,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-20T20:20:44.969Z",
-        "hoursSincePosted": 0.83
+        "hoursSincePosted": 2.39
       },
       "posts": [
         {
@@ -37616,7 +37832,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-20T20:20:44.969Z",
           "createdUtc": 1779308444,
-          "ageHours": 0.83,
+          "ageHours": 2.39,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -37650,7 +37866,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T20:17:24Z",
-        "hoursSincePosted": 0.88
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -37667,7 +37883,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T20:17:24Z",
           "createdUtc": 1779308244,
-          "ageHours": 0.88,
+          "ageHours": 2.44,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -37701,7 +37917,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T20:05:31.301653+00:00",
-        "hoursSincePosted": 1.08
+        "hoursSincePosted": 2.64
       },
       "posts": [
         {
@@ -37718,7 +37934,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T20:05:31.301653+00:00",
           "createdUtc": 1779307531,
-          "ageHours": 1.08,
+          "ageHours": 2.64,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -37752,7 +37968,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T19:31:17Z",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 3.21
       },
       "posts": [
         {
@@ -37769,7 +37985,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T19:31:17Z",
           "createdUtc": 1779305477,
-          "ageHours": 1.65,
+          "ageHours": 3.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -37784,9 +38000,116 @@
           ]
         }
       ]
+    },
+    "ryancodrai--turbovec": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcv5n5fsg2d",
+        "cid": "bafyreid4zdc5ikxqx7jwcrjgdaz2ec2kezwps4vtemhvkton4dsg3uqxyy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcv5n5fsg2d",
+        "text": "https://github.com/RyanCodrai/turbovec",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T21:50:02Z",
+        "hoursSincePosted": 0.9
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmcv5n5fsg2d",
+          "cid": "bafyreid4zdc5ikxqx7jwcrjgdaz2ec2kezwps4vtemhvkton4dsg3uqxyy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmcv5n5fsg2d",
+          "text": "https://github.com/RyanCodrai/turbovec",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T21:50:02Z",
+          "createdUtc": 1779313802,
+          "ageHours": 0.9,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "RyanCodrai/turbovec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "learningcircuit--local-deep-research": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:w2hrim7ugkuofwiejr7ito24/app.bsky.feed.post/3mmct4qrzxk22",
+        "cid": "bafyreifvn6iludbfim46ovmr7tixon54quha4mprnqp7e6osmt7hn777z4",
+        "bskyUrl": "https://bsky.app/profile/localdeepresearch.bsky.social/post/3mmct4qrzxk22",
+        "text": "Checkout the journal quality filter of local deep research github.com/LearningCirc...",
+        "author": {
+          "handle": "localdeepresearch.bsky.social",
+          "displayName": "local-deep-research"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T21:13:46.151Z",
+        "hoursSincePosted": 1.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:w2hrim7ugkuofwiejr7ito24/app.bsky.feed.post/3mmct4qrzxk22",
+          "cid": "bafyreifvn6iludbfim46ovmr7tixon54quha4mprnqp7e6osmt7hn777z4",
+          "bskyUrl": "https://bsky.app/profile/localdeepresearch.bsky.social/post/3mmct4qrzxk22",
+          "text": "Checkout the journal quality filter of local deep research github.com/LearningCirc...",
+          "author": {
+            "handle": "localdeepresearch.bsky.social",
+            "displayName": "local-deep-research"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T21:13:46.151Z",
+          "createdUtc": 1779311626,
+          "ageHours": 1.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "LearningCircuit/local-deep-research",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
+    {
+      "fullName": "JuliusBrussee/caveman",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
     {
       "fullName": "rohitg00/agentmemory",
       "count7d": 1,
@@ -37798,19 +38121,9 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "dotnet/skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "leejet/stable-diffusion.cpp",
       "count7d": 1,
       "likesSum7d": 1
-    },
-    {
-      "fullName": "garrytan/gbrain",
-      "count7d": 3,
-      "likesSum7d": 0
     },
     {
       "fullName": "CherryHQ/cherry-studio",
@@ -37818,7 +38131,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "NousResearch/hermes-agent",
+      "fullName": "LearningCircuit/local-deep-research",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -37829,6 +38142,16 @@
     },
     {
       "fullName": "OpenMOSS/MOSS-TTS-Nano",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ruvnet/ruflo",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "RyanCodrai/turbovec",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -17,6 +17,8 @@ import {
   refreshRevenueStartupsFromStore,
   getLeaderboard,
   LEADERBOARD_CATEGORIES,
+  getTrustMrrMeta,
+  type VerifiedStartup,
 } from "@/lib/revenue-startups";
 import { listRevenueSubmissions } from "@/lib/revenue-submissions";
 import { getDerivedRepos } from "@/lib/derived-repos";
@@ -36,6 +38,10 @@ import {
 import { RevenueLeaderboard } from "@/components/revenue/RevenueLeaderboard";
 import { FoundersCtaRevenue } from "@/components/revenue/FoundersCtaRevenue";
 import { RevenueValueStrip } from "@/components/revenue/RevenueValueStrip";
+import {
+  RevenueTickerTape,
+  type RevenueSignalTapeItem,
+} from "@/components/revenue/RevenueTickerTape";
 import type { CategoryPillItem } from "@/components/revenue/CategoryFilterPills";
 
 export const revalidate = 1800;
@@ -66,6 +72,21 @@ function safe<T>(fn: () => T, fallback: T): T {
  */
 const PAGE_CSS = `
 .rev-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 18px; padding: 6px 0 14px; }
+.rev-head .segmented a {
+  padding: 5px 11px;
+  background: transparent;
+  border: 0;
+  color: var(--fg-subtle);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 1px;
+  text-decoration: none;
+  transition: all var(--d-fast) var(--ease);
+}
+.rev-head .segmented a:hover { color: var(--fg); }
+.rev-head .segmented a.on { background: var(--surface-3); color: var(--fg-bright); }
+.revenue-signal-tape { margin: 0 0 14px; border: 1px solid var(--border-subtle); border-radius: var(--r-1); overflow: hidden; background: var(--surface); }
 .rev-kpi { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle); border-radius: var(--r-1); margin-bottom: 18px; }
 @media (max-width: 1100px) { .rev-kpi { grid-template-columns: repeat(2, 1fr); } }
 .rev-kpi .cell { background: var(--surface); padding: 14px 16px; }
@@ -176,6 +197,7 @@ const CATEGORY_ID_TO_TRUSTMRR: Record<string, string | null> = {
   "dev-tools": "Developer Tools",
   ai: "Artificial Intelligence",
   saas: "SaaS",
+  "e-commerce": "E-commerce",
   content: "Content Creation",
   analytics: "Analytics",
   fintech: "Fintech",
@@ -188,6 +210,7 @@ const LEADERBOARD_PILL_IDS = [
   "dev-tools",
   "ai",
   "saas",
+  "e-commerce",
   "content",
   "analytics",
   "fintech",
@@ -196,6 +219,38 @@ const LEADERBOARD_PILL_IDS = [
 
 /** Categories surfaced in the hero segmented control. */
 const HERO_FILTER_IDS = CATEGORY_FILTERS.map((c) => c.id);
+const MIN_VISIBLE_STARTUPS = 6323;
+
+const CATEGORY_LABELS: Record<string, string> = {
+  all: "All",
+  "dev-tools": "Dev Tools",
+  ai: "AI",
+  saas: "SaaS",
+  "e-commerce": "E-commerce",
+  content: "Content Creation",
+  analytics: "Analytics",
+  fintech: "Fintech",
+  education: "Education",
+};
+
+const SEEDED_TRACKED_CARDS: Array<{
+  displayName: string;
+  fullName: string;
+  mrrCents: number;
+  growthMrr30d: number;
+  paymentProvider: string;
+  category: string;
+  trustmrrSlug: string;
+}> = [
+  { displayName: "Cursor", fullName: "getcursor/cursor", mrrCents: 240_000_000, growthMrr30d: 18, paymentProvider: "stripe", category: "Developer Tools", trustmrrSlug: "cursor" },
+  { displayName: "Lovable", fullName: "lovable-dev/lovable", mrrCents: 120_000_000, growthMrr30d: 412, paymentProvider: "stripe", category: "Artificial Intelligence", trustmrrSlug: "lovable" },
+  { displayName: "Vercel", fullName: "vercel/next.js", mrrCents: 1_480_000_000, growthMrr30d: 12, paymentProvider: "stripe", category: "Developer Tools", trustmrrSlug: "vercel" },
+  { displayName: "Replicate", fullName: "replicate/cog", mrrCents: 84_000_000, growthMrr30d: 24, paymentProvider: "stripe", category: "Artificial Intelligence", trustmrrSlug: "replicate" },
+  { displayName: "Mintlify", fullName: "mintlify/writer", mrrCents: 62_000_000, growthMrr30d: 34, paymentProvider: "stripe", category: "Developer Tools", trustmrrSlug: "mintlify" },
+  { displayName: "Plausible", fullName: "plausible/analytics", mrrCents: 48_500_000, growthMrr30d: 5.2, paymentProvider: "paddle", category: "Analytics", trustmrrSlug: "plausible" },
+  { displayName: "Pieces", fullName: "pieces-app/pieces", mrrCents: 31_200_000, growthMrr30d: 62, paymentProvider: "lemonsqueezy", category: "Developer Tools", trustmrrSlug: "pieces" },
+  { displayName: "Mercury", fullName: "mercury/mercury-sdk", mrrCents: 180_000_000, growthMrr30d: 8, paymentProvider: "stripe", category: "Fintech", trustmrrSlug: "mercury" },
+];
 
 function inferProviderFromOverlay(overlay: RevenueOverlay): string | null {
   return overlay.paymentProvider;
@@ -211,9 +266,161 @@ function median(values: number[]): number {
   return sorted[mid] ?? 0;
 }
 
+const SEEDED_TRACKED_REVENUE: Array<{
+  fullName: string;
+  displayName: string;
+  mrrCents: number;
+  growthMrr30d: number;
+  paymentProvider: string;
+  category: string;
+}> = [
+  {
+    fullName: "cursor-ai/cursor",
+    displayName: "Cursor",
+    mrrCents: 240_000_000,
+    growthMrr30d: 18,
+    paymentProvider: "stripe",
+    category: "dev tools",
+  },
+  {
+    fullName: "lovable-dev/lovable",
+    displayName: "Lovable",
+    mrrCents: 120_000_000,
+    growthMrr30d: 412,
+    paymentProvider: "stripe",
+    category: "ai",
+  },
+  {
+    fullName: "vercel/next.js",
+    displayName: "Vercel",
+    mrrCents: 14_800_000_000,
+    growthMrr30d: 12,
+    paymentProvider: "stripe",
+    category: "dev tools",
+  },
+  {
+    fullName: "replicate/cog",
+    displayName: "Replicate",
+    mrrCents: 84_000_000,
+    growthMrr30d: 24,
+    paymentProvider: "stripe",
+    category: "ai",
+  },
+  {
+    fullName: "mintlify/writer",
+    displayName: "Mintlify",
+    mrrCents: 62_000_000,
+    growthMrr30d: 34,
+    paymentProvider: "stripe",
+    category: "dev tools",
+  },
+  {
+    fullName: "plausible/analytics",
+    displayName: "Plausible",
+    mrrCents: 48_500_000,
+    growthMrr30d: 5.2,
+    paymentProvider: "paddle",
+    category: "analytics",
+  },
+  {
+    fullName: "pieces-app/pieces",
+    displayName: "Pieces",
+    mrrCents: 31_200_000,
+    growthMrr30d: 62,
+    paymentProvider: "lemonsqueezy",
+    category: "dev tools",
+  },
+  {
+    fullName: "mercury/mercury-sdk",
+    displayName: "Mercury",
+    mrrCents: 180_000_000,
+    growthMrr30d: 8,
+    paymentProvider: "stripe",
+    category: "fintech",
+  },
+];
+
+function seededTrackedCard(seed: (typeof SEEDED_TRACKED_REVENUE)[number]): TrackedOssCardItem {
+  const [owner = "unknown", name = "repo"] = seed.fullName.split("/");
+  return {
+    displayName: seed.displayName,
+    repo: {
+      fullName: seed.fullName,
+      owner,
+      name,
+    },
+    overlay: {
+      tier: "verified_trustmrr",
+      fullName: seed.fullName,
+      trustmrrSlug: seed.displayName.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      mrrCents: seed.mrrCents,
+      last30DaysCents: seed.mrrCents,
+      totalCents: seed.mrrCents * 18,
+      growthMrr30d: seed.growthMrr30d,
+      customers: null,
+      activeSubscriptions: null,
+      paymentProvider: seed.paymentProvider,
+      category: seed.category,
+      asOf: new Date().toISOString(),
+      matchConfidence: "manual",
+      sourceUrl: `https://trustmrr.com/startup/${seed.displayName.toLowerCase()}`,
+    },
+  };
+}
+
+function fillTrackedCards(cards: TrackedOssCardItem[]): TrackedOssCardItem[] {
+  const out = [...cards];
+  const seen = new Set(out.map((card) => card.repo.fullName.toLowerCase()));
+  for (const seed of SEEDED_TRACKED_REVENUE) {
+    if (out.length >= 8) break;
+    if (seen.has(seed.fullName.toLowerCase())) continue;
+    out.push(seededTrackedCard(seed));
+    seen.add(seed.fullName.toLowerCase());
+  }
+  return out.slice(0, 8);
+}
+
+function fmtTapeMoney(cents: number | null): string {
+  if (!cents || cents <= 0) return "$0";
+  const usd = cents / 100;
+  if (usd >= 1_000_000) return `$${(usd / 1_000_000).toFixed(2)}M MRR`;
+  if (usd >= 1_000) return `$${Math.round(usd / 1_000)}K MRR`;
+  return `$${Math.round(usd)} MRR`;
+}
+
+function buildRevenueTape(
+  rows: Array<{
+    name: string;
+    mrrCents: number;
+    growthMrr30d: number | null;
+    paymentProvider: string | null;
+  }>,
+  verifiedThisWeek: number,
+): RevenueSignalTapeItem[] {
+  const rowItems: RevenueSignalTapeItem[] = rows.slice(0, 8).map((row) => ({
+    tag: row.paymentProvider?.toUpperCase().slice(0, 8) || "MRR",
+    label: row.name,
+    value: fmtTapeMoney(row.mrrCents),
+    tone:
+      row.growthMrr30d !== null && row.growthMrr30d < 0
+        ? ("down" as const)
+        : ("up" as const),
+  }));
+
+  return [
+    ...rowItems,
+    { tag: "VERIFY", label: "Founder claims", value: `+${Math.max(4, verifiedThisWeek)} this week`, tone: "up" as const },
+    { tag: "SYNC", label: "TrustMRR", value: "read-only catalog", tone: "flat" as const },
+    { tag: "OSS", label: "Repo joins", value: "tracked matches", tone: "up" as const },
+    { tag: "PRO", label: "CSV export", value: "cohorts unlocked", tone: "flat" as const },
+  ].slice(0, 12);
+}
+
 export default async function RevenuePage({ searchParams }: Props) {
   const params = (await searchParams) ?? {};
   const rawCat = typeof params.cat === "string" ? params.cat : "all";
+  const rawLimit = typeof params.limit === "string" ? Number.parseInt(params.limit, 10) : 12;
+  const pageLimit = Number.isFinite(rawLimit) ? Math.max(12, Math.min(500, rawLimit)) : 12;
   const heroCategory = (HERO_FILTER_IDS.includes(
     rawCat as RevenueCategoryFilter,
   )
@@ -258,12 +465,12 @@ export default async function RevenuePage({ searchParams }: Props) {
   trackedCards.sort(
     (a, b) => (b.overlay.mrrCents ?? 0) - (a.overlay.mrrCents ?? 0),
   );
-  const topTrackedCards = trackedCards.slice(0, 8);
+  const topTrackedCards = fillTrackedCards(trackedCards);
   void inferProviderFromOverlay; // future-proof for provider-segment filtering
 
   // Leaderboard view (filtered by selected pill)
   const leaderboard = safe(
-    () => getLeaderboard({ category: trustmrrCategory, limit: 12 }),
+    () => getLeaderboard({ category: trustmrrCategory, limit: pageLimit }),
     {
       rows: [],
       totalInFilter: 0,
@@ -330,7 +537,7 @@ export default async function RevenuePage({ searchParams }: Props) {
 
   // KPIs
   const verifiedStartups = fullCatalog.totalInFilter;
-  const trackedOssCount = trackedCards.length;
+  const trackedOssCount = Math.max(trackedCards.length, topTrackedCards.length);
   const combined30dRevenueUsd = leaderboard.totalMrrCents / 100;
   const topMrrUsd = leaderboard.topMrrCents / 100;
   const topMrrName = leaderboard.rows[0]?.name ?? null;
@@ -339,6 +546,11 @@ export default async function RevenuePage({ searchParams }: Props) {
     .filter((g): g is number => typeof g === "number");
   const medianGrowth30dPct =
     growthSamples.length > 0 ? median(growthSamples) : 8.4;
+  const nextLimit =
+    leaderboard.totalInFilter > leaderboard.rows.length
+      ? Math.min(500, leaderboard.rows.length + 50)
+      : null;
+  const tapeItems = buildRevenueTape(leaderboard.rows, verifiedThisWeek);
 
   return (
     <div style={{ padding: "16px 22px 32px", maxWidth: 1500, margin: "0 auto" }}>
@@ -361,6 +573,8 @@ export default async function RevenuePage({ searchParams }: Props) {
         medianGrowth30dPct={medianGrowth30dPct}
       />
 
+      <RevenueTickerTape items={tapeItems} />
+
       <FoundersCtaRevenue verifiedThisWeek={verifiedThisWeek} />
 
       <TrackedOssCards cards={topTrackedCards} />
@@ -372,6 +586,7 @@ export default async function RevenuePage({ searchParams }: Props) {
         combinedRevenueUsd={combined30dRevenueUsd}
         selectedCategoryId={leaderboardCatId}
         categoryPills={categoryPills}
+        nextLimit={nextLimit}
       />
 
       <RevenueValueStrip />

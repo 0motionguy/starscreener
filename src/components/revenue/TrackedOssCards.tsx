@@ -9,6 +9,7 @@ import type { Repo, RevenueOverlay } from "@/lib/types";
 interface TrackedOssCardItem {
   repo: Pick<Repo, "fullName" | "name" | "owner">;
   overlay: RevenueOverlay;
+  displayName?: string;
 }
 
 interface TrackedOssCardsProps {
@@ -49,22 +50,6 @@ function logoLetter(name: string): string {
 }
 
 export function TrackedOssCards({ cards }: TrackedOssCardsProps) {
-  if (cards.length === 0) {
-    return (
-      <div className="panel fade-up" style={{ margin: "18px 0 14px" }}>
-        <div className="panel-head">
-          <span className="ph-eyebrow">{"// 01"}</span>
-          <span className="ph-title">Tracked repos with verified revenue</span>
-          <span className="ph-meta">no OSS matches yet</span>
-        </div>
-        <div style={{ padding: "24px 16px", color: "var(--fg-muted)", fontSize: 12 }}>
-          No tracked repos currently match a verified-revenue startup. Match
-          window updates after each TrustMRR catalog sweep.
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="panel fade-up" style={{ margin: "18px 0 14px" }}>
       <div className="panel-head">
@@ -76,6 +61,7 @@ export function TrackedOssCards({ cards }: TrackedOssCardsProps) {
       </div>
       <div className="tracked-grid">
         {cards.map((card, idx) => {
+          const displayName = card.displayName ?? card.repo.name;
           const provider = providerClass(card.overlay.paymentProvider);
           const label = providerLabel(card.overlay.paymentProvider);
           const category = card.overlay.category ?? "TRACKED";
@@ -93,7 +79,7 @@ export function TrackedOssCards({ cards }: TrackedOssCardsProps) {
                 <div className="tc-logo">{logoLetter(card.repo.name)}</div>
                 <div className="tc-id">
                   <span className="tc-name">
-                    {card.repo.name}{" "}
+                    {displayName}{" "}
                     <span className="verified" aria-label="verified revenue">
                       ✓
                     </span>

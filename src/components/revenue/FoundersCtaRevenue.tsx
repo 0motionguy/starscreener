@@ -1,11 +1,6 @@
-// FoundersCtaRevenue — green "Claim or submit revenue" CTA strip.
-// Links to the revenue-submissions form. Falls back to /account?tab=billing
-// where that route doesn't exist yet.
-
 import Link from "next/link";
 
 interface FoundersCtaRevenueProps {
-  /** Number of verified-this-week submissions, if available. */
   verifiedThisWeek?: number;
 }
 
@@ -25,8 +20,8 @@ export function FoundersCtaRevenue({
           </>
         ) : null}
       </span>
-      <Link className="fc-cta" href="/submissions/revenue">
-        Claim or submit revenue →
+      <Link className="fc-cta" href="/drop?mode=revenue">
+        Claim or submit revenue -&gt;
       </Link>
     </div>
   );

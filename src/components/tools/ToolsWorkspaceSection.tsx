@@ -139,7 +139,7 @@ export function ToolsWorkspaceSection({
           footMeta={`${digestIssues.toLocaleString()} issues - 28% open rate`}
         >
           <div className="pv-digest">
-            <div className="h">// THIS WEEK - 5 BREAKOUTS</div>
+            <div className="h">{"// THIS WEEK - 5 BREAKOUTS"}</div>
             <div className="l l1" />
             <div className="l l2" />
             <div className="l l3" />

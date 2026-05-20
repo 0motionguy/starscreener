@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-20T05:16:16.654Z",
+  "fetchedAt": "2026-05-20T08:36:44.765Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -5097,21 +5097,50 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
-        "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
-        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mm4pspfxsk2n",
-        "text": "codex remote で一度繋いだ端末のアクセスを取り消すと二度と繋げなくなるバグがあるのだけどワークアラウンドがあった github.com/openai/codex... 再インストールしてもダメだったから諦めてたのだけど、ログアウトしてアプリ落としてログインだけでよかったのか…",
+        "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mmbh3kzj362b",
+        "cid": "bafyreialcgaawr2rvnbruosuxzklperlb2oxbgloomyhm6pas54vswrkt4",
+        "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mmbh3kzj362b",
+        "text": "📦 ammadbaig/ai-search v1.1.1 Natural-language AI search engine for databases. Type plain English, get records back. Pluggable AI providers (OpenAI/Codex, Anthropic Claude, Google Gemini, xAI Grok, Ollama, Mistral, Cohere, Deep... 🔗 https://github.com/ammadmaddydev/ai-search",
         "author": {
-          "handle": "tomoyuki-mikami.bsky.social",
-          "displayName": "mika"
+          "handle": "throwable.bsky.social",
+          "displayName": "call_user_func"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T10:58:29.515Z",
-        "hoursSincePosted": 1.83
+        "createdAt": "2026-05-20T08:05:41+00:00",
+        "hoursSincePosted": 0.52
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mmbh3kzj362b",
+          "cid": "bafyreialcgaawr2rvnbruosuxzklperlb2oxbgloomyhm6pas54vswrkt4",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mmbh3kzj362b",
+          "text": "📦 ammadbaig/ai-search v1.1.1 Natural-language AI search engine for databases. Type plain English, get records back. Pluggable AI providers (OpenAI/Codex, Anthropic Claude, Google Gemini, xAI Grok, Ollama, Mistral, Cohere, Deep... 🔗 https://github.com/ammadmaddydev/ai-search",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T08:05:41+00:00",
+          "createdUtc": 1779264341,
+          "ageHours": 0.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
           "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
@@ -13899,23 +13928,23 @@
     },
     "getagentseal/codeburn": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6aglx53tojyuwxwueap5og3h/app.bsky.feed.post/3mlvkoyf3ps24",
-        "cid": "bafyreibzi6ntevxbgz5bfccdx7rya36w376e7el6xcmvo5no4zp5xchwcy",
-        "bskyUrl": "https://bsky.app/profile/fubits.dev/post/3mlvkoyf3ps24",
-        "text": "probably accurate / approaching accuracy. This is here is from my private device - hence only hobby coding after work. Tool: github.com/getagentseal... I haven't cross-checked with this one yet: github.com/ryoppippi/cc...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmbdwsg2pf2a",
+        "cid": "bafyreif7sjuipddx4zpakgcw3izykiym2k7sbsdw2ghhs5uljnvjbljayy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmbdwsg2pf2a",
+        "text": "https://github.com/getagentseal/codeburn",
         "author": {
-          "handle": "fubits.dev",
-          "displayName": "Ilja"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T14:38:17.822Z",
-        "hoursSincePosted": 2.4
+        "createdAt": "2026-05-20T07:09:20Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
         {
@@ -13934,6 +13963,34 @@
           "createdUtc": 1778855897,
           "ageHours": 2.4,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmbdwsg2pf2a",
+          "cid": "bafyreif7sjuipddx4zpakgcw3izykiym2k7sbsdw2ghhs5uljnvjbljayy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmbdwsg2pf2a",
+          "text": "https://github.com/getagentseal/codeburn",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T07:09:20Z",
+          "createdUtc": 1779260960,
+          "ageHours": 1.46,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -17406,7 +17463,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T03:33:04Z",
-        "hoursSincePosted": 1.72
+        "hoursSincePosted": 5.06
       },
       "posts": [
         {
@@ -17423,7 +17480,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T03:33:04Z",
           "createdUtc": 1779247984,
-          "ageHours": 1.72,
+          "ageHours": 5.06,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -17432,6 +17489,57 @@
           "linkedRepos": [
             {
               "fullName": "walkinglabs/learn-harness-engineering",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "gi-dellav/zerostack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mmbgrrfdvc24",
+        "cid": "bafyreigrbl46ajvqg5ovjjuoejk5lsl73ftawt6ivzorwrylmxkn46elq4",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mmbgrrfdvc24",
+        "text": "Tous les coding agents ne doivent pas devenir des monstres à 2 Go de RAM. Zerostack prend l’angle inverse : agent minimaliste en Rust, optimisé mémoire/perf. github.com/gi-dellav/z...",
+        "author": {
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T08:00:12.857806Z",
+        "hoursSincePosted": 0.61
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mmbgrrfdvc24",
+          "cid": "bafyreigrbl46ajvqg5ovjjuoejk5lsl73ftawt6ivzorwrylmxkn46elq4",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mmbgrrfdvc24",
+          "text": "Tous les coding agents ne doivent pas devenir des monstres à 2 Go de RAM. Zerostack prend l’angle inverse : agent minimaliste en Rust, optimisé mémoire/perf. github.com/gi-dellav/z...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T08:00:12.857806Z",
+          "createdUtc": 1779264012,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gi-dellav/zerostack",
               "matchType": "url",
               "confidence": 1
             }
@@ -22533,21 +22641,50 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
-        "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
-        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mm4pspfxsk2n",
-        "text": "codex remote で一度繋いだ端末のアクセスを取り消すと二度と繋げなくなるバグがあるのだけどワークアラウンドがあった github.com/openai/codex... 再インストールしてもダメだったから諦めてたのだけど、ログアウトしてアプリ落としてログインだけでよかったのか…",
+        "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mmbh3kzj362b",
+        "cid": "bafyreialcgaawr2rvnbruosuxzklperlb2oxbgloomyhm6pas54vswrkt4",
+        "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mmbh3kzj362b",
+        "text": "📦 ammadbaig/ai-search v1.1.1 Natural-language AI search engine for databases. Type plain English, get records back. Pluggable AI providers (OpenAI/Codex, Anthropic Claude, Google Gemini, xAI Grok, Ollama, Mistral, Cohere, Deep... 🔗 https://github.com/ammadmaddydev/ai-search",
         "author": {
-          "handle": "tomoyuki-mikami.bsky.social",
-          "displayName": "mika"
+          "handle": "throwable.bsky.social",
+          "displayName": "call_user_func"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T10:58:29.515Z",
-        "hoursSincePosted": 1.83
+        "createdAt": "2026-05-20T08:05:41+00:00",
+        "hoursSincePosted": 0.52
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mmbh3kzj362b",
+          "cid": "bafyreialcgaawr2rvnbruosuxzklperlb2oxbgloomyhm6pas54vswrkt4",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mmbh3kzj362b",
+          "text": "📦 ammadbaig/ai-search v1.1.1 Natural-language AI search engine for databases. Type plain English, get records back. Pluggable AI providers (OpenAI/Codex, Anthropic Claude, Google Gemini, xAI Grok, Ollama, Mistral, Cohere, Deep... 🔗 https://github.com/ammadmaddydev/ai-search",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T08:05:41+00:00",
+          "createdUtc": 1779264341,
+          "ageHours": 0.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mm4pspfxsk2n",
           "cid": "bafyreie3txmn55mtobm6z6z2lhcgkdbepdo42c6qpxltmu2nv2cdp3uv2u",
@@ -31335,23 +31472,23 @@
     },
     "getagentseal--codeburn": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6aglx53tojyuwxwueap5og3h/app.bsky.feed.post/3mlvkoyf3ps24",
-        "cid": "bafyreibzi6ntevxbgz5bfccdx7rya36w376e7el6xcmvo5no4zp5xchwcy",
-        "bskyUrl": "https://bsky.app/profile/fubits.dev/post/3mlvkoyf3ps24",
-        "text": "probably accurate / approaching accuracy. This is here is from my private device - hence only hobby coding after work. Tool: github.com/getagentseal... I haven't cross-checked with this one yet: github.com/ryoppippi/cc...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmbdwsg2pf2a",
+        "cid": "bafyreif7sjuipddx4zpakgcw3izykiym2k7sbsdw2ghhs5uljnvjbljayy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmbdwsg2pf2a",
+        "text": "https://github.com/getagentseal/codeburn",
         "author": {
-          "handle": "fubits.dev",
-          "displayName": "Ilja"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T14:38:17.822Z",
-        "hoursSincePosted": 2.4
+        "createdAt": "2026-05-20T07:09:20Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
         {
@@ -31370,6 +31507,34 @@
           "createdUtc": 1778855897,
           "ageHours": 2.4,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmbdwsg2pf2a",
+          "cid": "bafyreif7sjuipddx4zpakgcw3izykiym2k7sbsdw2ghhs5uljnvjbljayy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmbdwsg2pf2a",
+          "text": "https://github.com/getagentseal/codeburn",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T07:09:20Z",
+          "createdUtc": 1779260960,
+          "ageHours": 1.46,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -34842,7 +35007,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T03:33:04Z",
-        "hoursSincePosted": 1.72
+        "hoursSincePosted": 5.06
       },
       "posts": [
         {
@@ -34859,7 +35024,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T03:33:04Z",
           "createdUtc": 1779247984,
-          "ageHours": 1.72,
+          "ageHours": 5.06,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -34874,6 +35039,57 @@
           ]
         }
       ]
+    },
+    "gi-dellav--zerostack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mmbgrrfdvc24",
+        "cid": "bafyreigrbl46ajvqg5ovjjuoejk5lsl73ftawt6ivzorwrylmxkn46elq4",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mmbgrrfdvc24",
+        "text": "Tous les coding agents ne doivent pas devenir des monstres à 2 Go de RAM. Zerostack prend l’angle inverse : agent minimaliste en Rust, optimisé mémoire/perf. github.com/gi-dellav/z...",
+        "author": {
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T08:00:12.857806Z",
+        "hoursSincePosted": 0.61
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mmbgrrfdvc24",
+          "cid": "bafyreigrbl46ajvqg5ovjjuoejk5lsl73ftawt6ivzorwrylmxkn46elq4",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mmbgrrfdvc24",
+          "text": "Tous les coding agents ne doivent pas devenir des monstres à 2 Go de RAM. Zerostack prend l’angle inverse : agent minimaliste en Rust, optimisé mémoire/perf. github.com/gi-dellav/z...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T08:00:12.857806Z",
+          "createdUtc": 1779264012,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gi-dellav/zerostack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -34881,6 +35097,21 @@
       "fullName": "walkinglabs/learn-harness-engineering",
       "count7d": 1,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "getagentseal/codeburn",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "gi-dellav/zerostack",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openai/codex",
+      "count7d": 1,
+      "likesSum7d": 0
     }
   ]
 }

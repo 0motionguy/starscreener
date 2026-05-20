@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-20T16:01:50.418Z",
+  "fetchedAt": "2026-05-20T20:32:45.238Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -430,7 +430,7 @@
       "author": "TeichAI",
       "url": "https://huggingface.co/datasets/TeichAI/DeepSeek-v4-Pro-Agent",
       "downloads": 2623,
-      "likes": 38,
+      "likes": 39,
       "trendingScore": 27,
       "tags": [
         "size_categories:1K<n<10K",
@@ -684,8 +684,8 @@
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
       "downloads": 5917,
-      "likes": 99,
-      "trendingScore": 21,
+      "likes": 100,
+      "trendingScore": 22,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -965,6 +965,27 @@
     },
     {
       "rank": 32,
+      "id": "LukaDev13/Liminal-Dreamcore-1K",
+      "author": "LukaDev13",
+      "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
+      "downloads": 2076,
+      "likes": 17,
+      "trendingScore": 16,
+      "tags": [
+        "license:mit",
+        "modality:image",
+        "region:us",
+        "ai-generated",
+        "dreamcore",
+        "aesthetic",
+        "image-collection",
+        "gpt-image"
+      ],
+      "createdAt": "2026-05-16T12:14:28.000Z",
+      "lastModified": "2026-05-18T22:03:11.000Z"
+    },
+    {
+      "rank": 33,
       "id": "ning423/deepseek-hermes-reasoning-traces",
       "author": "ning423",
       "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
@@ -999,7 +1020,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 33,
+      "rank": 34,
       "id": "AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
@@ -1026,7 +1047,7 @@
       "lastModified": "2026-04-22T10:29:32.000Z"
     },
     {
-      "rank": 34,
+      "rank": 35,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
@@ -1069,7 +1090,7 @@
       "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
-      "rank": 35,
+      "rank": 36,
       "id": "cais/mmlu",
       "author": "cais",
       "url": "https://huggingface.co/datasets/cais/mmlu",
@@ -1102,7 +1123,7 @@
       "lastModified": "2024-03-08T20:36:26.000Z"
     },
     {
-      "rank": 36,
+      "rank": 37,
       "id": "camvsl/Articraft-10K",
       "author": "camvsl",
       "url": "https://huggingface.co/datasets/camvsl/Articraft-10K",
@@ -1117,7 +1138,7 @@
       "lastModified": "2026-05-15T05:05:02.000Z"
     },
     {
-      "rank": 37,
+      "rank": 38,
       "id": "Exgentic/agent-llm-traces",
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
@@ -1145,27 +1166,6 @@
       ],
       "createdAt": "2026-05-07T13:59:42.000Z",
       "lastModified": "2026-05-14T18:50:50.000Z"
-    },
-    {
-      "rank": 38,
-      "id": "LukaDev13/Liminal-Dreamcore-1K",
-      "author": "LukaDev13",
-      "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
-      "downloads": 2076,
-      "likes": 16,
-      "trendingScore": 15,
-      "tags": [
-        "license:mit",
-        "modality:image",
-        "region:us",
-        "ai-generated",
-        "dreamcore",
-        "aesthetic",
-        "image-collection",
-        "gpt-image"
-      ],
-      "createdAt": "2026-05-16T12:14:28.000Z",
-      "lastModified": "2026-05-18T22:03:11.000Z"
     },
     {
       "rank": 39,
@@ -1346,6 +1346,29 @@
     },
     {
       "rank": 45,
+      "id": "tinixai/ocr_annual_financials",
+      "author": "tinixai",
+      "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
+      "downloads": 6384,
+      "likes": 17,
+      "trendingScore": 14,
+      "tags": [
+        "task_categories:document-question-answering",
+        "task_categories:text-generation",
+        "language:vi",
+        "license:cc-by-nc-4.0",
+        "size_categories:10K<n<100K",
+        "modality:document",
+        "modality:text",
+        "library:datasets",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-05-12T15:11:00.000Z",
+      "lastModified": "2026-05-18T15:35:53.000Z"
+    },
+    {
+      "rank": 46,
       "id": "TAAC2026/data_sample_1000",
       "author": "TAAC2026",
       "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
@@ -1370,7 +1393,7 @@
       "lastModified": "2026-04-10T09:07:28.000Z"
     },
     {
-      "rank": 46,
+      "rank": 47,
       "id": "dianetc/OBLIQ-Bench",
       "author": "dianetc",
       "url": "https://huggingface.co/datasets/dianetc/OBLIQ-Bench",
@@ -1399,7 +1422,7 @@
       "lastModified": "2026-05-09T18:30:15.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "sensenova/SenseNova-SI-8M",
       "author": "sensenova",
       "url": "https://huggingface.co/datasets/sensenova/SenseNova-SI-8M",
@@ -1427,7 +1450,7 @@
       "lastModified": "2026-05-13T04:54:38.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "HuggingFaceBio/carbon-pretraining-corpus",
       "author": "HuggingFaceBio",
       "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
@@ -1453,29 +1476,6 @@
       ],
       "createdAt": "2026-05-07T11:46:53.000Z",
       "lastModified": "2026-05-14T12:41:15.000Z"
-    },
-    {
-      "rank": 49,
-      "id": "tinixai/ocr_annual_financials",
-      "author": "tinixai",
-      "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
-      "downloads": 6384,
-      "likes": 16,
-      "trendingScore": 13,
-      "tags": [
-        "task_categories:document-question-answering",
-        "task_categories:text-generation",
-        "language:vi",
-        "license:cc-by-nc-4.0",
-        "size_categories:10K<n<100K",
-        "modality:document",
-        "modality:text",
-        "library:datasets",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-05-12T15:11:00.000Z",
-      "lastModified": "2026-05-18T15:35:53.000Z"
     },
     {
       "rank": 50,

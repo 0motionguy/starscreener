@@ -1,8 +1,9 @@
-// FundingTape — `.fund-tape` ticker with last 10-12 rounds.
-// shell.css `.lane` provides the auto-scroll loop animation; we render two
-// copies of the same items back-to-back so the marquee never shows a seam.
+// FundingTape renders the `.fund-tape` ticker with exactly 12 visible rounds.
+// It uses live funding signals first, then seeded funding rows when the
+// current accessor window is thin.
 
 import type { FundingSignal } from "@/lib/funding/types";
+import { ensureFundingSignals, relAge, ROUND_LABEL } from "./fundingDisplayData";
 
 interface FundingTapeProps {
   signals: FundingSignal[];
@@ -16,47 +17,20 @@ interface TapeItem {
   ago: string;
 }
 
-const ROUND_LABEL: Record<string, string> = {
-  "pre-seed": "Pre-seed",
-  seed: "Seed",
-  "series-a": "Series A",
-  "series-b": "Series B",
-  "series-c": "Series C",
-  "series-d-plus": "Series D+",
-  growth: "Growth",
-  ipo: "IPO",
-  acquisition: "Acquired",
-  undisclosed: "Undisclosed",
-};
-
-function relAge(publishedAt: string): string {
-  const ms = Date.now() - Date.parse(publishedAt);
-  if (!Number.isFinite(ms) || ms < 0) return "—";
-  const mins = Math.floor(ms / 60_000);
-  if (mins < 60) return `${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 48) return `${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `${days}d`;
-}
-
 function buildItems(signals: FundingSignal[], limit: number): TapeItem[] {
-  return signals
+  return ensureFundingSignals(signals, limit)
     .filter((s) => s.extracted && s.extracted.amount && s.extracted.amount > 0)
     .slice(0, limit)
     .map((s) => ({
       company: s.extracted?.companyName ?? "Unknown",
       round: s.extracted ? (ROUND_LABEL[s.extracted.roundType] ?? "Round") : "Round",
-      amountDisplay: s.extracted?.amountDisplay ?? "$—",
+      amountDisplay: s.extracted?.amountDisplay ?? "$0",
       ago: relAge(s.publishedAt),
     }));
 }
 
 export function FundingTape({ signals, limit = 12 }: FundingTapeProps) {
   const items = buildItems(signals, limit);
-  if (items.length === 0) return null;
-
-  // Render the items twice so shell.css `.lane` (CSS marquee) loops seamlessly.
   const doubled = [...items, ...items];
 
   return (

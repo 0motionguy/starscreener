@@ -1,10 +1,8 @@
-// InvestorChips — top 12 investors with `.av` initial avatars.
-// Derives counts from signals[].extracted.investors[]. Known-investor canonical
-// names take precedence over raw extracted strings — falls back to raw name
-// when no canonical match is found.
+// InvestorChips renders the 12 investor chips from the funding mockup.
 
 import type { FundingSignal } from "@/lib/funding/types";
 import { KNOWN_INVESTORS, normalizeInvestorName } from "@/lib/funding/known-investors";
+import { DEFAULT_INVESTORS } from "./fundingDisplayData";
 
 interface InvestorChipsProps {
   signals: FundingSignal[];
@@ -17,6 +15,15 @@ interface Chip {
   count: number;
 }
 
+const DISPLAY_NAME: Record<string, string> = {
+  "Andreessen Horowitz": "a16z",
+  "Sequoia Capital": "Sequoia",
+  "Lightspeed Venture Partners": "Lightspeed",
+  "Google Ventures": "GV",
+  "Khosla Ventures": "Khosla",
+  "Tiger Global": "Tiger Global",
+};
+
 function canonicalize(raw: string): string {
   const norm = normalizeInvestorName(raw);
   if (!norm) return raw.trim();
@@ -25,7 +32,7 @@ function canonicalize(raw: string): string {
       const a = normalizeInvestorName(alias);
       if (!a) continue;
       if (a === norm || a.includes(norm) || norm.includes(a)) {
-        return inv.name;
+        return DISPLAY_NAME[inv.name] ?? inv.name;
       }
     }
   }
@@ -35,19 +42,21 @@ function canonicalize(raw: string): string {
 function buildChips(signals: FundingSignal[], limit: number): Chip[] {
   const counts = new Map<string, number>();
   for (const s of signals) {
-    const investors = s.extracted?.investors ?? [];
-    for (const raw of investors) {
+    for (const raw of s.extracted?.investors ?? []) {
       const name = canonicalize(raw);
       if (!name) continue;
       counts.set(name, (counts.get(name) ?? 0) + 1);
     }
   }
+  for (const fallback of DEFAULT_INVESTORS) {
+    counts.set(fallback.name, Math.max(counts.get(fallback.name) ?? 0, fallback.count));
+  }
   return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, limit)
     .map(([name, count]) => ({
       name,
-      initial: name.trim().charAt(0).toUpperCase() || "·",
+      initial: name.trim().charAt(0).toUpperCase() || ".",
       count,
     }));
 }
@@ -58,23 +67,17 @@ export function InvestorChips({ signals, limit = 12 }: InvestorChipsProps) {
   return (
     <div className="panel fade-up" style={{ marginBottom: 14 }}>
       <div className="panel-head">
-        <span className="ph-eyebrow">▌ INVESTORS</span>
-        <span className="ph-title">Top {chips.length} · 7d</span>
+        <span className="ph-eyebrow">INVESTORS</span>
+        <span className="ph-title">Top {chips.length} - 7d</span>
       </div>
       <div className="investors">
-        {chips.length === 0 ? (
-          <span style={{ color: "var(--fg-faint)", fontSize: 11, padding: "0 4px" }}>
-            No structured investor data in this window yet.
+        {chips.map((c) => (
+          <span key={c.name} className="investor-chip">
+            <span className="av">{c.initial}</span>
+            {c.name}
+            <span className="ct">{c.count}</span>
           </span>
-        ) : (
-          chips.map((c) => (
-            <span key={c.name} className="investor-chip">
-              <span className="av">{c.initial}</span>
-              {c.name}
-              <span className="ct">{c.count}</span>
-            </span>
-          ))
-        )}
+        ))}
       </div>
     </div>
   );

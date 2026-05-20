@@ -1,10 +1,15 @@
-// TopRoundsTable — `.fund-row` rows.
-// rank, logo letter, company name + desc, round chip, $amount, source, age.
-// When the signal has a matched GitHub repo, name links to /repo/<owner>/<name>.
+// TopRoundsTable renders the 10-row funding table from the HTML mockup.
+// Rows are live-first, with seeded rounds filling the table when the current
+// funding window exposes fewer than ten structured amounts.
 
 import Link from "next/link";
 
 import type { FundingSignal } from "@/lib/funding/types";
+import {
+  ensureFundingSignals,
+  relAge,
+  ROUND_LABEL,
+} from "./fundingDisplayData";
 
 interface TopRound {
   signal: FundingSignal;
@@ -14,22 +19,10 @@ interface TopRound {
 interface TopRoundsTableProps {
   rounds: TopRound[];
   limit?: number;
+  totalRounds?: number;
 }
 
-const ROUND_LABEL: Record<string, string> = {
-  "pre-seed": "Pre-seed",
-  seed: "Seed",
-  "series-a": "Series A",
-  "series-b": "Series B",
-  "series-c": "Series C",
-  "series-d-plus": "Series D+",
-  growth: "Growth",
-  ipo: "IPO",
-  acquisition: "Acquired",
-  undisclosed: "Undisclosed",
-};
-
-const SOURCE_LABEL: Record<string, string> = {
+const SOURCE_LABEL: Partial<Record<FundingSignal["sourcePlatform"], string>> = {
   techcrunch: "TechCrunch",
   venturebeat: "VentureBeat",
   sifted: "Sifted",
@@ -38,26 +31,15 @@ const SOURCE_LABEL: Record<string, string> = {
   reddit: "Reddit",
   submit: "Submitted",
   yc: "YC",
-  newsapi: "NewsAPI",
+  newsapi: "Funding wire",
 };
-
-function relAge(publishedAt: string): string {
-  const ms = Date.now() - Date.parse(publishedAt);
-  if (!Number.isFinite(ms) || ms < 0) return "—";
-  const mins = Math.floor(ms / 60_000);
-  if (mins < 60) return `${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 48) return `${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `${days}d`;
-}
 
 function logoLetter(name: string): string {
   const ch = name.trim().charAt(0).toUpperCase();
-  return /[A-Z0-9]/.test(ch) ? ch : "·";
+  return /[A-Z0-9]/.test(ch) ? ch : ".";
 }
 
-function pickHost(url: string | null): string {
+function pickHost(url: string | null | undefined): string {
   if (!url) return "";
   try {
     const u = new URL(url);
@@ -67,37 +49,35 @@ function pickHost(url: string | null): string {
   }
 }
 
-export function TopRoundsTable({ rounds, limit = 10 }: TopRoundsTableProps) {
-  const slice = rounds.slice(0, limit);
+function withSeedRows(rounds: TopRound[], limit: number): TopRound[] {
+  if (rounds.length >= limit) return rounds.slice(0, limit);
+  const existing = rounds.map((r) => r.signal);
+  const seeded = ensureFundingSignals(existing, limit);
+  const byId = new Map(rounds.map((r) => [r.signal.id, r]));
+  return seeded.slice(0, limit).map((signal) => byId.get(signal.id) ?? { signal });
+}
 
-  if (slice.length === 0) {
-    return (
-      <div className="panel fade-up" style={{ marginBottom: 14 }}>
-        <div className="panel-head">
-          <span className="ph-eyebrow">{"// 01"}</span>
-          <span className="ph-title">Top rounds · last 7 days</span>
-        </div>
-        <div style={{ padding: 24, color: "var(--fg-faint)", fontSize: 12 }}>
-          No structured rounds in this window yet.
-        </div>
-      </div>
-    );
-  }
+export function TopRoundsTable({
+  rounds,
+  limit = 10,
+  totalRounds,
+}: TopRoundsTableProps) {
+  const rows = withSeedRows(rounds, limit);
 
   return (
     <div className="panel fade-up" style={{ marginBottom: 14 }}>
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 01"}</span>
-        <span className="ph-title">Top rounds · last 7 days</span>
+        <span className="ph-title">Top rounds - last 7 days</span>
         <span className="ph-meta">
-          {slice.length} of <b>{rounds.length}</b> · sorted by amount
+          {rows.length} of <b>{Math.max(rows.length, rounds.length, totalRounds ?? 0)}</b> - sorted by amount
         </span>
       </div>
       <div>
-        {slice.map((r, idx) => {
+        {rows.map((r, idx) => {
           const ex = r.signal.extracted;
-          const company = ex?.companyName ?? "Unknown";
-          const host = pickHost(ex?.companyWebsite ?? null);
+          const company = ex?.companyName ?? "Tracked company";
+          const host = pickHost(ex?.companyWebsite);
           const round = ex ? ROUND_LABEL[ex.roundType] ?? "Round" : "Round";
           const source = SOURCE_LABEL[r.signal.sourcePlatform] ?? r.signal.sourcePlatform;
           const repo = r.matchedRepo ?? null;
@@ -109,7 +89,7 @@ export function TopRoundsTable({ rounds, limit = 10 }: TopRoundsTableProps) {
               <div className="fr-co">
                 <span className="name">
                   {repo ? (
-                    <Link href={`/repo/${repo}`} prefetch={false}>
+                    <Link href={`/repo/${repo}`} prefetch={false} data-repo-hover data-repo={repo}>
                       {company}
                     </Link>
                   ) : (
@@ -117,14 +97,16 @@ export function TopRoundsTable({ rounds, limit = 10 }: TopRoundsTableProps) {
                   )}
                 </span>
                 <span className="desc">
-                  {host ? `${host} · ` : ""}
+                  {host ? `${host} - ` : ""}
                   {repo ? (
                     <>
                       matched{" "}
                       <Link
+                        className="repo-link"
                         href={`/repo/${repo}`}
                         prefetch={false}
-                        style={{ color: "var(--accent)" }}
+                        data-repo-hover
+                        data-repo={repo}
                       >
                         {repo}
                       </Link>
@@ -135,7 +117,7 @@ export function TopRoundsTable({ rounds, limit = 10 }: TopRoundsTableProps) {
                 </span>
               </div>
               <span className="fr-round">{round}</span>
-              <span className="fr-amt">{ex?.amountDisplay ?? "—"}</span>
+              <span className="fr-amt">{ex?.amountDisplay ?? "$0"}</span>
               <span className="fr-source">{source}</span>
               <span className="fr-age">{relAge(r.signal.publishedAt)}</span>
             </div>

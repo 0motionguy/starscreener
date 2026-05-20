@@ -1,9 +1,4 @@
-// FundingHero — page-head with eyebrow + segmented time-window switcher.
-// URL contract: ?period=24h|7d|30d|90d|ytd (7d default).
-//
-// Freshness wires through classifyFreshness("repos", fetchedAt). The funding
-// slug isn't a NewsSource enum member; "repos" is the closest match (12h
-// budget) since funding-news scrapers also run on the slow ~3h cron.
+// FundingHero renders the compact page head and URL-driven period switcher.
 
 import Link from "next/link";
 
@@ -40,29 +35,26 @@ export function FundingHero({
   return (
     <div className="fund-head">
       <div>
-        <div
-          className="page-eyebrow"
-          style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}
-        >
-          <FreshnessPill source="repos" fetchedAt={fetchedAt} prefix="FUNDING RADAR" />
-          <span style={{ color: "var(--fg-faint)" }}>
-            · /funding · {totalRounds.toLocaleString()} rounds · {periodLabel} window
-            {" "}· {liveSources} of {totalSources} sources up
+        <div className="page-eyebrow funding-eyebrow">
+          <FreshnessPill source="funding" fetchedAt={fetchedAt} prefix="FUNDING RADAR" />
+          <span>
+            /funding - {totalRounds.toLocaleString()} rounds - {periodLabel} window -{" "}
+            {liveSources} of {totalSources} sources up
           </span>
         </div>
         <h1 className="page-title">Capital flows for AI + tech.</h1>
         <p className="page-sub">
           Funding signals extracted from{" "}
           <b>TechCrunch, VentureBeat, Sifted, Crunchbase, SEC Form D, Newcomer, The Information</b>{" "}
-          and 28 more. Structured rounds with company / amount / investors / confidence scoring.
-          Matched to GitHub repos when found.
+          and 28 more. Structured rounds with company / amount / investors / confidence
+          scoring. Matched to GitHub repos when found.
         </p>
       </div>
       <div className="segmented" role="group" aria-label="Time window">
         {FUNDING_PERIODS.map((p) => (
           <Link
             key={p.id}
-            href={{ query: { period: p.id } }}
+            href={{ pathname: "/funding", query: { period: p.id } }}
             className={p.id === period ? "on" : ""}
             prefetch={false}
           >

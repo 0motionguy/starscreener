@@ -1,17 +1,18 @@
-// SectorHeatmap — 6 `.sector-tile` cells inside `.sector-heat`.
-// Tier classes (tier-hot, tier-warm, plain) color by dollar volume.
-//
-// Sectors: AI Infra, Foundation Models, Coding Agents, Vector DBs,
-// Agent Frameworks, Dev Tools. Each tile derives $ raised + round count
-// from signal tags / heuristic matches on the company name + headline.
+// SectorHeatmap renders the 6-tile funding heatmap from the mockup.
+// Each tile links into a URL-addressable sector drilldown.
+
+import Link from "next/link";
 
 import type { FundingSignal } from "@/lib/funding/types";
+import {
+  compactCurrency,
+  ensureFundingSignals,
+  slugify,
+} from "./fundingDisplayData";
 
 interface SectorBucket {
   name: string;
-  /** Tag patterns matched against signal.tags[]. Lowercase. */
   tags: readonly string[];
-  /** Substrings matched against headline + description (lowercase). */
   keywords: readonly string[];
 }
 
@@ -28,7 +29,7 @@ const SECTORS: readonly SectorBucket[] = [
   },
   {
     name: "Coding Agents",
-    tags: ["coding", "developer", "code"],
+    tags: ["coding", "developer", "developer-tools", "code"],
     keywords: ["code editor", "coding agent", "code completion", "developer copilot", "ai code"],
   },
   {
@@ -48,17 +49,6 @@ const SECTORS: readonly SectorBucket[] = [
   },
 ];
 
-function compactCurrency(amount: number): string {
-  if (!Number.isFinite(amount) || amount <= 0) return "$0";
-  if (amount >= 1_000_000_000) {
-    return `$${(amount / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B`;
-  }
-  if (amount >= 1_000_000) {
-    return `$${Math.round(amount / 1_000_000)}M`;
-  }
-  return `$${Math.round(amount / 1_000)}K`;
-}
-
 interface AggregatedSector {
   name: string;
   totalUsd: number;
@@ -66,13 +56,14 @@ interface AggregatedSector {
 }
 
 function aggregate(signals: FundingSignal[]): AggregatedSector[] {
+  const visibleSignals = ensureFundingSignals(signals, 12);
   return SECTORS.map((bucket) => {
     let totalUsd = 0;
     let count = 0;
-    for (const s of signals) {
+    for (const s of visibleSignals) {
       const ex = s.extracted;
       if (!ex) continue;
-      const blob = (s.headline + " " + s.description).toLowerCase();
+      const blob = `${s.headline} ${s.description}`.toLowerCase();
       const tagHit = s.tags.some((t) => bucket.tags.includes(t.toLowerCase()));
       const kwHit = bucket.keywords.some((kw) => blob.includes(kw));
       if (!tagHit && !kwHit) continue;
@@ -93,9 +84,15 @@ function tierClass(totalUsd: number, peakUsd: number): string {
 
 interface SectorHeatmapProps {
   signals: FundingSignal[];
+  period?: string;
+  activeSector?: string;
 }
 
-export function SectorHeatmap({ signals }: SectorHeatmapProps) {
+export function SectorHeatmap({
+  signals,
+  period = "7d",
+  activeSector,
+}: SectorHeatmapProps) {
   const buckets = aggregate(signals);
   const peakUsd = Math.max(0, ...buckets.map((b) => b.totalUsd));
 
@@ -104,19 +101,29 @@ export function SectorHeatmap({ signals }: SectorHeatmapProps) {
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 02"}</span>
         <span className="ph-title">Sector heatmap</span>
-        <span className="ph-meta">{SECTORS.length} sectors · area = $ raised</span>
+        <span className="ph-meta">6 sectors - area = $ raised - tile click drills in</span>
       </div>
       <div style={{ padding: 12 }}>
         <div className="sector-heat">
-          {buckets.map((b) => (
-            <div key={b.name} className={`sector-tile ${tierClass(b.totalUsd, peakUsd)}`}>
-              <span className="sec-name">{b.name}</span>
-              <span className="sec-amt">{compactCurrency(b.totalUsd)}</span>
-              <span className="sec-ct">
-                {b.count} round{b.count === 1 ? "" : "s"}
-              </span>
-            </div>
-          ))}
+          {buckets.map((b) => {
+            const slug = slugify(b.name);
+            return (
+              <Link
+                key={b.name}
+                href={{ pathname: "/funding", query: { period, sector: slug } }}
+                prefetch={false}
+                className={`sector-tile ${tierClass(b.totalUsd, peakUsd)} ${
+                  activeSector === slug ? "on" : ""
+                }`}
+              >
+                <span className="sec-name">{b.name}</span>
+                <span className="sec-amt">{compactCurrency(b.totalUsd)}</span>
+                <span className="sec-ct">
+                  {b.count} round{b.count === 1 ? "" : "s"}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

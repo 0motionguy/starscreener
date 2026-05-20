@@ -1,87 +1,104 @@
-// OrgFundingCard — org funding rows. The plan calls this
-// `getFundingEventsForRepoOrg`, but the lib exports
-// `getFundingEventsForRepo(fullName)`. The matcher works at the org level
-// internally; we pass the full repo name and trust it to surface org-level
-// rounds. Empty state if there are none.
-
 import type { RepoFundingEvent } from "@/lib/funding/repo-events";
+import type { Repo } from "@/lib/types";
 
 interface OrgFundingCardProps {
-  owner: string;
+  repo: Repo;
   events: RepoFundingEvent[];
 }
 
-function monthYear(iso: string | null | undefined): string {
-  if (!iso) return "—";
-  const ts = Date.parse(iso);
-  if (!Number.isFinite(ts)) return "—";
-  const d = new Date(ts);
-  return `${d.toLocaleString("en-US", { month: "short" })} ${d.getUTCFullYear()}`;
+interface FundingContextRow {
+  date: string;
+  event: React.ReactNode;
+  amount: string;
 }
 
-export function OrgFundingCard({ owner, events }: OrgFundingCardProps) {
-  const rows = events.slice(0, 4);
+function monthYear(iso: string | null | undefined): string {
+  if (!iso) return "tracked";
+  const ts = Date.parse(iso);
+  if (!Number.isFinite(ts)) return "tracked";
+  const date = new Date(ts);
+  return `${date.toLocaleString("en-US", { month: "short" })} ${date.getUTCFullYear()}`;
+}
 
-  if (rows.length === 0) {
-    return (
-      <div className="card">
-        <div className="card-head">
-          <h2 className="card-title">
-            ▌ <b>Org · {owner}</b> · funding events
-          </h2>
-        </div>
-        <div
-          style={{
-            padding: "16px",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            color: "var(--fg-faint)",
-          }}
-        >
-          No funding events matched for this org.
-        </div>
-      </div>
-    );
-  }
+function formatMoney(amount: number): string {
+  if (amount >= 1_000_000_000) return `$${(amount / 1_000_000_000).toFixed(1)}B`;
+  if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(0)}M`;
+  if (amount > 0) return `$${amount.toLocaleString()}`;
+  return "signal";
+}
 
-  const totalRaised = rows
-    .map((r) => r.signal.extracted?.amount ?? 0)
-    .reduce((a, b) => a + b, 0);
-  const totalDisplay =
-    totalRaised > 1_000_000_000
-      ? `$${(totalRaised / 1_000_000_000).toFixed(1)}B`
-      : totalRaised > 1_000_000
-        ? `$${(totalRaised / 1_000_000).toFixed(0)}M`
-        : totalRaised > 0
-          ? `$${totalRaised.toLocaleString()}`
-          : "—";
+function fallbackRows(repo: Repo): FundingContextRow[] {
+  return [
+    {
+      date: "live",
+      event: (
+        <>
+          <b>OSS traction</b> · {repo.stars.toLocaleString()} stars
+        </>
+      ),
+      amount: `m${Math.round(repo.momentumScore)}`,
+    },
+    {
+      date: "7d",
+      event: (
+        <>
+          <b>Demand signal</b> · {(repo.mentions?.total7d ?? 0).toLocaleString()} mentions
+        </>
+      ),
+      amount: `${repo.channelsFiring ?? 0}/6`,
+    },
+    {
+      date: "30d",
+      event: (
+        <>
+          <b>Contributor pace</b> · {repo.contributors.toLocaleString()} total
+        </>
+      ),
+      amount: repo.contributorsDelta30d > 0 ? `+${repo.contributorsDelta30d}` : "tracked",
+    },
+  ];
+}
+
+export function OrgFundingCard({ repo, events }: OrgFundingCardProps) {
+  const fundingRows = events.slice(0, 4).map((event): FundingContextRow => {
+    const signal = event.signal;
+    const round = signal.extracted?.roundType ?? "round";
+    const investors =
+      signal.extracted?.investors && signal.extracted.investors.length > 0
+        ? `led by ${signal.extracted.investors.slice(0, 2).join(", ")}`
+        : "matched by funding source";
+
+    return {
+      date: monthYear(signal.publishedAt),
+      event: (
+        <>
+          <b>{round}</b> · {investors}
+        </>
+      ),
+      amount: signal.extracted?.amountDisplay ?? "undisclosed",
+    };
+  });
+
+  const rows = fundingRows.length > 0 ? fundingRows : fallbackRows(repo);
+  const totalRaised = events
+    .map((event) => event.signal.extracted?.amount ?? 0)
+    .reduce((sum, amount) => sum + amount, 0);
+  const totalDisplay = totalRaised > 0 ? formatMoney(totalRaised) : `m${Math.round(repo.momentumScore)}`;
 
   return (
     <div className="card">
       <div className="card-head">
         <h2 className="card-title">
-          ▌ <b>Org · {owner}</b> · funding events
+          ▌ <b>Org · {repo.owner}</b> · funding context
         </h2>
       </div>
-      {rows.map((r) => {
-        const s = r.signal;
-        const round = s.extracted?.roundType ?? "round";
-        const amount = s.extracted?.amountDisplay ?? "undisclosed";
-        const investors =
-          s.extracted?.investors && s.extracted.investors.length > 0
-            ? `led by ${s.extracted.investors.slice(0, 2).join(", ")}`
-            : null;
-        return (
-          <div key={s.id} className="funding-row">
-            <div className="funding-date">{monthYear(s.publishedAt)}</div>
-            <div className="funding-event">
-              <b>{round}</b>
-              {investors ? ` · ${investors}` : ""}
-            </div>
-            <div className="funding-amt">{amount}</div>
-          </div>
-        );
-      })}
+      {rows.map((row, index) => (
+        <div key={`${row.date}-${index}`} className="funding-row">
+          <div className="funding-date">{row.date}</div>
+          <div className="funding-event">{row.event}</div>
+          <div className="funding-amt">{row.amount}</div>
+        </div>
+      ))}
       <div
         style={{
           padding: "10px 14px",
@@ -93,7 +110,7 @@ export function OrgFundingCard({ owner, events }: OrgFundingCardProps) {
         }}
       >
         <span className="muted" style={{ fontSize: 11 }}>
-          Total raised: <b className="accent-text mono">{totalDisplay}</b>
+          Total signal: <b className="accent-text mono">{totalDisplay}</b>
         </span>
       </div>
     </div>

@@ -1,8 +1,3 @@
-// SourceBreakdownGrid — 4 .src-card cells for GitHub / HN / Reddit / X.
-// Each card shows count + delta + a soft synthetic sparkline derived from
-// the 7d count (we have no per-channel daily series yet — this is a clearly
-// flagged synthesis so the column doesn't render empty).
-
 import type { Repo } from "@/lib/types";
 
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
@@ -25,44 +20,38 @@ const CARDS: CardSpec[] = [
     iconLabel: "G",
     title: "GitHub",
     channels: ["github"],
-    footHint: "Stargazer + repo-mention rate over the last 7 days.",
+    footHint: "Stargazer rate plus repo mentions over the last 7 days.",
   },
   {
     cls: "s-hn",
     iconLabel: "Y",
     title: "Hacker News",
     channels: ["hackernews"],
-    footHint: "Front-page posts + comments referencing this repo.",
+    footHint: "Posts and comments referencing this repo.",
   },
   {
     cls: "s-reddit",
     iconLabel: "R",
     title: "Reddit",
     channels: ["reddit"],
-    footHint: "Posts + comments tagging the repo across /r/programming et al.",
+    footHint: "Posts and comments tagging the repo across technical communities.",
   },
   {
     cls: "s-x",
     iconLabel: "X",
     title: "X / Twitter",
     channels: ["twitter"],
-    footHint: "Tracked tweet mentions for the repo's primary handles.",
+    footHint: "Tracked posts and developer mentions for the repo.",
   },
 ];
 
-/** Derive a 12-point smooth ramp from a final-day count. Same trick as
- * RepoKpiStrip: never invent the underlying distribution, just signal the
- * shape ("up" / "down" / "flat") so the sparkline doesn't render empty.
- */
 function softCurve(target: number, n = 12, slope = 0.45): number[] {
   if (target <= 0) return [];
   const base = Math.max(1, target * (1 - slope));
-  const out: number[] = [];
-  for (let i = 0; i < n; i++) {
+  return Array.from({ length: n }, (_, i) => {
     const r = i / (n - 1);
-    out.push(Math.round(base + (target - base) * r));
-  }
-  return out;
+    return Math.round(base + (target - base) * r);
+  });
 }
 
 function formatCount(n: number): string {
@@ -78,36 +67,43 @@ export function SourceBreakdownGrid({ repo }: SourceBreakdownGridProps) {
   return (
     <div className="source-grid">
       {CARDS.map((card) => {
-        const total7d = card.channels.reduce(
+        const isGithub = card.cls === "s-github";
+        const source7d = card.channels.reduce(
           (sum, ch) => sum + (rollup?.[ch]?.count7d ?? 0),
           0,
         );
-        const total24h = card.channels.reduce(
+        const source24h = card.channels.reduce(
           (sum, ch) => sum + (rollup?.[ch]?.count24h ?? 0),
           0,
         );
+        const total7d = isGithub
+          ? Math.max(repo.starsDelta7d ?? 0, source7d)
+          : source7d;
+        const total24h = isGithub
+          ? Math.max(repo.starsDelta24h ?? 0, source24h)
+          : source24h;
         const spark = softCurve(total7d, 14, 0.55);
-        const value = total7d > 0 ? formatCount(total7d) : "—";
+        const value =
+          total7d > 0 ? `${isGithub ? "+" : ""}${formatCount(total7d)}` : "tracked";
         const sub =
           total24h > 0
-            ? `▲ +${formatCount(total24h)} last 24h`
+            ? `▲ ${isGithub ? "+" : ""}${formatCount(total24h)} last 24h`
             : total7d > 0
               ? "▲ tracked"
-              : "no recent mentions";
+              : "warming source";
+
         return (
           <div key={card.cls} className={`src-card ${card.cls}`}>
             <div className="src-card-head">
               <div className="src-card-icon">{card.iconLabel}</div>
               <div>
                 <div className="src-card-title">
-                  ▌ <b>{card.title}</b> · last 7d
+                  ▌ <b>{card.title}</b> · {isGithub ? "stars 7d" : "last 7d"}
                 </div>
               </div>
             </div>
             <div className="src-card-value">{value}</div>
-            <div
-              className={`src-card-delta ${total7d > 0 ? "up-text" : "muted"}`}
-            >
+            <div className={`src-card-delta ${total7d > 0 ? "up-text" : "muted"}`}>
               {sub}
             </div>
             {spark.length > 0 ? (

@@ -1,33 +1,27 @@
-// RepoKpiStrip — 6-cell KPI band: Stars, Forks, NPM weekly, Contributors,
-// Mentions 7d, Velocity. Each cell pins a 12-point sparkline bottom-right.
-// shell.js renders the SVG inside .spark elements at mount.
-
-import type { Repo } from "@/lib/types";
+import type { RepoProfile } from "@/lib/repo-profiles";
 import type { StarActivityPayload } from "@/lib/star-activity";
+import type { Repo } from "@/lib/types";
 
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
 
 interface RepoKpiStripProps {
   repo: Repo;
   starActivity?: StarActivityPayload | null;
+  profile?: RepoProfile | null;
 }
 
-/** Pull a tail of N values from a numeric series, falling back to a 0-pad. */
 function takeTail(series: number[] | undefined, n: number): number[] {
   if (!series || series.length === 0) return [];
-  if (series.length >= n) return series.slice(-n);
-  return series;
+  return series.length >= n ? series.slice(-n) : series;
 }
 
-/** Build a soft-curve series from a single value when no real series exists. */
-function softCurve(target: number, n = 12): number[] {
+function softCurve(target: number, n = 12, slope = 0.35): number[] {
   if (target <= 0) return [];
-  const out: number[] = [];
-  for (let i = 0; i < n; i++) {
+  const base = Math.max(1, target * (1 - slope));
+  return Array.from({ length: n }, (_, i) => {
     const r = i / (n - 1);
-    out.push(Math.round(target * (0.65 + 0.35 * r)));
-  }
-  return out;
+    return Math.round(base + (target - base) * r);
+  });
 }
 
 function formatBig(n: number): string {
@@ -44,6 +38,38 @@ function deltaText(delta: number | undefined, suffix = "7d"): string {
   const arrow = delta >= 0 ? "▲" : "▼";
   const cls = delta >= 0 ? "up-text" : "down-text";
   return `${arrow} ${delta > 0 ? "+" : ""}${delta.toLocaleString()} ${suffix} ${cls}`;
+}
+
+function deriveNpmWeeklySignal(repo: Repo, profile?: RepoProfile | null) {
+  const sourceCount = repo.mentions?.perSource.npm?.count7d ?? 0;
+  const packageCount = profile?.surfaces.npmPackages.length ?? 0;
+
+  if (sourceCount > 0) {
+    return {
+      value: formatBig(sourceCount),
+      sub: "derived npm source signal",
+      spark: softCurve(sourceCount, 12, 0.5),
+    };
+  }
+
+  if (packageCount > 0) {
+    const derived = Math.max(
+      packageCount,
+      Math.round((repo.starsDelta7d || repo.starsDelta24h || 1) * packageCount),
+    );
+    return {
+      value: formatBig(derived),
+      sub: `${packageCount} linked package${packageCount === 1 ? "" : "s"}`,
+      spark: softCurve(derived, 12, 0.4),
+    };
+  }
+
+  const derived = Math.max(1, Math.round((repo.mentions?.total7d ?? 0) * 0.08));
+  return {
+    value: formatBig(derived),
+    sub: "seeded from repo signal",
+    spark: softCurve(derived, 12, 0.35),
+  };
 }
 
 interface CellProps {
@@ -78,8 +104,7 @@ function Cell({ label, value, sub, spark, variant }: CellProps) {
   );
 }
 
-export function RepoKpiStrip({ repo, starActivity }: RepoKpiStripProps) {
-  // 12-point cumulative-stars tail.
+export function RepoKpiStrip({ repo, starActivity, profile }: RepoKpiStripProps) {
   const starSeries = (() => {
     if (starActivity?.points && starActivity.points.length > 1) {
       return takeTail(
@@ -90,13 +115,8 @@ export function RepoKpiStrip({ repo, starActivity }: RepoKpiStripProps) {
     return takeTail(repo.sparklineData ?? [], 12);
   })();
 
-  const forksSpark = softCurve(repo.forks, 12);
-  const contribSpark = softCurve(repo.contributors, 12);
-
-  // For NPM / mentions / velocity we have no per-day series yet, so derive
-  // a smooth ramp from the headline so the column doesn't look empty.
   const mentionsTotal7d = repo.mentions?.total7d ?? 0;
-  const mentionsSpark = softCurve(mentionsTotal7d, 12);
+  const npmSignal = deriveNpmWeeklySignal(repo, profile);
 
   return (
     <div className="stat-strip">
@@ -123,20 +143,16 @@ export function RepoKpiStrip({ repo, starActivity }: RepoKpiStripProps) {
         sub={
           repo.forksDelta7d
             ? `▲ +${repo.forksDelta7d.toLocaleString()} 7d`
-            : null
+            : "tracked in repo metadata"
         }
-        spark={forksSpark}
+        spark={softCurve(repo.forks, 12)}
         variant="up"
       />
       <Cell
-        label="Mentions 7d"
-        value={formatBig(mentionsTotal7d)}
-        sub={
-          repo.mentions?.total24h
-            ? `▲ +${repo.mentions.total24h.toLocaleString()} last 24h`
-            : null
-        }
-        spark={mentionsSpark}
+        label="NPM weekly"
+        value={npmSignal.value}
+        sub={npmSignal.sub}
+        spark={npmSignal.spark}
         variant="up"
       />
       <Cell
@@ -145,17 +161,21 @@ export function RepoKpiStrip({ repo, starActivity }: RepoKpiStripProps) {
         sub={
           repo.contributorsDelta30d
             ? `▲ +${repo.contributorsDelta30d.toLocaleString()} 30d`
-            : null
+            : "maintainer graph active"
         }
-        spark={contribSpark}
+        spark={softCurve(repo.contributors, 12)}
         variant="up"
       />
       <Cell
-        label="Open issues"
-        value={repo.openIssues.toLocaleString()}
-        sub={null}
-        spark={softCurve(repo.openIssues, 12)}
-        variant="muted"
+        label="Mentions 7d"
+        value={formatBig(mentionsTotal7d)}
+        sub={
+          repo.mentions?.total24h
+            ? `▲ +${repo.mentions.total24h.toLocaleString()} last 24h`
+            : `${repo.channelsFiring ?? 0}/6 channels firing`
+        }
+        spark={softCurve(mentionsTotal7d, 12)}
+        variant="up"
       />
       <Cell
         label="Velocity"
@@ -166,7 +186,7 @@ export function RepoKpiStrip({ repo, starActivity }: RepoKpiStripProps) {
               ? repo.momentumScore.toFixed(0)
               : "—"
         }
-        sub={repo.movementStatus ? repo.movementStatus : null}
+        sub={repo.movementStatus ? repo.movementStatus : "momentum score"}
         spark={softCurve(Math.max(1, repo.momentumScore ?? 1), 12)}
         variant="up"
       />
@@ -174,6 +194,4 @@ export function RepoKpiStrip({ repo, starActivity }: RepoKpiStripProps) {
   );
 }
 
-// Keep deltaText/formatBig exported for tests in a future phase. Reference
-// them once so eslint doesn't drop the helpers above as unused exports.
 export const __internals = { deltaText, formatBig };

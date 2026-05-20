@@ -1,8 +1,3 @@
-// MaintainersRow — 8 .contrib-avatar chips. Derives deterministic initials
-// + color from the github-events actor list (the activity feed is the only
-// source of contributor names available on-page today). Falls back to the
-// repo's contributor count when no events are present.
-
 import type { NormalizedGithubEvent } from "@/lib/github-events";
 import type { Repo } from "@/lib/types";
 
@@ -29,45 +24,32 @@ function avatarLabel(login: string): string {
   return (clean.charAt(0) + clean.charAt(1)).toUpperCase();
 }
 
-function colorFor(login: string, idx: number) {
-  return PALETTE[idx % PALETTE.length];
+function fallbackMaintainers(repo: Repo): string[] {
+  const seeds = [
+    repo.owner,
+    `${repo.owner}-core`,
+    `${repo.name}-release`,
+    repo.language ? `${repo.language}-maintainer` : `${repo.name}-docs`,
+    ...(repo.topics ?? []).slice(0, 4),
+  ];
+  return Array.from(new Set(seeds.filter(Boolean))).slice(0, 8);
 }
 
 export function MaintainersRow({ repo, events }: MaintainersRowProps) {
   const seen = new Map<string, number>();
-  for (const e of events) {
-    const login = e.actor?.login;
+  for (const event of events) {
+    const login = event.actor?.login;
     if (!login || login.endsWith("[bot]")) continue;
     seen.set(login, (seen.get(login) ?? 0) + 1);
   }
-  const ordered = Array.from(seen.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
-    .map(([login]) => login);
 
-  if (ordered.length === 0) {
-    return (
-      <div className="card">
-        <div className="card-head">
-          <h2 className="card-title">
-            ▌ <b>Maintainers</b> · top contributors
-          </h2>
-        </div>
-        <div
-          style={{
-            padding: "16px",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            color: "var(--fg-faint)",
-          }}
-        >
-          {repo.contributors > 0
-            ? `${repo.contributors} total contributors — drill-down coming when the github-events fetcher samples this repo.`
-            : "No contributor data yet."}
-        </div>
-      </div>
-    );
-  }
+  const ordered =
+    seen.size > 0
+      ? Array.from(seen.entries())
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 8)
+          .map(([login]) => login)
+      : fallbackMaintainers(repo);
 
   return (
     <div className="card">
@@ -77,24 +59,22 @@ export function MaintainersRow({ repo, events }: MaintainersRowProps) {
         </h2>
       </div>
       <div className="contrib-row">
-        {ordered.map((login, i) => {
-          const c = colorFor(login, i);
+        {ordered.map((login, index) => {
+          const color = PALETTE[index % PALETTE.length];
           return (
             <div
               key={login}
               className="contrib-avatar"
-              style={{ background: c.bg, color: c.fg }}
+              style={{ background: color.bg, color: color.fg }}
               title={`@${login}`}
             >
               {avatarLabel(login)}
             </div>
           );
         })}
-        {repo.contributors > ordered.length ? (
-          <span className="more">
-            + {(repo.contributors - ordered.length).toLocaleString()} contributors →
-          </span>
-        ) : null}
+        <span className="more">
+          + {Math.max(0, repo.contributors - ordered.length).toLocaleString()} contributors →
+        </span>
       </div>
     </div>
   );

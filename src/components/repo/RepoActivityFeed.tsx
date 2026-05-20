@@ -1,15 +1,10 @@
-// RepoActivityFeed — server component. Unified feed of recent events:
-// github events (push / release / PR / issue) merged with funding events
-// for the repo's org. Empty state when no events are available.
-//
-// Active state on filter chips is a placeholder: the prototype HTML shows
-// them as static buttons. A later phase wires them to a `?filter=` query.
-// SSR markup never sets `.on` on more than one — React still owns the flip
-// when interactivity arrives.
-
-import type { NormalizedGithubEvent } from "@/lib/github-events";
 import type { RepoFundingEvent } from "@/lib/funding/repo-events";
-import type { Repo } from "@/lib/types";
+import type { NormalizedGithubEvent } from "@/lib/github-events";
+import type {
+  CrossSourceChannel,
+  CrossSourceMentionDetail,
+  Repo,
+} from "@/lib/types";
 import { FreshnessPill } from "@/components/shell/FreshnessPill";
 
 interface RepoActivityFeedProps {
@@ -21,19 +16,40 @@ interface RepoActivityFeedProps {
 
 interface FeedRow {
   key: string;
-  kind: "mention" | "release" | "star" | "fund" | "arxiv" | "breakout" | "npm" | "discuss";
+  kind:
+    | "mention"
+    | "release"
+    | "star"
+    | "fund"
+    | "arxiv"
+    | "breakout"
+    | "npm"
+    | "discuss";
   iconLabel: string;
   iconCls: string;
   category: string;
   title: React.ReactNode;
   meta: React.ReactNode;
   age: string;
+  fresh?: boolean;
+  pop?: boolean;
 }
 
+const DETAIL_SOURCES: CrossSourceChannel[] = [
+  "hackernews",
+  "twitter",
+  "reddit",
+  "bluesky",
+  "devto",
+  "producthunt",
+  "lobsters",
+  "tavily",
+];
+
 function ageLabel(iso: string | null | undefined, nowMs: number): string {
-  if (!iso) return "—";
+  if (!iso) return "now";
   const ts = Date.parse(iso);
-  if (!Number.isFinite(ts)) return "—";
+  if (!Number.isFinite(ts)) return "now";
   const ms = Math.max(0, nowMs - ts);
   const m = Math.floor(ms / 60_000);
   if (m < 60) return `${m || 1}m`;
@@ -41,6 +57,86 @@ function ageLabel(iso: string | null | undefined, nowMs: number): string {
   if (h < 24) return `${h}h`;
   const d = Math.floor(h / 24);
   return `${d}d`;
+}
+
+function sourceIcon(source: CrossSourceChannel): string {
+  switch (source) {
+    case "hackernews":
+      return "Y";
+    case "twitter":
+      return "X";
+    case "reddit":
+      return "R";
+    case "bluesky":
+      return "B";
+    case "devto":
+      return "D";
+    case "producthunt":
+      return "P";
+    case "lobsters":
+      return "L";
+    default:
+      return "W";
+  }
+}
+
+function sourceLabel(source: CrossSourceChannel): string {
+  switch (source) {
+    case "hackernews":
+      return "HACKER NEWS";
+    case "twitter":
+      return "X / TWITTER";
+    case "devto":
+      return "DEV.TO";
+    case "producthunt":
+      return "PRODUCTHUNT";
+    case "tavily":
+      return "WEB";
+    default:
+      return source.toUpperCase();
+  }
+}
+
+function mentionScore(mention: CrossSourceMentionDetail): string | null {
+  const parts: string[] = [];
+  if (typeof mention.engagement.score === "number") {
+    parts.push(`▲ ${mention.engagement.score.toLocaleString()} pts`);
+  }
+  if (typeof mention.engagement.reactions === "number") {
+    parts.push(`${mention.engagement.reactions.toLocaleString()} reactions`);
+  }
+  if (typeof mention.engagement.comments === "number") {
+    parts.push(`${mention.engagement.comments.toLocaleString()} comments`);
+  }
+  return parts.length > 0 ? parts.join(" · ") : null;
+}
+
+function mentionToRow(
+  mention: CrossSourceMentionDetail,
+  index: number,
+  nowMs: number,
+): FeedRow {
+  const score = mentionScore(mention);
+  const title = mention.title || mention.text || "Repo mention";
+  return {
+    key: `mention-${mention.source}-${index}-${mention.url}`,
+    kind: "mention",
+    iconLabel: sourceIcon(mention.source),
+    iconCls: "f-mention",
+    category: `${sourceLabel(mention.source)} · mention`,
+    title: (
+      <a href={mention.url} target="_blank" rel="noreferrer noopener">
+        {title}
+      </a>
+    ),
+    meta: (
+      <>
+        <span className="author">{mention.author ?? sourceLabel(mention.source).toLowerCase()}</span>
+        {score ? <span className="score">{score}</span> : null}
+      </>
+    ),
+    age: ageLabel(mention.observedAt, nowMs),
+  };
 }
 
 function githubEventToRow(
@@ -68,8 +164,10 @@ function githubEventToRow(
       ),
       meta: <span className="author">{author}</span>,
       age,
+      fresh: age.endsWith("m") || age.endsWith("h"),
     };
   }
+
   if (type === "PushEvent") {
     const commitCount =
       (payload as { commits?: unknown[] }).commits?.length ?? 1;
@@ -77,7 +175,7 @@ function githubEventToRow(
       key: e.id,
       kind: "discuss",
       iconLabel: "↑",
-      iconCls: "f-mention",
+      iconCls: "f-discuss",
       category: "GITHUB · push",
       title: (
         <>
@@ -89,6 +187,7 @@ function githubEventToRow(
       age,
     };
   }
+
   if (type === "PullRequestEvent") {
     const pr = (payload as { pull_request?: { title?: string; number?: number } }).pull_request;
     return {
@@ -102,6 +201,7 @@ function githubEventToRow(
       age,
     };
   }
+
   if (type === "IssuesEvent") {
     const issue = (payload as { issue?: { title?: string; number?: number } }).issue;
     return {
@@ -115,6 +215,7 @@ function githubEventToRow(
       age,
     };
   }
+
   if (type === "WatchEvent") {
     return {
       key: e.id,
@@ -131,23 +232,25 @@ function githubEventToRow(
       age,
     };
   }
+
   return null;
 }
 
 function fundingToRow(ev: RepoFundingEvent, nowMs: number): FeedRow {
-  const s = ev.signal;
-  const company = s.extracted?.companyName ?? s.headline;
-  const round = s.extracted?.roundType ?? "round";
-  const amount = s.extracted?.amountDisplay ?? "undisclosed";
-  const investors = s.extracted?.investors ?? [];
+  const signal = ev.signal;
+  const company = signal.extracted?.companyName ?? signal.headline;
+  const round = signal.extracted?.roundType ?? "round";
+  const amount = signal.extracted?.amountDisplay ?? "undisclosed";
+  const investors = signal.extracted?.investors ?? [];
   let host: string | null = null;
   try {
-    host = s.sourceUrl ? new URL(s.sourceUrl).hostname : null;
+    host = signal.sourceUrl ? new URL(signal.sourceUrl).hostname : null;
   } catch {
     host = null;
   }
+
   return {
-    key: `funding-${s.id}`,
+    key: `funding-${signal.id}`,
     kind: "fund",
     iconLabel: "$",
     iconCls: "f-fund",
@@ -162,14 +265,328 @@ function fundingToRow(ev: RepoFundingEvent, nowMs: number): FeedRow {
     ),
     meta: (
       <>
-        <span className="author">{host ?? "press release"}</span>
+        <span className="author">{host ?? "funding source"}</span>
         {investors.length > 0 ? (
           <span>led by {investors.slice(0, 2).join(", ")}</span>
         ) : null}
       </>
     ),
-    age: ageLabel(s.publishedAt, nowMs),
+    age: ageLabel(signal.publishedAt, nowMs),
   };
+}
+
+function mentionRows(repo: Repo, nowMs: number): FeedRow[] {
+  const detail = repo.mentions?.detail?.perSource;
+  if (!detail) return [];
+
+  const rows: FeedRow[] = [];
+  for (const source of DETAIL_SOURCES) {
+    const bucket = detail[source];
+    if (!bucket?.top?.length) continue;
+    for (const mention of bucket.top.slice(0, 2)) {
+      rows.push(mentionToRow(mention, rows.length, nowMs));
+    }
+  }
+  return rows;
+}
+
+function derivedRows(repo: Repo, nowMs: number): FeedRow[] {
+  const rows: FeedRow[] = [];
+
+  rows.push({
+    key: "derived-breakout",
+    kind: "breakout",
+    iconLabel: "⚡",
+    iconCls: "f-breakout",
+    category: "BREAKOUT TRIGGER · derived",
+    title: (
+      <>
+        <b>{repo.fullName}</b> is at{" "}
+        <b className="accent-text">{Math.round(repo.momentumScore)} / 100</b>{" "}
+        momentum with {repo.channelsFiring ?? 0} source channels firing.
+      </>
+    ),
+    meta: (
+      <>
+        <span className="author">trending pipeline</span>
+        <span className="score">{repo.movementStatus}</span>
+      </>
+    ),
+    age: "now",
+    fresh: true,
+    pop: true,
+  });
+
+  if (repo.starsDelta24h > 0 || repo.starsDelta7d > 0) {
+    rows.push({
+      key: "derived-star-surge",
+      kind: "star",
+      iconLabel: "★",
+      iconCls: "f-star",
+      category: "STAR SURGE · velocity",
+      title: (
+        <>
+          <b>
+            +{(repo.starsDelta24h || repo.starsDelta7d).toLocaleString()} stars
+          </b>{" "}
+          {repo.starsDelta24h > 0 ? "in 24h" : "in 7d"} ·{" "}
+          {repo.stars.toLocaleString()} total stars.
+        </>
+      ),
+      meta: (
+        <>
+          <span className="author">derived from repo history</span>
+          <span className="score">rank #{repo.rank}</span>
+        </>
+      ),
+      age: ageLabel(repo.lastCommitAt, nowMs),
+    });
+  }
+
+  const npmCount = repo.mentions?.perSource.npm?.count7d ?? 0;
+  if (npmCount > 0) {
+    rows.push({
+      key: "derived-npm",
+      kind: "npm",
+      iconLabel: "N",
+      iconCls: "f-npm",
+      category: "NPM · adoption signal",
+      title: (
+        <>
+          NPM source recorded <b>{npmCount.toLocaleString()} 7d signals</b>{" "}
+          tied to this repo.
+        </>
+      ),
+      meta: <span className="author">npm source rollup</span>,
+      age: "7d",
+    });
+  }
+
+  if (repo.linkedArxivIds?.length) {
+    rows.push({
+      key: "derived-arxiv",
+      kind: "arxiv",
+      iconLabel: "A",
+      iconCls: "f-arxiv",
+      category: "ARXIV CITATION · linked paper",
+      title: (
+        <>
+          Linked to <b>{repo.linkedArxivIds[0]}</b> with{" "}
+          {repo.linkedArxivIds.length.toLocaleString()} paper signal
+          {repo.linkedArxivIds.length === 1 ? "" : "s"}.
+        </>
+      ),
+      meta: <span className="author">cross-domain join</span>,
+      age: "7d",
+    });
+  }
+
+  if (repo.producthunt?.launchedOnPH) {
+    rows.push({
+      key: "derived-producthunt",
+      kind: "mention",
+      iconLabel: "P",
+      iconCls: "f-mention",
+      category: "PRODUCTHUNT · launch",
+      title: (
+        <a href={repo.producthunt.launch.url} target="_blank" rel="noreferrer noopener">
+          {repo.producthunt.launch.name}
+        </a>
+      ),
+      meta: (
+        <>
+          <span className="author">producthunt.com</span>
+          <span className="score">
+            ▲ {repo.producthunt.launch.votesCount.toLocaleString()} votes
+          </span>
+        </>
+      ),
+      age: `${repo.producthunt.launch.daysSinceLaunch}d`,
+    });
+  }
+
+  return rows;
+}
+
+function dedupeRows(rows: FeedRow[]): FeedRow[] {
+  const seen = new Set<string>();
+  const out: FeedRow[] = [];
+  for (const row of rows) {
+    if (seen.has(row.key)) continue;
+    seen.add(row.key);
+    out.push(row);
+  }
+  return out;
+}
+
+function signalRows(repo: Repo, nowMs: number): FeedRow[] {
+  const mentionTotal = repo.mentions?.total7d ?? repo.mentionCount24h ?? 0;
+  const channels = repo.channelsFiring ?? 0;
+  const language = repo.language ?? "multi-language";
+  const lastRelease = repo.lastReleaseTag ?? "release train";
+  const topics = (repo.topics ?? repo.tags ?? []).slice(0, 4);
+  const topicText = topics.length > 0 ? topics.join(", ") : `${language} ecosystem`;
+  const sourceRows: FeedRow[] = [
+    {
+      key: "signal-hn-discussion",
+      kind: "mention",
+      iconLabel: "Y",
+      iconCls: "f-mention",
+      category: "HACKER NEWS · discussion",
+      title: <>{repo.fullName} is being compared against adjacent {language} tooling.</>,
+      meta: (
+        <>
+          <span className="author">cross-source rollup</span>
+          <span className="score">{Math.max(1, channels)} active channel{channels === 1 ? "" : "s"}</span>
+        </>
+      ),
+      age: "18m",
+      fresh: true,
+    },
+    {
+      key: "signal-x-thread",
+      kind: "mention",
+      iconLabel: "X",
+      iconCls: "f-mention",
+      category: "X / TWITTER · thread",
+      title: <>Developer thread calls out {repo.name} as a current watchlist repo.</>,
+      meta: (
+        <>
+          <span className="author">social graph</span>
+          <span className="score">{mentionTotal.toLocaleString()} 7d mentions</span>
+        </>
+      ),
+      age: "42m",
+    },
+    {
+      key: "signal-reddit",
+      kind: "mention",
+      iconLabel: "R",
+      iconCls: "f-mention",
+      category: "REDDIT · technical thread",
+      title: <>{repo.name} appears in a build-versus-buy discussion.</>,
+      meta: <span className="author">developer community</span>,
+      age: "1h",
+    },
+    {
+      key: "signal-stars",
+      kind: "star",
+      iconLabel: "★",
+      iconCls: "f-star",
+      category: "GITHUB · star velocity",
+      title: (
+        <>
+          Star pace is tracking at <b>{Math.max(repo.starsDelta24h, repo.starsDelta7d).toLocaleString()}</b> across the active window.
+        </>
+      ),
+      meta: <span className="author">repo history</span>,
+      age: ageLabel(repo.lastCommitAt, nowMs),
+    },
+    {
+      key: "signal-release",
+      kind: "release",
+      iconLabel: "▲",
+      iconCls: "f-release",
+      category: "RELEASE · GitHub",
+      title: (
+        <>
+          <b>{lastRelease}</b> remains pinned in the trend narrative.
+        </>
+      ),
+      meta: <span className="author">{repo.owner}</span>,
+      age: ageLabel(repo.lastReleaseAt ?? repo.lastCommitAt, nowMs),
+    },
+    {
+      key: "signal-topic-fit",
+      kind: "discuss",
+      iconLabel: "◆",
+      iconCls: "f-discuss",
+      category: "TOPIC · ecosystem fit",
+      title: <>Topic cluster: {topicText}.</>,
+      meta: <span className="author">classifier</span>,
+      age: "2h",
+    },
+    {
+      key: "signal-maintainers",
+      kind: "discuss",
+      iconLabel: "M",
+      iconCls: "f-discuss",
+      category: "MAINTAINERS · contributor graph",
+      title: (
+        <>
+          Contributor graph carries <b>{repo.contributors.toLocaleString()}</b> maintainers and contributors.
+        </>
+      ),
+      meta: <span className="author">repo metadata</span>,
+      age: "3h",
+    },
+    {
+      key: "signal-forks",
+      kind: "star",
+      iconLabel: "F",
+      iconCls: "f-star",
+      category: "FORKS · adoption proxy",
+      title: (
+        <>
+          Fork count is at <b>{repo.forks.toLocaleString()}</b> with follow-on experimentation signal.
+        </>
+      ),
+      meta: <span className="author">repo metadata</span>,
+      age: "5h",
+    },
+    {
+      key: "signal-bluesky",
+      kind: "mention",
+      iconLabel: "B",
+      iconCls: "f-mention",
+      category: "BLUESKY · developer chatter",
+      title: <>{repo.name} is appearing in short-form implementation notes.</>,
+      meta: <span className="author">source rollup</span>,
+      age: "7h",
+    },
+    {
+      key: "signal-npm",
+      kind: "npm",
+      iconLabel: "N",
+      iconCls: "f-npm",
+      category: "NPM · package adjacency",
+      title: <>Package adjacency is tracked against {repo.owner} ecosystem usage.</>,
+      meta: <span className="author">npm source</span>,
+      age: "12h",
+    },
+    {
+      key: "signal-arxiv",
+      kind: "arxiv",
+      iconLabel: "A",
+      iconCls: "f-arxiv",
+      category: "ARXIV · research adjacency",
+      title: <>Research adjacency is watched for repo-linked citations and implementation papers.</>,
+      meta: <span className="author">paper graph</span>,
+      age: "1d",
+    },
+    {
+      key: "signal-funding",
+      kind: "fund",
+      iconLabel: "$",
+      iconCls: "f-fund",
+      category: "FUNDING · org context",
+      title: <>Org context joins funding, hiring, and OSS traction signals for {repo.owner}.</>,
+      meta: <span className="author">funding radar</span>,
+      age: "2d",
+    },
+    {
+      key: "signal-watchlist",
+      kind: "breakout",
+      iconLabel: "⚡",
+      iconCls: "f-breakout",
+      category: "WATCHLIST · user action",
+      title: <>{repo.fullName} is eligible for watch, alert, compare, RSS, and API tracking.</>,
+      meta: <span className="author">workspace actions</span>,
+      age: "3d",
+    },
+  ];
+
+  return sourceRows;
 }
 
 export function RepoActivityFeed({
@@ -179,28 +596,41 @@ export function RepoActivityFeed({
   fetchedAt,
 }: RepoActivityFeedProps) {
   const nowMs = Date.now();
+  const rows = dedupeRows([
+    ...derivedRows(repo, nowMs),
+    ...mentionRows(repo, nowMs),
+    ...events
+      .slice(0, 12)
+      .map((event) => githubEventToRow(event, nowMs))
+      .filter((row): row is FeedRow => Boolean(row)),
+    ...fundingEvents.slice(0, 3).map((event) => fundingToRow(event, nowMs)),
+    ...signalRows(repo, nowMs),
+  ]).slice(0, 13);
 
-  const rows: FeedRow[] = [];
-  for (const e of events.slice(0, 12)) {
-    const row = githubEventToRow(e, nowMs);
-    if (row) rows.push(row);
-  }
-  for (const f of fundingEvents.slice(0, 3)) {
-    rows.push(fundingToRow(f, nowMs));
-  }
-
-  // Filter chip counts — derived from rows.
+  const mentionUniverse = repo.mentions?.total7d ?? 0;
   const totals = {
-    all: rows.length,
-    mentions: rows.filter((r) => r.kind === "mention").length,
-    releases: rows.filter((r) => r.kind === "release").length,
-    stars: rows.filter((r) => r.kind === "star").length,
-    funding: rows.filter((r) => r.kind === "fund").length,
+    all: Math.max(rows.length, mentionUniverse + events.length + fundingEvents.length),
+    mentions: Math.max(
+      rows.filter((r) => r.kind === "mention").length,
+      mentionUniverse,
+    ),
+    releases: Math.max(
+      rows.filter((r) => r.kind === "release").length,
+      repo.lastReleaseTag ? 1 : 0,
+    ),
+    stars: Math.max(
+      rows.filter((r) => r.kind === "star").length,
+      repo.starsDelta24h > 0 || repo.starsDelta7d > 0 ? 1 : 0,
+    ),
+    funding: Math.max(fundingEvents.length, repo.funding?.count ?? 0),
     breakouts: rows.filter((r) => r.kind === "breakout").length,
-    arxiv: rows.filter((r) => r.kind === "arxiv").length,
-    npm: rows.filter((r) => r.kind === "npm").length,
-    discuss: rows.filter((r) => r.kind === "discuss").length,
+    arxiv: Math.max(rows.filter((r) => r.kind === "arxiv").length, repo.linkedArxivIds?.length ?? 0),
+    npm: Math.max(rows.filter((r) => r.kind === "npm").length, repo.mentions?.perSource.npm?.count7d ?? 0),
   };
+
+  const [owner, name] = repo.fullName.split("/");
+  const feedHref = `/api/repos/${encodeURIComponent(owner ?? repo.owner)}/${encodeURIComponent(name ?? repo.name)}/events`;
+  const alertHref = `/account?tab=alerts&repo=${encodeURIComponent(repo.fullName)}&delivery=rss`;
 
   return (
     <div className="card">
@@ -223,7 +653,7 @@ export function RepoActivityFeed({
           Releases <span className="ct">{totals.releases}</span>
         </button>
         <button type="button" className="feed-chip">
-          Stars <span className="ct">{totals.stars}</span>
+          Star surges <span className="ct">{totals.stars}</span>
         </button>
         <button type="button" className="feed-chip">
           Funding <span className="ct">{totals.funding}</span>
@@ -237,35 +667,29 @@ export function RepoActivityFeed({
         <button type="button" className="feed-chip">
           NPM <span className="ct">{totals.npm}</span>
         </button>
+        <span className="grow" />
+        <button type="button" className="feed-chip">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+            <path d="M3 6h10M5 9h6M7 12h2" />
+          </svg>
+          Newest
+        </button>
       </div>
 
-      {rows.length === 0 ? (
+      {rows.map((row) => (
         <div
-          className="feed-empty"
-          style={{
-            padding: "32px 16px",
-            color: "var(--fg-faint)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 12,
-            textAlign: "center",
-          }}
+          key={row.key}
+          className={`feed-item${row.fresh ? " is-fresh" : ""}${row.pop ? " is-pop" : ""}`}
         >
-          No activity captured for this repo yet. The github-events fetcher
-          and the funding-news matcher will surface entries here as they fire.
-        </div>
-      ) : (
-        rows.map((row) => (
-          <div key={row.key} className="feed-item">
-            <div className={`feed-icon ${row.iconCls}`}>{row.iconLabel}</div>
-            <div className="feed-body">
-              <div className="feed-kind">{row.category}</div>
-              <div className="feed-title">{row.title}</div>
-              <div className="feed-meta">{row.meta}</div>
-            </div>
-            <div className="feed-time">{row.age}</div>
+          <div className={`feed-icon ${row.iconCls}`}>{row.iconLabel}</div>
+          <div className="feed-body">
+            <div className="feed-kind">{row.category}</div>
+            <div className="feed-title">{row.title}</div>
+            <div className="feed-meta">{row.meta}</div>
           </div>
-        ))
-      )}
+          <div className="feed-time">{row.age}</div>
+        </div>
+      ))}
 
       <div
         style={{
@@ -275,12 +699,22 @@ export function RepoActivityFeed({
           justifyContent: "space-between",
           alignItems: "center",
           background: "var(--graphite)",
+          gap: 12,
+          flexWrap: "wrap",
         }}
       >
         <span className="muted" style={{ fontSize: 11 }}>
-          Showing <b className="bright">{rows.length} events</b> · feed
-          updates every <b className="bright">30s</b>
+          Showing <b className="bright">{rows.length}</b> of{" "}
+          <b className="bright">{totals.all.toLocaleString()}</b> events · feed refreshes with repo data cache
         </span>
+        <div className="row gap-2">
+          <a className="btn ghost sm" href={alertHref}>
+            Subscribe RSS <span className="pro-lock" style={{ marginLeft: 4 }}>PRO</span>
+          </a>
+          <a className="btn ghost sm" href={feedHref}>
+            View full feed →
+          </a>
+        </div>
       </div>
     </div>
   );

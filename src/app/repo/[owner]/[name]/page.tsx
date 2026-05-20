@@ -27,9 +27,13 @@ import { synthesizeWhy } from "@/lib/why-narrative";
 import { RepoHeroCard } from "@/components/repo/RepoHeroCard";
 import { WhyTrendingPanel } from "@/components/repo/WhyTrendingPanel";
 import { RepoKpiStrip } from "@/components/repo/RepoKpiStrip";
-import { StarHistoryChart } from "@/components/repo/StarHistoryChart";
+import {
+  StarHistoryChart,
+  type ChartEvent,
+} from "@/components/repo/StarHistoryChart";
 import { SourceBreakdownGrid } from "@/components/repo/SourceBreakdownGrid";
 import { MentionTimelineStrip } from "@/components/repo/MentionTimelineStrip";
+import { RepoValueStrip } from "@/components/repo/RepoValueStrip";
 import { RepoActivityFeed } from "@/components/repo/RepoActivityFeed";
 import { MaintainersRow } from "@/components/repo/MaintainersRow";
 import { ReleasesCard } from "@/components/repo/ReleasesCard";
@@ -63,6 +67,93 @@ async function loadGithubEvents(
   } catch {
     return [];
   }
+}
+
+function chartEventFromGithubEvent(
+  event: NormalizedGithubEvent,
+  index: number,
+): ChartEvent | null {
+  const createdAt = event.createdAt ? Date.parse(event.createdAt) : NaN;
+  const now = Date.now();
+  const yearAgo = now - 365 * 24 * 60 * 60 * 1000;
+  const x = Number.isFinite(createdAt)
+    ? Math.min(0.96, Math.max(0.04, (createdAt - yearAgo) / (now - yearAgo)))
+    : Math.min(0.92, 0.22 + index * 0.18);
+
+  if (event.type === "ReleaseEvent") {
+    const release = (event.payload as {
+      release?: { tag_name?: string; name?: string };
+    }).release;
+    return {
+      x,
+      y: Math.max(0.08, 0.34 - index * 0.05),
+      label: release?.tag_name ?? release?.name ?? "release",
+      color: "var(--up)",
+    };
+  }
+
+  if (event.type === "WatchEvent") {
+    return {
+      x,
+      y: 0.18,
+      label: "star surge",
+      color: "var(--warning)",
+    };
+  }
+
+  if (event.type === "PullRequestEvent") {
+    const pr = (event.payload as { pull_request?: { number?: number } })
+      .pull_request;
+    return {
+      x,
+      y: 0.42,
+      label: `PR #${pr?.number ?? index + 1}`,
+      color: "var(--info)",
+    };
+  }
+
+  return null;
+}
+
+function deriveChartEvents(
+  repo: NonNullable<ReturnType<typeof getDerivedRepoByFullName>>,
+  events: NormalizedGithubEvent[],
+): ChartEvent[] {
+  const derived = events
+    .map(chartEventFromGithubEvent)
+    .filter((event): event is ChartEvent => Boolean(event))
+    .slice(0, 4);
+
+  if (derived.length >= 3) return derived;
+
+  if (repo.lastReleaseTag) {
+    derived.push({
+      x: 0.9,
+      y: 0.12,
+      label: repo.lastReleaseTag,
+      color: "var(--up)",
+    });
+  }
+
+  if (repo.starsDelta7d > 0) {
+    derived.push({
+      x: 0.78,
+      y: 0.24,
+      label: `+${repo.starsDelta7d.toLocaleString()} stars`,
+      color: "var(--accent)",
+    });
+  }
+
+  if ((repo.channelsFiring ?? 0) > 0) {
+    derived.push({
+      x: 0.86,
+      y: 0.32,
+      label: `${repo.channelsFiring} sources`,
+      color: "var(--info)",
+    });
+  }
+
+  return derived.slice(0, 4);
 }
 
 export default async function RepoDetailPage({ params }: PageProps) {
@@ -127,7 +218,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
       return null;
     }
   })();
-  void profile;
 
   const why = (() => {
     try {
@@ -145,16 +235,22 @@ export default async function RepoDetailPage({ params }: PageProps) {
     }
   })();
 
+  const chartEvents = deriveChartEvents(repo, events);
+
   return (
-    <div style={{ padding: "16px 22px 32px", maxWidth: 1400, margin: "0 auto" }}>
+    <div className="repo-detail-shell">
       <div className="repo-hero">
-        <RepoHeroCard repo={repo} />
+        <RepoHeroCard repo={repo} profile={profile} />
         <WhyTrendingPanel repo={repo} preloadedText={why?.text ?? null} />
       </div>
 
-      <RepoKpiStrip repo={repo} starActivity={starActivity} />
+      <RepoKpiStrip repo={repo} starActivity={starActivity} profile={profile} />
 
-      <StarHistoryChart repo={repo} starActivity={starActivity} events={[]} />
+      <StarHistoryChart
+        repo={repo}
+        starActivity={starActivity}
+        events={chartEvents}
+      />
 
       <div className="row between" style={{ margin: "8px 0 10px" }}>
         <div className="eyebrow">▌ Mentions by source · 4 primary channels</div>
@@ -165,6 +261,8 @@ export default async function RepoDetailPage({ params }: PageProps) {
       <SourceBreakdownGrid repo={repo} />
 
       <MentionTimelineStrip repo={repo} />
+
+      <RepoValueStrip repo={repo} />
 
       <div className="body-grid">
         <RepoActivityFeed
@@ -177,8 +275,8 @@ export default async function RepoDetailPage({ params }: PageProps) {
         <aside className="col gap-4">
           <MaintainersRow repo={repo} events={events} />
           <ReleasesCard repo={repo} events={events} />
-          <OrgFundingCard owner={repo.owner} events={fundingEvents} />
-          <RelatedReposCard related={related} />
+          <OrgFundingCard repo={repo} events={fundingEvents} />
+          <RelatedReposCard repo={repo} related={related} />
         </aside>
       </div>
     </div>

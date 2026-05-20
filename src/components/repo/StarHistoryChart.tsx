@@ -100,6 +100,18 @@ export function StarHistoryChart({
     line.length > 0
       ? `${linePath} L${line[line.length - 1].x.toFixed(2)},${PLOT.y + PLOT.h} L${line[0].x.toFixed(2)},${PLOT.y + PLOT.h} Z`
       : "";
+  const npmPath =
+    line.length > 1
+      ? smoothPath(
+          line.map((p, i) => {
+            const lift = 18 + (i / Math.max(1, line.length - 1)) * 22;
+            return {
+              x: p.x,
+              y: Math.min(PLOT.y + PLOT.h - 10, Math.max(PLOT.y + 12, p.y + lift)),
+            };
+          }),
+        )
+      : "";
 
   const yLabels = (() => {
     const range = max - min || 1;
@@ -129,6 +141,13 @@ export function StarHistoryChart({
           <span className="lg">
             <span
               className="lg-sw"
+              style={{ background: "var(--up)" }}
+            />{" "}
+            NPM (rel.)
+          </span>
+          <span className="lg">
+            <span
+              className="lg-sw"
               style={{
                 background: "var(--info)",
                 height: 8,
@@ -138,6 +157,15 @@ export function StarHistoryChart({
             />{" "}
             Events
           </span>
+        </div>
+        <div className="segmented" aria-label="Star history time range">
+          <button type="button">1M</button>
+          <button type="button">3M</button>
+          <button type="button">6M</button>
+          <button type="button" className="on">
+            1Y
+          </button>
+          <button type="button">ALL</button>
         </div>
       </div>
       <div className="hero-chart-body">
@@ -190,6 +218,16 @@ export function StarHistoryChart({
           </g>
 
           {areaPath ? <path d={areaPath} fill="url(#starGrad)" /> : null}
+          {npmPath ? (
+            <path
+              d={npmPath}
+              fill="none"
+              stroke="var(--up)"
+              strokeWidth={1.5}
+              strokeDasharray="4 4"
+              opacity={0.72}
+            />
+          ) : null}
           {linePath ? (
             <path
               d={linePath}

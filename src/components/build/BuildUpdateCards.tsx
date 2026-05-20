@@ -2,15 +2,17 @@
 
 // BuildUpdateCards — 4-card grid of template-derived "suggested updates".
 // Each card has tags, headline, body, second tag row, and Review / Publish
-// / Dismiss buttons. Clicking Review scrolls to the draft editor with the
-// signal selected; Publish is wired to the placeholder POST handler but
-// shows a "Coming in Phase 4C" toast for now. Dismiss locally removes the
-// card from the grid (state lives in this component — refresh re-renders).
+// / Dismiss buttons. Clicking Review navigates to `?review=<kind>` so the
+// server selects the matching draft for BuildReviewPanel; Publish is wired
+// to the placeholder POST handler but shows a "Coming in Phase 4C" toast
+// for now. Dismiss locally removes the card from the grid (state lives in
+// this component — refresh re-renders).
 //
 // AI-generated copy is deferred (per Phase 3E plan); drafts come from
 // `draftFromSignal()` in build-signals.ts. TODO: wire AI generation when
 // LLM endpoint stabilizes.
 
+import Link from "next/link";
 import { useState } from "react";
 
 import type { BuildUpdateDraft } from "./build-signals";
@@ -19,9 +21,15 @@ interface BuildUpdateCardsProps {
   drafts: BuildUpdateDraft[];
   /** Currently-reviewing card key (matches `card-${kind}` ids from page). */
   activeKey?: string | null;
+  /** Repo full name preserved on the `?review=` URL transition. */
+  repoFullName?: string;
 }
 
-export function BuildUpdateCards({ drafts, activeKey }: BuildUpdateCardsProps) {
+export function BuildUpdateCards({
+  drafts,
+  activeKey,
+  repoFullName,
+}: BuildUpdateCardsProps) {
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
   const [publishStatus, setPublishStatus] = useState<Record<string, "idle" | "published">>(
     {},
@@ -78,12 +86,18 @@ export function BuildUpdateCards({ drafts, activeKey }: BuildUpdateCardsProps) {
                 ))}
               </div>
               <div className="card-actions">
-                <a
+                <Link
                   className={isReviewing ? "tiny-btn primary" : "tiny-btn"}
-                  href={`#card-${draft.kind}`}
+                  href={
+                    repoFullName
+                      ? `/build?repo=${encodeURIComponent(repoFullName)}&review=${draft.kind}#card-${draft.kind}`
+                      : `?review=${draft.kind}#card-${draft.kind}`
+                  }
+                  data-review={draft.kind}
+                  scroll={false}
                 >
                   Review
-                </a>
+                </Link>
                 <button
                   className="tiny-btn"
                   type="button"

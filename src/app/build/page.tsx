@@ -78,6 +78,24 @@ function parseRepoParam(value: string | string[] | undefined): string | null {
   return trimmed;
 }
 
+// Mockup uses friendly aliases on `data-review="..."`. Map → BuildSignalKind so
+// `?review=onboarding` etc. selects the matching draft from `drafts`.
+const REVIEW_KEY_TO_KIND: Record<string, string> = {
+  onboarding: "readme",
+  readme: "readme",
+  release: "release",
+  reliability: "pr",
+  pr: "pr",
+  stars: "stars",
+  contributor: "contributor",
+};
+
+function parseReviewParam(value: string | string[] | undefined): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim().toLowerCase();
+  return REVIEW_KEY_TO_KIND[trimmed] ?? null;
+}
+
 export default async function BuildPage({ searchParams }: Props) {
   // 1. Auth gate — anon bounces through Clerk back here.
   const { userId } = await auth();
@@ -88,6 +106,7 @@ export default async function BuildPage({ searchParams }: Props) {
   // 2. Parse selected repo + bring caches online.
   const params = (await searchParams) ?? {};
   const requestedFullName = parseRepoParam(params.repo);
+  const requestedReviewKind = parseReviewParam(params.review);
 
   await Promise.allSettled([
     refreshTrendingFromStore(),
@@ -139,9 +158,16 @@ export default async function BuildPage({ searchParams }: Props) {
     ? signals.map((s) => draftFromSignal(s, selectedRepo))
     : [];
 
-  // 7. Active "review" card from URL hash → resolved client-side; server
-  //    just passes the first draft as the initial editor payload.
-  const initialDraft = drafts[0] ?? null;
+  // 7. Active "review" card resolved server-side from `?review=<kind>` (or
+  //    its mockup alias via REVIEW_KEY_TO_KIND). Falls back to the first
+  //    available draft. The client BuildReviewPanel still hot-swaps on
+  //    hash change for in-page anchors.
+  const draftByKind = new Map(drafts.map((d) => [d.kind as string, d]));
+  const initialDraft =
+    (requestedReviewKind && draftByKind.get(requestedReviewKind)) ||
+    drafts[0] ||
+    null;
+  const activeReviewKey = initialDraft ? `card-${initialDraft.kind}` : null;
   const draftsByKey: Record<string, BuildUpdateDraft> = drafts.reduce(
     (acc, draft) => {
       acc[`card-${draft.kind}`] = draft;
@@ -184,7 +210,11 @@ export default async function BuildPage({ searchParams }: Props) {
                 signals={signals}
                 repoFullName={selectedRepo.fullName}
               />
-              <BuildUpdateCards drafts={drafts} />
+              <BuildUpdateCards
+                drafts={drafts}
+                activeKey={activeReviewKey}
+                repoFullName={repoFullName}
+              />
               <BuildReviewPanel
                 initialDraft={initialDraft}
                 draftsByKey={draftsByKey}

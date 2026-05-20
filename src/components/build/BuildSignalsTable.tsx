@@ -74,7 +74,9 @@ export function BuildSignalsTable({
             <div className="signal-actions">
               <Link
                 className={i === 0 ? "tiny-btn primary" : "tiny-btn"}
-                href={`/build?repo=${encodeURIComponent(repoFullName)}#card-${s.kind}`}
+                href={`/build?repo=${encodeURIComponent(repoFullName)}&review=${s.kind}#card-${s.kind}`}
+                data-review={s.kind}
+                scroll={false}
               >
                 Create update
               </Link>

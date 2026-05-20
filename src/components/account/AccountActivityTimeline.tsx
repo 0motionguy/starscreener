@@ -8,11 +8,21 @@ interface AccountActivityTimelineProps {
   drops: DropEvent[];
 }
 
+const FRESH_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+function isFresh(iso: string | null | undefined, now: number): boolean {
+  if (!iso) return false;
+  const ts = Date.parse(iso);
+  if (!Number.isFinite(ts)) return false;
+  return now - ts <= FRESH_WINDOW_MS;
+}
+
 export function AccountActivityTimeline({
   ideas,
   recentReactions,
   drops,
 }: AccountActivityTimelineProps) {
+  const now = Date.now();
   const items = [
     ...ideas.slice(0, 4).map((idea) => ({
       id: `idea-${idea.id}`,
@@ -35,10 +45,10 @@ export function AccountActivityTimeline({
   ].slice(0, 10);
 
   return (
-    <section className="card">
+    <section className="card" aria-labelledby="account-activity-head">
       <div className="card-head">
-        <h2 className="card-title">
-          <b>Activity timeline</b> · ideas, reactions, drops
+        <h2 className="card-title" id="account-activity-head">
+          <b>Activity timeline</b> &middot; ideas, reactions, drops
         </h2>
       </div>
       <div style={{ padding: 14, display: "grid", gap: 10 }}>
@@ -47,14 +57,21 @@ export function AccountActivityTimeline({
             No public activity attached to this account yet.
           </p>
         ) : (
-          items.map((item) => (
-            <div key={item.id} className="feed-item">
-              <b>{item.title}</b>
-              <span>
-                {item.label} · {item.meta.slice(0, 10)}
-              </span>
-            </div>
-          ))
+          items.map((item) => {
+            const fresh = isFresh(item.meta, now);
+            return (
+              <div
+                key={item.id}
+                className={`feed-item${fresh ? " is-fresh" : ""}`}
+                data-fresh={fresh ? "true" : "false"}
+              >
+                <b>{item.title}</b>
+                <span>
+                  {item.label} &middot; {item.meta.slice(0, 10)}
+                </span>
+              </div>
+            );
+          })
         )}
       </div>
     </section>

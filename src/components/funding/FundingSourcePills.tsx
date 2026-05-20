@@ -5,7 +5,7 @@
 import Link from "next/link";
 
 import type { FundingSignal } from "@/lib/funding/types";
-import { slugify } from "./fundingDisplayData";
+import { PUBLISHER_SLUG_MATCH, slugify } from "./fundingDisplayData";
 
 interface FundingSourcePillsProps {
   signals: FundingSignal[];
@@ -22,31 +22,37 @@ interface PillEntry {
   match: readonly string[];
 }
 
-const PUBLISHERS: readonly Omit<PillEntry, "count">[] = [
-  { label: "TechCrunch", fallbackCount: 28, match: ["techcrunch.com", "tc-", "techcrunch"] },
-  { label: "VentureBeat", fallbackCount: 19, match: ["venturebeat.com", "venturebeat"] },
-  { label: "Sifted", fallbackCount: 14, match: ["sifted.eu", "sifted"] },
-  { label: "Crunchbase", fallbackCount: 22, match: ["crunchbase.com", "crunchbase"] },
-  { label: "SEC Form D", fallbackCount: 11, match: ["sec.gov", "edgar", "form d", "form-d"] },
-  { label: "The Information", fallbackCount: 8, match: ["theinformation.com", "the information"] },
-  { label: "Newcomer", fallbackCount: 7, match: ["newcomer.co", "newcomer"] },
-  { label: "TC AI", fallbackCount: 9, match: ["techcrunch.com/category/artificial-intelligence"] },
-  { label: "VB AI", fallbackCount: 6, match: ["venturebeat.com/ai"] },
-  { label: "EU-Startups", fallbackCount: 5, match: ["eu-startups.com"] },
-  { label: "Tech.eu", fallbackCount: 4, match: ["tech.eu"] },
-  { label: "Silicon Canals", fallbackCount: 3, match: ["siliconcanals.com"] },
-  { label: "YC", fallbackCount: 2, match: ["ycombinator.com", "y combinator"] },
-  { label: "Twitter / X", fallbackCount: 4, match: ["twitter.com", "x.com", "t.co/"] },
+// Publisher list mirrors the mockup's 14 pills. The `match` token list per
+// publisher lives in `PUBLISHER_SLUG_MATCH` (route-local table in
+// fundingDisplayData.ts) so the pill UI and `filterFundingBySources` can't
+// drift apart — both read from the same slug map keyed by `slugify(label)`.
+const PUBLISHERS: readonly Omit<PillEntry, "count" | "match">[] = [
+  { label: "TechCrunch", fallbackCount: 28 },
+  { label: "VentureBeat", fallbackCount: 19 },
+  { label: "Sifted", fallbackCount: 14 },
+  { label: "Crunchbase", fallbackCount: 22 },
+  { label: "SEC Form D", fallbackCount: 11 },
+  { label: "The Information", fallbackCount: 8 },
+  { label: "Newcomer", fallbackCount: 7 },
+  { label: "TC AI", fallbackCount: 9 },
+  { label: "VB AI", fallbackCount: 6 },
+  { label: "EU-Startups", fallbackCount: 5 },
+  { label: "Tech.eu", fallbackCount: 4 },
+  { label: "Silicon Canals", fallbackCount: 3 },
+  { label: "YC", fallbackCount: 2 },
+  { label: "Twitter / X", fallbackCount: 4 },
 ];
 
 function buildPills(signals: FundingSignal[]): PillEntry[] {
   const blobs = signals.map((s) => `${s.headline} ${s.sourceUrl} ${s.sourcePlatform}`.toLowerCase());
   return PUBLISHERS.map((pub) => {
+    const slug = slugify(pub.label);
+    const match = PUBLISHER_SLUG_MATCH[slug] ?? [];
     let count = 0;
     for (const blob of blobs) {
-      if (pub.match.some((m) => blob.includes(m))) count += 1;
+      if (match.some((m) => blob.includes(m))) count += 1;
     }
-    return { ...pub, count: Math.max(count, pub.fallbackCount) };
+    return { ...pub, match, count: Math.max(count, pub.fallbackCount) };
   });
 }
 

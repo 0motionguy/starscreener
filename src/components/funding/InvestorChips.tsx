@@ -72,7 +72,7 @@ export function InvestorChips({ signals, limit = 12 }: InvestorChipsProps) {
       </div>
       <div className="investors">
         {chips.map((c) => (
-          <span key={c.name} className="investor-chip">
+          <span key={c.name} className="investor-chip" data-firm={c.name}>
             <span className="av">{c.initial}</span>
             {c.name}
             <span className="ct">{c.count}</span>

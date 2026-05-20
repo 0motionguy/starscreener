@@ -32,6 +32,29 @@ function formatBig(n: number): string {
   return n.toLocaleString();
 }
 
+function velocityLabel(repo: Repo): string {
+  const stars = typeof repo.stars === "number" && repo.stars > 0 ? repo.stars : 0;
+  if (stars > 0) {
+    const delta24 = repo.starsDelta24h ?? 0;
+    if (delta24 > 0) {
+      const pct = (delta24 / stars) * 100;
+      return `+${pct.toFixed(1)}%`;
+    }
+    const delta7 = repo.starsDelta7d ?? 0;
+    if (delta7 > 0) {
+      const pct = (delta7 / stars) * 100;
+      return `+${pct.toFixed(1)}%`;
+    }
+  }
+  if (typeof repo.trendScore24h === "number" && repo.trendScore24h > 0) {
+    return `+${repo.trendScore24h.toFixed(1)}%`;
+  }
+  if (repo.momentumScore && repo.momentumScore > 0) {
+    return `+${repo.momentumScore.toFixed(0)}%`;
+  }
+  return "—";
+}
+
 function deltaText(delta: number | undefined, suffix = "7d"): string {
   if (typeof delta !== "number" || !Number.isFinite(delta) || delta === 0)
     return "";
@@ -179,13 +202,7 @@ export function RepoKpiStrip({ repo, starActivity, profile }: RepoKpiStripProps)
       />
       <Cell
         label="Velocity"
-        value={
-          typeof repo.trendScore24h === "number"
-            ? repo.trendScore24h.toFixed(1)
-            : repo.momentumScore
-              ? repo.momentumScore.toFixed(0)
-              : "—"
-        }
+        value={velocityLabel(repo)}
         sub={repo.movementStatus ? repo.movementStatus : "momentum score"}
         spark={softCurve(Math.max(1, repo.momentumScore ?? 1), 12)}
         variant="up"

@@ -52,6 +52,19 @@ export const metadata = {
   title: "Ideas Board",
   description:
     "Where contribution meets opportunity. Builders post unmet needs from trending repos. The community scores demand with Would Build / Use / Buy / Invest. The best ideas get claimed and shipped.",
+  openGraph: {
+    title: "Ideas Board — TrendingRepo",
+    description:
+      "Buildable opportunities from repo trends, open-source gaps, and developer demand.",
+    images: [
+      {
+        url: "/og/ideas.png",
+        width: 1200,
+        height: 630,
+        alt: "TrendingRepo Ideas Board",
+      },
+    ],
+  },
 };
 
 interface Props {
@@ -321,7 +334,12 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
             marginTop: 18,
           }}
         >
-          <div className="ideas-list">
+          <div
+            className="ideas-list"
+            id="ideas-board-panel"
+            role="tabpanel"
+            aria-labelledby={`ideas-filter-${filter || "all"}`}
+          >
             {rendered.length === 0 ? (
               <div
                 className="ideas-empty"
@@ -369,6 +387,22 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
       <IdeaSubmitModal signedIn={signedIn} />
       <IdeaTrendModal trendingRepos={trendingRepos} />
       <IdeaBriefModal />
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            itemListElement: rendered.slice(0, 25).map((idea, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: idea.title,
+              url: `https://trendingrepo.com/ideas/${idea.id}`,
+            })),
+          }),
+        }}
+      />
     </>
   );
 }

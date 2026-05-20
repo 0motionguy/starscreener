@@ -81,24 +81,28 @@ export function IdeasBoardToolbar({ q, sort, filter }: IdeasBoardToolbarProps) {
 
       <div
         className="ideas-filter"
-        role="group"
+        role="tablist"
         aria-label="Filter ideas"
         style={{ display: "flex", gap: 6, flexWrap: "wrap" }}
       >
-        {IDEA_FILTERS.map((f) => (
-          <Link
-            key={f.id}
-            href={buildHref({ q, sort, filter: f.id === "all" ? null : f.id })}
-            className={`chip-sm ${
-              (f.id === "all" && (!filter || filter === "all")) || f.id === filter
-                ? "on"
-                : ""
-            }`}
-            prefetch={false}
-          >
-            {f.label}
-          </Link>
-        ))}
+        {IDEA_FILTERS.map((f) => {
+          const isActive =
+            (f.id === "all" && (!filter || filter === "all")) || f.id === filter;
+          return (
+            <Link
+              key={f.id}
+              href={buildHref({ q, sort, filter: f.id === "all" ? null : f.id })}
+              className={`chip-sm ${isActive ? "on" : ""}`}
+              prefetch={false}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="ideas-board-panel"
+              id={`ideas-filter-${f.id}`}
+            >
+              {f.label}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

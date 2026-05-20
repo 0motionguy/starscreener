@@ -28,6 +28,7 @@ import {
   refreshClaudeRssFromStore,
   refreshOpenaiRssFromStore,
 } from "@/lib/rss-feeds";
+import { filterReposBySources } from "@/lib/filter/by-sources";
 import type { Repo, SocialPlatform } from "@/lib/types";
 
 import {
@@ -210,6 +211,12 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
 
   const counts = await getSidebarSourceCounts().catch(() => null);
   const repos = safe(() => getDerivedRepos(), []);
+  // Pipe URL-driven source selection into the cross-source feed + tag heatmap
+  // consumers. SourceFilterRail intentionally renders against the unfiltered
+  // sourceTotals so per-source counts stay independent of the active toggle
+  // set (clicking a pill still shows the same "GitHub: 18.2K" total even
+  // after the rest of the cockpit narrows).
+  const filteredRepos = filterReposBySources(repos, selected);
   const npmPackages = safe(() => getNpmPackages(), []);
   const arxivPapers = safe(() => getArxivPapersTrending(20), []);
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
@@ -268,8 +275,8 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
           <VolumeAreaChart totals={volumeTotals} />
 
           <div className="cockpit">
-            <CrossSourceFeed repos={repos} minChannels={5} limit={7} />
-            <TagMomentumHeatmap repos={repos} limit={21} />
+            <CrossSourceFeed repos={filteredRepos} minChannels={5} limit={7} />
+            <TagMomentumHeatmap repos={filteredRepos} limit={21} />
           </div>
 
           <div className="cockpit">

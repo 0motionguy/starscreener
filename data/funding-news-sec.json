@@ -1,8 +1,124 @@
 {
-  "fetchedAt": "2026-05-18T03:55:14.966Z",
+  "fetchedAt": "2026-05-20T07:48:40.523Z",
   "source": "sec-form-d-edgar",
   "windowDays": 30,
   "signals": [
+    {
+      "id": "sec-form-d-0002135142-26-000001",
+      "headline": "Med AI Diagnostics, LLC filed Form D",
+      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2135142/000213514226000001/primary_doc.xml)",
+      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2135142&type=D&dateb=&owner=include&count=40",
+      "sourcePlatform": "sec-form-d",
+      "publishedAt": "2026-05-19T00:00:00.000Z",
+      "discoveredAt": "2026-05-20T07:48:36.943Z",
+      "extracted": {
+        "companyName": "Med AI Diagnostics, LLC",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 1000000,
+        "amountDisplay": "$1M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high",
+        "industryGroup": "Other"
+      },
+      "tags": [
+        "sec",
+        "form-d",
+        "ai",
+        "ai-confirmed",
+        "industry:other"
+      ]
+    },
+    {
+      "id": "sec-form-d-0002078283-26-000003",
+      "headline": "Maisa AI Inc. filed Form D",
+      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2078283/000207828326000003/primary_doc.xml)",
+      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2078283&type=D&dateb=&owner=include&count=40",
+      "sourcePlatform": "sec-form-d",
+      "publishedAt": "2026-05-19T00:00:00.000Z",
+      "discoveredAt": "2026-05-20T07:48:37.698Z",
+      "extracted": {
+        "companyName": "Maisa AI Inc.",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 5000000,
+        "amountDisplay": "$5M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high",
+        "industryGroup": "Other Technology"
+      },
+      "tags": [
+        "sec",
+        "form-d",
+        "ai",
+        "ai-confirmed",
+        "industry:other-technology"
+      ]
+    },
+    {
+      "id": "sec-form-d-0002134085-26-000001",
+      "headline": "WindowEdge AI Inc. filed Form D",
+      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2134085/000213408526000001/primary_doc.xml)",
+      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134085&type=D&dateb=&owner=include&count=40",
+      "sourcePlatform": "sec-form-d",
+      "publishedAt": "2026-05-18T00:00:00.000Z",
+      "discoveredAt": "2026-05-20T07:48:35.913Z",
+      "extracted": {
+        "companyName": "WindowEdge AI Inc.",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 3000000,
+        "amountDisplay": "$3M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high",
+        "industryGroup": "Other Technology"
+      },
+      "tags": [
+        "sec",
+        "form-d",
+        "ai",
+        "ai-confirmed",
+        "industry:other-technology"
+      ]
+    },
+    {
+      "id": "sec-form-d-0002133584-26-000001",
+      "headline": "Ezra AI Labs Inc. filed Form D",
+      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133584/000213358426000001/primary_doc.xml)",
+      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133584&type=D&dateb=&owner=include&count=40",
+      "sourcePlatform": "sec-form-d",
+      "publishedAt": "2026-05-18T00:00:00.000Z",
+      "discoveredAt": "2026-05-20T07:48:37.163Z",
+      "extracted": {
+        "companyName": "Ezra AI Labs Inc.",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 4618495,
+        "amountDisplay": "$4.6M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high",
+        "industryGroup": "Other Technology"
+      },
+      "tags": [
+        "sec",
+        "form-d",
+        "ai",
+        "ai-confirmed",
+        "industry:other-technology"
+      ]
+    },
     {
       "id": "sec-form-d-0002133683-26-000001",
       "headline": "Prism Layer AI, Inc. filed Form D",
@@ -10,7 +126,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133683&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-15T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.768Z",
+      "discoveredAt": "2026-05-20T07:48:37.053Z",
       "extracted": {
         "companyName": "Prism Layer AI, Inc.",
         "companyWebsite": null,
@@ -39,7 +155,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2112535&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-14T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:13.546Z",
+      "discoveredAt": "2026-05-20T07:48:39.104Z",
       "extracted": {
         "companyName": "NeuroMuse Inc.",
         "companyWebsite": null,
@@ -68,7 +184,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2099261&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:10.942Z",
+      "discoveredAt": "2026-05-20T07:48:36.142Z",
       "extracted": {
         "companyName": "SiteVue AI Inc.",
         "companyWebsite": null,
@@ -97,7 +213,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134582&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.173Z",
+      "discoveredAt": "2026-05-20T07:48:36.374Z",
       "extracted": {
         "companyName": "Aunthentica AI, Inc",
         "companyWebsite": null,
@@ -126,7 +242,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133878&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.409Z",
+      "discoveredAt": "2026-05-20T07:48:36.609Z",
       "extracted": {
         "companyName": "Nova AI Software Inc.",
         "companyWebsite": null,
@@ -155,7 +271,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134758&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.523Z",
+      "discoveredAt": "2026-05-20T07:48:36.830Z",
       "extracted": {
         "companyName": "Weston AI, Inc.",
         "companyWebsite": null,
@@ -184,7 +300,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1954117&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.134Z",
+      "discoveredAt": "2026-05-20T07:48:37.469Z",
       "extracted": {
         "companyName": "Tycho AI Inc.",
         "companyWebsite": null,
@@ -213,7 +329,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2077932&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-12T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:13.077Z",
+      "discoveredAt": "2026-05-20T07:48:38.647Z",
       "extracted": {
         "companyName": "Positron AI, Inc.",
         "companyWebsite": null,
@@ -242,7 +358,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1646188&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-12T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:13.777Z",
+      "discoveredAt": "2026-05-20T07:48:39.331Z",
       "extracted": {
         "companyName": "Ondas Inc. (ONDS)",
         "companyWebsite": null,
@@ -271,7 +387,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-12T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.274Z",
+      "discoveredAt": "2026-05-20T07:48:39.862Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
@@ -300,7 +416,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2032488&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-11T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:09.865Z",
+      "discoveredAt": "2026-05-20T07:48:34.933Z",
       "extracted": {
         "companyName": "Alpha Design AI, Inc.",
         "companyWebsite": null,
@@ -329,7 +445,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2032488&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-11T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:09.983Z",
+      "discoveredAt": "2026-05-20T07:48:35.045Z",
       "extracted": {
         "companyName": "Alpha Design AI, Inc.",
         "companyWebsite": null,
@@ -358,7 +474,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134567&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-11T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.639Z",
+      "discoveredAt": "2026-05-20T07:48:36.720Z",
       "extracted": {
         "companyName": "ADAS AI TRAK Corp",
         "companyWebsite": null,
@@ -387,7 +503,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:10.462Z",
+      "discoveredAt": "2026-05-20T07:48:35.546Z",
       "extracted": {
         "companyName": "Hermetic AI Inc.",
         "companyWebsite": null,
@@ -410,42 +526,13 @@
       ]
     },
     {
-      "id": "sec-form-d-0002133529-26-000002",
-      "headline": "Hermetic AI Inc. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133529/000213352926000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:10.587Z",
-      "extracted": {
-        "companyName": "Hermetic AI Inc.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1500000,
-        "amountDisplay": "$1.5M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high",
-        "industryGroup": "Other Technology"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed",
-        "industry:other-technology"
-      ]
-    },
-    {
       "id": "sec-form-d-0002133529-26-000001",
       "headline": "Hermetic AI Inc. filed Form D",
       "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133529/000213352926000001/primary_doc.xml)",
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:10.706Z",
+      "discoveredAt": "2026-05-20T07:48:35.671Z",
       "extracted": {
         "companyName": "Hermetic AI Inc.",
         "companyWebsite": null,
@@ -468,13 +555,42 @@
       ]
     },
     {
+      "id": "sec-form-d-0002133529-26-000002",
+      "headline": "Hermetic AI Inc. filed Form D",
+      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2133529/000213352926000002/primary_doc.xml)",
+      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133529&type=D&dateb=&owner=include&count=40",
+      "sourcePlatform": "sec-form-d",
+      "publishedAt": "2026-05-08T00:00:00.000Z",
+      "discoveredAt": "2026-05-20T07:48:35.804Z",
+      "extracted": {
+        "companyName": "Hermetic AI Inc.",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 1500000,
+        "amountDisplay": "$1.5M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high",
+        "industryGroup": "Other Technology"
+      },
+      "tags": [
+        "sec",
+        "form-d",
+        "ai",
+        "ai-confirmed",
+        "industry:other-technology"
+      ]
+    },
+    {
       "id": "sec-form-d-0002089466-26-000001",
       "headline": "Navi AI, Inc. filed Form D",
       "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2089466/000208946626000001/primary_doc.xml)",
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2089466&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.060Z",
+      "discoveredAt": "2026-05-20T07:48:36.262Z",
       "extracted": {
         "companyName": "Navi AI, Inc.",
         "companyWebsite": null,
@@ -503,7 +619,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128503&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.894Z",
+      "discoveredAt": "2026-05-20T07:48:37.358Z",
       "extracted": {
         "companyName": "Glaze AI, Inc.",
         "companyWebsite": null,
@@ -532,7 +648,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2134129&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-07T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.006Z",
+      "discoveredAt": "2026-05-20T07:48:39.636Z",
       "extracted": {
         "companyName": "Pentra Robotics, inc.",
         "companyWebsite": null,
@@ -561,7 +677,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130453&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-05T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.736Z",
+      "discoveredAt": "2026-05-20T07:48:40.286Z",
       "extracted": {
         "companyName": "Sielo Robotics Inc.",
         "companyWebsite": null,
@@ -590,7 +706,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133307&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-04T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.611Z",
+      "discoveredAt": "2026-05-20T07:48:38.063Z",
       "extracted": {
         "companyName": "AI Commerce Solutions, Inc.",
         "companyWebsite": null,
@@ -619,7 +735,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1858523&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.725Z",
+      "discoveredAt": "2026-05-20T07:48:38.305Z",
       "extracted": {
         "companyName": "Persefoni AI Inc.",
         "companyWebsite": null,
@@ -648,7 +764,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1675769&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:13.431Z",
+      "discoveredAt": "2026-05-20T07:48:38.995Z",
       "extracted": {
         "companyName": "Shield AI Inc",
         "companyWebsite": null,
@@ -677,7 +793,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2110922&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.502Z",
+      "discoveredAt": "2026-05-20T07:48:39.985Z",
       "extracted": {
         "companyName": "Haply Robotics inc.",
         "companyWebsite": null,
@@ -706,7 +822,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2080868&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-30T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.622Z",
+      "discoveredAt": "2026-05-20T07:48:40.103Z",
       "extracted": {
         "companyName": "Luminous Robotics, Inc.",
         "companyWebsite": null,
@@ -735,7 +851,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-30T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.851Z",
+      "discoveredAt": "2026-05-20T07:48:40.403Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
@@ -764,7 +880,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131995&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-28T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.494Z",
+      "discoveredAt": "2026-05-20T07:48:38.184Z",
       "extracted": {
         "companyName": "Custodia AI, Inc",
         "companyWebsite": null,
@@ -793,7 +909,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1289047&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-24T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.019Z",
+      "discoveredAt": "2026-05-20T07:48:37.588Z",
       "extracted": {
         "companyName": "AI Technology Group Inc. (AIPG)",
         "companyWebsite": null,
@@ -822,7 +938,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131424&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-23T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:11.294Z",
+      "discoveredAt": "2026-05-20T07:48:36.498Z",
       "extracted": {
         "companyName": "CoverX AI, Inc.",
         "companyWebsite": null,
@@ -851,7 +967,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128700&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:10.113Z",
+      "discoveredAt": "2026-05-20T07:48:35.163Z",
       "extracted": {
         "companyName": "HOSTED AI INC",
         "companyWebsite": null,
@@ -880,7 +996,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2125104&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.955Z",
+      "discoveredAt": "2026-05-20T07:48:38.537Z",
       "extracted": {
         "companyName": "Outhad AI, Inc.",
         "companyWebsite": null,
@@ -909,7 +1025,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2092677&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:10.345Z",
+      "discoveredAt": "2026-05-20T07:48:35.434Z",
       "extracted": {
         "companyName": "Hickory AI, Inc.",
         "companyWebsite": null,
@@ -938,7 +1054,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130373&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.150Z",
+      "discoveredAt": "2026-05-20T07:48:39.754Z",
       "extracted": {
         "companyName": "Loki Robotics, Inc.",
         "companyWebsite": null,
@@ -967,7 +1083,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2065345&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:14.965Z",
+      "discoveredAt": "2026-05-20T07:48:40.522Z",
       "extracted": {
         "companyName": "Autonomous Cyber, Inc.",
         "companyWebsite": null,
@@ -996,7 +1112,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2084004&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-20T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:12.839Z",
+      "discoveredAt": "2026-05-20T07:48:38.421Z",
       "extracted": {
         "companyName": "Ciphero AI Technologies, Inc.",
         "companyWebsite": null,
@@ -1025,7 +1141,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-20T00:00:00.000Z",
-      "discoveredAt": "2026-05-18T03:55:13.891Z",
+      "discoveredAt": "2026-05-20T07:48:39.453Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,

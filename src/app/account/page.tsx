@@ -81,7 +81,14 @@ function normalizeTab(raw: string | undefined): AccountTab {
 export default async function AccountPage({ searchParams }: Props) {
   // Strict Clerk gate first — keep this exactly as the plan spec'd so the
   // anon → /sign-in?redirect_url=/account flow is verifiable with curl -I.
-  const { userId } = await auth();
+  // Wrap auth() in try/catch so missing Clerk env vars degrade to the
+  // /sign-in "auth unavailable" fallback page instead of 500ing the route.
+  let userId: string | null = null;
+  try {
+    userId = (await auth()).userId;
+  } catch {
+    redirect("/sign-in?redirect_url=/account");
+  }
   if (!userId) redirect("/sign-in?redirect_url=/account");
 
   const params = (await searchParams) ?? {};

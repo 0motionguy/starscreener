@@ -7,10 +7,10 @@ export function PvM2M() {
     { label: "A2A", value: "18" },
   ];
   const CHAINS = [
-    { label: "▌ BASE", color: "#0052ff", volume: "$2.42M", tx: "12.4K tx" },
+    { label: "▌ BASE", color: "var(--info)", volume: "$2.42M", tx: "12.4K tx" },
     {
       label: "▌ SOLANA",
-      color: "#14f195",
+      color: "var(--up)",
       volume: "$890K",
       tx: "4.2K tx",
     },

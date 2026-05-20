@@ -1439,7 +1439,7 @@ img { max-width: 100%; display: block; }
   border-radius: var(--r-pill);
   color: var(--fg-faint);
 }
-.feed-chip.on .ct { background: rgba(255,107,53,0.18); color: var(--accent); }
+.feed-chip.on .ct { background: var(--surface-3); color: var(--fg-bright); }
 
 /* ─── Upgrade card (sidebar / footer) ─── */
 .upgrade-card {
@@ -4757,8 +4757,13 @@ img { max-width: 100%; display: block; }
 
 .idea-col-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(72px, 1fr));
   gap: 6px;
+}
+
+.idea-col-actions .row-action {
+  min-width: 72px;
+  min-height: 36px;
 }
 
 .idea-mark-mini,

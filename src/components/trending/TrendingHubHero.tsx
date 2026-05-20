@@ -82,6 +82,7 @@ export function TrendingHubHero({ category, window: timeWindow, counts }: Trendi
           return (
             <Link
               key={c.id}
+              id={c.id}
               href={{ query: { cat: c.id, window: timeWindow } }}
               data-tab={c.id}
               className={c.id === category ? "on" : ""}

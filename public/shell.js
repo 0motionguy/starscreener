@@ -5,6 +5,13 @@
 (function () {
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const afterHydration = (fn) => {
+    const run = () => {
+      if ('requestIdleCallback' in window) window.requestIdleCallback(fn, { timeout: 1200 });
+      else setTimeout(fn, 180);
+    };
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  };
 
   /* ─────────────────────────────────────────────────────────────
      Sparkline renderer — Catmull-Rom-smoothed SVG line + filled area
@@ -29,8 +36,8 @@
     if (el.dataset.rendered === '1') return;
     const raw = (el.dataset.points || '').split(/[\s,]+/).filter(Boolean).map(Number);
     if (raw.length < 2) return;
-    const w = el.clientWidth || 80;
-    const h = el.clientHeight || 24;
+    const w = 80;
+    const h = 24;
     const padX = 2, padY = 3;
     const min = Math.min(...raw), max = Math.max(...raw);
     const range = max - min || 1;
@@ -47,7 +54,21 @@
     el.innerHTML = svg;
     el.dataset.rendered = '1';
   }
-  function renderAllSparks(root = document) { $$('.spark', root).forEach(renderSpark); }
+  function renderAllSparks(root = document) {
+    const sparks = $$('.spark', root).filter(el => el.dataset.rendered !== '1');
+    if (sparks.length === 0) return;
+    if (root !== document || sparks.length < 20) {
+      sparks.forEach(renderSpark);
+      return;
+    }
+    let i = 0;
+    function batch() {
+      const end = Math.min(i + 16, sparks.length);
+      for (; i < end; i++) renderSpark(sparks[i]);
+      if (i < sparks.length) requestAnimationFrame(batch);
+    }
+    batch();
+  }
 
   /* ─────────────────────────────────────────────────────────────
      Live clock — UTC + local + market session tag
@@ -553,7 +574,6 @@
      Bootstrap
      ───────────────────────────────────────────────────────────── */
   function boot() {
-    renderAllSparks();
     bindDrawer();
     bindTabsets();
     bindSegmented();
@@ -561,14 +581,17 @@
     bindWatchButtons();
     bindAlertConfig();
     bindFeedChips();
-    mergeSourcesIntoMentions();
-    tickCounters();
     tickClocks();
     setInterval(tickClocks, 1000);
-    startPipPulse();
-    bindRepoHover();
     bindShareMenus();
-    bindFadeUp();
+    afterHydration(() => {
+      renderAllSparks();
+      mergeSourcesIntoMentions();
+      tickCounters();
+      startPipPulse();
+      bindRepoHover();
+      bindFadeUp();
+    });
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -596,10 +619,21 @@
     if (!('MutationObserver' in window)) return;
     const main = document.querySelector('main, .app') || document.body;
     let t;
-    new MutationObserver(() => {
+    new MutationObserver((mutations) => {
+      if (mutations.every(isShellOnlyMutation)) return;
       clearTimeout(t);
-      t = setTimeout(rebindAll, 50);
+      t = setTimeout(rebindAll, 120);
     }).observe(main, { childList: true, subtree: true });
+  }
+  function isShellOnlyMutation(m) {
+    const target = m.target;
+    if (!target || !target.closest) return false;
+    if (!target.closest('.spark, .kpi-value, .toast')) return false;
+    return [...m.addedNodes, ...m.removedNodes].every(n => {
+      if (n.nodeType === Node.TEXT_NODE) return true;
+      if (n.nodeType !== Node.ELEMENT_NODE) return false;
+      return /^(svg|path|circle|span)$/i.test(n.nodeName);
+    });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => { boot(); startRebindObserver(); });

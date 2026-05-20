@@ -693,7 +693,7 @@ export function RepoActivityFeed({
         <FreshnessPill source="repos" fetchedAt={fetchedAt} />
       </div>
 
-      <div className="feed-filter" data-tabset role="tablist" aria-label="Activity feed filter">
+      <div className="feed-filter" aria-label="Activity feed filter">
         {filterChips.map((chip) => {
           const isActive = chip.id === activeFilter;
           return (
@@ -701,8 +701,7 @@ export function RepoActivityFeed({
               key={chip.id}
               href={chip.id === "all" ? "?" : `?feed=${chip.id}`}
               className={`feed-chip${isActive ? " on" : ""}`}
-              role="tab"
-              aria-selected={isActive}
+              aria-current={isActive ? "true" : undefined}
               prefetch={false}
               scroll={false}
             >

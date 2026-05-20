@@ -118,8 +118,9 @@ export function RepoHeroCard({ repo, profile }: RepoHeroCardProps) {
             <RepoCompareButton repoId={repo.id} fullName={repo.fullName} />
             <Link
               className="btn ghost"
-              href={`/tools/tier-list?seed=${encodeURIComponent(repo.fullName)}`}
+              href={`/tools?seed=${encodeURIComponent(repo.fullName)}#tierlist`}
               title={`Open tier-list workspace seeded with ${repo.fullName}`}
+              prefetch={false}
             >
               <svg
                 width="14"

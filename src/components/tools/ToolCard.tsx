@@ -40,7 +40,7 @@ export function ToolCard({
 
   if (route.startsWith("#")) {
     return (
-      <a href={route} className="tool-card">
+      <a id={route.slice(1)} href={route} className="tool-card">
         {inner}
       </a>
     );

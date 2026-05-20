@@ -24,7 +24,7 @@ export function IdeaSelectedPreviewPanel({
         <IdeaMarkMini ideaId={idea.id} />
         <div>
           <div className="idea-preview-eyebrow">Selected idea</div>
-          <h3 className="idea-preview-title">{idea.title}</h3>
+          <h2 className="idea-preview-title">{idea.title}</h2>
         </div>
       </header>
       <p className="idea-preview-pitch">{ideaEvidenceLabel(idea)}</p>

@@ -38,7 +38,8 @@ export function ConsentBanner() {
     setMounted(true);
     const decision = readConsent();
     if (decision === null) {
-      setShow(true);
+      const id = window.setTimeout(() => setShow(true), 4500);
+      return () => window.clearTimeout(id);
     }
   }, []);
 

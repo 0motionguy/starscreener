@@ -536,9 +536,11 @@ export default async function FundingPage({ searchParams }: Props) {
   }).length;
 
   const totalSources = 38;
+  // Honest source count — reflects sources actually contributing to the
+  // active window. No synthetic floor; degrades to 0 when feeds are empty.
   const liveSources = Math.min(
     totalSources,
-    Math.max(35, Object.keys(stats.sourcesBreakdown ?? {}).length || 14),
+    Object.keys(stats.sourcesBreakdown ?? {}).length,
   );
 
   return (

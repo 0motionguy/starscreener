@@ -16,12 +16,16 @@ import {
   APPROVAL_GATE_THRESHOLD,
   HOT_SCORE_WEIGHTS,
   IDEAS_FILE,
+  MAX_BRIEF_MARKDOWN,
   RECENCY_HALF_LIFE_HOURS,
+  claimIdea,
   countApprovedByAuthor,
   createIdea,
+  getIdeaById,
   hotScore,
   listIdeas,
   moderateIdea,
+  saveIdeaBrief,
   toPublicIdea,
   updateIdeaLifecycle,
   validateIdeaInput,
@@ -500,4 +504,146 @@ test("toPublicIdea strips moderation metadata and authorId", async () => {
     false,
     "moderationNote must not leak in PublicIdea",
   );
+});
+
+// ---------------------------------------------------------------------------
+// saveIdeaBrief — Phase 4C brief persistence
+// ---------------------------------------------------------------------------
+
+async function seedClaimedPublishedIdea(opts: {
+  authorId: string;
+  claimerId: string;
+}): Promise<string> {
+  const created = await createIdea({
+    authorId: opts.authorId,
+    authorHandle: opts.authorId,
+    title: "Seed idea for brief tests",
+    pitch: "A pitch long enough to clear the validation floor easily.",
+  });
+  if (created.kind !== "queued") throw new Error("expected queued seed");
+  await moderateIdea({ id: created.record.id, action: "approve" });
+  const claim = await claimIdea(created.record.id, opts.claimerId);
+  if (claim.kind !== "claimed") {
+    throw new Error(`expected claimed, got ${claim.kind}`);
+  }
+  return created.record.id;
+}
+
+test("saveIdeaBrief: claimer saves; version starts at 1 and bumps", async () => {
+  const id = await seedClaimedPublishedIdea({
+    authorId: "u1",
+    claimerId: "u1",
+  });
+
+  const first = await saveIdeaBrief({
+    ideaId: id,
+    userId: "u1",
+    isAdmin: false,
+    briefMarkdown: "# v1",
+  });
+  assert.equal(first.kind, "saved");
+  if (first.kind === "saved") {
+    assert.equal(first.record.briefMarkdown, "# v1");
+    assert.equal(first.record.briefSavedBy, "u1");
+    assert.equal(first.record.briefVersion, 1);
+    assert.ok(first.record.briefSavedAt);
+  }
+
+  const second = await saveIdeaBrief({
+    ideaId: id,
+    userId: "u1",
+    isAdmin: false,
+    briefMarkdown: "# v2",
+    expectedVersion: 1,
+  });
+  assert.equal(second.kind, "saved");
+  if (second.kind === "saved") {
+    assert.equal(second.record.briefVersion, 2);
+    assert.equal(second.record.briefMarkdown, "# v2");
+  }
+
+  // toPublicIdea round-trips the brief fields.
+  const reloaded = await getIdeaById(id);
+  assert.ok(reloaded);
+  const pub = toPublicIdea(reloaded!);
+  assert.equal(pub.briefMarkdown, "# v2");
+  assert.equal(pub.briefVersion, 2);
+});
+
+test("saveIdeaBrief: non-claimer (and non-admin) is forbidden", async () => {
+  const id = await seedClaimedPublishedIdea({
+    authorId: "u1",
+    claimerId: "u1",
+  });
+  const outcome = await saveIdeaBrief({
+    ideaId: id,
+    userId: "u-intruder",
+    isAdmin: false,
+    briefMarkdown: "# nope",
+  });
+  assert.equal(outcome.kind, "forbidden");
+});
+
+test("saveIdeaBrief: admin can save without claiming", async () => {
+  const id = await seedClaimedPublishedIdea({
+    authorId: "u1",
+    claimerId: "u1",
+  });
+  const outcome = await saveIdeaBrief({
+    ideaId: id,
+    userId: "u-admin",
+    isAdmin: true,
+    briefMarkdown: "# admin edit",
+  });
+  assert.equal(outcome.kind, "saved");
+  if (outcome.kind === "saved") {
+    assert.equal(outcome.record.briefSavedBy, "u-admin");
+  }
+});
+
+test("saveIdeaBrief: stale expectedVersion → 'stale' with currentVersion", async () => {
+  const id = await seedClaimedPublishedIdea({
+    authorId: "u1",
+    claimerId: "u1",
+  });
+  await saveIdeaBrief({
+    ideaId: id,
+    userId: "u1",
+    isAdmin: false,
+    briefMarkdown: "# v1",
+  });
+  await saveIdeaBrief({
+    ideaId: id,
+    userId: "u1",
+    isAdmin: false,
+    briefMarkdown: "# v2",
+    expectedVersion: 1,
+  });
+  // Pretend tab A still thinks it's on v1.
+  const stale = await saveIdeaBrief({
+    ideaId: id,
+    userId: "u1",
+    isAdmin: false,
+    briefMarkdown: "# tabA",
+    expectedVersion: 1,
+  });
+  assert.equal(stale.kind, "stale");
+  if (stale.kind === "stale") {
+    assert.equal(stale.currentVersion, 2);
+  }
+});
+
+test("saveIdeaBrief: unknown ideaId returns 'not-found'", async () => {
+  const outcome = await saveIdeaBrief({
+    ideaId: "does-not-exist",
+    userId: "u1",
+    isAdmin: false,
+    briefMarkdown: "# nothing",
+  });
+  assert.equal(outcome.kind, "not-found");
+});
+
+test("MAX_BRIEF_MARKDOWN is exposed as the cap the route enforces", () => {
+  assert.equal(typeof MAX_BRIEF_MARKDOWN, "number");
+  assert.ok(MAX_BRIEF_MARKDOWN >= 10_000);
 });

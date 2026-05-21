@@ -2,6 +2,8 @@
 
 import type { IdeaRecord } from "@/lib/ideas";
 
+import { IdeaBriefActions } from "./IdeaBriefActions";
+
 interface IdeaBriefTabProps {
   idea: IdeaRecord;
 }
@@ -9,6 +11,13 @@ interface IdeaBriefTabProps {
 interface Block {
   title: string;
   body: string;
+}
+
+function blocksToMarkdown(blocks: Block[]): string {
+  // Stitch the static template into markdown so the first Save lands a
+  // real payload (not empty). Future Phase-4C work replaces this with the
+  // editor's live buffer; the route schema (.min(1)) is the gate.
+  return blocks.map((b) => `## ${b.title}\n\n${b.body}`).join("\n\n");
 }
 
 function blocksFor(idea: IdeaRecord): Block[] {
@@ -51,6 +60,11 @@ function blocksFor(idea: IdeaRecord): Block[] {
 
 export function IdeaBriefTab({ idea }: IdeaBriefTabProps) {
   const blocks = blocksFor(idea);
+  // Prefer the persisted markdown when present; otherwise stitch the
+  // static template so the Save endpoint receives a non-empty payload on
+  // first commit. Once the editor lands, this stitch is replaced by the
+  // live editor buffer round-tripped from the actions island.
+  const briefMarkdown = idea.briefMarkdown ?? blocksToMarkdown(blocks);
   return (
     <section
       className="tab-pane tab-brief"
@@ -58,8 +72,9 @@ export function IdeaBriefTab({ idea }: IdeaBriefTabProps) {
       aria-labelledby="idea-tab-brief"
     >
       <p className="brief-note">
-        Static template — Phase 4C will replace these blocks with AI-generated
-        content.
+        {idea.briefMarkdown
+          ? "Saved brief — Regenerate calls the LLM, Save persists edits."
+          : "Static template — Save to persist, or Regenerate once the LLM client lands."}
       </p>
       <div className="brief-blocks brief-grid">
         {blocks.map((b) => (
@@ -69,39 +84,11 @@ export function IdeaBriefTab({ idea }: IdeaBriefTabProps) {
           </article>
         ))}
       </div>
-      <div className="brief-actions">
-        <button
-          type="button"
-          className="btn primary"
-          disabled
-          title="Coming soon — AI regeneration ships with Phase 4C."
-        >
-          Regenerate brief
-        </button>
-        <button
-          type="button"
-          className="btn"
-          disabled
-          title="Coming soon — POST /api/ideas/[id]/brief/save lands in Phase 4C."
-        >
-          Save brief
-        </button>
-        <a
-          className="btn ghost"
-          href={`/ideas/${idea.id}?tab=overview`}
-          data-claim-from-brief
-        >
-          Claim idea
-        </a>
-        <button
-          type="button"
-          className="btn ghost"
-          disabled
-          title="Coming soon — repo attach UI ships with Phase 4D."
-        >
-          Attach repo
-        </button>
-      </div>
+      <IdeaBriefActions
+        ideaId={idea.id}
+        briefMarkdown={briefMarkdown}
+        briefVersion={idea.briefVersion}
+      />
     </section>
   );
 }

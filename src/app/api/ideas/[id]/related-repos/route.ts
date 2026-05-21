@@ -1,25 +1,17 @@
-// POST /api/ideas/[id]/attach-repo — attach the PRIMARY repo to an idea.
+// POST /api/ideas/[id]/related-repos — append a SECONDARY repo to an
+// idea. The primary slot is owned by /attach-repo; this endpoint never
+// clobbers it. Refuses to grow the list past the per-idea cap (5).
 //
-// The first slot of `targetRepos` is the canonical "we'll build this on
-// top of" repo. Secondary additions go through /related-repos instead.
-//
-// Auth: requireUser() (Clerk). The caller must be the original author
-// OR the current claimer. Admin override lives on the separate
-// verifyAdminAuth surface and is intentionally not granted here — this
-// endpoint is for the person actively scoping the idea.
+// Auth: requireUser() (Clerk). Author or current claimer only.
 //
 // Body schema:
-//   { fullName: string, source?: "manual" | "auto-detected" | "ai-suggested" }
-//   { repoUrl:  string, source?: "..." }   (legacy alias accepted; the
-//                                            current IdeaHeroActions UI
-//                                            sends `repoUrl` from a
-//                                            window.prompt — keep it
-//                                            working until the picker UI
-//                                            ships.)
+//   { fullName: string, note?: string }
 //
-// Either `fullName` or `repoUrl` accepts owner/name OR a full GitHub URL;
-// both are normalized via normalizeAttachableRepo() to the canonical
-// `owner/name` form before storage.
+// Note on `note`: the underlying store keeps `targetRepos` as a flat
+// string[], so per-entry notes are accepted at the boundary but
+// silently dropped on persistence. The schema preserves the field for
+// forward-compat — once ideas migrate to a relational store with an
+// idea_related_repos join table, the note will round-trip.
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -29,7 +21,7 @@ import { errorEnvelope, serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import {
-  attachRepoToIdea,
+  addRelatedRepoToIdea,
   normalizeAttachableRepo,
   toPublicIdea,
   type PublicIdea,
@@ -38,41 +30,30 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// 20/min/user — matches the claim-route ceiling. Each attach rewrites
-// ideas.jsonl under a global lock; without a cap, an authed attacker
-// could drive write-amplification across the whole moderation file.
-const ATTACH_REPO_RATE_LIMIT = {
+const RELATED_REPOS_RATE_LIMIT = {
   windowMs: 60_000,
   maxRequests: 20,
 } as const;
 
-const SourceSchema = z.enum(["manual", "auto-detected", "ai-suggested"]);
+const RelatedRepoBodySchema = z.object({
+  fullName: z.string().trim().min(1).max(200),
+  note: z.string().trim().max(240).optional(),
+});
 
-// Accept either `fullName` or legacy `repoUrl`. Refines to require at
-// least one — the libs normalize both via normalizeAttachableRepo.
-const AttachRepoBodySchema = z
-  .object({
-    fullName: z.string().trim().min(1).max(200).optional(),
-    repoUrl: z.string().trim().min(1).max(500).optional(),
-    source: SourceSchema.optional(),
-  })
-  .refine((b) => Boolean(b.fullName || b.repoUrl), {
-    message: "fullName or repoUrl is required",
-    path: ["fullName"],
-  });
-
-interface AttachSuccessResponse {
+interface RelatedRepoSuccessResponse {
   ok: true;
-  outcome: "attached";
+  outcome: "appended";
   fullName: string;
   idea: PublicIdea;
 }
 
-interface AttachConflictResponse {
+interface RelatedRepoConflictResponse {
   ok: false;
   error: string;
   code:
     | "ALREADY_ATTACHED"
+    | "ALREADY_RELATED"
+    | "LIMIT_REACHED"
     | "NOT_MUTABLE"
     | "NOT_OWNER"
     | "RATE_LIMITED"
@@ -80,7 +61,7 @@ interface AttachConflictResponse {
   idea?: PublicIdea;
 }
 
-interface AttachErrorResponse {
+interface RelatedRepoErrorResponse {
   ok: false;
   error: string;
   code?: string;
@@ -95,7 +76,11 @@ export async function POST(
   request: NextRequest,
   context: RouteContext,
 ): Promise<
-  NextResponse<AttachSuccessResponse | AttachConflictResponse | AttachErrorResponse>
+  NextResponse<
+    | RelatedRepoSuccessResponse
+    | RelatedRepoConflictResponse
+    | RelatedRepoErrorResponse
+  >
 > {
   const { id } = await context.params;
   if (!id || id.length === 0) {
@@ -105,7 +90,7 @@ export async function POST(
   const user = await requireUser();
 
   const rate = await checkRateLimitAsync(request, {
-    ...ATTACH_REPO_RATE_LIMIT,
+    ...RELATED_REPOS_RATE_LIMIT,
     subject: user.profile.id,
   });
   if (!rate.allowed) {
@@ -125,13 +110,12 @@ export async function POST(
     );
   }
 
-  const parsed = await parseBody(request, AttachRepoBodySchema);
+  const parsed = await parseBody(request, RelatedRepoBodySchema);
   if (!parsed.ok) {
-    return parsed.response as NextResponse<AttachErrorResponse>;
+    return parsed.response as NextResponse<RelatedRepoErrorResponse>;
   }
 
-  const raw = parsed.data.fullName ?? parsed.data.repoUrl ?? "";
-  const fullName = normalizeAttachableRepo(raw);
+  const fullName = normalizeAttachableRepo(parsed.data.fullName);
   if (!fullName) {
     return NextResponse.json(
       {
@@ -144,12 +128,12 @@ export async function POST(
   }
 
   try {
-    const outcome = await attachRepoToIdea(id, user.clerkUserId, fullName);
+    const outcome = await addRelatedRepoToIdea(id, user.clerkUserId, fullName);
     switch (outcome.kind) {
-      case "attached":
+      case "appended":
         return NextResponse.json({
           ok: true,
-          outcome: "attached",
+          outcome: "appended",
           fullName,
           idea: toPublicIdea(outcome.record),
         });
@@ -163,11 +147,31 @@ export async function POST(
           },
           { status: 409, headers: { "Cache-Control": "private, no-store" } },
         );
+      case "already-related":
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "repo is already listed as a related repo",
+            code: "ALREADY_RELATED",
+            idea: toPublicIdea(outcome.record),
+          },
+          { status: 409, headers: { "Cache-Control": "private, no-store" } },
+        );
+      case "limit-reached":
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "idea already has the maximum number of related repos",
+            code: "LIMIT_REACHED",
+            idea: toPublicIdea(outcome.record),
+          },
+          { status: 409, headers: { "Cache-Control": "private, no-store" } },
+        );
       case "not-owner":
         return NextResponse.json(
           {
             ok: false,
-            error: "only the author or claimer can attach a repo",
+            error: "only the author or claimer can add a related repo",
             code: "NOT_OWNER",
           },
           { status: 403, headers: { "Cache-Control": "private, no-store" } },
@@ -186,20 +190,16 @@ export async function POST(
           status: 404,
           headers: { "Cache-Control": "private, no-store" },
         });
-      // `appended`, `already-related`, `limit-reached` are produced by
-      // the related-repos writer and never returned from
-      // attachRepoToIdea — exhaustive switch satisfies TS.
-      case "appended":
-      case "already-related":
-      case "limit-reached":
-        return serverError<AttachErrorResponse>(
-          new Error(`unexpected outcome from attachRepoToIdea: ${outcome.kind}`),
-          { scope: "[ideas/:id/attach-repo]" },
+      // `attached` is produced only by the primary-attach writer.
+      case "attached":
+        return serverError<RelatedRepoErrorResponse>(
+          new Error(`unexpected outcome from addRelatedRepoToIdea: ${outcome.kind}`),
+          { scope: "[ideas/:id/related-repos]" },
         );
     }
   } catch (err) {
-    return serverError<AttachErrorResponse>(err, {
-      scope: "[ideas/:id/attach-repo]",
+    return serverError<RelatedRepoErrorResponse>(err, {
+      scope: "[ideas/:id/related-repos]",
     });
   }
 }

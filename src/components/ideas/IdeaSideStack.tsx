@@ -4,13 +4,20 @@
 //
 // Facts in mockup order: Status / Category / Signal strength / Evidence /
 // Difficulty / MVP estimate / Launch potential / Would build / Would use /
-// Saved / Related trend. The `idea.*` schema doesn't carry direct columns
-// for difficulty / mvpEstimate / launchPotential / saved / relatedTrend
-// today — those render as em-dash. Counts that are derivable (signal
-// strength from reactions, "would build" = counts.build, "would use" =
-// counts.use) come from the live reactions tally.
+// Saved / Related trend. `difficulty`, `mvpEstimate`, and `launchPotential`
+// are author-set optional fields on IdeaRecord — present rows display the
+// formatted enum, absent rows fall back to em-dash. `saved` is still
+// per-user state with no backing store yet (TODO: requires saved_ideas
+// join — Phase 4D). Counts that are derivable (signal strength from
+// reactions, "would build" = counts.build, "would use" = counts.use)
+// come from the live reactions tally.
 
-import type { IdeaRecord } from "@/lib/ideas";
+import type {
+  IdeaDifficulty,
+  IdeaLaunchPotential,
+  IdeaMvpEstimate,
+  IdeaRecord,
+} from "@/lib/ideas";
 import { ideaEvidenceLabel } from "@/lib/ideas/display-data";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 
@@ -55,6 +62,25 @@ function evidenceLabel(idea: IdeaRecord): string {
   return `${repos} repo${repos === 1 ? "" : "s"}`;
 }
 
+// Em-dash fallback for the 3 workspace-fact enums. Absent fields on
+// pre-existing JSONL rows render as em-dash; present rows show a
+// human-formatted label (capitalized for difficulty / launch potential,
+// raw for mvp estimate since "1-2 weeks" / "month+" are already display-
+// ready).
+function difficultyLabel(value: IdeaDifficulty | undefined): string {
+  if (!value) return "—";
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function mvpEstimateLabel(value: IdeaMvpEstimate | undefined): string {
+  return value ?? "—";
+}
+
+function launchPotentialLabel(value: IdeaLaunchPotential | undefined): string {
+  if (!value) return "—";
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 export function IdeaSideStack({
   idea,
   counts,
@@ -85,15 +111,17 @@ export function IdeaSideStack({
           </div>
           <div className="fact-row side-row">
             <span className="fact-label">Difficulty</span>
-            <b className="fact-value">—</b>
+            <b className="fact-value">{difficultyLabel(idea.difficulty)}</b>
           </div>
           <div className="fact-row side-row">
             <span className="fact-label">MVP estimate</span>
-            <b className="fact-value">—</b>
+            <b className="fact-value">{mvpEstimateLabel(idea.mvpEstimate)}</b>
           </div>
           <div className="fact-row side-row">
             <span className="fact-label">Launch potential</span>
-            <b className="fact-value">—</b>
+            <b className="fact-value">
+              {launchPotentialLabel(idea.launchPotential)}
+            </b>
           </div>
           <div className="fact-row side-row">
             <span className="fact-label">Would build</span>
@@ -105,6 +133,8 @@ export function IdeaSideStack({
           </div>
           <div className="fact-row side-row">
             <span className="fact-label">Saved</span>
+            {/* TODO: requires saved_ideas join — Phase 4D. `saved` is per-user
+                state and doesn't belong on the global IdeaRecord. */}
             <b className="fact-value">—</b>
           </div>
           <div className="fact-row side-row">

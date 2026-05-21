@@ -139,7 +139,9 @@ export default async function IdeaWorkspacePage({
                 <IdeaContributionsTab ideaId={idea.id} signedIn={signedIn} />
               ) : null}
               {tab === "brief" ? <IdeaBriefTab idea={idea} /> : null}
-              {tab === "related" ? <IdeaRelatedReposTab idea={idea} /> : null}
+              {tab === "related" ? (
+                <IdeaRelatedReposTab idea={idea} signedIn={signedIn} />
+              ) : null}
             </div>
           </div>
           <IdeaSideStack idea={idea} counts={counts} signedIn={signedIn} />

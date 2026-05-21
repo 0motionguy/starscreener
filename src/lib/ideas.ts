@@ -82,6 +82,25 @@ const IDEA_STATUSES = [
 ] as const;
 export type IdeaStatus = (typeof IDEA_STATUSES)[number];
 
+// IdeaRecord extensions (workspace facts) — three optional, author-set
+// metadata fields surfaced on the /ideas/[id] side rail. All three are
+// optional / nullable: pre-existing JSONL rows that lack them render as
+// em-dash via the consumer. Authors set them at create/edit time; values
+// outside the enum are rejected by validateIdeaInput.
+//
+// `saved` is intentionally NOT on this list — it is per-user state and
+// belongs on a future `saved_ideas` join keyed by (userId, ideaId). See
+// IdeaSideStack for the TODO.
+
+const IDEA_DIFFICULTIES = ["low", "medium", "high"] as const;
+export type IdeaDifficulty = (typeof IDEA_DIFFICULTIES)[number];
+
+const IDEA_MVP_ESTIMATES = ["weekend", "1-2 weeks", "month+"] as const;
+export type IdeaMvpEstimate = (typeof IDEA_MVP_ESTIMATES)[number];
+
+const IDEA_LAUNCH_POTENTIALS = ["low", "medium", "high"] as const;
+export type IdeaLaunchPotential = (typeof IDEA_LAUNCH_POTENTIALS)[number];
+
 export function isIdeaBuildStatus(value: unknown): value is IdeaBuildStatus {
   return (
     typeof value === "string" &&
@@ -93,6 +112,29 @@ export function isIdeaStatus(value: unknown): value is IdeaStatus {
   return (
     typeof value === "string" &&
     (IDEA_STATUSES as readonly string[]).includes(value)
+  );
+}
+
+export function isIdeaDifficulty(value: unknown): value is IdeaDifficulty {
+  return (
+    typeof value === "string" &&
+    (IDEA_DIFFICULTIES as readonly string[]).includes(value)
+  );
+}
+
+export function isIdeaMvpEstimate(value: unknown): value is IdeaMvpEstimate {
+  return (
+    typeof value === "string" &&
+    (IDEA_MVP_ESTIMATES as readonly string[]).includes(value)
+  );
+}
+
+export function isIdeaLaunchPotential(
+  value: unknown,
+): value is IdeaLaunchPotential {
+  return (
+    typeof value === "string" &&
+    (IDEA_LAUNCH_POTENTIALS as readonly string[]).includes(value)
   );
 }
 
@@ -124,6 +166,29 @@ export interface IdeaRecord {
    */
   claimedBy?: string;
   claimedAt?: string;
+  /**
+   * Workspace-facts extensions. All three are optional/back-compatible —
+   * pre-existing JSONL rows render em-dash via the side-rail consumer.
+   * Author-set at create/edit time; enum values enforced by validation.
+   */
+  difficulty?: IdeaDifficulty;
+  mvpEstimate?: IdeaMvpEstimate;
+  launchPotential?: IdeaLaunchPotential;
+  /**
+   * Persisted brief markdown (Phase 4C). Set by `saveIdeaBrief` once a
+   * claimer (or admin) commits an edited brief. Optional/back-compatible
+   * — pre-existing rows have undefined here and the UI falls back to the
+   * static template in `IdeaBriefTab.blocksFor()`.
+   *
+   * `briefVersion` is a monotonically-increasing integer used for
+   * optimistic concurrency: the client sends the version it last read,
+   * the writer rejects (returns `stale`) if the stored version is
+   * higher. Starts at 1 on first save.
+   */
+  briefMarkdown?: string;
+  briefSavedAt?: string;
+  briefSavedBy?: string;
+  briefVersion?: number;
 }
 
 export interface PublicIdea {
@@ -143,6 +208,20 @@ export interface PublicIdea {
   /** Claim ownership exposed to the public surface (Phase 4C). */
   claimedBy?: string;
   claimedAt?: string;
+  /** Workspace-facts extensions — mirrors IdeaRecord. */
+  difficulty?: IdeaDifficulty;
+  mvpEstimate?: IdeaMvpEstimate;
+  launchPotential?: IdeaLaunchPotential;
+  /**
+   * Persisted brief mirror — see IdeaRecord. Exposed publicly because the
+   * brief is the rendered content of the idea's primary surface; the
+   * `briefSavedBy` user-id is the same shape as `claimedBy` (Clerk id),
+   * which is already public on PublicIdea, so no extra disclosure surface.
+   */
+  briefMarkdown?: string;
+  briefSavedAt?: string;
+  briefSavedBy?: string;
+  briefVersion?: number;
 }
 
 export interface CreateIdeaInput {
@@ -155,6 +234,9 @@ export interface CreateIdeaInput {
   category?: string | null;
   tags?: string[];
   buildStatus?: IdeaBuildStatus;
+  difficulty?: IdeaDifficulty;
+  mvpEstimate?: IdeaMvpEstimate;
+  launchPotential?: IdeaLaunchPotential;
 }
 
 // ---------------------------------------------------------------------------
@@ -327,6 +409,44 @@ export function validateIdeaInput(
     }
   }
 
+  // Workspace-facts extensions — all three are optional. Reject unknown
+  // enum values; absent fields stay undefined and surface as em-dash.
+  let difficulty: IdeaDifficulty | undefined;
+  if (body.difficulty !== undefined && body.difficulty !== null) {
+    if (!isIdeaDifficulty(body.difficulty)) {
+      errors.push({
+        field: "difficulty",
+        message: `difficulty must be one of: ${IDEA_DIFFICULTIES.join(", ")}`,
+      });
+    } else {
+      difficulty = body.difficulty;
+    }
+  }
+
+  let mvpEstimate: IdeaMvpEstimate | undefined;
+  if (body.mvpEstimate !== undefined && body.mvpEstimate !== null) {
+    if (!isIdeaMvpEstimate(body.mvpEstimate)) {
+      errors.push({
+        field: "mvpEstimate",
+        message: `mvpEstimate must be one of: ${IDEA_MVP_ESTIMATES.join(", ")}`,
+      });
+    } else {
+      mvpEstimate = body.mvpEstimate;
+    }
+  }
+
+  let launchPotential: IdeaLaunchPotential | undefined;
+  if (body.launchPotential !== undefined && body.launchPotential !== null) {
+    if (!isIdeaLaunchPotential(body.launchPotential)) {
+      errors.push({
+        field: "launchPotential",
+        message: `launchPotential must be one of: ${IDEA_LAUNCH_POTENTIALS.join(", ")}`,
+      });
+    } else {
+      launchPotential = body.launchPotential;
+    }
+  }
+
   if (errors.length > 0) {
     return { ok: false, errors };
   }
@@ -340,6 +460,9 @@ export function validateIdeaInput(
       category,
       tags,
       buildStatus,
+      ...(difficulty !== undefined ? { difficulty } : {}),
+      ...(mvpEstimate !== undefined ? { mvpEstimate } : {}),
+      ...(launchPotential !== undefined ? { launchPotential } : {}),
     },
   };
 }
@@ -405,6 +528,27 @@ export function toPublicIdea(record: IdeaRecord): PublicIdea {
     publishedAt: record.publishedAt,
     ...(record.claimedBy !== undefined ? { claimedBy: record.claimedBy } : {}),
     ...(record.claimedAt !== undefined ? { claimedAt: record.claimedAt } : {}),
+    ...(record.difficulty !== undefined
+      ? { difficulty: record.difficulty }
+      : {}),
+    ...(record.mvpEstimate !== undefined
+      ? { mvpEstimate: record.mvpEstimate }
+      : {}),
+    ...(record.launchPotential !== undefined
+      ? { launchPotential: record.launchPotential }
+      : {}),
+    ...(record.briefMarkdown !== undefined
+      ? { briefMarkdown: record.briefMarkdown }
+      : {}),
+    ...(record.briefSavedAt !== undefined
+      ? { briefSavedAt: record.briefSavedAt }
+      : {}),
+    ...(record.briefSavedBy !== undefined
+      ? { briefSavedBy: record.briefSavedBy }
+      : {}),
+    ...(record.briefVersion !== undefined
+      ? { briefVersion: record.briefVersion }
+      : {}),
   };
 }
 
@@ -478,6 +622,15 @@ export async function createIdea(
       moderatedAt: autoApproved ? now : null,
       moderationNote: null,
       approvedAutomatically: autoApproved,
+      ...(input.difficulty !== undefined
+        ? { difficulty: input.difficulty }
+        : {}),
+      ...(input.mvpEstimate !== undefined
+        ? { mvpEstimate: input.mvpEstimate }
+        : {}),
+      ...(input.launchPotential !== undefined
+        ? { launchPotential: input.launchPotential }
+        : {}),
     };
 
     holder.value = autoApproved
@@ -711,6 +864,288 @@ export async function claimIdea(
 
   if (!holder.value) {
     throw new Error("claimIdea transaction did not produce a result");
+  }
+  return holder.value;
+}
+
+// ---------------------------------------------------------------------------
+// Repo attachment (Phase 4D)
+// ---------------------------------------------------------------------------
+
+/**
+ * Outcome class for repo-attachment writers. Mirrors `ClaimIdeaOutcome`
+ * so the route layer can switch over `kind` and map to HTTP status.
+ *
+ *   - "attached"          → 200 (primary slot now points at fullName)
+ *   - "appended"          → 200 (fullName added to related repos)
+ *   - "already-attached"  → 409 (slot 0 already holds this repo)
+ *   - "already-related"   → 409 (related list already contains this repo)
+ *   - "limit-reached"     → 409 (targetRepos at MAX_TARGET_REPOS)
+ *   - "not-owner"         → 403 (caller is neither author nor claimer)
+ *   - "not-found"         → 404
+ *   - "not-mutable"       → 409 (rejected / archived idea)
+ */
+export type AttachRepoOutcome =
+  | { kind: "attached"; record: IdeaRecord }
+  | { kind: "appended"; record: IdeaRecord }
+  | { kind: "already-attached"; record: IdeaRecord }
+  | { kind: "already-related"; record: IdeaRecord }
+  | { kind: "limit-reached"; record: IdeaRecord }
+  | { kind: "not-owner" }
+  | { kind: "not-found" }
+  | { kind: "not-mutable"; reason: string };
+
+/**
+ * Returns true when `userId` may mutate the idea's repo attachments —
+ * i.e. they're either the original author or the current claimer.
+ * Anonymous and other-user callers are rejected at the route layer
+ * with `not-owner`. Admin override is a separate auth surface
+ * (`verifyAdminAuth`) and lives outside Clerk-protected user routes.
+ */
+function canEditAttachments(record: IdeaRecord, userId: string): boolean {
+  return (
+    record.authorId === userId ||
+    (record.claimedBy !== undefined && record.claimedBy === userId)
+  );
+}
+
+/**
+ * Validate a free-form repo reference (owner/name OR a full GitHub URL)
+ * and return the canonical `owner/name`. Surface-level wrapper around
+ * `normalizeRepoReference` so the route layer can stay schema-light.
+ */
+export function normalizeAttachableRepo(raw: string): string | null {
+  const normalized = normalizeRepoReference(raw);
+  return normalized ? normalized.fullName : null;
+}
+
+/**
+ * Attach `fullName` as the PRIMARY repo for an idea (index 0 of
+ * `targetRepos`). If the repo is already in the list at a non-zero
+ * index, it's promoted to slot 0 (without inflating the list past
+ * MAX_TARGET_REPOS). If it's already at slot 0, returns
+ * `already-attached` (route maps to 409) so the caller can distinguish
+ * a no-op from a successful write.
+ */
+export async function attachRepoToIdea(
+  ideaId: string,
+  userId: string,
+  fullName: string,
+): Promise<AttachRepoOutcome> {
+  const holder: { value: AttachRepoOutcome | null } = { value: null };
+  const now = new Date().toISOString();
+
+  await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
+    const idx = current.findIndex((r) => r.id === ideaId);
+    if (idx === -1) {
+      holder.value = { kind: "not-found" };
+      return current;
+    }
+    const before = current[idx]!;
+
+    if (before.status === "rejected" || before.status === "archived") {
+      holder.value = { kind: "not-mutable", reason: `idea is ${before.status}` };
+      return current;
+    }
+
+    if (!canEditAttachments(before, userId)) {
+      holder.value = { kind: "not-owner" };
+      return current;
+    }
+
+    const existing = before.targetRepos;
+    if (existing[0] === fullName) {
+      holder.value = { kind: "already-attached", record: before };
+      return current;
+    }
+
+    // Promote-or-prepend: strip any existing occurrence to avoid
+    // duplicates, then put fullName at index 0. Trim to MAX_TARGET_REPOS.
+    const without = existing.filter((entry) => entry !== fullName);
+    const nextRepos = [fullName, ...without].slice(0, MAX_TARGET_REPOS);
+
+    const updated: IdeaRecord = {
+      ...before,
+      targetRepos: nextRepos,
+      updatedAt: now,
+    };
+    const next = [...current];
+    next[idx] = updated;
+    holder.value = { kind: "attached", record: updated };
+    return next;
+  });
+
+  if (!holder.value) {
+    throw new Error("attachRepoToIdea transaction did not produce a result");
+  }
+  return holder.value;
+}
+
+/**
+ * Append `fullName` to the related-repos list (indices 1..). Refuses
+ * to clobber the primary slot — if `targetRepos[0]` already holds
+ * `fullName`, returns `already-attached`. If it appears anywhere
+ * else in the list, returns `already-related`. Refuses to grow the
+ * list past MAX_TARGET_REPOS with `limit-reached`.
+ */
+export async function addRelatedRepoToIdea(
+  ideaId: string,
+  userId: string,
+  fullName: string,
+): Promise<AttachRepoOutcome> {
+  const holder: { value: AttachRepoOutcome | null } = { value: null };
+  const now = new Date().toISOString();
+
+  await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
+    const idx = current.findIndex((r) => r.id === ideaId);
+    if (idx === -1) {
+      holder.value = { kind: "not-found" };
+      return current;
+    }
+    const before = current[idx]!;
+
+    if (before.status === "rejected" || before.status === "archived") {
+      holder.value = { kind: "not-mutable", reason: `idea is ${before.status}` };
+      return current;
+    }
+
+    if (!canEditAttachments(before, userId)) {
+      holder.value = { kind: "not-owner" };
+      return current;
+    }
+
+    const existing = before.targetRepos;
+    if (existing[0] === fullName) {
+      holder.value = { kind: "already-attached", record: before };
+      return current;
+    }
+    if (existing.includes(fullName)) {
+      holder.value = { kind: "already-related", record: before };
+      return current;
+    }
+    if (existing.length >= MAX_TARGET_REPOS) {
+      holder.value = { kind: "limit-reached", record: before };
+      return current;
+    }
+
+    const updated: IdeaRecord = {
+      ...before,
+      targetRepos: [...existing, fullName],
+      updatedAt: now,
+    };
+    const next = [...current];
+    next[idx] = updated;
+    holder.value = { kind: "appended", record: updated };
+    return next;
+  });
+
+  if (!holder.value) {
+    throw new Error("addRelatedRepoToIdea transaction did not produce a result");
+  }
+  return holder.value;
+}
+
+// ---------------------------------------------------------------------------
+// Brief — persisted markdown body of the idea's primary surface
+// ---------------------------------------------------------------------------
+
+/**
+ * Hard cap on persisted brief markdown. ~50KB matches the task spec; in
+ * practice authored briefs are 1-4KB, so the cap is generous-but-bounded
+ * to keep the JSONL row size sane and the in-memory snapshot cheap.
+ */
+export const MAX_BRIEF_MARKDOWN = 50_000;
+
+/**
+ * Outcome class for `saveIdeaBrief`. Route mapping mirrors `claimIdea`:
+ *   - "saved"     → 200 (write committed)
+ *   - "not-found" → 404
+ *   - "forbidden" → 403 (caller is not the claimer and not an admin)
+ *   - "stale"     → 409 (optimistic-concurrency conflict)
+ */
+export type SaveIdeaBriefOutcome =
+  | { kind: "saved"; record: IdeaRecord }
+  | { kind: "not-found" }
+  | { kind: "forbidden"; reason: string }
+  | { kind: "stale"; currentVersion: number };
+
+export interface SaveIdeaBriefInput {
+  ideaId: string;
+  /** Clerk user-id of the caller (already verified by the route). */
+  userId: string;
+  /** Whether the caller's profile.role is 'admin' (admin bypasses ownership). */
+  isAdmin: boolean;
+  /** Validated markdown — length-checked by the route before calling. */
+  briefMarkdown: string;
+  /**
+   * Optional optimistic-concurrency token. If supplied, the writer rejects
+   * with `stale` when the stored briefVersion is strictly greater. Omit on
+   * first-ever save (record has no version yet) or to opt out of the check.
+   */
+  expectedVersion?: number;
+}
+
+/**
+ * Persist an edited brief on an idea. Ownership rule:
+ *   - the idea's `claimedBy` matches `userId`, OR
+ *   - `isAdmin` is true.
+ *
+ * Otherwise returns `forbidden`. The version field is bumped atomically
+ * inside the same `mutateJsonlFile` transaction that writes the markdown,
+ * so two concurrent saves can't both see version N and both write N+1.
+ */
+export async function saveIdeaBrief(
+  input: SaveIdeaBriefInput,
+): Promise<SaveIdeaBriefOutcome> {
+  const holder: { value: SaveIdeaBriefOutcome | null } = { value: null };
+  const now = new Date().toISOString();
+
+  await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
+    const idx = current.findIndex((r) => r.id === input.ideaId);
+    if (idx === -1) {
+      holder.value = { kind: "not-found" };
+      return current;
+    }
+    const before = current[idx]!;
+
+    // Ownership: claimer or admin. Author-without-claim cannot edit —
+    // mirrors the Phase 4C model where the claimer "owns" build work.
+    const isClaimer = !!before.claimedBy && before.claimedBy === input.userId;
+    if (!isClaimer && !input.isAdmin) {
+      holder.value = {
+        kind: "forbidden",
+        reason: before.claimedBy
+          ? "idea is claimed by another user"
+          : "claim the idea before saving its brief",
+      };
+      return current;
+    }
+
+    const storedVersion = before.briefVersion ?? 0;
+    if (
+      input.expectedVersion !== undefined &&
+      input.expectedVersion < storedVersion
+    ) {
+      holder.value = { kind: "stale", currentVersion: storedVersion };
+      return current;
+    }
+
+    const updated: IdeaRecord = {
+      ...before,
+      briefMarkdown: input.briefMarkdown,
+      briefSavedAt: now,
+      briefSavedBy: input.userId,
+      briefVersion: storedVersion + 1,
+      updatedAt: now,
+    };
+    const next = [...current];
+    next[idx] = updated;
+    holder.value = { kind: "saved", record: updated };
+    return next;
+  });
+
+  if (!holder.value) {
+    throw new Error("saveIdeaBrief transaction did not produce a result");
   }
   return holder.value;
 }

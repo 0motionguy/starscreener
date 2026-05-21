@@ -1,5 +1,8 @@
 import type {
   IdeaBuildStatus,
+  IdeaDifficulty,
+  IdeaLaunchPotential,
+  IdeaMvpEstimate,
   IdeaRecord,
   IdeaStatus,
   ReactionTallyForIdea,
@@ -17,6 +20,9 @@ type IdeaBlueprint = {
   buildStatus: IdeaBuildStatus;
   status: IdeaStatus;
   repoOffset: number;
+  difficulty: IdeaDifficulty;
+  mvpEstimate: IdeaMvpEstimate;
+  launchPotential: IdeaLaunchPotential;
 };
 
 const BLUEPRINTS: IdeaBlueprint[] = [
@@ -32,6 +38,9 @@ const BLUEPRINTS: IdeaBlueprint[] = [
     buildStatus: "exploring",
     status: "published",
     repoOffset: 0,
+    difficulty: "medium",
+    mvpEstimate: "1-2 weeks",
+    launchPotential: "high",
   },
   {
     id: "seed-onboarding-analytics",
@@ -45,6 +54,9 @@ const BLUEPRINTS: IdeaBlueprint[] = [
     buildStatus: "exploring",
     status: "published",
     repoOffset: 2,
+    difficulty: "high",
+    mvpEstimate: "month+",
+    launchPotential: "high",
   },
   {
     id: "seed-repo-health",
@@ -58,6 +70,9 @@ const BLUEPRINTS: IdeaBlueprint[] = [
     buildStatus: "scoping",
     status: "published",
     repoOffset: 4,
+    difficulty: "low",
+    mvpEstimate: "weekend",
+    launchPotential: "medium",
   },
   {
     id: "seed-changelog",
@@ -71,6 +86,9 @@ const BLUEPRINTS: IdeaBlueprint[] = [
     buildStatus: "shipped",
     status: "shipped",
     repoOffset: 6,
+    difficulty: "low",
+    mvpEstimate: "weekend",
+    launchPotential: "medium",
   },
   {
     id: "seed-agent-replay",
@@ -84,6 +102,9 @@ const BLUEPRINTS: IdeaBlueprint[] = [
     buildStatus: "exploring",
     status: "published",
     repoOffset: 8,
+    difficulty: "medium",
+    mvpEstimate: "1-2 weeks",
+    launchPotential: "high",
   },
 ];
 
@@ -151,6 +172,9 @@ function toSeedRecord(blueprint: IdeaBlueprint, rows: TrendingRow[], index: numb
     moderatedAt: createdAt,
     moderationNote: null,
     approvedAutomatically: true,
+    difficulty: blueprint.difficulty,
+    mvpEstimate: blueprint.mvpEstimate,
+    launchPotential: blueprint.launchPotential,
     ...(blueprint.buildStatus === "scoping"
       ? { claimedBy: "display-builder", claimedAt: createdAt }
       : {}),

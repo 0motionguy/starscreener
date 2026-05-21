@@ -1,13 +1,20 @@
 import Link from "next/link";
 
+import { IdeaAddRelatedRepoButton } from "@/components/ideas/IdeaAddRelatedRepoButton";
 import type { IdeaRecord } from "@/lib/ideas";
 import { relatedReposForIdea } from "@/lib/ideas/display-data";
 
 interface IdeaRelatedReposTabProps {
   idea: IdeaRecord;
+  /** Forwarded to the add-related-repo button so it can prompt sign-in
+   * without forcing a Clerk round-trip on every render. */
+  signedIn: boolean;
 }
 
-export function IdeaRelatedReposTab({ idea }: IdeaRelatedReposTabProps) {
+export function IdeaRelatedReposTab({
+  idea,
+  signedIn,
+}: IdeaRelatedReposTabProps) {
   return (
     <section
       className="tab-pane tab-related"
@@ -39,14 +46,7 @@ export function IdeaRelatedReposTab({ idea }: IdeaRelatedReposTabProps) {
           ))}
         </div>
       )}
-      <button
-        type="button"
-        className="btn"
-        disabled
-        title="Coming soon — the related-repo picker ships with Phase 4D. For now, attach a repo via the hero action button."
-      >
-        Add related repo
-      </button>
+      <IdeaAddRelatedRepoButton ideaId={idea.id} signedIn={signedIn} />
     </section>
   );
 }

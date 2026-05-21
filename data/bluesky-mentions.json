@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-21T00:18:21.106Z",
+  "fetchedAt": "2026-05-21T05:20:13.109Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -5517,23 +5517,23 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
-        "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
-        "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
+        "uri": "at://did:plc:mnn3crmu2mwkgv4fqyixdasf/app.bsky.feed.post/3mmdgzxc4d627",
+        "cid": "bafyreiamioeqq6daq62ztpuuwzmueoylovh5k37zz7xc2fgebjbdmujmky",
+        "bskyUrl": "https://bsky.app/profile/gslin.bsky.social/post/3mmdgzxc4d627",
+        "text": "https://github.com/anthropics/claude-code/issues/18170 這邊看到 /tui fullscreen 看起來可以處理掉 copy & paste 的問題...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "gslin.bsky.social",
+          "displayName": "Gea-Suan Lin"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-20T15:42:00.690965Z",
-        "hoursSincePosted": 2.83
+        "replyCount": 1,
+        "createdAt": "2026-05-21T03:10:07.018806+00:00",
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -5664,6 +5664,34 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mnn3crmu2mwkgv4fqyixdasf/app.bsky.feed.post/3mmdgzxc4d627",
+          "cid": "bafyreiamioeqq6daq62ztpuuwzmueoylovh5k37zz7xc2fgebjbdmujmky",
+          "bskyUrl": "https://bsky.app/profile/gslin.bsky.social/post/3mmdgzxc4d627",
+          "text": "https://github.com/anthropics/claude-code/issues/18170 這邊看到 /tui fullscreen 看起來可以處理掉 copy & paste 的問題...",
+          "author": {
+            "handle": "gslin.bsky.social",
+            "displayName": "Gea-Suan Lin"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T03:10:07.018806+00:00",
+          "createdUtc": 1779333007,
+          "ageHours": 2.17,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6239,20 +6267,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
-        "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
-        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
-        "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
+        "uri": "at://did:plc:pg7ct5wrk3uwjizfqxbwreso/app.bsky.feed.post/3mmdmljgmok2n",
+        "cid": "bafyreigtivodp24wu5t5zh4cgcuwvdlpuwyitghb2er2vzybdgobp47o5y",
+        "bskyUrl": "https://bsky.app/profile/keiono.bsky.social/post/3mmdmljgmok2n",
+        "text": "知識グラフ作成は、しばらくはある程度まで人力かなと思ってたけど、分野によっては普通に自動生成で行けるのか。まだ試し始めたばっかりなので、宣伝通りの効果があるかは分からんけど。 github.com/safishamsi/g...",
         "author": {
-          "handle": "ai-linkstream.bsky.social"
+          "handle": "keiono.bsky.social",
+          "displayName": "Keiichiro Ono"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T22:50:27.105849+00:00",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-21T04:49:25.307Z",
+        "hoursSincePosted": 0.51
       },
       "posts": [
+        {
+          "uri": "at://did:plc:pg7ct5wrk3uwjizfqxbwreso/app.bsky.feed.post/3mmdmljgmok2n",
+          "cid": "bafyreigtivodp24wu5t5zh4cgcuwvdlpuwyitghb2er2vzybdgobp47o5y",
+          "bskyUrl": "https://bsky.app/profile/keiono.bsky.social/post/3mmdmljgmok2n",
+          "text": "知識グラフ作成は、しばらくはある程度まで人力かなと思ってたけど、分野によっては普通に自動生成で行けるのか。まだ試し始めたばっかりなので、宣伝通りの効果があるかは分からんけど。 github.com/safishamsi/g...",
+          "author": {
+            "handle": "keiono.bsky.social",
+            "displayName": "Keiichiro Ono"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T04:49:25.307Z",
+          "createdUtc": 1779338965,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
           "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
@@ -7402,21 +7459,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
-        "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
-        "bskyUrl": "https://bsky.app/profile/sakak.bsky.social/post/3mlws7o7aik2v",
-        "text": "GitHub - jundot/omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar · GitHub github.com/jundot/omlx",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdfjdcj5h2s",
+        "cid": "bafyreigfyjyb6peqb42hjzgfqcbs6nidu2qdof4uvtmuc23efglvrt7cou",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdfjdcj5h2s",
+        "text": "https://github.com/jundot/omlx",
         "author": {
-          "handle": "sakak.bsky.social",
-          "displayName": "SAKAKIBARA Yoji"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T02:25:33.506Z",
-        "hoursSincePosted": 1.65
+        "createdAt": "2026-05-21T02:42:55Z",
+        "hoursSincePosted": 2.62
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdfjdcj5h2s",
+          "cid": "bafyreigfyjyb6peqb42hjzgfqcbs6nidu2qdof4uvtmuc23efglvrt7cou",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdfjdcj5h2s",
+          "text": "https://github.com/jundot/omlx",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:42:55Z",
+          "createdUtc": 1779331375,
+          "ageHours": 2.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jundot/omlx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
           "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
@@ -9015,22 +9100,22 @@
     },
     "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmcssli32n2c",
-        "cid": "bafyreiby7qfkqartwsegvh55porzp5kiwymobywyex6zbmlfrasynpkfbi",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmcssli32n2c",
-        "text": "🟠 OpenClaw v2026.5.19 raises the Node.js floor to 22.19 and adds a new image build arg OpenClaw shipped v2026.5.19 with two operator-facing changes hidden inside a routine-looking release: the minimum supported Node.js... https://github.com/openclaw/openclaw/releases/tag/v2026.5.19 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmda75z7af2i",
+        "cid": "bafyreig4fqmf3owee6h5exah2af7ujldur6hv46hwlynpzpnvcqtow2tlu",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmda75z7af2i",
+        "text": "🟠 OpenClaw beta adds Discord voice follow mode and profile-aware realtime sessions OpenClaw shipped v2026.5.20-beta.1 with a meaningful Discord voice workflow upgrade: voice sessions can now follow configured... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T21:08:01.240227+00:00",
-        "hoursSincePosted": 1.6
+        "createdAt": "2026-05-21T01:07:44.529108+00:00",
+        "hoursSincePosted": 4.21
       },
       "posts": [
         {
@@ -9048,6 +9133,34 @@
           "createdUtc": 1778515647,
           "ageHours": 2,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmda75z7af2i",
+          "cid": "bafyreig4fqmf3owee6h5exah2af7ujldur6hv46hwlynpzpnvcqtow2tlu",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmda75z7af2i",
+          "text": "🟠 OpenClaw beta adds Discord voice follow mode and profile-aware realtime sessions OpenClaw shipped v2026.5.20-beta.1 with a meaningful Discord voice workflow upgrade: voice sessions can now follow configured... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:07:44.529108+00:00",
+          "createdUtc": 1779325664,
+          "ageHours": 4.21,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -9954,23 +10067,23 @@
     },
     "tailscale/tailscale": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
-        "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
-        "bskyUrl": "https://bsky.app/profile/multipleunit.bsky.social/post/3mljr5ber7k2u",
-        "text": "update: github.com/tailscale/ta.... Though better documentation would still be appreciated!",
+        "uri": "at://did:plc:so47lher3jcfum22w25os7af/app.bsky.feed.post/3mmdbgozejva2",
+        "cid": "bafyreic4noew7iaw7mlxv2kjwzl4nygm2bqd3jfqxj5keancmrkmwk53ba",
+        "bskyUrl": "https://bsky.app/profile/aredridel.kolektiva.social.ap.brid.gy/post/3mmdbgozejva2",
+        "text": "And there it is: https://github.com/tailscale/tailscale/pull/19799 Really not bad to contribute to as open projects go. Worst part was running into someone else who'd fixed the same issue, but then abandoned the PR without a word, and then having to make the declaration that it's code I wrote […]",
         "author": {
-          "handle": "multipleunit.bsky.social",
-          "displayName": "Natalie Makhijani"
+          "handle": "aredridel.kolektiva.social.ap.brid.gy",
+          "displayName": "Mx. Aria Stewart"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-10T22:01:42.606Z",
-        "hoursSincePosted": 1.16
+        "replyCount": 0,
+        "createdAt": "2026-05-21T01:29:48.000Z",
+        "hoursSincePosted": 3.84
       },
       "posts": [
         {
@@ -9989,6 +10102,34 @@
           "createdUtc": 1778450502,
           "ageHours": 1.16,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tailscale/tailscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:so47lher3jcfum22w25os7af/app.bsky.feed.post/3mmdbgozejva2",
+          "cid": "bafyreic4noew7iaw7mlxv2kjwzl4nygm2bqd3jfqxj5keancmrkmwk53ba",
+          "bskyUrl": "https://bsky.app/profile/aredridel.kolektiva.social.ap.brid.gy/post/3mmdbgozejva2",
+          "text": "And there it is: https://github.com/tailscale/tailscale/pull/19799 Really not bad to contribute to as open projects go. Worst part was running into someone else who'd fixed the same issue, but then abandoned the PR without a word, and then having to make the declaration that it's code I wrote […]",
+          "author": {
+            "handle": "aredridel.kolektiva.social.ap.brid.gy",
+            "displayName": "Mx. Aria Stewart"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:29:48.000Z",
+          "createdUtc": 1779326988,
+          "ageHours": 3.84,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -11172,25 +11313,53 @@
     },
     "thesysdev/openui": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlmq745itn2a",
-        "cid": "bafyreieryew26y2qz5ybf7d2l3ntpw5sgdrelyivpzxgqgbanh4knryhde",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlmq745itn2a",
-        "text": "https://github.com/thesysdev/openui",
+        "uri": "at://did:plc:awn7o34wpnqwddgdh3amgyyf/app.bsky.feed.post/3mmdblzqpneb2",
+        "cid": "bafyreiglhtvrsfzm3i4zkyruan25eiyvxrzooeghgohsy2jjz6lobgcmia",
+        "bskyUrl": "https://bsky.app/profile/sjn.chaos.social.ap.brid.gy/post/3mmdblzqpneb2",
+        "text": "https://github.com/thesysdev/openui/pull/517 As #AI fueled rewrites go, this one is an _excellent_ example to learn from! 😆",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "sjn.chaos.social.ap.brid.gy",
+          "displayName": "Salve J. Nilsen"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
         "replyCount": 0,
-        "createdAt": "2026-05-12T02:22:49Z",
-        "hoursSincePosted": 3.51
+        "createdAt": "2026-05-21T01:32:34.000Z",
+        "hoursSincePosted": 3.79
       },
       "posts": [
+        {
+          "uri": "at://did:plc:awn7o34wpnqwddgdh3amgyyf/app.bsky.feed.post/3mmdblzqpneb2",
+          "cid": "bafyreiglhtvrsfzm3i4zkyruan25eiyvxrzooeghgohsy2jjz6lobgcmia",
+          "bskyUrl": "https://bsky.app/profile/sjn.chaos.social.ap.brid.gy/post/3mmdblzqpneb2",
+          "text": "https://github.com/thesysdev/openui/pull/517 As #AI fueled rewrites go, this one is an _excellent_ example to learn from! 😆",
+          "author": {
+            "handle": "sjn.chaos.social.ap.brid.gy",
+            "displayName": "Salve J. Nilsen"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:32:34.000Z",
+          "createdUtc": 1779327154,
+          "ageHours": 3.79,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlmq745itn2a",
           "cid": "bafyreieryew26y2qz5ybf7d2l3ntpw5sgdrelyivpzxgqgbanh4knryhde",
@@ -16534,21 +16703,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mm56pd2zuc2s",
-        "cid": "bafyreida2nf6oq74oq4edpu3erifa36fma5wq6cdfiera6434h5w35vxp4",
-        "bskyUrl": "https://bsky.app/profile/robrich.bsky.social/post/3mm56pd2zuc2s",
-        "text": "github.com/aaif-goose/g... - Goose is a local #code #agent",
+        "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmdlfgum3k2o",
+        "cid": "bafyreigqbqqpnyj27psghpy5zd22u2jywez5u2rskdqulyugjb6xkqzbma",
+        "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmdlfgum3k2o",
+        "text": "I'm super into OpenCode myself. Pi of course. Also, I see Goose and Crush both around as well. github.com/aaif-goose/g...",
         "author": {
-          "handle": "robrich.bsky.social",
-          "displayName": "Rob Richardson"
+          "handle": "jauntywk.bsky.social",
+          "displayName": "JauntyWunderKind"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T15:25:01.480Z",
-        "hoursSincePosted": 1.15
+        "createdAt": "2026-05-21T04:28:07.550Z",
+        "hoursSincePosted": 0.87
       },
       "posts": [
+        {
+          "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmdlfgum3k2o",
+          "cid": "bafyreigqbqqpnyj27psghpy5zd22u2jywez5u2rskdqulyugjb6xkqzbma",
+          "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmdlfgum3k2o",
+          "text": "I'm super into OpenCode myself. Pi of course. Also, I see Goose and Crush both around as well. github.com/aaif-goose/g...",
+          "author": {
+            "handle": "jauntywk.bsky.social",
+            "displayName": "JauntyWunderKind"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T04:28:07.550Z",
+          "createdUtc": 1779337687,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aaif-goose/goose",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mm56pd2zuc2s",
           "cid": "bafyreida2nf6oq74oq4edpu3erifa36fma5wq6cdfiera6434h5w35vxp4",
@@ -17024,21 +17221,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
-        "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm5st7ymjr2c",
-        "text": "📰 Codiff, a local diff review tool, was developed by an HN user who found limitations with reviewing code written by large language models (llms) and built it to address these issues, offering features like file filters, search, ... 🔗 https://github.com/nkzw-tech/codiff/releases #Tech #Dev",
+        "uri": "at://did:plc:shat73m6fp76xd62rkmnhbig/app.bsky.feed.post/3mmddsftelk2k",
+        "cid": "bafyreiebtvnb3onnceybomknny26zo7kkxx7b6tzsfbat6nyeelepbzeha",
+        "bskyUrl": "https://bsky.app/profile/craftzdog.bsky.social/post/3mmddsftelk2k",
+        "text": "Nakazawa氏もレビュー用diffビューワー作ってた。似たツール無数にありそうだな github.com/nkzw-tech/co...",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "craftzdog.bsky.social",
+          "displayName": "Takuya"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T21:25:04.397729+00:00",
-        "hoursSincePosted": 7.14
+        "createdAt": "2026-05-21T02:12:12.734Z",
+        "hoursSincePosted": 3.13
       },
       "posts": [
+        {
+          "uri": "at://did:plc:shat73m6fp76xd62rkmnhbig/app.bsky.feed.post/3mmddsftelk2k",
+          "cid": "bafyreiebtvnb3onnceybomknny26zo7kkxx7b6tzsfbat6nyeelepbzeha",
+          "bskyUrl": "https://bsky.app/profile/craftzdog.bsky.social/post/3mmddsftelk2k",
+          "text": "Nakazawa氏もレビュー用diffビューワー作ってた。似たツール無数にありそうだな github.com/nkzw-tech/co...",
+          "author": {
+            "handle": "craftzdog.bsky.social",
+            "displayName": "Takuya"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:12:12.734Z",
+          "createdUtc": 1779329532,
+          "ageHours": 3.13,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nkzw-tech/codiff",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
           "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
@@ -19082,7 +19307,7 @@
       ]
     },
     "kouhxp/yapsnap": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -19099,7 +19324,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T23:30:53.226Z",
-        "hoursSincePosted": 0.79
+        "hoursSincePosted": 5.82
       },
       "posts": [
         {
@@ -19116,7 +19341,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T23:30:53.226Z",
           "createdUtc": 1779319853,
-          "ageHours": 0.79,
+          "ageHours": 5.82,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -19125,6 +19350,493 @@
           "linkedRepos": [
             {
               "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mmd6nbd66n2r",
+          "cid": "bafyreie3lokthdjfcaxrooaad3vq7ymasu2av5amattuitupntlhltdc2u",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mmd6nbd66n2r",
+          "text": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos https://github.com/kouhxp/yapsnap (https://news.ycombinator.com/item?id=48214399)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T00:39:51.216Z",
+          "createdUtc": 1779323991,
+          "ageHours": 4.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kageroumado/phosphene": {
+      "count7d": 8,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmdi62dqe42m",
+        "cid": "bafyreiffjhy6ddjyn65zknjdl5fjqykxn3l2pcfuw7rczbpniv3j4wsmju",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmdi62dqe42m",
+        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene https://news.ycombinator.com/item?id=48215979",
+        "author": {
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T03:30:18.210557+00:00",
+        "hoursSincePosted": 1.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmdi62dqe42m",
+          "cid": "bafyreiffjhy6ddjyn65zknjdl5fjqykxn3l2pcfuw7rczbpniv3j4wsmju",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmdi62dqe42m",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene https://news.ycombinator.com/item?id=48215979",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T03:30:18.210557+00:00",
+          "createdUtc": 1779334218,
+          "ageHours": 1.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmdhhzhogu2v",
+          "cid": "bafyreih5psfloyu57nkwq7aszcqt6v3ktudurd5eodqtnsqyedkwefd6xa",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmdhhzhogu2v",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T03:17:59.179265Z",
+          "createdUtc": 1779333479,
+          "ageHours": 2.04,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mmddupvdk425",
+          "cid": "bafyreicstbkf5vedcyk7nxl4b52r6thxhp5hl3c5w5z2vqwu5kaurn54om",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mmddupvdk425",
+          "text": "I reverse engineered Apple's video wallpapers #HackerNews https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:13:28.172Z",
+          "createdUtc": 1779329608,
+          "ageHours": 3.11,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mmdct42bje26",
+          "cid": "bafyreicjzcl2tcpzzcyojdso7lhtqemv2e7gp2oqp5twwm45e7pdkpveba",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mmdct42bje26",
+          "text": "I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene (https://news.ycombinator.com/item?id=48215979)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:54:40.528Z",
+          "createdUtc": 1779328480,
+          "ageHours": 3.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mmd7hzdwkt24",
+          "cid": "bafyreigy2dul6ruqmrmw3ahsxgsaqugfhxatdc2niqbgu6qilnj5u2q4ei",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mmd7hzdwkt24",
+          "text": "I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene (https://news.ycombinator.com/item?id=48215979)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T00:54:48.182Z",
+          "createdUtc": 1779324888,
+          "ageHours": 4.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mmd65775r22q",
+          "cid": "bafyreiguuncghd5eqmwu7npuipbz6b2oss7dnxae6y4smozstrv27estbu",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mmd65775r22q",
+          "text": "I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T00:30:52.417Z",
+          "createdUtc": 1779323452,
+          "ageHours": 4.82,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l45kboslxfld24fgv55nxlpc/app.bsky.feed.post/3mmdal7k5dqa2",
+          "cid": "bafyreifxtapas6qoxdmtc2abt3hicjspo4zewdqrprex3nfj3jptjd72qy",
+          "bskyUrl": "https://bsky.app/profile/reverse-engineering.activitypub.awakari.com.ap.brid.gy/post/3mmdal7k5dqa2",
+          "text": "I reverse engineered Apple's video wallpapers Article URL: https://github.com/kageroumado/phosphene Comments URL: https://news.ycombinator.com/item?id=48215979 Points: 28 # Comments: 5 Origin | Interest | Match",
+          "author": {
+            "handle": "reverse-engineering.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "Reverse-Engineering"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T23:54:06.000Z",
+          "createdUtc": 1779321246,
+          "ageHours": 5.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l45kboslxfld24fgv55nxlpc/app.bsky.feed.post/3mmd5kf6veqh2",
+          "cid": "bafyreidcnuyjqjr5hs4hp2hbgjwxn3e4o4kdzvp7ricpcqhjvhqo25onm4",
+          "bskyUrl": "https://bsky.app/profile/reverse-engineering.activitypub.awakari.com.ap.brid.gy/post/3mmd5kf6veqh2",
+          "text": "I reverse engineered Apple's video wallpapers Article URL: https://github.com/kageroumado/phosphene Comments URL: https://news.ycombinator.com/item?id=48215979 Points: 2 # Comments: 1 Origin | Interest | Match",
+          "author": {
+            "handle": "reverse-engineering.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "Reverse-Engineering"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T23:54:06.000Z",
+          "createdUtc": 1779321246,
+          "ageHours": 5.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nduckmink/arkon": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdenp2son2t",
+        "cid": "bafyreihombo6ricjyzq4rctxn7fhwihc2srwmcnnby3x6qxb7bliuwhxji",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdenp2son2t",
+        "text": "https://github.com/nduckmink/arkon",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T02:27:27Z",
+        "hoursSincePosted": 2.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdenp2son2t",
+          "cid": "bafyreihombo6ricjyzq4rctxn7fhwihc2srwmcnnby3x6qxb7bliuwhxji",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdenp2son2t",
+          "text": "https://github.com/nduckmink/arkon",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:27:27Z",
+          "createdUtc": 1779330447,
+          "ageHours": 2.88,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nduckmink/arkon",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "yuliskov/SmartTube": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+        "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+        "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+        "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+        "author": {
+          "handle": "tnpapa.bsky.social",
+          "displayName": "Thiago Papageorgiou"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T02:08:21.304Z",
+        "hoursSincePosted": 3.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+          "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+          "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+          "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+          "author": {
+            "handle": "tnpapa.bsky.social",
+            "displayName": "Thiago Papageorgiou"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T02:08:21.304Z",
+          "createdUtc": 1779329301,
+          "ageHours": 3.2,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yuliskov/SmartTube",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "reisxd/TizenTubeCobalt",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "reisxd/TizenTubeCobalt": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+        "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+        "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+        "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+        "author": {
+          "handle": "tnpapa.bsky.social",
+          "displayName": "Thiago Papageorgiou"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T02:08:21.304Z",
+        "hoursSincePosted": 3.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+          "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+          "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+          "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+          "author": {
+            "handle": "tnpapa.bsky.social",
+            "displayName": "Thiago Papageorgiou"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T02:08:21.304Z",
+          "createdUtc": 1779329301,
+          "ageHours": 3.2,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yuliskov/SmartTube",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "reisxd/TizenTubeCobalt",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "GoogleCloudPlatform/scion": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmddl4z7cs2n",
+        "cid": "bafyreibqo7zhqimqjbayfxjfcwlhkvuzlxsj4lam7g57cwb2jadhb3wjxa",
+        "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmddl4z7cs2n",
+        "text": "A lot of similar ish things keep rolling out from Google. Scion, github.com/GoogleCloudP...",
+        "author": {
+          "handle": "jauntywk.bsky.social",
+          "displayName": "JauntyWunderKind"
+        },
+        "likeCount": 2,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T02:08:08.607Z",
+        "hoursSincePosted": 3.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmddl4z7cs2n",
+          "cid": "bafyreibqo7zhqimqjbayfxjfcwlhkvuzlxsj4lam7g57cwb2jadhb3wjxa",
+          "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmddl4z7cs2n",
+          "text": "A lot of similar ish things keep rolling out from Google. Scion, github.com/GoogleCloudP...",
+          "author": {
+            "handle": "jauntywk.bsky.social",
+            "displayName": "JauntyWunderKind"
+          },
+          "likeCount": 2,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T02:08:08.607Z",
+          "createdUtc": 1779329288,
+          "ageHours": 3.2,
+          "trendingScore": 4.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "GoogleCloudPlatform/scion",
               "matchType": "url",
               "confidence": 1
             }
@@ -24646,23 +25358,23 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmcalkcwpo22",
-        "cid": "bafyreiektjr7bbnvu7y6kl6londpbpwqwkwrnrqghdbttalht3r327xltm",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcalkcwpo22",
-        "text": "Anthropic ships Claude Code v2.1.141. Claims improved performance on code generation tasks. #Anthropic #ClaudeCode #CodeGeneration 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.141",
+        "uri": "at://did:plc:mnn3crmu2mwkgv4fqyixdasf/app.bsky.feed.post/3mmdgzxc4d627",
+        "cid": "bafyreiamioeqq6daq62ztpuuwzmueoylovh5k37zz7xc2fgebjbdmujmky",
+        "bskyUrl": "https://bsky.app/profile/gslin.bsky.social/post/3mmdgzxc4d627",
+        "text": "https://github.com/anthropics/claude-code/issues/18170 這邊看到 /tui fullscreen 看起來可以處理掉 copy & paste 的問題...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "gslin.bsky.social",
+          "displayName": "Gea-Suan Lin"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-20T15:42:00.690965Z",
-        "hoursSincePosted": 2.83
+        "replyCount": 1,
+        "createdAt": "2026-05-21T03:10:07.018806+00:00",
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -24793,6 +25505,34 @@
           "createdUtc": 1778895617,
           "ageHours": 2.41,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mnn3crmu2mwkgv4fqyixdasf/app.bsky.feed.post/3mmdgzxc4d627",
+          "cid": "bafyreiamioeqq6daq62ztpuuwzmueoylovh5k37zz7xc2fgebjbdmujmky",
+          "bskyUrl": "https://bsky.app/profile/gslin.bsky.social/post/3mmdgzxc4d627",
+          "text": "https://github.com/anthropics/claude-code/issues/18170 這邊看到 /tui fullscreen 看起來可以處理掉 copy & paste 的問題...",
+          "author": {
+            "handle": "gslin.bsky.social",
+            "displayName": "Gea-Suan Lin"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T03:10:07.018806+00:00",
+          "createdUtc": 1779333007,
+          "ageHours": 2.17,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -25368,20 +26108,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
-        "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
-        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
-        "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
+        "uri": "at://did:plc:pg7ct5wrk3uwjizfqxbwreso/app.bsky.feed.post/3mmdmljgmok2n",
+        "cid": "bafyreigtivodp24wu5t5zh4cgcuwvdlpuwyitghb2er2vzybdgobp47o5y",
+        "bskyUrl": "https://bsky.app/profile/keiono.bsky.social/post/3mmdmljgmok2n",
+        "text": "知識グラフ作成は、しばらくはある程度まで人力かなと思ってたけど、分野によっては普通に自動生成で行けるのか。まだ試し始めたばっかりなので、宣伝通りの効果があるかは分からんけど。 github.com/safishamsi/g...",
         "author": {
-          "handle": "ai-linkstream.bsky.social"
+          "handle": "keiono.bsky.social",
+          "displayName": "Keiichiro Ono"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T22:50:27.105849+00:00",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-21T04:49:25.307Z",
+        "hoursSincePosted": 0.51
       },
       "posts": [
+        {
+          "uri": "at://did:plc:pg7ct5wrk3uwjizfqxbwreso/app.bsky.feed.post/3mmdmljgmok2n",
+          "cid": "bafyreigtivodp24wu5t5zh4cgcuwvdlpuwyitghb2er2vzybdgobp47o5y",
+          "bskyUrl": "https://bsky.app/profile/keiono.bsky.social/post/3mmdmljgmok2n",
+          "text": "知識グラフ作成は、しばらくはある程度まで人力かなと思ってたけど、分野によっては普通に自動生成で行けるのか。まだ試し始めたばっかりなので、宣伝通りの効果があるかは分からんけど。 github.com/safishamsi/g...",
+          "author": {
+            "handle": "keiono.bsky.social",
+            "displayName": "Keiichiro Ono"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T04:49:25.307Z",
+          "createdUtc": 1779338965,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
           "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
@@ -26531,21 +27300,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
-        "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
-        "bskyUrl": "https://bsky.app/profile/sakak.bsky.social/post/3mlws7o7aik2v",
-        "text": "GitHub - jundot/omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar · GitHub github.com/jundot/omlx",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdfjdcj5h2s",
+        "cid": "bafyreigfyjyb6peqb42hjzgfqcbs6nidu2qdof4uvtmuc23efglvrt7cou",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdfjdcj5h2s",
+        "text": "https://github.com/jundot/omlx",
         "author": {
-          "handle": "sakak.bsky.social",
-          "displayName": "SAKAKIBARA Yoji"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T02:25:33.506Z",
-        "hoursSincePosted": 1.65
+        "createdAt": "2026-05-21T02:42:55Z",
+        "hoursSincePosted": 2.62
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdfjdcj5h2s",
+          "cid": "bafyreigfyjyb6peqb42hjzgfqcbs6nidu2qdof4uvtmuc23efglvrt7cou",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdfjdcj5h2s",
+          "text": "https://github.com/jundot/omlx",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:42:55Z",
+          "createdUtc": 1779331375,
+          "ageHours": 2.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jundot/omlx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:o3gsvvpo4nbtnpw3kffl4p7z/app.bsky.feed.post/3mlws7o7aik2v",
           "cid": "bafyreig7nzmemxse4ppn4brpjvfovkpr45orhq4yraweu5aroy635ogzaa",
@@ -28144,22 +28941,22 @@
     },
     "openclaw--openclaw": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmcssli32n2c",
-        "cid": "bafyreiby7qfkqartwsegvh55porzp5kiwymobywyex6zbmlfrasynpkfbi",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmcssli32n2c",
-        "text": "🟠 OpenClaw v2026.5.19 raises the Node.js floor to 22.19 and adds a new image build arg OpenClaw shipped v2026.5.19 with two operator-facing changes hidden inside a routine-looking release: the minimum supported Node.js... https://github.com/openclaw/openclaw/releases/tag/v2026.5.19 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmda75z7af2i",
+        "cid": "bafyreig4fqmf3owee6h5exah2af7ujldur6hv46hwlynpzpnvcqtow2tlu",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmda75z7af2i",
+        "text": "🟠 OpenClaw beta adds Discord voice follow mode and profile-aware realtime sessions OpenClaw shipped v2026.5.20-beta.1 with a meaningful Discord voice workflow upgrade: voice sessions can now follow configured... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T21:08:01.240227+00:00",
-        "hoursSincePosted": 1.6
+        "createdAt": "2026-05-21T01:07:44.529108+00:00",
+        "hoursSincePosted": 4.21
       },
       "posts": [
         {
@@ -28177,6 +28974,34 @@
           "createdUtc": 1778515647,
           "ageHours": 2,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmda75z7af2i",
+          "cid": "bafyreig4fqmf3owee6h5exah2af7ujldur6hv46hwlynpzpnvcqtow2tlu",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmda75z7af2i",
+          "text": "🟠 OpenClaw beta adds Discord voice follow mode and profile-aware realtime sessions OpenClaw shipped v2026.5.20-beta.1 with a meaningful Discord voice workflow upgrade: voice sessions can now follow configured... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:07:44.529108+00:00",
+          "createdUtc": 1779325664,
+          "ageHours": 4.21,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -29083,23 +29908,23 @@
     },
     "tailscale--tailscale": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
-        "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
-        "bskyUrl": "https://bsky.app/profile/multipleunit.bsky.social/post/3mljr5ber7k2u",
-        "text": "update: github.com/tailscale/ta.... Though better documentation would still be appreciated!",
+        "uri": "at://did:plc:so47lher3jcfum22w25os7af/app.bsky.feed.post/3mmdbgozejva2",
+        "cid": "bafyreic4noew7iaw7mlxv2kjwzl4nygm2bqd3jfqxj5keancmrkmwk53ba",
+        "bskyUrl": "https://bsky.app/profile/aredridel.kolektiva.social.ap.brid.gy/post/3mmdbgozejva2",
+        "text": "And there it is: https://github.com/tailscale/tailscale/pull/19799 Really not bad to contribute to as open projects go. Worst part was running into someone else who'd fixed the same issue, but then abandoned the PR without a word, and then having to make the declaration that it's code I wrote […]",
         "author": {
-          "handle": "multipleunit.bsky.social",
-          "displayName": "Natalie Makhijani"
+          "handle": "aredridel.kolektiva.social.ap.brid.gy",
+          "displayName": "Mx. Aria Stewart"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-10T22:01:42.606Z",
-        "hoursSincePosted": 1.16
+        "replyCount": 0,
+        "createdAt": "2026-05-21T01:29:48.000Z",
+        "hoursSincePosted": 3.84
       },
       "posts": [
         {
@@ -29118,6 +29943,34 @@
           "createdUtc": 1778450502,
           "ageHours": 1.16,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tailscale/tailscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:so47lher3jcfum22w25os7af/app.bsky.feed.post/3mmdbgozejva2",
+          "cid": "bafyreic4noew7iaw7mlxv2kjwzl4nygm2bqd3jfqxj5keancmrkmwk53ba",
+          "bskyUrl": "https://bsky.app/profile/aredridel.kolektiva.social.ap.brid.gy/post/3mmdbgozejva2",
+          "text": "And there it is: https://github.com/tailscale/tailscale/pull/19799 Really not bad to contribute to as open projects go. Worst part was running into someone else who'd fixed the same issue, but then abandoned the PR without a word, and then having to make the declaration that it's code I wrote […]",
+          "author": {
+            "handle": "aredridel.kolektiva.social.ap.brid.gy",
+            "displayName": "Mx. Aria Stewart"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:29:48.000Z",
+          "createdUtc": 1779326988,
+          "ageHours": 3.84,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -30301,25 +31154,53 @@
     },
     "thesysdev--openui": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlmq745itn2a",
-        "cid": "bafyreieryew26y2qz5ybf7d2l3ntpw5sgdrelyivpzxgqgbanh4knryhde",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlmq745itn2a",
-        "text": "https://github.com/thesysdev/openui",
+        "uri": "at://did:plc:awn7o34wpnqwddgdh3amgyyf/app.bsky.feed.post/3mmdblzqpneb2",
+        "cid": "bafyreiglhtvrsfzm3i4zkyruan25eiyvxrzooeghgohsy2jjz6lobgcmia",
+        "bskyUrl": "https://bsky.app/profile/sjn.chaos.social.ap.brid.gy/post/3mmdblzqpneb2",
+        "text": "https://github.com/thesysdev/openui/pull/517 As #AI fueled rewrites go, this one is an _excellent_ example to learn from! 😆",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "sjn.chaos.social.ap.brid.gy",
+          "displayName": "Salve J. Nilsen"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
         "replyCount": 0,
-        "createdAt": "2026-05-12T02:22:49Z",
-        "hoursSincePosted": 3.51
+        "createdAt": "2026-05-21T01:32:34.000Z",
+        "hoursSincePosted": 3.79
       },
       "posts": [
+        {
+          "uri": "at://did:plc:awn7o34wpnqwddgdh3amgyyf/app.bsky.feed.post/3mmdblzqpneb2",
+          "cid": "bafyreiglhtvrsfzm3i4zkyruan25eiyvxrzooeghgohsy2jjz6lobgcmia",
+          "bskyUrl": "https://bsky.app/profile/sjn.chaos.social.ap.brid.gy/post/3mmdblzqpneb2",
+          "text": "https://github.com/thesysdev/openui/pull/517 As #AI fueled rewrites go, this one is an _excellent_ example to learn from! 😆",
+          "author": {
+            "handle": "sjn.chaos.social.ap.brid.gy",
+            "displayName": "Salve J. Nilsen"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:32:34.000Z",
+          "createdUtc": 1779327154,
+          "ageHours": 3.79,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlmq745itn2a",
           "cid": "bafyreieryew26y2qz5ybf7d2l3ntpw5sgdrelyivpzxgqgbanh4knryhde",
@@ -35663,21 +36544,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mm56pd2zuc2s",
-        "cid": "bafyreida2nf6oq74oq4edpu3erifa36fma5wq6cdfiera6434h5w35vxp4",
-        "bskyUrl": "https://bsky.app/profile/robrich.bsky.social/post/3mm56pd2zuc2s",
-        "text": "github.com/aaif-goose/g... - Goose is a local #code #agent",
+        "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmdlfgum3k2o",
+        "cid": "bafyreigqbqqpnyj27psghpy5zd22u2jywez5u2rskdqulyugjb6xkqzbma",
+        "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmdlfgum3k2o",
+        "text": "I'm super into OpenCode myself. Pi of course. Also, I see Goose and Crush both around as well. github.com/aaif-goose/g...",
         "author": {
-          "handle": "robrich.bsky.social",
-          "displayName": "Rob Richardson"
+          "handle": "jauntywk.bsky.social",
+          "displayName": "JauntyWunderKind"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T15:25:01.480Z",
-        "hoursSincePosted": 1.15
+        "createdAt": "2026-05-21T04:28:07.550Z",
+        "hoursSincePosted": 0.87
       },
       "posts": [
+        {
+          "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmdlfgum3k2o",
+          "cid": "bafyreigqbqqpnyj27psghpy5zd22u2jywez5u2rskdqulyugjb6xkqzbma",
+          "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmdlfgum3k2o",
+          "text": "I'm super into OpenCode myself. Pi of course. Also, I see Goose and Crush both around as well. github.com/aaif-goose/g...",
+          "author": {
+            "handle": "jauntywk.bsky.social",
+            "displayName": "JauntyWunderKind"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T04:28:07.550Z",
+          "createdUtc": 1779337687,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aaif-goose/goose",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mm56pd2zuc2s",
           "cid": "bafyreida2nf6oq74oq4edpu3erifa36fma5wq6cdfiera6434h5w35vxp4",
@@ -36153,21 +37062,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
-        "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm5st7ymjr2c",
-        "text": "📰 Codiff, a local diff review tool, was developed by an HN user who found limitations with reviewing code written by large language models (llms) and built it to address these issues, offering features like file filters, search, ... 🔗 https://github.com/nkzw-tech/codiff/releases #Tech #Dev",
+        "uri": "at://did:plc:shat73m6fp76xd62rkmnhbig/app.bsky.feed.post/3mmddsftelk2k",
+        "cid": "bafyreiebtvnb3onnceybomknny26zo7kkxx7b6tzsfbat6nyeelepbzeha",
+        "bskyUrl": "https://bsky.app/profile/craftzdog.bsky.social/post/3mmddsftelk2k",
+        "text": "Nakazawa氏もレビュー用diffビューワー作ってた。似たツール無数にありそうだな github.com/nkzw-tech/co...",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "craftzdog.bsky.social",
+          "displayName": "Takuya"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-18T21:25:04.397729+00:00",
-        "hoursSincePosted": 7.14
+        "createdAt": "2026-05-21T02:12:12.734Z",
+        "hoursSincePosted": 3.13
       },
       "posts": [
+        {
+          "uri": "at://did:plc:shat73m6fp76xd62rkmnhbig/app.bsky.feed.post/3mmddsftelk2k",
+          "cid": "bafyreiebtvnb3onnceybomknny26zo7kkxx7b6tzsfbat6nyeelepbzeha",
+          "bskyUrl": "https://bsky.app/profile/craftzdog.bsky.social/post/3mmddsftelk2k",
+          "text": "Nakazawa氏もレビュー用diffビューワー作ってた。似たツール無数にありそうだな github.com/nkzw-tech/co...",
+          "author": {
+            "handle": "craftzdog.bsky.social",
+            "displayName": "Takuya"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:12:12.734Z",
+          "createdUtc": 1779329532,
+          "ageHours": 3.13,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nkzw-tech/codiff",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm5st7ymjr2c",
           "cid": "bafyreibfwthoycpfpwry5hgvx3qa3ysvv4srpppjyrrno5xqs6oa7hdz4e",
@@ -38211,7 +39148,7 @@
       ]
     },
     "kouhxp--yapsnap": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -38228,7 +39165,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-20T23:30:53.226Z",
-        "hoursSincePosted": 0.79
+        "hoursSincePosted": 5.82
       },
       "posts": [
         {
@@ -38245,8 +39182,36 @@
           "replyCount": 0,
           "createdAt": "2026-05-20T23:30:53.226Z",
           "createdUtc": 1779319853,
-          "ageHours": 0.79,
+          "ageHours": 5.82,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mmd6nbd66n2r",
+          "cid": "bafyreie3lokthdjfcaxrooaad3vq7ymasu2av5amattuitupntlhltdc2u",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mmd6nbd66n2r",
+          "text": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos https://github.com/kouhxp/yapsnap (https://news.ycombinator.com/item?id=48214399)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T00:39:51.216Z",
+          "createdUtc": 1779323991,
+          "ageHours": 4.67,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -38260,16 +39225,535 @@
           ]
         }
       ]
+    },
+    "kageroumado--phosphene": {
+      "count7d": 8,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmdi62dqe42m",
+        "cid": "bafyreiffjhy6ddjyn65zknjdl5fjqykxn3l2pcfuw7rczbpniv3j4wsmju",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmdi62dqe42m",
+        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene https://news.ycombinator.com/item?id=48215979",
+        "author": {
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T03:30:18.210557+00:00",
+        "hoursSincePosted": 1.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmdi62dqe42m",
+          "cid": "bafyreiffjhy6ddjyn65zknjdl5fjqykxn3l2pcfuw7rczbpniv3j4wsmju",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmdi62dqe42m",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene https://news.ycombinator.com/item?id=48215979",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T03:30:18.210557+00:00",
+          "createdUtc": 1779334218,
+          "ageHours": 1.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmdhhzhogu2v",
+          "cid": "bafyreih5psfloyu57nkwq7aszcqt6v3ktudurd5eodqtnsqyedkwefd6xa",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmdhhzhogu2v",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T03:17:59.179265Z",
+          "createdUtc": 1779333479,
+          "ageHours": 2.04,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mmddupvdk425",
+          "cid": "bafyreicstbkf5vedcyk7nxl4b52r6thxhp5hl3c5w5z2vqwu5kaurn54om",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mmddupvdk425",
+          "text": "I reverse engineered Apple's video wallpapers #HackerNews https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:13:28.172Z",
+          "createdUtc": 1779329608,
+          "ageHours": 3.11,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mmdct42bje26",
+          "cid": "bafyreicjzcl2tcpzzcyojdso7lhtqemv2e7gp2oqp5twwm45e7pdkpveba",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mmdct42bje26",
+          "text": "I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene (https://news.ycombinator.com/item?id=48215979)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T01:54:40.528Z",
+          "createdUtc": 1779328480,
+          "ageHours": 3.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mmd7hzdwkt24",
+          "cid": "bafyreigy2dul6ruqmrmw3ahsxgsaqugfhxatdc2niqbgu6qilnj5u2q4ei",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mmd7hzdwkt24",
+          "text": "I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene (https://news.ycombinator.com/item?id=48215979)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T00:54:48.182Z",
+          "createdUtc": 1779324888,
+          "ageHours": 4.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mmd65775r22q",
+          "cid": "bafyreiguuncghd5eqmwu7npuipbz6b2oss7dnxae6y4smozstrv27estbu",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mmd65775r22q",
+          "text": "I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T00:30:52.417Z",
+          "createdUtc": 1779323452,
+          "ageHours": 4.82,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l45kboslxfld24fgv55nxlpc/app.bsky.feed.post/3mmdal7k5dqa2",
+          "cid": "bafyreifxtapas6qoxdmtc2abt3hicjspo4zewdqrprex3nfj3jptjd72qy",
+          "bskyUrl": "https://bsky.app/profile/reverse-engineering.activitypub.awakari.com.ap.brid.gy/post/3mmdal7k5dqa2",
+          "text": "I reverse engineered Apple's video wallpapers Article URL: https://github.com/kageroumado/phosphene Comments URL: https://news.ycombinator.com/item?id=48215979 Points: 28 # Comments: 5 Origin | Interest | Match",
+          "author": {
+            "handle": "reverse-engineering.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "Reverse-Engineering"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T23:54:06.000Z",
+          "createdUtc": 1779321246,
+          "ageHours": 5.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l45kboslxfld24fgv55nxlpc/app.bsky.feed.post/3mmd5kf6veqh2",
+          "cid": "bafyreidcnuyjqjr5hs4hp2hbgjwxn3e4o4kdzvp7ricpcqhjvhqo25onm4",
+          "bskyUrl": "https://bsky.app/profile/reverse-engineering.activitypub.awakari.com.ap.brid.gy/post/3mmd5kf6veqh2",
+          "text": "I reverse engineered Apple's video wallpapers Article URL: https://github.com/kageroumado/phosphene Comments URL: https://news.ycombinator.com/item?id=48215979 Points: 2 # Comments: 1 Origin | Interest | Match",
+          "author": {
+            "handle": "reverse-engineering.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "Reverse-Engineering"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T23:54:06.000Z",
+          "createdUtc": 1779321246,
+          "ageHours": 5.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nduckmink--arkon": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdenp2son2t",
+        "cid": "bafyreihombo6ricjyzq4rctxn7fhwihc2srwmcnnby3x6qxb7bliuwhxji",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdenp2son2t",
+        "text": "https://github.com/nduckmink/arkon",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T02:27:27Z",
+        "hoursSincePosted": 2.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmdenp2son2t",
+          "cid": "bafyreihombo6ricjyzq4rctxn7fhwihc2srwmcnnby3x6qxb7bliuwhxji",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdenp2son2t",
+          "text": "https://github.com/nduckmink/arkon",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T02:27:27Z",
+          "createdUtc": 1779330447,
+          "ageHours": 2.88,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nduckmink/arkon",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "yuliskov--smarttube": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+        "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+        "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+        "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+        "author": {
+          "handle": "tnpapa.bsky.social",
+          "displayName": "Thiago Papageorgiou"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T02:08:21.304Z",
+        "hoursSincePosted": 3.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+          "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+          "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+          "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+          "author": {
+            "handle": "tnpapa.bsky.social",
+            "displayName": "Thiago Papageorgiou"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T02:08:21.304Z",
+          "createdUtc": 1779329301,
+          "ageHours": 3.2,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yuliskov/SmartTube",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "reisxd/TizenTubeCobalt",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "reisxd--tizentubecobalt": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+        "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+        "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+        "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+        "author": {
+          "handle": "tnpapa.bsky.social",
+          "displayName": "Thiago Papageorgiou"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T02:08:21.304Z",
+        "hoursSincePosted": 3.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4yeph367jwhdphjvvz3jtur/app.bsky.feed.post/3mmddlj4oq22t",
+          "cid": "bafyreibqwxn3a43adbxkhaszhrbfacnxznrdae3ycdplzcgibau5jgzt2a",
+          "bskyUrl": "https://bsky.app/profile/tnpapa.bsky.social/post/3mmddlj4oq22t",
+          "text": "Olha, mal uso o Youtube, então nunca usei, mas sei que para TVs baseadas no Android existem o SmartTube e o TizenTubeCobalt, ambos de código aberto (como todos que sugiro no próx comentário). github.com/yuliskov/sma... github.com/reisxd/Tizen...",
+          "author": {
+            "handle": "tnpapa.bsky.social",
+            "displayName": "Thiago Papageorgiou"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T02:08:21.304Z",
+          "createdUtc": 1779329301,
+          "ageHours": 3.2,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yuliskov/SmartTube",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "reisxd/TizenTubeCobalt",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "googlecloudplatform--scion": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmddl4z7cs2n",
+        "cid": "bafyreibqo7zhqimqjbayfxjfcwlhkvuzlxsj4lam7g57cwb2jadhb3wjxa",
+        "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmddl4z7cs2n",
+        "text": "A lot of similar ish things keep rolling out from Google. Scion, github.com/GoogleCloudP...",
+        "author": {
+          "handle": "jauntywk.bsky.social",
+          "displayName": "JauntyWunderKind"
+        },
+        "likeCount": 2,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T02:08:08.607Z",
+        "hoursSincePosted": 3.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mmddl4z7cs2n",
+          "cid": "bafyreibqo7zhqimqjbayfxjfcwlhkvuzlxsj4lam7g57cwb2jadhb3wjxa",
+          "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mmddl4z7cs2n",
+          "text": "A lot of similar ish things keep rolling out from Google. Scion, github.com/GoogleCloudP...",
+          "author": {
+            "handle": "jauntywk.bsky.social",
+            "displayName": "JauntyWunderKind"
+          },
+          "likeCount": 2,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T02:08:08.607Z",
+          "createdUtc": 1779329288,
+          "ageHours": 3.2,
+          "trendingScore": 4.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "GoogleCloudPlatform/scion",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "GoogleCloudPlatform/scion",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
       "fullName": "kouhxp/yapsnap",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "thesysdev/openui",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "antirez/ds4",
+      "fullName": "kageroumado/phosphene",
+      "count7d": 8,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "aaif-goose/goose",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jundot/omlx",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "nduckmink/arkon",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "nkzw-tech/codiff",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "reisxd/TizenTubeCobalt",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "safishamsi/graphify",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tailscale/tailscale",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "yuliskov/SmartTube",
       "count7d": 1,
       "likesSum7d": 0
     }

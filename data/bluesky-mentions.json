@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-21T13:32:35.186Z",
+  "fetchedAt": "2026-05-21T16:49:37.786Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -9186,22 +9186,22 @@
     },
     "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmda75z7af2i",
-        "cid": "bafyreig4fqmf3owee6h5exah2af7ujldur6hv46hwlynpzpnvcqtow2tlu",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmda75z7af2i",
-        "text": "🟠 OpenClaw beta adds Discord voice follow mode and profile-aware realtime sessions OpenClaw shipped v2026.5.20-beta.1 with a meaningful Discord voice workflow upgrade: voice sessions can now follow configured... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmesjdosgw2c",
+        "cid": "bafyreidbbifd4pck2lig7oin7xnkayivl5wz3ie4u572whdinyitvt4ukm",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmesjdosgw2c",
+        "text": "🟠 OpenClaw beta adds a bundled Policy plugin, xAI device-code auth, and Discord voice-follow automation OpenClaw shipped pre-release v2026.5.20-beta.2 with several workflow-level changes, including a bundled... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.2 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T01:07:44.529108+00:00",
-        "hoursSincePosted": 4.21
+        "createdAt": "2026-05-21T16:08:13.205376+00:00",
+        "hoursSincePosted": 0.69
       },
       "posts": [
         {
@@ -9252,6 +9252,33 @@
             "is-announcement"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmesjdosgw2c",
+          "cid": "bafyreidbbifd4pck2lig7oin7xnkayivl5wz3ie4u572whdinyitvt4ukm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmesjdosgw2c",
+          "text": "🟠 OpenClaw beta adds a bundled Policy plugin, xAI device-code auth, and Discord voice-follow automation OpenClaw shipped pre-release v2026.5.20-beta.2 with several workflow-level changes, including a bundled... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.2 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T16:08:13.205376+00:00",
+          "createdUtc": 1779379693,
+          "ageHours": 0.69,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -13500,21 +13527,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmepymmqlv27",
+        "cid": "bafyreigfolcsncfnpfiquit7pyb276raujkzz2bpw4rsavniokgzcqiadq",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmepymmqlv27",
+        "text": "Agent-native CLI tools emerge. CLI-Anything integrates AI agents with existing CLIs, Apache 2.0 licensed. #CLIAnything #AgentNative #HKUDS 🔗 https://github.com/HKUDS/CLI-Anything",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:23:04.856120Z",
+        "hoursSincePosted": 1.44
       },
       "posts": [
         {
@@ -13543,6 +13570,35 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmepymmqlv27",
+          "cid": "bafyreigfolcsncfnpfiquit7pyb276raujkzz2bpw4rsavniokgzcqiadq",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmepymmqlv27",
+          "text": "Agent-native CLI tools emerge. CLI-Anything integrates AI agents with existing CLIs, Apache 2.0 licensed. #CLIAnything #AgentNative #HKUDS 🔗 https://github.com/HKUDS/CLI-Anything",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:23:04.856120Z",
+          "createdUtc": 1779376984,
+          "ageHours": 1.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
             {
               "fullName": "HKUDS/CLI-Anything",
               "matchType": "url",
@@ -15752,19 +15808,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmbwj3hv672q",
-        "cid": "bafyreibwkmuy7qukzlztmvf7p4p5jjuyneq3xfpzijdx67xbt3plmsnxnm",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmbwj3hv672q",
-        "text": "📰 RuView utilizes WiFi to create an image of objects behind walls, offering a unique method for non-invasive surveillance and inspection. 🔗 https://github.com/ruvnet/RuView #Tech #Dev",
+        "uri": "at://did:plc:mdocvky3thypleu26gbyjgex/app.bsky.feed.post/3mmerhmr54k2m",
+        "cid": "bafyreigmp4a36w3bo2d6sze25n3ufoa77qsr46gcv6oqnafnpygt2xwtgu",
+        "bskyUrl": "https://bsky.app/profile/flavio58.bsky.social/post/3mmerhmr54k2m",
+        "text": "github.com/ruvnet/RuView",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "flavio58.bsky.social",
+          "displayName": "Flavio58"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T12:41:37.157571+00:00",
-        "hoursSincePosted": 3.23
+        "createdAt": "2026-05-21T15:49:23.015Z",
+        "hoursSincePosted": 1
       },
       "posts": [
         {
@@ -15783,6 +15839,34 @@
           "createdUtc": 1779045093,
           "ageHours": 4.97,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mdocvky3thypleu26gbyjgex/app.bsky.feed.post/3mmerhmr54k2m",
+          "cid": "bafyreigmp4a36w3bo2d6sze25n3ufoa77qsr46gcv6oqnafnpygt2xwtgu",
+          "bskyUrl": "https://bsky.app/profile/flavio58.bsky.social/post/3mmerhmr54k2m",
+          "text": "github.com/ruvnet/RuView",
+          "author": {
+            "handle": "flavio58.bsky.social",
+            "displayName": "Flavio58"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:49:23.015Z",
+          "createdUtc": 1779378563,
+          "ageHours": 1,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18164,10 +18248,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
@@ -18175,10 +18259,43 @@
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 3.25
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+          "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
           "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
@@ -18969,23 +19086,56 @@
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
-        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
-        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 3.25
+        "replyCount": 1,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+          "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
           "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
@@ -19611,26 +19761,82 @@
       ]
     },
     "kageroumado/phosphene": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mmebmrebmr2p",
-        "cid": "bafyreifdffg5fna7tbymwm5scldohe2xtdufve2ymntdqnvbairyg5qpnm",
-        "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mmebmrebmr2p",
-        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene (https://news.ycombinator.com/item?id=48215979)",
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
+        "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmesa4ahgf2d",
+        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene [comments] [366 points]",
         "author": {
-          "handle": "betterhn300.e-work.xyz",
-          "displayName": "Hacker News 300"
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T11:05:55.145Z",
-        "hoursSincePosted": 2.44
+        "createdAt": "2026-05-21T16:03:04.496Z",
+        "hoursSincePosted": 0.78
       },
       "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
+          "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmesa4ahgf2d",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene [comments] [366 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T16:03:04.496Z",
+          "createdUtc": 1779379384,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mmeqi7ihla2a",
+          "cid": "bafyreihkim6l3vpkmfluwnv3nhjclhexsj4xv7daaojy2b5mpn6woj3uzq",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mmeqi7ihla2a",
+          "text": "2/2 con reproducción continua y optimización según temperatura, batería y brillo. El autor originalmente planeaba comercializarlo, pero ante la competencia existente optó por liberarlo. Fuente: https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:31:48.827Z",
+          "createdUtc": 1779377508,
+          "ageHours": 1.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mmebmrebmr2p",
           "cid": "bafyreifdffg5fna7tbymwm5scldohe2xtdufve2ymntdqnvbairyg5qpnm",
@@ -20373,6 +20579,270 @@
           "linkedRepos": [
             {
               "fullName": "quik-sms/quik",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ChromeDevTools/chrome-devtools-mcp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rohitg00/ai-engineering-from-scratch": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "teng-lin/notebooklm-py": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "can1357/oh-my-pi": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
               "matchType": "url",
               "confidence": 1
             }
@@ -29563,22 +30033,22 @@
     },
     "openclaw--openclaw": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmda75z7af2i",
-        "cid": "bafyreig4fqmf3owee6h5exah2af7ujldur6hv46hwlynpzpnvcqtow2tlu",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmda75z7af2i",
-        "text": "🟠 OpenClaw beta adds Discord voice follow mode and profile-aware realtime sessions OpenClaw shipped v2026.5.20-beta.1 with a meaningful Discord voice workflow upgrade: voice sessions can now follow configured... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmesjdosgw2c",
+        "cid": "bafyreidbbifd4pck2lig7oin7xnkayivl5wz3ie4u572whdinyitvt4ukm",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmesjdosgw2c",
+        "text": "🟠 OpenClaw beta adds a bundled Policy plugin, xAI device-code auth, and Discord voice-follow automation OpenClaw shipped pre-release v2026.5.20-beta.2 with several workflow-level changes, including a bundled... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.2 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T01:07:44.529108+00:00",
-        "hoursSincePosted": 4.21
+        "createdAt": "2026-05-21T16:08:13.205376+00:00",
+        "hoursSincePosted": 0.69
       },
       "posts": [
         {
@@ -29629,6 +30099,33 @@
             "is-announcement"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmesjdosgw2c",
+          "cid": "bafyreidbbifd4pck2lig7oin7xnkayivl5wz3ie4u572whdinyitvt4ukm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmesjdosgw2c",
+          "text": "🟠 OpenClaw beta adds a bundled Policy plugin, xAI device-code auth, and Discord voice-follow automation OpenClaw shipped pre-release v2026.5.20-beta.2 with several workflow-level changes, including a bundled... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.2 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T16:08:13.205376+00:00",
+          "createdUtc": 1779379693,
+          "ageHours": 0.69,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -33877,21 +34374,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mm7or2sy2f62",
-        "cid": "bafyreif3k7l55ofqb2nr5dfu5xz7tfqdabcsdundbyjyygzbuyl5xymohm",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm7or2sy2f62",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 3991 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 1027 stars today 3. https://github.com/Imbad0202/academic-research-skills - Python, 3184 stars today 4. https://github.com/obra/superpowers - Shell […]",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmepymmqlv27",
+        "cid": "bafyreigfolcsncfnpfiquit7pyb276raujkzz2bpw4rsavniokgzcqiadq",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmepymmqlv27",
+        "text": "Agent-native CLI tools emerge. CLI-Anything integrates AI agents with existing CLIs, Apache 2.0 licensed. #CLIAnything #AgentNative #HKUDS 🔗 https://github.com/HKUDS/CLI-Anything",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-19T15:17:38.000Z",
-        "hoursSincePosted": 4
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:23:04.856120Z",
+        "hoursSincePosted": 1.44
       },
       "posts": [
         {
@@ -33920,6 +34417,35 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmepymmqlv27",
+          "cid": "bafyreigfolcsncfnpfiquit7pyb276raujkzz2bpw4rsavniokgzcqiadq",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmepymmqlv27",
+          "text": "Agent-native CLI tools emerge. CLI-Anything integrates AI agents with existing CLIs, Apache 2.0 licensed. #CLIAnything #AgentNative #HKUDS 🔗 https://github.com/HKUDS/CLI-Anything",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:23:04.856120Z",
+          "createdUtc": 1779376984,
+          "ageHours": 1.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
             {
               "fullName": "HKUDS/CLI-Anything",
               "matchType": "url",
@@ -36129,19 +36655,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmbwj3hv672q",
-        "cid": "bafyreibwkmuy7qukzlztmvf7p4p5jjuyneq3xfpzijdx67xbt3plmsnxnm",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmbwj3hv672q",
-        "text": "📰 RuView utilizes WiFi to create an image of objects behind walls, offering a unique method for non-invasive surveillance and inspection. 🔗 https://github.com/ruvnet/RuView #Tech #Dev",
+        "uri": "at://did:plc:mdocvky3thypleu26gbyjgex/app.bsky.feed.post/3mmerhmr54k2m",
+        "cid": "bafyreigmp4a36w3bo2d6sze25n3ufoa77qsr46gcv6oqnafnpygt2xwtgu",
+        "bskyUrl": "https://bsky.app/profile/flavio58.bsky.social/post/3mmerhmr54k2m",
+        "text": "github.com/ruvnet/RuView",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "flavio58.bsky.social",
+          "displayName": "Flavio58"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T12:41:37.157571+00:00",
-        "hoursSincePosted": 3.23
+        "createdAt": "2026-05-21T15:49:23.015Z",
+        "hoursSincePosted": 1
       },
       "posts": [
         {
@@ -36160,6 +36686,34 @@
           "createdUtc": 1779045093,
           "ageHours": 4.97,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mdocvky3thypleu26gbyjgex/app.bsky.feed.post/3mmerhmr54k2m",
+          "cid": "bafyreigmp4a36w3bo2d6sze25n3ufoa77qsr46gcv6oqnafnpygt2xwtgu",
+          "bskyUrl": "https://bsky.app/profile/flavio58.bsky.social/post/3mmerhmr54k2m",
+          "text": "github.com/ruvnet/RuView",
+          "author": {
+            "handle": "flavio58.bsky.social",
+            "displayName": "Flavio58"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:49:23.015Z",
+          "createdUtc": 1779378563,
+          "ageHours": 1,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -38541,10 +39095,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
@@ -38552,10 +39106,43 @@
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 3.25
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+          "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
           "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
@@ -39346,23 +39933,56 @@
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
-        "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc77qhueqb2",
-        "text": "8. https://github.com/obra/superpowers - Shell, 1776 stars today 9. https://github.com/anthropics/claude-plugins-official - Python, 706 stars today 10. https://github.com/msitarzewski/agency-agents - Shell, 1714 stars today 11. https://github.com/rmyndharis/OpenWA - TypeScript, 1870 stars today […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-20T15:16:58.000Z",
-        "hoursSincePosted": 3.25
+        "replyCount": 1,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
+          "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc77qhueqb2",
           "cid": "bafyreigzdcitxchdrj7nvu5gjj2dsxkn6da2z5r7lpc2wk2uzvzh6lgdta",
@@ -39988,26 +40608,82 @@
       ]
     },
     "kageroumado--phosphene": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mmebmrebmr2p",
-        "cid": "bafyreifdffg5fna7tbymwm5scldohe2xtdufve2ymntdqnvbairyg5qpnm",
-        "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mmebmrebmr2p",
-        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene (https://news.ycombinator.com/item?id=48215979)",
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
+        "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmesa4ahgf2d",
+        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene [comments] [366 points]",
         "author": {
-          "handle": "betterhn300.e-work.xyz",
-          "displayName": "Hacker News 300"
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T11:05:55.145Z",
-        "hoursSincePosted": 2.44
+        "createdAt": "2026-05-21T16:03:04.496Z",
+        "hoursSincePosted": 0.78
       },
       "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
+          "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmesa4ahgf2d",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene [comments] [366 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T16:03:04.496Z",
+          "createdUtc": 1779379384,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mmeqi7ihla2a",
+          "cid": "bafyreihkim6l3vpkmfluwnv3nhjclhexsj4xv7daaojy2b5mpn6woj3uzq",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mmeqi7ihla2a",
+          "text": "2/2 con reproducción continua y optimización según temperatura, batería y brillo. El autor originalmente planeaba comercializarlo, pero ante la competencia existente optó por liberarlo. Fuente: https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:31:48.827Z",
+          "createdUtc": 1779377508,
+          "ageHours": 1.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mmebmrebmr2p",
           "cid": "bafyreifdffg5fna7tbymwm5scldohe2xtdufve2ymntdqnvbairyg5qpnm",
@@ -40756,71 +41432,320 @@
           ]
         }
       ]
+    },
+    "chromedevtools--chrome-devtools-mcp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rohitg00--ai-engineering-from-scratch": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "teng-lin--notebooklm-py": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "can1357--oh-my-pi": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T15:22:16.000Z",
+        "hoursSincePosted": 1.46
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
+          "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+          "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:22:16.000Z",
+          "createdUtc": 1779376936,
+          "ageHours": 1.46,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "teng-lin/notebooklm-py",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "github/spec-kit",
+      "fullName": "anthropics/claude-plugins-official",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "netbirdio/netbird",
+      "fullName": "can1357/oh-my-pi",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "quik-sms/quik",
+      "fullName": "ChromeDevTools/chrome-devtools-mcp",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "colbymchenry/codegraph",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "rohitg00/ai-engineering-from-scratch",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "teng-lin/notebooklm-py",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "kageroumado/phosphene",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "erikdarlingdata/PerformanceMonitor",
+      "fullName": "HKUDS/CLI-Anything",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "kageroumado/phosphene",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "kouhxp/yapsnap",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "mmalmi/nostr-vpn",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "StartupHakk/OpenMonoAgent.ai",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "TencentARC/Pixal3D",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Walter-Sparrow/lunar-tear",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "wiltodelta/remove-ai-watermarks",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "zinja-coder/jadx-ai-mcp",
+      "fullName": "ruvnet/RuView",
       "count7d": 1,
       "likesSum7d": 0
     }

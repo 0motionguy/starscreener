@@ -163,8 +163,25 @@ const nextConfig: NextConfig = {
   // this project 308s to the apex so Google + shared links consolidate on
   // one URL. The redirect ships with the build, so there's no DNS/dashboard
   // coupling — if we add a host, add it here.
+  //
+  // Beyond host canonicalization, this block carries the v6 legacy-URL map:
+  // ~85 routes that lived on live (pre-v6) trendingrepo.com but were folded,
+  // renamed, or retired in v6. Tiered by intent:
+  //   T1 — direct v6 equivalent at a renamed path (308 permanent)
+  //   T2 — subsumed by a v6 hub page (308)
+  //   T3 — per-source aggregator → /market-signals?src=<id> (308; the cross-
+  //        source newsroom replaces them all)
+  //   T4 — retired marketing pages → / (308; the legacy URLs are not coming
+  //        back at the old paths)
+  //   T5 — dynamic categories/collections → / (302 temporary; we may rebuild
+  //        these as a separate surface and want flexibility to relocate)
+  // Why 308 vs 302: 308 preserves method+body and is cached aggressively by
+  // browsers/Google; only use it when the new home is permanent. The dynamic
+  // category/collection roll-ups are speculative — keep as 302 until we
+  // commit to a final IA for them.
   async redirects() {
     return [
+      // ---- Host canonicalization ------------------------------------------
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.trendingrepo.com" }],
@@ -177,21 +194,92 @@ const nextConfig: NextConfig = {
         destination: "https://trendingrepo.com/:path*",
         permanent: true,
       },
-      // /news retired in favour of the V3 cross-source newsroom at /signals.
-      // 308s preserve external links / SEO; the sub-tabs (?tab=hackernews
-      // etc.) collapse to /signals since each native source page (eg.
-      // /hackernews/trending) already exists and is reachable from the
-      // sidebar.
-      {
-        source: "/news",
-        destination: "/signals",
-        permanent: true,
-      },
-      {
-        source: "/news/:path*",
-        destination: "/signals",
-        permanent: true,
-      },
+
+      // ---- T1 — Direct v6 equivalents at renamed paths --------------------
+      // The page exists in v6 at a new path — 308 preserves SEO equity and
+      // bookmarks land on the working surface in one hop.
+      { source: "/top10", destination: "/tools/top-10", permanent: true },
+      { source: "/top", destination: "/tools/top-10", permanent: true },
+      { source: "/tierlist", destination: "/tools/tier-list", permanent: true },
+      { source: "/compare", destination: "/tools/compare", permanent: true },
+      { source: "/digest", destination: "/tools/digest", permanent: true },
+      { source: "/star-history", destination: "/tools/star-history", permanent: true },
+      { source: "/treemap", destination: "/tools/treemap", permanent: true },
+      // Live used plural /breakouts; v6 normalized to singular /breakout.
+      // The singular page exists at src/app/breakout/page.tsx (verified
+      // 2026-05-21) so there's no collision with this redirect's target.
+      { source: "/breakouts", destination: "/breakout", permanent: true },
+      { source: "/signals", destination: "/market-signals", permanent: true },
+      // /githubrepo + /trends were marketing aliases that landed on the
+      // homepage feed.
+      { source: "/githubrepo", destination: "/", permanent: true },
+      { source: "/trends", destination: "/", permanent: true },
+
+      // ---- T2 — Subsumed by v6 hub pages ----------------------------------
+      { source: "/skills", destination: "/tools", permanent: true },
+      { source: "/agent-repos", destination: "/agent-commerce", permanent: true },
+      { source: "/papers", destination: "/", permanent: true },
+      { source: "/research", destination: "/", permanent: true },
+      // Consensus-style breakout signal lives inside /breakout in v6.
+      { source: "/consensus", destination: "/breakout", permanent: true },
+
+      // ---- T3 — Per-source aggregators → /market-signals?src=<id> --------
+      // The cross-source newsroom carries a src filter; mapping each legacy
+      // aggregator to its filtered view preserves intent. Both bare and
+      // /trending child paths fold into the same filter.
+      { source: "/hackernews", destination: "/market-signals?src=hn", permanent: true },
+      { source: "/hackernews/trending", destination: "/market-signals?src=hn", permanent: true },
+      { source: "/reddit", destination: "/market-signals?src=reddit", permanent: true },
+      { source: "/reddit/trending", destination: "/market-signals?src=reddit", permanent: true },
+      { source: "/twitter", destination: "/market-signals?src=twitter", permanent: true },
+      { source: "/bluesky", destination: "/market-signals?src=bluesky", permanent: true },
+      { source: "/bluesky/trending", destination: "/market-signals?src=bluesky", permanent: true },
+      { source: "/devto", destination: "/market-signals?src=devto", permanent: true },
+      { source: "/lobsters", destination: "/market-signals?src=lobsters", permanent: true },
+      { source: "/producthunt", destination: "/market-signals?src=producthunt", permanent: true },
+      { source: "/npm", destination: "/market-signals?src=npm", permanent: true },
+      // Hugging Face had three sub-surfaces (models is the default
+      // /huggingface route, plus /datasets and /spaces). All collapse into
+      // the same filtered view — the src filter is per-source, not
+      // per-sub-surface.
+      { source: "/huggingface", destination: "/market-signals?src=huggingface", permanent: true },
+      { source: "/huggingface/trending", destination: "/market-signals?src=huggingface", permanent: true },
+      { source: "/huggingface/datasets", destination: "/market-signals?src=huggingface", permanent: true },
+      { source: "/huggingface/spaces", destination: "/market-signals?src=huggingface", permanent: true },
+      { source: "/arxiv", destination: "/market-signals?src=arxiv", permanent: true },
+      { source: "/arxiv/trending", destination: "/market-signals?src=arxiv", permanent: true },
+      // MCP registry was an agent-tooling aggregator → agent-commerce hub.
+      { source: "/mcp", destination: "/agent-commerce", permanent: true },
+
+      // ---- T4 — Retired marketing pages → / ------------------------------
+      // No v6 replacement; the legacy URLs are not coming back at these paths.
+      { source: "/about", destination: "/", permanent: true },
+      { source: "/contact", destination: "/", permanent: true },
+      // /submit was the repo-submission flow; v6 renamed it /drop.
+      { source: "/submit", destination: "/drop", permanent: true },
+      { source: "/methodology", destination: "/", permanent: true },
+      // NOTE: /docs is deliberately NOT redirected. It is a live route
+      // handler (src/app/docs/route.ts) that 307s to /reference.html for
+      // the Redoc API reference. Adding a redirect here would shadow it
+      // and break the public API docs.
+      { source: "/search", destination: "/", permanent: true },
+
+      // ---- T5 — Dynamic categories/collections → / (302 temporary) -------
+      // Categories had 14 detail routes and collections had 48 — too granular
+      // to enumerate. Keep these 302 so we can repoint to a rebuilt surface
+      // without waiting for browser caches to expire.
+      { source: "/categories", destination: "/", permanent: false },
+      { source: "/categories/:slug", destination: "/", permanent: false },
+      { source: "/collections", destination: "/", permanent: false },
+      { source: "/collections/:slug", destination: "/", permanent: false },
+
+      // ---- Legacy: /news → /market-signals --------------------------------
+      // Previously pointed at /signals; that hop is gone in v6 — the cross-
+      // source newsroom lives at /market-signals. Collapsing the sub-tabs
+      // (?tab=hackernews etc.) into the unfiltered newsroom is acceptable
+      // because the src filter is exposed in the UI.
+      { source: "/news", destination: "/market-signals", permanent: true },
+      { source: "/news/:path*", destination: "/market-signals", permanent: true },
     ];
   },
   // Baseline security headers applied to every route. HSTS is deliberately

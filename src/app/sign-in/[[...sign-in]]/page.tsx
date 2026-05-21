@@ -1,10 +1,10 @@
 // Clerk hosted sign-in page — minimal stub during UI v4 teardown.
 //
 // Renders Clerk's <SignIn /> component directly with appearance inherited
-// from ClerkProvider in root layout. The custom wrappers (ClerkAuthForm,
-// AuthUnavailable, FunnelMount) lived in src/components/ and have been
-// archived. The rebuild can re-introduce funnel tracking + custom
-// fallback UI on top of this stub.
+// from the auth provider mounted at the root layout. The custom wrappers
+// (ClerkAuthForm, AuthUnavailable, FunnelMount) lived in src/components/
+// and have been archived. The rebuild can re-introduce funnel tracking +
+// custom fallback UI on top of this stub.
 
 import { SignIn } from "@clerk/nextjs";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";

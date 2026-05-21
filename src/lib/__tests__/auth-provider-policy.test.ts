@@ -38,12 +38,22 @@ test("root layout owns the only ClerkProvider", () => {
 });
 
 test("sidebar user overlay fetch waits for a signed-in Clerk user", () => {
+  // V6 layout (post 2026-05-19 UI teardown, commit 8fdc0af) does not mount
+  // <SidebarUserOverlayBridge> — the v6 shell sidebar
+  // (src/components/shell/Sidebar.tsx) is anonymous-safe and renders the
+  // same tree for signed-in vs signed-out users. The bridge component
+  // stays on disk as the canonical re-mount point: when the v6 shell
+  // re-introduces a user-specific overlay slot, the layout MUST pass
+  // `enabled={Boolean(clerkPublishableKey)}` (proven invariant below).
+  // If/when the layout adds the mount back, this regex must match.
   const layout = source("src/app/layout.tsx");
-  assert.match(
-    layout,
-    /<SidebarUserOverlayBridge enabled=\{Boolean\(clerkPublishableKey\)\} \/>/,
-    "sidebar overlay bridge must not mount Clerk hooks when ClerkProvider is disabled",
-  );
+  if (/<SidebarUserOverlayBridge\b/.test(layout)) {
+    assert.match(
+      layout,
+      /<SidebarUserOverlayBridge enabled=\{Boolean\(clerkPublishableKey\)\} \/>/,
+      "sidebar overlay bridge must not mount Clerk hooks when ClerkProvider is disabled",
+    );
+  }
 
   const body = source("src/components/layout/SidebarUserOverlayBridge.tsx");
   assert.match(body, /import \{ useAuth \} from "@clerk\/nextjs";/);
@@ -57,12 +67,22 @@ test("sidebar user overlay fetch waits for a signed-in Clerk user", () => {
 });
 
 test("header account Clerk hook is client-only and auth gated", () => {
+  // V6 layout (post 2026-05-19 UI teardown, commit 8fdc0af) does not mount
+  // the legacy <Header> — the v6 shell uses
+  // src/components/shell/Topbar.tsx instead. The Header → HeaderAccount
+  // → HeaderAccountLoaded chain stays on disk as the canonical auth-
+  // boundary pattern: when v6 wires an auth chip back into the shell,
+  // it MUST go through this chain (server-resolved authEnabled prop,
+  // dynamic ssr:false Clerk hook loader). If/when the layout mounts
+  // <Header> again, this regex must match.
   const layout = source("src/app/layout.tsx");
-  assert.match(
-    layout,
-    /<Header authEnabled=\{Boolean\(clerkPublishableKey\)\} \/>/,
-    "header account must receive the resolved server auth state",
-  );
+  if (/<Header\b/.test(layout)) {
+    assert.match(
+      layout,
+      /<Header authEnabled=\{Boolean\(clerkPublishableKey\)\} \/>/,
+      "header account must receive the resolved server auth state",
+    );
+  }
 
   const header = source("src/components/layout/Header.tsx");
   assert.match(header, /authEnabled: boolean/);

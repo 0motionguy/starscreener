@@ -13,6 +13,7 @@
 import "server-only";
 
 import phData from "../../data/producthunt-launches.json";
+import type { DataStore } from "./data-store";
 
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
@@ -154,7 +155,9 @@ let inflight: Promise<{ source: string; ageMs: number }> | null = null;
 let lastRefreshMs = 0;
 const MIN_REFRESH_INTERVAL_MS = 30_000;
 
-export async function refreshProducthuntLaunchesFromStore(): Promise<{
+export async function refreshProducthuntLaunchesFromStore(
+  store?: DataStore,
+): Promise<{
   source: string;
   ageMs: number;
 }> {
@@ -176,10 +179,8 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
       return { source: "toolbox", ageMs: 0 };
     }
 
-    const { getDataStore } = await import("./data-store");
-    const result = await getDataStore().read<ProductHuntFile>(
-      "producthunt-launches",
-    );
+    const target = store ?? (await import("./data-store")).getDataStore();
+    const result = await target.read<ProductHuntFile>("producthunt-launches");
     if (result.data && result.source !== "missing") {
       file = result.data;
       launchesByRepo = buildLaunchesByRepo(file);
@@ -197,6 +198,18 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+// ---------------------------------------------------------------------------
+// Test-only — reset module state so each test starts from a clean cache.
+// Mirrors _resetMentionsLedgerCacheForTests in src/lib/mentions-ledger.ts.
+// ---------------------------------------------------------------------------
+
+export function _resetProducthuntCacheForTests(): void {
+  file = { lastFetchedAt: "", windowDays: 7, launches: [] };
+  launchesByRepo = new Map();
+  lastRefreshMs = 0;
+  inflight = null;
 }
 
 async function tryFetchProductHuntFromToolbox(): Promise<ProductHuntFile | null> {

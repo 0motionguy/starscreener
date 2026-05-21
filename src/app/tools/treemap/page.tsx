@@ -29,6 +29,11 @@ export const metadata: Metadata = {
   title: "Sector Treemap — TrendingRepo",
   description:
     "Every tracked open-source repository laid out as a squarified treemap. Tile area = weekly star momentum; color = category. Filter by category, pick the metric, click any tile to inspect.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/treemap", width: 1200, height: 630 },
+    ],
+  },
 };
 
 interface Props {

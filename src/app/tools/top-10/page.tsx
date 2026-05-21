@@ -26,6 +26,11 @@ export const metadata = {
   title: "Top 10 - Daily Archive - TrendingRepo",
   description:
     "Browse every daily Top 10 snapshot. Pick a date, see who was breaking out that morning, and follow the cross-source signal that put them on the board.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/top-10", width: 1200, height: 630 },
+    ],
+  },
 };
 
 interface Props {

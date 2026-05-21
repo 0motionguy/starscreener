@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   title: "Watchlist — TrendingRepo",
   description:
     "Pin the repos you want to track. Each pin shows live stars, 24h / 7d deltas, cross-source mentions, and breakout flags. Pins live in your browser; sign in to sync.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/watchlist", width: 1200, height: 630 },
+    ],
+  },
 };
 
 const SUGGESTION_LIMIT = 6;

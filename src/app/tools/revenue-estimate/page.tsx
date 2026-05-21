@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   title: "Revenue Estimate — TrendingRepo",
   description:
     "Browse tracked open-source / SaaS repos with revenue overlays. Verified TrustMRR catalog matches and founder-reported MRR side-by-side, with source attribution, as-of dates, and the underlying signals.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/revenue-estimate", width: 1200, height: 630 },
+    ],
+  },
 };
 
 const TIER_FILTERS = [

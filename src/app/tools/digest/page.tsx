@@ -30,6 +30,11 @@ export const metadata = {
   title: "Daily Digest archive — TrendingRepo",
   description:
     "Browse past issues of the TrendingRepo daily digest — top movers, breakout repos, momentum signals, and the news the trend desk is reading.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/digest", width: 1200, height: 630 },
+    ],
+  },
 };
 
 interface Props {

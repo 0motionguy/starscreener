@@ -49,6 +49,11 @@ export const metadata = {
   title: "Tier List — TrendingRepo",
   description:
     "Top tracked open-source repositories graded S / A / B / C / D by weekly star delta, 24h velocity, and cross-source mention pressure. Deep-link any repo to see where it ranks.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/tier-list", width: 1200, height: 630 },
+    ],
+  },
 };
 
 interface Props {

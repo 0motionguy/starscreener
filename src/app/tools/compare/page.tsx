@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   title: "Compare — TrendingRepo",
   description:
     "Side-by-side comparison of up to 6 tracked open-source repos across stars, weekly and monthly velocity, cross-source mentions, category, language, first-observed date, last commit, and live S/A/B/C/D tier.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/compare", width: 1200, height: 630 },
+    ],
+  },
 };
 
 interface Props {

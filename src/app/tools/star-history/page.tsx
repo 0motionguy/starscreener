@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   title: "Star History — TrendingRepo",
   description:
     "Visualize daily GitHub star accumulation for any tracked repo. 30-day curve, peak, deltas, and velocity — built on the same cross-source pipeline as the rest of TrendingRepo.",
+  openGraph: {
+    images: [
+      { url: "/api/og/tools/star-history", width: 1200, height: 630 },
+    ],
+  },
 };
 
 interface Props {

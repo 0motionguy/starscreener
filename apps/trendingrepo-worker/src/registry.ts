@@ -49,6 +49,10 @@ import consensusAnalyst from './fetchers/consensus-analyst/index.js';
 // their existing imports above pick up the real implementations transparently.
 import lobsters from './fetchers/lobsters/index.js';
 import twitter from './fetchers/twitter/index.js';
+// Cumulative mentions ledger — reads 5 snapshot slugs (HN, Reddit, Bluesky,
+// Dev.to, Lobsters), runs SADD + HINCRBY for new mention IDs. Cron offset
+// from upstream collectors so reads are fresh.
+import mentionsLedger from './fetchers/mentions-ledger/index.js';
 // Tier 2 audit fixes — operator-curated data file producers (close the
 // chicken-egg gaps that left `manual-repos` + `revenue-manual-matches`
 // consumed-but-never-produced under worker-only mode).
@@ -114,6 +118,7 @@ export const FETCHERS: Fetcher[] = [
   devto,
   reddit,
   twitter,
+  mentionsLedger,
   npmDownloads,
   pypiDownloads,
   npmDependents,

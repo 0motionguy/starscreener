@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-21T10:24:07.112Z",
+  "fetchedAt": "2026-05-21T16:00:24.148Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -95,8 +95,8 @@
       "id": "mikeee/qwen-7b-chat",
       "author": "mikeee",
       "url": "https://huggingface.co/spaces/mikeee/qwen-7b-chat",
-      "likes": 322,
-      "trendingScore": 107,
+      "likes": 327,
+      "trendingScore": 108,
       "sdk": "docker",
       "tags": [
         "docker",
@@ -131,7 +131,7 @@
       "id": "cbensimon/wan2-2-fp8da-aoti-preview2",
       "author": "cbensimon",
       "url": "https://huggingface.co/spaces/cbensimon/wan2-2-fp8da-aoti-preview2",
-      "likes": 99,
+      "likes": 102,
       "trendingScore": 85,
       "sdk": "gradio",
       "tags": [
@@ -260,6 +260,22 @@
     },
     {
       "rank": 16,
+      "id": "HuggingFaceBio/carbon-demo",
+      "author": "HuggingFaceBio",
+      "url": "https://huggingface.co/spaces/HuggingFaceBio/carbon-demo",
+      "likes": 63,
+      "trendingScore": 62,
+      "sdk": "docker",
+      "tags": [
+        "docker",
+        "region:us"
+      ],
+      "createdAt": "2026-05-19T14:18:55.000Z",
+      "lastModified": "2026-05-20T10:03:33.000Z",
+      "models": []
+    },
+    {
+      "rank": 17,
       "id": "k2-fsa/OmniVoice",
       "author": "k2-fsa",
       "url": "https://huggingface.co/spaces/k2-fsa/OmniVoice",
@@ -272,22 +288,6 @@
       ],
       "createdAt": "2026-03-30T13:56:16.000Z",
       "lastModified": "2026-04-13T06:55:17.000Z",
-      "models": []
-    },
-    {
-      "rank": 17,
-      "id": "HuggingFaceBio/carbon-demo",
-      "author": "HuggingFaceBio",
-      "url": "https://huggingface.co/spaces/HuggingFaceBio/carbon-demo",
-      "likes": 61,
-      "trendingScore": 60,
-      "sdk": "docker",
-      "tags": [
-        "docker",
-        "region:us"
-      ],
-      "createdAt": "2026-05-19T14:18:55.000Z",
-      "lastModified": "2026-05-20T10:03:33.000Z",
       "models": []
     },
     {
@@ -674,6 +674,22 @@
     },
     {
       "rank": 41,
+      "id": "Saravutw/Omni-Video-Factory-Iframe-API",
+      "author": "Saravutw",
+      "url": "https://huggingface.co/spaces/Saravutw/Omni-Video-Factory-Iframe-API",
+      "likes": 35,
+      "trendingScore": 24,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2025-12-09T19:01:39.000Z",
+      "lastModified": "2026-03-13T17:12:16.000Z",
+      "models": []
+    },
+    {
+      "rank": 42,
       "id": "black-forest-labs/FLUX.2-klein-9B",
       "author": "black-forest-labs",
       "url": "https://huggingface.co/spaces/black-forest-labs/FLUX.2-klein-9B",
@@ -690,7 +706,7 @@
       "models": []
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "openbmb/VoxCPM-Demo",
       "author": "openbmb",
       "url": "https://huggingface.co/spaces/openbmb/VoxCPM-Demo",
@@ -706,7 +722,7 @@
       "models": []
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "linoyts/Flux2-Klein-Face-Swap",
       "author": "linoyts",
       "url": "https://huggingface.co/spaces/linoyts/Flux2-Klein-Face-Swap",
@@ -722,7 +738,27 @@
       "models": []
     },
     {
-      "rank": 44,
+      "rank": 45,
+      "id": "mrfakename/anima-v1",
+      "author": "mrfakename",
+      "url": "https://huggingface.co/spaces/mrfakename/anima-v1",
+      "likes": 28,
+      "trendingScore": 22,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "text-to-image",
+        "anima",
+        "zerogpu",
+        "anime",
+        "region:us"
+      ],
+      "createdAt": "2026-05-15T02:42:26.000Z",
+      "lastModified": "2026-05-21T00:35:04.000Z",
+      "models": []
+    },
+    {
+      "rank": 46,
       "id": "build-small-hackathon/registration",
       "author": "build-small-hackathon",
       "url": "https://huggingface.co/spaces/build-small-hackathon/registration",
@@ -738,7 +774,7 @@
       "models": []
     },
     {
-      "rank": 45,
+      "rank": 47,
       "id": "Overworld/waypoint-1-5",
       "author": "Overworld",
       "url": "https://huggingface.co/spaces/Overworld/waypoint-1-5",
@@ -754,23 +790,7 @@
       "models": []
     },
     {
-      "rank": 46,
-      "id": "Saravutw/Omni-Video-Factory-Iframe-API",
-      "author": "Saravutw",
-      "url": "https://huggingface.co/spaces/Saravutw/Omni-Video-Factory-Iframe-API",
-      "likes": 31,
-      "trendingScore": 21,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2025-12-09T19:01:39.000Z",
-      "lastModified": "2026-03-13T17:12:16.000Z",
-      "models": []
-    },
-    {
-      "rank": 47,
+      "rank": 48,
       "id": "carlofkl/DreamLite",
       "author": "carlofkl",
       "url": "https://huggingface.co/spaces/carlofkl/DreamLite",
@@ -790,7 +810,7 @@
       "models": []
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "huggingface/physics-intern",
       "author": "huggingface",
       "url": "https://huggingface.co/spaces/huggingface/physics-intern",
@@ -807,7 +827,7 @@
       "models": []
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "BoobyBoobs/Flux_Lustly_AI_Uncensored_NSFW_V1",
       "author": "BoobyBoobs",
       "url": "https://huggingface.co/spaces/BoobyBoobs/Flux_Lustly_AI_Uncensored_NSFW_V1",
@@ -820,22 +840,6 @@
       ],
       "createdAt": "2025-10-10T19:23:32.000Z",
       "lastModified": "2025-01-24T23:37:17.000Z",
-      "models": []
-    },
-    {
-      "rank": 50,
-      "id": "NucleusAI/nucleus-image",
-      "author": "NucleusAI",
-      "url": "https://huggingface.co/spaces/NucleusAI/nucleus-image",
-      "likes": 64,
-      "trendingScore": 20,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-04-15T22:24:04.000Z",
-      "lastModified": "2026-04-30T12:41:33.000Z",
       "models": []
     }
   ]

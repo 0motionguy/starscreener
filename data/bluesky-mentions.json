@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-20T22:43:54.784Z",
+  "fetchedAt": "2026-05-21T00:18:21.106Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -11,19 +11,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mmbpjhf72k2x",
-        "cid": "bafyreianue7yk64rbli7u3ddrt56nyfp2hbuojc5dxgvkqicagxattuqcy",
-        "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mmbpjhf72k2x",
-        "text": "Very interesting and fresh approach to how agent harnesses can operate when being deeply integrated with model inference. Worth a look 👀 -> github.com/antirez/ds4",
+        "uri": "at://did:plc:6e6n5nhhy7s2zqr7wx4s6p52/app.bsky.feed.post/3mmcyyov2ld26",
+        "cid": "bafyreiaw7jcl52lzdf4rph5zdr6rfnlqbcthau4nrlhcshlhallksvux2q",
+        "bskyUrl": "https://bsky.app/profile/bobbby.online/post/3mmcyyov2ld26",
+        "text": "The benchmarks are pretty clear considering its Mac hardware github.com/antirez/ds4/... I believe 250k context is the supported limit with the toys turned on",
         "author": {
-          "handle": "fry69.dev",
-          "displayName": "fry69"
+          "handle": "bobbby.online",
+          "displayName": "Chimney Sweepers Local 420 FKA yburyug"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T10:36:37.802Z",
-        "hoursSincePosted": 1.46
+        "createdAt": "2026-05-20T22:58:52.394Z",
+        "hoursSincePosted": 1.32
       },
       "posts": [
         {
@@ -126,6 +126,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6e6n5nhhy7s2zqr7wx4s6p52/app.bsky.feed.post/3mmcyyov2ld26",
+          "cid": "bafyreiaw7jcl52lzdf4rph5zdr6rfnlqbcthau4nrlhcshlhallksvux2q",
+          "bskyUrl": "https://bsky.app/profile/bobbby.online/post/3mmcyyov2ld26",
+          "text": "The benchmarks are pretty clear considering its Mac hardware github.com/antirez/ds4/... I believe 250k context is the supported limit with the toys turned on",
+          "author": {
+            "handle": "bobbby.online",
+            "displayName": "Chimney Sweepers Local 420 FKA yburyug"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T22:58:52.394Z",
+          "createdUtc": 1779317932,
+          "ageHours": 1.32,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19052,6 +19080,57 @@
           ]
         }
       ]
+    },
+    "kouhxp/yapsnap": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mmd2rwqhuk2q",
+        "cid": "bafyreiejsd7kj4ejjhfzxyet3pkbrqjrkzkcomt2rqzsauwjn4k3ajamem",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mmd2rwqhuk2q",
+        "text": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos https://github.com/kouhxp/yapsnap",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T23:30:53.226Z",
+        "hoursSincePosted": 0.79
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mmd2rwqhuk2q",
+          "cid": "bafyreiejsd7kj4ejjhfzxyet3pkbrqjrkzkcomt2rqzsauwjn4k3ajamem",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mmd2rwqhuk2q",
+          "text": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos https://github.com/kouhxp/yapsnap",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T23:30:53.226Z",
+          "createdUtc": 1779319853,
+          "ageHours": 0.79,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -19061,19 +19140,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:web:fry69.dev/app.bsky.feed.post/3mmbpjhf72k2x",
-        "cid": "bafyreianue7yk64rbli7u3ddrt56nyfp2hbuojc5dxgvkqicagxattuqcy",
-        "bskyUrl": "https://bsky.app/profile/fry69.dev/post/3mmbpjhf72k2x",
-        "text": "Very interesting and fresh approach to how agent harnesses can operate when being deeply integrated with model inference. Worth a look 👀 -> github.com/antirez/ds4",
+        "uri": "at://did:plc:6e6n5nhhy7s2zqr7wx4s6p52/app.bsky.feed.post/3mmcyyov2ld26",
+        "cid": "bafyreiaw7jcl52lzdf4rph5zdr6rfnlqbcthau4nrlhcshlhallksvux2q",
+        "bskyUrl": "https://bsky.app/profile/bobbby.online/post/3mmcyyov2ld26",
+        "text": "The benchmarks are pretty clear considering its Mac hardware github.com/antirez/ds4/... I believe 250k context is the supported limit with the toys turned on",
         "author": {
-          "handle": "fry69.dev",
-          "displayName": "fry69"
+          "handle": "bobbby.online",
+          "displayName": "Chimney Sweepers Local 420 FKA yburyug"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T10:36:37.802Z",
-        "hoursSincePosted": 1.46
+        "createdAt": "2026-05-20T22:58:52.394Z",
+        "hoursSincePosted": 1.32
       },
       "posts": [
         {
@@ -19176,6 +19255,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6e6n5nhhy7s2zqr7wx4s6p52/app.bsky.feed.post/3mmcyyov2ld26",
+          "cid": "bafyreiaw7jcl52lzdf4rph5zdr6rfnlqbcthau4nrlhcshlhallksvux2q",
+          "bskyUrl": "https://bsky.app/profile/bobbby.online/post/3mmcyyov2ld26",
+          "text": "The benchmarks are pretty clear considering its Mac hardware github.com/antirez/ds4/... I believe 250k context is the supported limit with the toys turned on",
+          "author": {
+            "handle": "bobbby.online",
+            "displayName": "Chimney Sweepers Local 420 FKA yburyug"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T22:58:52.394Z",
+          "createdUtc": 1779317932,
+          "ageHours": 1.32,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -38102,56 +38209,67 @@
           ]
         }
       ]
+    },
+    "kouhxp--yapsnap": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mmd2rwqhuk2q",
+        "cid": "bafyreiejsd7kj4ejjhfzxyet3pkbrqjrkzkcomt2rqzsauwjn4k3ajamem",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mmd2rwqhuk2q",
+        "text": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos https://github.com/kouhxp/yapsnap",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-20T23:30:53.226Z",
+        "hoursSincePosted": 0.79
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mmd2rwqhuk2q",
+          "cid": "bafyreiejsd7kj4ejjhfzxyet3pkbrqjrkzkcomt2rqzsauwjn4k3ajamem",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mmd2rwqhuk2q",
+          "text": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos https://github.com/kouhxp/yapsnap",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-20T23:30:53.226Z",
+          "createdUtc": 1779319853,
+          "ageHours": 0.79,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "rohitg00/agentmemory",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "ComposioHQ/awesome-codex-skills",
+      "fullName": "kouhxp/yapsnap",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "leejet/stable-diffusion.cpp",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "CherryHQ/cherry-studio",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "LearningCircuit/local-deep-research",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "OpenMOSS/MOSS-TTS-Nano",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ruvnet/ruflo",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "RyanCodrai/turbovec",
+      "fullName": "antirez/ds4",
       "count7d": 1,
       "likesSum7d": 0
     }

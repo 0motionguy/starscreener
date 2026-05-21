@@ -1,21 +1,37 @@
 // Reddit fetcher (simplified port of scripts/scrape-reddit.mjs).
 //
-// Cron: 27 * * * * (matches scripts/scrape-trending.yml which runs scrape-reddit.mjs).
+// Cron: 30 * * * * (one slot off the cluster to spread Redis+TCP load).
 //
-// Scope notes vs the script port:
-//   - Alias matchers (repo_name / project_name / package_name / homepage_domain
-//     / owner_context) require repo-metadata + npm-packages snapshots that the
-//     worker doesn't load yet. We keep ONLY the github.com/<owner>/<repo>
-//     URL extraction path. Coverage stays correct for any post that pasted
-//     the link; the alias-matcher tier rejoins once those slugs are loadable.
-//   - Baseline ratios depend on reddit-baselines.json (currently a separate
-//     baselines workflow). We omit baseline fields here; consumers fall back
-//     to no-baseline tier (UI marks "niche sub").
+// AUTH MODEL (post-2026-05-21 A3 rebuild):
+//   - This fetcher requires the OAuth client-credentials grant.
+//     REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET must be set on the worker
+//     (script-type app at https://www.reddit.com/prefs/apps).
+//   - If either env var is missing, we WARN and return an empty payload
+//     without writing to the data-store. We do NOT fall back to the
+//     public r/.../new.json endpoint — the public endpoint is heavily
+//     rate-limited and was the root cause of the 0-row trending.reddit
+//     ledger in May 2026.
+//   - The OAuth bearer is cached in-process for the lifetime of the
+//     returned token minus a 10-minute safety margin.
+//
+// Scope notes vs the script port (unchanged from prior version):
+//   - Alias matchers (repo_name / project_name / package_name /
+//     homepage_domain / owner_context) require repo-metadata + npm-packages
+//     snapshots that the worker doesn't load yet. We keep ONLY the
+//     github.com/<owner>/<repo> URL extraction path. Coverage stays
+//     correct for any post that pasted the link; the alias-matcher tier
+//     rejoins once those slugs are loadable.
+//   - Baseline ratios depend on reddit-baselines.json (currently a
+//     separate baselines workflow). We omit baseline fields here;
+//     consumers fall back to no-baseline tier (UI marks "niche sub").
 //   - The all-posts merge mode + merge slug stay in scrape-reddit.mjs for
 //     now; the worker only publishes the primary mentions slug.
 //
 // Output:
 //   - ss:data:v1:reddit-mentions  (per-repo mention buckets, 7d window)
+//   - ss:data:v1:reddit-all-posts (7d rolling window of normalized posts)
+
+import { fetch as undiciFetch } from 'undici';
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
@@ -23,21 +39,36 @@ import { classifyPost } from '../../lib/util/classify-post.js';
 import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 import { SUBREDDITS } from '../../lib/util/source-watchers.js';
-import {
-  REQUEST_PAUSE_MS,
-  fetchRedditJson,
-  getRedditAuthMode,
-  getRedditFetchRuntime,
-  resetRedditFetchRuntime,
-  sleep,
-  type RedditPostData,
-} from '../../lib/sources/reddit.js';
-import { isApifyProxyEnabled } from '../../lib/util/apify-proxy.js';
 
 const POSTS_PER_SUB = 100;
 const WINDOW_DAYS = 7;
 const WINDOW_SECONDS = WINDOW_DAYS * 24 * 60 * 60;
 const RATE_LIMIT_BACKOFF_MS = 65_000;
+const REQUEST_PAUSE_MS = 5_000;
+const REQUEST_TIMEOUT_MS = 15_000;
+const TOKEN_SAFETY_MARGIN_SEC = 600; // refresh ≥10 min before expiry
+const DEFAULT_USER_AGENT = 'trendingrepo-worker/0.1';
+
+const TOKEN_URL = 'https://www.reddit.com/api/v1/access_token';
+const OAUTH_ORIGIN = 'https://oauth.reddit.com';
+
+interface RedditPostData {
+  id: string;
+  title?: unknown;
+  author?: unknown;
+  subreddit?: unknown;
+  url?: unknown;
+  permalink?: unknown;
+  selftext?: unknown;
+  created_utc?: unknown;
+  score?: unknown;
+  num_comments?: unknown;
+  link_flair_text?: unknown;
+}
+
+interface RedditListingResponse {
+  data?: { children?: Array<{ data?: RedditPostData }> };
+}
 
 interface NormalizedPost {
   id: string;
@@ -55,6 +86,121 @@ interface NormalizedPost {
   trendingScore: number;
   content_tags: string[];
   value_score: number;
+}
+
+interface TokenCache {
+  cacheKey: string;
+  accessToken: string;
+  expiresAtMs: number;
+}
+
+let tokenCache: TokenCache | null = null;
+
+// Exposed for unit tests — module state survives across test cases otherwise.
+export function __resetRedditOAuthCache(): void {
+  tokenCache = null;
+}
+
+function getRedditUserAgent(): string {
+  const raw = process.env.REDDIT_USER_AGENT;
+  const trimmed = typeof raw === 'string' ? raw.trim() : '';
+  return trimmed.length > 0 ? trimmed : DEFAULT_USER_AGENT;
+}
+
+async function getRedditAccessToken(
+  clientId: string,
+  clientSecret: string,
+): Promise<string> {
+  const cacheKey = `${clientId}:${clientSecret}`;
+  const now = Date.now();
+  if (
+    tokenCache &&
+    tokenCache.cacheKey === cacheKey &&
+    tokenCache.expiresAtMs > now
+  ) {
+    return tokenCache.accessToken;
+  }
+
+  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`, 'utf8').toString('base64');
+  const body = new URLSearchParams({ grant_type: 'client_credentials' }).toString();
+
+  const res = await undiciFetch(TOKEN_URL, {
+    method: 'POST',
+    headers: {
+      authorization: `Basic ${basicAuth}`,
+      'content-type': 'application/x-www-form-urlencoded',
+      accept: 'application/json',
+      'user-agent': getRedditUserAgent(),
+    },
+    body,
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(
+      `reddit oauth token request failed: ${res.status} ${res.statusText} ${text.slice(0, 200)}`,
+    );
+  }
+
+  const json = (await res.json()) as { access_token?: unknown; expires_in?: unknown };
+  if (typeof json.access_token !== 'string' || json.access_token.length === 0) {
+    throw new Error('reddit oauth token response missing access_token');
+  }
+  const expiresInSec =
+    typeof json.expires_in === 'number' && json.expires_in > 0 ? json.expires_in : 3600;
+  // Refresh ≥10 min before expiry; floor at 60s so a freak 0-expiry doesn't loop.
+  const safeSec = Math.max(60, expiresInSec - TOKEN_SAFETY_MARGIN_SEC);
+  tokenCache = {
+    cacheKey,
+    accessToken: json.access_token,
+    expiresAtMs: now + safeSec * 1000,
+  };
+  return tokenCache.accessToken;
+}
+
+async function fetchSubredditNew(
+  sub: string,
+  accessToken: string,
+  log: FetcherContext['log'],
+): Promise<RedditPostData[]> {
+  const url = `${OAUTH_ORIGIN}/r/${sub}/new?limit=${POSTS_PER_SUB}`;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const res = await undiciFetch(url, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+        accept: 'application/json',
+        'user-agent': getRedditUserAgent(),
+      },
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
+    if (res.status === 429) {
+      if (attempt === 1) {
+        const err = new Error(`r/${sub}: 429 rate-limited after retry`);
+        (err as Error & { status?: number }).status = 429;
+        throw err;
+      }
+      log.warn({ sub, backoffMs: RATE_LIMIT_BACKOFF_MS }, 'reddit 429 - sleeping before retry');
+      await sleep(RATE_LIMIT_BACKOFF_MS);
+      continue;
+    }
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      const err = new Error(`r/${sub}: HTTP ${res.status} ${res.statusText} ${text.slice(0, 200)}`);
+      (err as Error & { status?: number }).status = res.status;
+      throw err;
+    }
+    const body = (await res.json()) as RedditListingResponse;
+    const children = body?.data?.children;
+    if (!Array.isArray(children)) {
+      throw new Error(`r/${sub}: malformed response (no data.children)`);
+    }
+    return children
+      .map((c) => c?.data)
+      .filter((p): p is RedditPostData => p !== undefined && typeof p === 'object' && p !== null);
+  }
+  return [];
 }
 
 function computeVelocityFields(score: number, createdUtc: number): {
@@ -75,38 +221,13 @@ function computeVelocityFields(score: number, createdUtc: number): {
 }
 
 function extractRepoMentions(post: RedditPostData, tracked: Map<string, string>): string[] {
-  const text = `${post.title ?? ''}\n${post.url ?? ''}\n${post.selftext ?? ''}`;
+  const text = `${String(post.title ?? '')}\n${String(post.url ?? '')}\n${String(post.selftext ?? '')}`;
   const lower = extractAllRepoMentions(text, tracked.size > 0 ? tracked : null);
-  // Map to canonical casing
   return Array.from(lower, (l) => tracked.get(l) ?? l);
-}
-
-async function fetchSubredditNew(sub: string, log: FetcherContext['log']): Promise<RedditPostData[]> {
-  const url = `https://www.reddit.com/r/${sub}/new.json?limit=${POSTS_PER_SUB}`;
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    try {
-      const body = await fetchRedditJson(url);
-      const children = body?.data?.children;
-      if (!Array.isArray(children)) {
-        throw new Error(`r/${sub}: malformed response (no data.children)`);
-      }
-      return children.map((c) => c.data).filter((p) => p && typeof p === 'object');
-    } catch (err) {
-      const status = (err as Error & { status?: number }).status;
-      if (status !== 429 || attempt === 1) throw err;
-      log.warn({ sub, backoffMs: RATE_LIMIT_BACKOFF_MS }, 'reddit 429 - sleeping before retry');
-      await sleep(RATE_LIMIT_BACKOFF_MS);
-    }
-  }
-  return [];
 }
 
 const fetcher: Fetcher = {
   name: 'reddit',
-  // Staggered to :30 (was :27 — clustered with 3 others; reddit alone is
-  // ~225s and was contending for the same TCP/Redis pipeline). Trustmrr
-  // still runs at :27 because its hour-02 full sweep needs the most
-  // headroom.
   schedule: '30 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
@@ -115,15 +236,32 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false);
     }
 
-    resetRedditFetchRuntime();
-    ctx.log.info(
-      { authMode: getRedditAuthMode(), apifyProxy: isApifyProxyEnabled() },
-      'reddit: starting',
-    );
+    const clientId = (process.env.REDDIT_CLIENT_ID ?? '').trim();
+    const clientSecret = (process.env.REDDIT_CLIENT_SECRET ?? '').trim();
+    if (!clientId || !clientSecret) {
+      ctx.log.warn(
+        { hasClientId: Boolean(clientId), hasClientSecret: Boolean(clientSecret) },
+        '[reddit] OAuth env vars missing — skipping fetch. Set REDDIT_CLIENT_ID/SECRET on toolbox to enable.',
+      );
+      return done(startedAt, 0, false);
+    }
+
+    ctx.log.info({ authMode: 'oauth' }, 'reddit: starting');
 
     const tracked = await loadTrackedRepos({ log: ctx.log });
     if (tracked.size === 0) {
       ctx.log.warn('reddit: tracked repos map empty - mentions buckets will be empty');
+    }
+
+    let accessToken: string;
+    try {
+      accessToken = await getRedditAccessToken(clientId, clientSecret);
+    } catch (err) {
+      ctx.log.error(
+        { err: (err as Error).message },
+        '[reddit] failed to mint OAuth token — aborting run (no public fallback)',
+      );
+      return done(startedAt, 0, false);
     }
 
     const now = Math.floor(Date.now() / 1000);
@@ -140,7 +278,7 @@ const fetcher: Fetcher = {
 
     for (const sub of SUBREDDITS) {
       try {
-        const posts = await fetchSubredditNew(sub, ctx.log);
+        const posts = await fetchSubredditNew(sub, accessToken, ctx.log);
         scannedTotal += posts.length;
         let hitsInSub = 0;
 
@@ -154,16 +292,15 @@ const fetcher: Fetcher = {
           const canonicalHits = extractRepoMentions(p, tracked);
           const primaryRepo = canonicalHits[0] ?? null;
           const subName = String(p.subreddit ?? sub);
-          const score = Number.isFinite(p.score) ? Number(p.score) : 0;
+          const score = Number.isFinite(p.score as number) ? Number(p.score) : 0;
           const { ageHours, velocity, logMagnitude } = computeVelocityFields(score, p.created_utc);
-          // No baselines on the worker — collapse to log10-based score.
           const trendingScore = Math.round(velocity * logMagnitude * 100) / 100;
 
           const classification = classifyPost({
             title: rawTitle,
             selftext: rawSelftext,
             url: rawUrl,
-            linkFlairText: p.link_flair_text ?? null,
+            linkFlairText: (p.link_flair_text as string | null | undefined) ?? null,
           });
 
           const normalized: NormalizedPost = {
@@ -171,9 +308,9 @@ const fetcher: Fetcher = {
             subreddit: subName,
             title: rawTitle.slice(0, 300),
             url: rawUrl,
-            permalink: p.permalink ? `https://www.reddit.com${p.permalink}` : '',
+            permalink: p.permalink ? `https://www.reddit.com${String(p.permalink)}` : '',
             score,
-            numComments: Number.isFinite(p.num_comments) ? Number(p.num_comments) : 0,
+            numComments: Number.isFinite(p.num_comments as number) ? Number(p.num_comments) : 0,
             createdUtc: p.created_utc,
             author: String(p.author ?? ''),
             repoFullName: primaryRepo,
@@ -210,7 +347,10 @@ const fetcher: Fetcher = {
       await sleep(REQUEST_PAUSE_MS);
     }
 
-    const mentionsOut: Record<string, { count7d: number; upvotes7d: number; posts: NormalizedPost[] }> = {};
+    const mentionsOut: Record<
+      string,
+      { count7d: number; upvotes7d: number; posts: NormalizedPost[] }
+    > = {};
     for (const [fullName, bucket] of mentions) {
       const posts = Array.from(bucket.posts.values()).sort((a, b) => b.score - a.score);
       const upvotes7d = posts.reduce((sum, p) => sum + p.score, 0);
@@ -253,19 +393,12 @@ const fetcher: Fetcher = {
       .sort((a, b) => b.trendingScore - a.trendingScore)
       .slice(0, 100);
 
-    const runtime = getRedditFetchRuntime();
     const payload = {
       fetchedAt,
       cold: mentions.size === 0,
-      authMode: getRedditAuthMode(),
-      effectiveFetchMode: runtime.activeMode ?? getRedditAuthMode(),
-      fallbackUsed: runtime.fallbackUsed,
-      oauthFailures: runtime.oauthFailures,
-      apifyProxyUsed: runtime.apifyProxyUsed,
+      authMode: 'oauth' as const,
       successfulSubreddits: SUBREDDITS.length - errors,
       failedSubreddits: errors,
-      oauthRequests: runtime.oauthRequests,
-      publicRequests: runtime.publicRequests,
       scannedSubreddits: SUBREDDITS,
       scannedPostsTotal: scannedTotal,
       mentions: mentionsOut,
@@ -280,8 +413,6 @@ const fetcher: Fetcher = {
     // legacy script merges this run's posts with the prior payload and
     // prunes anything older than the 7d cutoff, so the slug carries
     // historical depth across runs (some subs flake on individual ticks).
-    // Replicating that here so Phase D archive of the script doesn't
-    // freeze the consumer page.
     const previousAllPosts = await readDataStore<RedditAllPostsPayload>('reddit-all-posts');
     const mergedAllPosts = mergeAllPostsPayload(previousAllPosts?.posts ?? [], allPostsOut, cutoff);
     const allPostsPayload: RedditAllPostsPayload = {
@@ -289,7 +420,10 @@ const fetcher: Fetcher = {
       scannedSubreddits: SUBREDDITS,
       windowDays: WINDOW_DAYS,
       totalPosts: mergedAllPosts.length,
-      prunedOldPosts: Math.max(0, (previousAllPosts?.posts.length ?? 0) - mergedAllPosts.length + allPostsOut.length),
+      prunedOldPosts: Math.max(
+        0,
+        (previousAllPosts?.posts.length ?? 0) - mergedAllPosts.length + allPostsOut.length,
+      ),
       prunedOverflowPosts: 0,
       posts: mergedAllPosts,
     };
@@ -336,7 +470,6 @@ function mergeAllPostsPayload(
     if (typeof p.createdUtc !== 'number' || p.createdUtc < cutoffSec) continue;
     byId.set(p.id, p);
   }
-  // Current overrides previous for any matching id (latest score/comments).
   for (const p of current) {
     if (!p || typeof p.id !== 'string') continue;
     if (typeof p.createdUtc !== 'number' || p.createdUtc < cutoffSec) continue;
@@ -347,6 +480,8 @@ function mergeAllPostsPayload(
     return b.score - a.score;
   });
 }
+
+const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
 export default fetcher;
 

@@ -32,6 +32,15 @@ const envSchema = z
     APIFY_API_TOKEN: z.string().optional(),
     APIFY_PROXY_GROUPS: z.string().optional(),
     APIFY_PROXY_COUNTRY: z.string().optional(),
+    // Reddit OAuth (script-type app at https://www.reddit.com/prefs/apps).
+    // All three are .optional() so the worker boots without them; the
+    // reddit fetcher checks REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET at
+    // run-time and skips with a warning if either is missing (it does NOT
+    // fall back to the public r/.../new.json endpoint — see fetcher header).
+    // REDDIT_USER_AGENT defaults to `trendingrepo-worker/0.1` when unset;
+    // Reddit requires a non-default UA per their API rules.
+    // REDDIT_USER_AGENTS is the legacy rotation pool consumed by
+    // lib/sources/reddit.ts (still used by the reddit-baselines fetcher).
     REDDIT_CLIENT_ID: z.string().optional(),
     REDDIT_CLIENT_SECRET: z.string().optional(),
     REDDIT_USER_AGENT: z.string().optional(),

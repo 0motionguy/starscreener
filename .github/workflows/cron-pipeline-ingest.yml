@@ -71,11 +71,15 @@ jobs:
             echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
             exit 1
           fi
+          # Phase=2 omits `recomputeAfter` so route defaults to true (per its
+          # `phase === 1 ? false : (recomputeAfter ?? true)` logic). Without
+          # this, phase=2 would inherit phase=1's recomputeAfter:false and
+          # pipeline.recomputeAll() would NEVER fire from the scheduled cron.
           code=$(curl -sS --retry 2 --retry-delay 5 --max-time 330 -o /tmp/out -w "%{http_code}" -X POST \
             "$BASE_URL/api/pipeline/ingest?phase=2" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
-            -d '{"recomputeAfter":false}')
+            -d '{}')
           echo "HTTP $code"
           if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
             jq . /tmp/out | head -c 2000

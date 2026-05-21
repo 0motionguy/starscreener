@@ -3370,11 +3370,15 @@ a.repo-avatar:hover {
   gap: 2px;
 }
 
+.trending-table-card .mention-pack .ms-pips {
+  gap: 4px;
+}
 .trending-table-card .mention-pack .ms-pips .smark {
-  width: 8px;
-  height: 8px;
+  width: 18px;
+  height: 18px;
   overflow: hidden;
   font-size: 0;
+  border-radius: 3px;
 }
 
 .trending-table-card .mention-pack .ms-count {
@@ -3410,13 +3414,7 @@ a.repo-avatar:hover {
   transform: none;
 }
 
-/* ─── B10: 1400px column collapse for 30d ─── */
-@media (max-width: 1400px) and (min-width: 769px) {
-  .trending-table-card .tdata th:nth-child(6),
-  .trending-table-card .tdata td[data-label="30d"] {
-    display: none;
-  }
-}
+/* (removed B10 1400px-collapse rule: it hid 30d at common laptop widths) */
 
 /* ─── B8 (P0): Mobile touch targets at < 768px ─── */
 @media (max-width: 768px) {
@@ -6323,4 +6321,91 @@ a.repo-avatar:hover {
   color: var(--accent);
   font-weight: 700;
   font-size: 12px;
+}
+
+/* ─── TrendingControlBar — single consolidated filter strip ─── */
+.trending-controlbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin: 14px 0 12px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+}
+.trending-controlbar .tcb-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.trending-controlbar .tcb-label {
+  color: var(--fg-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  font-weight: 500;
+  margin-right: 6px;
+}
+.trending-controlbar .tcb-divider {
+  flex: 0 0 1px;
+  align-self: stretch;
+  margin: 2px 8px;
+  background: var(--border-subtle);
+}
+.trending-controlbar .tcb-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-1);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color var(--d-fast) var(--ease),
+              background var(--d-fast) var(--ease),
+              border-color var(--d-fast) var(--ease);
+}
+.trending-controlbar .tcb-btn:hover {
+  color: var(--fg-bright);
+  background: var(--surface-2);
+}
+.trending-controlbar .tcb-btn.on {
+  color: #0a0e15;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+.trending-controlbar .tcb-btn-count {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--fg-faint);
+  font-weight: 500;
+}
+.trending-controlbar .tcb-btn.on .tcb-btn-count {
+  color: #0a0e15;
+  opacity: 0.7;
+}
+@media (max-width: 640px) {
+  .trending-controlbar {
+    gap: 6px;
+    padding: 8px;
+  }
+  .trending-controlbar .tcb-divider {
+    flex-basis: 100%;
+    height: 1px;
+    align-self: auto;
+    margin: 4px 0;
+  }
+  .trending-controlbar .tcb-btn {
+    min-height: 36px;
+    flex: 1 1 calc(25% - 3px);
+    justify-content: center;
+  }
 }

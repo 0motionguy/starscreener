@@ -1,19 +1,12 @@
 "use client";
 
 // Topbar — global. Client component because of search + share interactivity.
-// Renders crumbs, 4 hero pillar tabs, search bar, share menu, avatar button.
-// Active pillar derived from pathname.
+// Renders crumbs, search bar, share menu, avatar button.
+// (Hero-pillar tabs removed — duplicated the Sidebar nav.)
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { HeroPillarLink } from "./NavLink";
-import {
-  Activity,
-  BarChart3,
-  Lightbulb,
-  Menu,
-  TrendingUp,
-} from "@/lib/icons";
+import { Menu } from "@/lib/icons";
 
 export interface Crumb {
   label: string;
@@ -65,37 +58,8 @@ export function Topbar({ crumbs }: TopbarProps) {
           })}
         </nav>
       ) : (
-        <nav className="crumbs">
-          <b>TrendingRepo</b>
-        </nav>
+        <nav className="crumbs" aria-hidden="true" />
       )}
-
-      <nav className="topbar-tabs" aria-label="Hero pillars">
-        <HeroPillarLink href="/" pillar="trending" match="/">
-          <span className="tab-glyph">
-            <TrendingUp size={16} strokeWidth={1.7} aria-hidden="true" />
-          </span>
-          <span>Trending</span>
-        </HeroPillarLink>
-        <HeroPillarLink href="/ideas" pillar="ideas">
-          <span className="tab-glyph">
-            <Lightbulb size={16} strokeWidth={1.7} aria-hidden="true" />
-          </span>
-          <span>Ideas</span>
-        </HeroPillarLink>
-        <HeroPillarLink href="/build" pillar="build">
-          <span className="tab-glyph">
-            <BarChart3 size={16} strokeWidth={1.7} aria-hidden="true" />
-          </span>
-          <span>Build</span>
-        </HeroPillarLink>
-        <HeroPillarLink href="/market-signals" pillar="signals" match="/market-signals">
-          <span className="tab-glyph">
-            <Activity size={16} strokeWidth={1.7} aria-hidden="true" />
-          </span>
-          <span>Market Signals</span>
-        </HeroPillarLink>
-      </nav>
 
       <form
         className="searchbar"
@@ -158,8 +122,23 @@ export function Topbar({ crumbs }: TopbarProps) {
             <path d="M3 12V8a5 5 0 0110 0v4l1 2H2l1-2zM6 14a2 2 0 004 0" />
           </svg>
         </Link>
-        <Link className="avatar-btn" href="/account" aria-label="MK account">
-          <span className="avatar">MK</span>
+        <Link className="avatar-btn" href="/account" aria-label="Your account">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="avatar"
+            src="/avatar-test.jpg"
+            alt=""
+            width={28}
+            height={28}
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+              border: "1px solid var(--border)",
+            }}
+          />
           <span style={{ display: "none" }} className="avatar-name">
             You
           </span>

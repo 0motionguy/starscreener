@@ -18,8 +18,8 @@ import {
 import type { Repo } from "@/lib/types";
 
 import { FeaturedRepos } from "@/components/trending/FeaturedRepos";
-import { TrendingFilters, type LanguageStat } from "@/components/trending/TrendingFilters";
 import { TrendingHubHero, type CategoryId, type WindowId, CATEGORIES, WINDOWS } from "@/components/trending/TrendingHubHero";
+import { TrendingControlBar } from "@/components/trending/TrendingControlBar";
 import { KpiStrip } from "@/components/trending/KpiStrip";
 import { TrendingTable } from "@/components/trending/TrendingTable";
 
@@ -71,10 +71,10 @@ export default async function TrendingHubPage({ searchParams }: Props) {
     return [];
   })();
 
-  const languageStats = getLanguageStats(repos);
-  const language = rawLang === "all" || languageStats.some((item) => item.language.toLowerCase() === rawLang) ? rawLang : "all";
-  const filtered = language === "all" ? repos : repos.filter((repo) => repo.language?.toLowerCase() === language);
-  const sorted = sortRepos(filtered, timeWindow, sort, ranker);
+  // Language filter removed (operator: "all its only about AI · no filter per coding language").
+  // `lang` URL param is accepted for back-compat but no longer filters the list.
+  const language = rawLang;
+  const sorted = sortRepos(repos, timeWindow, sort, ranker);
 
   const counts = await getSidebarSourceCounts().catch(() => null);
   const switcherCounts: Partial<Record<CategoryId, number>> = {
@@ -93,42 +93,14 @@ export default async function TrendingHubPage({ searchParams }: Props) {
 
       <KpiStrip />
 
-      {/* Unified tab strip: Repos sub-rankers (Top/Gainer/Trend) + other categories.
-          Sits above the filter strip. */}
-      <div className="category-tabs" role="tablist" aria-label="Category">
-        {buildUnifiedTabs(category, ranker, switcherCounts).map((t) => (
-          <Link
-            key={t.id}
-            href={{
-              query: cleanQueryPage({
-                cat: t.cat,
-                rank: t.rank,
-                window: timeWindow,
-                lang: language,
-                sort,
-              }),
-            }}
-            className={`cat-tab${t.active ? " active" : ""}`}
-            role="tab"
-            aria-selected={t.active}
-            prefetch={false}
-          >
-            <span className="cat-tab-label">{t.label}</span>
-            {t.count != null && (
-              <span className="cat-tab-count">{t.count.toLocaleString()}</span>
-            )}
-          </Link>
-        ))}
-      </div>
-
       <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
 
-      <TrendingFilters
-        activeLanguage={language}
+      <TrendingControlBar
+        activeCategory={category}
+        activeRanker={ranker}
+        activeWindow={timeWindow}
         activeSort={sort}
-        category={category}
-        window={timeWindow}
-        languages={languageStats}
+        counts={switcherCounts}
       />
 
       <TrendingTable
@@ -190,16 +162,6 @@ function mentionScore(repo: Repo): number {
 
 function consensusScore(repo: Repo): number {
   return (repo.crossSignalScore ?? 0) * 100 + (repo.momentumScore ?? 0) + mentionScore(repo);
-}
-
-function getLanguageStats(repos: Repo[]): LanguageStat[] {
-  const counts = new Map<string, number>();
-  for (const repo of repos) {
-    const language = repo.language?.trim();
-    if (!language) continue;
-    counts.set(language, (counts.get(language) ?? 0) + 1);
-  }
-  return Array.from(counts, ([language, count]) => ({ language, count })).sort((a, b) => b.count - a.count);
 }
 
 function normalizeSort(value: string): SortId {

@@ -15,6 +15,30 @@
 //
 // The decorator is pure + memoizes the npm/hf/arxiv index by data-version
 // so it pays the bucketization cost once per cold-Lambda warm.
+//
+// ---------------------------------------------------------------------------
+// LIFETIME (`count`) aggregation — added 2026-05-21 per operator request:
+// "Mentions should pile up LIFETIME, not per 24h/7d/30d. Treat the bundled
+// scraper data as the source of truth for cumulative counts." UI's
+// `sourceCount()` in MentionSourcePips reads `channel.count ??
+// max(count24h, count7d)`, so populating `count` per source surfaces
+// lifetime numbers without touching the rendering path.
+//
+// Per-source lifetime formula (no time gate — ALL captured rows count):
+//   hackernews:  mentions[full].stories.length        (all-time stories about repo)
+//   bluesky:     mentions[full].posts.length          (all-time bsky posts)
+//   devto:       mentions[full].articles.length       (all-time dev.to articles)
+//   lobsters:    mentions[full].stories.length        (resolver fans linkedRepos out)
+//   twitter:     items.find(fullName === key).mentions (already lifetime in actor output)
+//   npm:         count of npm packages with linkedRepo === full
+//   huggingface: count of HF models whose id === full (+ unambiguous name fallback)
+//   arxiv:       count of papers whose linkedRepos[].fullName === full (+ name fallback)
+//   producthunt: count of launches with linkedRepo === full
+//   funding:     count of funding events resolved to this repo (no time gate)
+//   reddit:      0 — reddit-mentions.json is currently empty (OAuth blocker)
+//
+// count24h / count7d math is preserved verbatim — scoring relies on it.
+// ---------------------------------------------------------------------------
 
 import type {
   Repo,
@@ -34,6 +58,135 @@ import { getArxivRecentFile } from "../../arxiv";
 import { getAllPhLaunches } from "../../producthunt";
 import { getFundingEventsForRepo } from "../../funding/repo-events";
 import { getCrossSourceDetail } from "../../cross-source-mentions";
+
+// ---------------------------------------------------------------------------
+// Lifetime aggregation — all-time mention counts from the bundled scraper
+// data with NO time gate. See header comment for per-source formulas.
+// ---------------------------------------------------------------------------
+
+/**
+ * Generic lifetime counter: walks a row iterable and increments a per-key
+ * tally for every row whose key is non-null. No timestamp gate (deliberate —
+ * lifetime = every row the scraper ever captured for that repo).
+ */
+function buildLifetimeIndex<T>(
+  rows: Iterable<T>,
+  getKey: (row: T) => string | null,
+): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const row of rows) {
+    const key = getKey(row);
+    if (!key) continue;
+    out.set(key, (out.get(key) ?? 0) + 1);
+  }
+  return out;
+}
+
+/**
+ * Memoized lifetime indexes for the linked-repo-fanout sources (npm, HF,
+ * arXiv, producthunt). Each indexed by data identity so the lifetime walk
+ * pays its cost once per cold Lambda. HF + arXiv carry an unambiguous
+ * NAME-only fallback (same dedup strategy as the 24h/7d BucketIndex) so a
+ * GitHub repo whose owner differs from the HF/arXiv slug can still pick up
+ * lifetime hits when the trailing name segment is unique.
+ */
+interface LifetimeIndex {
+  byFull: Map<string, number>;
+  byName?: Map<string, number>;
+}
+
+let _npmLifetime: { token: unknown; index: LifetimeIndex } | null = null;
+let _hfLifetime: { token: unknown; index: LifetimeIndex } | null = null;
+let _arxivLifetime: { token: unknown; index: LifetimeIndex } | null = null;
+let _phLifetime: { token: unknown; index: LifetimeIndex } | null = null;
+
+function buildLifetimeNameFallback(
+  byFull: Map<string, number>,
+): Map<string, number> {
+  const fullsByName = new Map<string, Set<string>>();
+  for (const full of byFull.keys()) {
+    const slash = full.lastIndexOf("/");
+    const name = slash >= 0 ? full.slice(slash + 1) : full;
+    if (!name) continue;
+    let set = fullsByName.get(name);
+    if (!set) {
+      set = new Set();
+      fullsByName.set(name, set);
+    }
+    set.add(full);
+  }
+  const byName = new Map<string, number>();
+  for (const [name, set] of fullsByName) {
+    if (set.size !== 1) continue;
+    const onlyFull = set.values().next().value as string;
+    const v = byFull.get(onlyFull);
+    if (v !== undefined) byName.set(name, v);
+  }
+  return byName;
+}
+
+function npmLifetimeIndex(): LifetimeIndex {
+  const packages = getNpmPackages();
+  if (_npmLifetime && _npmLifetime.token === packages) return _npmLifetime.index;
+  const byFull = buildLifetimeIndex(
+    packages,
+    (p) => (p.linkedRepo ? p.linkedRepo.toLowerCase() : null),
+  );
+  const index: LifetimeIndex = { byFull };
+  _npmLifetime = { token: packages, index };
+  return index;
+}
+
+function hfLifetimeIndex(): LifetimeIndex {
+  const file = getHfTrendingFile();
+  const models = file?.models ?? [];
+  if (_hfLifetime && _hfLifetime.token === models) return _hfLifetime.index;
+  const byFull = buildLifetimeIndex(
+    models,
+    (m) => (m.id ? m.id.toLowerCase() : null),
+  );
+  const index: LifetimeIndex = {
+    byFull,
+    byName: buildLifetimeNameFallback(byFull),
+  };
+  _hfLifetime = { token: models, index };
+  return index;
+}
+
+function phLifetimeIndex(): LifetimeIndex {
+  const launches = getAllPhLaunches();
+  if (_phLifetime && _phLifetime.token === launches) return _phLifetime.index;
+  const byFull = buildLifetimeIndex(
+    launches,
+    (l) => (l.linkedRepo ? l.linkedRepo.toLowerCase() : null),
+  );
+  const index: LifetimeIndex = { byFull };
+  _phLifetime = { token: launches, index };
+  return index;
+}
+
+function arxivLifetimeIndex(): LifetimeIndex {
+  const file = getArxivRecentFile();
+  const papers = file?.papers ?? [];
+  if (_arxivLifetime && _arxivLifetime.token === papers) return _arxivLifetime.index;
+  // Fan out (paper, repo) pairs the same way the bucketed index does so a
+  // paper that cites N tracked repos contributes 1 lifetime mention each.
+  const fanout: Array<{ key: string }> = [];
+  for (const p of papers) {
+    if (!Array.isArray(p.linkedRepos)) continue;
+    for (const link of p.linkedRepos) {
+      if (!link?.fullName) continue;
+      fanout.push({ key: link.fullName.toLowerCase() });
+    }
+  }
+  const byFull = buildLifetimeIndex(fanout, (r) => r.key);
+  const index: LifetimeIndex = {
+    byFull,
+    byName: buildLifetimeNameFallback(byFull),
+  };
+  _arxivLifetime = { token: papers, index };
+  return index;
+}
 
 const HOUR_MS = 60 * 60 * 1000;
 const WINDOW_24H_MS = 24 * HOUR_MS;
@@ -249,6 +402,10 @@ export function decorateWithMentionsRollup(
   const hf = hfIndex(nowMs);
   const arxiv = arxivIndex(nowMs);
   const ph = phIndex(nowMs);
+  const npmLife = npmLifetimeIndex();
+  const hfLife = hfLifetimeIndex();
+  const arxivLife = arxivLifetimeIndex();
+  const phLife = phLifetimeIndex();
 
   return repos.map((r) => {
     const perSource = emptyPerSource();
@@ -258,14 +415,18 @@ export function decorateWithMentionsRollup(
     // Twitter — 24h only (the signal store carries no 7d count). Treat
     // the 24h number as both the 24h and 7d slot so total7d at least
     // covers what we know. If/when the Twitter signal exposes 7d, swap.
+    // Lifetime: the Apify actor's `mentions` field IS the all-time
+    // cumulative tally — populate `count` from the same number.
     const tw = getTwitterSignalSync(key);
     if (tw) {
       const x = tw.metrics.mentionCount24h ?? 0;
-      perSource.twitter = { count24h: x, count7d: x };
+      perSource.twitter = { count24h: x, count7d: x, count: x };
     }
 
     const rd = getRedditMentions(key);
     if (rd) {
+      // Reddit lifetime stays 0 — reddit-mentions.json `mentions: {}` is
+      // empty pending OAuth fix. Wiring it would lie about coverage.
       perSource.reddit = {
         count24h: rd.count24h ?? 0,
         count7d: rd.count7d ?? 0,
@@ -277,6 +438,7 @@ export function decorateWithMentionsRollup(
       perSource.hackernews = {
         count24h: hn.count24h ?? 0,
         count7d: hn.count7d ?? 0,
+        count: hn.stories?.length ?? 0,
       };
     }
 
@@ -285,6 +447,7 @@ export function decorateWithMentionsRollup(
       perSource.bluesky = {
         count24h: bs.count24h ?? 0,
         count7d: bs.count7d ?? 0,
+        count: bs.posts?.length ?? 0,
       };
     }
 
@@ -293,6 +456,7 @@ export function decorateWithMentionsRollup(
       perSource.devto = {
         count24h: dv.count24h ?? 0,
         count7d: dv.count7d ?? 0,
+        count: dv.articles?.length ?? 0,
       };
     }
 
@@ -301,6 +465,7 @@ export function decorateWithMentionsRollup(
       perSource.lobsters = {
         count24h: lb.count24h ?? 0,
         count7d: lb.count7d ?? 0,
+        count: lb.stories?.length ?? 0,
       };
     }
 
@@ -310,7 +475,14 @@ export function decorateWithMentionsRollup(
     const lowerName = slash >= 0 ? lowerFull.slice(slash + 1) : lowerFull;
 
     const npmEntry = npm.perRepo.get(lowerFull);
-    if (npmEntry) perSource.npm = npmEntry;
+    const npmLifeCount = npmLife.byFull.get(lowerFull);
+    if (npmEntry || npmLifeCount) {
+      perSource.npm = {
+        count24h: npmEntry?.count24h ?? 0,
+        count7d: npmEntry?.count7d ?? 0,
+        count: npmLifeCount ?? 0,
+      };
+    }
 
     // HF + arXiv: try full owner/name first, then fall back to repo NAME
     // alone when the (precomputed, ambiguity-free) name index has a hit.
@@ -318,19 +490,43 @@ export function decorateWithMentionsRollup(
     // diverge from the GitHub org but the project name matches.
     const hfEntry =
       hf.perRepo.get(lowerFull) ?? hf.byName?.get(lowerName) ?? null;
-    if (hfEntry) perSource.huggingface = hfEntry;
+    const hfLifeCount =
+      hfLife.byFull.get(lowerFull) ?? hfLife.byName?.get(lowerName);
+    if (hfEntry || hfLifeCount) {
+      perSource.huggingface = {
+        count24h: hfEntry?.count24h ?? 0,
+        count7d: hfEntry?.count7d ?? 0,
+        count: hfLifeCount ?? 0,
+      };
+    }
 
     const arxivEntry =
       arxiv.perRepo.get(lowerFull) ?? arxiv.byName?.get(lowerName) ?? null;
-    if (arxivEntry) perSource.arxiv = arxivEntry;
+    const arxivLifeCount =
+      arxivLife.byFull.get(lowerFull) ?? arxivLife.byName?.get(lowerName);
+    if (arxivEntry || arxivLifeCount) {
+      perSource.arxiv = {
+        count24h: arxivEntry?.count24h ?? 0,
+        count7d: arxivEntry?.count7d ?? 0,
+        count: arxivLifeCount ?? 0,
+      };
+    }
 
     const phEntry = ph.perRepo.get(lowerFull);
-    if (phEntry) perSource.producthunt = phEntry;
+    const phLifeCount = phLife.byFull.get(lowerFull);
+    if (phEntry || phLifeCount) {
+      perSource.producthunt = {
+        count24h: phEntry?.count24h ?? 0,
+        count7d: phEntry?.count7d ?? 0,
+        count: phLifeCount ?? 0,
+      };
+    }
 
     // Funding events are joined to repos via the curated alias registry
     // (data/funding-aliases.json). The matcher is memoized internally so
     // calling it once per repo per render is cheap. Each event's
-    // publishedAt is bucketed into the 24h / 7d windows.
+    // publishedAt is bucketed into the 24h / 7d windows; lifetime count
+    // is the total number of matched events with no time gate.
     const fundingEvents = getFundingEventsForRepo(key);
     if (fundingEvents.length > 0) {
       let f24 = 0;
@@ -343,7 +539,11 @@ export function decorateWithMentionsRollup(
         f7 += 1;
         if (age <= WINDOW_24H_MS) f24 += 1;
       }
-      perSource.funding = { count24h: f24, count7d: f7 };
+      perSource.funding = {
+        count24h: f24,
+        count7d: f7,
+        count: fundingEvents.length,
+      };
     }
 
     // Attach cross-source-sweep detail if available, AND boost the per-source
@@ -362,9 +562,13 @@ export function decorateWithMentionsRollup(
         const c = channel as SocialPlatform;
         const sweep7d = bucket.count7d ?? 0;
         if (sweep7d > (perSource[c]?.count7d ?? 0)) {
+          // Preserve the lifetime `count` already populated by the
+          // source-first walkers above — the sweep is 7d-windowed and
+          // shouldn't clobber the all-time tally.
           perSource[c] = {
             count24h: perSource[c]?.count24h ?? 0,
             count7d: sweep7d,
+            count: perSource[c]?.count,
           };
         }
       }
@@ -372,14 +576,16 @@ export function decorateWithMentionsRollup(
 
     let total24h = 0;
     let total7d = 0;
+    let total = 0;
     for (const v of Object.values(perSource)) {
       total24h += v.count24h;
       total7d += v.count7d;
+      total += v.count ?? 0;
     }
 
     const rollup: RepoMentionsRollup = detail
-      ? { total24h, total7d, perSource, detail }
-      : { total24h, total7d, perSource };
+      ? { total24h, total7d, total, perSource, detail }
+      : { total24h, total7d, total, perSource };
 
     return {
       ...r,
@@ -395,4 +601,8 @@ export function __resetMentionsRollupMemoForTests(): void {
   _hfIndex = null;
   _arxivIndex = null;
   _phIndex = null;
+  _npmLifetime = null;
+  _hfLifetime = null;
+  _arxivLifetime = null;
+  _phLifetime = null;
 }

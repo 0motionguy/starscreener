@@ -48,32 +48,20 @@ export function TrendingHubHero({ category, window: timeWindow }: TrendingHubHer
     }
   })();
 
+  void timeWindow; // window switcher moved to TrendingControlBar (below FeaturedRepos)
+  void category; // category switcher dropped — operator: "all its only about AI"
   return (
-    <>
-      <div className="page-head">
-        <div>
-          <div className="page-eyebrow">
-            <span className={`live-dot ${fresh?.status ?? "cold"}`} aria-hidden="true" />{" "}
-            <b>{getStatusLabel(fresh?.status ?? "cold")}</b> · scanned {fresh?.ageLabel ?? "—"} · 30 mention sources ·{" "}
-            {tracked.toLocaleString()} candidates
-          </div>
-          <h1 className="page-title">Trending — the radar for everything AI</h1>
-          <p className="page-sub">Cross-signal scoring · refreshed every 30 minutes</p>
+    <div className="page-head">
+      <div>
+        <div className="page-eyebrow">
+          <span className={`live-dot ${fresh?.status ?? "cold"}`} aria-hidden="true" />{" "}
+          <b>{getStatusLabel(fresh?.status ?? "cold")}</b> · scanned {fresh?.ageLabel ?? "—"} · 30 mention sources ·{" "}
+          {tracked.toLocaleString()} candidates
         </div>
-        <div className="segmented" role="group" aria-label="Time window">
-          {WINDOWS.map((w) => (
-            <Link
-              key={w.id}
-              href={{ query: { window: w.id, cat: category } }}
-              className={w.id === timeWindow ? "on" : ""}
-              prefetch={false}
-            >
-              {w.label}
-            </Link>
-          ))}
-        </div>
+        <h1 className="page-title">Trending — the radar for everything AI</h1>
+        <p className="page-sub">Cross-signal scoring · refreshed every 30 minutes</p>
       </div>
-    </>
+    </div>
   );
 }
 

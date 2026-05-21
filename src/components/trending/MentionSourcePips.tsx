@@ -29,20 +29,29 @@ interface MentionSourcePipsProps {
   repo: Pick<Repo, "mentions">;
 }
 
-/** Read the cumulative count for a source, falling back to the legacy
- *  windowed bucket while Phase B's rolling deploy completes. */
+/** Read the cumulative count for a source. Priority:
+ *  1. `count` — new mentions-ledger cumulative field (Phase B)
+ *  2. `count24h` — legacy 24h bucket
+ *  3. `count7d` — legacy 7d bucket (Bluesky/DevTo/Lobsters bundled data only
+ *     populates this — without the fallback their pips never render).
+ *  Returns the max so a source with ANY mentions in EITHER window shows. */
 function sourceCount(
   perSource: RepoMentionsRollup["perSource"] | undefined,
   key: SocialPlatform,
 ): number {
   const channel = perSource?.[key];
   if (!channel) return 0;
-  return channel.count ?? channel.count24h ?? 0;
+  return (
+    channel.count ??
+    Math.max(channel.count24h ?? 0, channel.count7d ?? 0)
+  );
 }
 
 export function MentionSourcePips({ repo }: MentionSourcePipsProps) {
   const rollup = repo.mentions?.perSource;
-  const active = CHANNELS.filter(({ key }) => sourceCount(rollup, key) > 0);
+  const active = CHANNELS
+    .map((ch) => ({ ...ch, n: sourceCount(rollup, ch.key) }))
+    .filter((ch) => ch.n > 0);
 
   if (active.length === 0) return null;
 
@@ -52,12 +61,12 @@ export function MentionSourcePips({ repo }: MentionSourcePipsProps) {
 
   return (
     <div className="source-pips">
-      {visible.map(({ key, cls, title }) => (
+      {visible.map(({ key, cls, title, n }) => (
         <span
           key={key}
           className={`spip ${cls}`}
-          title={title}
-          aria-label={title}
+          title={`${title} · ${n}`}
+          aria-label={`${title}: ${n} mentions`}
         >
           <SourceLogo source={cls} />
         </span>
@@ -76,26 +85,22 @@ interface MentionCellProps {
 
 /** Combined Mentions cell — pips + count. Replaces V4 dual-column pattern. */
 export function MentionCell({ repo }: MentionCellProps) {
-  // Prefer 24h total; if 0 (likely because collectors are >24h stale),
-  // fall through to 7d total so the cell still surfaces real signal.
+  const rollup = repo.mentions?.perSource;
+  const active = CHANNELS.filter(({ key }) => sourceCount(rollup, key) > 0);
   const count =
-    (repo.mentions?.total24h && repo.mentions.total24h > 0
-      ? repo.mentions.total24h
-      : repo.mentions?.total7d) ||
-    repo.mentionCount24h ||
+    repo.mentions?.total ??
+    repo.mentions?.total24h ??
+    repo.mentionCount24h ??
     0;
-  const active = CHANNELS.filter(({ key }) => {
-    const channel = repo.mentions?.perSource?.[key];
-    return !!channel && ((channel.count24h ?? 0) > 0 || (channel.count7d ?? 0) > 0);
-  });
   const visible = active.slice(0, CELL_VISIBLE);
   const overflow = active.length - visible.length;
   const top = active[0];
 
+  // Active-only: show ONLY sources with count > 0. Inactive sources DO NOT render.
   if (count === 0 && active.length === 0) {
     return (
       <div className="mention-pack mention-pack-empty">
-        <span className="mp-empty" aria-label="No mentions in the last 24 hours">—</span>
+        <span className="mp-empty" aria-label="No mentions">—</span>
       </div>
     );
   }
@@ -103,11 +108,19 @@ export function MentionCell({ repo }: MentionCellProps) {
   return (
     <div className="mention-pack">
       <span className="ms-pips">
-        {visible.map(({ cls, title }) => (
-          <span key={cls} className={`smark ${cls}`} title={title} aria-label={title}>
-            <SourceLogo source={cls} />
-          </span>
-        ))}
+        {visible.map(({ key, cls, title }) => {
+          const n = sourceCount(rollup, key);
+          return (
+            <span
+              key={cls}
+              className={`smark ${cls}`}
+              title={`${title} · ${n}`}
+              aria-label={`${title}: ${n} mentions`}
+            >
+              <SourceLogo source={cls} />
+            </span>
+          );
+        })}
         {overflow > 0 && (
           <span className="ms-more" title={`${overflow} more`}>+{overflow}</span>
         )}

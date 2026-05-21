@@ -1,13 +1,13 @@
 {
-  "fetchedAt": "2026-05-21T20:58:45.329Z",
+  "fetchedAt": "2026-05-21T22:41:23.955Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -19,11 +19,11 @@
           "handle": "temujin9.t9productions.com",
           "displayName": "Prose and Khans"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T20:07:26.371Z",
-        "hoursSincePosted": 0.86
+        "hoursSincePosted": 2.57
       },
       "posts": [
         {
@@ -91,13 +91,13 @@
             "handle": "temujin9.t9productions.com",
             "displayName": "Prose and Khans"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-05-21T20:07:26.371Z",
           "createdUtc": 1779394046,
-          "ageHours": 0.86,
-          "trendingScore": 1.5,
+          "ageHours": 2.57,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -154,6 +154,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmfcrjhork27",
+          "cid": "bafyreihbnlelhferzqsojivgbmwhol7lqjicoevwq4l4vh53qde37mqimi",
+          "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmfcrjhork27",
+          "text": "lul... wie geil github.com/antirez/ds4/...",
+          "author": {
+            "handle": "arnomatic.bsky.social",
+            "displayName": "michaelh"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:59:08.721Z",
+          "createdUtc": 1779397148,
+          "ageHours": 1.7,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -2587,7 +2615,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T19:18:17.987Z",
-        "hoursSincePosted": 1.67
+        "hoursSincePosted": 3.39
       },
       "posts": [
         {
@@ -2632,7 +2660,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-21T19:18:17.987Z",
           "createdUtc": 1779391097,
-          "ageHours": 1.67,
+          "ageHours": 3.39,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -9272,22 +9300,22 @@
     },
     "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmesjdosgw2c",
-        "cid": "bafyreidbbifd4pck2lig7oin7xnkayivl5wz3ie4u572whdinyitvt4ukm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmesjdosgw2c",
-        "text": "🟠 OpenClaw beta adds a bundled Policy plugin, xAI device-code auth, and Discord voice-follow automation OpenClaw shipped pre-release v2026.5.20-beta.2 with several workflow-level changes, including a bundled... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.2 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmfdaxvox52u",
+        "cid": "bafyreigibwahw6e7pd3tjjrpmwrgobrrivn7zd2dz7i7a3ndesv5252ev4",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmfdaxvox52u",
+        "text": "🟠 OpenClaw 2026.5.20 ships policy plugin, xAI device-code auth, and stronger approval hardening OpenClaw v2026.5.20 is a meaningful platform release, not a routine patch. https://github.com/openclaw/openclaw/releases/tag/v2026.5.20 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T16:08:13.205376+00:00",
-        "hoursSincePosted": 3.14
+        "createdAt": "2026-05-21T21:07:46.034718+00:00",
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
@@ -9416,6 +9444,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmfdaxvox52u",
+          "cid": "bafyreigibwahw6e7pd3tjjrpmwrgobrrivn7zd2dz7i7a3ndesv5252ev4",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmfdaxvox52u",
+          "text": "🟠 OpenClaw 2026.5.20 ships policy plugin, xAI device-code auth, and stronger approval hardening OpenClaw v2026.5.20 is a meaningful platform release, not a routine patch. https://github.com/openclaw/openclaw/releases/tag/v2026.5.20 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T21:07:46.034718+00:00",
+          "createdUtc": 1779397666,
+          "ageHours": 1.56,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -18330,7 +18386,7 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 2,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -18342,13 +18398,41 @@
           "handle": "apvarun.com",
           "displayName": "Varun"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T20:30:20.327Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.18
       },
       "posts": [
+        {
+          "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
+          "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
+          "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
+          "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
+          "author": {
+            "handle": "apvarun.com",
+            "displayName": "Varun"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:30:20.327Z",
+          "createdUtc": 1779395420,
+          "ageHours": 2.18,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
           "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
@@ -18459,34 +18543,6 @@
           ]
         },
         {
-          "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
-          "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
-          "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
-          "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
-          "author": {
-            "handle": "apvarun.com",
-            "displayName": "Varun"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-21T20:30:20.327Z",
-          "createdUtc": 1779395420,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
           "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmf72mzgib2j",
           "cid": "bafyreia723rb67oif3ftn7bqca43nq22got5qepzajeuoknjw4rlamu3r4",
           "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmf72mzgib2j",
@@ -18500,7 +18556,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:52:38.532829Z",
           "createdUtc": 1779393158,
-          "ageHours": 1.1,
+          "ageHours": 2.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19920,7 +19976,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:00:01.244Z",
-        "hoursSincePosted": 1.98
+        "hoursSincePosted": 3.69
       },
       "posts": [
         {
@@ -19937,7 +19993,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:00:01.244Z",
           "createdUtc": 1779390001,
-          "ageHours": 1.98,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -21066,7 +21122,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:15:34.354876+00:00",
-        "hoursSincePosted": 1.72
+        "hoursSincePosted": 3.43
       },
       "posts": [
         {
@@ -21083,7 +21139,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:15:34.354876+00:00",
           "createdUtc": 1779390934,
-          "ageHours": 1.72,
+          "ageHours": 3.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -21116,7 +21172,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:02:41.055Z",
-        "hoursSincePosted": 1.93
+        "hoursSincePosted": 3.65
       },
       "posts": [
         {
@@ -21132,7 +21188,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:02:41.055Z",
           "createdUtc": 1779390161,
-          "ageHours": 1.93,
+          "ageHours": 3.65,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -21254,8 +21310,8 @@
     },
     "builtbybel/Winslopr": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
+      "likesSum7d": 3,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:xv6zlxzizwfqa2fjmikzgu4e/app.bsky.feed.post/3mmfae2o6os2u",
@@ -21266,11 +21322,11 @@
           "handle": "crashbanzai.bsky.social",
           "displayName": "crAsh"
         },
-        "likeCount": 1,
-        "repostCount": 0,
+        "likeCount": 3,
+        "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-21T20:15:49.520Z",
-        "hoursSincePosted": 0.72
+        "hoursSincePosted": 2.43
       },
       "posts": [
         {
@@ -21282,13 +21338,13 @@
             "handle": "crashbanzai.bsky.social",
             "displayName": "crAsh"
           },
-          "likeCount": 1,
-          "repostCount": 0,
+          "likeCount": 3,
+          "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-21T20:15:49.520Z",
           "createdUtc": 1779394549,
-          "ageHours": 0.72,
-          "trendingScore": 1,
+          "ageHours": 2.43,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -21306,8 +21362,8 @@
   },
   "mentionsByRepoId": {
     "antirez--ds4": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -21319,11 +21375,11 @@
           "handle": "temujin9.t9productions.com",
           "displayName": "Prose and Khans"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T20:07:26.371Z",
-        "hoursSincePosted": 0.86
+        "hoursSincePosted": 2.57
       },
       "posts": [
         {
@@ -21391,13 +21447,13 @@
             "handle": "temujin9.t9productions.com",
             "displayName": "Prose and Khans"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-05-21T20:07:26.371Z",
           "createdUtc": 1779394046,
-          "ageHours": 0.86,
-          "trendingScore": 1.5,
+          "ageHours": 2.57,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -21454,6 +21510,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmfcrjhork27",
+          "cid": "bafyreihbnlelhferzqsojivgbmwhol7lqjicoevwq4l4vh53qde37mqimi",
+          "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmfcrjhork27",
+          "text": "lul... wie geil github.com/antirez/ds4/...",
+          "author": {
+            "handle": "arnomatic.bsky.social",
+            "displayName": "michaelh"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:59:08.721Z",
+          "createdUtc": 1779397148,
+          "ageHours": 1.7,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -23887,7 +23971,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T19:18:17.987Z",
-        "hoursSincePosted": 1.67
+        "hoursSincePosted": 3.39
       },
       "posts": [
         {
@@ -23932,7 +24016,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-21T19:18:17.987Z",
           "createdUtc": 1779391097,
-          "ageHours": 1.67,
+          "ageHours": 3.39,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -30572,22 +30656,22 @@
     },
     "openclaw--openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmesjdosgw2c",
-        "cid": "bafyreidbbifd4pck2lig7oin7xnkayivl5wz3ie4u572whdinyitvt4ukm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmesjdosgw2c",
-        "text": "🟠 OpenClaw beta adds a bundled Policy plugin, xAI device-code auth, and Discord voice-follow automation OpenClaw shipped pre-release v2026.5.20-beta.2 with several workflow-level changes, including a bundled... https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.2 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmfdaxvox52u",
+        "cid": "bafyreigibwahw6e7pd3tjjrpmwrgobrrivn7zd2dz7i7a3ndesv5252ev4",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmfdaxvox52u",
+        "text": "🟠 OpenClaw 2026.5.20 ships policy plugin, xAI device-code auth, and stronger approval hardening OpenClaw v2026.5.20 is a meaningful platform release, not a routine patch. https://github.com/openclaw/openclaw/releases/tag/v2026.5.20 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T16:08:13.205376+00:00",
-        "hoursSincePosted": 3.14
+        "createdAt": "2026-05-21T21:07:46.034718+00:00",
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
@@ -30716,6 +30800,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmfdaxvox52u",
+          "cid": "bafyreigibwahw6e7pd3tjjrpmwrgobrrivn7zd2dz7i7a3ndesv5252ev4",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmfdaxvox52u",
+          "text": "🟠 OpenClaw 2026.5.20 ships policy plugin, xAI device-code auth, and stronger approval hardening OpenClaw v2026.5.20 is a meaningful platform release, not a routine patch. https://github.com/openclaw/openclaw/releases/tag/v2026.5.20 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T21:07:46.034718+00:00",
+          "createdUtc": 1779397666,
+          "ageHours": 1.56,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -39630,7 +39742,7 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 2,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -39642,13 +39754,41 @@
           "handle": "apvarun.com",
           "displayName": "Varun"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T20:30:20.327Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.18
       },
       "posts": [
+        {
+          "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
+          "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
+          "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
+          "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
+          "author": {
+            "handle": "apvarun.com",
+            "displayName": "Varun"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:30:20.327Z",
+          "createdUtc": 1779395420,
+          "ageHours": 2.18,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
           "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
@@ -39759,34 +39899,6 @@
           ]
         },
         {
-          "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
-          "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
-          "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
-          "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
-          "author": {
-            "handle": "apvarun.com",
-            "displayName": "Varun"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-21T20:30:20.327Z",
-          "createdUtc": 1779395420,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "colbymchenry/codegraph",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
           "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmf72mzgib2j",
           "cid": "bafyreia723rb67oif3ftn7bqca43nq22got5qepzajeuoknjw4rlamu3r4",
           "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmf72mzgib2j",
@@ -39800,7 +39912,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:52:38.532829Z",
           "createdUtc": 1779393158,
-          "ageHours": 1.1,
+          "ageHours": 2.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -41220,7 +41332,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:00:01.244Z",
-        "hoursSincePosted": 1.98
+        "hoursSincePosted": 3.69
       },
       "posts": [
         {
@@ -41237,7 +41349,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:00:01.244Z",
           "createdUtc": 1779390001,
-          "ageHours": 1.98,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -42366,7 +42478,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:15:34.354876+00:00",
-        "hoursSincePosted": 1.72
+        "hoursSincePosted": 3.43
       },
       "posts": [
         {
@@ -42383,7 +42495,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:15:34.354876+00:00",
           "createdUtc": 1779390934,
-          "ageHours": 1.72,
+          "ageHours": 3.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -42416,7 +42528,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:02:41.055Z",
-        "hoursSincePosted": 1.93
+        "hoursSincePosted": 3.65
       },
       "posts": [
         {
@@ -42432,7 +42544,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:02:41.055Z",
           "createdUtc": 1779390161,
-          "ageHours": 1.93,
+          "ageHours": 3.65,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -42554,8 +42666,8 @@
     },
     "builtbybel--winslopr": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
+      "likesSum7d": 3,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:xv6zlxzizwfqa2fjmikzgu4e/app.bsky.feed.post/3mmfae2o6os2u",
@@ -42566,11 +42678,11 @@
           "handle": "crashbanzai.bsky.social",
           "displayName": "crAsh"
         },
-        "likeCount": 1,
-        "repostCount": 0,
+        "likeCount": 3,
+        "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-21T20:15:49.520Z",
-        "hoursSincePosted": 0.72
+        "hoursSincePosted": 2.43
       },
       "posts": [
         {
@@ -42582,13 +42694,13 @@
             "handle": "crashbanzai.bsky.social",
             "displayName": "crAsh"
           },
-          "likeCount": 1,
-          "repostCount": 0,
+          "likeCount": 3,
+          "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-21T20:15:49.520Z",
           "createdUtc": 1779394549,
-          "ageHours": 0.72,
-          "trendingScore": 1,
+          "ageHours": 2.43,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -42606,24 +42718,19 @@
   },
   "leaderboard": [
     {
-      "fullName": "antirez/ds4",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "builtbybel/Winslopr",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "antirez/ds4",
+      "count7d": 2,
+      "likesSum7d": 2
     },
     {
       "fullName": "colbymchenry/codegraph",
       "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "awslabs/aidlc-workflows",
@@ -42646,7 +42753,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "reubeno/brush",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-20T20:20:24.628Z",
-  "scanRunId": "sweep-2026-05-20T20:20:15.746Z",
+  "computedAt": "2026-05-21T03:53:58.009Z",
+  "scanRunId": "sweep-2026-05-21T03:53:47.489Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -271,7 +271,7 @@
     },
     "ruvnet/ruflo": {
       "fullName": "ruvnet/ruflo",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -288,6 +288,24 @@
                 "comments": 3
               },
               "observedAt": "2026-05-18T12:49:32.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "ruvnet/ruflo",
+              "url": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmcwlbcypx2s",
+              "title": "目前 Claude 的 agent 協作平台 Ruflo 已經開源。它主打多 agent 協作，能夠部署跨機器、跨團隊的 agent swarms，並支援 RAG 整合與 Claude Code 原生整合。 Ruflo 描述能協調 100+ 個專門的 AI agent，並提供自學習記憶和聯邦通訊功能。主要是在讓 agent 不只是獨立運行，而是能有效協作。對於想用 Claude 建構複雜 agen",
+              "text": "目前 Claude 的 agent 協作平台 Ruflo 已經開源。它主打多 agent 協作，能夠部署跨機器、跨團隊的 agent swarms，並支援 RAG 整合與 Claude Code 原生整合。 Ruflo 描述能協調 100+ 個專門的 AI agent，並提供自學習記憶和聯邦通訊功能。主要是在讓 agent 不只是獨立運行，而是能有效協作。對於想用 Claude 建構複雜 agent 系統的人來說，這個專案值得關注。 #Ruflo #Claude #AgentOrchestration #RAG https://github.com/ruvnet/ruflo",
+              "author": "wsx5031060310guy.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-20T22:15:34.464Z"
             }
           ]
         }
@@ -395,7 +413,7 @@
     },
     "rtk-ai/rtk": {
       "fullName": "rtk-ai/rtk",
-      "totalMentions7d": 8,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
           "count7d": 2,
@@ -429,7 +447,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -486,15 +504,15 @@
             {
               "source": "bluesky",
               "fullName": "rtk-ai/rtk",
-              "url": "https://bsky.app/profile/qdrddr.bsky.social/post/3mlre2zpuw227",
-              "title": "rtk — Your AI coding agent is drowning in CLI noise. RTK compresses outputs by 89%. Open source, Rust. github.com/rtk-ai/rtk",
-              "text": "rtk — Your AI coding agent is drowning in CLI noise. RTK compresses outputs by 89%. Open source, Rust. github.com/rtk-ai/rtk",
-              "author": "qdrddr.bsky.social",
+              "url": "https://bsky.app/profile/djioliat.bsky.social/post/3mlsmxfqbnc24",
+              "title": "Économisez des tokens Claude code ou autre agent IA avec : github.com/rtk-ai/rtk",
+              "text": "Économisez des tokens Claude code ou autre agent IA avec : github.com/rtk-ai/rtk",
+              "author": "djioliat.bsky.social",
               "engagement": {
-                "score": 1,
-                "comments": 1
+                "score": 0,
+                "comments": 0
               },
-              "observedAt": "2026-05-13T22:29:08.366Z"
+              "observedAt": "2026-05-14T10:40:47.862Z"
             }
           ]
         }
@@ -909,75 +927,23 @@
     },
     "AIDC-AI/Pixelle-Video": {
       "fullName": "AIDC-AI/Pixelle-Video",
-      "totalMentions7d": 58,
+      "totalMentions7d": 1,
       "perSource": {
-        "twitter": {
-          "count7d": 58,
+        "hackernews": {
+          "count7d": 1,
           "top": [
             {
-              "source": "twitter",
+              "source": "hackernews",
               "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/MrJohn100k/status/2053183237560975502",
-              "title": "Make ai generated video with your crush 🥵💦🏳️‍🌈 👇 https://t.co/yEsnp0m6aQ https://t.co/VxakZBS46R",
-              "text": "Make ai generated video with your crush 🥵💦🏳️‍🌈 👇 https://t.co/yEsnp0m6aQ https://t.co/VxakZBS46R",
-              "author": "MrJohn100k",
-              "engagement": {
-                "score": 17,
-                "comments": 0
-              },
-              "observedAt": "Sat May 09 18:40:04 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/_42________/status/2053180591575814304",
-              "title": "@DI313_ That is a fake AI video... https://t.co/b8LQI6mglI",
-              "text": "@DI313_ That is a fake AI video... https://t.co/b8LQI6mglI",
-              "author": "_42________",
-              "engagement": {
-                "score": 10,
-                "comments": 1
-              },
-              "observedAt": "Sat May 09 18:29:33 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/the_L_IronG/status/2053182854130196505",
-              "title": "Throwback to when India paraded its Rafale jets, BrahMos, and S-400 systems after the Pakistan war. This video is AI-generated but based on true story of what India faced during last year’s war with P",
-              "text": "Throwback to when India paraded its Rafale jets, BrahMos, and S-400 systems after the Pakistan war. This video is AI-generated but based on true story of what India faced during last year’s war with Pakistan. This is too funny, I still laugh at it 🤣🇮🇳 @memenist_ @HemanNamo https://t.co/RBLXNLWm3p",
-              "author": "the_L_IronG",
-              "engagement": {
-                "score": 9,
-                "comments": 0
-              },
-              "observedAt": "Sat May 09 18:38:33 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/theerealkira/status/2053180931536556259",
-              "title": "@updatesofcardi @ShenyengU This's ai right? Or must be an old video? Right?? https://t.co/qSUpBdiJ9w",
-              "text": "@updatesofcardi @ShenyengU This's ai right? Or must be an old video? Right?? https://t.co/qSUpBdiJ9w",
-              "author": "theerealkira",
-              "engagement": {
-                "score": 6,
-                "comments": 1
-              },
-              "observedAt": "Sat May 09 18:30:54 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/bonsaixbt/status/2053187485090336922",
-              "title": "Ordering TV-style ads for your brand has become incredibly easy and affordable This is a follow-up to my previous post where I talked about creating videos like these using AI Create a video like this",
-              "text": "Ordering TV-style ads for your brand has become incredibly easy and affordable This is a follow-up to my previous post where I talked about creating videos like these using AI Create a video like this for your business → upload it to Instagram/TikTok → get massive views and interest in your product for almost no cost I left the prompt for creating videos like these in the post below",
-              "author": "bonsaixbt",
+              "url": "https://www.youtube.com/watch?v=Ph-TMMku1xk",
+              "title": "Androids Are All Dying, Except Google Pixel [video]",
+              "text": "",
+              "author": "mgh2",
               "engagement": {
                 "score": 2,
                 "comments": 1
               },
-              "observedAt": "Sat May 09 18:56:57 +0000 2026"
+              "observedAt": "2026-05-21T02:32:11.000Z"
             }
           ]
         }
@@ -1161,24 +1127,11 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 14,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
-          "count7d": 14,
+          "count7d": 6,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://github.com/glouw/nibble",
-              "title": "Show HN: Nibble",
-              "text": "An attempt at a single pass LLVM frontend in ~3000 lines of C without external dependencies, malloc, or an AST. Included are some graphical examples. The IR isn&#x27;t perfect, and the README touches on one particular downfall",
-              "author": "glouwbug",
-              "engagement": {
-                "score": 102,
-                "comments": 25
-              },
-              "observedAt": "2026-05-14T01:46:45.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
@@ -1188,7 +1141,7 @@
               "author": "giuliomagnifico",
               "engagement": {
                 "score": 56,
-                "comments": 77
+                "comments": 78
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -1221,15 +1174,28 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://github.com/farukalpay/Aster-Learning-Engine",
-              "title": "I built a C++20 graphics/game engine to understand rendering",
+              "url": "https://github.com/NuxTuxSux/ASDL",
+              "title": "ASDL: Enable graphic programming when no other ways are easily viable",
               "text": "",
-              "author": "InstantSurface",
+              "author": "tosh",
               "engagement": {
-                "score": 6,
+                "score": 2,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T19:57:08.000Z"
+              "observedAt": "2026-05-19T15:08:04.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://moelsandco.com/stories/josef-muller-brockmann-a-pioneer-of-swiss-graphic-design",
+              "title": "Josef Müller-Brockmann: the father of the grid system in graphic design",
+              "text": "",
+              "author": "Michelangelo11",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-20T12:43:51.000Z"
             }
           ]
         }
@@ -3745,10 +3711,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 177,
+      "totalMentions7d": 164,
       "perSource": {
         "hackernews": {
-          "count7d": 177,
+          "count7d": 164,
           "top": [
             {
               "source": "hackernews",
@@ -3758,8 +3724,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 1397,
-                "comments": 599
+                "score": 1406,
+                "comments": 604
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
             },
@@ -3771,10 +3737,23 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1082,
-                "comments": 586
+                "score": 1085,
+                "comments": 587
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
+              "title": "An OpenAI model has disproved a central conjecture in discrete geometry",
+              "text": "",
+              "author": "tedsanders",
+              "engagement": {
+                "score": 830,
+                "comments": 623
+              },
+              "observedAt": "2026-05-20T19:05:30.000Z"
             },
             {
               "source": "hackernews",
@@ -3784,8 +3763,8 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 637,
-                "comments": 231
+                "score": 646,
+                "comments": 236
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -3801,19 +3780,6 @@
                 "comments": 247
               },
               "observedAt": "2026-05-14T20:06:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/MinishLab/semble",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
-              "author": "Bibabomas",
-              "engagement": {
-                "score": 441,
-                "comments": 150
-              },
-              "observedAt": "2026-05-17T15:37:07.000Z"
             }
           ]
         }
@@ -6170,11 +6136,24 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 32,
+      "totalMentions7d": 37,
       "perSource": {
         "hackernews": {
-          "count7d": 32,
+          "count7d": 37,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/world/middle-east/hormuz-closure-could-trigger-agrifood-shock-price-crisis-within-year-fao-warns-2026-05-20/",
+              "title": "Hormuz closure could trigger 'agrifood shock', price crisis within a year",
+              "text": "",
+              "author": "mooreds",
+              "engagement": {
+                "score": 88,
+                "comments": 30
+              },
+              "observedAt": "2026-05-20T16:41:00.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
@@ -6217,25 +6196,12 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/world/middle-east/hormuz-closure-could-trigger-agrifood-shock-price-crisis-within-year-fao-warns-2026-05-20/",
-              "title": "Hormuz closure could trigger 'agrifood shock', price crisis within a year",
-              "text": "",
-              "author": "mooreds",
-              "engagement": {
-                "score": 60,
-                "comments": 24
-              },
-              "observedAt": "2026-05-20T16:41:00.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
               "url": "https://github.com/InsForge/InsForge",
               "title": "Show HN: InsForge – Open-source Heroku for coding agents",
               "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
               "author": "mrcoldbrew",
               "engagement": {
-                "score": 59,
+                "score": 60,
                 "comments": 7
               },
               "observedAt": "2026-05-18T15:40:42.000Z"
@@ -6808,6 +6774,19 @@
             {
               "source": "bluesky",
               "fullName": "rohitg00/agentmemory",
+              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcpsfqhnt2s",
+              "title": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://g",
+              "text": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://github.com/rohitg00/agentmemory",
+              "author": "boardwire.bsky.social",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-20T20:14:18.368Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "rohitg00/agentmemory",
               "url": "https://bsky.app/profile/yug1224.com/post/3mlt57rzlku2w",
               "title": "AIコーディングエージェントに永続的な記憶機能を追加して文脈を保持させるツールっぽい 面倒な再説明を減らして作業を効率化したいときに使えそう yug1224 starred rohitg00/agentmemory https://github.com/rohitg00/agentmemory",
               "text": "AIコーディングエージェントに永続的な記憶機能を追加して文脈を保持させるツールっぽい 面倒な再説明を減らして作業を効率化したいときに使えそう yug1224 starred rohitg00/agentmemory https://github.com/rohitg00/agentmemory",
@@ -6817,19 +6796,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-14T15:31:49.865Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmcpsfqhnt2s",
-              "title": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://g",
-              "text": "Agent memory is becoming infrastructure for coding workflows. Agentmemory adds persistent state to AI coding agents based on real-world benchmarks. #Agentmemory #CodingAgents #AIWorkflows 🔗 https://github.com/rohitg00/agentmemory",
-              "author": "boardwire.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-20T20:14:18.368Z"
             },
             {
               "source": "bluesky",
@@ -7386,11 +7352,24 @@
     },
     "jundot/omlx": {
       "fullName": "jundot/omlx",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "jundot/omlx",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmdfjdcj5h2s",
+              "title": "https://github.com/jundot/omlx",
+              "text": "https://github.com/jundot/omlx",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T02:42:56.067Z"
+            },
             {
               "source": "bluesky",
               "fullName": "jundot/omlx",
@@ -7885,8 +7864,8 @@
               "text": "",
               "author": "cdrnsf",
               "engagement": {
-                "score": 98,
-                "comments": 87
+                "score": 114,
+                "comments": 107
               },
               "observedAt": "2026-05-20T16:55:17.000Z"
             },
@@ -8214,7 +8193,7 @@
               "text": "The Setup:<p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;nzOwmSC.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2",
               "author": "danybittel",
               "engagement": {
-                "score": 513,
+                "score": 517,
                 "comments": 195
               },
               "observedAt": "2026-05-19T10:38:47.000Z"
@@ -8993,7 +8972,7 @@
               "author": "MattRogish",
               "engagement": {
                 "score": 196,
-                "comments": 39
+                "comments": 40
               },
               "observedAt": "2026-05-15T15:42:37.000Z"
             }
@@ -9173,10 +9152,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 77,
+      "totalMentions7d": 81,
       "perSource": {
         "hackernews": {
-          "count7d": 77,
+          "count7d": 81,
           "top": [
             {
               "source": "hackernews",
@@ -9186,8 +9165,8 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 637,
-                "comments": 231
+                "score": 646,
+                "comments": 236
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -9199,23 +9178,10 @@
               "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
               "author": "lukaspetersson",
               "engagement": {
-                "score": 363,
+                "score": 365,
                 "comments": 271
               },
               "observedAt": "2026-05-18T18:12:18.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://news.ycombinator.com/item?id=48128003",
-              "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-              "text": "I wanted to try codex after 5 months of claude code max subscription. And then I went back to my previous projects on claude design only to realize I don&#x27;t have access to them anymore.<p>This is a first. I never lost access to any of my past sessions because I unsubscribed in any of the LLM apps.<p>I actually wanted to try out codex previously, but had similar experience with my credits. They gave extra credits equivalent to my montly subscription price, with some time limit because claude ",
-              "author": "pycassa",
-              "engagement": {
-                "score": 300,
-                "comments": 85
-              },
-              "observedAt": "2026-05-13T21:40:18.000Z"
             },
             {
               "source": "hackernews",
@@ -9226,7 +9192,7 @@
               "author": "asar",
               "engagement": {
                 "score": 282,
-                "comments": 221
+                "comments": 222
               },
               "observedAt": "2026-05-18T17:20:43.000Z"
             },
@@ -9242,6 +9208,19 @@
                 "comments": 65
               },
               "observedAt": "2026-05-16T23:59:47.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
+              "url": "https://www.thedrive.com/news/new-nightmare-just-dropped-3d-animated-ads-on-trucks-in-traffic",
+              "title": "A digital billboard company has the technology to make 3D ads on moving trucks",
+              "text": "",
+              "author": "cf100clunk",
+              "engagement": {
+                "score": 93,
+                "comments": 47
+              },
+              "observedAt": "2026-05-16T00:21:09.000Z"
             }
           ]
         }
@@ -9286,7 +9265,7 @@
     },
     "orailnoor/DroidDesk": {
       "fullName": "orailnoor/DroidDesk",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9307,7 +9286,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -9321,19 +9300,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T11:01:57.862Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "orailnoor/DroidDesk",
-              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlrppqisiu22",
-              "title": "https://github.com/orailnoor/DroidDesk",
-              "text": "https://github.com/orailnoor/DroidDesk",
-              "author": "tom-doerr.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T01:57:33.165Z"
             }
           ]
         }
@@ -9354,7 +9320,7 @@
               "text": "",
               "author": "gidellav",
               "engagement": {
-                "score": 570,
+                "score": 571,
                 "comments": 307
               },
               "observedAt": "2026-05-16T22:23:50.000Z"
@@ -9498,8 +9464,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 1397,
-                "comments": 599
+                "score": 1406,
+                "comments": 604
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
             },
@@ -9511,10 +9477,23 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1082,
-                "comments": 586
+                "score": 1085,
+                "comments": 587
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
+              "title": "An OpenAI model has disproved a central conjecture in discrete geometry",
+              "text": "",
+              "author": "tedsanders",
+              "engagement": {
+                "score": 830,
+                "comments": 622
+              },
+              "observedAt": "2026-05-20T19:05:30.000Z"
             },
             {
               "source": "hackernews",
@@ -9524,8 +9503,8 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 637,
-                "comments": 231
+                "score": 646,
+                "comments": 236
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -9541,19 +9520,6 @@
                 "comments": 247
               },
               "observedAt": "2026-05-14T20:06:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
-              "url": "https://openai.com/index/malta-chatgpt-plus-partnership/",
-              "title": "OpenAI and Government of Malta partner to roll out ChatGPT Plus to all citizens",
-              "text": "",
-              "author": "bookofjoe",
-              "engagement": {
-                "score": 331,
-                "comments": 338
-              },
-              "observedAt": "2026-05-16T20:14:06.000Z"
             }
           ]
         },

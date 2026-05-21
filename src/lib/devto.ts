@@ -253,8 +253,9 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
-    // Phase A.2: TOOLBOX_READ_DEVTO_MENTIONS=true routes through
-    // /v1/signals/leaderboard. Null return → legacy data-store path runs.
+    // Phase A.2 / A5 wave 2: TOOLBOX_READ_DEVTO_MENTIONS routes through
+    // /v1/signals/leaderboard by default (set to "false" to disable).
+    // Null return → legacy data-store path runs.
     const toolboxFile = await tryFetchDevtoFromToolbox();
     if (toolboxFile) {
       mentionsFile = toolboxFile;
@@ -276,7 +277,7 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
       const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
       alertAdapterFallthrough("devto", "toolbox_null_legacy_missing", {
         result_source: result.source,
-        had_toolbox_flag: process.env.TOOLBOX_READ_DEVTO_MENTIONS === "true",
+        had_toolbox_flag: process.env.TOOLBOX_READ_DEVTO_MENTIONS !== "false",
       });
     }
     lastRefreshMs = Date.now();
@@ -288,7 +289,8 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
 }
 
 async function tryFetchDevtoFromToolbox(): Promise<DevtoMentionsFile | null> {
-  if (process.env.TOOLBOX_READ_DEVTO_MENTIONS !== "true") return null;
+  // A5 wave 2: default ON. Set TOOLBOX_READ_DEVTO_MENTIONS=false to opt out.
+  if (process.env.TOOLBOX_READ_DEVTO_MENTIONS === "false") return null;
   const apiUrl = process.env.TOOLBOX_API_URL;
   const apiKey = process.env.TOOLBOX_API_KEY;
   if (!apiUrl || !apiKey) return null;

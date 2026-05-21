@@ -1,29 +1,29 @@
 {
-  "fetchedAt": "2026-05-21T19:16:31.391Z",
+  "fetchedAt": "2026-05-21T20:58:45.329Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:6e6n5nhhy7s2zqr7wx4s6p52/app.bsky.feed.post/3mmcyyov2ld26",
-        "cid": "bafyreiaw7jcl52lzdf4rph5zdr6rfnlqbcthau4nrlhcshlhallksvux2q",
-        "bskyUrl": "https://bsky.app/profile/bobbby.online/post/3mmcyyov2ld26",
-        "text": "The benchmarks are pretty clear considering its Mac hardware github.com/antirez/ds4/... I believe 250k context is the supported limit with the toys turned on",
+        "uri": "at://did:plc:wixdgg4ejykqrsoqgi7c2fk6/app.bsky.feed.post/3mmf7v2tcak2t",
+        "cid": "bafyreih46a3oxdshiecsqatpwyp4rwwd6prx2ft7azhk5vqdirt33saq6e",
+        "bskyUrl": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
+        "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
         "author": {
-          "handle": "bobbby.online",
-          "displayName": "Chimney Sweepers Local 420 FKA yburyug"
+          "handle": "temujin9.t9productions.com",
+          "displayName": "Prose and Khans"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-20T22:58:52.394Z",
-        "hoursSincePosted": 1.32
+        "replyCount": 1,
+        "createdAt": "2026-05-21T20:07:26.371Z",
+        "hoursSincePosted": 0.86
       },
       "posts": [
         {
@@ -70,6 +70,34 @@
           "createdUtc": 1779032824,
           "ageHours": 3.81,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wixdgg4ejykqrsoqgi7c2fk6/app.bsky.feed.post/3mmf7v2tcak2t",
+          "cid": "bafyreih46a3oxdshiecsqatpwyp4rwwd6prx2ft7azhk5vqdirt33saq6e",
+          "bskyUrl": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
+          "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
+          "author": {
+            "handle": "temujin9.t9productions.com",
+            "displayName": "Prose and Khans"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T20:07:26.371Z",
+          "createdUtc": 1779394046,
+          "ageHours": 0.86,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -2542,24 +2570,24 @@
       ]
     },
     "mattpocock/skills": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:cdknlriil722ljgv67csbfxi/app.bsky.feed.post/3mmeggkp2ek24",
-        "cid": "bafyreibqb4omnrncv2zbytuhiv7axufs4jczeesc53sn2vbfzfbr2o6wge",
-        "bskyUrl": "https://bsky.app/profile/tadachobi.bsky.social/post/3mmeggkp2ek24",
-        "text": "engineeringにはこっち使えと。 github.com/mattpocock/s...",
+        "uri": "at://did:plc:rfoxp4hc5fgthjfaaigyw3c2/app.bsky.feed.post/3mmf556zrxs23",
+        "cid": "bafyreihyrzqcmtrmikknerjusyppii2yidk6azrstdlig7ybqxttqldski",
+        "bskyUrl": "https://bsky.app/profile/francoisbest.com/post/3mmf556zrxs23",
+        "text": "Have you tried @mattpocock.com’s /grill-with-docs for this? github.com/mattpocock/s...",
         "author": {
-          "handle": "tadachobi.bsky.social",
-          "displayName": "ɔhobisuke"
+          "handle": "francoisbest.com",
+          "displayName": "François Best"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-21T12:31:56.147Z",
-        "hoursSincePosted": 1.01
+        "replyCount": 1,
+        "createdAt": "2026-05-21T19:18:17.987Z",
+        "hoursSincePosted": 1.67
       },
       "posts": [
         {
@@ -2582,6 +2610,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:rfoxp4hc5fgthjfaaigyw3c2/app.bsky.feed.post/3mmf556zrxs23",
+          "cid": "bafyreihyrzqcmtrmikknerjusyppii2yidk6azrstdlig7ybqxttqldski",
+          "bskyUrl": "https://bsky.app/profile/francoisbest.com/post/3mmf556zrxs23",
+          "text": "Have you tried @mattpocock.com’s /grill-with-docs for this? github.com/mattpocock/s...",
+          "author": {
+            "handle": "francoisbest.com",
+            "displayName": "François Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T19:18:17.987Z",
+          "createdUtc": 1779391097,
+          "ageHours": 1.67,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "mattpocock/skills",
@@ -5591,7 +5648,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T16:50:23.454Z",
-        "hoursSincePosted": 2.44
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -5748,7 +5805,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T16:50:23.454Z",
           "createdUtc": 1779382223,
-          "ageHours": 2.44,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -18272,24 +18329,24 @@
       ]
     },
     "colbymchenry/codegraph": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
-        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+        "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
+        "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
+        "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
+        "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "apvarun.com",
+          "displayName": "Varun"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "replyCount": 0,
+        "createdAt": "2026-05-21T20:30:20.327Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -18394,6 +18451,62 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
+          "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
+          "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
+          "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
+          "author": {
+            "handle": "apvarun.com",
+            "displayName": "Varun"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:30:20.327Z",
+          "createdUtc": 1779395420,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmf72mzgib2j",
+          "cid": "bafyreia723rb67oif3ftn7bqca43nq22got5qepzajeuoknjw4rlamu3r4",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmf72mzgib2j",
+          "text": "Codegraph ships a local code knowledge graph for AI editors. Pre-indexed 100% local graph cuts tokens and tool calls for Claude Code, Codex, Cursor, and OpenCode #Codegraph #ClaudeCode #Codex 🔗 https://github.com/colbymchenry/codegraph",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:52:38.532829Z",
+          "createdUtc": 1779393158,
+          "ageHours": 1.1,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
               "matchType": "url",
@@ -19790,7 +19903,7 @@
       ]
     },
     "kageroumado/phosphene": {
-      "count7d": 4,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -19807,7 +19920,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:00:01.244Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.98
       },
       "posts": [
         {
@@ -19824,7 +19937,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:00:01.244Z",
           "createdUtc": 1779390001,
-          "ageHours": 0.5,
+          "ageHours": 1.98,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -20953,7 +21066,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:15:34.354876+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.72
       },
       "posts": [
         {
@@ -20970,7 +21083,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:15:34.354876+00:00",
           "createdUtc": 1779390934,
-          "ageHours": 0.5,
+          "ageHours": 1.72,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -21003,7 +21116,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:02:41.055Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.93
       },
       "posts": [
         {
@@ -21019,7 +21132,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:02:41.055Z",
           "createdUtc": 1779390161,
-          "ageHours": 0.5,
+          "ageHours": 1.93,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -21054,7 +21167,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T17:27:44.000Z",
-        "hoursSincePosted": 1.81
+        "hoursSincePosted": 3.52
       },
       "posts": [
         {
@@ -21071,7 +21184,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T17:27:44.000Z",
           "createdUtc": 1779384464,
-          "ageHours": 1.81,
+          "ageHours": 3.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -21138,28 +21251,79 @@
           ]
         }
       ]
+    },
+    "builtbybel/Winslopr": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:xv6zlxzizwfqa2fjmikzgu4e/app.bsky.feed.post/3mmfae2o6os2u",
+        "cid": "bafyreiajgly7rjjbpp6de7rrtbcvgbi5wqln5sr7y6bnjassr35cqmmvou",
+        "bskyUrl": "https://bsky.app/profile/crashbanzai.bsky.social/post/3mmfae2o6os2u",
+        "text": "i've used shutup10 and it seemed to help I also made a note to check out winslopr (but I haven't yet) www.oo-software.com/en/shutup10 github.com/builtbybel/W...",
+        "author": {
+          "handle": "crashbanzai.bsky.social",
+          "displayName": "crAsh"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T20:15:49.520Z",
+        "hoursSincePosted": 0.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:xv6zlxzizwfqa2fjmikzgu4e/app.bsky.feed.post/3mmfae2o6os2u",
+          "cid": "bafyreiajgly7rjjbpp6de7rrtbcvgbi5wqln5sr7y6bnjassr35cqmmvou",
+          "bskyUrl": "https://bsky.app/profile/crashbanzai.bsky.social/post/3mmfae2o6os2u",
+          "text": "i've used shutup10 and it seemed to help I also made a note to check out winslopr (but I haven't yet) www.oo-software.com/en/shutup10 github.com/builtbybel/W...",
+          "author": {
+            "handle": "crashbanzai.bsky.social",
+            "displayName": "crAsh"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:15:49.520Z",
+          "createdUtc": 1779394549,
+          "ageHours": 0.72,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "builtbybel/Winslopr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "antirez--ds4": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:6e6n5nhhy7s2zqr7wx4s6p52/app.bsky.feed.post/3mmcyyov2ld26",
-        "cid": "bafyreiaw7jcl52lzdf4rph5zdr6rfnlqbcthau4nrlhcshlhallksvux2q",
-        "bskyUrl": "https://bsky.app/profile/bobbby.online/post/3mmcyyov2ld26",
-        "text": "The benchmarks are pretty clear considering its Mac hardware github.com/antirez/ds4/... I believe 250k context is the supported limit with the toys turned on",
+        "uri": "at://did:plc:wixdgg4ejykqrsoqgi7c2fk6/app.bsky.feed.post/3mmf7v2tcak2t",
+        "cid": "bafyreih46a3oxdshiecsqatpwyp4rwwd6prx2ft7azhk5vqdirt33saq6e",
+        "bskyUrl": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
+        "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
         "author": {
-          "handle": "bobbby.online",
-          "displayName": "Chimney Sweepers Local 420 FKA yburyug"
+          "handle": "temujin9.t9productions.com",
+          "displayName": "Prose and Khans"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-20T22:58:52.394Z",
-        "hoursSincePosted": 1.32
+        "replyCount": 1,
+        "createdAt": "2026-05-21T20:07:26.371Z",
+        "hoursSincePosted": 0.86
       },
       "posts": [
         {
@@ -21206,6 +21370,34 @@
           "createdUtc": 1779032824,
           "ageHours": 3.81,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wixdgg4ejykqrsoqgi7c2fk6/app.bsky.feed.post/3mmf7v2tcak2t",
+          "cid": "bafyreih46a3oxdshiecsqatpwyp4rwwd6prx2ft7azhk5vqdirt33saq6e",
+          "bskyUrl": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
+          "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
+          "author": {
+            "handle": "temujin9.t9productions.com",
+            "displayName": "Prose and Khans"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T20:07:26.371Z",
+          "createdUtc": 1779394046,
+          "ageHours": 0.86,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -23678,24 +23870,24 @@
       ]
     },
     "mattpocock--skills": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:cdknlriil722ljgv67csbfxi/app.bsky.feed.post/3mmeggkp2ek24",
-        "cid": "bafyreibqb4omnrncv2zbytuhiv7axufs4jczeesc53sn2vbfzfbr2o6wge",
-        "bskyUrl": "https://bsky.app/profile/tadachobi.bsky.social/post/3mmeggkp2ek24",
-        "text": "engineeringにはこっち使えと。 github.com/mattpocock/s...",
+        "uri": "at://did:plc:rfoxp4hc5fgthjfaaigyw3c2/app.bsky.feed.post/3mmf556zrxs23",
+        "cid": "bafyreihyrzqcmtrmikknerjusyppii2yidk6azrstdlig7ybqxttqldski",
+        "bskyUrl": "https://bsky.app/profile/francoisbest.com/post/3mmf556zrxs23",
+        "text": "Have you tried @mattpocock.com’s /grill-with-docs for this? github.com/mattpocock/s...",
         "author": {
-          "handle": "tadachobi.bsky.social",
-          "displayName": "ɔhobisuke"
+          "handle": "francoisbest.com",
+          "displayName": "François Best"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-21T12:31:56.147Z",
-        "hoursSincePosted": 1.01
+        "replyCount": 1,
+        "createdAt": "2026-05-21T19:18:17.987Z",
+        "hoursSincePosted": 1.67
       },
       "posts": [
         {
@@ -23718,6 +23910,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:rfoxp4hc5fgthjfaaigyw3c2/app.bsky.feed.post/3mmf556zrxs23",
+          "cid": "bafyreihyrzqcmtrmikknerjusyppii2yidk6azrstdlig7ybqxttqldski",
+          "bskyUrl": "https://bsky.app/profile/francoisbest.com/post/3mmf556zrxs23",
+          "text": "Have you tried @mattpocock.com’s /grill-with-docs for this? github.com/mattpocock/s...",
+          "author": {
+            "handle": "francoisbest.com",
+            "displayName": "François Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T19:18:17.987Z",
+          "createdUtc": 1779391097,
+          "ageHours": 1.67,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "mattpocock/skills",
@@ -26727,7 +26948,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T16:50:23.454Z",
-        "hoursSincePosted": 2.44
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -26884,7 +27105,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T16:50:23.454Z",
           "createdUtc": 1779382223,
-          "ageHours": 2.44,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -39408,24 +39629,24 @@
       ]
     },
     "colbymchenry--codegraph": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
-        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+        "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
+        "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
+        "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
+        "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "apvarun.com",
+          "displayName": "Varun"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "replyCount": 0,
+        "createdAt": "2026-05-21T20:30:20.327Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -39530,6 +39751,62 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
+          "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
+          "bskyUrl": "https://bsky.app/profile/apvarun.com/post/3mmfb5zfee72x",
+          "text": "Knowledge graph for your agents is a very cool ideas 🔥 https://github.com/colbymchenry/codegraph",
+          "author": {
+            "handle": "apvarun.com",
+            "displayName": "Varun"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:30:20.327Z",
+          "createdUtc": 1779395420,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmf72mzgib2j",
+          "cid": "bafyreia723rb67oif3ftn7bqca43nq22got5qepzajeuoknjw4rlamu3r4",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmf72mzgib2j",
+          "text": "Codegraph ships a local code knowledge graph for AI editors. Pre-indexed 100% local graph cuts tokens and tool calls for Claude Code, Codex, Cursor, and OpenCode #Codegraph #ClaudeCode #Codex 🔗 https://github.com/colbymchenry/codegraph",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:52:38.532829Z",
+          "createdUtc": 1779393158,
+          "ageHours": 1.1,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "colbymchenry/codegraph",
               "matchType": "url",
@@ -40926,7 +41203,7 @@
       ]
     },
     "kageroumado--phosphene": {
-      "count7d": 4,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -40943,7 +41220,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:00:01.244Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.98
       },
       "posts": [
         {
@@ -40960,7 +41237,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:00:01.244Z",
           "createdUtc": 1779390001,
-          "ageHours": 0.5,
+          "ageHours": 1.98,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -42089,7 +42366,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:15:34.354876+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.72
       },
       "posts": [
         {
@@ -42106,7 +42383,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:15:34.354876+00:00",
           "createdUtc": 1779390934,
-          "ageHours": 0.5,
+          "ageHours": 1.72,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -42139,7 +42416,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T19:02:41.055Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.93
       },
       "posts": [
         {
@@ -42155,7 +42432,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T19:02:41.055Z",
           "createdUtc": 1779390161,
-          "ageHours": 0.5,
+          "ageHours": 1.93,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -42190,7 +42467,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T17:27:44.000Z",
-        "hoursSincePosted": 1.81
+        "hoursSincePosted": 3.52
       },
       "posts": [
         {
@@ -42207,7 +42484,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T17:27:44.000Z",
           "createdUtc": 1779384464,
-          "ageHours": 1.81,
+          "ageHours": 3.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -42274,52 +42551,73 @@
           ]
         }
       ]
+    },
+    "builtbybel--winslopr": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:xv6zlxzizwfqa2fjmikzgu4e/app.bsky.feed.post/3mmfae2o6os2u",
+        "cid": "bafyreiajgly7rjjbpp6de7rrtbcvgbi5wqln5sr7y6bnjassr35cqmmvou",
+        "bskyUrl": "https://bsky.app/profile/crashbanzai.bsky.social/post/3mmfae2o6os2u",
+        "text": "i've used shutup10 and it seemed to help I also made a note to check out winslopr (but I haven't yet) www.oo-software.com/en/shutup10 github.com/builtbybel/W...",
+        "author": {
+          "handle": "crashbanzai.bsky.social",
+          "displayName": "crAsh"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T20:15:49.520Z",
+        "hoursSincePosted": 0.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:xv6zlxzizwfqa2fjmikzgu4e/app.bsky.feed.post/3mmfae2o6os2u",
+          "cid": "bafyreiajgly7rjjbpp6de7rrtbcvgbi5wqln5sr7y6bnjassr35cqmmvou",
+          "bskyUrl": "https://bsky.app/profile/crashbanzai.bsky.social/post/3mmfae2o6os2u",
+          "text": "i've used shutup10 and it seemed to help I also made a note to check out winslopr (but I haven't yet) www.oo-software.com/en/shutup10 github.com/builtbybel/W...",
+          "author": {
+            "handle": "crashbanzai.bsky.social",
+            "displayName": "crAsh"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T20:15:49.520Z",
+          "createdUtc": 1779394549,
+          "ageHours": 0.72,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "builtbybel/Winslopr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-plugins-official",
+      "fullName": "antirez/ds4",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "can1357/oh-my-pi",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "ChromeDevTools/chrome-devtools-mcp",
+      "fullName": "builtbybel/Winslopr",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "colbymchenry/codegraph",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "CoplayDev/unity-mcp",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "rohitg00/ai-engineering-from-scratch",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "teng-lin/notebooklm-py",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "kageroumado/phosphene",
-      "count7d": 4,
+      "count7d": 2,
       "likesSum7d": 0
     },
     {
@@ -42338,17 +42636,17 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "HKUDS/CLI-Anything",
+      "fullName": "kageroumado/phosphene",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "mattpocock/skills",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "reubeno/brush",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ruvnet/RuView",
       "count7d": 1,
       "likesSum7d": 0
     }

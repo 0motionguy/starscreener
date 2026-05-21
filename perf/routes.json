@@ -256,6 +256,36 @@
       "firstLoadJsBudgetKb": 600,
       "warmupOnDeploy": false,
       "owner": "drop"
+    },
+    {
+      "route": "/about",
+      "policy": "isr",
+      "revalidateSeconds": 3600,
+      "ttfbBudgetMs": { "cached": 600, "uncached": 1400 },
+      "transferBudgetKb": 90,
+      "firstLoadJsBudgetKb": 450,
+      "warmupOnDeploy": false,
+      "owner": "marketing"
+    },
+    {
+      "route": "/contact",
+      "policy": "isr",
+      "revalidateSeconds": 3600,
+      "ttfbBudgetMs": { "cached": 600, "uncached": 1400 },
+      "transferBudgetKb": 90,
+      "firstLoadJsBudgetKb": 450,
+      "warmupOnDeploy": false,
+      "owner": "marketing"
+    },
+    {
+      "route": "/methodology",
+      "policy": "isr",
+      "revalidateSeconds": 3600,
+      "ttfbBudgetMs": { "cached": 600, "uncached": 1400 },
+      "transferBudgetKb": 90,
+      "firstLoadJsBudgetKb": 450,
+      "warmupOnDeploy": false,
+      "owner": "marketing"
     }
   ]
 }

@@ -253,11 +253,11 @@ const nextConfig: NextConfig = {
 
       // ---- T4 — Retired marketing pages → / ------------------------------
       // No v6 replacement; the legacy URLs are not coming back at these paths.
-      { source: "/about", destination: "/", permanent: true },
-      { source: "/contact", destination: "/", permanent: true },
+      // /about, /contact, /methodology used to redirect to / but were rebuilt
+      // as native v6 pages (2026-05-21) — see src/app/{about,contact,methodology}/page.tsx.
+      // Removing the redirects lets the App Router serve the pages directly.
       // /submit was the repo-submission flow; v6 renamed it /drop.
       { source: "/submit", destination: "/drop", permanent: true },
-      { source: "/methodology", destination: "/", permanent: true },
       // NOTE: /docs is deliberately NOT redirected. It is a live route
       // handler (src/app/docs/route.ts) that 307s to /reference.html for
       // the Redoc API reference. Adding a redirect here would shadow it

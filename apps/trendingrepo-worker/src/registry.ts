@@ -48,6 +48,7 @@ import consensusAnalyst from './fetchers/consensus-analyst/index.js';
 // hackernews/producthunt/reddit replaced their stub bodies in place and so
 // their existing imports above pick up the real implementations transparently.
 import lobsters from './fetchers/lobsters/index.js';
+import twitter from './fetchers/twitter/index.js';
 // Tier 2 audit fixes — operator-curated data file producers (close the
 // chicken-egg gaps that left `manual-repos` + `revenue-manual-matches`
 // consumed-but-never-produced under worker-only mode).
@@ -112,6 +113,7 @@ export const FETCHERS: Fetcher[] = [
   producthunt,
   devto,
   reddit,
+  twitter,
   npmDownloads,
   pypiDownloads,
   npmDependents,

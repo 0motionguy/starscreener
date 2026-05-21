@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-21T03:54:15.697Z",
+  "fetchedAt": "2026-05-21T09:45:11.874Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1279,
+  "scannedArticles": 1286,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 14,
+    "global-rising": 13,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -194,14 +194,14 @@
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 29,
-    "tag-workflow-top-7d": 25,
+    "tag-workflow-top-7d": 27,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 24,
-    "tag-n8n-top-7d": 35,
+    "tag-n8n-top-7d": 36,
     "tag-opensource-top-7d": 100
   },
   "articles": [
@@ -692,6 +692,27 @@
         "machinelearning"
       ],
       "trendingScore": 18.05,
+      "linkedRepos": []
+    },
+    {
+      "id": 3712137,
+      "title": "Every Developer Is Lying About Something — And AI Won’t Fix It",
+      "description": "Yes, all of us are lying. And you are probably lying too. Let me prove it 😉  Oh, I have so many...",
+      "url": "https://dev.to/sylwia-lask/every-developer-is-lying-about-something-and-ai-wont-fix-it-4im0",
+      "author": {
+        "username": "sylwia-lask",
+        "name": "Sylwia Laskowska",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3535771%2Fe22860d5-274b-43c9-819b-56b162e5bd5a.jpeg"
+      },
+      "reactionsCount": 18,
+      "commentsCount": 11,
+      "readingTime": 6,
+      "publishedAt": "2026-05-21T07:06:41Z",
+      "tags": [
+        "discuss",
+        "productivity"
+      ],
+      "trendingScore": 17.96,
       "linkedRepos": []
     },
     {
@@ -2031,6 +2052,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3711382,
+      "title": "Seasons time-lapse - the foundations",
+      "description": "I live close to nature. I regularly go for a run in the countryside. Over several years, during my...",
+      "url": "https://dev.to/nfrankel/seasons-time-lapse-the-foundations-4d4b",
+      "author": {
+        "username": "nfrankel",
+        "name": "Nicolas Fränkel",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F362557%2F479d9637-2db0-4b0a-8070-edbe538c4180.jpg"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 0,
+      "readingTime": 3,
+      "publishedAt": "2026-05-21T09:02:00Z",
+      "tags": [
+        "python",
+        "ai",
+        "art",
+        "timelapse"
+      ],
+      "trendingScore": 4.85,
+      "linkedRepos": []
+    },
+    {
       "id": 3632223,
       "title": "The Language Wars Are Over. The Ground Shifted Without You.",
       "description": "I stopped caring which language someone uses. Somewhere in the last eighteen months, that happened...",
@@ -2143,6 +2187,29 @@
         "beginners"
       ],
       "trendingScore": 4.68,
+      "linkedRepos": []
+    },
+    {
+      "id": 3693415,
+      "title": "Working With Japanese Clients Humbled Me Faster Than I Expected",
+      "description": "About three months ago, after clearing JLPT N3, which is considered a good level in Japanese and gets...",
+      "url": "https://dev.to/itsugo/working-with-japanese-clients-humbled-me-faster-than-i-expected-49da",
+      "author": {
+        "username": "itsugo",
+        "name": "Aryan Choudhary",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
+      },
+      "reactionsCount": 37,
+      "commentsCount": 12,
+      "readingTime": 5,
+      "publishedAt": "2026-05-20T05:27:44Z",
+      "tags": [
+        "learning",
+        "leadership",
+        "career",
+        "softwareengineering"
+      ],
+      "trendingScore": 4.51,
       "linkedRepos": []
     },
     {
@@ -2447,74 +2514,6 @@
         "tooling"
       ],
       "trendingScore": 3.87,
-      "linkedRepos": []
-    },
-    {
-      "id": 3628919,
-      "title": "Using Appium Inspector: Full Guide + Why Drizz Doesn't Need It",
-      "description": "Appium has been the industry standard for mobile test automation for over a decade, a free,...",
-      "url": "https://dev.to/drizzdev/using-appium-inspector-full-guide-why-drizz-doesnt-need-it-41f0",
-      "author": {
-        "username": "jaysaadana",
-        "name": "Jay Saadana",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2093572%2Fa52d91c1-919e-4ee2-95fa-cf548f56b949.jpeg"
-      },
-      "reactionsCount": 63,
-      "commentsCount": 47,
-      "readingTime": 13,
-      "publishedAt": "2026-05-08T07:52:47Z",
-      "tags": [
-        "ai",
-        "android",
-        "ios",
-        "mobile"
-      ],
-      "trendingScore": 3.87,
-      "linkedRepos": []
-    },
-    {
-      "id": 3654674,
-      "title": "It's live. Tollere is on the App Store.",
-      "description": "I wrote about this a few weeks ago. My wife and I had a shopping list app we built for ourselves,...",
-      "url": "https://dev.to/stokry/its-live-tollere-is-on-the-app-store-581o",
-      "author": {
-        "username": "stokry",
-        "name": "Stokry",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F160180%2Fbe40180c-377f-457b-a5ae-0ec95a66fe2b.png"
-      },
-      "reactionsCount": 7,
-      "commentsCount": 2,
-      "readingTime": 2,
-      "publishedAt": "2026-05-12T06:53:08Z",
-      "tags": [
-        "showdev",
-        "ios",
-        "swift"
-      ],
-      "trendingScore": 3.7,
-      "linkedRepos": []
-    },
-    {
-      "id": 3609152,
-      "title": "A LinkedIn Recruiter Sent Me Malware Disguised as a \"Pre-Interview Code Review\"",
-      "description": "A recruiter pitched me a remote engineering role and asked me to review their codebase before the technical interview. The repo turned out to be a five-stage trojan that exfiltrates your environment variables and gives the attacker arbitrary code execution. Here's exactly what wa",
-      "url": "https://dev.to/vladimirnovick/a-linkedin-recruiter-sent-me-malware-disguised-as-a-pre-interview-code-review-2k3j",
-      "author": {
-        "username": "vladimirnovick",
-        "name": "Vladimir Novick",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F134361%2F2e49c6a6-15f9-4413-9aae-d8de5ef5e06b.jpg"
-      },
-      "reactionsCount": 75,
-      "commentsCount": 9,
-      "readingTime": 6,
-      "publishedAt": "2026-05-04T13:23:38Z",
-      "tags": [
-        "security",
-        "webdev",
-        "javascript",
-        "node"
-      ],
-      "trendingScore": 3.66,
       "linkedRepos": []
     }
   ]

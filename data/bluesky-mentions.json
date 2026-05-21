@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-21T16:49:37.786Z",
+  "fetchedAt": "2026-05-21T19:16:31.391Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -5577,21 +5577,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mnn3crmu2mwkgv4fqyixdasf/app.bsky.feed.post/3mmdgzxc4d627",
-        "cid": "bafyreiamioeqq6daq62ztpuuwzmueoylovh5k37zz7xc2fgebjbdmujmky",
-        "bskyUrl": "https://bsky.app/profile/gslin.bsky.social/post/3mmdgzxc4d627",
-        "text": "https://github.com/anthropics/claude-code/issues/18170 這邊看到 /tui fullscreen 看起來可以處理掉 copy & paste 的問題...",
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmeuupmiuc27",
+        "cid": "bafyreicbwbtmrmvdwl44troppwqgj4zk2g3g7qvoplkyd7vuwm6jsgeomi",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmeuupmiuc27",
+        "text": "Claude Code 2.1.146 release change log github.com/anthropics/c...",
         "author": {
-          "handle": "gslin.bsky.social",
-          "displayName": "Gea-Suan Lin"
+          "handle": "georgesl.bsky.social",
+          "displayName": "George"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T03:10:07.018806+00:00",
-        "hoursSincePosted": 2.17
+        "replyCount": 0,
+        "createdAt": "2026-05-21T16:50:23.454Z",
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -5726,6 +5726,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmeuupmiuc27",
+          "cid": "bafyreicbwbtmrmvdwl44troppwqgj4zk2g3g7qvoplkyd7vuwm6jsgeomi",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmeuupmiuc27",
+          "text": "Claude Code 2.1.146 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T16:50:23.454Z",
+          "createdUtc": 1779382223,
+          "ageHours": 2.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -9201,7 +9230,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T16:08:13.205376+00:00",
-        "hoursSincePosted": 0.69
+        "hoursSincePosted": 3.14
       },
       "posts": [
         {
@@ -9273,7 +9302,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T16:08:13.205376+00:00",
           "createdUtc": 1779379693,
-          "ageHours": 0.69,
+          "ageHours": 3.14,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -13541,7 +13570,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:23:04.856120Z",
-        "hoursSincePosted": 1.44
+        "hoursSincePosted": 3.89
       },
       "posts": [
         {
@@ -13591,7 +13620,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:23:04.856120Z",
           "createdUtc": 1779376984,
-          "ageHours": 1.44,
+          "ageHours": 3.89,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -15820,7 +15849,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:49:23.015Z",
-        "hoursSincePosted": 1
+        "hoursSincePosted": 3.45
       },
       "posts": [
         {
@@ -15865,7 +15894,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:49:23.015Z",
           "createdUtc": 1779378563,
-          "ageHours": 1,
+          "ageHours": 3.45,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -18260,7 +18289,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -18277,7 +18306,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -19100,7 +19129,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -19117,7 +19146,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -19761,26 +19790,54 @@
       ]
     },
     "kageroumado/phosphene": {
-      "count7d": 2,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
-        "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
-        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmesa4ahgf2d",
-        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene [comments] [366 points]",
+        "uri": "at://did:plc:x4f3xqmbhekcjeze33exlxjo/app.bsky.feed.post/3mmf44k5kt72l",
+        "cid": "bafyreif3mfz4jsfatp7msropz3wiomvf4tgcozqp3qz4nm2dsdiuzyngli",
+        "bskyUrl": "https://bsky.app/profile/southbaytoday.bsky.social/post/3mmf44k5kt72l",
+        "text": "Apple spent real care on those video wallpapers — built at Cupertino, subtle, beautiful. Someone just reverse-engineered the whole format and published it on GitHub. Curiosity wins. 🍎 https://github.com/kageroumado/phosphene",
         "author": {
-          "handle": "hnfeed.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "southbaytoday.bsky.social",
+          "displayName": "The South Bay Today"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T16:03:04.496Z",
-        "hoursSincePosted": 0.78
+        "createdAt": "2026-05-21T19:00:01.244Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:x4f3xqmbhekcjeze33exlxjo/app.bsky.feed.post/3mmf44k5kt72l",
+          "cid": "bafyreif3mfz4jsfatp7msropz3wiomvf4tgcozqp3qz4nm2dsdiuzyngli",
+          "bskyUrl": "https://bsky.app/profile/southbaytoday.bsky.social/post/3mmf44k5kt72l",
+          "text": "Apple spent real care on those video wallpapers — built at Cupertino, subtle, beautiful. Someone just reverse-engineered the whole format and published it on GitHub. Curiosity wins. 🍎 https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "southbaytoday.bsky.social",
+            "displayName": "The South Bay Today"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:00:01.244Z",
+          "createdUtc": 1779390001,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
           "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
@@ -19795,7 +19852,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T16:03:04.496Z",
           "createdUtc": 1779379384,
-          "ageHours": 0.78,
+          "ageHours": 3.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19823,7 +19880,35 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:31:48.827Z",
           "createdUtc": 1779377508,
-          "ageHours": 1.3,
+          "ageHours": 3.75,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mmep5ruphl2z",
+          "cid": "bafyreidtjt7wixugksuxdz4lsrkpqoavttaiy4qrupr3pjhiqjvlfis4zi",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mmep5ruphl2z",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene https://news.ycombinator.com/item?id=48215979",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:08:05Z",
+          "createdUtc": 1779376085,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -20604,7 +20689,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -20621,7 +20706,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -20670,7 +20755,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -20687,7 +20772,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -20736,7 +20821,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -20753,7 +20838,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -20802,7 +20887,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -20819,7 +20904,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -20843,6 +20928,210 @@
             },
             {
               "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "awslabs/aidlc-workflows": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmf4yd43w72j",
+        "cid": "bafyreidd6tckjbiivor3dqc6hjys54jj4u5ayficlxffnnr6fu52krbiti",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmf4yd43w72j",
+        "text": "aidlc-workflows AI-Driven Life Cycle (AI-DLC) adaptive workflow steering rules for AI coding agents. https://github.com/awslabs/aidlc-workflows",
+        "author": {
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T19:15:34.354876+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmf4yd43w72j",
+          "cid": "bafyreidd6tckjbiivor3dqc6hjys54jj4u5ayficlxffnnr6fu52krbiti",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmf4yd43w72j",
+          "text": "aidlc-workflows AI-Driven Life Cycle (AI-DLC) adaptive workflow steering rules for AI coding agents. https://github.com/awslabs/aidlc-workflows",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:15:34.354876+00:00",
+          "createdUtc": 1779390934,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "awslabs/aidlc-workflows",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "github/github-mcp-server": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tsp6lfo25kjtulmjeafrqbkr/app.bsky.feed.post/3mmf4bbiudk2w",
+        "cid": "bafyreiaqvuqwcsu2uovxarazkjmqm5tclsk3bt52cfzxp2ic26sm5mkmzu",
+        "bskyUrl": "https://bsky.app/profile/pamelafox.bsky.social/post/3mmf4bbiudk2w",
+        "text": "The GitHub MCP server added a dedicated tool for replying to inline PR comments! github.com/github/githu... I updated my review-pr-comments skill to use it: github.com/pamelafox/re... I love to collaboratively triage PR comments with Copilot- I can more quickly decide to accept/reject.",
+        "author": {
+          "handle": "pamelafox.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T19:02:41.055Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tsp6lfo25kjtulmjeafrqbkr/app.bsky.feed.post/3mmf4bbiudk2w",
+          "cid": "bafyreiaqvuqwcsu2uovxarazkjmqm5tclsk3bt52cfzxp2ic26sm5mkmzu",
+          "bskyUrl": "https://bsky.app/profile/pamelafox.bsky.social/post/3mmf4bbiudk2w",
+          "text": "The GitHub MCP server added a dedicated tool for replying to inline PR comments! github.com/github/githu... I updated my review-pr-comments skill to use it: github.com/pamelafox/re... I love to collaboratively triage PR comments with Copilot- I can more quickly decide to accept/reject.",
+          "author": {
+            "handle": "pamelafox.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:02:41.055Z",
+          "createdUtc": 1779390161,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "github/github-mcp-server",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "reubeno/brush": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmewxiel222o",
+        "cid": "bafyreigvadi6g7ercrxnsc2h74btac6i6cdj57jyil3jnqcifkuvk7mf5m",
+        "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmewxiel222o",
+        "text": "github.com/reubeno/brush Rust製Bash/POSIX互換シェルあるやん",
+        "author": {
+          "handle": "wizaman.net",
+          "displayName": "ウィザまん(wizaman)"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T17:27:44.000Z",
+        "hoursSincePosted": 1.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmewxiel222o",
+          "cid": "bafyreigvadi6g7ercrxnsc2h74btac6i6cdj57jyil3jnqcifkuvk7mf5m",
+          "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmewxiel222o",
+          "text": "github.com/reubeno/brush Rust製Bash/POSIX互換シェルあるやん",
+          "author": {
+            "handle": "wizaman.net",
+            "displayName": "ウィザまん(wizaman)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T17:27:44.000Z",
+          "createdUtc": 1779384464,
+          "ageHours": 1.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "reubeno/brush",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "CoplayDev/unity-mcp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:egymjjk6rg6td4wzhyxqnwlm/app.bsky.feed.post/3mmeorweq2226",
+        "cid": "bafyreie6f5k2o74qr5hny353iybtayybdo7bipfc3jkaa6ilekkgijd7dq",
+        "bskyUrl": "https://bsky.app/profile/karashiiro.moe/post/3mmeorweq2226",
+        "text": "Actually there are a few Unity MCP servers so this is the specific one I used: github.com/CoplayDev/un...",
+        "author": {
+          "handle": "karashiiro.moe",
+          "displayName": "Kara"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T15:01:27.425Z",
+        "hoursSincePosted": 4.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egymjjk6rg6td4wzhyxqnwlm/app.bsky.feed.post/3mmeorweq2226",
+          "cid": "bafyreie6f5k2o74qr5hny353iybtayybdo7bipfc3jkaa6ilekkgijd7dq",
+          "bskyUrl": "https://bsky.app/profile/karashiiro.moe/post/3mmeorweq2226",
+          "text": "Actually there are a few Unity MCP servers so this is the specific one I used: github.com/CoplayDev/un...",
+          "author": {
+            "handle": "karashiiro.moe",
+            "displayName": "Kara"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T15:01:27.425Z",
+          "createdUtc": 1779375687,
+          "ageHours": 4.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "CoplayDev/unity-mcp",
               "matchType": "url",
               "confidence": 1
             }
@@ -26424,21 +26713,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mnn3crmu2mwkgv4fqyixdasf/app.bsky.feed.post/3mmdgzxc4d627",
-        "cid": "bafyreiamioeqq6daq62ztpuuwzmueoylovh5k37zz7xc2fgebjbdmujmky",
-        "bskyUrl": "https://bsky.app/profile/gslin.bsky.social/post/3mmdgzxc4d627",
-        "text": "https://github.com/anthropics/claude-code/issues/18170 這邊看到 /tui fullscreen 看起來可以處理掉 copy & paste 的問題...",
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmeuupmiuc27",
+        "cid": "bafyreicbwbtmrmvdwl44troppwqgj4zk2g3g7qvoplkyd7vuwm6jsgeomi",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmeuupmiuc27",
+        "text": "Claude Code 2.1.146 release change log github.com/anthropics/c...",
         "author": {
-          "handle": "gslin.bsky.social",
-          "displayName": "Gea-Suan Lin"
+          "handle": "georgesl.bsky.social",
+          "displayName": "George"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T03:10:07.018806+00:00",
-        "hoursSincePosted": 2.17
+        "replyCount": 0,
+        "createdAt": "2026-05-21T16:50:23.454Z",
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -26573,6 +26862,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmeuupmiuc27",
+          "cid": "bafyreicbwbtmrmvdwl44troppwqgj4zk2g3g7qvoplkyd7vuwm6jsgeomi",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmeuupmiuc27",
+          "text": "Claude Code 2.1.146 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T16:50:23.454Z",
+          "createdUtc": 1779382223,
+          "ageHours": 2.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -30048,7 +30366,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T16:08:13.205376+00:00",
-        "hoursSincePosted": 0.69
+        "hoursSincePosted": 3.14
       },
       "posts": [
         {
@@ -30120,7 +30438,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T16:08:13.205376+00:00",
           "createdUtc": 1779379693,
-          "ageHours": 0.69,
+          "ageHours": 3.14,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -34388,7 +34706,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:23:04.856120Z",
-        "hoursSincePosted": 1.44
+        "hoursSincePosted": 3.89
       },
       "posts": [
         {
@@ -34438,7 +34756,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:23:04.856120Z",
           "createdUtc": 1779376984,
-          "ageHours": 1.44,
+          "ageHours": 3.89,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -36667,7 +36985,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:49:23.015Z",
-        "hoursSincePosted": 1
+        "hoursSincePosted": 3.45
       },
       "posts": [
         {
@@ -36712,7 +37030,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:49:23.015Z",
           "createdUtc": 1779378563,
-          "ageHours": 1,
+          "ageHours": 3.45,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -39107,7 +39425,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -39124,7 +39442,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -39947,7 +40265,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -39964,7 +40282,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -40608,26 +40926,54 @@
       ]
     },
     "kageroumado--phosphene": {
-      "count7d": 2,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
-        "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
-        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmesa4ahgf2d",
-        "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene [comments] [366 points]",
+        "uri": "at://did:plc:x4f3xqmbhekcjeze33exlxjo/app.bsky.feed.post/3mmf44k5kt72l",
+        "cid": "bafyreif3mfz4jsfatp7msropz3wiomvf4tgcozqp3qz4nm2dsdiuzyngli",
+        "bskyUrl": "https://bsky.app/profile/southbaytoday.bsky.social/post/3mmf44k5kt72l",
+        "text": "Apple spent real care on those video wallpapers — built at Cupertino, subtle, beautiful. Someone just reverse-engineered the whole format and published it on GitHub. Curiosity wins. 🍎 https://github.com/kageroumado/phosphene",
         "author": {
-          "handle": "hnfeed.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "southbaytoday.bsky.social",
+          "displayName": "The South Bay Today"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T16:03:04.496Z",
-        "hoursSincePosted": 0.78
+        "createdAt": "2026-05-21T19:00:01.244Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:x4f3xqmbhekcjeze33exlxjo/app.bsky.feed.post/3mmf44k5kt72l",
+          "cid": "bafyreif3mfz4jsfatp7msropz3wiomvf4tgcozqp3qz4nm2dsdiuzyngli",
+          "bskyUrl": "https://bsky.app/profile/southbaytoday.bsky.social/post/3mmf44k5kt72l",
+          "text": "Apple spent real care on those video wallpapers — built at Cupertino, subtle, beautiful. Someone just reverse-engineered the whole format and published it on GitHub. Curiosity wins. 🍎 https://github.com/kageroumado/phosphene",
+          "author": {
+            "handle": "southbaytoday.bsky.social",
+            "displayName": "The South Bay Today"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:00:01.244Z",
+          "createdUtc": 1779390001,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmesa4ahgf2d",
           "cid": "bafyreicxuu4bazzonuxzgxggnbb6ixd4mellxl5s6ifbshc35t2gicqwli",
@@ -40642,7 +40988,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T16:03:04.496Z",
           "createdUtc": 1779379384,
-          "ageHours": 0.78,
+          "ageHours": 3.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -40670,7 +41016,35 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:31:48.827Z",
           "createdUtc": 1779377508,
-          "ageHours": 1.3,
+          "ageHours": 3.75,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mmep5ruphl2z",
+          "cid": "bafyreidtjt7wixugksuxdz4lsrkpqoavttaiy4qrupr3pjhiqjvlfis4zi",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mmep5ruphl2z",
+          "text": "Show HN: I reverse engineered Apple's video wallpapers https://github.com/kageroumado/phosphene https://news.ycombinator.com/item?id=48215979",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T15:08:05Z",
+          "createdUtc": 1779376085,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -41451,7 +41825,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -41468,7 +41842,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -41517,7 +41891,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -41534,7 +41908,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -41583,7 +41957,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -41600,7 +41974,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -41649,7 +42023,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 1.46
+        "hoursSincePosted": 3.9
       },
       "posts": [
         {
@@ -41666,7 +42040,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-21T15:22:16.000Z",
           "createdUtc": 1779376936,
-          "ageHours": 1.46,
+          "ageHours": 3.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -41690,6 +42064,210 @@
             },
             {
               "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "awslabs--aidlc-workflows": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmf4yd43w72j",
+        "cid": "bafyreidd6tckjbiivor3dqc6hjys54jj4u5ayficlxffnnr6fu52krbiti",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmf4yd43w72j",
+        "text": "aidlc-workflows AI-Driven Life Cycle (AI-DLC) adaptive workflow steering rules for AI coding agents. https://github.com/awslabs/aidlc-workflows",
+        "author": {
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T19:15:34.354876+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmf4yd43w72j",
+          "cid": "bafyreidd6tckjbiivor3dqc6hjys54jj4u5ayficlxffnnr6fu52krbiti",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmf4yd43w72j",
+          "text": "aidlc-workflows AI-Driven Life Cycle (AI-DLC) adaptive workflow steering rules for AI coding agents. https://github.com/awslabs/aidlc-workflows",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:15:34.354876+00:00",
+          "createdUtc": 1779390934,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "awslabs/aidlc-workflows",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "github--github-mcp-server": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tsp6lfo25kjtulmjeafrqbkr/app.bsky.feed.post/3mmf4bbiudk2w",
+        "cid": "bafyreiaqvuqwcsu2uovxarazkjmqm5tclsk3bt52cfzxp2ic26sm5mkmzu",
+        "bskyUrl": "https://bsky.app/profile/pamelafox.bsky.social/post/3mmf4bbiudk2w",
+        "text": "The GitHub MCP server added a dedicated tool for replying to inline PR comments! github.com/github/githu... I updated my review-pr-comments skill to use it: github.com/pamelafox/re... I love to collaboratively triage PR comments with Copilot- I can more quickly decide to accept/reject.",
+        "author": {
+          "handle": "pamelafox.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T19:02:41.055Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tsp6lfo25kjtulmjeafrqbkr/app.bsky.feed.post/3mmf4bbiudk2w",
+          "cid": "bafyreiaqvuqwcsu2uovxarazkjmqm5tclsk3bt52cfzxp2ic26sm5mkmzu",
+          "bskyUrl": "https://bsky.app/profile/pamelafox.bsky.social/post/3mmf4bbiudk2w",
+          "text": "The GitHub MCP server added a dedicated tool for replying to inline PR comments! github.com/github/githu... I updated my review-pr-comments skill to use it: github.com/pamelafox/re... I love to collaboratively triage PR comments with Copilot- I can more quickly decide to accept/reject.",
+          "author": {
+            "handle": "pamelafox.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T19:02:41.055Z",
+          "createdUtc": 1779390161,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "github/github-mcp-server",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "reubeno--brush": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmewxiel222o",
+        "cid": "bafyreigvadi6g7ercrxnsc2h74btac6i6cdj57jyil3jnqcifkuvk7mf5m",
+        "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmewxiel222o",
+        "text": "github.com/reubeno/brush Rust製Bash/POSIX互換シェルあるやん",
+        "author": {
+          "handle": "wizaman.net",
+          "displayName": "ウィザまん(wizaman)"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-21T17:27:44.000Z",
+        "hoursSincePosted": 1.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmewxiel222o",
+          "cid": "bafyreigvadi6g7ercrxnsc2h74btac6i6cdj57jyil3jnqcifkuvk7mf5m",
+          "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmewxiel222o",
+          "text": "github.com/reubeno/brush Rust製Bash/POSIX互換シェルあるやん",
+          "author": {
+            "handle": "wizaman.net",
+            "displayName": "ウィザまん(wizaman)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-21T17:27:44.000Z",
+          "createdUtc": 1779384464,
+          "ageHours": 1.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "reubeno/brush",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "coplaydev--unity-mcp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:egymjjk6rg6td4wzhyxqnwlm/app.bsky.feed.post/3mmeorweq2226",
+        "cid": "bafyreie6f5k2o74qr5hny353iybtayybdo7bipfc3jkaa6ilekkgijd7dq",
+        "bskyUrl": "https://bsky.app/profile/karashiiro.moe/post/3mmeorweq2226",
+        "text": "Actually there are a few Unity MCP servers so this is the specific one I used: github.com/CoplayDev/un...",
+        "author": {
+          "handle": "karashiiro.moe",
+          "displayName": "Kara"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-21T15:01:27.425Z",
+        "hoursSincePosted": 4.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egymjjk6rg6td4wzhyxqnwlm/app.bsky.feed.post/3mmeorweq2226",
+          "cid": "bafyreie6f5k2o74qr5hny353iybtayybdo7bipfc3jkaa6ilekkgijd7dq",
+          "bskyUrl": "https://bsky.app/profile/karashiiro.moe/post/3mmeorweq2226",
+          "text": "Actually there are a few Unity MCP servers so this is the specific one I used: github.com/CoplayDev/un...",
+          "author": {
+            "handle": "karashiiro.moe",
+            "displayName": "Kara"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-21T15:01:27.425Z",
+          "createdUtc": 1779375687,
+          "ageHours": 4.25,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "CoplayDev/unity-mcp",
               "matchType": "url",
               "confidence": 1
             }
@@ -41720,6 +42298,11 @@
       "likesSum7d": 1
     },
     {
+      "fullName": "CoplayDev/unity-mcp",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 1
@@ -41736,11 +42319,31 @@
     },
     {
       "fullName": "kageroumado/phosphene",
-      "count7d": 2,
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "awslabs/aidlc-workflows",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "github/github-mcp-server",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "HKUDS/CLI-Anything",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "reubeno/brush",
       "count7d": 1,
       "likesSum7d": 0
     },

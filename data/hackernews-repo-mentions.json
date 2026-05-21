@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-21T11:47:45.261Z",
+  "fetchedAt": "2026-05-21T14:30:41.340Z",
   "windowDays": 7,
   "scannedAlgoliaHits": 731,
   "scannedFirebaseItems": 500,
@@ -52,7 +52,7 @@
         "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
         "score": 442,
         "url": "https://github.com/MinishLab/semble",
-        "hoursSincePosted": 92.18
+        "hoursSincePosted": 94.89
       },
       "everHitFrontPage": false,
       "stories": [
@@ -64,9 +64,9 @@
           "score": 442,
           "descendants": 150,
           "createdUtc": 1779032227,
-          "ageHours": 92.18,
-          "velocity": 4.8,
-          "trendingScore": 203.17,
+          "ageHours": 94.89,
+          "velocity": 4.66,
+          "trendingScore": 197.24,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -87,13 +87,13 @@
     },
     "wiltodelta/remove-ai-watermarks": {
       "count7d": 1,
-      "scoreSum7d": 378,
+      "scoreSum7d": 381,
       "topStory": {
         "id": 48200569,
         "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
-        "score": 378,
+        "score": 381,
         "url": "https://github.com/wiltodelta/remove-ai-watermarks",
-        "hoursSincePosted": 37.29
+        "hoursSincePosted": 40
       },
       "everHitFrontPage": false,
       "stories": [
@@ -102,12 +102,12 @@
           "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
           "url": "https://github.com/wiltodelta/remove-ai-watermarks",
           "by": "janalsncm",
-          "score": 378,
-          "descendants": 252,
+          "score": 381,
+          "descendants": 253,
           "createdUtc": 1779229831,
-          "ageHours": 37.29,
-          "velocity": 10.14,
-          "trendingScore": 684.76,
+          "ageHours": 40,
+          "velocity": 9.52,
+          "trendingScore": 646.2,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -124,6 +124,46 @@
         }
       ]
     },
+    "kageroumado/phosphene": {
+      "count7d": 1,
+      "scoreSum7d": 353,
+      "topStory": {
+        "id": 48215979,
+        "title": "Show HN: I reverse engineered Apple's video wallpapers",
+        "score": 353,
+        "url": "https://github.com/kageroumado/phosphene",
+        "hoursSincePosted": 14.61
+      },
+      "everHitFrontPage": true,
+      "stories": [
+        {
+          "id": 48215979,
+          "title": "Show HN: I reverse engineered Apple's video wallpapers",
+          "url": "https://github.com/kageroumado/phosphene",
+          "by": "kageroumado",
+          "score": 353,
+          "descendants": 82,
+          "createdUtc": 1779321246,
+          "ageHours": 14.61,
+          "velocity": 24.16,
+          "trendingScore": 566.3,
+          "everHitFrontPage": true,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Ever since Apple introduced their video wallpapers I wanted to be able to put custom videos there. I decided to reverse engineer and see what I can do. I built Phosphene to sell it, but the existing competitors were polished enough that the time it would have taken to catch up wasn't going to pay off. So I'm open-sourcing it. WallpaperExtensionKit.framework is what powers macOS wallpapers. It controls what’s shows in the Settings app. It took a lot of trial and error to replicate the behavior, b",
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "stephenlthorn/auto-identity-remove": {
       "count7d": 1,
       "scoreSum7d": 324,
@@ -132,7 +172,7 @@
         "title": "Show HN: Auto-identity-remove – Automated data broker opt-out runner for macOS",
         "score": 324,
         "url": "https://github.com/stephenlthorn/auto-identity-remove",
-        "hoursSincePosted": 72.25
+        "hoursSincePosted": 74.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -144,9 +184,9 @@
           "score": 324,
           "descendants": 135,
           "createdUtc": 1779103962,
-          "ageHours": 72.25,
-          "velocity": 4.48,
-          "trendingScore": 163.09,
+          "ageHours": 74.97,
+          "velocity": 4.32,
+          "trendingScore": 157.26,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -157,46 +197,6 @@
           "linkedRepos": [
             {
               "fullName": "stephenlthorn/auto-identity-remove",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "kageroumado/phosphene": {
-      "count7d": 1,
-      "scoreSum7d": 318,
-      "topStory": {
-        "id": 48215979,
-        "title": "Show HN: I reverse engineered Apple's video wallpapers",
-        "score": 318,
-        "url": "https://github.com/kageroumado/phosphene",
-        "hoursSincePosted": 11.89
-      },
-      "everHitFrontPage": true,
-      "stories": [
-        {
-          "id": 48215979,
-          "title": "Show HN: I reverse engineered Apple's video wallpapers",
-          "url": "https://github.com/kageroumado/phosphene",
-          "by": "kageroumado",
-          "score": 318,
-          "descendants": 74,
-          "createdUtc": 1779321246,
-          "ageHours": 11.89,
-          "velocity": 26.74,
-          "trendingScore": 562.09,
-          "everHitFrontPage": true,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Ever since Apple introduced their video wallpapers I wanted to be able to put custom videos there. I decided to reverse engineer and see what I can do. I built Phosphene to sell it, but the existing competitors were polished enough that the time it would have taken to catch up wasn't going to pay off. So I'm open-sourcing it. WallpaperExtensionKit.framework is what powers macOS wallpapers. It controls what’s shows in the Settings app. It took a lot of trial and error to replicate the behavior, b",
-          "linkedRepos": [
-            {
-              "fullName": "kageroumado/phosphene",
               "matchType": "url",
               "confidence": 1
             }
@@ -251,7 +251,7 @@
         "title": "Claude for Legal",
         "score": 225,
         "url": "https://github.com/anthropics/claude-for-legal",
-        "hoursSincePosted": 158.71
+        "hoursSincePosted": 161.43
       },
       "everHitFrontPage": false,
       "stories": [
@@ -263,9 +263,9 @@
           "score": 225,
           "descendants": 193,
           "createdUtc": 1778792705,
-          "ageHours": 158.71,
-          "velocity": 1.42,
-          "trendingScore": 67.8,
+          "ageHours": 161.43,
+          "velocity": 1.39,
+          "trendingScore": 66.37,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -290,7 +290,7 @@
         "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
         "score": 196,
         "url": "https://github.com/neilsonnn/image-blaster",
-        "hoursSincePosted": 140.09
+        "hoursSincePosted": 142.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -302,9 +302,9 @@
           "score": 196,
           "descendants": 40,
           "createdUtc": 1778859757,
-          "ageHours": 140.09,
-          "velocity": 1.4,
-          "trendingScore": 16.05,
+          "ageHours": 142.8,
+          "velocity": 1.37,
+          "trendingScore": 15.7,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -400,6 +400,46 @@
         }
       ]
     },
+    "kouhxp/yapsnap": {
+      "count7d": 1,
+      "scoreSum7d": 83,
+      "topStory": {
+        "id": 48214399,
+        "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
+        "score": 83,
+        "url": "https://github.com/kouhxp/yapsnap",
+        "hoursSincePosted": 17.04
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48214399,
+          "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
+          "url": "https://github.com/kouhxp/yapsnap",
+          "by": "mrkn1",
+          "score": 83,
+          "descendants": 37,
+          "createdUtc": 1779312508,
+          "ageHours": 17.04,
+          "velocity": 4.87,
+          "trendingScore": 43.93,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Imbad0202/academic-research-skills": {
       "count7d": 1,
       "scoreSum7d": 82,
@@ -480,46 +520,6 @@
         }
       ]
     },
-    "kouhxp/yapsnap": {
-      "count7d": 1,
-      "scoreSum7d": 78,
-      "topStory": {
-        "id": 48214399,
-        "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
-        "score": 78,
-        "url": "https://github.com/kouhxp/yapsnap",
-        "hoursSincePosted": 14.32
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48214399,
-          "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
-          "url": "https://github.com/kouhxp/yapsnap",
-          "by": "mrkn1",
-          "score": 78,
-          "descendants": 26,
-          "createdUtc": 1779312508,
-          "ageHours": 14.32,
-          "velocity": 5.45,
-          "trendingScore": 37.12,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "kouhxp/yapsnap",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "dtnewman/burn-baby-burn": {
       "count7d": 1,
       "scoreSum7d": 61,
@@ -568,7 +568,7 @@
         "title": "Show HN: InsForge – Open-source Heroku for coding agents",
         "score": 61,
         "url": "https://github.com/InsForge/InsForge",
-        "hoursSincePosted": 68.12
+        "hoursSincePosted": 70.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -580,9 +580,9 @@
           "score": 61,
           "descendants": 7,
           "createdUtc": 1779118842,
-          "ageHours": 68.12,
-          "velocity": 0.9,
-          "trendingScore": 2.73,
+          "ageHours": 70.83,
+          "velocity": 0.86,
+          "trendingScore": 2.61,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -608,7 +608,7 @@
         "title": "Show HN: Sx – an open-source package manager for AI skills, MCPs, and commands",
         "score": 50,
         "url": "https://github.com/sleuth-io/sx",
-        "hoursSincePosted": 138.74
+        "hoursSincePosted": 141.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -620,9 +620,9 @@
           "score": 50,
           "descendants": 28,
           "createdUtc": 1778864602,
-          "ageHours": 138.74,
-          "velocity": 0.36,
-          "trendingScore": 2.32,
+          "ageHours": 141.46,
+          "velocity": 0.35,
+          "trendingScore": 2.26,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -726,7 +726,7 @@
         "title": "Graphing Scientific Calculator Based on the ESP32",
         "score": 38,
         "url": "https://github.com/El-EnderJ/NeoCalculator",
-        "hoursSincePosted": 142.3
+        "hoursSincePosted": 145.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -738,9 +738,9 @@
           "score": 38,
           "descendants": 11,
           "createdUtc": 1778851792,
-          "ageHours": 142.3,
-          "velocity": 0.27,
-          "trendingScore": 0.9,
+          "ageHours": 145.01,
+          "velocity": 0.26,
+          "trendingScore": 0.86,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -805,7 +805,7 @@
         "title": "Show HN: Codiff, a local diff review tool",
         "score": 30,
         "url": "https://github.com/nkzw-tech/codiff/releases",
-        "hoursSincePosted": 102.29
+        "hoursSincePosted": 105.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -817,7 +817,7 @@
           "score": 30,
           "descendants": 21,
           "createdUtc": 1778995814,
-          "ageHours": 102.29,
+          "ageHours": 105.01,
           "velocity": 0.29,
           "trendingScore": 1.33,
           "everHitFrontPage": false,
@@ -884,7 +884,7 @@
         "title": "Zero: The Programming Language for Agents",
         "score": 10,
         "url": "https://github.com/vercel-labs/zero",
-        "hoursSincePosted": 120.26
+        "hoursSincePosted": 122.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -896,7 +896,7 @@
           "score": 10,
           "descendants": 1,
           "createdUtc": 1778931122,
-          "ageHours": 120.26,
+          "ageHours": 122.98,
           "velocity": 0.08,
           "trendingScore": 0.09,
           "everHitFrontPage": false,
@@ -921,7 +921,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101039,
-          "ageHours": 73.06,
+          "ageHours": 75.78,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -946,9 +946,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779221986,
-          "ageHours": 39.47,
-          "velocity": 0.08,
-          "trendingScore": 0.04,
+          "ageHours": 42.18,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -971,7 +971,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779061528,
-          "ageHours": 84.04,
+          "ageHours": 86.75,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -998,7 +998,7 @@
         "title": "Show HN: IResearch – C++ search that beat Lucene and Tantivy on their benchmark",
         "score": 14,
         "url": "https://github.com/serenedb/serenedb/tree/main/libs/iresearch",
-        "hoursSincePosted": 25.44
+        "hoursSincePosted": 28.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1010,9 +1010,9 @@
           "score": 14,
           "descendants": 3,
           "createdUtc": 1779272466,
-          "ageHours": 25.44,
-          "velocity": 0.55,
-          "trendingScore": 0.82,
+          "ageHours": 28.16,
+          "velocity": 0.5,
+          "trendingScore": 0.74,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1036,7 +1036,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778836680,
-          "ageHours": 146.5,
+          "ageHours": 149.21,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1064,7 +1064,7 @@
         "title": "CC: Anthropic API Error: 500 Internal Server Error",
         "score": 5,
         "url": "https://github.com/anthropics/claude-code/issues/59743",
-        "hoursSincePosted": 113.64
+        "hoursSincePosted": 116.36
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1076,7 +1076,7 @@
           "score": 5,
           "descendants": 2,
           "createdUtc": 1778954958,
-          "ageHours": 113.64,
+          "ageHours": 116.36,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1167,7 +1167,7 @@
         "title": "WiFi Spatial Sensing",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 23.59
+        "hoursSincePosted": 26.3
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1179,7 +1179,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779279152,
-          "ageHours": 23.59,
+          "ageHours": 26.3,
           "velocity": 0.08,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1206,7 +1206,7 @@
         "title": "OpenUI Ported to Assembly",
         "score": 4,
         "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 134.91
+        "hoursSincePosted": 137.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1218,7 +1218,7 @@
           "score": 4,
           "descendants": 2,
           "createdUtc": 1778878374,
-          "ageHours": 134.91,
+          "ageHours": 137.63,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1243,7 +1243,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778921276,
-          "ageHours": 123,
+          "ageHours": 125.71,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1268,7 +1268,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779020924,
-          "ageHours": 95.32,
+          "ageHours": 98.03,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1334,7 +1334,7 @@
         "title": "Nous Research edits GitHub issue to remove plagiarism claims about Hermes Agent",
         "score": 7,
         "url": "https://github.com/NousResearch/hermes-agent/issues/10232",
-        "hoursSincePosted": 59.73
+        "hoursSincePosted": 62.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1346,9 +1346,9 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1779149028,
-          "ageHours": 59.73,
-          "velocity": 0.12,
-          "trendingScore": 0.1,
+          "ageHours": 62.45,
+          "velocity": 0.11,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1636,7 +1636,7 @@
         "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
         "score": 5,
         "url": "https://github.com/byrongamatos/slopsmith",
-        "hoursSincePosted": 148.55
+        "hoursSincePosted": 151.26
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1648,7 +1648,7 @@
           "score": 5,
           "descendants": 1,
           "createdUtc": 1778829297,
-          "ageHours": 148.55,
+          "ageHours": 151.26,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1870,7 +1870,7 @@
         "title": "DroidDesk: Turns Android Phone into Linux Desktop",
         "score": 4,
         "url": "https://github.com/orailnoor/DroidDesk",
-        "hoursSincePosted": 116.35
+        "hoursSincePosted": 119.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1882,7 +1882,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778945207,
-          "ageHours": 116.35,
+          "ageHours": 119.07,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1909,7 +1909,7 @@
         "title": "Awesome DESIGN.md",
         "score": 4,
         "url": "https://github.com/VoltAgent/awesome-design-md/",
-        "hoursSincePosted": 72.9
+        "hoursSincePosted": 75.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1921,7 +1921,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101630,
-          "ageHours": 72.9,
+          "ageHours": 75.61,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -2143,7 +2143,7 @@
         "title": "Zerostack – Tiny Rust Coding Agent in 8MB of RAM",
         "score": 3,
         "url": "https://github.com/gi-dellav/zerostack/tree/main",
-        "hoursSincePosted": 109.44
+        "hoursSincePosted": 112.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2155,7 +2155,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778970093,
-          "ageHours": 109.44,
+          "ageHours": 112.15,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2174,46 +2174,6 @@
         }
       ]
     },
-    "elliotgao2/handsets": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 48219188,
-        "title": "Show HN: Handsets – A high-performance Android control CLI, built for agents",
-        "score": 3,
-        "url": "https://github.com/elliotgao2/handsets",
-        "hoursSincePosted": 4.08
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48219188,
-          "title": "Show HN: Handsets – A high-performance Android control CLI, built for agents",
-          "url": "https://github.com/elliotgao2/handsets",
-          "by": "gaojiuli",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1779349380,
-          "ageHours": 4.08,
-          "velocity": 0.74,
-          "trendingScore": 0.35,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "elliotgao2/handsets",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "rtk-ai/rtk": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -2222,7 +2182,7 @@
         "title": "RTK: Rust Token Killer",
         "score": 2,
         "url": "https://github.com/rtk-ai/rtk",
-        "hoursSincePosted": 36.22
+        "hoursSincePosted": 38.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2234,8 +2194,8 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1779233676,
-          "ageHours": 36.22,
-          "velocity": 0.06,
+          "ageHours": 38.93,
+          "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2261,7 +2221,7 @@
         "title": "More Than Skills, Frameworks",
         "score": 1,
         "url": "https://github.com/mattpocock/skills",
-        "hoursSincePosted": 46.89
+        "hoursSincePosted": 49.6
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2273,7 +2233,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779195276,
-          "ageHours": 46.89,
+          "ageHours": 49.6,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2300,7 +2260,7 @@
         "title": "Miro Fish: Predicting Anything",
         "score": 1,
         "url": "https://github.com/666ghj/MiroFish",
-        "hoursSincePosted": 51.4
+        "hoursSincePosted": 54.12
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2312,7 +2272,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779179023,
-          "ageHours": 51.4,
+          "ageHours": 54.12,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2339,7 +2299,7 @@
         "title": "Evolving specs (2025)",
         "score": 1,
         "url": "https://github.com/github/spec-kit/discussions/152",
-        "hoursSincePosted": 52
+        "hoursSincePosted": 54.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2351,7 +2311,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779176882,
-          "ageHours": 52,
+          "ageHours": 54.71,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2378,7 +2338,7 @@
         "title": "Savepoint – A CLI for TDD",
         "score": 2,
         "url": "https://github.com/NamtaoProductions/savepoint",
-        "hoursSincePosted": 154.66
+        "hoursSincePosted": 157.38
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2390,7 +2350,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1778807283,
-          "ageHours": 154.66,
+          "ageHours": 157.38,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2417,7 +2377,7 @@
         "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
         "score": 2,
         "url": "https://github.com/czlonkowski/n8n-mcp",
-        "hoursSincePosted": 122.63
+        "hoursSincePosted": 125.35
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2429,7 +2389,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778922585,
-          "ageHours": 122.63,
+          "ageHours": 125.35,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2456,7 +2416,7 @@
         "title": "DeerFlow 2.0 – Deep Exploration and Efficient Research Flow",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 77.64
+        "hoursSincePosted": 80.36
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2468,7 +2428,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779084550,
-          "ageHours": 77.64,
+          "ageHours": 80.36,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2495,7 +2455,7 @@
         "title": "Open-Source, Plugin-Driven Geospatial Intelligence Engine",
         "score": 1,
         "url": "https://github.com/silvertakana/worldwideview",
-        "hoursSincePosted": 78.77
+        "hoursSincePosted": 81.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2507,7 +2467,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779080491,
-          "ageHours": 78.77,
+          "ageHours": 81.49,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2534,7 +2494,7 @@
         "title": "MiniPlasma",
         "score": 1,
         "url": "https://github.com/Nightmare-Eclipse/MiniPlasma",
-        "hoursSincePosted": 117.28
+        "hoursSincePosted": 120
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2546,7 +2506,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778941857,
-          "ageHours": 117.28,
+          "ageHours": 120,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2573,7 +2533,7 @@
         "title": "Write HTML. Render video. Built for agents",
         "score": 1,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 136.96
+        "hoursSincePosted": 139.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2585,7 +2545,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778871024,
-          "ageHours": 136.96,
+          "ageHours": 139.67,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2654,7 +2614,7 @@
         "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
         "score": 442,
         "url": "https://github.com/MinishLab/semble",
-        "hoursSincePosted": 92.18
+        "hoursSincePosted": 94.89
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2666,9 +2626,9 @@
           "score": 442,
           "descendants": 150,
           "createdUtc": 1779032227,
-          "ageHours": 92.18,
-          "velocity": 4.8,
-          "trendingScore": 203.17,
+          "ageHours": 94.89,
+          "velocity": 4.66,
+          "trendingScore": 197.24,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2689,13 +2649,13 @@
     },
     "wiltodelta--remove-ai-watermarks": {
       "count7d": 1,
-      "scoreSum7d": 378,
+      "scoreSum7d": 381,
       "topStory": {
         "id": 48200569,
         "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
-        "score": 378,
+        "score": 381,
         "url": "https://github.com/wiltodelta/remove-ai-watermarks",
-        "hoursSincePosted": 37.29
+        "hoursSincePosted": 40
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2704,12 +2664,12 @@
           "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
           "url": "https://github.com/wiltodelta/remove-ai-watermarks",
           "by": "janalsncm",
-          "score": 378,
-          "descendants": 252,
+          "score": 381,
+          "descendants": 253,
           "createdUtc": 1779229831,
-          "ageHours": 37.29,
-          "velocity": 10.14,
-          "trendingScore": 684.76,
+          "ageHours": 40,
+          "velocity": 9.52,
+          "trendingScore": 646.2,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2726,6 +2686,46 @@
         }
       ]
     },
+    "kageroumado--phosphene": {
+      "count7d": 1,
+      "scoreSum7d": 353,
+      "topStory": {
+        "id": 48215979,
+        "title": "Show HN: I reverse engineered Apple's video wallpapers",
+        "score": 353,
+        "url": "https://github.com/kageroumado/phosphene",
+        "hoursSincePosted": 14.61
+      },
+      "everHitFrontPage": true,
+      "stories": [
+        {
+          "id": 48215979,
+          "title": "Show HN: I reverse engineered Apple's video wallpapers",
+          "url": "https://github.com/kageroumado/phosphene",
+          "by": "kageroumado",
+          "score": 353,
+          "descendants": 82,
+          "createdUtc": 1779321246,
+          "ageHours": 14.61,
+          "velocity": 24.16,
+          "trendingScore": 566.3,
+          "everHitFrontPage": true,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Ever since Apple introduced their video wallpapers I wanted to be able to put custom videos there. I decided to reverse engineer and see what I can do. I built Phosphene to sell it, but the existing competitors were polished enough that the time it would have taken to catch up wasn't going to pay off. So I'm open-sourcing it. WallpaperExtensionKit.framework is what powers macOS wallpapers. It controls what’s shows in the Settings app. It took a lot of trial and error to replicate the behavior, b",
+          "linkedRepos": [
+            {
+              "fullName": "kageroumado/phosphene",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "stephenlthorn--auto-identity-remove": {
       "count7d": 1,
       "scoreSum7d": 324,
@@ -2734,7 +2734,7 @@
         "title": "Show HN: Auto-identity-remove – Automated data broker opt-out runner for macOS",
         "score": 324,
         "url": "https://github.com/stephenlthorn/auto-identity-remove",
-        "hoursSincePosted": 72.25
+        "hoursSincePosted": 74.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2746,9 +2746,9 @@
           "score": 324,
           "descendants": 135,
           "createdUtc": 1779103962,
-          "ageHours": 72.25,
-          "velocity": 4.48,
-          "trendingScore": 163.09,
+          "ageHours": 74.97,
+          "velocity": 4.32,
+          "trendingScore": 157.26,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2759,46 +2759,6 @@
           "linkedRepos": [
             {
               "fullName": "stephenlthorn/auto-identity-remove",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "kageroumado--phosphene": {
-      "count7d": 1,
-      "scoreSum7d": 318,
-      "topStory": {
-        "id": 48215979,
-        "title": "Show HN: I reverse engineered Apple's video wallpapers",
-        "score": 318,
-        "url": "https://github.com/kageroumado/phosphene",
-        "hoursSincePosted": 11.89
-      },
-      "everHitFrontPage": true,
-      "stories": [
-        {
-          "id": 48215979,
-          "title": "Show HN: I reverse engineered Apple's video wallpapers",
-          "url": "https://github.com/kageroumado/phosphene",
-          "by": "kageroumado",
-          "score": 318,
-          "descendants": 74,
-          "createdUtc": 1779321246,
-          "ageHours": 11.89,
-          "velocity": 26.74,
-          "trendingScore": 562.09,
-          "everHitFrontPage": true,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Ever since Apple introduced their video wallpapers I wanted to be able to put custom videos there. I decided to reverse engineer and see what I can do. I built Phosphene to sell it, but the existing competitors were polished enough that the time it would have taken to catch up wasn't going to pay off. So I'm open-sourcing it. WallpaperExtensionKit.framework is what powers macOS wallpapers. It controls what’s shows in the Settings app. It took a lot of trial and error to replicate the behavior, b",
-          "linkedRepos": [
-            {
-              "fullName": "kageroumado/phosphene",
               "matchType": "url",
               "confidence": 1
             }
@@ -2853,7 +2813,7 @@
         "title": "Claude for Legal",
         "score": 225,
         "url": "https://github.com/anthropics/claude-for-legal",
-        "hoursSincePosted": 158.71
+        "hoursSincePosted": 161.43
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2865,9 +2825,9 @@
           "score": 225,
           "descendants": 193,
           "createdUtc": 1778792705,
-          "ageHours": 158.71,
-          "velocity": 1.42,
-          "trendingScore": 67.8,
+          "ageHours": 161.43,
+          "velocity": 1.39,
+          "trendingScore": 66.37,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2892,7 +2852,7 @@
         "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image",
         "score": 196,
         "url": "https://github.com/neilsonnn/image-blaster",
-        "hoursSincePosted": 140.09
+        "hoursSincePosted": 142.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2904,9 +2864,9 @@
           "score": 196,
           "descendants": 40,
           "createdUtc": 1778859757,
-          "ageHours": 140.09,
-          "velocity": 1.4,
-          "trendingScore": 16.05,
+          "ageHours": 142.8,
+          "velocity": 1.37,
+          "trendingScore": 15.7,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3002,6 +2962,46 @@
         }
       ]
     },
+    "kouhxp--yapsnap": {
+      "count7d": 1,
+      "scoreSum7d": 83,
+      "topStory": {
+        "id": 48214399,
+        "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
+        "score": 83,
+        "url": "https://github.com/kouhxp/yapsnap",
+        "hoursSincePosted": 17.04
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48214399,
+          "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
+          "url": "https://github.com/kouhxp/yapsnap",
+          "by": "mrkn1",
+          "score": 83,
+          "descendants": 37,
+          "createdUtc": 1779312508,
+          "ageHours": 17.04,
+          "velocity": 4.87,
+          "trendingScore": 43.93,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "kouhxp/yapsnap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "imbad0202--academic-research-skills": {
       "count7d": 1,
       "scoreSum7d": 82,
@@ -3082,46 +3082,6 @@
         }
       ]
     },
-    "kouhxp--yapsnap": {
-      "count7d": 1,
-      "scoreSum7d": 78,
-      "topStory": {
-        "id": 48214399,
-        "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
-        "score": 78,
-        "url": "https://github.com/kouhxp/yapsnap",
-        "hoursSincePosted": 14.32
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48214399,
-          "title": "Show HN: CPU-only transcription for YouTube, TikTok, X, Instagram videos",
-          "url": "https://github.com/kouhxp/yapsnap",
-          "by": "mrkn1",
-          "score": 78,
-          "descendants": 26,
-          "createdUtc": 1779312508,
-          "ageHours": 14.32,
-          "velocity": 5.45,
-          "trendingScore": 37.12,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "kouhxp/yapsnap",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "dtnewman--burn-baby-burn": {
       "count7d": 1,
       "scoreSum7d": 61,
@@ -3170,7 +3130,7 @@
         "title": "Show HN: InsForge – Open-source Heroku for coding agents",
         "score": 61,
         "url": "https://github.com/InsForge/InsForge",
-        "hoursSincePosted": 68.12
+        "hoursSincePosted": 70.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3182,9 +3142,9 @@
           "score": 61,
           "descendants": 7,
           "createdUtc": 1779118842,
-          "ageHours": 68.12,
-          "velocity": 0.9,
-          "trendingScore": 2.73,
+          "ageHours": 70.83,
+          "velocity": 0.86,
+          "trendingScore": 2.61,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -3210,7 +3170,7 @@
         "title": "Show HN: Sx – an open-source package manager for AI skills, MCPs, and commands",
         "score": 50,
         "url": "https://github.com/sleuth-io/sx",
-        "hoursSincePosted": 138.74
+        "hoursSincePosted": 141.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3222,9 +3182,9 @@
           "score": 50,
           "descendants": 28,
           "createdUtc": 1778864602,
-          "ageHours": 138.74,
-          "velocity": 0.36,
-          "trendingScore": 2.32,
+          "ageHours": 141.46,
+          "velocity": 0.35,
+          "trendingScore": 2.26,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -3328,7 +3288,7 @@
         "title": "Graphing Scientific Calculator Based on the ESP32",
         "score": 38,
         "url": "https://github.com/El-EnderJ/NeoCalculator",
-        "hoursSincePosted": 142.3
+        "hoursSincePosted": 145.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3340,9 +3300,9 @@
           "score": 38,
           "descendants": 11,
           "createdUtc": 1778851792,
-          "ageHours": 142.3,
-          "velocity": 0.27,
-          "trendingScore": 0.9,
+          "ageHours": 145.01,
+          "velocity": 0.26,
+          "trendingScore": 0.86,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3407,7 +3367,7 @@
         "title": "Show HN: Codiff, a local diff review tool",
         "score": 30,
         "url": "https://github.com/nkzw-tech/codiff/releases",
-        "hoursSincePosted": 102.29
+        "hoursSincePosted": 105.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3419,7 +3379,7 @@
           "score": 30,
           "descendants": 21,
           "createdUtc": 1778995814,
-          "ageHours": 102.29,
+          "ageHours": 105.01,
           "velocity": 0.29,
           "trendingScore": 1.33,
           "everHitFrontPage": false,
@@ -3486,7 +3446,7 @@
         "title": "Zero: The Programming Language for Agents",
         "score": 10,
         "url": "https://github.com/vercel-labs/zero",
-        "hoursSincePosted": 120.26
+        "hoursSincePosted": 122.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3498,7 +3458,7 @@
           "score": 10,
           "descendants": 1,
           "createdUtc": 1778931122,
-          "ageHours": 120.26,
+          "ageHours": 122.98,
           "velocity": 0.08,
           "trendingScore": 0.09,
           "everHitFrontPage": false,
@@ -3523,7 +3483,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101039,
-          "ageHours": 73.06,
+          "ageHours": 75.78,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -3548,9 +3508,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779221986,
-          "ageHours": 39.47,
-          "velocity": 0.08,
-          "trendingScore": 0.04,
+          "ageHours": 42.18,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3573,7 +3533,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779061528,
-          "ageHours": 84.04,
+          "ageHours": 86.75,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -3600,7 +3560,7 @@
         "title": "Show HN: IResearch – C++ search that beat Lucene and Tantivy on their benchmark",
         "score": 14,
         "url": "https://github.com/serenedb/serenedb/tree/main/libs/iresearch",
-        "hoursSincePosted": 25.44
+        "hoursSincePosted": 28.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3612,9 +3572,9 @@
           "score": 14,
           "descendants": 3,
           "createdUtc": 1779272466,
-          "ageHours": 25.44,
-          "velocity": 0.55,
-          "trendingScore": 0.82,
+          "ageHours": 28.16,
+          "velocity": 0.5,
+          "trendingScore": 0.74,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -3638,7 +3598,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778836680,
-          "ageHours": 146.5,
+          "ageHours": 149.21,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -3666,7 +3626,7 @@
         "title": "CC: Anthropic API Error: 500 Internal Server Error",
         "score": 5,
         "url": "https://github.com/anthropics/claude-code/issues/59743",
-        "hoursSincePosted": 113.64
+        "hoursSincePosted": 116.36
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3678,7 +3638,7 @@
           "score": 5,
           "descendants": 2,
           "createdUtc": 1778954958,
-          "ageHours": 113.64,
+          "ageHours": 116.36,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -3769,7 +3729,7 @@
         "title": "WiFi Spatial Sensing",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 23.59
+        "hoursSincePosted": 26.3
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3781,7 +3741,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779279152,
-          "ageHours": 23.59,
+          "ageHours": 26.3,
           "velocity": 0.08,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -3808,7 +3768,7 @@
         "title": "OpenUI Ported to Assembly",
         "score": 4,
         "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 134.91
+        "hoursSincePosted": 137.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3820,7 +3780,7 @@
           "score": 4,
           "descendants": 2,
           "createdUtc": 1778878374,
-          "ageHours": 134.91,
+          "ageHours": 137.63,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -3845,7 +3805,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778921276,
-          "ageHours": 123,
+          "ageHours": 125.71,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -3870,7 +3830,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779020924,
-          "ageHours": 95.32,
+          "ageHours": 98.03,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -3936,7 +3896,7 @@
         "title": "Nous Research edits GitHub issue to remove plagiarism claims about Hermes Agent",
         "score": 7,
         "url": "https://github.com/NousResearch/hermes-agent/issues/10232",
-        "hoursSincePosted": 59.73
+        "hoursSincePosted": 62.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3948,9 +3908,9 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1779149028,
-          "ageHours": 59.73,
-          "velocity": 0.12,
-          "trendingScore": 0.1,
+          "ageHours": 62.45,
+          "velocity": 0.11,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4238,7 +4198,7 @@
         "title": "Slopsmith: A Self-Hosted Rocksmith Alternative That Runs in Docker",
         "score": 5,
         "url": "https://github.com/byrongamatos/slopsmith",
-        "hoursSincePosted": 148.55
+        "hoursSincePosted": 151.26
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4250,7 +4210,7 @@
           "score": 5,
           "descendants": 1,
           "createdUtc": 1778829297,
-          "ageHours": 148.55,
+          "ageHours": 151.26,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -4472,7 +4432,7 @@
         "title": "DroidDesk: Turns Android Phone into Linux Desktop",
         "score": 4,
         "url": "https://github.com/orailnoor/DroidDesk",
-        "hoursSincePosted": 116.35
+        "hoursSincePosted": 119.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4484,7 +4444,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778945207,
-          "ageHours": 116.35,
+          "ageHours": 119.07,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -4511,7 +4471,7 @@
         "title": "Awesome DESIGN.md",
         "score": 4,
         "url": "https://github.com/VoltAgent/awesome-design-md/",
-        "hoursSincePosted": 72.9
+        "hoursSincePosted": 75.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4523,7 +4483,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101630,
-          "ageHours": 72.9,
+          "ageHours": 75.61,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -4745,7 +4705,7 @@
         "title": "Zerostack – Tiny Rust Coding Agent in 8MB of RAM",
         "score": 3,
         "url": "https://github.com/gi-dellav/zerostack/tree/main",
-        "hoursSincePosted": 109.44
+        "hoursSincePosted": 112.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4757,7 +4717,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778970093,
-          "ageHours": 109.44,
+          "ageHours": 112.15,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4776,46 +4736,6 @@
         }
       ]
     },
-    "elliotgao2--handsets": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 48219188,
-        "title": "Show HN: Handsets – A high-performance Android control CLI, built for agents",
-        "score": 3,
-        "url": "https://github.com/elliotgao2/handsets",
-        "hoursSincePosted": 4.08
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48219188,
-          "title": "Show HN: Handsets – A high-performance Android control CLI, built for agents",
-          "url": "https://github.com/elliotgao2/handsets",
-          "by": "gaojiuli",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1779349380,
-          "ageHours": 4.08,
-          "velocity": 0.74,
-          "trendingScore": 0.35,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "elliotgao2/handsets",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "rtk-ai--rtk": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -4824,7 +4744,7 @@
         "title": "RTK: Rust Token Killer",
         "score": 2,
         "url": "https://github.com/rtk-ai/rtk",
-        "hoursSincePosted": 36.22
+        "hoursSincePosted": 38.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4836,8 +4756,8 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1779233676,
-          "ageHours": 36.22,
-          "velocity": 0.06,
+          "ageHours": 38.93,
+          "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -4863,7 +4783,7 @@
         "title": "More Than Skills, Frameworks",
         "score": 1,
         "url": "https://github.com/mattpocock/skills",
-        "hoursSincePosted": 46.89
+        "hoursSincePosted": 49.6
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4875,7 +4795,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779195276,
-          "ageHours": 46.89,
+          "ageHours": 49.6,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -4902,7 +4822,7 @@
         "title": "Miro Fish: Predicting Anything",
         "score": 1,
         "url": "https://github.com/666ghj/MiroFish",
-        "hoursSincePosted": 51.4
+        "hoursSincePosted": 54.12
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4914,7 +4834,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779179023,
-          "ageHours": 51.4,
+          "ageHours": 54.12,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -4941,7 +4861,7 @@
         "title": "Evolving specs (2025)",
         "score": 1,
         "url": "https://github.com/github/spec-kit/discussions/152",
-        "hoursSincePosted": 52
+        "hoursSincePosted": 54.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4953,7 +4873,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779176882,
-          "ageHours": 52,
+          "ageHours": 54.71,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -4980,7 +4900,7 @@
         "title": "Savepoint – A CLI for TDD",
         "score": 2,
         "url": "https://github.com/NamtaoProductions/savepoint",
-        "hoursSincePosted": 154.66
+        "hoursSincePosted": 157.38
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4992,7 +4912,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1778807283,
-          "ageHours": 154.66,
+          "ageHours": 157.38,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5019,7 +4939,7 @@
         "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
         "score": 2,
         "url": "https://github.com/czlonkowski/n8n-mcp",
-        "hoursSincePosted": 122.63
+        "hoursSincePosted": 125.35
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5031,7 +4951,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778922585,
-          "ageHours": 122.63,
+          "ageHours": 125.35,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -5058,7 +4978,7 @@
         "title": "DeerFlow 2.0 – Deep Exploration and Efficient Research Flow",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 77.64
+        "hoursSincePosted": 80.36
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5070,7 +4990,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779084550,
-          "ageHours": 77.64,
+          "ageHours": 80.36,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5097,7 +5017,7 @@
         "title": "Open-Source, Plugin-Driven Geospatial Intelligence Engine",
         "score": 1,
         "url": "https://github.com/silvertakana/worldwideview",
-        "hoursSincePosted": 78.77
+        "hoursSincePosted": 81.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5109,7 +5029,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779080491,
-          "ageHours": 78.77,
+          "ageHours": 81.49,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5136,7 +5056,7 @@
         "title": "MiniPlasma",
         "score": 1,
         "url": "https://github.com/Nightmare-Eclipse/MiniPlasma",
-        "hoursSincePosted": 117.28
+        "hoursSincePosted": 120
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5148,7 +5068,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778941857,
-          "ageHours": 117.28,
+          "ageHours": 120,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5175,7 +5095,7 @@
         "title": "Write HTML. Render video. Built for agents",
         "score": 1,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 136.96
+        "hoursSincePosted": 139.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5187,7 +5107,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778871024,
-          "ageHours": 136.96,
+          "ageHours": 139.67,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5221,17 +5141,17 @@
     {
       "fullName": "wiltodelta/remove-ai-watermarks",
       "count7d": 1,
-      "scoreSum7d": 378
+      "scoreSum7d": 381
+    },
+    {
+      "fullName": "kageroumado/phosphene",
+      "count7d": 1,
+      "scoreSum7d": 353
     },
     {
       "fullName": "stephenlthorn/auto-identity-remove",
       "count7d": 1,
       "scoreSum7d": 324
-    },
-    {
-      "fullName": "kageroumado/phosphene",
-      "count7d": 1,
-      "scoreSum7d": 318
     },
     {
       "fullName": "nooga/let-go",
@@ -5259,6 +5179,11 @@
       "scoreSum7d": 88
     },
     {
+      "fullName": "kouhxp/yapsnap",
+      "count7d": 1,
+      "scoreSum7d": 83
+    },
+    {
       "fullName": "Imbad0202/academic-research-skills",
       "count7d": 1,
       "scoreSum7d": 82
@@ -5267,11 +5192,6 @@
       "fullName": "darkrishabh/agent-skills-eval",
       "count7d": 1,
       "scoreSum7d": 79
-    },
-    {
-      "fullName": "kouhxp/yapsnap",
-      "count7d": 1,
-      "scoreSum7d": 78
     },
     {
       "fullName": "dtnewman/burn-baby-burn",

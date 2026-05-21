@@ -16,7 +16,25 @@ interface IdeaSelectedPreviewPanelProps {
 export function IdeaSelectedPreviewPanel({
   idea,
 }: IdeaSelectedPreviewPanelProps) {
-  if (!idea) return null;
+  if (!idea) {
+    return (
+      <aside
+        className="idea-preview selected-preview idea-preview-empty"
+        aria-label="No idea selected"
+      >
+        <header className="idea-preview-head">
+          <div>
+            <div className="idea-preview-eyebrow">No idea selected</div>
+            <h2 className="idea-preview-title">Nothing here yet</h2>
+          </div>
+        </header>
+        <p className="idea-preview-copy">
+          Submit the first idea — once there&apos;s a row in the board, its
+          brief preview lands here.
+        </p>
+      </aside>
+    );
+  }
   const repos = relatedReposForIdea(idea);
   return (
     <aside className="idea-preview selected-preview">

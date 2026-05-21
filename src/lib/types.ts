@@ -33,16 +33,36 @@ export type SocialPlatform =
   | "funding"
   | "tavily";
 
-/** Per-source 24h/7d mention counts attached to every Repo. */
+/**
+ * Per-source mention counts attached to every Repo.
+ *
+ * `count24h` / `count7d` are the legacy windowed buckets produced by the
+ * original snapshot collectors.
+ *
+ * `count` is the NEW cumulative cross-time total emitted by the mentions
+ * ledger (Redis SET cardinality per (repo, source) — see
+ * `src/lib/mentions-ledger.ts` and the worker fetcher
+ * `apps/trendingrepo-worker/src/fetchers/mentions-ledger/`). Optional for
+ * backwards-compat with consumers that pre-date the ledger; defaults to 0
+ * when unread. A7 (decorator rewrite) populates it from the ledger; A8
+ * (UI cell) reads it to show the cumulative cross-source mentions count.
+ */
 export interface RepoMentionsPerSource {
   count24h: number;
   count7d: number;
+  /** Cumulative all-time mention count from the ledger. Optional; defaults to 0. */
+  count?: number;
 }
 
 /**
  * Unified mention rollup. `total24h` / `total7d` are simple sums across
  * `perSource` so both stay in sync. `perSource` is keyed by every
  * `SocialPlatform` value so consumers can iterate without missing-key checks.
+ *
+ * `total` is the NEW cumulative cross-source mention count from the ledger
+ * (sum of `perSource[*].count`). Optional for backwards-compat with consumers
+ * that pre-date the ledger; defaults to 0 when unread. A7 (decorator rewrite)
+ * populates it; A8 (UI cell) reads it for the "{n} mentions" label.
  *
  * `detail` is an optional per-source rollup of the actual mention objects
  * (URL, title, author, engagement) produced by the cross-source mentions
@@ -54,6 +74,8 @@ export interface RepoMentionsPerSource {
 export interface RepoMentionsRollup {
   total24h: number;
   total7d: number;
+  /** Cumulative all-time mention count across every source. Optional; defaults to 0. */
+  total?: number;
   perSource: Record<SocialPlatform, RepoMentionsPerSource>;
   detail?: CrossSourceDetailRollup;
 }

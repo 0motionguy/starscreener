@@ -12,7 +12,9 @@
 // Draft key: `trendingrepo-drop-draft`. Shared with DropTagPool +
 // DropWhyTextarea so the entire flow resumes after a reload.
 
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useState, type ReactNode } from "react";
+
+import { StarIcon } from "@/components/icons-animated";
 
 interface FetchedMetadata {
   owner: string;
@@ -86,7 +88,7 @@ function saveDraftSlug(slug: string) {
 export function DropUrlInputCard({ initialValue = "", onFetched }: DropUrlInputCardProps) {
   const [value, setValue] = useState(initialValue);
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
-  const [statusMessage, setStatusMessage] = useState<string>("");
+  const [statusMessage, setStatusMessage] = useState<ReactNode>("");
   const [latencyMs, setLatencyMs] = useState<number | null>(null);
   const inputId = useId();
 
@@ -145,7 +147,11 @@ export function DropUrlInputCard({ initialValue = "", onFetched }: DropUrlInputC
       saveDraftSlug(md.fullName);
       setStatus("ok");
       setStatusMessage(
-        `FETCHED · ${ms}ms · ${md.stars ?? "?"} ★ · ${md.language ?? "—"} · ${md.license ?? "—"} · scanning cross-source mentions…`,
+        <>
+          {`FETCHED · ${ms}ms · ${md.stars ?? "?"} `}
+          <StarIcon size={12} />
+          {` · ${md.language ?? "—"} · ${md.license ?? "—"} · scanning cross-source mentions…`}
+        </>,
       );
       onFetched?.(md);
     } catch (err) {

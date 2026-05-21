@@ -1,6 +1,16 @@
+"use client";
+
 // IdeaShareMenu — pure-JSX share popover. shell.js' bindShareMenus()
 // activates this on hydration. We emit the `.share-wrap > .share-btn +
 // .share-menu` contract per public/shell.js:471-514.
+
+import { Code } from "@/lib/icons";
+import {
+  TwitterXIcon,
+  LinkIcon,
+  SendIcon,
+  RadioIcon,
+} from "@/components/icons-animated";
 
 interface IdeaShareMenuProps {
   ideaId: string;
@@ -29,7 +39,7 @@ export function IdeaShareMenu({ ideaId, ideaTitle }: IdeaShareMenuProps) {
           role="menuitem"
         >
           <span className="sm-ico" aria-hidden="true">
-            X
+            <TwitterXIcon size={14} color="currentColor" />
           </span>
           Share on X
         </button>
@@ -68,7 +78,7 @@ export function IdeaShareMenu({ ideaId, ideaTitle }: IdeaShareMenuProps) {
           role="menuitem"
         >
           <span className="sm-ico" aria-hidden="true">
-            🦋
+            <SendIcon size={14} color="var(--accent)" />
           </span>
           Share on Bluesky
         </button>
@@ -82,7 +92,7 @@ export function IdeaShareMenu({ ideaId, ideaTitle }: IdeaShareMenuProps) {
           role="menuitem"
         >
           <span className="sm-ico" aria-hidden="true">
-            ↗
+            <LinkIcon size={14} color="currentColor" />
           </span>
           Copy link
         </button>
@@ -95,7 +105,7 @@ export function IdeaShareMenu({ ideaId, ideaTitle }: IdeaShareMenuProps) {
           role="menuitem"
         >
           <span className="sm-ico" aria-hidden="true">
-            &lt;/&gt;
+            <Code size={14} strokeWidth={2} color="var(--accent)" />
           </span>
           Copy embed
         </button>
@@ -108,7 +118,7 @@ export function IdeaShareMenu({ ideaId, ideaTitle }: IdeaShareMenuProps) {
           role="menuitem"
         >
           <span className="sm-ico" aria-hidden="true">
-            ⌁
+            <RadioIcon size={14} color="currentColor" />
           </span>
           RSS
         </button>

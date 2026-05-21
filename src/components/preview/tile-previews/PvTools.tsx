@@ -1,4 +1,6 @@
 // PvTools — 3-col mini tool tile grid. Pixel-faithful to index.html:559-565.
+import { Star } from "@/lib/icons";
+
 export function PvTools() {
   return (
     <div
@@ -107,9 +109,13 @@ export function PvTools() {
             fontFamily: "var(--font-mono)",
             fontSize: 8,
             color: "var(--accent)",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 3,
           }}
         >
-          ★ WATCH
+          <Star size={8} strokeWidth={2} aria-hidden="true" />
+          WATCH
         </div>
         <div
           style={{

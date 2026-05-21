@@ -5,6 +5,7 @@
 import Link from "next/link";
 
 import { FreshnessPill } from "@/components/shell/FreshnessPill";
+import { ShareCTAButton } from "@/components/tools/hub/ShareCTAButton";
 
 interface Props {
   selectedCount: number;
@@ -24,6 +25,17 @@ export function CompareHero({ selectedCount, maxCount, fetchedAt, hasRepos }: Pr
         <span className="cmp-hero-eyebrow-num">03 / COMPARE</span>
         <span className="cmp-hero-fresh">
           <FreshnessPill source="repos" fetchedAt={fetchedAt} />
+        </span>
+        <span style={{ marginLeft: 8 }}>
+          <ShareCTAButton
+            size="sm"
+            shareText={
+              hasRepos
+                ? `Head-to-head: ${selectedCount} open-source repos compared on stars, velocity, mentions, and tier.`
+                : "Stack open-source repos head-to-head on TrendingRepo's compare tool."
+            }
+            hashtags={["opensource", "github"]}
+          />
         </span>
       </div>
 

@@ -24,11 +24,12 @@
 
 import Link from "next/link";
 import type { ComponentType, ReactNode } from "react";
+import { CircleDollarSign } from "@/lib/icons";
 
 interface V2NavRowProps {
   href: string;
   prefetch?: boolean;
-  icon: ComponentType<{ size?: number }>;
+  icon: ComponentType<{ size?: number; strokeWidth?: number; "aria-hidden"?: boolean | "true" | "false" }>;
   label: string;
   className?: string;
   children?: ReactNode;
@@ -45,20 +46,11 @@ function V2NavRow({
   return (
     <Link href={href} prefetch={prefetch} className={className}>
       <span className="ic">
-        <Icon size={14} />
+        <Icon size={14} strokeWidth={1.5} aria-hidden="true" />
       </span>
       <span className="lbl">{label}</span>
       {children}
     </Link>
-  );
-}
-
-function CoinsIcon({ size = 14 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <circle cx="6" cy="6" r="4" />
-      <circle cx="10" cy="10" r="4" />
-    </svg>
   );
 }
 
@@ -68,7 +60,7 @@ export function SidebarContent() {
       <V2NavRow
         href="/agent-commerce"
         prefetch={false}
-        icon={CoinsIcon}
+        icon={CircleDollarSign}
         label="Agent Commerce"
         className="sb-nav"
       />

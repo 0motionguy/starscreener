@@ -230,7 +230,7 @@ export default async function PreviewPage() {
     <>
       <section className="lnch-hero">
         <div className="lnch-eyebrow">
-          <span className="live-dot" /> new UI · {tiles.length} surfaces · responsive
+          {tiles.length} surfaces · responsive
         </div>
         <h1 className="lnch-title">
           Find <span className="accent">trending repos</span> before the rest of

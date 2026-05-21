@@ -3,6 +3,8 @@
 // via synthesizeWhy(), then expanded into 3-4 supplementary bullets keyed
 // off concrete signal facts.
 
+import { TrendingUp } from "lucide-react";
+
 import type { Repo } from "@/lib/types";
 import { synthesizeWhy } from "@/lib/why-narrative";
 
@@ -105,7 +107,15 @@ export function WhyTrendingPanel({ repo, preloadedText }: WhyTrendingPanelProps)
       <div className="row between">
         <div className="why-label">Trending Score · 24h</div>
         {repo.rank ? (
-          <span className="chip accent">▲ #{repo.rank}</span>
+          <span className="chip accent">
+            <TrendingUp
+              size={11}
+              strokeWidth={2}
+              aria-hidden="true"
+              style={{ display: "inline", verticalAlign: "-1px", marginRight: 3 }}
+            />
+            #{repo.rank}
+          </span>
         ) : null}
       </div>
       <div className="why-score">

@@ -164,7 +164,19 @@ export type FundingEventConfidence =
 
 /** A normalized funding event — the V4 record shape. */
 export interface FundingEvent {
-  /** Stable producer-assigned id (used for dedupe). */
+  /**
+   * Stable producer-assigned id — primary key for dedupe-on-merge in
+   * `aggregate.ts` (`tryFetchFundingFromToolbox` puts SEC rows first, then
+   * overwrites with the more-enriched startup rows when ids collide).
+   *
+   * For TOOLBOX-sourced events this is `event.target_id` (the upstream
+   * Postgres PK on `tb_signals.target_id` — stable per company-round).
+   * Fallback (when target_id is empty): `${companyName}:${closedAt}` —
+   * still deterministic given the same upstream row, so merges stay safe.
+   *
+   * Producers that aren't TOOLBOX must populate a stable string; the
+   * aggregate layer treats two events with the same id as the same round.
+   */
   id: string;
   companyName: string;
   /** Slugified company name — UI uses this for `/funding/<slug>` links. */

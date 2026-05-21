@@ -346,6 +346,10 @@ export function producthuntLaunchesToEvents(payload) {
         ...(launch.topics ? [{ key: "topics", value: launch.topics, confidence: 1.0 }] : []),
         ...(launch.makers ? [{ key: "makers", value: launch.makers, confidence: 1.0 }] : []),
         ...(launch.thumbnail ? [{ key: "thumbnail", value: launch.thumbnail, confidence: 1.0 }] : []),
+        // linkedRepo (owner/name) — camelCase to match the consumer in
+        // src/lib/toolbox-store-producthunt.ts (reads event.fields.linkedRepo).
+        // Required for the `launchesByRepo` rollup that powers /repo/* PH pips.
+        ...(launch.linkedRepo ? [{ key: "linkedRepo", value: launch.linkedRepo, confidence: 1.0 }] : []),
       ],
       produced_by: `${PRODUCED_BY}-producthunt`,
       produced_at: producedAt,

@@ -2,6 +2,7 @@
 // tags, action buttons and a .plan-card on the right.
 
 import Link from "next/link";
+import { ExternalLink, Plus, Settings } from "lucide-react";
 import type { TierDefinition, UserTier } from "@/lib/pricing/tiers";
 import type { UserTierRecord } from "@/lib/pricing/user-tiers";
 
@@ -103,22 +104,15 @@ export function AccountIdentityHero(props: Props) {
         </div>
         <div className="id-actions" style={{ marginTop: 6 }}>
           <Link className="btn primary" href="/account?tab=alerts">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M8 2v12M2 8h12" />
-            </svg>
+            <Plus size={14} strokeWidth={1.8} aria-hidden="true" />
             New alert
           </Link>
           <Link className="btn" href={`/u/${handle}`}>
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M3 8l3-3v2h5v2H6v2l-3-3z" />
-            </svg>
+            <ExternalLink size={14} strokeWidth={1.8} aria-hidden="true" />
             View public profile
           </Link>
           <Link className="btn ghost" href="/account?tab=settings">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <circle cx="8" cy="8" r="6" />
-              <path d="M5 6.5a3 3 0 015.5 1.5c0 1.5-2 1.5-2.5 3M8 13v.5" />
-            </svg>
+            <Settings size={14} strokeWidth={1.8} aria-hidden="true" />
             Settings
           </Link>
         </div>

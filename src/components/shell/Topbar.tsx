@@ -7,6 +7,13 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { HeroPillarLink } from "./NavLink";
+import {
+  Activity,
+  BarChart3,
+  Lightbulb,
+  Menu,
+  TrendingUp,
+} from "@/lib/icons";
 
 export interface Crumb {
   label: string;
@@ -40,9 +47,7 @@ export function Topbar({ crumbs }: TopbarProps) {
   return (
     <header className="topbar">
       <button className="hamburger" data-toggle="sidebar" aria-label="Toggle sidebar">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M2 4h12M2 8h12M2 12h12" />
-        </svg>
+        <Menu size={16} strokeWidth={1.6} aria-hidden="true" />
       </button>
 
       {crumbs && crumbs.length > 0 ? (
@@ -68,36 +73,25 @@ export function Topbar({ crumbs }: TopbarProps) {
       <nav className="topbar-tabs" aria-label="Hero pillars">
         <HeroPillarLink href="/" pillar="trending" match="/">
           <span className="tab-glyph">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7">
-              <path d="M2 13L6 8L9 11L14 4" />
-              <circle cx="14" cy="4" r="1.6" fill="currentColor" />
-            </svg>
+            <TrendingUp size={16} strokeWidth={1.7} aria-hidden="true" />
           </span>
           <span>Trending</span>
         </HeroPillarLink>
         <HeroPillarLink href="/ideas" pillar="ideas">
           <span className="tab-glyph">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7">
-              <path d="M8 1.5a4.5 4.5 0 014.5 4.5c0 1.7-1 3.1-2.2 3.9V12H5.7V9.9C4.5 9.1 3.5 7.7 3.5 6A4.5 4.5 0 018 1.5z" />
-              <path d="M5.7 13.5h4.6M6.7 15h2.6" />
-            </svg>
+            <Lightbulb size={16} strokeWidth={1.7} aria-hidden="true" />
           </span>
           <span>Ideas</span>
         </HeroPillarLink>
         <HeroPillarLink href="/build" pillar="build">
           <span className="tab-glyph">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7">
-              <path d="M3 13L7 5l4 5 2-3" />
-              <circle cx="13" cy="2.5" r="1.2" fill="currentColor" />
-            </svg>
+            <BarChart3 size={16} strokeWidth={1.7} aria-hidden="true" />
           </span>
           <span>Build</span>
         </HeroPillarLink>
         <HeroPillarLink href="/market-signals" pillar="signals" match="/market-signals">
           <span className="tab-glyph">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7">
-              <path d="M2 12V8m4 4V4m4 8v-6m4 6V2" />
-            </svg>
+            <Activity size={16} strokeWidth={1.7} aria-hidden="true" />
           </span>
           <span>Market Signals</span>
         </HeroPillarLink>

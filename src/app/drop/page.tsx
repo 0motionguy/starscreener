@@ -202,8 +202,8 @@ export default async function DropPage({ searchParams }: PageProps) {
       <div className="drop-submit-footer">
         <div className="drop-submit-status">
           <span className="up-text">* DRAFT</span>
-          <span>FORM 2 of 4 - auto-saved</span>
-          <span>PRE-SCAN 42,800 stars - 4 source marks</span>
+          <span>FORM {step} of 4 - auto-saved</span>
+          <span>PRE-SCAN {previewMetadata.stars?.toLocaleString() ?? "-"} stars - {previewMetadata.mentions?.length ?? 0} source marks</span>
           <span>INTAKE READY - review queue metadata attached</span>
         </div>
         <DropSubmitButton signedIn={signedIn} />

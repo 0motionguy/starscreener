@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 
 import { useWatchlistStore } from "@/lib/store";
+import { HeartIcon } from "@/components/icons-animated";
 
 interface WatchButtonProps {
   repoId: string;
@@ -42,9 +43,13 @@ export function WatchButton({
       aria-pressed={watched}
       onClick={onClick}
     >
-      <svg className="heart" viewBox="0 0 16 16" aria-hidden="true">
-        <path d="M8 14s-5-3.5-5-7.5C3 4 4.5 3 6 3c1 0 2 .5 2 1.5C8 3.5 9 3 10 3c1.5 0 3 1 3 3.5C13 10.5 8 14 8 14z" />
-      </svg>
+      <HeartIcon
+        className="heart"
+        size={14}
+        strokeWidth={1.5}
+        color={watched ? "var(--accent)" : "currentColor"}
+        aria-hidden="true"
+      />
       {label}
       {typeof baselineWatchers === "number" && baselineWatchers > 0 ? (
         <span

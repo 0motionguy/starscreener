@@ -393,7 +393,7 @@
       return pop;
     }
     function close() { if (pop) pop.classList.remove('open'); }
-    function open(target) {
+    function open(target, cursorX, cursorY) {
       const ref = (target.dataset.repo || target.textContent.trim()).replace(/\s+/g, '');
       const d = REPO_PREVIEW_DATA[ref] || fallbackPreview(ref);
       const owner = ref.includes('/') ? ref.split('/')[0] : '';
@@ -424,15 +424,28 @@
           '<button class="b" data-quick-watch>★ Watch</button>' +
           '<a class="b primary" href="' + detailHref(ref) + '" data-quick-open>Open →</a>' +
         '</div>';
-      // Position near the target
-      const rect = target.getBoundingClientRect();
+      // Position relative to cursor — anchor at cursor, float UP and to the
+      // RIGHT (top-right quadrant relative to pointer). Fall back to a
+      // target-relative anchor if cursor coords weren't captured.
       const popW = 340;
-      let left = rect.left + window.scrollX;
-      if (left + popW + 16 > window.innerWidth) left = window.innerWidth - popW - 16;
-      let top = rect.bottom + window.scrollY + 8;
-      // Flip above if not enough room below
-      if (rect.bottom + 280 > window.innerHeight) {
-        top = rect.top + window.scrollY - 280;
+      const popH = p.offsetHeight || 280;
+      const cx = typeof cursorX === 'number'
+        ? cursorX
+        : target.getBoundingClientRect().right;
+      const cy = typeof cursorY === 'number'
+        ? cursorY
+        : target.getBoundingClientRect().top;
+      let left = cx + 14 + window.scrollX;     // right of cursor
+      let top  = cy - popH - 12 + window.scrollY; // above cursor
+      // Clamp right edge — if popover would overflow viewport, anchor to
+      // the LEFT of the cursor instead so it still drifts up.
+      if (cx + 14 + popW + 8 > window.innerWidth) {
+        left = cx - popW - 14 + window.scrollX;
+        if (left < 8) left = 8;
+      }
+      // Clamp top — if popover would go above viewport, flip BELOW cursor.
+      if (cy - popH - 12 < 8) {
+        top = cy + 16 + window.scrollY;
       }
       p.style.left = left + 'px';
       p.style.top = top + 'px';
@@ -443,7 +456,7 @@
       const t = e.target.closest('[data-repo-hover], .repo-link, .repo-name, .repo, .fr-co .name, .rev-row .name, .tracked-card .tc-repo, .act-card .repo');
       if (t) {
         clearTimeout(hideTimer);
-        open(t);
+        open(t, e.clientX, e.clientY);
       }
     });
     document.addEventListener('mouseout', (e) => {

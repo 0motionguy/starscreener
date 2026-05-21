@@ -1,3 +1,5 @@
+import { ChevronUp } from "lucide-react";
+
 import type { Repo } from "@/lib/types";
 
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
@@ -85,11 +87,12 @@ export function SourceBreakdownGrid({ repo }: SourceBreakdownGridProps) {
         const spark = softCurve(total7d, 14, 0.55);
         const value =
           total7d > 0 ? `${isGithub ? "+" : ""}${formatCount(total7d)}` : "tracked";
-        const sub =
+        const hasDelta = total24h > 0 || total7d > 0;
+        const subText =
           total24h > 0
-            ? `▲ ${isGithub ? "+" : ""}${formatCount(total24h)} last 24h`
+            ? `${isGithub ? "+" : ""}${formatCount(total24h)} last 24h`
             : total7d > 0
-              ? "▲ tracked"
+              ? "tracked"
               : "warming source";
 
         return (
@@ -104,7 +107,15 @@ export function SourceBreakdownGrid({ repo }: SourceBreakdownGridProps) {
             </div>
             <div className="src-card-value">{value}</div>
             <div className={`src-card-delta ${total7d > 0 ? "up-text" : "muted"}`}>
-              {sub}
+              {hasDelta ? (
+                <ChevronUp
+                  size={11}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                  style={{ display: "inline", verticalAlign: "-1px", marginRight: 3 }}
+                />
+              ) : null}
+              {subText}
             </div>
             {spark.length > 0 ? (
               <RepoSparkline

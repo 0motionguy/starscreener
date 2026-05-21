@@ -1,4 +1,6 @@
 // PvDrop — 4-step submission funnel. Pixel-faithful to index.html:524-544.
+import { Check } from "lucide-react";
+
 export function PvDrop() {
   return (
     <div className="scrn-preview pv-drop">
@@ -11,7 +13,9 @@ export function PvDrop() {
         <span className="mp-line mid" />
       </div>
       <div className="mp" style={{ background: "var(--surface-2)", gap: 10 }}>
-        <div className="step-dot done">✓</div>
+        <div className="step-dot done">
+          <Check size={9} strokeWidth={3} aria-hidden="true" />
+        </div>
         <span className="step-line on" />
         <div className="step-dot on">2</div>
         <span className="step-line" />

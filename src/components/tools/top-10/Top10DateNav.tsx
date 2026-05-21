@@ -7,6 +7,8 @@
 
 import Link from "next/link";
 
+import { ShareCTAButton } from "@/components/tools/hub/ShareCTAButton";
+
 interface DayPill {
   date: string;
   label: string; // "MON 14"
@@ -79,6 +81,13 @@ export function Top10DateNav({
             </span>
           </div>
           <h1 className="t10-title">The Top 10, frozen daily.</h1>
+          <div style={{ marginTop: 8 }}>
+            <ShareCTAButton
+              size="sm"
+              shareText={`The Top 10 trending open-source repos for ${activeDate} — frozen daily on TrendingRepo.`}
+              hashtags={["opensource", "github", "trending"]}
+            />
+          </div>
         </div>
 
         <div className="t10-nav">

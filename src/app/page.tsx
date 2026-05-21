@@ -1,19 +1,27 @@
-import { Suspense } from "react";
+import Link from "next/link";
 
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
+import {
+  getSkillsAsRepos,
+  getAgentsAsRepos,
+  getLlmsAsRepos,
+  getMcpAsRepos,
+  refreshCategoryFromStore,
+} from "@/lib/category-adapters";
+import { computeTopComposite } from "@/lib/scoring/top-composite";
+import {
+  refreshTrendshiftFromStore,
+  getTrendshiftRankMap,
+} from "@/lib/trendshift";
 import type { Repo } from "@/lib/types";
 
-import { CategorySignalPanel } from "@/components/trending/CategorySignalPanel";
-import { CrossSourceRail } from "@/components/trending/CrossSourceRail";
 import { FeaturedRepos } from "@/components/trending/FeaturedRepos";
 import { TrendingFilters, type LanguageStat } from "@/components/trending/TrendingFilters";
 import { TrendingHubHero, type CategoryId, type WindowId, CATEGORIES, WINDOWS } from "@/components/trending/TrendingHubHero";
 import { KpiStrip } from "@/components/trending/KpiStrip";
 import { TrendingTable } from "@/components/trending/TrendingTable";
-import { TopMoversRail } from "@/components/trending/TopMoversRail";
-import { SourceHealthGrid } from "@/components/trending/SourceHealthGrid";
 
 export const revalidate = 1800;
 
@@ -21,6 +29,11 @@ export const metadata = {
   title: "TrendingRepo - the radar for everything AI",
   description:
     "Real-time trend discovery across GitHub, HN, Reddit, X, Bluesky, ProductHunt, Dev.to and 23 more. Updated every 30 min.",
+  openGraph: {
+    images: [
+      { url: "/api/og/default", width: 1200, height: 630, alt: "TrendingRepo — the trend map for open source" },
+    ],
+  },
 };
 
 interface Props {
@@ -28,6 +41,7 @@ interface Props {
 }
 
 type SortId = "momentum" | "mentions" | "stars" | "consensus";
+type RankerId = "top" | "gainer" | "trend";
 
 export default async function TrendingHubPage({ searchParams }: Props) {
   const params = (await searchParams) ?? {};
@@ -35,17 +49,32 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const rawWin = typeof params.window === "string" ? params.window : "24h";
   const rawLang = typeof params.lang === "string" ? params.lang.toLowerCase() : "all";
   const rawSort = typeof params.sort === "string" ? params.sort : "momentum";
+  const rawRank = typeof params.rank === "string" ? params.rank : "top";
   const category = (CATEGORIES.find((c) => c.id === rawCat)?.id ?? "repos") as CategoryId;
   const timeWindow = (WINDOWS.find((w) => w.id === rawWin)?.id ?? "24h") as WindowId;
   const sort = normalizeSort(rawSort);
+  const ranker = normalizeRanker(rawRank);
 
   await refreshTrendingFromStore().catch(() => undefined);
+  if (category !== "repos") {
+    await refreshCategoryFromStore(category).catch(() => undefined);
+  } else if (ranker === "trend") {
+    await refreshTrendshiftFromStore().catch(() => undefined);
+  }
 
-  const repos = safe(() => getDerivedRepos(), []);
+  const repos = (() => {
+    if (category === "repos") return safe(() => getDerivedRepos(), []);
+    if (category === "skills") return safe(() => getSkillsAsRepos(), []);
+    if (category === "agents") return safe(() => getAgentsAsRepos(), []);
+    if (category === "llms") return safe(() => getLlmsAsRepos(), []);
+    if (category === "mcp") return safe(() => getMcpAsRepos(), []);
+    return [];
+  })();
+
   const languageStats = getLanguageStats(repos);
   const language = rawLang === "all" || languageStats.some((item) => item.language.toLowerCase() === rawLang) ? rawLang : "all";
   const filtered = language === "all" ? repos : repos.filter((repo) => repo.language?.toLowerCase() === language);
-  const sorted = sortRepos(filtered, timeWindow, sort);
+  const sorted = sortRepos(filtered, timeWindow, sort, ranker);
 
   const counts = await getSidebarSourceCounts().catch(() => null);
   const switcherCounts: Partial<Record<CategoryId, number>> = {
@@ -64,56 +93,86 @@ export default async function TrendingHubPage({ searchParams }: Props) {
 
       <KpiStrip />
 
-      {category === "repos" ? (
-        <>
-          <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
-          <TrendingFilters
-            activeLanguage={language}
-            activeSort={sort}
-            category={category}
-            window={timeWindow}
-            languages={languageStats}
-          />
+      {/* Unified tab strip: Repos sub-rankers (Top/Gainer/Trend) + other categories.
+          Sits above the filter strip. */}
+      <div className="category-tabs" role="tablist" aria-label="Category">
+        {buildUnifiedTabs(category, ranker, switcherCounts).map((t) => (
+          <Link
+            key={t.id}
+            href={{
+              query: cleanQueryPage({
+                cat: t.cat,
+                rank: t.rank,
+                window: timeWindow,
+                lang: language,
+                sort,
+              }),
+            }}
+            className={`cat-tab${t.active ? " active" : ""}`}
+            role="tab"
+            aria-selected={t.active}
+            prefetch={false}
+          >
+            <span className="cat-tab-label">{t.label}</span>
+            {t.count != null && (
+              <span className="cat-tab-count">{t.count.toLocaleString()}</span>
+            )}
+          </Link>
+        ))}
+      </div>
 
-          <div className="trending-grid">
-            <TrendingTable
-              repos={sorted}
-              fetchedAt={fetchedAt}
-              window={timeWindow}
-              limit={50}
-              category={category}
-              language={language}
-              sort={sort}
-            />
-            <aside className="right-rail">
-              <Suspense fallback={<div className="card rail-skeleton" aria-hidden />}>
-                <TopMoversRail limit={8} />
-              </Suspense>
-              <CrossSourceRail repos={sorted} limit={3} />
-              <Suspense fallback={<div className="card rail-skeleton" aria-hidden />}>
-                <SourceHealthGrid />
-              </Suspense>
-            </aside>
-          </div>
-        </>
-      ) : (
-        <CategorySignalPanel
-          category={category}
-          window={timeWindow}
-          count={switcherCounts[category] ?? 0}
-          repos={sorted.length ? sorted : sortRepos(repos, timeWindow, sort)}
-        />
-      )}
+      <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
+
+      <TrendingFilters
+        activeLanguage={language}
+        activeSort={sort}
+        category={category}
+        window={timeWindow}
+        languages={languageStats}
+      />
+
+      <TrendingTable
+        repos={sorted}
+        fetchedAt={fetchedAt}
+        window={timeWindow}
+        limit={50}
+        category={category}
+        language={language}
+        sort={sort}
+      />
     </div>
   );
 }
 
-function sortRepos(repos: Repo[], timeWindow: WindowId, sort: SortId): Repo[] {
+function sortRepos(repos: Repo[], timeWindow: WindowId, sort: SortId, ranker: RankerId = "top"): Repo[] {
+  // TOP composite is cohort-normalized — compute once against the visible/filtered
+  // set so language slicing doesn't bias the medians.
+  const topScores =
+    sort === "momentum" && ranker === "top" ? computeTopComposite(repos) : null;
+  // TREND tab consults the TrendShift rank map; ties (incl. repos not in the
+  // map) fall back to OSSInsight 30d so the table still has a stable order.
+  const trendRanks =
+    sort === "momentum" && ranker === "trend" ? getTrendshiftRankMap() : null;
+
   const sorted = [...repos];
   sorted.sort((a, b) => {
     if (sort === "mentions") return mentionScore(b) - mentionScore(a);
     if (sort === "stars") return (b.stars ?? 0) - (a.stars ?? 0);
     if (sort === "consensus") return consensusScore(b) - consensusScore(a);
+    // sort === "momentum" — but ranker overrides which momentum
+    if (ranker === "gainer") return (b.trendScore24h ?? 0) - (a.trendScore24h ?? 0);
+    if (ranker === "trend") {
+      if (trendRanks && trendRanks.size > 0) {
+        const aRank = trendRanks.get(a.fullName.toLowerCase()) ?? 9999;
+        const bRank = trendRanks.get(b.fullName.toLowerCase()) ?? 9999;
+        if (aRank !== bRank) return aRank - bRank;
+      }
+      return (b.trendScore30d ?? 0) - (a.trendScore30d ?? 0);
+    }
+    if (topScores) {
+      const diff = (topScores.get(b.id) ?? 0) - (topScores.get(a.id) ?? 0);
+      if (diff !== 0) return diff;
+    }
     return deltaForWindow(b, timeWindow) - deltaForWindow(a, timeWindow);
   });
   return sorted;
@@ -147,10 +206,79 @@ function normalizeSort(value: string): SortId {
   return value === "mentions" || value === "stars" || value === "consensus" ? value : "momentum";
 }
 
+function normalizeRanker(value: string): RankerId {
+  return value === "gainer" || value === "trend" ? value : "top";
+}
+
 function safe<T>(fn: () => T, fallback: T): T {
   try {
     return fn();
   } catch {
     return fallback;
   }
+}
+
+function cleanQueryPage(input: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(input).filter(
+      ([key, v]) =>
+        v !== "" &&
+        v !== "all" &&
+        !(key === "rank" && v === "top") &&
+        !(key === "sort" && v === "momentum") &&
+        !(key === "window" && v === "24h") &&
+        !(key === "cat" && v === "repos"),
+    ),
+  );
+}
+
+interface UnifiedTab {
+  id: string;
+  label: string;
+  cat: CategoryId;
+  rank: RankerId;
+  active: boolean;
+  count: number | null;
+}
+
+function buildUnifiedTabs(
+  category: CategoryId,
+  ranker: RankerId,
+  counts: Partial<Record<CategoryId, number>>,
+): UnifiedTab[] {
+  const repoCount = counts.repos ?? null;
+  return [
+    {
+      id: "repos-top",
+      label: "Top",
+      cat: "repos",
+      rank: "top",
+      active: category === "repos" && ranker === "top",
+      count: repoCount,
+    },
+    {
+      id: "repos-gainer",
+      label: "Gainer",
+      cat: "repos",
+      rank: "gainer",
+      active: category === "repos" && ranker === "gainer",
+      count: repoCount,
+    },
+    {
+      id: "repos-trend",
+      label: "Trend",
+      cat: "repos",
+      rank: "trend",
+      active: category === "repos" && ranker === "trend",
+      count: repoCount,
+    },
+    ...CATEGORIES.filter((c) => c.id !== "repos").map((c) => ({
+      id: c.id,
+      label: c.label,
+      cat: c.id as CategoryId,
+      rank: "top" as RankerId,
+      active: category === c.id,
+      count: counts[c.id] ?? null,
+    })),
+  ];
 }

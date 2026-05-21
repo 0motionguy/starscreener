@@ -22,6 +22,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import { StarIcon } from "@/components/icons-animated";
 import { useWatchlistStore } from "@/lib/store";
 import type { Repo, WatchlistItem } from "@/lib/types";
 import { slugToId } from "@/lib/utils";
@@ -330,7 +331,9 @@ export function WatchlistClient({ reposById }: WatchlistClientProps) {
                 </div>
                 <div className="wl-row-stars">
                   <span className="wl-stars-num">{formatStars(repo?.stars)}</span>
-                  <span className="wl-stars-lbl">★</span>
+                  <span className="wl-stars-lbl" aria-hidden="true">
+                    <StarIcon size={12} />
+                  </span>
                 </div>
                 <div className="wl-row-delta">
                   <span className={`wl-delta-num ${deltaClass(d24)}`}>

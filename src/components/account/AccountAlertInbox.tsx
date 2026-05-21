@@ -2,6 +2,9 @@
 // Renders the live per-user inbox when alert events are passed in; otherwise
 // derives a six-row desk feed from the seeded account context.
 
+import type { ReactNode } from "react";
+import { ChevronUp, FileText, Star } from "lucide-react";
+
 interface AlertEvent {
   id?: string;
   title?: string;
@@ -20,7 +23,7 @@ const SEEDED_EVENTS: AlertEvent[] = [
     id: "sample-1",
     kind: "release",
     title: "v6.0.0-rc.4 shipped on vercel/ai-sdk",
-    meta: "RELEASE · github · 412 ★ in 24h",
+    meta: "RELEASE · github · 412 stars in 24h",
     time: "12h",
     unread: true,
   },
@@ -69,12 +72,12 @@ const SEEDED_EVENTS: AlertEvent[] = [
   },
 ];
 
-const KIND_GLYPH: Record<NonNullable<AlertEvent["kind"]>, string> = {
-  release: "▲",
-  breakout: "▲",
-  mention: "★",
-  digest: "D",
-  threshold: "★",
+const KIND_GLYPH: Record<NonNullable<AlertEvent["kind"]>, ReactNode> = {
+  release: <ChevronUp size={11} strokeWidth={2.5} aria-hidden="true" />,
+  breakout: <ChevronUp size={11} strokeWidth={2.5} aria-hidden="true" />,
+  mention: <Star size={11} strokeWidth={2} fill="currentColor" aria-hidden="true" />,
+  digest: <FileText size={11} strokeWidth={2} aria-hidden="true" />,
+  threshold: <Star size={11} strokeWidth={2} fill="currentColor" aria-hidden="true" />,
 };
 
 export function AccountAlertInbox({ events }: AccountAlertInboxProps) {

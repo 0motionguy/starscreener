@@ -79,9 +79,21 @@ export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const idea = await loadDisplayIdea(id);
   if (!idea) return { title: "Idea not found" };
+  const ogPath = `/api/og/idea/${id}`;
   return {
     title: `${idea.title} - Ideas - TrendingRepo`,
     description: idea.pitch,
+    openGraph: {
+      title: `${idea.title} — Ideas — TrendingRepo`,
+      description: idea.pitch,
+      images: [{ url: ogPath, width: 1200, height: 630, alt: idea.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: idea.title,
+      description: idea.pitch,
+      images: [ogPath],
+    },
   };
 }
 

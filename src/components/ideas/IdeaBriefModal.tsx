@@ -6,6 +6,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { X } from "@/lib/icons";
+
 const BLOCKS: { title: string; body: string }[] = [
   {
     title: "Problem",
@@ -109,7 +111,7 @@ export function IdeaBriefModal() {
             aria-label="Close"
             onClick={close}
           >
-            ×
+            <X size={16} strokeWidth={2} aria-hidden="true" />
           </button>
         </header>
         <div className="modal-body">

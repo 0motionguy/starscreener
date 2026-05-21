@@ -6,6 +6,7 @@
 // "—" so the chrome never lies about the count before hydration.
 
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
+import { ShareCTAButton } from "@/components/tools/hub/ShareCTAButton";
 
 interface WatchlistHeroProps {
   /** ISO timestamp of the last trending refresh — drives the freshness pill. */
@@ -36,6 +37,13 @@ export function WatchlistHero({
           flag the pipeline raises. Pins live in your browser&mdash;sign in
           later to sync across devices.
         </p>
+        <div style={{ marginTop: 10 }}>
+          <ShareCTAButton
+            size="sm"
+            shareText="My TrendingRepo watchlist — pinning the open-source repos to track this week."
+            hashtags={["opensource", "github", "trending"]}
+          />
+        </div>
       </div>
       <div className="wl-hero-right" data-watchlist-hero-counts>
         <div className="wl-pill">

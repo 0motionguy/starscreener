@@ -102,3 +102,10 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Plans: `~/.claude/plans/`
 - Memory: `~/.claude/projects/c--dev-trendingrepo/memory/MEMORY.md` (post-2026-05-06 cutover; the historical key `c--Users-mirko-OneDrive-Desktop-STARSCREENER` retains pre-move notes)
 - Windows perf hardening (deferred sprint): [tasks/perf-windows-tuning.md](tasks/perf-windows-tuning.md)
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan at
+[specs/001-v6-prod-cutover/plan.md](specs/001-v6-prod-cutover/plan.md).
+Constitution: [.specify/memory/constitution.md](.specify/memory/constitution.md).
+<!-- SPECKIT END -->

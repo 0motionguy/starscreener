@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { useCompareStore } from "@/lib/store";
+import { ChartBarIcon } from "@/components/icons-animated";
 
 declare global {
   interface Window {
@@ -49,17 +50,7 @@ export function RepoCompareButton({ repoId, fullName }: RepoCompareButtonProps) 
         }
       }}
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 16 16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        aria-hidden="true"
-      >
-        <path d="M3 8h4l1-3 2 6 1-3h2" />
-      </svg>
+      <ChartBarIcon size={14} color="currentColor" aria-hidden="true" />
       {isComparing ? "Compared" : "Compare"}
     </button>
   );

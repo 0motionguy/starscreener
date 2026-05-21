@@ -56,9 +56,21 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
   const { owner, name } = await params;
   const full = `${owner}/${name}`;
+  const ogPath = `/api/og/repo/${owner}/${name}`;
   return {
     title: `${full} — TrendingRepo`,
     description: `Trending signal profile for ${full}: stars, forks, mentions across HN, Reddit, X, Bluesky and more. Updated continuously.`,
+    openGraph: {
+      title: `${full} — TrendingRepo`,
+      description: `Trending signal profile for ${full}.`,
+      images: [{ url: ogPath, width: 1200, height: 630, alt: `${full} on TrendingRepo` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${full} — TrendingRepo`,
+      description: `Trending signal profile for ${full}.`,
+      images: [ogPath],
+    },
   };
 }
 

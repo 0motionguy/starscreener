@@ -1,3 +1,5 @@
+"use client";
+
 // IdeaContributionsTab — Pixel-faithful to ideas-detail.html:1171-1267.
 //
 // Two stacked section-blocks:
@@ -10,11 +12,22 @@
 // once /api/ideas/[id]/contributions returns rows for this idea — the
 // banner copy already promises that.
 
+import type { ReactNode } from "react";
+
 import {
   SAMPLE_CONTRIBUTIONS,
   CONTRIBUTION_TYPE_LABEL,
   type SampleContribution,
 } from "@/lib/ideas/sample-contributions";
+import { CircleCheck } from "@/lib/icons";
+import {
+  BulbSvg,
+  CurrencyDollarIcon,
+  FlameIcon,
+  RocketIcon,
+  SparklesIcon,
+  TargetIcon,
+} from "@/components/icons-animated";
 
 import { IdeaContributionComposer } from "./IdeaContributionComposer";
 
@@ -25,16 +38,21 @@ interface IdeaContributionsTabProps {
 
 interface SampleReactionBtn {
   key: "fire" | "bulb" | "rocket" | "target" | "check" | "money";
-  emoji: string;
+  render: () => ReactNode;
 }
 
 const REACTION_DEFS: SampleReactionBtn[] = [
-  { key: "fire", emoji: "🔥" },
-  { key: "bulb", emoji: "💡" },
-  { key: "rocket", emoji: "🚀" },
-  { key: "target", emoji: "🎯" },
-  { key: "check", emoji: "✅" },
-  { key: "money", emoji: "💸" },
+  { key: "fire", render: () => <FlameIcon size={14} color="currentColor" /> },
+  { key: "bulb", render: () => <BulbSvg size={14} color="var(--accent)" /> },
+  { key: "rocket", render: () => <RocketIcon size={14} color="currentColor" /> },
+  { key: "target", render: () => <TargetIcon size={14} color="currentColor" /> },
+  {
+    key: "check",
+    render: () => (
+      <CircleCheck width={14} height={14} strokeWidth={2} color="var(--accent)" />
+    ),
+  },
+  { key: "money", render: () => <CurrencyDollarIcon size={14} color="currentColor" /> },
 ];
 
 function avatarInitials(name: string): string {
@@ -78,7 +96,7 @@ function SampleCard({ contribution }: { contribution: SampleContribution }) {
                 aria-pressed={count > 0}
               >
                 <span className="emoji" aria-hidden="true">
-                  {def.emoji}
+                  {def.render()}
                 </span>
                 <span className="n">{count}</span>
               </button>
@@ -104,7 +122,7 @@ export function IdeaContributionsTab({
         <div className="section-title">
           <h2>
             <span className="sparkle" aria-hidden="true">
-              ✨
+              <SparklesIcon size={14} color="var(--accent)" />
             </span>{" "}
             Contribute to this idea
           </h2>

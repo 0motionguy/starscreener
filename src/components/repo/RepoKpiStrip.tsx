@@ -1,8 +1,19 @@
+import { ChevronUp } from "lucide-react";
+
 import type { RepoProfile } from "@/lib/repo-profiles";
 import type { StarActivityPayload } from "@/lib/star-activity";
 import type { Repo } from "@/lib/types";
 
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
+
+const TrendUp = () => (
+  <ChevronUp
+    size={11}
+    strokeWidth={2}
+    aria-hidden="true"
+    style={{ display: "inline", verticalAlign: "-1px", marginRight: 2 }}
+  />
+);
 
 interface RepoKpiStripProps {
   repo: Repo;
@@ -58,9 +69,7 @@ function velocityLabel(repo: Repo): string {
 function deltaText(delta: number | undefined, suffix = "7d"): string {
   if (typeof delta !== "number" || !Number.isFinite(delta) || delta === 0)
     return "";
-  const arrow = delta >= 0 ? "▲" : "▼";
-  const cls = delta >= 0 ? "up-text" : "down-text";
-  return `${arrow} ${delta > 0 ? "+" : ""}${delta.toLocaleString()} ${suffix} ${cls}`;
+  return `${delta > 0 ? "+" : ""}${delta.toLocaleString()} ${suffix}`;
 }
 
 function deriveNpmWeeklySignal(repo: Repo, profile?: RepoProfile | null) {
@@ -98,7 +107,7 @@ function deriveNpmWeeklySignal(repo: Repo, profile?: RepoProfile | null) {
 interface CellProps {
   label: string;
   value: string;
-  sub?: string | null;
+  sub?: React.ReactNode;
   spark?: number[] | null;
   variant?: "up" | "down" | "muted";
 }
@@ -147,15 +156,18 @@ export function RepoKpiStrip({ repo, starActivity, profile }: RepoKpiStripProps)
         label="Stars"
         value={repo.stars.toLocaleString()}
         sub={
-          repo.starsDelta24h
-            ? `▲ +${repo.starsDelta24h.toLocaleString()} 24h${
-                repo.starsDelta7d
-                  ? ` · +${repo.starsDelta7d.toLocaleString()} 7d`
-                  : ""
-              }`
-            : repo.starsDelta7d
-              ? `▲ +${repo.starsDelta7d.toLocaleString()} 7d`
-              : null
+          repo.starsDelta24h ? (
+            <>
+              <TrendUp />+{repo.starsDelta24h.toLocaleString()} 24h
+              {repo.starsDelta7d
+                ? ` · +${repo.starsDelta7d.toLocaleString()} 7d`
+                : ""}
+            </>
+          ) : repo.starsDelta7d ? (
+            <>
+              <TrendUp />+{repo.starsDelta7d.toLocaleString()} 7d
+            </>
+          ) : null
         }
         spark={starSeries}
         variant={(repo.starsDelta24h ?? 0) >= 0 ? "up" : "down"}
@@ -164,9 +176,13 @@ export function RepoKpiStrip({ repo, starActivity, profile }: RepoKpiStripProps)
         label="Forks"
         value={repo.forks.toLocaleString()}
         sub={
-          repo.forksDelta7d
-            ? `▲ +${repo.forksDelta7d.toLocaleString()} 7d`
-            : "tracked in repo metadata"
+          repo.forksDelta7d ? (
+            <>
+              <TrendUp />+{repo.forksDelta7d.toLocaleString()} 7d
+            </>
+          ) : (
+            "tracked in repo metadata"
+          )
         }
         spark={softCurve(repo.forks, 12)}
         variant="up"
@@ -182,9 +198,13 @@ export function RepoKpiStrip({ repo, starActivity, profile }: RepoKpiStripProps)
         label="Contributors"
         value={repo.contributors.toLocaleString()}
         sub={
-          repo.contributorsDelta30d
-            ? `▲ +${repo.contributorsDelta30d.toLocaleString()} 30d`
-            : "maintainer graph active"
+          repo.contributorsDelta30d ? (
+            <>
+              <TrendUp />+{repo.contributorsDelta30d.toLocaleString()} 30d
+            </>
+          ) : (
+            "maintainer graph active"
+          )
         }
         spark={softCurve(repo.contributors, 12)}
         variant="up"
@@ -193,9 +213,13 @@ export function RepoKpiStrip({ repo, starActivity, profile }: RepoKpiStripProps)
         label="Mentions 7d"
         value={formatBig(mentionsTotal7d)}
         sub={
-          repo.mentions?.total24h
-            ? `▲ +${repo.mentions.total24h.toLocaleString()} last 24h`
-            : `${repo.channelsFiring ?? 0}/6 channels firing`
+          repo.mentions?.total24h ? (
+            <>
+              <TrendUp />+{repo.mentions.total24h.toLocaleString()} last 24h
+            </>
+          ) : (
+            `${repo.channelsFiring ?? 0}/6 channels firing`
+          )
         }
         spark={softCurve(mentionsTotal7d, 12)}
         variant="up"

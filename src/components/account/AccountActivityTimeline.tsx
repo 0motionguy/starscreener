@@ -28,6 +28,11 @@ function isFresh(iso: string | null | undefined, now: number): boolean {
   return now - ts <= FRESH_WINDOW_MS;
 }
 
+function formatMetaDate(meta: string | null | undefined): string {
+  if (typeof meta !== "string" || meta.length === 0) return "—";
+  return meta.slice(0, 10);
+}
+
 export function AccountActivityTimeline({
   ideas,
   recentReactions,
@@ -81,7 +86,7 @@ export function AccountActivityTimeline({
               >
                 <b>{item.title}</b>
                 <span>
-                  {item.label} &middot; {item.meta.slice(0, 10)}
+                  {item.label} &middot; {formatMetaDate(item.meta)}
                 </span>
               </div>
             );

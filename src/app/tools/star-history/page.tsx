@@ -21,6 +21,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ShareCTAButton } from "@/components/tools/hub/ShareCTAButton";
 import { getDerivedRepos, getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 import {
@@ -474,6 +475,17 @@ function Hero({
             Showing top mover by 7d delta instead.
           </div>
         ) : null}
+        <div style={{ marginTop: 12 }}>
+          <ShareCTAButton
+            size="sm"
+            shareText={
+              fullName
+                ? `Star history for ${fullName} — 30-day cumulative GitHub stars on TrendingRepo.`
+                : "Star history for any tracked open-source repo on TrendingRepo."
+            }
+            hashtags={["github", "opensource"]}
+          />
+        </div>
       </div>
       <div className="sh-hero-right">
         <div className="sh-kpi pill">

@@ -1,0 +1,155 @@
+name: Pre-Cutover Verify Gate
+
+# Pre-cutover verification gate for the v6 production cutover
+# (spec specs/001-v6-prod-cutover/). Manually dispatched against the
+# HOSTUP staging URL of the cutover candidate. Emits a `cutover-verify`
+# commit status check; cutover DNS swap is blocked until green.
+#
+# Jobs:
+#   lighthouse — npm run lighthouse:routes:prod against the staging URL
+#                + asserts no per-route regression > 5 pts vs baseline.
+#   smoke      — runs the existing post-deploy smoke probe in strict
+#                mode against the staging URL.
+#   csp_audit  — fetches every v6 core route, parses CSP headers, and
+#                asserts every inline <script>/<style> has a nonce or
+#                hash allowance (FR-013).
+#   clerk_audit — confirms middleware protected-route set has not
+#                expanded vs the pre-cutover snapshot (FR-014 first
+#                sentence).
+#   gate       — depends on all 4 above; emits cutover-verify status.
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_url:
+        description: "HOSTUP staging URL of cutover candidate (https://...)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: pre-cutover-verify
+  cancel-in-progress: false
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Lighthouse mobile against v6 core routes
+        env:
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+          DEPLOY_URL: ${{ inputs.deploy_url }}
+        run: |
+          npm run lighthouse:routes:prod
+          # The script writes to .perf/lighthouse-mobile-prod.json by
+          # default; rename so the baseline assertion sees this run as
+          # the cutover snapshot.
+          mv .perf/lighthouse-mobile-prod.json .perf/lighthouse-mobile-cutover.json
+          # Restore baseline from main (assumes baseline is committed):
+          git fetch origin main --depth=1
+          git show origin/main:.perf/lighthouse-mobile-prod.json > .perf/lighthouse-mobile-prod.json
+      - name: Assert no regression vs baseline
+        run: node scripts/verify/assert-lighthouse-baseline.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-cutover
+          path: .perf/lighthouse-mobile-cutover.json
+
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      BASE_URL: ${{ inputs.deploy_url }}
+      SMOKE_USER_AGENT: Mozilla/5.0 (compatible; TrendingRepoPreCutoverVerify/1.0; +https://trendingrepo.com)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke probe against cutover URL
+        shell: bash
+        run: |
+          set +e
+          # Reuses the canonical route set from perf/routes.json. Same
+          # contract as .github/workflows/post-deploy-smoke.yml.
+          fail=0
+          routes=$(node -e "const r=require('./perf/routes.json').routes;console.log(r.filter(x=>!x.route.includes('[')&&!x.route.includes('?')&&!x.route.startsWith('/api')).map(x=>x.route).join(' '))")
+          for r in $routes; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -A "$SMOKE_USER_AGENT" --max-time 15 "$BASE_URL$r")
+            if [ "$code" != "200" ] && [ "$code" != "308" ] && [ "$code" != "307" ]; then
+              echo "FAIL $r -> $code"
+              fail=1
+            else
+              echo "OK   $r -> $code"
+            fi
+          done
+          # Probe the 6 known moved/renamed redirects and assert 308.
+          for pair in "/top10:/tools/top-10" "/tierlist:/tools/tier-list" "/compare:/tools/compare" "/digest:/tools/digest" "/breakouts:/breakout" "/signals:/market-signals"; do
+            src="${pair%%:*}"
+            dst="${pair##*:}"
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -A "$SMOKE_USER_AGENT" --max-time 15 "$BASE_URL$src")
+            loc=$(curl -sS -I -A "$SMOKE_USER_AGENT" --max-time 15 "$BASE_URL$src" | awk 'tolower($1)=="location:"{print $2}' | tr -d '\r')
+            if [ "$code" != "308" ] || [ "${loc%%\?*}" != "$dst" ]; then
+              echo "FAIL redirect $src -> code=$code location=$loc (expected 308 -> $dst)"
+              fail=1
+            else
+              echo "OK   redirect $src -> 308 $loc"
+            fi
+          done
+          exit $fail
+
+  csp_audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: CSP audit
+        env:
+          DEPLOY_URL: ${{ inputs.deploy_url }}
+        run: node scripts/verify/csp-audit.mjs
+
+  clerk_audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Clerk publishable-routes audit
+        run: node scripts/verify/clerk-routes-audit.mjs
+
+  gate:
+    needs: [lighthouse, smoke, csp_audit, clerk_audit]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const lighthouse = '${{ needs.lighthouse.result }}';
+            const smoke = '${{ needs.smoke.result }}';
+            const csp = '${{ needs.csp_audit.result }}';
+            const clerk = '${{ needs.clerk_audit.result }}';
+            const allGreen = [lighthouse, smoke, csp, clerk].every(r => r === 'success');
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: allGreen ? 'success' : 'failure',
+              context: 'cutover-verify',
+              description: `lighthouse=${lighthouse} smoke=${smoke} csp=${csp} clerk=${clerk}`,
+              target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
+            if (!allGreen) core.setFailed(`Pre-cutover verify gate failed`);

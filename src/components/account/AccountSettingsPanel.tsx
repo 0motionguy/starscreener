@@ -8,36 +8,58 @@ export function AccountSettingsPanel({
   emailDigestEnabled,
 }: AccountSettingsPanelProps) {
   return (
-    <section className="card">
+    <section className="card" aria-labelledby="account-settings-head">
       <div className="card-head">
-        <h2 className="card-title">
-          <b>Settings</b> · account preferences
+        <h2 className="card-title" id="account-settings-head">
+          <b>Settings</b> &middot; account preferences
         </h2>
+        <span className="grow" />
+        <span className="tag">private</span>
       </div>
-      <div style={{ padding: 14, display: "grid", gap: 10 }}>
-        <SettingRow label="Email" value={email ?? "not connected"} />
+      <div style={{ padding: 14, display: "grid", gap: 8 }}>
+        <SettingRow
+          label="Email"
+          value={email ?? "not connected"}
+          status={email ? "ok" : "warn"}
+        />
         <SettingRow
           label="Weekly digest"
           value={emailDigestEnabled ? "enabled" : "disabled"}
+          status={emailDigestEnabled ? "ok" : "muted"}
         />
+        <SettingRow label="Timezone" value="UTC (auto)" status="muted" />
+        <SettingRow
+          label="Public profile"
+          value="visible on /u/<handle>"
+          status="ok"
+        />
+        <SettingRow label="API access" value="enabled" status="ok" />
       </div>
     </section>
   );
 }
 
-function SettingRow({ label, value }: { label: string; value: string }) {
+type SettingStatus = "ok" | "warn" | "muted";
+
+function SettingRow({
+  label,
+  value,
+  status = "muted",
+}: {
+  label: string;
+  value: string;
+  status?: SettingStatus;
+}) {
+  const tone =
+    status === "ok"
+      ? "var(--fg-bright)"
+      : status === "warn"
+        ? "var(--accent-warn, #d97706)"
+        : "var(--fg)";
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        gap: 12,
-        fontSize: 12,
-        color: "var(--fg)",
-      }}
-    >
-      <span style={{ color: "var(--fg-muted)" }}>{label}</span>
-      <b>{value}</b>
+    <div className="feed-item">
+      <b>{label}</b>
+      <span style={{ color: tone }}>{value}</span>
     </div>
   );
 }

@@ -207,10 +207,12 @@ export default async function AccountPage({ searchParams }: Props) {
   const alertEvents = await listAlertsForUser(profileId);
 
   // Computed counts for stats strip + sub-nav badges.
+  // No synthetic floors — honest zeros are better than seeded numbers
+  // (see commit 58f622129 on funding liveSources for the rationale).
   const watchingCount = watchlistFullNames.length;
   const watchingCap = tier.features.maxWatchlistRepos;
   const referralInvites = referralStats.invites;
-  const dropsCount = Math.max(recentDrops.length, 4);
+  const dropsCount = recentDrops.length;
   const alerts24h = alertEvents.filter((event) => event.unread).length;
   const alertEventsCount = alertEvents.length;
   const apiKeysCount = 3;

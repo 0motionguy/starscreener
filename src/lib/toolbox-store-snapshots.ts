@@ -209,6 +209,59 @@ export async function fetchClaudeRssFromToolbox(
 }
 
 // ---------------------------------------------------------------------------
+// OpenAI announcements — content.openai.announcements
+//
+// Same payload shape as Claude RSS (each TOOLBOX event carries the full RSS
+// snapshot on `fields.items`). Item source is forced to "openai" since this
+// adapter is OpenAI-specific even if a stray row arrived with an empty/other
+// source field.
+// ---------------------------------------------------------------------------
+
+function openaiRssItemFromRaw(raw: Record<string, unknown>): RssItem {
+  return {
+    id: stringOr(raw.id, ""),
+    title: stringOr(raw.title, ""),
+    url: stringOr(raw.url, ""),
+    summary: stringOr(raw.summary, ""),
+    publishedAt: stringOr(raw.publishedAt, ""),
+    author: stringOr(raw.author, ""),
+    source: "openai",
+    category: stringOr(raw.category, ""),
+  };
+}
+
+export async function fetchOpenAiAnnouncementsFromToolbox(
+  opts: ToolboxFetchOptions,
+): Promise<RssFile | null> {
+  const body = await fetchLeaderboardEvents(opts, "content.openai.announcements");
+  if (!body) return null;
+
+  const items = mergeItems(body.targets, isRssItem).map(openaiRssItemFromRaw);
+
+  // De-dupe by id, newest first.
+  const seen = new Set<string>();
+  const unique: RssItem[] = [];
+  for (const it of items) {
+    if (!it.id || seen.has(it.id)) continue;
+    seen.add(it.id);
+    unique.push(it);
+  }
+  unique.sort((a, b) => {
+    const ta = Date.parse(a.publishedAt);
+    const tb = Date.parse(b.publishedAt);
+    return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
+  });
+
+  return {
+    fetchedAt: toIso(maxProducedAtMs(body.targets)),
+    source: "openai",
+    feedUrl: "toolbox:content.openai.announcements",
+    error: null,
+    items: unique,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Lobsters trending — trending.lobsters
 // ---------------------------------------------------------------------------
 

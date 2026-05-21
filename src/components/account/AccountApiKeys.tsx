@@ -67,7 +67,7 @@ export function AccountApiKeys({ keys }: AccountApiKeysProps) {
           <span className="muted" style={{ fontSize: 11 }}>
             Rate limit: 4,200 / 10,000 requests used this month
           </span>
-          <button type="button" className="btn ghost sm" data-watch-toggle>
+          <button type="button" className="btn ghost sm" data-action="create-api-key" disabled>
             Create scoped key
           </button>
         </div>

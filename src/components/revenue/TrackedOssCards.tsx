@@ -3,6 +3,7 @@
 // Cards link to /repo/<owner>/<name>.
 
 import Link from "next/link";
+import { ShieldCheck } from "lucide-react";
 
 import type { Repo, RevenueOverlay } from "@/lib/types";
 
@@ -81,7 +82,7 @@ export function TrackedOssCards({ cards }: TrackedOssCardsProps) {
                   <span className="tc-name">
                     {displayName}{" "}
                     <span className="verified" aria-label="verified revenue">
-                      ✓
+                      <ShieldCheck size={12} strokeWidth={2.5} aria-hidden="true" />
                     </span>
                   </span>
                   <Link

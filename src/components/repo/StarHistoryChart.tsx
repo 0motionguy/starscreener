@@ -5,6 +5,8 @@
 // Generates the path d-string deterministically from the input series so
 // SSR + hydration agree. No client JS dependency — purely an SVG snapshot.
 
+import { Flag } from "lucide-react";
+
 import type { Repo } from "@/lib/types";
 import type { StarActivityPayload } from "@/lib/star-activity";
 
@@ -321,7 +323,7 @@ export function StarHistoryChart({
                   color: "var(--surface)",
                 }}
               >
-                ▲
+                <Flag size={11} strokeWidth={2} aria-hidden="true" />
               </div>
               <div>
                 <div className="event-title">{e.label}</div>

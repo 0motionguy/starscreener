@@ -9,9 +9,9 @@ import Link from "next/link";
 const CATEGORIES = [
   { id: "repos", label: "Repos", glyph: "R" },
   { id: "skills", label: "Skills", glyph: "S" },
-  { id: "mcp", label: "MCP Servers", glyph: "M" },
   { id: "agents", label: "Agents", glyph: "A" },
   { id: "llms", label: "LLMs · HF Models", glyph: "L" },
+  { id: "mcp", label: "MCP Servers", glyph: "M" },
 ] as const;
 
 const WINDOWS = [
@@ -31,7 +31,7 @@ interface TrendingHubHeroProps {
   counts?: Partial<Record<CategoryId, number>>;
 }
 
-export function TrendingHubHero({ category, window: timeWindow, counts }: TrendingHubHeroProps) {
+export function TrendingHubHero({ category, window: timeWindow }: TrendingHubHeroProps) {
   const fetchedAt = (() => {
     try {
       return getLastFetchedAt() || null;
@@ -53,14 +53,12 @@ export function TrendingHubHero({ category, window: timeWindow, counts }: Trendi
       <div className="page-head">
         <div>
           <div className="page-eyebrow">
-            <span className={`live-dot ${fresh?.status ?? "cold"}`} /> <b>{fresh ? getStatusLabel(fresh.status) : "STALE"}</b> · scanned{" "}
-            {fresh?.ageLabel ?? "—"} · 30 mention sources · {tracked.toLocaleString()} candidates
+            <span className={`live-dot ${fresh?.status ?? "cold"}`} aria-hidden="true" />{" "}
+            <b>{getStatusLabel(fresh?.status ?? "cold")}</b> · scanned {fresh?.ageLabel ?? "—"} · 30 mention sources ·{" "}
+            {tracked.toLocaleString()} candidates
           </div>
           <h1 className="page-title">Trending — the radar for everything AI</h1>
-          <p className="page-sub">
-            Repos, skills, MCP servers, agents, models. Cross-signal scoring across GitHub, HN, Reddit, X,
-            Bluesky, ProductHunt, Dev.to and 23 more. Updated every 30 min.
-          </p>
+          <p className="page-sub">Cross-signal scoring · refreshed every 30 minutes</p>
         </div>
         <div className="segmented" role="group" aria-label="Time window">
           {WINDOWS.map((w) => (
@@ -74,26 +72,6 @@ export function TrendingHubHero({ category, window: timeWindow, counts }: Trendi
             </Link>
           ))}
         </div>
-      </div>
-
-      <div className="switcher" data-tabset>
-        {CATEGORIES.map((c) => {
-          const ct = counts?.[c.id];
-          return (
-            <Link
-              key={c.id}
-              id={c.id}
-              href={{ query: { cat: c.id, window: timeWindow } }}
-              data-tab={c.id}
-              className={c.id === category ? "on" : ""}
-              prefetch={false}
-            >
-              <span aria-hidden="true">{c.glyph}</span>
-              {c.label}
-              {ct !== undefined && <span className="sw-count">{ct.toLocaleString()}</span>}
-            </Link>
-          );
-        })}
       </div>
     </>
   );

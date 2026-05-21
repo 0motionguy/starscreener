@@ -59,7 +59,7 @@ function buildDefaultTicker(): TickerItem[] {
 
   return movers.map((row) => {
     const v = row.starsDelta24h;
-    const pretty = v >= 0 ? `+${v} ★ 24h` : `${v} ★ 24h`;
+    const pretty = v >= 0 ? `+${v} stars 24h` : `${v} stars 24h`;
     return {
       tag: "REPO",
       label: row.fullName,

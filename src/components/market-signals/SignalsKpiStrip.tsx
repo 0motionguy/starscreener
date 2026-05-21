@@ -28,35 +28,37 @@ export function SignalsKpiStrip({
         <span className="kpi-value" data-counter data-target={totalMentions}>
           {totalMentions.toLocaleString()}
         </span>
-        <span className="kpi-delta up">up +18% vs 7d avg</span>
+        <span className="kpi-delta">across {totalSources} tracked sources</span>
       </div>
       <div className="kpi">
         <span className="kpi-label">Cross-source mentions</span>
         <span className="kpi-value" data-counter data-target={crossSourceCount}>
           {crossSourceCount.toLocaleString()}
         </span>
-        <span className="kpi-delta up">same repo on 4+ sources</span>
+        <span className="kpi-delta">same repo on 4+ sources</span>
       </div>
       <div className="kpi">
         <span className="kpi-label">arXiv papers ingested</span>
         <span className="kpi-value" data-counter data-target={arxivPapers}>
           {arxivPapers.toLocaleString()}
         </span>
-        <span className="kpi-delta up">{citedRepos.toLocaleString()} cite OSS</span>
+        <span className="kpi-delta">{citedRepos.toLocaleString()} cite OSS</span>
       </div>
       <div className="kpi">
         <span className="kpi-label">NPM accelerating</span>
         <span className="kpi-value" data-counter data-target={npmAccelerating}>
           {npmAccelerating.toLocaleString()}
         </span>
-        <span className="kpi-delta up">+30% weekly dl</span>
+        <span className="kpi-delta">weekly download lift</span>
       </div>
       <div className="kpi">
         <span className="kpi-label">Source rail live</span>
         <span className="kpi-value" data-counter data-target={liveSources}>
           {liveSources.toLocaleString()}
         </span>
-        <span className="kpi-delta up">{totalSources.toLocaleString()} sources tracked</span>
+        <span className={`kpi-delta ${liveSources === totalSources ? "up" : liveSources >= totalSources / 2 ? "" : "dn"}`}>
+          {liveSources.toLocaleString()} of {totalSources.toLocaleString()} sources contributing
+        </span>
       </div>
     </div>
   );

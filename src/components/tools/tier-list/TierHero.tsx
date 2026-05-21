@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FreshnessPill } from "@/components/shell/FreshnessPill";
+import { ShareCTAButton } from "@/components/tools/hub/ShareCTAButton";
 import { repoLogoUrl } from "@/lib/logos";
 
 import type { TierLetter, TierListItem, TierRow } from "./TierListBoard";
@@ -43,6 +44,17 @@ export function TierHero({
         <span className="tier-hero-eyebrow-num">02 / TIER LIST</span>
         <span className="tier-hero-fresh">
           <FreshnessPill source="repos" fetchedAt={fetchedAt} />
+        </span>
+        <span style={{ marginLeft: 8 }}>
+          <ShareCTAButton
+            size="sm"
+            shareText={
+              highlighted
+                ? `${highlighted.item.fullName} is ${highlighted.tier}-tier on TrendingRepo's live ranking — graded on 7d stars, 24h velocity, and cross-source mentions.`
+                : "Live S/A/B/C/D tier list of the top tracked open-source repos — graded on stars, velocity, and cross-source mentions."
+            }
+            hashtags={["opensource", "github", "tierlist"]}
+          />
         </span>
       </div>
 

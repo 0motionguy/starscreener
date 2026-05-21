@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Star } from "lucide-react";
 
 import type { RelatedRepoItem } from "@/lib/repo-related";
 import type { Repo } from "@/lib/types";
@@ -52,7 +53,13 @@ function RelatedBody({ item }: { item: RelatedRepoItem }) {
         className="mono up-text"
         style={{ fontSize: 11, textAlign: "right" }}
       >
-        {item.stars.toLocaleString()} ★
+        {item.stars.toLocaleString()}{" "}
+        <Star
+          size={10}
+          strokeWidth={2}
+          aria-hidden="true"
+          style={{ display: "inline", verticalAlign: "-1px" }}
+        />
         <br />
         <span className="muted" style={{ fontSize: 10 }}>
           m{item.momentumScore.toFixed(0)}

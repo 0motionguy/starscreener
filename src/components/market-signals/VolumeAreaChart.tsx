@@ -90,8 +90,11 @@ export function VolumeAreaChart({ totals }: VolumeAreaChartProps) {
 
   const firstWeek = stacked.slice(0, 7).reduce((sum, row) => sum + row[row.length - 1], 0);
   const lastWeek = stacked.slice(-7).reduce((sum, row) => sum + row[row.length - 1], 0);
-  const changePct = firstWeek > 0 ? Math.round(((lastWeek - firstWeek) / firstWeek) * 100) : 18;
-  const chipClass = changePct >= 0 ? "up" : "dn";
+  const hasComparable = firstWeek > 0;
+  const changePct = hasComparable
+    ? Math.round(((lastWeek - firstWeek) / firstWeek) * 100)
+    : 0;
+  const chipClass = !hasComparable ? "" : changePct >= 0 ? "up" : "dn";
 
   return (
     <div className="card cockpit-wide">
@@ -101,8 +104,9 @@ export function VolumeAreaChart({ totals }: VolumeAreaChartProps) {
         </h2>
         <span className="grow" />
         <span className={`chip ${chipClass}`}>
-          {changePct >= 0 ? "+" : ""}
-          {changePct}% vs 7d avg
+          {hasComparable
+            ? `${changePct >= 0 ? "+" : ""}${changePct}% vs first 7d`
+            : "first-week baseline"}
         </span>
       </div>
 

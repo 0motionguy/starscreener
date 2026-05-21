@@ -8,7 +8,14 @@
 // Fire + target are local-only (no DB column).
 
 import { useCallback, useState } from "react";
+import type { ReactNode } from "react";
 
+import {
+  BulbSvg,
+  FlameIcon,
+  RocketIcon,
+  TargetIcon,
+} from "@/components/icons-animated";
 import type {
   ReactionCounts,
   ReactionType,
@@ -25,16 +32,32 @@ interface IdeaHeroReactionsProps {
 interface HeroChip {
   /** Mockup data-react value. */
   key: "fire" | "bulb" | "rocket" | "target";
-  emoji: string;
+  render: () => ReactNode;
   /** Persisted reaction column, if any. Fire/target are local-only. */
   serverType: ReactionType | null;
 }
 
 const CHIPS: HeroChip[] = [
-  { key: "fire", emoji: "🔥", serverType: null },
-  { key: "bulb", emoji: "💡", serverType: "build" },
-  { key: "rocket", emoji: "🚀", serverType: "use" },
-  { key: "target", emoji: "🎯", serverType: null },
+  {
+    key: "fire",
+    render: () => <FlameIcon size={14} color="currentColor" />,
+    serverType: null,
+  },
+  {
+    key: "bulb",
+    render: () => <BulbSvg size={14} color="var(--accent)" />,
+    serverType: "build",
+  },
+  {
+    key: "rocket",
+    render: () => <RocketIcon size={14} color="currentColor" />,
+    serverType: "use",
+  },
+  {
+    key: "target",
+    render: () => <TargetIcon size={14} color="currentColor" />,
+    serverType: null,
+  },
 ];
 
 export function IdeaHeroReactions({
@@ -140,7 +163,7 @@ export function IdeaHeroReactions({
             onClick={onClick}
           >
             <span className="emoji" aria-hidden="true">
-              {chip.emoji}
+              {chip.render()}
             </span>
             {chip.serverType ? <span className="n">{count}</span> : null}
           </button>

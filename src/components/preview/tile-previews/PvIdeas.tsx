@@ -1,5 +1,7 @@
 // PvIdeas — ideas board preview: NEW banner + 3 idea rows + pipeline footer.
 // Pixel-faithful to index.html:689-717.
+import { Lightbulb } from "@/lib/icons";
+
 export function PvIdeas() {
   const IDEAS = [
     { title: "Hosted MCP dashboard", status: "OPEN", statusVariant: "up" as const },
@@ -89,7 +91,7 @@ export function PvIdeas() {
                 fontSize: 9,
               }}
             >
-              💡
+              <Lightbulb size={9} strokeWidth={2} aria-hidden="true" />
             </span>
             <span
               style={{

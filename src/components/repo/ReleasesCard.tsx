@@ -1,3 +1,5 @@
+import { Tag } from "lucide-react";
+
 import type { NormalizedGithubEvent } from "@/lib/github-events";
 import type { Repo } from "@/lib/types";
 
@@ -91,7 +93,9 @@ export function ReleasesCard({ repo, events }: ReleasesCardProps) {
             className="related-row"
             style={{ gridTemplateColumns: "28px 1fr 80px" }}
           >
-            <div className={`event-mark ${row.variant}`}>▲</div>
+            <div className={`event-mark ${row.variant}`}>
+              <Tag size={11} strokeWidth={2} aria-hidden="true" />
+            </div>
             <div>
               <div className="related-name">{row.tag}</div>
               <div className="related-desc">{row.notes}</div>

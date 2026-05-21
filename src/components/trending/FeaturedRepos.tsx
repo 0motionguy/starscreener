@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import type { Repo } from "@/lib/types";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 import { MentionSourcePips } from "./MentionSourcePips";
 import { RepoSparkline } from "./RepoSparkline";
 
@@ -11,13 +11,18 @@ interface FeaturedReposProps {
 }
 
 const VARIANTS = [
-  { className: "hot", label: "HOT", stat: "24h velocity" },
-  { className: "trend", label: "TRENDING", stat: "7d consensus" },
-  { className: "cool", label: "EARLY", stat: "30d lift" },
+  { className: "hot", label: "TOP", rankClass: "rank-top", stat: "24h velocity" },
+  { className: "trend", label: "BREAKOUT", rankClass: "rank-breakout", stat: "7d consensus" },
+  { className: "cool", label: "TREND", rankClass: "rank-trend", stat: "30d lift" },
 ] as const;
 
 export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
-  const featured = repos.slice(0, 3);
+  const top = [...repos].sort((a, b) => (b.momentumScore ?? 0) - (a.momentumScore ?? 0))[0];
+  const breakout = [...repos].sort((a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0))[0];
+  const trend = [...repos].sort((a, b) => (b.trendScore30d ?? 0) - (a.trendScore30d ?? 0))[0];
+  const featured = [top, breakout, trend].filter(
+    (r, i, a) => r && a.findIndex((x) => x?.id === r.id) === i,
+  ) as Repo[];
 
   return (
     <div className="featured-row" aria-label="Featured repositories">
@@ -26,7 +31,7 @@ export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
         const fresh = classifyFreshness("repos", repo.lastCommitAt || fetchedAt || new Date(0).toISOString());
         const freshCls = fresh.status === "live" ? "fresh-live" : fresh.status === "warn" ? "fresh-warm" : "fresh-cold";
         const href = `/repo/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}`;
-        const tags = pickTags(repo);
+        const avatarUrl = repo.ownerAvatarUrl;
         const delta = index === 1 ? repo.starsDelta7d : index === 2 ? repo.starsDelta30d : repo.starsDelta24h;
         const velocity = repo.stars > 0 ? (delta / repo.stars) * 100 : 0;
 
@@ -35,24 +40,22 @@ export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
             <div className="feat-head">
               <div className="feat-rank">{String(index + 1).padStart(2, "0")}</div>
               <div className="repo-id grow">
-                <div className="repo-avatar avatar-token" aria-hidden="true">
-                  {repo.owner.slice(0, 2).toUpperCase()}
+                <div className="repo-avatar feat-avatar">
+                  {avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={avatarUrl} alt="" loading="lazy" width={40} height={40} />
+                  ) : (
+                    <span aria-hidden="true">{repo.owner.slice(0, 2).toUpperCase()}</span>
+                  )}
                 </div>
                 <div className="repo-text">
                   <Link className="repo-name" href={href} data-repo-hover data-repo={repo.fullName} prefetch={false}>
                     <span className="repo-owner">{repo.owner}/</span>
                     {repo.name}
                   </Link>
-                  <div className="row gap-2 feat-tags">
-                    {tags.map((tag, tagIndex) => (
-                      <span key={tag} className={tagIndex === 0 ? "tag brand" : "tag"}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
-              <span className={`chip ${index === 2 ? "info" : "up"}`}>{variant.label}</span>
+              <span className={`feat-rank-chip ${variant.rankClass}`}>{variant.label}</span>
             </div>
 
             <div className="feat-body">
@@ -63,7 +66,7 @@ export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
                   {compact(delta)} stars · {velocity.toFixed(1)}%
                 </span>
                 <span className={`fresh ${freshCls}`}>
-                  <span className="pip" /> {fresh.status.toUpperCase()} · {fresh.ageLabel}
+                  <span className="pip" aria-hidden="true" /> {getStatusLabel(fresh.status)} · {fresh.ageLabel}
                 </span>
               </div>
               <MentionSourcePips repo={repo} />
@@ -89,18 +92,6 @@ export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
       })}
     </div>
   );
-}
-
-function pickTags(repo: Repo): string[] {
-  const tags = [
-    repo.tags?.[0],
-    repo.language,
-    repo.collectionNames?.[0],
-    repo.topics?.[0],
-  ]
-    .filter(Boolean)
-    .map((tag) => String(tag).replace(/[_-]/g, " ").toUpperCase());
-  return Array.from(new Set(tags)).slice(0, 2);
 }
 
 function compact(value: number): string {

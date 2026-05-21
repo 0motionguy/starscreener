@@ -22,7 +22,8 @@ type FallthroughSignal =
   | "arxiv"
   | "claude_rss"
   | "lobsters"
-  | "npm_dependents";
+  | "npm_dependents"
+  | "funding";
 
 type FallthroughReason =
   | "toolbox_null_legacy_missing"

@@ -36,7 +36,9 @@ export function FundingKpiStrip({
   const displayRounds = Math.max(totalRounds, visibleSignals.length);
   const highConfidencePct =
     displayRounds > 0 ? Math.round((highConfidence / displayRounds) * 100) : 0;
-  const matchedCount = Math.max(reposMatched, Math.min(38, Math.round(displayRounds * 0.27)));
+  // No synthetic floor — repos matched comes straight from the resolver so
+  // a quiet upstream isn't laundered into "38 matched" via Math.max.
+  const matchedCount = reposMatched;
   const matchedPct =
     displayRounds > 0 ? Math.round((matchedCount / displayRounds) * 100) : 0;
 
@@ -51,12 +53,12 @@ export function FundingKpiStrip({
         <div className="v" data-counter data-target={displayRounds}>
           {displayRounds.toLocaleString()}
         </div>
-        <div className="d up">+{Math.max(8, Math.round(displayRounds * 0.2))} vs prior 7d</div>
+        <div className="d">structured rounds in window</div>
       </div>
       <div className="cell">
         <div className="l">Capital raised</div>
         <div className="v acc">{compactCurrency(windowCapital)}</div>
-        <div className="d up">+41% vs prior 7d</div>
+        <div className="d">sum of disclosed amounts</div>
       </div>
       <div className="cell">
         <div className="l">Top round</div>

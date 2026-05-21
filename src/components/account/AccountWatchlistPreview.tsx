@@ -5,7 +5,9 @@
 // fired for that repo; otherwise the badge collapses to a muted "silent"
 // label so the row still parses as a 5-cell grid.
 
+import type { ReactNode } from "react";
 import Link from "next/link";
+import { ChevronDown, ChevronUp, Star } from "lucide-react";
 
 export interface AccountWatchlistRow {
   fullName: string;
@@ -17,7 +19,7 @@ export interface AccountWatchlistRow {
   language?: string | null;
   /** Star count snapshot. */
   stars?: number | null;
-  /** 24h star delta. Used for the `▲ +N` meta cell + spark direction. */
+  /** 24h star delta. Used for the up/down chevron meta cell + spark direction. */
   starsDelta24h?: number | null;
   /** Daily star history (≤14 used for the spark; longer arrays get trimmed). */
   sparklineData?: number[] | null;
@@ -47,22 +49,31 @@ function avatarSeed(name: string): string {
   );
 }
 
-function formatStars(stars: number | null | undefined): string {
+function formatStars(stars: number | null | undefined): ReactNode {
   if (stars === null || stars === undefined || !Number.isFinite(stars)) {
     return "—";
   }
-  if (stars >= 1_000) return `${(stars / 1_000).toFixed(1)}K ★`;
-  return `${stars} ★`;
+  const label = stars >= 1_000 ? `${(stars / 1_000).toFixed(1)}K` : String(stars);
+  return (
+    <>
+      {label} <Star size={10} strokeWidth={2} fill="currentColor" aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px" }} />
+    </>
+  );
 }
 
-function formatDelta(delta: number | null | undefined): string {
+function formatDelta(delta: number | null | undefined): ReactNode {
   if (delta === null || delta === undefined || !Number.isFinite(delta)) {
     return "— stable";
   }
   if (delta === 0) return "— stable";
   const abs = Math.abs(delta);
   const suffix = abs >= 1_000 ? `${(abs / 1_000).toFixed(1)}K` : String(abs);
-  return delta > 0 ? `▲ +${suffix}` : `▼ -${suffix}`;
+  const Icon = delta > 0 ? ChevronUp : ChevronDown;
+  return (
+    <>
+      <Icon size={10} strokeWidth={2} aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px" }} /> {delta > 0 ? `+${suffix}` : `-${suffix}`}
+    </>
+  );
 }
 
 function sparkClass(delta: number | null | undefined): "up" | "down" | "muted" {
@@ -159,10 +170,20 @@ export function AccountWatchlistPreview({
                 </span>
               </div>
               <div className={`wlist-alert${alertOn ? " on" : ""}`}>
-                {alertOn ? `▲ ALERT ON · ${row.alertLabel}` : "— silent"}
+                {alertOn ? (
+                  <>
+                    <ChevronUp size={10} strokeWidth={2} aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px" }} /> ALERT ON &middot; {row.alertLabel}
+                  </>
+                ) : (
+                  "— silent"
+                )}
               </div>
               <div className="wlist-spark">
-                <div className={`spark ${klass}`} data-points={points} />
+                {points ? (
+                  <div className={`spark ${klass}`} data-points={points} />
+                ) : (
+                  <div className="spark muted" aria-hidden="true" />
+                )}
               </div>
               <div className="wlist-meta">
                 <span className="star">{formatStars(row.stars)}</span>

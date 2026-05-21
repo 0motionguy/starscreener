@@ -59,10 +59,43 @@ export interface HfModelTrending extends HfModelRaw {
 }
 
 // ---------------------------------------------------------------------------
+// LLM-only filter (opt-in, gated by HF_LLM_ONLY=true)
+// ---------------------------------------------------------------------------
+//
+// Backend produces ~20K HF models across every pipeline tag (vision,
+// speech, embedding, ...). trendingrepo's HF surface only cares about
+// LLMs. Filter by `pipelineTag` at the reader level so consumers
+// (scoring, OG cards, rollups) all see the LLM-only view.
+//
+// Toggleable via HF_LLM_ONLY=true so we can flip back to the full set
+// without a deploy if a downstream consumer needs every model. Default
+// off — when the env var is missing or anything other than "true" the
+// existing wire shape passes through untouched.
+
+const LLM_PIPELINE_TAGS: ReadonlySet<string> = new Set([
+  "text-generation",
+  "conversational",
+]);
+
+function isLlmOnlyEnabled(): boolean {
+  return process.env.HF_LLM_ONLY === "true";
+}
+
+function filterLlmOnly(file: HfTrendingFile): HfTrendingFile {
+  if (!isLlmOnlyEnabled()) return file;
+  const models = (file.models ?? []).filter(
+    (m) => m.pipelineTag !== null && LLM_PIPELINE_TAGS.has(m.pipelineTag),
+  );
+  return { ...file, count: models.length, models };
+}
+
+// ---------------------------------------------------------------------------
 // In-memory cache (seeded from bundled JSON; swapped by refresh hook)
 // ---------------------------------------------------------------------------
 
-let trendingFile: HfTrendingFile = hfTrendingData as unknown as HfTrendingFile;
+let trendingFile: HfTrendingFile = filterLlmOnly(
+  hfTrendingData as unknown as HfTrendingFile,
+);
 
 export function getHfTrendingFile(): HfTrendingFile {
   return trendingFile;
@@ -141,7 +174,7 @@ export async function refreshHfModelsFromStore(): Promise<{
       const { getDataStore } = await import("./data-store");
       const result = await getDataStore().read<HfTrendingFile>("huggingface-trending");
       if (result.data && result.source !== "missing") {
-        trendingFile = result.data;
+        trendingFile = filterLlmOnly(result.data);
       }
       lastRefreshMs = Date.now();
       return { huggingface: { source: result.source, ageMs: result.ageMs } };

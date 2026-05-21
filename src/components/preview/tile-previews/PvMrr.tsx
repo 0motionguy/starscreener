@@ -1,5 +1,7 @@
 // PvMrr — revenue terminal preview: 3 verified OSS cards + combined-30d
 // hero card. Pixel-faithful to index.html:650-673.
+import { CircleCheck } from "@/lib/icons";
+
 export function PvMrr() {
   const ROWS = [
     { logo: "G", name: "Gumroad", mrr: "$7.14M" },
@@ -56,7 +58,12 @@ export function PvMrr() {
           >
             {r.name}
           </span>
-          <span style={{ color: "var(--up)", fontSize: 9 }}>✓</span>
+          <CircleCheck
+            size={10}
+            strokeWidth={2.2}
+            color="var(--up)"
+            aria-hidden="true"
+          />
           <span
             style={{
               marginLeft: "auto",

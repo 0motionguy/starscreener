@@ -244,6 +244,7 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
   const queryHadMatches = rendered.length > 0;
   rendered = applyFilter(rendered, filter, countsById);
   rendered = applySort(rendered, sort, scoresById);
+  const usedFallback = rendered.length === 0 && visible.length > 0;
   if (rendered.length === 0) {
     rendered = applySort(visible, sort, scoresById).slice(0, 5);
   }
@@ -338,6 +339,31 @@ export default async function IdeasBoardPage({ searchParams }: Props) {
                   </>
                 ) : (
                   "No ideas in this slice yet — submit the first one."
+                )}
+              </div>
+            ) : usedFallback ? (
+              <div
+                className="ideas-empty-fallback"
+                role="status"
+                style={{
+                  padding: "12px 16px",
+                  marginBottom: 12,
+                  background: "var(--bg-elev)",
+                  border: "1px solid var(--line)",
+                  borderRadius: 8,
+                  color: "var(--fg-faint)",
+                  fontSize: 13,
+                }}
+              >
+                {q && !queryHadMatches ? (
+                  <>
+                    No ideas match <code>{q}</code> in this slice. Showing top
+                    hot ideas instead.
+                  </>
+                ) : (
+                  <>
+                    No ideas in this filter — showing top hot ideas instead.
+                  </>
                 )}
               </div>
             ) : null}

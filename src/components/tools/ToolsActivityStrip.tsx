@@ -58,7 +58,7 @@ export function ToolsActivityStrip({
   return (
     <section>
       <SectionEyebrow
-        num="04"
+        num="05"
         title="Recent activity - 7 days"
         meta={<>Last 7d - <b>{totalEvents}</b> events</>}
       />

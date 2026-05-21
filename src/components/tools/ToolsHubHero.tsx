@@ -42,15 +42,14 @@ export function ToolsHubHero({
         >
           <FreshnessPill source="repos" fetchedAt={fetchedAt} prefix="TOOLBOX" />
           <span style={{ color: "var(--fg-faint)" }}>
-            /tools - {toolsLive} of {toolsTotal} utilities - charts, estimators, contributor surfaces
+            /tools - {toolsLive} share-worthy utilities - watchlist, compare, tier-list, star-history, top-10
           </span>
         </div>
-        <h1 className="page-title">Tools for the trend desk.</h1>
+        <h1 className="page-title">Tools that make GitHub scanning shareable.</h1>
         <p className="page-sub">
-          Built on the same momentum pipeline as the rest of the platform. Plot
-          multi-repo star history head-to-head, browse the consensus treemap,
-          estimate ARR with overlay data, track your watchlist, set alerts, and
-          share tier-list takes back to the timeline.
+          Pin your repos, rank them, plot the curves, freeze the daily top-10 -
+          then screenshot the result and post it. Every tool ships with a built-in
+          share card so your scan reads as a clean post on X, Reddit, or Discord.
         </p>
       </div>
       <div className="segmented" role="group" aria-label="Tool filter">

@@ -127,6 +127,20 @@ export async function refreshFundingFromStore(): Promise<RefreshResult> {
 
   inflight = (async (): Promise<RefreshResult> => {
     try {
+      // Phase A.2: TOOLBOX_READ_FUNDING_STARTUP / _SEC_FORMD route through
+      // /v1/signals/leaderboard. Null return → legacy data-store path runs.
+      const { tryFetchFundingFromToolbox } = await import("./funding-toolbox");
+      const { file: toolboxFile, diag } = await tryFetchFundingFromToolbox();
+      if (toolboxFile && Array.isArray(toolboxFile.events)) {
+        cache = toolboxFile;
+        lastRefreshMs = Date.now();
+        return {
+          source: "redis",
+          ageMs: 0,
+          count: cache.events.length,
+        };
+      }
+
       const { getDataStore } = await import("../data-store");
       const result = await getDataStore().read<FundingEventsFile>(
         "funding-events",
@@ -137,6 +151,23 @@ export async function refreshFundingFromStore(): Promise<RefreshResult> {
         Array.isArray(result.data.events)
       ) {
         cache = result.data;
+      } else if (diag.hadStartupFlag || diag.hadSecFlag) {
+        // TOOLBOX flag was on, but both TOOLBOX and legacy returned empty.
+        // Surface via the shared Sentry channel for adapter fall-through.
+        const { alertAdapterFallthrough } = await import(
+          "../adapter-fallthrough-alert"
+        );
+        alertAdapterFallthrough(
+          "funding",
+          "toolbox_null_legacy_missing",
+          {
+            had_toolbox_flag_startup: diag.hadStartupFlag,
+            had_toolbox_flag_sec_formd: diag.hadSecFlag,
+            read_source_startup: diag.startupSource,
+            read_source_sec_formd: diag.secSource,
+            result_source: result.source,
+          },
+        );
       }
       lastRefreshMs = Date.now();
       return {

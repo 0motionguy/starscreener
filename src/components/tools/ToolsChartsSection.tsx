@@ -19,7 +19,7 @@ export function ToolsChartsSection({
   return (
     <section>
       <SectionEyebrow
-        num="01"
+        num="02"
         title="Charts"
         meta={<><b>2</b> live - multi-repo plots</>}
       />

@@ -17,13 +17,11 @@ export type IdeaTab = (typeof IDEA_TABS)[number]["id"];
 interface IdeaDetailTabsProps {
   ideaId: string;
   active: IdeaTab;
-  contributionCount?: number;
 }
 
 export function IdeaDetailTabs({
   ideaId,
   active,
-  contributionCount = 5,
 }: IdeaDetailTabsProps) {
   return (
     <div data-tabset data-panel-group="idea-tabs">

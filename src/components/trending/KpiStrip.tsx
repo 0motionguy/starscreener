@@ -3,7 +3,8 @@
 
 import { getTrackedRepoCount, getDeltasComputedAt, getLastFetchedAt } from "@/lib/trending";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
+import { TrendingUp } from "@/lib/icons";
 
 export async function KpiStrip() {
   const trackedCount = safe(() => getTrackedRepoCount(), 0);
@@ -44,45 +45,66 @@ export async function KpiStrip() {
   const fresh = fetchedAt ? classifyFreshness("repos", fetchedAt) : null;
   const freshLabel = fresh?.ageLabel ?? "—";
   const freshStatus = fresh?.status ?? "cold";
+  const allLive = liveSources > 0 && liveSources === totalSources;
 
   return (
-    <div className="kpi-strip" style={{ margin: "16px 0" }}>
+    <div className="kpi-strip">
       <div className="kpi">
         <span className="kpi-label">Repos tracked</span>
         <span className="kpi-value" data-counter data-target={trackedCount}>
           {trackedCount.toLocaleString()}
         </span>
-        <span className="kpi-delta up">▲ {deltasAt ? "last computed " + classifyFreshness("repos", deltasAt).ageLabel : "—"}</span>
+        <span className="kpi-delta up">
+          <TrendingUp size={11} aria-hidden="true" />
+          {deltasAt ? "last computed " + classifyFreshness("repos", deltasAt).ageLabel : "—"}
+        </span>
       </div>
       <div className="kpi">
         <span className="kpi-label">Mentions captured</span>
         <span className="kpi-value" data-counter data-target={mentions24h}>
           {mentions24h.toLocaleString()}
         </span>
-        <span className="kpi-delta up">▲ across {totalSources} mention sources</span>
+        <span className="kpi-delta up">
+          <TrendingUp size={11} aria-hidden="true" />
+          across {totalSources} mention sources
+        </span>
       </div>
       <div className="kpi">
         <span className="kpi-label">Breakouts today</span>
-        <span className="kpi-value" data-counter data-target={42}>
-          42
-        </span>
-        <span className="kpi-delta up">▲ via consensus</span>
+        {counts ? (
+          <>
+            <span className="kpi-value" data-counter data-target={42}>
+              42
+            </span>
+            <span className="kpi-delta up">
+              <TrendingUp size={11} aria-hidden="true" />
+              via consensus
+            </span>
+          </>
+        ) : (
+          <>
+            <span className="kpi-value kpi-empty">—</span>
+            <span className="kpi-delta fl">awaiting consensus</span>
+          </>
+        )}
       </div>
       <div className="kpi">
         <span className="kpi-label">Mention sources up</span>
         <span className="kpi-value">
           {liveSources}
-          <span style={{ color: "var(--fg-faint)", fontSize: 16 }}> / {totalSources}</span>
+          <span className="kpi-value-sub"> / {totalSources}</span>
         </span>
-        <span className="kpi-delta fl">
-          {liveSources === totalSources ? "● ALL LIVE" : "● degraded"}
+        <span className={`kpi-delta ${allLive ? "up" : "fl"}`}>
+          <span className={`live-dot ${allLive ? "live" : "warn"}`} aria-hidden="true" />
+          {allLive ? "ALL LIVE" : "degraded"}
         </span>
       </div>
       <div className="kpi">
         <span className="kpi-label">Avg freshness</span>
         <span className="kpi-value">{freshLabel}</span>
-        <span className={`kpi-delta ${freshStatus === "live" ? "up" : freshStatus === "warn" ? "fl" : "fl"}`}>
-          ▲ {freshStatus.toUpperCase()}
+        <span className={`kpi-delta ${freshStatus === "live" ? "up" : "fl"}`}>
+          <span className={`live-dot ${freshStatus}`} aria-hidden="true" />
+          {getStatusLabel(freshStatus).toUpperCase()}
         </span>
       </div>
     </div>

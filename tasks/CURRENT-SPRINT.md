@@ -4,6 +4,8 @@ verified-by: claude
 status: needs-verification
 audit-note: per-line drift-check deferred; commit-grep cross-reference attached
 handover-2026-05-09: see tasks/HANDOVER-2026-05-09-push-wave.md — runbook EXECUTED 2026-05-09 ~01:30 (Indonesia). Phase 5 wave (5 commits) + durability fix + WIP wave-2 (Path B, 26 files) all LIVE on origin/main HEAD `b8312812`. Production verified between waves. Two open bugs (P0 /repo/* 500 — pre-existing, P1 /api/mcp/trending 404 — new). See post-execution addendum + tasks/HANDOVER-2026-05-09-MORNING.md.
+v6-cutover-2026-05-21: spec + plan + tasks at specs/001-v6-prod-cutover/. **Rollback runbook**: specs/001-v6-prod-cutover/quickstart.md § Phase 2 (4 steps, ≤5min budget, requires standby HOSTUP origin per T010). **Verify gate**: .github/workflows/pre-cutover-verify.yml (Lighthouse + smoke + CSP audit + Clerk routes audit + `cutover-verify` status check). PR template extended with cutover gate checklist.
+mentions-ledger-2026-05-21: **NEW SESSION HANDOVER** at docs/HANDOVER-2026-05-21-MENTIONS-LEDGER.md. Architecture rebuild: mentions become a cumulative Redis-SET ledger per (repo, source) instead of a 7d-windowed snapshot. Worker side + lib reader + decorator + UI cell + one-shot seed. ~9–11h focused work for a specialist Data Pipeline & Component Architect session. Role prompt + verification gate live in that doc.
 ---
 
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation

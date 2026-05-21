@@ -25,7 +25,7 @@ export function ToolsEstimatorsSection({
   return (
     <section>
       <SectionEyebrow
-        num="03"
+        num="04"
         title="Estimators + Contribute"
         meta={<><b>3</b> tools - ARR overlays - TrustMRR claims - idea feed</>}
       />

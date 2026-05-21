@@ -4,11 +4,12 @@
 import Link from "next/link";
 
 import type { Repo } from "@/lib/types";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 import type { CategoryId, WindowId } from "./TrendingHubHero";
 import { MentionCell } from "./MentionSourcePips";
 import { RepoSparkline } from "./RepoSparkline";
 import { TrendingRowActions } from "./TrendingRowActions";
+import { TrendingStar } from "./TrendingStar";
 
 interface TrendingTableProps {
   repos: Repo[];
@@ -44,19 +45,17 @@ export function TrendingTable({
         </h2>
         <span className="grow" />
         <span className={`fresh ${freshCls}`}>
-          <span className="pip" /> {fresh?.status?.toUpperCase() ?? "COLD"} · {fresh?.ageLabel ?? "no timestamp"}
+          <span className="pip" aria-hidden="true" /> {getStatusLabel(fresh?.status ?? "cold")} · {fresh?.ageLabel ?? "no timestamp"}
         </span>
       </div>
 
-      <div className="period-switcher" role="tablist" aria-label="Velocity period">
+      <div className="period-switcher">
         <span className="period-label">Velocity period:</span>
         {PERIODS.map((period) => (
           <Link
             key={period}
             href={{ query: cleanQuery({ cat: category, window: period, lang: language, sort }) }}
             className={`period-tab${period === timeWindow ? " active" : ""}`}
-            role="tab"
-            aria-selected={period === timeWindow}
             prefetch={false}
           >
             {period}
@@ -70,12 +69,12 @@ export function TrendingTable({
           <tr>
             <th className="col-rank">#</th>
             <th>Repository</th>
-            <th className="num">Stars</th>
-            <th className="col-velocity">Velocity ({windowLabel})</th>
-            <th className="col-spark">7d</th>
-            <th className="col-spark">30d</th>
+            <th className="num col-stars">Stars</th>
+            <th className="num col-velocity">24h</th>
+            <th className="num col-velocity">7d</th>
+            <th className="num col-velocity">30d</th>
+            <th className="col-spark">Trend</th>
             <th className="num col-meta">Mentions</th>
-            <th className="col-meta">Fresh</th>
             <th className="col-actions">Actions</th>
           </tr>
         </thead>
@@ -84,30 +83,36 @@ export function TrendingTable({
             const owner = repo.owner;
             const name = repo.name;
             const stars = repo.stars ?? 0;
-            const delta = deltaForWindow(repo, timeWindow);
-            const pct = stars > 0 ? (delta / stars) * 100 : 0;
-            const velocityPctRaw = Math.min(100, Math.max(4, Math.abs(pct) * 10));
-            const velocityCls = delta >= 0 ? "velocity up" : "velocity dn";
-            const rowFresh = repo.lastCommitAt ? classifyFreshness("repos", repo.lastCommitAt) : fresh;
-            const rowFreshCls =
-              rowFresh?.status === "live"
-                ? "fresh-live"
-                : rowFresh?.status === "warn"
-                  ? "fresh-warm"
-                  : "fresh-cold";
+            const delta24h = repo.starsDelta24h ?? 0;
+            const delta7d = repo.starsDelta7d ?? 0;
+            const delta30d = repo.starsDelta30d ?? 0;
             const detailHref = `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
             const points = repo.sparklineData ?? [];
+            const trendPoints = points.slice(-30);
+            const avatarUrl = repo.ownerAvatarUrl;
+            const rankClass =
+              idx === 0 ? "rank top top-1" : idx === 1 ? "rank top top-2" : idx === 2 ? "rank top top-3" : "rank";
 
             return (
-              <tr key={repo.id} className="stagger-row" style={{ animationDelay: `${Math.min(idx * 0.03, 0.4)}s` }}>
+              <tr key={repo.id} className="stagger-row" style={{ animationDelay: `${Math.min(idx * 0.03, 0.25)}s` }}>
                 <td data-label="Rank">
-                  <span className={`rank${idx < 3 ? " top" : ""}`}>{String(idx + 1).padStart(2, "0")}</span>
+                  <span className={rankClass}>{String(idx + 1).padStart(2, "0")}</span>
                 </td>
                 <td data-label="Repo">
                   <div className="repo-id">
-                    <div className="repo-avatar avatar-token" aria-hidden="true">
-                      {owner.slice(0, 2).toUpperCase()}
-                    </div>
+                    <Link
+                      className="repo-avatar"
+                      href={detailHref}
+                      prefetch={false}
+                      aria-label={`${owner}/${name} detail`}
+                    >
+                      {avatarUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={avatarUrl} alt="" loading="lazy" width={28} height={28} />
+                      ) : (
+                        <span aria-hidden="true">{owner.slice(0, 2).toUpperCase()}</span>
+                      )}
+                    </Link>
                     <div className="repo-text">
                       <Link className="repo-name" href={detailHref} data-repo-hover data-repo={`${owner}/${name}`} prefetch={false}>
                         <span className="repo-owner">{owner}/</span>
@@ -117,33 +122,25 @@ export function TrendingTable({
                     </div>
                   </div>
                 </td>
-                <td className="num" data-label="Stars">
-                  {compact(stars)}{" "}
-                  {delta !== 0 && (
-                    <span className={delta >= 0 ? "up-text" : "dn-text"}>
-                      {delta >= 0 ? `+${compact(delta)}` : compact(delta)}
-                    </span>
-                  )}
+                <td className="num col-stars-cell" data-label="Stars">
+                  <TrendingStar />
+                  <span className="star-value">{compact(stars)}</span>
                 </td>
-                <td data-label="Velocity">
-                  <div className={velocityCls}>
-                    <span className="num">{pct >= 0 ? `+${pct.toFixed(1)}%` : `${pct.toFixed(1)}%`}</span>
-                    <div className="velocity-bar" style={{ ["--v" as string]: `${velocityPctRaw}%` }} />
-                  </div>
-                </td>
-                <td data-label="Trend7d">
-                  <RepoSparkline data={points.slice(-14)} repo={repo} />
-                </td>
-                <td data-label="Trend30d">
-                  <RepoSparkline data={points.slice(-30)} repo={repo} />
+                <PeriodCell delta={delta24h} stars={stars} label="24h" highlight={timeWindow === "24h"} />
+                <PeriodCell delta={delta7d} stars={stars} label="7d" highlight={timeWindow === "7d"} />
+                <PeriodCell delta={delta30d} stars={stars} label="30d" highlight={timeWindow === "30d"} />
+                <td className="col-spark-cell" data-label="Trend">
+                  <RepoSparkline data={trendPoints} repo={repo} />
                 </td>
                 <td className="num mention-pack-cell" data-label="Mentions">
-                  <MentionCell repo={repo} />
-                </td>
-                <td data-label="Fresh">
-                  <span className={`fresh ${rowFreshCls}`}>
-                    <span className="pip" /> {rowFresh?.ageLabel ?? "no timestamp"}
-                  </span>
+                  <Link
+                    href={detailHref}
+                    className="mention-link"
+                    aria-label={`${owner}/${name} mentions detail`}
+                    prefetch={false}
+                  >
+                    <MentionCell repo={repo} />
+                  </Link>
                 </td>
                 <td className="row-actions-cell" data-label="Actions">
                   <TrendingRowActions repo={`${owner}/${name}`} />
@@ -178,10 +175,25 @@ export function TrendingTable({
   );
 }
 
-function deltaForWindow(repo: Repo, window: WindowId): number {
-  if (window === "7d") return repo.starsDelta7d ?? 0;
-  if (window === "30d") return repo.starsDelta30d ?? 0;
-  return repo.starsDelta24h ?? 0;
+interface PeriodCellProps {
+  delta: number;
+  stars: number;
+  label: string;
+  highlight: boolean;
+}
+
+function PeriodCell({ delta, stars, label, highlight }: PeriodCellProps) {
+  const pct = stars > 0 ? (delta / stars) * 100 : 0;
+  const dir = delta > 0 ? "up" : delta < 0 ? "dn" : "flat";
+  const deltaText = delta === 0 ? "—" : delta > 0 ? `+${compact(delta)}` : compact(delta);
+  const pctText = delta === 0 ? "" : pct >= 0 ? `+${pct.toFixed(1)}%` : `${pct.toFixed(1)}%`;
+
+  return (
+    <td className={`num period-cell period-${dir}${highlight ? " period-active" : ""}`} data-label={label}>
+      <span className="period-delta">{deltaText}</span>
+      {pctText && <span className="period-pct">{pctText}</span>}
+    </td>
+  );
 }
 
 function sortLabel(sort: string): string {

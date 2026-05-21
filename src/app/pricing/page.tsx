@@ -17,6 +17,7 @@
 // here as a "—" not a checkmark — same contract as the entitlements helper.
 
 import Link from "next/link";
+import { Check } from "lucide-react";
 
 import {
   TIERS,
@@ -43,7 +44,7 @@ export const metadata = {
     url: "https://trendingrepo.com/pricing",
     images: [
       {
-        url: "/api/og/default",
+        url: "/api/og/pricing",
         width: 1200,
         height: 630,
         alt: "TrendingRepo — Pricing",
@@ -200,7 +201,7 @@ function renderCell(row: FeatureRow, tier: UserTier): React.ReactNode {
   if (row.kind === "bool") {
     return value === true ? (
       <span className="pricing-check" aria-label="Included">
-        ✓
+        <Check size={14} strokeWidth={2.5} aria-hidden="true" />
       </span>
     ) : (
       <span className="pricing-x" aria-label="Not included">
@@ -336,7 +337,7 @@ export default async function PricingPage({ searchParams }: Props) {
                 {tierHighlights(tier).map((line) => (
                   <li key={line}>
                     <span className="pricing-check" aria-hidden="true">
-                      ✓
+                      <Check size={12} strokeWidth={2.5} />
                     </span>
                     {line}
                   </li>
@@ -520,6 +521,15 @@ function PricingRouteStyles() {
       .pricing-cadence {
         font-family: var(--font-mono);
         font-size: 11px;
+      }
+      @media (max-width: 640px) {
+        .pricing-page .page-head {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 14px;
+        }
+        .pricing-cadence { width: 100%; }
+        .pricing-cadence a { flex: 1; text-align: center; }
       }
 
       /* Tier cards */

@@ -10,6 +10,21 @@ import { classifyFreshness } from "@/lib/news/freshness";
 import { getLastFetchedAt } from "@/lib/trending";
 import Link from "next/link";
 import { NavLink } from "./NavLink";
+import {
+  TrendingUp,
+  FileText,
+  Sparkles,
+  Users,
+  Activity,
+  CircleDollarSign,
+  Eye,
+  Lightbulb,
+  BarChart3,
+  User,
+  Download,
+  Zap,
+} from "@/lib/icons";
+import { Network, Cpu, Store, LayoutGrid, ChevronDown } from "lucide-react";
 
 export async function Sidebar() {
   const counts = await getSidebarSourceCounts().catch(() => null);
@@ -51,7 +66,7 @@ export async function Sidebar() {
   return (
     <aside className="sidebar">
       <Link className="logo" href="/">
-        <span className="brand-mark">▲</span>
+        <span className="brand-mark"><TrendingUp size={14} strokeWidth={1.8} aria-hidden="true" /></span>
         <span className="brand-name">
           TRENDING<span className="accent-text">REPO</span>
         </span>
@@ -62,66 +77,44 @@ export async function Sidebar() {
         <div className="nav-parent" data-nav-parent>
           <NavLink href="/" className="" pill={String(childTotal || 5)}>
             <span className="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M2 14L6 9L9 12L14 5" />
-                <circle cx="14" cy="5" r="1.5" fill="currentColor" />
-              </svg>
+              <TrendingUp size={16} strokeWidth={1.5} aria-hidden="true" />
             </span>
             <span>Trending</span>
-            <svg className="nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M3 5l3 3 3-3" />
-            </svg>
+            <ChevronDown className="nav-caret" size={12} strokeWidth={1.6} aria-hidden="true" />
           </NavLink>
           <div className="nav-children">
             <div>
               <Link className="nav-child" href="/#repos">
                 <span className="child-icon">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <path d="M3 13V3h7l3 3v7" />
-                    <path d="M10 3v3h3" />
-                  </svg>
+                  <FileText size={13} strokeWidth={1.6} aria-hidden="true" />
                 </span>
                 <span>Repos</span>
                 <span className="child-count">{repoCount.toLocaleString()}</span>
               </Link>
               <Link className="nav-child" href="/#skills">
                 <span className="child-icon">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <path d="M8 2L3 5v5l5 3 5-3V5l-5-3z" />
-                  </svg>
+                  <Sparkles size={13} strokeWidth={1.6} aria-hidden="true" />
                 </span>
                 <span>Skills</span>
                 <span className="child-count">{skillsCount.toLocaleString()}</span>
               </Link>
               <Link className="nav-child" href="/#mcp">
                 <span className="child-icon">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <circle cx="8" cy="8" r="1.5" />
-                    <circle cx="3" cy="3" r="1.5" />
-                    <circle cx="13" cy="3" r="1.5" />
-                    <circle cx="3" cy="13" r="1.5" />
-                    <circle cx="13" cy="13" r="1.5" />
-                  </svg>
+                  <Network size={13} strokeWidth={1.6} aria-hidden="true" />
                 </span>
                 <span>MCP Servers</span>
                 <span className="child-count">{mcpCount.toLocaleString()}</span>
               </Link>
               <Link className="nav-child" href="/#agents">
                 <span className="child-icon">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <circle cx="8" cy="6" r="3" />
-                    <path d="M3 14c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5" />
-                  </svg>
+                  <Users size={13} strokeWidth={1.6} aria-hidden="true" />
                 </span>
                 <span>Agents</span>
                 <span className="child-count">{agentsCount.toLocaleString()}</span>
               </Link>
               <Link className="nav-child" href="/#llms">
                 <span className="child-icon">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <rect x="2.5" y="2.5" width="11" height="11" rx="1" />
-                    <path d="M5 8h6M8 5v6" />
-                  </svg>
+                  <Cpu size={13} strokeWidth={1.6} aria-hidden="true" />
                 </span>
                 <span>LLMs · HF</span>
                 <span className="child-count">{llmsCount.toLocaleString()}</span>
@@ -132,44 +125,31 @@ export async function Sidebar() {
 
         <NavLink href="/breakout">
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M8 14V8m0 0L5 11m3-3l3 3M3 6l5-4 5 4" />
-            </svg>
+            <Zap size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Breakout</span>
         </NavLink>
         <NavLink href="/market-signals">
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M2 12V8m4 4V4m4 8v-6m4 6V2" />
-            </svg>
+            <Activity size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Market Signals</span>
         </NavLink>
         <NavLink href="/funding">
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="8" cy="8" r="6" />
-              <path d="M5 8h6m-3-3v6" />
-            </svg>
+            <CircleDollarSign size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Funding</span>
         </NavLink>
         <NavLink href="/revenue">
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M2 13l4-4 3 3 5-7" />
-              <path d="M9 5h4v4" />
-            </svg>
+            <TrendingUp size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Revenue</span>
         </NavLink>
         <NavLink href="/agent-commerce" prefetch={false}>
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="2.5" y="2.5" width="11" height="11" rx="1" />
-              <path d="M2.5 6h11M6 2.5v11" />
-            </svg>
+            <Store size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Agent Commerce</span>
         </NavLink>
@@ -181,18 +161,13 @@ export async function Sidebar() {
             view doesn't fan out 5+ extra RSC payload fetches on hover. */}
         <NavLink href="/tools" prefetch={false}>
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM9 9h4v4H9z" />
-            </svg>
+            <LayoutGrid size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>All Tools</span>
         </NavLink>
         <NavLink href="/preview" pill="NEW" prefetch={false}>
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="2.5" y="3" width="11" height="8" rx="1" />
-              <path d="M5 13h6M8 11v2" />
-            </svg>
+            <Eye size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Surface preview</span>
         </NavLink>
@@ -202,18 +177,13 @@ export async function Sidebar() {
         <div className="nav-label">Builder</div>
         <NavLink href="/ideas" pill="NEW" prefetch={false}>
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="8" cy="8" r="6" />
-              <path d="M8 5v3l2 2" />
-            </svg>
+            <Lightbulb size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Ideas</span>
         </NavLink>
         <NavLink href="/build" pill="NEW" prefetch={false}>
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M3 13L8 3l5 10M5.5 10h5" />
-            </svg>
+            <BarChart3 size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Build</span>
         </NavLink>
@@ -223,19 +193,14 @@ export async function Sidebar() {
         <div className="nav-label">Account</div>
         <NavLink href="/account" prefetch={false}>
           <span className="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="8" cy="5" r="2.5" />
-              <path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" />
-            </svg>
+            <User size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Profile</span>
         </NavLink>
       </div>
 
       <Link className="sidebar-drop" href="/drop" prefetch={false}>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M10 3v10m0 0l-4-4m4 4l4-4M3 17h14" />
-        </svg>
+        <Download size={20} strokeWidth={1.6} aria-hidden="true" />
         <div>
           <b>Drop a repo</b>
           <br />
@@ -244,7 +209,10 @@ export async function Sidebar() {
       </Link>
 
       <div className="upgrade-card">
-        <div className="uc-eyebrow">▲ UNLOCK TRENDINGREPO</div>
+        <div className="uc-eyebrow">
+          <Sparkles size={11} strokeWidth={1.8} aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px", marginRight: 4 }} />
+          UNLOCK TRENDINGREPO
+        </div>
         <div className="uc-pitch">
           Smart alerts, <b>6-way compare</b>, full 5-yr history, RSS/webhook feeds, CSV export, API access.
         </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronDown, ChevronUp, TrendingUp } from "lucide-react";
 
 import type { RepoProfile } from "@/lib/repo-profiles";
 import type { Repo } from "@/lib/types";
@@ -98,7 +99,15 @@ export function RepoHeroCard({ repo, profile }: RepoHeroCardProps) {
                 </span>
               ))}
               {trendBadgeRank ? (
-                <span className="tag up">▲ TRENDING {trendBadgeRank}</span>
+                <span className="tag up">
+                  <TrendingUp
+                    size={11}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                    style={{ display: "inline", verticalAlign: "-1px", marginRight: 3 }}
+                  />
+                  TRENDING {trendBadgeRank}
+                </span>
               ) : null}
             </div>
           ) : null}
@@ -130,9 +139,13 @@ export function RepoHeroCard({ repo, profile }: RepoHeroCardProps) {
                     fontFamily: "var(--font-mono)",
                     fontSize: 10,
                     color: "var(--up)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 2,
                   }}
                 >
-                  ▲ {activeAlerts} armed
+                  <ChevronUp size={11} strokeWidth={2} aria-hidden="true" />
+                  {activeAlerts} armed
                 </span>
               ) : null}
             </button>
@@ -250,17 +263,17 @@ export function RepoHeroCard({ repo, profile }: RepoHeroCardProps) {
             <span className="ac-label">Alert me when</span>
             <button type="button" className="ac-token">
               stars rise <b>+5%</b> in <b>24h</b>
-              <span className="arr">▼</span>
+              <ChevronDown size={10} strokeWidth={2} className="arr" aria-hidden="true" />
             </button>
             <span className="ac-label">OR</span>
             <button type="button" className="ac-token">
               mentions hit <b>top-10</b>
-              <span className="arr">▼</span>
+              <ChevronDown size={10} strokeWidth={2} className="arr" aria-hidden="true" />
             </button>
             <span className="ac-label">DELIVER via</span>
             <button type="button" className="ac-token">
               Email · Slack
-              <span className="arr">▼</span>
+              <ChevronDown size={10} strokeWidth={2} className="arr" aria-hidden="true" />
             </button>
             <span className="grow" />
             <span className="pro-lock">

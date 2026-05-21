@@ -8,6 +8,27 @@ import type {
   Repo,
 } from "@/lib/types";
 import { FreshnessPill } from "@/components/shell/FreshnessPill";
+import { ChevronUp } from "lucide-react";
+import {
+  CircleDollarSign,
+  FileText,
+  GitCommit,
+  GitPullRequest,
+  MessagesSquare,
+  Package,
+  Star,
+  Tag,
+  Zap,
+} from "@/lib/icons";
+
+const ScoreUp = () => (
+  <ChevronUp
+    size={10}
+    strokeWidth={2}
+    aria-hidden="true"
+    style={{ display: "inline", verticalAlign: "-1px", marginRight: 2 }}
+  />
+);
 
 export const FEED_FILTERS = [
   "all",
@@ -52,7 +73,7 @@ interface FeedRow {
     | "breakout"
     | "npm"
     | "discuss";
-  iconLabel: string;
+  iconLabel: React.ReactNode;
   iconCls: string;
   category: string;
   title: React.ReactNode;
@@ -124,18 +145,37 @@ function sourceLabel(source: CrossSourceChannel): string {
   }
 }
 
-function mentionScore(mention: CrossSourceMentionDetail): string | null {
-  const parts: string[] = [];
+function mentionScore(mention: CrossSourceMentionDetail): React.ReactNode {
+  const parts: React.ReactNode[] = [];
   if (typeof mention.engagement.score === "number") {
-    parts.push(`▲ ${mention.engagement.score.toLocaleString()} pts`);
+    parts.push(
+      <span key="score">
+        <ScoreUp />
+        {mention.engagement.score.toLocaleString()} pts
+      </span>,
+    );
   }
   if (typeof mention.engagement.reactions === "number") {
-    parts.push(`${mention.engagement.reactions.toLocaleString()} reactions`);
+    parts.push(
+      <span key="react">
+        {mention.engagement.reactions.toLocaleString()} reactions
+      </span>,
+    );
   }
   if (typeof mention.engagement.comments === "number") {
-    parts.push(`${mention.engagement.comments.toLocaleString()} comments`);
+    parts.push(
+      <span key="comm">
+        {mention.engagement.comments.toLocaleString()} comments
+      </span>,
+    );
   }
-  return parts.length > 0 ? parts.join(" · ") : null;
+  if (parts.length === 0) return null;
+  return parts.map((part, i) => (
+    <span key={`p-${i}`}>
+      {i > 0 ? " · " : ""}
+      {part}
+    </span>
+  ));
 }
 
 function mentionToRow(
@@ -181,7 +221,7 @@ function githubEventToRow(
     return {
       key: e.id,
       kind: "release",
-      iconLabel: "▲",
+      iconLabel: <Tag size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-release",
       category: "RELEASE · GitHub",
       title: (
@@ -201,7 +241,7 @@ function githubEventToRow(
     return {
       key: e.id,
       kind: "discuss",
-      iconLabel: "↑",
+      iconLabel: <GitCommit size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-discuss",
       category: "GITHUB · push",
       title: (
@@ -220,7 +260,7 @@ function githubEventToRow(
     return {
       key: e.id,
       kind: "discuss",
-      iconLabel: "◆",
+      iconLabel: <GitPullRequest size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-discuss",
       category: `GITHUB · PR #${pr?.number ?? ""}`,
       title: <>{pr?.title ?? "pull request"}</>,
@@ -234,7 +274,7 @@ function githubEventToRow(
     return {
       key: e.id,
       kind: "discuss",
-      iconLabel: "◆",
+      iconLabel: <MessagesSquare size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-discuss",
       category: `GITHUB · issue #${issue?.number ?? ""}`,
       title: <>{issue?.title ?? "issue"}</>,
@@ -247,7 +287,7 @@ function githubEventToRow(
     return {
       key: e.id,
       kind: "star",
-      iconLabel: "★",
+      iconLabel: <Star size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-star",
       category: "GITHUB · star",
       title: (
@@ -279,7 +319,7 @@ function fundingToRow(ev: RepoFundingEvent, nowMs: number): FeedRow {
   return {
     key: `funding-${signal.id}`,
     kind: "fund",
-    iconLabel: "$",
+    iconLabel: <CircleDollarSign size={12} strokeWidth={1.5} aria-hidden="true" />,
     iconCls: "f-fund",
     category: `ORG FUNDING · ${company}`,
     title: (
@@ -323,7 +363,7 @@ function derivedRows(repo: Repo, nowMs: number): FeedRow[] {
   rows.push({
     key: "derived-breakout",
     kind: "breakout",
-    iconLabel: "⚡",
+    iconLabel: <Zap size={12} strokeWidth={1.5} aria-hidden="true" />,
     iconCls: "f-breakout",
     category: "BREAKOUT TRIGGER · derived",
     title: (
@@ -348,7 +388,7 @@ function derivedRows(repo: Repo, nowMs: number): FeedRow[] {
     rows.push({
       key: "derived-star-surge",
       kind: "star",
-      iconLabel: "★",
+      iconLabel: <Star size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-star",
       category: "STAR SURGE · velocity",
       title: (
@@ -375,7 +415,7 @@ function derivedRows(repo: Repo, nowMs: number): FeedRow[] {
     rows.push({
       key: "derived-npm",
       kind: "npm",
-      iconLabel: "N",
+      iconLabel: <Package size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-npm",
       category: "NPM · adoption signal",
       title: (
@@ -393,7 +433,7 @@ function derivedRows(repo: Repo, nowMs: number): FeedRow[] {
     rows.push({
       key: "derived-arxiv",
       kind: "arxiv",
-      iconLabel: "A",
+      iconLabel: <FileText size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-arxiv",
       category: "ARXIV CITATION · linked paper",
       title: (
@@ -424,7 +464,8 @@ function derivedRows(repo: Repo, nowMs: number): FeedRow[] {
         <>
           <span className="author">producthunt.com</span>
           <span className="score">
-            ▲ {repo.producthunt.launch.votesCount.toLocaleString()} votes
+            <ScoreUp />
+            {repo.producthunt.launch.votesCount.toLocaleString()} votes
           </span>
         </>
       ),
@@ -498,7 +539,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-stars",
       kind: "star",
-      iconLabel: "★",
+      iconLabel: <Star size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-star",
       category: "GITHUB · star velocity",
       title: (
@@ -512,7 +553,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-release",
       kind: "release",
-      iconLabel: "▲",
+      iconLabel: <Tag size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-release",
       category: "RELEASE · GitHub",
       title: (
@@ -526,7 +567,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-topic-fit",
       kind: "discuss",
-      iconLabel: "◆",
+      iconLabel: <MessagesSquare size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-discuss",
       category: "TOPIC · ecosystem fit",
       title: <>Topic cluster: {topicText}.</>,
@@ -536,7 +577,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-maintainers",
       kind: "discuss",
-      iconLabel: "M",
+      iconLabel: <MessagesSquare size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-discuss",
       category: "MAINTAINERS · contributor graph",
       title: (
@@ -550,7 +591,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-forks",
       kind: "star",
-      iconLabel: "F",
+      iconLabel: <Star size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-star",
       category: "FORKS · adoption proxy",
       title: (
@@ -574,7 +615,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-npm",
       kind: "npm",
-      iconLabel: "N",
+      iconLabel: <Package size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-npm",
       category: "NPM · package adjacency",
       title: <>Package adjacency is tracked against {repo.owner} ecosystem usage.</>,
@@ -584,7 +625,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-arxiv",
       kind: "arxiv",
-      iconLabel: "A",
+      iconLabel: <FileText size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-arxiv",
       category: "ARXIV · research adjacency",
       title: <>Research adjacency is watched for repo-linked citations and implementation papers.</>,
@@ -594,7 +635,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-funding",
       kind: "fund",
-      iconLabel: "$",
+      iconLabel: <CircleDollarSign size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-fund",
       category: "FUNDING · org context",
       title: <>Org context joins funding, hiring, and OSS traction signals for {repo.owner}.</>,
@@ -604,7 +645,7 @@ function signalRows(repo: Repo, nowMs: number): FeedRow[] {
     {
       key: "signal-watchlist",
       kind: "breakout",
-      iconLabel: "⚡",
+      iconLabel: <Zap size={12} strokeWidth={1.5} aria-hidden="true" />,
       iconCls: "f-breakout",
       category: "WATCHLIST · user action",
       title: <>{repo.fullName} is eligible for watch, alert, compare, RSS, and API tracking.</>,

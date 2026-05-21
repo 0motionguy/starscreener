@@ -166,6 +166,16 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Wave 5: TOOLBOX_READ_PRODUCTHUNT_LAUNCHES=true routes through
+    // /v1/signals/leaderboard. Null return → legacy data-store path runs.
+    const toolboxFile = await tryFetchProductHuntFromToolbox();
+    if (toolboxFile) {
+      file = toolboxFile;
+      launchesByRepo = buildLaunchesByRepo(file);
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<ProductHuntFile>(
       "producthunt-launches",
@@ -173,6 +183,13 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     if (result.data && result.source !== "missing") {
       file = result.data;
       launchesByRepo = buildLaunchesByRepo(file);
+    } else {
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("producthunt", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag:
+          process.env.TOOLBOX_READ_PRODUCTHUNT_LAUNCHES === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -180,4 +197,15 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchProductHuntFromToolbox(): Promise<ProductHuntFile | null> {
+  if (process.env.TOOLBOX_READ_PRODUCTHUNT_LAUNCHES !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchProductHuntLaunchesFromToolbox } = await import(
+    "./toolbox-store-producthunt"
+  );
+  return fetchProductHuntLaunchesFromToolbox({ apiUrl, apiKey });
 }

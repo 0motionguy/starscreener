@@ -32,7 +32,17 @@ export function IdeasContextTicker({
   ideas,
   limit = 12,
 }: IdeasContextTickerProps) {
-  if (ideas.length === 0) return null;
+  if (ideas.length === 0) {
+    return (
+      <div className="ideas-tape ideas-tape-empty" aria-label="Recent ideas">
+        <div className="lane">
+          <span className="it-item">
+            <span className="ttl">No ideas yet — be the first.</span>
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   const items = ideas.slice(0, limit).map((i) => ({
     id: i.id,

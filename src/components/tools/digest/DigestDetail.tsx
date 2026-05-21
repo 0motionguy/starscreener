@@ -8,6 +8,7 @@
 
 import Link from "next/link";
 
+import { ArrowUpRight, Star } from "@/lib/icons";
 import type { DigestData } from "@/lib/digest/queries";
 
 interface DigestDetailProps {
@@ -160,7 +161,10 @@ export function DigestDetail({ digest, topN = 10 }: DigestDetailProps) {
                 </span>
                 <span className="r-stats">
                   <span className="r-delta">{formatStarsDelta(entry.starsDelta24h)}</span>
-                  <span className="r-stars">{formatStars(entry.stars)} ★</span>
+                  <span className="r-stars">
+                    {formatStars(entry.stars)}
+                    <Star size={12} aria-hidden="true" style={{ marginLeft: 4, verticalAlign: "-1px" }} />
+                  </span>
                 </span>
               </li>
             ))}
@@ -170,11 +174,13 @@ export function DigestDetail({ digest, topN = 10 }: DigestDetailProps) {
 
       <div className="dd-foot">
         <Link href="/" prefetch={false} className="dd-foot-link">
-          ↗ View full trending board
+          <ArrowUpRight size={12} aria-hidden="true" style={{ marginRight: 4, verticalAlign: "-1px" }} />
+          View full trending board
         </Link>
         <span className="dd-foot-sep">·</span>
         <Link href={`/tools/digest?date=${digest.date}`} prefetch={false} className="dd-foot-link">
-          ↗ Permalink
+          <ArrowUpRight size={12} aria-hidden="true" style={{ marginRight: 4, verticalAlign: "-1px" }} />
+          Permalink
         </Link>
       </div>
     </div>

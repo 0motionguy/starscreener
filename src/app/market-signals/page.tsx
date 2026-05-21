@@ -46,6 +46,7 @@ import { CrossSourceFeed } from "@/components/market-signals/CrossSourceFeed";
 import { TagMomentumHeatmap } from "@/components/market-signals/TagMomentumHeatmap";
 import { NpmAcceleratingTable } from "@/components/market-signals/NpmAcceleratingTable";
 import { ArxivPapersTable } from "@/components/market-signals/ArxivPapersTable";
+import { LabsAnnouncementsFeed } from "@/components/content/LabsAnnouncementsFeed";
 
 export const revalidate = 1800;
 
@@ -53,6 +54,11 @@ export const metadata = {
   title: "Market Signals",
   description:
     "Live cross-source telemetry across 30+ feeds. GitHub, X, HN, Reddit, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
+  openGraph: {
+    images: [
+      { url: "/api/og/market-signals", width: 1200, height: 630, alt: "TrendingRepo — Market Signals" },
+    ],
+  },
 };
 
 interface Props {
@@ -234,12 +240,14 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
     devto: sourceTotals.devto,
   };
 
-  const crossSourceCount = repos.filter((repo) => activeSourceCount(repo) >= 4).length || 142;
-  const npmAccelerating =
-    npmPackages.filter((p) => (p.deltaPct7d ?? 0) > 0).length || 84;
-  const arxivCount = (counts?.arxivPapers ?? arxivPapers.length) || 418;
+  // No synthetic floors — empty feeds must surface as 0 so the source rail
+  // reads as honestly degraded rather than laundering quiet upstreams.
+  const crossSourceCount = repos.filter((repo) => activeSourceCount(repo) >= 4).length;
+  const npmAccelerating = npmPackages.filter((p) => (p.deltaPct7d ?? 0) > 0).length;
+  const arxivCount = counts?.arxivPapers ?? arxivPapers.length;
   const citedRepos =
-    (counts?.citedRepos ?? arxivPapers.filter((paper) => paper.linkedRepos.length > 0).length) || 22;
+    counts?.citedRepos ??
+    arxivPapers.filter((paper) => paper.linkedRepos.length > 0).length;
 
   return (
     <div className="market-signals-page">
@@ -282,6 +290,10 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
           <div className="cockpit">
             <NpmAcceleratingTable packages={npmPackages} limit={7} />
             <ArxivPapersTable papers={arxivPapers} limit={6} />
+          </div>
+
+          <div className="cockpit">
+            <LabsAnnouncementsFeed limit={8} />
           </div>
         </div>
       </div>

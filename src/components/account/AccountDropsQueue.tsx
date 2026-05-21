@@ -51,24 +51,17 @@ export function AccountDropsQueue({ drops }: AccountDropsQueueProps) {
         <span className="tag">{rows.length.toLocaleString()} / 7d</span>
       </div>
       <div style={{ padding: 14, display: "grid", gap: 8 }}>
-        {rows.slice(0, 12).map((drop) => (
-          <div
-            key={drop.id}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              gap: 12,
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              color: "var(--fg)",
-            }}
-          >
-            <span>{drop.fullName}</span>
-            <span style={{ color: "var(--fg-faint)" }}>
-              {drop.kind} · {drop.status ?? "queued"} · {drop.at.slice(0, 10)}
-            </span>
-          </div>
-        ))}
+        {rows.slice(0, 12).map((drop) => {
+          const at = typeof drop.at === "string" && drop.at.length >= 10 ? drop.at.slice(0, 10) : "—";
+          return (
+            <div key={drop.id} className="feed-item">
+              <b style={{ fontFamily: "var(--font-mono)" }}>{drop.fullName}</b>
+              <span>
+                {drop.kind} &middot; {drop.status ?? "queued"} &middot; {at}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

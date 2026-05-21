@@ -18,10 +18,11 @@ export function AccountReferralsCard({
   creditBalance,
 }: AccountReferralsCardProps) {
   const [copied, setCopied] = useState(false);
-  const displayInvites = Math.max(invites, 12);
-  const displayPaid = Math.max(paidConversions, 4);
-  const displayCredits = Math.max(creditBalance, 80);
-  const rank = Math.max(1, 50 - displayPaid * 2);
+  // No synthetic floors — honest zeros for a new account.
+  const displayInvites = invites;
+  const displayPaid = paidConversions;
+  const displayCredits = creditBalance;
+  const rank = displayPaid > 0 ? Math.max(1, 50 - displayPaid * 2) : null;
 
   async function copyReferral() {
     try {
@@ -39,7 +40,7 @@ export function AccountReferralsCard({
           <b>Referrals</b> &middot; shareable invite link
         </h2>
         <span className="grow" />
-        <span className="tag">rank #{rank}</span>
+        {rank !== null ? <span className="tag">rank #{rank}</span> : null}
       </div>
       <div style={{ padding: 14, display: "grid", gap: 12 }}>
         <div
@@ -67,7 +68,11 @@ export function AccountReferralsCard({
         </div>
         <div className="feed-item">
           <b>Leaderboard position</b>
-          <span>Top {rank} in builder referrals this month</span>
+          <span>
+            {rank !== null
+              ? `Top ${rank} in builder referrals this month`
+              : "Refer your first paying user to enter the ranking."}
+          </span>
         </div>
       </div>
     </section>

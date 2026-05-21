@@ -1,4 +1,12 @@
+"use client";
+
 import type { Repo } from "@/lib/types";
+import {
+  ChartBarIcon,
+  LayersIcon,
+  RadioIcon,
+  StarIcon,
+} from "@/components/icons-animated";
 
 interface RepoValueStripProps {
   repo: Repo;
@@ -30,9 +38,7 @@ export function RepoValueStrip({ repo }: RepoValueStripProps) {
       <div className="value-cell">
         <span className="v-tag free">FREE</span>
         <div className="v-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M8 2l1.8 4 4.2.4-3.2 2.9.9 4.3L8 11.5l-3.7 2.1.9-4.3L2 6.4l4.2-.4L8 2z" />
-          </svg>
+          <StarIcon size={20} color="var(--accent)" />
         </div>
         <div className="v-title">Watch with smart alerts</div>
         <div className="v-desc">
@@ -42,9 +48,7 @@ export function RepoValueStrip({ repo }: RepoValueStripProps) {
       <div className="value-cell">
         <span className="v-tag">PRO</span>
         <div className="v-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M3 8h4l1-3 2 6 1-3h2" />
-          </svg>
+          <ChartBarIcon size={20} color="currentColor" />
         </div>
         <div className="v-title">Compare side-by-side</div>
         <div className="v-desc">
@@ -54,9 +58,7 @@ export function RepoValueStrip({ repo }: RepoValueStripProps) {
       <div className="value-cell">
         <span className="v-tag">PRO</span>
         <div className="v-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M2 3v10M2 3l5 4 5-4 2 6M2 13l5-4 5 4 2-6" />
-          </svg>
+          <LayersIcon size={20} color="currentColor" />
         </div>
         <div className="v-title">Full historical view</div>
         <div className="v-desc">
@@ -66,10 +68,7 @@ export function RepoValueStrip({ repo }: RepoValueStripProps) {
       <div className="value-cell">
         <span className="v-tag">PRO</span>
         <div className="v-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M3 11a4 4 0 014 4M3 7a8 8 0 018 8" />
-            <circle cx="3" cy="13" r="1.4" fill="currentColor" />
-          </svg>
+          <RadioIcon size={20} color="currentColor" />
         </div>
         <div className="v-title">RSS, webhook, API</div>
         <div className="v-desc">

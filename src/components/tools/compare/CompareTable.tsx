@@ -10,6 +10,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ArrowRight, Star } from "@/lib/icons";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 
@@ -24,6 +25,22 @@ export interface CompareEntry {
   /** 30d delta backed by either real delta_30d or a 4.3× estimate from 7d. */
   delta30d: number;
   delta30dEstimated: boolean;
+}
+
+// Per-column accent palette — keys each repo to a stable color across the
+// repo-header cell, the stars value, and the column border so the matrix
+// reads as a real head-to-head instead of six identical neutral columns.
+const REPO_ACCENTS = [
+  "var(--accent)",
+  "var(--cyan)",
+  "var(--up)",
+  "var(--violet)",
+  "var(--warning)",
+  "var(--info)",
+] as const;
+
+function accentForIndex(i: number): string {
+  return REPO_ACCENTS[i % REPO_ACCENTS.length];
 }
 
 interface Props {
@@ -83,11 +100,13 @@ export function CompareTable({ entries, maxRepos, selectedFullNames }: Props) {
                 {maxRepos - entries.length} open
               </span>
             </th>
-            {entries.map((entry) => (
+            {entries.map((entry, idx) => (
               <RepoHeaderCell
                 key={entry.repo.fullName}
                 entry={entry}
                 selectedFullNames={selectedFullNames}
+                accent={accentForIndex(idx)}
+                columnIndex={idx}
               />
             ))}
             {Array.from({ length: emptyCount }).map((_, i) => (
@@ -197,9 +216,13 @@ function renderCell(key: string, entry: CompareEntry, m: RowMaxes) {
 function RepoHeaderCell({
   entry,
   selectedFullNames,
+  accent,
+  columnIndex,
 }: {
   entry: CompareEntry;
   selectedFullNames: string[];
+  accent: string;
+  columnIndex: number;
 }) {
   const { repo } = entry;
   const logo = repoLogoUrl(repo.fullName, 64);
@@ -211,7 +234,14 @@ function RepoHeaderCell({
       ? "/tools/compare"
       : `/tools/compare?repos=${remaining.map(encodeURIComponent).join(",")}`;
   return (
-    <th className="cmp-th cmp-th-repo" scope="col">
+    <th
+      className="cmp-th cmp-th-repo cmp-th-repo--keyed"
+      scope="col"
+      data-col-index={columnIndex}
+      style={{
+        borderTop: `2px solid ${accent}`,
+      }}
+    >
       <div className="cmp-th-repo-row">
         {logo ? (
           <Image
@@ -221,9 +251,13 @@ function RepoHeaderCell({
             height={36}
             unoptimized
             className="cmp-th-repo-logo"
+            style={{ outline: `1px solid ${accent}`, outlineOffset: 1 }}
           />
         ) : (
-          <span className="cmp-th-repo-logo cmp-th-repo-logo--monogram">
+          <span
+            className="cmp-th-repo-logo cmp-th-repo-logo--monogram"
+            style={{ outline: `1px solid ${accent}`, outlineOffset: 1, color: accent }}
+          >
             {repo.name.charAt(0).toUpperCase() || "?"}
           </span>
         )}
@@ -235,11 +269,12 @@ function RepoHeaderCell({
           >
             <span className="cmp-th-repo-owner">{repo.owner}</span>
             <span className="cmp-th-repo-slash">/</span>
-            <span className="cmp-th-repo-repo">{repo.name}</span>
+            <span className="cmp-th-repo-repo" style={{ color: accent }}>{repo.name}</span>
           </Link>
           <div className="cmp-th-repo-tags">
-            <span className="cmp-th-repo-stars">
-              {formatCompact(repo.stars)} ★
+            <span className="cmp-th-repo-stars" style={{ color: accent }}>
+              {formatCompact(repo.stars)}
+              <Star size={12} aria-hidden="true" style={{ marginLeft: 4, verticalAlign: "-1px" }} />
             </span>
             {repo.categoryId ? (
               <span className="cmp-th-repo-tag">{prettyCategory(repo.categoryId)}</span>
@@ -275,7 +310,8 @@ function EmptySlotCell({ index }: { index: number }) {
           prefetch={false}
           className="cmp-th-empty-help"
         >
-          browse trending →
+          browse trending
+          <ArrowRight size={12} aria-hidden="true" style={{ marginLeft: 4, verticalAlign: "-1px" }} />
         </Link>
         <div className="cmp-th-empty-hint">
           edit <code>?repos=</code> in the URL

@@ -12,11 +12,20 @@
 // the "i-" prefix).
 
 import { useCallback, useRef, useState } from "react";
+import type { ReactNode } from "react";
 
 import {
   CONTRIBUTION_TYPE_LABEL,
   type ContributionType as UiContributionType,
 } from "@/lib/ideas/sample-contributions";
+import { Zap, Wrench, Hammer } from "@/lib/icons";
+import {
+  MessageCircleIcon,
+  MagnifierIcon,
+  GithubIcon,
+  RocketIcon,
+  EyeIcon,
+} from "@/components/icons-animated";
 
 import { AtMentionMenu, type MentionItem } from "./AtMentionMenu";
 
@@ -25,15 +34,15 @@ interface IdeaContributionComposerProps {
   signedIn: boolean;
 }
 
-const CHIP_EMOJI: Record<UiContributionType, string> = {
-  comment: "💬",
-  evidence: "🔍",
-  repo: "🐙",
-  feature: "⚡",
-  workaround: "🛠",
-  project: "🚀",
-  "i-would-use": "👀",
-  "i-would-build": "🔨",
+const CHIP_EMOJI: Record<UiContributionType, ReactNode> = {
+  comment: <MessageCircleIcon size={14} color="currentColor" />,
+  evidence: <MagnifierIcon size={14} color="currentColor" />,
+  repo: <GithubIcon size={14} color="currentColor" />,
+  feature: <Zap width={14} height={14} strokeWidth={2} color="var(--accent)" />,
+  workaround: <Wrench size={14} strokeWidth={2} color="currentColor" />,
+  project: <RocketIcon size={14} color="currentColor" />,
+  "i-would-use": <EyeIcon size={14} color="currentColor" />,
+  "i-would-build": <Hammer size={14} strokeWidth={2} color="currentColor" />,
 };
 
 const CHIPS: UiContributionType[] = [

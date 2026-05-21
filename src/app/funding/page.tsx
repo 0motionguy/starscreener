@@ -50,6 +50,11 @@ export const metadata = {
   title: "Funding Radar",
   description:
     "Capital flows for AI + tech. Funding signals from 35+ sources: TechCrunch, VentureBeat, Sifted, Crunchbase, SEC Form D, Newcomer, The Information and more. Structured rounds with company / amount / investors / confidence scoring.",
+  openGraph: {
+    images: [
+      { url: "/api/og/funding", width: 1200, height: 630, alt: "TrendingRepo — Funding Radar" },
+    ],
+  },
 };
 
 interface Props {
@@ -467,11 +472,12 @@ export default async function FundingPage({ searchParams }: Props) {
   // totals while their drilldown is active.
   const sourceFilteredRaw = filterFundingBySources(rawWindowed, activeSource);
   const windowed = ensureFundingSignals(sourceFilteredRaw, 18);
+  // Honest total — the largest count actually observed across the window
+  // and the stats accessor. No synthetic 142 floor so an empty feed shows 0.
   const displayTotalRounds = Math.max(
     sourceFilteredRaw.length,
     stats.thisWeekCount,
     thisWeek.length,
-    142,
   );
 
   // Top rounds by amount (use period-windowed signals so the segmented

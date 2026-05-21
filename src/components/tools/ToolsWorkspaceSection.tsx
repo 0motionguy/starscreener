@@ -19,7 +19,7 @@ export function ToolsWorkspaceSection({
   return (
     <section>
       <SectionEyebrow
-        num="02"
+        num="03"
         title="Workspace"
         meta={<><b>5</b> personal tools - save - track - compare - rank - export</>}
       />

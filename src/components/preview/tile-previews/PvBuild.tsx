@@ -1,7 +1,14 @@
 // PvBuild — build workflow preview: NEW banner + 3 repo rows + connect CTA.
 // Pixel-faithful to index.html:732-756.
+import type { ReactNode } from "react";
+import { Star } from "@/lib/icons";
+
 export function PvBuild() {
-  const REPOS = [
+  const REPOS: Array<{
+    name: string;
+    note: ReactNode;
+    color: string;
+  }> = [
     { name: "vercel/ai-sdk", note: "+ release v6.2", color: "var(--up)" },
     {
       name: "cline/cline",
@@ -10,7 +17,17 @@ export function PvBuild() {
     },
     {
       name: "crewAIInc/crewAI",
-      note: "★ +312 24h",
+      note: (
+        <>
+          <Star
+            size={9}
+            strokeWidth={2}
+            aria-hidden="true"
+            style={{ verticalAlign: "-1px", marginRight: 3 }}
+          />
+          +312 24h
+        </>
+      ),
       color: "var(--up)",
     },
   ];

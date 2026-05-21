@@ -70,7 +70,7 @@ export function FundingSourcePills({
       <div className="panel-head">
         <span className="ph-eyebrow">SOURCES</span>
         <span className="ph-title">
-          {liveSources} of {totalSources} up - 7d
+          {liveSources} of {totalSources} up - {period}
         </span>
       </div>
       <div className="source-pills">

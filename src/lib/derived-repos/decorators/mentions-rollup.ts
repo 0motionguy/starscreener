@@ -240,7 +240,10 @@ function arxivIndex(nowMs: number): BucketIndex {
 // Decorator
 // ---------------------------------------------------------------------------
 
-export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
+export function decorateWithMentionsRollup(
+  repos: Repo[],
+  getKey: (r: Repo) => string = (r) => r.fullName,
+): Repo[] {
   const nowMs = Date.now();
   const npm = npmIndex(nowMs);
   const hf = hfIndex(nowMs);
@@ -249,18 +252,19 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
 
   return repos.map((r) => {
     const perSource = emptyPerSource();
-    const lowerFull = r.fullName.toLowerCase();
+    const key = getKey(r);
+    const lowerFull = key.toLowerCase();
 
     // Twitter — 24h only (the signal store carries no 7d count). Treat
     // the 24h number as both the 24h and 7d slot so total7d at least
     // covers what we know. If/when the Twitter signal exposes 7d, swap.
-    const tw = getTwitterSignalSync(r.fullName);
+    const tw = getTwitterSignalSync(key);
     if (tw) {
       const x = tw.metrics.mentionCount24h ?? 0;
       perSource.twitter = { count24h: x, count7d: x };
     }
 
-    const rd = getRedditMentions(r.fullName);
+    const rd = getRedditMentions(key);
     if (rd) {
       perSource.reddit = {
         count24h: rd.count24h ?? 0,
@@ -268,7 +272,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       };
     }
 
-    const hn = getHnMentions(r.fullName);
+    const hn = getHnMentions(key);
     if (hn) {
       perSource.hackernews = {
         count24h: hn.count24h ?? 0,
@@ -276,7 +280,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       };
     }
 
-    const bs = getBlueskyMentions(r.fullName);
+    const bs = getBlueskyMentions(key);
     if (bs) {
       perSource.bluesky = {
         count24h: bs.count24h ?? 0,
@@ -284,7 +288,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       };
     }
 
-    const dv = getDevtoMentions(r.fullName);
+    const dv = getDevtoMentions(key);
     if (dv) {
       perSource.devto = {
         count24h: dv.count24h ?? 0,
@@ -292,7 +296,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       };
     }
 
-    const lb = getLobstersMentions(r.fullName);
+    const lb = getLobstersMentions(key);
     if (lb) {
       perSource.lobsters = {
         count24h: lb.count24h ?? 0,
@@ -300,7 +304,10 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       };
     }
 
-    const lowerName = r.name.toLowerCase();
+    // Name fallback derived from the resolved key so non-repo entities
+    // (e.g. HF model ids) participate in the byName index too.
+    const slash = lowerFull.lastIndexOf("/");
+    const lowerName = slash >= 0 ? lowerFull.slice(slash + 1) : lowerFull;
 
     const npmEntry = npm.perRepo.get(lowerFull);
     if (npmEntry) perSource.npm = npmEntry;
@@ -324,7 +331,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
     // (data/funding-aliases.json). The matcher is memoized internally so
     // calling it once per repo per render is cheap. Each event's
     // publishedAt is bucketed into the 24h / 7d windows.
-    const fundingEvents = getFundingEventsForRepo(r.fullName);
+    const fundingEvents = getFundingEventsForRepo(key);
     if (fundingEvents.length > 0) {
       let f24 = 0;
       let f7 = 0;
@@ -348,7 +355,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
     // chips, /githubrepo channel pills) reflect the broader coverage without
     // changing any consumer code. count24h is left untouched because the
     // sweep records 7d events only.
-    const detail = getCrossSourceDetail(r.fullName);
+    const detail = getCrossSourceDetail(key);
     if (detail?.perSource) {
       for (const [channel, bucket] of Object.entries(detail.perSource)) {
         if (!bucket) continue;

@@ -9,6 +9,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { ArrowRight, X } from "@/lib/icons";
+
 interface IdeaSubmitModalProps {
   signedIn: boolean;
 }
@@ -157,14 +159,19 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
             aria-label="Close"
             onClick={close}
           >
-            ×
+            <X size={16} strokeWidth={2} aria-hidden="true" />
           </button>
         </header>
         {successId ? (
           <div className="modal-body modal-success">
             <p>Submitted. We&apos;ll moderate it if this is one of your first 5.</p>
-            <a className="cta-primary" href={`/ideas/${successId}`}>
-              View the idea →
+            <a
+              className="cta-primary"
+              href={`/ideas/${successId}`}
+              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
+            >
+              View the idea{" "}
+              <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
             </a>
           </div>
         ) : (

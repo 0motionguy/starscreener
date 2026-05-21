@@ -1,15 +1,18 @@
-// Clerk hosted sign-up page — minimal stub during UI v4 teardown.
+// Clerk hosted sign-up page.
 //
-// Referral handoff still works: <ClerkRefHandoff /> in root layout reads
-// the signed `tr_ref` cookie and stores it in localStorage as `trRef`.
-// To restore unsafe_metadata referral threading, the rebuild needs to
-// reintroduce the wrapper that reads localStorage and passes it into
-// Clerk's `unsafeMetadata` prop (this stub does NOT thread the referral
-// into Clerk — direct webhook will still credit if user_metadata is set
-// via Clerk webhook by other means).
+// Referral handoff is a two-stage pipeline:
+//   1. <ClerkRefHandoff /> in the root layout calls /api/referrals/intake,
+//      which verifies the HMAC-signed HttpOnly `tr_ref` cookie server-side
+//      and returns the {code, urlHash} payload. The result is written to
+//      localStorage["trRef"] so client-only surfaces can use it.
+//   2. <SignUpWithReferral /> below reads localStorage["trRef"] (with a
+//      direct `?ref=<code>` URL fallback for the rare case of a direct
+//      landing on this route before the intake fetch settled) and passes
+//      the payload to Clerk's <SignUp unsafeMetadata={...} /> prop. The
+//      webhook then attributes the referral on user.created.
 
-import { SignUp } from "@clerk/nextjs";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
+import { SignUpWithReferral } from "@/components/auth/SignUpWithReferral";
 import {
   buildAuthHref,
   getAuthRedirectFromSearchParams,
@@ -66,7 +69,10 @@ export default async function Page({ searchParams }: SignUpPageProps) {
         padding: 48,
       }}
     >
-      <SignUp signInUrl={signInUrl} fallbackRedirectUrl={redirectUrl} />
+      <SignUpWithReferral
+        signInUrl={signInUrl}
+        fallbackRedirectUrl={redirectUrl}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-22T04:41:16.359Z",
+  "fetchedAt": "2026-05-22T08:33:06.267Z",
   "discoveryVersion": "2026-04-21",
   "keywords": [
     "AI agents",
@@ -17,11 +17,11 @@
     "LLMs": 60,
     "Coding agents": 120,
     "MCP": 59,
-    "RAG and retrieval": 30,
-    "Workflow and automation": 120,
-    "Context, prompts, memory": 90,
-    "AI skills": 90,
-    "Open source AI": 29
+    "RAG and retrieval": 29,
+    "Workflow and automation": 0,
+    "Context, prompts, memory": 0,
+    "AI skills": 0,
+    "Open source AI": 0
   },
   "queries": [
     "lang:en \"ai agent\"",
@@ -60,18 +60,7 @@
     "lang:en cline": 30,
     "lang:en \"mcp server\"": 30,
     "lang:en \"model context protocol\"": 29,
-    "lang:en rag": 30,
-    "lang:en workflow": 30,
-    "lang:en automation": 30,
-    "lang:en cli": 30,
-    "lang:en devtools": 30,
-    "lang:en \"context engineering\"": 30,
-    "lang:en \"prompt engineering\"": 30,
-    "lang:en \"agent memory\"": 30,
-    "lang:en \"claude skill\"": 30,
-    "lang:en \"claude skills\"": 30,
-    "lang:en \"ai skills\"": 30,
-    "lang:en \"open source ai\"": 29
+    "lang:en rag": 29
   },
   "queryFamilies": [
     {
@@ -152,7 +141,7 @@
       ]
     }
   ],
-  "scannedPosts": 669,
+  "scannedPosts": 354,
   "posts": [
     {
       "uri": "at://did:plc:oijtzlibd7mlf56jbfohssdz/app.bsky.feed.post/3ml46o7m5rs2b",
@@ -211,13 +200,13 @@
         "handle": "tressiemcphd.bsky.social",
         "displayName": "Tressie McMillan Cottom"
       },
-      "likeCount": 2665,
+      "likeCount": 2666,
       "repostCount": 365,
       "replyCount": 67,
       "createdAt": "2026-05-19T11:46:20.996Z",
       "createdUtc": 1779191180,
-      "ageHours": 64.92,
-      "trendingScore": 3428.5,
+      "ageHours": 68.78,
+      "trendingScore": 3429.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -379,13 +368,13 @@
         "handle": "coreyryung.bsky.social",
         "displayName": "Corey Rayburn Yung"
       },
-      "likeCount": 1351,
+      "likeCount": 1352,
       "repostCount": 307,
       "replyCount": 19,
       "createdAt": "2026-05-18T21:40:34.041Z",
       "createdUtc": 1779140434,
-      "ageHours": 79.01,
-      "trendingScore": 1974.5,
+      "ageHours": 82.88,
+      "trendingScore": 1975.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -578,6 +567,30 @@
       "createdUtc": 1779172596,
       "ageHours": 65.66,
       "trendingScore": 955,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
+    },
+    {
+      "uri": "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.feed.post/3mmfr5iz67c24",
+      "cid": "bafyreigoq74ncuffy6zxa5a2nttdf3otdfx7fynp4gv3fb2tdeowjhhafe",
+      "bskyUrl": "https://bsky.app/profile/andrew.heiss.phd/post/3mmfr5iz67c24",
+      "text": "Finally switched to DuckDuckGo and it’s nice to not have LLM summaries anymore",
+      "author": {
+        "handle": "andrew.heiss.phd",
+        "displayName": "Andrew Heiss"
+      },
+      "likeCount": 763,
+      "repostCount": 75,
+      "replyCount": 47,
+      "createdAt": "2026-05-22T01:16:23.287Z",
+      "createdUtc": 1779412583,
+      "ageHours": 7.28,
+      "trendingScore": 936.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -888,7 +901,7 @@
       "replyCount": 18,
       "createdAt": "2026-05-18T14:35:54.513Z",
       "createdUtc": 1779114954,
-      "ageHours": 86.09,
+      "ageHours": 89.95,
       "trendingScore": 669,
       "content_tags": [],
       "value_score": 0,
@@ -1032,7 +1045,7 @@
       "replyCount": 13,
       "createdAt": "2026-05-17T16:42:21.014Z",
       "createdUtc": 1779036141,
-      "ageHours": 107.98,
+      "ageHours": 111.85,
       "trendingScore": 579.5,
       "content_tags": [
         "is-question"
@@ -1119,30 +1132,6 @@
       "matchedTopicLabel": "Workflow and automation"
     },
     {
-      "uri": "at://did:plc:pzgvqg4ihnaihkrpmxqz5pu6/app.bsky.feed.post/3mmdqz3oyxk2p",
-      "cid": "bafyreihj445n3hjzsrp2t2shrubrpbof2pvxtebjziaendmqf4pfrawcta",
-      "bskyUrl": "https://bsky.app/profile/bell.bz/post/3mmdqz3oyxk2p",
-      "text": "Google I/O summary - shipping an LLM to your Chrome whether you want it or not - destroying search once and for all - pervert glasses 👍",
-      "author": {
-        "handle": "bell.bz",
-        "displayName": "Andy Bell"
-      },
-      "likeCount": 389,
-      "repostCount": 80,
-      "replyCount": 10,
-      "createdAt": "2026-05-21T06:08:35.631Z",
-      "createdUtc": 1779343715,
-      "ageHours": 22.54,
-      "trendingScore": 554,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
       "uri": "at://did:plc:ddvus7otnqtlh7fdooxm6qat/app.bsky.feed.post/3mmdbpwcjoc2v",
       "cid": "bafyreicz323vmb6ctk6h5sqniz2zxjedoc6v3hlzuylr6noryom3wo5lb4",
       "bskyUrl": "https://bsky.app/profile/maxkennerly.bsky.social/post/3mmdbpwcjoc2v",
@@ -1151,13 +1140,13 @@
         "handle": "maxkennerly.bsky.social",
         "displayName": "Max Kennerly"
       },
-      "likeCount": 462,
-      "repostCount": 45,
+      "likeCount": 468,
+      "repostCount": 46,
       "replyCount": 1,
       "createdAt": "2026-05-21T01:34:58.982Z",
       "createdUtc": 1779327298,
-      "ageHours": 27.11,
-      "trendingScore": 552.5,
+      "ageHours": 30.97,
+      "trendingScore": 560.5,
       "content_tags": [],
       "value_score": 0,
       "linkedRepos": [],
@@ -1165,6 +1154,30 @@
       "matchedQuery": "lang:en cursor",
       "matchedTopicId": "coding-agents",
       "matchedTopicLabel": "Coding agents"
+    },
+    {
+      "uri": "at://did:plc:pzgvqg4ihnaihkrpmxqz5pu6/app.bsky.feed.post/3mmdqz3oyxk2p",
+      "cid": "bafyreihj445n3hjzsrp2t2shrubrpbof2pvxtebjziaendmqf4pfrawcta",
+      "bskyUrl": "https://bsky.app/profile/bell.bz/post/3mmdqz3oyxk2p",
+      "text": "Google I/O summary - shipping an LLM to your Chrome whether you want it or not - destroying search once and for all - pervert glasses 👍",
+      "author": {
+        "handle": "bell.bz",
+        "displayName": "Andy Bell"
+      },
+      "likeCount": 391,
+      "repostCount": 80,
+      "replyCount": 10,
+      "createdAt": "2026-05-21T06:08:35.631Z",
+      "createdUtc": 1779343715,
+      "ageHours": 26.41,
+      "trendingScore": 556,
+      "content_tags": [],
+      "value_score": 0,
+      "linkedRepos": [],
+      "matchedKeyword": "LLMs",
+      "matchedQuery": "lang:en llm",
+      "matchedTopicId": "llms",
+      "matchedTopicLabel": "LLMs"
     },
     {
       "uri": "at://did:plc:mivey63nzylfflvmmjoqcf6u/app.bsky.feed.post/3mm3e52ypys2j",
@@ -1180,7 +1193,7 @@
       "replyCount": 39,
       "createdAt": "2026-05-17T21:56:52.568Z",
       "createdUtc": 1779055012,
-      "ageHours": 102.74,
+      "ageHours": 106.6,
       "trendingScore": 550.5,
       "content_tags": [],
       "value_score": 0,
@@ -1239,30 +1252,6 @@
       "matchedTopicLabel": "LLMs"
     },
     {
-      "uri": "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.feed.post/3mmfr5iz67c24",
-      "cid": "bafyreigoq74ncuffy6zxa5a2nttdf3otdfx7fynp4gv3fb2tdeowjhhafe",
-      "bskyUrl": "https://bsky.app/profile/andrew.heiss.phd/post/3mmfr5iz67c24",
-      "text": "Finally switched to DuckDuckGo and it’s nice to not have LLM summaries anymore",
-      "author": {
-        "handle": "andrew.heiss.phd",
-        "displayName": "Andrew Heiss"
-      },
-      "likeCount": 433,
-      "repostCount": 43,
-      "replyCount": 28,
-      "createdAt": "2026-05-22T01:16:23.287Z",
-      "createdUtc": 1779412583,
-      "ageHours": 3.41,
-      "trendingScore": 533,
-      "content_tags": [],
-      "value_score": 0,
-      "linkedRepos": [],
-      "matchedKeyword": "LLMs",
-      "matchedQuery": "lang:en llm",
-      "matchedTopicId": "llms",
-      "matchedTopicLabel": "LLMs"
-    },
-    {
       "uri": "at://did:plc:ladocdaw6idrxzuldk527nsq/app.bsky.feed.post/3mlhnqyuth22u",
       "cid": "bafyreib7xrh363hlbnxxlbfpjoijjt44kjaji5km7wfskxma7ccdmro44u",
       "bskyUrl": "https://bsky.app/profile/alleycatsleet.bsky.social/post/3mlhnqyuth22u",
@@ -1300,7 +1289,7 @@
       "replyCount": 7,
       "createdAt": "2026-05-19T18:44:40.122Z",
       "createdUtc": 1779216280,
-      "ageHours": 42.8,
+      "ageHours": 61.81,
       "trendingScore": 519.5,
       "content_tags": [],
       "value_score": 0,

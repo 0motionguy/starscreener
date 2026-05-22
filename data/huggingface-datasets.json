@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-22T04:40:23.092Z",
+  "fetchedAt": "2026-05-22T09:53:48.898Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -160,6 +160,37 @@
     },
     {
       "rank": 6,
+      "id": "GD-ML/TransitLM",
+      "author": "GD-ML",
+      "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
+      "downloads": 570,
+      "likes": 69,
+      "trendingScore": 68,
+      "tags": [
+        "task_categories:text-generation",
+        "language:zh",
+        "license:cc-by-nc-4.0",
+        "size_categories:100K<n<1M",
+        "format:csv",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "transportation",
+        "route-planning",
+        "public-transit",
+        "mobility",
+        "instruction-tuning",
+        "benchmark"
+      ],
+      "createdAt": "2026-05-03T05:31:52.000Z",
+      "lastModified": "2026-05-13T11:01:47.000Z"
+    },
+    {
+      "rank": 7,
       "id": "open-thoughts/AgentTrove",
       "author": "open-thoughts",
       "url": "https://huggingface.co/datasets/open-thoughts/AgentTrove",
@@ -190,44 +221,13 @@
       "lastModified": "2026-05-07T14:20:40.000Z"
     },
     {
-      "rank": 7,
-      "id": "GD-ML/TransitLM",
-      "author": "GD-ML",
-      "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
-      "downloads": 522,
-      "likes": 50,
-      "trendingScore": 50,
-      "tags": [
-        "task_categories:text-generation",
-        "language:zh",
-        "license:cc-by-nc-4.0",
-        "size_categories:100K<n<1M",
-        "format:csv",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "transportation",
-        "route-planning",
-        "public-transit",
-        "mobility",
-        "instruction-tuning",
-        "benchmark"
-      ],
-      "createdAt": "2026-05-03T05:31:52.000Z",
-      "lastModified": "2026-05-13T11:01:47.000Z"
-    },
-    {
       "rank": 8,
       "id": "5CD-AI/Viet-Handwriting-OCR-v2",
       "author": "5CD-AI",
       "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
-      "downloads": 321,
-      "likes": 49,
-      "trendingScore": 44,
+      "downloads": 416,
+      "likes": 50,
+      "trendingScore": 45,
       "tags": [
         "task_categories:image-to-text",
         "language:vi",
@@ -322,9 +322,9 @@
       "id": "TeichAI/DeepSeek-v4-Pro-Agent",
       "author": "TeichAI",
       "url": "https://huggingface.co/datasets/TeichAI/DeepSeek-v4-Pro-Agent",
-      "downloads": 2738,
-      "likes": 50,
-      "trendingScore": 37,
+      "downloads": 3019,
+      "likes": 51,
+      "trendingScore": 38,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -490,8 +490,8 @@
       "id": "Qwen/WebWorldData",
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
-      "downloads": 648,
-      "likes": 43,
+      "downloads": 760,
+      "likes": 50,
       "trendingScore": 27,
       "tags": [
         "task_categories:text-generation",
@@ -688,7 +688,7 @@
       "id": "actava/chi-bench",
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
-      "downloads": 1232,
+      "downloads": 1362,
       "likes": 27,
       "trendingScore": 24,
       "tags": [
@@ -718,7 +718,7 @@
         "mcp"
       ],
       "createdAt": "2026-05-03T06:52:20.000Z",
-      "lastModified": "2026-05-21T23:52:17.000Z"
+      "lastModified": "2026-05-22T04:51:56.000Z"
     },
     {
       "rank": 24,
@@ -792,9 +792,9 @@
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
-      "downloads": 969629,
-      "likes": 2814,
-      "trendingScore": 21,
+      "downloads": 974637,
+      "likes": 2816,
+      "trendingScore": 22,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -978,7 +978,7 @@
       "id": "LukaDev13/Liminal-Dreamcore-1K",
       "author": "LukaDev13",
       "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
-      "downloads": 2235,
+      "downloads": 2378,
       "likes": 18,
       "trendingScore": 17,
       "tags": [
@@ -996,6 +996,34 @@
     },
     {
       "rank": 33,
+      "id": "HuggingFaceBio/carbon-pretraining-corpus",
+      "author": "HuggingFaceBio",
+      "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
+      "downloads": 3168,
+      "likes": 19,
+      "trendingScore": 17,
+      "tags": [
+        "task_categories:text-generation",
+        "license:other",
+        "size_categories:100M<n<1B",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2502.07272",
+        "region:us",
+        "biology",
+        "genomics",
+        "dna"
+      ],
+      "createdAt": "2026-05-07T11:46:53.000Z",
+      "lastModified": "2026-05-14T12:41:15.000Z"
+    },
+    {
+      "rank": 34,
       "id": "HuggingFaceFW/fineweb-edu",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
@@ -1025,7 +1053,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 34,
+      "rank": 35,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1053,34 +1081,6 @@
       ],
       "createdAt": "2026-05-07T12:01:17.000Z",
       "lastModified": "2026-05-09T06:36:26.000Z"
-    },
-    {
-      "rank": 35,
-      "id": "HuggingFaceBio/carbon-pretraining-corpus",
-      "author": "HuggingFaceBio",
-      "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
-      "downloads": 2856,
-      "likes": 17,
-      "trendingScore": 16,
-      "tags": [
-        "task_categories:text-generation",
-        "license:other",
-        "size_categories:100M<n<1B",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2502.07272",
-        "region:us",
-        "biology",
-        "genomics",
-        "dna"
-      ],
-      "createdAt": "2026-05-07T11:46:53.000Z",
-      "lastModified": "2026-05-14T12:41:15.000Z"
     },
     {
       "rank": 36,
@@ -1270,7 +1270,7 @@
       "id": "tinixai/ocr_annual_financials",
       "author": "tinixai",
       "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
-      "downloads": 6790,
+      "downloads": 7099,
       "likes": 18,
       "trendingScore": 15,
       "tags": [
@@ -1510,28 +1510,36 @@
     },
     {
       "rank": 50,
-      "id": "TAAC2026/data_sample_1000",
-      "author": "TAAC2026",
-      "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
-      "downloads": 12167,
-      "likes": 86,
-      "trendingScore": 13,
+      "id": "wikimedia/structured-wikipedia",
+      "author": "wikimedia",
+      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
+      "downloads": 2480,
+      "likes": 117,
+      "trendingScore": 14,
       "tags": [
-        "license:cc-by-nc-4.0",
-        "size_categories:1K<n<10K",
+        "language:en",
+        "language:fr",
+        "license:cc-by-sa-4.0",
+        "size_categories:10M<n<100M",
         "format:parquet",
-        "modality:tabular",
-        "modality:timeseries",
+        "modality:text",
         "library:datasets",
-        "library:pandas",
+        "library:dask",
         "library:polars",
         "library:mlcroissant",
         "region:us",
-        "TAAC2026",
-        "recommendation"
+        "wikipedia",
+        "wikimedia",
+        "structured-data",
+        "parquet",
+        "knowledge-base",
+        "references",
+        "citations",
+        "tables",
+        "multilingual"
       ],
-      "createdAt": "2026-03-13T11:52:44.000Z",
-      "lastModified": "2026-04-10T09:07:28.000Z"
+      "createdAt": "2024-09-19T14:11:27.000Z",
+      "lastModified": "2026-05-19T12:54:16.000Z"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-22T12:15:11.131Z",
+  "fetchedAt": "2026-05-22T17:35:58.402Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 728,
+  "scannedAlgoliaHits": 726,
   "scannedFirebaseItems": 500,
   "mentions": {
     "cactus-compute/needle": {
@@ -52,7 +52,7 @@
         "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
         "score": 442,
         "url": "https://github.com/MinishLab/semble",
-        "hoursSincePosted": 116.63
+        "hoursSincePosted": 121.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -64,9 +64,9 @@
           "score": 442,
           "descendants": 150,
           "createdUtc": 1779032227,
-          "ageHours": 116.63,
-          "velocity": 3.79,
-          "trendingScore": 160.42,
+          "ageHours": 121.98,
+          "velocity": 3.62,
+          "trendingScore": 153.22,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -133,7 +133,7 @@
         "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
         "score": 383,
         "url": "https://github.com/wiltodelta/remove-ai-watermarks",
-        "hoursSincePosted": 61.74
+        "hoursSincePosted": 67.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -143,11 +143,11 @@
           "url": "https://github.com/wiltodelta/remove-ai-watermarks",
           "by": "janalsncm",
           "score": 383,
-          "descendants": 251,
+          "descendants": 252,
           "createdUtc": 1779229831,
-          "ageHours": 61.74,
-          "velocity": 6.2,
-          "trendingScore": 418.01,
+          "ageHours": 67.09,
+          "velocity": 5.71,
+          "trendingScore": 386.45,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -172,7 +172,7 @@
         "title": "Show HN: Auto-identity-remove – Automated data broker opt-out runner for macOS",
         "score": 324,
         "url": "https://github.com/stephenlthorn/auto-identity-remove",
-        "hoursSincePosted": 96.71
+        "hoursSincePosted": 102.05
       },
       "everHitFrontPage": false,
       "stories": [
@@ -184,9 +184,9 @@
           "score": 324,
           "descendants": 135,
           "createdUtc": 1779103962,
-          "ageHours": 96.71,
-          "velocity": 3.35,
-          "trendingScore": 121.95,
+          "ageHours": 102.05,
+          "velocity": 3.17,
+          "trendingScore": 115.4,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -360,6 +360,46 @@
         }
       ]
     },
+    "eigenpal/docx-editor": {
+      "count7d": 1,
+      "scoreSum7d": 93,
+      "topStory": {
+        "id": 48228411,
+        "title": "Show HN: Open-source .docx editor library for building document apps",
+        "score": 93,
+        "url": "https://github.com/eigenpal/docx-editor",
+        "hoursSincePosted": 21.21
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48228411,
+          "title": "Show HN: Open-source .docx editor library for building document apps",
+          "url": "https://github.com/eigenpal/docx-editor",
+          "by": "thisisjedr",
+          "score": 93,
+          "descendants": 16,
+          "createdUtc": 1779395017,
+          "ageHours": 21.21,
+          "velocity": 4.39,
+          "trendingScore": 22.47,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "We are working on an open-source .docx editor library for apps that need to edit Word documents in the browser. We just shipped 1.0. A lot of existing approaches convert .docx into HTML and lose document semantics along the way. Our editor parses OOXML directly and uses its own rendering+layout engine to produce paged documents with html/css. Edits round-trip back to .docx, so you’re always editing the document, not its representation. The core rendering engine is framework agnostic, with React ",
+          "linkedRepos": [
+            {
+              "fullName": "eigenpal/docx-editor",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ab-613/OpenGravity": {
       "count7d": 1,
       "scoreSum7d": 88,
@@ -479,46 +519,6 @@
         }
       ]
     },
-    "eigenpal/docx-editor": {
-      "count7d": 1,
-      "scoreSum7d": 81,
-      "topStory": {
-        "id": 48228411,
-        "title": "Show HN: Open-source .docx editor library for building document apps",
-        "score": 81,
-        "url": "https://github.com/eigenpal/docx-editor",
-        "hoursSincePosted": 15.86
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48228411,
-          "title": "Show HN: Open-source .docx editor library for building document apps",
-          "url": "https://github.com/eigenpal/docx-editor",
-          "by": "thisisjedr",
-          "score": 81,
-          "descendants": 14,
-          "createdUtc": 1779395017,
-          "ageHours": 15.86,
-          "velocity": 5.11,
-          "trendingScore": 23.41,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "We are working on an open-source .docx editor library for apps that need to edit Word documents in the browser. We just shipped 1.0. A lot of existing approaches convert .docx into HTML and lose document semantics along the way. Our editor parses OOXML directly and uses its own rendering+layout engine to produce paged documents with html/css. Edits round-trip back to .docx, so you’re always editing the document, not its representation. The core rendering engine is framework agnostic, with React ",
-          "linkedRepos": [
-            {
-              "fullName": "eigenpal/docx-editor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "darkrishabh/agent-skills-eval": {
       "count7d": 1,
       "scoreSum7d": 79,
@@ -608,7 +608,7 @@
         "title": "Show HN: InsForge – Open-source Heroku for coding agents",
         "score": 61,
         "url": "https://github.com/InsForge/InsForge",
-        "hoursSincePosted": 92.57
+        "hoursSincePosted": 97.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -620,9 +620,9 @@
           "score": 61,
           "descendants": 7,
           "createdUtc": 1779118842,
-          "ageHours": 92.57,
-          "velocity": 0.66,
-          "trendingScore": 2,
+          "ageHours": 97.92,
+          "velocity": 0.62,
+          "trendingScore": 1.88,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -845,7 +845,7 @@
         "title": "Show HN: Codiff, a local diff review tool",
         "score": 30,
         "url": "https://github.com/nkzw-tech/codiff/releases",
-        "hoursSincePosted": 126.75
+        "hoursSincePosted": 132.1
       },
       "everHitFrontPage": false,
       "stories": [
@@ -857,9 +857,9 @@
           "score": 30,
           "descendants": 21,
           "createdUtc": 1778995814,
-          "ageHours": 126.75,
-          "velocity": 0.24,
-          "trendingScore": 1.1,
+          "ageHours": 132.1,
+          "velocity": 0.23,
+          "trendingScore": 1.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -924,7 +924,7 @@
         "title": "Zero: The Programming Language for Agents",
         "score": 10,
         "url": "https://github.com/vercel-labs/zero",
-        "hoursSincePosted": 144.72
+        "hoursSincePosted": 150.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -936,7 +936,7 @@
           "score": 10,
           "descendants": 1,
           "createdUtc": 1778931122,
-          "ageHours": 144.72,
+          "ageHours": 150.07,
           "velocity": 0.07,
           "trendingScore": 0.08,
           "everHitFrontPage": false,
@@ -961,7 +961,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101039,
-          "ageHours": 97.52,
+          "ageHours": 102.87,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -986,8 +986,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779221986,
-          "ageHours": 63.92,
-          "velocity": 0.05,
+          "ageHours": 69.27,
+          "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1011,7 +1011,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779061528,
-          "ageHours": 108.5,
+          "ageHours": 113.84,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1038,7 +1038,7 @@
         "title": "Show HN: IResearch – C++ search that beat Lucene and Tantivy on their benchmark",
         "score": 14,
         "url": "https://github.com/serenedb/serenedb/tree/main/libs/iresearch",
-        "hoursSincePosted": 49.9
+        "hoursSincePosted": 55.25
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1050,9 +1050,9 @@
           "score": 14,
           "descendants": 3,
           "createdUtc": 1779272466,
-          "ageHours": 49.9,
-          "velocity": 0.28,
-          "trendingScore": 0.42,
+          "ageHours": 55.25,
+          "velocity": 0.25,
+          "trendingScore": 0.37,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1078,7 +1078,7 @@
         "title": "CC: Anthropic API Error: 500 Internal Server Error",
         "score": 5,
         "url": "https://github.com/anthropics/claude-code/issues/59743",
-        "hoursSincePosted": 138.1
+        "hoursSincePosted": 143.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1090,8 +1090,8 @@
           "score": 5,
           "descendants": 2,
           "createdUtc": 1778954958,
-          "ageHours": 138.1,
-          "velocity": 0.04,
+          "ageHours": 143.44,
+          "velocity": 0.03,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1181,7 +1181,7 @@
         "title": "WiFi Spatial Sensing",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 48.04
+        "hoursSincePosted": 53.39
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1193,7 +1193,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779279152,
-          "ageHours": 48.04,
+          "ageHours": 53.39,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1220,7 +1220,7 @@
         "title": "OpenUI Ported to Assembly",
         "score": 4,
         "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 159.37
+        "hoursSincePosted": 164.72
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1232,9 +1232,9 @@
           "score": 4,
           "descendants": 2,
           "createdUtc": 1778878374,
-          "ageHours": 159.37,
-          "velocity": 0.03,
-          "trendingScore": 0.02,
+          "ageHours": 164.72,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1257,7 +1257,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778921276,
-          "ageHours": 147.45,
+          "ageHours": 152.8,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1282,7 +1282,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779020924,
-          "ageHours": 119.77,
+          "ageHours": 125.12,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1348,7 +1348,7 @@
         "title": "Nous Research edits GitHub issue to remove plagiarism claims about Hermes Agent",
         "score": 7,
         "url": "https://github.com/NousResearch/hermes-agent/issues/10232",
-        "hoursSincePosted": 84.19
+        "hoursSincePosted": 89.54
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1360,7 +1360,7 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1779149028,
-          "ageHours": 84.19,
+          "ageHours": 89.54,
           "velocity": 0.08,
           "trendingScore": 0.07,
           "everHitFrontPage": false,
@@ -1845,7 +1845,7 @@
         "title": "OMLX v0.3.9 Stable Merges Native MTP (Multi-Token Prediction)",
         "score": 2,
         "url": "https://github.com/jundot/omlx/releases/tag/v0.3.9",
-        "hoursSincePosted": 5.55
+        "hoursSincePosted": 10.9
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1857,9 +1857,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779432123,
-          "ageHours": 5.55,
-          "velocity": 0.36,
-          "trendingScore": 0.11,
+          "ageHours": 10.9,
+          "velocity": 0.18,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1884,7 +1884,7 @@
         "title": "DroidDesk: Turns Android Phone into Linux Desktop",
         "score": 4,
         "url": "https://github.com/orailnoor/DroidDesk",
-        "hoursSincePosted": 140.81
+        "hoursSincePosted": 146.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1896,7 +1896,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778945207,
-          "ageHours": 140.81,
+          "ageHours": 146.15,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1923,7 +1923,7 @@
         "title": "Awesome DESIGN.md",
         "score": 4,
         "url": "https://github.com/VoltAgent/awesome-design-md/",
-        "hoursSincePosted": 97.36
+        "hoursSincePosted": 102.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1935,7 +1935,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101630,
-          "ageHours": 97.36,
+          "ageHours": 102.7,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -2110,38 +2110,39 @@
         }
       ]
     },
-    "Karib0u/rustinel": {
+    "unprovable/ShadowCat": {
       "count7d": 1,
-      "scoreSum7d": 3,
+      "scoreSum7d": 89,
       "topStory": {
-        "id": 48101897,
-        "title": "Open-source endpoint detection engine for Windows and Linux",
-        "score": 3,
-        "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 167.57
+        "id": 48234287,
+        "title": "Show HN: ShadowCat – file transfer through QR Codes in a Browser",
+        "score": 89,
+        "url": "https://github.com/unprovable/ShadowCat",
+        "hoursSincePosted": 6.4
       },
-      "everHitFrontPage": false,
+      "everHitFrontPage": true,
       "stories": [
         {
-          "id": 48101897,
-          "title": "Open-source endpoint detection engine for Windows and Linux",
-          "url": "https://github.com/Karib0u/rustinel",
-          "by": "nhatcher",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1778540481,
-          "ageHours": 167.57,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
+          "id": 48234287,
+          "title": "Show HN: ShadowCat – file transfer through QR Codes in a Browser",
+          "url": "https://github.com/unprovable/ShadowCat",
+          "by": "unprovable",
+          "score": 89,
+          "descendants": 37,
+          "createdUtc": 1779448303,
+          "ageHours": 6.4,
+          "velocity": 13.9,
+          "trendingScore": 127.35,
+          "everHitFrontPage": true,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-show-hn"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "Karib0u/rustinel",
+              "fullName": "unprovable/ShadowCat",
               "matchType": "url",
               "confidence": 1
             }
@@ -2157,7 +2158,7 @@
         "title": "Thermo-Nuclear Code Quality Review (Cursor Team Kit skill)",
         "score": 2,
         "url": "https://github.com/cursor/plugins/blob/3347cbab5b54136f6fba0994c3a01a56f7fb7fca/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2169,9 +2170,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779446164,
-          "ageHours": 1.65,
-          "velocity": 1.21,
-          "trendingScore": 0.36,
+          "ageHours": 7,
+          "velocity": 0.29,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2197,7 +2198,7 @@
         "title": "RTK: Rust Token Killer",
         "score": 2,
         "url": "https://github.com/rtk-ai/rtk",
-        "hoursSincePosted": 60.68
+        "hoursSincePosted": 66.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2209,7 +2210,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1779233676,
-          "ageHours": 60.68,
+          "ageHours": 66.02,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2228,45 +2229,6 @@
         }
       ]
     },
-    "mattpocock/skills": {
-      "count7d": 1,
-      "scoreSum7d": 1,
-      "topStory": {
-        "id": 48192666,
-        "title": "More Than Skills, Frameworks",
-        "score": 1,
-        "url": "https://github.com/mattpocock/skills",
-        "hoursSincePosted": 71.34
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48192666,
-          "title": "More Than Skills, Frameworks",
-          "url": "https://github.com/mattpocock/skills",
-          "by": "vdelpuerto",
-          "score": 1,
-          "descendants": 0,
-          "createdUtc": 1779195276,
-          "ageHours": 71.34,
-          "velocity": 0.01,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "mattpocock/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "gi-dellav/zerostack": {
       "count7d": 1,
       "scoreSum7d": 3,
@@ -2275,7 +2237,7 @@
         "title": "Zerostack – Tiny Rust Coding Agent in 8MB of RAM",
         "score": 3,
         "url": "https://github.com/gi-dellav/zerostack/tree/main",
-        "hoursSincePosted": 133.89
+        "hoursSincePosted": 139.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2287,7 +2249,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778970093,
-          "ageHours": 133.89,
+          "ageHours": 139.24,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2314,7 +2276,7 @@
         "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
         "score": 2,
         "url": "https://github.com/czlonkowski/n8n-mcp",
-        "hoursSincePosted": 147.09
+        "hoursSincePosted": 152.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2326,7 +2288,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778922585,
-          "ageHours": 147.09,
+          "ageHours": 152.44,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2345,6 +2307,45 @@
         }
       ]
     },
+    "mattpocock/skills": {
+      "count7d": 1,
+      "scoreSum7d": 1,
+      "topStory": {
+        "id": 48192666,
+        "title": "More Than Skills, Frameworks",
+        "score": 1,
+        "url": "https://github.com/mattpocock/skills",
+        "hoursSincePosted": 76.69
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48192666,
+          "title": "More Than Skills, Frameworks",
+          "url": "https://github.com/mattpocock/skills",
+          "by": "vdelpuerto",
+          "score": 1,
+          "descendants": 0,
+          "createdUtc": 1779195276,
+          "ageHours": 76.69,
+          "velocity": 0.01,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "666ghj/MiroFish": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -2353,7 +2354,7 @@
         "title": "Miro Fish: Predicting Anything",
         "score": 1,
         "url": "https://github.com/666ghj/MiroFish",
-        "hoursSincePosted": 75.86
+        "hoursSincePosted": 81.2
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2365,7 +2366,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779179023,
-          "ageHours": 75.86,
+          "ageHours": 81.2,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2392,7 +2393,7 @@
         "title": "Evolving specs (2025)",
         "score": 1,
         "url": "https://github.com/github/spec-kit/discussions/152",
-        "hoursSincePosted": 76.45
+        "hoursSincePosted": 81.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2404,7 +2405,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779176882,
-          "ageHours": 76.45,
+          "ageHours": 81.8,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2431,7 +2432,7 @@
         "title": "DeerFlow 2.0 – Deep Exploration and Efficient Research Flow",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 102.1
+        "hoursSincePosted": 107.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2443,7 +2444,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779084550,
-          "ageHours": 102.1,
+          "ageHours": 107.45,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2470,7 +2471,7 @@
         "title": "Open-Source, Plugin-Driven Geospatial Intelligence Engine",
         "score": 1,
         "url": "https://github.com/silvertakana/worldwideview",
-        "hoursSincePosted": 103.23
+        "hoursSincePosted": 108.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2482,7 +2483,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779080491,
-          "ageHours": 103.23,
+          "ageHours": 108.57,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2509,7 +2510,7 @@
         "title": "MiniPlasma",
         "score": 1,
         "url": "https://github.com/Nightmare-Eclipse/MiniPlasma",
-        "hoursSincePosted": 141.74
+        "hoursSincePosted": 147.08
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2521,7 +2522,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778941857,
-          "ageHours": 141.74,
+          "ageHours": 147.08,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2548,7 +2549,7 @@
         "title": "Write HTML. Render video. Built for agents",
         "score": 1,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 161.41
+        "hoursSincePosted": 166.76
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2560,7 +2561,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778871024,
-          "ageHours": 161.41,
+          "ageHours": 166.76,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2629,7 +2630,7 @@
         "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
         "score": 442,
         "url": "https://github.com/MinishLab/semble",
-        "hoursSincePosted": 116.63
+        "hoursSincePosted": 121.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2641,9 +2642,9 @@
           "score": 442,
           "descendants": 150,
           "createdUtc": 1779032227,
-          "ageHours": 116.63,
-          "velocity": 3.79,
-          "trendingScore": 160.42,
+          "ageHours": 121.98,
+          "velocity": 3.62,
+          "trendingScore": 153.22,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2710,7 +2711,7 @@
         "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
         "score": 383,
         "url": "https://github.com/wiltodelta/remove-ai-watermarks",
-        "hoursSincePosted": 61.74
+        "hoursSincePosted": 67.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2720,11 +2721,11 @@
           "url": "https://github.com/wiltodelta/remove-ai-watermarks",
           "by": "janalsncm",
           "score": 383,
-          "descendants": 251,
+          "descendants": 252,
           "createdUtc": 1779229831,
-          "ageHours": 61.74,
-          "velocity": 6.2,
-          "trendingScore": 418.01,
+          "ageHours": 67.09,
+          "velocity": 5.71,
+          "trendingScore": 386.45,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2749,7 +2750,7 @@
         "title": "Show HN: Auto-identity-remove – Automated data broker opt-out runner for macOS",
         "score": 324,
         "url": "https://github.com/stephenlthorn/auto-identity-remove",
-        "hoursSincePosted": 96.71
+        "hoursSincePosted": 102.05
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2761,9 +2762,9 @@
           "score": 324,
           "descendants": 135,
           "createdUtc": 1779103962,
-          "ageHours": 96.71,
-          "velocity": 3.35,
-          "trendingScore": 121.95,
+          "ageHours": 102.05,
+          "velocity": 3.17,
+          "trendingScore": 115.4,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2937,6 +2938,46 @@
         }
       ]
     },
+    "eigenpal--docx-editor": {
+      "count7d": 1,
+      "scoreSum7d": 93,
+      "topStory": {
+        "id": 48228411,
+        "title": "Show HN: Open-source .docx editor library for building document apps",
+        "score": 93,
+        "url": "https://github.com/eigenpal/docx-editor",
+        "hoursSincePosted": 21.21
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48228411,
+          "title": "Show HN: Open-source .docx editor library for building document apps",
+          "url": "https://github.com/eigenpal/docx-editor",
+          "by": "thisisjedr",
+          "score": 93,
+          "descendants": 16,
+          "createdUtc": 1779395017,
+          "ageHours": 21.21,
+          "velocity": 4.39,
+          "trendingScore": 22.47,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "We are working on an open-source .docx editor library for apps that need to edit Word documents in the browser. We just shipped 1.0. A lot of existing approaches convert .docx into HTML and lose document semantics along the way. Our editor parses OOXML directly and uses its own rendering+layout engine to produce paged documents with html/css. Edits round-trip back to .docx, so you’re always editing the document, not its representation. The core rendering engine is framework agnostic, with React ",
+          "linkedRepos": [
+            {
+              "fullName": "eigenpal/docx-editor",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ab-613--opengravity": {
       "count7d": 1,
       "scoreSum7d": 88,
@@ -3056,46 +3097,6 @@
         }
       ]
     },
-    "eigenpal--docx-editor": {
-      "count7d": 1,
-      "scoreSum7d": 81,
-      "topStory": {
-        "id": 48228411,
-        "title": "Show HN: Open-source .docx editor library for building document apps",
-        "score": 81,
-        "url": "https://github.com/eigenpal/docx-editor",
-        "hoursSincePosted": 15.86
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48228411,
-          "title": "Show HN: Open-source .docx editor library for building document apps",
-          "url": "https://github.com/eigenpal/docx-editor",
-          "by": "thisisjedr",
-          "score": 81,
-          "descendants": 14,
-          "createdUtc": 1779395017,
-          "ageHours": 15.86,
-          "velocity": 5.11,
-          "trendingScore": 23.41,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "We are working on an open-source .docx editor library for apps that need to edit Word documents in the browser. We just shipped 1.0. A lot of existing approaches convert .docx into HTML and lose document semantics along the way. Our editor parses OOXML directly and uses its own rendering+layout engine to produce paged documents with html/css. Edits round-trip back to .docx, so you’re always editing the document, not its representation. The core rendering engine is framework agnostic, with React ",
-          "linkedRepos": [
-            {
-              "fullName": "eigenpal/docx-editor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "darkrishabh--agent-skills-eval": {
       "count7d": 1,
       "scoreSum7d": 79,
@@ -3185,7 +3186,7 @@
         "title": "Show HN: InsForge – Open-source Heroku for coding agents",
         "score": 61,
         "url": "https://github.com/InsForge/InsForge",
-        "hoursSincePosted": 92.57
+        "hoursSincePosted": 97.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3197,9 +3198,9 @@
           "score": 61,
           "descendants": 7,
           "createdUtc": 1779118842,
-          "ageHours": 92.57,
-          "velocity": 0.66,
-          "trendingScore": 2,
+          "ageHours": 97.92,
+          "velocity": 0.62,
+          "trendingScore": 1.88,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -3422,7 +3423,7 @@
         "title": "Show HN: Codiff, a local diff review tool",
         "score": 30,
         "url": "https://github.com/nkzw-tech/codiff/releases",
-        "hoursSincePosted": 126.75
+        "hoursSincePosted": 132.1
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3434,9 +3435,9 @@
           "score": 30,
           "descendants": 21,
           "createdUtc": 1778995814,
-          "ageHours": 126.75,
-          "velocity": 0.24,
-          "trendingScore": 1.1,
+          "ageHours": 132.1,
+          "velocity": 0.23,
+          "trendingScore": 1.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -3501,7 +3502,7 @@
         "title": "Zero: The Programming Language for Agents",
         "score": 10,
         "url": "https://github.com/vercel-labs/zero",
-        "hoursSincePosted": 144.72
+        "hoursSincePosted": 150.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3513,7 +3514,7 @@
           "score": 10,
           "descendants": 1,
           "createdUtc": 1778931122,
-          "ageHours": 144.72,
+          "ageHours": 150.07,
           "velocity": 0.07,
           "trendingScore": 0.08,
           "everHitFrontPage": false,
@@ -3538,7 +3539,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101039,
-          "ageHours": 97.52,
+          "ageHours": 102.87,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -3563,8 +3564,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779221986,
-          "ageHours": 63.92,
-          "velocity": 0.05,
+          "ageHours": 69.27,
+          "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -3588,7 +3589,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779061528,
-          "ageHours": 108.5,
+          "ageHours": 113.84,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -3615,7 +3616,7 @@
         "title": "Show HN: IResearch – C++ search that beat Lucene and Tantivy on their benchmark",
         "score": 14,
         "url": "https://github.com/serenedb/serenedb/tree/main/libs/iresearch",
-        "hoursSincePosted": 49.9
+        "hoursSincePosted": 55.25
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3627,9 +3628,9 @@
           "score": 14,
           "descendants": 3,
           "createdUtc": 1779272466,
-          "ageHours": 49.9,
-          "velocity": 0.28,
-          "trendingScore": 0.42,
+          "ageHours": 55.25,
+          "velocity": 0.25,
+          "trendingScore": 0.37,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -3655,7 +3656,7 @@
         "title": "CC: Anthropic API Error: 500 Internal Server Error",
         "score": 5,
         "url": "https://github.com/anthropics/claude-code/issues/59743",
-        "hoursSincePosted": 138.1
+        "hoursSincePosted": 143.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3667,8 +3668,8 @@
           "score": 5,
           "descendants": 2,
           "createdUtc": 1778954958,
-          "ageHours": 138.1,
-          "velocity": 0.04,
+          "ageHours": 143.44,
+          "velocity": 0.03,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -3758,7 +3759,7 @@
         "title": "WiFi Spatial Sensing",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 48.04
+        "hoursSincePosted": 53.39
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3770,7 +3771,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779279152,
-          "ageHours": 48.04,
+          "ageHours": 53.39,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -3797,7 +3798,7 @@
         "title": "OpenUI Ported to Assembly",
         "score": 4,
         "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 159.37
+        "hoursSincePosted": 164.72
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3809,9 +3810,9 @@
           "score": 4,
           "descendants": 2,
           "createdUtc": 1778878374,
-          "ageHours": 159.37,
-          "velocity": 0.03,
-          "trendingScore": 0.02,
+          "ageHours": 164.72,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3834,7 +3835,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778921276,
-          "ageHours": 147.45,
+          "ageHours": 152.8,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -3859,7 +3860,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779020924,
-          "ageHours": 119.77,
+          "ageHours": 125.12,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -3925,7 +3926,7 @@
         "title": "Nous Research edits GitHub issue to remove plagiarism claims about Hermes Agent",
         "score": 7,
         "url": "https://github.com/NousResearch/hermes-agent/issues/10232",
-        "hoursSincePosted": 84.19
+        "hoursSincePosted": 89.54
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3937,7 +3938,7 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1779149028,
-          "ageHours": 84.19,
+          "ageHours": 89.54,
           "velocity": 0.08,
           "trendingScore": 0.07,
           "everHitFrontPage": false,
@@ -4422,7 +4423,7 @@
         "title": "OMLX v0.3.9 Stable Merges Native MTP (Multi-Token Prediction)",
         "score": 2,
         "url": "https://github.com/jundot/omlx/releases/tag/v0.3.9",
-        "hoursSincePosted": 5.55
+        "hoursSincePosted": 10.9
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4434,9 +4435,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779432123,
-          "ageHours": 5.55,
-          "velocity": 0.36,
-          "trendingScore": 0.11,
+          "ageHours": 10.9,
+          "velocity": 0.18,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4461,7 +4462,7 @@
         "title": "DroidDesk: Turns Android Phone into Linux Desktop",
         "score": 4,
         "url": "https://github.com/orailnoor/DroidDesk",
-        "hoursSincePosted": 140.81
+        "hoursSincePosted": 146.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4473,7 +4474,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778945207,
-          "ageHours": 140.81,
+          "ageHours": 146.15,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -4500,7 +4501,7 @@
         "title": "Awesome DESIGN.md",
         "score": 4,
         "url": "https://github.com/VoltAgent/awesome-design-md/",
-        "hoursSincePosted": 97.36
+        "hoursSincePosted": 102.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4512,7 +4513,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101630,
-          "ageHours": 97.36,
+          "ageHours": 102.7,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -4687,38 +4688,39 @@
         }
       ]
     },
-    "karib0u--rustinel": {
+    "unprovable--shadowcat": {
       "count7d": 1,
-      "scoreSum7d": 3,
+      "scoreSum7d": 89,
       "topStory": {
-        "id": 48101897,
-        "title": "Open-source endpoint detection engine for Windows and Linux",
-        "score": 3,
-        "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 167.57
+        "id": 48234287,
+        "title": "Show HN: ShadowCat – file transfer through QR Codes in a Browser",
+        "score": 89,
+        "url": "https://github.com/unprovable/ShadowCat",
+        "hoursSincePosted": 6.4
       },
-      "everHitFrontPage": false,
+      "everHitFrontPage": true,
       "stories": [
         {
-          "id": 48101897,
-          "title": "Open-source endpoint detection engine for Windows and Linux",
-          "url": "https://github.com/Karib0u/rustinel",
-          "by": "nhatcher",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1778540481,
-          "ageHours": 167.57,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
+          "id": 48234287,
+          "title": "Show HN: ShadowCat – file transfer through QR Codes in a Browser",
+          "url": "https://github.com/unprovable/ShadowCat",
+          "by": "unprovable",
+          "score": 89,
+          "descendants": 37,
+          "createdUtc": 1779448303,
+          "ageHours": 6.4,
+          "velocity": 13.9,
+          "trendingScore": 127.35,
+          "everHitFrontPage": true,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-show-hn"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "Karib0u/rustinel",
+              "fullName": "unprovable/ShadowCat",
               "matchType": "url",
               "confidence": 1
             }
@@ -4734,7 +4736,7 @@
         "title": "Thermo-Nuclear Code Quality Review (Cursor Team Kit skill)",
         "score": 2,
         "url": "https://github.com/cursor/plugins/blob/3347cbab5b54136f6fba0994c3a01a56f7fb7fca/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4746,9 +4748,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779446164,
-          "ageHours": 1.65,
-          "velocity": 1.21,
-          "trendingScore": 0.36,
+          "ageHours": 7,
+          "velocity": 0.29,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -4774,7 +4776,7 @@
         "title": "RTK: Rust Token Killer",
         "score": 2,
         "url": "https://github.com/rtk-ai/rtk",
-        "hoursSincePosted": 60.68
+        "hoursSincePosted": 66.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4786,7 +4788,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1779233676,
-          "ageHours": 60.68,
+          "ageHours": 66.02,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4805,45 +4807,6 @@
         }
       ]
     },
-    "mattpocock--skills": {
-      "count7d": 1,
-      "scoreSum7d": 1,
-      "topStory": {
-        "id": 48192666,
-        "title": "More Than Skills, Frameworks",
-        "score": 1,
-        "url": "https://github.com/mattpocock/skills",
-        "hoursSincePosted": 71.34
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48192666,
-          "title": "More Than Skills, Frameworks",
-          "url": "https://github.com/mattpocock/skills",
-          "by": "vdelpuerto",
-          "score": 1,
-          "descendants": 0,
-          "createdUtc": 1779195276,
-          "ageHours": 71.34,
-          "velocity": 0.01,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "mattpocock/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "gi-dellav--zerostack": {
       "count7d": 1,
       "scoreSum7d": 3,
@@ -4852,7 +4815,7 @@
         "title": "Zerostack – Tiny Rust Coding Agent in 8MB of RAM",
         "score": 3,
         "url": "https://github.com/gi-dellav/zerostack/tree/main",
-        "hoursSincePosted": 133.89
+        "hoursSincePosted": 139.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4864,7 +4827,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778970093,
-          "ageHours": 133.89,
+          "ageHours": 139.24,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4891,7 +4854,7 @@
         "title": "N8n-MCP: AI assistants can now search and build n8n workflows",
         "score": 2,
         "url": "https://github.com/czlonkowski/n8n-mcp",
-        "hoursSincePosted": 147.09
+        "hoursSincePosted": 152.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4903,7 +4866,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778922585,
-          "ageHours": 147.09,
+          "ageHours": 152.44,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -4922,6 +4885,45 @@
         }
       ]
     },
+    "mattpocock--skills": {
+      "count7d": 1,
+      "scoreSum7d": 1,
+      "topStory": {
+        "id": 48192666,
+        "title": "More Than Skills, Frameworks",
+        "score": 1,
+        "url": "https://github.com/mattpocock/skills",
+        "hoursSincePosted": 76.69
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48192666,
+          "title": "More Than Skills, Frameworks",
+          "url": "https://github.com/mattpocock/skills",
+          "by": "vdelpuerto",
+          "score": 1,
+          "descendants": 0,
+          "createdUtc": 1779195276,
+          "ageHours": 76.69,
+          "velocity": 0.01,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "666ghj--mirofish": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -4930,7 +4932,7 @@
         "title": "Miro Fish: Predicting Anything",
         "score": 1,
         "url": "https://github.com/666ghj/MiroFish",
-        "hoursSincePosted": 75.86
+        "hoursSincePosted": 81.2
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4942,7 +4944,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779179023,
-          "ageHours": 75.86,
+          "ageHours": 81.2,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -4969,7 +4971,7 @@
         "title": "Evolving specs (2025)",
         "score": 1,
         "url": "https://github.com/github/spec-kit/discussions/152",
-        "hoursSincePosted": 76.45
+        "hoursSincePosted": 81.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4981,7 +4983,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779176882,
-          "ageHours": 76.45,
+          "ageHours": 81.8,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5008,7 +5010,7 @@
         "title": "DeerFlow 2.0 – Deep Exploration and Efficient Research Flow",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 102.1
+        "hoursSincePosted": 107.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5020,7 +5022,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779084550,
-          "ageHours": 102.1,
+          "ageHours": 107.45,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5047,7 +5049,7 @@
         "title": "Open-Source, Plugin-Driven Geospatial Intelligence Engine",
         "score": 1,
         "url": "https://github.com/silvertakana/worldwideview",
-        "hoursSincePosted": 103.23
+        "hoursSincePosted": 108.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5059,7 +5061,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779080491,
-          "ageHours": 103.23,
+          "ageHours": 108.57,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5086,7 +5088,7 @@
         "title": "MiniPlasma",
         "score": 1,
         "url": "https://github.com/Nightmare-Eclipse/MiniPlasma",
-        "hoursSincePosted": 141.74
+        "hoursSincePosted": 147.08
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5098,7 +5100,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778941857,
-          "ageHours": 141.74,
+          "ageHours": 147.08,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5125,7 +5127,7 @@
         "title": "Write HTML. Render video. Built for agents",
         "score": 1,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 161.41
+        "hoursSincePosted": 166.76
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5137,7 +5139,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778871024,
-          "ageHours": 161.41,
+          "ageHours": 166.76,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5204,6 +5206,16 @@
       "scoreSum7d": 172
     },
     {
+      "fullName": "eigenpal/docx-editor",
+      "count7d": 1,
+      "scoreSum7d": 93
+    },
+    {
+      "fullName": "unprovable/ShadowCat",
+      "count7d": 1,
+      "scoreSum7d": 89
+    },
+    {
       "fullName": "ab-613/OpenGravity",
       "count7d": 1,
       "scoreSum7d": 88
@@ -5217,11 +5229,6 @@
       "fullName": "Imbad0202/academic-research-skills",
       "count7d": 1,
       "scoreSum7d": 82
-    },
-    {
-      "fullName": "eigenpal/docx-editor",
-      "count7d": 1,
-      "scoreSum7d": 81
     },
     {
       "fullName": "darkrishabh/agent-skills-eval",
@@ -5400,11 +5407,6 @@
     },
     {
       "fullName": "crynta/terax-ai",
-      "count7d": 1,
-      "scoreSum7d": 3
-    },
-    {
-      "fullName": "Karib0u/rustinel",
       "count7d": 1,
       "scoreSum7d": 3
     }

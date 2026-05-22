@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-22T18:04:43.890Z",
+  "fetchedAt": "2026-05-22T20:08:30.064Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -4541,23 +4541,23 @@
     },
     "JuliusBrussee/caveman": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ksiq6fjuxlxn5abhgfhqd5gw/app.bsky.feed.post/3mmcv7qs3xs2q",
-        "cid": "bafyreibcva3qbhk4v67eycqvt5vimwmfr5wfg5sypt7a6fumbu63rwjtiq",
-        "bskyUrl": "https://bsky.app/profile/punishedlynx.lesbian.cat/post/3mmcv7qs3xs2q",
-        "text": "tem essa daqui tambem github.com/JuliusBrusse...",
+        "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mmhlzsfxcs2i",
+        "cid": "bafyreiccdzpnf42vhzkg3abevrf4nspixn4zwuvxtxvj7kheuuhzkv3qlq",
+        "bskyUrl": "https://bsky.app/profile/marko.tech/post/3mmhlzsfxcs2i",
+        "text": "installed caveman? brain trying to save tokens github.com/JuliusBrusse...",
         "author": {
-          "handle": "punishedlynx.lesbian.cat",
-          "displayName": " 𝜗𝜚°⋆ lynx ᝰ🚬"
+          "handle": "marko.tech",
+          "displayName": "Marko Bajlovic"
         },
-        "likeCount": 3,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-20T21:51:14.308Z",
-        "hoursSincePosted": 0.88
+        "replyCount": 0,
+        "createdAt": "2026-05-22T18:50:09.695Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
@@ -4604,6 +4604,34 @@
           "createdUtc": 1779133316,
           "ageHours": 2.53,
           "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mmhlzsfxcs2i",
+          "cid": "bafyreiccdzpnf42vhzkg3abevrf4nspixn4zwuvxtxvj7kheuuhzkv3qlq",
+          "bskyUrl": "https://bsky.app/profile/marko.tech/post/3mmhlzsfxcs2i",
+          "text": "installed caveman? brain trying to save tokens github.com/JuliusBrusse...",
+          "author": {
+            "handle": "marko.tech",
+            "displayName": "Marko Bajlovic"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:50:09.695Z",
+          "createdUtc": 1779475809,
+          "ageHours": 1.31,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5831,23 +5859,23 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmeuupmiuc27",
-        "cid": "bafyreicbwbtmrmvdwl44troppwqgj4zk2g3g7qvoplkyd7vuwm6jsgeomi",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmeuupmiuc27",
-        "text": "Claude Code 2.1.146 release change log github.com/anthropics/c...",
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
+        "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
+        "text": "Claude Code 2.1.148 release change log github.com/anthropics/c...",
         "author": {
           "handle": "georgesl.bsky.social",
           "displayName": "George"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T16:50:23.454Z",
-        "hoursSincePosted": 4.14
+        "createdAt": "2026-05-22T18:17:54.315Z",
+        "hoursSincePosted": 1.84
       },
       "posts": [
         {
@@ -5926,6 +5954,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
+          "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
+          "text": "Claude Code 2.1.148 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:17:54.315Z",
+          "createdUtc": 1779473874,
+          "ageHours": 1.84,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -14769,10 +14826,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmegm2gyvv2c",
-        "cid": "bafyreic6heoz5d6pnrpa7lzwxz37u2mfqwljzjjlceolmuwafczvdnaoiy",
-        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmegm2gyvv2c",
-        "text": "NetBird v0.71.3 brings peer status session tokens, concurrent proxy snapshot apply, macOS sleep callback fixes, and new cluster API capabilities. Solid stability and performance pass. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.3",
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmhpwozqgr23",
+        "cid": "bafyreifwqrntdop3vehzshfe5k47ux7bjxci2lhlzlysg625rxtugqueze",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmhpwozqgr23",
+        "text": "NetBird v0.71.4 fixes a Windows install issue by reverting the legacy registry cleanup. Quick patch if you hit problems with v0.71.3. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.4",
         "author": {
           "handle": "dbt3.ch",
           "displayName": "David"
@@ -14780,10 +14837,39 @@
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T12:35:00.281Z",
-        "hoursSincePosted": 0.96
+        "createdAt": "2026-05-22T20:00:00.300Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmhpwozqgr23",
+          "cid": "bafyreifwqrntdop3vehzshfe5k47ux7bjxci2lhlzlysg625rxtugqueze",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmhpwozqgr23",
+          "text": "NetBird v0.71.4 fixes a Windows install issue by reverting the legacy registry cleanup. Quick patch if you hit problems with v0.71.3. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.4",
+          "author": {
+            "handle": "dbt3.ch",
+            "displayName": "David"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T20:00:00.300Z",
+          "createdUtc": 1779480000,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "netbirdio/netbird",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmegm2gyvv2c",
           "cid": "bafyreic6heoz5d6pnrpa7lzwxz37u2mfqwljzjjlceolmuwafczvdnaoiy",
@@ -18853,23 +18939,23 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
-        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+        "uri": "at://did:plc:so42265uru3ku34fsay6uyye/app.bsky.feed.post/3mmhjszwvwk2p",
+        "cid": "bafyreiemnq6q65qbkixl6n6gvoc4hbuzkazipvqhkgdt7ezvsylq5oxyoq",
+        "bskyUrl": "https://bsky.app/profile/arthurwelle.bsky.social/post/3mmhjszwvwk2p",
+        "text": "There is a feature request: github.com/colbymchenry...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "arthurwelle.bsky.social",
+          "displayName": "Arthur Welle"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 3.47
+        "createdAt": "2026-05-22T18:10:35.226Z",
+        "hoursSincePosted": 1.97
       },
       "posts": [
         {
@@ -18905,6 +18991,34 @@
             },
             {
               "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:so42265uru3ku34fsay6uyye/app.bsky.feed.post/3mmhjszwvwk2p",
+          "cid": "bafyreiemnq6q65qbkixl6n6gvoc4hbuzkazipvqhkgdt7ezvsylq5oxyoq",
+          "bskyUrl": "https://bsky.app/profile/arthurwelle.bsky.social/post/3mmhjszwvwk2p",
+          "text": "There is a feature request: github.com/colbymchenry...",
+          "author": {
+            "handle": "arthurwelle.bsky.social",
+            "displayName": "Arthur Welle"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:10:35.226Z",
+          "createdUtc": 1779473435,
+          "ageHours": 1.97,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
               "matchType": "url",
               "confidence": 1
             }
@@ -22196,7 +22310,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T17:52:33.272Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.27
       },
       "posts": [
         {
@@ -22241,7 +22355,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T17:52:33.272Z",
           "createdUtc": 1779472353,
-          "ageHours": 0.5,
+          "ageHours": 2.27,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -22666,26 +22780,84 @@
       ]
     },
     "unprovable/ShadowCat": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
-        "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
-        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmhfg33lap2r",
-        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser (github.com) Discussion | Main Link",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
+        "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhkxit4ug2z",
+        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
         "author": {
-          "handle": "newsycombinatorbot.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T16:51:45.234630Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-22T18:30:58.697063+00:00",
+        "hoursSincePosted": 1.63
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
+          "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhkxit4ug2z",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:30:58.697063+00:00",
+          "createdUtc": 1779474658,
+          "ageHours": 1.63,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhk3uvtq52x",
+          "cid": "bafyreiba6a7ezmunfxymqfc3wtyi34gu446flam36ovgwzq7fgox5k4tjy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhk3uvtq52x",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:15:31.844158+00:00",
+          "createdUtc": 1779473731,
+          "ageHours": 1.88,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
           "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
@@ -27309,23 +27481,23 @@
     },
     "juliusbrussee--caveman": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ksiq6fjuxlxn5abhgfhqd5gw/app.bsky.feed.post/3mmcv7qs3xs2q",
-        "cid": "bafyreibcva3qbhk4v67eycqvt5vimwmfr5wfg5sypt7a6fumbu63rwjtiq",
-        "bskyUrl": "https://bsky.app/profile/punishedlynx.lesbian.cat/post/3mmcv7qs3xs2q",
-        "text": "tem essa daqui tambem github.com/JuliusBrusse...",
+        "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mmhlzsfxcs2i",
+        "cid": "bafyreiccdzpnf42vhzkg3abevrf4nspixn4zwuvxtxvj7kheuuhzkv3qlq",
+        "bskyUrl": "https://bsky.app/profile/marko.tech/post/3mmhlzsfxcs2i",
+        "text": "installed caveman? brain trying to save tokens github.com/JuliusBrusse...",
         "author": {
-          "handle": "punishedlynx.lesbian.cat",
-          "displayName": " 𝜗𝜚°⋆ lynx ᝰ🚬"
+          "handle": "marko.tech",
+          "displayName": "Marko Bajlovic"
         },
-        "likeCount": 3,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-20T21:51:14.308Z",
-        "hoursSincePosted": 0.88
+        "replyCount": 0,
+        "createdAt": "2026-05-22T18:50:09.695Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
@@ -27372,6 +27544,34 @@
           "createdUtc": 1779133316,
           "ageHours": 2.53,
           "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:qwfrxx4xe4sxjjx3hdkohkqn/app.bsky.feed.post/3mmhlzsfxcs2i",
+          "cid": "bafyreiccdzpnf42vhzkg3abevrf4nspixn4zwuvxtxvj7kheuuhzkv3qlq",
+          "bskyUrl": "https://bsky.app/profile/marko.tech/post/3mmhlzsfxcs2i",
+          "text": "installed caveman? brain trying to save tokens github.com/JuliusBrusse...",
+          "author": {
+            "handle": "marko.tech",
+            "displayName": "Marko Bajlovic"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:50:09.695Z",
+          "createdUtc": 1779475809,
+          "ageHours": 1.31,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -28599,23 +28799,23 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmeuupmiuc27",
-        "cid": "bafyreicbwbtmrmvdwl44troppwqgj4zk2g3g7qvoplkyd7vuwm6jsgeomi",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmeuupmiuc27",
-        "text": "Claude Code 2.1.146 release change log github.com/anthropics/c...",
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
+        "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
+        "text": "Claude Code 2.1.148 release change log github.com/anthropics/c...",
         "author": {
           "handle": "georgesl.bsky.social",
           "displayName": "George"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T16:50:23.454Z",
-        "hoursSincePosted": 4.14
+        "createdAt": "2026-05-22T18:17:54.315Z",
+        "hoursSincePosted": 1.84
       },
       "posts": [
         {
@@ -28694,6 +28894,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
+          "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
+          "text": "Claude Code 2.1.148 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:17:54.315Z",
+          "createdUtc": 1779473874,
+          "ageHours": 1.84,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -37537,10 +37766,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmegm2gyvv2c",
-        "cid": "bafyreic6heoz5d6pnrpa7lzwxz37u2mfqwljzjjlceolmuwafczvdnaoiy",
-        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmegm2gyvv2c",
-        "text": "NetBird v0.71.3 brings peer status session tokens, concurrent proxy snapshot apply, macOS sleep callback fixes, and new cluster API capabilities. Solid stability and performance pass. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.3",
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmhpwozqgr23",
+        "cid": "bafyreifwqrntdop3vehzshfe5k47ux7bjxci2lhlzlysg625rxtugqueze",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmhpwozqgr23",
+        "text": "NetBird v0.71.4 fixes a Windows install issue by reverting the legacy registry cleanup. Quick patch if you hit problems with v0.71.3. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.4",
         "author": {
           "handle": "dbt3.ch",
           "displayName": "David"
@@ -37548,10 +37777,39 @@
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T12:35:00.281Z",
-        "hoursSincePosted": 0.96
+        "createdAt": "2026-05-22T20:00:00.300Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmhpwozqgr23",
+          "cid": "bafyreifwqrntdop3vehzshfe5k47ux7bjxci2lhlzlysg625rxtugqueze",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmhpwozqgr23",
+          "text": "NetBird v0.71.4 fixes a Windows install issue by reverting the legacy registry cleanup. Quick patch if you hit problems with v0.71.3. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.71.4",
+          "author": {
+            "handle": "dbt3.ch",
+            "displayName": "David"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T20:00:00.300Z",
+          "createdUtc": 1779480000,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "netbirdio/netbird",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmegm2gyvv2c",
           "cid": "bafyreic6heoz5d6pnrpa7lzwxz37u2mfqwljzjjlceolmuwafczvdnaoiy",
@@ -41621,23 +41879,23 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
-        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+        "uri": "at://did:plc:so42265uru3ku34fsay6uyye/app.bsky.feed.post/3mmhjszwvwk2p",
+        "cid": "bafyreiemnq6q65qbkixl6n6gvoc4hbuzkazipvqhkgdt7ezvsylq5oxyoq",
+        "bskyUrl": "https://bsky.app/profile/arthurwelle.bsky.social/post/3mmhjszwvwk2p",
+        "text": "There is a feature request: github.com/colbymchenry...",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "arthurwelle.bsky.social",
+          "displayName": "Arthur Welle"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 3.47
+        "createdAt": "2026-05-22T18:10:35.226Z",
+        "hoursSincePosted": 1.97
       },
       "posts": [
         {
@@ -41673,6 +41931,34 @@
             },
             {
               "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:so42265uru3ku34fsay6uyye/app.bsky.feed.post/3mmhjszwvwk2p",
+          "cid": "bafyreiemnq6q65qbkixl6n6gvoc4hbuzkazipvqhkgdt7ezvsylq5oxyoq",
+          "bskyUrl": "https://bsky.app/profile/arthurwelle.bsky.social/post/3mmhjszwvwk2p",
+          "text": "There is a feature request: github.com/colbymchenry...",
+          "author": {
+            "handle": "arthurwelle.bsky.social",
+            "displayName": "Arthur Welle"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:10:35.226Z",
+          "createdUtc": 1779473435,
+          "ageHours": 1.97,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "colbymchenry/codegraph",
               "matchType": "url",
               "confidence": 1
             }
@@ -44964,7 +45250,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T17:52:33.272Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.27
       },
       "posts": [
         {
@@ -45009,7 +45295,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T17:52:33.272Z",
           "createdUtc": 1779472353,
-          "ageHours": 0.5,
+          "ageHours": 2.27,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -45434,26 +45720,84 @@
       ]
     },
     "unprovable--shadowcat": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
-        "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
-        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmhfg33lap2r",
-        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser (github.com) Discussion | Main Link",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
+        "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhkxit4ug2z",
+        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
         "author": {
-          "handle": "newsycombinatorbot.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T16:51:45.234630Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-22T18:30:58.697063+00:00",
+        "hoursSincePosted": 1.63
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
+          "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhkxit4ug2z",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:30:58.697063+00:00",
+          "createdUtc": 1779474658,
+          "ageHours": 1.63,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhk3uvtq52x",
+          "cid": "bafyreiba6a7ezmunfxymqfc3wtyi34gu446flam36ovgwzq7fgox5k4tjy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhk3uvtq52x",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T18:15:31.844158+00:00",
+          "createdUtc": 1779473731,
+          "ageHours": 1.88,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
           "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
@@ -45542,38 +45886,28 @@
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-plugins-official",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
     },
     {
       "fullName": "colbymchenry/codegraph",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
     },
     {
-      "fullName": "mostlygeek/llama-swap",
+      "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
     },
     {
-      "fullName": "ruvnet/RuView",
+      "fullName": "netbirdio/netbird",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
     },
     {
       "fullName": "unprovable/ShadowCat",
-      "count7d": 3,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gbrain",
       "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "langchain-ai/langgraph",
-      "count7d": 1,
       "likesSum7d": 0
     },
     {

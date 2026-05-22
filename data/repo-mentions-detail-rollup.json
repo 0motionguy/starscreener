@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-22T03:50:33.843Z",
-  "scanRunId": "sweep-2026-05-22T03:50:23.989Z",
+  "computedAt": "2026-05-22T08:33:05.337Z",
+  "scanRunId": "sweep-2026-05-22T08:32:46.292Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -123,11 +123,37 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 8,
+      "totalMentions7d": 20,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 20,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://github.com/helvesec/rmux",
+              "title": "Show HN: Rmux – A programmable terminal multiplexer with a Playwright-style SDK",
+              "text": "Author here. RMUX started from a frustration: I&#x27;ve used tmux for years and got tired of scraping output with grep and sleeps to automate anything. So I rebuilt the multiplexer from scratch in Rust, with a programmable layer on top.<p>Two surfaces: a tmux-compatible CLI (~90 commands, your keybindings just work), and a typed async Rust SDK on the same daemon — stable pane IDs, structured snapshots, locator-style waits. The idea is Playwright-style automation, but for terminals.<p>Native on L",
+              "author": "shideneyu",
+              "engagement": {
+                "score": 171,
+                "comments": 83
+              },
+              "observedAt": "2026-05-21T09:22:00.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://github.com/gdevic/FPGA-Calculator",
+              "title": "Show HN: A nibble-oriented CPU in Verilog to build a scientific calculator",
+              "text": "The core question: how did HP&#x27;s scientific calculators actually work at the gate level? That rabbit hole led to building one from scratch.<p>The architectural decision everything else follows from: a decimal calculator should store numbers as BCD — one decimal digit per 4-bit nibble. A standard byte-oriented CPU (Z80, 6502) fights that layout constantly. So I designed a small custom CPU in Verilog where 4 bits is the natural data width and memory is nibble addressable.<p>What the project co",
+              "author": "gdevic",
+              "engagement": {
+                "score": 119,
+                "comments": 42
+              },
+              "observedAt": "2026-05-15T17:15:58.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
@@ -136,7 +162,7 @@
               "text": "Hi HN! I&#x27;m Philip, one of the founders of Tiptap. Next to our open-source rich text editor framework, we started developing Hocuspocus about five years ago and open-sourced it too, to solve one of our biggest challenges back then: real-time collaboration in web editors. We found Yjs by Kevin Jahns, a CRDT library that handles concurrent edits without conflicts. Basically, Yjs merges changes from users without conflicts and in real-time. Hocuspocus is the WebSocket server built on top of Yjs",
               "author": "philipisik",
               "engagement": {
-                "score": 37,
+                "score": 38,
                 "comments": 6
               },
               "observedAt": "2026-05-20T14:51:00.000Z"
@@ -157,41 +183,15 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://scrapewithruno.com/?version=2.0",
-              "title": "Show HN: Runo – Scraping API that returns typed JSON, not raw HTML",
-              "text": "Currently, most scraping APIs aren’t capable of much more then fetching. You get a dump of html back and you’re on your own. I built Runo to take a schema and return typed, validated JSON directly. No parsers or selectors and nothing to maintain.<p>Runo takes a schema: { &quot;field&quot;: &quot;price&quot;, &quot;type&quot;: &quot;float&quot;, &quot;example&quot;: 29.99 } { &quot;field&quot;: &quot;inStock&quot;, &quot;type&quot;: &quot;boolean&quot;, &quot;example&quot;: true }<p>You get the e",
-              "author": "barebearcountry",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-20T21:12:48.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://ss32.github.io/set_up_not_setup/",
-              "title": "It's set up, not setup: Scraping GitHub for grammar errors",
+              "url": "https://www.wired.com/story/meta-employees-scramble-benefits-layoffs-ai/",
+              "title": "Meta Employees Are Scrambling to Use Up Benefits Ahead of Layoffs",
               "text": "",
-              "author": "disastronaut",
+              "author": "ua709",
               "engagement": {
-                "score": 3,
-                "comments": 2
+                "score": 10,
+                "comments": 1
               },
-              "observedAt": "2026-05-16T10:59:13.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://news.ycombinator.com/item?id=48204719",
-              "title": "Understanding how to run a fleet of agents",
-              "text": "I started with materializing replies as markdown artifacts. Anything that stays in the terminal gets lost and forgotten quickly, so persisting each reply to a file was the first step toward keeping the work durable.<p>Once the number of artifacts grew, a flat folder stopped being usable. I introduced hierarchical organization — grouping by topic, with a top-level index.md pointing to per-topic index.md files, each of which holds a short summary and links to individual artifacts. Nesting depth is",
-              "author": "sermakarevich",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-20T08:30:00.000Z"
+              "observedAt": "2026-05-19T20:43:02.000Z"
             }
           ]
         }
@@ -313,10 +313,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 103,
+      "totalMentions7d": 113,
       "perSource": {
         "hackernews": {
-          "count7d": 103,
+          "count7d": 112,
           "top": [
             {
               "source": "hackernews",
@@ -326,10 +326,36 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 651,
-                "comments": 239
+                "score": 671,
+                "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://freenet.org/",
+              "title": "Show HN: Freenet, a peer-to-peer platform for decentralized apps",
+              "text": "For the past 5 years or so I&#x27;ve been working on a ground-up redesign of Freenet, my peer-to-peer project from the early 2000s (now renamed Hyphanet).<p>The new Freenet has been up and running since December along with some early applications like River[1], our decentralized group chat and Delta - a decentralized CMS. Users have already started to build their own apps on Freenet including games, and we have some interesting apps in development like Atlas, a search&#x2F;recommendation engine.",
+              "author": "sanity",
+              "engagement": {
+                "score": 276,
+                "comments": 173
+              },
+              "observedAt": "2026-05-21T14:34:57.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://github.com/helvesec/rmux",
+              "title": "Show HN: Rmux – A programmable terminal multiplexer with a Playwright-style SDK",
+              "text": "Author here. RMUX started from a frustration: I&#x27;ve used tmux for years and got tired of scraping output with grep and sleeps to automate anything. So I rebuilt the multiplexer from scratch in Rust, with a programmable layer on top.<p>Two surfaces: a tmux-compatible CLI (~90 commands, your keybindings just work), and a typed async Rust SDK on the same daemon — stable pane IDs, structured snapshots, locator-style waits. The idea is Playwright-style automation, but for terminals.<p>Native on L",
+              "author": "shideneyu",
+              "engagement": {
+                "score": 171,
+                "comments": 83
+              },
+              "observedAt": "2026-05-21T09:22:00.000Z"
             },
             {
               "source": "hackernews",
@@ -340,7 +366,7 @@
               "author": "wrxd",
               "engagement": {
                 "score": 166,
-                "comments": 167
+                "comments": 168
               },
               "observedAt": "2026-05-18T09:12:10.000Z"
             },
@@ -352,36 +378,28 @@
               "text": "",
               "author": "yacin",
               "engagement": {
-                "score": 148,
-                "comments": 8
+                "score": 160,
+                "comments": 10
               },
               "observedAt": "2026-05-20T15:39:48.000Z"
-            },
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
             {
-              "source": "hackernews",
+              "source": "bluesky",
               "fullName": "multica-ai/multica",
-              "url": "https://odyssey.ml/introducing-agora-1",
-              "title": "Agora-1: The Multi-Agent World Model",
-              "text": "",
-              "author": "olivercameron",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmek5po2co2d",
+              "title": "https://github.com/multica-ai/multica",
+              "text": "https://github.com/multica-ai/multica",
+              "author": "tom-doerr.bsky.social",
               "engagement": {
-                "score": 128,
-                "comments": 23
+                "score": 0,
+                "comments": 0
               },
-              "observedAt": "2026-05-18T18:43:30.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://ljtn.github.io/epiq/",
-              "title": "Show HN: Epiq – Distributed Git based issue tracker TUI",
-              "text": "Issue trackers typically live outside of your workflow, with poor ergonomics. Epiq aims to solve that, bringing issue tracking into your terminal. Multi-user collaboration is achieved via git using user-scoped immutable event logs that converge in memory. Put my all into it. Let me know what you think.",
-              "author": "jolaflow",
-              "engagement": {
-                "score": 90,
-                "comments": 48
-              },
-              "observedAt": "2026-05-16T00:18:03.000Z"
+              "observedAt": "2026-05-21T13:38:34.462Z"
             }
           ]
         }
@@ -801,8 +819,8 @@
               "text": "I&#x27;ve seen quite a few simming discussions on HN, so thought some of you might like this - I&#x27;ve created a map-centered, tactical submarine simulator and it&#x27;s been a blast to make.<p>I grew up playing Silent Service II on Atari ST with my dad, then got into Silent Hunter IV in the 2000s, and most recently have been loving the more recent UBoat. In each case, the part I always enjoy the most is the plotting and charting aspect - essentially beating uncertain estimates with geometry.<",
               "author": "epaga",
               "engagement": {
-                "score": 30,
-                "comments": 12
+                "score": 114,
+                "comments": 40
               },
               "observedAt": "2026-05-18T15:08:21.000Z"
             },
@@ -1744,10 +1762,10 @@
     },
     "openai/symphony": {
       "fullName": "openai/symphony",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -1757,7 +1775,7 @@
               "text": "",
               "author": "javiereguiluz",
               "engagement": {
-                "score": 5,
+                "score": 8,
                 "comments": 0
               },
               "observedAt": "2026-05-21T07:45:56.000Z"
@@ -1765,15 +1783,28 @@
             {
               "source": "hackernews",
               "fullName": "openai/symphony",
-              "url": "https://github.com/skorokithakis/symphony",
-              "title": "Show HN: Symphony: Integrate OpenCode with Linear and get your own dev team",
+              "url": "https://blog.se7enx.com/7x-releases-7x-prime-v2-9-0-0-the-symfony-v2-drop-in-upgrade-to-php-8-support",
+              "title": "Upgrade Symfony 2.8.x to 7x Prime v2.9.0.0 – Tested With PHP 8.5.6",
               "text": "",
-              "author": "stavros",
+              "author": "7x",
               "engagement": {
-                "score": 2,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-14T13:19:42.000Z"
+              "observedAt": "2026-05-15T23:10:34.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "openai/symphony",
+              "url": "https://github.com/macropay-solutions/maravelith/releases/tag/20.0.0-RC7",
+              "title": "Show HN: Maravel-Framework v20.0-RC – Extends Benchmark Lead over Laravel/Lumen",
+              "text": "Maravel-Framework improves Lumen and Laravel 10. Version 20 includes Symfony 7.4 and min PHP 8.2.",
+              "author": "marius-ciclistu",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T05:00:18.000Z"
             }
           ]
         },
@@ -1825,21 +1856,21 @@
       "fullName": "Alishahryar1/free-claude-code",
       "totalMentions7d": 1,
       "perSource": {
-        "bluesky": {
+        "hackernews": {
           "count7d": 1,
           "top": [
             {
-              "source": "bluesky",
+              "source": "hackernews",
               "fullName": "Alishahryar1/free-claude-code",
-              "url": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
-              "title": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous de",
-              "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
-              "author": "camilleroux.com",
+              "url": "https://news.ycombinator.com/item?id=48223375",
+              "title": "Ask HN: Is the next big thing locally running coding agents?",
+              "text": "There&#x27;s extreme price escalation on part of Anthropic, with token spend now approaching levels that have made many-an-enterprise scratch their heads.<p>At the same time, judging by opensource advances (E.g. Qwen 3.6 27B), hosting a smart enough local LLM on 16GB VRAM (or equivalent) is increasingly becoming a reality. Lastly, I see most coding to be of intermediate difficulty, not beyond.<p>Seems to me it&#x27;s a matter of time that people shift to free Claude Code type experiences, powere",
+              "author": "baigy",
               "engagement": {
-                "score": 5,
-                "comments": 1
+                "score": 2,
+                "comments": 12
               },
-              "observedAt": "2026-05-12T11:20:03.368Z"
+              "observedAt": "2026-05-21T14:35:32.000Z"
             }
           ]
         }
@@ -2222,10 +2253,10 @@
     },
     "Fission-AI/OpenSpec": {
       "fullName": "Fission-AI/OpenSpec",
-      "totalMentions7d": 12,
+      "totalMentions7d": 10,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -2236,7 +2267,7 @@
               "author": "motola23",
               "engagement": {
                 "score": 10,
-                "comments": 2
+                "comments": 3
               },
               "observedAt": "2026-05-18T20:00:10.000Z"
             },
@@ -2249,7 +2280,7 @@
               "author": "FailMore",
               "engagement": {
                 "score": 6,
-                "comments": 8
+                "comments": 10
               },
               "observedAt": "2026-05-19T16:29:34.000Z"
             },
@@ -2269,28 +2300,28 @@
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
-              "url": "https://openspec.vercel.app/",
-              "title": "Show HN: OpenSpec – OpenAPI/Swagger explorer with a contract linter",
-              "text": "",
-              "author": "geox",
+              "url": "https://news.ycombinator.com/item?id=48226484",
+              "title": "Ask HN: What is an optimal game theoretic response to AI adoption?",
+              "text": "Apologies for the claude dump, but this was too tempting to resist and partly also my context window is too small to generate a long thesis (a.k.a lazy). I wanted to share it with people as a conversation starter since many of us are grappling with this phenomenon.<p>I had a realization that everybody using AI makes things worse off for everybody because a) more of inferior things and b) they are inferior since we would be using it in areas we are not good at i.e. experts in their fields collabo",
+              "author": "sifar",
               "engagement": {
-                "score": 3,
-                "comments": 0
+                "score": 2,
+                "comments": 3
               },
-              "observedAt": "2026-05-14T18:41:15.000Z"
+              "observedAt": "2026-05-21T17:47:18.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
-              "url": "https://github.com/oswarld/openshears",
-              "title": "3months ago, I predicted OpenClaw wouldn't uninstall cleanly and prepared for it",
-              "text": "",
-              "author": "haebom",
+              "url": "https://drea.fm/",
+              "title": "Show HN: I made the first free ad blocker for podcasts",
+              "text": "Always been annoyed by podcast ads. Searched and found a few apps that can detect and skip them, but they were all paid. So I made a free one. To my knowledge this is the first podcast app with free ad block. iOS (26+) only for now. If the app becomes popular I&#x27;ll def think of doing an Android version as well.<p>The app doesn&#x27;t require a user account. I may open-source it at some point; still thinking about it. If anyone&#x27;s suspicious about how it&#x27;s able to be free, i.e. doesn",
+              "author": "hamza_q_",
               "engagement": {
                 "score": 2,
-                "comments": 4
+                "comments": 2
               },
-              "observedAt": "2026-05-18T04:42:39.000Z"
+              "observedAt": "2026-05-21T15:07:44.000Z"
             }
           ]
         },
@@ -3180,11 +3211,37 @@
     },
     "nikzad-avasam/downloader": {
       "fullName": "nikzad-avasam/downloader",
-      "totalMentions7d": 29,
+      "totalMentions7d": 28,
       "perSource": {
         "hackernews": {
-          "count7d": 29,
+          "count7d": 28,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "nikzad-avasam/downloader",
+              "url": "https://freenet.org/",
+              "title": "Show HN: Freenet, a peer-to-peer platform for decentralized apps",
+              "text": "For the past 5 years or so I&#x27;ve been working on a ground-up redesign of Freenet, my peer-to-peer project from the early 2000s (now renamed Hyphanet).<p>The new Freenet has been up and running since December along with some early applications like River[1], our decentralized group chat and Delta - a decentralized CMS. Users have already started to build their own apps on Freenet including games, and we have some interesting apps in development like Atlas, a search&#x2F;recommendation engine.",
+              "author": "sanity",
+              "engagement": {
+                "score": 276,
+                "comments": 173
+              },
+              "observedAt": "2026-05-21T14:34:57.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "nikzad-avasam/downloader",
+              "url": "https://news.ycombinator.com/item?id=48221896",
+              "title": "Show HN: I Dedicated 4 Years to Mastering Offline Password Cracking",
+              "text": "Hi everyone,<p>I am Bojta Lepenye, and first of all, I want to thank the core developers of Hashcat. In my experience, it is quite literally the most capable tool available for offline password cracking across a wide range of use cases.<p>I have spent the last 4 years (from age 14 to 18) extensively working with Hashcat and the tools surrounding it, and I have documented what I have learned throughout that time (since January 18, 2022) in my first book. During that period, I also had to continuo",
+              "author": "bojta-lepenye",
+              "engagement": {
+                "score": 227,
+                "comments": 46
+              },
+              "observedAt": "2026-05-21T12:56:37.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "nikzad-avasam/downloader",
@@ -3197,19 +3254,6 @@
                 "comments": 120
               },
               "observedAt": "2026-05-18T14:13:07.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "nikzad-avasam/downloader",
-              "url": "https://www.gridtravel.app",
-              "title": "Show HN: GridTravel – A community based travel app for users to share routes",
-              "text": "Hey HN,<p>My co-founders and I have been building GridTravel, a free iOS app for planning and sharing travel routes with turn-by-turn GPS nav. We just launched yesterday after App Store approval.<p>We&#x27;re three 21-year-old cofounders and best friends since middle school. We built GridTravel after years of frustration navigating new cities on every trip we took together.<p>The idea: most people either search Google for &quot;top 10 places to visit in…&quot; lists or go on social media to get ",
-              "author": "knuaym9",
-              "engagement": {
-                "score": 61,
-                "comments": 41
-              },
-              "observedAt": "2026-05-14T22:05:30.000Z"
             },
             {
               "source": "hackernews",
@@ -3236,19 +3280,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-18T19:29:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "nikzad-avasam/downloader",
-              "url": "https://legacyupdate.net/download-center/download/51025/update-for-windows-8.1-x64-kb3132080",
-              "title": "Legacy Update for Windows 8.1 for x64-based Systems",
-              "text": "",
-              "author": "kristianp",
-              "engagement": {
-                "score": 14,
-                "comments": 7
-              },
-              "observedAt": "2026-05-16T00:53:27.000Z"
             }
           ]
         }
@@ -3685,10 +3716,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 168,
+      "totalMentions7d": 165,
       "perSource": {
         "hackernews": {
-          "count7d": 168,
+          "count7d": 165,
           "top": [
             {
               "source": "hackernews",
@@ -3698,8 +3729,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 1418,
-                "comments": 612
+                "score": 1421,
+                "comments": 613
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
             },
@@ -3711,8 +3742,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1376,
-                "comments": 998
+                "score": 1386,
+                "comments": 1010
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -3724,7 +3755,7 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1086,
+                "score": 1087,
                 "comments": 593
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
@@ -3737,7 +3768,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 669,
+                "score": 671,
                 "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -3936,26 +3967,8 @@
     },
     "ZhuLinsen/daily_stock_analysis": {
       "fullName": "ZhuLinsen/daily_stock_analysis",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "ZhuLinsen/daily_stock_analysis",
-              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
-              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
-              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
-              "author": "jlengelbrecht",
-              "engagement": {
-                "score": 64,
-                "comments": 61
-              },
-              "observedAt": "2026-05-15T04:48:23.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 2,
           "top": [
@@ -4104,10 +4117,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 45,
+      "totalMentions7d": 46,
       "perSource": {
         "hackernews": {
-          "count7d": 36,
+          "count7d": 38,
           "top": [
             {
               "source": "hackernews",
@@ -4117,23 +4130,23 @@
               "text": "",
               "author": "Timofeibu",
               "engagement": {
-                "score": 185,
-                "comments": 162
+                "score": 212,
+                "comments": 196
               },
               "observedAt": "2026-05-20T19:38:25.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://extency.com/blog/markdown-versioned-folders-agent-brain-2026",
-              "title": "Best \"Brain\" for Agents Is Just Versioned Folders of Markdown Files",
+              "url": "https://brainbaking.com/post/2026/05/the-death-of-the-brick-and-mortar-toy-store/",
+              "title": "The death of the brick and mortar toy store",
               "text": "",
-              "author": "murdockq",
+              "author": "speckx",
               "engagement": {
-                "score": 39,
-                "comments": 12
+                "score": 78,
+                "comments": 71
               },
-              "observedAt": "2026-05-14T20:15:26.000Z"
+              "observedAt": "2026-05-19T12:48:20.000Z"
             },
             {
               "source": "hackernews",
@@ -4177,7 +4190,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 9,
+          "count7d": 8,
           "top": [
             {
               "source": "bluesky",
@@ -5984,75 +5997,23 @@
     },
     "ChromeDevTools/chrome-devtools-mcp": {
       "fullName": "ChromeDevTools/chrome-devtools-mcp",
-      "totalMentions7d": 42,
+      "totalMentions7d": 1,
       "perSource": {
-        "twitter": {
-          "count7d": 42,
+        "bluesky": {
+          "count7d": 1,
           "top": [
             {
-              "source": "twitter",
+              "source": "bluesky",
               "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "url": "https://x.com/threejs/status/2051332861622637021",
-              "title": "Pro tip 💫 Ask your AI to use the Chrome DevTools MCP to profile a few frames of your game/app. Then ask it to look for potential performance optimizations.",
-              "text": "Pro tip 💫 Ask your AI to use the Chrome DevTools MCP to profile a few frames of your game/app. Then ask it to look for potential performance optimizations.",
-              "author": "threejs",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+              "title": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng",
+              "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
               "engagement": {
-                "score": 512,
-                "comments": 9
-              },
-              "observedAt": "Mon May 04 16:07:20 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "url": "https://x.com/argofowl/status/2052484046182367274",
-              "title": "crash out successfully mitigated we got something new for the codex app codex chrome extension + plugin not sure how this is different to chrome devtools mcp yet excited to battle test it will report ",
-              "text": "crash out successfully mitigated we got something new for the codex app codex chrome extension + plugin not sure how this is different to chrome devtools mcp yet excited to battle test it will report back",
-              "author": "argofowl",
-              "engagement": {
-                "score": 47,
-                "comments": 4
-              },
-              "observedAt": "Thu May 07 20:21:44 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "url": "https://x.com/argofowl/status/2052484046182367274",
-              "title": "crash out successfully mitigated we got something new for the codex app codex chrome extension + plugin not sure how this is different to chrome devtools mcp yet excited to battle test it will report ",
-              "text": "crash out successfully mitigated we got something new for the codex app codex chrome extension + plugin not sure how this is different to chrome devtools mcp yet excited to battle test it will report back",
-              "author": "argofowl",
-              "engagement": {
-                "score": 46,
-                "comments": 4
-              },
-              "observedAt": "Thu May 07 20:21:44 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "url": "https://x.com/nhrdev/status/2052538385643041154",
-              "title": "✅ New updates for @apipilot_dev Chrome extension from v1.5.0, you can entirely disable interception for any specific website this will literally stop the extension from injecting the interception scri",
-              "text": "✅ New updates for @apipilot_dev Chrome extension from v1.5.0, you can entirely disable interception for any specific website this will literally stop the extension from injecting the interception script to that website #buildinpublic #chromeextensions #devtools #apipilot https://t.co/jNsEQOQjzH",
-              "author": "nhrdev",
-              "engagement": {
-                "score": 4,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "Thu May 07 23:57:40 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "url": "https://x.com/lucatac0/status/2050423924177907984",
-              "title": "spun up an AI hacking agent tonight gave it Chrome DevTools MCP, told it to do Hack The Box Academy it's pwning modules faster than I can read them https://t.co/aSQ7dFzDRp",
-              "text": "spun up an AI hacking agent tonight gave it Chrome DevTools MCP, told it to do Hack The Box Academy it's pwning modules faster than I can read them https://t.co/aSQ7dFzDRp",
-              "author": "lucatac0",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "Sat May 02 03:55:33 +0000 2026"
+              "observedAt": "2026-05-21T15:23:04.964Z"
             }
           ]
         }
@@ -6084,10 +6045,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 28,
+      "totalMentions7d": 29,
       "perSource": {
         "hackernews": {
-          "count7d": 28,
+          "count7d": 29,
           "top": [
             {
               "source": "hackernews",
@@ -6097,8 +6058,8 @@
               "text": "",
               "author": "OuterVale",
               "engagement": {
-                "score": 354,
-                "comments": 233
+                "score": 359,
+                "comments": 239
               },
               "observedAt": "2026-05-21T07:21:55.000Z"
             },
@@ -6110,23 +6071,10 @@
               "text": "",
               "author": "mooreds",
               "engagement": {
-                "score": 100,
+                "score": 101,
                 "comments": 32
               },
               "observedAt": "2026-05-20T16:41:00.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://github.com/GlycemicGPT/GlycemicGPT",
-              "title": "Show HN: GlycemicGPT – Open-source AI-powered diabetes management",
-              "text": "I&#x27;m a Type 1 diabetic and software engineer. Last year I went months between endocrinologists with no clinician reviewing my data. I&#x27;m an engineer, so I built the tool I needed — and now I&#x27;m open sourcing it. GlycemicGPT is a self-hosted platform that connects continuous glucose monitors, insulin pumps, and existing Nightscout instances to an AI analysis layer running on your own infrastructure. Data sources:<p>Dexcom G7 (cloud API) Tandem t:slim X2 and Mobi pumps (direct BLE) Nig",
-              "author": "jlengelbrecht",
-              "engagement": {
-                "score": 64,
-                "comments": 61
-              },
-              "observedAt": "2026-05-15T04:48:23.000Z"
             },
             {
               "source": "hackernews",
@@ -6153,6 +6101,19 @@
                 "comments": 17
               },
               "observedAt": "2026-05-18T17:44:12.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/investigations/inside-unraveling-us-diplomacy-under-trump-2026-05-21/",
+              "title": "Inside the unraveling of U.S. diplomacy under Trump",
+              "text": "",
+              "author": "layer8",
+              "engagement": {
+                "score": 14,
+                "comments": 1
+              },
+              "observedAt": "2026-05-21T20:07:28.000Z"
             }
           ]
         }
@@ -6631,10 +6592,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 7,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -6674,6 +6635,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T15:26:45.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://agentmemo.vercel.app",
+              "title": "News.Y Combinator.com/Submit",
+              "text": "",
+              "author": "pulsoai",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T16:08:23.000Z"
             },
             {
               "source": "hackernews",
@@ -7256,8 +7230,26 @@
     },
     "jundot/omlx": {
       "fullName": "jundot/omlx",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jundot/omlx",
+              "url": "https://github.com/jundot/omlx/releases/tag/v0.3.9",
+              "title": "OMLX v0.3.9 Stable Merges Native MTP (Multi-Token Prediction)",
+              "text": "",
+              "author": "febed",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-22T06:42:03.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 2,
           "top": [
@@ -7492,7 +7484,7 @@
       "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -7506,19 +7498,24 @@
                 "comments": 0
               },
               "observedAt": "2026-05-17T18:57:05.000Z"
-            },
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
             {
-              "source": "hackernews",
+              "source": "bluesky",
               "fullName": "VRSEN/OpenSwarm",
-              "url": "https://opensearch.org/blog/harness-first-agentic-sdlc-how-opensearch-builds-software-using-its-own-search-engine/",
-              "title": "Agentic SDLC: How OpenSearch accelerates engineering with its own engine",
-              "text": "",
-              "author": "Lunar5227",
+              "url": "https://bsky.app/profile/pythonhub.dev/post/3mmfr3zhmih2u",
+              "title": "OpenSwarm Claude code for everything except coding. https://github.com/VRSEN/OpenSwarm",
+              "text": "OpenSwarm Claude code for everything except coding. https://github.com/VRSEN/OpenSwarm",
+              "author": "pythonhub.dev",
               "engagement": {
-                "score": 1,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-15T05:42:46.000Z"
+              "observedAt": "2026-05-22T01:15:33.561Z"
             }
           ]
         }
@@ -7742,10 +7739,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 12,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 10,
           "top": [
             {
               "source": "hackernews",
@@ -7769,7 +7766,7 @@
               "author": "cdrnsf",
               "engagement": {
                 "score": 119,
-                "comments": 109
+                "comments": 110
               },
               "observedAt": "2026-05-20T16:55:17.000Z"
             },
@@ -7781,7 +7778,7 @@
               "text": "",
               "author": "ceejayoz",
               "engagement": {
-                "score": 15,
+                "score": 18,
                 "comments": 4
               },
               "observedAt": "2026-05-21T20:25:40.000Z"
@@ -7884,37 +7881,11 @@
     },
     "lightningpixel/modly": {
       "fullName": "lightningpixel/modly",
-      "totalMentions7d": 3,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 1,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "lightningpixel/modly",
-              "url": "https://old.reddit.com/r/prettyusefulwebsites/comments/1tbfrhp/urlsify_free_link_shortener_url_statistics_wno/",
-              "title": "Pretty Useful Website – Free Analytical Link Shortener, Free Forever",
-              "text": "",
-              "author": "godlymod",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T21:41:21.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "lightningpixel/modly",
-              "url": "https://old.reddit.com/r/sideprojects/comments/1tabelm/finished_making_this_url_shortener_completely/",
-              "title": "Urlsify.com, a Free Link Shortener with Analytics, Custom Links, and More",
-              "text": "",
-              "author": "godlymod",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T09:21:41.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "lightningpixel/modly",
@@ -7934,24 +7905,11 @@
     },
     "amiremohamadi/g2ray": {
       "fullName": "amiremohamadi/g2ray",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "amiremohamadi/g2ray",
-              "url": "https://www.science.org/content/article/scientists-id-corkscrew-killer-behind-gruesome-seal-deaths",
-              "title": "Cannibalistic attacks between gray seals leave telltale “corkscrew” injuries",
-              "text": "",
-              "author": "gmays",
-              "engagement": {
-                "score": 79,
-                "comments": 50
-              },
-              "observedAt": "2026-05-14T22:12:45.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "amiremohamadi/g2ray",
@@ -8032,7 +7990,7 @@
               "text": "The Setup:<p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;o0hgybh.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;mcNiomp.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2F;vIjw6pc.jpeg</a><p><a href=\"https:&#x2F;&#x2F;i.imgur.com&#x2F;nzOwmSC.jpeg\" rel=\"nofollow\">https:&#x2F;&#x2F;i.imgur.com&#x2",
               "author": "danybittel",
               "engagement": {
-                "score": 525,
+                "score": 526,
                 "comments": 196
               },
               "observedAt": "2026-05-19T10:38:47.000Z"
@@ -8379,11 +8337,24 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 49,
+      "totalMentions7d": 53,
       "perSource": {
         "hackernews": {
-          "count7d": 49,
+          "count7d": 53,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://www.runtm.com/",
+              "title": "Launch HN: Runtime (YC P26) – Sandboxed coding agents for everyone on a team",
+              "text": "Hey HN, We&#x27;re Gus and Carlos from Runtime (<a href=\"https:&#x2F;&#x2F;runtm.com\">https:&#x2F;&#x2F;runtm.com</a>). We&#x27;re building infra that lets your whole team (including non-engineers) ship with Claude Code, Codex, and other agents without engineering having to handhold every session.<p>After Mentum (YC S21) was acquired, I personally shipped 4 full-stack products in 3 months using coding agents. When I tried to roll the same workflow out to the rest of the team, it fell apart: Most",
+              "author": "gustrigos",
+              "engagement": {
+                "score": 84,
+                "comments": 23
+              },
+              "observedAt": "2026-05-21T16:07:13.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
@@ -8392,8 +8363,8 @@
               "text": "Hey HN, we’re Nico and Arseniy, co-founders of Superlog (<a href=\"https:&#x2F;&#x2F;superlog.sh\">https:&#x2F;&#x2F;superlog.sh</a>). We&#x27;re building a self-installing, self healing observability tool meant not to be opened. It has a wizard that daily sets up proper logging and an agent that investigates errors and opens PRs.<p>Super short demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M</a>.<p",
               "author": "Magnanten",
               "engagement": {
-                "score": 70,
-                "comments": 45
+                "score": 71,
+                "comments": 46
               },
               "observedAt": "2026-05-19T15:54:06.000Z"
             },
@@ -8405,10 +8376,23 @@
               "text": "Hi HN! I&#x27;m Philip, one of the founders of Tiptap. Next to our open-source rich text editor framework, we started developing Hocuspocus about five years ago and open-sourced it too, to solve one of our biggest challenges back then: real-time collaboration in web editors. We found Yjs by Kevin Jahns, a CRDT library that handles concurrent edits without conflicts. Basically, Yjs merges changes from users without conflicts and in real-time. Hocuspocus is the WebSocket server built on top of Yjs",
               "author": "philipisik",
               "engagement": {
-                "score": 37,
+                "score": 38,
                 "comments": 6
               },
               "observedAt": "2026-05-20T14:51:00.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://github.com/FredAntB/Spec-Driven-Development",
+              "title": "Show HN: I Made a Claude Skill for Spec-Driven Development (SDD)",
+              "text": "At my work they provided a single Claude subscription for everyone on the team. To be honest I like kiro better as it provides a way better SDD management. But the company can&#x27;t provide it and I can&#x27;t afford it yet. Turns out I had the skill creator skill in my claude instance so I made use of it to create this Skill. I made it fully by using Claude but I wanted to make it open source, so I asked it to help me make tests and preparations for it, even a CI to run python tests.<p>Well, w",
+              "author": "NTRIXLM",
+              "engagement": {
+                "score": 26,
+                "comments": 5
+              },
+              "observedAt": "2026-05-21T12:49:07.000Z"
             },
             {
               "source": "hackernews",
@@ -8418,36 +8402,10 @@
               "text": "It’s well known at this point that documentation needs to be optimized for AI agents - we’re all pointing our Claude Code &#x2F; Codex &#x2F; Pi agents at documentation, and expecting the models to figure out how to implement a product.<p>This, however, changes the entire optimization problem when writing documentation. Good documentation now becomes more objective - you are solving the very concrete problem: can a dumb harness running the dumbest model implement this reliably?<p>Humans can typi",
               "author": "byhong03",
               "engagement": {
-                "score": 19,
-                "comments": 6
+                "score": 23,
+                "comments": 7
               },
               "observedAt": "2026-05-20T16:53:07.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
-              "url": "https://news.ycombinator.com/item?id=48184763",
-              "title": "Show HN: Claude Soul – cross-session learning engine for Claude Code",
-              "text": "Claude Code has no memory between sessions. I wanted to fix that, but not by just saving facts to a file — I wanted it to actually get better over time.<p>Claude Soul is an MCP server + hooks that extracts signals from your interactions (corrections, successes, confusion)and periodically reflects on them to build behavioral frameworks. Frameworks gain or lose confidence based on evidence. Bad ones get retired automatically.<p>After ~200 sessions some weird stuff happened. It built itself an addi",
-              "author": "motola23",
-              "engagement": {
-                "score": 10,
-                "comments": 2
-              },
-              "observedAt": "2026-05-18T20:00:10.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
-              "url": "https://chromewebstore.google.com/detail/d-slop/cnjeckkgbjgfledbphbobjabnfjnheef",
-              "title": "Show HN: How to Kill the Dead Internet",
-              "text": "Ok, so maybe &quot;how to revive the internet&quot; would be more accurate, but if you&#x27;re reading this, I got your attention, right? Here&#x27;s why I want you to read on: I built a free extension, D-slop, to disincentivize anyone from posting AI writing, and eventually images and video as well, on the internet.<p>For writing, it checks known vocab and punctuation tells, as well as subtler tells related to cadence, and assigns it a score subject to an adjustable threshold. If the text fails",
-              "author": "bigger_fish",
-              "engagement": {
-                "score": 9,
-                "comments": 11
-              },
-              "observedAt": "2026-05-18T01:35:17.000Z"
             }
           ]
         }
@@ -8460,19 +8418,6 @@
         "hackernews": {
           "count7d": 9,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "withcoral/coral",
-              "url": "https://www.wired.com/story/meta-layoffs-bad-vibes-mark-zuckerberg-ai/",
-              "title": "Meta's New Reality: Record High Profits. Record Low Morale",
-              "text": "",
-              "author": "rustoo",
-              "engagement": {
-                "score": 180,
-                "comments": 211
-              },
-              "observedAt": "2026-05-14T14:17:12.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "withcoral/coral",
@@ -8495,7 +8440,7 @@
               "author": "nullpwr",
               "engagement": {
                 "score": 4,
-                "comments": 4
+                "comments": 5
               },
               "observedAt": "2026-05-20T23:21:25.000Z"
             },
@@ -8511,6 +8456,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-15T11:09:23.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "withcoral/coral",
+              "url": "https://www.technologyreview.com/2026/05/21/1137632/lawsuit-trump-administration-online-safety-coalition-for-independent-technology-research/",
+              "title": "Tech researchers are suing the Trump administration over the future of online s",
+              "text": "",
+              "author": "joozio",
+              "engagement": {
+                "score": 3,
+                "comments": 1
+              },
+              "observedAt": "2026-05-21T11:02:47.000Z"
             },
             {
               "source": "hackernews",
@@ -8629,7 +8587,7 @@
     },
     "antirez/ds4": {
       "fullName": "antirez/ds4",
-      "totalMentions7d": 12,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8637,20 +8595,20 @@
             {
               "source": "hackernews",
               "fullName": "antirez/ds4",
-              "url": "https://antirez.com/news/165",
-              "title": "A few words on DS4",
-              "text": "",
-              "author": "caust1c",
+              "url": "https://news.ycombinator.com/item?id=48222268",
+              "title": "Show HN: We dropped Go for Rust in our real-time telephony AI media plane",
+              "text": "In building Vivik, an execution-grade telephony AI engine, we faced a brutal constraint: the human conversational loop.<p>In psychoacoustics, a delay under 250 ms feels instantaneous. At 500 ms, users notice lag. Beyond 800 ms, conversations start feeling strained, and by 1.5 seconds, the illusion of real-time interaction collapses.<p>That creates an extremely tight latency budget for voice AI:<p>• Network RTT: 50–200 ms • LLM inference: 200–800 ms • TTS synthesis: 100–400 ms • ASR processing: 1",
+              "author": "bajpailabs",
               "engagement": {
-                "score": 438,
-                "comments": 187
+                "score": 3,
+                "comments": 0
               },
-              "observedAt": "2026-05-14T22:29:12.000Z"
+              "observedAt": "2026-05-21T13:27:27.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 11,
+          "count7d": 12,
           "top": [
             {
               "source": "bluesky",
@@ -8681,6 +8639,19 @@
             {
               "source": "bluesky",
               "fullName": "antirez/ds4",
+              "url": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
+              "title": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
+              "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
+              "author": "temujin9.t9productions.com",
+              "engagement": {
+                "score": 4,
+                "comments": 1
+              },
+              "observedAt": "2026-05-21T20:07:28.262Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "antirez/ds4",
               "url": "https://bsky.app/profile/sk3w.bsky.social/post/3mma5qwn4j22a",
               "title": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
               "text": "You might want to look at github.com/antirez/ds4 (recommends 128 but some are getting decent results with 96)",
@@ -8690,19 +8661,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T19:46:03.474Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "antirez/ds4",
-              "url": "https://bsky.app/profile/davidgasquez.com/post/3mlsi7enuq22x",
-              "title": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
-              "text": "What an awesome line-up of humans working together! 😍 github.com/antirez/ds4/...",
-              "author": "davidgasquez.com",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-14T09:15:47.463Z"
             },
             {
               "source": "bluesky",
@@ -8991,10 +8949,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 86,
+      "totalMentions7d": 61,
       "perSource": {
         "hackernews": {
-          "count7d": 86,
+          "count7d": 61,
           "top": [
             {
               "source": "hackernews",
@@ -9004,7 +8962,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 669,
+                "score": 671,
                 "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -9017,7 +8975,7 @@
               "text": "Hey HN!<p>I&#x27;m Lukas from Andon Labs. We let AIs run companies without humans in the loop and report to the public on what can go wrong. Previously, we&#x27;ve done experiments in retail (vending machines, stores, and cafes), but we just launched one in the media sector. We gave four AI agents all the tools they need to both broadcast radio shows live and handle all the business side of running a media company. The agents&#x27; revenue is so far terrible (you can try to strike a sponsor deal",
               "author": "lukaspetersson",
               "engagement": {
-                "score": 371,
+                "score": 372,
                 "comments": 271
               },
               "observedAt": "2026-05-18T18:12:18.000Z"
@@ -9051,15 +9009,15 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
-              "url": "https://www.thedrive.com/news/new-nightmare-just-dropped-3d-animated-ads-on-trucks-in-traffic",
-              "title": "A digital billboard company has the technology to make 3D ads on moving trucks",
-              "text": "",
-              "author": "cf100clunk",
+              "url": "https://news.ycombinator.com/item?id=48230104",
+              "title": "Tell HN: I'm tired of AI-generated answers",
+              "text": "I found GitHub repositories that were spreading malware. I asked AI what I should do about it, but it gave me nothing useful. So I opened a discussion on GitHub. Someone replied. It was literally the exact same text the AI had given me. I called it out and the comment was deleted. Then another person replied. Same exact AI response again.<p>I worked as a developer in a company. I asked the business owner a question about a business task. He sent me a ChatGPT screenshot with the answer. I replied",
+              "author": "theorchid",
               "engagement": {
-                "score": 93,
-                "comments": 47
+                "score": 98,
+                "comments": 48
               },
-              "observedAt": "2026-05-16T00:21:09.000Z"
+              "observedAt": "2026-05-21T23:37:14.000Z"
             }
           ]
         }
@@ -9290,10 +9248,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 134,
+      "totalMentions7d": 131,
       "perSource": {
         "hackernews": {
-          "count7d": 132,
+          "count7d": 129,
           "top": [
             {
               "source": "hackernews",
@@ -9303,8 +9261,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 1418,
-                "comments": 612
+                "score": 1421,
+                "comments": 613
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
             },
@@ -9316,8 +9274,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1376,
-                "comments": 998
+                "score": 1386,
+                "comments": 1010
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -9329,7 +9287,7 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1086,
+                "score": 1087,
                 "comments": 593
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
@@ -9342,7 +9300,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 669,
+                "score": 671,
                 "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -9460,10 +9418,10 @@
     },
     "HKUDS/CLI-Anything": {
       "fullName": "HKUDS/CLI-Anything",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
         "bluesky": {
-          "count7d": 5,
+          "count7d": 6,
           "top": [
             {
               "source": "bluesky",
@@ -9477,6 +9435,32 @@
                 "comments": 1
               },
               "observedAt": "2026-05-17T13:17:57.572Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "HKUDS/CLI-Anything",
+              "url": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmfugqtopj2g",
+              "title": "CLI-Anything 是一個有趣專案，目標是讓所有軟體都能 agent-native。他們提出 CLI-Hub，讓 AI agents 可以透過 CLI 介面使用各種工具。目前看來，這個專案試圖解決 agent 與現有軟體之間的整合問題，讓 agents 能直接操作 CAD、3D 建模等工具，實際產出成果。這確實是一個讓 agents 落地的重要方向，但實際的整合程度與穩定性，會是後續觀察的重",
+              "text": "CLI-Anything 是一個有趣專案，目標是讓所有軟體都能 agent-native。他們提出 CLI-Hub，讓 AI agents 可以透過 CLI 介面使用各種工具。目前看來，這個專案試圖解決 agent 與現有軟體之間的整合問題，讓 agents 能直接操作 CAD、3D 建模等工具，實際產出成果。這確實是一個讓 agents 落地的重要方向，但實際的整合程度與穩定性，會是後續觀察的重點。 #CLIAnything #AIagent #LLM #DeveloperTools https://github.com/HKUDS/CLI-Anything",
+              "author": "wsx5031060310guy.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-22T02:15:14.766Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "HKUDS/CLI-Anything",
+              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmepymmqlv27",
+              "title": "Agent-native CLI tools emerge. CLI-Anything integrates AI agents with existing CLIs, Apache 2.0 licensed. #CLIAnything #AgentNative #HKUDS 🔗 https://github.com/HKUDS/CLI-Anything",
+              "text": "Agent-native CLI tools emerge. CLI-Anything integrates AI agents with existing CLIs, Apache 2.0 licensed. #CLIAnything #AgentNative #HKUDS 🔗 https://github.com/HKUDS/CLI-Anything",
+              "author": "boardwire.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T15:23:06.376Z"
             },
             {
               "source": "bluesky",
@@ -9503,32 +9487,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-18T15:29:44.771Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "HKUDS/CLI-Anything",
-              "url": "https://bsky.app/profile/s4mdf0o1.piaille.fr.ap.brid.gy/post/3mlxkpbu2nzn2",
-              "title": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
-              "text": "Ouah ce truc !? 🤯 https://github.com/HKUDS/CLI-Anything#-real-world-demos #IA #MCP",
-              "author": "s4mdf0o1.piaille.fr.ap.brid.gy",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T09:43:50.564Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "HKUDS/CLI-Anything",
-              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlujmp7s232e",
-              "title": "GitHub - HKUDS/CLI-Anything: \"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/ https://github.com/HKUDS/CLI-Anything",
-              "text": "GitHub - HKUDS/CLI-Anything: \"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/ https://github.com/HKUDS/CLI-Anything",
-              "author": "tech-trending.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-15T04:46:27.968Z"
             }
           ]
         }
@@ -9560,10 +9518,10 @@
     },
     "OpenCut-app/OpenCut": {
       "fullName": "OpenCut-app/OpenCut",
-      "totalMentions7d": 54,
+      "totalMentions7d": 19,
       "perSource": {
         "hackernews": {
-          "count7d": 54,
+          "count7d": 19,
           "top": [
             {
               "source": "hackernews",
@@ -9573,7 +9531,7 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 441,
+                "score": 442,
                 "comments": 150
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
@@ -9586,23 +9544,10 @@
               "text": "",
               "author": "datadrivenangel",
               "engagement": {
-                "score": 351,
-                "comments": 295
+                "score": 354,
+                "comments": 297
               },
               "observedAt": "2026-05-17T12:09:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "OpenCut-app/OpenCut",
-              "url": "https://twitter.com/steipete/status/2055346265869721905",
-              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
-              "text": "",
-              "author": "eamag",
-              "engagement": {
-                "score": 162,
-                "comments": 205
-              },
-              "observedAt": "2026-05-16T11:34:04.000Z"
             },
             {
               "source": "hackernews",
@@ -9612,8 +9557,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;www.nytimes.com&#x2F;2026&#x2F;05&#x2F;15&#x2F;science&#x2F;archaeology-egypt-mummy-iliad.html\" rel=\"nofollow\">https:&#x2F;&#x2F;www.nytimes.com&#x2F;2026&#x2F;05&#x2F;15&#x2F;science&#x2F;archaeology-egypt...</a> (<a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;2jmQ2\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.ph&#x2F;2jmQ2</a>)",
               "author": "diodorus",
               "engagement": {
-                "score": 127,
-                "comments": 88
+                "score": 178,
+                "comments": 2
               },
               "observedAt": "2026-05-15T22:31:45.000Z"
             },
@@ -9629,6 +9574,19 @@
                 "comments": 28
               },
               "observedAt": "2026-05-17T16:15:01.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://superlog.sh/",
+              "title": "Show HN: Superlog (YC P26) – Observability that installs itself and fixes bugs",
+              "text": "Hey HN, we’re Nico and Arseniy, co-founders of Superlog (<a href=\"https:&#x2F;&#x2F;superlog.sh\">https:&#x2F;&#x2F;superlog.sh</a>). We&#x27;re building a self-installing, self healing observability tool meant not to be opened. It has a wizard that daily sets up proper logging and an agent that investigates errors and opens PRs.<p>Super short demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M</a>.<p",
+              "author": "Magnanten",
+              "engagement": {
+                "score": 71,
+                "comments": 46
+              },
+              "observedAt": "2026-05-19T15:54:06.000Z"
             }
           ]
         }
@@ -9636,24 +9594,11 @@
     },
     "tech-leads-club/agent-skills": {
       "fullName": "tech-leads-club/agent-skills",
-      "totalMentions7d": 10,
+      "totalMentions7d": 9,
       "perSource": {
         "hackernews": {
-          "count7d": 9,
+          "count7d": 7,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "tech-leads-club/agent-skills",
-              "url": "https://securityboulevard.com/2026/05/capsule-security-analysis-details-scope-of-vulnerable-ai-agent-attack-surface/",
-              "title": "15% of AI agent skill files carry hardcoded credentials with DB write access",
-              "text": "",
-              "author": "Armor1AI",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-15T00:51:33.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "tech-leads-club/agent-skills",
@@ -9666,19 +9611,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-19T20:11:40.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "tech-leads-club/agent-skills",
-              "url": "https://github.com/shang-zhu/violin",
-              "title": "Violin: An open-source video translation tool (and agent skills)",
-              "text": "",
-              "author": "zhushang",
-              "engagement": {
-                "score": 3,
-                "comments": 1
-              },
-              "observedAt": "2026-05-14T15:04:41.000Z"
             },
             {
               "source": "hackernews",
@@ -9705,11 +9637,37 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T11:40:55.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/JustVugg/gutenberg-cli",
+              "title": "Show HN: Gutenberg – Any URL to verified CLI and MCP server and agent skills",
+              "text": "",
+              "author": "vforno",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T23:19:52.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/hymhub/skill-indexer",
+              "title": "An open question about how AI agent skills should be distributed",
+              "text": "",
+              "author": "1749207188",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T10:35:39.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -9723,6 +9681,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T15:29:53.560Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mmfuh7f3ej2q",
+              "title": "目前 Agent Skills 的 GitHub repo 提供了一個 AI coding agent 的技能庫。這個計畫希望能確保這些技能是經過驗證、測試且安全的，降低目前 marketplace 中技能可能有的資安風險。 實測或開發 agent 的朋友，可以參考這個專案來擴充你們的 agent 功能，目前支援 Antigravity, Claude Code, Cursor 等平台。 #Age",
+              "text": "目前 Agent Skills 的 GitHub repo 提供了一個 AI coding agent 的技能庫。這個計畫希望能確保這些技能是經過驗證、測試且安全的，降低目前 marketplace 中技能可能有的資安風險。 實測或開發 agent 的朋友，可以參考這個專案來擴充你們的 agent 功能，目前支援 Antigravity, Claude Code, Cursor 等平台。 #AgentSkills #AICoding #LLMAgent https://github.com/tech-leads-club/agent-skills",
+              "author": "wsx5031060310guy.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-22T02:15:30.067Z"
             }
           ]
         }
@@ -9738,15 +9709,15 @@
             {
               "source": "hackernews",
               "fullName": "truelockmc/streambert",
-              "url": "https://appleinsider.com/articles/26/04/20/apple-tv-reaping-the-benefits-of-stale-content-on-bigger-streamers",
-              "title": "Apple TV 12% market share, reaping benefits of stale content",
+              "url": "https://xmrchat.com",
+              "title": "XMRChat – Tip your favorite streamer in cryptocurrency",
               "text": "",
-              "author": "mgh2",
+              "author": "Cider9986",
               "engagement": {
-                "score": 3,
-                "comments": 0
+                "score": 25,
+                "comments": 2
               },
-              "observedAt": "2026-05-16T02:29:00.000Z"
+              "observedAt": "2026-05-21T23:45:04.000Z"
             },
             {
               "source": "hackernews",
@@ -9835,49 +9806,36 @@
     },
     "KeygraphHQ/shannon": {
       "fullName": "KeygraphHQ/shannon",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
               "fullName": "KeygraphHQ/shannon",
-              "url": "https://www.edna.land/blogs/posts/scanning/",
-              "title": "Gaining control of every projector and camera on campus",
+              "url": "https://www.thehandbasket.co/p/hating-ai-is-good-actually",
+              "title": "Shunning AI is the human choice",
               "text": "",
-              "author": "ednaordinary",
+              "author": "cdrnsf",
               "engagement": {
-                "score": 128,
-                "comments": 32
+                "score": 357,
+                "comments": 504
               },
-              "observedAt": "2026-05-14T02:37:22.000Z"
+              "observedAt": "2026-05-21T13:36:06.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "KeygraphHQ/shannon",
-              "url": "https://www.axios.com/2026/05/18/trump-ai-steve-bannon-humans-first-letter",
-              "title": "MAGA allies tell Trump to vet AI before release",
-              "text": "",
-              "author": "thm",
+              "url": "https://news.ycombinator.com/item?id=48231769",
+              "title": "Show HN: TLS Certificate Management and PKI",
+              "text": "Hello! This project is a TLS&#x2F;X.509 certificate manager and PKI. Designed to provision and install your TLS certificates across public and private endpoints. It&#x27;s something I created for my home lab, but has quickly expanded as I have been experimenting more and more with AI development tooling.<p>You can see the product overview: <a href=\"https:&#x2F;&#x2F;www.zaita.com\" rel=\"nofollow\">https:&#x2F;&#x2F;www.zaita.com</a> It&#x27;s architecture and usage is nicely documented: <a href=\"h",
+              "author": "zaitanz",
               "engagement": {
-                "score": 8,
-                "comments": 8
+                "score": 3,
+                "comments": 0
               },
-              "observedAt": "2026-05-18T12:19:15.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "KeygraphHQ/shannon",
-              "url": "https://write.as/shantnu/llm-witch-hunts-are-getting-really-fin-irritating",
-              "title": "LLM Witch Hunts are getting F'in Irritating",
-              "text": "",
-              "author": "shantnutiwari",
-              "engagement": {
-                "score": 6,
-                "comments": 9
-              },
-              "observedAt": "2026-05-14T15:18:11.000Z"
+              "observedAt": "2026-05-22T03:54:09.000Z"
             },
             {
               "source": "hackernews",
@@ -9887,10 +9845,36 @@
               "text": "",
               "author": "shantnutiwari",
               "engagement": {
-                "score": 2,
+                "score": 3,
                 "comments": 0
               },
               "observedAt": "2026-05-19T13:10:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://www.thesubtrack.com/",
+              "title": "Show HN: SubTrack – Find forgotten subscriptions via bank transaction scanning",
+              "text": "",
+              "author": "svnk123",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T13:49:09.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://computer.police.dev/",
+              "title": "Show HN: Computer Police – block malicious NPM/pip installs locally",
+              "text": "A couple of months ago, our team got hit by the first version of Shai-Hulud through a random `npm install`. We didn&#x27;t catch it until it was too late.<p>I built Computer Police for our team to never be in this situation again.<p>It&#x27;s designed to block that earlier. It runs a local registry proxy between your package manager and npm&#x2F;PyPI, and stops confirmed-malicious packages before they touch disk.<p>It&#x27;s deliberately narrow: malware only, no CVE scanning, no heuristics, no t",
+              "author": "kannthu",
+              "engagement": {
+                "score": 1,
+                "comments": 2
+              },
+              "observedAt": "2026-05-21T16:49:12.000Z"
             }
           ]
         }
@@ -9898,10 +9882,10 @@
     },
     "vercel-labs/zero": {
       "fullName": "vercel-labs/zero",
-      "totalMentions7d": 10,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 5,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -9932,6 +9916,19 @@
             {
               "source": "hackernews",
               "fullName": "vercel-labs/zero",
+              "url": "https://github.com/vercel-labs/zerolang",
+              "title": "Zero Lang",
+              "text": "",
+              "author": "https443",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T16:21:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "vercel-labs/zero",
               "url": "https://github.com/vercel-labs/zero",
               "title": "Zero: The Programming Language for Agents",
               "text": "",
@@ -9954,19 +9951,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T22:05:50.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "vercel-labs/zero",
-              "url": "https://github.com/vercel-labs/zero",
-              "title": "Zero, a systems language for small native agent tools",
-              "text": "",
-              "author": "mjgil",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-17T23:45:28.000Z"
             }
           ]
         },
@@ -10213,8 +10197,26 @@
     },
     "tashfeenahmed/freellmapi": {
       "fullName": "tashfeenahmed/freellmapi",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "tashfeenahmed/freellmapi",
+              "url": "https://tashfeenahmed.github.io/freellmapi/",
+              "title": "FreeLLMAPI – One key. One billion free LLM tokens. Every month",
+              "text": "",
+              "author": "hamid914",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-22T02:23:50.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 1,
           "top": [

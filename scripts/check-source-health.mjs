@@ -55,6 +55,16 @@ const STALENESS_HOURS = {
 };
 const DEFAULT_STALENESS_HOURS = 24;
 
+// Files under data/_meta/ that are NOT scraped-source freshness sidecars
+// and must be skipped by the watcher. These are cache/lookup files imported
+// by app code that happen to live in data/_meta/ for historical reasons.
+//   - huggingface-avatars.json: HF org/user -> CDN avatar URL map, statically
+//     imported by src/lib/logos.ts. Has no producer and no `reason` / `ts`
+//     fields, so it always tripped the watcher as a FAIL ("undefined").
+const IGNORED_SOURCES = new Set([
+  "huggingface-avatars",
+]);
+
 function fmtAge(hours) {
   if (!Number.isFinite(hours)) return "?";
   if (hours < 1) return `${Math.round(hours * 60)}m`;
@@ -79,6 +89,7 @@ async function main() {
   const reports = [];
   for (const file of entries.filter((f) => f.endsWith(".json"))) {
     const source = file.replace(/\.json$/, "");
+    if (IGNORED_SOURCES.has(source)) continue;
     const path = resolve(META_DIR, file);
 
     let meta;

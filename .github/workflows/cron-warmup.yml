@@ -67,7 +67,16 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: warmup-probes-${{ strategy.job-index }}
-          path: .perf/probe*.json
+          # upload-artifact@v7 has been intermittently failing to resolve
+          # `path: .perf/probe*.json` on this self-hosted runner ("No files
+          # were found with the provided path") even when the previous step
+          # writes + cats the file successfully. Uploading the whole
+          # directory bypasses the glob expansion path entirely. Each matrix
+          # job only writes one probe file so the artifact stays single-file.
+          # `if-no-files-found: error` makes a future regression loud at
+          # upload time instead of silently breaking the summarize job.
+          path: .perf/
+          if-no-files-found: error
           retention-days: 14
 
   summarize:

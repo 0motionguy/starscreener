@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-22T12:01:07.073Z",
+  "fetchedAt": "2026-05-22T15:22:08.194Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 2,
@@ -830,25 +830,53 @@
     },
     "jj-vcs/jj": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ogwattsr55qdrjmtbovoa7za/app.bsky.feed.post/3mm7uuw5i7c2a",
-        "cid": "bafyreifzkejm2ft7safxafybmv5qxukih2sa2oph7xd7ldloqmjkhdlrmm",
-        "bskyUrl": "https://bsky.app/profile/botmatrix.myatproto.social/post/3mm7uuw5i7c2a",
-        "text": "tolerate it's much better than what was, the ux is terrible, the area needs innovation imo friends are looking at github.com/jj-vcs/jj",
+        "uri": "at://did:plc:fodyg35g25joa5rpplt4y43g/app.bsky.feed.post/3mmh3jfqdw22b",
+        "cid": "bafyreiefonqsfdo4izks7vkesimf26jzxp3jgigfo7xi7gfal6k54w63q4",
+        "bskyUrl": "https://bsky.app/profile/adolfont.github.io/post/3mmh3jfqdw22b",
+        "text": "github.com/jj-vcs/jj",
         "author": {
-          "handle": "botmatrix.myatproto.social",
-          "displayName": "eric shamow"
+          "handle": "adolfont.github.io",
+          "displayName": "Adolfo Neto"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T17:07:11.609Z",
-        "hoursSincePosted": 3.76
+        "createdAt": "2026-05-22T13:54:39.664Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fodyg35g25joa5rpplt4y43g/app.bsky.feed.post/3mmh3jfqdw22b",
+          "cid": "bafyreiefonqsfdo4izks7vkesimf26jzxp3jgigfo7xi7gfal6k54w63q4",
+          "bskyUrl": "https://bsky.app/profile/adolfont.github.io/post/3mmh3jfqdw22b",
+          "text": "github.com/jj-vcs/jj",
+          "author": {
+            "handle": "adolfont.github.io",
+            "displayName": "Adolfo Neto"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T13:54:39.664Z",
+          "createdUtc": 1779458079,
+          "ageHours": 1.46,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ogwattsr55qdrjmtbovoa7za/app.bsky.feed.post/3mm7uuw5i7c2a",
           "cid": "bafyreifzkejm2ft7safxafybmv5qxukih2sa2oph7xd7ldloqmjkhdlrmm",
@@ -10058,24 +10086,24 @@
       ]
     },
     "rtk-ai/rtk": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fxbgd54fjpcthdcvcnu4gogy/app.bsky.feed.post/3mm7pks5mtk2f",
-        "cid": "bafyreiffbtuiujopzg5ssmrftxjuuezsdlanel4po63emmnk7adqce65by",
-        "bskyUrl": "https://bsky.app/profile/clofresh.bsky.social/post/3mm7pks5mtk2f",
-        "text": "There’s such an exciting opportunity to optimize token usage for local LLMs. Some other exciting token optimizations: * MTP for Qwen 3.6 and Gemma 4 (blog.google/innovation-a...) * RTK (github.com/rtk-ai/rtk) * cymbal (github.com/1broseidon/c...) * pi agent harness (minimal system prompt)",
+        "uri": "at://did:plc:jfc47fjoy4wr4wtax256z6ke/app.bsky.feed.post/3mmgxaqgr4s2o",
+        "cid": "bafyreig5yzq56yukpnlkiexgtx4nmujxdu3kjwg2zlmd7jhhu2sfulam2a",
+        "bskyUrl": "https://bsky.app/profile/yyano.bsky.social/post/3mmgxaqgr4s2o",
+        "text": "rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies github.com/rtk-ai/rtk おためしで動かしてる。かなり圧縮できていいかんじ。",
         "author": {
-          "handle": "clofresh.bsky.social",
-          "displayName": "C"
+          "handle": "yyano.bsky.social",
+          "displayName": "yyano"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T15:32:03.166Z",
-        "hoursSincePosted": 3.76
+        "createdAt": "2026-05-22T12:38:13.928Z",
+        "hoursSincePosted": 2.73
       },
       "posts": [
         {
@@ -10168,6 +10196,34 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jfc47fjoy4wr4wtax256z6ke/app.bsky.feed.post/3mmgxaqgr4s2o",
+          "cid": "bafyreig5yzq56yukpnlkiexgtx4nmujxdu3kjwg2zlmd7jhhu2sfulam2a",
+          "bskyUrl": "https://bsky.app/profile/yyano.bsky.social/post/3mmgxaqgr4s2o",
+          "text": "rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies github.com/rtk-ai/rtk おためしで動かしてる。かなり圧縮できていいかんじ。",
+          "author": {
+            "handle": "yyano.bsky.social",
+            "displayName": "yyano"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T12:38:13.928Z",
+          "createdUtc": 1779453493,
+          "ageHours": 2.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
@@ -16060,25 +16116,63 @@
     },
     "ruvnet/RuView": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mdocvky3thypleu26gbyjgex/app.bsky.feed.post/3mmerhmr54k2m",
-        "cid": "bafyreigmp4a36w3bo2d6sze25n3ufoa77qsr46gcv6oqnafnpygt2xwtgu",
-        "bskyUrl": "https://bsky.app/profile/flavio58.bsky.social/post/3mmerhmr54k2m",
-        "text": "github.com/ruvnet/RuView",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
         "author": {
-          "handle": "flavio58.bsky.social",
-          "displayName": "Flavio58"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T15:49:23.015Z",
-        "hoursSincePosted": 3.45
+        "createdAt": "2026-05-22T14:36:20.000Z",
+        "hoursSincePosted": 0.76
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+          "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:36:20.000Z",
+          "createdUtc": 1779460580,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm32vhnkxd2x",
           "cid": "bafyreidguwrfwuh7wnzxrglu4o6qa7ml2p7yhxzykonbm2w6tleixx3nhu",
@@ -16501,26 +16595,54 @@
       ]
     },
     "MinishLab/semble": {
-      "count7d": 2,
-      "likesSum7d": 0,
+      "count7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mm7dq2la5s2u",
-        "cid": "bafyreiflwuay2ukzid5ik7s25njnfuqv7oo7mu22nixtcw4zxajx5zhafe",
-        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mm7dq2la5s2u",
-        "text": "Le vrai goulet d’étranglement des agents de code : trouver le bon contexte sans brûler toute la fenêtre. Semble promet une recherche de code pensée pour agents, avec beaucoup moins de tokens que grep + read. github.com/MinishLab/s...",
+        "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
+        "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
+        "bskyUrl": "https://bsky.app/profile/francistm.bsky.social/post/3mmh4kxye5c2b",
+        "text": "Shipped ken v0.4.0 — pure-Go port of MinishLab/semble (hybrid code search for AI agents). Drop-in MCP replacement, no Python, single static binary. go install + ken download-model and you're running. github.com/townsendmeri...",
         "author": {
-          "handle": "jordbastin.bsky.social",
-          "displayName": "Jordan Bastin 🇫🇷"
+          "handle": "francistm.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-19T12:00:14.710092Z",
-        "hoursSincePosted": 0.5
+        "replyCount": 1,
+        "createdAt": "2026-05-22T14:13:26.096Z",
+        "hoursSincePosted": 1.15
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
+          "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
+          "bskyUrl": "https://bsky.app/profile/francistm.bsky.social/post/3mmh4kxye5c2b",
+          "text": "Shipped ken v0.4.0 — pure-Go port of MinishLab/semble (hybrid code search for AI agents). Drop-in MCP replacement, no Python, single static binary. go install + ken download-model and you're running. github.com/townsendmeri...",
+          "author": {
+            "handle": "francistm.bsky.social"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T14:13:26.096Z",
+          "createdUtc": 1779459206,
+          "ageHours": 1.15,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm6gp7ymf22y",
           "cid": "bafyreib2wm4mcsvigyu2wrxvlf3lk3wbhzcc3ep3cere3u74c6rvyp6cum",
@@ -17868,24 +17990,24 @@
       ]
     },
     "strukto-ai/mirage": {
-      "count7d": 1,
-      "likesSum7d": 2,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mm6gfvi6pz2a",
-        "cid": "bafyreieupi3pbnbsipyn2tdg7idozrwb5ppkmajknwa4ppmjfe2prbfhmi",
-        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mm6gfvi6pz2a",
-        "text": "Mirage A Unified Virtual Filesystem For AI Agents. https://github.com/strukto-ai/mirage",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmh3tczprl2l",
+        "cid": "bafyreigh6byjtu6dcxz7ppymqszogjwydtvtsjdxgth4ykmphgxqwvjp6q",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmh3tczprl2l",
+        "text": "Mirage : un système de fichiers virtuel unifié pour les agents IA. S3, Google Drive, Slack, GitHub, Redis… montés côte à côte sous une même arborescence, manipulables avec des commandes bash classiques. https://github.com/strukto-ai/mirage",
         "author": {
-          "handle": "pythonhub.dev",
-          "displayName": "Python Hub"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T03:15:35.344616+00:00",
-        "hoursSincePosted": 5.39
+        "createdAt": "2026-05-22T16:00:12+02:00",
+        "hoursSincePosted": 1.37
       },
       "posts": [
         {
@@ -17904,6 +18026,63 @@
           "createdUtc": 1779160535,
           "ageHours": 5.39,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "strukto-ai/mirage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmh3tczprl2l",
+          "cid": "bafyreigh6byjtu6dcxz7ppymqszogjwydtvtsjdxgth4ykmphgxqwvjp6q",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmh3tczprl2l",
+          "text": "Mirage : un système de fichiers virtuel unifié pour les agents IA. S3, Google Drive, Slack, GitHub, Redis… montés côte à côte sous une même arborescence, manipulables avec des commandes bash classiques. https://github.com/strukto-ai/mirage",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T16:00:12+02:00",
+          "createdUtc": 1779458412,
+          "ageHours": 1.37,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "strukto-ai/mirage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:yklisov533zvvd4a3ejpktzq/app.bsky.feed.post/3mmgyalqz6b2u",
+          "cid": "bafyreid5blos5e6oadxmeg6ou5xaylyteypd25vqt3aetrugfovdpyfsou",
+          "bskyUrl": "https://bsky.app/profile/spinscale.bsky.social/post/3mmgyalqz6b2u",
+          "text": "mirate - a unified virtual filesystem for AI agents So, instead of tools, the current trend is to convert everything to a structure that can be searched with local filesystem tools, that agents already have local access to. Need to think about the implications of this... github.com/strukto-ai/m...",
+          "author": {
+            "handle": "spinscale.bsky.social",
+            "displayName": "Alexander Reelsen"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T12:56:01.594Z",
+          "createdUtc": 1779454561,
+          "ageHours": 2.44,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -18562,25 +18741,63 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:rzrswgjbus6pudxrqh2i3zkc/app.bsky.feed.post/3mmgdqbcasc27",
-        "cid": "bafyreib4xbr6jwkkzbnfhbfrpsuvjqgvfwy5iabmyczq7siq6w7zvueypq",
-        "bskyUrl": "https://bsky.app/profile/novica.bsky.social/post/3mmgdqbcasc27",
-        "text": "hey #rstats is anyone working R support for github.com/colbymchenry... ?",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
         "author": {
-          "handle": "novica.bsky.social",
-          "displayName": "novica"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T06:49:00.086Z",
-        "hoursSincePosted": 1.74
+        "createdAt": "2026-05-22T14:36:20.000Z",
+        "hoursSincePosted": 0.76
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+          "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:36:20.000Z",
+          "createdUtc": 1779460580,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
           "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
@@ -19517,23 +19734,61 @@
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
-        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "replyCount": 0,
+        "createdAt": "2026-05-22T14:36:20.000Z",
+        "hoursSincePosted": 0.76
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+          "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:36:20.000Z",
+          "createdUtc": 1779460580,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
           "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
@@ -23097,25 +23352,53 @@
     },
     "jj-vcs--jj": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ogwattsr55qdrjmtbovoa7za/app.bsky.feed.post/3mm7uuw5i7c2a",
-        "cid": "bafyreifzkejm2ft7safxafybmv5qxukih2sa2oph7xd7ldloqmjkhdlrmm",
-        "bskyUrl": "https://bsky.app/profile/botmatrix.myatproto.social/post/3mm7uuw5i7c2a",
-        "text": "tolerate it's much better than what was, the ux is terrible, the area needs innovation imo friends are looking at github.com/jj-vcs/jj",
+        "uri": "at://did:plc:fodyg35g25joa5rpplt4y43g/app.bsky.feed.post/3mmh3jfqdw22b",
+        "cid": "bafyreiefonqsfdo4izks7vkesimf26jzxp3jgigfo7xi7gfal6k54w63q4",
+        "bskyUrl": "https://bsky.app/profile/adolfont.github.io/post/3mmh3jfqdw22b",
+        "text": "github.com/jj-vcs/jj",
         "author": {
-          "handle": "botmatrix.myatproto.social",
-          "displayName": "eric shamow"
+          "handle": "adolfont.github.io",
+          "displayName": "Adolfo Neto"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T17:07:11.609Z",
-        "hoursSincePosted": 3.76
+        "createdAt": "2026-05-22T13:54:39.664Z",
+        "hoursSincePosted": 1.46
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fodyg35g25joa5rpplt4y43g/app.bsky.feed.post/3mmh3jfqdw22b",
+          "cid": "bafyreiefonqsfdo4izks7vkesimf26jzxp3jgigfo7xi7gfal6k54w63q4",
+          "bskyUrl": "https://bsky.app/profile/adolfont.github.io/post/3mmh3jfqdw22b",
+          "text": "github.com/jj-vcs/jj",
+          "author": {
+            "handle": "adolfont.github.io",
+            "displayName": "Adolfo Neto"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T13:54:39.664Z",
+          "createdUtc": 1779458079,
+          "ageHours": 1.46,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ogwattsr55qdrjmtbovoa7za/app.bsky.feed.post/3mm7uuw5i7c2a",
           "cid": "bafyreifzkejm2ft7safxafybmv5qxukih2sa2oph7xd7ldloqmjkhdlrmm",
@@ -32325,24 +32608,24 @@
       ]
     },
     "rtk-ai--rtk": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fxbgd54fjpcthdcvcnu4gogy/app.bsky.feed.post/3mm7pks5mtk2f",
-        "cid": "bafyreiffbtuiujopzg5ssmrftxjuuezsdlanel4po63emmnk7adqce65by",
-        "bskyUrl": "https://bsky.app/profile/clofresh.bsky.social/post/3mm7pks5mtk2f",
-        "text": "There’s such an exciting opportunity to optimize token usage for local LLMs. Some other exciting token optimizations: * MTP for Qwen 3.6 and Gemma 4 (blog.google/innovation-a...) * RTK (github.com/rtk-ai/rtk) * cymbal (github.com/1broseidon/c...) * pi agent harness (minimal system prompt)",
+        "uri": "at://did:plc:jfc47fjoy4wr4wtax256z6ke/app.bsky.feed.post/3mmgxaqgr4s2o",
+        "cid": "bafyreig5yzq56yukpnlkiexgtx4nmujxdu3kjwg2zlmd7jhhu2sfulam2a",
+        "bskyUrl": "https://bsky.app/profile/yyano.bsky.social/post/3mmgxaqgr4s2o",
+        "text": "rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies github.com/rtk-ai/rtk おためしで動かしてる。かなり圧縮できていいかんじ。",
         "author": {
-          "handle": "clofresh.bsky.social",
-          "displayName": "C"
+          "handle": "yyano.bsky.social",
+          "displayName": "yyano"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T15:32:03.166Z",
-        "hoursSincePosted": 3.76
+        "createdAt": "2026-05-22T12:38:13.928Z",
+        "hoursSincePosted": 2.73
       },
       "posts": [
         {
@@ -32435,6 +32718,34 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jfc47fjoy4wr4wtax256z6ke/app.bsky.feed.post/3mmgxaqgr4s2o",
+          "cid": "bafyreig5yzq56yukpnlkiexgtx4nmujxdu3kjwg2zlmd7jhhu2sfulam2a",
+          "bskyUrl": "https://bsky.app/profile/yyano.bsky.social/post/3mmgxaqgr4s2o",
+          "text": "rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies github.com/rtk-ai/rtk おためしで動かしてる。かなり圧縮できていいかんじ。",
+          "author": {
+            "handle": "yyano.bsky.social",
+            "displayName": "yyano"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T12:38:13.928Z",
+          "createdUtc": 1779453493,
+          "ageHours": 2.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
@@ -38327,25 +38638,63 @@
     },
     "ruvnet--ruview": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mdocvky3thypleu26gbyjgex/app.bsky.feed.post/3mmerhmr54k2m",
-        "cid": "bafyreigmp4a36w3bo2d6sze25n3ufoa77qsr46gcv6oqnafnpygt2xwtgu",
-        "bskyUrl": "https://bsky.app/profile/flavio58.bsky.social/post/3mmerhmr54k2m",
-        "text": "github.com/ruvnet/RuView",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
         "author": {
-          "handle": "flavio58.bsky.social",
-          "displayName": "Flavio58"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T15:49:23.015Z",
-        "hoursSincePosted": 3.45
+        "createdAt": "2026-05-22T14:36:20.000Z",
+        "hoursSincePosted": 0.76
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+          "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:36:20.000Z",
+          "createdUtc": 1779460580,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mm32vhnkxd2x",
           "cid": "bafyreidguwrfwuh7wnzxrglu4o6qa7ml2p7yhxzykonbm2w6tleixx3nhu",
@@ -38768,26 +39117,54 @@
       ]
     },
     "minishlab--semble": {
-      "count7d": 2,
-      "likesSum7d": 0,
+      "count7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mm7dq2la5s2u",
-        "cid": "bafyreiflwuay2ukzid5ik7s25njnfuqv7oo7mu22nixtcw4zxajx5zhafe",
-        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mm7dq2la5s2u",
-        "text": "Le vrai goulet d’étranglement des agents de code : trouver le bon contexte sans brûler toute la fenêtre. Semble promet une recherche de code pensée pour agents, avec beaucoup moins de tokens que grep + read. github.com/MinishLab/s...",
+        "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
+        "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
+        "bskyUrl": "https://bsky.app/profile/francistm.bsky.social/post/3mmh4kxye5c2b",
+        "text": "Shipped ken v0.4.0 — pure-Go port of MinishLab/semble (hybrid code search for AI agents). Drop-in MCP replacement, no Python, single static binary. go install + ken download-model and you're running. github.com/townsendmeri...",
         "author": {
-          "handle": "jordbastin.bsky.social",
-          "displayName": "Jordan Bastin 🇫🇷"
+          "handle": "francistm.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-19T12:00:14.710092Z",
-        "hoursSincePosted": 0.5
+        "replyCount": 1,
+        "createdAt": "2026-05-22T14:13:26.096Z",
+        "hoursSincePosted": 1.15
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
+          "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
+          "bskyUrl": "https://bsky.app/profile/francistm.bsky.social/post/3mmh4kxye5c2b",
+          "text": "Shipped ken v0.4.0 — pure-Go port of MinishLab/semble (hybrid code search for AI agents). Drop-in MCP replacement, no Python, single static binary. go install + ken download-model and you're running. github.com/townsendmeri...",
+          "author": {
+            "handle": "francistm.bsky.social"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T14:13:26.096Z",
+          "createdUtc": 1779459206,
+          "ageHours": 1.15,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mm6gp7ymf22y",
           "cid": "bafyreib2wm4mcsvigyu2wrxvlf3lk3wbhzcc3ep3cere3u74c6rvyp6cum",
@@ -40135,24 +40512,24 @@
       ]
     },
     "strukto-ai--mirage": {
-      "count7d": 1,
-      "likesSum7d": 2,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mm6gfvi6pz2a",
-        "cid": "bafyreieupi3pbnbsipyn2tdg7idozrwb5ppkmajknwa4ppmjfe2prbfhmi",
-        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mm6gfvi6pz2a",
-        "text": "Mirage A Unified Virtual Filesystem For AI Agents. https://github.com/strukto-ai/mirage",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmh3tczprl2l",
+        "cid": "bafyreigh6byjtu6dcxz7ppymqszogjwydtvtsjdxgth4ykmphgxqwvjp6q",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmh3tczprl2l",
+        "text": "Mirage : un système de fichiers virtuel unifié pour les agents IA. S3, Google Drive, Slack, GitHub, Redis… montés côte à côte sous une même arborescence, manipulables avec des commandes bash classiques. https://github.com/strukto-ai/mirage",
         "author": {
-          "handle": "pythonhub.dev",
-          "displayName": "Python Hub"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T03:15:35.344616+00:00",
-        "hoursSincePosted": 5.39
+        "createdAt": "2026-05-22T16:00:12+02:00",
+        "hoursSincePosted": 1.37
       },
       "posts": [
         {
@@ -40171,6 +40548,63 @@
           "createdUtc": 1779160535,
           "ageHours": 5.39,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "strukto-ai/mirage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmh3tczprl2l",
+          "cid": "bafyreigh6byjtu6dcxz7ppymqszogjwydtvtsjdxgth4ykmphgxqwvjp6q",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmh3tczprl2l",
+          "text": "Mirage : un système de fichiers virtuel unifié pour les agents IA. S3, Google Drive, Slack, GitHub, Redis… montés côte à côte sous une même arborescence, manipulables avec des commandes bash classiques. https://github.com/strukto-ai/mirage",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T16:00:12+02:00",
+          "createdUtc": 1779458412,
+          "ageHours": 1.37,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "strukto-ai/mirage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:yklisov533zvvd4a3ejpktzq/app.bsky.feed.post/3mmgyalqz6b2u",
+          "cid": "bafyreid5blos5e6oadxmeg6ou5xaylyteypd25vqt3aetrugfovdpyfsou",
+          "bskyUrl": "https://bsky.app/profile/spinscale.bsky.social/post/3mmgyalqz6b2u",
+          "text": "mirate - a unified virtual filesystem for AI agents So, instead of tools, the current trend is to convert everything to a structure that can be searched with local filesystem tools, that agents already have local access to. Need to think about the implications of this... github.com/strukto-ai/m...",
+          "author": {
+            "handle": "spinscale.bsky.social",
+            "displayName": "Alexander Reelsen"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T12:56:01.594Z",
+          "createdUtc": 1779454561,
+          "ageHours": 2.44,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -40829,25 +41263,63 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:rzrswgjbus6pudxrqh2i3zkc/app.bsky.feed.post/3mmgdqbcasc27",
-        "cid": "bafyreib4xbr6jwkkzbnfhbfrpsuvjqgvfwy5iabmyczq7siq6w7zvueypq",
-        "bskyUrl": "https://bsky.app/profile/novica.bsky.social/post/3mmgdqbcasc27",
-        "text": "hey #rstats is anyone working R support for github.com/colbymchenry... ?",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
         "author": {
-          "handle": "novica.bsky.social",
-          "displayName": "novica"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T06:49:00.086Z",
-        "hoursSincePosted": 1.74
+        "createdAt": "2026-05-22T14:36:20.000Z",
+        "hoursSincePosted": 0.76
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+          "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:36:20.000Z",
+          "createdUtc": 1779460580,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:li4dar55qdutvcf5psi4wt2q/app.bsky.feed.post/3mmfb5zfee72x",
           "cid": "bafyreiecbiszmseq54knr2whebocfqpswycrch5fpih42mbu4irxww4kd4",
@@ -41784,23 +42256,61 @@
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
-        "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepxav6dnq2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 891 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 4222 stars today 3. https://github.com/multica-ai/andrej-karpathy-skills - 2590 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+        "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "replyCount": 0,
+        "createdAt": "2026-05-22T14:36:20.000Z",
+        "hoursSincePosted": 0.76
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmh5tydeu2t2",
+          "cid": "bafyreiey5s6pwgwylojzwm3trbphrmou6cwbe4o4iuuq5rpdtx6cf74k4i",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmh5tydeu2t2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/anthropics/claude-plugins-official - Python, 2556 stars today 2. https://github.com/colbymchenry/codegraph - TypeScript, 3688 stars today 3. https://github.com/ruvnet/RuView - Rust, 1269 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:36:20.000Z",
+          "createdUtc": 1779460580,
+          "ageHours": 0.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepxav6dnq2",
           "cid": "bafyreibsukq6dv5ydkzhpvcx6pvxxnaw6wxtg7xyzpkqavaqgv3fut7k4y",
@@ -44540,22 +45050,37 @@
   },
   "leaderboard": [
     {
-      "fullName": "freestylefly/awesome-gpt-image-2",
+      "fullName": "jj-vcs/jj",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 2
     },
     {
-      "fullName": "HeyPuter/puter",
+      "fullName": "MinishLab/semble",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 2
     },
     {
-      "fullName": "modem-dev/hunk",
-      "count7d": 1,
-      "likesSum7d": 0
+      "fullName": "strukto-ai/mirage",
+      "count7d": 2,
+      "likesSum7d": 1
     },
     {
-      "fullName": "wiltodelta/remove-ai-watermarks",
+      "fullName": "anthropics/claude-plugins-official",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "colbymchenry/codegraph",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "ruvnet/RuView",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "rtk-ai/rtk",
       "count7d": 1,
       "likesSum7d": 0
     }

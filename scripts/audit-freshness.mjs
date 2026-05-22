@@ -53,6 +53,16 @@ const REQUIRED_SOURCES = new Set([
   "trending",
 ]);
 
+// Files under data/_meta/ that are NOT scraped-source freshness sidecars
+// and must be skipped by the audit. These are cache/lookup files imported
+// by app code that happen to live in data/_meta/ for historical reasons.
+//   - huggingface-avatars.json: HF org/user -> CDN avatar URL map, statically
+//     imported by src/lib/logos.ts. Has no producer in the cron fleet and
+//     no ts/writtenAt field, so it tripped the gate every run as "missing ts".
+const IGNORED_SOURCES = new Set([
+  "huggingface-avatars",
+]);
+
 // Default budget for any source not in DEFAULT_BUDGETS_MS. Generous so
 // adding a new collector doesn't immediately fail the gate before its
 // cadence stabilizes.
@@ -124,6 +134,7 @@ async function main() {
 
   for (const file of metaFiles) {
     const source = file.replace(/\.json$/, "");
+    if (IGNORED_SOURCES.has(source)) continue;
     seen.add(source);
     const meta = await loadMeta(file);
     if (meta?.__error) {

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-22T09:53:48.898Z",
+  "fetchedAt": "2026-05-22T15:27:46.651Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -92,8 +92,8 @@
       "id": "angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
-      "downloads": 3803,
-      "likes": 162,
+      "downloads": 4183,
+      "likes": 179,
       "trendingScore": 79,
       "tags": [
         "task_categories:text-generation",
@@ -924,6 +924,39 @@
     },
     {
       "rank": 30,
+      "id": "wikimedia/structured-wikipedia",
+      "author": "wikimedia",
+      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
+      "downloads": 2480,
+      "likes": 122,
+      "trendingScore": 19,
+      "tags": [
+        "language:en",
+        "language:fr",
+        "license:cc-by-sa-4.0",
+        "size_categories:10M<n<100M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "wikipedia",
+        "wikimedia",
+        "structured-data",
+        "parquet",
+        "knowledge-base",
+        "references",
+        "citations",
+        "tables",
+        "multilingual"
+      ],
+      "createdAt": "2024-09-19T14:11:27.000Z",
+      "lastModified": "2026-05-19T12:54:16.000Z"
+    },
+    {
+      "rank": 31,
       "id": "SWE-bench/SWE-bench_Verified",
       "author": "SWE-bench",
       "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
@@ -946,7 +979,7 @@
       "lastModified": "2026-02-27T20:36:38.000Z"
     },
     {
-      "rank": 31,
+      "rank": 32,
       "id": "unh1nge/comfyui-character-composer",
       "author": "unh1nge",
       "url": "https://huggingface.co/datasets/unh1nge/comfyui-character-composer",
@@ -974,7 +1007,7 @@
       "lastModified": "2026-05-07T19:19:01.000Z"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "id": "LukaDev13/Liminal-Dreamcore-1K",
       "author": "LukaDev13",
       "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
@@ -995,7 +1028,7 @@
       "lastModified": "2026-05-18T22:03:11.000Z"
     },
     {
-      "rank": 33,
+      "rank": 34,
       "id": "HuggingFaceBio/carbon-pretraining-corpus",
       "author": "HuggingFaceBio",
       "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
@@ -1023,7 +1056,7 @@
       "lastModified": "2026-05-14T12:41:15.000Z"
     },
     {
-      "rank": 34,
+      "rank": 35,
       "id": "HuggingFaceFW/fineweb-edu",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
@@ -1053,7 +1086,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 35,
+      "rank": 36,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1083,7 +1116,7 @@
       "lastModified": "2026-05-09T06:36:26.000Z"
     },
     {
-      "rank": 36,
+      "rank": 37,
       "id": "ning423/deepseek-hermes-reasoning-traces",
       "author": "ning423",
       "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
@@ -1118,7 +1151,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 37,
+      "rank": 38,
       "id": "AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
@@ -1145,7 +1178,7 @@
       "lastModified": "2026-04-22T10:29:32.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
@@ -1188,7 +1221,7 @@
       "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "cais/mmlu",
       "author": "cais",
       "url": "https://huggingface.co/datasets/cais/mmlu",
@@ -1221,7 +1254,7 @@
       "lastModified": "2024-03-08T20:36:26.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "camvsl/Articraft-10K",
       "author": "camvsl",
       "url": "https://huggingface.co/datasets/camvsl/Articraft-10K",
@@ -1236,7 +1269,7 @@
       "lastModified": "2026-05-15T05:05:02.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "Exgentic/agent-llm-traces",
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
@@ -1266,7 +1299,7 @@
       "lastModified": "2026-05-14T18:50:50.000Z"
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "tinixai/ocr_annual_financials",
       "author": "tinixai",
       "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
@@ -1289,7 +1322,30 @@
       "lastModified": "2026-05-18T15:35:53.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
+      "id": "zhifeixie/Voices-in-the-Wild-2M",
+      "author": "zhifeixie",
+      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
+      "downloads": 5095,
+      "likes": 15,
+      "trendingScore": 15,
+      "tags": [
+        "task_categories:automatic-speech-recognition",
+        "language:en",
+        "language:zh",
+        "modality:audio",
+        "region:us",
+        "audio",
+        "speech",
+        "asr",
+        "robustness",
+        "noisy-speech"
+      ],
+      "createdAt": "2026-05-18T17:44:26.000Z",
+      "lastModified": "2026-05-19T08:51:14.000Z"
+    },
+    {
+      "rank": 45,
       "id": "OwnedByDanes/Usenet-Corpus-1980-2013",
       "author": "OwnedByDanes",
       "url": "https://huggingface.co/datasets/OwnedByDanes/Usenet-Corpus-1980-2013",
@@ -1330,7 +1386,7 @@
       "lastModified": "2026-05-05T16:17:39.000Z"
     },
     {
-      "rank": 44,
+      "rank": 46,
       "id": "badlogicgames/pi-mono",
       "author": "badlogicgames",
       "url": "https://huggingface.co/datasets/badlogicgames/pi-mono",
@@ -1360,7 +1416,7 @@
       "lastModified": "2026-04-06T13:10:36.000Z"
     },
     {
-      "rank": 45,
+      "rank": 47,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
@@ -1403,7 +1459,7 @@
       "lastModified": "2026-04-30T17:12:47.000Z"
     },
     {
-      "rank": 46,
+      "rank": 48,
       "id": "Inferact/codex_swebenchpro_traces",
       "author": "Inferact",
       "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
@@ -1425,7 +1481,7 @@
       "lastModified": "2026-05-07T01:13:21.000Z"
     },
     {
-      "rank": 47,
+      "rank": 49,
       "id": "5551z/VisCoR_Contrast",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
@@ -1448,7 +1504,7 @@
       "lastModified": "2026-04-30T01:37:13.000Z"
     },
     {
-      "rank": 48,
+      "rank": 50,
       "id": "llm-jp/Jagle",
       "author": "llm-jp",
       "url": "https://huggingface.co/datasets/llm-jp/Jagle",
@@ -1464,82 +1520,6 @@
       ],
       "createdAt": "2026-04-11T08:56:17.000Z",
       "lastModified": "2026-05-12T00:53:55.000Z"
-    },
-    {
-      "rank": 49,
-      "id": "fpvlabs/stera-10m",
-      "author": "fpvlabs",
-      "url": "https://huggingface.co/datasets/fpvlabs/stera-10m",
-      "downloads": 15147,
-      "likes": 24,
-      "trendingScore": 14,
-      "tags": [
-        "task_categories:robotics",
-        "task_categories:video-classification",
-        "task_categories:image-to-text",
-        "task_categories:depth-estimation",
-        "language:en",
-        "license:other",
-        "size_categories:1M<n<10M",
-        "modality:3d",
-        "modality:audio",
-        "modality:video",
-        "modality:text",
-        "arxiv:2605.05945",
-        "region:us",
-        "egocentric",
-        "vision-language-action",
-        "vla",
-        "robotics",
-        "manipulation",
-        "hand-pose",
-        "6dof-pose",
-        "rgbd",
-        "arkit",
-        "long-horizon",
-        "hdf5",
-        "rerun",
-        "first-person",
-        "multimodal",
-        "3d",
-        "4d",
-        "embodied-ai"
-      ],
-      "createdAt": "2026-05-07T10:15:38.000Z",
-      "lastModified": "2026-05-21T12:17:26.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "wikimedia/structured-wikipedia",
-      "author": "wikimedia",
-      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
-      "downloads": 2480,
-      "likes": 117,
-      "trendingScore": 14,
-      "tags": [
-        "language:en",
-        "language:fr",
-        "license:cc-by-sa-4.0",
-        "size_categories:10M<n<100M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "wikipedia",
-        "wikimedia",
-        "structured-data",
-        "parquet",
-        "knowledge-base",
-        "references",
-        "citations",
-        "tables",
-        "multilingual"
-      ],
-      "createdAt": "2024-09-19T14:11:27.000Z",
-      "lastModified": "2026-05-19T12:54:16.000Z"
     }
   ]
 }

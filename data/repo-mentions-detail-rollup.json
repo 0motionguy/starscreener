@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-22T08:33:05.337Z",
-  "scanRunId": "sweep-2026-05-22T08:32:46.292Z",
+  "computedAt": "2026-05-22T09:29:23.183Z",
+  "scanRunId": "sweep-2026-05-22T09:29:14.771Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -3716,10 +3716,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 165,
+      "totalMentions7d": 93,
       "perSource": {
         "hackernews": {
-          "count7d": 165,
+          "count7d": 93,
           "top": [
             {
               "source": "hackernews",
@@ -3742,8 +3742,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1386,
-                "comments": 1010
+                "score": 1387,
+                "comments": 1011
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -3768,7 +3768,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 671,
+                "score": 672,
                 "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -6110,7 +6110,7 @@
               "text": "",
               "author": "layer8",
               "engagement": {
-                "score": 14,
+                "score": 15,
                 "comments": 1
               },
               "observedAt": "2026-05-21T20:07:28.000Z"
@@ -6592,7 +6592,7 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 8,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
           "count7d": 5,
@@ -6665,21 +6665,8 @@
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
-            {
-              "source": "bluesky",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mluyrpisxv2z",
-              "title": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memorys",
-              "text": "This GitHub project caught my eye: agentmemory lets AI coding agents share persistent, searchable memory across sessions, with smart context and seamless replay. See link below. #AI #devtools #memoryserver https://github.com/rohitg00/agentmemory",
-              "author": "alexiskirke.bsky.social",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-15T09:17:42.564Z"
-            },
             {
               "source": "bluesky",
               "fullName": "rohitg00/agentmemory",
@@ -7739,10 +7726,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -8125,26 +8112,8 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "tinyhumansai/openhuman",
-              "url": "https://www.notesasm.com/",
-              "title": "Show HN: Coding agent where a second agent QAs every PR in a real browser",
-              "text": "Hi HN. I&#x27;ve been building this for the last few months and it&#x27;s at a state where outside eyes would help more than another week of solo iteration.<p>It&#x27;s a kanban board where each ticket runs two agents back to back:<p>Build agent: runs in a sandboxed temp dir against a shallow clone of the user&#x27;s repo, makes the change, pushes a branch, opens a PR. Uses the Claude Agent SDK.<p>QA agent: waits for the preview deploy to come up, then drives a real browser via Browserbase again",
-              "author": "kavin_key",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T18:54:10.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 5,
           "top": [
@@ -8949,10 +8918,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 61,
+      "totalMentions7d": 88,
       "perSource": {
         "hackernews": {
-          "count7d": 61,
+          "count7d": 88,
           "top": [
             {
               "source": "hackernews",
@@ -8962,7 +8931,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 671,
+                "score": 672,
                 "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -8989,7 +8958,7 @@
               "author": "asar",
               "engagement": {
                 "score": 284,
-                "comments": 224
+                "comments": 225
               },
               "observedAt": "2026-05-18T17:20:43.000Z"
             },
@@ -9274,8 +9243,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1386,
-                "comments": 1010
+                "score": 1387,
+                "comments": 1011
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -9300,7 +9269,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 671,
+                "score": 672,
                 "comments": 242
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -10089,7 +10058,7 @@
               "text": "",
               "author": "redbell",
               "engagement": {
-                "score": 156,
+                "score": 157,
                 "comments": 17
               },
               "observedAt": "2026-05-18T12:17:04.000Z"

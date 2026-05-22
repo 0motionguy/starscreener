@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-22T20:08:30.064Z",
+  "fetchedAt": "2026-05-22T23:20:14.822Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -5548,10 +5548,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
-        "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleg6czxgc2n",
-        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2729 https://github.com/junhoyeo/tokscale",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmhu5pbhwo22",
+        "cid": "bafyreig4an737jqqxp6u43yyaixjsfgpilhnnnc3tzw3ww3n7h7ntx2qwy",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmhu5pbhwo22",
+        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★3128 https://github.com/junhoyeo/tokscale",
         "author": {
           "handle": "rusttrending.bsky.social",
           "displayName": "RustTrending"
@@ -5559,10 +5559,38 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T19:02:07.929743Z",
-        "hoursSincePosted": 4.17
+        "createdAt": "2026-05-22T21:15:30.419168Z",
+        "hoursSincePosted": 2.08
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmhu5pbhwo22",
+          "cid": "bafyreig4an737jqqxp6u43yyaixjsfgpilhnnnc3tzw3ww3n7h7ntx2qwy",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmhu5pbhwo22",
+          "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★3128 https://github.com/junhoyeo/tokscale",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:15:30.419168Z",
+          "createdUtc": 1779484530,
+          "ageHours": 2.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
           "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
@@ -12816,24 +12844,24 @@
       ]
     },
     "warpdotdev/warp": {
-      "count7d": 5,
-      "likesSum7d": 3,
+      "count7d": 7,
+      "likesSum7d": 7,
       "repostsSum7d": 0,
-      "repliesSum7d": 4,
+      "repliesSum7d": 6,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjknzmy2n",
-        "cid": "bafyreigtyqd3ne5nr6wzxdsj7dlchg57ayj3a42u6cisnpch7zrwwsfrum",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlvsjknzmy2n",
-        "text": "David Engelmann is taking on log growth in a few places. His MCP and LSP PRs add size-based log rotation so verbose servers can’t grow logs without bound during long sessions. github.com/warpdotdev/... github.com/warpdotdev/...",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6nnho25",
+        "cid": "bafyreiett5mwty2i27yodr2bdpr64kjbnzgxk2udbngnf6wzp5bft4o5dm",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6nnho25",
+        "text": "If you’ve run into a bug that bugs you, come contribute. github.com/warpdotdev/... ⭐",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-15T16:58:25.530778Z",
-        "hoursSincePosted": 3.63
+        "replyCount": 0,
+        "createdAt": "2026-05-22T23:09:51.696629Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -12852,6 +12880,202 @@
           "createdUtc": 1778864302,
           "ageHours": 1.98,
           "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6nnho25",
+          "cid": "bafyreiett5mwty2i27yodr2bdpr64kjbnzgxk2udbngnf6wzp5bft4o5dm",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6nnho25",
+          "text": "If you’ve run into a bug that bugs you, come contribute. github.com/warpdotdev/... ⭐",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T23:09:51.696629Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6klbh26",
+          "cid": "bafyreiahjcanv467kkbzi6et2pokasvao4yx4ffcogmltdghlibcxblo4y",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6klbh26",
+          "text": "Wayne Hoover wired OSC 7 escape sequences into Warp’s tab state. Tabs can now update their working directory and git branch from shell-emitted OSC 7 data. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.599525Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6hgt52w",
+          "cid": "bafyreigddflqukjo2ggue6e5pnlep2m5n764nd7srjacjvhzbg77esgq4y",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6hgt52w",
+          "text": "David Danielsson (djdanielsson) added Podman exec/run support for warpify subshells. Warpify now reaches more container workflows, with PTY, bootstrap, and rc-file handling covered by tests. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.495632Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6e7bg2b",
+          "cid": "bafyreie4tybcdzvrhb7uunaclh3q7nt2fqrkijul5tezot6tbevmbsfl44",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6e7bg2b",
+          "text": "Max Hsu (maxmilian) fixed warpify rc file paths to use the target OS path separator. That makes shell bootstrap paths behave correctly across OS boundaries. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.384532Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6b3bd2b",
+          "cid": "bafyreibeojp2pzwwxfo7bdnlcsmtum74q5lvcdk5bqplkieoyf2xms3cky",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6b3bd2b",
+          "text": "Samarth Shridhar fixed a macOS restore bug that could bring Warp back as a 1px-wide window after green-tile. The fix floors persisted window dimensions so restore has sane bounds. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.287373Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k664ix2h",
+          "cid": "bafyreie72srkovwhlrbfykskd4s4mb55pfydybsynnewpducc6k2zob3jm",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k664ix2h",
+          "text": "dagmfactory fixed a split-pane UI bug where the terminal footer could overflow its column. Small layout fix, noticeable result: panes stay clipped where they should. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.192076Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
+          "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
+          "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.080758Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -14838,7 +15062,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T20:00:00.300Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.34
       },
       "posts": [
         {
@@ -14855,7 +15079,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T20:00:00.300Z",
           "createdUtc": 1779480000,
-          "ageHours": 0.5,
+          "ageHours": 3.34,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -22942,6 +23166,55 @@
           ]
         }
       ]
+    },
+    "Mesh-LLM/mesh-llm": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:md2y5fbzsk7lyff5ahk4eiu7/app.bsky.feed.post/3mmhw6bqph223",
+        "cid": "bafyreiaw2eshew64m67yf4pqfn7cso37xvzsxapkqaaxjcsmwubbehuw7q",
+        "bskyUrl": "https://bsky.app/profile/wsmoak.bsky.social/post/3mmhw6bqph223",
+        "text": "Mesh LLM github.com/Mesh-LLM/mes...",
+        "author": {
+          "handle": "wsmoak.bsky.social"
+        },
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T21:51:37.413Z",
+        "hoursSincePosted": 1.48
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:md2y5fbzsk7lyff5ahk4eiu7/app.bsky.feed.post/3mmhw6bqph223",
+          "cid": "bafyreiaw2eshew64m67yf4pqfn7cso37xvzsxapkqaaxjcsmwubbehuw7q",
+          "bskyUrl": "https://bsky.app/profile/wsmoak.bsky.social/post/3mmhw6bqph223",
+          "text": "Mesh LLM github.com/Mesh-LLM/mes...",
+          "author": {
+            "handle": "wsmoak.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:51:37.413Z",
+          "createdUtc": 1779486697,
+          "ageHours": 1.48,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Mesh-LLM/mesh-llm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -28488,10 +28761,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
-        "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleg6czxgc2n",
-        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2729 https://github.com/junhoyeo/tokscale",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmhu5pbhwo22",
+        "cid": "bafyreig4an737jqqxp6u43yyaixjsfgpilhnnnc3tzw3ww3n7h7ntx2qwy",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmhu5pbhwo22",
+        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★3128 https://github.com/junhoyeo/tokscale",
         "author": {
           "handle": "rusttrending.bsky.social",
           "displayName": "RustTrending"
@@ -28499,10 +28772,38 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T19:02:07.929743Z",
-        "hoursSincePosted": 4.17
+        "createdAt": "2026-05-22T21:15:30.419168Z",
+        "hoursSincePosted": 2.08
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmhu5pbhwo22",
+          "cid": "bafyreig4an737jqqxp6u43yyaixjsfgpilhnnnc3tzw3ww3n7h7ntx2qwy",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmhu5pbhwo22",
+          "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★3128 https://github.com/junhoyeo/tokscale",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:15:30.419168Z",
+          "createdUtc": 1779484530,
+          "ageHours": 2.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
           "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
@@ -35756,24 +36057,24 @@
       ]
     },
     "warpdotdev--warp": {
-      "count7d": 5,
-      "likesSum7d": 3,
+      "count7d": 7,
+      "likesSum7d": 7,
       "repostsSum7d": 0,
-      "repliesSum7d": 4,
+      "repliesSum7d": 6,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjknzmy2n",
-        "cid": "bafyreigtyqd3ne5nr6wzxdsj7dlchg57ayj3a42u6cisnpch7zrwwsfrum",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlvsjknzmy2n",
-        "text": "David Engelmann is taking on log growth in a few places. His MCP and LSP PRs add size-based log rotation so verbose servers can’t grow logs without bound during long sessions. github.com/warpdotdev/... github.com/warpdotdev/...",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6nnho25",
+        "cid": "bafyreiett5mwty2i27yodr2bdpr64kjbnzgxk2udbngnf6wzp5bft4o5dm",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6nnho25",
+        "text": "If you’ve run into a bug that bugs you, come contribute. github.com/warpdotdev/... ⭐",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-15T16:58:25.530778Z",
-        "hoursSincePosted": 3.63
+        "replyCount": 0,
+        "createdAt": "2026-05-22T23:09:51.696629Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -35792,6 +36093,202 @@
           "createdUtc": 1778864302,
           "ageHours": 1.98,
           "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6nnho25",
+          "cid": "bafyreiett5mwty2i27yodr2bdpr64kjbnzgxk2udbngnf6wzp5bft4o5dm",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6nnho25",
+          "text": "If you’ve run into a bug that bugs you, come contribute. github.com/warpdotdev/... ⭐",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T23:09:51.696629Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6klbh26",
+          "cid": "bafyreiahjcanv467kkbzi6et2pokasvao4yx4ffcogmltdghlibcxblo4y",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6klbh26",
+          "text": "Wayne Hoover wired OSC 7 escape sequences into Warp’s tab state. Tabs can now update their working directory and git branch from shell-emitted OSC 7 data. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.599525Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6hgt52w",
+          "cid": "bafyreigddflqukjo2ggue6e5pnlep2m5n764nd7srjacjvhzbg77esgq4y",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6hgt52w",
+          "text": "David Danielsson (djdanielsson) added Podman exec/run support for warpify subshells. Warpify now reaches more container workflows, with PTY, bootstrap, and rc-file handling covered by tests. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.495632Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6e7bg2b",
+          "cid": "bafyreie4tybcdzvrhb7uunaclh3q7nt2fqrkijul5tezot6tbevmbsfl44",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6e7bg2b",
+          "text": "Max Hsu (maxmilian) fixed warpify rc file paths to use the target OS path separator. That makes shell bootstrap paths behave correctly across OS boundaries. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.384532Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6b3bd2b",
+          "cid": "bafyreibeojp2pzwwxfo7bdnlcsmtum74q5lvcdk5bqplkieoyf2xms3cky",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6b3bd2b",
+          "text": "Samarth Shridhar fixed a macOS restore bug that could bring Warp back as a 1px-wide window after green-tile. The fix floors persisted window dimensions so restore has sane bounds. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.287373Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k664ix2h",
+          "cid": "bafyreie72srkovwhlrbfykskd4s4mb55pfydybsynnewpducc6k2zob3jm",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k664ix2h",
+          "text": "dagmfactory fixed a split-pane UI bug where the terminal footer could overflow its column. Small layout fix, noticeable result: panes stay clipped where they should. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.192076Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
+          "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
+          "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.080758Z",
+          "createdUtc": 1779491391,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -37778,7 +38275,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T20:00:00.300Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.34
       },
       "posts": [
         {
@@ -37795,7 +38292,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T20:00:00.300Z",
           "createdUtc": 1779480000,
-          "ageHours": 0.5,
+          "ageHours": 3.34,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -45882,21 +46379,65 @@
           ]
         }
       ]
+    },
+    "mesh-llm--mesh-llm": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:md2y5fbzsk7lyff5ahk4eiu7/app.bsky.feed.post/3mmhw6bqph223",
+        "cid": "bafyreiaw2eshew64m67yf4pqfn7cso37xvzsxapkqaaxjcsmwubbehuw7q",
+        "bskyUrl": "https://bsky.app/profile/wsmoak.bsky.social/post/3mmhw6bqph223",
+        "text": "Mesh LLM github.com/Mesh-LLM/mes...",
+        "author": {
+          "handle": "wsmoak.bsky.social"
+        },
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T21:51:37.413Z",
+        "hoursSincePosted": 1.48
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:md2y5fbzsk7lyff5ahk4eiu7/app.bsky.feed.post/3mmhw6bqph223",
+          "cid": "bafyreiaw2eshew64m67yf4pqfn7cso37xvzsxapkqaaxjcsmwubbehuw7q",
+          "bskyUrl": "https://bsky.app/profile/wsmoak.bsky.social/post/3mmhw6bqph223",
+          "text": "Mesh LLM github.com/Mesh-LLM/mes...",
+          "author": {
+            "handle": "wsmoak.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:51:37.413Z",
+          "createdUtc": 1779486697,
+          "ageHours": 1.48,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Mesh-LLM/mesh-llm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "likesSum7d": 1
+      "fullName": "warpdotdev/warp",
+      "count7d": 7,
+      "likesSum7d": 7
     },
     {
-      "fullName": "colbymchenry/codegraph",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "Mesh-LLM/mesh-llm",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -45906,12 +46447,7 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "unprovable/ShadowCat",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Tenobrus/graphglyph",
+      "fullName": "junhoyeo/tokscale",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-22T08:33:06.267Z",
+  "fetchedAt": "2026-05-22T12:01:07.073Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 2,
@@ -5139,21 +5139,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
-        "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
-        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
-        "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
+        "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmgv4kyp3q25",
+        "text": "`hunk` : un viewer de diff en terminal pensé pour relire les changements produits par des agents IA — avec annotations inline, navigation multi-fichiers et watch mode. https://github.com/modem-dev/hunk",
         "author": {
-          "handle": "chrisshort.net",
-          "displayName": "Chris Short"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T17:31:38.000Z",
-        "hoursSincePosted": 1.24
+        "createdAt": "2026-05-22T14:00:06+02:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
+          "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmgv4kyp3q25",
+          "text": "`hunk` : un viewer de diff en terminal pensé pour relire les changements produits par des agents IA — avec annotations inline, navigation multi-fichiers et watch mode. https://github.com/modem-dev/hunk",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:00:06+02:00",
+          "createdUtc": 1779451206,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
           "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
@@ -19063,19 +19091,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mme4sm7fnt2j",
-        "cid": "bafyreifaopzhoie6uejqswibirmd5dkdmrnmpnohu3eagl76mherlmbof4",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mme4sm7fnt2j",
-        "text": "AI image watermarks are becoming removable primitives. Remove-AI-Watermarks ships a CLI and Python library for stripping invisible signatures with 378 poin #AIWatermarks #StableDiffusion #CLI 🔗 https://github.com/wiltodelta/remove-ai-watermarks",
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmgtb4uss62v",
+        "cid": "bafyreify2kuis6otjgmeslqi7oltvzswjtb45ltpgn3icdwhejcc3q2f3u",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmgtb4uss62v",
+        "text": "github.com/wiltodelta/remo... GitHub - wiltodelta/remove-ai-watermarks: CLI and library for removing visible (Gemini) and invi...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T09:39:41.939832Z",
-        "hoursSincePosted": 3.88
+        "createdAt": "2026-05-22T11:26:51.142Z",
+        "hoursSincePosted": 0.57
       },
       "posts": [
         {
@@ -19094,6 +19122,34 @@
           "createdUtc": 1779277800,
           "ageHours": 0.5,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmgtb4uss62v",
+          "cid": "bafyreify2kuis6otjgmeslqi7oltvzswjtb45ltpgn3icdwhejcc3q2f3u",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmgtb4uss62v",
+          "text": "github.com/wiltodelta/remo... GitHub - wiltodelta/remove-ai-watermarks: CLI and library for removing visible (Gemini) and invi...",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T11:26:51.142Z",
+          "createdUtc": 1779449211,
+          "ageHours": 0.57,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22105,6 +22161,108 @@
           "linkedRepos": [
             {
               "fullName": "alonsovm44/tc-lang",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "freestylefly/awesome-gpt-image-2": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgtlzqbbj2s",
+        "cid": "bafyreiafzm7ex7sex2ezg4qcyydz2u3eqmc5bmhztkjcrogpqsusv5icp4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgtlzqbbj2s",
+        "text": "https://github.com/freestylefly/awesome-gpt-image-2",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T11:32:57Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgtlzqbbj2s",
+          "cid": "bafyreiafzm7ex7sex2ezg4qcyydz2u3eqmc5bmhztkjcrogpqsusv5icp4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgtlzqbbj2s",
+          "text": "https://github.com/freestylefly/awesome-gpt-image-2",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T11:32:57Z",
+          "createdUtc": 1779449577,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "freestylefly/awesome-gpt-image-2",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "HeyPuter/puter": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgq6mf3w42z",
+        "cid": "bafyreien4slll2lpnqsrct7q3ljqgi3m56d5a7wub6263ufvnu3cgmvk5a",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgq6mf3w42z",
+        "text": "https://github.com/HeyPuter/puter",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T10:31:45Z",
+        "hoursSincePosted": 1.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgq6mf3w42z",
+          "cid": "bafyreien4slll2lpnqsrct7q3ljqgi3m56d5a7wub6263ufvnu3cgmvk5a",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgq6mf3w42z",
+          "text": "https://github.com/HeyPuter/puter",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T10:31:45Z",
+          "createdUtc": 1779445905,
+          "ageHours": 1.49,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HeyPuter/puter",
               "matchType": "url",
               "confidence": 1
             }
@@ -27248,21 +27406,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
-        "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
-        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
-        "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
+        "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmgv4kyp3q25",
+        "text": "`hunk` : un viewer de diff en terminal pensé pour relire les changements produits par des agents IA — avec annotations inline, navigation multi-fichiers et watch mode. https://github.com/modem-dev/hunk",
         "author": {
-          "handle": "chrisshort.net",
-          "displayName": "Chris Short"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T17:31:38.000Z",
-        "hoursSincePosted": 1.24
+        "createdAt": "2026-05-22T14:00:06+02:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
+          "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmgv4kyp3q25",
+          "text": "`hunk` : un viewer de diff en terminal pensé pour relire les changements produits par des agents IA — avec annotations inline, navigation multi-fichiers et watch mode. https://github.com/modem-dev/hunk",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:00:06+02:00",
+          "createdUtc": 1779451206,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
           "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
@@ -41172,19 +41358,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mme4sm7fnt2j",
-        "cid": "bafyreifaopzhoie6uejqswibirmd5dkdmrnmpnohu3eagl76mherlmbof4",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mme4sm7fnt2j",
-        "text": "AI image watermarks are becoming removable primitives. Remove-AI-Watermarks ships a CLI and Python library for stripping invisible signatures with 378 poin #AIWatermarks #StableDiffusion #CLI 🔗 https://github.com/wiltodelta/remove-ai-watermarks",
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmgtb4uss62v",
+        "cid": "bafyreify2kuis6otjgmeslqi7oltvzswjtb45ltpgn3icdwhejcc3q2f3u",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmgtb4uss62v",
+        "text": "github.com/wiltodelta/remo... GitHub - wiltodelta/remove-ai-watermarks: CLI and library for removing visible (Gemini) and invi...",
         "author": {
-          "handle": "boardwire.bsky.social",
-          "displayName": "Boardwire"
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T09:39:41.939832Z",
-        "hoursSincePosted": 3.88
+        "createdAt": "2026-05-22T11:26:51.142Z",
+        "hoursSincePosted": 0.57
       },
       "posts": [
         {
@@ -41203,6 +41389,34 @@
           "createdUtc": 1779277800,
           "ageHours": 0.5,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wiltodelta/remove-ai-watermarks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmgtb4uss62v",
+          "cid": "bafyreify2kuis6otjgmeslqi7oltvzswjtb45ltpgn3icdwhejcc3q2f3u",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmgtb4uss62v",
+          "text": "github.com/wiltodelta/remo... GitHub - wiltodelta/remove-ai-watermarks: CLI and library for removing visible (Gemini) and invi...",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T11:26:51.142Z",
+          "createdUtc": 1779449211,
+          "ageHours": 0.57,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -44220,71 +44434,128 @@
           ]
         }
       ]
+    },
+    "freestylefly--awesome-gpt-image-2": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgtlzqbbj2s",
+        "cid": "bafyreiafzm7ex7sex2ezg4qcyydz2u3eqmc5bmhztkjcrogpqsusv5icp4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgtlzqbbj2s",
+        "text": "https://github.com/freestylefly/awesome-gpt-image-2",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T11:32:57Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgtlzqbbj2s",
+          "cid": "bafyreiafzm7ex7sex2ezg4qcyydz2u3eqmc5bmhztkjcrogpqsusv5icp4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgtlzqbbj2s",
+          "text": "https://github.com/freestylefly/awesome-gpt-image-2",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T11:32:57Z",
+          "createdUtc": 1779449577,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "freestylefly/awesome-gpt-image-2",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "heyputer--puter": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgq6mf3w42z",
+        "cid": "bafyreien4slll2lpnqsrct7q3ljqgi3m56d5a7wub6263ufvnu3cgmvk5a",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgq6mf3w42z",
+        "text": "https://github.com/HeyPuter/puter",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T10:31:45Z",
+        "hoursSincePosted": 1.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmgq6mf3w42z",
+          "cid": "bafyreien4slll2lpnqsrct7q3ljqgi3m56d5a7wub6263ufvnu3cgmvk5a",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmgq6mf3w42z",
+          "text": "https://github.com/HeyPuter/puter",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T10:31:45Z",
+          "createdUtc": 1779445905,
+          "ageHours": 1.49,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HeyPuter/puter",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "Tenobrus/graphglyph",
-      "count7d": 1,
-      "likesSum7d": 27
-    },
-    {
-      "fullName": "charmbracelet/crush",
-      "count7d": 1,
-      "likesSum7d": 9
-    },
-    {
-      "fullName": "sipeed/picoclaw",
-      "count7d": 1,
-      "likesSum7d": 9
-    },
-    {
-      "fullName": "vasu-devs/JustHireMe",
-      "count7d": 1,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "can1357/oh-my-pi",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "chenglou/pretext",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "eigenpal/docx-editor",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "alonsovm44/tc-lang",
+      "fullName": "freestylefly/awesome-gpt-image-2",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "Arindam200/awesome-ai-apps",
+      "fullName": "HeyPuter/puter",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "colbymchenry/codegraph",
+      "fullName": "modem-dev/hunk",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "HKUDS/CLI-Anything",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "pguso/rag-from-scratch",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tech-leads-club/agent-skills",
+      "fullName": "wiltodelta/remove-ai-watermarks",
       "count7d": 1,
       "likesSum7d": 0
     }

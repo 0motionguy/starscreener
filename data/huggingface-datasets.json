@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-22T15:27:46.651Z",
+  "fetchedAt": "2026-05-22T20:16:18.124Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -93,8 +93,8 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 4183,
-      "likes": 179,
-      "trendingScore": 79,
+      "likes": 183,
+      "trendingScore": 80,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -164,8 +164,8 @@
       "author": "GD-ML",
       "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
       "downloads": 570,
-      "likes": 69,
-      "trendingScore": 68,
+      "likes": 71,
+      "trendingScore": 69,
       "tags": [
         "task_categories:text-generation",
         "language:zh",
@@ -226,7 +226,7 @@
       "author": "5CD-AI",
       "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
       "downloads": 416,
-      "likes": 50,
+      "likes": 51,
       "trendingScore": 45,
       "tags": [
         "task_categories:image-to-text",
@@ -722,6 +722,39 @@
     },
     {
       "rank": 24,
+      "id": "wikimedia/structured-wikipedia",
+      "author": "wikimedia",
+      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
+      "downloads": 2480,
+      "likes": 127,
+      "trendingScore": 24,
+      "tags": [
+        "language:en",
+        "language:fr",
+        "license:cc-by-sa-4.0",
+        "size_categories:10M<n<100M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "wikipedia",
+        "wikimedia",
+        "structured-data",
+        "parquet",
+        "knowledge-base",
+        "references",
+        "citations",
+        "tables",
+        "multilingual"
+      ],
+      "createdAt": "2024-09-19T14:11:27.000Z",
+      "lastModified": "2026-05-19T12:54:16.000Z"
+    },
+    {
+      "rank": 25,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -753,7 +786,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 25,
+      "rank": 26,
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
@@ -788,7 +821,7 @@
       "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
-      "rank": 26,
+      "rank": 27,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
@@ -812,7 +845,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": "SALT-NLP/SWE-chat",
       "author": "SALT-NLP",
       "url": "https://huggingface.co/datasets/SALT-NLP/SWE-chat",
@@ -845,7 +878,7 @@
       "lastModified": "2026-04-29T15:05:22.000Z"
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": "r0b0tlab/deepseek-hermes-reasoning-traces",
       "author": "r0b0tlab",
       "url": "https://huggingface.co/datasets/r0b0tlab/deepseek-hermes-reasoning-traces",
@@ -880,7 +913,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 29,
+      "rank": 30,
       "id": "ShadenA/MathNet",
       "author": "ShadenA",
       "url": "https://huggingface.co/datasets/ShadenA/MathNet",
@@ -921,39 +954,6 @@
       ],
       "createdAt": "2026-04-23T20:41:46.000Z",
       "lastModified": "2026-04-27T23:48:47.000Z"
-    },
-    {
-      "rank": 30,
-      "id": "wikimedia/structured-wikipedia",
-      "author": "wikimedia",
-      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
-      "downloads": 2480,
-      "likes": 122,
-      "trendingScore": 19,
-      "tags": [
-        "language:en",
-        "language:fr",
-        "license:cc-by-sa-4.0",
-        "size_categories:10M<n<100M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "wikipedia",
-        "wikimedia",
-        "structured-data",
-        "parquet",
-        "knowledge-base",
-        "references",
-        "citations",
-        "tables",
-        "multilingual"
-      ],
-      "createdAt": "2024-09-19T14:11:27.000Z",
-      "lastModified": "2026-05-19T12:54:16.000Z"
     },
     {
       "rank": 31,
@@ -1057,6 +1057,29 @@
     },
     {
       "rank": 35,
+      "id": "zhifeixie/Voices-in-the-Wild-2M",
+      "author": "zhifeixie",
+      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
+      "downloads": 5095,
+      "likes": 17,
+      "trendingScore": 17,
+      "tags": [
+        "task_categories:automatic-speech-recognition",
+        "language:en",
+        "language:zh",
+        "modality:audio",
+        "region:us",
+        "audio",
+        "speech",
+        "asr",
+        "robustness",
+        "noisy-speech"
+      ],
+      "createdAt": "2026-05-18T17:44:26.000Z",
+      "lastModified": "2026-05-19T08:51:14.000Z"
+    },
+    {
+      "rank": 36,
       "id": "HuggingFaceFW/fineweb-edu",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
@@ -1086,7 +1109,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 36,
+      "rank": 37,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1116,7 +1139,7 @@
       "lastModified": "2026-05-09T06:36:26.000Z"
     },
     {
-      "rank": 37,
+      "rank": 38,
       "id": "ning423/deepseek-hermes-reasoning-traces",
       "author": "ning423",
       "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
@@ -1151,7 +1174,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
@@ -1178,7 +1201,7 @@
       "lastModified": "2026-04-22T10:29:32.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
@@ -1221,7 +1244,7 @@
       "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "cais/mmlu",
       "author": "cais",
       "url": "https://huggingface.co/datasets/cais/mmlu",
@@ -1254,7 +1277,7 @@
       "lastModified": "2024-03-08T20:36:26.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "camvsl/Articraft-10K",
       "author": "camvsl",
       "url": "https://huggingface.co/datasets/camvsl/Articraft-10K",
@@ -1269,7 +1292,7 @@
       "lastModified": "2026-05-15T05:05:02.000Z"
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "Exgentic/agent-llm-traces",
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
@@ -1299,7 +1322,7 @@
       "lastModified": "2026-05-14T18:50:50.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "tinixai/ocr_annual_financials",
       "author": "tinixai",
       "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
@@ -1320,29 +1343,6 @@
       ],
       "createdAt": "2026-05-12T15:11:00.000Z",
       "lastModified": "2026-05-18T15:35:53.000Z"
-    },
-    {
-      "rank": 44,
-      "id": "zhifeixie/Voices-in-the-Wild-2M",
-      "author": "zhifeixie",
-      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
-      "downloads": 5095,
-      "likes": 15,
-      "trendingScore": 15,
-      "tags": [
-        "task_categories:automatic-speech-recognition",
-        "language:en",
-        "language:zh",
-        "modality:audio",
-        "region:us",
-        "audio",
-        "speech",
-        "asr",
-        "robustness",
-        "noisy-speech"
-      ],
-      "createdAt": "2026-05-18T17:44:26.000Z",
-      "lastModified": "2026-05-19T08:51:14.000Z"
     },
     {
       "rank": 45,

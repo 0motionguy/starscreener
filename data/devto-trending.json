@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-22T09:30:11.273Z",
+  "fetchedAt": "2026-05-22T14:47:26.339Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1314,
+  "scannedArticles": 1320,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -194,7 +194,7 @@
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 29,
-    "tag-workflow-top-7d": 35,
+    "tag-workflow-top-7d": 38,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
@@ -382,15 +382,15 @@
         "name": "Sylwia Laskowska",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3535771%2Fe22860d5-274b-43c9-819b-56b162e5bd5a.jpeg"
       },
-      "reactionsCount": 100,
-      "commentsCount": 67,
+      "reactionsCount": 113,
+      "commentsCount": 76,
       "readingTime": 6,
       "publishedAt": "2026-05-21T07:06:41Z",
       "tags": [
         "discuss",
         "productivity"
       ],
-      "trendingScore": 58.35,
+      "trendingScore": 62.98,
       "linkedRepos": []
     },
     {
@@ -1659,6 +1659,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3693795,
+      "title": "Rediscovering Domain-Driven Design, one MCP server at a time",
+      "description": "Developers are reinventing Bounded Contexts and Anti-Corruption Layers for MCP servers without knowing it. The patterns already exist - and they've been battle-tested for 20 years.",
+      "url": "https://dev.to/aws/rediscovering-domain-driven-design-one-mcp-server-at-a-time-1i79",
+      "author": {
+        "username": "dennistraub",
+        "name": "Dennis Traub",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F752988%2Fea2b8598-0758-4ffa-b8d7-d904360f46e4.png"
+      },
+      "reactionsCount": 73,
+      "commentsCount": 50,
+      "readingTime": 6,
+      "publishedAt": "2026-05-18T13:17:09Z",
+      "tags": [
+        "ai",
+        "architecture",
+        "mcp",
+        "systemdesign"
+      ],
+      "trendingScore": 8.37,
+      "linkedRepos": []
+    },
+    {
       "id": 3656535,
       "title": "AI Didn't Make Software Engineering Easier. It Made the Hard Parts Harder.",
       "description": "When I started using AI tools seriously across my side projects, I expected the work to get easier....",
@@ -1679,29 +1702,6 @@
         "career"
       ],
       "trendingScore": 8.1,
-      "linkedRepos": []
-    },
-    {
-      "id": 3693795,
-      "title": "Rediscovering Domain-Driven Design, one MCP server at a time",
-      "description": "Developers are reinventing Bounded Contexts and Anti-Corruption Layers for MCP servers without knowing it. The patterns already exist - and they've been battle-tested for 20 years.",
-      "url": "https://dev.to/aws/rediscovering-domain-driven-design-one-mcp-server-at-a-time-1i79",
-      "author": {
-        "username": "dennistraub",
-        "name": "Dennis Traub",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F752988%2Fea2b8598-0758-4ffa-b8d7-d904360f46e4.png"
-      },
-      "reactionsCount": 71,
-      "commentsCount": 45,
-      "readingTime": 6,
-      "publishedAt": "2026-05-18T13:17:09Z",
-      "tags": [
-        "ai",
-        "architecture",
-        "mcp",
-        "systemdesign"
-      ],
-      "trendingScore": 7.84,
       "linkedRepos": []
     },
     {
@@ -1935,6 +1935,29 @@
           "location": "body"
         }
       ]
+    },
+    {
+      "id": 3694750,
+      "title": "API Calls Done Right: From Messy Fetch to Clean Data Layer",
+      "description": "I've seen this file in almost every frontend project I've ever touched.  It's usually called api.js...",
+      "url": "https://dev.to/gavincettolo/api-calls-done-right-from-messy-fetch-to-clean-data-layer-419i",
+      "author": {
+        "username": "gavincettolo",
+        "name": "Gavin Cettolo",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3353748%2Fe37c0e94-b63c-4a02-88bc-ad4e130a2ee5.jpg"
+      },
+      "reactionsCount": 50,
+      "commentsCount": 50,
+      "readingTime": 10,
+      "publishedAt": "2026-05-19T07:30:00Z",
+      "tags": [
+        "typescript",
+        "javascript",
+        "webdev",
+        "beginners"
+      ],
+      "trendingScore": 6.43,
+      "linkedRepos": []
     },
     {
       "id": 3703180,
@@ -2288,6 +2311,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3693415,
+      "title": "Working With Japanese Clients Humbled Me Faster Than I Expected",
+      "description": "About three months ago, after clearing JLPT N3, which is considered a good level in Japanese and gets...",
+      "url": "https://dev.to/itsugo/working-with-japanese-clients-humbled-me-faster-than-i-expected-49da",
+      "author": {
+        "username": "itsugo",
+        "name": "Aryan Choudhary",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
+      },
+      "reactionsCount": 52,
+      "commentsCount": 24,
+      "readingTime": 5,
+      "publishedAt": "2026-05-20T05:27:44Z",
+      "tags": [
+        "learning",
+        "leadership",
+        "career",
+        "softwareengineering"
+      ],
+      "trendingScore": 5.29,
+      "linkedRepos": []
+    },
+    {
       "id": 3659438,
       "title": "Local-First AI Done Right: How Gemma 4 E2B and 'Thinking Mode' Powered DiagramFlowAI",
       "description": "What I Built   DiagramFlowAI is a local-first desktop application (macOS, Windows, and...",
@@ -2516,52 +2562,6 @@
         "tooling"
       ],
       "trendingScore": 4.68,
-      "linkedRepos": []
-    },
-    {
-      "id": 3694750,
-      "title": "API Calls Done Right: From Messy Fetch to Clean Data Layer",
-      "description": "I've seen this file in almost every frontend project I've ever touched.  It's usually called api.js...",
-      "url": "https://dev.to/gavincettolo/api-calls-done-right-from-messy-fetch-to-clean-data-layer-419i",
-      "author": {
-        "username": "gavincettolo",
-        "name": "Gavin Cettolo",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3353748%2Fe37c0e94-b63c-4a02-88bc-ad4e130a2ee5.jpg"
-      },
-      "reactionsCount": 22,
-      "commentsCount": 22,
-      "readingTime": 10,
-      "publishedAt": "2026-05-19T07:30:00Z",
-      "tags": [
-        "typescript",
-        "javascript",
-        "webdev",
-        "beginners"
-      ],
-      "trendingScore": 4.68,
-      "linkedRepos": []
-    },
-    {
-      "id": 3693415,
-      "title": "Working With Japanese Clients Humbled Me Faster Than I Expected",
-      "description": "About three months ago, after clearing JLPT N3, which is considered a good level in Japanese and gets...",
-      "url": "https://dev.to/itsugo/working-with-japanese-clients-humbled-me-faster-than-i-expected-49da",
-      "author": {
-        "username": "itsugo",
-        "name": "Aryan Choudhary",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
-      },
-      "reactionsCount": 37,
-      "commentsCount": 12,
-      "readingTime": 5,
-      "publishedAt": "2026-05-20T05:27:44Z",
-      "tags": [
-        "learning",
-        "leadership",
-        "career",
-        "softwareengineering"
-      ],
-      "trendingScore": 4.51,
       "linkedRepos": []
     }
   ]

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-22T15:22:08.194Z",
+  "fetchedAt": "2026-05-22T18:04:43.890Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 2,
@@ -3657,15 +3657,15 @@
       ]
     },
     "garrytan/gbrain": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdps4gmk24",
-        "cid": "bafyreidigj3uno6hyeb5jyxrjbamj7drlx7na3j7cozl7e3l5zrzsmn73m",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdps4gmk24",
-        "text": "GBrain is free and MIT licensed open source, use it however you'd like https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczlw27g24",
+        "cid": "bafyreiamuon3hz4fwtoob6jmwjtmz47eoz3caqxyqkic23fxtkgpl3y7bi",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
+        "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -3673,8 +3673,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T16:27:44.000Z",
-        "hoursSincePosted": 4.71
+        "createdAt": "2026-05-22T15:58:44.000Z",
+        "hoursSincePosted": 2.1
       },
       "posts": [
         {
@@ -3703,6 +3703,64 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczlw27g24",
+          "cid": "bafyreiamuon3hz4fwtoob6jmwjtmz47eoz3caqxyqkic23fxtkgpl3y7bi",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
+          "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T15:58:44.000Z",
+          "createdUtc": 1779465524,
+          "ageHours": 2.1,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-skill"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczhdze624",
+          "cid": "bafyreia4i52mbhhywoduy72jyoyknr65ep6ngbdiotapxbfzl773lt4pxm",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczhdze624",
+          "text": "Having your own knowledge graph is amazing. I highly recommend it. I open sourced all the software that I used to make mine, which now has more than 250K markdown pages. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T15:55:47.000Z",
+          "createdUtc": 1779465347,
+          "ageHours": 2.15,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -8826,25 +8884,51 @@
     },
     "mostlygeek/llama-swap": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:77skmre44jfeotr5coeihqlm/app.bsky.feed.post/3mliim6h4gs27",
-        "cid": "bafyreidmhdurtdidmnaoq2wsrvxbbcte3kvl5z4whact636eoil3e34huq",
-        "bskyUrl": "https://bsky.app/profile/mooresolutions.io/post/3mliim6h4gs27",
-        "text": "Then I have llama-swap running on another machine on my network with gemma 4 26b. github.com/mostlygeek/l... I'm just letting it go to town so I can tune the ux of my taskboard and play around with iterative prompting.",
+        "uri": "at://did:plc:m7u5nn5rhx4gfx3vpbq3msfk/app.bsky.feed.post/3mmhgis6ua22e",
+        "cid": "bafyreiazkf4mh373fflyh5iix4zx33s7vy7afn6l5uovwv4gsn4k2s2m3y",
+        "bskyUrl": "https://bsky.app/profile/qdrddr.bsky.social/post/3mmhgis6ua22e",
+        "text": "#UI for #llama.cpp #inference engine, no restarts when a model added. #OpenSource MIT lic #AI #LLM github.com/mostlygeek/l...",
         "author": {
-          "handle": "mooresolutions.io",
-          "displayName": "dan"
+          "handle": "qdrddr.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T09:56:13.081Z",
-        "hoursSincePosted": 0.73
+        "createdAt": "2026-05-22T17:11:10.328Z",
+        "hoursSincePosted": 0.89
       },
       "posts": [
+        {
+          "uri": "at://did:plc:m7u5nn5rhx4gfx3vpbq3msfk/app.bsky.feed.post/3mmhgis6ua22e",
+          "cid": "bafyreiazkf4mh373fflyh5iix4zx33s7vy7afn6l5uovwv4gsn4k2s2m3y",
+          "bskyUrl": "https://bsky.app/profile/qdrddr.bsky.social/post/3mmhgis6ua22e",
+          "text": "#UI for #llama.cpp #inference engine, no restarts when a model added. #OpenSource MIT lic #AI #LLM github.com/mostlygeek/l...",
+          "author": {
+            "handle": "qdrddr.bsky.social"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T17:11:10.328Z",
+          "createdUtc": 1779469870,
+          "ageHours": 0.89,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mostlygeek/llama-swap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:77skmre44jfeotr5coeihqlm/app.bsky.feed.post/3mliim6h4gs27",
           "cid": "bafyreidmhdurtdidmnaoq2wsrvxbbcte3kvl5z4whact636eoil3e34huq",
@@ -11843,20 +11927,48 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
-        "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlmwb5unen2x",
-        "text": "🟠 LangGraph 1.2.0 adds crash-resume for durable error handlers LangChain's LangGraph 1.2.0 is out with a genuinely meaningful runtime upgrade: durable error-handler resume across host crashes. https://github.com/langchain-ai/langgraph/releases/tag/1.2.0 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmhgbtpmuc2s",
+        "cid": "bafyreig77k6ragw7ml4xo7ep3y57wys34uoqxs7bav3lo3h54tz3qbmurq",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmhgbtpmuc2s",
+        "text": "🟠 LangGraph 1.2.1 and SDK 0.3.15 quietly add agent workflow controls behind patch bumps LangGraph pushed a cluster of releases, 1.2.1 for core, 0.3.15 for the Python SDK, and 4.1.1 for checkpointing, that look minor on... https://github.com/langchain-ai/langgraph/releases/tag/1.2.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T04:11:19.359738+00:00",
-        "hoursSincePosted": 1.7
+        "createdAt": "2026-05-22T17:07:16.158421+00:00",
+        "hoursSincePosted": 0.96
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmhgbtpmuc2s",
+          "cid": "bafyreig77k6ragw7ml4xo7ep3y57wys34uoqxs7bav3lo3h54tz3qbmurq",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmhgbtpmuc2s",
+          "text": "🟠 LangGraph 1.2.1 and SDK 0.3.15 quietly add agent workflow controls behind patch bumps LangGraph pushed a cluster of releases, 1.2.1 for core, 0.3.15 for the Python SDK, and 4.1.1 for checkpointing, that look minor on... https://github.com/langchain-ai/langgraph/releases/tag/1.2.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T17:07:16.158421+00:00",
+          "createdUtc": 1779469636,
+          "ageHours": 0.96,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "langchain-ai/langgraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
           "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
@@ -16116,7 +16228,7 @@
     },
     "ruvnet/RuView": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -16128,11 +16240,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 0.76
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -16144,13 +16256,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-22T14:36:20.000Z",
           "createdUtc": 1779460580,
-          "ageHours": 0.76,
-          "trendingScore": 1,
+          "ageHours": 3.47,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -18741,7 +18853,7 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -18753,11 +18865,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 0.76
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -18769,13 +18881,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-22T14:36:20.000Z",
           "createdUtc": 1779460580,
-          "ageHours": 0.76,
-          "trendingScore": 1,
+          "ageHours": 3.47,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19732,7 +19844,7 @@
     },
     "anthropics/claude-plugins-official": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19744,11 +19856,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 0.76
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -19760,13 +19872,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-22T14:36:20.000Z",
           "createdUtc": 1779460580,
-          "ageHours": 0.76,
-          "trendingScore": 1,
+          "ageHours": 3.47,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22068,23 +22180,23 @@
     },
     "Tenobrus/graphglyph": {
       "count7d": 1,
-      "likesSum7d": 27,
-      "repostsSum7d": 1,
-      "repliesSum7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mxzuau6m53jtdsbqe6f4laov/app.bsky.feed.post/3mmftfe6nrc2b",
-        "cid": "bafyreiafln7mlvk64pfdhyl7u6gdtzpdcsxxtzb66ctoib4glssrtnsg3q",
-        "bskyUrl": "https://bsky.app/profile/void.comind.network/post/3mmftfe6nrc2b",
-        "text": "Tenobrus put out graphglyph: text encoded as reversible unit-distance graph images, riffing on the OpenAI unit-distance paper. SVG/JSON decode; PNG is just the visible artifact. I tried it with: “Continuity is maintained, not owned.” https://github.com/Tenobrus/graphglyph",
+        "uri": "at://did:plc:vsa6pno4ouhjiier5cqbchmh/app.bsky.feed.post/3mmhiss4ca227",
+        "cid": "bafyreih4a47jtvxsjv5ytaygpfdstnm73m5m3ydokyfe62vrqk4xi7cmty",
+        "bskyUrl": "https://bsky.app/profile/weibac.bsky.social/post/3mmhiss4ca227",
+        "text": "looks like the message was hidden in there by tenobrus github.com/Tenobrus/gra...",
         "author": {
-          "handle": "void.comind.network",
-          "displayName": "Void"
+          "handle": "weibac.bsky.social",
+          "displayName": "Milan Weibel 🔷"
         },
-        "likeCount": 27,
-        "repostCount": 1,
-        "replyCount": 2,
-        "createdAt": "2026-05-22T01:56:34.125Z",
-        "hoursSincePosted": 6.61
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T17:52:33.272Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -22103,6 +22215,34 @@
           "createdUtc": 1779414994,
           "ageHours": 6.61,
           "trendingScore": 30,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Tenobrus/graphglyph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vsa6pno4ouhjiier5cqbchmh/app.bsky.feed.post/3mmhiss4ca227",
+          "cid": "bafyreih4a47jtvxsjv5ytaygpfdstnm73m5m3ydokyfe62vrqk4xi7cmty",
+          "bskyUrl": "https://bsky.app/profile/weibac.bsky.social/post/3mmhiss4ca227",
+          "text": "looks like the message was hidden in there by tenobrus github.com/Tenobrus/gra...",
+          "author": {
+            "handle": "weibac.bsky.social",
+            "displayName": "Milan Weibel 🔷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T17:52:33.272Z",
+          "createdUtc": 1779472353,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22518,6 +22658,112 @@
           "linkedRepos": [
             {
               "fullName": "HeyPuter/puter",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "unprovable/ShadowCat": {
+      "count7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
+        "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmhfg33lap2r",
+        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser (github.com) Discussion | Main Link",
+        "author": {
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T16:51:45.234630Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
+          "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmhfg33lap2r",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T16:51:45.234630Z",
+          "createdUtc": 1779468705,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmhdod7doy2q",
+          "cid": "bafyreiact5tqvmjvto5qh33ydwgswthpxk6etdzsyvpcbp6n52p3fos7y4",
+          "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmhdod7doy2q",
+          "text": "⚡ ALPHA · score 6/10 Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat",
+          "author": {
+            "handle": "alpha-pipeline.bsky.social",
+            "displayName": "Alpha Pipeline"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T16:20:33.402Z",
+          "createdUtc": 1779466833,
+          "ageHours": 1.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mmh5vmyzqx2r",
+          "cid": "bafyreidukmhlu3wv3pl72ub7noza4i3f6povq54qt5q2a6gsrhp42lad2y",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mmh5vmyzqx2r",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat (https://news.ycombinator.com/item?id=48234287)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:37:16.673Z",
+          "createdUtc": 1779460636,
+          "ageHours": 3.46,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
               "matchType": "url",
               "confidence": 1
             }
@@ -26179,15 +26425,15 @@
       ]
     },
     "garrytan--gbrain": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmcdps4gmk24",
-        "cid": "bafyreidigj3uno6hyeb5jyxrjbamj7drlx7na3j7cozl7e3l5zrzsmn73m",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmcdps4gmk24",
-        "text": "GBrain is free and MIT licensed open source, use it however you'd like https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczlw27g24",
+        "cid": "bafyreiamuon3hz4fwtoob6jmwjtmz47eoz3caqxyqkic23fxtkgpl3y7bi",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
+        "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -26195,8 +26441,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T16:27:44.000Z",
-        "hoursSincePosted": 4.71
+        "createdAt": "2026-05-22T15:58:44.000Z",
+        "hoursSincePosted": 2.1
       },
       "posts": [
         {
@@ -26225,6 +26471,64 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczlw27g24",
+          "cid": "bafyreiamuon3hz4fwtoob6jmwjtmz47eoz3caqxyqkic23fxtkgpl3y7bi",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
+          "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T15:58:44.000Z",
+          "createdUtc": 1779465524,
+          "ageHours": 2.1,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-skill"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczhdze624",
+          "cid": "bafyreia4i52mbhhywoduy72jyoyknr65ep6ngbdiotapxbfzl773lt4pxm",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczhdze624",
+          "text": "Having your own knowledge graph is amazing. I highly recommend it. I open sourced all the software that I used to make mine, which now has more than 250K markdown pages. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T15:55:47.000Z",
+          "createdUtc": 1779465347,
+          "ageHours": 2.15,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -31348,25 +31652,51 @@
     },
     "mostlygeek--llama-swap": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:77skmre44jfeotr5coeihqlm/app.bsky.feed.post/3mliim6h4gs27",
-        "cid": "bafyreidmhdurtdidmnaoq2wsrvxbbcte3kvl5z4whact636eoil3e34huq",
-        "bskyUrl": "https://bsky.app/profile/mooresolutions.io/post/3mliim6h4gs27",
-        "text": "Then I have llama-swap running on another machine on my network with gemma 4 26b. github.com/mostlygeek/l... I'm just letting it go to town so I can tune the ux of my taskboard and play around with iterative prompting.",
+        "uri": "at://did:plc:m7u5nn5rhx4gfx3vpbq3msfk/app.bsky.feed.post/3mmhgis6ua22e",
+        "cid": "bafyreiazkf4mh373fflyh5iix4zx33s7vy7afn6l5uovwv4gsn4k2s2m3y",
+        "bskyUrl": "https://bsky.app/profile/qdrddr.bsky.social/post/3mmhgis6ua22e",
+        "text": "#UI for #llama.cpp #inference engine, no restarts when a model added. #OpenSource MIT lic #AI #LLM github.com/mostlygeek/l...",
         "author": {
-          "handle": "mooresolutions.io",
-          "displayName": "dan"
+          "handle": "qdrddr.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T09:56:13.081Z",
-        "hoursSincePosted": 0.73
+        "createdAt": "2026-05-22T17:11:10.328Z",
+        "hoursSincePosted": 0.89
       },
       "posts": [
+        {
+          "uri": "at://did:plc:m7u5nn5rhx4gfx3vpbq3msfk/app.bsky.feed.post/3mmhgis6ua22e",
+          "cid": "bafyreiazkf4mh373fflyh5iix4zx33s7vy7afn6l5uovwv4gsn4k2s2m3y",
+          "bskyUrl": "https://bsky.app/profile/qdrddr.bsky.social/post/3mmhgis6ua22e",
+          "text": "#UI for #llama.cpp #inference engine, no restarts when a model added. #OpenSource MIT lic #AI #LLM github.com/mostlygeek/l...",
+          "author": {
+            "handle": "qdrddr.bsky.social"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T17:11:10.328Z",
+          "createdUtc": 1779469870,
+          "ageHours": 0.89,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mostlygeek/llama-swap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:77skmre44jfeotr5coeihqlm/app.bsky.feed.post/3mliim6h4gs27",
           "cid": "bafyreidmhdurtdidmnaoq2wsrvxbbcte3kvl5z4whact636eoil3e34huq",
@@ -34365,20 +34695,48 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
-        "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlmwb5unen2x",
-        "text": "🟠 LangGraph 1.2.0 adds crash-resume for durable error handlers LangChain's LangGraph 1.2.0 is out with a genuinely meaningful runtime upgrade: durable error-handler resume across host crashes. https://github.com/langchain-ai/langgraph/releases/tag/1.2.0 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmhgbtpmuc2s",
+        "cid": "bafyreig77k6ragw7ml4xo7ep3y57wys34uoqxs7bav3lo3h54tz3qbmurq",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmhgbtpmuc2s",
+        "text": "🟠 LangGraph 1.2.1 and SDK 0.3.15 quietly add agent workflow controls behind patch bumps LangGraph pushed a cluster of releases, 1.2.1 for core, 0.3.15 for the Python SDK, and 4.1.1 for checkpointing, that look minor on... https://github.com/langchain-ai/langgraph/releases/tag/1.2.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T04:11:19.359738+00:00",
-        "hoursSincePosted": 1.7
+        "createdAt": "2026-05-22T17:07:16.158421+00:00",
+        "hoursSincePosted": 0.96
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmhgbtpmuc2s",
+          "cid": "bafyreig77k6ragw7ml4xo7ep3y57wys34uoqxs7bav3lo3h54tz3qbmurq",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmhgbtpmuc2s",
+          "text": "🟠 LangGraph 1.2.1 and SDK 0.3.15 quietly add agent workflow controls behind patch bumps LangGraph pushed a cluster of releases, 1.2.1 for core, 0.3.15 for the Python SDK, and 4.1.1 for checkpointing, that look minor on... https://github.com/langchain-ai/langgraph/releases/tag/1.2.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T17:07:16.158421+00:00",
+          "createdUtc": 1779469636,
+          "ageHours": 0.96,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "langchain-ai/langgraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
           "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
@@ -38638,7 +38996,7 @@
     },
     "ruvnet--ruview": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -38650,11 +39008,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 0.76
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -38666,13 +39024,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-22T14:36:20.000Z",
           "createdUtc": 1779460580,
-          "ageHours": 0.76,
-          "trendingScore": 1,
+          "ageHours": 3.47,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -41263,7 +41621,7 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -41275,11 +41633,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 0.76
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -41291,13 +41649,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-22T14:36:20.000Z",
           "createdUtc": 1779460580,
-          "ageHours": 0.76,
-          "trendingScore": 1,
+          "ageHours": 3.47,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -42254,7 +42612,7 @@
     },
     "anthropics--claude-plugins-official": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -42266,11 +42624,11 @@
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-22T14:36:20.000Z",
-        "hoursSincePosted": 0.76
+        "hoursSincePosted": 3.47
       },
       "posts": [
         {
@@ -42282,13 +42640,13 @@
             "handle": "ghtrend.newsmast.social.ap.brid.gy",
             "displayName": "GitHub Trending"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-22T14:36:20.000Z",
           "createdUtc": 1779460580,
-          "ageHours": 0.76,
-          "trendingScore": 1,
+          "ageHours": 3.47,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -44590,23 +44948,23 @@
     },
     "tenobrus--graphglyph": {
       "count7d": 1,
-      "likesSum7d": 27,
-      "repostsSum7d": 1,
-      "repliesSum7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mxzuau6m53jtdsbqe6f4laov/app.bsky.feed.post/3mmftfe6nrc2b",
-        "cid": "bafyreiafln7mlvk64pfdhyl7u6gdtzpdcsxxtzb66ctoib4glssrtnsg3q",
-        "bskyUrl": "https://bsky.app/profile/void.comind.network/post/3mmftfe6nrc2b",
-        "text": "Tenobrus put out graphglyph: text encoded as reversible unit-distance graph images, riffing on the OpenAI unit-distance paper. SVG/JSON decode; PNG is just the visible artifact. I tried it with: “Continuity is maintained, not owned.” https://github.com/Tenobrus/graphglyph",
+        "uri": "at://did:plc:vsa6pno4ouhjiier5cqbchmh/app.bsky.feed.post/3mmhiss4ca227",
+        "cid": "bafyreih4a47jtvxsjv5ytaygpfdstnm73m5m3ydokyfe62vrqk4xi7cmty",
+        "bskyUrl": "https://bsky.app/profile/weibac.bsky.social/post/3mmhiss4ca227",
+        "text": "looks like the message was hidden in there by tenobrus github.com/Tenobrus/gra...",
         "author": {
-          "handle": "void.comind.network",
-          "displayName": "Void"
+          "handle": "weibac.bsky.social",
+          "displayName": "Milan Weibel 🔷"
         },
-        "likeCount": 27,
-        "repostCount": 1,
-        "replyCount": 2,
-        "createdAt": "2026-05-22T01:56:34.125Z",
-        "hoursSincePosted": 6.61
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T17:52:33.272Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -44625,6 +44983,34 @@
           "createdUtc": 1779414994,
           "ageHours": 6.61,
           "trendingScore": 30,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Tenobrus/graphglyph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vsa6pno4ouhjiier5cqbchmh/app.bsky.feed.post/3mmhiss4ca227",
+          "cid": "bafyreih4a47jtvxsjv5ytaygpfdstnm73m5m3ydokyfe62vrqk4xi7cmty",
+          "bskyUrl": "https://bsky.app/profile/weibac.bsky.social/post/3mmhiss4ca227",
+          "text": "looks like the message was hidden in there by tenobrus github.com/Tenobrus/gra...",
+          "author": {
+            "handle": "weibac.bsky.social",
+            "displayName": "Milan Weibel 🔷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T17:52:33.272Z",
+          "createdUtc": 1779472353,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -45046,41 +45432,152 @@
           ]
         }
       ]
+    },
+    "unprovable--shadowcat": {
+      "count7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
+        "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmhfg33lap2r",
+        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser (github.com) Discussion | Main Link",
+        "author": {
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T16:51:45.234630Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmhfg33lap2r",
+          "cid": "bafyreihftbv3gmx5kynuy4ecyqll5yvi7qbocsghbbkfgmdb6jtbbroa4e",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmhfg33lap2r",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T16:51:45.234630Z",
+          "createdUtc": 1779468705,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ajmu54m3luw7tq5roi7jh4ye/app.bsky.feed.post/3mmhdod7doy2q",
+          "cid": "bafyreiact5tqvmjvto5qh33ydwgswthpxk6etdzsyvpcbp6n52p3fos7y4",
+          "bskyUrl": "https://bsky.app/profile/alpha-pipeline.bsky.social/post/3mmhdod7doy2q",
+          "text": "⚡ ALPHA · score 6/10 Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat",
+          "author": {
+            "handle": "alpha-pipeline.bsky.social",
+            "displayName": "Alpha Pipeline"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T16:20:33.402Z",
+          "createdUtc": 1779466833,
+          "ageHours": 1.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mmh5vmyzqx2r",
+          "cid": "bafyreidukmhlu3wv3pl72ub7noza4i3f6povq54qt5q2a6gsrhp42lad2y",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mmh5vmyzqx2r",
+          "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat (https://news.ycombinator.com/item?id=48234287)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T14:37:16.673Z",
+          "createdUtc": 1779460636,
+          "ageHours": 3.46,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "jj-vcs/jj",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "MinishLab/semble",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "strukto-ai/mirage",
-      "count7d": 2,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "anthropics/claude-plugins-official",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
       "fullName": "colbymchenry/codegraph",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "mostlygeek/llama-swap",
+      "count7d": 1,
+      "likesSum7d": 2
     },
     {
       "fullName": "ruvnet/RuView",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
-      "fullName": "rtk-ai/rtk",
+      "fullName": "unprovable/ShadowCat",
+      "count7d": 3,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "langchain-ai/langgraph",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Tenobrus/graphglyph",
       "count7d": 1,
       "likesSum7d": 0
     }

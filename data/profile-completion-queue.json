@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T22:00:30.056Z",
+  "generatedAt": "2026-05-22T23:02:47.434Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -1408,7 +1408,7 @@
     },
     {
       "fullName": "mvanhorn/cli-printing-press",
-      "rank": 79,
+      "rank": 78,
       "completenessScore": 50,
       "breakdown": {
         "required": 30,
@@ -1434,7 +1434,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 971,
+      "priority": 972,
       "lastSweptAt": null
     },
     {
@@ -1746,37 +1746,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "Kianmhz/GooseRelayVPN",
-      "rank": 94,
-      "completenessScore": 50,
-      "breakdown": {
-        "required": 30,
-        "coverage": 0,
-        "deltas": 20,
-        "enrichment": 0
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 956,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "lsdefine/GenericAgent",
       "rank": 85,
       "completenessScore": 61,
@@ -1838,7 +1807,7 @@
     },
     {
       "fullName": "anthropics/claude-for-legal",
-      "rank": 100,
+      "rank": 99,
       "completenessScore": 51,
       "breakdown": {
         "required": 25,
@@ -1865,7 +1834,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 949,
+      "priority": 950,
       "lastSweptAt": null
     },
     {
@@ -1899,7 +1868,7 @@
     },
     {
       "fullName": "OpenListTeam/OpenList",
-      "rank": 95,
+      "rank": 94,
       "completenessScore": 61,
       "breakdown": {
         "required": 30,
@@ -1924,7 +1893,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 944,
+      "priority": 945,
       "lastSweptAt": null
     },
     {
@@ -1960,14 +1929,14 @@
   "summary": {
     "byAction": {
       "enrich": 0,
-      "sweep": 35,
+      "sweep": 34,
       "both": 28,
       "noop": 0
     },
     "p10Score": 45,
     "p50Score": 56,
     "channelsFiringHistogram": {
-      "0": 19,
+      "0": 18,
       "1": 31,
       "2": 10,
       "3": 3,

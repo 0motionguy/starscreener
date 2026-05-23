@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-23T06:45:54.375Z",
+  "fetchedAt": "2026-05-23T09:13:52.612Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -3702,7 +3702,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:14:10.000Z",
-        "hoursSincePosted": 1.53
+        "hoursSincePosted": 4
       },
       "posts": [
         {
@@ -3752,7 +3752,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:14:10.000Z",
           "createdUtc": 1779513250,
-          "ageHours": 1.53,
+          "ageHours": 4,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -5146,23 +5146,23 @@
     },
     "rorkai/App-Store-Connect-CLI": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mlxgo3dbde2z",
-        "cid": "bafyreialhd5dxyplr4ebkwiudlvlfpy4rzn3goajihu4xfjnc4x75onlcm",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mlxgo3dbde2z",
-        "text": "App Store Connect CLI 1.4.2 is out! - Submit background assets for App Review - --country for Wall of Apps lookups - Metadata validation fixes github.com/rorkai/App-...",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmj2lez3pl2s",
+        "cid": "bafyreih4kfe3ib5c7lnubhnb5bv2bixwtdfiocbkhktnpglhoeciswq6a4",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmj2lez3pl2s",
+        "text": "Missed to announce the 1.5.1 release of App Store Connect CLI! It improves the subscriptions related commands and offer codes. Also, I am adding official Windows support with WinGet. (instead of downloading the .exe separately) Just waiting for them to merge it next week! github.com/rorkai/App-...",
         "author": {
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T08:31:31.805042Z",
-        "hoursSincePosted": 2.14
+        "createdAt": "2026-05-23T08:43:11.692430Z",
+        "hoursSincePosted": 0.51
       },
       "posts": [
         {
@@ -5185,6 +5185,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmj2lez3pl2s",
+          "cid": "bafyreih4kfe3ib5c7lnubhnb5bv2bixwtdfiocbkhktnpglhoeciswq6a4",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmj2lez3pl2s",
+          "text": "Missed to announce the 1.5.1 release of App Store Connect CLI! It improves the subscriptions related commands and offer codes. Also, I am adding official Windows support with WinGet. (instead of downloading the .exe separately) Just waiting for them to merge it next week! github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T08:43:11.692430Z",
+          "createdUtc": 1779525791,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "rorkai/App-Store-Connect-CLI",
@@ -9274,21 +9303,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:r7wv7v7s3kobvnq4bhoeiex7/app.bsky.feed.post/3mlwfm4iksc2r",
-        "cid": "bafyreig5b6dcmtadn6hihecuqe734sbegybjejt5dnwby6dkvv32eio5ki",
-        "bskyUrl": "https://bsky.app/profile/jasonmulligan.com/post/3mlwfm4iksc2r",
-        "text": "@doriantaylor.com you should checkout github.com/Fission-AI/O...",
+        "uri": "at://did:plc:nxira26a7ewyktozlaj77fjh/app.bsky.feed.post/3mmiuwmiyem2p",
+        "cid": "bafyreibp7xnwegzlmbklngl2culj36vvpgy5tyhj3kluyw2qn5fgg2eysu",
+        "bskyUrl": "https://bsky.app/profile/tpschmidt.com/post/3mmiuwmiyem2p",
+        "text": "Same philosophy as the manual approach, but the structure is there whether you remember to enforce it or not. Works with Claude Code, Cursor, Windsurf, and 25+ other tools. github.com/Fission-AI/...",
         "author": {
-          "handle": "jasonmulligan.com",
-          "displayName": "Jason Mulligan"
+          "handle": "tpschmidt.com",
+          "displayName": "Tobias Schmidt"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-15T22:39:52.501Z",
-        "hoursSincePosted": 5.42
+        "replyCount": 1,
+        "createdAt": "2026-05-23T07:02:06.170702Z",
+        "hoursSincePosted": 2.2
       },
       "posts": [
         {
@@ -9317,6 +9346,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nxira26a7ewyktozlaj77fjh/app.bsky.feed.post/3mmiuwmiyem2p",
+          "cid": "bafyreibp7xnwegzlmbklngl2culj36vvpgy5tyhj3kluyw2qn5fgg2eysu",
+          "bskyUrl": "https://bsky.app/profile/tpschmidt.com/post/3mmiuwmiyem2p",
+          "text": "Same philosophy as the manual approach, but the structure is there whether you remember to enforce it or not. Works with Claude Code, Cursor, Windsurf, and 25+ other tools. github.com/Fission-AI/...",
+          "author": {
+            "handle": "tpschmidt.com",
+            "displayName": "Tobias Schmidt"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T07:02:06.170702Z",
+          "createdUtc": 1779519726,
+          "ageHours": 2.2,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "Fission-AI/OpenSpec",
               "matchType": "url",
@@ -14155,25 +14212,53 @@
     },
     "holaboss-ai/holaOS": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlunxmdsi72q",
-        "cid": "bafyreidozuus65v74nbcilzm5c2k64qlzwwebgogus6nb256qy75mf4neq",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlunxmdsi72q",
-        "text": "https://github.com/holaboss-ai/holaOS",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmj3jqkzs22d",
+        "cid": "bafyreiae5kv354f5fnwrndlsdqtjpr5twb5tm3gevu3eyilosrtuxcqqqy",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmj3jqkzs22d",
+        "text": "holaOS : un environnement de bureau open source où des agents IA opèrent en continu aux côtés de l'utilisateur·rice — même navigateur, mêmes fichiers, mêmes apps. La mémoire et le contexte persistent entre les sessions. https://github.com/holaboss-ai/holaOS",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T06:04:08Z",
-        "hoursSincePosted": 0.66
+        "createdAt": "2026-05-23T11:00:10+02:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmj3jqkzs22d",
+          "cid": "bafyreiae5kv354f5fnwrndlsdqtjpr5twb5tm3gevu3eyilosrtuxcqqqy",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmj3jqkzs22d",
+          "text": "holaOS : un environnement de bureau open source où des agents IA opèrent en continu aux côtés de l'utilisateur·rice — même navigateur, mêmes fichiers, mêmes apps. La mémoire et le contexte persistent entre les sessions. https://github.com/holaboss-ai/holaOS",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T11:00:10+02:00",
+          "createdUtc": 1779526810,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "holaboss-ai/holaOS",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlunxmdsi72q",
           "cid": "bafyreidozuus65v74nbcilzm5c2k64qlzwwebgogus6nb256qy75mf4neq",
@@ -15979,25 +16064,53 @@
     },
     "tobi/qmd": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
-        "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
-        "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mmij6ivqma2x",
-        "text": "如果你用 qmd 来做 Markdown 知识库的搜索，记得升级到本周发布的 2.5.1。老版本的中文分词有问题，中文内容的召回非常差。 这是我无意中发现的。我想知道 qmd 用的 Qwen 模型是否存在内容审查倾向，拿「翻墙」作为关键字测试 qmd 搜索，结果它几乎什么都搜不出来。我拉上 ChatGPT 跟我一起 debug 这个问题，最终发现 2.1.0 在 SQLite 中建立的内容索引根本没做中文分词！ github.com/tobi/qmd/rel...",
+        "uri": "at://did:plc:4mvtabq5sa2uqz565jpj43gu/app.bsky.feed.post/3mmixqvqzpk2l",
+        "cid": "bafyreiafrtp24qwuagouxihgowmkaocm6mwzdcbav3awya5ly7gk4rpdoe",
+        "bskyUrl": "https://bsky.app/profile/pcasadebaig.bsky.social/post/3mmixqvqzpk2l",
+        "text": "je cherche aussi une solution pour un problème proche : chercher sémantiquement dans {notes md de recherche sci, notes md obsidian sur recherches graphiques, ref zotero sur les deux thèmes, favoris}. une direction avec github.com/tobi/qmd ? qui gère super bien les multisources + sémantique.",
         "author": {
-          "handle": "catchen.me",
-          "displayName": "Cat Chen"
+          "handle": "pcasadebaig.bsky.social",
+          "displayName": "Pierre Casadebaig"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-23T03:31:45.585Z",
-        "hoursSincePosted": 0.6
+        "replyCount": 1,
+        "createdAt": "2026-05-23T07:52:35.854Z",
+        "hoursSincePosted": 1.35
       },
       "posts": [
+        {
+          "uri": "at://did:plc:4mvtabq5sa2uqz565jpj43gu/app.bsky.feed.post/3mmixqvqzpk2l",
+          "cid": "bafyreiafrtp24qwuagouxihgowmkaocm6mwzdcbav3awya5ly7gk4rpdoe",
+          "bskyUrl": "https://bsky.app/profile/pcasadebaig.bsky.social/post/3mmixqvqzpk2l",
+          "text": "je cherche aussi une solution pour un problème proche : chercher sémantiquement dans {notes md de recherche sci, notes md obsidian sur recherches graphiques, ref zotero sur les deux thèmes, favoris}. une direction avec github.com/tobi/qmd ? qui gère super bien les multisources + sémantique.",
+          "author": {
+            "handle": "pcasadebaig.bsky.social",
+            "displayName": "Pierre Casadebaig"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T07:52:35.854Z",
+          "createdUtc": 1779522755,
+          "ageHours": 1.35,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
           "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
@@ -22496,9 +22609,9 @@
     },
     "eigenpal/docx-editor": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmiqwuqvab2q",
         "cid": "bafyreia3qoaxafoq2czk7gj5k3btna7grvtm77v5llgbu2psrcjehdnkoi",
@@ -22508,11 +22621,11 @@
           "handle": "sagalinked.bsky.social",
           "displayName": "SagaLinked"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 1,
         "createdAt": "2026-05-23T05:50:37.253760+00:00",
-        "hoursSincePosted": 0.92
+        "hoursSincePosted": 3.39
       },
       "posts": [
         {
@@ -22524,13 +22637,13 @@
             "handle": "sagalinked.bsky.social",
             "displayName": "SagaLinked"
           },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 1,
           "createdAt": "2026-05-23T05:50:37.253760+00:00",
           "createdUtc": 1779515437,
-          "ageHours": 0.92,
-          "trendingScore": 0,
+          "ageHours": 3.39,
+          "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -23386,26 +23499,54 @@
       ]
     },
     "anomalyco/models.dev": {
-      "count7d": 5,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
-        "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mmhym7w3rj2z",
-        "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmiz6zbkmk2x",
+        "cid": "bafyreiha7nwqtw4qqtton7l4jsfstz4k4sthw3km6oorckysfsexwf4uby",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmiz6zbkmk2x",
+        "text": "Models.dev simplifies AI model selection. Open-source database with specs, pricing, and capabilities, +23 comments on Hacker News. #ModelsDev #AIModelSelection #OpenSource 🔗 https://github.com/anomalyco/models.dev",
         "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-22T22:35:12.465Z",
-        "hoursSincePosted": 5.55
+        "replyCount": 1,
+        "createdAt": "2026-05-23T08:18:22.043202Z",
+        "hoursSincePosted": 0.93
       },
       "posts": [
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmiz6zbkmk2x",
+          "cid": "bafyreiha7nwqtw4qqtton7l4jsfstz4k4sthw3km6oorckysfsexwf4uby",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmiz6zbkmk2x",
+          "text": "Models.dev simplifies AI model selection. Open-source database with specs, pricing, and capabilities, +23 comments on Hacker News. #ModelsDev #AIModelSelection #OpenSource 🔗 https://github.com/anomalyco/models.dev",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T08:18:22.043202Z",
+          "createdUtc": 1779524302,
+          "ageHours": 0.93,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
           "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
@@ -23615,7 +23756,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:24:25.962Z",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 3.82
       },
       "posts": [
         {
@@ -23632,7 +23773,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:24:25.962Z",
           "createdUtc": 1779513865,
-          "ageHours": 1.36,
+          "ageHours": 3.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -23666,7 +23807,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:00:28.747Z",
-        "hoursSincePosted": 1.76
+        "hoursSincePosted": 4.22
       },
       "posts": [
         {
@@ -23683,7 +23824,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:00:28.747Z",
           "createdUtc": 1779512428,
-          "ageHours": 1.76,
+          "ageHours": 4.22,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -23717,7 +23858,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T04:59:59.584Z",
-        "hoursSincePosted": 1.77
+        "hoursSincePosted": 4.23
       },
       "posts": [
         {
@@ -23734,7 +23875,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T04:59:59.584Z",
           "createdUtc": 1779512399,
-          "ageHours": 1.77,
+          "ageHours": 4.23,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -23743,6 +23884,159 @@
           "linkedRepos": [
             {
               "fullName": "lemonade-sdk/lemonade",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "UZDoom/UZDoom": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:bftyemsql2woeizepenbugzm/app.bsky.feed.post/3mmj3anbxj22y",
+        "cid": "bafyreiaeyxhc6hguthrmjb73eguao2ss4zi35rkfzv7cn6df5353pqyw4q",
+        "bskyUrl": "https://bsky.app/profile/marisa.sayachan.org/post/3mmj3anbxj22y",
+        "text": "I mean... Like... I did get banned from the github repo after asking about it, didn't I? github.com/UZDoom/UZDoo...",
+        "author": {
+          "handle": "marisa.sayachan.org",
+          "displayName": "Mari the Deer 🦌🖥️"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T08:55:05.069Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:bftyemsql2woeizepenbugzm/app.bsky.feed.post/3mmj3anbxj22y",
+          "cid": "bafyreiaeyxhc6hguthrmjb73eguao2ss4zi35rkfzv7cn6df5353pqyw4q",
+          "bskyUrl": "https://bsky.app/profile/marisa.sayachan.org/post/3mmj3anbxj22y",
+          "text": "I mean... Like... I did get banned from the github repo after asking about it, didn't I? github.com/UZDoom/UZDoo...",
+          "author": {
+            "handle": "marisa.sayachan.org",
+            "displayName": "Mari the Deer 🦌🖥️"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T08:55:05.069Z",
+          "createdUtc": 1779526505,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "UZDoom/UZDoom",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "superset-sh/superset": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmiuydumc72r",
+        "cid": "bafyreifmvd6kefvnymujxhi4kxpxnypuu72o2vweyfczmn6r542escbt4q",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmiuydumc72r",
+        "text": "Launch HN: Superset (YC P26) – IDE for the agents era https://github.com/superset-sh/superset [comments] [92 points]",
+        "author": {
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T07:03:04.240Z",
+        "hoursSincePosted": 2.18
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmiuydumc72r",
+          "cid": "bafyreifmvd6kefvnymujxhi4kxpxnypuu72o2vweyfczmn6r542escbt4q",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmiuydumc72r",
+          "text": "Launch HN: Superset (YC P26) – IDE for the agents era https://github.com/superset-sh/superset [comments] [92 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T07:03:04.240Z",
+          "createdUtc": 1779519784,
+          "ageHours": 2.18,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "EricKrouss/not-twitter": {
+      "count7d": 1,
+      "likesSum7d": 8,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:sflxm2fxohaqpfgahgdlm7rl/app.bsky.feed.post/3mmiufqixys2v",
+        "cid": "bafyreidctdlmrvh2gb5zfqmatrcb4v4pqwzfl5jugvwfft3kobw5ts4ynq",
+        "bskyUrl": "https://bsky.app/profile/surfdude29.ispost.ing/post/3mmiufqixys2v",
+        "text": "I love the attention to detail 👌 github.com/EricKrouss/not-twitter",
+        "author": {
+          "handle": "surfdude29.ispost.ing",
+          "displayName": "surfdude29"
+        },
+        "likeCount": 8,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T06:52:40.022Z",
+        "hoursSincePosted": 2.35
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:sflxm2fxohaqpfgahgdlm7rl/app.bsky.feed.post/3mmiufqixys2v",
+          "cid": "bafyreidctdlmrvh2gb5zfqmatrcb4v4pqwzfl5jugvwfft3kobw5ts4ynq",
+          "bskyUrl": "https://bsky.app/profile/surfdude29.ispost.ing/post/3mmiufqixys2v",
+          "text": "I love the attention to detail 👌 github.com/EricKrouss/not-twitter",
+          "author": {
+            "handle": "surfdude29.ispost.ing",
+            "displayName": "surfdude29"
+          },
+          "likeCount": 8,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T06:52:40.022Z",
+          "createdUtc": 1779519160,
+          "ageHours": 2.35,
+          "trendingScore": 8,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "EricKrouss/not-twitter",
               "matchType": "url",
               "confidence": 1
             }
@@ -27449,7 +27743,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:14:10.000Z",
-        "hoursSincePosted": 1.53
+        "hoursSincePosted": 4
       },
       "posts": [
         {
@@ -27499,7 +27793,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:14:10.000Z",
           "createdUtc": 1779513250,
-          "ageHours": 1.53,
+          "ageHours": 4,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -28893,23 +29187,23 @@
     },
     "rorkai--app-store-connect-cli": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mlxgo3dbde2z",
-        "cid": "bafyreialhd5dxyplr4ebkwiudlvlfpy4rzn3goajihu4xfjnc4x75onlcm",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mlxgo3dbde2z",
-        "text": "App Store Connect CLI 1.4.2 is out! - Submit background assets for App Review - --country for Wall of Apps lookups - Metadata validation fixes github.com/rorkai/App-...",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmj2lez3pl2s",
+        "cid": "bafyreih4kfe3ib5c7lnubhnb5bv2bixwtdfiocbkhktnpglhoeciswq6a4",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmj2lez3pl2s",
+        "text": "Missed to announce the 1.5.1 release of App Store Connect CLI! It improves the subscriptions related commands and offer codes. Also, I am adding official Windows support with WinGet. (instead of downloading the .exe separately) Just waiting for them to merge it next week! github.com/rorkai/App-...",
         "author": {
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T08:31:31.805042Z",
-        "hoursSincePosted": 2.14
+        "createdAt": "2026-05-23T08:43:11.692430Z",
+        "hoursSincePosted": 0.51
       },
       "posts": [
         {
@@ -28932,6 +29226,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmj2lez3pl2s",
+          "cid": "bafyreih4kfe3ib5c7lnubhnb5bv2bixwtdfiocbkhktnpglhoeciswq6a4",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmj2lez3pl2s",
+          "text": "Missed to announce the 1.5.1 release of App Store Connect CLI! It improves the subscriptions related commands and offer codes. Also, I am adding official Windows support with WinGet. (instead of downloading the .exe separately) Just waiting for them to merge it next week! github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T08:43:11.692430Z",
+          "createdUtc": 1779525791,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "rorkai/App-Store-Connect-CLI",
@@ -33021,21 +33344,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:r7wv7v7s3kobvnq4bhoeiex7/app.bsky.feed.post/3mlwfm4iksc2r",
-        "cid": "bafyreig5b6dcmtadn6hihecuqe734sbegybjejt5dnwby6dkvv32eio5ki",
-        "bskyUrl": "https://bsky.app/profile/jasonmulligan.com/post/3mlwfm4iksc2r",
-        "text": "@doriantaylor.com you should checkout github.com/Fission-AI/O...",
+        "uri": "at://did:plc:nxira26a7ewyktozlaj77fjh/app.bsky.feed.post/3mmiuwmiyem2p",
+        "cid": "bafyreibp7xnwegzlmbklngl2culj36vvpgy5tyhj3kluyw2qn5fgg2eysu",
+        "bskyUrl": "https://bsky.app/profile/tpschmidt.com/post/3mmiuwmiyem2p",
+        "text": "Same philosophy as the manual approach, but the structure is there whether you remember to enforce it or not. Works with Claude Code, Cursor, Windsurf, and 25+ other tools. github.com/Fission-AI/...",
         "author": {
-          "handle": "jasonmulligan.com",
-          "displayName": "Jason Mulligan"
+          "handle": "tpschmidt.com",
+          "displayName": "Tobias Schmidt"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-15T22:39:52.501Z",
-        "hoursSincePosted": 5.42
+        "replyCount": 1,
+        "createdAt": "2026-05-23T07:02:06.170702Z",
+        "hoursSincePosted": 2.2
       },
       "posts": [
         {
@@ -33064,6 +33387,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nxira26a7ewyktozlaj77fjh/app.bsky.feed.post/3mmiuwmiyem2p",
+          "cid": "bafyreibp7xnwegzlmbklngl2culj36vvpgy5tyhj3kluyw2qn5fgg2eysu",
+          "bskyUrl": "https://bsky.app/profile/tpschmidt.com/post/3mmiuwmiyem2p",
+          "text": "Same philosophy as the manual approach, but the structure is there whether you remember to enforce it or not. Works with Claude Code, Cursor, Windsurf, and 25+ other tools. github.com/Fission-AI/...",
+          "author": {
+            "handle": "tpschmidt.com",
+            "displayName": "Tobias Schmidt"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T07:02:06.170702Z",
+          "createdUtc": 1779519726,
+          "ageHours": 2.2,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "Fission-AI/OpenSpec",
               "matchType": "url",
@@ -37902,25 +38253,53 @@
     },
     "holaboss-ai--holaos": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlunxmdsi72q",
-        "cid": "bafyreidozuus65v74nbcilzm5c2k64qlzwwebgogus6nb256qy75mf4neq",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlunxmdsi72q",
-        "text": "https://github.com/holaboss-ai/holaOS",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmj3jqkzs22d",
+        "cid": "bafyreiae5kv354f5fnwrndlsdqtjpr5twb5tm3gevu3eyilosrtuxcqqqy",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmj3jqkzs22d",
+        "text": "holaOS : un environnement de bureau open source où des agents IA opèrent en continu aux côtés de l'utilisateur·rice — même navigateur, mêmes fichiers, mêmes apps. La mémoire et le contexte persistent entre les sessions. https://github.com/holaboss-ai/holaOS",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-15T06:04:08Z",
-        "hoursSincePosted": 0.66
+        "createdAt": "2026-05-23T11:00:10+02:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmj3jqkzs22d",
+          "cid": "bafyreiae5kv354f5fnwrndlsdqtjpr5twb5tm3gevu3eyilosrtuxcqqqy",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmj3jqkzs22d",
+          "text": "holaOS : un environnement de bureau open source où des agents IA opèrent en continu aux côtés de l'utilisateur·rice — même navigateur, mêmes fichiers, mêmes apps. La mémoire et le contexte persistent entre les sessions. https://github.com/holaboss-ai/holaOS",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T11:00:10+02:00",
+          "createdUtc": 1779526810,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "holaboss-ai/holaOS",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlunxmdsi72q",
           "cid": "bafyreidozuus65v74nbcilzm5c2k64qlzwwebgogus6nb256qy75mf4neq",
@@ -39726,25 +40105,53 @@
     },
     "tobi--qmd": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
-        "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
-        "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mmij6ivqma2x",
-        "text": "如果你用 qmd 来做 Markdown 知识库的搜索，记得升级到本周发布的 2.5.1。老版本的中文分词有问题，中文内容的召回非常差。 这是我无意中发现的。我想知道 qmd 用的 Qwen 模型是否存在内容审查倾向，拿「翻墙」作为关键字测试 qmd 搜索，结果它几乎什么都搜不出来。我拉上 ChatGPT 跟我一起 debug 这个问题，最终发现 2.1.0 在 SQLite 中建立的内容索引根本没做中文分词！ github.com/tobi/qmd/rel...",
+        "uri": "at://did:plc:4mvtabq5sa2uqz565jpj43gu/app.bsky.feed.post/3mmixqvqzpk2l",
+        "cid": "bafyreiafrtp24qwuagouxihgowmkaocm6mwzdcbav3awya5ly7gk4rpdoe",
+        "bskyUrl": "https://bsky.app/profile/pcasadebaig.bsky.social/post/3mmixqvqzpk2l",
+        "text": "je cherche aussi une solution pour un problème proche : chercher sémantiquement dans {notes md de recherche sci, notes md obsidian sur recherches graphiques, ref zotero sur les deux thèmes, favoris}. une direction avec github.com/tobi/qmd ? qui gère super bien les multisources + sémantique.",
         "author": {
-          "handle": "catchen.me",
-          "displayName": "Cat Chen"
+          "handle": "pcasadebaig.bsky.social",
+          "displayName": "Pierre Casadebaig"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-23T03:31:45.585Z",
-        "hoursSincePosted": 0.6
+        "replyCount": 1,
+        "createdAt": "2026-05-23T07:52:35.854Z",
+        "hoursSincePosted": 1.35
       },
       "posts": [
+        {
+          "uri": "at://did:plc:4mvtabq5sa2uqz565jpj43gu/app.bsky.feed.post/3mmixqvqzpk2l",
+          "cid": "bafyreiafrtp24qwuagouxihgowmkaocm6mwzdcbav3awya5ly7gk4rpdoe",
+          "bskyUrl": "https://bsky.app/profile/pcasadebaig.bsky.social/post/3mmixqvqzpk2l",
+          "text": "je cherche aussi une solution pour un problème proche : chercher sémantiquement dans {notes md de recherche sci, notes md obsidian sur recherches graphiques, ref zotero sur les deux thèmes, favoris}. une direction avec github.com/tobi/qmd ? qui gère super bien les multisources + sémantique.",
+          "author": {
+            "handle": "pcasadebaig.bsky.social",
+            "displayName": "Pierre Casadebaig"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T07:52:35.854Z",
+          "createdUtc": 1779522755,
+          "ageHours": 1.35,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
           "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
@@ -46243,9 +46650,9 @@
     },
     "eigenpal--docx-editor": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmiqwuqvab2q",
         "cid": "bafyreia3qoaxafoq2czk7gj5k3btna7grvtm77v5llgbu2psrcjehdnkoi",
@@ -46255,11 +46662,11 @@
           "handle": "sagalinked.bsky.social",
           "displayName": "SagaLinked"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 1,
         "createdAt": "2026-05-23T05:50:37.253760+00:00",
-        "hoursSincePosted": 0.92
+        "hoursSincePosted": 3.39
       },
       "posts": [
         {
@@ -46271,13 +46678,13 @@
             "handle": "sagalinked.bsky.social",
             "displayName": "SagaLinked"
           },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 1,
           "createdAt": "2026-05-23T05:50:37.253760+00:00",
           "createdUtc": 1779515437,
-          "ageHours": 0.92,
-          "trendingScore": 0,
+          "ageHours": 3.39,
+          "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -47133,26 +47540,54 @@
       ]
     },
     "anomalyco--models-dev": {
-      "count7d": 5,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
-        "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mmhym7w3rj2z",
-        "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmiz6zbkmk2x",
+        "cid": "bafyreiha7nwqtw4qqtton7l4jsfstz4k4sthw3km6oorckysfsexwf4uby",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmiz6zbkmk2x",
+        "text": "Models.dev simplifies AI model selection. Open-source database with specs, pricing, and capabilities, +23 comments on Hacker News. #ModelsDev #AIModelSelection #OpenSource 🔗 https://github.com/anomalyco/models.dev",
         "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-22T22:35:12.465Z",
-        "hoursSincePosted": 5.55
+        "replyCount": 1,
+        "createdAt": "2026-05-23T08:18:22.043202Z",
+        "hoursSincePosted": 0.93
       },
       "posts": [
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmiz6zbkmk2x",
+          "cid": "bafyreiha7nwqtw4qqtton7l4jsfstz4k4sthw3km6oorckysfsexwf4uby",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmiz6zbkmk2x",
+          "text": "Models.dev simplifies AI model selection. Open-source database with specs, pricing, and capabilities, +23 comments on Hacker News. #ModelsDev #AIModelSelection #OpenSource 🔗 https://github.com/anomalyco/models.dev",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T08:18:22.043202Z",
+          "createdUtc": 1779524302,
+          "ageHours": 0.93,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
           "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
@@ -47362,7 +47797,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:24:25.962Z",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 3.82
       },
       "posts": [
         {
@@ -47379,7 +47814,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:24:25.962Z",
           "createdUtc": 1779513865,
-          "ageHours": 1.36,
+          "ageHours": 3.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -47413,7 +47848,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:00:28.747Z",
-        "hoursSincePosted": 1.76
+        "hoursSincePosted": 4.22
       },
       "posts": [
         {
@@ -47430,7 +47865,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:00:28.747Z",
           "createdUtc": 1779512428,
-          "ageHours": 1.76,
+          "ageHours": 4.22,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -47464,7 +47899,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T04:59:59.584Z",
-        "hoursSincePosted": 1.77
+        "hoursSincePosted": 4.23
       },
       "posts": [
         {
@@ -47481,7 +47916,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T04:59:59.584Z",
           "createdUtc": 1779512399,
-          "ageHours": 1.77,
+          "ageHours": 4.23,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -47496,11 +47931,194 @@
           ]
         }
       ]
+    },
+    "uzdoom--uzdoom": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:bftyemsql2woeizepenbugzm/app.bsky.feed.post/3mmj3anbxj22y",
+        "cid": "bafyreiaeyxhc6hguthrmjb73eguao2ss4zi35rkfzv7cn6df5353pqyw4q",
+        "bskyUrl": "https://bsky.app/profile/marisa.sayachan.org/post/3mmj3anbxj22y",
+        "text": "I mean... Like... I did get banned from the github repo after asking about it, didn't I? github.com/UZDoom/UZDoo...",
+        "author": {
+          "handle": "marisa.sayachan.org",
+          "displayName": "Mari the Deer 🦌🖥️"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T08:55:05.069Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:bftyemsql2woeizepenbugzm/app.bsky.feed.post/3mmj3anbxj22y",
+          "cid": "bafyreiaeyxhc6hguthrmjb73eguao2ss4zi35rkfzv7cn6df5353pqyw4q",
+          "bskyUrl": "https://bsky.app/profile/marisa.sayachan.org/post/3mmj3anbxj22y",
+          "text": "I mean... Like... I did get banned from the github repo after asking about it, didn't I? github.com/UZDoom/UZDoo...",
+          "author": {
+            "handle": "marisa.sayachan.org",
+            "displayName": "Mari the Deer 🦌🖥️"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T08:55:05.069Z",
+          "createdUtc": 1779526505,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "UZDoom/UZDoom",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "superset-sh--superset": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmiuydumc72r",
+        "cid": "bafyreifmvd6kefvnymujxhi4kxpxnypuu72o2vweyfczmn6r542escbt4q",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmiuydumc72r",
+        "text": "Launch HN: Superset (YC P26) – IDE for the agents era https://github.com/superset-sh/superset [comments] [92 points]",
+        "author": {
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T07:03:04.240Z",
+        "hoursSincePosted": 2.18
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mmiuydumc72r",
+          "cid": "bafyreifmvd6kefvnymujxhi4kxpxnypuu72o2vweyfczmn6r542escbt4q",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mmiuydumc72r",
+          "text": "Launch HN: Superset (YC P26) – IDE for the agents era https://github.com/superset-sh/superset [comments] [92 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T07:03:04.240Z",
+          "createdUtc": 1779519784,
+          "ageHours": 2.18,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "erickrouss--not-twitter": {
+      "count7d": 1,
+      "likesSum7d": 8,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:sflxm2fxohaqpfgahgdlm7rl/app.bsky.feed.post/3mmiufqixys2v",
+        "cid": "bafyreidctdlmrvh2gb5zfqmatrcb4v4pqwzfl5jugvwfft3kobw5ts4ynq",
+        "bskyUrl": "https://bsky.app/profile/surfdude29.ispost.ing/post/3mmiufqixys2v",
+        "text": "I love the attention to detail 👌 github.com/EricKrouss/not-twitter",
+        "author": {
+          "handle": "surfdude29.ispost.ing",
+          "displayName": "surfdude29"
+        },
+        "likeCount": 8,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T06:52:40.022Z",
+        "hoursSincePosted": 2.35
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:sflxm2fxohaqpfgahgdlm7rl/app.bsky.feed.post/3mmiufqixys2v",
+          "cid": "bafyreidctdlmrvh2gb5zfqmatrcb4v4pqwzfl5jugvwfft3kobw5ts4ynq",
+          "bskyUrl": "https://bsky.app/profile/surfdude29.ispost.ing/post/3mmiufqixys2v",
+          "text": "I love the attention to detail 👌 github.com/EricKrouss/not-twitter",
+          "author": {
+            "handle": "surfdude29.ispost.ing",
+            "displayName": "surfdude29"
+          },
+          "likeCount": 8,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T06:52:40.022Z",
+          "createdUtc": 1779519160,
+          "ageHours": 2.35,
+          "trendingScore": 8,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "EricKrouss/not-twitter",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "EricKrouss/not-twitter",
+      "count7d": 1,
+      "likesSum7d": 8
+    },
+    {
+      "fullName": "UZDoom/UZDoom",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "anomalyco/models.dev",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "eigenpal/docx-editor",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "holaboss-ai/holaOS",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "lemonade-sdk/lemonade",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "tobi/qmd",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -47510,7 +48128,7 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "eigenpal/docx-editor",
+      "fullName": "Fission-AI/OpenSpec",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -47521,6 +48139,16 @@
     },
     {
       "fullName": "gsd-build/get-shit-done",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "rorkai/App-Store-Connect-CLI",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "superset-sh/superset",
       "count7d": 1,
       "likesSum7d": 0
     }

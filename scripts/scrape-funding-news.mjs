@@ -78,6 +78,22 @@ const RSS_FEEDS = {
   "ai-snake-oil": "https://www.normaltech.ai/feed",
   "generative-value": "https://www.generativevalue.com/feed",
   "import-ai": "https://importai.substack.com/feed",
+  // Wave-4 (2026-05-23): funding-dense sources. Every item from these feeds
+  // is funding/VC by category, so they're added to AI_TAGGED_SOURCES below
+  // to skip the AI-keyword gate (the page covers AI + tech, not AI-only).
+  "crunchbase-news": "https://news.crunchbase.com/feed/",
+  "tc-venture": "https://techcrunch.com/category/venture/feed/",
+  "tc-fundraising": "https://techcrunch.com/category/fundraising/feed/",
+  "tc-seed": "https://techcrunch.com/tag/seed-funding/feed/",
+  "tc-series-a": "https://techcrunch.com/tag/series-a/feed/",
+  "term-sheet": "https://termsheet.substack.com/feed",
+  "tech-funding-news": "https://techfundingnews.com/feed",
+  "alleywatch": "https://www.alleywatch.com/feed/",
+  "yc-blog": "https://www.ycombinator.com/blog/rss",
+  // Wave-4 (2026-05-23): tech-business category feeds (AI gate still applies).
+  "vb-business": "https://venturebeat.com/category/business/feed/",
+  "vb-enterprise": "https://venturebeat.com/category/enterprise/feed/",
+  e27: "https://e27.co/feed/",
 };
 
 // AI-tagged sources skip the AI-keyword gate (publisher already classified).
@@ -96,6 +112,17 @@ const AI_TAGGED_SOURCES = new Set([
   "ai-snake-oil",
   "generative-value",
   "import-ai",
+  // Wave-4 (2026-05-23): funding-native — every item is funding/VC by
+  // category. Skip the AI gate so non-AI rounds also surface on /funding.
+  "crunchbase-news",
+  "tc-venture",
+  "tc-fundraising",
+  "tc-seed",
+  "tc-series-a",
+  "term-sheet",
+  "tech-funding-news",
+  "alleywatch",
+  "yc-blog",
 ]);
 
 // AI-funding-only mode: non-AI-tagged feeds must show an AI marker in

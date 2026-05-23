@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-23T09:13:52.612Z",
+  "fetchedAt": "2026-05-23T10:44:35.189Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -11,19 +11,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmifngmoss2e",
-        "cid": "bafyreifqwvpoezhcynyl6ndhehbr3jaimvzevaxkqnxvhpp6biz3fgrt2u",
-        "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmifngmoss2e",
-        "text": "umh ... also entweder wieder mal gpt5 runter holen oder ich steh extrem auf dem schlauch github.com/antirez/ds4/...",
+        "uri": "at://did:plc:xvgjk7ek52uq4fznjje2zfx4/app.bsky.feed.post/3mmj5zvhsxc2x",
+        "cid": "bafyreifiqhllkwbafoh7d5nhvkm3oaajr4cpjb2xc4hwck5gmkmztiyobq",
+        "bskyUrl": "https://bsky.app/profile/tsurutatakumi.info/post/3mmj5zvhsxc2x",
+        "text": "github.com/antirez/ds4 のエージェントを使うことも検討しておく。",
         "author": {
-          "handle": "arnomatic.bsky.social",
-          "displayName": "michaelh"
+          "handle": "tsurutatakumi.info",
+          "displayName": "zztkm"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T02:28:31.966Z",
-        "hoursSincePosted": 1.66
+        "createdAt": "2026-05-23T09:44:59.994Z",
+        "hoursSincePosted": 0.99
       },
       "posts": [
         {
@@ -154,6 +154,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xvgjk7ek52uq4fznjje2zfx4/app.bsky.feed.post/3mmj5zvhsxc2x",
+          "cid": "bafyreifiqhllkwbafoh7d5nhvkm3oaajr4cpjb2xc4hwck5gmkmztiyobq",
+          "bskyUrl": "https://bsky.app/profile/tsurutatakumi.info/post/3mmj5zvhsxc2x",
+          "text": "github.com/antirez/ds4 のエージェントを使うことも検討しておく。",
+          "author": {
+            "handle": "tsurutatakumi.info",
+            "displayName": "zztkm"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T09:44:59.994Z",
+          "createdUtc": 1779529499,
+          "ageHours": 0.99,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -3702,7 +3730,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:14:10.000Z",
-        "hoursSincePosted": 4
+        "hoursSincePosted": 5.51
       },
       "posts": [
         {
@@ -3752,7 +3780,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:14:10.000Z",
           "createdUtc": 1779513250,
-          "ageHours": 4,
+          "ageHours": 5.51,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -5162,7 +5190,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T08:43:11.692430Z",
-        "hoursSincePosted": 0.51
+        "hoursSincePosted": 2.02
       },
       "posts": [
         {
@@ -5207,7 +5235,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T08:43:11.692430Z",
           "createdUtc": 1779525791,
-          "ageHours": 0.51,
+          "ageHours": 2.02,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -9317,7 +9345,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T07:02:06.170702Z",
-        "hoursSincePosted": 2.2
+        "hoursSincePosted": 3.71
       },
       "posts": [
         {
@@ -9367,7 +9395,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T07:02:06.170702Z",
           "createdUtc": 1779519726,
-          "ageHours": 2.2,
+          "ageHours": 3.71,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -9699,18 +9727,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmfdaxvox52u",
-        "cid": "bafyreigibwahw6e7pd3tjjrpmwrgobrrivn7zd2dz7i7a3ndesv5252ev4",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmfdaxvox52u",
-        "text": "🟠 OpenClaw 2026.5.20 ships policy plugin, xAI device-code auth, and stronger approval hardening OpenClaw v2026.5.20 is a meaningful platform release, not a routine patch. https://github.com/openclaw/openclaw/releases/tag/v2026.5.20 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmj7ed2hhg2h",
+        "cid": "bafyreiggodbmob3nh5ov4gqlnwxqzmueibc5wxwpyyfl4o5qgjwhzuqa5y",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmj7ed2hhg2h",
+        "text": "🟠 OpenClaw 2026.5.22 beta lands locked npm dependency graphs and a 4,100x model-listing hot-path speedup OpenClaw's 2026.5.22 beta is a meaningful platform release, not a routine beta churn drop. https://github.com/openclaw/openclaw/releases/tag/v2026.5.22-beta.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T21:07:46.034718+00:00",
-        "hoursSincePosted": 1.56
+        "createdAt": "2026-05-23T10:08:42.247297+00:00",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -9839,6 +9867,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmj7ed2hhg2h",
+          "cid": "bafyreiggodbmob3nh5ov4gqlnwxqzmueibc5wxwpyyfl4o5qgjwhzuqa5y",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmj7ed2hhg2h",
+          "text": "🟠 OpenClaw 2026.5.22 beta lands locked npm dependency graphs and a 4,100x model-listing hot-path speedup OpenClaw's 2026.5.22 beta is a meaningful platform release, not a routine beta churn drop. https://github.com/openclaw/openclaw/releases/tag/v2026.5.22-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T10:08:42.247297+00:00",
+          "createdUtc": 1779530922,
+          "ageHours": 0.6,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -14212,9 +14268,9 @@
     },
     "holaboss-ai/holaOS": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmj3jqkzs22d",
         "cid": "bafyreiae5kv354f5fnwrndlsdqtjpr5twb5tm3gevu3eyilosrtuxcqqqy",
@@ -14224,11 +14280,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
+        "likeCount": 4,
+        "repostCount": 1,
+        "replyCount": 1,
         "createdAt": "2026-05-23T11:00:10+02:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.74
       },
       "posts": [
         {
@@ -14240,13 +14296,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 1,
           "createdAt": "2026-05-23T11:00:10+02:00",
           "createdUtc": 1779526810,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 1.74,
+          "trendingScore": 6.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -16080,7 +16136,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T07:52:35.854Z",
-        "hoursSincePosted": 1.35
+        "hoursSincePosted": 2.87
       },
       "posts": [
         {
@@ -16097,7 +16153,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T07:52:35.854Z",
           "createdUtc": 1779522755,
-          "ageHours": 1.35,
+          "ageHours": 2.87,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -18747,24 +18803,24 @@
       ]
     },
     "Donchitos/Claude-Code-Game-Studios": {
-      "count7d": 2,
-      "likesSum7d": 3,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:niijlef6kqqslagbf5hlb762/app.bsky.feed.post/3mm6fjifljk2b",
-        "cid": "bafyreihxvlsjgfsbbpwlv4exf3ups4yaqo45mt3rgwotjwmrdclii6sy5a",
-        "bskyUrl": "https://bsky.app/profile/impossible.bsky.social/post/3mm6fjifljk2b",
-        "text": "This is the project in question. github.com/Donchitos/Cl... Most of these projects feel like toys or performance art masquerading as useful tools...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmj5ptvsik2a",
+        "cid": "bafyreicbwykak57t6jxhfracoedxs37whrazd5irdyhssyz5lt74s7nli4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmj5ptvsik2a",
+        "text": "https://github.com/Donchitos/Claude-Code-Game-Studios",
         "author": {
-          "handle": "impossible.bsky.social",
-          "displayName": "Scott Anderson"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-19T02:59:42.230Z",
-        "hoursSincePosted": 5.65
+        "replyCount": 0,
+        "createdAt": "2026-05-23T09:39:22Z",
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -18783,6 +18839,34 @@
           "createdUtc": 1779159582,
           "ageHours": 5.65,
           "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmj5ptvsik2a",
+          "cid": "bafyreicbwykak57t6jxhfracoedxs37whrazd5irdyhssyz5lt74s7nli4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmj5ptvsik2a",
+          "text": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T09:39:22Z",
+          "createdUtc": 1779529162,
+          "ageHours": 1.09,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22625,7 +22709,7 @@
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-05-23T05:50:37.253760+00:00",
-        "hoursSincePosted": 3.39
+        "hoursSincePosted": 4.9
       },
       "posts": [
         {
@@ -22642,7 +22726,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T05:50:37.253760+00:00",
           "createdUtc": 1779515437,
-          "ageHours": 3.39,
+          "ageHours": 4.9,
           "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
@@ -23516,7 +23600,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T08:18:22.043202Z",
-        "hoursSincePosted": 0.93
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -23533,7 +23617,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T08:18:22.043202Z",
           "createdUtc": 1779524302,
-          "ageHours": 0.93,
+          "ageHours": 2.44,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -23756,7 +23840,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:24:25.962Z",
-        "hoursSincePosted": 3.82
+        "hoursSincePosted": 5.34
       },
       "posts": [
         {
@@ -23773,7 +23857,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:24:25.962Z",
           "createdUtc": 1779513865,
-          "ageHours": 3.82,
+          "ageHours": 5.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -23858,7 +23942,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T04:59:59.584Z",
-        "hoursSincePosted": 4.23
+        "hoursSincePosted": 5.74
       },
       "posts": [
         {
@@ -23875,7 +23959,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T04:59:59.584Z",
           "createdUtc": 1779512399,
-          "ageHours": 4.23,
+          "ageHours": 5.74,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -23893,7 +23977,7 @@
     },
     "UZDoom/UZDoom": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -23905,11 +23989,11 @@
           "handle": "marisa.sayachan.org",
           "displayName": "Mari the Deer 🦌🖥️"
         },
-        "likeCount": 2,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T08:55:05.069Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -23921,13 +24005,13 @@
             "handle": "marisa.sayachan.org",
             "displayName": "Mari the Deer 🦌🖥️"
           },
-          "likeCount": 2,
+          "likeCount": 4,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-23T08:55:05.069Z",
           "createdUtc": 1779526505,
-          "ageHours": 0.5,
-          "trendingScore": 2,
+          "ageHours": 1.83,
+          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -23960,7 +24044,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T07:03:04.240Z",
-        "hoursSincePosted": 2.18
+        "hoursSincePosted": 3.69
       },
       "posts": [
         {
@@ -23977,7 +24061,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T07:03:04.240Z",
           "createdUtc": 1779519784,
-          "ageHours": 2.18,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24052,19 +24136,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmifngmoss2e",
-        "cid": "bafyreifqwvpoezhcynyl6ndhehbr3jaimvzevaxkqnxvhpp6biz3fgrt2u",
-        "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmifngmoss2e",
-        "text": "umh ... also entweder wieder mal gpt5 runter holen oder ich steh extrem auf dem schlauch github.com/antirez/ds4/...",
+        "uri": "at://did:plc:xvgjk7ek52uq4fznjje2zfx4/app.bsky.feed.post/3mmj5zvhsxc2x",
+        "cid": "bafyreifiqhllkwbafoh7d5nhvkm3oaajr4cpjb2xc4hwck5gmkmztiyobq",
+        "bskyUrl": "https://bsky.app/profile/tsurutatakumi.info/post/3mmj5zvhsxc2x",
+        "text": "github.com/antirez/ds4 のエージェントを使うことも検討しておく。",
         "author": {
-          "handle": "arnomatic.bsky.social",
-          "displayName": "michaelh"
+          "handle": "tsurutatakumi.info",
+          "displayName": "zztkm"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T02:28:31.966Z",
-        "hoursSincePosted": 1.66
+        "createdAt": "2026-05-23T09:44:59.994Z",
+        "hoursSincePosted": 0.99
       },
       "posts": [
         {
@@ -24195,6 +24279,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xvgjk7ek52uq4fznjje2zfx4/app.bsky.feed.post/3mmj5zvhsxc2x",
+          "cid": "bafyreifiqhllkwbafoh7d5nhvkm3oaajr4cpjb2xc4hwck5gmkmztiyobq",
+          "bskyUrl": "https://bsky.app/profile/tsurutatakumi.info/post/3mmj5zvhsxc2x",
+          "text": "github.com/antirez/ds4 のエージェントを使うことも検討しておく。",
+          "author": {
+            "handle": "tsurutatakumi.info",
+            "displayName": "zztkm"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T09:44:59.994Z",
+          "createdUtc": 1779529499,
+          "ageHours": 0.99,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -27743,7 +27855,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:14:10.000Z",
-        "hoursSincePosted": 4
+        "hoursSincePosted": 5.51
       },
       "posts": [
         {
@@ -27793,7 +27905,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:14:10.000Z",
           "createdUtc": 1779513250,
-          "ageHours": 4,
+          "ageHours": 5.51,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -29203,7 +29315,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T08:43:11.692430Z",
-        "hoursSincePosted": 0.51
+        "hoursSincePosted": 2.02
       },
       "posts": [
         {
@@ -29248,7 +29360,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T08:43:11.692430Z",
           "createdUtc": 1779525791,
-          "ageHours": 0.51,
+          "ageHours": 2.02,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -33358,7 +33470,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T07:02:06.170702Z",
-        "hoursSincePosted": 2.2
+        "hoursSincePosted": 3.71
       },
       "posts": [
         {
@@ -33408,7 +33520,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T07:02:06.170702Z",
           "createdUtc": 1779519726,
-          "ageHours": 2.2,
+          "ageHours": 3.71,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -33740,18 +33852,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmfdaxvox52u",
-        "cid": "bafyreigibwahw6e7pd3tjjrpmwrgobrrivn7zd2dz7i7a3ndesv5252ev4",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmfdaxvox52u",
-        "text": "🟠 OpenClaw 2026.5.20 ships policy plugin, xAI device-code auth, and stronger approval hardening OpenClaw v2026.5.20 is a meaningful platform release, not a routine patch. https://github.com/openclaw/openclaw/releases/tag/v2026.5.20 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmj7ed2hhg2h",
+        "cid": "bafyreiggodbmob3nh5ov4gqlnwxqzmueibc5wxwpyyfl4o5qgjwhzuqa5y",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmj7ed2hhg2h",
+        "text": "🟠 OpenClaw 2026.5.22 beta lands locked npm dependency graphs and a 4,100x model-listing hot-path speedup OpenClaw's 2026.5.22 beta is a meaningful platform release, not a routine beta churn drop. https://github.com/openclaw/openclaw/releases/tag/v2026.5.22-beta.1 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T21:07:46.034718+00:00",
-        "hoursSincePosted": 1.56
+        "createdAt": "2026-05-23T10:08:42.247297+00:00",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -33880,6 +33992,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmj7ed2hhg2h",
+          "cid": "bafyreiggodbmob3nh5ov4gqlnwxqzmueibc5wxwpyyfl4o5qgjwhzuqa5y",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmj7ed2hhg2h",
+          "text": "🟠 OpenClaw 2026.5.22 beta lands locked npm dependency graphs and a 4,100x model-listing hot-path speedup OpenClaw's 2026.5.22 beta is a meaningful platform release, not a routine beta churn drop. https://github.com/openclaw/openclaw/releases/tag/v2026.5.22-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T10:08:42.247297+00:00",
+          "createdUtc": 1779530922,
+          "ageHours": 0.6,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -38253,9 +38393,9 @@
     },
     "holaboss-ai--holaos": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmj3jqkzs22d",
         "cid": "bafyreiae5kv354f5fnwrndlsdqtjpr5twb5tm3gevu3eyilosrtuxcqqqy",
@@ -38265,11 +38405,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
+        "likeCount": 4,
+        "repostCount": 1,
+        "replyCount": 1,
         "createdAt": "2026-05-23T11:00:10+02:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.74
       },
       "posts": [
         {
@@ -38281,13 +38421,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 1,
           "createdAt": "2026-05-23T11:00:10+02:00",
           "createdUtc": 1779526810,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 1.74,
+          "trendingScore": 6.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -40121,7 +40261,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T07:52:35.854Z",
-        "hoursSincePosted": 1.35
+        "hoursSincePosted": 2.87
       },
       "posts": [
         {
@@ -40138,7 +40278,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T07:52:35.854Z",
           "createdUtc": 1779522755,
-          "ageHours": 1.35,
+          "ageHours": 2.87,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -42788,24 +42928,24 @@
       ]
     },
     "donchitos--claude-code-game-studios": {
-      "count7d": 2,
-      "likesSum7d": 3,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:niijlef6kqqslagbf5hlb762/app.bsky.feed.post/3mm6fjifljk2b",
-        "cid": "bafyreihxvlsjgfsbbpwlv4exf3ups4yaqo45mt3rgwotjwmrdclii6sy5a",
-        "bskyUrl": "https://bsky.app/profile/impossible.bsky.social/post/3mm6fjifljk2b",
-        "text": "This is the project in question. github.com/Donchitos/Cl... Most of these projects feel like toys or performance art masquerading as useful tools...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmj5ptvsik2a",
+        "cid": "bafyreicbwykak57t6jxhfracoedxs37whrazd5irdyhssyz5lt74s7nli4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmj5ptvsik2a",
+        "text": "https://github.com/Donchitos/Claude-Code-Game-Studios",
         "author": {
-          "handle": "impossible.bsky.social",
-          "displayName": "Scott Anderson"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-19T02:59:42.230Z",
-        "hoursSincePosted": 5.65
+        "replyCount": 0,
+        "createdAt": "2026-05-23T09:39:22Z",
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -42824,6 +42964,34 @@
           "createdUtc": 1779159582,
           "ageHours": 5.65,
           "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmj5ptvsik2a",
+          "cid": "bafyreicbwykak57t6jxhfracoedxs37whrazd5irdyhssyz5lt74s7nli4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmj5ptvsik2a",
+          "text": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T09:39:22Z",
+          "createdUtc": 1779529162,
+          "ageHours": 1.09,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -46666,7 +46834,7 @@
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-05-23T05:50:37.253760+00:00",
-        "hoursSincePosted": 3.39
+        "hoursSincePosted": 4.9
       },
       "posts": [
         {
@@ -46683,7 +46851,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T05:50:37.253760+00:00",
           "createdUtc": 1779515437,
-          "ageHours": 3.39,
+          "ageHours": 4.9,
           "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
@@ -47557,7 +47725,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T08:18:22.043202Z",
-        "hoursSincePosted": 0.93
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -47574,7 +47742,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T08:18:22.043202Z",
           "createdUtc": 1779524302,
-          "ageHours": 0.93,
+          "ageHours": 2.44,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -47797,7 +47965,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T05:24:25.962Z",
-        "hoursSincePosted": 3.82
+        "hoursSincePosted": 5.34
       },
       "posts": [
         {
@@ -47814,7 +47982,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T05:24:25.962Z",
           "createdUtc": 1779513865,
-          "ageHours": 3.82,
+          "ageHours": 5.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -47899,7 +48067,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T04:59:59.584Z",
-        "hoursSincePosted": 4.23
+        "hoursSincePosted": 5.74
       },
       "posts": [
         {
@@ -47916,7 +48084,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T04:59:59.584Z",
           "createdUtc": 1779512399,
-          "ageHours": 4.23,
+          "ageHours": 5.74,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -47934,7 +48102,7 @@
     },
     "uzdoom--uzdoom": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -47946,11 +48114,11 @@
           "handle": "marisa.sayachan.org",
           "displayName": "Mari the Deer 🦌🖥️"
         },
-        "likeCount": 2,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T08:55:05.069Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -47962,13 +48130,13 @@
             "handle": "marisa.sayachan.org",
             "displayName": "Mari the Deer 🦌🖥️"
           },
-          "likeCount": 2,
+          "likeCount": 4,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-23T08:55:05.069Z",
           "createdUtc": 1779526505,
-          "ageHours": 0.5,
-          "trendingScore": 2,
+          "ageHours": 1.83,
+          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -48001,7 +48169,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T07:03:04.240Z",
-        "hoursSincePosted": 2.18
+        "hoursSincePosted": 3.69
       },
       "posts": [
         {
@@ -48018,7 +48186,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T07:03:04.240Z",
           "createdUtc": 1779519784,
-          "ageHours": 2.18,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48088,14 +48256,14 @@
   },
   "leaderboard": [
     {
-      "fullName": "EricKrouss/not-twitter",
+      "fullName": "holaboss-ai/holaOS",
       "count7d": 1,
-      "likesSum7d": 8
+      "likesSum7d": 4
     },
     {
       "fullName": "UZDoom/UZDoom",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 4
     },
     {
       "fullName": "anomalyco/models.dev",
@@ -48104,11 +48272,6 @@
     },
     {
       "fullName": "eigenpal/docx-editor",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "holaboss-ai/holaOS",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -48123,9 +48286,14 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "Zuhaitz-dev/URPL",
+      "fullName": "antirez/ds4",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Donchitos/Claude-Code-Game-Studios",
+      "count7d": 1,
+      "likesSum7d": 0
     },
     {
       "fullName": "Fission-AI/OpenSpec",
@@ -48139,6 +48307,11 @@
     },
     {
       "fullName": "gsd-build/get-shit-done",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     },

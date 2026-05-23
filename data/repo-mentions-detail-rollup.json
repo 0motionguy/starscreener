@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-23T08:22:47.547Z",
-  "scanRunId": "sweep-2026-05-23T08:22:39.184Z",
+  "computedAt": "2026-05-23T13:29:00.497Z",
+  "scanRunId": "sweep-2026-05-23T13:28:51.622Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -29,10 +29,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 7,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -63,19 +63,6 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://research.perplexity.ai/articles/designing-refining-and-maintaining-agent-skills-at-perplexity",
-              "title": "Designing, Refining, and Maintaining Agent Skills at Perplexity",
-              "text": "",
-              "author": "Garbage",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T11:40:55.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
               "url": "https://github.com/JustVugg/gutenberg-cli",
               "title": "Show HN: Gutenberg – Any URL to verified CLI and MCP server and agent skills",
               "text": "",
@@ -98,6 +85,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T10:35:39.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://github.com/Kotlin/kotlin-agent-skills/",
+              "title": "Kotlin-agent-skills: A collection of skills for projects using Kotlin",
+              "text": "",
+              "author": "rezaprima",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T13:51:10.000Z"
             }
           ]
         }
@@ -1140,23 +1140,75 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 1,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://graphify.net/",
-              "title": "Knowledge Graphs for AI Coding Assistants",
+              "url": "https://www.economist.com/graphic-detail/2026/05/17/russia-is-starting-to-lose-ground-in-ukraine",
+              "title": "Russia is starting to lose ground in Ukraine",
               "text": "",
-              "author": "pmg101",
+              "author": "giuliomagnifico",
               "engagement": {
-                "score": 1,
+                "score": 56,
+                "comments": 80
+              },
+              "observedAt": "2026-05-18T12:56:48.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://spectrum.ieee.org/bolt-graphics-zeus-gpu",
+              "title": "Bolt Challenges Nvidia with a Focus on Cutting-Edge Graphics",
+              "text": "",
+              "author": "oldnetguy",
+              "engagement": {
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-18T19:09:30.000Z"
+              "observedAt": "2026-05-21T14:29:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://mickael.canouil.fr/posts/2026-05-20-gribouille-grammar-of-graphics-for-typst/",
+              "title": "Gribouille: A Grammar of Graphics for Typst",
+              "text": "",
+              "author": "mcanouil",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T10:44:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://graphmycode.com",
+              "title": "GraphMyCode –Visualize any codebase as an interactive knowledge graph,in-browser",
+              "text": "",
+              "author": "FValero",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T08:21:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://github.com/NuxTuxSux/ASDL",
+              "title": "ASDL: Enable graphic programming when no other ways are easily viable",
+              "text": "",
+              "author": "tosh",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T15:08:04.000Z"
             }
           ]
         }
@@ -1744,21 +1796,21 @@
       "fullName": "Lum1104/Understand-Anything",
       "totalMentions7d": 1,
       "perSource": {
-        "hackernews": {
+        "bluesky": {
           "count7d": 1,
           "top": [
             {
-              "source": "hackernews",
+              "source": "bluesky",
               "fullName": "Lum1104/Understand-Anything",
-              "url": "https://news.ycombinator.com/item?id=48084086",
-              "title": "Ask HN: Is this the SWE workflow of the future?",
-              "text": "Internally transferred to a new team in a top-10 F500 company. This team is pushing incredibly hard to be seen as &quot;AI-First&quot; &amp; is very opinionated about what other teams should be doing.<p>I was explicitly told I am not to write any code by hand. Claude usage is mandatory coupled with a proprietary superpowers &#x2F; speckit &#x2F; GSD framework with 100+ agents and skill files.<p>All code reviews are agent driven. No one takes the time to actually understand anything. Documentatio",
-              "author": "mc-0",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. http",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
               "engagement": {
-                "score": 19,
-                "comments": 15
+                "score": 0,
+                "comments": 1
               },
-              "observedAt": "2026-05-10T14:03:41.000Z"
+              "observedAt": "2026-05-23T13:22:39.168Z"
             }
           ]
         }
@@ -3628,10 +3680,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 39,
+      "totalMentions7d": 157,
       "perSource": {
         "hackernews": {
-          "count7d": 39,
+          "count7d": 157,
           "top": [
             {
               "source": "hackernews",
@@ -3655,7 +3707,7 @@
               "author": "tedsanders",
               "engagement": {
                 "score": 1411,
-                "comments": 1036
+                "comments": 1037
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -3680,7 +3732,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 675,
+                "score": 676,
                 "comments": 248
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -5970,10 +6022,23 @@
               "text": "",
               "author": "OuterVale",
               "engagement": {
-                "score": 363,
+                "score": 364,
                 "comments": 242
               },
               "observedAt": "2026-05-21T07:21:55.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/business/retail-consumer/kindle-loyalists-scramble-amazon-turns-page-old-e-readers-2026-05-19/",
+              "title": "Kindle loyalists scramble as Amazon turns page on old e-readers",
+              "text": "",
+              "author": "cf100clunk",
+              "engagement": {
+                "score": 45,
+                "comments": 57
+              },
+              "observedAt": "2026-05-19T15:30:01.000Z"
             },
             {
               "source": "hackernews",
@@ -5984,22 +6049,9 @@
               "author": "speckx",
               "engagement": {
                 "score": 17,
-                "comments": 20
+                "comments": 21
               },
               "observedAt": "2026-05-19T04:28:05.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/business/retail-consumer/kindle-loyalists-scramble-amazon-turns-page-old-e-readers-2026-05-19/",
-              "title": "Kindle loyalists scramble as Amazon turns page on old e-readers",
-              "text": "",
-              "author": "cf100clunk",
-              "engagement": {
-                "score": 13,
-                "comments": 7
-              },
-              "observedAt": "2026-05-19T15:30:01.000Z"
             },
             {
               "source": "hackernews",
@@ -7599,10 +7651,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 10,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -7633,12 +7685,25 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
+              "url": "https://www.theguardian.com/world/2026/may/22/gaza-flotilla-activists-allege-sexual-assault-and-in-israeli-detention",
+              "title": "Gaza flotilla activists allege sexual assault and rape in Israeli detention",
+              "text": "",
+              "author": "0x54MUR41",
+              "engagement": {
+                "score": 39,
+                "comments": 5
+              },
+              "observedAt": "2026-05-22T23:48:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "floci-io/floci",
               "url": "https://live-awp-florida.pantheonsite.io/press-releases/civil-rights-lawyers-secure-485000-settlement-for-fwc-biologist-fired-over-charlie-kirk-social-media-post/",
               "title": "ACLU Secures $485,000 Settlement for FWC Biologist Fired over Charlie Kirk Post",
               "text": "",
               "author": "ceejayoz",
               "engagement": {
-                "score": 19,
+                "score": 20,
                 "comments": 5
               },
               "observedAt": "2026-05-21T20:25:40.000Z"
@@ -7655,19 +7720,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T21:26:58.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "floci-io/floci",
-              "url": "https://www.techpolicy.press/stochastic-flocks-and-the-critical-problem-of-useful-ai/",
-              "title": "Stochastic Flocks and the Critical Problem of 'Useful' AI",
-              "text": "",
-              "author": "bryanrasmussen",
-              "engagement": {
-                "score": 6,
-                "comments": 0
-              },
-              "observedAt": "2026-05-17T12:55:57.000Z"
             }
           ]
         }
@@ -7967,26 +8019,8 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 5,
+      "totalMentions7d": 4,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "tinyhumansai/openhuman",
-              "url": "https://www.notesasm.com/",
-              "title": "Show HN: Coding agent where a second agent QAs every PR in a real browser",
-              "text": "Hi HN. I&#x27;ve been building this for the last few months and it&#x27;s at a state where outside eyes would help more than another week of solo iteration.<p>It&#x27;s a kanban board where each ticket runs two agents back to back:<p>Build agent: runs in a sandboxed temp dir against a shallow clone of the user&#x27;s repo, makes the change, pushes a branch, opens a PR. Uses the Claude Agent SDK.<p>QA agent: waits for the preview deploy to come up, then drives a real browser via Browserbase again",
-              "author": "kavin_key",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T18:54:10.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 4,
           "top": [
@@ -8516,24 +8550,11 @@
     },
     "K-Dense-AI/scientific-agent-skills": {
       "fullName": "K-Dense-AI/scientific-agent-skills",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
-            {
-              "source": "bluesky",
-              "fullName": "K-Dense-AI/scientific-agent-skills",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlxwqyp7fq62",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/oven-sh/bun - Rust, 448 stars today 2. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 646 stars today 3. https://github.com/obra/supe",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/oven-sh/bun - Rust, 448 stars today 2. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 646 stars today 3. https://github.com/obra/superpowers - Shell, 1648 stars today 4. https://github.com/Anil-matcha/Open-Generative-AI - […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T13:19:32.670Z"
-            },
             {
               "source": "bluesky",
               "fullName": "K-Dense-AI/scientific-agent-skills",
@@ -8553,10 +8574,10 @@
     },
     "neilsonnn/image-blaster": {
       "fullName": "neilsonnn/image-blaster",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -8583,19 +8604,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T17:34:48.760Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "neilsonnn/image-blaster",
-              "url": "https://bsky.app/profile/hnfeed.bsky.social/post/3mlxigi5ppu2p",
-              "title": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image https://github.com/neilsonnn/image-blaster [comments] [159 points]",
-              "text": "Image-blaster: Creates 3D environments, SFX, and meshes from a single image https://github.com/neilsonnn/image-blaster [comments] [159 points]",
-              "author": "hnfeed.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T09:03:04.574Z"
             }
           ]
         }
@@ -8627,10 +8635,10 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 8,
+      "totalMentions7d": 9,
       "perSource": {
         "bluesky": {
-          "count7d": 8,
+          "count7d": 9,
           "top": [
             {
               "source": "bluesky",
@@ -8640,7 +8648,7 @@
               "text": "¡No quemes tokens con tu IA explorando tu proyecto! Crea un grafo semántico local de tu código con esto ✓ -92% tool calls ✓ 71% más rápido explorando código ✓ Claude Code, Cursor, Codex y OpenCode Local y de código abierto: → github.com/colbymchenry/codegraph",
               "author": "midu.dev",
               "engagement": {
-                "score": 11,
+                "score": 12,
                 "comments": 3
               },
               "observedAt": "2026-05-18T12:56:17.665Z"
@@ -8703,10 +8711,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 73,
+      "totalMentions7d": 74,
       "perSource": {
         "hackernews": {
-          "count7d": 73,
+          "count7d": 74,
           "top": [
             {
               "source": "hackernews",
@@ -8716,7 +8724,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 675,
+                "score": 676,
                 "comments": 248
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -8737,12 +8745,25 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
+              "url": "https://cursor.com/blog/composer-2-5",
+              "title": "Cursor Introduces Composer 2.5",
+              "text": "<a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;cursor_ai&#x2F;status&#x2F;2056415413077233983</a>",
+              "author": "asar",
+              "engagement": {
+                "score": 286,
+                "comments": 225
+              },
+              "observedAt": "2026-05-18T17:20:43.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
               "url": "https://www.mathworks.com/company/aboutus/founders/clevemoler.html",
               "title": "Cleve Moler has died",
               "text": "",
               "author": "mychele",
               "engagement": {
-                "score": 281,
+                "score": 284,
                 "comments": 27
               },
               "observedAt": "2026-05-22T02:35:54.000Z"
@@ -8755,23 +8776,10 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft</a><p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw</a>",
               "author": "Jotalea",
               "engagement": {
-                "score": 200,
-                "comments": 41
+                "score": 237,
+                "comments": 55
               },
               "observedAt": "2026-05-20T20:19:46.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://electrek.co/2026/05/16/fisker-ocean-open-source-ev-story-after-bankruptcy/",
-              "title": "Fisker went bankrupt and owners built an open source car company from the ashes",
-              "text": "",
-              "author": "breve",
-              "engagement": {
-                "score": 177,
-                "comments": 65
-              },
-              "observedAt": "2026-05-16T23:59:47.000Z"
             }
           ]
         }
@@ -8779,24 +8787,11 @@
     },
     "Anil-matcha/Open-Generative-AI": {
       "fullName": "Anil-matcha/Open-Generative-AI",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
-            {
-              "source": "bluesky",
-              "fullName": "Anil-matcha/Open-Generative-AI",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mlxwqyp7fq62",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/oven-sh/bun - Rust, 448 stars today 2. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 646 stars today 3. https://github.com/obra/supe",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/oven-sh/bun - Rust, 448 stars today 2. https://github.com/K-Dense-AI/scientific-agent-skills - Python, 646 stars today 3. https://github.com/obra/superpowers - Shell, 1648 stars today 4. https://github.com/Anil-matcha/Open-Generative-AI - […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T13:19:32.670Z"
-            },
             {
               "source": "bluesky",
               "fullName": "Anil-matcha/Open-Generative-AI",
@@ -8816,7 +8811,7 @@
     },
     "orailnoor/DroidDesk": {
       "fullName": "orailnoor/DroidDesk",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8835,33 +8830,15 @@
               "observedAt": "2026-05-16T15:26:47.000Z"
             }
           ]
-        },
-        "bluesky": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "bluesky",
-              "fullName": "orailnoor/DroidDesk",
-              "url": "https://bsky.app/profile/stephenjn.bsky.social/post/3mlxp333gjl2v",
-              "title": "View more here:https://github.com/orailnoor/DroidDesk and don't forget to heart or fork his repo!",
-              "text": "View more here:https://github.com/orailnoor/DroidDesk and don't forget to heart or fork his repo!",
-              "author": "stephenjn.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T11:01:57.862Z"
-            }
-          ]
         }
       }
     },
     "gi-dellav/zerostack": {
       "fullName": "gi-dellav/zerostack",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -8888,6 +8865,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-16T22:21:33.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "gi-dellav/zerostack",
+              "url": "https://zenstack.dev/blog/mcp-code-mode",
+              "title": "How to Save Bloated MCP with Code Mode",
+              "text": "",
+              "author": "jsgood",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T07:09:24.000Z"
             }
           ]
         }
@@ -9002,10 +8992,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 121,
+      "totalMentions7d": 120,
       "perSource": {
         "hackernews": {
-          "count7d": 120,
+          "count7d": 119,
           "top": [
             {
               "source": "hackernews",
@@ -9029,7 +9019,7 @@
               "author": "tedsanders",
               "engagement": {
                 "score": 1411,
-                "comments": 1036
+                "comments": 1037
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -9054,7 +9044,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 675,
+                "score": 676,
                 "comments": 248
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -9941,10 +9931,10 @@
     },
     "anthropics/claude-plugins-official": {
       "fullName": "anthropics/claude-plugins-official",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "bluesky": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -9984,6 +9974,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-20T15:17:34.372Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "anthropics/claude-plugins-official",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. http",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "2026-05-23T13:22:39.168Z"
             }
           ]
         }

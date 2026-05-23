@@ -796,7 +796,10 @@ async function main() {
     mergedSignals = mergeAndKeepLastN(existingSignals, allSignals, {
       idKey: "id",
       scoreKey: "publishedAt",
-      keepN: 50,
+      // 250 = ~6-7 items per source at 39 sources. Was 50 (only top scorers),
+      // which crowded out lower-volume sources like crunchbase-news / yc-blog
+      // and prevented their items from reaching TOOLBOX dual-write.
+      keepN: 250,
     });
   }
 

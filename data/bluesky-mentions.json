@@ -1,29 +1,29 @@
 {
-  "fetchedAt": "2026-05-22T23:20:14.822Z",
+  "fetchedAt": "2026-05-23T04:08:00.338Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wixdgg4ejykqrsoqgi7c2fk6/app.bsky.feed.post/3mmf7v2tcak2t",
-        "cid": "bafyreih46a3oxdshiecsqatpwyp4rwwd6prx2ft7azhk5vqdirt33saq6e",
-        "bskyUrl": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
-        "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
+        "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmifngmoss2e",
+        "cid": "bafyreifqwvpoezhcynyl6ndhehbr3jaimvzevaxkqnxvhpp6biz3fgrt2u",
+        "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmifngmoss2e",
+        "text": "umh ... also entweder wieder mal gpt5 runter holen oder ich steh extrem auf dem schlauch github.com/antirez/ds4/...",
         "author": {
-          "handle": "temujin9.t9productions.com",
-          "displayName": "Prose and Khans"
+          "handle": "arnomatic.bsky.social",
+          "displayName": "michaelh"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T20:07:26.371Z",
-        "hoursSincePosted": 2.57
+        "replyCount": 0,
+        "createdAt": "2026-05-23T02:28:31.966Z",
+        "hoursSincePosted": 1.66
       },
       "posts": [
         {
@@ -154,6 +154,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmifngmoss2e",
+          "cid": "bafyreifqwvpoezhcynyl6ndhehbr3jaimvzevaxkqnxvhpp6biz3fgrt2u",
+          "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmifngmoss2e",
+          "text": "umh ... also entweder wieder mal gpt5 runter holen oder ich steh extrem auf dem schlauch github.com/antirez/ds4/...",
+          "author": {
+            "handle": "arnomatic.bsky.social",
+            "displayName": "michaelh"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T02:28:31.966Z",
+          "createdUtc": 1779503311,
+          "ageHours": 1.66,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -12845,25 +12873,53 @@
     },
     "warpdotdev/warp": {
       "count7d": 7,
-      "likesSum7d": 7,
+      "likesSum7d": 8,
       "repostsSum7d": 0,
       "repliesSum7d": 6,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6nnho25",
-        "cid": "bafyreiett5mwty2i27yodr2bdpr64kjbnzgxk2udbngnf6wzp5bft4o5dm",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6nnho25",
-        "text": "If you’ve run into a bug that bugs you, come contribute. github.com/warpdotdev/... ⭐",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
+        "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
+        "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-22T23:09:51.696629Z",
-        "hoursSincePosted": 0.5
+        "replyCount": 1,
+        "createdAt": "2026-05-22T23:09:51.080758Z",
+        "hoursSincePosted": 4.97
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
+          "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
+          "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.080758Z",
+          "createdUtc": 1779491391,
+          "ageHours": 4.97,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjhmxhn2b",
           "cid": "bafyreifetlvdh7nq435cspuxga5hvqhsmvythbzmvr7v4zzq7wkcwdjrsa",
@@ -12906,7 +12962,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T23:09:51.696629Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -12934,7 +12990,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.599525Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -12962,7 +13018,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.495632Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -12990,7 +13046,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.384532Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -13018,7 +13074,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.287373Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -13046,35 +13102,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.192076Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
-          "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
-          "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-22T23:09:51.080758Z",
-          "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -15927,10 +15955,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mlx5dqbevs2p",
-        "cid": "bafyreif3xeioabiuywb4uqgcirqtixj2xtzpgzkyhdlnt3se3bxtnnnzzy",
-        "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mlx5dqbevs2p",
-        "text": "LLM Wiki 是此前 Karpathy 提出来的概念：https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f 他提出的是概念。我的具体搭建的方式是用 qmd（https://github.com/tobi/qmd）提供搜索，然后基于 kb-skills（https://louiswang524.github.io/blog/llm-knowledge-base/）的理念写了一套自己的 skill，将来可以考虑公开。",
+        "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
+        "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
+        "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mmij6ivqma2x",
+        "text": "如果你用 qmd 来做 Markdown 知识库的搜索，记得升级到本周发布的 2.5.1。老版本的中文分词有问题，中文内容的召回非常差。 这是我无意中发现的。我想知道 qmd 用的 Qwen 模型是否存在内容审查倾向，拿「翻墙」作为关键字测试 qmd 搜索，结果它几乎什么都搜不出来。我拉上 ChatGPT 跟我一起 debug 这个问题，最终发现 2.1.0 在 SQLite 中建立的内容索引根本没做中文分词！ github.com/tobi/qmd/rel...",
         "author": {
           "handle": "catchen.me",
           "displayName": "Cat Chen"
@@ -15938,10 +15966,39 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T05:44:39.567Z",
-        "hoursSincePosted": 4.92
+        "createdAt": "2026-05-23T03:31:45.585Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
+        {
+          "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
+          "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
+          "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mmij6ivqma2x",
+          "text": "如果你用 qmd 来做 Markdown 知识库的搜索，记得升级到本周发布的 2.5.1。老版本的中文分词有问题，中文内容的召回非常差。 这是我无意中发现的。我想知道 qmd 用的 Qwen 模型是否存在内容审查倾向，拿「翻墙」作为关键字测试 qmd 搜索，结果它几乎什么都搜不出来。我拉上 ChatGPT 跟我一起 debug 这个问题，最终发现 2.1.0 在 SQLite 中建立的内容索引根本没做中文分词！ github.com/tobi/qmd/rel...",
+          "author": {
+            "handle": "catchen.me",
+            "displayName": "Cat Chen"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T03:31:45.585Z",
+          "createdUtc": 1779507105,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mlx5dqbevs2p",
           "cid": "bafyreif3xeioabiuywb4uqgcirqtixj2xtzpgzkyhdlnt3se3bxtnnnzzy",
@@ -18045,21 +18102,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
-        "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
-        "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmbyxlqa4f2x",
-        "text": "🍻 rustnet 🍻 Cross-platform network monitoring terminal UI with deep packet inspection 🔗 https://github.com/domcyrus/rustnet #homebrew #newpkg #macos #linux #formula",
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mmicqdwgbe2z",
+        "cid": "bafyreiftpcho4vcv7ejsldj3mrjvhzp776e5ygc3pdbrkhrpn76wthlbc4",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mmicqdwgbe2z",
+        "text": "GitHub - domcyrus/rustnet: Per-process network monitoring for your terminal with deep packet inspection. Cross-platform, sandboxed. https://github.com/domcyrus/rustnet",
         "author": {
-          "handle": "homebrew-new-pkgs.bsky.social",
-          "displayName": "Homebrew New Packages"
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T13:25:35.772158+00:00",
-        "hoursSincePosted": 2.5
+        "createdAt": "2026-05-23T01:36:28.480Z",
+        "hoursSincePosted": 2.53
       },
       "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mmicqdwgbe2z",
+          "cid": "bafyreiftpcho4vcv7ejsldj3mrjvhzp776e5ygc3pdbrkhrpn76wthlbc4",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mmicqdwgbe2z",
+          "text": "GitHub - domcyrus/rustnet: Per-process network monitoring for your terminal with deep packet inspection. Cross-platform, sandboxed. https://github.com/domcyrus/rustnet",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T01:36:28.480Z",
+          "createdUtc": 1779500188,
+          "ageHours": 2.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "domcyrus/rustnet",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
           "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
@@ -23004,26 +23089,54 @@
       ]
     },
     "unprovable/ShadowCat": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
-        "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
-        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhkxit4ug2z",
-        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
+        "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmi3cers5c2w",
+        "cid": "bafyreifztnmufjki32roevlmelga7bkg7m6iqh5y5jrwxjavx4arc5hv2m",
+        "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmi3cers5c2w",
+        "text": "📰 Show HN: ShadowCat – file transfer through QR Codes in a Browser 🔗 https://github.com/unprovable/ShadowCat 💬 Discuss on HN",
         "author": {
-          "handle": "hn100.atproto.rocks",
-          "displayName": "Hacker News 100"
+          "handle": "hot.hn",
+          "displayName": "Hacker News Hot 100"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T18:30:58.697063+00:00",
-        "hoursSincePosted": 1.63
+        "createdAt": "2026-05-22T23:23:23.278Z",
+        "hoursSincePosted": 4.74
       },
       "posts": [
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmi3cers5c2w",
+          "cid": "bafyreifztnmufjki32roevlmelga7bkg7m6iqh5y5jrwxjavx4arc5hv2m",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmi3cers5c2w",
+          "text": "📰 Show HN: ShadowCat – file transfer through QR Codes in a Browser 🔗 https://github.com/unprovable/ShadowCat 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T23:23:23.278Z",
+          "createdUtc": 1779492203,
+          "ageHours": 4.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
           "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
@@ -23184,7 +23297,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-22T21:51:37.413Z",
-        "hoursSincePosted": 1.48
+        "hoursSincePosted": 6.27
       },
       "posts": [
         {
@@ -23200,7 +23313,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T21:51:37.413Z",
           "createdUtc": 1779486697,
-          "ageHours": 1.48,
+          "ageHours": 6.27,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -23215,28 +23328,240 @@
           ]
         }
       ]
+    },
+    "anomalyco/models.dev": {
+      "count7d": 5,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
+        "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
+        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mmhym7w3rj2z",
+        "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev",
+        "author": {
+          "handle": "mm-hacker-news.bsky.social",
+          "displayName": "Hacker News"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T22:35:12.465Z",
+        "hoursSincePosted": 5.55
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
+          "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mmhym7w3rj2z",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev",
+          "author": {
+            "handle": "mm-hacker-news.bsky.social",
+            "displayName": "Hacker News"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T22:35:12.465Z",
+          "createdUtc": 1779489312,
+          "ageHours": 5.55,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mmhusrggwe2y",
+          "cid": "bafyreich7q4ckwzb4cpyyk3oezotoklbqxdc6hsfmnahb73b7ly5zx22ie",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mmhusrggwe2y",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev (https://news.ycombinator.com/item?id=48241172)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:27:16.624Z",
+          "createdUtc": 1779485236,
+          "ageHours": 6.68,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmiiahrt3z2q",
+          "cid": "bafyreiatczg4z2r46yfb5texqjmwi7j2sv3jpbrpollh7hvlgr576c5vya",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmiiahrt3z2q",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T03:14:58.159038Z",
+          "createdUtc": 1779506098,
+          "ageHours": 0.88,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmicgzizfw22",
+          "cid": "bafyreibrd6r52jely32ugirgsfny2cdlpavs4ihtyphry4hbo6wdkmogli",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmicgzizfw22",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev https://news.ycombinator.com/item?id=48241172",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T01:31:15.571407+00:00",
+          "createdUtc": 1779499875,
+          "ageHours": 2.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mmhvozfgfm2l",
+          "cid": "bafyreif6q2ipcclvljsdxolllpdbffflafhfzkvnlfhfwz2qqnde5qccjy",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mmhvozfgfm2l",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev (https://news.ycombinator.com/item?id=48241172)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:43:04.603Z",
+          "createdUtc": 1779486184,
+          "ageHours": 6.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TeamNewPipe/NewPipe": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hto6fpfzyt3zrxvj6lpidqrt/app.bsky.feed.post/3mmi4kvq76s2r",
+        "cid": "bafyreibebax6igreghietg77waoihtq7y6mcci4pnmr2ijywhsbgrm4dke",
+        "bskyUrl": "https://bsky.app/profile/metroplex.bot/post/3mmi4kvq76s2r",
+        "text": "github.com/TeamNewPipe/...",
+        "author": {
+          "handle": "metroplex.bot",
+          "displayName": "MetropleX"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T23:46:03.470Z",
+        "hoursSincePosted": 4.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hto6fpfzyt3zrxvj6lpidqrt/app.bsky.feed.post/3mmi4kvq76s2r",
+          "cid": "bafyreibebax6igreghietg77waoihtq7y6mcci4pnmr2ijywhsbgrm4dke",
+          "bskyUrl": "https://bsky.app/profile/metroplex.bot/post/3mmi4kvq76s2r",
+          "text": "github.com/TeamNewPipe/...",
+          "author": {
+            "handle": "metroplex.bot",
+            "displayName": "MetropleX"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T23:46:03.470Z",
+          "createdUtc": 1779493563,
+          "ageHours": 4.37,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "antirez--ds4": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wixdgg4ejykqrsoqgi7c2fk6/app.bsky.feed.post/3mmf7v2tcak2t",
-        "cid": "bafyreih46a3oxdshiecsqatpwyp4rwwd6prx2ft7azhk5vqdirt33saq6e",
-        "bskyUrl": "https://bsky.app/profile/temujin9.t9productions.com/post/3mmf7v2tcak2t",
-        "text": "github.com/antirez/ds4/... is what i'm using (on framework running nixos) and it seems stable so far",
+        "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmifngmoss2e",
+        "cid": "bafyreifqwvpoezhcynyl6ndhehbr3jaimvzevaxkqnxvhpp6biz3fgrt2u",
+        "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmifngmoss2e",
+        "text": "umh ... also entweder wieder mal gpt5 runter holen oder ich steh extrem auf dem schlauch github.com/antirez/ds4/...",
         "author": {
-          "handle": "temujin9.t9productions.com",
-          "displayName": "Prose and Khans"
+          "handle": "arnomatic.bsky.social",
+          "displayName": "michaelh"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-21T20:07:26.371Z",
-        "hoursSincePosted": 2.57
+        "replyCount": 0,
+        "createdAt": "2026-05-23T02:28:31.966Z",
+        "hoursSincePosted": 1.66
       },
       "posts": [
         {
@@ -23367,6 +23692,34 @@
           "createdUtc": 1779116470,
           "ageHours": 1.55,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dkj3jut5vjodvmjaxuaaecsb/app.bsky.feed.post/3mmifngmoss2e",
+          "cid": "bafyreifqwvpoezhcynyl6ndhehbr3jaimvzevaxkqnxvhpp6biz3fgrt2u",
+          "bskyUrl": "https://bsky.app/profile/arnomatic.bsky.social/post/3mmifngmoss2e",
+          "text": "umh ... also entweder wieder mal gpt5 runter holen oder ich steh extrem auf dem schlauch github.com/antirez/ds4/...",
+          "author": {
+            "handle": "arnomatic.bsky.social",
+            "displayName": "michaelh"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T02:28:31.966Z",
+          "createdUtc": 1779503311,
+          "ageHours": 1.66,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -36058,25 +36411,53 @@
     },
     "warpdotdev--warp": {
       "count7d": 7,
-      "likesSum7d": 7,
+      "likesSum7d": 8,
       "repostsSum7d": 0,
       "repliesSum7d": 6,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k6nnho25",
-        "cid": "bafyreiett5mwty2i27yodr2bdpr64kjbnzgxk2udbngnf6wzp5bft4o5dm",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k6nnho25",
-        "text": "If you’ve run into a bug that bugs you, come contribute. github.com/warpdotdev/... ⭐",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
+        "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
+        "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-22T23:09:51.696629Z",
-        "hoursSincePosted": 0.5
+        "replyCount": 1,
+        "createdAt": "2026-05-22T23:09:51.080758Z",
+        "hoursSincePosted": 4.97
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
+          "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
+          "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-22T23:09:51.080758Z",
+          "createdUtc": 1779491391,
+          "ageHours": 4.97,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlvsjhmxhn2b",
           "cid": "bafyreifetlvdh7nq435cspuxga5hvqhsmvythbzmvr7v4zzq7wkcwdjrsa",
@@ -36119,7 +36500,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T23:09:51.696629Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -36147,7 +36528,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.599525Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -36175,7 +36556,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.495632Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -36203,7 +36584,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.384532Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -36231,7 +36612,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.287373Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -36259,35 +36640,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-22T23:09:51.192076Z",
           "createdUtc": 1779491391,
-          "ageHours": 0.5,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
-          "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
-          "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-22T23:09:51.080758Z",
-          "createdUtc": 1779491391,
-          "ageHours": 0.5,
+          "ageHours": 4.97,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -39140,10 +39493,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mlx5dqbevs2p",
-        "cid": "bafyreif3xeioabiuywb4uqgcirqtixj2xtzpgzkyhdlnt3se3bxtnnnzzy",
-        "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mlx5dqbevs2p",
-        "text": "LLM Wiki 是此前 Karpathy 提出来的概念：https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f 他提出的是概念。我的具体搭建的方式是用 qmd（https://github.com/tobi/qmd）提供搜索，然后基于 kb-skills（https://louiswang524.github.io/blog/llm-knowledge-base/）的理念写了一套自己的 skill，将来可以考虑公开。",
+        "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
+        "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
+        "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mmij6ivqma2x",
+        "text": "如果你用 qmd 来做 Markdown 知识库的搜索，记得升级到本周发布的 2.5.1。老版本的中文分词有问题，中文内容的召回非常差。 这是我无意中发现的。我想知道 qmd 用的 Qwen 模型是否存在内容审查倾向，拿「翻墙」作为关键字测试 qmd 搜索，结果它几乎什么都搜不出来。我拉上 ChatGPT 跟我一起 debug 这个问题，最终发现 2.1.0 在 SQLite 中建立的内容索引根本没做中文分词！ github.com/tobi/qmd/rel...",
         "author": {
           "handle": "catchen.me",
           "displayName": "Cat Chen"
@@ -39151,10 +39504,39 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-16T05:44:39.567Z",
-        "hoursSincePosted": 4.92
+        "createdAt": "2026-05-23T03:31:45.585Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
+        {
+          "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mmij6ivqma2x",
+          "cid": "bafyreigqvivqt4vu55ovtpqxnojsh3aumipc7dxubtkuj43o5ktf3ofbxa",
+          "bskyUrl": "https://bsky.app/profile/catchen.me/post/3mmij6ivqma2x",
+          "text": "如果你用 qmd 来做 Markdown 知识库的搜索，记得升级到本周发布的 2.5.1。老版本的中文分词有问题，中文内容的召回非常差。 这是我无意中发现的。我想知道 qmd 用的 Qwen 模型是否存在内容审查倾向，拿「翻墙」作为关键字测试 qmd 搜索，结果它几乎什么都搜不出来。我拉上 ChatGPT 跟我一起 debug 这个问题，最终发现 2.1.0 在 SQLite 中建立的内容索引根本没做中文分词！ github.com/tobi/qmd/rel...",
+          "author": {
+            "handle": "catchen.me",
+            "displayName": "Cat Chen"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T03:31:45.585Z",
+          "createdUtc": 1779507105,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:m6eciwa66lnldukkffzddwnx/app.bsky.feed.post/3mlx5dqbevs2p",
           "cid": "bafyreif3xeioabiuywb4uqgcirqtixj2xtzpgzkyhdlnt3se3bxtnnnzzy",
@@ -41258,21 +41640,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
-        "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
-        "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmbyxlqa4f2x",
-        "text": "🍻 rustnet 🍻 Cross-platform network monitoring terminal UI with deep packet inspection 🔗 https://github.com/domcyrus/rustnet #homebrew #newpkg #macos #linux #formula",
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mmicqdwgbe2z",
+        "cid": "bafyreiftpcho4vcv7ejsldj3mrjvhzp776e5ygc3pdbrkhrpn76wthlbc4",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mmicqdwgbe2z",
+        "text": "GitHub - domcyrus/rustnet: Per-process network monitoring for your terminal with deep packet inspection. Cross-platform, sandboxed. https://github.com/domcyrus/rustnet",
         "author": {
-          "handle": "homebrew-new-pkgs.bsky.social",
-          "displayName": "Homebrew New Packages"
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-20T13:25:35.772158+00:00",
-        "hoursSincePosted": 2.5
+        "createdAt": "2026-05-23T01:36:28.480Z",
+        "hoursSincePosted": 2.53
       },
       "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mmicqdwgbe2z",
+          "cid": "bafyreiftpcho4vcv7ejsldj3mrjvhzp776e5ygc3pdbrkhrpn76wthlbc4",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mmicqdwgbe2z",
+          "text": "GitHub - domcyrus/rustnet: Per-process network monitoring for your terminal with deep packet inspection. Cross-platform, sandboxed. https://github.com/domcyrus/rustnet",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T01:36:28.480Z",
+          "createdUtc": 1779500188,
+          "ageHours": 2.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "domcyrus/rustnet",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmbyxlqa4f2x",
           "cid": "bafyreihf3ueg7f3di2n3mj6wsswovburxutzzjv5in3atedimgbgr7nvhq",
@@ -46217,26 +46627,54 @@
       ]
     },
     "unprovable--shadowcat": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
-        "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
-        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmhkxit4ug2z",
-        "text": "Show HN: ShadowCat – file transfer through QR Codes in a Browser https://github.com/unprovable/ShadowCat https://news.ycombinator.com/item?id=48234287",
+        "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmi3cers5c2w",
+        "cid": "bafyreifztnmufjki32roevlmelga7bkg7m6iqh5y5jrwxjavx4arc5hv2m",
+        "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmi3cers5c2w",
+        "text": "📰 Show HN: ShadowCat – file transfer through QR Codes in a Browser 🔗 https://github.com/unprovable/ShadowCat 💬 Discuss on HN",
         "author": {
-          "handle": "hn100.atproto.rocks",
-          "displayName": "Hacker News 100"
+          "handle": "hot.hn",
+          "displayName": "Hacker News Hot 100"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T18:30:58.697063+00:00",
-        "hoursSincePosted": 1.63
+        "createdAt": "2026-05-22T23:23:23.278Z",
+        "hoursSincePosted": 4.74
       },
       "posts": [
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmi3cers5c2w",
+          "cid": "bafyreifztnmufjki32roevlmelga7bkg7m6iqh5y5jrwxjavx4arc5hv2m",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmi3cers5c2w",
+          "text": "📰 Show HN: ShadowCat – file transfer through QR Codes in a Browser 🔗 https://github.com/unprovable/ShadowCat 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T23:23:23.278Z",
+          "createdUtc": 1779492203,
+          "ageHours": 4.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unprovable/ShadowCat",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmhkxit4ug2z",
           "cid": "bafyreiczmz7nkvpgn2c5s2slajp7ifiodt3yuydfiqbglqvxbqty3oleva",
@@ -46397,7 +46835,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-22T21:51:37.413Z",
-        "hoursSincePosted": 1.48
+        "hoursSincePosted": 6.27
       },
       "posts": [
         {
@@ -46413,7 +46851,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-22T21:51:37.413Z",
           "createdUtc": 1779486697,
-          "ageHours": 1.48,
+          "ageHours": 6.27,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -46428,13 +46866,230 @@
           ]
         }
       ]
+    },
+    "anomalyco--models-dev": {
+      "count7d": 5,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
+        "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
+        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mmhym7w3rj2z",
+        "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev",
+        "author": {
+          "handle": "mm-hacker-news.bsky.social",
+          "displayName": "Hacker News"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T22:35:12.465Z",
+        "hoursSincePosted": 5.55
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mmhym7w3rj2z",
+          "cid": "bafyreigitefpi6er2eeo4hsld7e4n2ezq54ha2opb32vc4wza4ubrx6cqy",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mmhym7w3rj2z",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev",
+          "author": {
+            "handle": "mm-hacker-news.bsky.social",
+            "displayName": "Hacker News"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T22:35:12.465Z",
+          "createdUtc": 1779489312,
+          "ageHours": 5.55,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mmhusrggwe2y",
+          "cid": "bafyreich7q4ckwzb4cpyyk3oezotoklbqxdc6hsfmnahb73b7ly5zx22ie",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mmhusrggwe2y",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev (https://news.ycombinator.com/item?id=48241172)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:27:16.624Z",
+          "createdUtc": 1779485236,
+          "ageHours": 6.68,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmiiahrt3z2q",
+          "cid": "bafyreiatczg4z2r46yfb5texqjmwi7j2sv3jpbrpollh7hvlgr576c5vya",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmiiahrt3z2q",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T03:14:58.159038Z",
+          "createdUtc": 1779506098,
+          "ageHours": 0.88,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mmicgzizfw22",
+          "cid": "bafyreibrd6r52jely32ugirgsfny2cdlpavs4ihtyphry4hbo6wdkmogli",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mmicgzizfw22",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev https://news.ycombinator.com/item?id=48241172",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T01:31:15.571407+00:00",
+          "createdUtc": 1779499875,
+          "ageHours": 2.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mmhvozfgfm2l",
+          "cid": "bafyreif6q2ipcclvljsdxolllpdbffflafhfzkvnlfhfwz2qqnde5qccjy",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mmhvozfgfm2l",
+          "text": "Models.dev: open-source database of AI model specs, pricing, and capabilities https://github.com/anomalyco/models.dev (https://news.ycombinator.com/item?id=48241172)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T21:43:04.603Z",
+          "createdUtc": 1779486184,
+          "ageHours": 6.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "teamnewpipe--newpipe": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hto6fpfzyt3zrxvj6lpidqrt/app.bsky.feed.post/3mmi4kvq76s2r",
+        "cid": "bafyreibebax6igreghietg77waoihtq7y6mcci4pnmr2ijywhsbgrm4dke",
+        "bskyUrl": "https://bsky.app/profile/metroplex.bot/post/3mmi4kvq76s2r",
+        "text": "github.com/TeamNewPipe/...",
+        "author": {
+          "handle": "metroplex.bot",
+          "displayName": "MetropleX"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-22T23:46:03.470Z",
+        "hoursSincePosted": 4.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hto6fpfzyt3zrxvj6lpidqrt/app.bsky.feed.post/3mmi4kvq76s2r",
+          "cid": "bafyreibebax6igreghietg77waoihtq7y6mcci4pnmr2ijywhsbgrm4dke",
+          "bskyUrl": "https://bsky.app/profile/metroplex.bot/post/3mmi4kvq76s2r",
+          "text": "github.com/TeamNewPipe/...",
+          "author": {
+            "handle": "metroplex.bot",
+            "displayName": "MetropleX"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-22T23:46:03.470Z",
+          "createdUtc": 1779493563,
+          "ageHours": 4.37,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "warpdotdev/warp",
       "count7d": 7,
-      "likesSum7d": 7
+      "likesSum7d": 8
+    },
+    {
+      "fullName": "anomalyco/models.dev",
+      "count7d": 5,
+      "likesSum7d": 2
     },
     {
       "fullName": "Mesh-LLM/mesh-llm",
@@ -46442,12 +47097,27 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "netbirdio/netbird",
+      "fullName": "TeamNewPipe/NewPipe",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "junhoyeo/tokscale",
+      "fullName": "antirez/ds4",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "domcyrus/rustnet",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tobi/qmd",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "unprovable/ShadowCat",
       "count7d": 1,
       "likesSum7d": 0
     }

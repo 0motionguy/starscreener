@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T21:13:15.646Z",
+  "generatedAt": "2026-05-23T22:13:00.393Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -70,36 +70,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "Hmbown/DeepSeek-TUI",
-      "rank": 1,
-      "completenessScore": 66,
-      "breakdown": {
-        "required": 30,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 10
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "sweep",
-      "priority": 1033,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "QuantumNous/new-api",
       "rank": 7,
       "completenessScore": 61,
@@ -123,37 +93,6 @@
         "funding"
       ],
       "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 1032,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "MHSanaei/3x-ui",
-      "rank": 18,
-      "completenessScore": 50,
-      "breakdown": {
-        "required": 30,
-        "coverage": 0,
-        "deltas": 20,
-        "enrichment": 0
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
@@ -408,6 +347,36 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 1023,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "MHSanaei/3x-ui",
+      "rank": 18,
+      "completenessScore": 61,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 1021,
       "lastSweptAt": null
     },
     {
@@ -1996,14 +1965,14 @@
   "summary": {
     "byAction": {
       "enrich": 0,
-      "sweep": 34,
+      "sweep": 33,
       "both": 30,
       "noop": 0
     },
     "p10Score": 44,
     "p50Score": 56,
     "channelsFiringHistogram": {
-      "0": 22,
+      "0": 21,
       "1": 29,
       "2": 9,
       "3": 4,

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-23T04:08:00.338Z",
+  "fetchedAt": "2026-05-23T06:45:54.375Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -3685,15 +3685,15 @@
       ]
     },
     "garrytan/gbrain": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczlw27g24",
-        "cid": "bafyreiamuon3hz4fwtoob6jmwjtmz47eoz3caqxyqkic23fxtkgpl3y7bi",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
-        "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmipgdts762s",
+        "cid": "bafyreidhrqilissya3emkxj7p62ue4bdzq2x6joggbbjxjbgi7fprp62ya",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmipgdts762s",
+        "text": "GBrain is my gift to you so you can have the same personal AI that I do. It's experimental but getting better every day. MIT License. https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -3701,8 +3701,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T15:58:44.000Z",
-        "hoursSincePosted": 2.1
+        "createdAt": "2026-05-23T05:14:10.000Z",
+        "hoursSincePosted": 1.53
       },
       "posts": [
         {
@@ -3731,6 +3731,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmipgdts762s",
+          "cid": "bafyreidhrqilissya3emkxj7p62ue4bdzq2x6joggbbjxjbgi7fprp62ya",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmipgdts762s",
+          "text": "GBrain is my gift to you so you can have the same personal AI that I do. It's experimental but getting better every day. MIT License. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:14:10.000Z",
+          "createdUtc": 1779513250,
+          "ageHours": 1.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -22467,26 +22495,54 @@
       ]
     },
     "eigenpal/docx-editor": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mmgb3m2k422a",
-        "cid": "bafyreierq7cw4f4yvupc5n6vz2zkosex4ofpqjwex7dux7sr77w5oljy7i",
-        "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mmgb3m2k422a",
-        "text": "Open-source WYSIWYG .docx editor for React and Vue with canonical OOXML, tracked changes, and real-time collaboration. github.com/eigenpal/doc...",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmiqwuqvab2q",
+        "cid": "bafyreia3qoaxafoq2czk7gj5k3btna7grvtm77v5llgbu2psrcjehdnkoi",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmiqwuqvab2q",
+        "text": "📰 We are developing an open-source .docx editor library for browser-based applications that parses OOXML directly and uses its own rendering+layout engine to produce paged documents with HTML/css, ensuring edits round-trip back to .do... 🔗 https://github.com/eigenpal/docx-editor #Tech #Dev",
         "author": {
-          "handle": "ytroncal.bsky.social",
-          "displayName": "ytroncal"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T06:01:39.241Z",
-        "hoursSincePosted": 2.52
+        "createdAt": "2026-05-23T05:50:37.253760+00:00",
+        "hoursSincePosted": 0.92
       },
       "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmiqwuqvab2q",
+          "cid": "bafyreia3qoaxafoq2czk7gj5k3btna7grvtm77v5llgbu2psrcjehdnkoi",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmiqwuqvab2q",
+          "text": "📰 We are developing an open-source .docx editor library for browser-based applications that parses OOXML directly and uses its own rendering+layout engine to produce paged documents with HTML/css, ensuring edits round-trip back to .do... 🔗 https://github.com/eigenpal/docx-editor #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:50:37.253760+00:00",
+          "createdUtc": 1779515437,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "eigenpal/docx-editor",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mmgb3m2k422a",
           "cid": "bafyreierq7cw4f4yvupc5n6vz2zkosex4ofpqjwex7dux7sr77w5oljy7i",
@@ -23534,6 +23590,159 @@
           "linkedRepos": [
             {
               "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "gsd-build/get-shit-done": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7aofsf3jagqmxj3uk3fovx66/app.bsky.feed.post/3mmiphxp2kk23",
+        "cid": "bafyreibxxkotyzfobwkah7lg4mjqx4df3vrq45ey6rkkj7ov5rczxvvwz4",
+        "bskyUrl": "https://bsky.app/profile/kolyasya.bsky.social/post/3mmiphxp2kk23",
+        "text": "Something strange happened to the Get Shit Done repo. The owner disappeared github.com/gsd-build/ge... Looking for alternatives for now.",
+        "author": {
+          "handle": "kolyasya.bsky.social",
+          "displayName": "Nikolay A."
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T05:24:25.962Z",
+        "hoursSincePosted": 1.36
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7aofsf3jagqmxj3uk3fovx66/app.bsky.feed.post/3mmiphxp2kk23",
+          "cid": "bafyreibxxkotyzfobwkah7lg4mjqx4df3vrq45ey6rkkj7ov5rczxvvwz4",
+          "bskyUrl": "https://bsky.app/profile/kolyasya.bsky.social/post/3mmiphxp2kk23",
+          "text": "Something strange happened to the Get Shit Done repo. The owner disappeared github.com/gsd-build/ge... Looking for alternatives for now.",
+          "author": {
+            "handle": "kolyasya.bsky.social",
+            "displayName": "Nikolay A."
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:24:25.962Z",
+          "createdUtc": 1779513865,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gsd-build/get-shit-done",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Zuhaitz-dev/URPL": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:yasn3g65hj3wr3l63fa2wzbh/app.bsky.feed.post/3mmio5j5jiqy2",
+        "cid": "bafyreiets3k3hoko5dl4px33wi7uufkldmqqggm7gh3uzalpbcciqsdbvi",
+        "bskyUrl": "https://bsky.app/profile/eana.s.1a23.studio.ap.brid.gy/post/3mmio5j5jiqy2",
+        "text": "⭐ Starred a repository Zuhaitz-dev/URPL UNO Reverse Public License v. 4.20 https://github.com/Zuhaitz-dev/URPL",
+        "author": {
+          "handle": "eana.s.1a23.studio.ap.brid.gy",
+          "displayName": "Eana Hufwe"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T05:00:28.747Z",
+        "hoursSincePosted": 1.76
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:yasn3g65hj3wr3l63fa2wzbh/app.bsky.feed.post/3mmio5j5jiqy2",
+          "cid": "bafyreiets3k3hoko5dl4px33wi7uufkldmqqggm7gh3uzalpbcciqsdbvi",
+          "bskyUrl": "https://bsky.app/profile/eana.s.1a23.studio.ap.brid.gy/post/3mmio5j5jiqy2",
+          "text": "⭐ Starred a repository Zuhaitz-dev/URPL UNO Reverse Public License v. 4.20 https://github.com/Zuhaitz-dev/URPL",
+          "author": {
+            "handle": "eana.s.1a23.studio.ap.brid.gy",
+            "displayName": "Eana Hufwe"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:00:28.747Z",
+          "createdUtc": 1779512428,
+          "ageHours": 1.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Zuhaitz-dev/URPL",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lemonade-sdk/lemonade": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmio4bedmr2e",
+        "cid": "bafyreig6226xkdsjjq5vrmbicfam3kmacgmctksbmzfij6zowtccieyj5m",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmio4bedmr2e",
+        "text": "github.com/lemonade-sdk/le... GitHub - lemonade-sdk/lemonade: Lemonade helps users discover and run local AI apps by serving o...",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T04:59:59.584Z",
+        "hoursSincePosted": 1.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmio4bedmr2e",
+          "cid": "bafyreig6226xkdsjjq5vrmbicfam3kmacgmctksbmzfij6zowtccieyj5m",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmio4bedmr2e",
+          "text": "github.com/lemonade-sdk/le... GitHub - lemonade-sdk/lemonade: Lemonade helps users discover and run local AI apps by serving o...",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T04:59:59.584Z",
+          "createdUtc": 1779512399,
+          "ageHours": 1.77,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "lemonade-sdk/lemonade",
               "matchType": "url",
               "confidence": 1
             }
@@ -27223,15 +27432,15 @@
       ]
     },
     "garrytan--gbrain": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmhczlw27g24",
-        "cid": "bafyreiamuon3hz4fwtoob6jmwjtmz47eoz3caqxyqkic23fxtkgpl3y7bi",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
-        "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmipgdts762s",
+        "cid": "bafyreidhrqilissya3emkxj7p62ue4bdzq2x6joggbbjxjbgi7fprp62ya",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmipgdts762s",
+        "text": "GBrain is my gift to you so you can have the same personal AI that I do. It's experimental but getting better every day. MIT License. https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -27239,8 +27448,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T15:58:44.000Z",
-        "hoursSincePosted": 2.1
+        "createdAt": "2026-05-23T05:14:10.000Z",
+        "hoursSincePosted": 1.53
       },
       "posts": [
         {
@@ -27269,6 +27478,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmipgdts762s",
+          "cid": "bafyreidhrqilissya3emkxj7p62ue4bdzq2x6joggbbjxjbgi7fprp62ya",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmipgdts762s",
+          "text": "GBrain is my gift to you so you can have the same personal AI that I do. It's experimental but getting better every day. MIT License. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:14:10.000Z",
+          "createdUtc": 1779513250,
+          "ageHours": 1.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -46005,26 +46242,54 @@
       ]
     },
     "eigenpal--docx-editor": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mmgb3m2k422a",
-        "cid": "bafyreierq7cw4f4yvupc5n6vz2zkosex4ofpqjwex7dux7sr77w5oljy7i",
-        "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mmgb3m2k422a",
-        "text": "Open-source WYSIWYG .docx editor for React and Vue with canonical OOXML, tracked changes, and real-time collaboration. github.com/eigenpal/doc...",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmiqwuqvab2q",
+        "cid": "bafyreia3qoaxafoq2czk7gj5k3btna7grvtm77v5llgbu2psrcjehdnkoi",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmiqwuqvab2q",
+        "text": "📰 We are developing an open-source .docx editor library for browser-based applications that parses OOXML directly and uses its own rendering+layout engine to produce paged documents with HTML/css, ensuring edits round-trip back to .do... 🔗 https://github.com/eigenpal/docx-editor #Tech #Dev",
         "author": {
-          "handle": "ytroncal.bsky.social",
-          "displayName": "ytroncal"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T06:01:39.241Z",
-        "hoursSincePosted": 2.52
+        "createdAt": "2026-05-23T05:50:37.253760+00:00",
+        "hoursSincePosted": 0.92
       },
       "posts": [
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmiqwuqvab2q",
+          "cid": "bafyreia3qoaxafoq2czk7gj5k3btna7grvtm77v5llgbu2psrcjehdnkoi",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmiqwuqvab2q",
+          "text": "📰 We are developing an open-source .docx editor library for browser-based applications that parses OOXML directly and uses its own rendering+layout engine to produce paged documents with HTML/css, ensuring edits round-trip back to .do... 🔗 https://github.com/eigenpal/docx-editor #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:50:37.253760+00:00",
+          "createdUtc": 1779515437,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "eigenpal/docx-editor",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mmgb3m2k422a",
           "cid": "bafyreierq7cw4f4yvupc5n6vz2zkosex4ofpqjwex7dux7sr77w5oljy7i",
@@ -47078,46 +47343,184 @@
           ]
         }
       ]
+    },
+    "gsd-build--get-shit-done": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7aofsf3jagqmxj3uk3fovx66/app.bsky.feed.post/3mmiphxp2kk23",
+        "cid": "bafyreibxxkotyzfobwkah7lg4mjqx4df3vrq45ey6rkkj7ov5rczxvvwz4",
+        "bskyUrl": "https://bsky.app/profile/kolyasya.bsky.social/post/3mmiphxp2kk23",
+        "text": "Something strange happened to the Get Shit Done repo. The owner disappeared github.com/gsd-build/ge... Looking for alternatives for now.",
+        "author": {
+          "handle": "kolyasya.bsky.social",
+          "displayName": "Nikolay A."
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T05:24:25.962Z",
+        "hoursSincePosted": 1.36
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7aofsf3jagqmxj3uk3fovx66/app.bsky.feed.post/3mmiphxp2kk23",
+          "cid": "bafyreibxxkotyzfobwkah7lg4mjqx4df3vrq45ey6rkkj7ov5rczxvvwz4",
+          "bskyUrl": "https://bsky.app/profile/kolyasya.bsky.social/post/3mmiphxp2kk23",
+          "text": "Something strange happened to the Get Shit Done repo. The owner disappeared github.com/gsd-build/ge... Looking for alternatives for now.",
+          "author": {
+            "handle": "kolyasya.bsky.social",
+            "displayName": "Nikolay A."
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:24:25.962Z",
+          "createdUtc": 1779513865,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gsd-build/get-shit-done",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zuhaitz-dev--urpl": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:yasn3g65hj3wr3l63fa2wzbh/app.bsky.feed.post/3mmio5j5jiqy2",
+        "cid": "bafyreiets3k3hoko5dl4px33wi7uufkldmqqggm7gh3uzalpbcciqsdbvi",
+        "bskyUrl": "https://bsky.app/profile/eana.s.1a23.studio.ap.brid.gy/post/3mmio5j5jiqy2",
+        "text": "⭐ Starred a repository Zuhaitz-dev/URPL UNO Reverse Public License v. 4.20 https://github.com/Zuhaitz-dev/URPL",
+        "author": {
+          "handle": "eana.s.1a23.studio.ap.brid.gy",
+          "displayName": "Eana Hufwe"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T05:00:28.747Z",
+        "hoursSincePosted": 1.76
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:yasn3g65hj3wr3l63fa2wzbh/app.bsky.feed.post/3mmio5j5jiqy2",
+          "cid": "bafyreiets3k3hoko5dl4px33wi7uufkldmqqggm7gh3uzalpbcciqsdbvi",
+          "bskyUrl": "https://bsky.app/profile/eana.s.1a23.studio.ap.brid.gy/post/3mmio5j5jiqy2",
+          "text": "⭐ Starred a repository Zuhaitz-dev/URPL UNO Reverse Public License v. 4.20 https://github.com/Zuhaitz-dev/URPL",
+          "author": {
+            "handle": "eana.s.1a23.studio.ap.brid.gy",
+            "displayName": "Eana Hufwe"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T05:00:28.747Z",
+          "createdUtc": 1779512428,
+          "ageHours": 1.76,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Zuhaitz-dev/URPL",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lemonade-sdk--lemonade": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmio4bedmr2e",
+        "cid": "bafyreig6226xkdsjjq5vrmbicfam3kmacgmctksbmzfij6zowtccieyj5m",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmio4bedmr2e",
+        "text": "github.com/lemonade-sdk/le... GitHub - lemonade-sdk/lemonade: Lemonade helps users discover and run local AI apps by serving o...",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T04:59:59.584Z",
+        "hoursSincePosted": 1.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mmio4bedmr2e",
+          "cid": "bafyreig6226xkdsjjq5vrmbicfam3kmacgmctksbmzfij6zowtccieyj5m",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mmio4bedmr2e",
+          "text": "github.com/lemonade-sdk/le... GitHub - lemonade-sdk/lemonade: Lemonade helps users discover and run local AI apps by serving o...",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T04:59:59.584Z",
+          "createdUtc": 1779512399,
+          "ageHours": 1.77,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "lemonade-sdk/lemonade",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "warpdotdev/warp",
-      "count7d": 7,
-      "likesSum7d": 8
-    },
-    {
-      "fullName": "anomalyco/models.dev",
-      "count7d": 5,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "Mesh-LLM/mesh-llm",
+      "fullName": "lemonade-sdk/lemonade",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "TeamNewPipe/NewPipe",
+      "fullName": "Zuhaitz-dev/URPL",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "antirez/ds4",
+      "fullName": "eigenpal/docx-editor",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "domcyrus/rustnet",
+      "fullName": "garrytan/gbrain",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "tobi/qmd",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "unprovable/ShadowCat",
+      "fullName": "gsd-build/get-shit-done",
       "count7d": 1,
       "likesSum7d": 0
     }

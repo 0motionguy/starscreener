@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-23T08:34:10.374Z",
+  "fetchedAt": "2026-05-23T14:06:55.590Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -92,9 +92,9 @@
       "id": "angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
-      "downloads": 4183,
-      "likes": 183,
-      "trendingScore": 80,
+      "downloads": 4445,
+      "likes": 194,
+      "trendingScore": 81,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -379,6 +379,39 @@
     },
     {
       "rank": 13,
+      "id": "wikimedia/structured-wikipedia",
+      "author": "wikimedia",
+      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
+      "downloads": 2916,
+      "likes": 134,
+      "trendingScore": 31,
+      "tags": [
+        "language:en",
+        "language:fr",
+        "license:cc-by-sa-4.0",
+        "size_categories:10M<n<100M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "wikipedia",
+        "wikimedia",
+        "structured-data",
+        "parquet",
+        "knowledge-base",
+        "references",
+        "citations",
+        "tables",
+        "multilingual"
+      ],
+      "createdAt": "2024-09-19T14:11:27.000Z",
+      "lastModified": "2026-05-19T12:54:16.000Z"
+    },
+    {
+      "rank": 14,
       "id": "5551z/VisCoR-55K",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
@@ -401,7 +434,7 @@
       "lastModified": "2026-04-30T10:51:23.000Z"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "id": "Roman1111111/claude-opus-4.6-10000x",
       "author": "Roman1111111",
       "url": "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x",
@@ -423,7 +456,7 @@
       "lastModified": "2026-04-05T13:42:24.000Z"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "id": "jamiequint/sf_criminal_court",
       "author": "jamiequint",
       "url": "https://huggingface.co/datasets/jamiequint/sf_criminal_court",
@@ -453,7 +486,7 @@
       "lastModified": "2026-05-04T23:34:38.000Z"
     },
     {
-      "rank": 16,
+      "rank": 17,
       "id": "actava/chi-bench",
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
@@ -488,39 +521,6 @@
       ],
       "createdAt": "2026-05-03T06:52:20.000Z",
       "lastModified": "2026-05-22T04:51:56.000Z"
-    },
-    {
-      "rank": 17,
-      "id": "wikimedia/structured-wikipedia",
-      "author": "wikimedia",
-      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
-      "downloads": 2916,
-      "likes": 131,
-      "trendingScore": 28,
-      "tags": [
-        "language:en",
-        "language:fr",
-        "license:cc-by-sa-4.0",
-        "size_categories:10M<n<100M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "wikipedia",
-        "wikimedia",
-        "structured-data",
-        "parquet",
-        "knowledge-base",
-        "references",
-        "citations",
-        "tables",
-        "multilingual"
-      ],
-      "createdAt": "2024-09-19T14:11:27.000Z",
-      "lastModified": "2026-05-19T12:54:16.000Z"
     },
     {
       "rank": 18,

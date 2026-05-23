@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-23T18:12:06.270Z",
+  "fetchedAt": "2026-05-23T19:37:48.621Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -3730,7 +3730,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T17:45:04.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.88
       },
       "posts": [
         {
@@ -3780,7 +3780,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T17:45:04.000Z",
           "createdUtc": 1779558304,
-          "ageHours": 0.5,
+          "ageHours": 1.88,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -3809,7 +3809,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T15:59:02.000Z",
           "createdUtc": 1779551942,
-          "ageHours": 2.22,
+          "ageHours": 3.65,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -5419,25 +5419,53 @@
     },
     "modem-dev/hunk": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
-        "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmgv4kyp3q25",
-        "text": "`hunk` : un viewer de diff en terminal pensé pour relire les changements produits par des agents IA — avec annotations inline, navigation multi-fichiers et watch mode. https://github.com/modem-dev/hunk",
+        "uri": "at://did:plc:fz6ezuhk4lb7gougftsx4spv/app.bsky.feed.post/3mmk3exlzw22f",
+        "cid": "bafyreibvlevlhfrmtmtvzcabjwel77lobjtwv7pfgs7mg2olae5oyczehy",
+        "bskyUrl": "https://bsky.app/profile/aliou.me/post/3mmk3exlzw22f",
+        "text": "realised this week that this week that I've completely stopped working in tmux and only use it for cli/tui debugging fun one from a couple of weeks ago: using tmux's popup to narrate a bug repro full context: github.com/modem-dev/hu...",
         "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
+          "handle": "aliou.me",
+          "displayName": "aliou"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T14:00:06+02:00",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-23T18:30:09.841Z",
+        "hoursSincePosted": 1.13
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fz6ezuhk4lb7gougftsx4spv/app.bsky.feed.post/3mmk3exlzw22f",
+          "cid": "bafyreibvlevlhfrmtmtvzcabjwel77lobjtwv7pfgs7mg2olae5oyczehy",
+          "bskyUrl": "https://bsky.app/profile/aliou.me/post/3mmk3exlzw22f",
+          "text": "realised this week that this week that I've completely stopped working in tmux and only use it for cli/tui debugging fun one from a couple of weeks ago: using tmux's popup to narrate a bug repro full context: github.com/modem-dev/hu...",
+          "author": {
+            "handle": "aliou.me",
+            "displayName": "aliou"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:30:09.841Z",
+          "createdUtc": 1779561009,
+          "ageHours": 1.13,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
           "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
@@ -7178,23 +7206,23 @@
     },
     "tinyhumansai/openhuman": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmk2m4scss2p",
+        "cid": "bafyreiaswcb3oqxaetbxfb7ygy5d3qu7tcsht6unpot3bchcgojjosacaa",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmk2m4scss2p",
+        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★26025 https://github.com/tinyhumansai/openhuman",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 3.25
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T18:16:16.177820Z",
+        "hoursSincePosted": 1.36
       },
       "posts": [
         {
@@ -7292,6 +7320,34 @@
             },
             {
               "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmk2m4scss2p",
+          "cid": "bafyreiaswcb3oqxaetbxfb7ygy5d3qu7tcsht6unpot3bchcgojjosacaa",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmk2m4scss2p",
+          "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★26025 https://github.com/tinyhumansai/openhuman",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:16:16.177820Z",
+          "createdUtc": 1779560176,
+          "ageHours": 1.36,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -15812,24 +15868,24 @@
       ]
     },
     "getagentseal/codeburn": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
-      "repostsSum7d": 1,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmjihklmdg2e",
-        "cid": "bafyreibsk5o6hwngfdwvlv3kcno342tmjdeeluq5zfrzkx3lev336utd3a",
-        "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmjihklmdg2e",
-        "text": "🍻 codeburn 🍻 See where your AI coding tokens go - by task, tool, model, and project 🔗 https://github.com/getagentseal/codeburn #homebrew #newpkg #macos #linux #formula",
+        "uri": "at://did:plc:zt7b2i4ksa7imktygxvuc7k3/app.bsky.feed.post/3mmjumlrb4s24",
+        "cid": "bafyreif33st6cvjvnn4dg55dyypyxu4rpai7ihpvw4vj35gefnjy3flxxu",
+        "bskyUrl": "https://bsky.app/profile/kud.io/post/3mmjumlrb4s24",
+        "text": "github.com/getagentseal... :]",
         "author": {
-          "handle": "homebrew-new-pkgs.bsky.social",
-          "displayName": "Homebrew New Packages"
+          "handle": "kud.io",
+          "displayName": "Erwann Mest 💐"
         },
         "likeCount": 0,
-        "repostCount": 1,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T12:51:35.735370+00:00",
-        "hoursSincePosted": 5.34
+        "createdAt": "2026-05-23T16:29:09.671Z",
+        "hoursSincePosted": 3.14
       },
       "posts": [
         {
@@ -15874,7 +15930,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T16:29:09.671Z",
           "createdUtc": 1779553749,
-          "ageHours": 1.72,
+          "ageHours": 3.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -16950,7 +17006,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T14:30:12.313Z",
-        "hoursSincePosted": 3.7
+        "hoursSincePosted": 5.13
       },
       "posts": [
         {
@@ -17033,7 +17089,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T14:30:12.313Z",
           "createdUtc": 1779546612,
-          "ageHours": 3.7,
+          "ageHours": 5.13,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -23933,8 +23989,8 @@
       ]
     },
     "anomalyco/models.dev": {
-      "count7d": 2,
-      "likesSum7d": 4,
+      "count7d": 3,
+      "likesSum7d": 6,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -23950,7 +24006,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-23T15:56:05.712Z",
-        "hoursSincePosted": 2.27
+        "hoursSincePosted": 3.7
       },
       "posts": [
         {
@@ -23967,8 +24023,62 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T15:56:05.712Z",
           "createdUtc": 1779551765,
-          "ageHours": 2.27,
+          "ageHours": 3.7,
           "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6ow7sn4eyi7fyaiyjk3u267b/app.bsky.feed.post/3mmk4wgbim42h",
+          "cid": "bafyreicyoo4y5pd42zapgi7ojc6o5mqzz3hhysdgjxanct5ptnu4itjn4i",
+          "bskyUrl": "https://bsky.app/profile/365tipu.cz/post/3mmk4wgbim42h",
+          "text": "models.dev: Otevřená databáze AI modelů github.com/anomalyco...",
+          "author": {
+            "handle": "365tipu.cz",
+            "displayName": "365tipu"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:57:47.000Z",
+          "createdUtc": 1779562667,
+          "ageHours": 0.67,
+          "trendingScore": 1,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmjqxg3geo2w",
+          "cid": "bafyreibbjyvzzy6bzpowibghxcq3umdueglmktou7advncaf5h3thyzwhi",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmjqxg3geo2w",
+          "text": "📰 Models.dev: open-source database of AI model specs, pricing, and capabilities 🔗 https://github.com/anomalyco/models.dev 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T15:23:37.684Z",
+          "createdUtc": 1779549817,
+          "ageHours": 4.24,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -24066,34 +24176,6 @@
           ]
         },
         {
-          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmjqxg3geo2w",
-          "cid": "bafyreibbjyvzzy6bzpowibghxcq3umdueglmktou7advncaf5h3thyzwhi",
-          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmjqxg3geo2w",
-          "text": "📰 Models.dev: open-source database of AI model specs, pricing, and capabilities 🔗 https://github.com/anomalyco/models.dev 💬 Discuss on HN",
-          "author": {
-            "handle": "hot.hn",
-            "displayName": "Hacker News Hot 100"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-23T15:23:37.684Z",
-          "createdUtc": 1779549817,
-          "ageHours": 2.81,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anomalyco/models.dev",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmiiahrt3z2q",
           "cid": "bafyreiatczg4z2r46yfb5texqjmwi7j2sv3jpbrpollh7hvlgr576c5vya",
           "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmiiahrt3z2q",
@@ -24178,24 +24260,24 @@
       ]
     },
     "TeamNewPipe/NewPipe": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hto6fpfzyt3zrxvj6lpidqrt/app.bsky.feed.post/3mmi4kvq76s2r",
-        "cid": "bafyreibebax6igreghietg77waoihtq7y6mcci4pnmr2ijywhsbgrm4dke",
-        "bskyUrl": "https://bsky.app/profile/metroplex.bot/post/3mmi4kvq76s2r",
-        "text": "github.com/TeamNewPipe/...",
+        "uri": "at://did:plc:khohbxxcxgo2pknolqsozfqq/app.bsky.feed.post/3mmk5ipfdcc2a",
+        "cid": "bafyreic2sj3xaziratukuugvqx44gt6xdrtcfbt5segwbtjxmpzdtbmpni",
+        "bskyUrl": "https://bsky.app/profile/sergioosma.bsky.social/post/3mmk5ipfdcc2a",
+        "text": "Por lo menos parece que no soy el único github.com/TeamNewPipe/...",
         "author": {
-          "handle": "metroplex.bot",
-          "displayName": "MetropleX"
+          "handle": "sergioosma.bsky.social",
+          "displayName": "𝓢𝓮𝓻𝓰𝓲𝓸 ❄️"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T23:46:03.470Z",
-        "hoursSincePosted": 4.37
+        "createdAt": "2026-05-23T19:08:02.934Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -24214,6 +24296,62 @@
           "createdUtc": 1779493563,
           "ageHours": 4.37,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:khohbxxcxgo2pknolqsozfqq/app.bsky.feed.post/3mmk5ipfdcc2a",
+          "cid": "bafyreic2sj3xaziratukuugvqx44gt6xdrtcfbt5segwbtjxmpzdtbmpni",
+          "bskyUrl": "https://bsky.app/profile/sergioosma.bsky.social/post/3mmk5ipfdcc2a",
+          "text": "Por lo menos parece que no soy el único github.com/TeamNewPipe/...",
+          "author": {
+            "handle": "sergioosma.bsky.social",
+            "displayName": "𝓢𝓮𝓻𝓰𝓲𝓸 ❄️"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T19:08:02.934Z",
+          "createdUtc": 1779563282,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vrca2laafugykmbveux74b22/app.bsky.feed.post/3mmk335gitg72",
+          "cid": "bafyreidysxr43ktcy4mdaqdq623wgcnjrdio2amjrgmlhm5hhdxplupv5i",
+          "bskyUrl": "https://bsky.app/profile/hansvl.mstdn.social.ap.brid.gy/post/3mmk335gitg72",
+          "text": "Apropo Newpipe, så lader det til at problemet løstes ved at slå \"Hent fra dedikeret feed\" til under indhold i indstillingerne - måske det er det brugeren her kalder fastmode? https://github.com/TeamNewPipe/NewPipe/issues/13512#issuecomment-4517098080",
+          "author": {
+            "handle": "hansvl.mstdn.social.ap.brid.gy",
+            "displayName": "Hans"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:24:36.000Z",
+          "createdUtc": 1779560676,
+          "ageHours": 1.22,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -24450,7 +24588,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T16:56:30.503341+00:00",
-        "hoursSincePosted": 1.26
+        "hoursSincePosted": 2.69
       },
       "posts": [
         {
@@ -24467,7 +24605,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T16:56:30.503341+00:00",
           "createdUtc": 1779555390,
-          "ageHours": 1.26,
+          "ageHours": 2.69,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -24679,23 +24817,52 @@
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
-        "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
-        "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmk5jyqvdn23",
+        "cid": "bafyreibmbt5xf5sm3yllwvklnb2pbss4bfl3ewdohu43eakghzslar25gi",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmk5jyqvdn23",
+        "text": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSecurity 🔗 https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 1,
+        "createdAt": "2026-05-23T19:08:45.388858Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmk5jyqvdn23",
+          "cid": "bafyreibmbt5xf5sm3yllwvklnb2pbss4bfl3ewdohu43eakghzslar25gi",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmk5jyqvdn23",
+          "text": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSecurity 🔗 https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T19:08:45.388858Z",
+          "createdUtc": 1779563325,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
           "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
@@ -24855,7 +25022,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T17:09:32.945Z",
-        "hoursSincePosted": 1.04
+        "hoursSincePosted": 2.47
       },
       "posts": [
         {
@@ -24871,7 +25038,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T17:09:32.945Z",
           "createdUtc": 1779556172,
-          "ageHours": 1.04,
+          "ageHours": 2.47,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24905,7 +25072,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T16:16:10.511721Z",
-        "hoursSincePosted": 1.93
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -24922,7 +25089,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T16:16:10.511721Z",
           "createdUtc": 1779552970,
-          "ageHours": 1.93,
+          "ageHours": 3.36,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -24956,7 +25123,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T15:40:53.069Z",
-        "hoursSincePosted": 2.52
+        "hoursSincePosted": 3.95
       },
       "posts": [
         {
@@ -24973,7 +25140,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T15:40:53.069Z",
           "createdUtc": 1779550853,
-          "ageHours": 2.52,
+          "ageHours": 3.95,
           "trendingScore": 4.5,
           "content_tags": [
             "has-github-repo"
@@ -24982,6 +25149,58 @@
           "linkedRepos": [
             {
               "fullName": "ValveSoftware/Proton",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "alam00000/bentopdf": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmk52dawtk24",
+        "cid": "bafyreid4oha4gj4iijalmzg354kd7tdp2bjjez5o63grhnp7dtokbp7txq",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmk52dawtk24",
+        "text": "BentoPDF v2.8.5 brings workflow improvements, better OCR for mixed Arabic and Latin scripts, HEIC support in workflows, and a bunch of solid bug fixes. Steady progress from a great project. #selfhosted #homelab https://github.com/alam00000/bentopdf/releases/tag/v2.8.5",
+        "author": {
+          "handle": "dbt3.ch",
+          "displayName": "David"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T19:00:00.290Z",
+        "hoursSincePosted": 0.63
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmk52dawtk24",
+          "cid": "bafyreid4oha4gj4iijalmzg354kd7tdp2bjjez5o63grhnp7dtokbp7txq",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmk52dawtk24",
+          "text": "BentoPDF v2.8.5 brings workflow improvements, better OCR for mixed Arabic and Latin scripts, HEIC support in workflows, and a bunch of solid bug fixes. Steady progress from a great project. #selfhosted #homelab https://github.com/alam00000/bentopdf/releases/tag/v2.8.5",
+          "author": {
+            "handle": "dbt3.ch",
+            "displayName": "David"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T19:00:00.290Z",
+          "createdUtc": 1779562800,
+          "ageHours": 0.63,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "alam00000/bentopdf",
               "matchType": "url",
               "confidence": 1
             }
@@ -28716,7 +28935,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T17:45:04.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.88
       },
       "posts": [
         {
@@ -28766,7 +28985,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T17:45:04.000Z",
           "createdUtc": 1779558304,
-          "ageHours": 0.5,
+          "ageHours": 1.88,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -28795,7 +29014,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T15:59:02.000Z",
           "createdUtc": 1779551942,
-          "ageHours": 2.22,
+          "ageHours": 3.65,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -30405,25 +30624,53 @@
     },
     "modem-dev--hunk": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
-        "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mmgv4kyp3q25",
-        "text": "`hunk` : un viewer de diff en terminal pensé pour relire les changements produits par des agents IA — avec annotations inline, navigation multi-fichiers et watch mode. https://github.com/modem-dev/hunk",
+        "uri": "at://did:plc:fz6ezuhk4lb7gougftsx4spv/app.bsky.feed.post/3mmk3exlzw22f",
+        "cid": "bafyreibvlevlhfrmtmtvzcabjwel77lobjtwv7pfgs7mg2olae5oyczehy",
+        "bskyUrl": "https://bsky.app/profile/aliou.me/post/3mmk3exlzw22f",
+        "text": "realised this week that this week that I've completely stopped working in tmux and only use it for cli/tui debugging fun one from a couple of weeks ago: using tmux's popup to narrate a bug repro full context: github.com/modem-dev/hu...",
         "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
+          "handle": "aliou.me",
+          "displayName": "aliou"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T14:00:06+02:00",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-23T18:30:09.841Z",
+        "hoursSincePosted": 1.13
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fz6ezuhk4lb7gougftsx4spv/app.bsky.feed.post/3mmk3exlzw22f",
+          "cid": "bafyreibvlevlhfrmtmtvzcabjwel77lobjtwv7pfgs7mg2olae5oyczehy",
+          "bskyUrl": "https://bsky.app/profile/aliou.me/post/3mmk3exlzw22f",
+          "text": "realised this week that this week that I've completely stopped working in tmux and only use it for cli/tui debugging fun one from a couple of weeks ago: using tmux's popup to narrate a bug repro full context: github.com/modem-dev/hu...",
+          "author": {
+            "handle": "aliou.me",
+            "displayName": "aliou"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:30:09.841Z",
+          "createdUtc": 1779561009,
+          "ageHours": 1.13,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mmgv4kyp3q25",
           "cid": "bafyreids4qp75qeu7al5mcpumezahdpqkv56strnnopqzoqw22dacino74",
@@ -32164,23 +32411,23 @@
     },
     "tinyhumansai--openhuman": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmc76vxscrg2",
-        "cid": "bafyreibfdmppt4thxz2j5aps6yo6tujgxthnvkoc4dxlnooxteiksiokry",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmc76vxscrg2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/colbymchenry/codegraph - TypeScript, 1910 stars today 2. https://github.com/Imbad0202/academic-research-skills - Python, 1639 stars today 3. https://github.com/tinyhumansai/openhuman - Rust, 3603 stars today 4 […]",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmk2m4scss2p",
+        "cid": "bafyreiaswcb3oqxaetbxfb7ygy5d3qu7tcsht6unpot3bchcgojjosacaa",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmk2m4scss2p",
+        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★26025 https://github.com/tinyhumansai/openhuman",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-20T15:16:57.000Z",
-        "hoursSincePosted": 3.25
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T18:16:16.177820Z",
+        "hoursSincePosted": 1.36
       },
       "posts": [
         {
@@ -32278,6 +32525,34 @@
             },
             {
               "fullName": "HKUDS/CLI-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmk2m4scss2p",
+          "cid": "bafyreiaswcb3oqxaetbxfb7ygy5d3qu7tcsht6unpot3bchcgojjosacaa",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmk2m4scss2p",
+          "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★26025 https://github.com/tinyhumansai/openhuman",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:16:16.177820Z",
+          "createdUtc": 1779560176,
+          "ageHours": 1.36,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
               "matchType": "url",
               "confidence": 1
             }
@@ -40798,24 +41073,24 @@
       ]
     },
     "getagentseal--codeburn": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
-      "repostsSum7d": 1,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:yhirhoz5kchms35nnyeipltl/app.bsky.feed.post/3mmjihklmdg2e",
-        "cid": "bafyreibsk5o6hwngfdwvlv3kcno342tmjdeeluq5zfrzkx3lev336utd3a",
-        "bskyUrl": "https://bsky.app/profile/homebrew-new-pkgs.bsky.social/post/3mmjihklmdg2e",
-        "text": "🍻 codeburn 🍻 See where your AI coding tokens go - by task, tool, model, and project 🔗 https://github.com/getagentseal/codeburn #homebrew #newpkg #macos #linux #formula",
+        "uri": "at://did:plc:zt7b2i4ksa7imktygxvuc7k3/app.bsky.feed.post/3mmjumlrb4s24",
+        "cid": "bafyreif33st6cvjvnn4dg55dyypyxu4rpai7ihpvw4vj35gefnjy3flxxu",
+        "bskyUrl": "https://bsky.app/profile/kud.io/post/3mmjumlrb4s24",
+        "text": "github.com/getagentseal... :]",
         "author": {
-          "handle": "homebrew-new-pkgs.bsky.social",
-          "displayName": "Homebrew New Packages"
+          "handle": "kud.io",
+          "displayName": "Erwann Mest 💐"
         },
         "likeCount": 0,
-        "repostCount": 1,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T12:51:35.735370+00:00",
-        "hoursSincePosted": 5.34
+        "createdAt": "2026-05-23T16:29:09.671Z",
+        "hoursSincePosted": 3.14
       },
       "posts": [
         {
@@ -40860,7 +41135,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T16:29:09.671Z",
           "createdUtc": 1779553749,
-          "ageHours": 1.72,
+          "ageHours": 3.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -41936,7 +42211,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T14:30:12.313Z",
-        "hoursSincePosted": 3.7
+        "hoursSincePosted": 5.13
       },
       "posts": [
         {
@@ -42019,7 +42294,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T14:30:12.313Z",
           "createdUtc": 1779546612,
-          "ageHours": 3.7,
+          "ageHours": 5.13,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48919,8 +49194,8 @@
       ]
     },
     "anomalyco--models-dev": {
-      "count7d": 2,
-      "likesSum7d": 4,
+      "count7d": 3,
+      "likesSum7d": 6,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -48936,7 +49211,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-23T15:56:05.712Z",
-        "hoursSincePosted": 2.27
+        "hoursSincePosted": 3.7
       },
       "posts": [
         {
@@ -48953,8 +49228,62 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T15:56:05.712Z",
           "createdUtc": 1779551765,
-          "ageHours": 2.27,
+          "ageHours": 3.7,
           "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6ow7sn4eyi7fyaiyjk3u267b/app.bsky.feed.post/3mmk4wgbim42h",
+          "cid": "bafyreicyoo4y5pd42zapgi7ojc6o5mqzz3hhysdgjxanct5ptnu4itjn4i",
+          "bskyUrl": "https://bsky.app/profile/365tipu.cz/post/3mmk4wgbim42h",
+          "text": "models.dev: Otevřená databáze AI modelů github.com/anomalyco...",
+          "author": {
+            "handle": "365tipu.cz",
+            "displayName": "365tipu"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:57:47.000Z",
+          "createdUtc": 1779562667,
+          "ageHours": 0.67,
+          "trendingScore": 1,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmjqxg3geo2w",
+          "cid": "bafyreibbjyvzzy6bzpowibghxcq3umdueglmktou7advncaf5h3thyzwhi",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmjqxg3geo2w",
+          "text": "📰 Models.dev: open-source database of AI model specs, pricing, and capabilities 🔗 https://github.com/anomalyco/models.dev 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T15:23:37.684Z",
+          "createdUtc": 1779549817,
+          "ageHours": 4.24,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -49052,34 +49381,6 @@
           ]
         },
         {
-          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mmjqxg3geo2w",
-          "cid": "bafyreibbjyvzzy6bzpowibghxcq3umdueglmktou7advncaf5h3thyzwhi",
-          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mmjqxg3geo2w",
-          "text": "📰 Models.dev: open-source database of AI model specs, pricing, and capabilities 🔗 https://github.com/anomalyco/models.dev 💬 Discuss on HN",
-          "author": {
-            "handle": "hot.hn",
-            "displayName": "Hacker News Hot 100"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-23T15:23:37.684Z",
-          "createdUtc": 1779549817,
-          "ageHours": 2.81,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anomalyco/models.dev",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mmiiahrt3z2q",
           "cid": "bafyreiatczg4z2r46yfb5texqjmwi7j2sv3jpbrpollh7hvlgr576c5vya",
           "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mmiiahrt3z2q",
@@ -49164,24 +49465,24 @@
       ]
     },
     "teamnewpipe--newpipe": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hto6fpfzyt3zrxvj6lpidqrt/app.bsky.feed.post/3mmi4kvq76s2r",
-        "cid": "bafyreibebax6igreghietg77waoihtq7y6mcci4pnmr2ijywhsbgrm4dke",
-        "bskyUrl": "https://bsky.app/profile/metroplex.bot/post/3mmi4kvq76s2r",
-        "text": "github.com/TeamNewPipe/...",
+        "uri": "at://did:plc:khohbxxcxgo2pknolqsozfqq/app.bsky.feed.post/3mmk5ipfdcc2a",
+        "cid": "bafyreic2sj3xaziratukuugvqx44gt6xdrtcfbt5segwbtjxmpzdtbmpni",
+        "bskyUrl": "https://bsky.app/profile/sergioosma.bsky.social/post/3mmk5ipfdcc2a",
+        "text": "Por lo menos parece que no soy el único github.com/TeamNewPipe/...",
         "author": {
-          "handle": "metroplex.bot",
-          "displayName": "MetropleX"
+          "handle": "sergioosma.bsky.social",
+          "displayName": "𝓢𝓮𝓻𝓰𝓲𝓸 ❄️"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T23:46:03.470Z",
-        "hoursSincePosted": 4.37
+        "createdAt": "2026-05-23T19:08:02.934Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -49200,6 +49501,62 @@
           "createdUtc": 1779493563,
           "ageHours": 4.37,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:khohbxxcxgo2pknolqsozfqq/app.bsky.feed.post/3mmk5ipfdcc2a",
+          "cid": "bafyreic2sj3xaziratukuugvqx44gt6xdrtcfbt5segwbtjxmpzdtbmpni",
+          "bskyUrl": "https://bsky.app/profile/sergioosma.bsky.social/post/3mmk5ipfdcc2a",
+          "text": "Por lo menos parece que no soy el único github.com/TeamNewPipe/...",
+          "author": {
+            "handle": "sergioosma.bsky.social",
+            "displayName": "𝓢𝓮𝓻𝓰𝓲𝓸 ❄️"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T19:08:02.934Z",
+          "createdUtc": 1779563282,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TeamNewPipe/NewPipe",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vrca2laafugykmbveux74b22/app.bsky.feed.post/3mmk335gitg72",
+          "cid": "bafyreidysxr43ktcy4mdaqdq623wgcnjrdio2amjrgmlhm5hhdxplupv5i",
+          "bskyUrl": "https://bsky.app/profile/hansvl.mstdn.social.ap.brid.gy/post/3mmk335gitg72",
+          "text": "Apropo Newpipe, så lader det til at problemet løstes ved at slå \"Hent fra dedikeret feed\" til under indhold i indstillingerne - måske det er det brugeren her kalder fastmode? https://github.com/TeamNewPipe/NewPipe/issues/13512#issuecomment-4517098080",
+          "author": {
+            "handle": "hansvl.mstdn.social.ap.brid.gy",
+            "displayName": "Hans"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T18:24:36.000Z",
+          "createdUtc": 1779560676,
+          "ageHours": 1.22,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -49436,7 +49793,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T16:56:30.503341+00:00",
-        "hoursSincePosted": 1.26
+        "hoursSincePosted": 2.69
       },
       "posts": [
         {
@@ -49453,7 +49810,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T16:56:30.503341+00:00",
           "createdUtc": 1779555390,
-          "ageHours": 1.26,
+          "ageHours": 2.69,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -49665,23 +50022,52 @@
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
-        "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
-        "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmk5jyqvdn23",
+        "cid": "bafyreibmbt5xf5sm3yllwvklnb2pbss4bfl3ewdohu43eakghzslar25gi",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmk5jyqvdn23",
+        "text": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSecurity 🔗 https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 1,
+        "createdAt": "2026-05-23T19:08:45.388858Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmk5jyqvdn23",
+          "cid": "bafyreibmbt5xf5sm3yllwvklnb2pbss4bfl3ewdohu43eakghzslar25gi",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmk5jyqvdn23",
+          "text": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSecurity 🔗 https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T19:08:45.388858Z",
+          "createdUtc": 1779563325,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
           "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
@@ -49841,7 +50227,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T17:09:32.945Z",
-        "hoursSincePosted": 1.04
+        "hoursSincePosted": 2.47
       },
       "posts": [
         {
@@ -49857,7 +50243,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T17:09:32.945Z",
           "createdUtc": 1779556172,
-          "ageHours": 1.04,
+          "ageHours": 2.47,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -49891,7 +50277,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T16:16:10.511721Z",
-        "hoursSincePosted": 1.93
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -49908,7 +50294,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T16:16:10.511721Z",
           "createdUtc": 1779552970,
-          "ageHours": 1.93,
+          "ageHours": 3.36,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -49942,7 +50328,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T15:40:53.069Z",
-        "hoursSincePosted": 2.52
+        "hoursSincePosted": 3.95
       },
       "posts": [
         {
@@ -49959,7 +50345,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-23T15:40:53.069Z",
           "createdUtc": 1779550853,
-          "ageHours": 2.52,
+          "ageHours": 3.95,
           "trendingScore": 4.5,
           "content_tags": [
             "has-github-repo"
@@ -49974,13 +50360,65 @@
           ]
         }
       ]
+    },
+    "alam00000--bentopdf": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmk52dawtk24",
+        "cid": "bafyreid4oha4gj4iijalmzg354kd7tdp2bjjez5o63grhnp7dtokbp7txq",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmk52dawtk24",
+        "text": "BentoPDF v2.8.5 brings workflow improvements, better OCR for mixed Arabic and Latin scripts, HEIC support in workflows, and a bunch of solid bug fixes. Steady progress from a great project. #selfhosted #homelab https://github.com/alam00000/bentopdf/releases/tag/v2.8.5",
+        "author": {
+          "handle": "dbt3.ch",
+          "displayName": "David"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-23T19:00:00.290Z",
+        "hoursSincePosted": 0.63
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mmk52dawtk24",
+          "cid": "bafyreid4oha4gj4iijalmzg354kd7tdp2bjjez5o63grhnp7dtokbp7txq",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mmk52dawtk24",
+          "text": "BentoPDF v2.8.5 brings workflow improvements, better OCR for mixed Arabic and Latin scripts, HEIC support in workflows, and a bunch of solid bug fixes. Steady progress from a great project. #selfhosted #homelab https://github.com/alam00000/bentopdf/releases/tag/v2.8.5",
+          "author": {
+            "handle": "dbt3.ch",
+            "displayName": "David"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T19:00:00.290Z",
+          "createdUtc": 1779562800,
+          "ageHours": 0.63,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "alam00000/bentopdf",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "anomalyco/models.dev",
-      "count7d": 2,
-      "likesSum7d": 4
+      "count7d": 3,
+      "likesSum7d": 6
     },
     {
       "fullName": "ValveSoftware/Proton",
@@ -49988,42 +50426,12 @@
       "likesSum7d": 4
     },
     {
-      "fullName": "cursor/cookbook",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
       "fullName": "lakehq/sail",
       "count7d": 1,
       "likesSum7d": 2
     },
     {
-      "fullName": "anthropics/claude-plugins-official",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "cactus-compute/needle",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "ChromeDevTools/chrome-devtools-mcp",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "colbymchenry/codegraph",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "dotnet/skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "Lum1104/Understand-Anything",
+      "fullName": "modem-dev/hunk",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -50038,17 +50446,22 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "getagentseal/codeburn",
+      "fullName": "TeamNewPipe/NewPipe",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "iOfficeAI/AionUi",
+      "fullName": "alam00000/bentopdf",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "jegly/Box",
+      "fullName": "getagentseal/codeburn",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "iOfficeAI/AionUi",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -50059,6 +50472,11 @@
     },
     {
       "fullName": "superset-sh/superset",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     }

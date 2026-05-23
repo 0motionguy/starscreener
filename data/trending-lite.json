@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-23T07:37:19.305Z",
+  "fetchedAt": "2026-05-23T09:27:26.855Z",
   "period": "past_24_hours",
   "language": "All",
   "rows": [
@@ -14,6 +14,19 @@
       "pushes": "",
       "total_score": "1948.683",
       "contributor_logins": "mihilmy,WrinklyEarpieceDiagram",
+      "collection_names": ""
+    },
+    {
+      "repo_id": "1137078255",
+      "repo_name": "colbymchenry/codegraph",
+      "primary_language": "TypeScript",
+      "description": "Pre-indexed code knowledge graph for Claude Code — fewer tokens, fewer tool calls, 100% local",
+      "stars": "334",
+      "forks": "24",
+      "pull_requests": "1",
+      "pushes": "14",
+      "total_score": "1723.8913",
+      "contributor_logins": "colbymchenry",
       "collection_names": ""
     },
     {
@@ -43,16 +56,42 @@
       "collection_names": ""
     },
     {
-      "repo_id": "1137078255",
-      "repo_name": "colbymchenry/codegraph",
+      "repo_id": "1182081931",
+      "repo_name": "Lum1104/Understand-Anything",
       "primary_language": "TypeScript",
-      "description": "Pre-indexed code knowledge graph for Claude Code — fewer tokens, fewer tool calls, 100% local",
-      "stars": "273",
-      "forks": "8",
+      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
+      "stars": "271",
+      "forks": "20",
       "pull_requests": "",
       "pushes": "1",
-      "total_score": "1363.3876",
-      "contributor_logins": "colbymchenry,Copilot,unknowone",
+      "total_score": "1394.6922",
+      "contributor_logins": "Lum1104",
+      "collection_names": ""
+    },
+    {
+      "repo_id": "1100776768",
+      "repo_name": "anthropics/claude-plugins-official",
+      "primary_language": "Python",
+      "description": "Official, Anthropic-managed directory of high quality Claude Code Plugins.",
+      "stars": "263",
+      "forks": "17",
+      "pull_requests": "",
+      "pushes": "1",
+      "total_score": "1357.8848",
+      "contributor_logins": "bryan-anthropic",
+      "collection_names": ""
+    },
+    {
+      "repo_id": "1185590488",
+      "repo_name": "rohitg00/ai-engineering-from-scratch",
+      "primary_language": "Python",
+      "description": "Learn it. Build it. Ship it for others.",
+      "stars": "215",
+      "forks": "20",
+      "pull_requests": "1",
+      "pushes": "15",
+      "total_score": "1196.6084",
+      "contributor_logins": "rohitg00,mithilP007",
       "collection_names": ""
     },
     {
@@ -170,19 +209,6 @@
       "pushes": "4",
       "total_score": "848.6768",
       "contributor_logins": "rohitg00,deaquino",
-      "collection_names": ""
-    },
-    {
-      "repo_id": "1100776768",
-      "repo_name": "anthropics/claude-plugins-official",
-      "primary_language": "Python",
-      "description": "Official, Anthropic-managed directory of high quality Claude Code Plugins.",
-      "stars": "153",
-      "forks": "5",
-      "pull_requests": "",
-      "pushes": "",
-      "total_score": "848.206",
-      "contributor_logins": "",
       "collection_names": ""
     },
     {
@@ -381,19 +407,6 @@
       "collection_names": ""
     },
     {
-      "repo_id": "1182081931",
-      "repo_name": "Lum1104/Understand-Anything",
-      "primary_language": "TypeScript",
-      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
-      "stars": "104",
-      "forks": "10",
-      "pull_requests": "",
-      "pushes": "1",
-      "total_score": "666.3445",
-      "contributor_logins": "Lum1104",
-      "collection_names": ""
-    },
-    {
       "repo_id": "1205803474",
       "repo_name": "dwgx/WindsurfAPI",
       "primary_language": "JavaScript",
@@ -423,26 +436,13 @@
       "repo_id": "1200597263",
       "repo_name": "safishamsi/graphify",
       "primary_language": "Python",
-      "description": "AI coding assistant skill (Claude Code, Codex, OpenCode, Cursor, Gemini CLI, OpenClaw, Factory Droid, Trae). Turn any folder of code, docs, papers, or images into a queryable knowledge graph",
-      "stars": "110",
-      "forks": "14",
-      "pull_requests": "",
-      "pushes": "",
-      "total_score": "615.7346",
-      "contributor_logins": "Zottelstrike,quinnwen",
-      "collection_names": ""
-    },
-    {
-      "repo_id": "1185590488",
-      "repo_name": "rohitg00/ai-engineering-from-scratch",
-      "primary_language": "Python",
-      "description": "Learn it. Build it. Ship it for others.",
-      "stars": "86",
-      "forks": "15",
+      "description": "AI coding assistant skill (Claude Code, Codex, OpenCode, Cursor, Gemini CLI, and more). Turn any folder of code, SQL schemas, R scripts, shell scripts, docs, papers, images, or videos into a queryable knowledge graph. App code + database schema + infrastructure in one graph.",
+      "stars": "102",
+      "forks": "8",
       "pull_requests": "",
       "pushes": "6",
-      "total_score": "612.558",
-      "contributor_logins": "rohitg00",
+      "total_score": "649.8745",
+      "contributor_logins": "safishamsi",
       "collection_names": ""
     },
     {
@@ -810,6 +810,19 @@
       "collection_names": ""
     },
     {
+      "repo_id": "1144520675",
+      "repo_name": "Alishahryar1/free-claude-code",
+      "primary_language": "Python",
+      "description": "Use claude-code for free in the terminal, VSCode extension or discord like OpenClaw (voice supported)",
+      "stars": "68",
+      "forks": "4",
+      "pull_requests": "1",
+      "pushes": "10",
+      "total_score": "504.685",
+      "contributor_logins": "Alishahryar1",
+      "collection_names": ""
+    },
+    {
       "repo_id": "1133707766",
       "repo_name": "multica-ai/multica",
       "primary_language": "TypeScript",
@@ -833,6 +846,19 @@
       "pushes": "",
       "total_score": "500.5785",
       "contributor_logins": "",
+      "collection_names": ""
+    },
+    {
+      "repo_id": "1237031497",
+      "repo_name": "simplifaisoul/osiris",
+      "primary_language": "TypeScript",
+      "description": "Open Source Global Intelligence Platform - Real-Time OSINT Dashboard - A Palantir Alternative",
+      "stars": "61",
+      "forks": "16",
+      "pull_requests": "",
+      "pushes": "1",
+      "total_score": "498.8633",
+      "contributor_logins": "simplifaisoul",
       "collection_names": ""
     },
     {
@@ -966,19 +992,6 @@
       "collection_names": ""
     },
     {
-      "repo_id": "1144520675",
-      "repo_name": "Alishahryar1/free-claude-code",
-      "primary_language": "Python",
-      "description": "Use claude-code for free in the terminal, VSCode extension or discord like OpenClaw (voice supported)",
-      "stars": "68",
-      "forks": "13",
-      "pull_requests": "",
-      "pushes": "2",
-      "total_score": "472.6216",
-      "contributor_logins": "Alishahryar1,LVT382009",
-      "collection_names": ""
-    },
-    {
       "repo_id": "1006414368",
       "repo_name": "OpenCut-app/OpenCut",
       "primary_language": "TypeScript",
@@ -1080,6 +1093,19 @@
       "pushes": "",
       "total_score": "456.3705",
       "contributor_logins": "",
+      "collection_names": ""
+    },
+    {
+      "repo_id": "1125856365",
+      "repo_name": "can1357/oh-my-pi",
+      "primary_language": "TypeScript",
+      "description": "⌥  AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more",
+      "stars": "55",
+      "forks": "7",
+      "pull_requests": "",
+      "pushes": "2",
+      "total_score": "449.3612",
+      "contributor_logins": "can1357,corrm,oldschoola,apoc",
       "collection_names": ""
     },
     {
@@ -1200,6 +1226,19 @@
       "collection_names": ""
     },
     {
+      "repo_id": "849406496",
+      "repo_name": "Fincept-Corporation/FinceptTerminal",
+      "primary_language": "Python",
+      "description": "FinceptTerminal is a modern finance application offering advanced market analytics, investment research, and economic data tools, designed for interactive exploration and data-driven decision-making in a user-friendly environment.",
+      "stars": "73",
+      "forks": "4",
+      "pull_requests": "",
+      "pushes": "",
+      "total_score": "420.7495",
+      "contributor_logins": "",
+      "collection_names": ""
+    },
+    {
       "repo_id": "1201499170",
       "repo_name": "angelos-p/llm-from-scratch",
       "primary_language": "",
@@ -1226,6 +1265,19 @@
       "collection_names": ""
     },
     {
+      "repo_id": "1244095591",
+      "repo_name": "thananon/9arm-skills",
+      "primary_language": "Shell",
+      "description": "",
+      "stars": "50",
+      "forks": "1",
+      "pull_requests": "1",
+      "pushes": "",
+      "total_score": "414.8488",
+      "contributor_logins": "joitaadrian988-tech",
+      "collection_names": ""
+    },
+    {
       "repo_id": "1192555574",
       "repo_name": "RyanCodrai/turbovec",
       "primary_language": "Rust",
@@ -1249,58 +1301,6 @@
       "pushes": "",
       "total_score": "410.6215",
       "contributor_logins": "DevSidd2006,nyimbi",
-      "collection_names": ""
-    },
-    {
-      "repo_id": "1137441048",
-      "repo_name": "Augani/openreel-video",
-      "primary_language": "TypeScript",
-      "description": "OpenReel Video - Professional browser-based video editor. Open source CapCut alternative. 100% browser-based, no installation, no cloud uploads, no watermarks.",
-      "stars": "48",
-      "forks": "5",
-      "pull_requests": "",
-      "pushes": "3",
-      "total_score": "409.0738",
-      "contributor_logins": "Augani",
-      "collection_names": ""
-    },
-    {
-      "repo_id": "1031059905",
-      "repo_name": "abhigyanpatwari/GitNexus",
-      "primary_language": "TypeScript",
-      "description": "GitNexus: The Zero-Server Code Intelligence Engine -       GitNexus is a client-side knowledge graph creator that runs entirely in your browser. Drop in a GitHub repo or ZIP file, and get an interactive knowledge graph wit a built in Graph RAG Agent. Perfect for code exploration",
-      "stars": "50",
-      "forks": "6",
-      "pull_requests": "3",
-      "pushes": "15",
-      "total_score": "407.1276",
-      "contributor_logins": "Copilot,magyargergo,abhigyanpatwari,vvladescu-tb,ducking217",
-      "collection_names": ""
-    },
-    {
-      "repo_id": "958531089",
-      "repo_name": "VectifyAI/PageIndex",
-      "primary_language": "Python",
-      "description": "📑 PageIndex: Document Index for Vectorless, Reasoning-based RAG",
-      "stars": "69",
-      "forks": "10",
-      "pull_requests": "",
-      "pushes": "",
-      "total_score": "405.989",
-      "contributor_logins": "",
-      "collection_names": ""
-    },
-    {
-      "repo_id": "1223464399",
-      "repo_name": "nikzad-avasam/downloader",
-      "primary_language": "HTML",
-      "description": "🪄 download files + 🌐 browse websites",
-      "stars": "18",
-      "forks": "78",
-      "pull_requests": "",
-      "pushes": "5",
-      "total_score": "405.608",
-      "contributor_logins": "nikzad-avasam,modiritrade",
       "collection_names": ""
     }
   ],

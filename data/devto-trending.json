@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-23T08:22:46.250Z",
+  "fetchedAt": "2026-05-23T13:29:53.279Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1319,
+  "scannedArticles": 1335,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -188,19 +188,19 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 16,
-    "tag-cursor-top-7d": 23,
+    "tag-cursor-top-7d": 38,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 2,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 28,
-    "tag-workflow-top-7d": 39,
-    "tag-workflows-top-7d": 3,
+    "tag-workflow-top-7d": 42,
+    "tag-workflows-top-7d": 2,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 28,
+    "tag-langchain-top-7d": 29,
     "tag-n8n-top-7d": 36,
     "tag-opensource-top-7d": 100
   },
@@ -1454,6 +1454,27 @@
       "linkedRepos": []
     },
     {
+      "id": 3597666,
+      "title": "What was your win this week!?",
+      "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
+      "url": "https://dev.to/devteam/what-was-your-win-this-week-2ohc",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 43,
+      "commentsCount": 34,
+      "readingTime": 1,
+      "publishedAt": "2026-05-22T13:00:00Z",
+      "tags": [
+        "discuss",
+        "weeklyretro"
+      ],
+      "trendingScore": 12.62,
+      "linkedRepos": []
+    },
+    {
       "id": 3610492,
       "title": "I Didn’t Stop Building. I Just Left My Laptop.",
       "description": "Hey there again guys! It’s been almost two months since my last post. And in the back of my head,...",
@@ -1680,27 +1701,6 @@
         "discuss"
       ],
       "trendingScore": 10.86,
-      "linkedRepos": []
-    },
-    {
-      "id": 3597666,
-      "title": "What was your win this week!?",
-      "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
-      "url": "https://dev.to/devteam/what-was-your-win-this-week-2ohc",
-      "author": {
-        "username": "jess",
-        "name": "Jess Lee",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
-      },
-      "reactionsCount": 34,
-      "commentsCount": 30,
-      "readingTime": 1,
-      "publishedAt": "2026-05-22T13:00:00Z",
-      "tags": [
-        "discuss",
-        "weeklyretro"
-      ],
-      "trendingScore": 10.75,
       "linkedRepos": []
     },
     {
@@ -2256,6 +2256,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3732936,
+      "title": "From YAML to AI Agents: Building Smarter DevOps Pipelines with MCP",
+      "description": "How DevOps, SRE, platform, cloud, release, DevSecOps, and AI infrastructure teams can use MCP, skills, and plugins to build faster and safer CI/CD pipelines.",
+      "url": "https://dev.to/nimay_04/from-yaml-to-ai-agents-building-smarter-devops-pipelines-with-mcp-3go3",
+      "author": {
+        "username": "nimay_04",
+        "name": "Nimesh Kulkarni",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3604005%2F962463d0-717a-46e7-b0ea-0d7cd72431e0.jpg"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 0,
+      "readingTime": 8,
+      "publishedAt": "2026-05-23T12:56:51Z",
+      "tags": [
+        "devops",
+        "ai",
+        "mcp",
+        "cicd"
+      ],
+      "trendingScore": 6.35,
+      "linkedRepos": []
+    },
+    {
       "id": 3703180,
       "title": "What Happens When You Run `npm run dev`",
       "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
@@ -2537,29 +2560,6 @@
         "tutorial"
       ],
       "trendingScore": 5.7,
-      "linkedRepos": []
-    },
-    {
-      "id": 3648544,
-      "title": "I Built a Multi-Agent AI Tribunal with Gemma 4",
-      "description": "What If AI Agents Put Each Other on Trial?  This is a submission for the \"Gemma 4 Challenge: Build...",
-      "url": "https://dev.to/ujja/i-built-a-multi-agent-ai-tribunal-with-gemma-4-3ood",
-      "author": {
-        "username": "ujja",
-        "name": "ujja",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F439943%2F774d42c6-75e1-4247-8688-30020ce8f40a.png"
-      },
-      "reactionsCount": 16,
-      "commentsCount": 2,
-      "readingTime": 16,
-      "publishedAt": "2026-05-15T15:41:31Z",
-      "tags": [
-        "devchallenge",
-        "gemmachallenge",
-        "gemma",
-        "agents"
-      ],
-      "trendingScore": 5.67,
       "linkedRepos": []
     }
   ]

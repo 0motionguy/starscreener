@@ -83,8 +83,8 @@ export interface AaPayload {
 // forward-compatible with new evaluation columns AA adds without us.
 interface RawAaEvaluations {
   artificial_analysis_intelligence_index?: unknown;
-  coding_index?: unknown;
-  math_index?: unknown;
+  artificial_analysis_coding_index?: unknown;
+  artificial_analysis_math_index?: unknown;
   mmlu_pro?: unknown;
   gpqa?: unknown;
   [k: string]: unknown;
@@ -95,10 +95,20 @@ interface RawAaPricing {
   [k: string]: unknown;
 }
 
+// As of 2026-05 the live API returns creator under `model_creator` (a nested
+// object with `id` / `name` / `slug`), NOT a flat `creator` string. We
+// tolerate either shape so older snapshots still parse.
+interface RawAaModelCreator {
+  id?: unknown;
+  name?: unknown;
+  slug?: unknown;
+}
+
 interface RawAaModel {
   slug?: unknown;
   name?: unknown;
   creator?: unknown;
+  model_creator?: RawAaModelCreator;
   evaluations?: RawAaEvaluations;
   pricing?: RawAaPricing;
   median_output_tokens_per_second?: unknown;
@@ -230,7 +240,12 @@ function pickModelArray(raw: RawAaResponse | unknown): RawAaModel[] {
 export function normaliseModel(entry: RawAaModel): AaModel | null {
   const slug = trimmedString(entry.slug);
   const name = trimmedString(entry.name);
-  const creator = trimmedString(entry.creator);
+  // Live API nests creator under model_creator; older snapshots had it flat.
+  // Prefer the live shape; fall back to the flat string when present.
+  const creator =
+    trimmedString(entry.model_creator?.name) ??
+    trimmedString(entry.model_creator?.slug) ??
+    trimmedString(entry.creator);
   if (!slug || !name || !creator) return null;
 
   const evals = entry.evaluations ?? {};
@@ -241,8 +256,8 @@ export function normaliseModel(entry: RawAaModel): AaModel | null {
     name,
     creator,
     intelligenceIndex: numberOrNull(evals.artificial_analysis_intelligence_index),
-    codingIndex: numberOrNull(evals.coding_index),
-    mathIndex: numberOrNull(evals.math_index),
+    codingIndex: numberOrNull(evals.artificial_analysis_coding_index),
+    mathIndex: numberOrNull(evals.artificial_analysis_math_index),
     mmluPro: numberOrNull(evals.mmlu_pro),
     gpqa: numberOrNull(evals.gpqa),
     pricePerMTokens: numberOrNull(pricing.price_1m_blended_3_to_1),

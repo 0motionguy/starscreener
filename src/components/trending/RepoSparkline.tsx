@@ -16,7 +16,12 @@ export function RepoSparkline({ data, repo, variant, className }: RepoSparklineP
   const points = data && data.length > 1 ? data : repo?.sparklineData ?? [];
   if (!points || points.length < 2) {
     // Render an empty placeholder so the column doesn't collapse.
-    return <div className="spark muted" data-points="" aria-hidden="true" />;
+    // suppressHydrationWarning because shell.js mutates the div on mount
+    // (injects SVG + sets data-rendered) — that mutation is intentional and
+    // owned by the imperative shell-script layer, not React.
+    return (
+      <div className="spark muted" data-points="" aria-hidden="true" suppressHydrationWarning />
+    );
   }
   const v =
     variant ??
@@ -26,5 +31,12 @@ export function RepoSparkline({ data, repo, variant, className }: RepoSparklineP
         : "down"
       : "up");
   const cls = `spark ${v}${className ? " " + className : ""}`;
-  return <div className={cls} data-points={points.join(",")} aria-hidden="true" />;
+  return (
+    <div
+      className={cls}
+      data-points={points.join(",")}
+      aria-hidden="true"
+      suppressHydrationWarning
+    />
+  );
 }

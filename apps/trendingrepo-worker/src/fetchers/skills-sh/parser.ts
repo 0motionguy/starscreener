@@ -16,7 +16,8 @@ import * as cheerio from 'cheerio';
 import type { SkillRow, SkillView } from './types.js';
 import { ALL_AGENT_IDS } from './agents.js';
 
-const URL_BASE = 'https://skills.sh';
+// Canonical host (post-2026-05 redirect from bare skills.sh).
+const URL_BASE = 'https://www.skills.sh';
 
 export interface ExtractedRow {
   rank?: number | string;
@@ -130,6 +131,11 @@ export interface ParseHtmlInput {
 
 const HREF_PATH_RE = /^\/[^/]+\/[^/]+\/[^/]+$/;
 const AGENT_ICON_PATH_RE = /\/agents\/([a-z0-9-]+)\.svg/;
+// www.skills.sh (post 2026-05 redesign) renders install counts as
+// aria-label="Weekly installs: 1.2M" on the per-row sparkline SVG instead
+// of the previous font-mono text node. parseInstallCount handles the
+// K/M/B suffix variants.
+const ARIA_INSTALLS_RE = /aria-label="Weekly installs:\s*([^"]+)"/i;
 
 /**
  * Cheerio-based HTML parser. Looks for the skills.sh leaderboard rows by:
@@ -181,8 +187,16 @@ export function parseFromHtmlCheerio(input: ParseHtmlInput): SkillRow[] {
     if (seen.has(sourceId)) return;
     seen.add(sourceId);
 
+    // Try the legacy font-mono text node first; if absent (post-2026-05
+     // redesign drops the column in favor of an aria-label on the sparkline
+    // SVG), fall back to the aria-label on the row.
     const installText = $row.find('[class*="font-mono"]').last().text().trim();
-    const installs = installText ? parseInstallCount(installText) : null;
+    let installs = installText ? parseInstallCount(installText) : null;
+    if (installs === null) {
+      const aria = $row.find('[aria-label^="Weekly installs:"]').first().attr('aria-label');
+      const m = aria?.match(/Weekly installs:\s*([^"]+)/i);
+      if (m?.[1]) installs = parseInstallCount(m[1]);
+    }
 
     const agentSlugs: string[] = [];
     const seenAgents = new Set<string>();
@@ -268,6 +282,11 @@ export function parseFromHtmlRegex(input: ParseHtmlInput): SkillRow[] {
       }
     }
 
+    // Post-2026-05 redesign: install count is in aria-label of the row's
+    // sparkline SVG, not in a proximity-textnode. Scan the forward window.
+    const ariaMatch = slice.match(ARIA_INSTALLS_RE);
+    const installs = ariaMatch?.[1] ? parseInstallCount(ariaMatch[1]) : null;
+
     rows.push({
       rank: rows.length + 1,
       skill_name: hit.skill,
@@ -276,7 +295,7 @@ export function parseFromHtmlRegex(input: ParseHtmlInput): SkillRow[] {
       source_id: sourceId,
       url: `${URL_BASE}/${sourceId}`,
       github_url: `https://github.com/${hit.owner}/${hit.repo}/tree/main/${hit.skill}`,
-      installs: null,
+      installs,
       agents,
       view,
       fetchedAt,

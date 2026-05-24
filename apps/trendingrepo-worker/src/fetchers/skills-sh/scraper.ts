@@ -33,10 +33,16 @@ import {
 import { fetchSkillMd, type ParsedSkillMd } from './skill-md.js';
 import type { SkillRow, SkillView } from './types.js';
 
+// Domain moved 2026-05 — `skills.sh` now 308-redirects to `www.skills.sh`.
+// The direct-http fallback follows redirects, but Firecrawl's JSON-extract
+// path runs the LLM extraction against the page *Firecrawl* fetched, and
+// some Firecrawl versions don't transparently follow cross-host redirects
+// before extraction. Hitting the canonical host directly avoids the issue
+// and saves a network hop on every view.
 export const SKILLS_SH_VIEWS: ReadonlyArray<{ view: SkillView; url: string }> = [
-  { view: 'all-time', url: 'https://skills.sh/' },
-  { view: 'trending', url: 'https://skills.sh/trending' },
-  { view: 'hot', url: 'https://skills.sh/hot' },
+  { view: 'all-time', url: 'https://www.skills.sh/' },
+  { view: 'trending', url: 'https://www.skills.sh/trending' },
+  { view: 'hot', url: 'https://www.skills.sh/hot' },
 ];
 
 export interface ScrapeOptions {
@@ -198,6 +204,17 @@ async function fetchOneView(
     return directRows.length > rows.length ? directRows : rows;
   }
   const htmlRows = parseFromHtml({ html, view, fetchedAt: deps.fetchedAt });
+  // www.skills.sh post-2026-05 SSR: Firecrawl's rendered HTML drops the
+  // leaderboard rows entirely (some interaction with their bot detection /
+  // wait timing). Direct curl reliably returns 938KB + 188 rows. When
+  // Firecrawl's HTML pass yields <10 rows, fall through to direct http
+  // before declaring the view empty.
+  if (htmlRows.length < 10) {
+    const directRows = await fetchOneViewDirect(deps, url, view).catch(() => [] as SkillRow[]);
+    if (directRows.length > htmlRows.length) {
+      return directRows.length > rows.length ? directRows : rows;
+    }
+  }
   return htmlRows.length > rows.length ? htmlRows : rows;
 }
 

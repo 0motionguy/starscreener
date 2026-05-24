@@ -56,36 +56,58 @@ export interface HfModelTrending extends HfModelRaw {
   momentum: number; // 0..100 (per-domain percentile)
   primaryMetric: { name: string; value: number; label: string };
   explanation: string;
+  /**
+   * Synthesized download deltas from `hf-downloads-snapshot:prev:{1,7,30}d`.
+   * Zero when the slot hasn't matured yet (day < 2 / 8 / 31 after the
+   * snapshot fetcher ships, or when the model id is absent from a slot —
+   * e.g., a newly trending model wasn't in yesterday's snapshot).
+   */
+  downloadsDelta24h: number;
+  downloadsDelta7d: number;
+  downloadsDelta30d: number;
 }
 
 // ---------------------------------------------------------------------------
-// LLM-only filter (opt-in, gated by HF_LLM_ONLY=true)
+// LLM-only filter
 // ---------------------------------------------------------------------------
 //
-// Backend produces ~20K HF models across every pipeline tag (vision,
-// speech, embedding, ...). trendingrepo's HF surface only cares about
-// LLMs. Filter by `pipelineTag` at the reader level so consumers
-// (scoring, OG cards, rollups) all see the LLM-only view.
+// HuggingFace's trending feed mixes every `pipeline_tag`: text-generation,
+// image-text-to-text, text-to-image, image-to-video, sentence-similarity,
+// translation, ASR, etc. The /cat=llms surface must only show LLMs (text +
+// multimodal foundation models with text output). 2026-05 audit of top 100
+// trending: 29× image-text-to-text (Qwen-VL, LLaVA, DeepSeek-VL,
+// Nemotron-VL), 17× text-generation, 13× null, 7× text-to-image,
+// 7× text-to-speech, 5× image-to-video, etc. Excluding multimodal LLMs
+// dropped yield to 17/100 and lost most current foundation models.
 //
-// Toggleable via HF_LLM_ONLY=true so we can flip back to the full set
-// without a deploy if a downstream consumer needs every model. Default
-// off — when the env var is missing or anything other than "true" the
-// existing wire shape passes through untouched.
+// `LLM_PIPELINE_TAGS` is the canonical accept-list. `keepLlmsOnly` is
+// applied inside getHfModelsTrending so /cat=llms always sees only LLMs.
+// `filterLlmOnly` is the legacy env-gated variant kept for back-compat
+// with other consumers (sidebar counts, OG cards, cross-domain joins)
+// that read the module-level `trendingFile` directly and may want the
+// full mixed set unless HF_LLM_ONLY=true.
 
 const LLM_PIPELINE_TAGS: ReadonlySet<string> = new Set([
   "text-generation",
   "conversational",
+  "image-text-to-text",
+  "any-to-any",
+  "video-text-to-text",
 ]);
 
 function isLlmOnlyEnabled(): boolean {
   return process.env.HF_LLM_ONLY === "true";
 }
 
+function keepLlmsOnly(models: readonly HfModelRaw[]): HfModelRaw[] {
+  return models.filter(
+    (m) => typeof m.pipelineTag === "string" && LLM_PIPELINE_TAGS.has(m.pipelineTag),
+  );
+}
+
 function filterLlmOnly(file: HfTrendingFile): HfTrendingFile {
   if (!isLlmOnlyEnabled()) return file;
-  const models = (file.models ?? []).filter(
-    (m) => m.pipelineTag !== null && LLM_PIPELINE_TAGS.has(m.pipelineTag),
-  );
+  const models = keepLlmsOnly(file.models ?? []);
   return { ...file, count: models.length, models };
 }
 
@@ -99,6 +121,56 @@ let trendingFile: HfTrendingFile = filterLlmOnly(
 
 export function getHfTrendingFile(): HfTrendingFile {
   return trendingFile;
+}
+
+// ---------------------------------------------------------------------------
+// Downloads snapshots — populated by refreshHfModelsFromStore
+// ---------------------------------------------------------------------------
+//
+// Slot keys `hf-downloads-snapshot:prev:{1,7,30}d` are written by the
+// worker fetcher of the same name. Reader joins today's `downloads` per
+// model id against each slot to synthesize 24h/7d/30d deltas. Cold-start
+// (slot empty or model id missing): delta defaults to 0 and the /cat=llms
+// ranker tiebreaks on absolute downloads — source-native HF trending
+// order survives.
+
+interface DownloadsSnapshotEntry {
+  downloads: number;
+  likes: number;
+}
+
+interface DownloadsSnapshotPayload {
+  totals?: Record<string, DownloadsSnapshotEntry>;
+}
+
+const EMPTY_SNAPSHOT: Record<string, DownloadsSnapshotEntry> = {};
+let downloadsPrev1d: Record<string, DownloadsSnapshotEntry> = EMPTY_SNAPSHOT;
+let downloadsPrev7d: Record<string, DownloadsSnapshotEntry> = EMPTY_SNAPSHOT;
+let downloadsPrev30d: Record<string, DownloadsSnapshotEntry> = EMPTY_SNAPSHOT;
+
+function lowercaseKeys(
+  src: Record<string, DownloadsSnapshotEntry> | undefined,
+): Record<string, DownloadsSnapshotEntry> {
+  if (!src) return EMPTY_SNAPSHOT;
+  const out: Record<string, DownloadsSnapshotEntry> = {};
+  for (const [k, v] of Object.entries(src)) {
+    if (v && typeof v.downloads === "number") out[k.toLowerCase()] = v;
+  }
+  return out;
+}
+
+function deltaFor(
+  modelId: string,
+  field: "downloads" | "likes",
+  prev: Record<string, DownloadsSnapshotEntry>,
+  current: number,
+): number {
+  const past = prev[modelId.toLowerCase()];
+  if (!past) return 0;
+  const diff = current - past[field];
+  // Negative deltas are noise (model deleted + re-uploaded, snapshot drift)
+  // — clamp to 0 so the sort doesn't surface "biggest drop".
+  return diff > 0 ? diff : 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -125,9 +197,14 @@ function rawToScorerItem(raw: HfModelRaw): HfModelItem {
  * Score every model in the current cache, rank by post-cross-domain
  * momentum (descending), and return the top `limit`. Pure — safe to
  * call from server components.
+ *
+ * Always filters to LLMs (text + multimodal foundation models with text
+ * output) regardless of the HF_LLM_ONLY env gate, so /cat=llms is honest
+ * about what it shows. The env gate still governs the module-level cache
+ * for other consumers that may want the full mixed set.
  */
 export function getHfModelsTrending(limit = 100): HfModelTrending[] {
-  const raws = trendingFile.models ?? [];
+  const raws = keepLlmsOnly(trendingFile.models ?? []);
   if (raws.length === 0) return [];
 
   const items = raws.map(rawToScorerItem);
@@ -139,13 +216,20 @@ export function getHfModelsTrending(limit = 100): HfModelTrending[] {
   const ranked = computeCrossDomainMomentum(perDomain).get("hf-model") ?? [];
 
   // ranked preserves input order — splice the raw fields back in by index.
-  const enriched: HfModelTrending[] = ranked.map((s, i) => ({
-    ...raws[i],
-    rawScore: s.rawScore,
-    momentum: s.momentum,
-    primaryMetric: s.primaryMetric,
-    explanation: s.explanation,
-  }));
+  const enriched: HfModelTrending[] = ranked.map((s, i) => {
+    const raw = raws[i]!;
+    const dl = Math.max(0, raw.downloads ?? 0);
+    return {
+      ...raw,
+      rawScore: s.rawScore,
+      momentum: s.momentum,
+      primaryMetric: s.primaryMetric,
+      explanation: s.explanation,
+      downloadsDelta24h: deltaFor(raw.id, "downloads", downloadsPrev1d, dl),
+      downloadsDelta7d: deltaFor(raw.id, "downloads", downloadsPrev7d, dl),
+      downloadsDelta30d: deltaFor(raw.id, "downloads", downloadsPrev30d, dl),
+    };
+  });
 
   enriched.sort((a, b) => b.momentum - a.momentum);
   if (enriched.length <= limit) return enriched;
@@ -172,10 +256,23 @@ export async function refreshHfModelsFromStore(): Promise<{
   inflight = (async () => {
     try {
       const { getDataStore } = await import("./data-store");
-      const result = await getDataStore().read<HfTrendingFile>("huggingface-trending");
+      const store = getDataStore();
+      // Pull trending roster + the three downloads-snapshot slots in
+      // parallel. Snapshot reads are best-effort: any failure degrades
+      // that window's deltas to 0, which falls through to source-native
+      // ordering on the /cat=llms surface.
+      const [result, snap1d, snap7d, snap30d] = await Promise.all([
+        store.read<HfTrendingFile>("huggingface-trending"),
+        store.read<DownloadsSnapshotPayload>("hf-downloads-snapshot:prev:1d").catch(() => null),
+        store.read<DownloadsSnapshotPayload>("hf-downloads-snapshot:prev:7d").catch(() => null),
+        store.read<DownloadsSnapshotPayload>("hf-downloads-snapshot:prev:30d").catch(() => null),
+      ]);
       if (result.data && result.source !== "missing") {
         trendingFile = filterLlmOnly(result.data);
       }
+      downloadsPrev1d = lowercaseKeys(snap1d?.data?.totals);
+      downloadsPrev7d = lowercaseKeys(snap7d?.data?.totals);
+      downloadsPrev30d = lowercaseKeys(snap30d?.data?.totals);
       lastRefreshMs = Date.now();
       return { huggingface: { source: result.source, ageMs: result.ageMs } };
     } catch {

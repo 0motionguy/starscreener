@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-24T11:42:38.059Z",
+  "fetchedAt": "2026-05-24T13:59:39.199Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -6170,15 +6170,15 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
-        "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
-        "text": "Claude Code automates agent workflows. Claude Code v2.1.145 adds JSON session listing and OTEL span IDs for improved tracing. #Anthropic #ClaudeCode #OTEL 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.145",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmm2rpgezg2u",
+        "cid": "bafyreidzieuaxuj6ngdsi3l4pr4cz4khbhl4kai2bhm4xcw2d3jfcp4r6m",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmm2rpgezg2u",
+        "text": "Claude Code adds resume for background sessions. v2.1.144 introduces /resume for bg sessions with elapsed time and plugin update tracking. #ClaudeCode #BackgroundSessions #PluginManagement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.144",
         "author": {
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
@@ -6186,8 +6186,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-24T08:28:32.341444Z",
-        "hoursSincePosted": 3.24
+        "createdAt": "2026-05-24T13:24:41.912209Z",
+        "hoursSincePosted": 0.58
       },
       "posts": [
         {
@@ -6360,6 +6360,35 @@
           ]
         },
         {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmm2rpgezg2u",
+          "cid": "bafyreidzieuaxuj6ngdsi3l4pr4cz4khbhl4kai2bhm4xcw2d3jfcp4r6m",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmm2rpgezg2u",
+          "text": "Claude Code adds resume for background sessions. v2.1.144 introduces /resume for bg sessions with elapsed time and plugin update tracking. #ClaudeCode #BackgroundSessions #PluginManagement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.144",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:24:41.912209Z",
+          "createdUtc": 1779629081,
+          "ageHours": 0.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
           "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
           "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
@@ -6373,7 +6402,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T08:28:32.341444Z",
           "createdUtc": 1779611312,
-          "ageHours": 3.24,
+          "ageHours": 5.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7647,23 +7676,23 @@
     },
     "multica-ai/multica": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
-        "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
-        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
-        "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
-          "handle": "githubfeed.bsky.social",
-          "displayName": "VritraSec • GitHub Feed"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T13:02:07.422158+00:00",
-        "hoursSincePosted": 0.88
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -7694,6 +7723,49 @@
             },
             {
               "fullName": "pbakaus/impeccable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
               "matchType": "url",
               "confidence": 1
             }
@@ -8110,7 +8182,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T08:09:21Z",
-        "hoursSincePosted": 3.55
+        "hoursSincePosted": 5.84
       },
       "posts": [
         {
@@ -8155,7 +8227,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T08:09:21Z",
           "createdUtc": 1779610161,
-          "ageHours": 3.55,
+          "ageHours": 5.84,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -11989,21 +12061,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
-        "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllxpypugf22",
-        "text": "tw93 / Kaku: 🎃 A fast, out-of-the-box terminal built for AI coding. ★4993 https://github.com/tw93/Kaku",
+        "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmlz7l3qg22p",
+        "cid": "bafyreiekev4oqcrt4pr3xcqw5wlyrrbb36h3rhfsrlfi5ilyzpcbppxngq",
+        "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmlz7l3qg22p",
+        "text": "github.com/tw93/Kaku WezTermのforkでかなり手を入れてるっぽいんだけど今はMac限定っぽい。Windowsユーザのターミナル事情は本当に壊滅的だな。",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "wizaman.net",
+          "displayName": "ウィザまん(wizaman)"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T19:04:52.863628Z",
-        "hoursSincePosted": 1.01
+        "createdAt": "2026-05-24T12:56:40.944Z",
+        "hoursSincePosted": 1.05
       },
       "posts": [
+        {
+          "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmlz7l3qg22p",
+          "cid": "bafyreiekev4oqcrt4pr3xcqw5wlyrrbb36h3rhfsrlfi5ilyzpcbppxngq",
+          "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmlz7l3qg22p",
+          "text": "github.com/tw93/Kaku WezTermのforkでかなり手を入れてるっぽいんだけど今はMac限定っぽい。Windowsユーザのターミナル事情は本当に壊滅的だな。",
+          "author": {
+            "handle": "wizaman.net",
+            "displayName": "ウィザまん(wizaman)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T12:56:40.944Z",
+          "createdUtc": 1779627400,
+          "ageHours": 1.05,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tw93/Kaku",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
           "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
@@ -13093,23 +13193,23 @@
     },
     "Alishahryar1/free-claude-code": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlno7pt52j2j",
-        "cid": "bafyreiaop534tqspgnkosmame3ozwc3luoyffqcls5yhces3f4t3i6jynq",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
-        "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T13:20:02+02:00",
-        "hoursSincePosted": 0.99
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -13135,6 +13235,49 @@
           "linkedRepos": [
             {
               "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
               "matchType": "url",
               "confidence": 1
             }
@@ -17189,23 +17332,22 @@
     },
     "ruvnet/RuView": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:nvy4upszpuyvjjtn3flhmwva/app.bsky.feed.post/3mmjnxv2exc2o",
-        "cid": "bafyreidrgxcevcx2usrqoiybmyptkt75ulrlr4l7f5uau4ovgajfmddrfy",
-        "bskyUrl": "https://bsky.app/profile/mrg9999.bsky.social/post/3mmjnxv2exc2o",
-        "text": "github.com/ruvnet/RuView",
+        "uri": "at://did:plc:gzwod373bz46nkalcab2lx5j/app.bsky.feed.post/3mmlv7ufe5c2h",
+        "cid": "bafyreiadbpau375iwvqwpx4qbq5kel5k5k7n4mdpg33lomn6fqxt4j6paa",
+        "bskyUrl": "https://bsky.app/profile/keefeoverby.bsky.social/post/3mmlv7ufe5c2h",
+        "text": "Smartphones have WiFi, if some dev is developing this tech opensource imagine what the governments or corporations are secretly using: I stopped taking my smartphone every where because I don't like it but now I REALLY don't like it, the little GPS WiFi Bluetooth tracker github.com/ruvnet/RuVie...",
         "author": {
-          "handle": "mrg9999.bsky.social",
-          "displayName": "Mr.G"
+          "handle": "keefeoverby.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-23T14:30:12.313Z",
-        "hoursSincePosted": 5.13
+        "replyCount": 1,
+        "createdAt": "2026-05-24T11:45:15.729Z",
+        "hoursSincePosted": 2.24
       },
       "posts": [
         {
@@ -17239,6 +17381,33 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gzwod373bz46nkalcab2lx5j/app.bsky.feed.post/3mmlv7ufe5c2h",
+          "cid": "bafyreiadbpau375iwvqwpx4qbq5kel5k5k7n4mdpg33lomn6fqxt4j6paa",
+          "bskyUrl": "https://bsky.app/profile/keefeoverby.bsky.social/post/3mmlv7ufe5c2h",
+          "text": "Smartphones have WiFi, if some dev is developing this tech opensource imagine what the governments or corporations are secretly using: I stopped taking my smartphone every where because I don't like it but now I REALLY don't like it, the little GPS WiFi Bluetooth tracker github.com/ruvnet/RuVie...",
+          "author": {
+            "handle": "keefeoverby.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T11:45:15.729Z",
+          "createdUtc": 1779623115,
+          "ageHours": 2.24,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "ruvnet/RuView",
               "matchType": "url",
@@ -19368,20 +19537,64 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
-        "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
-        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm6d2uxapp2c",
-        "text": "Kronos 是一個專為金融市場 K 線設計的開源基礎模型。它用全球超過 45 個交易所的數據訓練，目前看來是第一個針對 K 線序列的 decoder-only 模型。官方有提供 fine-tuning 腳本，可以調整模型來適應不同任務。 目前應用情境可能需要自行探索，但對於研究金融市場數據的團隊來說，Kronos 提供了一個新的切入點。 #Kronos #金融科技 #開源模型 #LLM https://github.com/shiyu-coder/Kronos",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
-          "handle": "wsx5031060310guy.bsky.social"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T02:15:44.461Z",
-        "hoursSincePosted": 2.3
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
           "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
@@ -19624,21 +19837,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmlblkhhlc2i",
-        "cid": "bafyreiffpoe6b7pbihe767xonahlwyvakxvfkk3fznfp7htxi3wfnxmosq",
-        "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmlblkhhlc2i",
-        "text": "CPUでも動いちゃうぜっていう軽いTTSのやつ。 試せるページがあったので試してみたところ、確かに(WebGPUを使っていると)無茶苦茶早く結果が出てすごい。 で、「呪い」をどう読むかテストしてみたらまぁそうよね的な結果に。 github.com/supertone-in...",
+        "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmm2w3vvrk2i",
+        "cid": "bafyreiek2xls44auz2ezjkjovtok3vqt6sda6srjw26em5urgksvmldu3m",
+        "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmm2w3vvrk2i",
+        "text": "これ、iOS 用のプロジェクトもあるので簡単に動きそうだなぁと思ってそのサンプルプロジェクトを動かして走れメロスをコピペして読み上げさせようとしてるんだけど、全文はエラーして、1段落位だと端折って読まれてしまい、ちゃんと読んでくれれない。うーん？ github.com/supertone-in...",
         "author": {
           "handle": "limura.bsky.social",
           "displayName": "IIMURA Takuji"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-24T05:53:53.130Z",
-        "hoursSincePosted": 2.13
+        "replyCount": 1,
+        "createdAt": "2026-05-24T13:27:10.519Z",
+        "hoursSincePosted": 0.54
       },
       "posts": [
         {
@@ -19657,6 +19870,34 @@
           "createdUtc": 1779170483,
           "ageHours": 2.63,
           "trendingScore": 9,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "supertone-inc/supertonic",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmm2w3vvrk2i",
+          "cid": "bafyreiek2xls44auz2ezjkjovtok3vqt6sda6srjw26em5urgksvmldu3m",
+          "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmm2w3vvrk2i",
+          "text": "これ、iOS 用のプロジェクトもあるので簡単に動きそうだなぁと思ってそのサンプルプロジェクトを動かして走れメロスをコピペして読み上げさせようとしてるんだけど、全文はエラーして、1段落位だと端折って読まれてしまい、ちゃんと読んでくれれない。うーん？ github.com/supertone-in...",
+          "author": {
+            "handle": "limura.bsky.social",
+            "displayName": "IIMURA Takuji"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T13:27:10.519Z",
+          "createdUtc": 1779629230,
+          "ageHours": 0.54,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19954,23 +20195,23 @@
     },
     "colbymchenry/codegraph": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
-        "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 0,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -20209,6 +20450,49 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
               "matchType": "url",
               "confidence": 1
             }
@@ -21011,23 +21295,23 @@
     },
     "anthropics/claude-plugins-official": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
-        "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 3,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -21177,6 +21461,44 @@
             },
             {
               "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+          "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 3,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
               "matchType": "url",
               "confidence": 1
             }
@@ -22789,23 +23111,23 @@
     },
     "rohitg00/ai-engineering-from-scratch": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
-        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
-        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "replyCount": 3,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -22850,6 +23172,44 @@
               "confidence": 1
             }
           ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+          "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 3,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
         }
       ]
     },
@@ -22871,7 +23231,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T09:12:04.718045113Z",
-        "hoursSincePosted": 2.51
+        "hoursSincePosted": 4.79
       },
       "posts": [
         {
@@ -22931,7 +23291,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T09:12:04.718045113Z",
           "createdUtc": 1779613924,
-          "ageHours": 2.51,
+          "ageHours": 4.79,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -22949,23 +23309,23 @@
     },
     "can1357/oh-my-pi": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmg65mbu3s2x",
-        "cid": "bafyreicitccpaz2xqbbign6fwwlvivmmwb6y6jpohqoytlzd4q2hvl6xoe",
-        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmg65mbu3s2x",
-        "text": "tried out omp (github.com/can1357/oh-m...) now it is too much batteries included - and I like it if you compare opencode with omp, it is comparing flask with django #aitools #framework #opencode #ohmypi #opensource",
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlvoouqck2d",
+        "cid": "bafyreiadlngzyuconqrs3yszzxqvy5pluacvb5ozz7phs5dd7nux4ffahi",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlvoouqck2d",
+        "text": "github.com/can1357/oh-m...",
         "author": {
           "handle": "adityamitra.bsky.social",
           "displayName": "Aditya Mitra"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-22T05:09:05.362Z",
-        "hoursSincePosted": 3.4
+        "replyCount": 1,
+        "createdAt": "2026-05-24T11:53:33.252Z",
+        "hoursSincePosted": 2.1
       },
       "posts": [
         {
@@ -23032,6 +23392,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlvoouqck2d",
+          "cid": "bafyreiadlngzyuconqrs3yszzxqvy5pluacvb5ozz7phs5dd7nux4ffahi",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlvoouqck2d",
+          "text": "github.com/can1357/oh-m...",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T11:53:33.252Z",
+          "createdUtc": 1779623613,
+          "ageHours": 2.1,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "can1357/oh-my-pi",
               "matchType": "url",
@@ -25092,23 +25480,23 @@
     },
     "Lum1104/Understand-Anything": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
-        "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 3,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -25144,6 +25532,44 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+          "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 3,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
               "matchType": "url",
               "confidence": 1
             }
@@ -25743,6 +26169,57 @@
           "linkedRepos": [
             {
               "fullName": "cartesiancs/map3d",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "plainhub/plain-app": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmm36jjsbj2o",
+        "cid": "bafyreiad2rn5pza3i4vd72duxyzzapog2cpzs7q6s3bso6qhyppn6galdq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmm36jjsbj2o",
+        "text": "https://github.com/plainhub/plain-app",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T13:31:52Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmm36jjsbj2o",
+          "cid": "bafyreiad2rn5pza3i4vd72duxyzzapog2cpzs7q6s3bso6qhyppn6galdq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmm36jjsbj2o",
+          "text": "https://github.com/plainhub/plain-app",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:31:52Z",
+          "createdUtc": 1779629512,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "plainhub/plain-app",
               "matchType": "url",
               "confidence": 1
             }
@@ -31917,15 +32394,15 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
-        "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
-        "text": "Claude Code automates agent workflows. Claude Code v2.1.145 adds JSON session listing and OTEL span IDs for improved tracing. #Anthropic #ClaudeCode #OTEL 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.145",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmm2rpgezg2u",
+        "cid": "bafyreidzieuaxuj6ngdsi3l4pr4cz4khbhl4kai2bhm4xcw2d3jfcp4r6m",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmm2rpgezg2u",
+        "text": "Claude Code adds resume for background sessions. v2.1.144 introduces /resume for bg sessions with elapsed time and plugin update tracking. #ClaudeCode #BackgroundSessions #PluginManagement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.144",
         "author": {
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
@@ -31933,8 +32410,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-24T08:28:32.341444Z",
-        "hoursSincePosted": 3.24
+        "createdAt": "2026-05-24T13:24:41.912209Z",
+        "hoursSincePosted": 0.58
       },
       "posts": [
         {
@@ -32107,6 +32584,35 @@
           ]
         },
         {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmm2rpgezg2u",
+          "cid": "bafyreidzieuaxuj6ngdsi3l4pr4cz4khbhl4kai2bhm4xcw2d3jfcp4r6m",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmm2rpgezg2u",
+          "text": "Claude Code adds resume for background sessions. v2.1.144 introduces /resume for bg sessions with elapsed time and plugin update tracking. #ClaudeCode #BackgroundSessions #PluginManagement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.144",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:24:41.912209Z",
+          "createdUtc": 1779629081,
+          "ageHours": 0.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
           "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
           "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
@@ -32120,7 +32626,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T08:28:32.341444Z",
           "createdUtc": 1779611312,
-          "ageHours": 3.24,
+          "ageHours": 5.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -33394,23 +33900,23 @@
     },
     "multica-ai--multica": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
-        "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
-        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
-        "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
-          "handle": "githubfeed.bsky.social",
-          "displayName": "VritraSec • GitHub Feed"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T13:02:07.422158+00:00",
-        "hoursSincePosted": 0.88
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -33441,6 +33947,49 @@
             },
             {
               "fullName": "pbakaus/impeccable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
               "matchType": "url",
               "confidence": 1
             }
@@ -33857,7 +34406,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T08:09:21Z",
-        "hoursSincePosted": 3.55
+        "hoursSincePosted": 5.84
       },
       "posts": [
         {
@@ -33902,7 +34451,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T08:09:21Z",
           "createdUtc": 1779610161,
-          "ageHours": 3.55,
+          "ageHours": 5.84,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -37736,21 +38285,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
-        "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllxpypugf22",
-        "text": "tw93 / Kaku: 🎃 A fast, out-of-the-box terminal built for AI coding. ★4993 https://github.com/tw93/Kaku",
+        "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmlz7l3qg22p",
+        "cid": "bafyreiekev4oqcrt4pr3xcqw5wlyrrbb36h3rhfsrlfi5ilyzpcbppxngq",
+        "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmlz7l3qg22p",
+        "text": "github.com/tw93/Kaku WezTermのforkでかなり手を入れてるっぽいんだけど今はMac限定っぽい。Windowsユーザのターミナル事情は本当に壊滅的だな。",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "wizaman.net",
+          "displayName": "ウィザまん(wizaman)"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T19:04:52.863628Z",
-        "hoursSincePosted": 1.01
+        "createdAt": "2026-05-24T12:56:40.944Z",
+        "hoursSincePosted": 1.05
       },
       "posts": [
+        {
+          "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mmlz7l3qg22p",
+          "cid": "bafyreiekev4oqcrt4pr3xcqw5wlyrrbb36h3rhfsrlfi5ilyzpcbppxngq",
+          "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mmlz7l3qg22p",
+          "text": "github.com/tw93/Kaku WezTermのforkでかなり手を入れてるっぽいんだけど今はMac限定っぽい。Windowsユーザのターミナル事情は本当に壊滅的だな。",
+          "author": {
+            "handle": "wizaman.net",
+            "displayName": "ウィザまん(wizaman)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T12:56:40.944Z",
+          "createdUtc": 1779627400,
+          "ageHours": 1.05,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tw93/Kaku",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
           "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
@@ -38840,23 +39417,23 @@
     },
     "alishahryar1--free-claude-code": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlno7pt52j2j",
-        "cid": "bafyreiaop534tqspgnkosmame3ozwc3luoyffqcls5yhces3f4t3i6jynq",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
-        "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T13:20:02+02:00",
-        "hoursSincePosted": 0.99
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -38882,6 +39459,49 @@
           "linkedRepos": [
             {
               "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
               "matchType": "url",
               "confidence": 1
             }
@@ -42936,23 +43556,22 @@
     },
     "ruvnet--ruview": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:nvy4upszpuyvjjtn3flhmwva/app.bsky.feed.post/3mmjnxv2exc2o",
-        "cid": "bafyreidrgxcevcx2usrqoiybmyptkt75ulrlr4l7f5uau4ovgajfmddrfy",
-        "bskyUrl": "https://bsky.app/profile/mrg9999.bsky.social/post/3mmjnxv2exc2o",
-        "text": "github.com/ruvnet/RuView",
+        "uri": "at://did:plc:gzwod373bz46nkalcab2lx5j/app.bsky.feed.post/3mmlv7ufe5c2h",
+        "cid": "bafyreiadbpau375iwvqwpx4qbq5kel5k5k7n4mdpg33lomn6fqxt4j6paa",
+        "bskyUrl": "https://bsky.app/profile/keefeoverby.bsky.social/post/3mmlv7ufe5c2h",
+        "text": "Smartphones have WiFi, if some dev is developing this tech opensource imagine what the governments or corporations are secretly using: I stopped taking my smartphone every where because I don't like it but now I REALLY don't like it, the little GPS WiFi Bluetooth tracker github.com/ruvnet/RuVie...",
         "author": {
-          "handle": "mrg9999.bsky.social",
-          "displayName": "Mr.G"
+          "handle": "keefeoverby.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-23T14:30:12.313Z",
-        "hoursSincePosted": 5.13
+        "replyCount": 1,
+        "createdAt": "2026-05-24T11:45:15.729Z",
+        "hoursSincePosted": 2.24
       },
       "posts": [
         {
@@ -42986,6 +43605,33 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gzwod373bz46nkalcab2lx5j/app.bsky.feed.post/3mmlv7ufe5c2h",
+          "cid": "bafyreiadbpau375iwvqwpx4qbq5kel5k5k7n4mdpg33lomn6fqxt4j6paa",
+          "bskyUrl": "https://bsky.app/profile/keefeoverby.bsky.social/post/3mmlv7ufe5c2h",
+          "text": "Smartphones have WiFi, if some dev is developing this tech opensource imagine what the governments or corporations are secretly using: I stopped taking my smartphone every where because I don't like it but now I REALLY don't like it, the little GPS WiFi Bluetooth tracker github.com/ruvnet/RuVie...",
+          "author": {
+            "handle": "keefeoverby.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T11:45:15.729Z",
+          "createdUtc": 1779623115,
+          "ageHours": 2.24,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "ruvnet/RuView",
               "matchType": "url",
@@ -45115,20 +45761,64 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
-        "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
-        "bskyUrl": "https://bsky.app/profile/wsx5031060310guy.bsky.social/post/3mm6d2uxapp2c",
-        "text": "Kronos 是一個專為金融市場 K 線設計的開源基礎模型。它用全球超過 45 個交易所的數據訓練，目前看來是第一個針對 K 線序列的 decoder-only 模型。官方有提供 fine-tuning 腳本，可以調整模型來適應不同任務。 目前應用情境可能需要自行探索，但對於研究金融市場數據的團隊來說，Kronos 提供了一個新的切入點。 #Kronos #金融科技 #開源模型 #LLM https://github.com/shiyu-coder/Kronos",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
-          "handle": "wsx5031060310guy.bsky.social"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T02:15:44.461Z",
-        "hoursSincePosted": 2.3
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:baq7fuvvobbtoniek5yawec5/app.bsky.feed.post/3mm6d2uxapp2c",
           "cid": "bafyreifpb4kvb5d4kejlqzuamkpgu23hp6cwvtv5neqr3bfpd65sddl5ba",
@@ -45371,21 +46061,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmlblkhhlc2i",
-        "cid": "bafyreiffpoe6b7pbihe767xonahlwyvakxvfkk3fznfp7htxi3wfnxmosq",
-        "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmlblkhhlc2i",
-        "text": "CPUでも動いちゃうぜっていう軽いTTSのやつ。 試せるページがあったので試してみたところ、確かに(WebGPUを使っていると)無茶苦茶早く結果が出てすごい。 で、「呪い」をどう読むかテストしてみたらまぁそうよね的な結果に。 github.com/supertone-in...",
+        "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmm2w3vvrk2i",
+        "cid": "bafyreiek2xls44auz2ezjkjovtok3vqt6sda6srjw26em5urgksvmldu3m",
+        "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmm2w3vvrk2i",
+        "text": "これ、iOS 用のプロジェクトもあるので簡単に動きそうだなぁと思ってそのサンプルプロジェクトを動かして走れメロスをコピペして読み上げさせようとしてるんだけど、全文はエラーして、1段落位だと端折って読まれてしまい、ちゃんと読んでくれれない。うーん？ github.com/supertone-in...",
         "author": {
           "handle": "limura.bsky.social",
           "displayName": "IIMURA Takuji"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-24T05:53:53.130Z",
-        "hoursSincePosted": 2.13
+        "replyCount": 1,
+        "createdAt": "2026-05-24T13:27:10.519Z",
+        "hoursSincePosted": 0.54
       },
       "posts": [
         {
@@ -45404,6 +46094,34 @@
           "createdUtc": 1779170483,
           "ageHours": 2.63,
           "trendingScore": 9,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "supertone-inc/supertonic",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmm2w3vvrk2i",
+          "cid": "bafyreiek2xls44auz2ezjkjovtok3vqt6sda6srjw26em5urgksvmldu3m",
+          "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmm2w3vvrk2i",
+          "text": "これ、iOS 用のプロジェクトもあるので簡単に動きそうだなぁと思ってそのサンプルプロジェクトを動かして走れメロスをコピペして読み上げさせようとしてるんだけど、全文はエラーして、1段落位だと端折って読まれてしまい、ちゃんと読んでくれれない。うーん？ github.com/supertone-in...",
+          "author": {
+            "handle": "limura.bsky.social",
+            "displayName": "IIMURA Takuji"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T13:27:10.519Z",
+          "createdUtc": 1779629230,
+          "ageHours": 0.54,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -45701,23 +46419,23 @@
     },
     "colbymchenry--codegraph": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
-        "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 0,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -45956,6 +46674,49 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
+          "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+          "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "shiyu-coder/Kronos",
               "matchType": "url",
               "confidence": 1
             }
@@ -46758,23 +47519,23 @@
     },
     "anthropics--claude-plugins-official": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
-        "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 3,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -46924,6 +47685,44 @@
             },
             {
               "fullName": "rmyndharis/OpenWA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+          "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 3,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
               "matchType": "url",
               "confidence": 1
             }
@@ -48536,23 +49335,23 @@
     },
     "rohitg00--ai-engineering-from-scratch": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
-        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
-        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "replyCount": 3,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -48597,6 +49396,44 @@
               "confidence": 1
             }
           ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+          "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 3,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
         }
       ]
     },
@@ -48618,7 +49455,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T09:12:04.718045113Z",
-        "hoursSincePosted": 2.51
+        "hoursSincePosted": 4.79
       },
       "posts": [
         {
@@ -48678,7 +49515,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T09:12:04.718045113Z",
           "createdUtc": 1779613924,
-          "ageHours": 2.51,
+          "ageHours": 4.79,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48696,23 +49533,23 @@
     },
     "can1357--oh-my-pi": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmg65mbu3s2x",
-        "cid": "bafyreicitccpaz2xqbbign6fwwlvivmmwb6y6jpohqoytlzd4q2hvl6xoe",
-        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmg65mbu3s2x",
-        "text": "tried out omp (github.com/can1357/oh-m...) now it is too much batteries included - and I like it if you compare opencode with omp, it is comparing flask with django #aitools #framework #opencode #ohmypi #opensource",
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlvoouqck2d",
+        "cid": "bafyreiadlngzyuconqrs3yszzxqvy5pluacvb5ozz7phs5dd7nux4ffahi",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlvoouqck2d",
+        "text": "github.com/can1357/oh-m...",
         "author": {
           "handle": "adityamitra.bsky.social",
           "displayName": "Aditya Mitra"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-22T05:09:05.362Z",
-        "hoursSincePosted": 3.4
+        "replyCount": 1,
+        "createdAt": "2026-05-24T11:53:33.252Z",
+        "hoursSincePosted": 2.1
       },
       "posts": [
         {
@@ -48779,6 +49616,34 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlvoouqck2d",
+          "cid": "bafyreiadlngzyuconqrs3yszzxqvy5pluacvb5ozz7phs5dd7nux4ffahi",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlvoouqck2d",
+          "text": "github.com/can1357/oh-m...",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T11:53:33.252Z",
+          "createdUtc": 1779623613,
+          "ageHours": 2.1,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "can1357/oh-my-pi",
               "matchType": "url",
@@ -50839,23 +51704,23 @@
     },
     "lum1104--understand-anything": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
-        "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
         "author": {
           "handle": "ghtrend.newsmast.social.ap.brid.gy",
           "displayName": "GitHub Trending"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "replyCount": 3,
+        "createdAt": "2026-05-24T13:23:40.000Z",
+        "hoursSincePosted": 0.6
       },
       "posts": [
         {
@@ -50891,6 +51756,44 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
+          "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 3,
+          "createdAt": "2026-05-24T13:23:40.000Z",
+          "createdUtc": 1779629020,
+          "ageHours": 0.6,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
               "matchType": "url",
               "confidence": 1
             }
@@ -51496,6 +52399,57 @@
           ]
         }
       ]
+    },
+    "plainhub--plain-app": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmm36jjsbj2o",
+        "cid": "bafyreiad2rn5pza3i4vd72duxyzzapog2cpzs7q6s3bso6qhyppn6galdq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmm36jjsbj2o",
+        "text": "https://github.com/plainhub/plain-app",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T13:31:52Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmm36jjsbj2o",
+          "cid": "bafyreiad2rn5pza3i4vd72duxyzzapog2cpzs7q6s3bso6qhyppn6galdq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmm36jjsbj2o",
+          "text": "https://github.com/plainhub/plain-app",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T13:31:52Z",
+          "createdUtc": 1779629512,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "plainhub/plain-app",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -51505,12 +52459,72 @@
       "likesSum7d": 1
     },
     {
+      "fullName": "ruvnet/RuView",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "anthropics/claude-code",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Alishahryar1/free-claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-plugins-official",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "can1357/oh-my-pi",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "colbymchenry/codegraph",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Lum1104/Understand-Anything",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "multica-ai/multica",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "plainhub/plain-app",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "rohitg00/ai-engineering-from-scratch",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "shiyu-coder/Kronos",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "supertone-inc/supertonic",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "teng-lin/notebooklm-py",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tw93/Kaku",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -28,13 +28,16 @@ const USER_AGENT =
 const OUTPUT_SLUG = 'lmarena-text';
 const SOURCE_LABEL = 'huggingface dataset lmarena-ai/leaderboard-dataset';
 
-// Primary: HF dataset resolve URL. If the team publishes a JSON sidecar
-// next to the parquet, this hits it. Falls back to the MIT mirror that
-// re-publishes the parsed JSON.
-const SOURCE_URLS: readonly string[] = [
-  'https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset/resolve/main/data/latest.json',
-  'https://raw.githubusercontent.com/oolong-tea-2026/arena-ai-leaderboards/main/data/latest.json',
-];
+// HF datasets-server REST API. The dataset is parquet-only on disk, so we go
+// through the auto-converted rows endpoint which returns JSON. Public, no
+// auth. Config `text` + split `latest` is the current Text Arena snapshot
+// (~8890 rows across overall / coding / math / long-context / etc. sub-
+// categories per the 2026-05-19 publish; we filter to category=overall
+// downstream of `normalize`).
+const ROWS_URL_BASE =
+  'https://datasets-server.huggingface.co/rows?dataset=lmarena-ai%2Fleaderboard-dataset&config=text&split=latest';
+const PAGE_SIZE = 100;
+const MAX_PAGES = 100;
 
 interface LmarenaModelRaw {
   model_name?: string;
@@ -69,11 +72,16 @@ interface LmarenaPayload {
   models: LmarenaModel[];
 }
 
-// Some publishers wrap the array in `{ models: [...] }` or `{ data: [...] }`;
-// be liberal in what we accept.
-type LmarenaResponse =
-  | LmarenaModelRaw[]
-  | { models?: LmarenaModelRaw[]; data?: LmarenaModelRaw[] };
+// HF datasets-server `/rows` envelope. The dataset rows are under `rows[].row`
+// (one level of nesting deeper than a flat array). `num_rows_total` lets us
+// detect end of pagination without a second metadata call.
+interface HfRowsResponse {
+  features?: unknown;
+  rows?: Array<{ row_idx: number; row: LmarenaModelRaw; truncated_cells?: unknown[] }>;
+  num_rows_total?: number;
+  num_rows_per_page?: number;
+  partial?: boolean;
+}
 
 const fetcher: Fetcher = {
   name: 'lmarena',
@@ -86,37 +94,40 @@ const fetcher: Fetcher = {
     }
 
     const errors: RunResult['errors'] = [];
-    let raw: LmarenaModelRaw[] | null = null;
-    let usedUrl: string | null = null;
+    const raw: LmarenaModelRaw[] = [];
+    let total: number | null = null;
+    let lastUrl = '';
 
-    for (const url of SOURCE_URLS) {
+    for (let page = 0; page < MAX_PAGES; page += 1) {
+      const offset = page * PAGE_SIZE;
+      const url = `${ROWS_URL_BASE}&offset=${offset}&length=${PAGE_SIZE}`;
+      lastUrl = url;
       try {
-        const { data } = await ctx.http.json<LmarenaResponse>(url, {
-          headers: {
-            'user-agent': USER_AGENT,
-            accept: 'application/json',
-          },
+        const { data } = await ctx.http.json<HfRowsResponse>(url, {
+          headers: { 'user-agent': USER_AGENT, accept: 'application/json' },
           useEtagCache: false,
           timeoutMs: 20_000,
         });
-        const arr = unwrap(data);
-        if (arr.length === 0) {
-          ctx.log.warn({ url }, 'lmarena: source returned empty array, trying next');
-          errors.push({ stage: 'fetch', message: `empty array from ${url}` });
-          continue;
+        if (total === null && typeof data.num_rows_total === 'number') {
+          total = data.num_rows_total;
         }
-        raw = arr;
-        usedUrl = url;
-        break;
+        const rows = Array.isArray(data.rows) ? data.rows : [];
+        if (rows.length === 0) break;
+        for (const r of rows) {
+          if (r && typeof r === 'object' && r.row) raw.push(r.row);
+        }
+        if (total !== null && raw.length >= total) break;
+        if (rows.length < PAGE_SIZE) break;
       } catch (err) {
         const message = (err as Error).message;
-        ctx.log.warn({ url, err: message }, 'lmarena: source failed, trying next');
-        errors.push({ stage: 'fetch', message: `${url}: ${message}` });
+        ctx.log.warn({ page, offset, err: message }, 'lmarena: page fetch failed, stopping');
+        errors.push({ stage: 'fetch', message: `page ${page} (offset ${offset}): ${message}` });
+        break;
       }
     }
 
-    if (!raw || !usedUrl) {
-      ctx.log.warn('lmarena: all sources failed - nothing to publish');
+    if (raw.length === 0) {
+      ctx.log.warn({ lastUrl }, 'lmarena: HF datasets-server returned no rows');
       return done(startedAt, 0, false, errors);
     }
 
@@ -132,7 +143,7 @@ const fetcher: Fetcher = {
     }
 
     if (models.length === 0) {
-      ctx.log.warn({ usedUrl, rawCount: raw.length }, 'lmarena: zero models survived normalization');
+      ctx.log.warn({ lastUrl, rawCount: raw.length }, 'lmarena: zero models survived normalization');
       errors.push({ stage: 'normalize', message: `zero models from ${raw.length} raw rows` });
       return done(startedAt, 0, false, errors);
     }
@@ -157,7 +168,8 @@ const fetcher: Fetcher = {
 
     ctx.log.info(
       {
-        usedUrl,
+        rowsTotal: total,
+        rowsFetched: raw.length,
         models: models.length,
         snapshotDate: latestSnapshotDate || '(unknown)',
         redisSource: writeResult.source,
@@ -179,15 +191,6 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
-
-function unwrap(data: LmarenaResponse): LmarenaModelRaw[] {
-  if (Array.isArray(data)) return data;
-  if (data && typeof data === 'object') {
-    if (Array.isArray(data.models)) return data.models;
-    if (Array.isArray(data.data)) return data.data;
-  }
-  return [];
-}
 
 function normalize(r: LmarenaModelRaw): LmarenaModel | null {
   if (!r || typeof r !== 'object') return null;

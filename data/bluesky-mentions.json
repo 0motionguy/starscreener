@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-24T15:22:06.231Z",
+  "fetchedAt": "2026-05-24T17:16:41.737Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -26350,6 +26350,159 @@
           "linkedRepos": [
             {
               "fullName": "Zackriya-Solutions/meetily",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "AKS-Labs/CircleToSearch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:253tbz7milf7s2boyrhunjfk/app.bsky.feed.post/3mmmdcvscrs22",
+        "cid": "bafyreifegb4ltmj7qbdonvuefhl2a2opam37yfq4s7wg5hpab4x7wvbznm",
+        "bskyUrl": "https://bsky.app/profile/kooltechtricks.org/post/3mmmdcvscrs22",
+        "text": "Поддерживается локальное распознавание текста через Tesseract OCR. Модели для других языков нужно скачивать отдельно. Распознанный текст может быть некорректным. 📥 Скачать - GitHub: github.com/AKS-Labs/Cir... - F-Droid: f-droid.org/packages/com...",
+        "author": {
+          "handle": "kooltechtricks.org",
+          "displayName": "Kool Tech Tricks"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T15:57:17.768Z",
+        "hoursSincePosted": 1.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:253tbz7milf7s2boyrhunjfk/app.bsky.feed.post/3mmmdcvscrs22",
+          "cid": "bafyreifegb4ltmj7qbdonvuefhl2a2opam37yfq4s7wg5hpab4x7wvbznm",
+          "bskyUrl": "https://bsky.app/profile/kooltechtricks.org/post/3mmmdcvscrs22",
+          "text": "Поддерживается локальное распознавание текста через Tesseract OCR. Модели для других языков нужно скачивать отдельно. Распознанный текст может быть некорректным. 📥 Скачать - GitHub: github.com/AKS-Labs/Cir... - F-Droid: f-droid.org/packages/com...",
+          "author": {
+            "handle": "kooltechtricks.org",
+            "displayName": "Kool Tech Tricks"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T15:57:17.768Z",
+          "createdUtc": 1779638237,
+          "ageHours": 1.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AKS-Labs/CircleToSearch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "imputnet/helium-linux": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kasr7b647snebsglwzhumztn/app.bsky.feed.post/3mmmcsj3xotv2",
+        "cid": "bafyreigu6cm5wuxcukvs47yqia5ns53zur7uta7lsktz7egtynxqi7yahu",
+        "bskyUrl": "https://bsky.app/profile/nube.verse.averagedood.xyz.ap.brid.gy/post/3mmmcsj3xotv2",
+        "text": "Good browser: https://github.com/imputnet/helium-linux/releases ​:neofox_laugh:​ It is a decent alternative tbh, it is not revolutionary, it is just a fork of Ungoogled Chromium that does not suck. Btw, if you are on musl, you can use the (unofficial) AppImage from Anylinux AppImages, it works […]",
+        "author": {
+          "handle": "nube.verse.averagedood.xyz.ap.brid.gy",
+          "displayName": "Nube :neofox_owo:"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T15:48:18.288Z",
+        "hoursSincePosted": 1.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kasr7b647snebsglwzhumztn/app.bsky.feed.post/3mmmcsj3xotv2",
+          "cid": "bafyreigu6cm5wuxcukvs47yqia5ns53zur7uta7lsktz7egtynxqi7yahu",
+          "bskyUrl": "https://bsky.app/profile/nube.verse.averagedood.xyz.ap.brid.gy/post/3mmmcsj3xotv2",
+          "text": "Good browser: https://github.com/imputnet/helium-linux/releases ​:neofox_laugh:​ It is a decent alternative tbh, it is not revolutionary, it is just a fork of Ungoogled Chromium that does not suck. Btw, if you are on musl, you can use the (unofficial) AppImage from Anylinux AppImages, it works […]",
+          "author": {
+            "handle": "nube.verse.averagedood.xyz.ap.brid.gy",
+            "displayName": "Nube :neofox_owo:"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T15:48:18.288Z",
+          "createdUtc": 1779637698,
+          "ageHours": 1.47,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "imputnet/helium-linux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/knowledge-work-plugins": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jl5s7l7e4b4ycdkwig3cas75/app.bsky.feed.post/3mmmbyc7mac2w",
+        "cid": "bafyreifarzq4e53m2rtevvkiuz6dzrmolwzpcg7ycmb5euxldm2xkp2bsu",
+        "bskyUrl": "https://bsky.app/profile/tommis.fi/post/3mmmbyc7mac2w",
+        "text": "github.com/anthropics/k...",
+        "author": {
+          "handle": "tommis.fi",
+          "displayName": "Tommi Somersuo"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T15:33:40.429Z",
+        "hoursSincePosted": 1.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jl5s7l7e4b4ycdkwig3cas75/app.bsky.feed.post/3mmmbyc7mac2w",
+          "cid": "bafyreifarzq4e53m2rtevvkiuz6dzrmolwzpcg7ycmb5euxldm2xkp2bsu",
+          "bskyUrl": "https://bsky.app/profile/tommis.fi/post/3mmmbyc7mac2w",
+          "text": "github.com/anthropics/k...",
+          "author": {
+            "handle": "tommis.fi",
+            "displayName": "Tommi Somersuo"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T15:33:40.429Z",
+          "createdUtc": 1779636820,
+          "ageHours": 1.72,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
               "matchType": "url",
               "confidence": 1
             }
@@ -52710,81 +52863,174 @@
           ]
         }
       ]
+    },
+    "aks-labs--circletosearch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:253tbz7milf7s2boyrhunjfk/app.bsky.feed.post/3mmmdcvscrs22",
+        "cid": "bafyreifegb4ltmj7qbdonvuefhl2a2opam37yfq4s7wg5hpab4x7wvbznm",
+        "bskyUrl": "https://bsky.app/profile/kooltechtricks.org/post/3mmmdcvscrs22",
+        "text": "Поддерживается локальное распознавание текста через Tesseract OCR. Модели для других языков нужно скачивать отдельно. Распознанный текст может быть некорректным. 📥 Скачать - GitHub: github.com/AKS-Labs/Cir... - F-Droid: f-droid.org/packages/com...",
+        "author": {
+          "handle": "kooltechtricks.org",
+          "displayName": "Kool Tech Tricks"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T15:57:17.768Z",
+        "hoursSincePosted": 1.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:253tbz7milf7s2boyrhunjfk/app.bsky.feed.post/3mmmdcvscrs22",
+          "cid": "bafyreifegb4ltmj7qbdonvuefhl2a2opam37yfq4s7wg5hpab4x7wvbznm",
+          "bskyUrl": "https://bsky.app/profile/kooltechtricks.org/post/3mmmdcvscrs22",
+          "text": "Поддерживается локальное распознавание текста через Tesseract OCR. Модели для других языков нужно скачивать отдельно. Распознанный текст может быть некорректным. 📥 Скачать - GitHub: github.com/AKS-Labs/Cir... - F-Droid: f-droid.org/packages/com...",
+          "author": {
+            "handle": "kooltechtricks.org",
+            "displayName": "Kool Tech Tricks"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T15:57:17.768Z",
+          "createdUtc": 1779638237,
+          "ageHours": 1.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AKS-Labs/CircleToSearch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "imputnet--helium-linux": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kasr7b647snebsglwzhumztn/app.bsky.feed.post/3mmmcsj3xotv2",
+        "cid": "bafyreigu6cm5wuxcukvs47yqia5ns53zur7uta7lsktz7egtynxqi7yahu",
+        "bskyUrl": "https://bsky.app/profile/nube.verse.averagedood.xyz.ap.brid.gy/post/3mmmcsj3xotv2",
+        "text": "Good browser: https://github.com/imputnet/helium-linux/releases ​:neofox_laugh:​ It is a decent alternative tbh, it is not revolutionary, it is just a fork of Ungoogled Chromium that does not suck. Btw, if you are on musl, you can use the (unofficial) AppImage from Anylinux AppImages, it works […]",
+        "author": {
+          "handle": "nube.verse.averagedood.xyz.ap.brid.gy",
+          "displayName": "Nube :neofox_owo:"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T15:48:18.288Z",
+        "hoursSincePosted": 1.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kasr7b647snebsglwzhumztn/app.bsky.feed.post/3mmmcsj3xotv2",
+          "cid": "bafyreigu6cm5wuxcukvs47yqia5ns53zur7uta7lsktz7egtynxqi7yahu",
+          "bskyUrl": "https://bsky.app/profile/nube.verse.averagedood.xyz.ap.brid.gy/post/3mmmcsj3xotv2",
+          "text": "Good browser: https://github.com/imputnet/helium-linux/releases ​:neofox_laugh:​ It is a decent alternative tbh, it is not revolutionary, it is just a fork of Ungoogled Chromium that does not suck. Btw, if you are on musl, you can use the (unofficial) AppImage from Anylinux AppImages, it works […]",
+          "author": {
+            "handle": "nube.verse.averagedood.xyz.ap.brid.gy",
+            "displayName": "Nube :neofox_owo:"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T15:48:18.288Z",
+          "createdUtc": 1779637698,
+          "ageHours": 1.47,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "imputnet/helium-linux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--knowledge-work-plugins": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jl5s7l7e4b4ycdkwig3cas75/app.bsky.feed.post/3mmmbyc7mac2w",
+        "cid": "bafyreifarzq4e53m2rtevvkiuz6dzrmolwzpcg7ycmb5euxldm2xkp2bsu",
+        "bskyUrl": "https://bsky.app/profile/tommis.fi/post/3mmmbyc7mac2w",
+        "text": "github.com/anthropics/k...",
+        "author": {
+          "handle": "tommis.fi",
+          "displayName": "Tommi Somersuo"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T15:33:40.429Z",
+        "hoursSincePosted": 1.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jl5s7l7e4b4ycdkwig3cas75/app.bsky.feed.post/3mmmbyc7mac2w",
+          "cid": "bafyreifarzq4e53m2rtevvkiuz6dzrmolwzpcg7ycmb5euxldm2xkp2bsu",
+          "bskyUrl": "https://bsky.app/profile/tommis.fi/post/3mmmbyc7mac2w",
+          "text": "github.com/anthropics/k...",
+          "author": {
+            "handle": "tommis.fi",
+            "displayName": "Tommi Somersuo"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T15:33:40.429Z",
+          "createdUtc": 1779636820,
+          "ageHours": 1.72,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "redteamfortress/PhantomKiller",
+      "fullName": "anthropics/knowledge-work-plugins",
       "count7d": 1,
-      "likesSum7d": 4
+      "likesSum7d": 2
     },
     {
-      "fullName": "colbymchenry/codegraph",
-      "count7d": 2,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "ruvnet/RuView",
+      "fullName": "imputnet/helium-linux",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
-      "fullName": "Alishahryar1/free-claude-code",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-plugins-official",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "can1357/oh-my-pi",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Lum1104/Understand-Anything",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "multica-ai/multica",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "plainhub/plain-app",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "rohitg00/ai-engineering-from-scratch",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "shiyu-coder/Kronos",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "supertone-inc/supertonic",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tw93/Kaku",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Zackriya-Solutions/meetily",
+      "fullName": "AKS-Labs/CircleToSearch",
       "count7d": 1,
       "likesSum7d": 0
     }

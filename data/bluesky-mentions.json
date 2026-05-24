@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-23T23:11:16.627Z",
+  "fetchedAt": "2026-05-24T00:12:08.878Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
@@ -2728,7 +2728,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T22:38:44.362Z",
-        "hoursSincePosted": 0.54
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
@@ -2773,7 +2773,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T22:38:44.362Z",
           "createdUtc": 1779575924,
-          "ageHours": 0.54,
+          "ageHours": 1.56,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -2802,7 +2802,7 @@
           "replyCount": 3,
           "createdAt": "2026-05-23T22:32:16.556Z",
           "createdUtc": 1779575536,
-          "ageHours": 0.65,
+          "ageHours": 1.66,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo",
@@ -11362,7 +11362,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T22:05:53.513Z",
-        "hoursSincePosted": 1.09
+        "hoursSincePosted": 2.1
       },
       "posts": [
         {
@@ -11379,7 +11379,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T22:05:53.513Z",
           "createdUtc": 1779573953,
-          "ageHours": 1.09,
+          "ageHours": 2.1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -24080,19 +24080,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6ow7sn4eyi7fyaiyjk3u267b/app.bsky.feed.post/3mmk4wgbim42h",
-        "cid": "bafyreicyoo4y5pd42zapgi7ojc6o5mqzz3hhysdgjxanct5ptnu4itjn4i",
-        "bskyUrl": "https://bsky.app/profile/365tipu.cz/post/3mmk4wgbim42h",
-        "text": "models.dev: Otevřená databáze AI modelů github.com/anomalyco...",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmkn7at3a22q",
+        "cid": "bafyreif7w3d5lraey5d4exmszehdpugmpxrtdp5qzsibsydsudhkznvpyu",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmkn7at3a22q",
+        "text": "📰 Models.dev, an open-source database of AI model specifications, pricing, and capabilities, has been launched by Anomaly Co., providing a comprehensive resource for developers to understand and compare different AI models. 🔗 https://github.com/anomalyco/models.dev #Tech #Dev",
         "author": {
-          "handle": "365tipu.cz",
-          "displayName": "365tipu"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T18:57:47.000Z",
-        "hoursSincePosted": 3.19
+        "createdAt": "2026-05-23T23:49:01.703797+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -24115,6 +24115,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmkn7at3a22q",
+          "cid": "bafyreif7w3d5lraey5d4exmszehdpugmpxrtdp5qzsibsydsudhkznvpyu",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmkn7at3a22q",
+          "text": "📰 Models.dev, an open-source database of AI model specifications, pricing, and capabilities, has been launched by Anomaly Co., providing a comprehensive resource for developers to understand and compare different AI models. 🔗 https://github.com/anomalyco/models.dev #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T23:49:01.703797+00:00",
+          "createdUtc": 1779580141,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anomalyco/models.dev",
@@ -25366,6 +25395,57 @@
           "linkedRepos": [
             {
               "fullName": "MemPalace/mempalace",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "stephenlthorn/auto-identity-remove": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:lz53vdkjqexeqipseg7xfxoj/app.bsky.feed.post/3mmknsffoc22g",
+        "cid": "bafyreiapsgkb7u4b4wsjdmkdstssv45ftha6mkaa7m4lud2yopzq3ftg6q",
+        "bskyUrl": "https://bsky.app/profile/benschwarz.bsky.social/post/3mmknsffoc22g",
+        "text": "This project allows you to remove your personal data from 500+ data brokers. It does automated opts-out using web forms, solves captchas, and tracks it in a local database. Can be run monthly. github.com/stephenlthor...",
+        "author": {
+          "handle": "benschwarz.bsky.social",
+          "displayName": "Ben Schwarz"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-23T23:59:47.873Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lz53vdkjqexeqipseg7xfxoj/app.bsky.feed.post/3mmknsffoc22g",
+          "cid": "bafyreiapsgkb7u4b4wsjdmkdstssv45ftha6mkaa7m4lud2yopzq3ftg6q",
+          "bskyUrl": "https://bsky.app/profile/benschwarz.bsky.social/post/3mmknsffoc22g",
+          "text": "This project allows you to remove your personal data from 500+ data brokers. It does automated opts-out using web forms, solves captchas, and tracks it in a local database. Can be run monthly. github.com/stephenlthor...",
+          "author": {
+            "handle": "benschwarz.bsky.social",
+            "displayName": "Ben Schwarz"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T23:59:47.873Z",
+          "createdUtc": 1779580787,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "stephenlthorn/auto-identity-remove",
               "matchType": "url",
               "confidence": 1
             }
@@ -28098,7 +28178,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T22:38:44.362Z",
-        "hoursSincePosted": 0.54
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
@@ -28143,7 +28223,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T22:38:44.362Z",
           "createdUtc": 1779575924,
-          "ageHours": 0.54,
+          "ageHours": 1.56,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -28172,7 +28252,7 @@
           "replyCount": 3,
           "createdAt": "2026-05-23T22:32:16.556Z",
           "createdUtc": 1779575536,
-          "ageHours": 0.65,
+          "ageHours": 1.66,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo",
@@ -36732,7 +36812,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-23T22:05:53.513Z",
-        "hoursSincePosted": 1.09
+        "hoursSincePosted": 2.1
       },
       "posts": [
         {
@@ -36749,7 +36829,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-23T22:05:53.513Z",
           "createdUtc": 1779573953,
-          "ageHours": 1.09,
+          "ageHours": 2.1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -49450,19 +49530,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:6ow7sn4eyi7fyaiyjk3u267b/app.bsky.feed.post/3mmk4wgbim42h",
-        "cid": "bafyreicyoo4y5pd42zapgi7ojc6o5mqzz3hhysdgjxanct5ptnu4itjn4i",
-        "bskyUrl": "https://bsky.app/profile/365tipu.cz/post/3mmk4wgbim42h",
-        "text": "models.dev: Otevřená databáze AI modelů github.com/anomalyco...",
+        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmkn7at3a22q",
+        "cid": "bafyreif7w3d5lraey5d4exmszehdpugmpxrtdp5qzsibsydsudhkznvpyu",
+        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmkn7at3a22q",
+        "text": "📰 Models.dev, an open-source database of AI model specifications, pricing, and capabilities, has been launched by Anomaly Co., providing a comprehensive resource for developers to understand and compare different AI models. 🔗 https://github.com/anomalyco/models.dev #Tech #Dev",
         "author": {
-          "handle": "365tipu.cz",
-          "displayName": "365tipu"
+          "handle": "sagalinked.bsky.social",
+          "displayName": "SagaLinked"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T18:57:47.000Z",
-        "hoursSincePosted": 3.19
+        "createdAt": "2026-05-23T23:49:01.703797+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -49485,6 +49565,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/models.dev",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmkn7at3a22q",
+          "cid": "bafyreif7w3d5lraey5d4exmszehdpugmpxrtdp5qzsibsydsudhkznvpyu",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmkn7at3a22q",
+          "text": "📰 Models.dev, an open-source database of AI model specifications, pricing, and capabilities, has been launched by Anomaly Co., providing a comprehensive resource for developers to understand and compare different AI models. 🔗 https://github.com/anomalyco/models.dev #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-23T23:49:01.703797+00:00",
+          "createdUtc": 1779580141,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anomalyco/models.dev",
@@ -50742,6 +50851,57 @@
           ]
         }
       ]
+    },
+    "stephenlthorn--auto-identity-remove": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:lz53vdkjqexeqipseg7xfxoj/app.bsky.feed.post/3mmknsffoc22g",
+        "cid": "bafyreiapsgkb7u4b4wsjdmkdstssv45ftha6mkaa7m4lud2yopzq3ftg6q",
+        "bskyUrl": "https://bsky.app/profile/benschwarz.bsky.social/post/3mmknsffoc22g",
+        "text": "This project allows you to remove your personal data from 500+ data brokers. It does automated opts-out using web forms, solves captchas, and tracks it in a local database. Can be run monthly. github.com/stephenlthor...",
+        "author": {
+          "handle": "benschwarz.bsky.social",
+          "displayName": "Ben Schwarz"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-23T23:59:47.873Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lz53vdkjqexeqipseg7xfxoj/app.bsky.feed.post/3mmknsffoc22g",
+          "cid": "bafyreiapsgkb7u4b4wsjdmkdstssv45ftha6mkaa7m4lud2yopzq3ftg6q",
+          "bskyUrl": "https://bsky.app/profile/benschwarz.bsky.social/post/3mmknsffoc22g",
+          "text": "This project allows you to remove your personal data from 500+ data brokers. It does automated opts-out using web forms, solves captchas, and tracks it in a local database. Can be run monthly. github.com/stephenlthor...",
+          "author": {
+            "handle": "benschwarz.bsky.social",
+            "displayName": "Ben Schwarz"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-23T23:59:47.873Z",
+          "createdUtc": 1779580787,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "stephenlthorn/auto-identity-remove",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -50749,6 +50909,16 @@
       "fullName": "mattpocock/skills",
       "count7d": 2,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "anomalyco/models.dev",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "stephenlthorn/auto-identity-remove",
+      "count7d": 1,
+      "likesSum7d": 0
     },
     {
       "fullName": "tracewayapp/traceway",

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-24T00:12:08.878Z",
+  "fetchedAt": "2026-05-24T04:39:23.139Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -5879,25 +5879,53 @@
     },
     "yvgude/lean-ctx": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
-        "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleoi7gqj52t",
-        "text": "https://github.com/yvgude/lean-ctx",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmkoqg3hpe2v",
+        "cid": "bafyreib2kkfl7hmitxz73tak74ph4aivojwii7swsbnls3vqlvkalfbxym",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmkoqg3hpe2v",
+        "text": "yvgude / lean-ctx: Lean Cortex -- the cognitive context layer for agentic systems. 51+ MCP tools, 10 read modes, 95+ shell patterns. Up to 99% token savings. Works with Cursor, Claude Code, Copilot, Windsurf, Codex, Gemini. ★2118 https://github.com/yvgude/lean-ctx",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
-        "likeCount": 0,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 6.46
+        "createdAt": "2026-05-24T00:16:35.083940Z",
+        "hoursSincePosted": 4.38
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmkoqg3hpe2v",
+          "cid": "bafyreib2kkfl7hmitxz73tak74ph4aivojwii7swsbnls3vqlvkalfbxym",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmkoqg3hpe2v",
+          "text": "yvgude / lean-ctx: Lean Cortex -- the cognitive context layer for agentic systems. 51+ MCP tools, 10 read modes, 95+ shell patterns. Up to 99% token savings. Works with Cursor, Claude Code, Copilot, Windsurf, Codex, Gemini. ★2118 https://github.com/yvgude/lean-ctx",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T00:16:35.083940Z",
+          "createdUtc": 1779581795,
+          "ageHours": 4.38,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yvgude/lean-ctx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
           "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
@@ -16907,21 +16935,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fy54nblznd6kr2jbj6h3r22g/app.bsky.feed.post/3mm2hwta2e6f2",
-        "cid": "bafyreihhjzgroo22ggeost6xirbijito4bumjwhbkqugwbuto5rq4gt6km",
-        "bskyUrl": "https://bsky.app/profile/gullevek.famichiki.jp.ap.brid.gy/post/3mm2hwta2e6f2",
-        "text": "Jesus fucking H. Christ https://github.com/paperclipai/paperclip",
+        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mmkt6mpezc2r",
+        "cid": "bafyreia5ynbyeixczrl7tc43rjzomcqhjvffzovrpe3q5ahbh4g42rdniq",
+        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mmkt6mpezc2r",
+        "text": "paperclipai/paperclip: The open-source app everyone uses to manage agents at work github.com/paperclipai/...",
         "author": {
-          "handle": "gullevek.famichiki.jp.ap.brid.gy",
-          "displayName": "gullevek ☢️ 🇯🇵"
+          "handle": "jelloeater.bsky.social",
+          "displayName": "Jelloeater"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T13:32:10.000Z",
-        "hoursSincePosted": 4.27
+        "createdAt": "2026-05-24T01:36:05.802Z",
+        "hoursSincePosted": 3.06
       },
       "posts": [
+        {
+          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mmkt6mpezc2r",
+          "cid": "bafyreia5ynbyeixczrl7tc43rjzomcqhjvffzovrpe3q5ahbh4g42rdniq",
+          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mmkt6mpezc2r",
+          "text": "paperclipai/paperclip: The open-source app everyone uses to manage agents at work github.com/paperclipai/...",
+          "author": {
+            "handle": "jelloeater.bsky.social",
+            "displayName": "Jelloeater"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T01:36:05.802Z",
+          "createdUtc": 1779586565,
+          "ageHours": 3.06,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "paperclipai/paperclip",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fy54nblznd6kr2jbj6h3r22g/app.bsky.feed.post/3mm2hwta2e6f2",
           "cid": "bafyreihhjzgroo22ggeost6xirbijito4bumjwhbkqugwbuto5rq4gt6km",
@@ -25404,7 +25460,7 @@
     },
     "stephenlthorn/auto-identity-remove": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -25416,11 +25472,11 @@
           "handle": "benschwarz.bsky.social",
           "displayName": "Ben Schwarz"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T23:59:47.873Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.66
       },
       "posts": [
         {
@@ -25432,13 +25488,13 @@
             "handle": "benschwarz.bsky.social",
             "displayName": "Ben Schwarz"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-05-23T23:59:47.873Z",
           "createdUtc": 1779580787,
-          "ageHours": 0.5,
-          "trendingScore": 0.5,
+          "ageHours": 4.66,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -31329,25 +31385,53 @@
     },
     "yvgude--lean-ctx": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
-        "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleoi7gqj52t",
-        "text": "https://github.com/yvgude/lean-ctx",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmkoqg3hpe2v",
+        "cid": "bafyreib2kkfl7hmitxz73tak74ph4aivojwii7swsbnls3vqlvkalfbxym",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmkoqg3hpe2v",
+        "text": "yvgude / lean-ctx: Lean Cortex -- the cognitive context layer for agentic systems. 51+ MCP tools, 10 read modes, 95+ shell patterns. Up to 99% token savings. Works with Cursor, Claude Code, Copilot, Windsurf, Codex, Gemini. ★2118 https://github.com/yvgude/lean-ctx",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
-        "likeCount": 0,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 6.46
+        "createdAt": "2026-05-24T00:16:35.083940Z",
+        "hoursSincePosted": 4.38
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mmkoqg3hpe2v",
+          "cid": "bafyreib2kkfl7hmitxz73tak74ph4aivojwii7swsbnls3vqlvkalfbxym",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmkoqg3hpe2v",
+          "text": "yvgude / lean-ctx: Lean Cortex -- the cognitive context layer for agentic systems. 51+ MCP tools, 10 read modes, 95+ shell patterns. Up to 99% token savings. Works with Cursor, Claude Code, Copilot, Windsurf, Codex, Gemini. ★2118 https://github.com/yvgude/lean-ctx",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T00:16:35.083940Z",
+          "createdUtc": 1779581795,
+          "ageHours": 4.38,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yvgude/lean-ctx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
           "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
@@ -42357,21 +42441,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:fy54nblznd6kr2jbj6h3r22g/app.bsky.feed.post/3mm2hwta2e6f2",
-        "cid": "bafyreihhjzgroo22ggeost6xirbijito4bumjwhbkqugwbuto5rq4gt6km",
-        "bskyUrl": "https://bsky.app/profile/gullevek.famichiki.jp.ap.brid.gy/post/3mm2hwta2e6f2",
-        "text": "Jesus fucking H. Christ https://github.com/paperclipai/paperclip",
+        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mmkt6mpezc2r",
+        "cid": "bafyreia5ynbyeixczrl7tc43rjzomcqhjvffzovrpe3q5ahbh4g42rdniq",
+        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mmkt6mpezc2r",
+        "text": "paperclipai/paperclip: The open-source app everyone uses to manage agents at work github.com/paperclipai/...",
         "author": {
-          "handle": "gullevek.famichiki.jp.ap.brid.gy",
-          "displayName": "gullevek ☢️ 🇯🇵"
+          "handle": "jelloeater.bsky.social",
+          "displayName": "Jelloeater"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T13:32:10.000Z",
-        "hoursSincePosted": 4.27
+        "createdAt": "2026-05-24T01:36:05.802Z",
+        "hoursSincePosted": 3.06
       },
       "posts": [
+        {
+          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mmkt6mpezc2r",
+          "cid": "bafyreia5ynbyeixczrl7tc43rjzomcqhjvffzovrpe3q5ahbh4g42rdniq",
+          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mmkt6mpezc2r",
+          "text": "paperclipai/paperclip: The open-source app everyone uses to manage agents at work github.com/paperclipai/...",
+          "author": {
+            "handle": "jelloeater.bsky.social",
+            "displayName": "Jelloeater"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T01:36:05.802Z",
+          "createdUtc": 1779586565,
+          "ageHours": 3.06,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "paperclipai/paperclip",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:fy54nblznd6kr2jbj6h3r22g/app.bsky.feed.post/3mm2hwta2e6f2",
           "cid": "bafyreihhjzgroo22ggeost6xirbijito4bumjwhbkqugwbuto5rq4gt6km",
@@ -50854,7 +50966,7 @@
     },
     "stephenlthorn--auto-identity-remove": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -50866,11 +50978,11 @@
           "handle": "benschwarz.bsky.social",
           "displayName": "Ben Schwarz"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-23T23:59:47.873Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.66
       },
       "posts": [
         {
@@ -50882,13 +50994,13 @@
             "handle": "benschwarz.bsky.social",
             "displayName": "Ben Schwarz"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-05-23T23:59:47.873Z",
           "createdUtc": 1779580787,
-          "ageHours": 0.5,
-          "trendingScore": 0.5,
+          "ageHours": 4.66,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -50906,22 +51018,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "mattpocock/skills",
-      "count7d": 2,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "anomalyco/models.dev",
+      "fullName": "yvgude/lean-ctx",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 4
     },
     {
       "fullName": "stephenlthorn/auto-identity-remove",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "tracewayapp/traceway",
+      "fullName": "paperclipai/paperclip",
       "count7d": 1,
       "likesSum7d": 0
     }

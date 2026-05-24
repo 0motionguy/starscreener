@@ -8,6 +8,8 @@ import {
   getLlmsAsRepos,
   refreshCategoryFromStore,
 } from "@/lib/category-adapters";
+import { refreshAaLlmsFromStore, getAaLlmsRanked } from "@/lib/aa-llms";
+import { LlmsLeaderboardTable } from "@/components/llms/LlmsLeaderboardTable";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
 import {
   refreshTrendshiftFromStore,
@@ -54,7 +56,9 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const ranker = normalizeRanker(rawRank);
 
   await refreshTrendingFromStore().catch(() => undefined);
-  if (category !== "repos") {
+  if (category === "llms") {
+    await refreshAaLlmsFromStore().catch(() => undefined);
+  } else if (category !== "repos") {
     await refreshCategoryFromStore(category).catch(() => undefined);
   } else if (ranker === "trend") {
     await refreshTrendshiftFromStore().catch(() => undefined);
@@ -98,15 +102,19 @@ export default async function TrendingHubPage({ searchParams }: Props) {
         counts={switcherCounts}
       />
 
-      <TrendingTable
-        repos={sorted}
-        fetchedAt={fetchedAt}
-        window={timeWindow}
-        limit={50}
-        category={category}
-        language={language}
-        sort={sort}
-      />
+      {category === "llms" ? (
+        <LlmsLeaderboardTable rows={safe(() => getAaLlmsRanked(200), [])} />
+      ) : (
+        <TrendingTable
+          repos={sorted}
+          fetchedAt={fetchedAt}
+          window={timeWindow}
+          limit={50}
+          category={category}
+          language={language}
+          sort={sort}
+        />
+      )}
     </div>
   );
 }

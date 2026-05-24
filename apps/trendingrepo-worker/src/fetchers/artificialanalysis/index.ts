@@ -60,15 +60,20 @@ const REQUEST_TIMEOUT_MS = 30_000;
 export interface AaModel {
   slug: string; // raw AA slug
   name: string;
-  creator: string;
+  creator: string; // human label (model_creator.name fallback to flat creator)
+  creatorSlug: string | null; // model_creator.slug — drives the brand logo
+  releaseDate: string | null; // ISO date — drives the Status filter
   intelligenceIndex: number | null; // artificial_analysis_intelligence_index
   codingIndex: number | null;
   mathIndex: number | null;
   mmluPro: number | null;
   gpqa: number | null;
   pricePerMTokens: number | null; // price_1m_blended_3_to_1
+  priceInputPerM: number | null; // price_1m_input_tokens
+  priceOutputPerM: number | null; // price_1m_output_tokens
   outputTokensPerSec: number | null;
-  ttftSec: number | null;
+  ttftSec: number | null; // median_time_to_first_token_seconds (Latency)
+  ttfaSec: number | null; // median_time_to_first_answer_token (End-to-End Response)
 }
 
 export interface AaPayload {
@@ -92,6 +97,8 @@ interface RawAaEvaluations {
 
 interface RawAaPricing {
   price_1m_blended_3_to_1?: unknown;
+  price_1m_input_tokens?: unknown;
+  price_1m_output_tokens?: unknown;
   [k: string]: unknown;
 }
 
@@ -109,10 +116,12 @@ interface RawAaModel {
   name?: unknown;
   creator?: unknown;
   model_creator?: RawAaModelCreator;
+  release_date?: unknown;
   evaluations?: RawAaEvaluations;
   pricing?: RawAaPricing;
   median_output_tokens_per_second?: unknown;
   median_time_to_first_token_seconds?: unknown;
+  median_time_to_first_answer_token?: unknown;
   [k: string]: unknown;
 }
 
@@ -255,14 +264,19 @@ export function normaliseModel(entry: RawAaModel): AaModel | null {
     slug,
     name,
     creator,
+    creatorSlug: trimmedString(entry.model_creator?.slug),
+    releaseDate: trimmedString(entry.release_date),
     intelligenceIndex: numberOrNull(evals.artificial_analysis_intelligence_index),
     codingIndex: numberOrNull(evals.artificial_analysis_coding_index),
     mathIndex: numberOrNull(evals.artificial_analysis_math_index),
     mmluPro: numberOrNull(evals.mmlu_pro),
     gpqa: numberOrNull(evals.gpqa),
     pricePerMTokens: numberOrNull(pricing.price_1m_blended_3_to_1),
+    priceInputPerM: numberOrNull(pricing.price_1m_input_tokens),
+    priceOutputPerM: numberOrNull(pricing.price_1m_output_tokens),
     outputTokensPerSec: numberOrNull(entry.median_output_tokens_per_second),
     ttftSec: numberOrNull(entry.median_time_to_first_token_seconds),
+    ttfaSec: numberOrNull(entry.median_time_to_first_answer_token),
   };
 }
 

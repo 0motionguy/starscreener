@@ -37,6 +37,17 @@ export function TrendingTable({
   const freshCls = fresh?.status === "live" ? "fresh-live" : fresh?.status === "warn" ? "fresh-warm" : "fresh-cold";
   const windowLabel = timeWindow.toUpperCase();
 
+  // Non-repo categories (skills / mcp / llms) replace the 24h/7d/30d/Trend
+  // columns with category-specific cells supplied by the per-category
+  // mappers via `repo.categoryColumns`. Repo + agents keep the original
+  // delta + sparkline layout because they have real timeseries data.
+  const isRepoLike = category === "repos" || category === "agents";
+  const sampleColumns = top.find((r) => r.categoryColumns && r.categoryColumns.length > 0)
+    ?.categoryColumns ?? [];
+  const extraHeaders = isRepoLike
+    ? ["24h", "7d", "30d", "Trend"]
+    : sampleColumns.map((c) => c.label);
+
   return (
     <div className="card trending-table-card">
       <div className="card-head">
@@ -69,11 +80,10 @@ export function TrendingTable({
           <tr>
             <th className="col-rank">#</th>
             <th>Repository</th>
-            <th className="num col-stars">Stars</th>
-            <th className="num col-velocity">24h</th>
-            <th className="num col-velocity">7d</th>
-            <th className="num col-velocity">30d</th>
-            <th className="col-spark">Trend</th>
+            <th className="num col-stars">{popularityHeader(top, category)}</th>
+            {extraHeaders.map((label) => (
+              <th key={label} className="num col-velocity">{label}</th>
+            ))}
             <th className="num col-meta">Mentions</th>
             <th className="col-actions">Actions</th>
           </tr>
@@ -126,12 +136,22 @@ export function TrendingTable({
                   <TrendingStar />
                   <span className="star-value">{compact(stars)}</span>
                 </td>
-                <PeriodCell delta={delta24h} stars={stars} label="24h" highlight={timeWindow === "24h"} />
-                <PeriodCell delta={delta7d} stars={stars} label="7d" highlight={timeWindow === "7d"} />
-                <PeriodCell delta={delta30d} stars={stars} label="30d" highlight={timeWindow === "30d"} />
-                <td className="col-spark-cell" data-label="Trend">
-                  <RepoSparkline data={trendPoints} repo={repo} />
-                </td>
+                {isRepoLike ? (
+                  <>
+                    <PeriodCell delta={delta24h} stars={stars} label="24h" highlight={timeWindow === "24h"} />
+                    <PeriodCell delta={delta7d} stars={stars} label="7d" highlight={timeWindow === "7d"} />
+                    <PeriodCell delta={delta30d} stars={stars} label="30d" highlight={timeWindow === "30d"} />
+                    <td className="col-spark-cell" data-label="Trend">
+                      <RepoSparkline data={trendPoints} repo={repo} />
+                    </td>
+                  </>
+                ) : (
+                  (repo.categoryColumns ?? sampleColumns).map((col) => (
+                    <td key={col.label} className="num period-cell period-flat" data-label={col.label}>
+                      <span className="period-delta">{col.value ?? "—"}</span>
+                    </td>
+                  ))
+                )}
                 <td className="num mention-pack-cell" data-label="Mentions">
                   <Link
                     href={detailHref}
@@ -201,6 +221,19 @@ function sortLabel(sort: string): string {
   if (sort === "stars") return "stars";
   if (sort === "consensus") return "consensus";
   return "momentum";
+}
+
+function popularityHeader(items: Repo[], category: CategoryId): string {
+  // Source-native row label wins when the rendered list ships one — that's
+  // how the column reads "Connections" on MCP (Smithery use_count),
+  // "Installs" on skills, "Downloads" on LLMs. Falls back to per-category
+  // defaults; for repos / agents the column literally is GitHub stars.
+  const rowLabel = items.find((r) => r.popularityLabel)?.popularityLabel;
+  if (rowLabel) return rowLabel;
+  if (category === "skills") return "Installs";
+  if (category === "mcp") return "Use count";
+  if (category === "llms") return "Downloads";
+  return "Stars";
 }
 
 function compact(value: number): string {

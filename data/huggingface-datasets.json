@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-23T19:41:58.778Z",
+  "fetchedAt": "2026-05-24T04:44:02.993Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -128,7 +128,7 @@
       "author": "GD-ML",
       "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
       "downloads": 814,
-      "likes": 72,
+      "likes": 73,
       "trendingScore": 70,
       "tags": [
         "task_categories:text-generation",
@@ -353,8 +353,8 @@
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
       "downloads": 2916,
-      "likes": 137,
-      "trendingScore": 34,
+      "likes": 140,
+      "trendingScore": 37,
       "tags": [
         "language:en",
         "language:fr",
@@ -412,57 +412,12 @@
     },
     {
       "rank": 14,
-      "id": "5551z/VisCoR-55K",
-      "author": "5551z",
-      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
-      "downloads": 237,
-      "likes": 34,
-      "trendingScore": 30,
-      "tags": [
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2603.02556",
-        "region:us"
-      ],
-      "createdAt": "2026-04-24T03:40:42.000Z",
-      "lastModified": "2026-04-30T10:51:23.000Z"
-    },
-    {
-      "rank": 15,
-      "id": "Roman1111111/claude-opus-4.6-10000x",
-      "author": "Roman1111111",
-      "url": "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x",
-      "downloads": 7872,
-      "likes": 350,
-      "trendingScore": 29,
-      "tags": [
-        "license:mit",
-        "size_categories:1K<n<10K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-03-11T15:15:05.000Z",
-      "lastModified": "2026-04-05T13:42:24.000Z"
-    },
-    {
-      "rank": 16,
       "id": "actava/chi-bench",
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
       "downloads": 1500,
-      "likes": 32,
-      "trendingScore": 29,
+      "likes": 34,
+      "trendingScore": 31,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -491,6 +446,51 @@
       ],
       "createdAt": "2026-05-03T06:52:20.000Z",
       "lastModified": "2026-05-22T04:51:56.000Z"
+    },
+    {
+      "rank": 15,
+      "id": "5551z/VisCoR-55K",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
+      "downloads": 237,
+      "likes": 34,
+      "trendingScore": 30,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-24T03:40:42.000Z",
+      "lastModified": "2026-04-30T10:51:23.000Z"
+    },
+    {
+      "rank": 16,
+      "id": "Roman1111111/claude-opus-4.6-10000x",
+      "author": "Roman1111111",
+      "url": "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x",
+      "downloads": 7872,
+      "likes": 350,
+      "trendingScore": 29,
+      "tags": [
+        "license:mit",
+        "size_categories:1K<n<10K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-03-11T15:15:05.000Z",
+      "lastModified": "2026-04-05T13:42:24.000Z"
     },
     {
       "rank": 17,

@@ -11,7 +11,7 @@
 
 import { useMemo, useState } from "react";
 
-import { SourceLogo } from "@/components/icon/Icon";
+import { SourceLogo, type SourceName } from "@/components/icon/Icon";
 import type { AaLlmsRow } from "@/lib/aa-llms";
 
 type SortKey = "intel" | "price" | "speed" | "latency" | "total";
@@ -22,12 +22,10 @@ type StatusFilter = "current" | "all";
 
 interface Props {
   rows: AaLlmsRow[];
+  /** When false, the featured-row above the table is skipped (caller renders it
+   *  elsewhere — typically above the trending control bar). Defaults to true. */
+  showFeatured?: boolean;
 }
-
-// Creator slugs that have an SVG under /public/brand/sources/. Anything else
-// renders via the monogram avatar fallback (same look as repo-avatar without
-// an image).
-const KNOWN_CREATOR_SLUGS = new Set(["anthropic", "deepseek", "openai"]);
 
 const SORT_DEFAULT_DIR: Record<SortKey, SortDir> = {
   intel: "desc",
@@ -59,7 +57,7 @@ const STATUS_OPTIONS: Array<{ id: StatusFilter; label: string }> = [
   { id: "all", label: "All" },
 ];
 
-export function LlmsLeaderboardTable({ rows }: Props) {
+export function LlmsLeaderboardTable({ rows, showFeatured = true }: Props) {
   const [sortKey, setSortKey] = useState<SortKey>("intel");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
@@ -109,8 +107,6 @@ export function LlmsLeaderboardTable({ rows }: Props) {
     });
   }, [filtered, sortKey, sortDir]);
 
-  const featured = useMemo(() => pickFeatured(rows), [rows]);
-
   const onHeaderClick = (key: SortKey) => {
     if (sortKey === key) {
       setSortDir(sortDir === "desc" ? "asc" : "desc");
@@ -122,7 +118,7 @@ export function LlmsLeaderboardTable({ rows }: Props) {
 
   return (
     <>
-      <FeaturedLlms featured={featured} />
+      {showFeatured && <FeaturedLlms rows={rows} />}
 
       <div className="card trending-table-card">
         <div className="card-head">
@@ -164,6 +160,10 @@ export function LlmsLeaderboardTable({ rows }: Props) {
               rel="noopener"
             >
               artificialanalysis.ai
+            </a>
+            {" · "}
+            <a href="https://aiso.tools" target="_blank" rel="noopener">
+              aiso.tools
             </a>
           </span>
         </div>
@@ -325,24 +325,28 @@ const FEATURED_VARIANTS = [
   { className: "cool", label: "CHEAPEST", stat: "Blended price" },
 ] as const;
 
-function FeaturedLlms({ featured }: { featured: FeaturedTriple }) {
-  const cards: Array<{ row: AaLlmsRow; statValue: string }> = [];
+export function FeaturedLlms({ rows }: { rows: AaLlmsRow[] }) {
+  const featured = useMemo(() => pickFeatured(rows), [rows]);
+  const cards: Array<{ row: AaLlmsRow; statValue: string; chipClass: string }> = [];
   if (featured.top) {
     cards.push({
       row: featured.top,
       statValue: fmtIntel(featured.top.intelligenceIndex),
+      chipClass: "rank-top",
     });
   }
   if (featured.newest) {
     cards.push({
       row: featured.newest,
       statValue: fmtReleaseDate(featured.newest.releaseDate),
+      chipClass: "rank-breakout",
     });
   }
   if (featured.cheapest) {
     cards.push({
       row: featured.cheapest,
       statValue: fmtPrice(featured.cheapest.pricePerMTokens),
+      chipClass: "rank-trend",
     });
   }
 
@@ -350,8 +354,10 @@ function FeaturedLlms({ featured }: { featured: FeaturedTriple }) {
 
   return (
     <div className="featured-row" aria-label="Featured LLMs">
-      {cards.map(({ row, statValue }, i) => {
+      {cards.map(({ row, statValue, chipClass }, i) => {
         const variant = FEATURED_VARIANTS[i] ?? FEATURED_VARIANTS[0];
+        const intel = row.intelligenceIndex ?? null;
+        const intelTier = intelTierLabel(intel);
         return (
           <article key={`${variant.label}-${row.slug}`} className={`feat ${variant.className}`}>
             <div className="feat-head">
@@ -369,22 +375,42 @@ function FeaturedLlms({ featured }: { featured: FeaturedTriple }) {
                   </span>
                 </div>
               </div>
-              <span className={`feat-rank-chip rank-${variant.className === "hot" ? "top" : variant.className === "trend" ? "breakout" : "trend"}`}>
-                {variant.label}
-              </span>
+              <span className={`feat-rank-chip ${chipClass}`}>{variant.label}</span>
             </div>
-            <div className="feat-stats">
+
+            <div className="feat-body">
+              <p className="feat-desc">{featuredBlurb(row, variant.label)}</p>
+              <div className="row gap-2 feat-meta">
+                <span className="chip up">
+                  {variant.stat} · {statValue}
+                </span>
+                {intelTier && (
+                  <span className="fresh fresh-live">
+                    <span className="pip" aria-hidden="true" /> {intelTier}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="feat-foot">
               <div className="feat-stat">
-                <div className="feat-stat-label">{variant.stat}</div>
-                <div className="feat-stat-value">{statValue}</div>
+                <span className="feat-stat-label">Intelligence</span>
+                <span className="feat-stat-value">{fmtIntel(row.intelligenceIndex)}</span>
               </div>
               <div className="feat-stat">
-                <div className="feat-stat-label">Speed</div>
-                <div className="feat-stat-value">{fmtSpeed(row.outputTokensPerSec)} tok/s</div>
+                <span className="feat-stat-label">Price · 1M tok</span>
+                <span className="feat-stat-value">{fmtPrice(row.pricePerMTokens)}</span>
               </div>
               <div className="feat-stat">
-                <div className="feat-stat-label">Latency</div>
-                <div className="feat-stat-value">{fmtSec(row.ttftSec)}</div>
+                <span className="feat-stat-label">Speed</span>
+                <span className="feat-stat-value">
+                  {fmtSpeed(row.outputTokensPerSec)}
+                  <span className="muted"> tok/s</span>
+                </span>
+              </div>
+              <div className="feat-stat">
+                <span className="feat-stat-label">Latency</span>
+                <span className="feat-stat-value">{fmtSec(row.ttftSec)}</span>
               </div>
             </div>
           </article>
@@ -394,9 +420,125 @@ function FeaturedLlms({ featured }: { featured: FeaturedTriple }) {
   );
 }
 
+function intelTierLabel(intel: number | null): string | null {
+  if (intel === null) return null;
+  if (intel >= 55) return "Frontier tier";
+  if (intel >= 45) return "Pro tier";
+  if (intel >= 35) return "Mid tier";
+  if (intel >= 25) return "Lite tier";
+  return "Entry tier";
+}
+
+function featuredBlurb(row: AaLlmsRow, label: string): string {
+  const bits: string[] = [];
+  if (row.codingIndex !== null) bits.push(`coding ${row.codingIndex.toFixed(0)}`);
+  if (row.mathIndex !== null) bits.push(`math ${row.mathIndex.toFixed(0)}`);
+  if (row.mmluPro !== null) bits.push(`MMLU-Pro ${(row.mmluPro * 100).toFixed(0)}`);
+  if (row.gpqa !== null) bits.push(`GPQA ${(row.gpqa * 100).toFixed(0)}`);
+  if (bits.length === 0) return `${row.creator}'s ${label.toLowerCase()} pick — ${row.name}.`;
+  return bits.slice(0, 3).join(" · ");
+}
+
 // ---------------------------------------------------------------------------
 // Avatar + helpers
 // ---------------------------------------------------------------------------
+
+// Per-creator brand identity. SourceLogo SVG used when we have a brand mark in
+// /public/brand/sources/; otherwise a monogram tile on the official brand color
+// with WHITE (or dark-on-yellow) contrast text. Both branches share the same
+// .repo-avatar dimensions so the table column lines up.
+const CREATOR_BRAND: Record<
+  string,
+  { color: string; fg?: string; initials?: string; svg?: boolean }
+> = {
+  // SVG-backed (drop into /public/brand/sources to add more)
+  openai: { color: "#10a37f", svg: true },
+  anthropic: { color: "#d97757", svg: true },
+  deepseek: { color: "#4d6bfe", svg: true },
+  // Monogram-only (real SVG would be nicer; using brand color tile for now)
+  google: { color: "#4285f4", initials: "G" },
+  meta: { color: "#0467df", initials: "M" },
+  alibaba: { color: "#ff6a00", initials: "A" },
+  cohere: { color: "#39594d", initials: "Co" },
+  mistralai: { color: "#fa520f", initials: "M" },
+  mistral: { color: "#fa520f", initials: "M" },
+  kimi: { color: "#111111", initials: "K" },
+  xai: { color: "#111111", initials: "X" },
+  minimax: { color: "#f54a00", initials: "Mx" },
+  xiaomi: { color: "#ff6900", initials: "Mi" },
+  "z-ai": { color: "#2563eb", initials: "Z" },
+  zai: { color: "#2563eb", initials: "Z" },
+  microsoft: { color: "#00a4ef", initials: "Ms" },
+  nvidia: { color: "#76b900", initials: "N", fg: "#000" },
+  amazon: { color: "#ff9900", initials: "A", fg: "#000" },
+  perplexity: { color: "#20808d", initials: "Pp" },
+  reka: { color: "#bb1f4a", initials: "R" },
+  databricks: { color: "#ff3621", initials: "Db" },
+  ai21: { color: "#7c3aed", initials: "21" },
+  inflection: { color: "#7c3aed", initials: "If" },
+  "01-ai": { color: "#0891b2", initials: "01" },
+  "01ai": { color: "#0891b2", initials: "01" },
+  yi: { color: "#0891b2", initials: "Yi" },
+  liquid: { color: "#10b981", initials: "Lq" },
+  upstage: { color: "#0ea5e9", initials: "Up" },
+  baidu: { color: "#2932e1", initials: "Ba" },
+  tencent: { color: "#0052d9", initials: "Tc" },
+  bytedance: { color: "#1c1d22", initials: "Bd" },
+};
+
+function brandFor(slug: string | null, creatorName: string): {
+  color: string;
+  fg: string;
+  initials: string;
+  svg: boolean;
+} {
+  const key = slug?.toLowerCase() ?? "";
+  const entry = CREATOR_BRAND[key];
+  if (entry) {
+    return {
+      color: entry.color,
+      fg: entry.fg ?? "#fff",
+      initials: entry.initials ?? defaultInitials(creatorName),
+      svg: entry.svg ?? false,
+    };
+  }
+  // Unknown creator → deterministic neutral tile (operator preferred uniform look).
+  return {
+    color: deterministicColor(creatorName),
+    fg: "#fff",
+    initials: defaultInitials(creatorName),
+    svg: false,
+  };
+}
+
+function defaultInitials(name: string): string {
+  const cleaned = (name || "??").trim();
+  if (!cleaned) return "??";
+  // 1-word creator → first 1-2 letters; multi-word → first letter of first 2
+  const words = cleaned.split(/\s+/);
+  if (words.length >= 2) {
+    return (words[0]![0]! + words[1]![0]!).toUpperCase();
+  }
+  return cleaned.slice(0, 2).toUpperCase();
+}
+
+const NEUTRAL_COLORS = [
+  "#475569",
+  "#52525b",
+  "#334155",
+  "#3f3f46",
+  "#404040",
+  "#4b5563",
+];
+
+function deterministicColor(seed: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return NEUTRAL_COLORS[Math.abs(h) % NEUTRAL_COLORS.length]!;
+}
 
 function CreatorAvatar({
   creator,
@@ -407,58 +549,41 @@ function CreatorAvatar({
   slug: string | null;
   className?: string;
 }) {
-  const slugLower = slug?.toLowerCase() ?? "";
-  const hasLogo = slugLower && KNOWN_CREATOR_SLUGS.has(slugLower);
+  const brand = brandFor(slug, creator);
   const klass = className ? `repo-avatar ${className}` : "repo-avatar";
 
-  if (hasLogo) {
+  if (brand.svg) {
+    // Use the SourceLogo SVG. Wrap in a brand-tinted tile so the SVG sits on
+    // its actual brand color (matches the monogram pattern visually).
     return (
-      <span className={klass} aria-label={creator}>
+      <span
+        className={klass}
+        aria-label={creator}
+        style={{ background: brand.color, color: brand.fg, padding: 2 }}
+      >
         <SourceLogo
-          source={slugLower as "anthropic" | "deepseek" | "openai"}
+          source={(slug?.toLowerCase() ?? "openai") as SourceName}
           size="sm"
         />
       </span>
     );
   }
 
-  // Monogram fallback — first 2 chars of creator with a deterministic background
-  // so the same creator always paints the same tile across the page.
-  const initials = (creator || "??").slice(0, 2).toUpperCase();
+  // Monogram fallback: brand color tile + contrast text.
   return (
     <span
       className={klass}
       aria-label={creator}
-      style={{ background: gradientFor(creator) }}
+      style={{
+        background: brand.color,
+        color: brand.fg,
+        fontWeight: 700,
+        fontSize: brand.initials.length > 1 ? 9 : 11,
+      }}
     >
-      <span aria-hidden="true">{initials}</span>
+      <span aria-hidden="true">{brand.initials}</span>
     </span>
   );
-}
-
-// FNV-1a → 10-color palette (same family as TOP10 builders for visual rhyme).
-const AVATAR_GRADIENTS: ReadonlyArray<[string, string]> = [
-  ["#ff6b35", "#ffd24d"],
-  ["#6366f1", "#a78bfa"],
-  ["#22c55e", "#3ad6c5"],
-  ["#1d9bf0", "#60a5fa"],
-  ["#f472b6", "#ff4d4d"],
-  ["#ffb547", "#ff6b35"],
-  ["#3ad6c5", "#60a5fa"],
-  ["#a78bfa", "#f472b6"],
-  ["#ff4d4d", "#ffb547"],
-  ["#60a5fa", "#a78bfa"],
-];
-
-function gradientFor(seed: string): string {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
-    h = Math.imul(h, 0x01000193);
-  }
-  const idx = Math.abs(h) % AVATAR_GRADIENTS.length;
-  const [a, b] = AVATAR_GRADIENTS[idx]!;
-  return `linear-gradient(135deg, ${a}, ${b})`;
 }
 
 // ---------------------------------------------------------------------------

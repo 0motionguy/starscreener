@@ -9,7 +9,10 @@ import {
   refreshCategoryFromStore,
 } from "@/lib/category-adapters";
 import { refreshAaLlmsFromStore, getAaLlmsRanked } from "@/lib/aa-llms";
-import { LlmsLeaderboardTable } from "@/components/llms/LlmsLeaderboardTable";
+import {
+  LlmsLeaderboardTable,
+  FeaturedLlms,
+} from "@/components/llms/LlmsLeaderboardTable";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
 import {
   refreshTrendshiftFromStore,
@@ -86,13 +89,20 @@ export default async function TrendingHubPage({ searchParams }: Props) {
 
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
 
+  const aaRows =
+    category === "llms" ? safe(() => getAaLlmsRanked(200), []) : [];
+
   return (
     <div className="route-shell">
       <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
 
       <KpiStrip />
 
-      <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
+      {category === "llms" ? (
+        <FeaturedLlms rows={aaRows} />
+      ) : (
+        <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
+      )}
 
       <TrendingControlBar
         activeCategory={category}
@@ -103,7 +113,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
       />
 
       {category === "llms" ? (
-        <LlmsLeaderboardTable rows={safe(() => getAaLlmsRanked(200), [])} />
+        <LlmsLeaderboardTable rows={aaRows} showFeatured={false} />
       ) : (
         <TrendingTable
           repos={sorted}

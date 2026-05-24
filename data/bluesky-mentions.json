@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-24T08:01:25.363Z",
+  "fetchedAt": "2026-05-24T10:08:56.521Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -6171,23 +6171,23 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
-        "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
-        "text": "Claude Code 2.1.148 release change log github.com/anthropics/c...",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
+        "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
+        "text": "Claude Code automates agent workflows. Claude Code v2.1.145 adds JSON session listing and OTEL span IDs for improved tracing. #Anthropic #ClaudeCode #OTEL 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.145",
         "author": {
-          "handle": "georgesl.bsky.social",
-          "displayName": "George"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T18:17:54.315Z",
-        "hoursSincePosted": 1.84
+        "createdAt": "2026-05-24T08:28:32.341444Z",
+        "hoursSincePosted": 1.67
       },
       "posts": [
         {
@@ -6351,6 +6351,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
+          "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
+          "text": "Claude Code automates agent workflows. Claude Code v2.1.145 adds JSON session listing and OTEL span IDs for improved tracing. #Anthropic #ClaudeCode #OTEL 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.145",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T08:28:32.341444Z",
+          "createdUtc": 1779611312,
+          "ageHours": 1.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -8065,23 +8094,23 @@
     },
     "lightningpixel/modly": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:k4istcpy5vb26ecdv535mk4o/app.bsky.feed.post/3mljjyb4sb22s",
-        "cid": "bafyreibxurc5ceyetnpk4qmayfmknviinwrmkfjgzo62xbp6ugacwssipy",
-        "bskyUrl": "https://bsky.app/profile/saasjunctionhq.bsky.social/post/3mljjyb4sb22s",
-        "text": "github.com/lightningpix...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlj5sbpy42a",
+        "cid": "bafyreibqwdmih7zu47ctvmdt3nadcqcejgms7atr36fwostdndpt36b7mq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlj5sbpy42a",
+        "text": "https://github.com/lightningpixel/modly",
         "author": {
-          "handle": "saasjunctionhq.bsky.social",
-          "displayName": "SaaS Junction || AI & SaaS Updates"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T19:53:38.375Z",
-        "hoursSincePosted": 2.22
+        "createdAt": "2026-05-24T08:09:21Z",
+        "hoursSincePosted": 1.99
       },
       "posts": [
         {
@@ -8100,6 +8129,34 @@
           "createdUtc": 1778340014,
           "ageHours": 1.9,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "lightningpixel/modly",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlj5sbpy42a",
+          "cid": "bafyreibqwdmih7zu47ctvmdt3nadcqcejgms7atr36fwostdndpt36b7mq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlj5sbpy42a",
+          "text": "https://github.com/lightningpixel/modly",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T08:09:21Z",
+          "createdUtc": 1779610161,
+          "ageHours": 1.99,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -22798,23 +22855,23 @@
     },
     "teng-lin/notebooklm-py": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
-        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
-        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mmlmnxb32p2a",
+        "cid": "bafyreighp3gs43imhohk4q5omkmx4qy2rcz6xu7zpt2hp4cun2x4e2vb4e",
+        "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mmlmnxb32p2a",
+        "text": "https://github.com/teng-lin/notebooklm-py",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "sigmanor.net",
+          "displayName": "Github Repositories"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "createdAt": "2026-05-24T09:12:04.718045113Z",
+        "hoursSincePosted": 0.95
       },
       "posts": [
         {
@@ -22855,6 +22912,34 @@
             },
             {
               "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mmlmnxb32p2a",
+          "cid": "bafyreighp3gs43imhohk4q5omkmx4qy2rcz6xu7zpt2hp4cun2x4e2vb4e",
+          "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mmlmnxb32p2a",
+          "text": "https://github.com/teng-lin/notebooklm-py",
+          "author": {
+            "handle": "sigmanor.net",
+            "displayName": "Github Repositories"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T09:12:04.718045113Z",
+          "createdUtc": 1779613924,
+          "ageHours": 0.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "teng-lin/notebooklm-py",
               "matchType": "url",
               "confidence": 1
             }
@@ -31833,23 +31918,23 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
-        "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
-        "text": "Claude Code 2.1.148 release change log github.com/anthropics/c...",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
+        "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
+        "text": "Claude Code automates agent workflows. Claude Code v2.1.145 adds JSON session listing and OTEL span IDs for improved tracing. #Anthropic #ClaudeCode #OTEL 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.145",
         "author": {
-          "handle": "georgesl.bsky.social",
-          "displayName": "George"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T18:17:54.315Z",
-        "hoursSincePosted": 1.84
+        "createdAt": "2026-05-24T08:28:32.341444Z",
+        "hoursSincePosted": 1.67
       },
       "posts": [
         {
@@ -32013,6 +32098,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmlka52htl22",
+          "cid": "bafyreibnpokyao6j3rdmguhydtdte5x33spvyr526tn2iyr7bh5m6x4lh4",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmlka52htl22",
+          "text": "Claude Code automates agent workflows. Claude Code v2.1.145 adds JSON session listing and OTEL span IDs for improved tracing. #Anthropic #ClaudeCode #OTEL 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.145",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T08:28:32.341444Z",
+          "createdUtc": 1779611312,
+          "ageHours": 1.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -33727,23 +33841,23 @@
     },
     "lightningpixel--modly": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:k4istcpy5vb26ecdv535mk4o/app.bsky.feed.post/3mljjyb4sb22s",
-        "cid": "bafyreibxurc5ceyetnpk4qmayfmknviinwrmkfjgzo62xbp6ugacwssipy",
-        "bskyUrl": "https://bsky.app/profile/saasjunctionhq.bsky.social/post/3mljjyb4sb22s",
-        "text": "github.com/lightningpix...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlj5sbpy42a",
+        "cid": "bafyreibqwdmih7zu47ctvmdt3nadcqcejgms7atr36fwostdndpt36b7mq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlj5sbpy42a",
+        "text": "https://github.com/lightningpixel/modly",
         "author": {
-          "handle": "saasjunctionhq.bsky.social",
-          "displayName": "SaaS Junction || AI & SaaS Updates"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T19:53:38.375Z",
-        "hoursSincePosted": 2.22
+        "createdAt": "2026-05-24T08:09:21Z",
+        "hoursSincePosted": 1.99
       },
       "posts": [
         {
@@ -33762,6 +33876,34 @@
           "createdUtc": 1778340014,
           "ageHours": 1.9,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "lightningpixel/modly",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlj5sbpy42a",
+          "cid": "bafyreibqwdmih7zu47ctvmdt3nadcqcejgms7atr36fwostdndpt36b7mq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlj5sbpy42a",
+          "text": "https://github.com/lightningpixel/modly",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T08:09:21Z",
+          "createdUtc": 1779610161,
+          "ageHours": 1.99,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -48460,23 +48602,23 @@
     },
     "teng-lin--notebooklm-py": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
-        "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
-        "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+        "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mmlmnxb32p2a",
+        "cid": "bafyreighp3gs43imhohk4q5omkmx4qy2rcz6xu7zpt2hp4cun2x4e2vb4e",
+        "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mmlmnxb32p2a",
+        "text": "https://github.com/teng-lin/notebooklm-py",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "sigmanor.net",
+          "displayName": "Github Repositories"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T15:22:16.000Z",
-        "hoursSincePosted": 3.9
+        "createdAt": "2026-05-24T09:12:04.718045113Z",
+        "hoursSincePosted": 0.95
       },
       "posts": [
         {
@@ -48517,6 +48659,34 @@
             },
             {
               "fullName": "can1357/oh-my-pi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mmlmnxb32p2a",
+          "cid": "bafyreighp3gs43imhohk4q5omkmx4qy2rcz6xu7zpt2hp4cun2x4e2vb4e",
+          "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mmlmnxb32p2a",
+          "text": "https://github.com/teng-lin/notebooklm-py",
+          "author": {
+            "handle": "sigmanor.net",
+            "displayName": "Github Repositories"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T09:12:04.718045113Z",
+          "createdUtc": 1779613924,
+          "ageHours": 0.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "teng-lin/notebooklm-py",
               "matchType": "url",
               "confidence": 1
             }
@@ -51330,32 +51500,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "yvgude/lean-ctx",
-      "count7d": 1,
-      "likesSum7d": 6
-    },
-    {
-      "fullName": "superset-sh/superset",
+      "fullName": "lightningpixel/modly",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "boona13/mykonos-island-voxels",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "cartesiancs/map3d",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "paperclipai/paperclip",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "supertone-inc/supertonic",
+      "fullName": "teng-lin/notebooklm-py",
       "count7d": 1,
       "likesSum7d": 0
     }

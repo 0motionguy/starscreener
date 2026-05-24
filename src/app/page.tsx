@@ -74,7 +74,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // Language filter removed (operator: "all its only about AI · no filter per coding language").
   // `lang` URL param is accepted for back-compat but no longer filters the list.
   const language = rawLang;
-  const sorted = sortRepos(repos, timeWindow, sort, ranker);
+  const sorted = sortRepos(repos, timeWindow, sort, ranker, category);
 
   const counts = await getSidebarSourceCounts().catch(() => null);
   const switcherCounts: Partial<Record<CategoryId, number>> = {
@@ -116,11 +116,30 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   );
 }
 
-function sortRepos(repos: Repo[], timeWindow: WindowId, sort: SortId, ranker: RankerId = "top"): Repo[] {
+function sortRepos(
+  repos: Repo[],
+  timeWindow: WindowId,
+  sort: SortId,
+  ranker: RankerId = "top",
+  category: CategoryId = "repos",
+): Repo[] {
+  // Non-repo categories (skills / mcp / llms) carry source-native popularity
+  // signals (installs, use_count, downloads) that the upstream board already
+  // sorted by. The TOP composite is tuned for GitHub stars + cross-source
+  // mentions and would re-shuffle that order incorrectly. For the default
+  // momentum+top combo on these categories, fall through to a delta-first /
+  // popularity-tiebreaker sort that honors the upstream rank.
+  const useSourceNative =
+    sort === "momentum" &&
+    ranker === "top" &&
+    (category === "skills" || category === "mcp" || category === "llms");
+
   // TOP composite is cohort-normalized — compute once against the visible/filtered
   // set so language slicing doesn't bias the medians.
   const topScores =
-    sort === "momentum" && ranker === "top" ? computeTopComposite(repos) : null;
+    sort === "momentum" && ranker === "top" && !useSourceNative
+      ? computeTopComposite(repos)
+      : null;
   // TREND tab consults the TrendShift rank map; ties (incl. repos not in the
   // map) fall back to OSSInsight 30d so the table still has a stable order.
   const trendRanks =
@@ -140,6 +159,23 @@ function sortRepos(repos: Repo[], timeWindow: WindowId, sort: SortId, ranker: Ra
         if (aRank !== bRank) return aRank - bRank;
       }
       return (b.trendScore30d ?? 0) - (a.trendScore30d ?? 0);
+    }
+    if (useSourceNative) {
+      // 2026-05-23 (third iteration): operator pushback — "bad sourcing of
+      // ranking". The earlier source-native rank put lobehub's 10-install
+      // item at top of skills just because lobehub is one source. Now:
+      // sort by ABSOLUTE popularity desc (the popularity scalar on `stars`
+      // already holds installs / use_count / downloads depending on
+      // category). Honest "most popular" ordering. Delta sort still wins
+      // when user explicitly picks the 7d or 30d window — that's "who's
+      // rising in that window".
+      if (timeWindow === "7d" || timeWindow === "30d") {
+        const deltaDiff = deltaForWindow(b, timeWindow) - deltaForWindow(a, timeWindow);
+        if (deltaDiff !== 0) return deltaDiff;
+      }
+      const popDiff = (b.stars ?? 0) - (a.stars ?? 0);
+      if (popDiff !== 0) return popDiff;
+      return (a.rank ?? 9999) - (b.rank ?? 9999);
     }
     if (topScores) {
       const diff = (topScores.get(b.id) ?? 0) - (topScores.get(a.id) ?? 0);

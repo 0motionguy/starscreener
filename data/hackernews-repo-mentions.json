@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-24T11:09:01.881Z",
+  "fetchedAt": "2026-05-24T12:13:16.826Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 706,
+  "scannedAlgoliaHits": 708,
   "scannedFirebaseItems": 500,
   "mentions": {
     "cactus-compute/needle": {
@@ -52,7 +52,7 @@
         "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
         "score": 444,
         "url": "https://github.com/MinishLab/semble",
-        "hoursSincePosted": 163.53
+        "hoursSincePosted": 164.6
       },
       "everHitFrontPage": false,
       "stories": [
@@ -64,9 +64,9 @@
           "score": 444,
           "descendants": 150,
           "createdUtc": 1779032227,
-          "ageHours": 163.53,
-          "velocity": 2.72,
-          "trendingScore": 115.21,
+          "ageHours": 164.6,
+          "velocity": 2.7,
+          "trendingScore": 114.37,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -133,7 +133,7 @@
         "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
         "score": 384,
         "url": "https://github.com/wiltodelta/remove-ai-watermarks",
-        "hoursSincePosted": 108.64
+        "hoursSincePosted": 109.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -145,9 +145,9 @@
           "score": 384,
           "descendants": 258,
           "createdUtc": 1779229831,
-          "ageHours": 108.64,
-          "velocity": 3.53,
-          "trendingScore": 244.49,
+          "ageHours": 109.71,
+          "velocity": 3.5,
+          "trendingScore": 242.41,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -368,7 +368,7 @@
         "title": "Models.dev: open-source database of AI model specs, pricing, and capabilities",
         "score": 155,
         "url": "https://github.com/anomalyco/models.dev",
-        "hoursSincePosted": 38.72
+        "hoursSincePosted": 39.79
       },
       "everHitFrontPage": false,
       "stories": [
@@ -380,9 +380,9 @@
           "score": 155,
           "descendants": 27,
           "createdUtc": 1779481567,
-          "ageHours": 38.72,
-          "velocity": 4,
-          "trendingScore": 32.42,
+          "ageHours": 39.79,
+          "velocity": 3.9,
+          "trendingScore": 31.61,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -439,6 +439,46 @@
         }
       ]
     },
+    "superset-sh/superset": {
+      "count7d": 1,
+      "scoreSum7d": 103,
+      "topStory": {
+        "id": 48236770,
+        "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+        "score": 103,
+        "url": "https://github.com/superset-sh/superset",
+        "hoursSincePosted": 45.32
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48236770,
+          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+          "url": "https://github.com/superset-sh/superset",
+          "by": "avipeltz",
+          "score": 103,
+          "descendants": 129,
+          "createdUtc": 1779461635,
+          "ageHours": 45.32,
+          "velocity": 2.27,
+          "trendingScore": 63.51,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-launch-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset ( https://github.com/superset-sh/superset ), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel. Demo: https://www.youtube.com/watch?v=YWDHn7gUwfg Try it: https://superset.sh/ We’re three engineers who’ve built and maintained large codebases, and we kept wanting to work on more than one thing at a time. Once CLI coding agents got good enough we found ourselves running several of them i",
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "eigenpal/docx-editor": {
       "count7d": 1,
       "scoreSum7d": 102,
@@ -472,46 +512,6 @@
           "linkedRepos": [
             {
               "fullName": "eigenpal/docx-editor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "superset-sh/superset": {
-      "count7d": 1,
-      "scoreSum7d": 102,
-      "topStory": {
-        "id": 48236770,
-        "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-        "score": 102,
-        "url": "https://github.com/superset-sh/superset",
-        "hoursSincePosted": 44.25
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48236770,
-          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-          "url": "https://github.com/superset-sh/superset",
-          "by": "avipeltz",
-          "score": 102,
-          "descendants": 129,
-          "createdUtc": 1779461635,
-          "ageHours": 44.25,
-          "velocity": 2.3,
-          "trendingScore": 64.21,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-launch-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset ( https://github.com/superset-sh/superset ), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel. Demo: https://www.youtube.com/watch?v=YWDHn7gUwfg Try it: https://superset.sh/ We’re three engineers who’ve built and maintained large codebases, and we kept wanting to work on more than one thing at a time. Once CLI coding agents got good enough we found ourselves running several of them i",
-          "linkedRepos": [
-            {
-              "fullName": "superset-sh/superset",
               "matchType": "url",
               "confidence": 1
             }
@@ -687,7 +687,7 @@
         "title": "Show HN: InsForge – Open-source Heroku for coding agents",
         "score": 62,
         "url": "https://github.com/InsForge/InsForge",
-        "hoursSincePosted": 139.47
+        "hoursSincePosted": 140.54
       },
       "everHitFrontPage": false,
       "stories": [
@@ -699,7 +699,7 @@
           "score": 62,
           "descendants": 7,
           "createdUtc": 1779118842,
-          "ageHours": 139.47,
+          "ageHours": 140.54,
           "velocity": 0.44,
           "trendingScore": 1.34,
           "everHitFrontPage": false,
@@ -1043,7 +1043,7 @@
         "title": "Invisible_playwright: Stealth Firefox that passes every bot detection test",
         "score": 20,
         "url": "https://github.com/feder-cr/invisible_playwright",
-        "hoursSincePosted": 110.28
+        "hoursSincePosted": 111.35
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1055,7 +1055,7 @@
           "score": 20,
           "descendants": 1,
           "createdUtc": 1779223919,
-          "ageHours": 110.28,
+          "ageHours": 111.35,
           "velocity": 0.18,
           "trendingScore": 0.26,
           "everHitFrontPage": false,
@@ -1082,7 +1082,7 @@
         "title": "Zero – Programming Language for Agents",
         "score": 4,
         "url": "https://github.com/vercel-labs/zero",
-        "hoursSincePosted": 144.42
+        "hoursSincePosted": 145.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1094,7 +1094,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101039,
-          "ageHours": 144.42,
+          "ageHours": 145.49,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1119,7 +1119,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779221986,
-          "ageHours": 110.82,
+          "ageHours": 111.89,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1144,7 +1144,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779061528,
-          "ageHours": 155.39,
+          "ageHours": 156.46,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1171,7 +1171,7 @@
         "title": "Show HN: IResearch – C++ search that beat Lucene and Tantivy on their benchmark",
         "score": 14,
         "url": "https://github.com/serenedb/serenedb/tree/main/libs/iresearch",
-        "hoursSincePosted": 96.8
+        "hoursSincePosted": 97.87
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1183,7 +1183,7 @@
           "score": 14,
           "descendants": 3,
           "createdUtc": 1779272466,
-          "ageHours": 96.8,
+          "ageHours": 97.87,
           "velocity": 0.14,
           "trendingScore": 0.21,
           "everHitFrontPage": false,
@@ -1314,7 +1314,7 @@
         "title": "WiFi Spatial Sensing",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 94.94
+        "hoursSincePosted": 96.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1326,7 +1326,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779279152,
-          "ageHours": 94.94,
+          "ageHours": 96.01,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1353,7 +1353,7 @@
         "title": "Refactor: Unified Codebase for Better Performance",
         "score": 1,
         "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 166.67
+        "hoursSincePosted": 167.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1365,7 +1365,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779020924,
-          "ageHours": 166.67,
+          "ageHours": 167.74,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1392,7 +1392,7 @@
         "title": "Waylandcraft: Wayland Compositor in Minecraft",
         "score": 5,
         "url": "https://github.com/EVV1E/waylandcraft",
-        "hoursSincePosted": 142.28
+        "hoursSincePosted": 143.35
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1404,9 +1404,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1779108719,
-          "ageHours": 142.28,
-          "velocity": 0.04,
-          "trendingScore": 0.03,
+          "ageHours": 143.35,
+          "velocity": 0.03,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1429,7 +1429,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779425675,
-          "ageHours": 54.24,
+          "ageHours": 55.31,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1495,7 +1495,7 @@
         "title": "Nous Research edits GitHub issue to remove plagiarism claims about Hermes Agent",
         "score": 7,
         "url": "https://github.com/NousResearch/hermes-agent/issues/10232",
-        "hoursSincePosted": 131.09
+        "hoursSincePosted": 132.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1507,7 +1507,7 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1779149028,
-          "ageHours": 131.09,
+          "ageHours": 132.16,
           "velocity": 0.05,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -1758,7 +1758,7 @@
         "title": "Codex is flagged as malware on macOS",
         "score": 3,
         "url": "https://github.com/openai/codex/issues/23195",
-        "hoursSincePosted": 12.31
+        "hoursSincePosted": 13.38
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1770,9 +1770,9 @@
           "score": 3,
           "descendants": 4,
           "createdUtc": 1779576635,
-          "ageHours": 12.31,
-          "velocity": 0.24,
-          "trendingScore": 0.16,
+          "ageHours": 13.38,
+          "velocity": 0.22,
+          "trendingScore": 0.15,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1795,7 +1795,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1779483061,
-          "ageHours": 38.3,
+          "ageHours": 39.37,
           "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1900,7 +1900,7 @@
         "title": "OpenCode is using CPU for doing nothing",
         "score": 5,
         "url": "https://github.com/anomalyco/opencode/issues/19466",
-        "hoursSincePosted": 23.75
+        "hoursSincePosted": 24.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1912,9 +1912,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1779535439,
-          "ageHours": 23.75,
-          "velocity": 0.21,
-          "trendingScore": 0.15,
+          "ageHours": 24.82,
+          "velocity": 0.2,
+          "trendingScore": 0.14,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2095,7 +2095,7 @@
         "title": "OMLX v0.3.9 Stable Merges Native MTP (Multi-Token Prediction)",
         "score": 2,
         "url": "https://github.com/jundot/omlx/releases/tag/v0.3.9",
-        "hoursSincePosted": 52.45
+        "hoursSincePosted": 53.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2107,7 +2107,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779432123,
-          "ageHours": 52.45,
+          "ageHours": 53.52,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2134,7 +2134,7 @@
         "title": "Herdr: A tmux-like terminal multiplexer for AI coding agents",
         "score": 4,
         "url": "https://github.com/ogulcancelik/herdr",
-        "hoursSincePosted": 22.27
+        "hoursSincePosted": 23.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2146,9 +2146,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779540781,
-          "ageHours": 22.27,
-          "velocity": 0.18,
-          "trendingScore": 0.11,
+          "ageHours": 23.34,
+          "velocity": 0.17,
+          "trendingScore": 0.1,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2165,6 +2165,45 @@
         }
       ]
     },
+    "digital-grease/fauxx": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48254488,
+        "title": "Fauxx – Data poisoning for your everyday tracking",
+        "score": 2,
+        "url": "https://github.com/digital-grease/fauxx",
+        "hoursSincePosted": 7.33
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48254488,
+          "title": "Fauxx – Data poisoning for your everyday tracking",
+          "url": "https://github.com/digital-grease/fauxx",
+          "by": "vidyesh",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1779598411,
+          "ageHours": 7.33,
+          "velocity": 0.27,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "digital-grease/fauxx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "openclaw/openclaw": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -2173,7 +2212,7 @@
         "title": "OpenClaw: Own Personal AI Assistant. Any OS. Any Platform",
         "score": 2,
         "url": "https://github.com/openclaw/openclaw",
-        "hoursSincePosted": 22.62
+        "hoursSincePosted": 23.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2185,9 +2224,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779539493,
-          "ageHours": 22.62,
-          "velocity": 0.09,
-          "trendingScore": 0.03,
+          "ageHours": 23.7,
+          "velocity": 0.08,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2212,7 +2251,7 @@
         "title": "ExtendDB – open-source DynamoDB-compatible API adapter with pluggable storage",
         "score": 2,
         "url": "https://github.com/ExtendDB/extenddb",
-        "hoursSincePosted": 46.06
+        "hoursSincePosted": 47.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2224,7 +2263,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779455133,
-          "ageHours": 46.06,
+          "ageHours": 47.13,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2251,7 +2290,7 @@
         "title": "Thermo-Nuclear Code Quality Review (Cursor Team Kit skill)",
         "score": 2,
         "url": "https://github.com/cursor/plugins/blob/3347cbab5b54136f6fba0994c3a01a56f7fb7fca/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
-        "hoursSincePosted": 48.55
+        "hoursSincePosted": 49.62
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2263,7 +2302,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779446164,
-          "ageHours": 48.55,
+          "ageHours": 49.62,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2283,28 +2322,28 @@
         }
       ]
     },
-    "digital-grease/fauxx": {
+    "colbymchenry/codegraph": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
-        "id": 48254488,
-        "title": "Fauxx – Data poisoning for your everyday tracking",
+        "id": 48256407,
+        "title": "Supercharge Claude Code, Cursor, Codex with Semantic Code Intelligence",
         "score": 1,
-        "url": "https://github.com/digital-grease/fauxx",
-        "hoursSincePosted": 6.26
+        "url": "https://github.com/colbymchenry/codegraph",
+        "hoursSincePosted": 0.8
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48254488,
-          "title": "Fauxx – Data poisoning for your everyday tracking",
-          "url": "https://github.com/digital-grease/fauxx",
-          "by": "vidyesh",
+          "id": 48256407,
+          "title": "Supercharge Claude Code, Cursor, Codex with Semantic Code Intelligence",
+          "url": "https://github.com/colbymchenry/codegraph",
+          "by": "beyti",
           "score": 1,
-          "descendants": 0,
-          "createdUtc": 1779598411,
-          "ageHours": 6.26,
-          "velocity": 0.16,
+          "descendants": 1,
+          "createdUtc": 1779621910,
+          "ageHours": 0.8,
+          "velocity": 1.25,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2314,7 +2353,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "digital-grease/fauxx",
+              "fullName": "colbymchenry/codegraph",
               "matchType": "url",
               "confidence": 1
             }
@@ -2330,7 +2369,7 @@
         "title": "Awesome DESIGN.md",
         "score": 4,
         "url": "https://github.com/VoltAgent/awesome-design-md/",
-        "hoursSincePosted": 144.25
+        "hoursSincePosted": 145.32
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2342,7 +2381,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101630,
-          "ageHours": 144.25,
+          "ageHours": 145.32,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -2369,7 +2408,7 @@
         "title": "Google's open source distributed agent runtime",
         "score": 3,
         "url": "https://github.com/google/ax",
-        "hoursSincePosted": 79.85
+        "hoursSincePosted": 80.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2381,7 +2420,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779333495,
-          "ageHours": 79.85,
+          "ageHours": 80.92,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -2408,7 +2447,7 @@
         "title": "RTK: Rust Token Killer",
         "score": 2,
         "url": "https://github.com/rtk-ai/rtk",
-        "hoursSincePosted": 107.57
+        "hoursSincePosted": 108.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2420,7 +2459,7 @@
           "score": 2,
           "descendants": 2,
           "createdUtc": 1779233676,
-          "ageHours": 107.57,
+          "ageHours": 108.64,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2447,7 +2486,7 @@
         "title": "More Than Skills, Frameworks",
         "score": 1,
         "url": "https://github.com/mattpocock/skills",
-        "hoursSincePosted": 118.24
+        "hoursSincePosted": 119.31
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2459,7 +2498,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779195276,
-          "ageHours": 118.24,
+          "ageHours": 119.31,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2486,7 +2525,7 @@
         "title": "Miro Fish: Predicting Anything",
         "score": 1,
         "url": "https://github.com/666ghj/MiroFish",
-        "hoursSincePosted": 122.76
+        "hoursSincePosted": 123.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2498,7 +2537,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779179023,
-          "ageHours": 122.76,
+          "ageHours": 123.83,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2525,7 +2564,7 @@
         "title": "Evolving specs (2025)",
         "score": 1,
         "url": "https://github.com/github/spec-kit/discussions/152",
-        "hoursSincePosted": 123.35
+        "hoursSincePosted": 124.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2537,7 +2576,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779176882,
-          "ageHours": 123.35,
+          "ageHours": 124.42,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2564,7 +2603,7 @@
         "title": "DeerFlow 2.0 – Deep Exploration and Efficient Research Flow",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 149
+        "hoursSincePosted": 150.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2576,7 +2615,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779084550,
-          "ageHours": 149,
+          "ageHours": 150.07,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2603,7 +2642,7 @@
         "title": "Open-Source, Plugin-Driven Geospatial Intelligence Engine",
         "score": 1,
         "url": "https://github.com/silvertakana/worldwideview",
-        "hoursSincePosted": 150.13
+        "hoursSincePosted": 151.2
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2615,7 +2654,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779080491,
-          "ageHours": 150.13,
+          "ageHours": 151.2,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2684,7 +2723,7 @@
         "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
         "score": 444,
         "url": "https://github.com/MinishLab/semble",
-        "hoursSincePosted": 163.53
+        "hoursSincePosted": 164.6
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2696,9 +2735,9 @@
           "score": 444,
           "descendants": 150,
           "createdUtc": 1779032227,
-          "ageHours": 163.53,
-          "velocity": 2.72,
-          "trendingScore": 115.21,
+          "ageHours": 164.6,
+          "velocity": 2.7,
+          "trendingScore": 114.37,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -2765,7 +2804,7 @@
         "title": "Remove-AI-Watermarks – CLI and library for removing AI watermarks from images",
         "score": 384,
         "url": "https://github.com/wiltodelta/remove-ai-watermarks",
-        "hoursSincePosted": 108.64
+        "hoursSincePosted": 109.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2777,9 +2816,9 @@
           "score": 384,
           "descendants": 258,
           "createdUtc": 1779229831,
-          "ageHours": 108.64,
-          "velocity": 3.53,
-          "trendingScore": 244.49,
+          "ageHours": 109.71,
+          "velocity": 3.5,
+          "trendingScore": 242.41,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3000,7 +3039,7 @@
         "title": "Models.dev: open-source database of AI model specs, pricing, and capabilities",
         "score": 155,
         "url": "https://github.com/anomalyco/models.dev",
-        "hoursSincePosted": 38.72
+        "hoursSincePosted": 39.79
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3012,9 +3051,9 @@
           "score": 155,
           "descendants": 27,
           "createdUtc": 1779481567,
-          "ageHours": 38.72,
-          "velocity": 4,
-          "trendingScore": 32.42,
+          "ageHours": 39.79,
+          "velocity": 3.9,
+          "trendingScore": 31.61,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -3071,6 +3110,46 @@
         }
       ]
     },
+    "superset-sh--superset": {
+      "count7d": 1,
+      "scoreSum7d": 103,
+      "topStory": {
+        "id": 48236770,
+        "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+        "score": 103,
+        "url": "https://github.com/superset-sh/superset",
+        "hoursSincePosted": 45.32
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48236770,
+          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+          "url": "https://github.com/superset-sh/superset",
+          "by": "avipeltz",
+          "score": 103,
+          "descendants": 129,
+          "createdUtc": 1779461635,
+          "ageHours": 45.32,
+          "velocity": 2.27,
+          "trendingScore": 63.51,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-launch-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset ( https://github.com/superset-sh/superset ), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel. Demo: https://www.youtube.com/watch?v=YWDHn7gUwfg Try it: https://superset.sh/ We’re three engineers who’ve built and maintained large codebases, and we kept wanting to work on more than one thing at a time. Once CLI coding agents got good enough we found ourselves running several of them i",
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "eigenpal--docx-editor": {
       "count7d": 1,
       "scoreSum7d": 102,
@@ -3104,46 +3183,6 @@
           "linkedRepos": [
             {
               "fullName": "eigenpal/docx-editor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "superset-sh--superset": {
-      "count7d": 1,
-      "scoreSum7d": 102,
-      "topStory": {
-        "id": 48236770,
-        "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-        "score": 102,
-        "url": "https://github.com/superset-sh/superset",
-        "hoursSincePosted": 44.25
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48236770,
-          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-          "url": "https://github.com/superset-sh/superset",
-          "by": "avipeltz",
-          "score": 102,
-          "descendants": 129,
-          "createdUtc": 1779461635,
-          "ageHours": 44.25,
-          "velocity": 2.3,
-          "trendingScore": 64.21,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-launch-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset ( https://github.com/superset-sh/superset ), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel. Demo: https://www.youtube.com/watch?v=YWDHn7gUwfg Try it: https://superset.sh/ We’re three engineers who’ve built and maintained large codebases, and we kept wanting to work on more than one thing at a time. Once CLI coding agents got good enough we found ourselves running several of them i",
-          "linkedRepos": [
-            {
-              "fullName": "superset-sh/superset",
               "matchType": "url",
               "confidence": 1
             }
@@ -3319,7 +3358,7 @@
         "title": "Show HN: InsForge – Open-source Heroku for coding agents",
         "score": 62,
         "url": "https://github.com/InsForge/InsForge",
-        "hoursSincePosted": 139.47
+        "hoursSincePosted": 140.54
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3331,7 +3370,7 @@
           "score": 62,
           "descendants": 7,
           "createdUtc": 1779118842,
-          "ageHours": 139.47,
+          "ageHours": 140.54,
           "velocity": 0.44,
           "trendingScore": 1.34,
           "everHitFrontPage": false,
@@ -3675,7 +3714,7 @@
         "title": "Invisible_playwright: Stealth Firefox that passes every bot detection test",
         "score": 20,
         "url": "https://github.com/feder-cr/invisible_playwright",
-        "hoursSincePosted": 110.28
+        "hoursSincePosted": 111.35
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3687,7 +3726,7 @@
           "score": 20,
           "descendants": 1,
           "createdUtc": 1779223919,
-          "ageHours": 110.28,
+          "ageHours": 111.35,
           "velocity": 0.18,
           "trendingScore": 0.26,
           "everHitFrontPage": false,
@@ -3714,7 +3753,7 @@
         "title": "Zero – Programming Language for Agents",
         "score": 4,
         "url": "https://github.com/vercel-labs/zero",
-        "hoursSincePosted": 144.42
+        "hoursSincePosted": 145.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3726,7 +3765,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101039,
-          "ageHours": 144.42,
+          "ageHours": 145.49,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -3751,7 +3790,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779221986,
-          "ageHours": 110.82,
+          "ageHours": 111.89,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -3776,7 +3815,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779061528,
-          "ageHours": 155.39,
+          "ageHours": 156.46,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -3803,7 +3842,7 @@
         "title": "Show HN: IResearch – C++ search that beat Lucene and Tantivy on their benchmark",
         "score": 14,
         "url": "https://github.com/serenedb/serenedb/tree/main/libs/iresearch",
-        "hoursSincePosted": 96.8
+        "hoursSincePosted": 97.87
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3815,7 +3854,7 @@
           "score": 14,
           "descendants": 3,
           "createdUtc": 1779272466,
-          "ageHours": 96.8,
+          "ageHours": 97.87,
           "velocity": 0.14,
           "trendingScore": 0.21,
           "everHitFrontPage": false,
@@ -3946,7 +3985,7 @@
         "title": "WiFi Spatial Sensing",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 94.94
+        "hoursSincePosted": 96.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3958,7 +3997,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779279152,
-          "ageHours": 94.94,
+          "ageHours": 96.01,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -3985,7 +4024,7 @@
         "title": "Refactor: Unified Codebase for Better Performance",
         "score": 1,
         "url": "https://github.com/thesysdev/openui/pull/517",
-        "hoursSincePosted": 166.67
+        "hoursSincePosted": 167.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -3997,7 +4036,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779020924,
-          "ageHours": 166.67,
+          "ageHours": 167.74,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -4024,7 +4063,7 @@
         "title": "Waylandcraft: Wayland Compositor in Minecraft",
         "score": 5,
         "url": "https://github.com/EVV1E/waylandcraft",
-        "hoursSincePosted": 142.28
+        "hoursSincePosted": 143.35
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4036,9 +4075,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1779108719,
-          "ageHours": 142.28,
-          "velocity": 0.04,
-          "trendingScore": 0.03,
+          "ageHours": 143.35,
+          "velocity": 0.03,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4061,7 +4100,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779425675,
-          "ageHours": 54.24,
+          "ageHours": 55.31,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4127,7 +4166,7 @@
         "title": "Nous Research edits GitHub issue to remove plagiarism claims about Hermes Agent",
         "score": 7,
         "url": "https://github.com/NousResearch/hermes-agent/issues/10232",
-        "hoursSincePosted": 131.09
+        "hoursSincePosted": 132.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4139,7 +4178,7 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1779149028,
-          "ageHours": 131.09,
+          "ageHours": 132.16,
           "velocity": 0.05,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -4390,7 +4429,7 @@
         "title": "Codex is flagged as malware on macOS",
         "score": 3,
         "url": "https://github.com/openai/codex/issues/23195",
-        "hoursSincePosted": 12.31
+        "hoursSincePosted": 13.38
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4402,9 +4441,9 @@
           "score": 3,
           "descendants": 4,
           "createdUtc": 1779576635,
-          "ageHours": 12.31,
-          "velocity": 0.24,
-          "trendingScore": 0.16,
+          "ageHours": 13.38,
+          "velocity": 0.22,
+          "trendingScore": 0.15,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4427,7 +4466,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1779483061,
-          "ageHours": 38.3,
+          "ageHours": 39.37,
           "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -4532,7 +4571,7 @@
         "title": "OpenCode is using CPU for doing nothing",
         "score": 5,
         "url": "https://github.com/anomalyco/opencode/issues/19466",
-        "hoursSincePosted": 23.75
+        "hoursSincePosted": 24.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4544,9 +4583,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1779535439,
-          "ageHours": 23.75,
-          "velocity": 0.21,
-          "trendingScore": 0.15,
+          "ageHours": 24.82,
+          "velocity": 0.2,
+          "trendingScore": 0.14,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4727,7 +4766,7 @@
         "title": "OMLX v0.3.9 Stable Merges Native MTP (Multi-Token Prediction)",
         "score": 2,
         "url": "https://github.com/jundot/omlx/releases/tag/v0.3.9",
-        "hoursSincePosted": 52.45
+        "hoursSincePosted": 53.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4739,7 +4778,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779432123,
-          "ageHours": 52.45,
+          "ageHours": 53.52,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4766,7 +4805,7 @@
         "title": "Herdr: A tmux-like terminal multiplexer for AI coding agents",
         "score": 4,
         "url": "https://github.com/ogulcancelik/herdr",
-        "hoursSincePosted": 22.27
+        "hoursSincePosted": 23.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4778,9 +4817,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779540781,
-          "ageHours": 22.27,
-          "velocity": 0.18,
-          "trendingScore": 0.11,
+          "ageHours": 23.34,
+          "velocity": 0.17,
+          "trendingScore": 0.1,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4797,6 +4836,45 @@
         }
       ]
     },
+    "digital-grease--fauxx": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48254488,
+        "title": "Fauxx – Data poisoning for your everyday tracking",
+        "score": 2,
+        "url": "https://github.com/digital-grease/fauxx",
+        "hoursSincePosted": 7.33
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48254488,
+          "title": "Fauxx – Data poisoning for your everyday tracking",
+          "url": "https://github.com/digital-grease/fauxx",
+          "by": "vidyesh",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1779598411,
+          "ageHours": 7.33,
+          "velocity": 0.27,
+          "trendingScore": 0.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "digital-grease/fauxx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "openclaw--openclaw": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -4805,7 +4883,7 @@
         "title": "OpenClaw: Own Personal AI Assistant. Any OS. Any Platform",
         "score": 2,
         "url": "https://github.com/openclaw/openclaw",
-        "hoursSincePosted": 22.62
+        "hoursSincePosted": 23.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4817,9 +4895,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779539493,
-          "ageHours": 22.62,
-          "velocity": 0.09,
-          "trendingScore": 0.03,
+          "ageHours": 23.7,
+          "velocity": 0.08,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -4844,7 +4922,7 @@
         "title": "ExtendDB – open-source DynamoDB-compatible API adapter with pluggable storage",
         "score": 2,
         "url": "https://github.com/ExtendDB/extenddb",
-        "hoursSincePosted": 46.06
+        "hoursSincePosted": 47.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4856,7 +4934,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779455133,
-          "ageHours": 46.06,
+          "ageHours": 47.13,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4883,7 +4961,7 @@
         "title": "Thermo-Nuclear Code Quality Review (Cursor Team Kit skill)",
         "score": 2,
         "url": "https://github.com/cursor/plugins/blob/3347cbab5b54136f6fba0994c3a01a56f7fb7fca/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
-        "hoursSincePosted": 48.55
+        "hoursSincePosted": 49.62
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4895,7 +4973,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1779446164,
-          "ageHours": 48.55,
+          "ageHours": 49.62,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -4915,28 +4993,28 @@
         }
       ]
     },
-    "digital-grease--fauxx": {
+    "colbymchenry--codegraph": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
-        "id": 48254488,
-        "title": "Fauxx – Data poisoning for your everyday tracking",
+        "id": 48256407,
+        "title": "Supercharge Claude Code, Cursor, Codex with Semantic Code Intelligence",
         "score": 1,
-        "url": "https://github.com/digital-grease/fauxx",
-        "hoursSincePosted": 6.26
+        "url": "https://github.com/colbymchenry/codegraph",
+        "hoursSincePosted": 0.8
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48254488,
-          "title": "Fauxx – Data poisoning for your everyday tracking",
-          "url": "https://github.com/digital-grease/fauxx",
-          "by": "vidyesh",
+          "id": 48256407,
+          "title": "Supercharge Claude Code, Cursor, Codex with Semantic Code Intelligence",
+          "url": "https://github.com/colbymchenry/codegraph",
+          "by": "beyti",
           "score": 1,
-          "descendants": 0,
-          "createdUtc": 1779598411,
-          "ageHours": 6.26,
-          "velocity": 0.16,
+          "descendants": 1,
+          "createdUtc": 1779621910,
+          "ageHours": 0.8,
+          "velocity": 1.25,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -4946,7 +5024,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "digital-grease/fauxx",
+              "fullName": "colbymchenry/codegraph",
               "matchType": "url",
               "confidence": 1
             }
@@ -4962,7 +5040,7 @@
         "title": "Awesome DESIGN.md",
         "score": 4,
         "url": "https://github.com/VoltAgent/awesome-design-md/",
-        "hoursSincePosted": 144.25
+        "hoursSincePosted": 145.32
       },
       "everHitFrontPage": false,
       "stories": [
@@ -4974,7 +5052,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1779101630,
-          "ageHours": 144.25,
+          "ageHours": 145.32,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -5001,7 +5079,7 @@
         "title": "Google's open source distributed agent runtime",
         "score": 3,
         "url": "https://github.com/google/ax",
-        "hoursSincePosted": 79.85
+        "hoursSincePosted": 80.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5013,7 +5091,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1779333495,
-          "ageHours": 79.85,
+          "ageHours": 80.92,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -5040,7 +5118,7 @@
         "title": "RTK: Rust Token Killer",
         "score": 2,
         "url": "https://github.com/rtk-ai/rtk",
-        "hoursSincePosted": 107.57
+        "hoursSincePosted": 108.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5052,7 +5130,7 @@
           "score": 2,
           "descendants": 2,
           "createdUtc": 1779233676,
-          "ageHours": 107.57,
+          "ageHours": 108.64,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -5079,7 +5157,7 @@
         "title": "More Than Skills, Frameworks",
         "score": 1,
         "url": "https://github.com/mattpocock/skills",
-        "hoursSincePosted": 118.24
+        "hoursSincePosted": 119.31
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5091,7 +5169,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779195276,
-          "ageHours": 118.24,
+          "ageHours": 119.31,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5118,7 +5196,7 @@
         "title": "Miro Fish: Predicting Anything",
         "score": 1,
         "url": "https://github.com/666ghj/MiroFish",
-        "hoursSincePosted": 122.76
+        "hoursSincePosted": 123.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5130,7 +5208,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779179023,
-          "ageHours": 122.76,
+          "ageHours": 123.83,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5157,7 +5235,7 @@
         "title": "Evolving specs (2025)",
         "score": 1,
         "url": "https://github.com/github/spec-kit/discussions/152",
-        "hoursSincePosted": 123.35
+        "hoursSincePosted": 124.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5169,7 +5247,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779176882,
-          "ageHours": 123.35,
+          "ageHours": 124.42,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5196,7 +5274,7 @@
         "title": "DeerFlow 2.0 – Deep Exploration and Efficient Research Flow",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 149
+        "hoursSincePosted": 150.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5208,7 +5286,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779084550,
-          "ageHours": 149,
+          "ageHours": 150.07,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5235,7 +5313,7 @@
         "title": "Open-Source, Plugin-Driven Geospatial Intelligence Engine",
         "score": 1,
         "url": "https://github.com/silvertakana/worldwideview",
-        "hoursSincePosted": 150.13
+        "hoursSincePosted": 151.2
       },
       "everHitFrontPage": false,
       "stories": [
@@ -5247,7 +5325,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1779080491,
-          "ageHours": 150.13,
+          "ageHours": 151.2,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -5324,12 +5402,12 @@
       "scoreSum7d": 143
     },
     {
-      "fullName": "eigenpal/docx-editor",
+      "fullName": "superset-sh/superset",
       "count7d": 1,
-      "scoreSum7d": 102
+      "scoreSum7d": 103
     },
     {
-      "fullName": "superset-sh/superset",
+      "fullName": "eigenpal/docx-editor",
       "count7d": 1,
       "scoreSum7d": 102
     },

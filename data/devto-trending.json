@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-24T08:32:38.881Z",
+  "fetchedAt": "2026-05-24T13:40:26.210Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1401,
+  "scannedArticles": 1403,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 6,
+    "global-rising": 10,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -187,10 +187,10 @@
     "tag-agentic-top-7d": 9,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 16,
-    "tag-cursor-top-7d": 39,
+    "tag-codex-top-7d": 13,
+    "tag-cursor-top-7d": 43,
     "tag-llm-top-7d": 100,
-    "tag-llms-top-7d": 2,
+    "tag-llms-top-7d": 3,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 29,
@@ -1221,6 +1221,27 @@
       "linkedRepos": []
     },
     {
+      "id": 3597666,
+      "title": "What was your win this week!?",
+      "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
+      "url": "https://dev.to/devteam/what-was-your-win-this-week-2ohc",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 62,
+      "commentsCount": 62,
+      "readingTime": 1,
+      "publishedAt": "2026-05-22T13:00:00Z",
+      "tags": [
+        "discuss",
+        "weeklyretro"
+      ],
+      "trendingScore": 16.44,
+      "linkedRepos": []
+    },
+    {
       "id": 3597637,
       "title": "What was your win this week??",
       "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
@@ -1239,27 +1260,6 @@
         "weeklyretro"
       ],
       "trendingScore": 16.43,
-      "linkedRepos": []
-    },
-    {
-      "id": 3597666,
-      "title": "What was your win this week!?",
-      "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
-      "url": "https://dev.to/devteam/what-was-your-win-this-week-2ohc",
-      "author": {
-        "username": "jess",
-        "name": "Jess Lee",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
-      },
-      "reactionsCount": 60,
-      "commentsCount": 49,
-      "readingTime": 1,
-      "publishedAt": "2026-05-22T13:00:00Z",
-      "tags": [
-        "discuss",
-        "weeklyretro"
-      ],
-      "trendingScore": 16.25,
       "linkedRepos": []
     },
     {
@@ -1283,6 +1283,29 @@
         "backend"
       ],
       "trendingScore": 16.05,
+      "linkedRepos": []
+    },
+    {
+      "id": 3702326,
+      "title": "Swapping Go for Rust: 10x Cheaper K8s Ingress",
+      "description": "Let me tell you a story that starts in 2013, peaks somewhere around 2019, and ends with me staring at...",
+      "url": "https://dev.to/syedahmershah/swapping-go-for-rust-10x-cheaper-k8s-ingress-2b4p",
+      "author": {
+        "username": "syedahmershah",
+        "name": "Syed Ahmer Shah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
+      },
+      "reactionsCount": 142,
+      "commentsCount": 51,
+      "readingTime": 9,
+      "publishedAt": "2026-05-19T16:59:42Z",
+      "tags": [
+        "go",
+        "rust",
+        "docker",
+        "kubernetes"
+      ],
+      "trendingScore": 15.98,
       "linkedRepos": []
     },
     {
@@ -1332,29 +1355,6 @@
       "linkedRepos": []
     },
     {
-      "id": 3702326,
-      "title": "Swapping Go for Rust: 10x Cheaper K8s Ingress",
-      "description": "Let me tell you a story that starts in 2013, peaks somewhere around 2019, and ends with me staring at...",
-      "url": "https://dev.to/syedahmershah/swapping-go-for-rust-10x-cheaper-k8s-ingress-2b4p",
-      "author": {
-        "username": "syedahmershah",
-        "name": "Syed Ahmer Shah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
-      },
-      "reactionsCount": 142,
-      "commentsCount": 47,
-      "readingTime": 9,
-      "publishedAt": "2026-05-19T16:59:42Z",
-      "tags": [
-        "go",
-        "rust",
-        "docker",
-        "kubernetes"
-      ],
-      "trendingScore": 15.62,
-      "linkedRepos": []
-    },
-    {
       "id": 3693063,
       "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
       "description": "The promise of AI is transformative. The reality is distributed, fragile, and increasingly complex....",
@@ -1392,8 +1392,8 @@
         "name": "Syed Ahmer Shah",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
       },
-      "reactionsCount": 122,
-      "commentsCount": 44,
+      "reactionsCount": 123,
+      "commentsCount": 48,
       "readingTime": 13,
       "publishedAt": "2026-05-20T11:44:46Z",
       "tags": [
@@ -1402,7 +1402,7 @@
         "codenewbie",
         "ai"
       ],
-      "trendingScore": 14.81,
+      "trendingScore": 15.22,
       "linkedRepos": []
     },
     {
@@ -2258,8 +2258,8 @@
         "name": "Aryan Choudhary",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
       },
-      "reactionsCount": 63,
-      "commentsCount": 27,
+      "reactionsCount": 79,
+      "commentsCount": 38,
       "readingTime": 5,
       "publishedAt": "2026-05-20T05:27:44Z",
       "tags": [
@@ -2268,7 +2268,7 @@
         "career",
         "softwareengineering"
       ],
-      "trendingScore": 6.72,
+      "trendingScore": 6.9,
       "linkedRepos": []
     },
     {
@@ -2515,6 +2515,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3737526,
+      "title": "🚀 Google Antigravity 2.0 Quietly Changes What It Means to Be a Software Engineer",
+      "description": "This is a submission for the Google I/O 2026 Writing Challenge              Google Antigravity 2.0...",
+      "url": "https://dev.to/mohamednizzad/google-antigravity-20-quietly-changes-what-it-means-to-be-a-software-engineer-jke",
+      "author": {
+        "username": "mohamednizzad",
+        "name": "Nizzad",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2680399%2F29cfe734-a972-4108-8d96-a506a92ef103.jpg"
+      },
+      "reactionsCount": 25,
+      "commentsCount": 3,
+      "readingTime": 15,
+      "publishedAt": "2026-05-24T06:08:55Z",
+      "tags": [
+        "devchallenge",
+        "googleiochallenge",
+        "ai",
+        "productivity"
+      ],
+      "trendingScore": 6.04,
+      "linkedRepos": []
+    },
+    {
       "id": 3718120,
       "title": "Four Layers of Validation in Kubernetes with Claude Code",
       "description": "Earlier this year, Moltbook, a social network for AI agents, launched, trended, and became a...",
@@ -2535,29 +2558,6 @@
         "programming"
       ],
       "trendingScore": 5.98,
-      "linkedRepos": []
-    },
-    {
-      "id": 3657578,
-      "title": "A New Method for Stable Software: Micro Code Reviews for the AI Era",
-      "description": "If you prefer watching a video version of this article, check out:                   Why This AI...",
-      "url": "https://dev.to/shrsv/a-new-method-for-stable-software-micro-code-reviews-for-the-ai-era-4hi3",
-      "author": {
-        "username": "shrsv",
-        "name": "Shrijith Venkatramana",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
-      },
-      "reactionsCount": 20,
-      "commentsCount": 0,
-      "readingTime": 7,
-      "publishedAt": "2026-05-12T15:33:36Z",
-      "tags": [
-        "ai",
-        "codereview",
-        "softwareengineering",
-        "git"
-      ],
-      "trendingScore": 5.83,
       "linkedRepos": []
     }
   ]

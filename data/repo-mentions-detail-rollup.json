@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-24T08:01:55.497Z",
-  "scanRunId": "sweep-2026-05-24T08:01:36.590Z",
+  "computedAt": "2026-05-24T08:31:34.102Z",
+  "scanRunId": "sweep-2026-05-24T08:31:25.754Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -3641,11 +3641,24 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 112,
+      "totalMentions7d": 148,
       "perSource": {
         "hackernews": {
-          "count7d": 112,
+          "count7d": 148,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://twitter.com/karpathy/status/2056753169888334312",
+              "title": "I’ve joined Anthropic",
+              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
+              "author": "dmarcos",
+              "engagement": {
+                "score": 1424,
+                "comments": 616
+              },
+              "observedAt": "2026-05-19T15:07:45.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3675,41 +3688,28 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/advancing-content-provenance/",
-              "title": "OpenAI Adopts Google's SynthID Watermark for AI Images with Verification Tool",
-              "text": "",
-              "author": "smooke",
+              "url": "https://github.com/antoinezambelli/forge",
+              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
+              "author": "zambelli",
               "engagement": {
-                "score": 332,
-                "comments": 180
+                "score": 676,
+                "comments": 250
               },
-              "observedAt": "2026-05-19T19:34:30.000Z"
+              "observedAt": "2026-05-19T12:23:07.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://www.wsj.com/tech/ai/openai-is-preparing-to-file-for-an-ipo-very-soon-0ec95af5",
-              "title": "OpenAI Is Preparing to File for an IPO Soon",
-              "text": "<a href=\"https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C</a>",
-              "author": "louiereederson",
+              "url": "https://github.com/MinishLab/semble",
+              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
+              "author": "Bibabomas",
               "engagement": {
-                "score": 198,
-                "comments": 403
+                "score": 444,
+                "comments": 150
               },
-              "observedAt": "2026-05-20T16:24:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.cnbc.com/2026/05/20/openai-ipo-filing.html",
-              "title": "OpenAI to confidentially file for IPO as soon as Friday",
-              "text": "",
-              "author": "doppp",
-              "engagement": {
-                "score": 137,
-                "comments": 3
-              },
-              "observedAt": "2026-05-21T02:24:35.000Z"
+              "observedAt": "2026-05-17T15:37:07.000Z"
             }
           ]
         }
@@ -5996,8 +5996,8 @@
               "text": "",
               "author": "cf100clunk",
               "engagement": {
-                "score": 157,
-                "comments": 173
+                "score": 159,
+                "comments": 179
               },
               "observedAt": "2026-05-19T15:30:01.000Z"
             },
@@ -6517,10 +6517,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 5,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
@@ -6534,19 +6534,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T15:26:45.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://agentmemo.vercel.app",
-              "title": "News.Y Combinator.com/Submit",
-              "text": "",
-              "author": "pulsoai",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T16:08:23.000Z"
             },
             {
               "source": "hackernews",
@@ -7962,8 +7949,26 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "tinyhumansai/openhuman",
+              "url": "https://www.notesasm.com/",
+              "title": "Show HN: Coding agent where a second agent QAs every PR in a real browser",
+              "text": "Hi HN. I&#x27;ve been building this for the last few months and it&#x27;s at a state where outside eyes would help more than another week of solo iteration.<p>It&#x27;s a kanban board where each ticket runs two agents back to back:<p>Build agent: runs in a sandboxed temp dir against a shallow clone of the user&#x27;s repo, makes the change, pushes a branch, opens a PR. Uses the Claude Agent SDK.<p>QA agent: waits for the preview deploy to come up, then drives a real browser via Browserbase again",
+              "author": "kavin_key",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T18:54:10.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 5,
           "top": [
@@ -8909,10 +8914,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 113,
+      "totalMentions7d": 114,
       "perSource": {
         "hackernews": {
-          "count7d": 112,
+          "count7d": 113,
           "top": [
             {
               "source": "hackernews",

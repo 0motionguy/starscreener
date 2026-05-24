@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-24T19:40:03.469Z",
+  "fetchedAt": "2026-05-24T21:11:49.284Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -3602,15 +3602,15 @@
       ]
     },
     "garrytan/gstack": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmfkup66jr24",
-        "cid": "bafyreih7q37pzw7qsdpn6ljkqzwu643bt4f3wnlxamicxvtgflndtbnjbm",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmfkup66jr24",
-        "text": "I polished up the winning hackathon submission at Saturday's GBrain/GStack hackathon. Big thanks to Sina Matian, the winner of the hackathon! He's 18 and taking a gap year from NYU. Amazing work. https://github.com/garrytan/gstack",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmmrcw5uuv24",
+        "cid": "bafyreidngybbcxx4q32le3ppit5pfu6cvwyzqdaidzvlwkzx5srroxsghm",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmmrcw5uuv24",
+        "text": "MIT open source. Fork it and I am merging PRs from the community! https://github.com/garrytan/gstack",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -3618,8 +3618,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T23:11:40.000Z",
-        "hoursSincePosted": 1.08
+        "createdAt": "2026-05-24T19:54:08.000Z",
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -3650,6 +3650,62 @@
             },
             {
               "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmmrcw5uuv24",
+          "cid": "bafyreidngybbcxx4q32le3ppit5pfu6cvwyzqdaidzvlwkzx5srroxsghm",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmmrcw5uuv24",
+          "text": "MIT open source. Fork it and I am merging PRs from the community! https://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T19:54:08.000Z",
+          "createdUtc": 1779652448,
+          "ageHours": 1.29,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmmreqjqwa2s",
+          "cid": "bafyreiaprc54r5qg7xld4prbkadqxidtdp7fzhxft47jcqsrzjsrxherai",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmmreqjqwa2s",
+          "text": "https://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T19:53:41.000Z",
+          "createdUtc": 1779652421,
+          "ageHours": 1.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
               "matchType": "url",
               "confidence": 1
             }
@@ -26375,7 +26431,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T15:57:17.768Z",
-        "hoursSincePosted": 2.26
+        "hoursSincePosted": 5.24
       },
       "posts": [
         {
@@ -26392,7 +26448,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T15:57:17.768Z",
           "createdUtc": 1779638237,
-          "ageHours": 2.26,
+          "ageHours": 5.24,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26426,7 +26482,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T15:48:18.288Z",
-        "hoursSincePosted": 1.47
+        "hoursSincePosted": 5.39
       },
       "posts": [
         {
@@ -26443,7 +26499,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T15:48:18.288Z",
           "createdUtc": 1779637698,
-          "ageHours": 1.47,
+          "ageHours": 5.39,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -26477,7 +26533,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T15:33:40.429Z",
-        "hoursSincePosted": 1.72
+        "hoursSincePosted": 5.64
       },
       "posts": [
         {
@@ -26494,7 +26550,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T15:33:40.429Z",
           "createdUtc": 1779636820,
-          "ageHours": 1.72,
+          "ageHours": 5.64,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -26528,7 +26584,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T17:17:04.688203Z",
-        "hoursSincePosted": 2.38
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -26545,7 +26601,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T17:17:04.688203Z",
           "createdUtc": 1779643024,
-          "ageHours": 2.38,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26579,7 +26635,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:47.183Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -26596,7 +26652,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:47.183Z",
           "createdUtc": 1779649307,
-          "ageHours": 0.64,
+          "ageHours": 2.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26630,7 +26686,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:28.795Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -26647,7 +26703,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:28.795Z",
           "createdUtc": 1779649288,
-          "ageHours": 0.64,
+          "ageHours": 2.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26665,7 +26721,7 @@
     },
     "manaflow-ai/cmux": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -26677,11 +26733,11 @@
           "handle": "catalinpit.com",
           "displayName": "Catalin Pit"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-05-24T18:36:41.731262Z",
-        "hoursSincePosted": 1.06
+        "hoursSincePosted": 2.59
       },
       "posts": [
         {
@@ -26693,13 +26749,13 @@
             "handle": "catalinpit.com",
             "displayName": "Catalin Pit"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-05-24T18:36:41.731262Z",
           "createdUtc": 1779647801,
-          "ageHours": 1.06,
-          "trendingScore": 3,
+          "ageHours": 2.59,
+          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -26732,7 +26788,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T18:23:46Z",
-        "hoursSincePosted": 1.27
+        "hoursSincePosted": 2.8
       },
       "posts": [
         {
@@ -26749,7 +26805,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T18:23:46Z",
           "createdUtc": 1779647026,
-          "ageHours": 1.27,
+          "ageHours": 2.8,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26758,6 +26814,57 @@
           "linkedRepos": [
             {
               "fullName": "Evokoa/pgGraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS/nanobot": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:v5eow4qf5haahom5jrbawqo7/app.bsky.feed.post/3mmmqemdirc2q",
+        "cid": "bafyreig6rn6fc3n7skon2tf3nhj5rha4lqo6iasmn5jifgnzjmtsemnpku",
+        "bskyUrl": "https://bsky.app/profile/miketerhar.com/post/3mmmqemdirc2q",
+        "text": "github.com/HKUDS/nanobo... This adds Kagi to Nanobot and then I have a skill that hits the enrichment APIs when it’s a news or small-web sort of topic.",
+        "author": {
+          "handle": "miketerhar.com",
+          "displayName": "Mike"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T19:51:06.082Z",
+        "hoursSincePosted": 1.35
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:v5eow4qf5haahom5jrbawqo7/app.bsky.feed.post/3mmmqemdirc2q",
+          "cid": "bafyreig6rn6fc3n7skon2tf3nhj5rha4lqo6iasmn5jifgnzjmtsemnpku",
+          "bskyUrl": "https://bsky.app/profile/miketerhar.com/post/3mmmqemdirc2q",
+          "text": "github.com/HKUDS/nanobo... This adds Kagi to Nanobot and then I have a skill that hits the enrichment APIs when it’s a news or small-web sort of topic.",
+          "author": {
+            "handle": "miketerhar.com",
+            "displayName": "Mike"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T19:51:06.082Z",
+          "createdUtc": 1779652266,
+          "ageHours": 1.35,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/nanobot",
               "matchType": "url",
               "confidence": 1
             }
@@ -30364,15 +30471,15 @@
       ]
     },
     "garrytan--gstack": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmfkup66jr24",
-        "cid": "bafyreih7q37pzw7qsdpn6ljkqzwu643bt4f3wnlxamicxvtgflndtbnjbm",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmfkup66jr24",
-        "text": "I polished up the winning hackathon submission at Saturday's GBrain/GStack hackathon. Big thanks to Sina Matian, the winner of the hackathon! He's 18 and taking a gap year from NYU. Amazing work. https://github.com/garrytan/gstack",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmmrcw5uuv24",
+        "cid": "bafyreidngybbcxx4q32le3ppit5pfu6cvwyzqdaidzvlwkzx5srroxsghm",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmmrcw5uuv24",
+        "text": "MIT open source. Fork it and I am merging PRs from the community! https://github.com/garrytan/gstack",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -30380,8 +30487,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-21T23:11:40.000Z",
-        "hoursSincePosted": 1.08
+        "createdAt": "2026-05-24T19:54:08.000Z",
+        "hoursSincePosted": 1.29
       },
       "posts": [
         {
@@ -30412,6 +30519,62 @@
             },
             {
               "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmmrcw5uuv24",
+          "cid": "bafyreidngybbcxx4q32le3ppit5pfu6cvwyzqdaidzvlwkzx5srroxsghm",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmmrcw5uuv24",
+          "text": "MIT open source. Fork it and I am merging PRs from the community! https://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T19:54:08.000Z",
+          "createdUtc": 1779652448,
+          "ageHours": 1.29,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmmreqjqwa2s",
+          "cid": "bafyreiaprc54r5qg7xld4prbkadqxidtdp7fzhxft47jcqsrzjsrxherai",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmmreqjqwa2s",
+          "text": "https://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T19:53:41.000Z",
+          "createdUtc": 1779652421,
+          "ageHours": 1.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
               "matchType": "url",
               "confidence": 1
             }
@@ -53137,7 +53300,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T15:57:17.768Z",
-        "hoursSincePosted": 2.26
+        "hoursSincePosted": 5.24
       },
       "posts": [
         {
@@ -53154,7 +53317,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T15:57:17.768Z",
           "createdUtc": 1779638237,
-          "ageHours": 2.26,
+          "ageHours": 5.24,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53188,7 +53351,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T15:48:18.288Z",
-        "hoursSincePosted": 1.47
+        "hoursSincePosted": 5.39
       },
       "posts": [
         {
@@ -53205,7 +53368,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T15:48:18.288Z",
           "createdUtc": 1779637698,
-          "ageHours": 1.47,
+          "ageHours": 5.39,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -53239,7 +53402,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T15:33:40.429Z",
-        "hoursSincePosted": 1.72
+        "hoursSincePosted": 5.64
       },
       "posts": [
         {
@@ -53256,7 +53419,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T15:33:40.429Z",
           "createdUtc": 1779636820,
-          "ageHours": 1.72,
+          "ageHours": 5.64,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -53290,7 +53453,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T17:17:04.688203Z",
-        "hoursSincePosted": 2.38
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -53307,7 +53470,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T17:17:04.688203Z",
           "createdUtc": 1779643024,
-          "ageHours": 2.38,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53341,7 +53504,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:47.183Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -53358,7 +53521,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:47.183Z",
           "createdUtc": 1779649307,
-          "ageHours": 0.64,
+          "ageHours": 2.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53392,7 +53555,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:28.795Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -53409,7 +53572,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:28.795Z",
           "createdUtc": 1779649288,
-          "ageHours": 0.64,
+          "ageHours": 2.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53427,7 +53590,7 @@
     },
     "manaflow-ai--cmux": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -53439,11 +53602,11 @@
           "handle": "catalinpit.com",
           "displayName": "Catalin Pit"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-05-24T18:36:41.731262Z",
-        "hoursSincePosted": 1.06
+        "hoursSincePosted": 2.59
       },
       "posts": [
         {
@@ -53455,13 +53618,13 @@
             "handle": "catalinpit.com",
             "displayName": "Catalin Pit"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-05-24T18:36:41.731262Z",
           "createdUtc": 1779647801,
-          "ageHours": 1.06,
-          "trendingScore": 3,
+          "ageHours": 2.59,
+          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -53494,7 +53657,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T18:23:46Z",
-        "hoursSincePosted": 1.27
+        "hoursSincePosted": 2.8
       },
       "posts": [
         {
@@ -53511,7 +53674,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T18:23:46Z",
           "createdUtc": 1779647026,
-          "ageHours": 1.27,
+          "ageHours": 2.8,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53526,13 +53689,84 @@
           ]
         }
       ]
+    },
+    "hkuds--nanobot": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:v5eow4qf5haahom5jrbawqo7/app.bsky.feed.post/3mmmqemdirc2q",
+        "cid": "bafyreig6rn6fc3n7skon2tf3nhj5rha4lqo6iasmn5jifgnzjmtsemnpku",
+        "bskyUrl": "https://bsky.app/profile/miketerhar.com/post/3mmmqemdirc2q",
+        "text": "github.com/HKUDS/nanobo... This adds Kagi to Nanobot and then I have a skill that hits the enrichment APIs when it’s a news or small-web sort of topic.",
+        "author": {
+          "handle": "miketerhar.com",
+          "displayName": "Mike"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T19:51:06.082Z",
+        "hoursSincePosted": 1.35
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:v5eow4qf5haahom5jrbawqo7/app.bsky.feed.post/3mmmqemdirc2q",
+          "cid": "bafyreig6rn6fc3n7skon2tf3nhj5rha4lqo6iasmn5jifgnzjmtsemnpku",
+          "bskyUrl": "https://bsky.app/profile/miketerhar.com/post/3mmmqemdirc2q",
+          "text": "github.com/HKUDS/nanobo... This adds Kagi to Nanobot and then I have a skill that hits the enrichment APIs when it’s a news or small-web sort of topic.",
+          "author": {
+            "handle": "miketerhar.com",
+            "displayName": "Mike"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T19:51:06.082Z",
+          "createdUtc": 1779652266,
+          "ageHours": 1.35,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/nanobot",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "manaflow-ai/cmux",
       "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "anthropics/knowledge-work-plugins",
+      "count7d": 1,
       "likesSum7d": 2
+    },
+    {
+      "fullName": "imputnet/helium-linux",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "garrytan/gstack",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "AKS-Labs/CircleToSearch",
+      "count7d": 1,
+      "likesSum7d": 0
     },
     {
       "fullName": "Astraltenprosper/uncensored-ai-image-video-generator",
@@ -53546,6 +53780,11 @@
     },
     {
       "fullName": "Evokoa/pgGraph",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/nanobot",
       "count7d": 1,
       "likesSum7d": 0
     },

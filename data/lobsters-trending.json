@@ -1,8 +1,26 @@
 {
-  "fetchedAt": "2026-05-24T14:51:19.445Z",
+  "fetchedAt": "2026-05-24T16:36:36.446Z",
   "windowHours": 72,
   "scannedTotal": 81,
   "stories": [
+    {
+      "shortId": "t1spjc",
+      "title": "omarchy is not a distro",
+      "url": "https://abyss.fish/your_dotfiles_are_not_a_distro",
+      "commentsUrl": "https://lobste.rs/s/t1spjc/omarchy_is_not_distro",
+      "by": "",
+      "score": 57,
+      "commentCount": 3,
+      "createdUtc": 1779635002,
+      "ageHours": 1.5538888888888889,
+      "trendingScore": 8.507835560222086,
+      "tags": [
+        "linux",
+        "rant"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
     {
       "shortId": "29pm2f",
       "title": "LLM generated submissions should be disallowed",
@@ -156,6 +174,24 @@
       "trendingScore": 2.438119042592024,
       "tags": [
         "programming"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "5y9u93",
+      "title": "How my minimal, memory-safe Go rsync steers clear of vulnerabilities",
+      "url": "https://michael.stapelberg.ch/posts/2026-05-24-minimal-memory-safe-go-rsync-vulns/",
+      "commentsUrl": "https://lobste.rs/s/5y9u93/how_my_minimal_memory_safe_go_rsync_steers",
+      "by": "",
+      "score": 19,
+      "commentCount": 0,
+      "createdUtc": 1779633514,
+      "ageHours": 1.9672222222222222,
+      "trendingScore": 2.4044946161708185,
+      "tags": [
+        "go",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -861,41 +897,6 @@
         "hardware"
       ],
       "description": "<p>AFAIU this is a wired device even if promotional images seem to suggest different.</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "maqmo2",
-      "title": "How we used Quint to find over 10 bugs in SQLite while hardening Turso",
-      "url": "https://turso.tech/blog/how-we-used-quint-to-find-over-10-bugs-in-sqlite",
-      "commentsUrl": "https://lobste.rs/s/maqmo2/how_we_used_quint_find_over_10_bugs_sqlite",
-      "by": "",
-      "score": 10,
-      "commentCount": 1,
-      "createdUtc": 1779205399,
-      "ageHours": 2.6958333333333333,
-      "trendingScore": 0.9827227011836208,
-      "tags": [
-        "databases",
-        "formalmethods"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "asu0u9",
-      "title": "Erasing Existentials",
-      "url": "https://wolfgirl.dev/blog/2026-05-20-erasing-existentials/",
-      "commentsUrl": "https://lobste.rs/s/asu0u9/erasing_existentials",
-      "by": "",
-      "score": 18,
-      "commentCount": 1,
-      "createdUtc": 1779284705,
-      "ageHours": 4.956944444444445,
-      "trendingScore": 0.9809451001573645,
-      "tags": [
-        "rust"
-      ],
-      "description": "",
       "linkedRepos": []
     }
   ]

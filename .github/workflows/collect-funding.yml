@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       sources:
-        description: 'Comma-separated source list (techcrunch,venturebeat,sifted)'
-        default: 'techcrunch,venturebeat,sifted'
+        description: 'Comma-separated source list. Leave EMPTY to use the full 39-source list from the run step. Example: techcrunch,venturebeat,sifted'
+        default: ''
       dry_run:
         description: 'Dry run'
         default: 'false'

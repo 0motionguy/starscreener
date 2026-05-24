@@ -16,7 +16,10 @@ import skillsmp from './fetchers/skillsmp/index.js';
 import smitherySkills from './fetchers/smithery-skills/index.js';
 import lobehubSkills from './fetchers/lobehub-skills/index.js';
 import hackernews from './fetchers/hackernews/index.js';
-import producthunt from './fetchers/producthunt/index.js';
+// producthunt fetcher disabled 2026-05-23 (operator: "CUT product hunt!").
+// Module file remains under src/fetchers/producthunt/ so downstream code that
+// imports from src/lib/producthunt.ts (web app) keeps compiling; it just
+// reads empty data from the store going forward.
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
@@ -120,7 +123,9 @@ export const FETCHERS: Fetcher[] = [
   smitherySkills,
   lobehubSkills,
   hackernews,
-  producthunt,
+  // producthunt disabled 2026-05-23 (operator: "CUT product hunt!"). See
+  // import block above for the why; module file kept so web app readers in
+  // src/lib/producthunt.ts still compile (they read empty data from store).
   devto,
   reddit,
   twitter,

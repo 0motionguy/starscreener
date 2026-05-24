@@ -118,8 +118,11 @@ const AI_TAGGED_SOURCES = new Set<string>([
   'import-ai',
 ]);
 
+// Wave-5 (2026-05-24): added `closes`, `bags`, `lands` to catch common
+// headline phrasings the prior regex missed. Mirror of regex in
+// scripts/scrape-funding-news.mjs:651 — keep both in sync.
 const FUNDING_KEYWORDS =
-  /\braises?\b|\braised\b|\bsecures?\b|\bsecured\b|\bfunding\b|\binvestment\b|\bround\b|\bmillion\b|\bbillion\b|\bacquired\b|\bacquisition\b/i;
+  /\braises?\b|\braised\b|\bsecures?\b|\bsecured\b|\bcloses\b|\bbags\b|\blands\b|\bfunding\b|\binvestment\b|\bround\b|\bmillion\b|\bbillion\b|\bacquired\b|\bacquisition\b/i;
 
 /**
  * AI-funding gate. Operator scope is AI funding only — non-AI rounds add

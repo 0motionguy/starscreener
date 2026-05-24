@@ -123,6 +123,12 @@ const AI_TAGGED_SOURCES = new Set([
   "tech-funding-news",
   "alleywatch",
   "yc-blog",
+  // Wave-5 (2026-05-24): general tech/business — AI gate over-filtered
+  // these in the first run (0 funding-matched items each). Categorized
+  // as funding-dense so they bypass the gate; funding-keyword regex still
+  // applies after.
+  "vb-enterprise",
+  "e27",
 ]);
 
 // AI-funding-only mode: non-AI-tagged feeds must show an AI marker in
@@ -642,9 +648,13 @@ async function main() {
         continue;
       }
 
-      // Only keep funding-related headlines
+      // Only keep funding-related headlines.
+      // Wave-5 (2026-05-24): added `closes`, `bags`, `lands` to catch
+      // common headline phrasings that the prior regex missed
+      // ("X closes Series B", "Y bags $5M", "Z lands seed"). 7 sources
+      // added Wave-4 produced 0 funding-matched items in the first run.
       const fundingKeywords =
-        /\braises?\b|\braised\b|\bsecures?\b|\bsecured\b|\bfunding\b|\binvestment\b|\bround\b|\bmillion\b|\bbillion\b|\bacquired\b|\bacquisition\b/i;
+        /\braises?\b|\braised\b|\bsecures?\b|\bsecured\b|\bcloses\b|\bbags\b|\blands\b|\bfunding\b|\binvestment\b|\bround\b|\bmillion\b|\bbillion\b|\bacquired\b|\bacquisition\b/i;
       if (!fundingKeywords.test(item.headline)) {
         continue;
       }

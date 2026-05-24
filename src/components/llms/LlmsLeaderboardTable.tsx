@@ -447,50 +447,87 @@ function featuredBlurb(row: AaLlmsRow, label: string): string {
 // /public/brand/sources/; otherwise a monogram tile on the official brand color
 // with WHITE (or dark-on-yellow) contrast text. Both branches share the same
 // .repo-avatar dimensions so the table column lines up.
+// 51-creator brand map covering every slug emitted by the AA `model_creator`
+// field. `svg` is set ONLY when /public/brand/sources/<slug>.svg is a real
+// official mark (simpleicons or equivalent). Everything else renders via the
+// CreatorAvatar monogram fallback — brand color tile with white/black text.
 const CREATOR_BRAND: Record<
   string,
-  { color: string; fg?: string; initials?: string; svg?: boolean }
+  { color: string; fg?: string; initials?: string; svg?: SourceName }
 > = {
-  // SVG-backed (drop into /public/brand/sources to add more)
-  openai: { color: "#10a37f", svg: true },
-  anthropic: { color: "#d97757", svg: true },
-  deepseek: { color: "#4d6bfe", svg: true },
-  // Monogram-only (real SVG would be nicer; using brand color tile for now)
-  google: { color: "#4285f4", initials: "G" },
-  meta: { color: "#0467df", initials: "M" },
-  alibaba: { color: "#ff6a00", initials: "A" },
-  cohere: { color: "#39594d", initials: "Co" },
-  mistralai: { color: "#fa520f", initials: "M" },
-  mistral: { color: "#fa520f", initials: "M" },
-  kimi: { color: "#111111", initials: "K" },
-  xai: { color: "#111111", initials: "X" },
+  // Real SVG-backed
+  openai: { color: "#10a37f", svg: "openai" },
+  anthropic: { color: "#d97757", svg: "anthropic" },
+  deepseek: { color: "#4d6bfe", svg: "deepseek" },
+  google: { color: "#ffffff", fg: "#000", svg: "google" },
+  meta: { color: "#0467df", svg: "meta" },
+  alibaba: { color: "#ff6a00", svg: "alibaba" },
+  cohere: { color: "#39594d", svg: "cohere" },
+  mistral: { color: "#fa520f", svg: "mistral" },
+  mistralai: { color: "#fa520f", svg: "mistral" },
+  xiaomi: { color: "#ff6900", svg: "xiaomi" },
+  nvidia: { color: "#76b900", svg: "nvidia", fg: "#000" },
+  amazon: { color: "#ff9900", svg: "amazon", fg: "#000" },
+  aws: { color: "#ff9900", svg: "amazon", fg: "#000" },
+  perplexity: { color: "#20808d", svg: "perplexity" },
+  databricks: { color: "#ff3621", svg: "databricks" },
+  baidu: { color: "#2932e1", svg: "baidu" },
+  tencent: { color: "#0052d9", svg: "tencent" },
+  bytedance: { color: "#1c1d22", svg: "bytedance" },
+  bytedance_seed: { color: "#1c1d22", svg: "bytedance" },
+  microsoft: { color: "#00a4ef", svg: "microsoft" },
+  azure: { color: "#00a4ef", svg: "microsoft" },
+  ibm: { color: "#1f70c1", svg: "ibm" },
+  naver: { color: "#03c75a", svg: "naver" },
+  lg: { color: "#a50034", svg: "lg" },
+  snowflake: { color: "#29b5e8", svg: "snowflake", fg: "#000" },
+  servicenow: { color: "#62d84e", svg: "servicenow", fg: "#000" },
+  // Monogram-only (no public press-kit SVG; brand color + initials)
+  xai: { color: "#0f0f0f", initials: "xAI" },
+  "x-ai": { color: "#0f0f0f", initials: "xAI" },
+  kimi: { color: "#0f0f0f", initials: "K" },
   minimax: { color: "#f54a00", initials: "Mx" },
-  xiaomi: { color: "#ff6900", initials: "Mi" },
-  "z-ai": { color: "#2563eb", initials: "Z" },
+  liquidai: { color: "#10b981", initials: "Lq" },
+  liquid: { color: "#10b981", initials: "Lq" },
+  upstage: { color: "#0ea5e9", initials: "Up" },
   zai: { color: "#2563eb", initials: "Z" },
-  microsoft: { color: "#00a4ef", initials: "Ms" },
-  nvidia: { color: "#76b900", initials: "N", fg: "#000" },
-  amazon: { color: "#ff9900", initials: "A", fg: "#000" },
-  perplexity: { color: "#20808d", initials: "Pp" },
+  "z-ai": { color: "#2563eb", initials: "Z" },
+  "reka-ai": { color: "#bb1f4a", initials: "R" },
   reka: { color: "#bb1f4a", initials: "R" },
-  databricks: { color: "#ff3621", initials: "Db" },
+  "ai21-labs": { color: "#7c3aed", initials: "21" },
   ai21: { color: "#7c3aed", initials: "21" },
   inflection: { color: "#7c3aed", initials: "If" },
   "01-ai": { color: "#0891b2", initials: "01" },
   "01ai": { color: "#0891b2", initials: "01" },
   yi: { color: "#0891b2", initials: "Yi" },
-  liquid: { color: "#10b981", initials: "Lq" },
-  upstage: { color: "#0ea5e9", initials: "Up" },
-  baidu: { color: "#2932e1", initials: "Ba" },
-  tencent: { color: "#0052d9", initials: "Tc" },
-  bytedance: { color: "#1c1d22", initials: "Bd" },
+  "tii-uae": { color: "#0e2a5c", initials: "TII" },
+  stepfun: { color: "#6b7280", initials: "Sf" },
+  ai2: { color: "#0064bd", initials: "Ai2" },
+  inception: { color: "#6366f1", initials: "Ic" },
+  "nous-research": { color: "#404040", initials: "Ns" },
+  sarvam: { color: "#1e40af", initials: "Sv" },
+  deepcogito: { color: "#7c3aed", initials: "Dc" },
+  kwaikat: { color: "#ef4444", initials: "Kk" },
+  "prime-intellect": { color: "#6366f1", initials: "Pi" },
+  "motif-technologies": { color: "#14b8a6", initials: "Mt" },
+  mbzuai: { color: "#015f5b", initials: "Mz" },
+  "korea-telecom": { color: "#ec1c24", initials: "KT" },
+  longcat: { color: "#f97316", initials: "Lc" },
+  trillionlabs: { color: "#8b5cf6", initials: "Tl" },
+  nanbeige: { color: "#06b6d4", initials: "Nb" },
+  "swiss-ai-initiative": { color: "#dc2626", initials: "Sa" },
+  openbmb: { color: "#3b82f6", initials: "Bm" },
+  arcee: { color: "#9333ea", initials: "Ac" },
+  "china-mobile": { color: "#d80000", initials: "Cm" },
+  inclusionai: { color: "#fb923c", initials: "Ia" },
+  openchat: { color: "#10b981", initials: "Oc" },
 };
 
 function brandFor(slug: string | null, creatorName: string): {
   color: string;
   fg: string;
   initials: string;
-  svg: boolean;
+  svg: SourceName | null;
 } {
   const key = slug?.toLowerCase() ?? "";
   const entry = CREATOR_BRAND[key];
@@ -499,15 +536,14 @@ function brandFor(slug: string | null, creatorName: string): {
       color: entry.color,
       fg: entry.fg ?? "#fff",
       initials: entry.initials ?? defaultInitials(creatorName),
-      svg: entry.svg ?? false,
+      svg: entry.svg ?? null,
     };
   }
-  // Unknown creator → deterministic neutral tile (operator preferred uniform look).
   return {
     color: deterministicColor(creatorName),
     fg: "#fff",
     initials: defaultInitials(creatorName),
-    svg: false,
+    svg: null,
   };
 }
 
@@ -553,18 +589,23 @@ function CreatorAvatar({
   const klass = className ? `repo-avatar ${className}` : "repo-avatar";
 
   if (brand.svg) {
-    // Use the SourceLogo SVG. Wrap in a brand-tinted tile so the SVG sits on
-    // its actual brand color (matches the monogram pattern visually).
+    // Brand SVGs that hard-code their fill (google / meta / alibaba / mistral
+    // / xiaomi / nvidia / amazon / perplexity / databricks / baidu / tencent)
+    // get a neutral dark tile so the brand color reads. SVGs that use
+    // currentColor (xai / kimi / cohere / reka / ai21 / etc.) get the brand
+    // color as background with white glyph on top.
+    const hardcodedFill = HARDCODED_FILL_SVGS.has(brand.svg);
     return (
       <span
         className={klass}
         aria-label={creator}
-        style={{ background: brand.color, color: brand.fg, padding: 2 }}
+        style={{
+          background: hardcodedFill ? "var(--surface-3)" : brand.color,
+          color: brand.fg,
+          padding: 2,
+        }}
       >
-        <SourceLogo
-          source={(slug?.toLowerCase() ?? "openai") as SourceName}
-          size="sm"
-        />
+        <SourceLogo source={brand.svg} size="sm" />
       </span>
     );
   }
@@ -585,6 +626,12 @@ function CreatorAvatar({
     </span>
   );
 }
+
+// SVGs whose paths hard-code a `fill="#..."` (not currentColor). For these,
+// the tile background stays neutral so the SVG's own brand color shows.
+// simpleicons SVGs all use currentColor so they tint correctly — only the
+// pre-existing DeepSeek mark hard-codes its blue fill.
+const HARDCODED_FILL_SVGS = new Set<SourceName>(["deepseek"]);
 
 // ---------------------------------------------------------------------------
 // Filter chip group (reuses .period-tab look so it lives inside .period-switcher)

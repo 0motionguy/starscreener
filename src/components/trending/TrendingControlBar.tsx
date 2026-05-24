@@ -79,17 +79,23 @@ export function TrendingControlBar({
           const isActive =
             activeCategory === t.cat &&
             (t.cat !== "repos" || activeRanker === t.rank);
+          // "Top" is the canonical home view — always reset to `/` so clicking
+          // it from any state navigates back without query-param baggage.
+          const href =
+            t.id === "repos-top"
+              ? "/"
+              : {
+                  query: cleanQuery({
+                    cat: t.cat,
+                    rank: t.rank,
+                    window: activeWindow,
+                    sort: activeSort,
+                  }),
+                };
           return (
             <Link
               key={t.id}
-              href={{
-                query: cleanQuery({
-                  cat: t.cat,
-                  rank: t.rank,
-                  window: activeWindow,
-                  sort: activeSort,
-                }),
-              }}
+              href={href}
               className={`tcb-btn${isActive ? " on" : ""}`}
               prefetch={false}
             >

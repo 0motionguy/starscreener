@@ -791,8 +791,11 @@ img { max-width: 100%; display: block; }
 }
 .smark svg {
   display: block;
-  width: 11px; height: 11px;
+  width: 12px; height: 12px;
 }
+/* X / Twitter mark is geometrically thin (two crossed strokes); scale up
+ * slightly so it doesn't read as an empty black tile inside the 16px chip. */
+.smark.x svg { width: 13px; height: 13px; }
 .smark.github { background: #161b22; color: #f0f6fc; }
 .smark.x { background: #000; color: #fff; }
 .smark.hn { background: var(--src-hackernews); color: #fff; }

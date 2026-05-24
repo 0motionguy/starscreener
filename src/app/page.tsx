@@ -67,12 +67,27 @@ export default async function TrendingHubPage({ searchParams }: Props) {
     await refreshTrendshiftFromStore().catch(() => undefined);
   }
 
-  const repos = (() => {
+  const rawRepos = (() => {
     if (category === "repos") return safe(() => getDerivedRepos(), []);
     if (category === "agents") return safe(() => getAgentsAsRepos(), []);
     if (category === "llms") return safe(() => getLlmsAsRepos(), []);
     return [];
   })();
+
+  // Hard rule (2026-05-24 operator fix): on the velocity-sorted Top view,
+  // items must have non-zero delta in the active time window. Otherwise rows
+  // with 7d/30d activity but no 24h movement sneak to the top of the 24h
+  // view — operator-rejected ("TOP RANKING IS SHIT").
+  const requireWindowDelta =
+    sort === "momentum" && ranker === "top" && (category === "repos" || category === "agents");
+  const repos = requireWindowDelta
+    ? rawRepos.filter((r) => {
+        if (timeWindow === "24h") return (r.starsDelta24h ?? 0) > 0;
+        if (timeWindow === "7d") return (r.starsDelta7d ?? 0) > 0;
+        if (timeWindow === "30d") return (r.starsDelta30d ?? 0) > 0;
+        return true;
+      })
+    : rawRepos;
 
   // Language filter removed (operator: "all its only about AI · no filter per coding language").
   // `lang` URL param is accepted for back-compat but no longer filters the list.

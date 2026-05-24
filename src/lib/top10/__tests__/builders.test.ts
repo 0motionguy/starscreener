@@ -10,7 +10,6 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { Repo } from "../../types";
-import type { HfModelTrending } from "../../huggingface";
 import type { FundingSignal } from "../../funding/types";
 import type { HnStory } from "../../hackernews";
 import type { BskyPost } from "../../bluesky";
@@ -20,7 +19,6 @@ import type { Launch } from "../../producthunt";
 
 import {
   buildFundingTop10,
-  buildLlmTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
@@ -214,43 +212,8 @@ test("buildMoversTop10: sorts by 24h delta % and excludes <100-star repos", () =
 // LLMS
 // ---------------------------------------------------------------------------
 
-test("buildLlmTop10: top 10, score normalised to 0–5, no deltas", () => {
-  const models: HfModelTrending[] = [];
-  for (let i = 0; i < 15; i++) {
-    models.push({
-      id: `org${i}/model${i}`,
-      author: `org${i}`,
-      url: `https://huggingface.co/org${i}/model${i}`,
-      downloads: 100 - i,
-      likes: 10,
-      trendingScore: 1,
-      pipelineTag: "text-generation",
-      libraryName: "transformers",
-      tags: [],
-      createdAt: null,
-      lastModified: null,
-      rawScore: 80 - i * 4,
-      momentum: 100 - i * 7,
-      primaryMetric: { name: "downloads", value: 100, label: "downloads" },
-      explanation: "",
-      downloadsDelta24h: 0,
-      downloadsDelta7d: 0,
-      downloadsDelta30d: 0,
-    });
-  }
-  const bundle = buildLlmTop10(models, "7d");
-  assert.equal(bundle.items.length, 10);
-  for (const item of bundle.items) {
-    assert.ok(item.score >= 0 && item.score <= 5);
-    assert.equal(item.deltaPct, undefined);
-    assert.equal(item.sparkline, undefined);
-  }
-  assert.deepEqual(bundle.supportedWindows, ["7d"]);
-});
-
-// ---------------------------------------------------------------------------
-// MCPS / SKILLS via EcosystemBoard
-// ---------------------------------------------------------------------------
+// LLMs Top10 builder removed 2026-05-24 (operator: HF strip; Wave 4 will
+// rebuild around Artificial Analysis leaderboard).
 
 // ---------------------------------------------------------------------------
 // NEWS fusion
@@ -426,60 +389,5 @@ test("BuildExtras with no priorTopSlugs leaves badges untouched", () => {
   assert.deepEqual(bundle.items[0].badges, ["FIRING_4"]);
 });
 
-test("BuildExtras.sparklines overrides per-item sparkline (LLMs)", () => {
-  const models: HfModelTrending[] = [
-    {
-      id: "vendor/model",
-      author: "vendor",
-      url: "https://huggingface.co/vendor/model",
-      downloads: 100,
-      likes: 10,
-      trendingScore: 1,
-      pipelineTag: "text-generation",
-      libraryName: "transformers",
-      tags: [],
-      createdAt: null,
-      lastModified: null,
-      rawScore: 50,
-      momentum: 50,
-      primaryMetric: { name: "downloads", value: 100, label: "downloads" },
-      explanation: "",
-      downloadsDelta24h: 0,
-      downloadsDelta7d: 0,
-      downloadsDelta30d: 0,
-    },
-  ];
-  const sparkles = new Map<string, number[]>();
-  sparkles.set("vendor/model", [10, 11, 12, 14, 18]);
-  const bundle = buildLlmTop10(models, "7d", { sparklines: sparkles });
-  assert.deepEqual(bundle.items[0].sparkline, [10, 11, 12, 14, 18]);
-});
-
-test("BuildExtras.sparklines with single point is ignored", () => {
-  const models: HfModelTrending[] = [
-    {
-      id: "v/m",
-      author: "v",
-      url: "https://hf.co/v/m",
-      downloads: 1,
-      likes: 1,
-      trendingScore: 1,
-      pipelineTag: null,
-      libraryName: null,
-      tags: [],
-      createdAt: null,
-      lastModified: null,
-      rawScore: 1,
-      momentum: 1,
-      primaryMetric: { name: "downloads", value: 1, label: "downloads" },
-      explanation: "",
-      downloadsDelta24h: 0,
-      downloadsDelta7d: 0,
-      downloadsDelta30d: 0,
-    },
-  ];
-  const sparkles = new Map<string, number[]>();
-  sparkles.set("v/m", [42]);
-  const bundle = buildLlmTop10(models, "7d", { sparklines: sparkles });
-  assert.equal(bundle.items[0].sparkline, undefined);
-});
+// LLM-specific sparkline tests removed with the HF strip (2026-05-24). Wave 4
+// will reintroduce coverage against the AA-driven builder when it lands.

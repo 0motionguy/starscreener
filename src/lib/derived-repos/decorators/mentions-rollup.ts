@@ -53,7 +53,9 @@ import { getBlueskyMentions } from "../../bluesky";
 import { getDevtoMentions } from "../../devto";
 import { getLobstersMentions } from "../../lobsters";
 import { getNpmPackages } from "../../npm";
-import { getHfTrendingFile } from "../../huggingface";
+// HuggingFace stripped 2026-05-24 per operator refocus; HF mention buckets
+// always return zero. Import preserved only as a marker for grep.
+// (was: import { getHfTrendingFile } from "../../huggingface")
 import { getArxivRecentFile } from "../../arxiv";
 import { getAllPhLaunches } from "../../producthunt";
 import { getFundingEventsForRepo } from "../../funding/repo-events";
@@ -138,19 +140,8 @@ function npmLifetimeIndex(): LifetimeIndex {
 }
 
 function hfLifetimeIndex(): LifetimeIndex {
-  const file = getHfTrendingFile();
-  const models = file?.models ?? [];
-  if (_hfLifetime && _hfLifetime.token === models) return _hfLifetime.index;
-  const byFull = buildLifetimeIndex(
-    models,
-    (m) => (m.id ? m.id.toLowerCase() : null),
-  );
-  const index: LifetimeIndex = {
-    byFull,
-    byName: buildLifetimeNameFallback(byFull),
-  };
-  _hfLifetime = { token: models, index };
-  return index;
+  // HuggingFace data source stripped 2026-05-24 per operator refocus.
+  return { byFull: new Map(), byName: new Map() };
 }
 
 function phLifetimeIndex(): LifetimeIndex {
@@ -312,31 +303,11 @@ function npmIndex(nowMs: number): BucketIndex {
   return index;
 }
 
-function hfIndex(nowMs: number): BucketIndex {
-  // HF entries don't expose a stable `linkedRepo` mapping in the bundled
-  // file, so we attribute by HF id (`owner/name`) matching the GitHub
-  // `owner/name` directly. That's a low recall signal — HF orgs (deepseek-ai,
-  // openai, mistralai) often differ from the GitHub org publishing the
-  // canonical SDK. We layer a NAME-only fallback (last path segment) so a
-  // GitHub repo `huggingface/transformers` can pick up HF model counts even
-  // when the model id is `bert-base-uncased` style. Ambiguous names —
-  // those that fan across multiple HF orgs in the bucket — are dropped from
-  // the fallback to keep false-positives off.
-  const file = getHfTrendingFile();
-  const models = file?.models ?? [];
-  if (_hfIndex && _hfIndex.token === models) return _hfIndex.index;
-  const base = buildBucketIndex(
-    models,
-    (m) => (m.id ? m.id.toLowerCase() : null),
-    (m) => m.lastModified ?? m.createdAt ?? null,
-    nowMs,
-  );
-  const index: BucketIndex = {
-    perRepo: base.perRepo,
-    byName: buildNameOnlyFallback(base.perRepo),
-  };
-  _hfIndex = { token: models, index };
-  return index;
+function hfIndex(_nowMs: number): BucketIndex {
+  // HuggingFace data source stripped 2026-05-24 per operator refocus. Stub
+  // returns an empty bucket so consumers downstream still resolve to
+  // count24h=0 / count7d=0 / count=0 without a TypeError.
+  return { perRepo: new Map(), byName: new Map() };
 }
 
 function phIndex(nowMs: number): BucketIndex {

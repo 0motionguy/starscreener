@@ -14,7 +14,6 @@ import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { getHfModelsTrending, refreshHfModelsFromStore } from "@/lib/huggingface";
 import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
@@ -44,7 +43,6 @@ import { Dot, StarMark, truncate } from "@/lib/og-primitives";
 import {
   buildAgentTop10,
   buildFundingTop10,
-  buildLlmTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
@@ -125,9 +123,8 @@ async function resolveBundle(
       return buildMoversTop10(repos, window);
     }
     case "llms": {
-      await refreshHfModelsFromStore().catch(() => undefined);
-      const models = getHfModelsTrending(40);
-      return models.length > 0 ? buildLlmTop10(models, window) : emptyBundle(window);
+      // Wave 4 will populate from the AA leaderboard. Empty until then.
+      return emptyBundle(window);
     }
     case "news": {
       await Promise.allSettled([

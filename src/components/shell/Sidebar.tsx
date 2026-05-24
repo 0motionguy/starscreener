@@ -195,7 +195,6 @@ function sumActiveSources(counts: import("@/lib/sidebar-source-counts").SidebarS
     counts.npmPackages,
     counts.agentRepos,
     counts.twitterRepos,
-    counts.hfModels,
     counts.arxivPapers,
   ];
   const live = sources.filter((n) => n > 0).length;

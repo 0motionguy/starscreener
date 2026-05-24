@@ -12,10 +12,6 @@ import "./_server-only-shim";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
-  getHfModelsTrending,
-  refreshHfModelsFromStore,
-} from "@/lib/huggingface";
-import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
@@ -42,7 +38,6 @@ import {
 import {
   buildAgentTop10,
   buildFundingTop10,
-  buildLlmTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
@@ -57,7 +52,6 @@ async function main(): Promise<void> {
   console.log(`[snapshot-top10] start date=${date}`);
 
   await Promise.allSettled([
-    refreshHfModelsFromStore(),
     refreshHackernewsTrendingFromStore(),
     refreshBlueskyTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
@@ -67,7 +61,6 @@ async function main(): Promise<void> {
   ]);
 
   const repos = getDerivedRepos();
-  const hfModels = getHfModelsTrending(40);
   const hn = getHnTopStories(40);
   const bsky = getBlueskyTopPosts(40);
   const devto = getDevtoTopArticles(40);
@@ -77,7 +70,7 @@ async function main(): Promise<void> {
 
   const payload: Top10Payload = {
     repos: repos.length > 0 ? buildRepoTop10(repos, "7d") : emptyBundle("7d"),
-    llms: hfModels.length > 0 ? buildLlmTop10(hfModels, "7d") : emptyBundle("7d"),
+    llms: emptyBundle("7d"),
     agents: repos.length > 0 ? buildAgentTop10(repos, "7d") : emptyBundle("7d"),
     movers:
       repos.length > 0 ? buildMoversTop10(repos, "24h") : emptyBundle("24h"),

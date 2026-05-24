@@ -33,7 +33,6 @@ export async function KpiStrip() {
         counts.npmPackages,
         counts.agentRepos,
         counts.twitterRepos,
-        counts.hfModels,
         counts.arxivPapers,
       ]
     : [];

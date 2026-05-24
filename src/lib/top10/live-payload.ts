@@ -13,10 +13,6 @@
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { selectAgentRepos } from "@/lib/agent-repos";
 import {
-  getHfModelsTrending,
-  refreshHfModelsFromStore,
-} from "@/lib/huggingface";
-import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
@@ -45,7 +41,6 @@ import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 import {
   buildAgentTop10,
   buildFundingTop10,
-  buildLlmTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
@@ -70,7 +65,6 @@ export async function buildLiveTop10Payload(): Promise<LiveTop10Result> {
   await Promise.allSettled([
     refreshTrendingFromStore(),
     refreshRecentReposFromStore(),
-    refreshHfModelsFromStore(),
     refreshHackernewsTrendingFromStore(),
     refreshBlueskyTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
@@ -86,7 +80,6 @@ export async function buildLiveTop10Payload(): Promise<LiveTop10Result> {
     selectAgentRepos(repos).map((r) => r.fullName),
   );
 
-  const hfModels = getHfModelsTrending(40);
   const hn = getHnTopStories(40);
   const bsky = getBlueskyTopPosts(40);
   const devto = getDevtoTopArticles(40);
@@ -104,10 +97,7 @@ export async function buildLiveTop10Payload(): Promise<LiveTop10Result> {
             priorTopSlugs: prior?.repos,
           })
         : emptyBundle("7d"),
-    llms:
-      hfModels.length > 0
-        ? buildLlmTop10(hfModels, "7d", { priorTopSlugs: prior?.llms })
-        : emptyBundle("7d"),
+    llms: emptyBundle("7d"),
     agents:
       repos.length > 0
         ? buildAgentTop10(repos, "7d", "cross-signal", {

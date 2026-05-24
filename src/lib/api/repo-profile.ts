@@ -53,7 +53,6 @@ import {
   lobstersStoryHref,
   type LobstersStory,
 } from "@/lib/lobsters";
-import { getHfTrendingFile, type HfModelRaw } from "@/lib/huggingface";
 import { getArxivRecentFile, type ArxivPaperRaw } from "@/lib/arxiv";
 import {
   getRevenueOverlay,
@@ -319,48 +318,16 @@ function synthesizeNpmMentions(
 }
 
 /**
- * Synthesize one RepoMention per linked HuggingFace model.
- *
- * Repo carries `linkedHfModels: string[]` (org/model ids) populated by the
- * cross-domain join resolver; we look each up in the current HF trending
- * cache to enrich the mention with downloads/likes/url. Models not in the
- * trending snapshot are skipped (no metadata to render).
+ * HF synthesis disabled 2026-05-24 — the HuggingFace data source was
+ * stripped per operator refocus. Function kept as a no-op shim so callers
+ * keep compiling; always returns an empty array.
  */
 function synthesizeHuggingFaceMentions(
-  modelIds: string[] | undefined,
-  hfModels: HfModelRaw[],
-  repoId: string,
-  discoveredAt: string,
+  _modelIds: string[] | undefined,
+  _repoId: string,
+  _discoveredAt: string,
 ): RepoMention[] {
-  if (!modelIds?.length || !hfModels.length) return [];
-  const byId = new Map<string, HfModelRaw>();
-  for (const m of hfModels) byId.set(m.id, m);
-  const out: RepoMention[] = [];
-  for (const id of modelIds) {
-    const m = byId.get(id);
-    if (!m) continue;
-    const postedAt =
-      m.lastModified || m.createdAt || discoveredAt;
-    out.push({
-      id: `huggingface-${id}`,
-      repoId,
-      platform: "huggingface",
-      author: m.author ?? "",
-      authorFollowers: null,
-      content: id,
-      url: m.url,
-      sentiment: "neutral",
-      engagement: (m.likes ?? 0) + (m.downloads ?? 0),
-      reach: 0,
-      postedAt,
-      discoveredAt,
-      isInfluencer: false,
-      confidence: 1.0,
-      matchReason: "cross_domain_join",
-      normalizedUrl: m.url,
-    });
-  }
-  return out;
+  return [];
 }
 
 /**
@@ -557,10 +524,8 @@ export async function buildCanonicalRepoProfile(
     fetchedAtIso,
   );
   const npmSynth = synthesizeNpmMentions(npmPackages, repo.id, fetchedAtIso);
-  const hfModels = getHfTrendingFile().models ?? [];
   const hfSynth = synthesizeHuggingFaceMentions(
     repo.linkedHfModels,
-    hfModels,
     repo.id,
     fetchedAtIso,
   );

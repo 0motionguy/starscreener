@@ -5,7 +5,6 @@
 // at the data-store boundary; builders are pure transforms.
 
 import type { Repo } from "@/lib/types";
-import type { HfModelTrending } from "@/lib/huggingface";
 import type { HnStory } from "@/lib/hackernews";
 import type { BskyPost } from "@/lib/bluesky";
 import type { DevtoArticle } from "@/lib/devto";
@@ -352,54 +351,9 @@ export function buildMoversTop10(
 }
 
 // ---------------------------------------------------------------------------
-// LLMS — Hugging Face trending models.
+// LLMS — Wave 4 will rebuild this around the Artificial Analysis leaderboard.
+// Until then the /top10 page's LLM bundle is fed from emptyBundle("7d").
 // ---------------------------------------------------------------------------
-
-function llmDescription(m: HfModelTrending): string {
-  const parts: string[] = [];
-  if (m.pipelineTag) parts.push(m.pipelineTag);
-  if (m.libraryName) parts.push(m.libraryName);
-  if (parts.length === 0 && m.tags?.length) parts.push(m.tags.slice(0, 3).join(", "));
-  if (parts.length === 0) return `Hugging Face model — ${m.id}`;
-  return parts.join(" · ");
-}
-
-export function buildLlmTop10(
-  models: HfModelTrending[],
-  window: Top10Window = "7d",
-  extras?: BuildExtras,
-): Top10Bundle {
-  const top = models.slice(0, 10);
-  const items: Top10Item[] = decorateItems(
-    top.map((m, i) => {
-      const score = Math.max(0, Math.min(5, m.momentum / 20));
-      const shortName = m.id.includes("/") ? m.id.split("/").slice(1).join("/") : m.id;
-      return {
-        rank: i + 1,
-        slug: m.id,
-        title: shortName,
-        owner: m.author,
-        description: llmDescription(m),
-        avatarLetter: avatarLetter(shortName),
-        avatarGradient: gradientFor(m.id),
-        score,
-        // HF is snapshot-only — no honest deltaPct yet. Leave undefined so the
-        // chip + sparkline cell render as neutral.
-        deltaPct: undefined,
-        sparkline: undefined,
-        badges: [],
-        href: `/huggingface/${encodeURIComponent(m.id)}`,
-      };
-    }),
-    extras,
-  );
-  return {
-    items,
-    meta: buildMeta(items, "snapshot"),
-    supportedWindows: ["7d"], // snapshot — other chips disabled in UI
-    window,
-  };
-}
 
 // ---------------------------------------------------------------------------
 // NEWS — fused multi-source. Each source is normalized to 0–1 by per-source

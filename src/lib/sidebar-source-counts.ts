@@ -31,9 +31,6 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "./revenue-overlays";
 import { getNpmPackagesFile, refreshNpmFromStore } from "./npm";
-import { getHfTrendingFile, refreshHfModelsFromStore } from "./huggingface";
-import { getHfDatasetsFile, refreshHfDatasetsFromStore } from "./hf-datasets";
-import { getHfSpacesFile, refreshHfSpacesFromStore } from "./hf-spaces";
 import { getArxivRecentFile, refreshArxivFromStore } from "./arxiv";
 import { selectAgentRepos } from "./agent-repos";
 import { getDerivedRepos } from "./derived-repos";
@@ -55,9 +52,6 @@ export interface SidebarSourceCounts {
   // hook diffs against `lastSeen.<routeKey>` to render fresh deltas.
   agentRepos: number;
   twitterRepos: number;
-  hfModels: number;
-  hfDatasets: number;
-  hfSpaces: number;
   arxivPapers: number;
   citedRepos: number;
 }
@@ -74,9 +68,6 @@ const ZERO_COUNTS: SidebarSourceCounts = {
   npmPackages: 0,
   agentRepos: 0,
   twitterRepos: 0,
-  hfModels: 0,
-  hfDatasets: 0,
-  hfSpaces: 0,
   arxivPapers: 0,
   citedRepos: 0,
 };
@@ -110,9 +101,6 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     refreshFundingNewsFromStore(),
     refreshRevenueOverlaysFromStore(),
     refreshNpmFromStore(),
-    refreshHfModelsFromStore(),
-    refreshHfDatasetsFromStore(),
-    refreshHfSpacesFromStore(),
     refreshArxivFromStore(),
   ]);
 
@@ -158,9 +146,6 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     npmPackages: npmCount,
     agentRepos: agentRepoCount,
     twitterRepos: twitterStats?.reposWithMentions ?? 0,
-    hfModels: safe(() => (getHfTrendingFile().models ?? []).length, 0),
-    hfDatasets: safe(() => (getHfDatasetsFile().datasets ?? []).length, 0),
-    hfSpaces: safe(() => (getHfSpacesFile().spaces ?? []).length, 0),
     arxivPapers,
     citedRepos,
   };

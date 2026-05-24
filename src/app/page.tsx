@@ -76,7 +76,8 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const switcherCounts: Partial<Record<CategoryId, number>> = {
     repos: safe(() => getDerivedRepoCount(), repos.length),
     agents: counts?.agentRepos ?? 0,
-    llms: (counts?.hfModels ?? 0) + (counts?.hfDatasets ?? 0) + (counts?.hfSpaces ?? 0),
+    // llms count will be the AA model count once Wave 4 wires the reader.
+    llms: 0,
   };
 
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);

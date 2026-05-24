@@ -12,7 +12,6 @@
 // imports trigger it. Must stay the first import.
 import "./_server-only-shim";
 
-import { getHfModelsTrending, refreshHfModelsFromStore } from "@/lib/huggingface";
 import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
@@ -45,7 +44,6 @@ async function main(): Promise<void> {
   console.log("[snapshot-sparklines] start");
 
   await Promise.allSettled([
-    refreshHfModelsFromStore(),
     refreshHackernewsTrendingFromStore(),
     refreshBlueskyTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
@@ -56,14 +54,7 @@ async function main(): Promise<void> {
 
   let writes = 0;
 
-  // ---------- LLMS — HF download counts ----------
-  const llms = getHfModelsTrending(20);
-  for (const m of llms) {
-    if (typeof m.downloads === "number") {
-      await appendSparklinePoint("llms", m.id, m.downloads);
-      writes++;
-    }
-  }
+  // LLMS sparkline disabled here — Wave 4 will re-wire from the AA leaderboard.
 
   // ---------- NEWS — fused per-source-normalized score ----------
   // Run the same fusion the live page uses, then append today's value per

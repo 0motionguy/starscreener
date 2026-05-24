@@ -62,6 +62,8 @@ interface SnapshotPayload {
   fetchedAt: string;
   totals: Record<string, SnapshotEntry>; // slug -> totals
   counts: { mcps: number };
+  status?: 'ok' | 'empty';
+  reason?: string;
 }
 
 const fetcher: Fetcher = {
@@ -128,6 +130,37 @@ const fetcher: Fetcher = {
       errors.push({ stage: 'purge', message: (err as Error).message });
     }
 
+    // ALSO mirror the snapshot from N days ago into fixed window slot keys so
+    // the reader can do a single Redis read per window (prev:1d/prev:7d/
+    // prev:30d) without needing to know today's UTC date. Each slot points to
+    // the snapshot that was current N days ago. If that dated snapshot is
+    // missing (gap day in the history), publish an empty placeholder so the
+    // slot key always exists. TTL = (window + 1d) grace so the slot survives
+    // between cron ticks.
+    //
+    // This is additive; the dated keys above remain the canonical history.
+    const slots: Array<{ name: string; days: number }> = [
+      { name: '1d', days: 1 },
+      { name: '7d', days: 7 },
+      { name: '30d', days: 30 },
+    ];
+    for (const w of slots) {
+      const targetDate = isoDateNDaysAgo(w.days);
+      const targetKey = `mcp-usage-snapshot:${targetDate}`;
+      const targetPayload = await readDataStore<SnapshotPayload>(targetKey);
+      const slotPayload =
+        targetPayload && targetPayload.totals
+          ? targetPayload
+          : emptySnapshot(targetDate, 'history_missing');
+      await writeDataStore(`mcp-usage-snapshot:prev:${w.name}`, slotPayload, {
+        ttlSeconds: (w.days + 1) * 24 * 60 * 60,
+      });
+    }
+    ctx.log.info(
+      { slots: slots.map((s) => `prev:${s.name}`) },
+      'mcp-usage-snapshot slot keys published',
+    );
+
     ctx.log.info(
       { date: today, mcps: mcpCount, redisSource: writeResult.source },
       'mcp-usage-snapshot published',
@@ -147,6 +180,17 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
+
+function emptySnapshot(date: string, reason: string): SnapshotPayload {
+  return {
+    date,
+    fetchedAt: new Date().toISOString(),
+    totals: {},
+    counts: { mcps: 0 },
+    status: 'empty',
+    reason,
+  };
+}
 
 function absorb(out: Record<string, SnapshotEntry>, it: RosterMcpItem): void {
   const slug = String(it.slug ?? it.id ?? '').trim().toLowerCase();

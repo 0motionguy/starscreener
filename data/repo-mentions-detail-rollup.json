@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-24T03:44:14.361Z",
-  "scanRunId": "sweep-2026-05-24T03:44:05.380Z",
+  "computedAt": "2026-05-24T08:01:55.497Z",
+  "scanRunId": "sweep-2026-05-24T08:01:36.590Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -105,10 +105,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 29,
+      "totalMentions7d": 31,
       "perSource": {
         "hackernews": {
-          "count7d": 29,
+          "count7d": 31,
           "top": [
             {
               "source": "hackernews",
@@ -118,8 +118,8 @@
               "text": "Author here. RMUX started from a frustration: I&#x27;ve used tmux for years and got tired of scraping output with grep and sleeps to automate anything. So I rebuilt the multiplexer from scratch in Rust, with a programmable layer on top.<p>Two surfaces: a tmux-compatible CLI (~90 commands, your keybindings just work), and a typed async Rust SDK on the same daemon — stable pane IDs, structured snapshots, locator-style waits. The idea is Playwright-style automation, but for terminals.<p>Native on L",
               "author": "shideneyu",
               "engagement": {
-                "score": 182,
-                "comments": 87
+                "score": 188,
+                "comments": 92
               },
               "observedAt": "2026-05-21T09:22:00.000Z"
             },
@@ -139,19 +139,6 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://news.ycombinator.com/item?id=48165211",
-              "title": "Tell HN: Mindie.dev is scraping emails from profiles to send spam",
-              "text": "Got the following from hello@mindie.dev<p>----<p>Hey Stackghost —<p>Saw your HN comment about freelance time tracking &#x2F; invoicing. TimeChat is a Telegram bot: type &quot;1.5 acme bug fix&quot; after work, end of month it auto-generates the PDF invoice for your client. Side-by-side vs Toggl: mindie.dev&#x2F;vs&#x2F;toggl.<p>For HN readers I&#x27;m running EARLY10: $1&#x2F;mo (was $7). One-click checkout: timechat pro 2-mo trial<p>If it&#x27;s useful, I&#x27;d love your feedback. Free tier co",
-              "author": "stackghost",
-              "engagement": {
-                "score": 27,
-                "comments": 6
-              },
-              "observedAt": "2026-05-17T01:06:37.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
               "url": "https://www.wired.com/story/meta-employees-scramble-benefits-layoffs-ai/",
               "title": "Meta Employees Are Scrambling to Use Up Benefits Ahead of Layoffs",
               "text": "",
@@ -161,6 +148,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-19T20:43:02.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://game.trae.academy/",
+              "title": "Show HN: A satirical idle game about running an AI startup",
+              "text": "I made an idle&#x2F;clicker about running an AI startup. You start with a cat-vs-dog classifier and try to make it to AGI, but the NYT sues you for training data, Yann tweets that scaling is dead, and your fired ML engineer leaks the Slack.",
+              "author": "haebom",
+              "engagement": {
+                "score": 9,
+                "comments": 0
+              },
+              "observedAt": "2026-05-23T18:54:50.000Z"
             },
             {
               "source": "hackernews",
@@ -295,10 +295,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 111,
+      "totalMentions7d": 101,
       "perSource": {
         "hackernews": {
-          "count7d": 110,
+          "count7d": 100,
           "top": [
             {
               "source": "hackernews",
@@ -308,8 +308,8 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 675,
-                "comments": 248
+                "score": 676,
+                "comments": 250
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -321,8 +321,8 @@
               "text": "For the past 5 years or so I&#x27;ve been working on a ground-up redesign of Freenet, my peer-to-peer project from the early 2000s (now renamed Hyphanet).<p>The new Freenet has been up and running since December along with some early applications like River[1], our decentralized group chat and Delta - a decentralized CMS. Users have already started to build their own apps on Freenet including games, and we have some interesting apps in development like Atlas, a search&#x2F;recommendation engine.",
               "author": "sanity",
               "engagement": {
-                "score": 358,
-                "comments": 245
+                "score": 372,
+                "comments": 268
               },
               "observedAt": "2026-05-21T14:34:57.000Z"
             },
@@ -334,8 +334,8 @@
               "text": "",
               "author": "moebrowne",
               "engagement": {
-                "score": 304,
-                "comments": 286
+                "score": 333,
+                "comments": 309
               },
               "observedAt": "2026-05-22T13:22:42.000Z"
             },
@@ -347,8 +347,8 @@
               "text": "Author here. RMUX started from a frustration: I&#x27;ve used tmux for years and got tired of scraping output with grep and sleeps to automate anything. So I rebuilt the multiplexer from scratch in Rust, with a programmable layer on top.<p>Two surfaces: a tmux-compatible CLI (~90 commands, your keybindings just work), and a typed async Rust SDK on the same daemon — stable pane IDs, structured snapshots, locator-style waits. The idea is Playwright-style automation, but for terminals.<p>Native on L",
               "author": "shideneyu",
               "engagement": {
-                "score": 182,
-                "comments": 87
+                "score": 188,
+                "comments": 92
               },
               "observedAt": "2026-05-21T09:22:00.000Z"
             },
@@ -360,7 +360,7 @@
               "text": "",
               "author": "wrxd",
               "engagement": {
-                "score": 166,
+                "score": 167,
                 "comments": 168
               },
               "observedAt": "2026-05-18T09:12:10.000Z"
@@ -801,10 +801,10 @@
     },
     "Wei-Shaw/sub2api": {
       "fullName": "Wei-Shaw/sub2api",
-      "totalMentions7d": 4,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -814,49 +814,10 @@
               "text": "I&#x27;ve seen quite a few simming discussions on HN, so thought some of you might like this - I&#x27;ve created a map-centered, tactical submarine simulator and it&#x27;s been a blast to make.<p>I grew up playing Silent Service II on Atari ST with my dad, then got into Silent Hunter IV in the 2000s, and most recently have been loving the more recent UBoat. In each case, the part I always enjoy the most is the plotting and charting aspect - essentially beating uncertain estimates with geometry.<",
               "author": "epaga",
               "engagement": {
-                "score": 122,
-                "comments": 43
+                "score": 124,
+                "comments": 45
               },
               "observedAt": "2026-05-18T15:08:21.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Wei-Shaw/sub2api",
-              "url": "https://www.earth.com/news/ran-robot-submarine-finds-unknown-structures-beneath-dotson-ice-shelf-antarctica/",
-              "title": "Robot submarine finds unknown structures beneath Antarctica; disappears",
-              "text": "",
-              "author": "musha68k",
-              "engagement": {
-                "score": 7,
-                "comments": 1
-              },
-              "observedAt": "2026-05-18T20:28:17.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Wei-Shaw/sub2api",
-              "url": "https://professorgoose.com/?version=2.0",
-              "title": "Show HN: how I fixed my ai goose tutor to stop punishing understanding",
-              "text": "a few weeks ago, I built professor goose, a socratic ai tutor built around the feynman idea that if you can’t explain it, you don’t understand it. the way professor goose works specifically is you pick a topic, rubber duck at a 3d goose, and instead of answering it asks follow up questions until it understands.<p>that begs the question, how does the goose know it has understood?<p>that’s when I thought of an understanding bar - always available to the user to help visualize how much the goose un",
-              "author": "zapseo",
-              "engagement": {
-                "score": 3,
-                "comments": 2
-              },
-              "observedAt": "2026-05-20T10:30:15.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "Wei-Shaw/sub2api",
-              "url": "https://www.cnn.com/2026/05/17/middleeast/iran-hormuz-undersea-cables-intl",
-              "title": "Strait of Hormuz submarine cable",
-              "text": "",
-              "author": "reconnecting",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-17T08:36:16.000Z"
             }
           ]
         }
@@ -1140,23 +1101,75 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 1,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://graphify.net/",
-              "title": "Knowledge Graphs for AI Coding Assistants",
+              "url": "https://www.economist.com/graphic-detail/2026/05/17/russia-is-starting-to-lose-ground-in-ukraine",
+              "title": "Russia is starting to lose ground in Ukraine",
               "text": "",
-              "author": "pmg101",
+              "author": "giuliomagnifico",
               "engagement": {
-                "score": 1,
+                "score": 56,
+                "comments": 80
+              },
+              "observedAt": "2026-05-18T12:56:48.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://spectrum.ieee.org/bolt-graphics-zeus-gpu",
+              "title": "Bolt Challenges Nvidia with a Focus on Cutting-Edge Graphics",
+              "text": "",
+              "author": "oldnetguy",
+              "engagement": {
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-18T19:09:30.000Z"
+              "observedAt": "2026-05-21T14:29:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://mickael.canouil.fr/posts/2026-05-20-gribouille-grammar-of-graphics-for-typst/",
+              "title": "Gribouille: A Grammar of Graphics for Typst",
+              "text": "",
+              "author": "mcanouil",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T10:44:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://graphmycode.com",
+              "title": "GraphMyCode –Visualize any codebase as an interactive knowledge graph,in-browser",
+              "text": "",
+              "author": "FValero",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T08:21:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://github.com/NuxTuxSux/ASDL",
+              "title": "ASDL: Enable graphic programming when no other ways are easily viable",
+              "text": "",
+              "author": "tosh",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T15:08:04.000Z"
             }
           ]
         }
@@ -3628,24 +3641,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 148,
+      "totalMentions7d": 112,
       "perSource": {
         "hackernews": {
-          "count7d": 148,
+          "count7d": 112,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://twitter.com/karpathy/status/2056753169888334312",
-              "title": "I’ve joined Anthropic",
-              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
-              "author": "dmarcos",
-              "engagement": {
-                "score": 1424,
-                "comments": 616
-              },
-              "observedAt": "2026-05-19T15:07:45.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3655,7 +3655,7 @@
               "author": "tedsanders",
               "engagement": {
                 "score": 1417,
-                "comments": 1041
+                "comments": 1043
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -3675,28 +3675,41 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/antoinezambelli/forge",
-              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
-              "author": "zambelli",
+              "url": "https://openai.com/index/advancing-content-provenance/",
+              "title": "OpenAI Adopts Google's SynthID Watermark for AI Images with Verification Tool",
+              "text": "",
+              "author": "smooke",
               "engagement": {
-                "score": 676,
-                "comments": 250
+                "score": 332,
+                "comments": 180
               },
-              "observedAt": "2026-05-19T12:23:07.000Z"
+              "observedAt": "2026-05-19T19:34:30.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/MinishLab/semble",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
-              "author": "Bibabomas",
+              "url": "https://www.wsj.com/tech/ai/openai-is-preparing-to-file-for-an-ipo-very-soon-0ec95af5",
+              "title": "OpenAI Is Preparing to File for an IPO Soon",
+              "text": "<a href=\"https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C</a>",
+              "author": "louiereederson",
               "engagement": {
-                "score": 444,
-                "comments": 150
+                "score": 198,
+                "comments": 403
               },
-              "observedAt": "2026-05-17T15:37:07.000Z"
+              "observedAt": "2026-05-20T16:24:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://www.cnbc.com/2026/05/20/openai-ipo-filing.html",
+              "title": "OpenAI to confidentially file for IPO as soon as Friday",
+              "text": "",
+              "author": "doppp",
+              "engagement": {
+                "score": 137,
+                "comments": 3
+              },
+              "observedAt": "2026-05-21T02:24:35.000Z"
             }
           ]
         }
@@ -4029,10 +4042,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 50,
+      "totalMentions7d": 48,
       "perSource": {
         "hackernews": {
-          "count7d": 37,
+          "count7d": 34,
           "top": [
             {
               "source": "hackernews",
@@ -4043,7 +4056,7 @@
               "author": "Timofeibu",
               "engagement": {
                 "score": 216,
-                "comments": 200
+                "comments": 201
               },
               "observedAt": "2026-05-20T19:38:25.000Z"
             },
@@ -4055,8 +4068,8 @@
               "text": "",
               "author": "speckx",
               "engagement": {
-                "score": 152,
-                "comments": 223
+                "score": 161,
+                "comments": 235
               },
               "observedAt": "2026-05-19T12:48:20.000Z"
             },
@@ -4068,7 +4081,7 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 19,
+                "score": 20,
                 "comments": 1
               },
               "observedAt": "2026-05-17T20:46:57.000Z"
@@ -4089,21 +4102,60 @@
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://www.sciencefocus.com/the-human-body/brain-lives-past",
-              "title": "Your brain is always a fraction of a second behind the present",
+              "url": "https://scale-lang.com/posts/2026-05-19-the-brain-still-needs-the-hammer",
+              "title": "Why GPU compilers are MORE important in the agentic era",
               "text": "",
-              "author": "amichail",
+              "author": "msond",
               "engagement": {
-                "score": 11,
-                "comments": 1
+                "score": 9,
+                "comments": 0
               },
-              "observedAt": "2026-05-16T23:14:20.000Z"
+              "observedAt": "2026-05-19T13:52:12.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 13,
+          "count7d": 14,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmlgkudnfn2s",
+              "title": "https://github.com/garrytan/gbrain-evals/blob/main/docs/benchmarks/2026-05-23-v0.40.6.0-snapshot.md",
+              "text": "https://github.com/garrytan/gbrain-evals/blob/main/docs/benchmarks/2026-05-23-v0.40.6.0-snapshot.md",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-24T07:22:58.984Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmjzhvxd3i2s",
+              "title": "GBrain is SOTA retrieval for agents and free for your use. MIT license. It currently is designed for OpenClaw and Hermes Agent but it does have full MCP server support that lets you use it with almost",
+              "text": "GBrain is SOTA retrieval for agents and free for your use. MIT license. It currently is designed for OpenClaw and Hermes Agent but it does have full MCP server support that lets you use it with almost any agent harness. https://github.com/garrytan/gbrain",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-23T17:56:02.362Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "garrytan/gbrain",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmjthpaqsy2s",
+              "title": "https://github.com/garrytan/gbrain I literally released 87k lines of code and thousands of people are using it tens of thousands of people use GStack daily You're engagement farming poorly",
+              "text": "https://github.com/garrytan/gbrain I literally released 87k lines of code and thousands of people are using it tens of thousands of people use GStack daily You're engagement farming poorly",
+              "author": "garrytan-mirr.selfhosted.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-23T16:08:32.068Z"
+            },
             {
               "source": "bluesky",
               "fullName": "garrytan/gbrain",
@@ -4129,45 +4181,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-22T18:08:57.969Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhjoffdia24",
-              "title": "PS GBrain is SOTA on LongMemEval for retrieval without LLM query rewriting https://github.com/garrytan/gbrain-evals",
-              "text": "PS GBrain is SOTA on LongMemEval for retrieval without LLM query rewriting https://github.com/garrytan/gbrain-evals",
-              "author": "garrytan-mirr.selfhosted.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-22T18:07:59.675Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczlw27g24",
-              "title": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
-              "text": "PS if you want to see my book-mirror skill here it is https://github.com/garrytan/gbrain/blob/master/skills/book-mirror/SKILL.md",
-              "author": "garrytan-mirr.selfhosted.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-22T16:08:59.667Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmhczhdze624",
-              "title": "Having your own knowledge graph is amazing. I highly recommend it. I open sourced all the software that I used to make mine, which now has more than 250K markdown pages. https://github.com/garrytan/gb",
-              "text": "Having your own knowledge graph is amazing. I highly recommend it. I open sourced all the software that I used to make mine, which now has more than 250K markdown pages. https://github.com/garrytan/gbrain",
-              "author": "garrytan-mirr.selfhosted.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-22T16:08:54.572Z"
             }
           ]
         }
@@ -5896,11 +5909,24 @@
     },
     "ChromeDevTools/chrome-devtools-mcp": {
       "fullName": "ChromeDevTools/chrome-devtools-mcp",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
+              "title": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-",
+              "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-23T13:22:46.061Z"
+            },
             {
               "source": "bluesky",
               "fullName": "ChromeDevTools/chrome-devtools-mcp",
@@ -5944,10 +5970,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 16,
+      "totalMentions7d": 17,
       "perSource": {
         "hackernews": {
-          "count7d": 16,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -5957,7 +5983,7 @@
               "text": "",
               "author": "OuterVale",
               "engagement": {
-                "score": 364,
+                "score": 365,
                 "comments": 242
               },
               "observedAt": "2026-05-21T07:21:55.000Z"
@@ -5970,8 +5996,8 @@
               "text": "",
               "author": "cf100clunk",
               "engagement": {
-                "score": 126,
-                "comments": 145
+                "score": 157,
+                "comments": 173
               },
               "observedAt": "2026-05-19T15:30:01.000Z"
             },
@@ -5983,7 +6009,7 @@
               "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
               "author": "mrcoldbrew",
               "engagement": {
-                "score": 61,
+                "score": 62,
                 "comments": 7
               },
               "observedAt": "2026-05-18T15:40:42.000Z"
@@ -7328,7 +7354,7 @@
     },
     "VRSEN/OpenSwarm": {
       "fullName": "VRSEN/OpenSwarm",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -7345,24 +7371,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-17T18:57:05.000Z"
-            }
-          ]
-        },
-        "bluesky": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "bluesky",
-              "fullName": "VRSEN/OpenSwarm",
-              "url": "https://bsky.app/profile/pythonhub.dev/post/3mmfr3zhmih2u",
-              "title": "OpenSwarm Claude code for everything except coding. https://github.com/VRSEN/OpenSwarm",
-              "text": "OpenSwarm Claude code for everything except coding. https://github.com/VRSEN/OpenSwarm",
-              "author": "pythonhub.dev",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-22T01:15:33.561Z"
             }
           ]
         }
@@ -7718,15 +7726,15 @@
             {
               "source": "hackernews",
               "fullName": "lightningpixel/modly",
-              "url": "https://old.reddit.com/r/startups_promotion/comments/1te5th8/urlsifycom_free_forever_link_shortener_url/",
-              "title": "Urlsify.com Free (forever) Link shortener with Analytics",
-              "text": "",
-              "author": "godlymod",
+              "url": "https://news.ycombinator.com/item?id=48253165",
+              "title": "Ask HN: Did Messages get removed from Google Takeout?",
+              "text": "&quot;Messages&quot; appears to have disappeared from Google Takeout. Does anyone know why Google removed it, or if there is an official notice or explanation?",
+              "author": "MollyRealized",
               "engagement": {
-                "score": 2,
-                "comments": 2
+                "score": 11,
+                "comments": 0
               },
-              "observedAt": "2026-05-15T23:31:24.000Z"
+              "observedAt": "2026-05-24T00:48:21.000Z"
             }
           ]
         }
@@ -7954,26 +7962,8 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "tinyhumansai/openhuman",
-              "url": "https://www.notesasm.com/",
-              "title": "Show HN: Coding agent where a second agent QAs every PR in a real browser",
-              "text": "Hi HN. I&#x27;ve been building this for the last few months and it&#x27;s at a state where outside eyes would help more than another week of solo iteration.<p>It&#x27;s a kanban board where each ticket runs two agents back to back:<p>Build agent: runs in a sandboxed temp dir against a shallow clone of the user&#x27;s repo, makes the change, pushes a branch, opens a PR. Uses the Claude Agent SDK.<p>QA agent: waits for the preview deploy to come up, then drives a real browser via Browserbase again",
-              "author": "kavin_key",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T18:54:10.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 5,
           "top": [
@@ -8166,11 +8156,24 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 55,
+      "totalMentions7d": 51,
       "perSource": {
         "hackernews": {
-          "count7d": 55,
+          "count7d": 51,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://github.com/superset-sh/superset",
+              "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+              "text": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;superset-sh&#x2F;superset\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;superset-sh&#x2F;superset</a>), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel.<p>Demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=YWDHn7gUwfg\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=YWDHn7gUwfg</a><p>Try it: <a href=\"https:&#x2",
+              "author": "avipeltz",
+              "engagement": {
+                "score": 102,
+                "comments": 129
+              },
+              "observedAt": "2026-05-22T14:53:55.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
@@ -8187,26 +8190,13 @@
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
-              "url": "https://github.com/superset-sh/superset",
-              "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-              "text": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;superset-sh&#x2F;superset\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;superset-sh&#x2F;superset</a>), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel.<p>Demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=YWDHn7gUwfg\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=YWDHn7gUwfg</a><p>Try it: <a href=\"https:&#x2",
-              "author": "avipeltz",
-              "engagement": {
-                "score": 93,
-                "comments": 116
-              },
-              "observedAt": "2026-05-22T14:53:55.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
               "url": "https://superlog.sh/",
               "title": "Show HN: Superlog (YC P26) – Observability that installs itself and fixes bugs",
               "text": "Hey HN, we’re Nico and Arseniy, co-founders of Superlog (<a href=\"https:&#x2F;&#x2F;superlog.sh\">https:&#x2F;&#x2F;superlog.sh</a>). We&#x27;re building a self-installing, self healing observability tool meant not to be opened. It has a wizard that daily sets up proper logging and an agent that investigates errors and opens PRs.<p>Super short demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M</a>.<p",
               "author": "Magnanten",
               "engagement": {
                 "score": 72,
-                "comments": 47
+                "comments": 49
               },
               "observedAt": "2026-05-19T15:54:06.000Z"
             },
@@ -8231,8 +8221,8 @@
               "text": "At my work they provided a single Claude subscription for everyone on the team. To be honest I like kiro better as it provides a way better SDD management. But the company can&#x27;t provide it and I can&#x27;t afford it yet. Turns out I had the skill creator skill in my claude instance so I made use of it to create this Skill. I made it fully by using Claude but I wanted to make it open source, so I asked it to help me make tests and preparations for it, even a CI to run python tests.<p>Well, w",
               "author": "NTRIXLM",
               "engagement": {
-                "score": 32,
-                "comments": 14
+                "score": 34,
+                "comments": 16
               },
               "observedAt": "2026-05-21T12:49:07.000Z"
             }
@@ -8242,10 +8232,10 @@
     },
     "withcoral/coral": {
       "fullName": "withcoral/coral",
-      "totalMentions7d": 8,
+      "totalMentions7d": 9,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 9,
           "top": [
             {
               "source": "hackernews",
@@ -8289,15 +8279,15 @@
             {
               "source": "hackernews",
               "fullName": "withcoral/coral",
-              "url": "https://www.wsj.com/business/energy-oil/coal-makes-a-comeback-fueled-by-war-in-the-middle-east-fb4cd0a8",
-              "title": "Coal Makes a Comeback, Fueled by War in the Middle East",
+              "url": "https://economist.com/finance-and-economics/2026/05/21/how-should-economists-treat-morality",
+              "title": "How should economists treat morality?",
               "text": "",
-              "author": "JumpCrisscross",
+              "author": "andsoitis",
               "engagement": {
-                "score": 3,
+                "score": 2,
                 "comments": 0
               },
-              "observedAt": "2026-05-17T03:58:00.000Z"
+              "observedAt": "2026-05-24T06:52:45.000Z"
             },
             {
               "source": "hackernews",
@@ -8664,10 +8654,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 79,
+      "totalMentions7d": 77,
       "perSource": {
         "hackernews": {
-          "count7d": 79,
+          "count7d": 77,
           "top": [
             {
               "source": "hackernews",
@@ -8703,7 +8693,7 @@
               "text": "",
               "author": "mychele",
               "engagement": {
-                "score": 288,
+                "score": 289,
                 "comments": 27
               },
               "observedAt": "2026-05-22T02:35:54.000Z"
@@ -8729,8 +8719,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft</a><p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw</a>",
               "author": "Jotalea",
               "engagement": {
-                "score": 261,
-                "comments": 69
+                "score": 265,
+                "comments": 73
               },
               "observedAt": "2026-05-20T20:19:46.000Z"
             }
@@ -8919,10 +8909,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 110,
+      "totalMentions7d": 113,
       "perSource": {
         "hackernews": {
-          "count7d": 109,
+          "count7d": 112,
           "top": [
             {
               "source": "hackernews",
@@ -8946,7 +8936,7 @@
               "author": "tedsanders",
               "engagement": {
                 "score": 1417,
-                "comments": 1041
+                "comments": 1043
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -9063,10 +9053,10 @@
     },
     "HKUDS/CLI-Anything": {
       "fullName": "HKUDS/CLI-Anything",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
         "bluesky": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -9163,10 +9153,10 @@
     },
     "OpenCut-app/OpenCut": {
       "fullName": "OpenCut-app/OpenCut",
-      "totalMentions7d": 57,
+      "totalMentions7d": 37,
       "perSource": {
         "hackernews": {
-          "count7d": 57,
+          "count7d": 37,
           "top": [
             {
               "source": "hackernews",
@@ -9176,7 +9166,7 @@
               "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
               "author": "Bibabomas",
               "engagement": {
-                "score": 442,
+                "score": 444,
                 "comments": 150
               },
               "observedAt": "2026-05-17T15:37:07.000Z"
@@ -9189,23 +9179,10 @@
               "text": "",
               "author": "datadrivenangel",
               "engagement": {
-                "score": 354,
-                "comments": 299
+                "score": 355,
+                "comments": 300
               },
               "observedAt": "2026-05-17T12:09:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "OpenCut-app/OpenCut",
-              "url": "https://twitter.com/steipete/status/2055346265869721905",
-              "title": "OpenClaw Creator Spent $1.3M on OpenAI Tokens in 30 Days",
-              "text": "",
-              "author": "eamag",
-              "engagement": {
-                "score": 162,
-                "comments": 205
-              },
-              "observedAt": "2026-05-16T11:34:04.000Z"
             },
             {
               "source": "hackernews",
@@ -9215,10 +9192,23 @@
               "text": "",
               "author": "leopoldj",
               "engagement": {
-                "score": 115,
-                "comments": 111
+                "score": 119,
+                "comments": 122
               },
               "observedAt": "2026-05-22T13:40:55.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://github.com/superset-sh/superset",
+              "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+              "text": "Hey HN, we’re Avi, Kiet, and Satya. We’re building Superset (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;superset-sh&#x2F;superset\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;superset-sh&#x2F;superset</a>), an open-source agentic IDE for running coding agents like Claude Code, Codex, OpenCode etc in parallel.<p>Demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=YWDHn7gUwfg\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=YWDHn7gUwfg</a><p>Try it: <a href=\"https:&#x2",
+              "author": "avipeltz",
+              "engagement": {
+                "score": 102,
+                "comments": 129
+              },
+              "observedAt": "2026-05-22T14:53:55.000Z"
             },
             {
               "source": "hackernews",
@@ -9239,10 +9229,10 @@
     },
     "tech-leads-club/agent-skills": {
       "fullName": "tech-leads-club/agent-skills",
-      "totalMentions7d": 9,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -9273,19 +9263,6 @@
             {
               "source": "hackernews",
               "fullName": "tech-leads-club/agent-skills",
-              "url": "https://research.perplexity.ai/articles/designing-refining-and-maintaining-agent-skills-at-perplexity",
-              "title": "Designing, Refining, and Maintaining Agent Skills at Perplexity",
-              "text": "",
-              "author": "Garbage",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T11:40:55.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "tech-leads-club/agent-skills",
               "url": "https://github.com/JustVugg/gutenberg-cli",
               "title": "Show HN: Gutenberg – Any URL to verified CLI and MCP server and agent skills",
               "text": "",
@@ -9308,6 +9285,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T10:35:39.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "tech-leads-club/agent-skills",
+              "url": "https://github.com/Kotlin/kotlin-agent-skills/",
+              "title": "Kotlin-agent-skills: A collection of skills for projects using Kotlin",
+              "text": "",
+              "author": "rezaprima",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T13:51:10.000Z"
             }
           ]
         },
@@ -9346,7 +9336,7 @@
     },
     "truelockmc/streambert": {
       "fullName": "truelockmc/streambert",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
           "count7d": 3,
@@ -9359,7 +9349,7 @@
               "text": "",
               "author": "Cider9986",
               "engagement": {
-                "score": 35,
+                "score": 37,
                 "comments": 2
               },
               "observedAt": "2026-05-21T23:45:04.000Z"
@@ -9393,8 +9383,21 @@
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "truelockmc/streambert",
+              "url": "https://bsky.app/profile/github-trending-js.bsky.social/post/3mmjd4urwik2v",
+              "title": "🎉 Celebrating！ 🎉 (500+ new stars) 📦 truelockmc / streambert ⭐ 4,422 (+893) 🗒 JavaScript A cross-platform Electron Desktop App to stream and download any Movie, TV Series or Anime in the World. Zer",
+              "text": "🎉 Celebrating！ 🎉 (500+ new stars) 📦 truelockmc / streambert ⭐ 4,422 (+893) 🗒 JavaScript A cross-platform Electron Desktop App to stream and download any Movie, TV Series or Anime in the World. Zero Ads and Tracking",
+              "author": "github-trending-js.bsky.social",
+              "engagement": {
+                "score": 2,
+                "comments": 1
+              },
+              "observedAt": "2026-05-23T11:16:08.859Z"
+            },
             {
               "source": "bluesky",
               "fullName": "truelockmc/streambert",
@@ -9451,10 +9454,10 @@
     },
     "KeygraphHQ/shannon": {
       "fullName": "KeygraphHQ/shannon",
-      "totalMentions7d": 3,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -9464,10 +9467,36 @@
               "text": "",
               "author": "cdrnsf",
               "engagement": {
-                "score": 367,
-                "comments": 534
+                "score": 370,
+                "comments": 538
               },
               "observedAt": "2026-05-21T13:36:06.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://www.projectsaltbox.com/p/ice-awards-25-million-iris-scanning",
+              "title": "ICE Awards $25M Iris-Scanning Contract to Bi2 Technologies",
+              "text": "",
+              "author": "cdrnsf",
+              "engagement": {
+                "score": 129,
+                "comments": 37
+              },
+              "observedAt": "2026-05-23T23:39:43.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://medium.com/@vishalmisra/shannon-got-ai-this-far-kolmogorov-shows-where-it-stops-c81825f89ca0",
+              "title": "Shannon Got AI This Far. Kolmogorov Shows Where It Stops",
+              "text": "",
+              "author": "dnw",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-24T01:58:46.000Z"
             },
             {
               "source": "hackernews",
@@ -9501,24 +9530,11 @@
     },
     "vercel-labs/zero": {
       "fullName": "vercel-labs/zero",
-      "totalMentions7d": 11,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
           "count7d": 6,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "vercel-labs/zero",
-              "url": "https://github.com/vercel-labs/zero",
-              "title": "Zero: The Programming Language for Agents",
-              "text": "",
-              "author": "0xCAP",
-              "engagement": {
-                "score": 10,
-                "comments": 1
-              },
-              "observedAt": "2026-05-16T11:32:02.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "vercel-labs/zero",
@@ -9531,6 +9547,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-18T10:43:59.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "vercel-labs/zero",
+              "url": "https://github.com/vercel-labs/zerolang",
+              "title": "Zero – Programming Language for Agents",
+              "text": "",
+              "author": "xendo",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-23T11:13:35.000Z"
             },
             {
               "source": "hackernews",
@@ -9574,7 +9603,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 5,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -9601,45 +9630,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-17T15:06:44.569Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "vercel-labs/zero",
-              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mlzp2cjpkh2m",
-              "title": "GitHub - vercel-labs/zero: The programming language for agents https://github.com/vercel-labs/zero",
-              "text": "GitHub - vercel-labs/zero: The programming language for agents https://github.com/vercel-labs/zero",
-              "author": "tech-trending.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-17T06:06:52.969Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "vercel-labs/zero",
-              "url": "https://bsky.app/profile/azu.bsky.social/post/3mlydkmwehc2t",
-              "title": "見てる: \"vercel-labs/zero: The programming language for agents\" https://github.com/vercel-labs/zero",
-              "text": "見てる: \"vercel-labs/zero: The programming language for agents\" https://github.com/vercel-labs/zero",
-              "author": "azu.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T17:08:34.764Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "vercel-labs/zero",
-              "url": "https://bsky.app/profile/azu.bsky.social/post/3mlydkb34zd2r",
-              "title": "見てる: \"Consider Lambda syntax · Issue #19 · vercel-labs/zero\" https://github.com/vercel-labs/zero",
-              "text": "見てる: \"Consider Lambda syntax · Issue #19 · vercel-labs/zero\" https://github.com/vercel-labs/zero",
-              "author": "azu.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-16T17:08:22.361Z"
             }
           ]
         }
@@ -9774,7 +9764,7 @@
               "text": "",
               "author": "rippeltippel",
               "engagement": {
-                "score": 56,
+                "score": 57,
                 "comments": 15
               },
               "observedAt": "2026-05-21T09:14:13.000Z"
@@ -9956,6 +9946,54 @@
                 "comments": 0
               },
               "observedAt": "2026-05-20T21:50:03.466Z"
+            }
+          ]
+        }
+      }
+    },
+    "boona13/mykonos-island-voxels": {
+      "fullName": "boona13/mykonos-island-voxels",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "boona13/mykonos-island-voxels",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlhh26wiq2s",
+              "title": "https://github.com/boona13/mykonos-island-voxels",
+              "text": "https://github.com/boona13/mykonos-island-voxels",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-24T07:38:45.266Z"
+            }
+          ]
+        }
+      }
+    },
+    "can1357/oh-my-pi": {
+      "fullName": "can1357/oh-my-pi",
+      "totalMentions7d": 1,
+      "perSource": {
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "can1357/oh-my-pi",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmepygfqxhv2",
+              "title": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng",
+              "text": "8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 132 stars today 9. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1318 stars today 10. https://github.com/teng-lin/notebooklm-py - Python, 182 stars today 11. https://github.com/can1357/oh-my-pi - […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T15:23:04.964Z"
             }
           ]
         }

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-24T04:39:23.139Z",
+  "fetchedAt": "2026-05-24T08:01:25.363Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -5879,7 +5879,7 @@
     },
     "yvgude/lean-ctx": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 6,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -5891,11 +5891,11 @@
           "handle": "rusttrending.bsky.social",
           "displayName": "RustTrending"
         },
-        "likeCount": 4,
+        "likeCount": 6,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T00:16:35.083940Z",
-        "hoursSincePosted": 4.38
+        "hoursSincePosted": 7.75
       },
       "posts": [
         {
@@ -5907,13 +5907,13 @@
             "handle": "rusttrending.bsky.social",
             "displayName": "RustTrending"
           },
-          "likeCount": 4,
+          "likeCount": 6,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-24T00:16:35.083940Z",
           "createdUtc": 1779581795,
-          "ageHours": 4.38,
-          "trendingScore": 4,
+          "ageHours": 7.75,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -16947,7 +16947,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T01:36:05.802Z",
-        "hoursSincePosted": 3.06
+        "hoursSincePosted": 6.42
       },
       "posts": [
         {
@@ -16964,7 +16964,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T01:36:05.802Z",
           "createdUtc": 1779586565,
-          "ageHours": 3.06,
+          "ageHours": 6.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19565,23 +19565,23 @@
     },
     "supertone-inc/supertonic": {
       "count7d": 1,
-      "likesSum7d": 5,
-      "repostsSum7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mm6poevgbc2x",
-        "cid": "bafyreielwbgmb7abwbfowpvddya2gbznk3kprzvpgjnhdjyiuibzwiai3e",
-        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mm6poevgbc2x",
-        "text": "Supertonic est un projet open-source sous licences MIT, permettant de générer localement, via ONNX Runtime, de la synthèse vocale multilingue en 31 langues, sans service cloud ⬇️ github.com/supertone-in...",
+        "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmlblkhhlc2i",
+        "cid": "bafyreiffpoe6b7pbihe767xonahlwyvakxvfkk3fznfp7htxi3wfnxmosq",
+        "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmlblkhhlc2i",
+        "text": "CPUでも動いちゃうぜっていう軽いTTSのやつ。 試せるページがあったので試してみたところ、確かに(WebGPUを使っていると)無茶苦茶早く結果が出てすごい。 で、「呪い」をどう読むかテストしてみたらまぁそうよね的な結果に。 github.com/supertone-in...",
         "author": {
-          "handle": "ponceto91.bsky.social",
-          "displayName": "Olivier Poncet 🦝"
+          "handle": "limura.bsky.social",
+          "displayName": "IIMURA Takuji"
         },
-        "likeCount": 5,
-        "repostCount": 2,
+        "likeCount": 0,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T06:01:23.745Z",
-        "hoursSincePosted": 2.63
+        "createdAt": "2026-05-24T05:53:53.130Z",
+        "hoursSincePosted": 2.13
       },
       "posts": [
         {
@@ -19600,6 +19600,34 @@
           "createdUtc": 1779170483,
           "ageHours": 2.63,
           "trendingScore": 9,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "supertone-inc/supertonic",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmlblkhhlc2i",
+          "cid": "bafyreiffpoe6b7pbihe767xonahlwyvakxvfkk3fznfp7htxi3wfnxmosq",
+          "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmlblkhhlc2i",
+          "text": "CPUでも動いちゃうぜっていう軽いTTSのやつ。 試せるページがあったので試してみたところ、確かに(WebGPUを使っていると)無茶苦茶早く結果が出てすごい。 で、「呪い」をどう読むかテストしてみたらまぁそうよね的な結果に。 github.com/supertone-in...",
+          "author": {
+            "handle": "limura.bsky.social",
+            "displayName": "IIMURA Takuji"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T05:53:53.130Z",
+          "createdUtc": 1779602033,
+          "ageHours": 2.13,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -24771,25 +24799,51 @@
     },
     "superset-sh/superset": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmjw5lhlcq2c",
-        "cid": "bafyreig625zl4lfm7kxpkdev6guypm2alb25dxqrrhhlof5hkgceqnyway",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmjw5lhlcq2c",
-        "text": "📰 Superset, an open-source agentic IDE for running coding agents like Claude Code and Codex in parallel, has been launched by Avi, Kiet, and Satya, offering features such as task tracking, remote workspaces, and improved agent managem... 🔗 https://github.com/superset-sh/superset #Tech #Dev",
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mmlbwzj5vs24",
+        "cid": "bafyreidgblajgdwdf2sw3kstwuhfr3tzqtlgch5xrpvsw22odzvrzunx2a",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mmlbwzj5vs24",
+        "text": "Parallel agent execution is smart – but the real win here is finally getting proper observability into what these coding agents are actually doing. https://github.com/superset-sh/superset",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "sirile.bsky.social"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
         "replyCount": 1,
-        "createdAt": "2026-05-23T16:56:30.503341+00:00",
-        "hoursSincePosted": 5.21
+        "createdAt": "2026-05-24T06:00:17.526923+00:00",
+        "hoursSincePosted": 2.02
       },
       "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mmlbwzj5vs24",
+          "cid": "bafyreidgblajgdwdf2sw3kstwuhfr3tzqtlgch5xrpvsw22odzvrzunx2a",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mmlbwzj5vs24",
+          "text": "Parallel agent execution is smart – but the real win here is finally getting proper observability into what these coding agents are actually doing. https://github.com/superset-sh/superset",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T06:00:17.526923+00:00",
+          "createdUtc": 1779602417,
+          "ageHours": 2.02,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmjw5lhlcq2c",
           "cid": "bafyreig625zl4lfm7kxpkdev6guypm2alb25dxqrrhhlof5hkgceqnyway",
@@ -25502,6 +25556,108 @@
           "linkedRepos": [
             {
               "fullName": "stephenlthorn/auto-identity-remove",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "boona13/mykonos-island-voxels": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlhh26wiq2s",
+        "cid": "bafyreigtyrwoljti223zuwjz6q5pitimyzix7qizvwqzlg44t4mhlcsh6m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlhh26wiq2s",
+        "text": "https://github.com/boona13/mykonos-island-voxels",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T07:38:43Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlhh26wiq2s",
+          "cid": "bafyreigtyrwoljti223zuwjz6q5pitimyzix7qizvwqzlg44t4mhlcsh6m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlhh26wiq2s",
+          "text": "https://github.com/boona13/mykonos-island-voxels",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T07:38:43Z",
+          "createdUtc": 1779608323,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "boona13/mykonos-island-voxels",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cartesiancs/map3d": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlazc2jvc2u",
+        "cid": "bafyreicpazcilyy2pqe3g5bnjqly72zhjcmkb3g6sju47itxtw6t7z4p2e",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlazc2jvc2u",
+        "text": "github.com/cartesiancs/...",
+        "author": {
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T05:43:40.333Z",
+        "hoursSincePosted": 2.3
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlazc2jvc2u",
+          "cid": "bafyreicpazcilyy2pqe3g5bnjqly72zhjcmkb3g6sju47itxtw6t7z4p2e",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlazc2jvc2u",
+          "text": "github.com/cartesiancs/...",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T05:43:40.333Z",
+          "createdUtc": 1779601420,
+          "ageHours": 2.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cartesiancs/map3d",
               "matchType": "url",
               "confidence": 1
             }
@@ -31385,7 +31541,7 @@
     },
     "yvgude--lean-ctx": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 6,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -31397,11 +31553,11 @@
           "handle": "rusttrending.bsky.social",
           "displayName": "RustTrending"
         },
-        "likeCount": 4,
+        "likeCount": 6,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T00:16:35.083940Z",
-        "hoursSincePosted": 4.38
+        "hoursSincePosted": 7.75
       },
       "posts": [
         {
@@ -31413,13 +31569,13 @@
             "handle": "rusttrending.bsky.social",
             "displayName": "RustTrending"
           },
-          "likeCount": 4,
+          "likeCount": 6,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-24T00:16:35.083940Z",
           "createdUtc": 1779581795,
-          "ageHours": 4.38,
-          "trendingScore": 4,
+          "ageHours": 7.75,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -42453,7 +42609,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T01:36:05.802Z",
-        "hoursSincePosted": 3.06
+        "hoursSincePosted": 6.42
       },
       "posts": [
         {
@@ -42470,7 +42626,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T01:36:05.802Z",
           "createdUtc": 1779586565,
-          "ageHours": 3.06,
+          "ageHours": 6.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -45071,23 +45227,23 @@
     },
     "supertone-inc--supertonic": {
       "count7d": 1,
-      "likesSum7d": 5,
-      "repostsSum7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mm6poevgbc2x",
-        "cid": "bafyreielwbgmb7abwbfowpvddya2gbznk3kprzvpgjnhdjyiuibzwiai3e",
-        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mm6poevgbc2x",
-        "text": "Supertonic est un projet open-source sous licences MIT, permettant de générer localement, via ONNX Runtime, de la synthèse vocale multilingue en 31 langues, sans service cloud ⬇️ github.com/supertone-in...",
+        "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmlblkhhlc2i",
+        "cid": "bafyreiffpoe6b7pbihe767xonahlwyvakxvfkk3fznfp7htxi3wfnxmosq",
+        "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmlblkhhlc2i",
+        "text": "CPUでも動いちゃうぜっていう軽いTTSのやつ。 試せるページがあったので試してみたところ、確かに(WebGPUを使っていると)無茶苦茶早く結果が出てすごい。 で、「呪い」をどう読むかテストしてみたらまぁそうよね的な結果に。 github.com/supertone-in...",
         "author": {
-          "handle": "ponceto91.bsky.social",
-          "displayName": "Olivier Poncet 🦝"
+          "handle": "limura.bsky.social",
+          "displayName": "IIMURA Takuji"
         },
-        "likeCount": 5,
-        "repostCount": 2,
+        "likeCount": 0,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-19T06:01:23.745Z",
-        "hoursSincePosted": 2.63
+        "createdAt": "2026-05-24T05:53:53.130Z",
+        "hoursSincePosted": 2.13
       },
       "posts": [
         {
@@ -45106,6 +45262,34 @@
           "createdUtc": 1779170483,
           "ageHours": 2.63,
           "trendingScore": 9,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "supertone-inc/supertonic",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqzdo6ijwpu72bp4rve7oy74/app.bsky.feed.post/3mmlblkhhlc2i",
+          "cid": "bafyreiffpoe6b7pbihe767xonahlwyvakxvfkk3fznfp7htxi3wfnxmosq",
+          "bskyUrl": "https://bsky.app/profile/limura.bsky.social/post/3mmlblkhhlc2i",
+          "text": "CPUでも動いちゃうぜっていう軽いTTSのやつ。 試せるページがあったので試してみたところ、確かに(WebGPUを使っていると)無茶苦茶早く結果が出てすごい。 で、「呪い」をどう読むかテストしてみたらまぁそうよね的な結果に。 github.com/supertone-in...",
+          "author": {
+            "handle": "limura.bsky.social",
+            "displayName": "IIMURA Takuji"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T05:53:53.130Z",
+          "createdUtc": 1779602033,
+          "ageHours": 2.13,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -50277,25 +50461,51 @@
     },
     "superset-sh--superset": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmjw5lhlcq2c",
-        "cid": "bafyreig625zl4lfm7kxpkdev6guypm2alb25dxqrrhhlof5hkgceqnyway",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mmjw5lhlcq2c",
-        "text": "📰 Superset, an open-source agentic IDE for running coding agents like Claude Code and Codex in parallel, has been launched by Avi, Kiet, and Satya, offering features such as task tracking, remote workspaces, and improved agent managem... 🔗 https://github.com/superset-sh/superset #Tech #Dev",
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mmlbwzj5vs24",
+        "cid": "bafyreidgblajgdwdf2sw3kstwuhfr3tzqtlgch5xrpvsw22odzvrzunx2a",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mmlbwzj5vs24",
+        "text": "Parallel agent execution is smart – but the real win here is finally getting proper observability into what these coding agents are actually doing. https://github.com/superset-sh/superset",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "sirile.bsky.social"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 1,
+        "repostCount": 1,
         "replyCount": 1,
-        "createdAt": "2026-05-23T16:56:30.503341+00:00",
-        "hoursSincePosted": 5.21
+        "createdAt": "2026-05-24T06:00:17.526923+00:00",
+        "hoursSincePosted": 2.02
       },
       "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mmlbwzj5vs24",
+          "cid": "bafyreidgblajgdwdf2sw3kstwuhfr3tzqtlgch5xrpvsw22odzvrzunx2a",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mmlbwzj5vs24",
+          "text": "Parallel agent execution is smart – but the real win here is finally getting proper observability into what these coding agents are actually doing. https://github.com/superset-sh/superset",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-24T06:00:17.526923+00:00",
+          "createdUtc": 1779602417,
+          "ageHours": 2.02,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mmjw5lhlcq2c",
           "cid": "bafyreig625zl4lfm7kxpkdev6guypm2alb25dxqrrhhlof5hkgceqnyway",
@@ -51014,21 +51224,138 @@
           ]
         }
       ]
+    },
+    "boona13--mykonos-island-voxels": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlhh26wiq2s",
+        "cid": "bafyreigtyrwoljti223zuwjz6q5pitimyzix7qizvwqzlg44t4mhlcsh6m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlhh26wiq2s",
+        "text": "https://github.com/boona13/mykonos-island-voxels",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T07:38:43Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmlhh26wiq2s",
+          "cid": "bafyreigtyrwoljti223zuwjz6q5pitimyzix7qizvwqzlg44t4mhlcsh6m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmlhh26wiq2s",
+          "text": "https://github.com/boona13/mykonos-island-voxels",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T07:38:43Z",
+          "createdUtc": 1779608323,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "boona13/mykonos-island-voxels",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cartesiancs--map3d": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlazc2jvc2u",
+        "cid": "bafyreicpazcilyy2pqe3g5bnjqly72zhjcmkb3g6sju47itxtw6t7z4p2e",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlazc2jvc2u",
+        "text": "github.com/cartesiancs/...",
+        "author": {
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T05:43:40.333Z",
+        "hoursSincePosted": 2.3
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mmlazc2jvc2u",
+          "cid": "bafyreicpazcilyy2pqe3g5bnjqly72zhjcmkb3g6sju47itxtw6t7z4p2e",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mmlazc2jvc2u",
+          "text": "github.com/cartesiancs/...",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T05:43:40.333Z",
+          "createdUtc": 1779601420,
+          "ageHours": 2.3,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cartesiancs/map3d",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "yvgude/lean-ctx",
       "count7d": 1,
-      "likesSum7d": 4
+      "likesSum7d": 6
     },
     {
-      "fullName": "stephenlthorn/auto-identity-remove",
+      "fullName": "superset-sh/superset",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
+      "fullName": "boona13/mykonos-island-voxels",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "cartesiancs/map3d",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "paperclipai/paperclip",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "supertone-inc/supertonic",
       "count7d": 1,
       "likesSum7d": 0
     }

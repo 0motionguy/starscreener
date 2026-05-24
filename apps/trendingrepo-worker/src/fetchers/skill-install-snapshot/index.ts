@@ -1,17 +1,25 @@
 // skill-install-snapshot fetcher.
 //
-//   API           none — reads `trending-skill` and `trending-skill-sh` from
-//                 Redis and writes a daily install-count snapshot
+//   API           none — reads 5 roster keys from Redis (claude-skills,
+//                 skills-sh, lobehub, smithery, skillsmp) and writes a
+//                 daily install-count snapshot
 //   Auth          none
-//   Rate limit    n/a (one Redis read + one write per day)
+//   Rate limit    n/a (five Redis reads + one write per day)
 //   Cache TTL     31d per snapshot (skill-install-snapshot:<YYYY-MM-DD>)
 //   Cadence       daily 03:00 UTC (refresh-skill-install-snapshot.yml)
 //
 // Why this exists
 //   The skill scorer wants installs deltas at 24h / 7d / 30d windows, but
-//   cold-start has no history. This fetcher snapshots `installs7d` per skill
-//   once a day, so the reader can join today's totals against
-//   `skill-install-snapshot:<N-d-ago>` for N in {1, 7, 30}.
+//   cold-start has no history. This fetcher snapshots an install-shaped
+//   number per skill once a day so the reader can join today's totals
+//   against `skill-install-snapshot:<N-d-ago>` for N in {1, 7, 30}.
+//
+//   Per-source field mapping (numeric popularity proxy stored as `installs`):
+//     - trending-skill        (GitHub topic) : installs7d ?? installs
+//     - trending-skill-sh                    : installs7d ?? installs
+//     - trending-skill-lobehub               : installs
+//     - trending-skill-smithery              : totalActivations
+//     - trending-skill-skillsmp              : trending_score (popularity proxy)
 //
 //   Rolling window: we keep 31 days of snapshots so the prev30d window has at
 //   least one valid candidate even if cron skips a tick. TTL handles expiry;
@@ -30,8 +38,12 @@ const NAMESPACE = 'ss:data:v1';
 interface RosterSkillItem {
   slug?: string;
   full_name?: string;
-  installs?: number;
+  source_id?: string;
+  namespace?: string;
+  installs?: number | null;
   installs7d?: number;
+  totalActivations?: number;
+  trending_score?: number;
 }
 
 interface SnapshotPayload {
@@ -58,44 +70,73 @@ const fetcher: Fetcher = {
 
     // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
     // null instead of crashing the whole fetcher. Same fix as f39cd09d.
+    const ROSTER_KEYS = [
+      'trending-skill',
+      'trending-skill-sh',
+      'trending-skill-lobehub',
+      'trending-skill-smithery',
+      'trending-skill-skillsmp',
+    ] as const;
     const reads = await Promise.allSettled([
       readDataStore<{ items?: RosterSkillItem[] }>('trending-skill'),
       readDataStore<{ items?: RosterSkillItem[] }>('trending-skill-sh'),
+      readDataStore<{ items?: RosterSkillItem[] }>('trending-skill-lobehub'),
+      readDataStore<{ items?: RosterSkillItem[] }>('trending-skill-smithery'),
+      readDataStore<{ items?: RosterSkillItem[] }>('trending-skill-skillsmp'),
     ]);
     const github = reads[0].status === 'fulfilled' ? reads[0].value : null;
     const skillsSh = reads[1].status === 'fulfilled' ? reads[1].value : null;
-    if (reads[0].status === 'rejected' || reads[1].status === 'rejected') {
-      ctx.log.warn(
-        {
-          trendingSkill:
-            reads[0].status === 'rejected'
-              ? reads[0].reason instanceof Error
-                ? reads[0].reason.message
-                : String(reads[0].reason)
-              : null,
-          trendingSkillSh:
-            reads[1].status === 'rejected'
-              ? reads[1].reason instanceof Error
-                ? reads[1].reason.message
-                : String(reads[1].reason)
-              : null,
-        },
-        'skill-install-snapshot: roster read failed; degrading to null',
-      );
+    const lobehub = reads[2].status === 'fulfilled' ? reads[2].value : null;
+    const smithery = reads[3].status === 'fulfilled' ? reads[3].value : null;
+    const skillsmp = reads[4].status === 'fulfilled' ? reads[4].value : null;
+    if (reads.some((r) => r.status === 'rejected')) {
+      const failures: Record<string, string> = {};
+      reads.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          const key = ROSTER_KEYS[i] ?? `slot-${i}`;
+          failures[key] = r.reason instanceof Error ? r.reason.message : String(r.reason);
+        }
+      });
+      ctx.log.warn(failures, 'skill-install-snapshot: roster read failed; degrading to null');
     }
 
     const installs: Record<string, number> = {};
     let sources = 0;
     if (github?.items) {
       sources += 1;
-      for (const it of github.items) absorb(installs, it);
+      for (const it of github.items) absorb(installs, it, extractGithubInstalls, slugDefault);
     }
     if (skillsSh?.items) {
       sources += 1;
-      for (const it of skillsSh.items) absorb(installs, it);
+      for (const it of skillsSh.items) absorb(installs, it, extractGithubInstalls, slugDefault);
+    }
+    if (lobehub?.items) {
+      sources += 1;
+      for (const it of lobehub.items) absorb(installs, it, extractLobehubInstalls, slugDefault);
+    }
+    if (smithery?.items) {
+      sources += 1;
+      for (const it of smithery.items) absorb(installs, it, extractSmitheryInstalls, slugSmithery);
+    }
+    if (skillsmp?.items) {
+      sources += 1;
+      for (const it of skillsmp.items) absorb(installs, it, extractSkillsmpInstalls, slugDefault);
     }
     const skillCount = Object.keys(installs).length;
-    ctx.log.info({ skills: skillCount, sources }, 'skill-install-snapshot collected');
+    ctx.log.info(
+      {
+        skills: skillCount,
+        sources,
+        bySource: {
+          github: github?.items?.length ?? 0,
+          skillsSh: skillsSh?.items?.length ?? 0,
+          lobehub: lobehub?.items?.length ?? 0,
+          smithery: smithery?.items?.length ?? 0,
+          skillsmp: skillsmp?.items?.length ?? 0,
+        },
+      },
+      'skill-install-snapshot collected',
+    );
 
     if (skillCount === 0) ctx.log.warn('skill-install-snapshot: no install data found');
 
@@ -186,17 +227,54 @@ function emptySnapshot(date: string, sources: number, reason: string): SnapshotP
   };
 }
 
-function absorb(out: Record<string, number>, it: RosterSkillItem): void {
-  const slug = String(it.slug ?? it.full_name ?? '').trim().toLowerCase();
+type SlugExtractor = (it: RosterSkillItem) => string;
+type InstallExtractor = (it: RosterSkillItem) => number | null;
+
+function absorb(
+  out: Record<string, number>,
+  it: RosterSkillItem,
+  extractInstalls: InstallExtractor,
+  extractSlug: SlugExtractor,
+): void {
+  const slug = extractSlug(it).trim().toLowerCase();
   if (!slug) return;
-  const v = typeof it.installs7d === 'number'
-    ? it.installs7d
-    : typeof it.installs === 'number'
-      ? it.installs
-      : null;
+  const v = extractInstalls(it);
   if (v === null || !Number.isFinite(v) || v < 0) return;
-  // First write wins on collision; both feeds usually agree on this slug.
+  // First write wins on collision; feeds usually agree on this slug.
   if (out[slug] === undefined) out[slug] = v;
+}
+
+// Default slug extractor for sources that expose `slug` / `full_name`,
+// falling back to `source_id` (lobehub stores "owner/slug" there; skillsmp
+// stores "author/name" there).
+function slugDefault(it: RosterSkillItem): string {
+  return String(it.slug ?? it.full_name ?? it.source_id ?? '');
+}
+
+// Smithery exposes namespace+slug separately AND a precomputed source_id.
+function slugSmithery(it: RosterSkillItem): string {
+  if (it.namespace && it.slug) return `${it.namespace}/${it.slug}`;
+  return String(it.source_id ?? it.slug ?? it.full_name ?? '');
+}
+
+function extractGithubInstalls(it: RosterSkillItem): number | null {
+  if (typeof it.installs7d === 'number') return it.installs7d;
+  if (typeof it.installs === 'number') return it.installs;
+  return null;
+}
+
+function extractLobehubInstalls(it: RosterSkillItem): number | null {
+  return typeof it.installs === 'number' ? it.installs : null;
+}
+
+function extractSmitheryInstalls(it: RosterSkillItem): number | null {
+  return typeof it.totalActivations === 'number' ? it.totalActivations : null;
+}
+
+function extractSkillsmpInstalls(it: RosterSkillItem): number | null {
+  // skillsmp has no install count; use trending_score as a numeric
+  // popularity proxy. Snapshot reader treats this slot as install-shaped.
+  return typeof it.trending_score === 'number' ? it.trending_score : null;
 }
 
 function todayUtc(): string {

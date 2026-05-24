@@ -773,35 +773,38 @@ img { max-width: 100%; display: block; }
   color: var(--fg-bright);
 }
 
-/* Source mark — inline SVG brand logo inside a chip */
+/* Source mark — uniform tile pattern: brand-color tile + white SVG glyph.
+ * 2026-05-24 operator fix: previous look mixed dark-bg tiles (github, x)
+ * with naked colored glyphs (hn = orange Y on transparent), giving an
+ * inconsistent visual rhythm. Unified to "brand-tile with contrast glyph"
+ * so the mention column reads as a coherent badge strip instead of
+ * mismatched marks. */
 .smark {
   width: 16px; height: 16px;
   display: inline-grid; place-items: center;
   border-radius: var(--r-1);
-  background: transparent;
+  background: var(--surface-3);
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  color: #fff;
   flex-shrink: 0;
   overflow: hidden;
 }
 .smark svg {
   display: block;
-  width: 100%; height: 100%;
+  width: 11px; height: 11px;
 }
-/* GitHub mark uses currentColor — set the chip color to the brand color */
-.smark.github { color: #f0f6fc; background: #161b22; }
-/* X / Twitter mark uses currentColor */
-.smark.x { color: #fff; background: #000; }
-
-/* Brand source marks — color drives the SVG bg via currentColor.
-   Detail elements (white text, dark pupils) stay hardcoded in the SVG. */
-.smark.hn { color: var(--src-hackernews); }
-.smark.reddit { color: var(--src-reddit); }
-.smark.bsky { color: var(--src-bluesky); }
-.smark.ph { color: var(--src-producthunt); }
-.smark.hf { color: var(--src-huggingface); }
-.smark.arxiv { color: var(--src-arxiv); }
-.smark.npm { color: var(--src-npm); }
-.smark.lobsters { color: var(--src-lobsters); }
-/* devto: brand is fundamentally monochrome — keep SVG literal black bg + white text */
+.smark.github { background: #161b22; color: #f0f6fc; }
+.smark.x { background: #000; color: #fff; }
+.smark.hn { background: var(--src-hackernews); color: #fff; }
+.smark.reddit { background: var(--src-reddit); color: #fff; }
+.smark.bsky { background: var(--src-bluesky); color: #fff; }
+.smark.ph { background: var(--src-producthunt); color: #fff; }
+/* HuggingFace yellow needs a dark glyph for contrast */
+.smark.hf { background: var(--src-huggingface); color: #1a1a1a; }
+.smark.arxiv { background: var(--src-arxiv); color: #0b1117; }
+.smark.npm { background: var(--src-npm); color: #fff; }
+.smark.lobsters { background: var(--src-lobsters); color: #fff; }
+.smark.devto { background: #0a0a0a; color: #fff; }
 
 /* Buttons */
 .btn {

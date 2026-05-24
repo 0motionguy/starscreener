@@ -1,11 +1,19 @@
 // TOP composite ranker for the trending hub default view (`/`).
 //
 // Combines five normalized signals into a 0-100 score:
-//   starVelocity     × 0.40   weighted blend of 24h/7d/30d star deltas
+//   starVelocity     × 0.40   WINDOW-AWARE star delta blend (see WINDOW_WEIGHTS)
 //   mentionVelocity  × 0.30   weighted blend of 24h/7d cross-source mentions
 //   freshnessScore   × 0.10   1/(days since last commit + 1)
 //   sourceDiversity  × 0.10   unique mention sources firing (out of 6)
 //   breakoutBonus    × 0.10   binary boost when 24h delta > 3× cohort median AND ≥3 sources
+//
+// 2026-05-24 operator fix: previously the star-velocity blend was a fixed
+// 50/30/20 across 24h/7d/30d regardless of the active window, which let
+// items missing the active window's data still rank near the top (warpdotdev,
+// openai/codex, QwenLM/qwen-code all surfaced above an item with real 24h
+// movement). Now the blend depends on the active window so the table is
+// honest about what it's sorting on. Pattern borrowed from the OG
+// `trendScoreForTimeRange()` helper in src/lib/filters.ts (deployed prod).
 //
 // All normalizable terms are scaled against the visible cohort's non-zero
 // median, then clamped to [0, 1]. This makes the ranking robust across
@@ -13,6 +21,7 @@
 // emit useful top-10s without re-tuning weights).
 
 import type { Repo, SocialPlatform } from "@/lib/types";
+import type { WindowId } from "@/components/trending/TrendingHubHero";
 
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
@@ -27,12 +36,27 @@ const MENTION_SOURCE_TARGET = 6; // HN + Bluesky + Lobsters + Reddit + X + DevTo
 const BREAKOUT_DELTA_MULTIPLIER = 3;
 const BREAKOUT_MIN_SOURCES = 3;
 
-function starVelocityRaw(repo: Repo): number {
-  const d24 = repo.starsDelta24h ?? 0;
-  const d7 = repo.starsDelta7d ?? 0;
-  const d30 = repo.starsDelta30d ?? 0;
-  // Heavier weight on recent activity — 24h * 0.5 + 7d * 0.3 + 30d * 0.2.
-  return d24 * 0.5 + d7 * 0.3 + d30 * 0.2;
+// Per-window star-velocity weights. The active window gets ~75%, the other
+// two share the rest. An item with NO data in the active window can only
+// score up to 0.25 of full star-velocity — which is enough to break ties
+// but not enough to outrank an item with real activity in the active window.
+const WINDOW_WEIGHTS: Record<WindowId, { d24: number; d7: number; d30: number }> = {
+  "1h": { d24: 0.80, d7: 0.15, d30: 0.05 },  // 1h shares 24h's weighting (no separate 1h delta)
+  "24h": { d24: 0.80, d7: 0.15, d30: 0.05 },
+  "7d": { d24: 0.20, d7: 0.65, d30: 0.15 },
+  "30d": { d24: 0.10, d7: 0.25, d30: 0.65 },
+};
+
+function starVelocityRaw(repo: Repo, window: WindowId): number {
+  // DAILYIZE before weighting. Raw 7d/30d deltas are 7-30× larger than 24h
+  // deltas, so a fixed weighted SUM lets stale items dominate. Dividing each
+  // window's total by its day count puts every term into "stars per day"
+  // units so the window weights actually control influence.
+  const d24Daily = repo.starsDelta24h ?? 0;
+  const d7Daily = (repo.starsDelta7d ?? 0) / 7;
+  const d30Daily = (repo.starsDelta30d ?? 0) / 30;
+  const w = WINDOW_WEIGHTS[window];
+  return d24Daily * w.d24 + d7Daily * w.d7 + d30Daily * w.d30;
 }
 
 function mentionVelocityRaw(repo: Repo): number {
@@ -83,8 +107,11 @@ interface CompositeBreakdown {
   topScore: number;
 }
 
-export function computeTopComposite(repos: Repo[]): Map<string, number> {
-  const breakdowns = computeTopCompositeBreakdown(repos);
+export function computeTopComposite(
+  repos: Repo[],
+  window: WindowId = "24h",
+): Map<string, number> {
+  const breakdowns = computeTopCompositeBreakdown(repos, window);
   const scores = new Map<string, number>();
   for (const [id, b] of breakdowns) scores.set(id, b.topScore);
   return scores;
@@ -92,12 +119,13 @@ export function computeTopComposite(repos: Repo[]): Map<string, number> {
 
 export function computeTopCompositeBreakdown(
   repos: Repo[],
+  window: WindowId = "24h",
 ): Map<string, CompositeBreakdown> {
   const nowMs = Date.now();
 
   const items = repos.map((repo) => ({
     id: repo.id,
-    starsRaw: starVelocityRaw(repo),
+    starsRaw: starVelocityRaw(repo, window),
     mentionsRaw: mentionVelocityRaw(repo),
     fresh: freshnessScore(repo, nowMs),
     sources: uniqueMentionSources(repo),

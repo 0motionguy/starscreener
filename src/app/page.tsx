@@ -137,7 +137,7 @@ function sortRepos(
   // set so language slicing doesn't bias the medians.
   const topScores =
     sort === "momentum" && ranker === "top" && !useSourceNative
-      ? computeTopComposite(repos)
+      ? computeTopComposite(repos, timeWindow)
       : null;
   // TREND tab consults the TrendShift rank map; ties (incl. repos not in the
   // map) fall back to OSSInsight 30d so the table still has a stable order.

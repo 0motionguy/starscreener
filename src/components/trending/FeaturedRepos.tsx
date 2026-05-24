@@ -40,14 +40,19 @@ export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
             <div className="feat-head">
               <div className="feat-rank">{String(index + 1).padStart(2, "0")}</div>
               <div className="repo-id grow">
-                <div className="repo-avatar feat-avatar">
+                <Link
+                  className="repo-avatar feat-avatar"
+                  href={href}
+                  prefetch={false}
+                  aria-label={`${repo.owner}/${repo.name} detail`}
+                >
                   {avatarUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={avatarUrl} alt="" loading="lazy" width={40} height={40} />
                   ) : (
                     <span aria-hidden="true">{repo.owner.slice(0, 2).toUpperCase()}</span>
                   )}
-                </div>
+                </Link>
                 <div className="repo-text">
                   <Link className="repo-name" href={href} data-repo-hover data-repo={repo.fullName} prefetch={false}>
                     <span className="repo-owner">{repo.owner}/</span>

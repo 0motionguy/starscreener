@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-24T08:31:34.102Z",
-  "scanRunId": "sweep-2026-05-24T08:31:25.754Z",
+  "computedAt": "2026-05-24T13:39:57.905Z",
+  "scanRunId": "sweep-2026-05-24T13:39:48.935Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -29,10 +29,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -1115,7 +1115,7 @@
               "author": "giuliomagnifico",
               "engagement": {
                 "score": 56,
-                "comments": 80
+                "comments": 82
               },
               "observedAt": "2026-05-18T12:56:48.000Z"
             },
@@ -1626,36 +1626,23 @@
     },
     "badlogic/pi-mono": {
       "fullName": "badlogic/pi-mono",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
-        "twitter": {
-          "count7d": 2,
+        "hackernews": {
+          "count7d": 1,
           "top": [
             {
-              "source": "twitter",
+              "source": "hackernews",
               "fullName": "badlogic/pi-mono",
-              "url": "https://x.com/BeauJohnson89/status/2051377242048004139",
-              "title": "coding agents are splitting into two products the brain and the harness around the brain badlogic/pi-mono > 44,475 stars on github > minimal terminal coding agent cli > unified llm api across anthropi",
-              "text": "coding agents are splitting into two products the brain and the harness around the brain badlogic/pi-mono > 44,475 stars on github > minimal terminal coding agent cli > unified llm api across anthropic, openai, google, deepseek, xai, openrouter, kimi, minimax, and more > runs interactive, print/json, rpc, or sdk mode > extend it with typescript extensions, skills, prompt templates, and themes > openclaw uses the sdk integration as a real-world example the lesson is simple: the model matters. but",
-              "author": "BeauJohnson89",
+              "url": "https://github.com/atveit/pi-mojo/tree/main",
+              "title": "Pi-Mojo – A Mojo Port of Pi AI Agent Toolkit",
+              "text": "",
+              "author": "amund",
               "engagement": {
-                "score": 3,
-                "comments": 1
+                "score": 1,
+                "comments": 0
               },
-              "observedAt": "Mon May 04 19:03:41 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "badlogic/pi-mono",
-              "url": "https://x.com/BeauJohnson89/status/2051377242048004139",
-              "title": "coding agents are splitting into two products the brain and the harness around the brain badlogic/pi-mono > 44,475 stars on github > minimal terminal coding agent cli > unified llm api across anthropi",
-              "text": "coding agents are splitting into two products the brain and the harness around the brain badlogic/pi-mono > 44,475 stars on github > minimal terminal coding agent cli > unified llm api across anthropic, openai, google, deepseek, xai, openrouter, kimi, minimax, and more > runs interactive, print/json, rpc, or sdk mode > extend it with typescript extensions, skills, prompt templates, and themes > openclaw uses the sdk integration as a real-world example the lesson is simple: the model matters. but",
-              "author": "BeauJohnson89",
-              "engagement": {
-                "score": 3,
-                "comments": 1
-              },
-              "observedAt": "Mon May 04 19:03:41 +0000 2026"
+              "observedAt": "2026-05-24T11:59:49.000Z"
             }
           ]
         }
@@ -1755,10 +1742,10 @@
     },
     "Lum1104/Understand-Anything": {
       "fullName": "Lum1104/Understand-Anything",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -1772,6 +1759,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-23T13:22:39.168Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "Lum1104/Understand-Anything",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. ht",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 3
+              },
+              "observedAt": "2026-05-24T13:25:13.064Z"
             }
           ]
         }
@@ -1779,7 +1779,7 @@
     },
     "Alishahryar1/free-claude-code": {
       "fullName": "Alishahryar1/free-claude-code",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -1796,6 +1796,24 @@
                 "comments": 13
               },
               "observedAt": "2026-05-21T14:35:32.000Z"
+            }
+          ]
+        },
+        "bluesky": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "Alishahryar1/free-claude-code",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
+              "title": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - Typ",
+              "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-24T13:25:26.666Z"
             }
           ]
         }
@@ -3641,24 +3659,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 148,
+      "totalMentions7d": 100,
       "perSource": {
         "hackernews": {
-          "count7d": 148,
+          "count7d": 100,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://twitter.com/karpathy/status/2056753169888334312",
-              "title": "I’ve joined Anthropic",
-              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
-              "author": "dmarcos",
-              "engagement": {
-                "score": 1424,
-                "comments": 616
-              },
-              "observedAt": "2026-05-19T15:07:45.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3667,7 +3672,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1417,
+                "score": 1418,
                 "comments": 1043
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
@@ -3680,7 +3685,7 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1090,
+                "score": 1091,
                 "comments": 595
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
@@ -3688,28 +3693,41 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/antoinezambelli/forge",
-              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
-              "author": "zambelli",
+              "url": "https://openai.com/index/advancing-content-provenance/",
+              "title": "OpenAI Adopts Google's SynthID Watermark for AI Images with Verification Tool",
+              "text": "",
+              "author": "smooke",
               "engagement": {
-                "score": 676,
-                "comments": 250
+                "score": 332,
+                "comments": 180
               },
-              "observedAt": "2026-05-19T12:23:07.000Z"
+              "observedAt": "2026-05-19T19:34:30.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/MinishLab/semble",
-              "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-              "text": "Hey HN! We (Stephan and Thomas) recently open-sourced Semble. We kept running into the same problem while using Claude Code on large codebases: when the agent can&#x27;t find something directly, it falls back to grep, reading full files or launching subagents. This uses a lot of tokens, and often still misses the relevant code. There are existing tools for this, but they were either too slow to index on demand, needed API keys, or had poor retrieval quality.<p>Semble is our solution for this. It",
-              "author": "Bibabomas",
+              "url": "https://www.wsj.com/tech/ai/openai-is-preparing-to-file-for-an-ipo-very-soon-0ec95af5",
+              "title": "OpenAI Is Preparing to File for an IPO Soon",
+              "text": "<a href=\"https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C</a>",
+              "author": "louiereederson",
               "engagement": {
-                "score": 444,
-                "comments": 150
+                "score": 199,
+                "comments": 403
               },
-              "observedAt": "2026-05-17T15:37:07.000Z"
+              "observedAt": "2026-05-20T16:24:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://www.cnbc.com/2026/05/20/openai-ipo-filing.html",
+              "title": "OpenAI to confidentially file for IPO as soon as Friday",
+              "text": "",
+              "author": "doppp",
+              "engagement": {
+                "score": 137,
+                "comments": 3
+              },
+              "observedAt": "2026-05-21T02:24:35.000Z"
             }
           ]
         }
@@ -5970,10 +5988,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 17,
+      "totalMentions7d": 25,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 25,
           "top": [
             {
               "source": "hackernews",
@@ -5984,7 +6002,7 @@
               "author": "OuterVale",
               "engagement": {
                 "score": 365,
-                "comments": 242
+                "comments": 244
               },
               "observedAt": "2026-05-21T07:21:55.000Z"
             },
@@ -5996,10 +6014,23 @@
               "text": "",
               "author": "cf100clunk",
               "engagement": {
-                "score": 159,
-                "comments": 179
+                "score": 193,
+                "comments": 246
               },
               "observedAt": "2026-05-19T15:30:01.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/world/middle-east/hormuz-closure-could-trigger-agrifood-shock-price-crisis-within-year-fao-warns-2026-05-20/",
+              "title": "Hormuz closure could trigger 'agrifood shock', price crisis within a year",
+              "text": "",
+              "author": "mooreds",
+              "engagement": {
+                "score": 102,
+                "comments": 32
+              },
+              "observedAt": "2026-05-20T16:41:00.000Z"
             },
             {
               "source": "hackernews",
@@ -6026,19 +6057,6 @@
                 "comments": 21
               },
               "observedAt": "2026-05-19T04:28:05.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/investigations/inside-unraveling-us-diplomacy-under-trump-2026-05-21/",
-              "title": "Inside the unraveling of U.S. diplomacy under Trump",
-              "text": "",
-              "author": "layer8",
-              "engagement": {
-                "score": 16,
-                "comments": 1
-              },
-              "observedAt": "2026-05-21T20:07:28.000Z"
             }
           ]
         }
@@ -6517,10 +6535,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -6534,6 +6552,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T15:26:45.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://agentmemo.vercel.app",
+              "title": "News.Y Combinator.com/Submit",
+              "text": "",
+              "author": "pulsoai",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-18T16:08:23.000Z"
             },
             {
               "source": "hackernews",
@@ -7595,7 +7626,7 @@
               "author": "rolph",
               "engagement": {
                 "score": 443,
-                "comments": 322
+                "comments": 323
               },
               "observedAt": "2026-05-17T17:09:15.000Z"
             },
@@ -7607,7 +7638,7 @@
               "text": "",
               "author": "cdrnsf",
               "engagement": {
-                "score": 119,
+                "score": 120,
                 "comments": 109
               },
               "observedAt": "2026-05-20T16:55:17.000Z"
@@ -7641,15 +7672,15 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
-              "url": "https://www.techpolicy.press/stochastic-flocks-and-the-critical-problem-of-useful-ai/",
-              "title": "Stochastic Flocks and the Critical Problem of 'Useful' AI",
+              "url": "https://apnews.com/article/india-cockroach-janta-party-9e8be82b182e32feda4fee42d52de75b",
+              "title": "Frustrated Indian youth flock to a political party led by a cockroach",
               "text": "",
-              "author": "bryanrasmussen",
+              "author": "petethomas",
               "engagement": {
-                "score": 6,
+                "score": 5,
                 "comments": 0
               },
-              "observedAt": "2026-05-17T12:55:57.000Z"
+              "observedAt": "2026-05-22T08:59:48.000Z"
             }
           ]
         }
@@ -7815,7 +7846,7 @@
               "author": "danybittel",
               "engagement": {
                 "score": 526,
-                "comments": 199
+                "comments": 200
               },
               "observedAt": "2026-05-19T10:38:47.000Z"
             }
@@ -7949,7 +7980,7 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -7970,7 +8001,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 5,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -7997,19 +8028,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-20T15:17:05.722Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "tinyhumansai/openhuman",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mm2h55hnf4p2",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1694 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 333 stars today 3. https://github.com/calcom/cal.di",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/tinyhumansai/openhuman - Rust, 1694 stars today 2. https://github.com/HKUDS/CLI-Anything - Python, 333 stars today 3. https://github.com/calcom/cal.diy - TypeScript, 425 stars today 4. https://github.com/oven-sh/bun - Rust, 908 stars today 5 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-17T13:17:57.572Z"
             },
             {
               "source": "bluesky",
@@ -8583,10 +8601,28 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 8,
+      "totalMentions7d": 10,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "colbymchenry/codegraph",
+              "url": "https://github.com/colbymchenry/codegraph",
+              "title": "Supercharge Claude Code, Cursor, Codex with Semantic Code Intelligence",
+              "text": "",
+              "author": "beyti",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-24T11:25:10.000Z"
+            }
+          ]
+        },
         "bluesky": {
-          "count7d": 8,
+          "count7d": 9,
           "top": [
             {
               "source": "bluesky",
@@ -8659,10 +8695,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 77,
+      "totalMentions7d": 44,
       "perSource": {
         "hackernews": {
-          "count7d": 77,
+          "count7d": 44,
           "top": [
             {
               "source": "hackernews",
@@ -8673,7 +8709,7 @@
               "author": "zambelli",
               "engagement": {
                 "score": 676,
-                "comments": 250
+                "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -8724,8 +8760,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft</a><p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw</a>",
               "author": "Jotalea",
               "engagement": {
-                "score": 265,
-                "comments": 73
+                "score": 266,
+                "comments": 75
               },
               "observedAt": "2026-05-20T20:19:46.000Z"
             }
@@ -8940,7 +8976,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1417,
+                "score": 1418,
                 "comments": 1043
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
@@ -8953,7 +8989,7 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1090,
+                "score": 1091,
                 "comments": 595
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
@@ -8967,7 +9003,7 @@
               "author": "zambelli",
               "engagement": {
                 "score": 676,
-                "comments": 250
+                "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
             },
@@ -9756,7 +9792,7 @@
     },
     "rohitg00/ai-engineering-from-scratch": {
       "fullName": "rohitg00/ai-engineering-from-scratch",
-      "totalMentions7d": 3,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -9777,7 +9813,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -9791,6 +9827,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T15:23:04.964Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. ht",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 3
+              },
+              "observedAt": "2026-05-24T13:25:13.064Z"
             },
             {
               "source": "bluesky",
@@ -9853,10 +9902,10 @@
     },
     "anthropics/claude-plugins-official": {
       "fullName": "anthropics/claude-plugins-official",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -9909,6 +9958,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-20T15:17:34.372Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "anthropics/claude-plugins-official",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
+              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. ht",
+              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 0,
+                "comments": 3
+              },
+              "observedAt": "2026-05-24T13:25:13.064Z"
             }
           ]
         }
@@ -9999,6 +10061,56 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T15:23:04.964Z"
+            }
+          ]
+        }
+      }
+    },
+    "mukul975/Anthropic-Cybersecurity-Skills": {
+      "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
+      "totalMentions7d": 3,
+      "perSource": {
+        "bluesky": {
+          "count7d": 3,
+          "top": [
+            {
+              "source": "bluesky",
+              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
+              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmk5jyqvdn23",
+              "title": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSe",
+              "text": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSecurity 🔗 https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+              "author": "boardwire.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-23T19:08:46.862Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
+              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
+              "title": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-",
+              "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
+              "author": "ghtrend.newsmast.social.ap.brid.gy",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-23T13:22:46.061Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmfpwpiaet2t",
+              "title": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+              "text": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-22T00:54:41.567Z"
             }
           ]
         }

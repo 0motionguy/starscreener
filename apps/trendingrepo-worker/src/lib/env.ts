@@ -29,6 +29,11 @@ const envSchema = z
     SMITHERY_API_KEY: z.string().optional(),
     GLAMA_API_KEY: z.string().optional(),
     TRUSTMRR_API_KEY: z.string().optional(),
+    // Artificial Analysis benchmark API (https://artificialanalysis.ai/documentation).
+    // Free tier 1k req/day; fetcher schedules at 6h cadence (4 calls/day).
+    // The artificialanalysis fetcher gracefully short-circuits when this is
+    // unset — see apps/trendingrepo-worker/src/fetchers/artificialanalysis/.
+    AA_API_KEY: z.string().optional(),
     APIFY_API_TOKEN: z.string().optional(),
     APIFY_PROXY_GROUPS: z.string().optional(),
     APIFY_PROXY_COUNTRY: z.string().optional(),

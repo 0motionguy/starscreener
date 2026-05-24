@@ -74,12 +74,18 @@ import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
 import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
 import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
+import hfDownloadsSnapshot from './fetchers/hf-downloads-snapshot/index.js';
 // Sprint 3.2 wave 3 — register fetchers whose data was previously produced by
 // GH Action workflows (scrape-arxiv.yml + enrich-arxiv.yml for arxiv;
 // scrape-claude-rss.yml + scrape-openai-rss.yml for ai-blogs, which already
 // covers 6 lab RSS sources via AI_LAB_REGISTRY).
 import arxiv from './fetchers/arxiv/index.js';
 import aiBlogs from './fetchers/ai-blogs/index.js';
+// LLM quality signals — LMArena Elo (CC-BY-4.0 via HF dataset, weekly) +
+// Artificial Analysis Intelligence Index (free tier 1k/day with AA_API_KEY).
+// Composite ranker in src/lib/llm-composite.ts blends these with HF downloads.
+import lmarena from './fetchers/lmarena/index.js';
+import artificialanalysis from './fetchers/artificialanalysis/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -128,8 +134,11 @@ export const FETCHERS: Fetcher[] = [
   skillForksSnapshot,
   hotnessSnapshot,
   mcpUsageSnapshot,
+  hfDownloadsSnapshot,
   arxiv,
   aiBlogs,
+  lmarena,
+  artificialanalysis,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

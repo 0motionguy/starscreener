@@ -167,6 +167,24 @@ export interface Repo {
   mentionCount24h: number;
 
   /**
+   * Source-native label for the popularity column. Honest per-row label:
+   * "Installs" for skills.sh / lobehub, "Connections" / "Visitors · 4w" /
+   * "Downloads · 7d" for MCP rows (depends on which signal the upstream
+   * registry exposes), "Downloads" for HF LLMs. Undefined for `cat=repos` /
+   * `cat=agents` rows where `stars` literally means GitHub stars.
+   */
+  popularityLabel?: string;
+
+  /**
+   * Per-category extra cells. Replaces the 24h / 7d / 30d / Trend columns
+   * for non-repo categories where star deltas + sparklines don't apply.
+   * Populated only by category-adapters mappers for cat ∈ {skills,mcp,llms};
+   * undefined for cat=repos / cat=agents. The TrendingTable reads from
+   * here when the category isn't a repo-like category.
+   */
+  categoryColumns?: Array<{ label: string; value: string | number | null }>;
+
+  /**
    * Unified mention rollup across all 9 supported sources (twitter, reddit,
    * hackernews, bluesky, devto, lobsters, npm, huggingface, arxiv). Populated
    * by `decorateWithMentionsRollup` on the derived-repos cold path. Keeps

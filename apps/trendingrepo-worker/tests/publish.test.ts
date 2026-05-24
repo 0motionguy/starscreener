@@ -3,15 +3,15 @@ import { TRENDING_ITEM_TYPES } from '../src/lib/types.js';
 
 describe('TRENDING_ITEM_TYPES', () => {
   it('is non-empty, all entries are strings, and contains no duplicates', () => {
-    expect(TRENDING_ITEM_TYPES.length).toBeGreaterThanOrEqual(7);
+    expect(TRENDING_ITEM_TYPES.length).toBeGreaterThanOrEqual(4);
     expect(new Set(TRENDING_ITEM_TYPES).size).toBe(TRENDING_ITEM_TYPES.length);
     for (const t of TRENDING_ITEM_TYPES) expect(typeof t).toBe('string');
   });
 
-  it('includes the foundational kinds we always ship', () => {
-    // These were the v1 types; refactors can add more (e.g. 'paper') but
-    // never silently drop one of the founding seven.
-    for (const t of ['skill', 'mcp', 'hf_model', 'hf_dataset', 'hf_space', 'repo', 'idea']) {
+  it('includes the foundational kinds we ship post-2026-05-24 refocus', () => {
+    // skills / mcp / hf_* dropped 2026-05-24 (operator refocus to GitHub repos
+    // only; the LLMs surface is backed by Artificial Analysis, not HF).
+    for (const t of ['repo', 'idea', 'post', 'paper']) {
       expect(TRENDING_ITEM_TYPES).toContain(t);
     }
   });

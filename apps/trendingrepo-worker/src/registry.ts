@@ -1,33 +1,10 @@
 import type { Fetcher } from './lib/types.js';
 
-// `huggingface` worker fetcher is a stub; the real HF data comes from
-// scripts/scrape-huggingface{,-datasets,-spaces}.mjs (workflow-side).
-// Same treatment as the github / mcp-so / mcp-servers-repo stubs below —
-// import removed so we don't ship a tick-every-4h "not yet implemented"
-// warning to Sentry. Re-add once a real port lands.
 import bluesky from './fetchers/bluesky/index.js';
-import pulsemcp from './fetchers/pulsemcp/index.js';
-import smithery from './fetchers/smithery/index.js';
-import mcpRegistryOfficial from './fetchers/mcp-registry-official/index.js';
-import glama from './fetchers/glama/index.js';
-import claudeSkills from './fetchers/claude-skills/index.js';
-import skillsSh from './fetchers/skills-sh/index.js';
-import skillsmp from './fetchers/skillsmp/index.js';
-import smitherySkills from './fetchers/smithery-skills/index.js';
-import lobehubSkills from './fetchers/lobehub-skills/index.js';
 import hackernews from './fetchers/hackernews/index.js';
-// producthunt fetcher disabled 2026-05-23 (operator: "CUT product hunt!").
-// Module file remains under src/fetchers/producthunt/ so downstream code that
-// imports from src/lib/producthunt.ts (web app) keeps compiling; it just
-// reads empty data from the store going forward.
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
-// 4 stubs (`github`, `mcp-so`, `mcp-servers-repo`, `huggingface`)
-// intentionally NOT imported here — they were registered + ticking but
-// only emitted "not yet implemented" warnings, polluting Sentry every
-// cron tick. Files remain in src/fetchers/ as documentation of intent;
-// re-add to FETCHERS once a real port lands.
 // Phase B Group 1 (signals)
 import ossTrending from './fetchers/oss-trending/index.js';
 import recentRepos from './fetchers/recent-repos/index.js';
@@ -47,36 +24,24 @@ import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
 import consensusTrending from './fetchers/consensus-trending/index.js';
 import consensusAnalyst from './fetchers/consensus-analyst/index.js';
-// Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
-// hackernews/producthunt/reddit replaced their stub bodies in place and so
-// their existing imports above pick up the real implementations transparently.
+// Phase B Group 2 (social)
 import lobsters from './fetchers/lobsters/index.js';
 import twitter from './fetchers/twitter/index.js';
-// Cumulative mentions ledger — reads 5 snapshot slugs (HN, Reddit, Bluesky,
-// Dev.to, Lobsters), runs SADD + HINCRBY for new mention IDs. Cron offset
-// from upstream collectors so reads are fresh.
+// Cumulative mentions ledger — reads snapshot slugs (HN, Reddit, Bluesky,
+// Dev.to, Lobsters), runs SADD + HINCRBY for new mention IDs.
 import mentionsLedger from './fetchers/mentions-ledger/index.js';
-// Tier 2 audit fixes — operator-curated data file producers (close the
-// chicken-egg gaps that left `manual-repos` + `revenue-manual-matches`
-// consumed-but-never-produced under worker-only mode).
+// Operator-curated data file producers (close the chicken-egg gaps that left
+// `manual-repos` + `revenue-manual-matches` consumed-but-never-produced
+// under worker-only mode).
 import manualRepos from './fetchers/manual-repos/index.js';
 import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
-// Chunk C — MCP & Skill enrichment side-channels. These fetchers don't
-// produce primary leaderboard items; they populate side-channel Redis keys
-// (`mcp-downloads`, `mcp-dependents`, `mcp-smithery-rank`,
-// `skill-derivative-count`, `skill-install-snapshot:<date>`) that
-// buildMcpItem / buildSkillItem in src/lib/ecosystem-leaderboards.ts read
-// at request time. Each fetcher renormalizes gracefully when its env
-// dependency is missing.
+// npm / pypi side-channels — kept because they serve repo analytics
+// (package download / dependent counts referenced by the repos surface),
+// not just the now-removed MCP merger.
 import npmDownloads from './fetchers/npm-downloads/index.js';
 import pypiDownloads from './fetchers/pypi-downloads/index.js';
 import npmDependents from './fetchers/npm-dependents/index.js';
-import mcpSmitheryRank from './fetchers/mcp-smithery-rank/index.js';
-import skillDerivatives from './fetchers/skill-derivatives/index.js';
-import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
-import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
-import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
 import hfDownloadsSnapshot from './fetchers/hf-downloads-snapshot/index.js';
 // Sprint 3.2 wave 3 — register fetchers whose data was previously produced by
 // GH Action workflows (scrape-arxiv.yml + enrich-arxiv.yml for arxiv;
@@ -85,10 +50,10 @@ import hfDownloadsSnapshot from './fetchers/hf-downloads-snapshot/index.js';
 import arxiv from './fetchers/arxiv/index.js';
 import aiBlogs from './fetchers/ai-blogs/index.js';
 // LLM quality signals — LMArena Elo (CC-BY-4.0 via HF dataset, weekly) +
-// Artificial Analysis Intelligence Index (free tier 1k/day with AA_API_KEY).
-// Composite ranker in src/lib/llm-composite.ts blends these with HF downloads.
+// Artificial Analysis Intelligence Index (AA_API_KEY required).
 import lmarena from './fetchers/lmarena/index.js';
 import artificialanalysis from './fetchers/artificialanalysis/index.js';
+import huggingface from './fetchers/huggingface/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -113,19 +78,7 @@ export const FETCHERS: Fetcher[] = [
   consensusAnalyst,
   lobsters,
   bluesky,
-  mcpRegistryOfficial,
-  glama,
-  pulsemcp,
-  smithery,
-  claudeSkills,
-  skillsSh,
-  skillsmp,
-  smitherySkills,
-  lobehubSkills,
   hackernews,
-  // producthunt disabled 2026-05-23 (operator: "CUT product hunt!"). See
-  // import block above for the why; module file kept so web app readers in
-  // src/lib/producthunt.ts still compile (they read empty data from store).
   devto,
   reddit,
   twitter,
@@ -133,13 +86,9 @@ export const FETCHERS: Fetcher[] = [
   npmDownloads,
   pypiDownloads,
   npmDependents,
-  mcpSmitheryRank,
-  skillDerivatives,
-  skillInstallSnapshot,
-  skillForksSnapshot,
   hotnessSnapshot,
-  mcpUsageSnapshot,
   hfDownloadsSnapshot,
+  huggingface,
   arxiv,
   aiBlogs,
   lmarena,
@@ -173,4 +122,3 @@ import sourcesData from './platform/sources.json' with { type: 'json' };
 import type { SourceContract } from './platform/source-contract.js';
 export const SOURCE_CONTRACTS: readonly SourceContract[] =
   sourcesData as readonly SourceContract[];
-

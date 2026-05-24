@@ -3,22 +3,12 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { SourceContract } from '../platform/source-contract.js';
 
 export type TrendingItemType =
-  | 'skill'
-  | 'mcp'
-  | 'hf_model'
-  | 'hf_dataset'
-  | 'hf_space'
   | 'repo'
   | 'idea'
   | 'post'
   | 'paper';
 
 export const TRENDING_ITEM_TYPES: readonly TrendingItemType[] = [
-  'skill',
-  'mcp',
-  'hf_model',
-  'hf_dataset',
-  'hf_space',
   'repo',
   'idea',
   'post',

@@ -132,8 +132,8 @@ export function TrendingTable({
                     </div>
                   </div>
                 </td>
-                <td className="num col-stars-cell" data-label="Stars">
-                  <TrendingStar />
+                <td className={isRepoLike ? "num col-stars-cell" : "num col-stars-cell col-popularity-cell"} data-label={popularityHeader(top, category)}>
+                  {isRepoLike ? <TrendingStar /> : null}
                   <span className="star-value">{compact(stars)}</span>
                 </td>
                 {isRepoLike ? (

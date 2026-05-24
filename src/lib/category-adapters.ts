@@ -313,8 +313,17 @@ function skillToRepo(item: EcosystemLeaderboardItem): Repo {
 }
 
 function mcpToRepo(item: EcosystemLeaderboardItem): Repo {
-  const { owner, name } = splitFullName(item.linkedRepo ?? item.id);
-  const safeOwner = owner || item.author || "mcp";
+  // Many MCP server ids are UUID-shaped (e.g. ethanhenrickson/a6d27e72-aa71-...)
+  // because upstream registries key on internal UUIDs. Prefer linkedRepo
+  // (real GitHub slug) → item.title (human name like "math-mcp") → id-parsed
+  // (UUID fallback only when nothing better exists).
+  const idLooksLikeUuid = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i.test(item.id);
+  const parsedFromTitle = item.title ? splitFullName(item.title) : { owner: "", name: "" };
+  const parsedFromId = splitFullName(item.id);
+  const { owner: linkedOwner, name: linkedName } = splitFullName(item.linkedRepo ?? "");
+  const owner = linkedOwner || parsedFromId.owner || item.author || parsedFromTitle.owner;
+  const name = linkedName || (idLooksLikeUuid ? (item.title || parsedFromId.name) : (parsedFromId.name || item.title));
+  const safeOwner = owner || "mcp";
   const safeName = name || item.title || item.id;
   const fullName = item.linkedRepo ?? `${safeOwner}/${safeName}`;
   // Operator directive 2026-05-23: "MCP not by lifetime connection".

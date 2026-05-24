@@ -37,7 +37,7 @@ on:
   # data from the 2026-05-08 manual run + last-good invariant in
   # scripts/scrape-reddit.mjs holds the cache. Re-enable this schedule
   # ONLY after either Reddit API access or a Reddit-friendly proxy budget
-  # lands — the current ASN block on Vultr/GH-Actions egress is final.
+  # lands — the current ASN block on Hostup/GH-Actions egress is final.
   workflow_dispatch: {}
 
 permissions:

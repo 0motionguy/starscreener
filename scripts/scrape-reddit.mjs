@@ -707,7 +707,7 @@ export function buildRepoAliasMatchers(
 
 async function fetchSubredditNew(sub) {
   // 2026-05-08: optional Apify provider switch. Reddit's anti-bot blocks
-  // every data-center IP we have access to (GH Actions, Vultr, Vercel
+  // every data-center IP we have access to (GH Actions, Hostup, Vercel
   // build) on the JSON listing endpoints, falling back to RSS-Atom which
   // hardcodes score=0/num_comments=0. Apify's residential-proxy fleet
   // bypasses the IP block AND returns engagement fields. Same trick as

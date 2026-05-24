@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-24T03:44:48.804Z",
+  "fetchedAt": "2026-05-24T08:32:38.881Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1332,
+  "scannedArticles": 1401,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -193,7 +193,7 @@
     "tag-llms-top-7d": 2,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 28,
+    "tag-promptengineering-top-7d": 29,
     "tag-workflow-top-7d": 42,
     "tag-workflows-top-7d": 2,
     "tag-automation-top-7d": 100,
@@ -201,7 +201,7 @@
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 29,
-    "tag-n8n-top-7d": 36,
+    "tag-n8n-top-7d": 100,
     "tag-opensource-top-7d": 100
   },
   "articles": [
@@ -553,6 +553,28 @@
       "linkedRepos": []
     },
     {
+      "id": 3738401,
+      "title": "I built a local document Q&A tool around Gemma 4 E4B's 128K context — five days, no RAG, no cloud",
+      "description": "Five days, an 8 GB laptop GPU, and a stubborn belief that for the kind of documents I actually read...",
+      "url": "https://dev.to/yashksaini/i-built-a-local-document-qa-tool-around-gemma-4-e4bs-128k-context-five-days-no-rag-no-cloud-2e1k",
+      "author": {
+        "username": "yashksaini",
+        "name": "Yash Kumar Saini",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1242333%2F27bdd497-8c93-4290-a901-94eec3759056.jpeg"
+      },
+      "reactionsCount": 32,
+      "commentsCount": 2,
+      "readingTime": 7,
+      "publishedAt": "2026-05-24T07:16:52Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma"
+      ],
+      "trendingScore": 45.76,
+      "linkedRepos": []
+    },
+    {
       "id": 3701157,
       "title": "Hermes Just Killed OpenClaw (Here's Why)",
       "description": "A technical comparison of Hermes Agent and OpenClaw through the five claims that actually matter: memory, skills, sandboxing, messaging, and persistent infrastructure.",
@@ -604,6 +626,29 @@
         "howtodev"
       ],
       "trendingScore": 40.61,
+      "linkedRepos": []
+    },
+    {
+      "id": 3735627,
+      "title": "I Built a Production-Grade E-Commerce Platform in 3 Months — GitHub Copilot Was My Co-Founder",
+      "description": "This is a submission for the GitHub Finish-Up-A-Thon Challenge              What I Built   Let me be...",
+      "url": "https://dev.to/syedahmershah/i-built-a-production-grade-e-commerce-platform-in-3-months-github-copilot-was-my-co-founder-11m4",
+      "author": {
+        "username": "syedahmershah",
+        "name": "Syed Ahmer Shah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
+      },
+      "reactionsCount": 79,
+      "commentsCount": 19,
+      "readingTime": 9,
+      "publishedAt": "2026-05-23T20:57:12Z",
+      "tags": [
+        "devchallenge",
+        "githubchallenge",
+        "php",
+        "webdev"
+      ],
+      "trendingScore": 37.51,
       "linkedRepos": []
     },
     {
@@ -926,29 +971,6 @@
       "linkedRepos": []
     },
     {
-      "id": 3735627,
-      "title": "I Built a Production-Grade E-Commerce Platform in 3 Months — GitHub Copilot Was My Co-Founder",
-      "description": "This is a submission for the GitHub Finish-Up-A-Thon Challenge              What I Built   Let me be...",
-      "url": "https://dev.to/syedahmershah/i-built-a-production-grade-e-commerce-platform-in-3-months-github-copilot-was-my-co-founder-11m4",
-      "author": {
-        "username": "syedahmershah",
-        "name": "Syed Ahmer Shah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
-      },
-      "reactionsCount": 38,
-      "commentsCount": 12,
-      "readingTime": 9,
-      "publishedAt": "2026-05-23T20:57:12Z",
-      "tags": [
-        "devchallenge",
-        "githubchallenge",
-        "php",
-        "webdev"
-      ],
-      "trendingScore": 19.44,
-      "linkedRepos": []
-    },
-    {
       "id": 3633911,
       "title": "Schema migrations in SurrealDB: A local dev workflow",
       "description": "Author: Chiru Boggavarapu  This post walks through a proper migration workflow for local development...",
@@ -1082,6 +1104,28 @@
         "opensource"
       ],
       "trendingScore": 17.47,
+      "linkedRepos": []
+    },
+    {
+      "id": 3738231,
+      "title": "I stress-tested Gemma 4 E4B's 128K context on a laptop GPU — recall is great, prefill is not",
+      "description": "Thursday night I let a benchmark run while I slept. By Friday morning Gemma 4 E4B had answered...",
+      "url": "https://dev.to/yashksaini/i-stress-tested-gemma-4-e4bs-128k-context-on-a-laptop-gpu-recall-is-great-prefill-is-not-244i",
+      "author": {
+        "username": "yashksaini",
+        "name": "Yash Kumar Saini",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1242333%2F27bdd497-8c93-4290-a901-94eec3759056.jpeg"
+      },
+      "reactionsCount": 20,
+      "commentsCount": 2,
+      "readingTime": 6,
+      "publishedAt": "2026-05-24T06:44:15Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma"
+      ],
+      "trendingScore": 17.28,
       "linkedRepos": []
     },
     {
@@ -1288,6 +1332,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3702326,
+      "title": "Swapping Go for Rust: 10x Cheaper K8s Ingress",
+      "description": "Let me tell you a story that starts in 2013, peaks somewhere around 2019, and ends with me staring at...",
+      "url": "https://dev.to/syedahmershah/swapping-go-for-rust-10x-cheaper-k8s-ingress-2b4p",
+      "author": {
+        "username": "syedahmershah",
+        "name": "Syed Ahmer Shah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
+      },
+      "reactionsCount": 142,
+      "commentsCount": 47,
+      "readingTime": 9,
+      "publishedAt": "2026-05-19T16:59:42Z",
+      "tags": [
+        "go",
+        "rust",
+        "docker",
+        "kubernetes"
+      ],
+      "trendingScore": 15.62,
+      "linkedRepos": []
+    },
+    {
       "id": 3693063,
       "title": "The Concept of Automatic Fallbacks And How Bifrost Implements It",
       "description": "The promise of AI is transformative. The reality is distributed, fragile, and increasingly complex....",
@@ -1316,6 +1383,29 @@
       ]
     },
     {
+      "id": 3709055,
+      "title": "Antigravity & WebMCP: Why Google I/O 2026 is Terrifying for Devs",
+      "description": "This is a submission for the Google I/O Writing Challenge      \"It's been 10 years since we pivoted...",
+      "url": "https://dev.to/syedahmershah/antigravity-webmcp-why-google-io-2026-is-terrifying-for-devs-31mb",
+      "author": {
+        "username": "syedahmershah",
+        "name": "Syed Ahmer Shah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
+      },
+      "reactionsCount": 122,
+      "commentsCount": 44,
+      "readingTime": 13,
+      "publishedAt": "2026-05-20T11:44:46Z",
+      "tags": [
+        "devchallenge",
+        "googleiochallenge",
+        "codenewbie",
+        "ai"
+      ],
+      "trendingScore": 14.81,
+      "linkedRepos": []
+    },
+    {
       "id": 3547654,
       "title": "5 types of engineers I met as a Technical Writer",
       "description": "Being a Technical Writer in an engineering world can be tough. We work closely with engineers, but...",
@@ -1336,52 +1426,6 @@
         "jokes"
       ],
       "trendingScore": 14.73,
-      "linkedRepos": []
-    },
-    {
-      "id": 3702326,
-      "title": "Swapping Go for Rust: 10x Cheaper K8s Ingress",
-      "description": "Let me tell you a story that starts in 2013, peaks somewhere around 2019, and ends with me staring at...",
-      "url": "https://dev.to/syedahmershah/swapping-go-for-rust-10x-cheaper-k8s-ingress-2b4p",
-      "author": {
-        "username": "syedahmershah",
-        "name": "Syed Ahmer Shah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
-      },
-      "reactionsCount": 110,
-      "commentsCount": 39,
-      "readingTime": 9,
-      "publishedAt": "2026-05-19T16:59:42Z",
-      "tags": [
-        "go",
-        "rust",
-        "docker",
-        "kubernetes"
-      ],
-      "trendingScore": 14.7,
-      "linkedRepos": []
-    },
-    {
-      "id": 3709055,
-      "title": "Antigravity & WebMCP: Why Google I/O 2026 is Terrifying for Devs",
-      "description": "This is a submission for the Google I/O Writing Challenge      \"It's been 10 years since we pivoted...",
-      "url": "https://dev.to/syedahmershah/antigravity-webmcp-why-google-io-2026-is-terrifying-for-devs-31mb",
-      "author": {
-        "username": "syedahmershah",
-        "name": "Syed Ahmer Shah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
-      },
-      "reactionsCount": 96,
-      "commentsCount": 38,
-      "readingTime": 13,
-      "publishedAt": "2026-05-20T11:44:46Z",
-      "tags": [
-        "devchallenge",
-        "googleiochallenge",
-        "codenewbie",
-        "ai"
-      ],
-      "trendingScore": 14.34,
       "linkedRepos": []
     },
     {
@@ -2514,52 +2558,6 @@
         "git"
       ],
       "trendingScore": 5.83,
-      "linkedRepos": []
-    },
-    {
-      "id": 3676120,
-      "title": "Mobile Visual Regression Testing in 2026: Why Vision AI Catches What Script-Based Tools Miss",
-      "description": "Your functional tests pass. Your unit tests pass. Your E2E suite is green.  And then a user reports...",
-      "url": "https://dev.to/drizzdev/mobile-visual-regression-testing-in-2026-why-vision-ai-catches-what-script-based-tools-miss-2bfm",
-      "author": {
-        "username": "jaysaadana",
-        "name": "Jay Saadana",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2093572%2Fa52d91c1-919e-4ee2-95fa-cf548f56b949.jpeg"
-      },
-      "reactionsCount": 23,
-      "commentsCount": 11,
-      "readingTime": 11,
-      "publishedAt": "2026-05-15T08:26:13Z",
-      "tags": [
-        "ai",
-        "mobile",
-        "android",
-        "ios"
-      ],
-      "trendingScore": 5.8,
-      "linkedRepos": []
-    },
-    {
-      "id": 3664698,
-      "title": "How to Choose an AI Gateway in 2026: The Checklist Engineers Actually Need",
-      "description": "The AI gateway market in 2026 feels a lot like the API gateway market did years ago.  Suddenly...",
-      "url": "https://dev.to/hadil/how-to-choose-an-ai-gateway-in-2026-the-checklist-engineers-actually-need-5h73",
-      "author": {
-        "username": "hadil",
-        "name": "Hadil Ben Abdallah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1209000%2Fb29d37d8-2efe-4391-9796-a6f8a483f1bd.png"
-      },
-      "reactionsCount": 23,
-      "commentsCount": 2,
-      "readingTime": 10,
-      "publishedAt": "2026-05-18T09:05:52Z",
-      "tags": [
-        "ai",
-        "machinelearning",
-        "devops",
-        "kubernetes"
-      ],
-      "trendingScore": 5.77,
       "linkedRepos": []
     }
   ]

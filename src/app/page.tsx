@@ -4,10 +4,8 @@ import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import {
-  getSkillsAsRepos,
   getAgentsAsRepos,
   getLlmsAsRepos,
-  getMcpAsRepos,
   refreshCategoryFromStore,
 } from "@/lib/category-adapters";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
@@ -64,10 +62,8 @@ export default async function TrendingHubPage({ searchParams }: Props) {
 
   const repos = (() => {
     if (category === "repos") return safe(() => getDerivedRepos(), []);
-    if (category === "skills") return safe(() => getSkillsAsRepos(), []);
     if (category === "agents") return safe(() => getAgentsAsRepos(), []);
     if (category === "llms") return safe(() => getLlmsAsRepos(), []);
-    if (category === "mcp") return safe(() => getMcpAsRepos(), []);
     return [];
   })();
 
@@ -79,8 +75,6 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const counts = await getSidebarSourceCounts().catch(() => null);
   const switcherCounts: Partial<Record<CategoryId, number>> = {
     repos: safe(() => getDerivedRepoCount(), repos.length),
-    skills: counts?.skillsItems ?? 0,
-    mcp: counts?.mcpItems ?? 0,
     agents: counts?.agentRepos ?? 0,
     llms: (counts?.hfModels ?? 0) + (counts?.hfDatasets ?? 0) + (counts?.hfSpaces ?? 0),
   };
@@ -123,16 +117,12 @@ function sortRepos(
   ranker: RankerId = "top",
   category: CategoryId = "repos",
 ): Repo[] {
-  // Non-repo categories (skills / mcp / llms) carry source-native popularity
-  // signals (installs, use_count, downloads) that the upstream board already
-  // sorted by. The TOP composite is tuned for GitHub stars + cross-source
-  // mentions and would re-shuffle that order incorrectly. For the default
-  // momentum+top combo on these categories, fall through to a delta-first /
-  // popularity-tiebreaker sort that honors the upstream rank.
+  // /?cat=llms carries source-native popularity (downloads). The TOP composite
+  // is tuned for GitHub stars + cross-source mentions and would re-shuffle that
+  // order incorrectly. Fall through to a delta-first / popularity-tiebreaker
+  // sort that honors the upstream rank on the default momentum+top combo.
   const useSourceNative =
-    sort === "momentum" &&
-    ranker === "top" &&
-    (category === "skills" || category === "mcp" || category === "llms");
+    sort === "momentum" && ranker === "top" && category === "llms";
 
   // TOP composite is cohort-normalized — compute once against the visible/filtered
   // set so language slicing doesn't bias the medians.

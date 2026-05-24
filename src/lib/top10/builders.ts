@@ -6,10 +6,6 @@
 
 import type { Repo } from "@/lib/types";
 import type { HfModelTrending } from "@/lib/huggingface";
-import type {
-  EcosystemLeaderboardItem,
-  EcosystemBoard,
-} from "@/lib/ecosystem-leaderboards";
 import type { HnStory } from "@/lib/hackernews";
 import type { BskyPost } from "@/lib/bluesky";
 import type { DevtoArticle } from "@/lib/devto";
@@ -401,78 +397,6 @@ export function buildLlmTop10(
     items,
     meta: buildMeta(items, "snapshot"),
     supportedWindows: ["7d"], // snapshot — other chips disabled in UI
-    window,
-  };
-}
-
-// ---------------------------------------------------------------------------
-// MCPS — top servers from the merged trending-mcp board.
-// ---------------------------------------------------------------------------
-
-function ecosystemToItem(
-  it: EcosystemLeaderboardItem,
-  rank: number,
-  hrefPrefix: string,
-): Top10Item {
-  const score = Math.max(0, Math.min(5, (it.signalScore ?? 0) / 20));
-  const shortName = it.title.split("/").slice(-1)[0] || it.title;
-  const badges: Top10Badge[] = [];
-  if (it.crossSourceCount >= 4) badges.push("FIRING_5");
-  else if (it.crossSourceCount === 3) badges.push("FIRING_4");
-  else if (it.crossSourceCount === 2) badges.push("FIRING_3");
-  if (it.verified) badges.push("HOT");
-  return {
-    rank,
-    slug: it.id,
-    title: shortName,
-    owner: it.author ?? undefined,
-    description: (it.description || "").trim() || `${it.sourceLabel} · ${it.popularityLabel}`,
-    avatarLetter: avatarLetter(shortName),
-    avatarGradient: gradientFor(it.id),
-    score,
-    deltaPct: undefined,
-    sparkline: undefined,
-    badges,
-    href: it.url || `${hrefPrefix}${encodeURIComponent(it.id)}`,
-  };
-}
-
-export function buildMcpTop10(
-  board: EcosystemBoard | null,
-  window: Top10Window = "7d",
-  extras?: BuildExtras,
-): Top10Bundle {
-  const top = (board?.items ?? []).slice(0, 10);
-  const items = decorateItems(
-    top.map((it, i) => ecosystemToItem(it, i + 1, "/mcp/")),
-    extras,
-  );
-  return {
-    items,
-    meta: buildMeta(items, "7d"),
-    supportedWindows: ["7d"],
-    window,
-  };
-}
-
-// ---------------------------------------------------------------------------
-// SKILLS — combined skills board (skills.sh + GitHub topic + lobehub + ...).
-// ---------------------------------------------------------------------------
-
-export function buildSkillsTop10(
-  board: EcosystemBoard | null,
-  window: Top10Window = "7d",
-  extras?: BuildExtras,
-): Top10Bundle {
-  const top = (board?.items ?? []).slice(0, 10);
-  const items = decorateItems(
-    top.map((it, i) => ecosystemToItem(it, i + 1, "/skills/")),
-    extras,
-  );
-  return {
-    items,
-    meta: buildMeta(items, "7d"),
-    supportedWindows: ["7d"],
     window,
   };
 }

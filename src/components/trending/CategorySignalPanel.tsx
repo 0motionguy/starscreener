@@ -12,24 +12,14 @@ interface CategorySignalPanelProps {
 }
 
 const COPY: Record<Exclude<CategoryId, "repos">, { title: string; deck: string; cta: string }> = {
-  skills: {
-    title: "Skills radar",
-    deck: "Codex, Claude, and builder skill packages ranked from the same repo and mention graph.",
-    cta: "/skills",
-  },
-  mcp: {
-    title: "MCP server radar",
-    deck: "Protocol servers, connectors, and tool surfaces derived from live GitHub and ecosystem sources.",
-    cta: "/mcp",
-  },
   agents: {
     title: "Agent repository radar",
     deck: "Agent frameworks and automation repos with source consensus, star movement, and mention lift.",
     cta: "/agents",
   },
   llms: {
-    title: "LLM and HF model radar",
-    deck: "Model, dataset, and space movement rolled into TrendingRepo's cross-source terminal.",
+    title: "LLM leaderboard",
+    deck: "Frontier model rankings backed by Artificial Analysis — intelligence, price, speed, latency.",
     cta: "/llms",
   },
 };
@@ -80,8 +70,6 @@ export function CategorySignalPanel({ category, count, repos }: CategorySignalPa
 
 function pickLeaders(category: CategoryId, repos: Repo[]): Repo[] {
   const matchers: Record<Exclude<CategoryId, "repos">, string[]> = {
-    skills: ["skill", "prompt", "codex", "claude", "agent"],
-    mcp: ["mcp", "protocol", "server", "tool"],
     agents: ["agent", "crew", "workflow", "automation"],
     llms: ["llm", "model", "hugging", "transformer", "rag"],
   };

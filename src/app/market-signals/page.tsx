@@ -131,10 +131,17 @@ function repoMatches(repos: Repo[], terms: string[]): number {
   }).length;
 }
 
-function seededFloor(value: number, seed: number): number {
-  return Math.max(0, value || seed);
-}
-
+// Real-data-only source totals. No synthetic floors — empty real data
+// surfaces as 0 so the source rail reads as honestly degraded rather than
+// laundering quiet TOOLBOX upstreams with hardcoded numbers.
+//
+// Notes:
+//  - mentions/* sources read from the mentions-ledger rollup (Redis-backed).
+//  - github falls back to aggregate 24h star velocity when ledger is sparse —
+//    star momentum IS a real signal, not a fabricated number.
+//  - openai/anthropic come from real RSS files; other LLM-vendor columns
+//    (google/meta/mistral/etc) come from repo-tag matches in the spine.
+//    These are honest content-side signals, not pretend "source" counts.
 function buildSourceTotals(
   repos: Repo[],
   counts: Awaited<ReturnType<typeof getSidebarSourceCounts>> | null,
@@ -147,36 +154,34 @@ function buildSourceTotals(
   const claudeRss = safe(() => getClaudeRssFile().items.length, 0);
 
   return {
-    github: seededFloor(mentionsFor(repos, "github") || githubVelocity, 18_200),
-    hn: seededFloor(mentionsFor(repos, "hackernews") || counts?.hackernewsStories || 0, 412),
-    reddit: seededFloor(mentionsFor(repos, "reddit") || counts?.redditPosts || 0, 8_100),
-    x: seededFloor(mentionsFor(repos, "twitter") || counts?.twitterRepos || 0, 14_800),
-    bsky: seededFloor(mentionsFor(repos, "bluesky") || counts?.blueskyPosts || 0, 2_400),
-    ph: seededFloor(mentionsFor(repos, "producthunt") || counts?.producthuntLaunches || 0, 38),
-    devto: seededFloor(mentionsFor(repos, "devto") || counts?.devtoArticles || 0, 186),
-    lobsters: seededFloor(mentionsFor(repos, "lobsters") || counts?.lobstersStories || 0, 62),
-    arxiv: seededFloor(counts?.arxivPapers ?? 0, 418),
-    npm: seededFloor(counts?.npmPackages ?? 0, 1_200),
-    "hf-models": seededFloor(counts?.hfModels ?? 0, 438),
-    "hf-datasets": seededFloor(counts?.hfDatasets ?? 0, 126),
-    "hf-spaces": seededFloor(counts?.hfSpaces ?? 0, 94),
-    skills: seededFloor(counts?.skillsItems ?? 0, 310),
-    mcp: seededFloor(counts?.mcpItems ?? 0, 241),
-    "agent-repos": seededFloor(counts?.agentRepos ?? 0, 154),
-    funding: seededFloor(counts?.fundingSignals ?? 0, 48),
-    revenue: seededFloor(counts?.revenueOverlays ?? 0, 92),
-    pypi: seededFloor(repoMatches(repos, ["python", "pydantic", "langgraph", "llamaindex"]), 412),
-    openrouter: seededFloor(repoMatches(repos, ["openrouter", "llm", "model"]), 128),
-    openai: seededFloor(openaiRss, 14),
-    anthropic: seededFloor(claudeRss, 12),
-    google: seededFloor(repoMatches(repos, ["google", "gemini", "deepmind"]), 18),
-    meta: seededFloor(repoMatches(repos, ["meta", "llama"]), 21),
-    mistral: seededFloor(repoMatches(repos, ["mistral"]), 11),
-    cohere: seededFloor(repoMatches(repos, ["cohere"]), 7),
-    deepseek: seededFloor(repoMatches(repos, ["deepseek"]), 19),
-    xai: seededFloor(repoMatches(repos, ["xai", "grok"]), 8),
-    perplexity: seededFloor(repoMatches(repos, ["perplexity"]), 6),
-    qwen: seededFloor(repoMatches(repos, ["qwen", "alibaba"]), 10),
+    github: Math.max(0, mentionsFor(repos, "github") || githubVelocity),
+    hn: Math.max(0, mentionsFor(repos, "hackernews") || counts?.hackernewsStories || 0),
+    reddit: Math.max(0, mentionsFor(repos, "reddit") || counts?.redditPosts || 0),
+    x: Math.max(0, mentionsFor(repos, "twitter") || counts?.twitterRepos || 0),
+    bsky: Math.max(0, mentionsFor(repos, "bluesky") || counts?.blueskyPosts || 0),
+    ph: Math.max(0, mentionsFor(repos, "producthunt") || counts?.producthuntLaunches || 0),
+    devto: Math.max(0, mentionsFor(repos, "devto") || counts?.devtoArticles || 0),
+    lobsters: Math.max(0, mentionsFor(repos, "lobsters") || counts?.lobstersStories || 0),
+    arxiv: Math.max(0, counts?.arxivPapers ?? 0),
+    npm: Math.max(0, counts?.npmPackages ?? 0),
+    "hf-models": Math.max(0, counts?.hfModels ?? 0),
+    "hf-datasets": Math.max(0, counts?.hfDatasets ?? 0),
+    "hf-spaces": Math.max(0, counts?.hfSpaces ?? 0),
+    "agent-repos": Math.max(0, counts?.agentRepos ?? 0),
+    funding: Math.max(0, counts?.fundingSignals ?? 0),
+    revenue: Math.max(0, counts?.revenueOverlays ?? 0),
+    pypi: Math.max(0, repoMatches(repos, ["python", "pydantic", "langgraph", "llamaindex"])),
+    openrouter: Math.max(0, repoMatches(repos, ["openrouter", "llm", "model"])),
+    openai: Math.max(0, openaiRss),
+    anthropic: Math.max(0, claudeRss),
+    google: Math.max(0, repoMatches(repos, ["google", "gemini", "deepmind"])),
+    meta: Math.max(0, repoMatches(repos, ["meta", "llama"])),
+    mistral: Math.max(0, repoMatches(repos, ["mistral"])),
+    cohere: Math.max(0, repoMatches(repos, ["cohere"])),
+    deepseek: Math.max(0, repoMatches(repos, ["deepseek"])),
+    xai: Math.max(0, repoMatches(repos, ["xai", "grok"])),
+    perplexity: Math.max(0, repoMatches(repos, ["perplexity"])),
+    qwen: Math.max(0, repoMatches(repos, ["qwen", "alibaba"])),
   };
 }
 

@@ -11,10 +11,6 @@ import { test } from "node:test";
 
 import type { Repo } from "../../types";
 import type { HfModelTrending } from "../../huggingface";
-import type {
-  EcosystemBoard,
-  EcosystemLeaderboardItem,
-} from "../../ecosystem-leaderboards";
 import type { FundingSignal } from "../../funding/types";
 import type { HnStory } from "../../hackernews";
 import type { BskyPost } from "../../bluesky";
@@ -25,11 +21,9 @@ import type { Launch } from "../../producthunt";
 import {
   buildFundingTop10,
   buildLlmTop10,
-  buildMcpTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
-  buildSkillsTop10,
   emptyBundle,
 } from "../builders";
 
@@ -239,6 +233,9 @@ test("buildLlmTop10: top 10, score normalised to 0–5, no deltas", () => {
       momentum: 100 - i * 7,
       primaryMetric: { name: "downloads", value: 100, label: "downloads" },
       explanation: "",
+      downloadsDelta24h: 0,
+      downloadsDelta7d: 0,
+      downloadsDelta30d: 0,
     });
   }
   const bundle = buildLlmTop10(models, "7d");
@@ -254,67 +251,6 @@ test("buildLlmTop10: top 10, score normalised to 0–5, no deltas", () => {
 // ---------------------------------------------------------------------------
 // MCPS / SKILLS via EcosystemBoard
 // ---------------------------------------------------------------------------
-
-function ecoItem(
-  i: number,
-  signalScore: number,
-  cross: number,
-): EcosystemLeaderboardItem {
-  return {
-    id: `mcp-${i}`,
-    title: `vendor/server-${i}`,
-    url: `https://example.com/${i}`,
-    author: `vendor`,
-    rank: i,
-    description: `MCP server ${i}`,
-    topic: "mcp",
-    tags: [],
-    agents: [],
-    linkedRepo: null,
-    popularity: 0,
-    popularityLabel: "0",
-    signalScore,
-    postedAt: null,
-    sourceLabel: "smithery",
-    vendor: null,
-    logoUrl: null,
-    brandColor: null,
-    verified: false,
-    crossSourceCount: cross,
-  };
-}
-
-test("buildMcpTop10: top 10, badges from crossSourceCount, score 0–5", () => {
-  const board: EcosystemBoard = {
-    id: "mcp",
-    kind: "mcp",
-    label: "MCPs",
-    key: "mcp",
-    fetchedAt: null,
-    source: "memory",
-    ageMs: 0,
-    items: [
-      ecoItem(1, 100, 4),
-      ecoItem(2, 80, 3),
-      ecoItem(3, 60, 2),
-      ecoItem(4, 40, 1),
-    ],
-    meta: {},
-  };
-  const bundle = buildMcpTop10(board, "7d");
-  assert.equal(bundle.items.length, 4);
-  assert.deepEqual(bundle.items[0].badges, ["FIRING_5"]);
-  assert.deepEqual(bundle.items[1].badges, ["FIRING_4"]);
-  assert.deepEqual(bundle.items[2].badges, ["FIRING_3"]);
-  assert.deepEqual(bundle.items[3].badges, []);
-  assert.equal(bundle.items[0].score, 5);
-  assert.equal(bundle.items[3].score, 2);
-});
-
-test("buildSkillsTop10: handles null board safely", () => {
-  const bundle = buildSkillsTop10(null, "7d");
-  assert.equal(bundle.items.length, 0);
-});
 
 // ---------------------------------------------------------------------------
 // NEWS fusion
@@ -508,6 +444,9 @@ test("BuildExtras.sparklines overrides per-item sparkline (LLMs)", () => {
       momentum: 50,
       primaryMetric: { name: "downloads", value: 100, label: "downloads" },
       explanation: "",
+      downloadsDelta24h: 0,
+      downloadsDelta7d: 0,
+      downloadsDelta30d: 0,
     },
   ];
   const sparkles = new Map<string, number[]>();
@@ -534,6 +473,9 @@ test("BuildExtras.sparklines with single point is ignored", () => {
       momentum: 1,
       primaryMetric: { name: "downloads", value: 1, label: "downloads" },
       explanation: "",
+      downloadsDelta24h: 0,
+      downloadsDelta7d: 0,
+      downloadsDelta30d: 0,
     },
   ];
   const sparkles = new Map<string, number[]>();

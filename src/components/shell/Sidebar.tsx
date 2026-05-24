@@ -4,44 +4,31 @@
 // Active link state computed client-side by <NavLink>.
 
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
-import { getDerivedRepoCount } from "@/lib/derived-repos";
-import { getTrackedRepoCount } from "@/lib/trending";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { getLastFetchedAt } from "@/lib/trending";
 import Link from "next/link";
 import { NavLink } from "./NavLink";
 import {
   TrendingUp,
-  FileText,
   Sparkles,
-  Users,
   Activity,
   CircleDollarSign,
-  Eye,
-  Lightbulb,
-  BarChart3,
   User,
   Download,
   Zap,
 } from "@/lib/icons";
-import { Network, Cpu, Store, LayoutGrid, ChevronDown } from "lucide-react";
+import {
+  Store,
+  Bookmark,
+  ListOrdered,
+  LineChart,
+  Layers,
+  GitCompare,
+  AtSign,
+} from "lucide-react";
 
 export async function Sidebar() {
   const counts = await getSidebarSourceCounts().catch(() => null);
-  const trackedCount = (() => {
-    try {
-      return getTrackedRepoCount();
-    } catch {
-      return 0;
-    }
-  })();
-  const derivedCount = (() => {
-    try {
-      return getDerivedRepoCount();
-    } catch {
-      return 0;
-    }
-  })();
   const lastFetchedAt = (() => {
     try {
       return getLastFetchedAt() || null;
@@ -51,89 +38,77 @@ export async function Sidebar() {
   })();
   const fresh = lastFetchedAt ? classifyFreshness("repos", lastFetchedAt) : null;
 
-  const repoCount = Math.max(trackedCount, derivedCount);
-  const skillsCount = counts?.skillsItems ?? 0;
-  const mcpCount = counts?.mcpItems ?? 0;
-  const agentsCount = counts?.agentRepos ?? 0;
-  const llmsCount = (counts?.hfModels ?? 0) + (counts?.hfDatasets ?? 0) + (counts?.hfSpaces ?? 0);
-  const childTotal =
-    (repoCount > 0 ? 1 : 0) +
-    (skillsCount > 0 ? 1 : 0) +
-    (mcpCount > 0 ? 1 : 0) +
-    (agentsCount > 0 ? 1 : 0) +
-    (llmsCount > 0 ? 1 : 0);
-
   return (
     <aside className="sidebar">
-      <Link className="logo" href="/">
-        <span className="brand-mark"><TrendingUp size={14} strokeWidth={1.8} aria-hidden="true" /></span>
+      <Link className="brand" href="/" aria-label="TrendingRepo home">
+        <span className="brand-mark brand-mark--image">
+          {/* eslint-disable-next-line @next/next/no-img-element -- SVG, no Next/Image optimization */}
+          <img src="/brand/trendingrepo.svg" alt="" width={24} height={24} loading="eager" decoding="async" />
+        </span>
         <span className="brand-name">
-          TRENDING<span className="accent-text">REPO</span>
+          trending<span className="dot">.</span>repo
         </span>
       </Link>
 
       <div className="nav-group">
         <div className="nav-label">Discover</div>
-        <div className="nav-parent" data-nav-parent>
-          <NavLink href="/" className="" pill={String(childTotal || 5)}>
-            <span className="nav-icon">
-              <TrendingUp size={16} strokeWidth={1.5} aria-hidden="true" />
-            </span>
-            <span>Trending</span>
-            <ChevronDown className="nav-caret" size={12} strokeWidth={1.6} aria-hidden="true" />
-          </NavLink>
-          <div className="nav-children">
-            <div>
-              <Link className="nav-child" href="/#repos">
-                <span className="child-icon">
-                  <FileText size={13} strokeWidth={1.6} aria-hidden="true" />
-                </span>
-                <span>Repos</span>
-                <span className="child-count">{repoCount.toLocaleString()}</span>
-              </Link>
-              <Link className="nav-child" href="/#skills">
-                <span className="child-icon">
-                  <Sparkles size={13} strokeWidth={1.6} aria-hidden="true" />
-                </span>
-                <span>Skills</span>
-                <span className="child-count">{skillsCount.toLocaleString()}</span>
-              </Link>
-              <Link className="nav-child" href="/#mcp">
-                <span className="child-icon">
-                  <Network size={13} strokeWidth={1.6} aria-hidden="true" />
-                </span>
-                <span>MCP Servers</span>
-                <span className="child-count">{mcpCount.toLocaleString()}</span>
-              </Link>
-              <Link className="nav-child" href="/#agents">
-                <span className="child-icon">
-                  <Users size={13} strokeWidth={1.6} aria-hidden="true" />
-                </span>
-                <span>Agents</span>
-                <span className="child-count">{agentsCount.toLocaleString()}</span>
-              </Link>
-              <Link className="nav-child" href="/#llms">
-                <span className="child-icon">
-                  <Cpu size={13} strokeWidth={1.6} aria-hidden="true" />
-                </span>
-                <span>LLMs · HF</span>
-                <span className="child-count">{llmsCount.toLocaleString()}</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-
+        <NavLink href="/">
+          <span className="nav-icon">
+            <TrendingUp size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Trending</span>
+        </NavLink>
         <NavLink href="/breakout">
           <span className="nav-icon">
             <Zap size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Breakout</span>
         </NavLink>
+        <NavLink href="/tools/watchlist" prefetch={false}>
+          <span className="nav-icon">
+            <Bookmark size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Watchlist</span>
+        </NavLink>
+      </div>
+
+      <div className="nav-group">
+        <div className="nav-label">Tools</div>
+        {/* Tertiary nav — disable prefetch so we don't fan out 4 extra RSC
+            payload fetches when the user hovers the sidebar. */}
+        <NavLink href="/tools/top-10" prefetch={false}>
+          <span className="nav-icon">
+            <ListOrdered size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Top 10</span>
+        </NavLink>
+        <NavLink href="/tools/star-history" prefetch={false}>
+          <span className="nav-icon">
+            <LineChart size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Star History</span>
+        </NavLink>
+        <NavLink href="/tools/tier-list" prefetch={false}>
+          <span className="nav-icon">
+            <Layers size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Tier List</span>
+        </NavLink>
+        <NavLink href="/tools/compare" prefetch={false}>
+          <span className="nav-icon">
+            <GitCompare size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Compare</span>
+        </NavLink>
+      </div>
+
+      <div className="nav-group">
+        <div className="nav-label">Market</div>
         <NavLink href="/market-signals">
           <span className="nav-icon">
-            <Activity size={16} strokeWidth={1.5} aria-hidden="true" />
+            <AtSign size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
-          <span>Market Signals</span>
+          <span>Mentions</span>
         </NavLink>
         <NavLink href="/funding">
           <span className="nav-icon">
@@ -152,40 +127,6 @@ export async function Sidebar() {
             <Store size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Agent Commerce</span>
-        </NavLink>
-      </div>
-
-      <div className="nav-group">
-        <div className="nav-label">Tools</div>
-        {/* Tertiary nav — disable prefetch so a single trending hub
-            view doesn't fan out 5+ extra RSC payload fetches on hover. */}
-        <NavLink href="/tools" prefetch={false}>
-          <span className="nav-icon">
-            <LayoutGrid size={16} strokeWidth={1.5} aria-hidden="true" />
-          </span>
-          <span>All Tools</span>
-        </NavLink>
-        <NavLink href="/preview" pill="NEW" prefetch={false}>
-          <span className="nav-icon">
-            <Eye size={16} strokeWidth={1.5} aria-hidden="true" />
-          </span>
-          <span>Surface preview</span>
-        </NavLink>
-      </div>
-
-      <div className="nav-group">
-        <div className="nav-label">Builder</div>
-        <NavLink href="/ideas" pill="NEW" prefetch={false}>
-          <span className="nav-icon">
-            <Lightbulb size={16} strokeWidth={1.5} aria-hidden="true" />
-          </span>
-          <span>Ideas</span>
-        </NavLink>
-        <NavLink href="/build" pill="NEW" prefetch={false}>
-          <span className="nav-icon">
-            <BarChart3 size={16} strokeWidth={1.5} aria-hidden="true" />
-          </span>
-          <span>Build</span>
         </NavLink>
       </div>
 
@@ -252,8 +193,6 @@ function sumActiveSources(counts: import("@/lib/sidebar-source-counts").SidebarS
     counts.producthuntLaunches,
     counts.fundingSignals,
     counts.npmPackages,
-    counts.skillsItems,
-    counts.mcpItems,
     counts.agentRepos,
     counts.twitterRepos,
     counts.hfModels,

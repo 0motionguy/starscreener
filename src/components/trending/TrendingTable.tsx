@@ -224,14 +224,11 @@ function sortLabel(sort: string): string {
 }
 
 function popularityHeader(items: Repo[], category: CategoryId): string {
-  // Source-native row label wins when the rendered list ships one — that's
-  // how the column reads "Connections" on MCP (Smithery use_count),
-  // "Installs" on skills, "Downloads" on LLMs. Falls back to per-category
-  // defaults; for repos / agents the column literally is GitHub stars.
+  // Source-native row label wins when the rendered list ships one — drives
+  // "Downloads" on LLMs. Falls back to per-category defaults; for repos /
+  // agents the column literally is GitHub stars.
   const rowLabel = items.find((r) => r.popularityLabel)?.popularityLabel;
   if (rowLabel) return rowLabel;
-  if (category === "skills") return "Installs";
-  if (category === "mcp") return "Use count";
   if (category === "llms") return "Downloads";
   return "Stars";
 }

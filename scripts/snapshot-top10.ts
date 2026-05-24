@@ -16,10 +16,6 @@ import {
   refreshHfModelsFromStore,
 } from "@/lib/huggingface";
 import {
-  getSkillsSignalData,
-  getMcpSignalData,
-} from "@/lib/ecosystem-leaderboards";
-import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
@@ -47,11 +43,9 @@ import {
   buildAgentTop10,
   buildFundingTop10,
   buildLlmTop10,
-  buildMcpTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
-  buildSkillsTop10,
   emptyBundle,
 } from "@/lib/top10/builders";
 import { writeTop10Snapshot, todayUtcDate } from "@/lib/top10/snapshots";
@@ -81,21 +75,10 @@ async function main(): Promise<void> {
   const ph = getRecentLaunches(7, 40);
   const funding = getFundingSignalsThisWeek();
 
-  const [skillsRes, mcpRes] = await Promise.allSettled([
-    getSkillsSignalData(),
-    getMcpSignalData(),
-  ]);
-
-  const skillsBoard =
-    skillsRes.status === "fulfilled" ? skillsRes.value.combined : null;
-  const mcpBoard = mcpRes.status === "fulfilled" ? mcpRes.value.board : null;
-
   const payload: Top10Payload = {
     repos: repos.length > 0 ? buildRepoTop10(repos, "7d") : emptyBundle("7d"),
     llms: hfModels.length > 0 ? buildLlmTop10(hfModels, "7d") : emptyBundle("7d"),
     agents: repos.length > 0 ? buildAgentTop10(repos, "7d") : emptyBundle("7d"),
-    mcps: buildMcpTop10(mcpBoard, "7d"),
-    skills: buildSkillsTop10(skillsBoard, "7d"),
     movers:
       repos.length > 0 ? buildMoversTop10(repos, "24h") : emptyBundle("24h"),
     news: buildNewsTop10({

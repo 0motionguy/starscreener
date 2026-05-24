@@ -1,9 +1,9 @@
 // Daily sparkline-point capture for non-repo Top 10 categories.
 //
-// For each of LLMS / MCPS / SKILLS / NEWS / FUNDING, append today's value
-// per slug to the per-category ring buffer in `src/lib/top10/sparkline-store`.
-// After ~7 days of runs, /top10 starts painting real sparklines on those
-// categories instead of the current empty cells.
+// For each of LLMS / NEWS / FUNDING, append today's value per slug to the
+// per-category ring buffer in `src/lib/top10/sparkline-store`. After ~7 days
+// of runs, /top10 starts painting real sparklines on those categories
+// instead of the current empty cells.
 //
 // Run as: npx tsx scripts/snapshot-top10-sparklines.ts
 // Cadence: 23:50 UTC daily, just before the bundle snapshot at 23:55.
@@ -13,10 +13,6 @@
 import "./_server-only-shim";
 
 import { getHfModelsTrending, refreshHfModelsFromStore } from "@/lib/huggingface";
-import {
-  getMcpSignalData,
-  getSkillsSignalData,
-} from "@/lib/ecosystem-leaderboards";
 import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
@@ -65,26 +61,6 @@ async function main(): Promise<void> {
   for (const m of llms) {
     if (typeof m.downloads === "number") {
       await appendSparklinePoint("llms", m.id, m.downloads);
-      writes++;
-    }
-  }
-
-  // ---------- MCPS — signalScore ----------
-  const mcpRes = await getMcpSignalData().catch(() => null);
-  const mcpItems = mcpRes?.board.items.slice(0, 20) ?? [];
-  for (const it of mcpItems) {
-    if (typeof it.signalScore === "number") {
-      await appendSparklinePoint("mcps", it.id, it.signalScore);
-      writes++;
-    }
-  }
-
-  // ---------- SKILLS — signalScore ----------
-  const skillsRes = await getSkillsSignalData().catch(() => null);
-  const skillItems = skillsRes?.combined.items.slice(0, 20) ?? [];
-  for (const it of skillItems) {
-    if (typeof it.signalScore === "number") {
-      await appendSparklinePoint("skills", it.id, it.signalScore);
       writes++;
     }
   }

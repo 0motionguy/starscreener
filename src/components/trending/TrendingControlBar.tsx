@@ -24,10 +24,8 @@ function buildModeTabs(counts: Partial<Record<CategoryId, number>>): ModeTab[] {
     { id: "repos-top",    label: "Top",         cat: "repos",  rank: "top",    count: repoCount },
     { id: "repos-gainer", label: "Gainer",      cat: "repos",  rank: "gainer", count: repoCount },
     { id: "repos-trend",  label: "Trend",       cat: "repos",  rank: "trend",  count: repoCount },
-    { id: "skills",       label: "Skills",      cat: "skills", rank: "top",    count: counts.skills ?? null },
     { id: "agents",       label: "Agents",      cat: "agents", rank: "top",    count: counts.agents ?? null },
     { id: "llms",         label: "LLMs",        cat: "llms",   rank: "top",    count: counts.llms ?? null },
-    { id: "mcp",          label: "MCP",         cat: "mcp",    rank: "top",    count: counts.mcp ?? null },
   ];
 }
 

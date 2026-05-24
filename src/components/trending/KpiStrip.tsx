@@ -4,7 +4,7 @@
 import { getTrackedRepoCount, getDeltasComputedAt, getLastFetchedAt } from "@/lib/trending";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
-import { TrendingUp } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 
 export async function KpiStrip() {
   const trackedCount = safe(() => getTrackedRepoCount(), 0);
@@ -31,8 +31,6 @@ export async function KpiStrip() {
         counts.producthuntLaunches,
         counts.fundingSignals,
         counts.npmPackages,
-        counts.skillsItems,
-        counts.mcpItems,
         counts.agentRepos,
         counts.twitterRepos,
         counts.hfModels,
@@ -55,7 +53,7 @@ export async function KpiStrip() {
           {trackedCount.toLocaleString()}
         </span>
         <span className="kpi-delta up">
-          <TrendingUp size={11} aria-hidden="true" />
+          <Icon name="trending-up" size={11} />
           {deltasAt ? "last computed " + classifyFreshness("repos", deltasAt).ageLabel : "—"}
         </span>
       </div>
@@ -65,7 +63,7 @@ export async function KpiStrip() {
           {mentions24h.toLocaleString()}
         </span>
         <span className="kpi-delta up">
-          <TrendingUp size={11} aria-hidden="true" />
+          <Icon name="trending-up" size={11} />
           across {totalSources} mention sources
         </span>
       </div>
@@ -77,7 +75,7 @@ export async function KpiStrip() {
               42
             </span>
             <span className="kpi-delta up">
-              <TrendingUp size={11} aria-hidden="true" />
+              <Icon name="trending-up" size={11} />
               via consensus
             </span>
           </>

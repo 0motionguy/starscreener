@@ -35,7 +35,6 @@ import { getHfTrendingFile, refreshHfModelsFromStore } from "./huggingface";
 import { getHfDatasetsFile, refreshHfDatasetsFromStore } from "./hf-datasets";
 import { getHfSpacesFile, refreshHfSpacesFromStore } from "./hf-spaces";
 import { getArxivRecentFile, refreshArxivFromStore } from "./arxiv";
-import { getSkillsSignalData, getMcpSignalData } from "./ecosystem-leaderboards";
 import { selectAgentRepos } from "./agent-repos";
 import { getDerivedRepos } from "./derived-repos";
 import { getTwitterOverviewStats } from "./twitter";
@@ -54,8 +53,6 @@ export interface SidebarSourceCounts {
   npmPackages: number;
   // Phase 2 — sidebar-fresh-count-badges. Snapshot totals; the client
   // hook diffs against `lastSeen.<routeKey>` to render fresh deltas.
-  skillsItems: number;
-  mcpItems: number;
   agentRepos: number;
   twitterRepos: number;
   hfModels: number;
@@ -75,8 +72,6 @@ const ZERO_COUNTS: SidebarSourceCounts = {
   fundingSignals: 0,
   revenueOverlays: 0,
   npmPackages: 0,
-  skillsItems: 0,
-  mcpItems: 0,
   agentRepos: 0,
   twitterRepos: 0,
   hfModels: 0,
@@ -105,8 +100,6 @@ async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
 export const getSidebarSourceCounts = cache(async function getSidebarSourceCountsImpl(): Promise<SidebarSourceCounts> {
   // Fire all refresh hooks in parallel. Each one is rate-limited to 30s
   // internally and will return { source: "memory", ... } when fresh.
-  // Skills + MCP signal-data getters do their own internal store reads
-  // and are awaited below (not part of this allSettled set).
   await Promise.allSettled([
     refreshHackernewsTrendingFromStore(),
     refreshLobstersTrendingFromStore(),
@@ -134,9 +127,7 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
   // Phase 2 — pull snapshot counts for routes that previously had no
   // sidebar badge. Each is wrapped in safeAsync so a single broken store
   // read doesn't take the whole sidebar down.
-  const [skillsData, mcpData, twitterStats] = await Promise.all([
-    safeAsync(() => getSkillsSignalData(), null),
-    safeAsync(() => getMcpSignalData(), null),
+  const [twitterStats] = await Promise.all([
     safeAsync(() => getTwitterOverviewStats(), null),
   ]);
 
@@ -165,8 +156,6 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     fundingSignals: safe(() => getFundingSignals().length, 0),
     revenueOverlays: overlaysCount,
     npmPackages: npmCount,
-    skillsItems: skillsData?.combined?.items?.length ?? 0,
-    mcpItems: mcpData?.board?.items?.length ?? 0,
     agentRepos: agentRepoCount,
     twitterRepos: twitterStats?.reposWithMentions ?? 0,
     hfModels: safe(() => (getHfTrendingFile().models ?? []).length, 0),

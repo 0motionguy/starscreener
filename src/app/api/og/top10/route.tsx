@@ -16,10 +16,6 @@ import * as Sentry from "@sentry/nextjs";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getHfModelsTrending, refreshHfModelsFromStore } from "@/lib/huggingface";
 import {
-  getSkillsSignalData,
-  getMcpSignalData,
-} from "@/lib/ecosystem-leaderboards";
-import {
   getHnTopStories,
   refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
@@ -49,11 +45,9 @@ import {
   buildAgentTop10,
   buildFundingTop10,
   buildLlmTop10,
-  buildMcpTop10,
   buildMoversTop10,
   buildNewsTop10,
   buildRepoTop10,
-  buildSkillsTop10,
   emptyBundle,
 } from "@/lib/top10/builders";
 import {
@@ -90,8 +84,6 @@ const TITLE_BY_CATEGORY: Record<Top10Category, string> = {
   repos: "The 10 repos\neveryone's starring.",
   llms: "The 10 models\neveryone's downloading.",
   agents: "The 10 agents\neveryone's running.",
-  mcps: "The 10 MCPs\nshipping the most.",
-  skills: "The 10 skills\neveryone's installing.",
   movers: "The 10 fastest\nmovers right now.",
   news: "The 10 stories\nfeeds can't ignore.",
   funding: "The 10 biggest\nrounds this week.",
@@ -136,14 +128,6 @@ async function resolveBundle(
       await refreshHfModelsFromStore().catch(() => undefined);
       const models = getHfModelsTrending(40);
       return models.length > 0 ? buildLlmTop10(models, window) : emptyBundle(window);
-    }
-    case "mcps": {
-      const mcp = await getMcpSignalData().catch(() => null);
-      return buildMcpTop10(mcp?.board ?? null, window);
-    }
-    case "skills": {
-      const skills = await getSkillsSignalData().catch(() => null);
-      return buildSkillsTop10(skills?.combined ?? null, window);
     }
     case "news": {
       await Promise.allSettled([

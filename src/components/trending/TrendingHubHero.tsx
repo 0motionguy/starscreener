@@ -8,10 +8,8 @@ import Link from "next/link";
 
 const CATEGORIES = [
   { id: "repos", label: "Repos", glyph: "R" },
-  { id: "skills", label: "Skills", glyph: "S" },
   { id: "agents", label: "Agents", glyph: "A" },
-  { id: "llms", label: "LLMs · HF Models", glyph: "L" },
-  { id: "mcp", label: "MCP Servers", glyph: "M" },
+  { id: "llms", label: "LLMs", glyph: "L" },
 ] as const;
 
 const WINDOWS = [

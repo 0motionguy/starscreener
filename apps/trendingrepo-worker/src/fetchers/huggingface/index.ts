@@ -16,18 +16,29 @@ export interface HuggingFaceModel {
 }
 
 /**
- * The LLMs tab on trendingrepo's homepage must only surface text-generation
- * and conversational models. Embedding models, image-classification, ASR,
- * sentence-similarity, etc. are EXCLUDED. Models with no `pipeline_tag` are
- * also excluded — they're typically datasets/spaces miscategorised as
- * models and have no business showing up in the LLM surface.
+ * The LLMs tab on trendingrepo's homepage must only surface foundation
+ * models with text output: text-only LLMs AND multimodal LLMs (vision /
+ * video / any-to-any with a text head). Embedding models,
+ * image-classification, ASR, sentence-similarity, text-to-image, TTS, etc.
+ * are EXCLUDED. Models with no `pipeline_tag` are also excluded — they're
+ * typically datasets/spaces miscategorised as models.
  *
- * Operator-confirmed predicate (see docs/HANDOVER-2026-05-21-MENTIONS-LEDGER.md
- * row A10): `pipeline_tag IN ('text-generation', 'conversational')`.
+ * 2026-05 audit of HF top-100 trending: 29× image-text-to-text,
+ * 17× text-generation, 7× text-to-image, 7× text-to-speech, 5× image-to-
+ * video, 3× translation, 3× ASR, 2× any-to-any, etc. The narrower set
+ * (text-generation + conversational only) dropped yield to 17/100 and
+ * lost most current multimodal foundation models (Qwen-VL, LLaVA,
+ * DeepSeek-VL, Nemotron-VL, GPT-4o-class).
+ *
+ * Kept in sync with `src/lib/huggingface.ts:LLM_PIPELINE_TAGS` (reader
+ * side uses the camelCase `pipelineTag` variant of the same set).
  */
 export const LLM_PIPELINE_TAGS: ReadonlySet<string> = new Set([
   'text-generation',
   'conversational',
+  'image-text-to-text',
+  'any-to-any',
+  'video-text-to-text',
 ]);
 
 /**

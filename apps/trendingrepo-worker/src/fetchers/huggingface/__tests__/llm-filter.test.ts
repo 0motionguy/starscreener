@@ -7,32 +7,44 @@ import {
 } from '../index.js';
 
 describe('huggingface pipeline_tag LLM filter (A10)', () => {
-  it('mixed input → keeps only text-generation and conversational models', () => {
+  it('mixed input → keeps text-gen, conversational, and multimodal LLMs', () => {
     const models: HuggingFaceModel[] = [
       { id: 'a/text-gen-model', pipeline_tag: 'text-generation' },
       { id: 'b/conv-model', pipeline_tag: 'conversational' },
-      { id: 'c/sentence-sim', pipeline_tag: 'sentence-similarity' },
-      { id: 'd/image-class', pipeline_tag: 'image-classification' },
-      { id: 'e/null-tag', pipeline_tag: null },
+      { id: 'c/multimodal-vl', pipeline_tag: 'image-text-to-text' },
+      { id: 'd/any-to-any', pipeline_tag: 'any-to-any' },
+      { id: 'e/video-llm', pipeline_tag: 'video-text-to-text' },
+      { id: 'f/sentence-sim', pipeline_tag: 'sentence-similarity' },
+      { id: 'g/image-class', pipeline_tag: 'image-classification' },
+      { id: 'h/text-to-image', pipeline_tag: 'text-to-image' },
+      { id: 'i/text-to-speech', pipeline_tag: 'text-to-speech' },
+      { id: 'j/null-tag', pipeline_tag: null },
     ];
 
     const kept = filterLlmModels(models);
 
-    expect(kept).toHaveLength(2);
-    expect(kept.map((m) => m.id)).toEqual(['a/text-gen-model', 'b/conv-model']);
+    expect(kept).toHaveLength(5);
+    expect(kept.map((m) => m.id)).toEqual([
+      'a/text-gen-model',
+      'b/conv-model',
+      'c/multimodal-vl',
+      'd/any-to-any',
+      'e/video-llm',
+    ]);
   });
 
-  it('all-LLM input → all retained', () => {
+  it('all-LLM input → all retained (across the broadened tag set)', () => {
     const models: HuggingFaceModel[] = [
       { id: 'meta/llama-3', pipeline_tag: 'text-generation' },
       { id: 'mistralai/mistral-7b', pipeline_tag: 'text-generation' },
       { id: 'anthropic/claude-conv', pipeline_tag: 'conversational' },
-      { id: 'openai/gpt-conv', pipeline_tag: 'conversational' },
+      { id: 'qwen/qwen-vl', pipeline_tag: 'image-text-to-text' },
+      { id: 'google/gemini-any', pipeline_tag: 'any-to-any' },
     ];
 
     const kept = filterLlmModels(models);
 
-    expect(kept).toHaveLength(4);
+    expect(kept).toHaveLength(5);
     expect(kept).toEqual(models);
   });
 
@@ -59,7 +71,13 @@ describe('huggingface pipeline_tag LLM filter (A10)', () => {
       expect(isLlmModel({ pipeline_tag: 'conversational' })).toBe(true);
     });
 
-    it('rejects other pipeline_tags', () => {
+    it('accepts multimodal LLMs (image-text-to-text, any-to-any, video-text-to-text)', () => {
+      expect(isLlmModel({ pipeline_tag: 'image-text-to-text' })).toBe(true);
+      expect(isLlmModel({ pipeline_tag: 'any-to-any' })).toBe(true);
+      expect(isLlmModel({ pipeline_tag: 'video-text-to-text' })).toBe(true);
+    });
+
+    it('rejects non-LLM pipeline_tags', () => {
       const rejected = [
         'sentence-similarity',
         'image-classification',
@@ -68,6 +86,14 @@ describe('huggingface pipeline_tag LLM filter (A10)', () => {
         'translation',
         'summarization',
         'question-answering',
+        'text-to-image',
+        'text-to-speech',
+        'text-to-video',
+        'image-to-video',
+        'image-to-image',
+        'image-to-3d',
+        'mask-generation',
+        'token-classification',
       ];
       for (const tag of rejected) {
         expect(isLlmModel({ pipeline_tag: tag })).toBe(false);
@@ -87,9 +113,12 @@ describe('huggingface pipeline_tag LLM filter (A10)', () => {
     });
   });
 
-  it('LLM_PIPELINE_TAGS exposes exactly the two allowed tags', () => {
-    expect(LLM_PIPELINE_TAGS.size).toBe(2);
+  it('LLM_PIPELINE_TAGS exposes the broadened LLM tag set', () => {
+    expect(LLM_PIPELINE_TAGS.size).toBe(5);
     expect(LLM_PIPELINE_TAGS.has('text-generation')).toBe(true);
     expect(LLM_PIPELINE_TAGS.has('conversational')).toBe(true);
+    expect(LLM_PIPELINE_TAGS.has('image-text-to-text')).toBe(true);
+    expect(LLM_PIPELINE_TAGS.has('any-to-any')).toBe(true);
+    expect(LLM_PIPELINE_TAGS.has('video-text-to-text')).toBe(true);
   });
 });

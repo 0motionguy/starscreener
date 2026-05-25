@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-24T23:14:47.809Z",
+  "fetchedAt": "2026-05-25T00:14:15.960Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -3619,7 +3619,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:54:08.000Z",
-        "hoursSincePosted": 3.34
+        "hoursSincePosted": 4.34
       },
       "posts": [
         {
@@ -3669,7 +3669,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:54:08.000Z",
           "createdUtc": 1779652448,
-          "ageHours": 3.34,
+          "ageHours": 4.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3697,7 +3697,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:53:41.000Z",
           "createdUtc": 1779652421,
-          "ageHours": 3.35,
+          "ageHours": 4.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9645,7 +9645,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T21:15:06.000Z",
-        "hoursSincePosted": 1.99
+        "hoursSincePosted": 2.99
       },
       "posts": [
         {
@@ -9662,7 +9662,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T21:15:06.000Z",
           "createdUtc": 1779657306,
-          "ageHours": 1.99,
+          "ageHours": 2.99,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -10135,23 +10135,22 @@
     },
     "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cxeoay4fze3plflx7hf52rst/app.bsky.feed.post/3mmjhigatrm2o",
-        "cid": "bafyreibwwcrvszp6cuazbpcm6wmdizqtxbc2qplhhxgok46k2zaydkvyae",
-        "bskyUrl": "https://bsky.app/profile/beyondthecode.bsky.social/post/3mmjhigatrm2o",
-        "text": "🧠 OpenClaw provides an open-source personal AI assistant that runs across multiple operating systems and platforms. The tool enables users to deploy their own AI assistant locally without relying on proprietary services. 💬 Hacker News 🔗 https://github.com/openclaw/openclaw #AI #tech",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmn6r6qisj2u",
+        "cid": "bafyreiavqqdxdx7n4lapimu6sqvduup6cdi7fbxj2jbuoo54asaxe5y4fy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmn6r6qisj2u",
+        "text": "🟠 OpenClaw beta adds live run steering, meeting-notes capture, and major model-listing speedups OpenClaw shipped v2026.5.24-beta.2 with several workflow-level changes hiding inside a beta patch release, includi... https://github.com/openclaw/openclaw/releases/tag/v2026.5.24-beta.2 #AI #AgentWyre",
         "author": {
-          "handle": "beyondthecode.bsky.social",
-          "displayName": "Vlad"
+          "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T12:34:10.853103+00:00",
-        "hoursSincePosted": 2.75
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T00:08:37.240148+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -10308,6 +10307,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmn6r6qisj2u",
+          "cid": "bafyreiavqqdxdx7n4lapimu6sqvduup6cdi7fbxj2jbuoo54asaxe5y4fy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmn6r6qisj2u",
+          "text": "🟠 OpenClaw beta adds live run steering, meeting-notes capture, and major model-listing speedups OpenClaw shipped v2026.5.24-beta.2 with several workflow-level changes hiding inside a beta patch release, includi... https://github.com/openclaw/openclaw/releases/tag/v2026.5.24-beta.2 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T00:08:37.240148+00:00",
+          "createdUtc": 1779667717,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -19017,7 +19044,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T21:17:14.656372Z",
-        "hoursSincePosted": 1.96
+        "hoursSincePosted": 2.95
       },
       "posts": [
         {
@@ -19034,7 +19061,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T21:17:14.656372Z",
           "createdUtc": 1779657434,
-          "ageHours": 1.96,
+          "ageHours": 2.95,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -26691,7 +26718,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:47.183Z",
-        "hoursSincePosted": 4.22
+        "hoursSincePosted": 5.21
       },
       "posts": [
         {
@@ -26708,7 +26735,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:47.183Z",
           "createdUtc": 1779649307,
-          "ageHours": 4.22,
+          "ageHours": 5.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26742,7 +26769,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:28.795Z",
-        "hoursSincePosted": 4.22
+        "hoursSincePosted": 5.21
       },
       "posts": [
         {
@@ -26759,7 +26786,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:28.795Z",
           "createdUtc": 1779649288,
-          "ageHours": 4.22,
+          "ageHours": 5.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26777,7 +26804,7 @@
     },
     "manaflow-ai/cmux": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -26789,11 +26816,11 @@
           "handle": "catalinpit.com",
           "displayName": "Catalin Pit"
         },
-        "likeCount": 3,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-05-24T18:36:41.731262Z",
-        "hoursSincePosted": 4.64
+        "hoursSincePosted": 5.63
       },
       "posts": [
         {
@@ -26805,13 +26832,13 @@
             "handle": "catalinpit.com",
             "displayName": "Catalin Pit"
           },
-          "likeCount": 3,
+          "likeCount": 4,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-05-24T18:36:41.731262Z",
           "createdUtc": 1779647801,
-          "ageHours": 4.64,
-          "trendingScore": 4,
+          "ageHours": 5.63,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -26895,7 +26922,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:51:06.082Z",
-        "hoursSincePosted": 3.39
+        "hoursSincePosted": 4.39
       },
       "posts": [
         {
@@ -26912,7 +26939,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:51:06.082Z",
           "createdUtc": 1779652266,
-          "ageHours": 3.39,
+          "ageHours": 4.39,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -26921,6 +26948,57 @@
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "calesthio/Crucix": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmn4ogxbyi2a",
+        "cid": "bafyreidnqfziibiorucw7a5oe2ntaiunhqoi7x6z6t4zxt5diq4ni7epze",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmn4ogxbyi2a",
+        "text": "https://github.com/calesthio/Crucix",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T23:31:20Z",
+        "hoursSincePosted": 0.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmn4ogxbyi2a",
+          "cid": "bafyreidnqfziibiorucw7a5oe2ntaiunhqoi7x6z6t4zxt5diq4ni7epze",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmn4ogxbyi2a",
+          "text": "https://github.com/calesthio/Crucix",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T23:31:20Z",
+          "createdUtc": 1779665480,
+          "ageHours": 0.72,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "calesthio/Crucix",
               "matchType": "url",
               "confidence": 1
             }
@@ -30544,7 +30622,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:54:08.000Z",
-        "hoursSincePosted": 3.34
+        "hoursSincePosted": 4.34
       },
       "posts": [
         {
@@ -30594,7 +30672,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:54:08.000Z",
           "createdUtc": 1779652448,
-          "ageHours": 3.34,
+          "ageHours": 4.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -30622,7 +30700,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:53:41.000Z",
           "createdUtc": 1779652421,
-          "ageHours": 3.35,
+          "ageHours": 4.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -36570,7 +36648,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T21:15:06.000Z",
-        "hoursSincePosted": 1.99
+        "hoursSincePosted": 2.99
       },
       "posts": [
         {
@@ -36587,7 +36665,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T21:15:06.000Z",
           "createdUtc": 1779657306,
-          "ageHours": 1.99,
+          "ageHours": 2.99,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -37060,23 +37138,22 @@
     },
     "openclaw--openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cxeoay4fze3plflx7hf52rst/app.bsky.feed.post/3mmjhigatrm2o",
-        "cid": "bafyreibwwcrvszp6cuazbpcm6wmdizqtxbc2qplhhxgok46k2zaydkvyae",
-        "bskyUrl": "https://bsky.app/profile/beyondthecode.bsky.social/post/3mmjhigatrm2o",
-        "text": "🧠 OpenClaw provides an open-source personal AI assistant that runs across multiple operating systems and platforms. The tool enables users to deploy their own AI assistant locally without relying on proprietary services. 💬 Hacker News 🔗 https://github.com/openclaw/openclaw #AI #tech",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmn6r6qisj2u",
+        "cid": "bafyreiavqqdxdx7n4lapimu6sqvduup6cdi7fbxj2jbuoo54asaxe5y4fy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmn6r6qisj2u",
+        "text": "🟠 OpenClaw beta adds live run steering, meeting-notes capture, and major model-listing speedups OpenClaw shipped v2026.5.24-beta.2 with several workflow-level changes hiding inside a beta patch release, includi... https://github.com/openclaw/openclaw/releases/tag/v2026.5.24-beta.2 #AI #AgentWyre",
         "author": {
-          "handle": "beyondthecode.bsky.social",
-          "displayName": "Vlad"
+          "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-05-23T12:34:10.853103+00:00",
-        "hoursSincePosted": 2.75
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T00:08:37.240148+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -37233,6 +37310,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mmn6r6qisj2u",
+          "cid": "bafyreiavqqdxdx7n4lapimu6sqvduup6cdi7fbxj2jbuoo54asaxe5y4fy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mmn6r6qisj2u",
+          "text": "🟠 OpenClaw beta adds live run steering, meeting-notes capture, and major model-listing speedups OpenClaw shipped v2026.5.24-beta.2 with several workflow-level changes hiding inside a beta patch release, includi... https://github.com/openclaw/openclaw/releases/tag/v2026.5.24-beta.2 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T00:08:37.240148+00:00",
+          "createdUtc": 1779667717,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -45942,7 +46047,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T21:17:14.656372Z",
-        "hoursSincePosted": 1.96
+        "hoursSincePosted": 2.95
       },
       "posts": [
         {
@@ -45959,7 +46064,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T21:17:14.656372Z",
           "createdUtc": 1779657434,
-          "ageHours": 1.96,
+          "ageHours": 2.95,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -53616,7 +53721,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:47.183Z",
-        "hoursSincePosted": 4.22
+        "hoursSincePosted": 5.21
       },
       "posts": [
         {
@@ -53633,7 +53738,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:47.183Z",
           "createdUtc": 1779649307,
-          "ageHours": 4.22,
+          "ageHours": 5.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53667,7 +53772,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:01:28.795Z",
-        "hoursSincePosted": 4.22
+        "hoursSincePosted": 5.21
       },
       "posts": [
         {
@@ -53684,7 +53789,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:01:28.795Z",
           "createdUtc": 1779649288,
-          "ageHours": 4.22,
+          "ageHours": 5.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53702,7 +53807,7 @@
     },
     "manaflow-ai--cmux": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -53714,11 +53819,11 @@
           "handle": "catalinpit.com",
           "displayName": "Catalin Pit"
         },
-        "likeCount": 3,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-05-24T18:36:41.731262Z",
-        "hoursSincePosted": 4.64
+        "hoursSincePosted": 5.63
       },
       "posts": [
         {
@@ -53730,13 +53835,13 @@
             "handle": "catalinpit.com",
             "displayName": "Catalin Pit"
           },
-          "likeCount": 3,
+          "likeCount": 4,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-05-24T18:36:41.731262Z",
           "createdUtc": 1779647801,
-          "ageHours": 4.64,
-          "trendingScore": 4,
+          "ageHours": 5.63,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -53820,7 +53925,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-24T19:51:06.082Z",
-        "hoursSincePosted": 3.39
+        "hoursSincePosted": 4.39
       },
       "posts": [
         {
@@ -53837,7 +53942,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-24T19:51:06.082Z",
           "createdUtc": 1779652266,
-          "ageHours": 3.39,
+          "ageHours": 4.39,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -53852,13 +53957,64 @@
           ]
         }
       ]
+    },
+    "calesthio--crucix": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmn4ogxbyi2a",
+        "cid": "bafyreidnqfziibiorucw7a5oe2ntaiunhqoi7x6z6t4zxt5diq4ni7epze",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmn4ogxbyi2a",
+        "text": "https://github.com/calesthio/Crucix",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-24T23:31:20Z",
+        "hoursSincePosted": 0.72
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmn4ogxbyi2a",
+          "cid": "bafyreidnqfziibiorucw7a5oe2ntaiunhqoi7x6z6t4zxt5diq4ni7epze",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmn4ogxbyi2a",
+          "text": "https://github.com/calesthio/Crucix",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-24T23:31:20Z",
+          "createdUtc": 1779665480,
+          "ageHours": 0.72,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "calesthio/Crucix",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "manaflow-ai/cmux",
       "count7d": 1,
-      "likesSum7d": 3
+      "likesSum7d": 4
     },
     {
       "fullName": "domcyrus/rustnet",
@@ -53881,7 +54037,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "Evokoa/pgGraph",
+      "fullName": "calesthio/Crucix",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -53892,6 +54048,11 @@
     },
     {
       "fullName": "mikelikesdesign/AI-experiments",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

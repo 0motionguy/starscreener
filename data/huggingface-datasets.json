@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-25T15:32:17.008Z",
+  "fetchedAt": "2026-05-25T20:03:25.080Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -227,8 +227,8 @@
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
       "downloads": 3250,
-      "likes": 163,
-      "trendingScore": 58,
+      "likes": 165,
+      "trendingScore": 60,
       "tags": [
         "language:en",
         "language:fr",
@@ -387,8 +387,8 @@
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
       "downloads": 1862,
-      "likes": 36,
-      "trendingScore": 33,
+      "likes": 37,
+      "trendingScore": 34,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -595,6 +595,36 @@
     },
     {
       "rank": 20,
+      "id": "armand0e/qwen3.7-max-pi-traces",
+      "author": "armand0e",
+      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
+      "downloads": 378,
+      "likes": 27,
+      "trendingScore": 26,
+      "tags": [
+        "task_categories:text-generation",
+        "size_categories:n<1K",
+        "format:json",
+        "format:agent-traces",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "agent-traces",
+        "format:agent-traces",
+        "pi",
+        "distillation",
+        "qwen/qwen3.7-max",
+        "teich"
+      ],
+      "createdAt": "2026-05-23T01:55:28.000Z",
+      "lastModified": "2026-05-23T02:58:23.000Z"
+    },
+    {
+      "rank": 21,
       "id": "Modotte/CodeX-2M-Thinking",
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
@@ -633,7 +663,7 @@
       "lastModified": "2026-02-10T07:23:38.000Z"
     },
     {
-      "rank": 21,
+      "rank": 22,
       "id": "nvidia/Nemotron-Image-Training-v3",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Image-Training-v3",
@@ -657,7 +687,7 @@
       "lastModified": "2026-04-28T08:35:01.000Z"
     },
     {
-      "rank": 22,
+      "rank": 23,
       "id": "apptek-com/apptek_callcenter_dialogues",
       "author": "apptek-com",
       "url": "https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues",
@@ -691,7 +721,7 @@
       "lastModified": "2026-05-08T22:49:17.000Z"
     },
     {
-      "rank": 23,
+      "rank": 24,
       "id": "iletisim/dezenformasyon-bultenleri",
       "author": "iletisim",
       "url": "https://huggingface.co/datasets/iletisim/dezenformasyon-bultenleri",
@@ -726,7 +756,7 @@
       "lastModified": "2026-05-03T09:10:37.000Z"
     },
     {
-      "rank": 24,
+      "rank": 25,
       "id": "alibaba-multimodal-industrial-ai/IndustryBench",
       "author": "alibaba-multimodal-industrial-ai",
       "url": "https://huggingface.co/datasets/alibaba-multimodal-industrial-ai/IndustryBench",
@@ -755,7 +785,7 @@
       "lastModified": "2026-05-13T05:23:50.000Z"
     },
     {
-      "rank": 25,
+      "rank": 26,
       "id": "zhifeixie/Voices-in-the-Wild-2M",
       "author": "zhifeixie",
       "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
@@ -778,36 +808,6 @@
       ],
       "createdAt": "2026-05-18T17:44:26.000Z",
       "lastModified": "2026-05-24T17:50:51.000Z"
-    },
-    {
-      "rank": 26,
-      "id": "armand0e/qwen3.7-max-pi-traces",
-      "author": "armand0e",
-      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
-      "downloads": 378,
-      "likes": 24,
-      "trendingScore": 23,
-      "tags": [
-        "task_categories:text-generation",
-        "size_categories:n<1K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "format:agent-traces",
-        "pi",
-        "distillation",
-        "qwen/qwen3.7-max",
-        "teich"
-      ],
-      "createdAt": "2026-05-23T01:55:28.000Z",
-      "lastModified": "2026-05-23T02:58:23.000Z"
     },
     {
       "rank": 27,
@@ -1113,6 +1113,21 @@
     },
     {
       "rank": 37,
+      "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
+      "author": "NodeLinker",
+      "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
+      "downloads": 13742,
+      "likes": 30,
+      "trendingScore": 17,
+      "tags": [
+        "license:mit",
+        "region:us"
+      ],
+      "createdAt": "2026-04-30T16:21:51.000Z",
+      "lastModified": "2026-05-01T19:27:38.000Z"
+    },
+    {
+      "rank": 38,
       "id": "HuggingFaceFW/fineweb-edu",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
@@ -1142,7 +1157,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1170,21 +1185,6 @@
       ],
       "createdAt": "2026-05-07T12:01:17.000Z",
       "lastModified": "2026-05-09T06:36:26.000Z"
-    },
-    {
-      "rank": 39,
-      "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "author": "NodeLinker",
-      "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "downloads": 13742,
-      "likes": 29,
-      "trendingScore": 16,
-      "tags": [
-        "license:mit",
-        "region:us"
-      ],
-      "createdAt": "2026-04-30T16:21:51.000Z",
-      "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
       "rank": 40,

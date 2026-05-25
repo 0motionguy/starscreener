@@ -1,0 +1,264 @@
+name: Ops - daily scanner refresh
+
+# Operator safety net for the source/mention tables.
+#
+# This is intentionally separate from the normal staggered cron workflows:
+# those keep individual lanes fresh during the day, while this job gives ops
+# one daily full pass with explicit verification that append-only mention logs
+# did not shrink. Twitter runs three passes because it is the noisiest and most
+# failure-prone mention source. The repo-first sweep runs top-50 with
+# concurrency=1 so each repo gets a distinct refresh pass.
+
+on:
+  schedule:
+    - cron: "20 2 * * *"
+  workflow_dispatch:
+    inputs:
+      top:
+        description: "Top-N repos for repo-first mentions sweep"
+        required: false
+        default: "50"
+        type: string
+      twitter_passes:
+        description: "Twitter collector passes"
+        required: false
+        default: "3"
+        type: string
+      dry_run:
+        description: "Run scanners without committing data"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ops-daily-scanner-refresh
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+  TOP_N: ${{ inputs.top || '50' }}
+  TWITTER_PASSES: ${{ inputs.twitter_passes || '3' }}
+  DRY_RUN: ${{ inputs.dry_run || 'false' }}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Snapshot append-only counts before
+        id: before
+        shell: bash
+        run: |
+          set -euo pipefail
+          count_lines() {
+            local path="$1"
+            if [[ -f "$path" ]]; then
+              wc -l < "$path" | tr -d ' '
+            else
+              printf '0'
+            fi
+          }
+          echo "twitter_signals=$(count_lines .data/twitter-repo-signals.jsonl)" >> "$GITHUB_OUTPUT"
+          echo "twitter_scans=$(count_lines .data/twitter-scans.jsonl)" >> "$GITHUB_OUTPUT"
+          echo "mentions_detail=$(count_lines data/repo-mentions-detail.jsonl)" >> "$GITHUB_OUTPUT"
+
+      - name: Refresh core discovery and source scanners
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
+          REDDIT_COLLECTOR_PROVIDER: apify
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN || secrets.PRODUCTHUNT_API_TOKEN }}
+          PRODUCTHUNT_API_TOKEN: ${{ secrets.PRODUCTHUNT_API_TOKEN || secrets.PRODUCTHUNT_TOKEN }}
+          HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run scrape -- --skip-collection-rankings
+          npm run discover:recent
+          npm run fetch:metadata
+          npm run compute-deltas
+          npm run collect:all -- --no-twitter --concurrency=2
+          npm run scrape:hf
+          npm run scrape:arxiv
+          npm run scrape:npm
+          npm run scrape:funding
+
+      - name: Run Twitter collector three-pass lane
+        if: env.DRY_RUN != 'true'
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
+          TWITTER_COLLECTOR_MODE: direct
+          TWITTER_COLLECTOR_LIMIT: ${{ env.TOP_N }}
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
+          TWITTER_COLLECTOR_BASE_URL: ${{ env.BASE_URL }}
+          INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN || secrets.CRON_SECRET }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          APIFY_TWITTER_ACTOR: ${{ vars.APIFY_TWITTER_ACTOR }}
+          TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
+          TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          passes="$TWITTER_PASSES"
+          if ! [[ "$passes" =~ ^[0-9]+$ ]] || [[ "$passes" -lt 1 ]]; then
+            echo "::error::twitter_passes must be a positive integer"
+            exit 64
+          fi
+          if [[ "$passes" -lt 3 ]]; then
+            echo "::warning::twitter_passes=$passes; ops default is 3"
+          fi
+          for pass in $(seq 1 "$passes"); do
+            echo "::group::twitter pass ${pass}/${passes}"
+            npm run collect:twitter -- --limit "$TOP_N" --run-id "ops-daily-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-tw${pass}"
+            echo "::endgroup::"
+            if [[ "$pass" -lt "$passes" ]]; then
+              sleep 90
+            fi
+          done
+
+      - name: Sweep top repos one by one for mentions
+        if: env.DRY_RUN != 'true'
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          APIFY_TWITTER_ACTOR: ${{ vars.APIFY_TWITTER_ACTOR }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          PRODUCTHUNT_API_TOKEN: ${{ secrets.PRODUCTHUNT_API_TOKEN || secrets.PRODUCTHUNT_TOKEN }}
+        run: npm run sweep:mentions -- --top "$TOP_N" --concurrency 1 --compact
+
+      - name: Verify append-only mention logs and data store
+        if: env.DRY_RUN != 'true'
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          count_lines() {
+            local path="$1"
+            if [[ -f "$path" ]]; then
+              wc -l < "$path" | tr -d ' '
+            else
+              printf '0'
+            fi
+          }
+          tw_signals_after="$(count_lines .data/twitter-repo-signals.jsonl)"
+          tw_scans_after="$(count_lines .data/twitter-scans.jsonl)"
+          mentions_after="$(count_lines data/repo-mentions-detail.jsonl)"
+          echo "twitter signals: ${{ steps.before.outputs.twitter_signals }} -> ${tw_signals_after}"
+          echo "twitter scans:   ${{ steps.before.outputs.twitter_scans }} -> ${tw_scans_after}"
+          echo "mention detail:  ${{ steps.before.outputs.mentions_detail }} -> ${mentions_after}"
+          if [[ "$tw_signals_after" -lt "${{ steps.before.outputs.twitter_signals }}" ]]; then
+            echo "::error::.data/twitter-repo-signals.jsonl shrank; append-only contract violated"
+            exit 2
+          fi
+          if [[ "$tw_scans_after" -lt "${{ steps.before.outputs.twitter_scans }}" ]]; then
+            echo "::error::.data/twitter-scans.jsonl shrank; append-only contract violated"
+            exit 2
+          fi
+          if [[ "$mentions_after" -lt "${{ steps.before.outputs.mentions_detail }}" ]]; then
+            echo "::error::data/repo-mentions-detail.jsonl shrank; append-only contract violated"
+            exit 2
+          fi
+          npm run verify:data-store
+          npm run audit:freshness:report
+
+      - name: Compute commit timestamp
+        if: env.DRY_RUN != 'true'
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit refreshed data
+        if: env.DRY_RUN != 'true'
+        uses: ./.github/actions/git-commit-data
+        with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(data): ops daily scanner refresh ${{ steps.ts.outputs.value }}"
+          ignore-missing: "true"
+          paths: |
+            data/trending.json
+            data/trending-lite.json
+            data/deltas.json
+            data/hot-collections.json
+            data/recent-repos.json
+            data/repo-metadata.json
+            data/reddit-mentions.json
+            data/reddit-all-posts.json
+            data/hackernews-trending.json
+            data/hackernews-repo-mentions.json
+            data/bluesky-trending.json
+            data/bluesky-mentions.json
+            data/devto-trending.json
+            data/devto-mentions.json
+            data/lobsters-trending.json
+            data/lobsters-mentions.json
+            data/producthunt-launches.json
+            data/huggingface-trending.json
+            data/huggingface-datasets.json
+            data/huggingface-spaces.json
+            data/arxiv-papers.json
+            data/npm-packages.json
+            data/funding-news.json
+            data/repo-mentions-detail.jsonl
+            data/repo-mentions-detail-rollup.json
+            data/twitter-trending.json
+            data/consensus-trending.json
+            data/unknown-mentions.jsonl
+            data/_meta/trending.json
+            data/_meta/reddit.json
+            data/_meta/hackernews.json
+            data/_meta/bluesky.json
+            data/_meta/devto.json
+            data/_meta/lobsters.json
+            data/_meta/producthunt.json
+            data/_meta/huggingface.json
+            data/_meta/arxiv.json
+            data/_meta/npm.json
+            data/_meta/funding-news.json
+            data/_meta/cross-source-mentions.json
+            .data/twitter-repo-signals.jsonl
+            .data/twitter-scans.jsonl
+            .data/twitter-ingestion-audit.jsonl
+            .data/trending-dual-write-trace.jsonl

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-25T17:56:02.565Z",
+  "fetchedAt": "2026-05-25T19:59:06.366Z",
   "windowDays": 7,
-  "scannedPosts": 198,
+  "scannedPosts": 298,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -6286,10 +6286,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmm2rpgezg2u",
-        "cid": "bafyreidzieuaxuj6ngdsi3l4pr4cz4khbhl4kai2bhm4xcw2d3jfcp4r6m",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmm2rpgezg2u",
-        "text": "Claude Code adds resume for background sessions. v2.1.144 introduces /resume for bg sessions with elapsed time and plugin update tracking. #ClaudeCode #BackgroundSessions #PluginManagement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.144",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
+        "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
+        "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
         "author": {
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
@@ -6297,8 +6297,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-24T13:24:41.912209Z",
-        "hoursSincePosted": 1.96
+        "createdAt": "2026-05-25T19:29:02.975773Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -6462,6 +6462,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
+          "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
+          "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T19:29:02.975773Z",
+          "createdUtc": 1779737342,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -22003,7 +22032,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T15:25:03.255Z",
-        "hoursSincePosted": 2.52
+        "hoursSincePosted": 4.57
       },
       "posts": [
         {
@@ -22020,7 +22049,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T15:25:03.255Z",
           "createdUtc": 1779722703,
-          "ageHours": 2.52,
+          "ageHours": 4.57,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -23517,7 +23546,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T15:22:45.486Z",
-        "hoursSincePosted": 2.55
+        "hoursSincePosted": 4.61
       },
       "posts": [
         {
@@ -23534,7 +23563,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T15:22:45.486Z",
           "createdUtc": 1779722565,
-          "ageHours": 2.55,
+          "ageHours": 4.61,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -25952,7 +25981,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T15:22:50.701Z",
-        "hoursSincePosted": 2.55
+        "hoursSincePosted": 4.6
       },
       "posts": [
         {
@@ -25969,7 +25998,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T15:22:50.701Z",
           "createdUtc": 1779722570,
-          "ageHours": 2.55,
+          "ageHours": 4.6,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -27858,6 +27887,57 @@
           "linkedRepos": [
             {
               "fullName": "allenk/GeminiWatermarkTool",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "realrossmanngroup/no_ai_slop_writing_rules": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mmp5z6mhit2x",
+        "cid": "bafyreiggyfmbt5ypd3bnjhaaifa5yukviyvm7lr6rmylqu53r6pee4wkrq",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mmp5z6mhit2x",
+        "text": "The next battleground for LLMs isn’t capability—it’s personality. Devs want AI that sounds less like a bot and more like a real, memorable human. https://github.com/realrossmanngroup/no_ai_slop_writing_rules https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T19:00:32.949Z",
+        "hoursSincePosted": 0.98
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mmp5z6mhit2x",
+          "cid": "bafyreiggyfmbt5ypd3bnjhaaifa5yukviyvm7lr6rmylqu53r6pee4wkrq",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mmp5z6mhit2x",
+          "text": "The next battleground for LLMs isn’t capability—it’s personality. Devs want AI that sounds less like a bot and more like a real, memorable human. https://github.com/realrossmanngroup/no_ai_slop_writing_rules https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T19:00:32.949Z",
+          "createdUtc": 1779735632,
+          "ageHours": 0.98,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "realrossmanngroup/no_ai_slop_writing_rules",
               "matchType": "url",
               "confidence": 1
             }
@@ -34148,10 +34228,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmm2rpgezg2u",
-        "cid": "bafyreidzieuaxuj6ngdsi3l4pr4cz4khbhl4kai2bhm4xcw2d3jfcp4r6m",
-        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmm2rpgezg2u",
-        "text": "Claude Code adds resume for background sessions. v2.1.144 introduces /resume for bg sessions with elapsed time and plugin update tracking. #ClaudeCode #BackgroundSessions #PluginManagement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.144",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
+        "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
+        "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
         "author": {
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
@@ -34159,8 +34239,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-24T13:24:41.912209Z",
-        "hoursSincePosted": 1.96
+        "createdAt": "2026-05-25T19:29:02.975773Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -34324,6 +34404,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
+          "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
+          "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T19:29:02.975773Z",
+          "createdUtc": 1779737342,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -49865,7 +49974,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T15:25:03.255Z",
-        "hoursSincePosted": 2.52
+        "hoursSincePosted": 4.57
       },
       "posts": [
         {
@@ -49882,7 +49991,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T15:25:03.255Z",
           "createdUtc": 1779722703,
-          "ageHours": 2.52,
+          "ageHours": 4.57,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -51379,7 +51488,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T15:22:45.486Z",
-        "hoursSincePosted": 2.55
+        "hoursSincePosted": 4.61
       },
       "posts": [
         {
@@ -51396,7 +51505,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T15:22:45.486Z",
           "createdUtc": 1779722565,
-          "ageHours": 2.55,
+          "ageHours": 4.61,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -53814,7 +53923,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T15:22:50.701Z",
-        "hoursSincePosted": 2.55
+        "hoursSincePosted": 4.6
       },
       "posts": [
         {
@@ -53831,7 +53940,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T15:22:50.701Z",
           "createdUtc": 1779722570,
-          "ageHours": 2.55,
+          "ageHours": 4.6,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -55726,6 +55835,57 @@
           ]
         }
       ]
+    },
+    "realrossmanngroup--noaislopwritingrules": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mmp5z6mhit2x",
+        "cid": "bafyreiggyfmbt5ypd3bnjhaaifa5yukviyvm7lr6rmylqu53r6pee4wkrq",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mmp5z6mhit2x",
+        "text": "The next battleground for LLMs isn’t capability—it’s personality. Devs want AI that sounds less like a bot and more like a real, memorable human. https://github.com/realrossmanngroup/no_ai_slop_writing_rules https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T19:00:32.949Z",
+        "hoursSincePosted": 0.98
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mmp5z6mhit2x",
+          "cid": "bafyreiggyfmbt5ypd3bnjhaaifa5yukviyvm7lr6rmylqu53r6pee4wkrq",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mmp5z6mhit2x",
+          "text": "The next battleground for LLMs isn’t capability—it’s personality. Devs want AI that sounds less like a bot and more like a real, memorable human. https://github.com/realrossmanngroup/no_ai_slop_writing_rules https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T19:00:32.949Z",
+          "createdUtc": 1779735632,
+          "ageHours": 0.98,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "realrossmanngroup/no_ai_slop_writing_rules",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -55743,6 +55903,16 @@
       "fullName": "rohitg00/ai-engineering-from-scratch",
       "count7d": 1,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "realrossmanngroup/no_ai_slop_writing_rules",
+      "count7d": 1,
+      "likesSum7d": 0
     }
   ]
 }

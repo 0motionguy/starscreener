@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-25T03:59:14.627Z",
-  "scanRunId": "sweep-2026-05-25T03:59:05.652Z",
+  "computedAt": "2026-05-25T10:10:06.991Z",
+  "scanRunId": "sweep-2026-05-25T10:09:57.983Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -29,10 +29,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
@@ -46,6 +46,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-19T20:11:40.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://quarkdown.com/blog/agent-skill/",
+              "title": "Evaluating Quarkdown for Agentic Typesetting",
+              "text": "",
+              "author": "iamgioh",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-25T04:53:41.000Z"
             },
             {
               "source": "hackernews",
@@ -85,19 +98,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T23:19:52.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/hymhub/skill-indexer",
-              "title": "An open question about how AI agent skills should be distributed",
-              "text": "",
-              "author": "1749207188",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T10:35:39.000Z"
             }
           ]
         }
@@ -1101,10 +1101,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 3,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 8,
           "top": [
             {
               "source": "hackernews",
@@ -1135,15 +1135,41 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://graphify.net/",
-              "title": "Knowledge Graphs for AI Coding Assistants",
+              "url": "https://spectrum.ieee.org/bolt-graphics-zeus-gpu",
+              "title": "Bolt Challenges Nvidia with a Focus on Cutting-Edge Graphics",
               "text": "",
-              "author": "pmg101",
+              "author": "oldnetguy",
               "engagement": {
-                "score": 1,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-18T19:09:30.000Z"
+              "observedAt": "2026-05-21T14:29:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://mickael.canouil.fr/posts/2026-05-20-gribouille-grammar-of-graphics-for-typst/",
+              "title": "Gribouille: A Grammar of Graphics for Typst",
+              "text": "",
+              "author": "mcanouil",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T10:44:42.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://graphmycode.com",
+              "title": "GraphMyCode –Visualize any codebase as an interactive knowledge graph,in-browser",
+              "text": "",
+              "author": "FValero",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-21T08:21:30.000Z"
             }
           ]
         }
@@ -1753,7 +1779,7 @@
     },
     "Alishahryar1/free-claude-code": {
       "fullName": "Alishahryar1/free-claude-code",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -1774,7 +1800,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -1788,6 +1814,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-24T13:25:26.666Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "Alishahryar1/free-claude-code",
+              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmo7zszybw2a",
+              "title": "Claude-code runs free in terminal, VSCode, and Discord. Alishahryar1/free-claude-code adds voice to local Claude-code workflows with 565 stars today. #OpenClaw #VSCode #ClaudeCode 🔗 https://github.co",
+              "text": "Claude-code runs free in terminal, VSCode, and Discord. Alishahryar1/free-claude-code adds voice to local Claude-code workflows with 565 stars today. #OpenClaw #VSCode #ClaudeCode 🔗 https://github.com/Alishahryar1/free-claude-code",
+              "author": "boardwire.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-25T10:04:04.383Z"
             }
           ]
         }
@@ -3633,11 +3672,24 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 100,
+      "totalMentions7d": 138,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 138,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://twitter.com/karpathy/status/2056753169888334312",
+              "title": "I’ve joined Anthropic",
+              "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
+              "author": "dmarcos",
+              "engagement": {
+                "score": 1426,
+                "comments": 616
+              },
+              "observedAt": "2026-05-19T15:07:45.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3646,8 +3698,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1421,
-                "comments": 1047
+                "score": 1422,
+                "comments": 1049
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -3659,10 +3711,23 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1093,
+                "score": 1094,
                 "comments": 594
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/antoinezambelli/forge",
+              "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+              "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
+              "author": "zambelli",
+              "engagement": {
+                "score": 683,
+                "comments": 251
+              },
+              "observedAt": "2026-05-19T12:23:07.000Z"
             },
             {
               "source": "hackernews",
@@ -3676,32 +3741,6 @@
                 "comments": 180
               },
               "observedAt": "2026-05-19T19:34:30.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.wsj.com/tech/ai/openai-is-preparing-to-file-for-an-ipo-very-soon-0ec95af5",
-              "title": "OpenAI Is Preparing to File for an IPO Soon",
-              "text": "<a href=\"https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C</a>",
-              "author": "louiereederson",
-              "engagement": {
-                "score": 200,
-                "comments": 405
-              },
-              "observedAt": "2026-05-20T16:24:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.cnbc.com/2026/05/20/openai-ipo-filing.html",
-              "title": "OpenAI to confidentially file for IPO as soon as Friday",
-              "text": "",
-              "author": "doppp",
-              "engagement": {
-                "score": 137,
-                "comments": 3
-              },
-              "observedAt": "2026-05-21T02:24:35.000Z"
             }
           ]
         }
@@ -5962,10 +6001,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 18,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 18,
+          "count7d": 4,
           "top": [
             {
               "source": "hackernews",
@@ -5975,7 +6014,7 @@
               "text": "",
               "author": "OuterVale",
               "engagement": {
-                "score": 367,
+                "score": 369,
                 "comments": 244
               },
               "observedAt": "2026-05-21T07:21:55.000Z"
@@ -5988,49 +6027,36 @@
               "text": "",
               "author": "cf100clunk",
               "engagement": {
-                "score": 220,
-                "comments": 297
+                "score": 226,
+                "comments": 299
               },
               "observedAt": "2026-05-19T15:30:01.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/world/middle-east/hormuz-closure-could-trigger-agrifood-shock-price-crisis-within-year-fao-warns-2026-05-20/",
-              "title": "Hormuz closure could trigger 'agrifood shock', price crisis within a year",
-              "text": "",
-              "author": "mooreds",
+              "url": "https://news.ycombinator.com/item?id=48247828",
+              "title": "We were building infra for OpenClaw, and today I just tried Hermes and holy shit",
+              "text": "So, as some of you guys might have done, we started a hosting for Openclaw type of a business, and holy, this thing grew to 300k ARR and even got a YC interview.<p>Last week was a bit hectic. We got a no from YC, and I was just thinking reflecting on the feedback we got.<p>We were playing with this whole company brain thing as well. We are doing two pilots for that too.<p>It&#x27;s a Saturday. I just installed Hermes agent because Open Router Hermes agent was overtaking Openclaw, and holy shit, ",
+              "author": "Stanlyya",
               "engagement": {
-                "score": 102,
-                "comments": 32
+                "score": 5,
+                "comments": 1
               },
-              "observedAt": "2026-05-20T16:41:00.000Z"
+              "observedAt": "2026-05-23T14:05:05.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://github.com/InsForge/InsForge",
-              "title": "Show HN: InsForge – Open-source Heroku for coding agents",
-              "text": "Hi HN, I&#x27;m Hang, cofounder of InsForge (YC P26). InsForge is an open-source Heroku for AI coding agents: a backend platform designed for coding agents to deploy, operate, and debug end-to-end. Open source under Apache 2.0 (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;InsForge&#x2F;InsForge</a>). Quick demo here (<a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0IfM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;7Bax5qz0I",
-              "author": "mrcoldbrew",
-              "engagement": {
-                "score": 62,
-                "comments": 7
-              },
-              "observedAt": "2026-05-18T15:40:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://kevquirk.com/replacing-my-isp-router-with-a-unifi-cloud-gateway-max",
-              "title": "Replacing My ISP Router with a UniFi Cloud Gateway Max",
+              "url": "https://lebaguetteindex.fr/",
+              "title": "Le Baguette Index",
               "text": "",
-              "author": "speckx",
+              "author": "wouterjanl",
               "engagement": {
-                "score": 17,
-                "comments": 21
+                "score": 3,
+                "comments": 0
               },
-              "observedAt": "2026-05-19T04:28:05.000Z"
+              "observedAt": "2026-05-25T06:57:05.000Z"
             }
           ]
         }
@@ -6509,10 +6535,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 5,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
-          "count7d": 3,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -6526,32 +6552,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T15:26:45.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://agentmemo.vercel.app",
-              "title": "News.Y Combinator.com/Submit",
-              "text": "",
-              "author": "pulsoai",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T16:08:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://huggingface.co/papers/2605.15128",
-              "title": "MemEye: A Visual-Centric Evaluation Framework for Multimodal Agent Memory",
-              "text": "",
-              "author": "maxloh",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-18T04:30:06.000Z"
             }
           ]
         },
@@ -7625,8 +7625,8 @@
               "text": "I work with a bunch of people that just left college and we were discussing how to avoid deskilling and I said &quot;well, you could go to local meetups&quot;. They&#x27;re in NYC (I&#x27;m in Florida right now) and said there isn&#x27;t much going on and I couldn&#x27;t believe it. Asked some more experienced friends that have been living there for longer and they said that it all died during COVID and never came back.<p>I ran or helped organize meetups in multiple places, back in Brazil where ",
               "author": "mlinhares",
               "engagement": {
-                "score": 9,
-                "comments": 10
+                "score": 10,
+                "comments": 11
               },
               "observedAt": "2026-05-24T12:39:30.000Z"
             },
@@ -7954,8 +7954,26 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "tinyhumansai/openhuman",
+              "url": "https://www.notesasm.com/",
+              "title": "Show HN: Coding agent where a second agent QAs every PR in a real browser",
+              "text": "Hi HN. I&#x27;ve been building this for the last few months and it&#x27;s at a state where outside eyes would help more than another week of solo iteration.<p>It&#x27;s a kanban board where each ticket runs two agents back to back:<p>Build agent: runs in a sandboxed temp dir against a shallow clone of the user&#x27;s repo, makes the change, pushes a branch, opens a PR. Uses the Claude Agent SDK.<p>QA agent: waits for the preview deploy to come up, then drives a real browser via Browserbase again",
+              "author": "kavin_key",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-19T18:54:10.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 4,
           "top": [
@@ -8113,21 +8131,21 @@
       "fullName": "crynta/terax-ai",
       "totalMentions7d": 1,
       "perSource": {
-        "hackernews": {
+        "bluesky": {
           "count7d": 1,
           "top": [
             {
-              "source": "hackernews",
+              "source": "bluesky",
               "fullName": "crynta/terax-ai",
-              "url": "https://github.com/rcarmo/ios-terax-ai",
-              "title": "Rcarmo/iOS-terax-AI: Personal fork of Terax for integration with iOS-Linux-kit",
-              "text": "",
-              "author": "rcarmo",
+              "url": "https://bsky.app/profile/camilleroux.com/post/3mmnsfn4fxw2j",
+              "title": "Terax : un émulateur de terminal avec IA intégrée, éditeur de code, explorateur de fichiers et panel AI (BYOK ou modèles locaux via LM Studio). Stack Rust + Tauri + React, moins de 7 MB, zéro télémétr",
+              "text": "Terax : un émulateur de terminal avec IA intégrée, éditeur de code, explorateur de fichiers et panel AI (BYOK ou modèles locaux via LM Studio). Stack Rust + Tauri + React, moins de 7 MB, zéro télémétrie. https://github.com/crynta/terax-ai",
+              "author": "camilleroux.com",
               "engagement": {
-                "score": 1,
+                "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-17T21:02:32.000Z"
+              "observedAt": "2026-05-25T06:00:08.559Z"
             }
           ]
         }
@@ -8557,7 +8575,7 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8578,7 +8596,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "bluesky",
@@ -8592,6 +8610,19 @@
                 "comments": 3
               },
               "observedAt": "2026-05-18T12:56:17.665Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "colbymchenry/codegraph",
+              "url": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mmnttxiuev2h",
+              "title": "I came across this impressive open-source project on GitHub that helps AI coding agents work faster and cheaper with local project-scoped code graphs. See link below. #AI #opensource #coding #develope",
+              "text": "I came across this impressive open-source project on GitHub that helps AI coding agents work faster and cheaper with local project-scoped code graphs. See link below. #AI #opensource #coding #developer #github https://github.com/colbymchenry/codegraph",
+              "author": "alexiskirke.bsky.social",
+              "engagement": {
+                "score": 5,
+                "comments": 1
+              },
+              "observedAt": "2026-05-25T06:26:02.363Z"
             },
             {
               "source": "bluesky",
@@ -8631,19 +8662,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-24T13:25:26.666Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "colbymchenry/codegraph",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. http",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-23T13:22:39.168Z"
             }
           ]
         }
@@ -8651,10 +8669,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 83,
+      "totalMentions7d": 77,
       "perSource": {
         "hackernews": {
-          "count7d": 83,
+          "count7d": 77,
           "top": [
             {
               "source": "hackernews",
@@ -8664,10 +8682,23 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 681,
+                "score": 683,
                 "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
+              "url": "https://epoch.ai/data-insights/ai-chip-component-cost-shares",
+              "title": "Memory has grown to nearly two-thirds of AI chip component costs",
+              "text": "",
+              "author": "intelkishan",
+              "engagement": {
+                "score": 387,
+                "comments": 399
+              },
+              "observedAt": "2026-05-24T16:31:29.000Z"
             },
             {
               "source": "hackernews",
@@ -8685,25 +8716,12 @@
             {
               "source": "hackernews",
               "fullName": "compozy/compozy",
-              "url": "https://epoch.ai/data-insights/ai-chip-component-cost-shares",
-              "title": "Memory has grown to nearly two-thirds of AI chip component costs",
-              "text": "",
-              "author": "intelkishan",
-              "engagement": {
-                "score": 330,
-                "comments": 354
-              },
-              "observedAt": "2026-05-24T16:31:29.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
               "url": "https://www.mathworks.com/company/aboutus/founders/clevemoler.html",
               "title": "Cleve Moler has died",
               "text": "",
               "author": "mychele",
               "engagement": {
-                "score": 290,
+                "score": 291,
                 "comments": 27
               },
               "observedAt": "2026-05-22T02:35:54.000Z"
@@ -8799,7 +8817,7 @@
     },
     "MinishLab/semble": {
       "fullName": "MinishLab/semble",
-      "totalMentions7d": 12,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8820,7 +8838,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 11,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -8893,10 +8911,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 113,
+      "totalMentions7d": 111,
       "perSource": {
         "hackernews": {
-          "count7d": 112,
+          "count7d": 110,
           "top": [
             {
               "source": "hackernews",
@@ -8906,7 +8924,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;karpathy&#x2F;status&#x2F;2056753169888334312</a><p><a href=\"https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-andrej-claude\" rel=\"nofollow\">https:&#x2F;&#x2F;www.axios.com&#x2F;2026&#x2F;05&#x2F;19&#x2F;anthropic-openai-karpathy-a...</a>, <a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;h6T3X\" rel=\"nofollow\">https:&#x2F;&#x",
               "author": "dmarcos",
               "engagement": {
-                "score": 1425,
+                "score": 1426,
                 "comments": 616
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
@@ -8919,8 +8937,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
               "author": "tedsanders",
               "engagement": {
-                "score": 1421,
-                "comments": 1047
+                "score": 1422,
+                "comments": 1049
               },
               "observedAt": "2026-05-20T19:05:30.000Z"
             },
@@ -8932,7 +8950,7 @@
               "text": "",
               "author": "nycdatasci",
               "engagement": {
-                "score": 1093,
+                "score": 1094,
                 "comments": 594
               },
               "observedAt": "2026-05-18T17:38:22.000Z"
@@ -8945,7 +8963,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 681,
+                "score": 683,
                 "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"

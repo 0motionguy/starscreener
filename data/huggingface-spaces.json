@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-25T10:59:23.297Z",
+  "fetchedAt": "2026-05-25T15:40:14.498Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -148,8 +148,8 @@
       "id": "HuggingFaceBio/carbon-demo",
       "author": "HuggingFaceBio",
       "url": "https://huggingface.co/spaces/HuggingFaceBio/carbon-demo",
-      "likes": 83,
-      "trendingScore": 81,
+      "likes": 84,
+      "trendingScore": 82,
       "sdk": "docker",
       "tags": [
         "docker",
@@ -276,6 +276,22 @@
     },
     {
       "rank": 17,
+      "id": "victor/LongCat-Video-Avatar-1.5",
+      "author": "victor",
+      "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
+      "likes": 65,
+      "trendingScore": 63,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T13:56:32.000Z",
+      "lastModified": "2026-05-23T11:14:35.000Z",
+      "models": []
+    },
+    {
+      "rank": 18,
       "id": "k2-fsa/OmniVoice",
       "author": "k2-fsa",
       "url": "https://huggingface.co/spaces/k2-fsa/OmniVoice",
@@ -291,7 +307,7 @@
       "models": []
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": "prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
       "author": "prithivMLmods",
       "url": "https://huggingface.co/spaces/prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
@@ -308,7 +324,7 @@
       "models": []
     },
     {
-      "rank": 19,
+      "rank": 20,
       "id": "zerogpu-aoti/wan2-2-fp8da-aoti-faster",
       "author": "zerogpu-aoti",
       "url": "https://huggingface.co/spaces/zerogpu-aoti/wan2-2-fp8da-aoti-faster",
@@ -322,22 +338,6 @@
       ],
       "createdAt": "2025-07-30T19:03:28.000Z",
       "lastModified": "2025-12-16T14:37:58.000Z",
-      "models": []
-    },
-    {
-      "rank": 20,
-      "id": "victor/LongCat-Video-Avatar-1.5",
-      "author": "victor",
-      "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
-      "likes": 54,
-      "trendingScore": 53,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-22T13:56:32.000Z",
-      "lastModified": "2026-05-23T11:14:35.000Z",
       "models": []
     },
     {
@@ -439,10 +439,26 @@
     },
     {
       "rank": 27,
+      "id": "stabilityai/stable-audio-3",
+      "author": "stabilityai",
+      "url": "https://huggingface.co/spaces/stabilityai/stable-audio-3",
+      "likes": 40,
+      "trendingScore": 40,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-20T15:54:00.000Z",
+      "lastModified": "2026-05-22T21:24:33.000Z",
+      "models": []
+    },
+    {
+      "rank": 28,
       "id": "mrfakename/Z-Image-Turbo",
       "author": "mrfakename",
       "url": "https://huggingface.co/spaces/mrfakename/Z-Image-Turbo",
-      "likes": 3121,
+      "likes": 3223,
       "trendingScore": 36,
       "sdk": "gradio",
       "tags": [
@@ -452,22 +468,6 @@
       ],
       "createdAt": "2025-11-26T19:54:05.000Z",
       "lastModified": "2026-02-02T16:51:24.000Z",
-      "models": []
-    },
-    {
-      "rank": 28,
-      "id": "stabilityai/stable-audio-3",
-      "author": "stabilityai",
-      "url": "https://huggingface.co/spaces/stabilityai/stable-audio-3",
-      "likes": 35,
-      "trendingScore": 35,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-20T15:54:00.000Z",
-      "lastModified": "2026-05-22T21:24:33.000Z",
       "models": []
     },
     {
@@ -636,6 +636,22 @@
     },
     {
       "rank": 39,
+      "id": "multimodalart/z-image-6b-pixel-space",
+      "author": "multimodalart",
+      "url": "https://huggingface.co/spaces/multimodalart/z-image-6b-pixel-space",
+      "likes": 31,
+      "trendingScore": 31,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T12:46:34.000Z",
+      "lastModified": "2026-05-22T19:37:35.000Z",
+      "models": []
+    },
+    {
+      "rank": 40,
       "id": "r3gm/wan2-2-fp8da-aoti-old-backup",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-old-backup",
@@ -652,7 +668,7 @@
       "models": []
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "alexander00001/Private.Test.Space.2",
       "author": "alexander00001",
       "url": "https://huggingface.co/spaces/alexander00001/Private.Test.Space.2",
@@ -668,7 +684,7 @@
       "models": []
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "r3gm/wan2-2-fp8da-aoti-previewE",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-previewE",
@@ -685,23 +701,23 @@
       "models": []
     },
     {
-      "rank": 42,
-      "id": "multimodalart/z-image-6b-pixel-space",
-      "author": "multimodalart",
-      "url": "https://huggingface.co/spaces/multimodalart/z-image-6b-pixel-space",
-      "likes": 29,
-      "trendingScore": 29,
+      "rank": 43,
+      "id": "ibuildproducts/wan22-i2v-v4-demo",
+      "author": "ibuildproducts",
+      "url": "https://huggingface.co/spaces/ibuildproducts/wan22-i2v-v4-demo",
+      "likes": 35,
+      "trendingScore": 28,
       "sdk": "gradio",
       "tags": [
         "gradio",
         "region:us"
       ],
-      "createdAt": "2026-05-22T12:46:34.000Z",
-      "lastModified": "2026-05-22T19:37:35.000Z",
+      "createdAt": "2026-05-17T23:34:01.000Z",
+      "lastModified": "2026-05-18T00:16:12.000Z",
       "models": []
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "multimodalart/scenema-audio",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/scenema-audio",
@@ -717,7 +733,7 @@
       "models": []
     },
     {
-      "rank": 44,
+      "rank": 45,
       "id": "HuggingFaceTB/smol-training-playbook",
       "author": "HuggingFaceTB",
       "url": "https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook",
@@ -737,7 +753,7 @@
       "models": []
     },
     {
-      "rank": 45,
+      "rank": 46,
       "id": "linoyts/Qwen-Image-Edit-2511-AnyPose",
       "author": "linoyts",
       "url": "https://huggingface.co/spaces/linoyts/Qwen-Image-Edit-2511-AnyPose",
@@ -754,7 +770,7 @@
       "models": []
     },
     {
-      "rank": 46,
+      "rank": 47,
       "id": "black-forest-labs/FLUX.2-klein-9B",
       "author": "black-forest-labs",
       "url": "https://huggingface.co/spaces/black-forest-labs/FLUX.2-klein-9B",
@@ -771,7 +787,7 @@
       "models": []
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "openbmb/VoxCPM-Demo",
       "author": "openbmb",
       "url": "https://huggingface.co/spaces/openbmb/VoxCPM-Demo",
@@ -787,11 +803,11 @@
       "models": []
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "mrfakename/anima-v1",
       "author": "mrfakename",
       "url": "https://huggingface.co/spaces/mrfakename/anima-v1",
-      "likes": 34,
+      "likes": 36,
       "trendingScore": 23,
       "sdk": "gradio",
       "tags": [
@@ -804,22 +820,6 @@
       ],
       "createdAt": "2026-05-15T02:42:26.000Z",
       "lastModified": "2026-05-22T03:20:51.000Z",
-      "models": []
-    },
-    {
-      "rank": 49,
-      "id": "ibuildproducts/wan22-i2v-v4-demo",
-      "author": "ibuildproducts",
-      "url": "https://huggingface.co/spaces/ibuildproducts/wan22-i2v-v4-demo",
-      "likes": 30,
-      "trendingScore": 23,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-17T23:34:01.000Z",
-      "lastModified": "2026-05-18T00:16:12.000Z",
       "models": []
     },
     {

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-25T19:59:06.366Z",
+  "fetchedAt": "2026-05-25T21:23:36.240Z",
   "windowDays": 7,
-  "scannedPosts": 298,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -4800,17 +4800,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2y5xpoyxhs5ypzznppbnpv4z/app.bsky.feed.post/3mmno5eekuc2s",
-        "cid": "bafyreigasvqdk2l5pmod47cqvpy3b67msm75be4p52bxxn2bi3czuq27lm",
-        "bskyUrl": "https://bsky.app/profile/mccurley.bsky.social/post/3mmno5eekuc2s",
-        "text": "Of course I could always try the caveman skill github.com/JuliusBrusse... to get claude to talk mathematics like caveman. The instruction \"talk like caveman\" is not substantially different from \"talk like mathematician\". Avoid the obvious...",
+        "uri": "at://did:plc:iagspo44enzkxp5y53cyfezm/app.bsky.feed.post/3mmpeeqnvbc2t",
+        "cid": "bafyreihctq7t5yngeli47n4fsrewun6wynr6mzy6j3au5zedw6paveyawe",
+        "bskyUrl": "https://bsky.app/profile/infrequently.org/post/3mmpeeqnvbc2t",
+        "text": "You might enjoy this: github.com/juliusbrusse... (for some value of \"enjoy\")",
         "author": {
-          "handle": "mccurley.bsky.social"
+          "handle": "infrequently.org",
+          "displayName": "ᴀʟᴇx ʀᴜssᴇʟʟ"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-25T04:43:55.101Z",
+        "createdAt": "2026-05-25T20:54:24.929Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
@@ -4914,6 +4915,34 @@
           "createdUtc": 1778225201,
           "ageHours": 0.56,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:iagspo44enzkxp5y53cyfezm/app.bsky.feed.post/3mmpeeqnvbc2t",
+          "cid": "bafyreihctq7t5yngeli47n4fsrewun6wynr6mzy6j3au5zedw6paveyawe",
+          "bskyUrl": "https://bsky.app/profile/infrequently.org/post/3mmpeeqnvbc2t",
+          "text": "You might enjoy this: github.com/juliusbrusse... (for some value of \"enjoy\")",
+          "author": {
+            "handle": "infrequently.org",
+            "displayName": "ᴀʟᴇx ʀᴜssᴇʟʟ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T20:54:24.929Z",
+          "createdUtc": 1779742464,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6282,7 +6311,7 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -6294,11 +6323,11 @@
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T19:29:02.975773Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.91
       },
       "posts": [
         {
@@ -6386,6 +6415,35 @@
           ]
         },
         {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
+          "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
+          "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T19:29:02.975773Z",
+          "createdUtc": 1779737342,
+          "ageHours": 1.91,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
           "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
           "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
@@ -6462,35 +6520,6 @@
             "has-github-repo"
           ],
           "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
-          "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
-          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
-          "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
-          "author": {
-            "handle": "boardwire.bsky.social",
-            "displayName": "Boardwire"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-25T19:29:02.975773Z",
-          "createdUtc": 1779737342,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -25965,23 +25994,23 @@
     },
     "Lum1104/Understand-Anything": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortudfpz2o",
-        "cid": "bafyreibt2qempiyckkd3wjug72oc77nsco6fwsgekk3weg63exls634nbe",
-        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortudfpz2o",
-        "text": "コードベースを解析して対話可能な知識グラフへ変換してくれるAI連携ツールらしい 大規模なプロジェクトに参画した際や構造を把握したい時に便利そう yug1224 starred Lum1104/Understand-Anything https://github.com/Lum1104/Understand-Anything",
+        "uri": "at://did:plc:ujnfddzjzlxpphksex5wrgi5/app.bsky.feed.post/3mmpeaec2yc2u",
+        "cid": "bafyreic273ukc7r24yg4tvux6xvgydpk4qq2fra4je7tgazqbsg5xfbtw4",
+        "bskyUrl": "https://bsky.app/profile/gho4d76g.bsky.social/post/3mmpeaec2yc2u",
+        "text": "miteru> github.com/Lum1104/Unde...",
         "author": {
-          "handle": "yug1224.com",
-          "displayName": "ぷーじ"
+          "handle": "gho4d76g.bsky.social",
+          "displayName": "かえる㌠"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-25T15:22:50.701Z",
-        "hoursSincePosted": 4.6
+        "createdAt": "2026-05-25T20:51:57.741Z",
+        "hoursSincePosted": 0.53
       },
       "posts": [
         {
@@ -26083,6 +26112,34 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ujnfddzjzlxpphksex5wrgi5/app.bsky.feed.post/3mmpeaec2yc2u",
+          "cid": "bafyreic273ukc7r24yg4tvux6xvgydpk4qq2fra4je7tgazqbsg5xfbtw4",
+          "bskyUrl": "https://bsky.app/profile/gho4d76g.bsky.social/post/3mmpeaec2yc2u",
+          "text": "miteru> github.com/Lum1104/Unde...",
+          "author": {
+            "handle": "gho4d76g.bsky.social",
+            "displayName": "かえる㌠"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T20:51:57.741Z",
+          "createdUtc": 1779742317,
+          "ageHours": 0.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
               "matchType": "url",
               "confidence": 1
             }
@@ -27912,7 +27969,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T19:00:32.949Z",
-        "hoursSincePosted": 0.98
+        "hoursSincePosted": 2.38
       },
       "posts": [
         {
@@ -27929,7 +27986,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T19:00:32.949Z",
           "createdUtc": 1779735632,
-          "ageHours": 0.98,
+          "ageHours": 2.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -27938,6 +27995,58 @@
           "linkedRepos": [
             {
               "fullName": "realrossmanngroup/no_ai_slop_writing_rules",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "OrcaSlicer/OrcaSlicer": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:msk7edlrzog7had723nmkyeo/app.bsky.feed.post/3mmpeg653oc2p",
+        "cid": "bafyreidssfj37dzmzve76h3cpgzfegf7geicbenr3ijr6kch4btn3pfsrm",
+        "bskyUrl": "https://bsky.app/profile/gringene.org/post/3mmpeg653oc2p",
+        "text": "#3DPrinting could someone with a 3D printer who is familiar with the OrcaSlicer build process please help me out with testing my infill PR? I'd like a photo of 3D Honeycomb with the \"fill pattern tops\" option turned on, density <15%, and multiline set to at least 2. github.com/OrcaSlicer/O...",
+        "author": {
+          "handle": "gringene.org",
+          "displayName": "David Eccles 🌻🇵🇸7x🩹🛡️"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T20:55:12.603Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:msk7edlrzog7had723nmkyeo/app.bsky.feed.post/3mmpeg653oc2p",
+          "cid": "bafyreidssfj37dzmzve76h3cpgzfegf7geicbenr3ijr6kch4btn3pfsrm",
+          "bskyUrl": "https://bsky.app/profile/gringene.org/post/3mmpeg653oc2p",
+          "text": "#3DPrinting could someone with a 3D printer who is familiar with the OrcaSlicer build process please help me out with testing my infill PR? I'd like a photo of 3D Honeycomb with the \"fill pattern tops\" option turned on, density <15%, and multiline set to at least 2. github.com/OrcaSlicer/O...",
+          "author": {
+            "handle": "gringene.org",
+            "displayName": "David Eccles 🌻🇵🇸7x🩹🛡️"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T20:55:12.603Z",
+          "createdUtc": 1779742512,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "OrcaSlicer/OrcaSlicer",
               "matchType": "url",
               "confidence": 1
             }
@@ -32742,17 +32851,18 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2y5xpoyxhs5ypzznppbnpv4z/app.bsky.feed.post/3mmno5eekuc2s",
-        "cid": "bafyreigasvqdk2l5pmod47cqvpy3b67msm75be4p52bxxn2bi3czuq27lm",
-        "bskyUrl": "https://bsky.app/profile/mccurley.bsky.social/post/3mmno5eekuc2s",
-        "text": "Of course I could always try the caveman skill github.com/JuliusBrusse... to get claude to talk mathematics like caveman. The instruction \"talk like caveman\" is not substantially different from \"talk like mathematician\". Avoid the obvious...",
+        "uri": "at://did:plc:iagspo44enzkxp5y53cyfezm/app.bsky.feed.post/3mmpeeqnvbc2t",
+        "cid": "bafyreihctq7t5yngeli47n4fsrewun6wynr6mzy6j3au5zedw6paveyawe",
+        "bskyUrl": "https://bsky.app/profile/infrequently.org/post/3mmpeeqnvbc2t",
+        "text": "You might enjoy this: github.com/juliusbrusse... (for some value of \"enjoy\")",
         "author": {
-          "handle": "mccurley.bsky.social"
+          "handle": "infrequently.org",
+          "displayName": "ᴀʟᴇx ʀᴜssᴇʟʟ"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-25T04:43:55.101Z",
+        "createdAt": "2026-05-25T20:54:24.929Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
@@ -32856,6 +32966,34 @@
           "createdUtc": 1778225201,
           "ageHours": 0.56,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:iagspo44enzkxp5y53cyfezm/app.bsky.feed.post/3mmpeeqnvbc2t",
+          "cid": "bafyreihctq7t5yngeli47n4fsrewun6wynr6mzy6j3au5zedw6paveyawe",
+          "bskyUrl": "https://bsky.app/profile/infrequently.org/post/3mmpeeqnvbc2t",
+          "text": "You might enjoy this: github.com/juliusbrusse... (for some value of \"enjoy\")",
+          "author": {
+            "handle": "infrequently.org",
+            "displayName": "ᴀʟᴇx ʀᴜssᴇʟʟ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T20:54:24.929Z",
+          "createdUtc": 1779742464,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -34224,7 +34362,7 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -34236,11 +34374,11 @@
           "handle": "boardwire.bsky.social",
           "displayName": "Boardwire"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T19:29:02.975773Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.91
       },
       "posts": [
         {
@@ -34328,6 +34466,35 @@
           ]
         },
         {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
+          "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
+          "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T19:29:02.975773Z",
+          "createdUtc": 1779737342,
+          "ageHours": 1.91,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mmhka4ossk2w",
           "cid": "bafyreifx5bcp74rwtn4zywujirclbfp2d4rzga6tl5zdv6a7gvkocqenxa",
           "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mmhka4ossk2w",
@@ -34404,35 +34571,6 @@
             "has-github-repo"
           ],
           "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmp7m5b2oz2n",
-          "cid": "bafyreifyw6n2gccpcxsk3tlm6figd757liqzyqhxcuujptpu4horf3tdli",
-          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmp7m5b2oz2n",
-          "text": "Claude Code enforces plugin costs and dependencies. v2.1.143 adds per-turn cost estimates to the plugin marketplace and transitive dependency enforcemen #ClaudeCode #PluginCost #DependencyEnforcement 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.143",
-          "author": {
-            "handle": "boardwire.bsky.social",
-            "displayName": "Boardwire"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-25T19:29:02.975773Z",
-          "createdUtc": 1779737342,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -53907,23 +54045,23 @@
     },
     "lum1104--understand-anything": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortudfpz2o",
-        "cid": "bafyreibt2qempiyckkd3wjug72oc77nsco6fwsgekk3weg63exls634nbe",
-        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortudfpz2o",
-        "text": "コードベースを解析して対話可能な知識グラフへ変換してくれるAI連携ツールらしい 大規模なプロジェクトに参画した際や構造を把握したい時に便利そう yug1224 starred Lum1104/Understand-Anything https://github.com/Lum1104/Understand-Anything",
+        "uri": "at://did:plc:ujnfddzjzlxpphksex5wrgi5/app.bsky.feed.post/3mmpeaec2yc2u",
+        "cid": "bafyreic273ukc7r24yg4tvux6xvgydpk4qq2fra4je7tgazqbsg5xfbtw4",
+        "bskyUrl": "https://bsky.app/profile/gho4d76g.bsky.social/post/3mmpeaec2yc2u",
+        "text": "miteru> github.com/Lum1104/Unde...",
         "author": {
-          "handle": "yug1224.com",
-          "displayName": "ぷーじ"
+          "handle": "gho4d76g.bsky.social",
+          "displayName": "かえる㌠"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-25T15:22:50.701Z",
-        "hoursSincePosted": 4.6
+        "createdAt": "2026-05-25T20:51:57.741Z",
+        "hoursSincePosted": 0.53
       },
       "posts": [
         {
@@ -54025,6 +54163,34 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ujnfddzjzlxpphksex5wrgi5/app.bsky.feed.post/3mmpeaec2yc2u",
+          "cid": "bafyreic273ukc7r24yg4tvux6xvgydpk4qq2fra4je7tgazqbsg5xfbtw4",
+          "bskyUrl": "https://bsky.app/profile/gho4d76g.bsky.social/post/3mmpeaec2yc2u",
+          "text": "miteru> github.com/Lum1104/Unde...",
+          "author": {
+            "handle": "gho4d76g.bsky.social",
+            "displayName": "かえる㌠"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T20:51:57.741Z",
+          "createdUtc": 1779742317,
+          "ageHours": 0.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
               "matchType": "url",
               "confidence": 1
             }
@@ -55854,7 +56020,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-25T19:00:32.949Z",
-        "hoursSincePosted": 0.98
+        "hoursSincePosted": 2.38
       },
       "posts": [
         {
@@ -55871,7 +56037,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-25T19:00:32.949Z",
           "createdUtc": 1779735632,
-          "ageHours": 0.98,
+          "ageHours": 2.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -55886,26 +56052,78 @@
           ]
         }
       ]
+    },
+    "orcaslicer--orcaslicer": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:msk7edlrzog7had723nmkyeo/app.bsky.feed.post/3mmpeg653oc2p",
+        "cid": "bafyreidssfj37dzmzve76h3cpgzfegf7geicbenr3ijr6kch4btn3pfsrm",
+        "bskyUrl": "https://bsky.app/profile/gringene.org/post/3mmpeg653oc2p",
+        "text": "#3DPrinting could someone with a 3D printer who is familiar with the OrcaSlicer build process please help me out with testing my infill PR? I'd like a photo of 3D Honeycomb with the \"fill pattern tops\" option turned on, density <15%, and multiline set to at least 2. github.com/OrcaSlicer/O...",
+        "author": {
+          "handle": "gringene.org",
+          "displayName": "David Eccles 🌻🇵🇸7x🩹🛡️"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T20:55:12.603Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:msk7edlrzog7had723nmkyeo/app.bsky.feed.post/3mmpeg653oc2p",
+          "cid": "bafyreidssfj37dzmzve76h3cpgzfegf7geicbenr3ijr6kch4btn3pfsrm",
+          "bskyUrl": "https://bsky.app/profile/gringene.org/post/3mmpeg653oc2p",
+          "text": "#3DPrinting could someone with a 3D printer who is familiar with the OrcaSlicer build process please help me out with testing my infill PR? I'd like a photo of 3D Honeycomb with the \"fill pattern tops\" option turned on, density <15%, and multiline set to at least 2. github.com/OrcaSlicer/O...",
+          "author": {
+            "handle": "gringene.org",
+            "displayName": "David Eccles 🌻🇵🇸7x🩹🛡️"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T20:55:12.603Z",
+          "createdUtc": 1779742512,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "OrcaSlicer/OrcaSlicer",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "dotnet/skills",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "Lum1104/Understand-Anything",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "rohitg00/ai-engineering-from-scratch",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "JuliusBrussee/caveman",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Lum1104/Understand-Anything",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "OrcaSlicer/OrcaSlicer",
       "count7d": 1,
       "likesSum7d": 0
     },

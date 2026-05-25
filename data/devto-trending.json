@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-25T14:57:49.843Z",
+  "fetchedAt": "2026-05-25T19:43:41.847Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1412,
+  "scannedArticles": 1417,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 6,
+    "global-rising": 15,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -200,7 +200,7 @@
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 30,
+    "tag-langchain-top-7d": 32,
     "tag-n8n-top-7d": 100,
     "tag-opensource-top-7d": 100
   },
@@ -1130,6 +1130,27 @@
       "linkedRepos": []
     },
     {
+      "id": 3597666,
+      "title": "What was your win this week!?",
+      "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
+      "url": "https://dev.to/devteam/what-was-your-win-this-week-2ohc",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 75,
+      "commentsCount": 87,
+      "readingTime": 1,
+      "publishedAt": "2026-05-22T13:00:00Z",
+      "tags": [
+        "discuss",
+        "weeklyretro"
+      ],
+      "trendingScore": 17.33,
+      "linkedRepos": []
+    },
+    {
       "id": 3738231,
       "title": "I stress-tested Gemma 4 E4B's 128K context on a laptop GPU — recall is great, prefill is not",
       "description": "Thursday night I let a benchmark run while I slept. By Friday morning Gemma 4 E4B had answered...",
@@ -1221,27 +1242,6 @@
       "linkedRepos": []
     },
     {
-      "id": 3597666,
-      "title": "What was your win this week!?",
-      "description": "👋👋👋👋 Looking back on your week -- what was something you're proud of? All wins count -- big or small...",
-      "url": "https://dev.to/devteam/what-was-your-win-this-week-2ohc",
-      "author": {
-        "username": "jess",
-        "name": "Jess Lee",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
-      },
-      "reactionsCount": 73,
-      "commentsCount": 81,
-      "readingTime": 1,
-      "publishedAt": "2026-05-22T13:00:00Z",
-      "tags": [
-        "discuss",
-        "weeklyretro"
-      ],
-      "trendingScore": 16.74,
-      "linkedRepos": []
-    },
-    {
       "id": 3709055,
       "title": "Antigravity & WebMCP: Why Google I/O 2026 is Terrifying for Devs",
       "description": "This is a submission for the Google I/O Writing Challenge      \"It's been 10 years since we pivoted...",
@@ -1251,8 +1251,8 @@
         "name": "Syed Ahmer Shah",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
       },
-      "reactionsCount": 128,
-      "commentsCount": 54,
+      "reactionsCount": 139,
+      "commentsCount": 62,
       "readingTime": 13,
       "publishedAt": "2026-05-20T11:44:46Z",
       "tags": [
@@ -1261,7 +1261,7 @@
         "codenewbie",
         "ai"
       ],
-      "trendingScore": 16.66,
+      "trendingScore": 16.76,
       "linkedRepos": []
     },
     {
@@ -1953,6 +1953,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3750585,
+      "title": "Building Cursor for Community: A Buildathon Built on Time Pressure",
+      "description": "Over the weekend, I attended an event hosted by Cursor Kenya, bringing together developers, builders,...",
+      "url": "https://dev.to/odingaval/building-cursor-for-community-a-buildathon-built-on-time-pressure-12ih",
+      "author": {
+        "username": "odingaval",
+        "name": "Valery Odinga",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3269806%2F95be98b3-c723-4708-b388-f66b73977499.jpg"
+      },
+      "reactionsCount": 17,
+      "commentsCount": 0,
+      "readingTime": 4,
+      "publishedAt": "2026-05-25T17:26:08Z",
+      "tags": [
+        "ai",
+        "community",
+        "productivity",
+        "softwaredevelopment"
+      ],
+      "trendingScore": 9.12,
+      "linkedRepos": []
+    },
+    {
       "id": 3648448,
       "title": "The Coding Interview Is Dead. What Should Replace It?",
       "description": "Hanzla BaigFollow             Front-end dev &amp; Founder...",
@@ -2537,29 +2560,6 @@
         "frontend"
       ],
       "trendingScore": 6.21,
-      "linkedRepos": []
-    },
-    {
-      "id": 3691061,
-      "title": "I gave Claude six months of our retros. It found three things I'd missed.",
-      "description": "There's a thing PMs do that nobody puts on a job description. Every couple of weeks, after a retro,...",
-      "url": "https://dev.to/mattlewandowski93/i-gave-claude-six-months-of-our-retros-it-found-three-things-id-missed-c1p",
-      "author": {
-        "username": "mattlewandowski93",
-        "name": "Matt",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1262492%2Fbe1683c2-49ec-4c77-ab7d-43b5a6a7269a.jpeg"
-      },
-      "reactionsCount": 18,
-      "commentsCount": 2,
-      "readingTime": 6,
-      "publishedAt": "2026-05-18T05:45:10Z",
-      "tags": [
-        "ai",
-        "mcp",
-        "productivity",
-        "agile"
-      ],
-      "trendingScore": 6.18,
       "linkedRepos": []
     }
   ]

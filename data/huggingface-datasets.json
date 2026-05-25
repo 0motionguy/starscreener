@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-24T19:45:18.226Z",
+  "fetchedAt": "2026-05-25T04:58:13.431Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -65,8 +65,8 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 4833,
-      "likes": 215,
-      "trendingScore": 88,
+      "likes": 222,
+      "trendingScore": 93,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -128,8 +128,8 @@
       "author": "GD-ML",
       "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
       "downloads": 910,
-      "likes": 75,
-      "trendingScore": 72,
+      "likes": 76,
+      "trendingScore": 73,
       "tags": [
         "task_categories:text-generation",
         "language:zh",
@@ -142,6 +142,7 @@
         "library:dask",
         "library:polars",
         "library:mlcroissant",
+        "arxiv:2605.22355",
         "region:us",
         "transportation",
         "route-planning",
@@ -151,7 +152,7 @@
         "benchmark"
       ],
       "createdAt": "2026-05-03T05:31:52.000Z",
-      "lastModified": "2026-05-13T11:01:47.000Z"
+      "lastModified": "2026-05-25T03:54:10.000Z"
     },
     {
       "rank": 6,
@@ -222,6 +223,39 @@
     },
     {
       "rank": 8,
+      "id": "wikimedia/structured-wikipedia",
+      "author": "wikimedia",
+      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
+      "downloads": 3081,
+      "likes": 152,
+      "trendingScore": 49,
+      "tags": [
+        "language:en",
+        "language:fr",
+        "license:cc-by-sa-4.0",
+        "size_categories:10M<n<100M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "wikipedia",
+        "wikimedia",
+        "structured-data",
+        "parquet",
+        "knowledge-base",
+        "references",
+        "citations",
+        "tables",
+        "multilingual"
+      ],
+      "createdAt": "2024-09-19T14:11:27.000Z",
+      "lastModified": "2026-05-19T12:54:16.000Z"
+    },
+    {
+      "rank": 9,
       "id": "5CD-AI/Viet-Handwriting-OCR-v2",
       "author": "5CD-AI",
       "url": "https://huggingface.co/datasets/5CD-AI/Viet-Handwriting-OCR-v2",
@@ -250,39 +284,6 @@
       ],
       "createdAt": "2026-05-10T22:38:24.000Z",
       "lastModified": "2026-05-18T17:14:55.000Z"
-    },
-    {
-      "rank": 9,
-      "id": "wikimedia/structured-wikipedia",
-      "author": "wikimedia",
-      "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
-      "downloads": 3081,
-      "likes": 149,
-      "trendingScore": 46,
-      "tags": [
-        "language:en",
-        "language:fr",
-        "license:cc-by-sa-4.0",
-        "size_categories:10M<n<100M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "wikipedia",
-        "wikimedia",
-        "structured-data",
-        "parquet",
-        "knowledge-base",
-        "references",
-        "citations",
-        "tables",
-        "multilingual"
-      ],
-      "createdAt": "2024-09-19T14:11:27.000Z",
-      "lastModified": "2026-05-19T12:54:16.000Z"
     },
     {
       "rank": 10,
@@ -382,42 +383,12 @@
     },
     {
       "rank": 13,
-      "id": "Jackrong/DeepSeek-V4-Distill-8000x",
-      "author": "Jackrong",
-      "url": "https://huggingface.co/datasets/Jackrong/DeepSeek-V4-Distill-8000x",
-      "downloads": 6738,
-      "likes": 68,
-      "trendingScore": 32,
-      "tags": [
-        "task_categories:text-generation",
-        "source_datasets:Jackrong/GLM-5.1-Reasoning-1M-Cleaned",
-        "language:en",
-        "license:mit",
-        "size_categories:1K<n<10K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "reasoning",
-        "distillation",
-        "supervised-fine-tuning",
-        "chain-of-thought",
-        "deepseek-v4-flash"
-      ],
-      "createdAt": "2026-04-24T07:17:06.000Z",
-      "lastModified": "2026-04-24T08:32:56.000Z"
-    },
-    {
-      "rank": 14,
       "id": "actava/chi-bench",
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
       "downloads": 1715,
-      "likes": 35,
-      "trendingScore": 32,
+      "likes": 36,
+      "trendingScore": 33,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -446,6 +417,36 @@
       ],
       "createdAt": "2026-05-03T06:52:20.000Z",
       "lastModified": "2026-05-22T04:51:56.000Z"
+    },
+    {
+      "rank": 14,
+      "id": "Jackrong/DeepSeek-V4-Distill-8000x",
+      "author": "Jackrong",
+      "url": "https://huggingface.co/datasets/Jackrong/DeepSeek-V4-Distill-8000x",
+      "downloads": 6738,
+      "likes": 68,
+      "trendingScore": 32,
+      "tags": [
+        "task_categories:text-generation",
+        "source_datasets:Jackrong/GLM-5.1-Reasoning-1M-Cleaned",
+        "language:en",
+        "license:mit",
+        "size_categories:1K<n<10K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "reasoning",
+        "distillation",
+        "supervised-fine-tuning",
+        "chain-of-thought",
+        "deepseek-v4-flash"
+      ],
+      "createdAt": "2026-04-24T07:17:06.000Z",
+      "lastModified": "2026-04-24T08:32:56.000Z"
     },
     {
       "rank": 15,
@@ -755,6 +756,31 @@
     },
     {
       "rank": 25,
+      "id": "zhifeixie/Voices-in-the-Wild-2M",
+      "author": "zhifeixie",
+      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
+      "downloads": 7238,
+      "likes": 23,
+      "trendingScore": 23,
+      "tags": [
+        "task_categories:automatic-speech-recognition",
+        "language:en",
+        "language:zh",
+        "license:apache-2.0",
+        "modality:audio",
+        "arxiv:2605.19833",
+        "region:us",
+        "audio",
+        "speech",
+        "asr",
+        "robustness",
+        "noisy-speech"
+      ],
+      "createdAt": "2026-05-18T17:44:26.000Z",
+      "lastModified": "2026-05-24T17:50:51.000Z"
+    },
+    {
+      "rank": 26,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -786,7 +812,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 26,
+      "rank": 27,
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
@@ -821,7 +847,7 @@
       "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
@@ -845,7 +871,37 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 28,
+      "rank": 29,
+      "id": "armand0e/qwen3.7-max-pi-traces",
+      "author": "armand0e",
+      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
+      "downloads": 191,
+      "likes": 23,
+      "trendingScore": 22,
+      "tags": [
+        "task_categories:text-generation",
+        "size_categories:n<1K",
+        "format:json",
+        "format:agent-traces",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "agent-traces",
+        "format:agent-traces",
+        "pi",
+        "distillation",
+        "qwen/qwen3.7-max",
+        "teich"
+      ],
+      "createdAt": "2026-05-23T01:55:28.000Z",
+      "lastModified": "2026-05-23T02:58:23.000Z"
+    },
+    {
+      "rank": 30,
       "id": "SALT-NLP/SWE-chat",
       "author": "SALT-NLP",
       "url": "https://huggingface.co/datasets/SALT-NLP/SWE-chat",
@@ -878,7 +934,7 @@
       "lastModified": "2026-04-29T15:05:22.000Z"
     },
     {
-      "rank": 29,
+      "rank": 31,
       "id": "r0b0tlab/deepseek-hermes-reasoning-traces",
       "author": "r0b0tlab",
       "url": "https://huggingface.co/datasets/r0b0tlab/deepseek-hermes-reasoning-traces",
@@ -913,32 +969,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 30,
-      "id": "zhifeixie/Voices-in-the-Wild-2M",
-      "author": "zhifeixie",
-      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
-      "downloads": 7238,
-      "likes": 20,
-      "trendingScore": 20,
-      "tags": [
-        "task_categories:automatic-speech-recognition",
-        "language:en",
-        "language:zh",
-        "license:apache-2.0",
-        "modality:audio",
-        "arxiv:2605.19833",
-        "region:us",
-        "audio",
-        "speech",
-        "asr",
-        "robustness",
-        "noisy-speech"
-      ],
-      "createdAt": "2026-05-18T17:44:26.000Z",
-      "lastModified": "2026-05-24T17:50:51.000Z"
-    },
-    {
-      "rank": 31,
+      "rank": 32,
       "id": "ShadenA/MathNet",
       "author": "ShadenA",
       "url": "https://huggingface.co/datasets/ShadenA/MathNet",
@@ -981,7 +1012,7 @@
       "lastModified": "2026-04-27T23:48:47.000Z"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "id": "LukaDev13/Liminal-Dreamcore-1K",
       "author": "LukaDev13",
       "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
@@ -1000,36 +1031,6 @@
       ],
       "createdAt": "2026-05-16T12:14:28.000Z",
       "lastModified": "2026-05-18T22:03:11.000Z"
-    },
-    {
-      "rank": 33,
-      "id": "armand0e/qwen3.7-max-pi-traces",
-      "author": "armand0e",
-      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
-      "downloads": 191,
-      "likes": 20,
-      "trendingScore": 19,
-      "tags": [
-        "task_categories:text-generation",
-        "size_categories:n<1K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "format:agent-traces",
-        "pi",
-        "distillation",
-        "qwen/qwen3.7-max",
-        "teich"
-      ],
-      "createdAt": "2026-05-23T01:55:28.000Z",
-      "lastModified": "2026-05-23T02:58:23.000Z"
     },
     {
       "rank": 34,

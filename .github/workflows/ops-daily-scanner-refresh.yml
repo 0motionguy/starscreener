@@ -2,12 +2,10 @@ name: Ops - daily scanner refresh
 
 # Operator safety net for the source/mention tables.
 #
-# This is intentionally separate from the normal staggered cron workflows:
-# those keep individual lanes fresh during the day, while this job gives ops
-# one daily full pass with explicit verification that append-only mention logs
-# did not shrink. Twitter runs three passes because it is the noisiest and most
-# failure-prone mention source. The repo-first sweep runs top-50 with
-# concurrency=1 so each repo gets a distinct refresh pass.
+# Normal staggered cron workflows keep individual lanes warm. This job gives
+# ops one strict daily pass that refreshes the broad scanner set, runs Twitter
+# several times, sweeps the top repos one by one for mentions, and verifies
+# append-only logs before opening a data PR.
 
 on:
   schedule:
@@ -48,7 +46,7 @@ env:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 240
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,8 +78,9 @@ jobs:
           echo "twitter_signals=$(count_lines .data/twitter-repo-signals.jsonl)" >> "$GITHUB_OUTPUT"
           echo "twitter_scans=$(count_lines .data/twitter-scans.jsonl)" >> "$GITHUB_OUTPUT"
           echo "mentions_detail=$(count_lines data/repo-mentions-detail.jsonl)" >> "$GITHUB_OUTPUT"
+          echo "unknown_mentions=$(count_lines data/unknown-mentions.jsonl)" >> "$GITHUB_OUTPUT"
 
-      - name: Refresh core discovery and source scanners
+      - name: Refresh required repo and mention sources
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
@@ -96,8 +95,6 @@ jobs:
           APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN || secrets.PRODUCTHUNT_API_TOKEN }}
           PRODUCTHUNT_API_TOKEN: ${{ secrets.PRODUCTHUNT_API_TOKEN || secrets.PRODUCTHUNT_TOKEN }}
-          HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
-          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
           TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         shell: bash
@@ -108,18 +105,77 @@ jobs:
           npm run fetch:metadata
           npm run compute-deltas
           npm run collect:all -- --no-twitter --concurrency=2
-          npm run scrape:hf
-          npm run scrape:arxiv
-          npm run scrape:npm
-          npm run scrape:funding
 
-      - name: Run Twitter collector three-pass lane
+      - name: Refresh extended source scanners
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          DUNE_API_KEY: ${{ secrets.DUNE_API_KEY }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          failed=0
+          run_optional() {
+            echo "::group::$*"
+            if "$@"; then
+              echo "::endgroup::"
+            else
+              code=$?
+              echo "::warning::optional scanner failed (exit ${code}): $*"
+              echo "::endgroup::"
+              failed=$((failed + 1))
+            fi
+          }
+
+          run_optional npm run scrape:hf
+          run_optional node scripts/scrape-huggingface-datasets.mjs
+          run_optional node scripts/scrape-huggingface-spaces.mjs
+          run_optional npm run scrape:arxiv
+          run_optional npm run scrape:npm
+          run_optional node scripts/scrape-npm-daily.mjs
+          run_optional npm run scrape:funding
+          run_optional npm run scrape:sec-form-d
+          run_optional npm run scrape:claude-rss
+          run_optional npm run scrape:openai-rss
+          run_optional node scripts/scrape-awesome-skills.mjs
+          run_optional node scripts/fetch-mcp-registries.mjs
+          run_optional node scripts/fetch-openrouter-models.mjs
+          run_optional node scripts/fetch-artificial-analysis.mjs
+          run_optional node scripts/fetch-agentic-market.mjs
+          run_optional node scripts/fetch-agent-commerce-live.mjs
+          run_optional node scripts/fetch-agent-commerce-social.mjs
+          run_optional node scripts/fetch-coingecko-agents.mjs
+          run_optional node scripts/fetch-dune-x402.mjs
+          run_optional node scripts/fetch-base-x402-onchain.mjs
+          run_optional node scripts/fetch-solana-x402-onchain.mjs
+          run_optional node scripts/check-profile-completion.ts --mode top
+          run_optional npm run enrich:profiles:top
+          run_optional npm run snapshot:stars
+          run_optional node scripts/snapshot-category-metrics.mjs
+          run_optional npm run snapshot:top10
+          run_optional npm run snapshot:top10-sparklines
+          run_optional npm run snapshot:consensus
+
+          echo "optional scanner failures: ${failed}"
+
+      - name: Run Twitter collector Nitter-first multi-pass lane
         if: env.DRY_RUN != 'true'
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
+          TWITTER_PRIMARY_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'nitter' }}
           TWITTER_COLLECTOR_MODE: direct
           TWITTER_COLLECTOR_LIMIT: ${{ env.TOP_N }}
           TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
@@ -140,14 +196,40 @@ jobs:
           if [[ "$passes" -lt 3 ]]; then
             echo "::warning::twitter_passes=$passes; ops default is 3"
           fi
+
+          providers=("$TWITTER_PRIMARY_PROVIDER" "nitter" "apify" "web")
           for pass in $(seq 1 "$passes"); do
             echo "::group::twitter pass ${pass}/${passes}"
-            npm run collect:twitter -- --limit "$TOP_N" --run-id "ops-daily-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-tw${pass}"
+            ok=0
+            seen=""
+            for provider in "${providers[@]}"; do
+              case ",$seen," in *",$provider,"*) continue ;; esac
+              seen="${seen},${provider}"
+              if [[ "$provider" == "apify" && -z "${APIFY_API_TOKEN:-}" ]]; then
+                echo "skip apify fallback: APIFY_API_TOKEN unset"
+                continue
+              fi
+              if [[ "$provider" == "web" && -z "${TWITTER_WEB_ACCOUNTS_JSON:-}" ]]; then
+                echo "skip web fallback: TWITTER_WEB_ACCOUNTS_JSON unset"
+                continue
+              fi
+              echo "twitter provider=${provider} pass=${pass}"
+              if npm run collect:twitter -- --provider "$provider" --limit "$TOP_N" --run-id "ops-daily-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-tw${pass}-${provider}"; then
+                ok=1
+                break
+              fi
+              echo "::warning::twitter provider failed: ${provider} pass=${pass}"
+            done
             echo "::endgroup::"
+            if [[ "$ok" != "1" ]]; then
+              echo "::error::all twitter providers failed for pass ${pass}"
+              exit 2
+            fi
             if [[ "$pass" -lt "$passes" ]]; then
               sleep 90
             fi
           done
+          npm run compute:consensus
 
       - name: Sweep top repos one by one for mentions
         if: env.DRY_RUN != 'true'
@@ -166,7 +248,7 @@ jobs:
           PRODUCTHUNT_API_TOKEN: ${{ secrets.PRODUCTHUNT_API_TOKEN || secrets.PRODUCTHUNT_TOKEN }}
         run: npm run sweep:mentions -- --top "$TOP_N" --concurrency 1 --compact
 
-      - name: Verify append-only mention logs and data store
+      - name: Verify public routing and append-only data
         if: env.DRY_RUN != 'true'
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -186,9 +268,11 @@ jobs:
           tw_signals_after="$(count_lines .data/twitter-repo-signals.jsonl)"
           tw_scans_after="$(count_lines .data/twitter-scans.jsonl)"
           mentions_after="$(count_lines data/repo-mentions-detail.jsonl)"
-          echo "twitter signals: ${{ steps.before.outputs.twitter_signals }} -> ${tw_signals_after}"
-          echo "twitter scans:   ${{ steps.before.outputs.twitter_scans }} -> ${tw_scans_after}"
-          echo "mention detail:  ${{ steps.before.outputs.mentions_detail }} -> ${mentions_after}"
+          unknown_after="$(count_lines data/unknown-mentions.jsonl)"
+          echo "twitter signals:  ${{ steps.before.outputs.twitter_signals }} -> ${tw_signals_after}"
+          echo "twitter scans:    ${{ steps.before.outputs.twitter_scans }} -> ${tw_scans_after}"
+          echo "mention detail:   ${{ steps.before.outputs.mentions_detail }} -> ${mentions_after}"
+          echo "unknown mentions: ${{ steps.before.outputs.unknown_mentions }} -> ${unknown_after}"
           if [[ "$tw_signals_after" -lt "${{ steps.before.outputs.twitter_signals }}" ]]; then
             echo "::error::.data/twitter-repo-signals.jsonl shrank; append-only contract violated"
             exit 2
@@ -201,6 +285,19 @@ jobs:
             echo "::error::data/repo-mentions-detail.jsonl shrank; append-only contract violated"
             exit 2
           fi
+          if [[ "$unknown_after" -lt "${{ steps.before.outputs.unknown_mentions }}" ]]; then
+            echo "::error::data/unknown-mentions.jsonl shrank; append-only contract violated"
+            exit 2
+          fi
+
+          headers="$(mktemp)"
+          curl -fsSI --max-time 30 "$BASE_URL" -o "$headers"
+          if grep -qi '^x-vercel-' "$headers"; then
+            echo "::error::$BASE_URL returned X-Vercel headers; expected HOSTUP/Cloudflare routing"
+            cat "$headers"
+            exit 2
+          fi
+          cat "$headers"
           npm run verify:data-store
           npm run audit:freshness:report
 
@@ -240,7 +337,27 @@ jobs:
             data/huggingface-spaces.json
             data/arxiv-papers.json
             data/npm-packages.json
+            data/npm-daily.json
             data/funding-news.json
+            data/sec-form-d.json
+            data/openai-rss.json
+            data/claude-rss.json
+            data/awesome-skills.json
+            data/mcp-registries.json
+            data/openrouter-models.json
+            data/artificial-analysis.json
+            data/agentic-market.json
+            data/agent-commerce.json
+            data/coingecko-agents.json
+            data/dune-x402.json
+            data/base-x402-onchain.json
+            data/solana-x402-onchain.json
+            data/profile-completion-queue.json
+            data/repo-profiles.json
+            data/star-snapshots.json
+            data/category-metrics-snapshot.json
+            data/top10-snapshots.json
+            data/top10-sparklines.json
             data/repo-mentions-detail.jsonl
             data/repo-mentions-detail-rollup.json
             data/twitter-trending.json

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-25T12:45:46.042Z",
+  "fetchedAt": "2026-05-25T16:04:35.162Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 98,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -13663,24 +13663,24 @@
       ]
     },
     "warpdotdev/warp": {
-      "count7d": 7,
-      "likesSum7d": 8,
+      "count7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 6,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
-        "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
-        "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxav5rc2h",
+        "cid": "bafyreigz3aw3cjr5myctfjlm5dqe4gpdyz5ldlbddhp4smrukuvnbwycga",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxav5rc2h",
+        "text": "Over 40 community PRs in review right now. Come contribute. github.com/warpdotdev/... ⭐",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-22T23:09:51.080758Z",
-        "hoursSincePosted": 4.97
+        "replyCount": 0,
+        "createdAt": "2026-05-25T15:06:50.983703Z",
+        "hoursSincePosted": 0.96
       },
       "posts": [
         {
@@ -13979,6 +13979,118 @@
           "createdUtc": 1778864303,
           "ageHours": 3.63,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxav5rc2h",
+          "cid": "bafyreigz3aw3cjr5myctfjlm5dqe4gpdyz5ldlbddhp4smrukuvnbwycga",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxav5rc2h",
+          "text": "Over 40 community PRs in review right now. Come contribute. github.com/warpdotdev/... ⭐",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:06:50.983703Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxaroyr2b",
+          "cid": "bafyreicyabinao7eqc3mns7eqakooydt3xam7d7ypa2yotpajeevt4jv24",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxaroyr2b",
+          "text": "Atharva Sindwani (atharvasindwani23) found a shell injection path in cd commands. Directory names with $ or backticks could trigger command execution. Fixed with shell_words::quote. In review: github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T15:06:50.884238Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxaoq4f2v",
+          "cid": "bafyreie75g63pp2oa4gre2cn2ngrw5hjfxg6avhzppadm7qnljpvfyewza",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxaoq4f2v",
+          "text": "David Engelmann (david-engelmann) opened 5 PRs in 3 days. MCP integer arg coercion fix, config parse error surfacing in Settings, and a secret-redaction bypass fix on the +Add path. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T15:06:50.785531Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxalftb2b",
+          "cid": "bafyreifoarsa7x3jcfvilnvp2f2mirg2mz4lwtnpr53ss5rebitpb4ofiq",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxalftb2b",
+          "text": "Vasco de Graaff (vascodegraaff) added drag-tab-to-pane-split. Drag a tab from the sidebar onto a pane, closest edge picks the split direction, with a live overlay preview. In review: github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T15:06:50.668967Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -21875,25 +21987,53 @@
     },
     "dotnet/skills": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
-        "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
-        "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
+        "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mmorxsyhqu2h",
+        "cid": "bafyreifyi47rcui54rbtsi2zqez3biyq2tlbwi4cnlbyquqm5sqlzzmwua",
+        "bskyUrl": "https://bsky.app/profile/robrich.bsky.social/post/3mmorxsyhqu2h",
+        "text": "www.linkedin.com/posts/iammuk... - #dotNET #skills repo is at github.com/dotnet/skills and lists lots of great #AI skills. The README has instructions for #VSCode and #Claude.",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "robrich.bsky.social",
+          "displayName": "Rob Richardson"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "createdAt": "2026-05-25T15:25:03.255Z",
+        "hoursSincePosted": 0.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mmorxsyhqu2h",
+          "cid": "bafyreifyi47rcui54rbtsi2zqez3biyq2tlbwi4cnlbyquqm5sqlzzmwua",
+          "bskyUrl": "https://bsky.app/profile/robrich.bsky.social/post/3mmorxsyhqu2h",
+          "text": "www.linkedin.com/posts/iammuk... - #dotNET #skills repo is at github.com/dotnet/skills and lists lots of great #AI skills. The README has instructions for #VSCode and #Claude.",
+          "author": {
+            "handle": "robrich.bsky.social",
+            "displayName": "Rob Richardson"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:25:03.255Z",
+          "createdUtc": 1779722703,
+          "ageHours": 0.66,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dotnet/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
           "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
@@ -23360,26 +23500,92 @@
       ]
     },
     "rohitg00/ai-engineering-from-scratch": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 3,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
-        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortpapmr2w",
+        "cid": "bafyreifhvjchofttinmrrqjheibm42dd2o3lvdqmttuxvtbhnmtdjjcglm",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortpapmr2w",
+        "text": "AIエンジニアリングの基礎からLLMの実装まで学べる学習ロードマップっぽい ゼロから仕組みを理解したい時に活用できそうで試したい yug1224 starred rohitg00/ai-engineering-from-scratch https://github.com/rohitg00/ai-engineering-from-scratch",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 3,
-        "createdAt": "2026-05-24T13:23:40.000Z",
-        "hoursSincePosted": 1.97
+        "replyCount": 0,
+        "createdAt": "2026-05-25T15:22:45.486Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortpapmr2w",
+          "cid": "bafyreifhvjchofttinmrrqjheibm42dd2o3lvdqmttuxvtbhnmtdjjcglm",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortpapmr2w",
+          "text": "AIエンジニアリングの基礎からLLMの実装まで学べる学習ロードマップっぽい ゼロから仕組みを理解したい時に活用できそうで試したい yug1224 starred rohitg00/ai-engineering-from-scratch https://github.com/rohitg00/ai-engineering-from-scratch",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:22:45.486Z",
+          "createdUtc": 1779722565,
+          "ageHours": 0.7,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+          "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T14:51:14.000Z",
+          "createdUtc": 1779720674,
+          "ageHours": 1.22,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
           "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
@@ -25729,26 +25935,92 @@
       ]
     },
     "Lum1104/Understand-Anything": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 3,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
-        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortudfpz2o",
+        "cid": "bafyreibt2qempiyckkd3wjug72oc77nsco6fwsgekk3weg63exls634nbe",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortudfpz2o",
+        "text": "コードベースを解析して対話可能な知識グラフへ変換してくれるAI連携ツールらしい 大規模なプロジェクトに参画した際や構造を把握したい時に便利そう yug1224 starred Lum1104/Understand-Anything https://github.com/Lum1104/Understand-Anything",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 3,
-        "createdAt": "2026-05-24T13:23:40.000Z",
-        "hoursSincePosted": 1.97
+        "replyCount": 0,
+        "createdAt": "2026-05-25T15:22:50.701Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortudfpz2o",
+          "cid": "bafyreibt2qempiyckkd3wjug72oc77nsco6fwsgekk3weg63exls634nbe",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortudfpz2o",
+          "text": "コードベースを解析して対話可能な知識グラフへ変換してくれるAI連携ツールらしい 大規模なプロジェクトに参画した際や構造を把握したい時に便利そう yug1224 starred Lum1104/Understand-Anything https://github.com/Lum1104/Understand-Anything",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:22:50.701Z",
+          "createdUtc": 1779722570,
+          "ageHours": 0.7,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+          "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T14:51:14.000Z",
+          "createdUtc": 1779720674,
+          "ageHours": 1.22,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
           "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
@@ -26683,23 +26955,23 @@
     },
     "anthropics/knowledge-work-plugins": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jl5s7l7e4b4ycdkwig3cas75/app.bsky.feed.post/3mmmbyc7mac2w",
-        "cid": "bafyreifarzq4e53m2rtevvkiuz6dzrmolwzpcg7ycmb5euxldm2xkp2bsu",
-        "bskyUrl": "https://bsky.app/profile/tommis.fi/post/3mmmbyc7mac2w",
-        "text": "github.com/anthropics/k...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+        "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
         "author": {
-          "handle": "tommis.fi",
-          "displayName": "Tommi Somersuo"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-24T15:33:40.429Z",
-        "hoursSincePosted": 5.64
+        "replyCount": 1,
+        "createdAt": "2026-05-25T14:51:14.000Z",
+        "hoursSincePosted": 1.22
       },
       "posts": [
         {
@@ -26725,6 +26997,44 @@
           "linkedRepos": [
             {
               "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+          "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T14:51:14.000Z",
+          "createdUtc": 1779720674,
+          "ageHours": 1.22,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
               "matchType": "url",
               "confidence": 1
             }
@@ -26887,23 +27197,23 @@
     },
     "manaflow-ai/cmux": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:uj2ayk4ucpqfl7g2wpfd2xox/app.bsky.feed.post/3mmmm7kuvak2h",
-        "cid": "bafyreihjzvk5gjnscms5isnq3zjnziucygusae6q6sitpt6dcoukccm434",
-        "bskyUrl": "https://bsky.app/profile/catalinpit.com/post/3mmmm7kuvak2h",
-        "text": "cmux is a Ghostty-based macOS terminal built for AI coding agents. It comes with vertical tabs, agent notifications, split panes, built-in browser, and SSH workspaces. Open-source ftw and great work by @manaflowai. github.com/manaflow-ai...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+        "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+        "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
         "author": {
-          "handle": "catalinpit.com",
-          "displayName": "Catalin Pit"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 4,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-24T18:36:41.731262Z",
-        "hoursSincePosted": 5.63
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:51:15.000Z",
+        "hoursSincePosted": 1.22
       },
       "posts": [
         {
@@ -26929,6 +27239,44 @@
           "linkedRepos": [
             {
               "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+          "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+          "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:51:15.000Z",
+          "createdUtc": 1779720675,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fincept-Corporation/FinceptTerminal",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "paperless-ngx/paperless-ngx",
               "matchType": "url",
               "confidence": 1
             }
@@ -27337,6 +27685,179 @@
           "linkedRepos": [
             {
               "fullName": "unitedbyai/droidclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Fincept-Corporation/FinceptTerminal": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+        "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+        "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:51:15.000Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+          "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+          "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:51:15.000Z",
+          "createdUtc": 1779720675,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fincept-Corporation/FinceptTerminal",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "paperless-ngx/paperless-ngx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "paperless-ngx/paperless-ngx": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+        "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+        "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:51:15.000Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+          "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+          "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:51:15.000Z",
+          "createdUtc": 1779720675,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fincept-Corporation/FinceptTerminal",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "paperless-ngx/paperless-ngx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "allenk/GeminiWatermarkTool": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmophagfxl2s",
+        "cid": "bafyreifx6gbvjki3cfi5xlb5wcdujcxtjh5y6pmftlqfbvss2feaulef6i",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmophagfxl2s",
+        "text": "https://github.com/allenk/GeminiWatermarkTool",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:39:59Z",
+        "hoursSincePosted": 1.41
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmophagfxl2s",
+          "cid": "bafyreifx6gbvjki3cfi5xlb5wcdujcxtjh5y6pmftlqfbvss2feaulef6i",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmophagfxl2s",
+          "text": "https://github.com/allenk/GeminiWatermarkTool",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:39:59Z",
+          "createdUtc": 1779719999,
+          "ageHours": 1.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "allenk/GeminiWatermarkTool",
               "matchType": "url",
               "confidence": 1
             }
@@ -41004,24 +41525,24 @@
       ]
     },
     "warpdotdev--warp": {
-      "count7d": 7,
-      "likesSum7d": 8,
+      "count7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 6,
+      "repliesSum7d": 3,
       "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmi2k636s32b",
-        "cid": "bafyreihpo5huhrnyeynvh3fcummorbdyr4idhl3y3jsdsglmx22esb4fbu",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmi2k636s32b",
-        "text": "Bobby Wang (BobbyWang0120) exposed terminal focus URL env vars. Scripts can now read the active terminal session UUID and focus URL from the environment, including WSL paths covered by the allowlist. github.com/warpdotdev/...",
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxav5rc2h",
+        "cid": "bafyreigz3aw3cjr5myctfjlm5dqe4gpdyz5ldlbddhp4smrukuvnbwycga",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxav5rc2h",
+        "text": "Over 40 community PRs in review right now. Come contribute. github.com/warpdotdev/... ⭐",
         "author": {
           "handle": "warp.dev",
           "displayName": "Warp"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-22T23:09:51.080758Z",
-        "hoursSincePosted": 4.97
+        "replyCount": 0,
+        "createdAt": "2026-05-25T15:06:50.983703Z",
+        "hoursSincePosted": 0.96
       },
       "posts": [
         {
@@ -41320,6 +41841,118 @@
           "createdUtc": 1778864303,
           "ageHours": 3.63,
           "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxav5rc2h",
+          "cid": "bafyreigz3aw3cjr5myctfjlm5dqe4gpdyz5ldlbddhp4smrukuvnbwycga",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxav5rc2h",
+          "text": "Over 40 community PRs in review right now. Come contribute. github.com/warpdotdev/... ⭐",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:06:50.983703Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxaroyr2b",
+          "cid": "bafyreicyabinao7eqc3mns7eqakooydt3xam7d7ypa2yotpajeevt4jv24",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxaroyr2b",
+          "text": "Atharva Sindwani (atharvasindwani23) found a shell injection path in cd commands. Directory names with $ or backticks could trigger command execution. Fixed with shell_words::quote. In review: github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T15:06:50.884238Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxaoq4f2v",
+          "cid": "bafyreie75g63pp2oa4gre2cn2ngrw5hjfxg6avhzppadm7qnljpvfyewza",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxaoq4f2v",
+          "text": "David Engelmann (david-engelmann) opened 5 PRs in 3 days. MCP integer arg coercion fix, config parse error surfacing in Settings, and a secret-redaction bypass fix on the +Add path. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T15:06:50.785531Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mmoqxalftb2b",
+          "cid": "bafyreifoarsa7x3jcfvilnvp2f2mirg2mz4lwtnpr53ss5rebitpb4ofiq",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mmoqxalftb2b",
+          "text": "Vasco de Graaff (vascodegraaff) added drag-tab-to-pane-split. Drag a tab from the sidebar onto a pane, closest edge picks the split direction, with a live overlay preview. In review: github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T15:06:50.668967Z",
+          "createdUtc": 1779721610,
+          "ageHours": 0.96,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -49216,25 +49849,53 @@
     },
     "dotnet--skills": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
-        "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
-        "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
+        "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mmorxsyhqu2h",
+        "cid": "bafyreifyi47rcui54rbtsi2zqez3biyq2tlbwi4cnlbyquqm5sqlzzmwua",
+        "bskyUrl": "https://bsky.app/profile/robrich.bsky.social/post/3mmorxsyhqu2h",
+        "text": "www.linkedin.com/posts/iammuk... - #dotNET #skills repo is at github.com/dotnet/skills and lists lots of great #AI skills. The README has instructions for #VSCode and #Claude.",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "robrich.bsky.social",
+          "displayName": "Rob Richardson"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T13:22:26.000Z",
-        "hoursSincePosted": 4.83
+        "createdAt": "2026-05-25T15:25:03.255Z",
+        "hoursSincePosted": 0.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:vxb4osoqcu56pteg2ieo6zyo/app.bsky.feed.post/3mmorxsyhqu2h",
+          "cid": "bafyreifyi47rcui54rbtsi2zqez3biyq2tlbwi4cnlbyquqm5sqlzzmwua",
+          "bskyUrl": "https://bsky.app/profile/robrich.bsky.social/post/3mmorxsyhqu2h",
+          "text": "www.linkedin.com/posts/iammuk... - #dotNET #skills repo is at github.com/dotnet/skills and lists lots of great #AI skills. The README has instructions for #VSCode and #Claude.",
+          "author": {
+            "handle": "robrich.bsky.social",
+            "displayName": "Rob Richardson"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:25:03.255Z",
+          "createdUtc": 1779722703,
+          "ageHours": 0.66,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dotnet/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk73qurne2",
           "cid": "bafyreiggifky5tqjsig2t4gni2n57jwzqwnae2qignphqujjuhyomje7hi",
@@ -50701,26 +51362,92 @@
       ]
     },
     "rohitg00--ai-engineering-from-scratch": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 3,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
-        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortpapmr2w",
+        "cid": "bafyreifhvjchofttinmrrqjheibm42dd2o3lvdqmttuxvtbhnmtdjjcglm",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortpapmr2w",
+        "text": "AIエンジニアリングの基礎からLLMの実装まで学べる学習ロードマップっぽい ゼロから仕組みを理解したい時に活用できそうで試したい yug1224 starred rohitg00/ai-engineering-from-scratch https://github.com/rohitg00/ai-engineering-from-scratch",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 3,
-        "createdAt": "2026-05-24T13:23:40.000Z",
-        "hoursSincePosted": 1.97
+        "replyCount": 0,
+        "createdAt": "2026-05-25T15:22:45.486Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortpapmr2w",
+          "cid": "bafyreifhvjchofttinmrrqjheibm42dd2o3lvdqmttuxvtbhnmtdjjcglm",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortpapmr2w",
+          "text": "AIエンジニアリングの基礎からLLMの実装まで学べる学習ロードマップっぽい ゼロから仕組みを理解したい時に活用できそうで試したい yug1224 starred rohitg00/ai-engineering-from-scratch https://github.com/rohitg00/ai-engineering-from-scratch",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:22:45.486Z",
+          "createdUtc": 1779722565,
+          "ageHours": 0.7,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+          "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T14:51:14.000Z",
+          "createdUtc": 1779720674,
+          "ageHours": 1.22,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmepygfqxhv2",
           "cid": "bafyreic6u6hiha6d5lcrn3p6hrs3k43uz2u7q4ac3upp3ytoydyewsi3ni",
@@ -53070,26 +53797,92 @@
       ]
     },
     "lum1104--understand-anything": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 3,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2q3bixj72",
-        "cid": "bafyreidxk2cevtmenyfglydgd2vd2et5jov3tdqynqps4hu5lc3hp3mrcq",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortudfpz2o",
+        "cid": "bafyreibt2qempiyckkd3wjug72oc77nsco6fwsgekk3weg63exls634nbe",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortudfpz2o",
+        "text": "コードベースを解析して対話可能な知識グラフへ変換してくれるAI連携ツールらしい 大規模なプロジェクトに参画した際や構造を把握したい時に便利そう yug1224 starred Lum1104/Understand-Anything https://github.com/Lum1104/Understand-Anything",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 3,
-        "createdAt": "2026-05-24T13:23:40.000Z",
-        "hoursSincePosted": 1.97
+        "replyCount": 0,
+        "createdAt": "2026-05-25T15:22:50.701Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mmortudfpz2o",
+          "cid": "bafyreibt2qempiyckkd3wjug72oc77nsco6fwsgekk3weg63exls634nbe",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mmortudfpz2o",
+          "text": "コードベースを解析して対話可能な知識グラフへ変換してくれるAI連携ツールらしい 大規模なプロジェクトに参画した際や構造を把握したい時に便利そう yug1224 starred Lum1104/Understand-Anything https://github.com/Lum1104/Understand-Anything",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T15:22:50.701Z",
+          "createdUtc": 1779722570,
+          "ageHours": 0.7,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+          "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T14:51:14.000Z",
+          "createdUtc": 1779720674,
+          "ageHours": 1.22,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmjk6vzdvie2",
           "cid": "bafyreib4oug4w2c6oaufnmayg3ynuuij5clbagih3vh75arvhmuus4pd2e",
@@ -54024,23 +54817,23 @@
     },
     "anthropics--knowledge-work-plugins": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:jl5s7l7e4b4ycdkwig3cas75/app.bsky.feed.post/3mmmbyc7mac2w",
-        "cid": "bafyreifarzq4e53m2rtevvkiuz6dzrmolwzpcg7ycmb5euxldm2xkp2bsu",
-        "bskyUrl": "https://bsky.app/profile/tommis.fi/post/3mmmbyc7mac2w",
-        "text": "github.com/anthropics/k...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+        "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
         "author": {
-          "handle": "tommis.fi",
-          "displayName": "Tommi Somersuo"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-24T15:33:40.429Z",
-        "hoursSincePosted": 5.64
+        "replyCount": 1,
+        "createdAt": "2026-05-25T14:51:14.000Z",
+        "hoursSincePosted": 1.22
       },
       "posts": [
         {
@@ -54066,6 +54859,44 @@
           "linkedRepos": [
             {
               "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
+          "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
+          "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-25T14:51:14.000Z",
+          "createdUtc": 1779720674,
+          "ageHours": 1.22,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
               "matchType": "url",
               "confidence": 1
             }
@@ -54228,23 +55059,23 @@
     },
     "manaflow-ai--cmux": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:uj2ayk4ucpqfl7g2wpfd2xox/app.bsky.feed.post/3mmmm7kuvak2h",
-        "cid": "bafyreihjzvk5gjnscms5isnq3zjnziucygusae6q6sitpt6dcoukccm434",
-        "bskyUrl": "https://bsky.app/profile/catalinpit.com/post/3mmmm7kuvak2h",
-        "text": "cmux is a Ghostty-based macOS terminal built for AI coding agents. It comes with vertical tabs, agent notifications, split panes, built-in browser, and SSH workspaces. Open-source ftw and great work by @manaflowai. github.com/manaflow-ai...",
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+        "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+        "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
         "author": {
-          "handle": "catalinpit.com",
-          "displayName": "Catalin Pit"
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
         },
-        "likeCount": 4,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-24T18:36:41.731262Z",
-        "hoursSincePosted": 5.63
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:51:15.000Z",
+        "hoursSincePosted": 1.22
       },
       "posts": [
         {
@@ -54270,6 +55101,44 @@
           "linkedRepos": [
             {
               "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+          "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+          "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:51:15.000Z",
+          "createdUtc": 1779720675,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fincept-Corporation/FinceptTerminal",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "paperless-ngx/paperless-ngx",
               "matchType": "url",
               "confidence": 1
             }
@@ -54684,31 +55553,224 @@
           ]
         }
       ]
+    },
+    "fincept-corporation--finceptterminal": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+        "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+        "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:51:15.000Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+          "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+          "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:51:15.000Z",
+          "createdUtc": 1779720675,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fincept-Corporation/FinceptTerminal",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "paperless-ngx/paperless-ngx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "paperless-ngx--paperless-ngx": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+        "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+        "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+        "author": {
+          "handle": "ghtrend.newsmast.social.ap.brid.gy",
+          "displayName": "GitHub Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:51:15.000Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3luqzzr2",
+          "cid": "bafyreichnqgehy6ory6fapquw5wmpjcfwefbq6gxq5kmwxoastn3gze6wq",
+          "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3luqzzr2",
+          "text": "7. https://github.com/manaflow-ai/cmux - Swift, 598 stars today 8. https://github.com/multica-ai/andrej-karpathy-skills - 2753 stars today 9. https://github.com/Fincept-Corporation/FinceptTerminal - Python, 462 stars today 10. https://github.com/paperless-ngx/paperless-ngx - Python, 151 stars […]",
+          "author": {
+            "handle": "ghtrend.newsmast.social.ap.brid.gy",
+            "displayName": "GitHub Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:51:15.000Z",
+          "createdUtc": 1779720675,
+          "ageHours": 1.22,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "manaflow-ai/cmux",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fincept-Corporation/FinceptTerminal",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "paperless-ngx/paperless-ngx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "allenk--geminiwatermarktool": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmophagfxl2s",
+        "cid": "bafyreifx6gbvjki3cfi5xlb5wcdujcxtjh5y6pmftlqfbvss2feaulef6i",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmophagfxl2s",
+        "text": "https://github.com/allenk/GeminiWatermarkTool",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T14:39:59Z",
+        "hoursSincePosted": 1.41
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmophagfxl2s",
+          "cid": "bafyreifx6gbvjki3cfi5xlb5wcdujcxtjh5y6pmftlqfbvss2feaulef6i",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmophagfxl2s",
+          "text": "https://github.com/allenk/GeminiWatermarkTool",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T14:39:59Z",
+          "createdUtc": 1779719999,
+          "ageHours": 1.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "allenk/GeminiWatermarkTool",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "Agustinm28/Optiscaler-Client",
+      "fullName": "Lum1104/Understand-Anything",
+      "count7d": 2,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "rohitg00/ai-engineering-from-scratch",
+      "count7d": 2,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "dotnet/skills",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "anthropics/knowledge-work-plugins",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "warpdotdev/warp",
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "allenk/GeminiWatermarkTool",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "Alishahryar1/free-claude-code",
+      "fullName": "Fincept-Corporation/FinceptTerminal",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "rorkai/App-Store-Connect-CLI",
+      "fullName": "manaflow-ai/cmux",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "shareAI-lab/learn-claude-code",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "unitedbyai/droidclaw",
+      "fullName": "paperless-ngx/paperless-ngx",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-25T04:58:13.431Z",
+  "fetchedAt": "2026-05-25T10:53:37.947Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -127,8 +127,8 @@
       "id": "GD-ML/TransitLM",
       "author": "GD-ML",
       "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
-      "downloads": 910,
-      "likes": 76,
+      "downloads": 1007,
+      "likes": 77,
       "trendingScore": 73,
       "tags": [
         "task_categories:text-generation",
@@ -226,9 +226,9 @@
       "id": "wikimedia/structured-wikipedia",
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
-      "downloads": 3081,
-      "likes": 152,
-      "trendingScore": 49,
+      "downloads": 3250,
+      "likes": 156,
+      "trendingScore": 53,
       "tags": [
         "language:en",
         "language:fr",
@@ -386,7 +386,7 @@
       "id": "actava/chi-bench",
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
-      "downloads": 1715,
+      "downloads": 1862,
       "likes": 36,
       "trendingScore": 33,
       "tags": [
@@ -759,7 +759,7 @@
       "id": "zhifeixie/Voices-in-the-Wild-2M",
       "author": "zhifeixie",
       "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
-      "downloads": 7238,
+      "downloads": 7891,
       "likes": 23,
       "trendingScore": 23,
       "tags": [
@@ -781,6 +781,36 @@
     },
     {
       "rank": 26,
+      "id": "armand0e/qwen3.7-max-pi-traces",
+      "author": "armand0e",
+      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
+      "downloads": 378,
+      "likes": 24,
+      "trendingScore": 23,
+      "tags": [
+        "task_categories:text-generation",
+        "size_categories:n<1K",
+        "format:json",
+        "format:agent-traces",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "agent-traces",
+        "format:agent-traces",
+        "pi",
+        "distillation",
+        "qwen/qwen3.7-max",
+        "teich"
+      ],
+      "createdAt": "2026-05-23T01:55:28.000Z",
+      "lastModified": "2026-05-23T02:58:23.000Z"
+    },
+    {
+      "rank": 27,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -812,7 +842,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
@@ -847,7 +877,7 @@
       "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
@@ -869,36 +899,6 @@
       ],
       "createdAt": "2024-04-18T14:33:13.000Z",
       "lastModified": "2025-07-11T20:16:53.000Z"
-    },
-    {
-      "rank": 29,
-      "id": "armand0e/qwen3.7-max-pi-traces",
-      "author": "armand0e",
-      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
-      "downloads": 191,
-      "likes": 23,
-      "trendingScore": 22,
-      "tags": [
-        "task_categories:text-generation",
-        "size_categories:n<1K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "format:agent-traces",
-        "pi",
-        "distillation",
-        "qwen/qwen3.7-max",
-        "teich"
-      ],
-      "createdAt": "2026-05-23T01:55:28.000Z",
-      "lastModified": "2026-05-23T02:58:23.000Z"
     },
     {
       "rank": 30,
@@ -1088,7 +1088,7 @@
       "id": "HuggingFaceBio/carbon-pretraining-corpus",
       "author": "HuggingFaceBio",
       "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
-      "downloads": 3910,
+      "downloads": 3968,
       "likes": 20,
       "trendingScore": 18,
       "tags": [
@@ -1382,7 +1382,7 @@
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "downloads": 13034,
+      "downloads": 13742,
       "likes": 28,
       "trendingScore": 15,
       "tags": [

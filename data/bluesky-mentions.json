@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-25T04:50:56.614Z",
+  "fetchedAt": "2026-05-25T12:45:46.042Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 1,
@@ -5375,10 +5375,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmj2lez3pl2s",
-        "cid": "bafyreih4kfe3ib5c7lnubhnb5bv2bixwtdfiocbkhktnpglhoeciswq6a4",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmj2lez3pl2s",
-        "text": "Missed to announce the 1.5.1 release of App Store Connect CLI! It improves the subscriptions related commands and offer codes. Also, I am adding official Windows support with WinGet. (instead of downloading the .exe separately) Just waiting for them to merge it next week! github.com/rorkai/App-...",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmohjpcwxb23",
+        "cid": "bafyreibgl6brpqyl7dqbonc6s42kv7djjmzyzoncem5iqwu32dni2jd6cq",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmohjpcwxb23",
+        "text": "App Store Connect CLI 1.5.2 is out! Main improvement is asc status --platform MAC_OS Useful for universal apps where iOS and macOS have different builds/review states. Also: Inline CSR generation, and offer-code hints github.com/rorkai/App-...",
         "author": {
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
@@ -5386,8 +5386,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T08:43:11.692430Z",
-        "hoursSincePosted": 5.33
+        "createdAt": "2026-05-25T12:18:12.704138Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -5410,6 +5410,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmohjpcwxb23",
+          "cid": "bafyreibgl6brpqyl7dqbonc6s42kv7djjmzyzoncem5iqwu32dni2jd6cq",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmohjpcwxb23",
+          "text": "App Store Connect CLI 1.5.2 is out! Main improvement is asc status --platform MAC_OS Useful for universal apps where iOS and macOS have different builds/review states. Also: Inline CSR generation, and offer-code hints github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T12:18:12.704138Z",
+          "createdUtc": 1779711492,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "rorkai/App-Store-Connect-CLI",
@@ -13334,19 +13363,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
-        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
-        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmo7zszybw2a",
+        "cid": "bafyreibhuevueu3s2xhlvvqy33dlwpfpzgt2alqezohrgigu6zmj5s22vy",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmo7zszybw2a",
+        "text": "Claude-code runs free in terminal, VSCode, and Discord. Alishahryar1/free-claude-code adds voice to local Claude-code workflows with 565 stars today. #OpenClaw #VSCode #ClaudeCode 🔗 https://github.com/Alishahryar1/free-claude-code",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-24T13:23:40.000Z",
-        "hoursSincePosted": 1.97
+        "createdAt": "2026-05-25T10:04:02.616816Z",
+        "hoursSincePosted": 2.7
       },
       "posts": [
         {
@@ -13365,6 +13394,34 @@
           "createdUtc": 1778584802,
           "ageHours": 0.99,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmo7zszybw2a",
+          "cid": "bafyreibhuevueu3s2xhlvvqy33dlwpfpzgt2alqezohrgigu6zmj5s22vy",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmo7zszybw2a",
+          "text": "Claude-code runs free in terminal, VSCode, and Discord. Alishahryar1/free-claude-code adds voice to local Claude-code workflows with 565 stars today. #OpenClaw #VSCode #ClaudeCode 🔗 https://github.com/Alishahryar1/free-claude-code",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T10:04:02.616816Z",
+          "createdUtc": 1779703442,
+          "ageHours": 2.7,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -27133,6 +27190,159 @@
           ]
         }
       ]
+    },
+    "shareAI-lab/learn-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoil7haay2q",
+        "cid": "bafyreihen7ofqvkgpupwu3ahagfkr67ur4rkie4yggizpych7hk7jmldly",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoil7haay2q",
+        "text": "https://github.com/shareAI-lab/learn-claude-code",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T12:36:56Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoil7haay2q",
+          "cid": "bafyreihen7ofqvkgpupwu3ahagfkr67ur4rkie4yggizpych7hk7jmldly",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoil7haay2q",
+          "text": "https://github.com/shareAI-lab/learn-claude-code",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T12:36:56Z",
+          "createdUtc": 1779712616,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "shareAI-lab/learn-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Agustinm28/Optiscaler-Client": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoebjtbqf2z",
+        "cid": "bafyreibs43suf4ty4lmyinil5xyxiknefmfjjcusuuxz7sp5yd4qrhboeu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoebjtbqf2z",
+        "text": "https://github.com/Agustinm28/Optiscaler-Client",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T11:19:57Z",
+        "hoursSincePosted": 1.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoebjtbqf2z",
+          "cid": "bafyreibs43suf4ty4lmyinil5xyxiknefmfjjcusuuxz7sp5yd4qrhboeu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoebjtbqf2z",
+          "text": "https://github.com/Agustinm28/Optiscaler-Client",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T11:19:57Z",
+          "createdUtc": 1779707997,
+          "ageHours": 1.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Agustinm28/Optiscaler-Client",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "unitedbyai/droidclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmo6at4oob22",
+        "cid": "bafyreigmkcih5bqk6y6nzubj4icsztplf5qwhqtayc5ldpkosxq7a75ute",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmo6at4oob22",
+        "text": "https://github.com/unitedbyai/droidclaw",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T09:32:10Z",
+        "hoursSincePosted": 3.23
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmo6at4oob22",
+          "cid": "bafyreigmkcih5bqk6y6nzubj4icsztplf5qwhqtayc5ldpkosxq7a75ute",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmo6at4oob22",
+          "text": "https://github.com/unitedbyai/droidclaw",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T09:32:10Z",
+          "createdUtc": 1779701530,
+          "ageHours": 3.23,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unitedbyai/droidclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -32506,10 +32716,10 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmj2lez3pl2s",
-        "cid": "bafyreih4kfe3ib5c7lnubhnb5bv2bixwtdfiocbkhktnpglhoeciswq6a4",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmj2lez3pl2s",
-        "text": "Missed to announce the 1.5.1 release of App Store Connect CLI! It improves the subscriptions related commands and offer codes. Also, I am adding official Windows support with WinGet. (instead of downloading the .exe separately) Just waiting for them to merge it next week! github.com/rorkai/App-...",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmohjpcwxb23",
+        "cid": "bafyreibgl6brpqyl7dqbonc6s42kv7djjmzyzoncem5iqwu32dni2jd6cq",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmohjpcwxb23",
+        "text": "App Store Connect CLI 1.5.2 is out! Main improvement is asc status --platform MAC_OS Useful for universal apps where iOS and macOS have different builds/review states. Also: Inline CSR generation, and offer-code hints github.com/rorkai/App-...",
         "author": {
           "handle": "rudrank.bsky.social",
           "displayName": "Rudrank Riyam"
@@ -32517,8 +32727,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T08:43:11.692430Z",
-        "hoursSincePosted": 5.33
+        "createdAt": "2026-05-25T12:18:12.704138Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -32541,6 +32751,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mmohjpcwxb23",
+          "cid": "bafyreibgl6brpqyl7dqbonc6s42kv7djjmzyzoncem5iqwu32dni2jd6cq",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mmohjpcwxb23",
+          "text": "App Store Connect CLI 1.5.2 is out! Main improvement is asc status --platform MAC_OS Useful for universal apps where iOS and macOS have different builds/review states. Also: Inline CSR generation, and offer-code hints github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T12:18:12.704138Z",
+          "createdUtc": 1779711492,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "rorkai/App-Store-Connect-CLI",
@@ -40465,19 +40704,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmm2r3uwx5v2",
-        "cid": "bafyreidn2tmo5gh7yrtfseuf5ahynez5z4nndztsfjtdl76pkcnqzchp6y",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
-        "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmo7zszybw2a",
+        "cid": "bafyreibhuevueu3s2xhlvvqy33dlwpfpzgt2alqezohrgigu6zmj5s22vy",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmo7zszybw2a",
+        "text": "Claude-code runs free in terminal, VSCode, and Discord. Alishahryar1/free-claude-code adds voice to local Claude-code workflows with 565 stars today. #OpenClaw #VSCode #ClaudeCode 🔗 https://github.com/Alishahryar1/free-claude-code",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-24T13:23:40.000Z",
-        "hoursSincePosted": 1.97
+        "createdAt": "2026-05-25T10:04:02.616816Z",
+        "hoursSincePosted": 2.7
       },
       "posts": [
         {
@@ -40496,6 +40735,34 @@
           "createdUtc": 1778584802,
           "ageHours": 0.99,
           "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mmo7zszybw2a",
+          "cid": "bafyreibhuevueu3s2xhlvvqy33dlwpfpzgt2alqezohrgigu6zmj5s22vy",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mmo7zszybw2a",
+          "text": "Claude-code runs free in terminal, VSCode, and Discord. Alishahryar1/free-claude-code adds voice to local Claude-code workflows with 565 stars today. #OpenClaw #VSCode #ClaudeCode 🔗 https://github.com/Alishahryar1/free-claude-code",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T10:04:02.616816Z",
+          "createdUtc": 1779703442,
+          "ageHours": 2.7,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -54264,31 +54531,184 @@
           ]
         }
       ]
+    },
+    "shareai-lab--learn-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoil7haay2q",
+        "cid": "bafyreihen7ofqvkgpupwu3ahagfkr67ur4rkie4yggizpych7hk7jmldly",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoil7haay2q",
+        "text": "https://github.com/shareAI-lab/learn-claude-code",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T12:36:56Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoil7haay2q",
+          "cid": "bafyreihen7ofqvkgpupwu3ahagfkr67ur4rkie4yggizpych7hk7jmldly",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoil7haay2q",
+          "text": "https://github.com/shareAI-lab/learn-claude-code",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T12:36:56Z",
+          "createdUtc": 1779712616,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "shareAI-lab/learn-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "agustinm28--optiscaler-client": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoebjtbqf2z",
+        "cid": "bafyreibs43suf4ty4lmyinil5xyxiknefmfjjcusuuxz7sp5yd4qrhboeu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoebjtbqf2z",
+        "text": "https://github.com/Agustinm28/Optiscaler-Client",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T11:19:57Z",
+        "hoursSincePosted": 1.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmoebjtbqf2z",
+          "cid": "bafyreibs43suf4ty4lmyinil5xyxiknefmfjjcusuuxz7sp5yd4qrhboeu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmoebjtbqf2z",
+          "text": "https://github.com/Agustinm28/Optiscaler-Client",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T11:19:57Z",
+          "createdUtc": 1779707997,
+          "ageHours": 1.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Agustinm28/Optiscaler-Client",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "unitedbyai--droidclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmo6at4oob22",
+        "cid": "bafyreigmkcih5bqk6y6nzubj4icsztplf5qwhqtayc5ldpkosxq7a75ute",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmo6at4oob22",
+        "text": "https://github.com/unitedbyai/droidclaw",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-25T09:32:10Z",
+        "hoursSincePosted": 3.23
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mmo6at4oob22",
+          "cid": "bafyreigmkcih5bqk6y6nzubj4icsztplf5qwhqtayc5ldpkosxq7a75ute",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmo6at4oob22",
+          "text": "https://github.com/unitedbyai/droidclaw",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-25T09:32:10Z",
+          "createdUtc": 1779701530,
+          "ageHours": 3.23,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "unitedbyai/droidclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "gkd-kit/gkd",
-      "count7d": 1,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "kaifcodec/user-scanner",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "calesthio/Crucix",
+      "fullName": "Agustinm28/Optiscaler-Client",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "Alishahryar1/free-claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "openclaw/openclaw",
+      "fullName": "rorkai/App-Store-Connect-CLI",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "shareAI-lab/learn-claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "unitedbyai/droidclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

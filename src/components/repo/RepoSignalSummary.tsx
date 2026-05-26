@@ -22,6 +22,7 @@
 
 import { ageLabel } from "@/lib/format-age";
 import { synthesizeWhyParagraphs, type WhyConfidence } from "@/lib/why-narrative";
+import { SourceLogo } from "@/components/icon/Icon";
 
 import type { ConsensusItemReport } from "@/lib/consensus-verdicts";
 import type { RepoCommunityProfile } from "@/lib/repo-community-profile";
@@ -180,9 +181,13 @@ export function RepoSignalSummary({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="mark" aria-hidden>
-                  A
-                </span>
+                <SourceLogo
+                  source="aiso"
+                  size={16}
+                  alt=""
+                  className="mark"
+                  style={{ borderRadius: 3, flexShrink: 0 }}
+                />
                 <span>ANALYSIS BY AISO.TOOLS</span>
                 <span className="arr" aria-hidden>
                   ↗

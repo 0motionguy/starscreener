@@ -101,6 +101,18 @@ function ioredisAdapter(client: IORedisType): RedisHandle {
     async del(key) {
       await client.del(key);
     },
+    async lpush(key, ...values) {
+      return client.lpush(key, ...values);
+    },
+    async rpop(key) {
+      return client.rpop(key);
+    },
+    async lrange(key, start, stop) {
+      return client.lrange(key, start, stop);
+    },
+    async llen(key) {
+      return client.llen(key);
+    },
     async quit() {
       try {
         await client.quit();
@@ -115,6 +127,10 @@ interface UpstashLike {
   get(key: string): Promise<string | null>;
   set(key: string, value: string, opts?: { ex?: number }): Promise<unknown>;
   del(...keys: string[]): Promise<unknown>;
+  lpush?(key: string, ...values: string[]): Promise<number>;
+  rpop?(key: string): Promise<string | null>;
+  lrange?(key: string, start: number, stop: number): Promise<string[]>;
+  llen?(key: string): Promise<number>;
 }
 
 function upstashAdapter(client: UpstashLike): RedisHandle {
@@ -131,6 +147,22 @@ function upstashAdapter(client: UpstashLike): RedisHandle {
     },
     async del(key) {
       await client.del(key);
+    },
+    async lpush(key, ...values) {
+      if (!client.lpush) throw new Error('[redis] lpush not implemented by upstash client');
+      return client.lpush(key, ...values);
+    },
+    async rpop(key) {
+      if (!client.rpop) throw new Error('[redis] rpop not implemented by upstash client');
+      return client.rpop(key);
+    },
+    async lrange(key, start, stop) {
+      if (!client.lrange) throw new Error('[redis] lrange not implemented by upstash client');
+      return client.lrange(key, start, stop);
+    },
+    async llen(key) {
+      if (!client.llen) throw new Error('[redis] llen not implemented by upstash client');
+      return client.llen(key);
     },
     async quit() {
       // No-op for Upstash REST.

@@ -62,11 +62,16 @@ const fetcher: Fetcher = {
 
     if (!isLlmConfigured()) {
       // Template-only fallback so the page still renders sensibly without LLM creds.
+      // CRITICAL: preserve previously-generated item verdicts. A bare
+      // `items: {}` here wipes every repo we ever analysed (backfill + prior
+      // runs) the moment the LLM is unconfigured or out of quota. Only the
+      // ribbon is regenerated from template; items carry forward untouched.
       const fallback = buildTemplatePayload(consensusPayload);
+      fallback.items = await loadExistingItems();
       const result = await writeDataStore('consensus-verdicts', fallback);
       ctx.log.warn(
-        { redis: result.source },
-        'consensus-analyst: KIMI_API_KEY missing — wrote template-only verdicts',
+        { redis: result.source, retainedItems: Object.keys(fallback.items).length },
+        'consensus-analyst: LLM unconfigured — kept existing verdicts, refreshed ribbon only',
       );
       return done(startedAt, Object.keys(fallback.items).length, result.source === 'redis');
     }
@@ -155,12 +160,18 @@ const fetcher: Fetcher = {
     }
 
     const env = loadEnvFromProcess();
+    // Read-then-merge: preserve prior verdicts (backfill + older sweeps) and
+    // overwrite only the keys refreshed this run. A bare `items: items` would
+    // wipe every repo not in today's top-14 sweep — fatal for the backfill.
+    const existingItems = await loadExistingItems();
+    const freshCount = Object.keys(items).length;
+    const mergedItems = { ...existingItems, ...items };
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
       generator: LLM_PROVIDER,
       model: env.model,
       ribbon,
-      items,
+      items: mergedItems,
       usage: {
         totalInputTokens: totalInput,
         totalOutputTokens: totalOutput,
@@ -171,7 +182,8 @@ const fetcher: Fetcher = {
     const result = await writeDataStore('consensus-verdicts', payload);
     ctx.log.info(
       {
-        itemCount: Object.keys(items).length,
+        freshThisRun: freshCount,
+        totalRetained: Object.keys(mergedItems).length,
         ribbonBullets: ribbon.bullets.length,
         usage: payload.usage,
         cacheHitRate:
@@ -182,7 +194,7 @@ const fetcher: Fetcher = {
       },
       'consensus-analyst published',
     );
-    return done(startedAt, Object.keys(items).length, result.source === 'redis');
+    return done(startedAt, freshCount, result.source === 'redis');
   },
 };
 
@@ -190,6 +202,23 @@ export default fetcher;
 
 function loadEnvFromProcess(): { model: string } {
   return { model: process.env.KIMI_MODEL ?? 'kimi-k2-0711-preview' };
+}
+
+/**
+ * Read the current verdicts payload and return its items map, so callers can
+ * merge fresh analyses over it instead of replacing the whole key. Returns an
+ * empty map when the key is missing or malformed — never throws.
+ */
+async function loadExistingItems(): Promise<Record<string, VerdictsItemPayload>> {
+  try {
+    const existing = await readDataStore<VerdictsPayload>('consensus-verdicts');
+    if (existing && existing.items && typeof existing.items === 'object') {
+      return existing.items;
+    }
+  } catch {
+    /* fall through to empty */
+  }
+  return {};
 }
 
 function buildTemplatePayload(p: ConsensusTrendingPayload): VerdictsPayload {

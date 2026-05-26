@@ -42,18 +42,20 @@ import npmDownloads from './fetchers/npm-downloads/index.js';
 import pypiDownloads from './fetchers/pypi-downloads/index.js';
 import npmDependents from './fetchers/npm-dependents/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
-import hfDownloadsSnapshot from './fetchers/hf-downloads-snapshot/index.js';
 // Sprint 3.2 wave 3 — register fetchers whose data was previously produced by
 // GH Action workflows (scrape-arxiv.yml + enrich-arxiv.yml for arxiv;
 // scrape-claude-rss.yml + scrape-openai-rss.yml for ai-blogs, which already
 // covers 6 lab RSS sources via AI_LAB_REGISTRY).
 import arxiv from './fetchers/arxiv/index.js';
 import aiBlogs from './fetchers/ai-blogs/index.js';
-// LLM quality signals — LMArena Elo (CC-BY-4.0 via HF dataset, weekly) +
-// Artificial Analysis Intelligence Index (AA_API_KEY required).
+// LLM quality signals — Artificial Analysis Intelligence Index (AA_API_KEY
+// required). The /?cat=llms surface clones the AA leaderboard.
 import lmarena from './fetchers/lmarena/index.js';
 import artificialanalysis from './fetchers/artificialanalysis/index.js';
-import huggingface from './fetchers/huggingface/index.js';
+// DORP intake-queue consumer — drains `queue:drop-a-repo` every minute and
+// calls back to the Vercel /enrich endpoint to run the existing pipeline
+// ingest. See header for the producer/consumer contract.
+import dropIntakeDrain from './fetchers/drop-intake-drain/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -87,12 +89,11 @@ export const FETCHERS: Fetcher[] = [
   pypiDownloads,
   npmDependents,
   hotnessSnapshot,
-  hfDownloadsSnapshot,
-  huggingface,
   arxiv,
   aiBlogs,
   lmarena,
   artificialanalysis,
+  dropIntakeDrain,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

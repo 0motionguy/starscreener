@@ -90,6 +90,13 @@ const envSchema = z
     PORT: z.coerce.number().int().positive().default(8080),
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
     DATA_STORE_DISABLE: z.string().optional(),
+
+    // DORP intake-drain fetcher needs to call back to the web app to
+    // run the existing pipeline ingest. Both are optional — when unset the
+    // fetcher logs a warning and skips its tick rather than crashing the
+    // worker process.
+    CRON_SECRET: z.string().optional(),
+    TRENDINGREPO_BASE_URL: z.string().url().optional(),
   })
   .refine(
     (env) => {

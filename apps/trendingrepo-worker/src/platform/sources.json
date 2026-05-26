@@ -1001,35 +1001,6 @@
     "decision_pending": "Stub fetcher only emits 'not yet implemented' warnings; oss-trending + recent-repos + repo-metadata already cover GitHub. Ship the planned port (Phase B) OR delete the stub file?"
   },
   {
-    "id": "huggingface",
-    "category": "model",
-    "kind": "collector",
-    "state": "intent-only",
-    "freshness_budget_ms": 86400000,
-    "cost_signal_metric": {
-      "type": "rate_limit_pct",
-      "scope": "hour"
-    },
-    "owner": "UNASSIGNED",
-    "upstream_url": "https://huggingface.co/api",
-    "auth_required": false,
-    "auth_scheme": "none",
-    "primary_output_keys": [
-      "huggingface-trending"
-    ],
-    "output_record_shape": "ranked_list",
-    "consumer_surfaces": [
-      "src/lib/huggingface.ts"
-    ],
-    "depends_on": [],
-    "supports_backfill": false,
-    "fallback_strategy": "skip",
-    "writes_canonical_entity_kind": [
-      "model"
-    ],
-    "decision_pending": "Stub worker fetcher; the active writer is scripts/scrape-huggingface.mjs (workflow-side). Ship the worker port per ~/.claude/plans/huggingface-fetcher-plan.md OR delete the stub file?"
-  },
-  {
     "id": "ai-blogs",
     "category": "research",
     "kind": "collector",
@@ -1240,64 +1211,6 @@
     ]
   },
   {
-    "id": "huggingface-datasets",
-    "category": "model",
-    "kind": "collector",
-    "state": "active",
-    "freshness_budget_ms": 86400000,
-    "cost_signal_metric": {
-      "type": "rate_limit_pct",
-      "scope": "hour"
-    },
-    "owner": "UNASSIGNED",
-    "upstream_url": "https://huggingface.co/api/datasets",
-    "auth_required": false,
-    "auth_scheme": "none",
-    "primary_output_keys": [
-      "huggingface-datasets"
-    ],
-    "output_record_shape": "ranked_list",
-    "consumer_surfaces": [
-      "src/lib/hf-datasets.ts",
-      "src/lib/sidebar-source-counts.ts"
-    ],
-    "depends_on": [],
-    "supports_backfill": false,
-    "fallback_strategy": "cache",
-    "writes_canonical_entity_kind": [
-      "model"
-    ]
-  },
-  {
-    "id": "huggingface-spaces",
-    "category": "model",
-    "kind": "collector",
-    "state": "active",
-    "freshness_budget_ms": 86400000,
-    "cost_signal_metric": {
-      "type": "rate_limit_pct",
-      "scope": "hour"
-    },
-    "owner": "UNASSIGNED",
-    "upstream_url": "https://huggingface.co/api/spaces",
-    "auth_required": false,
-    "auth_scheme": "none",
-    "primary_output_keys": [
-      "huggingface-spaces"
-    ],
-    "output_record_shape": "ranked_list",
-    "consumer_surfaces": [
-      "src/lib/hf-spaces.ts",
-      "src/lib/sidebar-source-counts.ts"
-    ],
-    "depends_on": [],
-    "supports_backfill": false,
-    "fallback_strategy": "cache",
-    "writes_canonical_entity_kind": [
-      "model"
-    ]
-  },
-  {
     "id": "npm-daily",
     "category": "package",
     "kind": "snapshot",
@@ -1324,36 +1237,6 @@
     "writes_canonical_entity_kind": [
       "package"
     ]
-  },
-  {
-    "id": "huggingface-models-script",
-    "category": "model",
-    "kind": "collector",
-    "state": "intent-only",
-    "freshness_budget_ms": 86400000,
-    "cost_signal_metric": {
-      "type": "rate_limit_pct",
-      "scope": "hour"
-    },
-    "owner": "UNASSIGNED",
-    "upstream_url": "https://huggingface.co/api/models",
-    "auth_required": false,
-    "auth_scheme": "none",
-    "primary_output_keys": [
-      "huggingface-trending"
-    ],
-    "output_record_shape": "ranked_list",
-    "consumer_surfaces": [
-      "src/lib/huggingface.ts",
-      "src/lib/sidebar-source-counts.ts"
-    ],
-    "depends_on": [],
-    "supports_backfill": false,
-    "fallback_strategy": "cache",
-    "writes_canonical_entity_kind": [
-      "model"
-    ],
-    "decision_pending": "Verifier check 2 expects scripts/scrape-<id>.mjs OR a fetcher; the active writer is scripts/scrape-huggingface.mjs (slug 'huggingface') but the worker fetcher 'huggingface' is intent-only stub. Naming collision — this row exists to register the script's source-family separately from the stub fetcher row. Decision: rename script to scrape-hf-models.mjs OR rename worker stub OR collapse rows once HuggingFace strategy is locked."
   },
   {
     "id": "arxiv-enriched",
@@ -1494,6 +1377,36 @@
     "supports_backfill": false,
     "fallback_strategy": "cache",
     "decision_pending": "Standalone script scripts/run-shadow-scoring.mjs writes the slug but verifier check 2 expects scripts/scrape-scoring-shadow-report.mjs OR a worker fetcher. Decision: rename OR port OR extend verifier for run-*.mjs prefix."
+  },
+  {
+    "id": "drop-intake-drain",
+    "category": "user-input",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "none"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://trendingrepo.com/api/repo-submissions/[id]/enrich",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "apps/trendingrepo-worker/src/fetchers/drop-intake-drain/index.ts",
+      "src/app/api/repo-submissions/[id]/enrich/route.ts",
+      "src/lib/repo-submissions-store.ts"
+    ],
+    "depends_on": [
+      "user-input:repo-submissions"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "none",
+    "writes_canonical_entity_kind": [
+      "repo",
+      "mention"
+    ]
   },
   {
     "id": "user-input:repo-submissions",

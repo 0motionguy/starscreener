@@ -108,6 +108,16 @@ export interface RedisHandle {
     fields: Record<string, string>,
     opts?: { maxlenApprox?: number },
   ): Promise<string | null>;
+  /**
+   * Redis list primitives used by the DORP intake queue
+   * (`queue:drop-a-repo`) and the drop-intake-drain fetcher. Both
+   * ioredis and `@upstash/redis` implement them natively. Optional so
+   * the in-memory test fake can omit them when not exercised.
+   */
+  lpush?(key: string, ...values: string[]): Promise<number>;
+  rpop?(key: string): Promise<string | null>;
+  lrange?(key: string, start: number, stop: number): Promise<string[]>;
+  llen?(key: string): Promise<number>;
 }
 
 export interface HttpOptions {

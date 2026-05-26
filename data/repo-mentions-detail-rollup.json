@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-25T19:43:11.772Z",
-  "scanRunId": "sweep-2026-05-25T19:43:02.589Z",
+  "computedAt": "2026-05-26T03:42:06.203Z",
+  "scanRunId": "sweep-2026-05-26T03:41:57.683Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -1083,11 +1083,24 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 7,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://inktag.io",
+              "title": "Show HN: Built a tool to create brand-consistent images using AI",
+              "text": "Hello folks,<p>Over the past months I found it extremely hard to find photos for my blog that looked like MY brand.<p>I was tired of using stock photos and also did not want to spend time on canva creating graphics. The AI images also looked very off-brand and I always had to copy paste my brand instructions to create graphics for my blog.<p>It led me to create [InkTag.io](<a href=\"http:&#x2F;&#x2F;inktag.io&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;inktag.io&#x2F;</a>) - it let&#x27;s users add co",
+              "author": "gsharma1",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-25T20:55:18.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
@@ -1139,19 +1152,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-21T08:21:30.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://github.com/NuxTuxSux/ASDL",
-              "title": "ASDL: Enable graphic programming when no other ways are easily viable",
-              "text": "",
-              "author": "tosh",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T15:08:04.000Z"
             }
           ]
         }
@@ -3680,11 +3680,24 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 100,
+      "totalMentions7d": 122,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 122,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
+              "title": "An OpenAI model has disproved a central conjecture in discrete geometry",
+              "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
+              "author": "tedsanders",
+              "engagement": {
+                "score": 1427,
+                "comments": 1052
+              },
+              "observedAt": "2026-05-20T19:05:30.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3694,22 +3707,9 @@
               "author": "dmarcos",
               "engagement": {
                 "score": 1427,
-                "comments": 618
+                "comments": 617
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
-              "title": "An OpenAI model has disproved a central conjecture in discrete geometry",
-              "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
-              "author": "tedsanders",
-              "engagement": {
-                "score": 1424,
-                "comments": 1049
-              },
-              "observedAt": "2026-05-20T19:05:30.000Z"
             },
             {
               "source": "hackernews",
@@ -3719,7 +3719,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 684,
+                "score": 685,
                 "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -3745,8 +3745,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C</a>",
               "author": "louiereederson",
               "engagement": {
-                "score": 204,
-                "comments": 405
+                "score": 205,
+                "comments": 406
               },
               "observedAt": "2026-05-20T16:24:42.000Z"
             }
@@ -4676,10 +4676,10 @@
     },
     "Imbad0202/academic-research-skills": {
       "fullName": "Imbad0202/academic-research-skills",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -4693,6 +4693,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-20T15:17:05.722Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "Imbad0202/academic-research-skills",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mmpu5sdaub2u",
+              "title": "https://github.com/Imbad0202/academic-research-skills-codex",
+              "text": "https://github.com/Imbad0202/academic-research-skills-codex",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-26T01:36:52.666Z"
             },
             {
               "source": "bluesky",
@@ -5996,10 +6009,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 12,
+      "totalMentions7d": 15,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 15,
           "top": [
             {
               "source": "hackernews",
@@ -6022,8 +6035,8 @@
               "text": "",
               "author": "cf100clunk",
               "engagement": {
-                "score": 230,
-                "comments": 309
+                "score": 231,
+                "comments": 314
               },
               "observedAt": "2026-05-19T15:30:01.000Z"
             },
@@ -6035,8 +6048,8 @@
               "text": "Hey HN! We’re Gary and Ian, and we’re building Chert (<a href=\"https:&#x2F;&#x2F;www.trychert.com&#x2F;\">https:&#x2F;&#x2F;www.trychert.com&#x2F;</a>), an API for businesses to send, receive, and automate iMessage conversations at scale. Check out our demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=SRdwvVxMMoI\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=SRdwvVxMMoI</a>.<p>We originally started by building products on top of iMessage because the blue bubble interf",
               "author": "garygao",
               "engagement": {
-                "score": 38,
-                "comments": 132
+                "score": 53,
+                "comments": 180
               },
               "observedAt": "2026-05-25T15:12:33.000Z"
             },
@@ -7633,7 +7646,7 @@
               "text": "I work with a bunch of people that just left college and we were discussing how to avoid deskilling and I said &quot;well, you could go to local meetups&quot;. They&#x27;re in NYC (I&#x27;m in Florida right now) and said there isn&#x27;t much going on and I couldn&#x27;t believe it. Asked some more experienced friends that have been living there for longer and they said that it all died during COVID and never came back.<p>I ran or helped organize meetups in multiple places, back in Brazil where ",
               "author": "mlinhares",
               "engagement": {
-                "score": 11,
+                "score": 12,
                 "comments": 12
               },
               "observedAt": "2026-05-24T12:39:30.000Z"
@@ -8677,7 +8690,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 684,
+                "score": 685,
                 "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -8690,8 +8703,8 @@
               "text": "",
               "author": "intelkishan",
               "engagement": {
-                "score": 422,
-                "comments": 465
+                "score": 430,
+                "comments": 478
               },
               "observedAt": "2026-05-24T16:31:29.000Z"
             },
@@ -8716,7 +8729,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;EVV1E&#x2F;waylandcraft</a><p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=cTkEM7b0IQw</a>",
               "author": "Jotalea",
               "engagement": {
-                "score": 267,
+                "score": 268,
                 "comments": 79
               },
               "observedAt": "2026-05-20T20:19:46.000Z"
@@ -8812,7 +8825,7 @@
     },
     "MinishLab/semble": {
       "fullName": "MinishLab/semble",
-      "totalMentions7d": 5,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8833,20 +8846,20 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
               "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/sagalinked.bsky.social/post/3mm6gp7ymf22y",
-              "title": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternat",
-              "text": "📰 Semble is an open-source code search tool that uses 98% fewer tokens than grep and achieves 99% retrieval quality of a transformer model while being 200x faster, making it a more efficient alternative for large-scale codebases. 🔗 https://github.com/MinishLab/semble #Tech #Dev",
-              "author": "sagalinked.bsky.social",
+              "url": "https://bsky.app/profile/pythonhub.dev/post/3mmpwcwvag62o",
+              "title": "semble Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read. https://github.com/MinishLab/semble",
+              "text": "semble Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read. https://github.com/MinishLab/semble",
+              "author": "pythonhub.dev",
               "engagement": {
-                "score": 2,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-19T03:20:49.062Z"
+              "observedAt": "2026-05-26T02:15:32.463Z"
             },
             {
               "source": "bluesky",
@@ -8873,19 +8886,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-19T12:22:43.767Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "MinishLab/semble",
-              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mm6fvzphlt2a",
-              "title": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
-              "text": "GitHub - MinishLab/semble: Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read https://github.com/MinishLab/semble",
-              "author": "tech-trending.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-19T03:06:44.065Z"
             }
           ]
         }
@@ -8893,11 +8893,24 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 92,
+      "totalMentions7d": 91,
       "perSource": {
         "hackernews": {
-          "count7d": 91,
+          "count7d": 90,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
+              "title": "An OpenAI model has disproved a central conjecture in discrete geometry",
+              "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
+              "author": "tedsanders",
+              "engagement": {
+                "score": 1427,
+                "comments": 1052
+              },
+              "observedAt": "2026-05-20T19:05:30.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "rmyndharis/OpenWA",
@@ -8907,22 +8920,9 @@
               "author": "dmarcos",
               "engagement": {
                 "score": 1427,
-                "comments": 618
+                "comments": 617
               },
               "observedAt": "2026-05-19T15:07:45.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
-              "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
-              "title": "An OpenAI model has disproved a central conjecture in discrete geometry",
-              "text": "<a href=\"https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;x.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>, <a href=\"https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912\" rel=\"nofollow\">https:&#x2F;&#x2F;xcancel.com&#x2F;wtgowers&#x2F;status&#x2F;2057175727271800912</a>",
-              "author": "tedsanders",
-              "engagement": {
-                "score": 1424,
-                "comments": 1049
-              },
-              "observedAt": "2026-05-20T19:05:30.000Z"
             },
             {
               "source": "hackernews",
@@ -8932,7 +8932,7 @@
               "text": "Hi HN, I&#x27;m Antoine Zambelli, AI Director at Texas Instruments.<p>I built Forge, an open-source reliability layer for self-hosted LLM tool-calling.<p>What it does:<p>- Adds domain-and-tool-agnostic guardrails (retry nudges, step enforcement, error recovery, VRAM-aware context management) to local models running on consumer hardware<p>- Takes an 8B model from ~53% to ~99% on multi-step agentic workflows without changing the model - just the system around it<p>- Ships with an eval harness and ",
               "author": "zambelli",
               "engagement": {
-                "score": 684,
+                "score": 685,
                 "comments": 251
               },
               "observedAt": "2026-05-19T12:23:07.000Z"
@@ -8958,8 +8958,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.md&#x2F;0Ez3C</a>",
               "author": "louiereederson",
               "engagement": {
-                "score": 204,
-                "comments": 405
+                "score": 205,
+                "comments": 406
               },
               "observedAt": "2026-05-20T16:24:42.000Z"
             }
@@ -9748,7 +9748,7 @@
               "text": "",
               "author": "rippeltippel",
               "engagement": {
-                "score": 57,
+                "score": 58,
                 "comments": 15
               },
               "observedAt": "2026-05-21T09:14:13.000Z"
@@ -10111,10 +10111,10 @@
     },
     "anthropics/knowledge-work-plugins": {
       "fullName": "anthropics/knowledge-work-plugins",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -10128,6 +10128,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-25T14:51:20.361Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "anthropics/knowledge-work-plugins",
+              "url": "https://bsky.app/profile/rickqian.bsky.social/post/3mmppct27bs2j",
+              "title": "📡 Builder signal of the day Anthropic-Cybersecurity-Skills — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/anth",
+              "text": "📡 Builder signal of the day Anthropic-Cybersecurity-Skills — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/anthropics/knowledge-work-plugins",
+              "author": "rickqian.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-26T00:10:11.562Z"
             }
           ]
         }

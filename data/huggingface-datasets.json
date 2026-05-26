@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-26T10:31:59.663Z",
+  "fetchedAt": "2026-05-26T16:14:23.268Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -128,8 +128,8 @@
       "author": "GD-ML",
       "url": "https://huggingface.co/datasets/GD-ML/TransitLM",
       "downloads": 1115,
-      "likes": 78,
-      "trendingScore": 73,
+      "likes": 79,
+      "trendingScore": 74,
       "tags": [
         "task_categories:text-generation",
         "language:zh",
@@ -196,8 +196,8 @@
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
       "downloads": 3574,
-      "likes": 172,
-      "trendingScore": 67,
+      "likes": 174,
+      "trendingScore": 69,
       "tags": [
         "language:en",
         "language:fr",
@@ -291,8 +291,8 @@
       "author": "actava",
       "url": "https://huggingface.co/datasets/actava/chi-bench",
       "downloads": 4712,
-      "likes": 46,
-      "trendingScore": 40,
+      "likes": 50,
+      "trendingScore": 43,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -424,8 +424,8 @@
       "author": "armand0e",
       "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
       "downloads": 574,
-      "likes": 35,
-      "trendingScore": 34,
+      "likes": 38,
+      "trendingScore": 37,
       "tags": [
         "task_categories:text-generation",
         "size_categories:n<1K",
@@ -503,6 +503,31 @@
     },
     {
       "rank": 17,
+      "id": "zhifeixie/Voices-in-the-Wild-2M",
+      "author": "zhifeixie",
+      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
+      "downloads": 9633,
+      "likes": 30,
+      "trendingScore": 30,
+      "tags": [
+        "task_categories:automatic-speech-recognition",
+        "language:en",
+        "language:zh",
+        "license:apache-2.0",
+        "modality:audio",
+        "arxiv:2605.19833",
+        "region:us",
+        "audio",
+        "speech",
+        "asr",
+        "robustness",
+        "noisy-speech"
+      ],
+      "createdAt": "2026-05-18T17:44:26.000Z",
+      "lastModified": "2026-05-24T17:50:51.000Z"
+    },
+    {
+      "rank": 18,
       "id": "Roman1111111/claude-opus-4.6-10000x",
       "author": "Roman1111111",
       "url": "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x",
@@ -522,31 +547,6 @@
       ],
       "createdAt": "2026-03-11T15:15:05.000Z",
       "lastModified": "2026-04-05T13:42:24.000Z"
-    },
-    {
-      "rank": 18,
-      "id": "zhifeixie/Voices-in-the-Wild-2M",
-      "author": "zhifeixie",
-      "url": "https://huggingface.co/datasets/zhifeixie/Voices-in-the-Wild-2M",
-      "downloads": 9633,
-      "likes": 29,
-      "trendingScore": 29,
-      "tags": [
-        "task_categories:automatic-speech-recognition",
-        "language:en",
-        "language:zh",
-        "license:apache-2.0",
-        "modality:audio",
-        "arxiv:2605.19833",
-        "region:us",
-        "audio",
-        "speech",
-        "asr",
-        "robustness",
-        "noisy-speech"
-      ],
-      "createdAt": "2026-05-18T17:44:26.000Z",
-      "lastModified": "2026-05-24T17:50:51.000Z"
     },
     {
       "rank": 19,
@@ -815,7 +815,7 @@
       "author": "Jackrong",
       "url": "https://huggingface.co/datasets/Jackrong/Claude-opus-4.6-TraceInversion-9000x",
       "downloads": 397,
-      "likes": 26,
+      "likes": 27,
       "trendingScore": 24,
       "tags": [
         "task_categories:text-generation",
@@ -879,6 +879,21 @@
     },
     {
       "rank": 29,
+      "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
+      "author": "NodeLinker",
+      "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
+      "downloads": 14297,
+      "likes": 36,
+      "trendingScore": 23,
+      "tags": [
+        "license:mit",
+        "region:us"
+      ],
+      "createdAt": "2026-04-30T16:21:51.000Z",
+      "lastModified": "2026-05-01T19:27:38.000Z"
+    },
+    {
+      "rank": 30,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -910,7 +925,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 30,
+      "rank": 31,
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
@@ -945,7 +960,7 @@
       "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
-      "rank": 31,
+      "rank": 32,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
@@ -967,21 +982,6 @@
       ],
       "createdAt": "2024-04-18T14:33:13.000Z",
       "lastModified": "2025-07-11T20:16:53.000Z"
-    },
-    {
-      "rank": 32,
-      "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "author": "NodeLinker",
-      "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "downloads": 14297,
-      "likes": 35,
-      "trendingScore": 22,
-      "tags": [
-        "license:mit",
-        "region:us"
-      ],
-      "createdAt": "2026-04-30T16:21:51.000Z",
-      "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
       "rank": 33,

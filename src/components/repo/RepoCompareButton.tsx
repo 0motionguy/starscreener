@@ -14,6 +14,13 @@ declare global {
   }
 }
 
+// Stable empty references for the pre-mount selector branches. Returning a
+// fresh [] / {} from a Zustand (useSyncExternalStore) selector on every render
+// makes React see a new snapshot each time → infinite re-render (#185). Reuse
+// one reference per shape instead.
+const EMPTY_REPOS: string[] = [];
+const EMPTY_NAMES: Record<string, string> = {};
+
 interface RepoCompareButtonProps {
   repoId: string;
   fullName: string;
@@ -29,9 +36,9 @@ export function RepoCompareButton({ repoId, fullName }: RepoCompareButtonProps) 
   const isFull = useCompareStore((s) => (mounted ? s.isFull() : false));
   const addRepo = useCompareStore((s) => s.addRepo);
   const removeRepo = useCompareStore((s) => s.removeRepo);
-  const trayList = useCompareStore((s) => (mounted ? s.repos : []));
+  const trayList = useCompareStore((s) => (mounted ? s.repos : EMPTY_REPOS));
   const fullNamesById = useCompareStore((s) =>
-    mounted ? s.fullNamesById : ({} as Record<string, string>),
+    mounted ? s.fullNamesById : EMPTY_NAMES,
   );
 
   const disabled = !isComparing && isFull;

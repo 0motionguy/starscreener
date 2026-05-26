@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-26T15:35:42.600Z",
+  "fetchedAt": "2026-05-26T20:12:25.018Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1433,
+  "scannedArticles": 1448,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 17,
+    "global-rising": 23,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -193,14 +193,14 @@
     "tag-llms-top-7d": 5,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 26,
+    "tag-promptengineering-top-7d": 30,
     "tag-workflow-top-7d": 51,
     "tag-workflows-top-7d": 2,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 37,
+    "tag-langchain-top-7d": 38,
     "tag-n8n-top-7d": 100,
     "tag-opensource-top-7d": 100
   },
@@ -323,6 +323,27 @@
           "location": "body"
         }
       ]
+    },
+    {
+      "id": 3758929,
+      "title": "Top 7 Featured DEV Posts of the Week",
+      "description": "Welcome to this week's Top 7, where the DEV editorial team handpicks their favorite posts from the...",
+      "url": "https://dev.to/devteam/top-7-featured-dev-posts-of-the-week-45na",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 31,
+      "commentsCount": 6,
+      "readingTime": 3,
+      "publishedAt": "2026-05-26T19:25:19Z",
+      "tags": [
+        "top7",
+        "discuss"
+      ],
+      "trendingScore": 94.23,
+      "linkedRepos": []
     },
     {
       "id": 3695320,
@@ -2229,6 +2250,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3750708,
+      "title": "Why does AI forget what you said (and how to fix it)",
+      "description": "I received following comment on my hallucinations blog post.                       Comment on Why...",
+      "url": "https://dev.to/aws/why-does-ai-forget-what-you-said-and-how-to-fix-it-52f6",
+      "author": {
+        "username": "rohini_gaonkar",
+        "name": "Rohini Gaonkar",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F376787%2F8af3bcfb-d567-4de1-9b33-b6becfe6d85b.jpeg"
+      },
+      "reactionsCount": 36,
+      "commentsCount": 30,
+      "readingTime": 7,
+      "publishedAt": "2026-05-25T15:08:33Z",
+      "tags": [
+        "ai",
+        "beginners",
+        "aws",
+        "tutorial"
+      ],
+      "trendingScore": 7.71,
+      "linkedRepos": []
+    },
+    {
       "id": 3620449,
       "title": "Best ROAS Optimization Tools: Get More Revenue from Every Ad Dollar",
       "description": "You open your ads dashboard and the number jumps out immediately.  ROAS was 4.2x last quarter. Now...",
@@ -2507,57 +2551,6 @@
       "linkedRepos": [
         {
           "fullName": "HexmosTech/git-lrc",
-          "location": "body"
-        }
-      ]
-    },
-    {
-      "id": 3643702,
-      "title": "I Let AI Write 100% of My Code for 30 Days — Here's What Broke",
-      "description": "...",
-      "url": "https://dev.to/thebitforge/i-let-ai-write-100-of-my-code-for-30-days-heres-what-broke-55kd",
-      "author": {
-        "username": "thebitforge",
-        "name": "TheBitForge",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3581035%2F7a4e3e11-052c-4b61-9f45-e3f421e69147.png"
-      },
-      "reactionsCount": 23,
-      "commentsCount": 1,
-      "readingTime": 6,
-      "publishedAt": "2026-05-10T08:12:45Z",
-      "tags": [
-        "ai",
-        "webdev",
-        "productivity",
-        "programming"
-      ],
-      "trendingScore": 6.29,
-      "linkedRepos": []
-    },
-    {
-      "id": 3704774,
-      "title": "Google AI Edge Gallery Now Runs MCP On-Device. The Privacy Architecture",
-      "description": "This is a submission for the Google I/O Writing Challenge     On-device AI has spent most of its...",
-      "url": "https://dev.to/om_shree_0709/google-ai-edge-gallery-now-runs-mcp-on-device-the-privacy-architecture-5075",
-      "author": {
-        "username": "om_shree_0709",
-        "name": "Om Shree",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2900392%2F78ad1723-16ab-4e46-b39c-7f3feb416d23.jpg"
-      },
-      "reactionsCount": 47,
-      "commentsCount": 21,
-      "readingTime": 5,
-      "publishedAt": "2026-05-20T00:44:23Z",
-      "tags": [
-        "googleiochallenge",
-        "devchallenge",
-        "ai",
-        "mcp"
-      ],
-      "trendingScore": 6.28,
-      "linkedRepos": [
-        {
-          "fullName": "google-ai-edge/gallery",
           "location": "body"
         }
       ]

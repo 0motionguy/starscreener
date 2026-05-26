@@ -8,6 +8,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { loadGithubPool, pickToken } from "./_github-token-pool-mini.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -213,10 +214,11 @@ function normalizeRepo(node, requestedFullName, fetchedAt) {
 }
 
 async function main() {
-  const token = process.env.GITHUB_TOKEN ?? "";
-  if (!token) {
-    throw new Error("GITHUB_TOKEN is required to refresh data/repo-metadata.json");
+  const pool = loadGithubPool();
+  if (pool.tokens.length === 0) {
+    throw new Error("GITHUB_TOKEN / GH_TOKEN_POOL is required to refresh data/repo-metadata.json");
   }
+  console.log(`github token pool: ${pool.tokens.length} key(s)`);
 
   const [trending, recentRepos, manualRepos, runtimeManualRepos, previous] =
     await Promise.all([
@@ -243,6 +245,7 @@ async function main() {
     const batchTotal = Math.ceil(fullNames.length / BATCH_SIZE);
 
     try {
+      const token = pickToken(pool) ?? "";
       const { data, errors } = await fetchBatch(batch, token);
       if (errors.length > 0) {
         console.warn(`warn metadata batch ${batchNo}/${batchTotal}: ${errors.length} GraphQL errors`);

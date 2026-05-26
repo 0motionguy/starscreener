@@ -12,6 +12,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { loadGithubPool, pickToken } from "./_github-token-pool-mini.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_FILE = resolve(__dirname, "..", "data", "recent-repos.json");
@@ -74,7 +75,7 @@ function normalizeRepo(item) {
   };
 }
 
-async function fetchSearchWindow(window, token) {
+async function fetchSearchWindow(window, pool) {
   const rows = [];
   const query = buildQuery(window);
 
@@ -86,6 +87,9 @@ async function fetchSearchWindow(window, token) {
     url.searchParams.set("per_page", String(PER_PAGE));
     url.searchParams.set("page", String(page));
 
+    // Rotate a PAT from the pool per request so a multi-window scan spreads
+    // across all configured tokens instead of capping a single PAT at 5K/hr.
+    const token = pickToken(pool) ?? "";
     let body;
     try {
       body = await fetchJsonWithRetry(url, {
@@ -114,12 +118,13 @@ async function fetchSearchWindow(window, token) {
 }
 
 async function main() {
-  const token = process.env.GITHUB_TOKEN ?? "";
+  const pool = loadGithubPool();
+  console.log(`github token pool: ${pool.tokens.length} key(s)`);
   const fetchedAt = new Date().toISOString();
   const deduped = new Map();
 
   for (const window of WINDOWS) {
-    const rows = await fetchSearchWindow(window, token);
+    const rows = await fetchSearchWindow(window, pool);
     console.log(
       `ok  github recent repos / ${window.days}d / stars>=${window.minStars} - ${rows.length} rows`,
     );

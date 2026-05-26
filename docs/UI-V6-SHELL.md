@@ -1,10 +1,19 @@
 # UI v6 shell — quick reference
 
+> **For the full design contract (tokens, typography, body atmosphere,
+> primitives, icons, brand, charts, change rules) read
+> [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) first.** This file is the
+> runtime / markup-contract reference. The design contract supersedes
+> anything in this file when they disagree.
+
 **Source files:** [`public/shell.css`](../public/shell.css) +
 [`public/shell.js`](../public/shell.js), mounted globally by
 `src/app/layout.tsx`. Both are static assets served from `/shell.css`
 and `/shell.js`. They are the canonical design system for the UI v6
-rebuild that landed 2026-05-19.
+rebuild that landed 2026-05-19, refreshed 2026-05-23 with the
+"Trendingrepo Revive" asset package (new text ramp, body atmosphere,
+Geist via `next/font`, 132-icon system, 24 source brand logos, new
+`trending.repo` wordmark).
 
 This file is a **plug-in surface contract** for the rebuilt routes —
 contributors writing new React components for the v6 shell should treat

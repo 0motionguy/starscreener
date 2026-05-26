@@ -23,6 +23,7 @@ const eslintConfig = [
       "storybook-static/**",
       "test-results/**",
       "apps/trendingrepo-worker/dist/**",
+      ".echarts-themes/**",
       "mcp/dist/**",
       // Claude Code worktree caches contain nested .next/ build artifacts
       // and nested node_modules; ignore the whole tree so lint only

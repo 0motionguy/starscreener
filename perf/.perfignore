@@ -36,6 +36,11 @@
 /categories/[slug]
 /top10/[date]
 
+# Clerk-gated account sub-routes (private, noindex; parent /account has an
+# explicit dynamic-private budget in perf/routes.json). Anon hits redirect to
+# /sign-in, so there's no public surface to budget.
+/account/*
+
 # Sub-namespaces under existing top-level public routes
 /funding/sec
 /huggingface/models

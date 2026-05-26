@@ -1,6 +1,9 @@
+import { randomUUID } from 'node:crypto';
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
-import { callLlm, parseJson, isLlmConfigured, LLM_PROVIDER } from './llm.js';
+import { callLlm, getLlmProvider, isLlmConfigured } from '../../lib/llm/router.js';
+import { parseJson } from '../../lib/llm/kimi-client.js';
+import type { LlmProvider } from '../../lib/llm/types.js';
 import {
   ItemReportSchema,
   RibbonSchema,
@@ -29,7 +32,7 @@ interface VerdictsItemPayload extends ItemReport {
 
 interface VerdictsPayload {
   computedAt: string;
-  generator: typeof LLM_PROVIDER | 'template';
+  generator: LlmProvider | 'template';
   model?: string;
   ribbon: Ribbon;
   items: Record<string, VerdictsItemPayload>;
@@ -88,6 +91,10 @@ const fetcher: Fetcher = {
     let totalInput = 0;
     let totalOutput = 0;
     let totalCached = 0;
+    // Which provider/model actually served this run — captured from the call
+    // result meta so a NanoGPT-fallback run reports honestly (not 'kimi').
+    let usedProvider: LlmProvider | undefined;
+    let usedModel: string | undefined;
 
     // Bounded-concurrency sweep — N workers pulling from a shared queue.
     // Preserves per-call retry semantics (each item swallows its own errors)
@@ -98,15 +105,20 @@ const fetcher: Fetcher = {
         const item = queue.shift();
         if (!item) return;
         try {
-          const r = await callLlm({
-            systemPrompt: SYSTEM_PROMPT,
-            userMessage: buildItemUserMessage(item, ctxMsg),
-            // K2.6 is a reasoning model — burns ~2-4k tokens on internal CoT
-            // before emitting the final JSON. Headroom for reasoning + answer.
-            maxTokens: 5000,
-            temperature: 0.4,
-            jsonMode: true,
-          });
+          const r = await callLlm(
+            {
+              systemPrompt: SYSTEM_PROMPT,
+              userMessage: buildItemUserMessage(item, ctxMsg),
+              // K2.6 is a reasoning model — burns ~2-4k tokens on internal CoT
+              // before emitting the final JSON. Headroom for reasoning + answer.
+              maxTokens: 5000,
+              temperature: 0.4,
+              jsonMode: true,
+            },
+            { feature: 'ai_analyst', task_type: 'item', request_id: randomUUID() },
+          );
+          usedProvider = r.meta.provider;
+          usedModel = r.meta.model;
           totalInput += r.usage.inputTokens;
           totalOutput += r.usage.outputTokens;
           totalCached += r.usage.cachedInputTokens;
@@ -135,13 +147,18 @@ const fetcher: Fetcher = {
 
     let ribbon: Ribbon = templateRibbon(consensusPayload);
     try {
-      const r = await callLlm({
-        systemPrompt: RIBBON_SYSTEM_PROMPT,
-        userMessage: buildRibbonUserMessage(topItems, ctxMsg),
-        maxTokens: 3500,
-        temperature: 0.5,
-        jsonMode: true,
-      });
+      const r = await callLlm(
+        {
+          systemPrompt: RIBBON_SYSTEM_PROMPT,
+          userMessage: buildRibbonUserMessage(topItems, ctxMsg),
+          maxTokens: 3500,
+          temperature: 0.5,
+          jsonMode: true,
+        },
+        { feature: 'ai_analyst', task_type: 'ribbon', request_id: randomUUID() },
+      );
+      usedProvider = r.meta.provider;
+      usedModel = r.meta.model;
       totalInput += r.usage.inputTokens;
       totalOutput += r.usage.outputTokens;
       totalCached += r.usage.cachedInputTokens;
@@ -159,7 +176,6 @@ const fetcher: Fetcher = {
       );
     }
 
-    const env = loadEnvFromProcess();
     // Read-then-merge: preserve prior verdicts (backfill + older sweeps) and
     // overwrite only the keys refreshed this run. A bare `items: items` would
     // wipe every repo not in today's top-14 sweep — fatal for the backfill.
@@ -168,8 +184,11 @@ const fetcher: Fetcher = {
     const mergedItems = { ...existingItems, ...items };
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
-      generator: LLM_PROVIDER,
-      model: env.model,
+      // Honestly report which provider actually produced this run (e.g.
+      // 'nanogpt' while Kimi-for-coding billing is restored). Falls back to the
+      // configured primary when no call succeeded this run.
+      generator: usedProvider ?? getLlmProvider(),
+      model: usedModel,
       ribbon,
       items: mergedItems,
       usage: {
@@ -199,10 +218,6 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
-
-function loadEnvFromProcess(): { model: string } {
-  return { model: process.env.KIMI_MODEL ?? 'kimi-k2-0711-preview' };
-}
 
 /**
  * Read the current verdicts payload and return its items map, so callers can

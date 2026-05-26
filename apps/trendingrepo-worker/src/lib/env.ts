@@ -83,7 +83,20 @@ const envSchema = z
     // in the schema, which left tsc red on every `npm run typecheck` run.
     OPENROUTER_API_KEY: z.string().optional(),
     OPENROUTER_REFERER: z.string().optional(),
-    LLM_PROVIDER: z.enum(['kimi', 'openrouter']).optional(),
+    OPENROUTER_MODEL: z.string().optional(),
+    LLM_PROVIDER: z.enum(['kimi', 'openrouter', 'nanogpt']).optional(),
+    // Optional secondary provider. When the primary call fails with a
+    // retryable error (auth/quota 401·403, rate-limit 429, 5xx, timeout) the
+    // router transparently retries here. Unset = no fallback (prior behavior).
+    LLM_FALLBACK_PROVIDER: z.enum(['kimi', 'openrouter', 'nanogpt']).optional(),
+    // NanoGPT — OpenAI-compatible (https://nano-gpt.com/api/v1). The active
+    // subscription covers a curated model set at zero per-token cost;
+    // NANOGPT_MODEL must be one of those (verify via
+    // GET /api/subscription/v1/models). Wired as the Kimi fallback so consensus
+    // verdicts keep generating while Kimi-for-coding billing is restored.
+    NANOGPT_API_KEY: z.string().optional(),
+    NANOGPT_BASE_URL: z.string().url().optional(),
+    NANOGPT_MODEL: z.string().optional(),
     LLM_USER_HASH_SALT: z.string().optional(),
 
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),

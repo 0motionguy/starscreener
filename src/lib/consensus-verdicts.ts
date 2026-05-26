@@ -48,7 +48,9 @@ export interface ConsensusRibbonReport {
 
 export interface ConsensusVerdictsPayload {
   computedAt: string;
-  generator: "kimi" | "template";
+  /** Provider that produced this run, or "template" for the LLM-less fallback.
+   * Mirrors the worker's LlmProvider union (kimi primary, nanogpt fallback). */
+  generator: "kimi" | "nanogpt" | "openrouter" | "template";
   model?: string;
   ribbon: ConsensusRibbonReport;
   items: Record<string, ConsensusItemReport>;
@@ -150,7 +152,10 @@ function normalizePayload(input: unknown): ConsensusVerdictsPayload {
   };
   return {
     computedAt: typeof p.computedAt === "string" ? p.computedAt : "",
-    generator: p.generator === "kimi" ? "kimi" : "template",
+    generator:
+      p.generator === "kimi" || p.generator === "nanogpt" || p.generator === "openrouter"
+        ? p.generator
+        : "template",
     model: typeof p.model === "string" ? p.model : undefined,
     ribbon,
     items,

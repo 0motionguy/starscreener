@@ -7,7 +7,7 @@
 // This file is the contract between those two layers and the main-app
 // aggregator that drains the Redis stream into daily blobs.
 
-export type LlmProvider = 'kimi' | 'openrouter';
+export type LlmProvider = 'kimi' | 'openrouter' | 'nanogpt';
 
 export type LlmFeature =
   | 'ai_analyst'

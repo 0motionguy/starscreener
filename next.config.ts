@@ -329,15 +329,15 @@ const nextConfig: NextConfig = {
     const csp = [
       "default-src 'self'",
       "img-src 'self' data: https: blob:",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://clerk.trendingrepo.com https://challenges.cloudflare.com https://*.vercel-analytics.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev https://clerk.trendingrepo.com https://challenges.cloudflare.com https://*.vercel-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "worker-src 'self' blob:",
       "connect-src 'self' https: wss: data:",
-      "frame-src 'self' https://*.clerk.dev https://*.clerk.com https://challenges.cloudflare.com",
+      "frame-src 'self' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev https://challenges.cloudflare.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
-      "form-action 'self' https://*.clerk.dev https://*.clerk.com",
+      "form-action 'self' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev",
     ].join("; ");
 
     return [

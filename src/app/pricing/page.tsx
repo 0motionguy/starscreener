@@ -17,12 +17,14 @@
 // menu prices and labeled "approx." in the chrome — the index is comparative,
 // not transactional. The trendingrepo Pro row pulls $6.50 from TIERS.pro.
 
+import { Suspense } from "react";
 import Link from "next/link";
 
 import {
   TIERS,
   type TierDefinition,
 } from "@/lib/pricing/tiers";
+import { CheckoutLauncher } from "@/components/pricing/CheckoutLauncher";
 
 export const revalidate = 3600;
 
@@ -255,6 +257,13 @@ export default function PricingPage() {
     <div className="pricing-shell">
       <PricingRouteStyles />
 
+      {/* Completes the funnel: ?plan=pro|team → ensure Clerk-tied session →
+          POST /api/checkout/stripe → redirect to Stripe. Suspense-wrapped
+          because it reads useSearchParams on this ISR page. */}
+      <Suspense fallback={null}>
+        <CheckoutLauncher />
+      </Suspense>
+
       {/* ─────────────────── HERO ─────────────────── */}
       <section className="ps-hero" aria-labelledby="ps-hero-title">
         <div className="ps-hero-left">
@@ -277,7 +286,7 @@ export default function PricingPage() {
 
           <div className="ps-cta-row">
             <div className="ps-cta-stack">
-              <Link href="/sign-up?plan=pro" className="ps-btn ps-btn-primary" prefetch={false}>
+              <Link href="/pricing?plan=pro" className="ps-btn ps-btn-primary" prefetch={false}>
                 Start Pro · {formatUsd(proPrice)}/mo
                 <span aria-hidden="true" className="ps-btn-arrow">→</span>
               </Link>
@@ -378,7 +387,7 @@ export default function PricingPage() {
         </p>
 
         <div className="ps-close-row">
-          <Link href="/sign-up?plan=pro" className="ps-btn ps-btn-primary" prefetch={false}>
+          <Link href="/pricing?plan=pro" className="ps-btn ps-btn-primary" prefetch={false}>
             Start Pro · {formatUsd(proPrice)}/mo
             <span aria-hidden="true" className="ps-btn-arrow">→</span>
           </Link>
@@ -643,7 +652,7 @@ function ProCard({
       </div>
 
       <div className="pro-cta-block">
-        <Link href="/sign-up?plan=pro" className="ps-btn ps-btn-primary ps-btn-block" prefetch={false}>
+        <Link href="/pricing?plan=pro" className="ps-btn ps-btn-primary ps-btn-block" prefetch={false}>
           Start Pro
           <span aria-hidden="true" className="ps-btn-arrow">→</span>
         </Link>
@@ -744,7 +753,7 @@ function CoffeeIndex({
           </span>
           <CafeGlyph mark="TR" hue="#ff6b35" name="Trendingrepo Pro" pro />
           <div className="cafe-info">
-            <Link href="/sign-up?plan=pro" className="cafe-name cafe-name-pro" prefetch={false}>
+            <Link href="/pricing?plan=pro" className="cafe-name cafe-name-pro" prefetch={false}>
               trendingrepo · Pro
               <svg className="cafe-name-out" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                 <path d="M3 7L7 3M7 3H4M7 3V6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -760,7 +769,7 @@ function CoffeeIndex({
           </div>
           <span className="cafe-price cafe-price-pro">{formatUsd(proPrice)}</span>
           <div className="cafe-actions cafe-actions-pro">
-            <Link href="/sign-up?plan=pro" className="cafe-action cafe-action-cta" prefetch={false}>
+            <Link href="/pricing?plan=pro" className="cafe-action cafe-action-cta" prefetch={false}>
               <span>start →</span>
             </Link>
           </div>

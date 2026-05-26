@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-26T10:00:42.654Z",
+  "fetchedAt": "2026-05-26T15:35:42.600Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1443,
+  "scannedArticles": 1433,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 14,
+    "global-rising": 17,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,12 +188,12 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 10,
-    "tag-cursor-top-7d": 43,
+    "tag-cursor-top-7d": 49,
     "tag-llm-top-7d": 100,
-    "tag-llms-top-7d": 3,
+    "tag-llms-top-7d": 5,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 27,
+    "tag-promptengineering-top-7d": 26,
     "tag-workflow-top-7d": 51,
     "tag-workflows-top-7d": 2,
     "tag-automation-top-7d": 100,
@@ -1565,6 +1565,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3751170,
+      "title": "You Don’t Need Microservices (Yet): A Reality Check for Devs",
+      "description": "You Don't Need Microservices (Yet): A Reality Check for Devs            How Premature...",
+      "url": "https://dev.to/gavincettolo/you-dont-need-microservices-yet-a-reality-check-for-devs-54ec",
+      "author": {
+        "username": "gavincettolo",
+        "name": "Gavin Cettolo",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3353748%2Fe37c0e94-b63c-4a02-88bc-ad4e130a2ee5.jpg"
+      },
+      "reactionsCount": 23,
+      "commentsCount": 22,
+      "readingTime": 10,
+      "publishedAt": "2026-05-26T07:30:00Z",
+      "tags": [
+        "webdev",
+        "architecture",
+        "beginners",
+        "career"
+      ],
+      "trendingScore": 12.38,
+      "linkedRepos": []
+    },
+    {
       "id": 3610492,
       "title": "I Didn’t Stop Building. I Just Left My Laptop.",
       "description": "Hey there again guys! It’s been almost two months since my last post. And in the back of my head,...",
@@ -2538,29 +2561,6 @@
           "location": "body"
         }
       ]
-    },
-    {
-      "id": 3596751,
-      "title": "I Don't Like Tailwind. Sorry Not Sorry",
-      "description": "An opinionated defence of hand-crafted CSS in a utility-class world     There. I said it. Call me a...",
-      "url": "https://dev.to/freshcaffeine/i-dont-like-tailwind-sorry-not-sorry-50b5",
-      "author": {
-        "username": "freshcaffeine",
-        "name": "Andy Robinson",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2081107%2F2e2972d2-af5d-4853-b418-098e9c384f3d.png"
-      },
-      "reactionsCount": 94,
-      "commentsCount": 42,
-      "readingTime": 5,
-      "publishedAt": "2026-05-01T16:11:48Z",
-      "tags": [
-        "css",
-        "webdev",
-        "discuss",
-        "frontend"
-      ],
-      "trendingScore": 6.21,
-      "linkedRepos": []
     }
   ]
 }

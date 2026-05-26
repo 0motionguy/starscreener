@@ -83,6 +83,13 @@ export interface TierDefinition {
   extraSeatYearlyUsd: number | null;
   /** Minimum seats required to purchase this tier. */
   minSeats: number;
+  /**
+   * Optional one-line price comparison shown under the billing caption on
+   * the pricing card. Use to anchor the price against an everyday cost
+   * (e.g., "Cheaper than a Venti latte in San Francisco"). Plain string —
+   * no HTML.
+   */
+  priceCompare?: string;
   /** Call-to-action label for the pricing card. */
   ctaLabel: string;
   /** URL path for the CTA. */
@@ -126,12 +133,13 @@ export const TIERS: Record<UserTier, TierDefinition> = {
     key: "pro",
     displayName: "Pro",
     tagline: "For operators shipping with agent signals daily.",
-    priceMonthlyUsd: 19,
-    priceYearlyUsd: 180,
+    priceMonthlyUsd: 6.5,
+    priceYearlyUsd: 60,
     includedSeats: 1,
     extraSeatMonthlyUsd: null,
     extraSeatYearlyUsd: null,
     minSeats: 1,
+    priceCompare: "☕ Cheaper than a Venti latte in San Francisco",
     ctaLabel: "Upgrade to Pro",
     ctaHref: "/pricing#pro",
     features: {

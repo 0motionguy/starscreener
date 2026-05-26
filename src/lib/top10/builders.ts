@@ -149,7 +149,7 @@ function badgesForRepo(repo: Repo): Top10Badge[] {
   return out;
 }
 
-function repoToItem(repo: Repo, rank: number, window: Top10Window): Top10Item {
+export function repoToItem(repo: Repo, rank: number, window: Top10Window): Top10Item {
   const score = Math.max(
     0,
     Math.min(5, repo.crossSignalScore ?? (repo.momentumScore ?? 0) / 20),
@@ -177,7 +177,7 @@ function repoToItem(repo: Repo, rank: number, window: Top10Window): Top10Item {
 // final 10 items so the labels track exactly what's on screen.
 // ---------------------------------------------------------------------------
 
-function buildMeta(items: Top10Item[], windowLabel: string): Top10MetaStats {
+export function buildMeta(items: Top10Item[], windowLabel: string): Top10MetaStats {
   const valid = items.filter((it) => typeof it.deltaPct === "number");
   const sumPct = valid.reduce((s, it) => s + (it.deltaPct ?? 0), 0);
   const meanScore =
@@ -219,7 +219,7 @@ function buildMeta(items: Top10Item[], windowLabel: string): Top10MetaStats {
   };
 }
 
-function windowLabel(w: Top10Window): string {
+export function windowLabel(w: Top10Window): string {
   return w === "24h" ? "24h" : w === "7d" ? "7d" : w === "30d" ? "30d" : "YTD";
 }
 
@@ -265,20 +265,81 @@ function metricKey(repo: Repo, window: Top10Window, metric: Top10Metric): number
 // REPOS
 // ---------------------------------------------------------------------------
 
+// 2026-05-25 ranker rewrite: was `metricKey(...) || momentumScore` which
+// boiled the ranking down to a single opaque `crossSignalScore` field
+// computed deep in derived-repos. Now we sort by ABSOLUTE star gain for the
+// chosen window (default 7d) with total stars as the tiebreak — the row's
+// own visible 24h/7d cells become the proof of why each repo is at that
+// rank, no hidden weights. The `metric` param is kept for callers that
+// pass `velocity`/`mentions` explicitly (those still go through metricKey).
+function windowDeltaField(
+  window: Top10Window,
+): "starsDelta24h" | "starsDelta7d" | "starsDelta30d" {
+  switch (window) {
+    case "24h":
+      return "starsDelta24h";
+    case "30d":
+    case "ytd":
+      return "starsDelta30d";
+    case "7d":
+    default:
+      return "starsDelta7d";
+  }
+}
+
+function windowDeltaMissingField(
+  window: Top10Window,
+):
+  | "starsDelta24hMissing"
+  | "starsDelta7dMissing"
+  | "starsDelta30dMissing" {
+  switch (window) {
+    case "24h":
+      return "starsDelta24hMissing";
+    case "30d":
+    case "ytd":
+      return "starsDelta30dMissing";
+    case "7d":
+    default:
+      return "starsDelta7dMissing";
+  }
+}
+
 export function buildRepoTop10(
   repos: Repo[],
   window: Top10Window = "7d",
   metric: Top10Metric = "cross-signal",
   extras?: BuildExtras,
 ): Top10Bundle {
+  const deltaField = windowDeltaField(window);
+  const missingField = windowDeltaMissingField(window);
+
   const sorted = [...repos]
     .filter((r) => !r.archived && !r.deleted)
-    .sort(
-      (a, b) =>
-        metricKey(b, window, metric) - metricKey(a, window, metric) ||
-        b.momentumScore - a.momentumScore,
-    )
+    .filter((r) => {
+      // Drop repos where the chosen-window delta is genuinely unknown — we
+      // can't honestly rank them. Repos with delta = 0 stay (they're "flat",
+      // a real signal). Caller can still pass `metric="velocity"` etc. to
+      // bypass this and use the legacy metricKey path.
+      if (metric !== "cross-signal") return true;
+      return !(r as unknown as Record<string, unknown>)[missingField];
+    })
+    .sort((a, b) => {
+      if (metric !== "cross-signal") {
+        return (
+          metricKey(b, window, metric) - metricKey(a, window, metric) ||
+          b.momentumScore - a.momentumScore
+        );
+      }
+      const da = (a[deltaField] as number | undefined) ?? 0;
+      const db = (b[deltaField] as number | undefined) ?? 0;
+      if (db !== da) return db - da;
+      // Tiebreak by absolute size so a 50k repo beats a 5k repo on the same
+      // delta — bigger gain at scale is a stronger signal.
+      return (b.stars ?? 0) - (a.stars ?? 0);
+    })
     .slice(0, 10);
+
   const items = decorateItems(
     sorted.map((r, i) => repoToItem(r, i + 1, window)),
     extras,

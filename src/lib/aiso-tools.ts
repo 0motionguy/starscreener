@@ -143,11 +143,20 @@ async function fetchJson<T>(
   url: string,
   init: RequestInit,
   timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS,
+  apiKey?: string | null,
 ): Promise<T | null> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(url, { ...init, signal: controller.signal });
+    const headers: Record<string, string> = {
+      ...((init.headers as Record<string, string>) ?? {}),
+    };
+    if (apiKey) headers["authorization"] = `Bearer ${apiKey}`;
+    const response = await fetch(url, {
+      ...init,
+      headers,
+      signal: controller.signal,
+    });
     if (!response.ok) return null;
     return (await response.json()) as T;
   } catch {
@@ -160,22 +169,34 @@ async function fetchJson<T>(
 async function submitScan(
   baseUrl: string,
   targetUrl: string,
+  apiKey?: string | null,
 ): Promise<ScanSubmitResponse | null> {
-  return fetchJson<ScanSubmitResponse>(`${baseUrl}/api/scan`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ url: targetUrl }),
-  });
+  return fetchJson<ScanSubmitResponse>(
+    `${baseUrl}/api/scan`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ url: targetUrl }),
+    },
+    DEFAULT_REQUEST_TIMEOUT_MS,
+    apiKey,
+  );
 }
 
 async function fetchScan(
   baseUrl: string,
   scanId: string,
+  apiKey?: string | null,
 ): Promise<ScanPayload | null> {
-  return fetchJson<ScanPayload>(`${baseUrl}/api/scan/${scanId}`, {
-    method: "GET",
-    headers: { accept: "application/json" },
-  });
+  return fetchJson<ScanPayload>(
+    `${baseUrl}/api/scan/${scanId}`,
+    {
+      method: "GET",
+      headers: { accept: "application/json" },
+    },
+    DEFAULT_REQUEST_TIMEOUT_MS,
+    apiKey,
+  );
 }
 
 function normalizeScan(baseUrl: string, payload: ScanPayload): AisoToolsScan {
@@ -222,12 +243,13 @@ async function pollScan(
   baseUrl: string,
   scanId: string,
   waitMs: number,
+  apiKey?: string | null,
 ): Promise<AisoToolsScan | null> {
   const deadline = Date.now() + waitMs;
   let last: AisoToolsScan | null = null;
 
   while (Date.now() <= deadline) {
-    const payload = await fetchScan(baseUrl, scanId);
+    const payload = await fetchScan(baseUrl, scanId, apiKey);
     if (!payload) return last;
     last = normalizeScan(baseUrl, payload);
     if (!ACTIVE_STATUSES.has(last.status)) return last;
@@ -237,21 +259,42 @@ async function pollScan(
   return last;
 }
 
+export interface AisoToolsScanOptions {
+  /**
+   * Override the default AISO API base URL for this call. Used by per-user
+   * pref injection so an operator pasting their own AISO instance URL +
+   * key gets routed there instead of the public scanner.
+   */
+  baseUrl?: string | null;
+  /** Authorization bearer token. Sent as `Authorization: Bearer ${apiKey}`. */
+  apiKey?: string | null;
+}
+
 export async function getAisoToolsScan(
   targetUrl: string | null,
+  options: AisoToolsScanOptions = {},
 ): Promise<AisoToolsScan | null> {
   if (!targetUrl) return null;
 
-  const baseUrl = normalizeBaseUrl();
+  const baseUrl = (() => {
+    const explicit = options.baseUrl?.replace(/\/+$/, "");
+    if (explicit) return explicit;
+    return normalizeBaseUrl();
+  })();
   if (!baseUrl) return null;
+  const apiKey = options.apiKey ?? null;
 
-  const cacheKey = `${baseUrl}::${targetUrl}`;
+  // Cache key includes apiKey hash so per-user prefs don't collide with the
+  // public (no-auth) cache. Only the first 8 chars of the key are mixed in
+  // — enough for keying, not enough to leak the secret.
+  const keyShard = apiKey ? `::k${apiKey.slice(0, 8)}` : "";
+  const cacheKey = `${baseUrl}::${targetUrl}${keyShard}`;
   const cached = memoryCache.get(cacheKey);
   if (cached && cached.expiresAt > Date.now()) {
     if (!cached.value || !ACTIVE_STATUSES.has(cached.value.status)) {
       return cached.value;
     }
-    const refreshed = await pollScan(baseUrl, cached.value.scanId, 1);
+    const refreshed = await pollScan(baseUrl, cached.value.scanId, 1, apiKey);
     if (refreshed) {
       memoryCache.set(cacheKey, {
         expiresAt: Date.now() + cacheTtl(refreshed),
@@ -262,7 +305,7 @@ export async function getAisoToolsScan(
     return cached.value;
   }
 
-  const submitted = await submitScan(baseUrl, targetUrl);
+  const submitted = await submitScan(baseUrl, targetUrl, apiKey);
   if (!submitted?.scanId) {
     memoryCache.set(cacheKey, {
       expiresAt: Date.now() + FAILED_CACHE_TTL_MS,
@@ -276,7 +319,7 @@ export async function getAisoToolsScan(
     "STARSCREENER_AISO_PAGE_WAIT_MS",
     DEFAULT_PAGE_WAIT_MS,
   );
-  const scan = await pollScan(baseUrl, submitted.scanId, waitMs);
+  const scan = await pollScan(baseUrl, submitted.scanId, waitMs, apiKey);
   const value =
     scan ??
     ({

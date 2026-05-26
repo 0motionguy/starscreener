@@ -19,7 +19,7 @@ import {
   CONTRIBUTION_TYPE_LABEL,
   type SampleContribution,
 } from "@/lib/ideas/sample-contributions";
-import { CircleCheck } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 import {
   BulbSvg,
   CurrencyDollarIcon,
@@ -49,7 +49,7 @@ const REACTION_DEFS: SampleReactionBtn[] = [
   {
     key: "check",
     render: () => (
-      <CircleCheck width={14} height={14} strokeWidth={2} color="var(--accent)" />
+      <Icon name="check-circle" size="md" style={{ color: "var(--accent)" }} />
     ),
   },
   { key: "money", render: () => <CurrencyDollarIcon size={14} color="currentColor" /> },

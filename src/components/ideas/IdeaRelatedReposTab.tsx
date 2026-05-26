@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { IdeaAddRelatedRepoButton } from "@/components/ideas/IdeaAddRelatedRepoButton";
 import type { IdeaRecord } from "@/lib/ideas";
-import { ArrowRight } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 
 interface IdeaRelatedReposTabProps {
   idea: IdeaRecord;
@@ -46,7 +46,7 @@ export function IdeaRelatedReposTab({
                 style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
               >
                 Open repo profile{" "}
-                <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
+                <Icon name="arrow-right" size="md" />
               </div>
             </Link>
           ))}

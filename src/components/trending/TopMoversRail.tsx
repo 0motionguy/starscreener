@@ -39,7 +39,7 @@ export function TopMoversRail({ limit = 8 }: { limit?: number }) {
                   <span className="muted">
                     {compact(repo.stars)} stars · {repo.language ?? "mixed"}
                   </span>
-                  <RepoSparkline data={repo.sparklineData?.slice(-8)} repo={repo} />
+                  <RepoSparkline data={repo.sparklineData?.slice(-30)} repo={repo} />
                 </div>
                 <div className={delta >= 0 ? "side-delta up-text" : "side-delta dn-text"}>
                   {delta >= 0 ? "+" : ""}

@@ -16,7 +16,6 @@ export const AGENT_REPO_FULL_NAMES = [
   "bytedance/deer-flow",
   "paperclipai/paperclip",
   "code-yeongyu/oh-my-openagent",
-  "TauricResearch/TradingAgents",
   "crewAIInc/crewAI",
   "HKUDS/nanobot",
   "badlogic/pi-mono",

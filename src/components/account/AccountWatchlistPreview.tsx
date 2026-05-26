@@ -1,13 +1,14 @@
 // AccountWatchlistPreview — `.card` + `.wlist-row` block from 05-account.html.
-// Each row emits the shell.js `.spark` contract (`<div class="spark up|down|muted"
-// data-points="…">`) so the Catmull-Rom renderer enhances it correctly. Alert
+// Each row renders a `<RepoSparkline>` (unified Recharts primitive) so the
+// per-row mini-chart shares one language with the rest of the site. Alert
 // state is shown via `.wlist-alert.on` when the page knows an alert rule
 // fired for that repo; otherwise the badge collapses to a muted "silent"
 // label so the row still parses as a 5-cell grid.
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronUp, Star } from "lucide-react";
+import { Icon } from "@/lib/icons";
+import { RepoSparkline } from "@/components/trending/RepoSparkline";
 
 export interface AccountWatchlistRow {
   fullName: string;
@@ -56,7 +57,7 @@ function formatStars(stars: number | null | undefined): ReactNode {
   const label = stars >= 1_000 ? `${(stars / 1_000).toFixed(1)}K` : String(stars);
   return (
     <>
-      {label} <Star size={10} strokeWidth={2} fill="currentColor" aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px" }} />
+      {label} <Icon name="star-fill" size={10} style={{ display: "inline", verticalAlign: "-1px" }} />
     </>
   );
 }
@@ -68,10 +69,10 @@ function formatDelta(delta: number | null | undefined): ReactNode {
   if (delta === 0) return "— stable";
   const abs = Math.abs(delta);
   const suffix = abs >= 1_000 ? `${(abs / 1_000).toFixed(1)}K` : String(abs);
-  const Icon = delta > 0 ? ChevronUp : ChevronDown;
+  const chevron = delta > 0 ? "chevron-up" : "chevron-down";
   return (
     <>
-      <Icon size={10} strokeWidth={2} aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px" }} /> {delta > 0 ? `+${suffix}` : `-${suffix}`}
+      <Icon name={chevron} size={10} style={{ display: "inline", verticalAlign: "-1px" }} /> {delta > 0 ? `+${suffix}` : `-${suffix}`}
     </>
   );
 }
@@ -85,11 +86,9 @@ function sparkClass(delta: number | null | undefined): "up" | "down" | "muted" {
   return "muted";
 }
 
-function sparkPoints(history: number[] | null | undefined): string {
-  if (!Array.isArray(history) || history.length === 0) return "";
-  // Trim to ≤14 like the mockup. Drop the rest so the shell.js renderer
-  // has a consistent shape.
-  return history.slice(-14).join(",");
+function sparkPoints(history: number[] | null | undefined): number[] {
+  if (!Array.isArray(history) || history.length === 0) return [];
+  return history.slice(-30);
 }
 
 function coerceRow(input: AccountWatchlistRow | string): AccountWatchlistRow {
@@ -116,7 +115,7 @@ export function AccountWatchlistPreview({
         </h2>
         <span className="grow" />
         <Link
-          href="/account?tab=watchlist"
+          href="/account"
           className="muted"
           prefetch={false}
           style={{ fontSize: 11, textDecoration: "underline" }}
@@ -172,15 +171,15 @@ export function AccountWatchlistPreview({
               <div className={`wlist-alert${alertOn ? " on" : ""}`}>
                 {alertOn ? (
                   <>
-                    <ChevronUp size={10} strokeWidth={2} aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px" }} /> ALERT ON &middot; {row.alertLabel}
+                    <Icon name="chevron-up" size={10} style={{ display: "inline", verticalAlign: "-1px" }} /> ALERT ON &middot; {row.alertLabel}
                   </>
                 ) : (
                   "— silent"
                 )}
               </div>
               <div className="wlist-spark">
-                {points ? (
-                  <div className={`spark ${klass}`} data-points={points} />
+                {points.length > 1 ? (
+                  <RepoSparkline data={points} variant={klass} />
                 ) : (
                   <div className="spark muted" aria-hidden="true" />
                 )}

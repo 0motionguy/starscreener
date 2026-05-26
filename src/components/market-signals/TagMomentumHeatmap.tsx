@@ -1,6 +1,7 @@
-// TagMomentumHeatmap - 21 tag tiles colored by week-over-week velocity.
-// Derived tags from repos are preferred; a seeded taxonomy fills the cockpit
-// when the current payload does not expose enough tag volume.
+// TagMomentumHeatmap — tag tiles colored by week-over-week velocity.
+// Real data only. Tags are derived from repos.topics + repos.tags +
+// repos.collectionNames. No SEED_TAGS taxonomy padding the grid with
+// invented counts/deltas. Empty payload → empty grid.
 
 import Link from "next/link";
 
@@ -16,30 +17,6 @@ interface Tile {
   count: number;
   deltaPct: number;
 }
-
-const SEED_TAGS: Tile[] = [
-  { tag: "agents", count: 4200, deltaPct: 84 },
-  { tag: "mcp", count: 2800, deltaPct: 72 },
-  { tag: "coding-agent", count: 1900, deltaPct: 68 },
-  { tag: "streaming", count: 1600, deltaPct: 52 },
-  { tag: "rag", count: 1440, deltaPct: 48 },
-  { tag: "multimodal", count: 1190, deltaPct: 38 },
-  { tag: "agentic", count: 1050, deltaPct: 32 },
-  { tag: "evals", count: 940, deltaPct: 28 },
-  { tag: "fine-tune", count: 830, deltaPct: 24 },
-  { tag: "observability", count: 760, deltaPct: 22 },
-  { tag: "vector-db", count: 690, deltaPct: 18 },
-  { tag: "embeddings", count: 610, deltaPct: 14 },
-  { tag: "audio", count: 460, deltaPct: 8 },
-  { tag: "image", count: 430, deltaPct: 4 },
-  { tag: "memory", count: 390, deltaPct: 2 },
-  { tag: "orchestration", count: 340, deltaPct: -1 },
-  { tag: "prompt-eng", count: 320, deltaPct: -3 },
-  { tag: "ml-ops", count: 290, deltaPct: -8 },
-  { tag: "serving", count: 260, deltaPct: -12 },
-  { tag: "diffusion", count: 220, deltaPct: -18 },
-  { tag: "automl", count: 180, deltaPct: -22 },
-];
 
 function deriveTiles(repos: Repo[], limit: number): Tile[] {
   const total = new Map<string, number>();
@@ -77,12 +54,6 @@ function deriveTiles(repos: Repo[], limit: number): Tile[] {
   const rows: Tile[] = [];
   const seen = new Set<string>();
   for (const tile of derived) {
-    if (seen.has(tile.tag)) continue;
-    rows.push(tile);
-    seen.add(tile.tag);
-    if (rows.length >= limit) return rows;
-  }
-  for (const tile of SEED_TAGS) {
     if (seen.has(tile.tag)) continue;
     rows.push(tile);
     seen.add(tile.tag);
@@ -127,13 +98,12 @@ function formatCount(count: number): string {
 
 export function TagMomentumHeatmap({ repos, limit = 21 }: TagMomentumHeatmapProps) {
   const tiles = deriveTiles(repos, limit);
-  const hidden = Math.max(0, SEED_TAGS.length - tiles.length);
 
   return (
     <div className="card">
       <div className="card-head">
         <h2 className="card-title">
-          <b>Tag momentum</b> - 28 tags - last 7d
+          <b>Tag momentum</b> · {tiles.length} tags · last 7d
         </h2>
         <span className="grow" />
         <span className="muted" style={{ fontSize: 10 }}>
@@ -141,6 +111,12 @@ export function TagMomentumHeatmap({ repos, limit = 21 }: TagMomentumHeatmapProp
         </span>
       </div>
 
+      {tiles.length === 0 ? (
+        <div style={{ padding: "24px 16px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-faint)" }}>
+          No tagged repos in window — spine is quiet.
+        </div>
+      ) : (
+      <>
       <div className="heatmap-grid">
         {tiles.map((tile) => {
           const deltaClass = tile.deltaPct < -12 ? "dn-text" : tile.deltaPct < 0 ? "faint" : "";
@@ -170,9 +146,11 @@ export function TagMomentumHeatmap({ repos, limit = 21 }: TagMomentumHeatmapProp
           <b style={{ color: "var(--fg)" }}>{tiles.length} tags shown</b> - ordered by w/w change
         </span>
         <Link className="btn ghost sm" href="/?cat=repos&topic=agents" prefetch={false} style={{ textDecoration: "none" }}>
-          + {hidden || 7} more tags
+          All tags
         </Link>
       </div>
+      </>
+      )}
     </div>
   );
 }

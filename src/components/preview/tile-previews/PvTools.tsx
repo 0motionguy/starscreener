@@ -1,5 +1,5 @@
 // PvTools — 3-col mini tool tile grid. Pixel-faithful to index.html:559-565.
-import { Star } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 
 export function PvTools() {
   return (
@@ -114,7 +114,7 @@ export function PvTools() {
             gap: 3,
           }}
         >
-          <Star size={8} strokeWidth={2} aria-hidden="true" />
+          <Icon name="star" size={8} />
           WATCH
         </div>
         <div

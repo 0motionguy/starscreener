@@ -4,7 +4,7 @@
 // activates this on hydration. We emit the `.share-wrap > .share-btn +
 // .share-menu` contract per public/shell.js:471-514.
 
-import { Code } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 import {
   TwitterXIcon,
   LinkIcon,
@@ -105,7 +105,7 @@ export function IdeaShareMenu({ ideaId, ideaTitle }: IdeaShareMenuProps) {
           role="menuitem"
         >
           <span className="sm-ico" aria-hidden="true">
-            <Code size={14} strokeWidth={2} color="var(--accent)" />
+            <Icon name="code" size="md" style={{ color: "var(--accent)" }} />
           </span>
           Copy embed
         </button>

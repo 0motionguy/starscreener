@@ -26,7 +26,9 @@ import {
   DataZoomComponent,
   VisualMapComponent,
   MarkLineComponent,
+  MarkPointComponent,
   RadarComponent,
+  ToolboxComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import * as echarts from "echarts/core";
@@ -45,6 +47,8 @@ echarts.use([
   DataZoomComponent,
   VisualMapComponent,
   MarkLineComponent,
+  MarkPointComponent,
   RadarComponent,
+  ToolboxComponent,
   CanvasRenderer,
 ]);

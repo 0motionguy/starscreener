@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=390,initial-scale=1,viewport-fit=cover">
+<title>Interests — Trending Repos</title>
+<style>
+  :root{
+    --bg:#000; --elev-1:#1c1c1e; --elev-2:#2c2c2e; --elev-3:#3a3a3c;
+    --label:#fff; --label-2:rgba(235,235,245,.60); --label-3:rgba(235,235,245,.30); --label-4:rgba(235,235,245,.18);
+    --fill-3:rgba(118,118,128,.16);
+    --sep:rgba(84,84,88,.30);
+    --accent:#ff6b35; --accent-soft:rgba(255,107,53,.16);
+    --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+    --f-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    --f-mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+  html,body{width:390px;height:844px;background:var(--bg);color:var(--label);font-family:var(--f-text);font-size:17px;line-height:1.41;letter-spacing:-.014em;overflow:hidden;position:relative;}
+
+  body::before{
+    content:"";position:absolute;top:-80px;right:-160px;
+    width:480px;height:480px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,107,53,.14) 0%,transparent 65%);
+    filter:blur(30px);pointer-events:none;z-index:0;
+  }
+
+  .status-bar{height:54px;padding:18px 30px 0;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:600;letter-spacing:-.4px;position:relative;z-index:10;}
+  .status-bar .time{font-variant-numeric:tabular-nums;}
+  .status-bar .sys{display:flex;align-items:center;gap:5px;}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:37px;background:#000;border-radius:99px;z-index:20;pointer-events:none;}
+  .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#fff;opacity:.85;z-index:25;}
+
+  .screen{position:relative;width:100%;height:100%;display:flex;flex-direction:column;z-index:1;}
+
+  .nav-back{padding:8px 20px 0;display:flex;align-items:center;justify-content:space-between;}
+  .back-btn{background:none;border:0;color:var(--accent);font-size:17px;font-weight:400;letter-spacing:-.4px;display:inline-flex;align-items:center;gap:2px;cursor:pointer;padding:0;}
+  .back-btn svg{width:12px;height:21px;margin-right:2px;}
+  .step-pill{font-family:var(--f-mono);font-size:11px;color:var(--label-3);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .step-pill b{color:var(--label-2);font-weight:600;}
+
+  .nav-large{padding:14px 20px 6px;}
+  .nav-large h1{font-family:var(--f-display);font-size:34px;font-weight:700;letter-spacing:-1.0px;line-height:1.1;color:var(--label);margin-bottom:6px;}
+  .nav-large .sub{font-size:15px;line-height:1.4;letter-spacing:-.24px;color:var(--label-2);}
+
+  .scroll{flex:1;overflow-y:auto;padding:20px 16px 24px;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:8px;}
+
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 14px;border-radius:99px;
+    background:var(--fill-3);border:.5px solid transparent;
+    color:var(--label);font-family:var(--f-text);font-size:15px;font-weight:500;letter-spacing:-.24px;
+    cursor:pointer;transition:all .2s ease;
+  }
+  .pill .ico{width:16px;height:16px;flex-shrink:0;opacity:.85;}
+  .pill:active{transform:scale(.96);}
+  .pill.on{background:var(--accent-soft);border-color:rgba(255,107,53,.5);color:var(--accent);}
+  .pill.on .ico path{fill:var(--accent);}
+  .pill .check{width:0;height:0;overflow:hidden;transition:width .2s;}
+  .pill.on .check{width:14px;height:14px;}
+
+  .section-label{font-family:var(--f-text);font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--label-3);margin:22px 4px 12px;}
+  .section-label:first-child{margin-top:0;}
+
+  .footer{padding:14px 16px 30px;background:rgba(0,0,0,.85);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border-top:.5px solid var(--sep);}
+  .count-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 4px;}
+  .count-row .lhs{font-family:var(--f-mono);font-size:13px;color:var(--label-2);font-variant-numeric:tabular-nums;}
+  .count-row .lhs b{color:var(--label);font-weight:600;}
+  .skip{background:none;border:0;color:var(--accent);font-size:15px;font-weight:600;letter-spacing:-.24px;cursor:pointer;padding:0;}
+  .btn-primary{
+    width:100%;height:52px;border:0;border-radius:14px;
+    background:var(--accent);color:#fff;
+    font-family:var(--f-text);font-size:17px;font-weight:600;letter-spacing:-.4px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 8px 20px -6px rgba(255,107,53,.40);
+  }
+  .btn-primary:active{transform:scale(.985);opacity:.92;}
+</style>
+</head>
+<body>
+  <div class="island"></div>
+  <header class="status-bar">
+    <span class="time">9:41</span>
+    <span class="sys">
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="6" width="3" height="5" rx=".5"/><rect x="4.5" y="4" width="3" height="7" rx=".5"/><rect x="9" y="2" width="3" height="9" rx=".5"/><rect x="13.5" y="0" width="3" height="11" rx=".5"/></svg>
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="#fff"><path d="M7.5 0C4.7 0 2.1 1 0 2.7L1.4 4.1C3.1 2.8 5.2 2 7.5 2C9.8 2 11.9 2.8 13.6 4.1L15 2.7C12.9 1 10.3 0 7.5 0ZM7.5 4C5.7 4 4.1 4.6 2.8 5.7L4.2 7.1C5.1 6.4 6.3 6 7.5 6C8.7 6 9.9 6.4 10.8 7.1L12.2 5.7C10.9 4.6 9.3 4 7.5 4ZM7.5 8C6.7 8 6 8.3 5.4 8.8L7.5 11L9.6 8.8C9 8.3 8.3 8 7.5 8Z"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3.5" stroke="#fff" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#fff"/><rect x="23.5" y="4" width="1.5" height="5" rx=".7" fill="#fff" fill-opacity=".4"/></svg>
+    </span>
+  </header>
+
+  <div class="screen">
+    <div class="nav-back">
+      <button class="back-btn">
+        <svg viewBox="0 0 12 21" fill="none"><path d="M10 1 L1 10.5 L10 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <span class="step-pill"><b>2</b> of <b>3</b></span>
+    </div>
+
+    <div class="nav-large">
+      <h1>What's relevant<br/>to you?</h1>
+      <p class="sub">Tap to follow topics. We'll tune your feed. Change anytime in Settings.</p>
+    </div>
+
+    <div class="scroll">
+      <div class="section-label">AI &amp; ML</div>
+      <div class="grid">
+        <button class="pill on"><svg class="ico" viewBox="0 0 16 16"><path d="M8 1 L10 6 L15 7 L11 11 L12 15 L8 13 L4 15 L5 11 L1 7 L6 6 Z" fill="#fff"/></svg>LLM frameworks<svg class="check" viewBox="0 0 14 14"><path d="M2 7 L6 11 L12 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+        <button class="pill on">Agents<svg class="check" viewBox="0 0 14 14"><path d="M2 7 L6 11 L12 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+        <button class="pill on">RAG<svg class="check" viewBox="0 0 14 14"><path d="M2 7 L6 11 L12 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+        <button class="pill">Inference</button>
+        <button class="pill">Model serving</button>
+        <button class="pill">Evaluation</button>
+        <button class="pill on">MCP servers<svg class="check" viewBox="0 0 14 14"><path d="M2 7 L6 11 L12 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+        <button class="pill">Vector DBs</button>
+      </div>
+
+      <div class="section-label">Engineering</div>
+      <div class="grid">
+        <button class="pill on">Developer tools<svg class="check" viewBox="0 0 14 14"><path d="M2 7 L6 11 L12 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+        <button class="pill">Frontend</button>
+        <button class="pill">Backend</button>
+        <button class="pill">Infrastructure</button>
+        <button class="pill">Mobile</button>
+        <button class="pill">Security</button>
+        <button class="pill">Data</button>
+      </div>
+
+      <div class="section-label">Discovery</div>
+      <div class="grid">
+        <button class="pill">New repos</button>
+        <button class="pill on">Fastest growing<svg class="check" viewBox="0 0 14 14"><path d="M2 7 L6 11 L12 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+        <button class="pill">Funding signal</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="count-row">
+        <span class="lhs"><b>6</b> selected · 3 minimum</span>
+        <button class="skip">Skip</button>
+      </div>
+      <button class="btn-primary">Continue</button>
+    </div>
+  </div>
+
+  <div class="home-indicator"></div>
+</body>
+</html>

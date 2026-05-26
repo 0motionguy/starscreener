@@ -1,6 +1,7 @@
-// ArxivPapersTable - six arXiv papers with citation and linked-repo context.
-// Live arXiv rows are used first; seeded rows keep the cockpit complete when
-// the recent feed has fewer cited-repo papers.
+// ArxivPapersTable — arXiv papers with citation and linked-repo context.
+// Real data only. No SEED_ROWS with fabricated 2511.* papers. If the feed
+// has fewer than `limit` cited papers, the table renders shorter (or empty)
+// rather than padding with invented entries.
 
 import Link from "next/link";
 
@@ -20,34 +21,6 @@ interface ArxivDisplayRow {
   citations: number;
   repo: string | null;
   absUrl: string;
-}
-
-const SEED_ROWS: ArxivDisplayRow[] = [
-  seedPaper("2511.12041", "cs.LG", "Continuous Thought Machines: Latent Reasoning with State Persistence", "Sakana AI Labs", 47, "sakanaai/ctm-py"),
-  seedPaper("2511.10847", "cs.AI", "smolagents: Code-Action LLM Agents Without JSON Schema Overhead", "Roucher, Wolf et al. - HF", 38, "huggingface/smolagents"),
-  seedPaper("2511.03492", "cs.SE", "AI Gateway: A Unified Provider Routing Layer for Multi-Model Systems", "Chen, Palmer et al.", 22, "vercel/ai-sdk"),
-  seedPaper("2511.08823", "cs.CL", "DeepSeek-V3 Technical Report: Mixture-of-Experts at 671B Active", "DeepSeek-AI", 184, "deepseek-ai/DeepSeek-V3"),
-  seedPaper("2511.04918", "cs.CL", "Unsloth: 2x Faster LLM Fine-tuning Through Triton Optimization", "Han, Han - Unsloth AI", 18, "unslothai/unsloth"),
-  seedPaper("2511.07291", "cs.AI", "Cline: Autonomous Programming via Tool-Use and Plan-Then-Execute Loops", "Saoud, Bornstein et al.", 14, "cline/cline"),
-];
-
-function seedPaper(
-  arxivId: string,
-  category: string,
-  title: string,
-  author: string,
-  citations: number,
-  repo: string,
-): ArxivDisplayRow {
-  return {
-    arxivId,
-    category,
-    title,
-    author,
-    citations,
-    repo,
-    absUrl: `https://arxiv.org/abs/${arxivId}`,
-  };
 }
 
 function repoHref(fullName: string | null): string | null {
@@ -93,22 +66,13 @@ function buildRows(papers: ArxivPaperTrending[], limit: number): ArxivDisplayRow
     seen.add(row.arxivId);
     if (rows.length >= limit) return rows;
   }
-  for (const row of SEED_ROWS) {
-    if (seen.has(row.arxivId)) continue;
-    rows.push(row);
-    seen.add(row.arxivId);
-    if (rows.length >= limit) return rows;
-  }
-  return rows.slice(0, limit);
+  return rows;
 }
 
 export function ArxivPapersTable({ papers, limit = 6 }: ArxivPapersTableProps) {
   const rows = buildRows(papers, limit);
-  const citedCount = Math.max(
-    22,
-    rows.filter((row) => row.repo).length,
-    papers.filter((paper) => paper.linkedRepos.length > 0).length,
-  );
+  // Honest count: real cited papers, no floor.
+  const citedCount = papers.filter((paper) => paper.linkedRepos.length > 0).length;
 
   return (
     <div className="card">
@@ -120,6 +84,11 @@ export function ArxivPapersTable({ papers, limit = 6 }: ArxivPapersTableProps) {
         <span className="chip info">{citedCount.toLocaleString()} cite OSS</span>
       </div>
 
+      {rows.length === 0 ? (
+        <div style={{ padding: "20px 14px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-faint)" }}>
+          No arXiv papers citing tracked repos right now — feed is quiet.
+        </div>
+      ) : (
       <div>
         {rows.map((row) => {
           const href = repoHref(row.repo);
@@ -145,13 +114,14 @@ export function ArxivPapersTable({ papers, limit = 6 }: ArxivPapersTableProps) {
         })}
         <div style={{ padding: "10px 14px", borderTop: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span className="muted" style={{ fontSize: 11 }}>
-            Showing {rows.length} of {Math.max(citedCount, rows.length)} papers citing tracked repos
+            Showing {rows.length} of {citedCount} papers citing tracked repos
           </span>
           <Link className="btn ghost sm" href="/?cat=repos&topic=arxiv" prefetch={false} style={{ textDecoration: "none" }}>
             All papers
           </Link>
         </div>
       </div>
+      )}
     </div>
   );
 }

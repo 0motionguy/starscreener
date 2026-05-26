@@ -15,12 +15,10 @@ describe("home page data honesty", () => {
     expect(source).not.toContain("sparkline: buildSyntheticSparkline");
   });
 
-  it("caps the landing consensus panel at three rows", () => {
-    const match = source.match(/const consensusRepos =[\s\S]*?\.slice\(0, (\d+)\);/);
-
-    expect(match).not.toBeNull();
-    expect(Number(match?.[1])).toBe(3);
-  });
+  // The standalone "landing consensus panel" (const consensusRepos … .slice(0, 3))
+  // was removed in the unified-table home redesign: "consensus" is now a sort mode
+  // (see consensusScore in src/app/page.tsx), not a separate capped panel. The
+  // row-cap honesty assertion is retired with the panel it guarded.
 
   it("does not use render-order counters or wall-clock dates in homepage HTML", () => {
     expect(source).not.toContain("__sparkGradId");

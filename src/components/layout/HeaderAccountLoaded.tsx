@@ -12,8 +12,8 @@
 // This file is on the auth-provider-policy ALLOW_LIST as a sanctioned
 // consumer of Clerk's user hook.
 
-import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
 import { useEffect, useState, type ReactNode } from "react";
 
 interface HeaderAccountLoadedProps {
@@ -41,12 +41,12 @@ function HeaderAccountLoading() {
       aria-label="Loading account"
       aria-busy="true"
     >
-      <span>Account</span>
+      <span>Sign in</span>
     </span>
   );
 }
 
-function HeaderAccountClerkState({ fallback }: HeaderAccountLoadedProps) {
+function HeaderAccountClerkState({ fallback: _fallback }: HeaderAccountLoadedProps) {
   const { isLoaded, isSignedIn, user } = useUser();
 
   if (!isLoaded) {
@@ -54,23 +54,25 @@ function HeaderAccountClerkState({ fallback }: HeaderAccountLoadedProps) {
   }
 
   if (!isSignedIn || !user) {
-    return fallback;
+    return (
+      <SignInButton mode="modal">
+        <button
+          type="button"
+          className="btn-signup"
+          aria-label="Sign in"
+          title="Sign in"
+        >
+          <span>Sign in</span>
+        </button>
+      </SignInButton>
+    );
   }
 
-  const label =
-    user.fullName ||
-    user.username ||
-    user.primaryEmailAddress?.emailAddress ||
-    user.id;
-
   return (
-    <Link
-      href="/you"
-      className="profile"
-      title="Your account"
-      aria-label="Your account"
-    >
-      <span>{label}</span>
-    </Link>
+    <UserButton
+      afterSignOutUrl="/"
+      userProfileMode="navigation"
+      userProfileUrl="/account"
+    />
   );
 }

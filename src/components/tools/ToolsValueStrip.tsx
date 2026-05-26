@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 import {
   ChartLineIcon,
   ClockIcon,
@@ -37,7 +37,7 @@ export function ToolsValueStrip() {
       <SectionEyebrow
         num="06"
         title="What you unlock with PRO"
-        meta="$19/mo - cancel anytime - 7-day free trial"
+        meta="$6.50/mo · cheaper than a SF latte · cancel anytime"
       />
       <div className="value-strip fade-up">
         {VALUES.map((value) => (
@@ -65,5 +65,5 @@ function ValueIcon({ kind }: { kind: string }) {
   if (kind === "api") {
     return <CodeIcon size={20} strokeWidth={1.6} color="currentColor" aria-hidden="true" />;
   }
-  return <ArrowLeftRight size={20} strokeWidth={1.6} color="var(--accent)" aria-hidden="true" />;
+  return <Icon name="swap" size="xl" style={{ color: "var(--accent)" }} />;
 }

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trending Repos — iOS prototype</title>
+<style>
+  :root {
+    --bg:#0a0a0c; --canvas:#000;
+    --elev-1:#1c1c1e; --elev-2:#2c2c2e;
+    --label:#fff; --label-2:rgba(235,235,245,.60); --label-3:rgba(235,235,245,.36);
+    --sep:rgba(84,84,88,.30);
+    --accent:#ff6b35; --accent-soft:rgba(255,107,53,.16);
+    --green:#30d158;
+    --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+    --f-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    --f-mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; min-height:100%; }
+  body{
+    background:
+      radial-gradient(1200px 800px at 8% -10%, rgba(255,107,53,.08), transparent 60%),
+      radial-gradient(900px 700px at 95% 0%, rgba(96,165,250,.04), transparent 70%),
+      linear-gradient(180deg, #0e0e10 0%, #0a0a0c 320px),
+      var(--bg);
+    color:var(--label);
+    font-family:var(--f-text);
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+    min-height:100vh;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 20%, black 30%, transparent 80%);
+    pointer-events:none; z-index:0;
+  }
+  .page{ position:relative; z-index:1; padding:42px 28px 60px; max-width:1640px; margin:0 auto;}
+
+  .head{ display:grid; grid-template-columns:1fr auto; gap:24px; align-items:end; margin-bottom:40px;}
+  .lockup{ display:flex; align-items:center; gap:14px;}
+  .mark{ width:46px; height:46px; border-radius:12px; background:linear-gradient(135deg,#ff8d5c,#ff6b35); display:grid; place-items:center; box-shadow:0 0 0 1px rgba(255,107,53,.25), 0 14px 32px -8px rgba(255,107,53,.5);}
+  .mark svg{ width:26px; height:26px;}
+  .lockup .text h1{ font-family:var(--f-display); font-weight:700; font-size:34px; color:var(--label); letter-spacing:-1.0px; margin:0; line-height:1.04;}
+  .lockup .text h1 .dot{ color:var(--accent);}
+  .lockup .text .sub{ font-family:var(--f-mono); font-size:12px; color:var(--label-2); letter-spacing:.04em; margin-top:6px;}
+  .lockup .text .sub b{ color:var(--label); font-weight:600;}
+
+  .meta{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:flex-end;}
+  .chip{ display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:99px; background:var(--elev-1); border:.5px solid var(--sep); font-family:var(--f-mono); font-size:11.5px; color:var(--label-2); letter-spacing:.02em;}
+  .chip b{ color:var(--label); font-weight:600;}
+  .chip.live{ background:rgba(48,209,88,.10); border-color:rgba(48,209,88,.30); color:var(--green);}
+  .chip.live .dot{ width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 0 3px rgba(48,209,88,.18);}
+  .chip.brand{ background:var(--accent-soft); border-color:rgba(255,107,53,.32); color:var(--accent);}
+
+  .group{ margin-bottom:60px;}
+  .group-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:22px; padding-bottom:14px; border-bottom:.5px dashed var(--sep);}
+  .group-num{ font-family:var(--f-mono); font-size:11px; color:var(--accent); letter-spacing:.16em; text-transform:uppercase; font-weight:700;}
+  .group-title{ font-family:var(--f-display); font-weight:700; font-size:24px; color:var(--label); letter-spacing:-.5px; margin:0;}
+  .group-sub{ font-family:var(--f-mono); font-size:12px; color:var(--label-3); margin-left:auto;}
+
+  .row{ display:flex; gap:30px; flex-wrap:wrap; align-items:flex-start;}
+
+  .phone-block{ display:flex; flex-direction:column; width:412px;}
+  .phone-frame{
+    position:relative; width:412px; height:866px; border-radius:54px; padding:11px;
+    background:linear-gradient(180deg, #1a1a1f 0%, #0c0c0e 100%);
+    box-shadow:
+      0 0 0 1.5px #2a2a30,
+      0 24px 64px -16px rgba(0,0,0,0.8),
+      0 0 80px -8px rgba(255,107,53,0.12);
+  }
+  .phone-frame::before{ content:""; position:absolute; inset:8px; border-radius:46px; box-shadow: inset 0 0 0 1px #000; pointer-events:none; z-index:2;}
+  .phone-frame iframe{ width:390px; height:844px; border:0; border-radius:43px; display:block; background:#000;}
+  .phone-caption{ margin-top:18px; display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:0 6px;}
+  .phone-caption .num{ font-family:var(--f-mono); font-size:11px; color:var(--accent); letter-spacing:.16em; font-weight:700;}
+  .phone-caption .name{ font-family:var(--f-display); font-weight:600; font-size:17px; color:var(--label); letter-spacing:-.32px; flex:1; margin-left:8px;}
+  .phone-caption .badge{ font-family:var(--f-mono); font-size:10.5px; color:var(--label-3); letter-spacing:.1em; text-transform:uppercase;}
+  .phone-note{ margin-top:8px; padding:0 6px; font-size:13px; color:var(--label-2); line-height:1.5; max-width:412px;}
+
+  .footer{ margin-top:60px; padding-top:24px; border-top:.5px solid var(--sep); display:grid; grid-template-columns:1fr auto; gap:24px; align-items:end;}
+  .footer .left{ font-family:var(--f-mono); font-size:12px; color:var(--label-3); line-height:1.6;}
+  .footer .left b{ color:var(--label); font-weight:600;}
+  .footer .links{ display:flex; gap:16px; font-family:var(--f-mono); font-size:11px; color:var(--label-2);}
+  .footer .links a{ color:inherit; text-decoration:none; border-bottom:.5px dashed var(--sep);}
+  .footer .links a:hover{ color:var(--accent); border-color:var(--accent);}
+
+  @media (max-width: 900px){ .head{ grid-template-columns:1fr;} .meta{ justify-content:flex-start;} }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="head">
+    <div class="lockup">
+      <div class="mark"><svg viewBox="0 0 32 32" fill="none"><path d="M6 21 L13 14 L17 18 L26 9" stroke="#08090a" stroke-width="2.8" stroke-linecap="square"/><circle cx="26" cy="9" r="2.8" fill="#08090a"/><path d="M22 9 H26 V13" stroke="#08090a" stroke-width="2.8" stroke-linecap="square" fill="none"/></svg></div>
+      <div class="text">
+        <h1>Trending<span class="dot">.</span> — iOS</h1>
+        <p class="sub"><b>7 screens</b> · iPhone 15 Pro · 390 × 844 · dark · native iOS HIG · real data</p>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="chip live"><span class="dot"></span><b>data/trending.json</b></span>
+      <span class="chip">tokens · <b>SF Pro</b></span>
+      <span class="chip brand">v1 prototype</span>
+    </div>
+  </header>
+
+  <section class="group">
+    <div class="group-head"><span class="group-num">01 · ONBOARDING</span><h2 class="group-title">First-time install</h2><span class="group-sub">3 screens · ~20s flow</span></div>
+    <div class="row">
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/01-onboarding-welcome.html" loading="lazy" title="Welcome"></iframe></div>
+        <div class="phone-caption"><span class="num">01.A</span><span class="name">Welcome</span><span class="badge">step 1/3</span></div>
+        <p class="phone-note">Brand-led splash with three-source proof points. Apple-grade type hierarchy, single decisive CTA.</p>
+      </div>
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/02-onboarding-interests.html" loading="lazy" title="Interests"></iframe></div>
+        <div class="phone-caption"><span class="num">01.B</span><span class="name">Interests</span><span class="badge">step 2/3</span></div>
+        <p class="phone-note">8 topic tags with iOS-native multi-select. Personalizes feed before first paint.</p>
+      </div>
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/03-onboarding-notifications.html" loading="lazy" title="Notifications"></iframe></div>
+        <div class="phone-caption"><span class="num">01.C</span><span class="name">Notifications</span><span class="badge">step 3/3</span></div>
+        <p class="phone-note">Native iOS permission primer with the four real alert types we'll fire. Skip is honest, not hidden.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head"><span class="group-num">02 · HOME</span><h2 class="group-title">Trending feed</h2><span class="group-sub">large title · segmented · source rail</span></div>
+    <div class="row">
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/04-trending.html" loading="lazy" title="Trending"></iframe></div>
+        <div class="phone-caption"><span class="num">02</span><span class="name">Trending</span><span class="badge">primary tab</span></div>
+        <p class="phone-note">Native iOS Large Title nav, 24H/7D/30D segmented control, scrollable source-chip rail (existing taxonomy), then rich repo rows with mono-tabular star deltas, language pill, sparkline. Featured card at top.</p>
+      </div>
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/05-ai-llm.html" loading="lazy" title="AI & LLMs"></iframe></div>
+        <div class="phone-caption"><span class="num">03</span><span class="name">AI &amp; LLMs</span><span class="badge">discovery</span></div>
+        <p class="phone-note">Editorial hero card carrying "today's headline" AI insight. Horizontal category rail (frameworks / agents / RAG / inference). Each rising repo gets a one-sentence "why it matters" callout.</p>
+      </div>
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/06-watchlist.html" loading="lazy" title="Watchlist"></iframe></div>
+        <div class="phone-caption"><span class="num">04</span><span class="name">Watchlist</span><span class="badge">tracking</span></div>
+        <p class="phone-note">iOS list rows with first-row swipe-actions revealed (Alert / Remove). Activity flags inline (release, issue spike, active). Quiet repos grouped separately. Suggestion card at the bottom.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head"><span class="group-num">03 · DETAIL</span><h2 class="group-title">Repo detail</h2><span class="group-sub">stretchy header · sticky CTAs · activity feed</span></div>
+    <div class="row">
+      <div class="phone-block">
+        <div class="phone-frame"><iframe src="screens/07-repo-detail.html" loading="lazy" title="Repo detail"></iframe></div>
+        <div class="phone-caption"><span class="num">05</span><span class="name">Detail</span><span class="badge">anthropics/financial-services-plugins</span></div>
+        <p class="phone-note">Stretchy gradient header with the actual #1 repo from today's feed. Hero CTAs (GitHub, Watch, Alert), 6-cell stats grid, "Why it's trending" AI insight panel, native iOS chart, real activity feed. Sticky bottom CTAs cement the two-action commitment.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="left">
+      <b>Trending Repos</b> — iOS-first v1 prototype · 7 screens · single direction.<br/>
+      Real data: <b>data/trending.json</b> + AA-LLMs leaderboard · brand: <b>Liquid Lava #ff6b35</b> on true OLED · type: <b>SF Pro</b> stack.<br/>
+      No new sources — uses the existing cat=repos / cat=llms taxonomy and the same windows (1H / 24H / 7D / 30D).
+    </div>
+    <div class="links">
+      <a href="screens/01-onboarding-welcome.html">01.A</a>
+      <a href="screens/02-onboarding-interests.html">01.B</a>
+      <a href="screens/03-onboarding-notifications.html">01.C</a>
+      <a href="screens/04-trending.html">02</a>
+      <a href="screens/05-ai-llm.html">03</a>
+      <a href="screens/06-watchlist.html">04</a>
+      <a href="screens/07-repo-detail.html">05</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

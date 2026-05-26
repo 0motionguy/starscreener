@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=390,initial-scale=1,viewport-fit=cover">
+<title>AI &amp; LLMs — Trending Repos</title>
+<style>
+  :root{
+    --bg:#000; --elev-1:#1c1c1e; --elev-2:#2c2c2e; --elev-3:#3a3a3c;
+    --label:#fff; --label-2:rgba(235,235,245,.60); --label-3:rgba(235,235,245,.30); --label-4:rgba(235,235,245,.18);
+    --fill-3:rgba(118,118,128,.16);
+    --sep:rgba(84,84,88,.30);
+    --accent:#ff6b35; --accent-soft:rgba(255,107,53,.16); --accent-dim:rgba(255,107,53,.28);
+    --purple:#bf5af2; --blue:#0a84ff; --green:#30d158;
+    --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+    --f-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    --f-mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+  html,body{width:390px;height:844px;background:var(--bg);color:var(--label);font-family:var(--f-text);font-size:17px;line-height:1.41;letter-spacing:-.014em;overflow:hidden;position:relative;}
+
+  .status-bar{height:54px;padding:18px 30px 0;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:600;letter-spacing:-.4px;position:relative;z-index:10;}
+  .status-bar .time{font-variant-numeric:tabular-nums;}
+  .status-bar .sys{display:flex;align-items:center;gap:5px;}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:37px;background:#000;border-radius:99px;z-index:30;pointer-events:none;}
+  .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#fff;opacity:.85;z-index:25;}
+
+  .screen{position:relative;width:100%;height:100%;display:flex;flex-direction:column;z-index:1;}
+
+  .nav-bar{padding:6px 16px 0;display:flex;align-items:center;justify-content:space-between;}
+  .nav-bar h1{font-family:var(--f-display);font-size:34px;font-weight:700;letter-spacing:-1.0px;line-height:1.0;color:var(--label);}
+  .nav-bar h1 .em{color:var(--accent);}
+  .nav-actions{display:flex;align-items:center;gap:6px;}
+  .icon-btn{width:36px;height:36px;border-radius:99px;background:var(--fill-3);border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent);}
+  .icon-btn svg{width:18px;height:18px;}
+  .avatar-btn{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3a3a3c,#1c1c1e);border:1.5px solid var(--accent);overflow:hidden;cursor:pointer;display:grid;place-items:center;color:var(--label);font-size:12px;font-weight:600;font-family:var(--f-display);}
+
+  .sub-line{padding:4px 18px 0;display:flex;align-items:center;gap:8px;}
+  .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+  .sub-text{font-family:var(--f-mono);font-size:12.5px;color:var(--label-2);font-variant-numeric:tabular-nums;}
+  .sub-text b{color:var(--label);font-weight:600;}
+
+  .scroll{flex:1;overflow-y:auto;padding:14px 0 14px;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  /* Featured AI hero card — editorial cover */
+  .hero-card{
+    margin:0 16px 18px;border-radius:22px;overflow:hidden;cursor:pointer;
+    background:linear-gradient(135deg,#3a1d50 0%,#2a1240 30%,#1a0a30 70%,#0a0420 100%);
+    position:relative;height:228px;
+  }
+  .hero-card::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 80% 30%, rgba(191,90,242,.40) 0%, transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(255,107,53,.30) 0%, transparent 50%);
+  }
+  .hero-card::after{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:24px 24px;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black 30%,transparent 80%);
+  }
+  .hero-inner{position:relative;z-index:1;height:100%;padding:18px;display:flex;flex-direction:column;justify-content:space-between;}
+  .hero-top{display:flex;align-items:center;justify-content:space-between;}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.10);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;}
+  .hero-eyebrow svg{width:11px;height:11px;}
+  .hero-rank{font-family:var(--f-mono);font-size:11.5px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .hero-body{}
+  .hero-name{font-family:var(--f-display);font-size:30px;font-weight:700;letter-spacing:-1.0px;line-height:1.04;color:#fff;margin-bottom:6px;}
+  .hero-name .o{opacity:.65;font-weight:500;}
+  .hero-desc{font-size:14px;line-height:1.42;letter-spacing:-.16px;color:rgba(235,235,245,.78);max-width:300px;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .hero-stats{display:flex;align-items:center;gap:14px;font-family:var(--f-mono);font-size:12px;font-weight:500;color:rgba(255,255,255,.65);font-variant-numeric:tabular-nums;}
+  .hero-stats .v{color:#fff;font-weight:600;}
+  .hero-stats .delta{color:#fff;display:inline-flex;align-items:center;gap:3px;background:var(--accent);color:#0a0606;padding:3px 8px;border-radius:99px;font-weight:600;}
+
+  /* Section headers */
+  .section{padding:6px 16px 8px;display:flex;align-items:baseline;justify-content:space-between;}
+  .section h2{font-family:var(--f-display);font-size:22px;font-weight:700;letter-spacing:-.4px;color:var(--label);}
+  .section .more{font-size:15px;font-weight:500;letter-spacing:-.24px;color:var(--accent);background:none;border:0;cursor:pointer;}
+
+  /* Horizontal category cards */
+  .h-scroll{display:flex;gap:10px;padding:6px 16px 18px;overflow-x:auto;scrollbar-width:none;}
+  .h-scroll::-webkit-scrollbar{display:none;}
+  .cat-card{
+    flex-shrink:0;width:140px;padding:14px;border-radius:16px;background:var(--elev-1);cursor:pointer;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .cat-card:active{background:var(--elev-2);transform:scale(.98);}
+  .cat-card .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;}
+  .cat-card.f .ic{background:rgba(191,90,242,.18);color:var(--purple);}
+  .cat-card.a .ic{background:rgba(255,107,53,.18);color:var(--accent);}
+  .cat-card.r .ic{background:rgba(10,132,255,.18);color:var(--blue);}
+  .cat-card.i .ic{background:rgba(48,209,88,.18);color:var(--green);}
+  .cat-card .ic svg{width:18px;height:18px;fill:currentColor;}
+  .cat-card .label{font-size:14px;font-weight:600;letter-spacing:-.16px;color:var(--label);line-height:1.2;}
+  .cat-card .count{font-family:var(--f-mono);font-size:11.5px;color:var(--label-3);letter-spacing:.02em;}
+
+  /* AI insight repo row — slimmer than full card */
+  .ai-row{margin:0 16px 8px;padding:14px;border-radius:16px;background:var(--elev-1);cursor:pointer;}
+  .ai-row:active{transform:scale(.992);background:var(--elev-2);}
+  .ai-row .head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .avatar{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#444,#222);display:grid;place-items:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:13px;flex-shrink:0;letter-spacing:-.3px;}
+  .avatar.la{background:linear-gradient(135deg,#fbbf24,#d97706);}
+  .avatar.ol{background:linear-gradient(135deg,#fff,#a3a3a3);color:#000;}
+  .avatar.vl{background:linear-gradient(135deg,#22d3ee,#0891b2);}
+  .avatar.hf{background:linear-gradient(135deg,#fcd34d,#f59e0b);}
+  .titles{flex:1;min-width:0;}
+  .owner{font-size:11.5px;font-weight:500;color:var(--label-2);letter-spacing:-.06px;line-height:1.1;margin-bottom:1px;}
+  .name{font-family:var(--f-display);font-size:16px;font-weight:600;letter-spacing:-.32px;color:var(--label);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ai-row .right{display:flex;align-items:center;gap:6px;}
+  .delta-pill{font-family:var(--f-mono);font-size:11px;font-weight:600;padding:3px 7px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-variant-numeric:tabular-nums;}
+
+  .ai-insight{padding:10px 12px;border-radius:10px;background:rgba(255,107,53,.06);border:.5px solid var(--accent-dim);position:relative;}
+  .ai-insight .label{position:absolute;top:-7px;left:10px;background:var(--bg);padding:0 5px;display:inline-flex;align-items:center;gap:4px;font-family:var(--f-mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);}
+  .ai-insight .label svg{width:9px;height:9px;}
+  .ai-insight p{font-size:13px;line-height:1.42;letter-spacing:-.08px;color:var(--label);margin-top:3px;}
+
+  .ai-row .stats{display:flex;align-items:center;gap:14px;margin-top:10px;font-family:var(--f-mono);font-size:11.5px;color:var(--label-2);font-variant-numeric:tabular-nums;}
+  .ai-row .stats .v{color:var(--label);font-weight:500;}
+  .ai-row .stats .tag{padding:2px 7px;border-radius:6px;background:var(--fill-3);color:var(--label-2);font-size:10.5px;font-weight:500;letter-spacing:.02em;}
+
+  /* Tab bar — vibrancy */
+  .tab-bar{position:absolute;bottom:0;left:0;right:0;height:83px;padding:6px 0 22px;display:flex;justify-content:space-around;align-items:flex-start;background:rgba(20,20,22,.78);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-top:.5px solid var(--sep);z-index:15;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 8px 0;background:none;border:0;color:var(--label-3);font-family:var(--f-text);font-size:10px;font-weight:500;letter-spacing:-.06px;cursor:pointer;min-width:56px;}
+  .tab svg{width:26px;height:26px;}
+  .tab.on{color:var(--accent);}
+  .tab .ico svg{fill:currentColor;}
+</style>
+</head>
+<body>
+  <div class="island"></div>
+  <header class="status-bar">
+    <span class="time">9:41</span>
+    <span class="sys">
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="6" width="3" height="5" rx=".5"/><rect x="4.5" y="4" width="3" height="7" rx=".5"/><rect x="9" y="2" width="3" height="9" rx=".5"/><rect x="13.5" y="0" width="3" height="11" rx=".5"/></svg>
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="#fff"><path d="M7.5 0C4.7 0 2.1 1 0 2.7L1.4 4.1C3.1 2.8 5.2 2 7.5 2C9.8 2 11.9 2.8 13.6 4.1L15 2.7C12.9 1 10.3 0 7.5 0ZM7.5 4C5.7 4 4.1 4.6 2.8 5.7L4.2 7.1C5.1 6.4 6.3 6 7.5 6C8.7 6 9.9 6.4 10.8 7.1L12.2 5.7C10.9 4.6 9.3 4 7.5 4ZM7.5 8C6.7 8 6 8.3 5.4 8.8L7.5 11L9.6 8.8C9 8.3 8.3 8 7.5 8Z"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3.5" stroke="#fff" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#fff"/><rect x="23.5" y="4" width="1.5" height="5" rx=".7" fill="#fff" fill-opacity=".4"/></svg>
+    </span>
+  </header>
+
+  <div class="screen">
+    <div class="nav-bar">
+      <h1>AI &amp; LLMs<span class="em">.</span></h1>
+      <div class="nav-actions">
+        <button class="icon-btn"><svg viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/><path d="M13 13 L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="avatar-btn">MK</button>
+      </div>
+    </div>
+
+    <div class="sub-line">
+      <span class="pulse-dot"></span>
+      <span class="sub-text">AI repos rising fast · <b>184</b> moved up today</span>
+    </div>
+
+    <div class="scroll">
+      <div style="padding:14px 0 0;">
+        <div class="section" style="padding-bottom:10px;">
+          <h2>Today's headline</h2>
+          <button class="more">All</button>
+        </div>
+
+        <article class="hero-card">
+          <div class="hero-inner">
+            <div class="hero-top">
+              <span class="hero-eyebrow"><svg viewBox="0 0 11 11" fill="currentColor"><path d="M5.5 0 L6.9 4.1 L11 5.5 L6.9 6.9 L5.5 11 L4.1 6.9 L0 5.5 L4.1 4.1 Z"/></svg> AI insight</span>
+              <span class="hero-rank">RANK #01 · 24H</span>
+            </div>
+            <div class="hero-body">
+              <h3 class="hero-name"><span class="o">anthropics /</span><br/>financial-services-plugins</h3>
+              <p class="hero-desc">First production-ready bridge between Claude Code and live market data — quietly redefining what "research assistant" means inside trading desks.</p>
+              <div class="hero-stats">
+                <span><span class="v">2,481</span> ★</span>
+                <span class="delta">+396 today</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="section">
+          <h2>Categories</h2>
+        </div>
+        <div class="h-scroll">
+          <div class="cat-card f">
+            <div class="ic"><svg viewBox="0 0 18 18"><path d="M3 6 H15 V12 L9 16 L3 12 Z"/></svg></div>
+            <div>
+              <div class="label">LLM frameworks</div>
+              <div class="count">48 trending</div>
+            </div>
+          </div>
+          <div class="cat-card a">
+            <div class="ic"><svg viewBox="0 0 18 18"><circle cx="9" cy="6" r="3.5"/><path d="M3 17 C 3 13 6 11 9 11 C 12 11 15 13 15 17 Z"/></svg></div>
+            <div>
+              <div class="label">Agents</div>
+              <div class="count">72 trending</div>
+            </div>
+          </div>
+          <div class="cat-card r">
+            <div class="ic"><svg viewBox="0 0 18 18"><rect x="3" y="3" width="12" height="4"/><rect x="3" y="9" width="12" height="2"/><rect x="3" y="13" width="9" height="2"/></svg></div>
+            <div>
+              <div class="label">RAG</div>
+              <div class="count">31 trending</div>
+            </div>
+          </div>
+          <div class="cat-card i">
+            <div class="ic"><svg viewBox="0 0 18 18"><path d="M3 9 L9 3 L15 9 L9 15 Z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+            <div>
+              <div class="label">Inference</div>
+              <div class="count">24 trending</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Rising now</h2>
+          <button class="more">See all</button>
+        </div>
+
+        <article class="ai-row">
+          <div class="head">
+            <div class="avatar la">L</div>
+            <div class="titles"><div class="owner">langchain-ai</div><div class="name">langgraph-studio</div></div>
+            <div class="right">
+              <span class="delta-pill">+218</span>
+            </div>
+          </div>
+          <div class="ai-insight">
+            <span class="label"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 0 L5.6 3.4 L9 4.5 L5.6 5.6 L4.5 9 L3.4 5.6 L0 4.5 L3.4 3.4 Z"/></svg> AI insight</span>
+            <p>First visual debugger that makes agent state-graphs legible — the "Chrome DevTools moment" for LLM workflows.</p>
+          </div>
+          <div class="stats">
+            <span><span class="v">981</span> ★</span>
+            <span class="tag">Agents</span>
+            <span class="tag">Python</span>
+          </div>
+        </article>
+
+        <article class="ai-row">
+          <div class="head">
+            <div class="avatar ol">O</div>
+            <div class="titles"><div class="owner">ollama</div><div class="name">ollama</div></div>
+            <div class="right">
+              <span class="delta-pill">+184</span>
+            </div>
+          </div>
+          <div class="ai-insight">
+            <span class="label"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 0 L5.6 3.4 L9 4.5 L5.6 5.6 L4.5 9 L3.4 5.6 L0 4.5 L3.4 3.4 Z"/></svg> AI insight</span>
+            <p>Apple Silicon's local-inference winner. Adoption curve is now steeper than llama.cpp ever was.</p>
+          </div>
+          <div class="stats">
+            <span><span class="v">94.2k</span> ★</span>
+            <span class="tag">Inference</span>
+            <span class="tag">Go</span>
+          </div>
+        </article>
+
+        <article class="ai-row">
+          <div class="head">
+            <div class="avatar vl">V</div>
+            <div class="titles"><div class="owner">vllm-project</div><div class="name">vllm</div></div>
+            <div class="right">
+              <span class="delta-pill">+152</span>
+            </div>
+          </div>
+          <div class="ai-insight">
+            <span class="label"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 0 L5.6 3.4 L9 4.5 L5.6 5.6 L4.5 9 L3.4 5.6 L0 4.5 L3.4 3.4 Z"/></svg> AI insight</span>
+            <p>PagedAttention serving runtime hit production-grade — biggest jump came after Anthropic's evals shoutout.</p>
+          </div>
+          <div class="stats">
+            <span><span class="v">31.8k</span> ★</span>
+            <span class="tag">Serving</span>
+            <span class="tag">Python</span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <nav class="tab-bar">
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><path d="M3 19 L9 13 L13 16 L21 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M16 7 H21 V12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>Trending</button>
+      <button class="tab on"><span class="ico"><svg viewBox="0 0 26 26" fill="currentColor"><path d="M13 3 L15.5 10.5 L23 13 L15.5 15.5 L13 23 L10.5 15.5 L3 13 L10.5 10.5 Z"/></svg></span>AI &amp; LLMs</button>
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><path d="M7 4 H19 V22 L13 18 L7 22 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/></svg></span>Watchlist</button>
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><path d="M6 11 C 6 7 9 4 13 4 C 17 4 20 7 20 11 V 16 L 22 19 H 4 L 6 16 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M10 20 C 10 22 11.5 23 13 23 C 14.5 23 16 22 16 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></span>Alerts</button>
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><circle cx="13" cy="9" r="4.5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M4 22 C 4 17 8 14 13 14 C 18 14 22 17 22 22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></span>You</button>
+    </nav>
+  </div>
+
+  <div class="home-indicator"></div>
+</body>
+</html>

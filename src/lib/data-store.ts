@@ -294,6 +294,16 @@ export interface RedisClientLike {
     opts?: { ex?: number; nx?: boolean },
   ): Promise<unknown>;
   del(...keys: string[]): Promise<number>;
+  /**
+   * Optional list primitives used by the DORP intake queue (`queue:drop-a-repo`)
+   * and any future producer/consumer pair built on Redis lists. All three are
+   * shipped by ioredis and `@upstash/redis`; test fakes that don't exercise
+   * the queue can omit them.
+   */
+  lpush?(key: string, ...values: string[]): Promise<number>;
+  rpop?(key: string): Promise<unknown>;
+  lrange?(key: string, start: number, stop: number): Promise<unknown[]>;
+  llen?(key: string): Promise<number>;
   close?(): Promise<void> | void;
 }
 
@@ -926,6 +936,11 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
       return c.set(key, value);
     },
     del: (...keys) => client.del(...keys),
+    lpush: (key, ...values) => client.lpush(key, ...values),
+    rpop: (key) => client.rpop(key),
+    lrange: (key, start, stop) =>
+      client.lrange(key, start, stop) as Promise<unknown[]>,
+    llen: (key) => client.llen(key),
     close: async () => {
       try {
         await client.quit();

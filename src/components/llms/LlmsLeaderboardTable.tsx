@@ -11,7 +11,6 @@
 
 import { useMemo, useState } from "react";
 
-import { SourceLogo, type SourceName } from "@/components/icon/Icon";
 import type { AaLlmsRow } from "@/lib/aa-llms";
 
 type SortKey = "intel" | "price" | "speed" | "latency" | "total";
@@ -154,14 +153,6 @@ export function LlmsLeaderboardTable({ rows, showFeatured = true }: Props) {
           />
           <span className="period-hint">
             Source:{" "}
-            <a
-              href="https://artificialanalysis.ai/leaderboards/models"
-              target="_blank"
-              rel="noopener"
-            >
-              artificialanalysis.ai
-            </a>
-            {" · "}
             <a href="https://aiso.tools" target="_blank" rel="noopener">
               aiso.tools
             </a>
@@ -398,15 +389,12 @@ export function FeaturedLlms({ rows }: { rows: AaLlmsRow[] }) {
                 <span className="feat-stat-value">{fmtIntel(row.intelligenceIndex)}</span>
               </div>
               <div className="feat-stat">
-                <span className="feat-stat-label">Price · 1M tok</span>
+                <span className="feat-stat-label">Price / 1M</span>
                 <span className="feat-stat-value">{fmtPrice(row.pricePerMTokens)}</span>
               </div>
               <div className="feat-stat">
                 <span className="feat-stat-label">Speed</span>
-                <span className="feat-stat-value">
-                  {fmtSpeed(row.outputTokensPerSec)}
-                  <span className="muted"> tok/s</span>
-                </span>
+                <span className="feat-stat-value">{fmtSpeed(row.outputTokensPerSec)}</span>
               </div>
               <div className="feat-stat">
                 <span className="feat-stat-label">Latency</span>
@@ -443,109 +431,88 @@ function featuredBlurb(row: AaLlmsRow, label: string): string {
 // Avatar + helpers
 // ---------------------------------------------------------------------------
 
-// Per-creator brand identity. SourceLogo SVG used when we have a brand mark in
-// /public/brand/sources/; otherwise a monogram tile on the official brand color
-// with WHITE (or dark-on-yellow) contrast text. Both branches share the same
-// .repo-avatar dimensions so the table column lines up.
-// 51-creator brand map covering every slug emitted by the AA `model_creator`
-// field. `svg` is set ONLY when /public/brand/sources/<slug>.svg is a real
-// official mark (simpleicons or equivalent). Everything else renders via the
-// CreatorAvatar monogram fallback — brand color tile with white/black text.
-const CREATOR_BRAND: Record<
-  string,
-  { color: string; fg?: string; initials?: string; svg?: SourceName }
-> = {
-  // Real SVG-backed
-  openai: { color: "#10a37f", svg: "openai" },
-  anthropic: { color: "#d97757", svg: "anthropic" },
-  deepseek: { color: "#4d6bfe", svg: "deepseek" },
-  google: { color: "#ffffff", fg: "#000", svg: "google" },
-  meta: { color: "#0467df", svg: "meta" },
-  alibaba: { color: "#ff6a00", svg: "alibaba" },
-  cohere: { color: "#39594d", svg: "cohere" },
-  mistral: { color: "#fa520f", svg: "mistral" },
-  mistralai: { color: "#fa520f", svg: "mistral" },
-  xiaomi: { color: "#ff6900", svg: "xiaomi" },
-  nvidia: { color: "#76b900", svg: "nvidia", fg: "#000" },
-  amazon: { color: "#ff9900", svg: "amazon", fg: "#000" },
-  aws: { color: "#ff9900", svg: "amazon", fg: "#000" },
-  perplexity: { color: "#20808d", svg: "perplexity" },
-  databricks: { color: "#ff3621", svg: "databricks" },
-  baidu: { color: "#2932e1", svg: "baidu" },
-  tencent: { color: "#0052d9", svg: "tencent" },
-  bytedance: { color: "#1c1d22", svg: "bytedance" },
-  bytedance_seed: { color: "#1c1d22", svg: "bytedance" },
-  microsoft: { color: "#00a4ef", svg: "microsoft" },
-  azure: { color: "#00a4ef", svg: "microsoft" },
-  ibm: { color: "#1f70c1", svg: "ibm" },
-  naver: { color: "#03c75a", svg: "naver" },
-  lg: { color: "#a50034", svg: "lg" },
-  snowflake: { color: "#29b5e8", svg: "snowflake", fg: "#000" },
-  servicenow: { color: "#62d84e", svg: "servicenow", fg: "#000" },
-  // Monogram-only (no public press-kit SVG; brand color + initials)
-  xai: { color: "#0f0f0f", initials: "xAI" },
-  "x-ai": { color: "#0f0f0f", initials: "xAI" },
-  kimi: { color: "#0f0f0f", initials: "K" },
-  minimax: { color: "#f54a00", initials: "Mx" },
-  liquidai: { color: "#10b981", initials: "Lq" },
-  liquid: { color: "#10b981", initials: "Lq" },
-  upstage: { color: "#0ea5e9", initials: "Up" },
-  zai: { color: "#2563eb", initials: "Z" },
-  "z-ai": { color: "#2563eb", initials: "Z" },
-  "reka-ai": { color: "#bb1f4a", initials: "R" },
-  reka: { color: "#bb1f4a", initials: "R" },
-  "ai21-labs": { color: "#7c3aed", initials: "21" },
-  ai21: { color: "#7c3aed", initials: "21" },
-  inflection: { color: "#7c3aed", initials: "If" },
-  "01-ai": { color: "#0891b2", initials: "01" },
-  "01ai": { color: "#0891b2", initials: "01" },
-  yi: { color: "#0891b2", initials: "Yi" },
-  "tii-uae": { color: "#0e2a5c", initials: "TII" },
-  stepfun: { color: "#6b7280", initials: "Sf" },
-  ai2: { color: "#0064bd", initials: "Ai2" },
-  inception: { color: "#6366f1", initials: "Ic" },
-  "nous-research": { color: "#404040", initials: "Ns" },
-  sarvam: { color: "#1e40af", initials: "Sv" },
-  deepcogito: { color: "#7c3aed", initials: "Dc" },
-  kwaikat: { color: "#ef4444", initials: "Kk" },
-  "prime-intellect": { color: "#6366f1", initials: "Pi" },
-  "motif-technologies": { color: "#14b8a6", initials: "Mt" },
-  mbzuai: { color: "#015f5b", initials: "Mz" },
-  "korea-telecom": { color: "#ec1c24", initials: "KT" },
-  longcat: { color: "#f97316", initials: "Lc" },
-  trillionlabs: { color: "#8b5cf6", initials: "Tl" },
-  nanbeige: { color: "#06b6d4", initials: "Nb" },
-  "swiss-ai-initiative": { color: "#dc2626", initials: "Sa" },
-  openbmb: { color: "#3b82f6", initials: "Bm" },
-  arcee: { color: "#9333ea", initials: "Ac" },
-  "china-mobile": { color: "#d80000", initials: "Cm" },
-  inclusionai: { color: "#fb923c", initials: "Ia" },
-  openchat: { color: "#10b981", initials: "Oc" },
+// Per-creator brand identity. We use the official GitHub-org avatar
+// (`https://github.com/{org}.png`) as the logo because every AI lab in the
+// AA leaderboard runs an official GitHub org and sets the brand mark there
+// — that is the canonical, self-served, hi-res logo with zero licensing
+// risk. `next.config.ts` already allowlists `github.com` +
+// `avatars.githubusercontent.com` in `images.remotePatterns`.
+//
+// For the <1% of creators with no GH org (e.g. Korea Telecom), `CreatorAvatar`
+// falls back to a monogram tile colored by `MONOGRAM_FALLBACK_COLOR`.
+//
+// Slug coverage verified 2026-05-24 against data/aa-llms.json (51 unique
+// creators, 523 models). Every entry below was curl-verified to return 302 →
+// avatars.githubusercontent.com.
+const CREATOR_GITHUB_ORG: Record<string, string> = {
+  ai2: "allenai",
+  "ai21-labs": "AI21Labs",
+  ai21: "AI21Labs",
+  alibaba: "QwenLM",
+  anthropic: "anthropics",
+  arcee: "arcee-ai",
+  aws: "aws",
+  amazon: "aws",
+  azure: "microsoft",
+  microsoft: "microsoft",
+  baidu: "baidu",
+  bytedance_seed: "bytedance-seed",
+  bytedance: "bytedance",
+  "china-mobile": "chinamobile",
+  cohere: "cohere-ai",
+  databricks: "databricks",
+  deepcogito: "deepcogito",
+  deepseek: "deepseek-ai",
+  google: "google-deepmind",
+  ibm: "IBM",
+  inception: "InceptionAI",
+  inclusionai: "inclusionAI",
+  kimi: "MoonshotAI",
+  kwaikat: "KwaiKAT",
+  lg: "LGAI-Research",
+  liquidai: "Liquid4All",
+  liquid: "Liquid4All",
+  longcat: "meituan-longcat",
+  mbzuai: "MBZUAI",
+  meta: "facebook",
+  minimax: "MiniMax-AI",
+  mistral: "mistralai",
+  mistralai: "mistralai",
+  "motif-technologies": "motif-tech",
+  nanbeige: "nanbeige",
+  naver: "naver",
+  "nous-research": "NousResearch",
+  nvidia: "NVIDIA",
+  openai: "openai",
+  openbmb: "OpenBMB",
+  openchat: "openchat",
+  perplexity: "perplexityai",
+  "prime-intellect": "PrimeIntellect-ai",
+  "reka-ai": "Reka-AI",
+  reka: "Reka-AI",
+  sarvam: "sarvamai",
+  servicenow: "ServiceNow",
+  snowflake: "snowflakedb",
+  stepfun: "stepfun-ai",
+  "swiss-ai-initiative": "swissai",
+  tencent: "Tencent",
+  "tii-uae": "tiiuae",
+  trillionlabs: "trillion-labs",
+  upstage: "UpstageAI",
+  xai: "xai-org",
+  "x-ai": "xai-org",
+  xiaomi: "XiaomiMiMo",
+  zai: "zai-org",
+  "z-ai": "zai-org",
 };
 
-function brandFor(slug: string | null, creatorName: string): {
-  color: string;
-  fg: string;
-  initials: string;
-  svg: SourceName | null;
-} {
+function avatarUrl(slug: string | null): string | null {
   const key = slug?.toLowerCase() ?? "";
-  const entry = CREATOR_BRAND[key];
-  if (entry) {
-    return {
-      color: entry.color,
-      fg: entry.fg ?? "#fff",
-      initials: entry.initials ?? defaultInitials(creatorName),
-      svg: entry.svg ?? null,
-    };
-  }
-  return {
-    color: deterministicColor(creatorName),
-    fg: "#fff",
-    initials: defaultInitials(creatorName),
-    svg: null,
-  };
+  const org = CREATOR_GITHUB_ORG[key];
+  return org ? `https://github.com/${org}.png?size=80` : null;
 }
+
+const MONOGRAM_FALLBACK_COLOR = "#2a2a30";
 
 function defaultInitials(name: string): string {
   const cleaned = (name || "??").trim();
@@ -558,24 +525,6 @@ function defaultInitials(name: string): string {
   return cleaned.slice(0, 2).toUpperCase();
 }
 
-const NEUTRAL_COLORS = [
-  "#475569",
-  "#52525b",
-  "#334155",
-  "#3f3f46",
-  "#404040",
-  "#4b5563",
-];
-
-function deterministicColor(seed: string): string {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
-    h = Math.imul(h, 0x01000193);
-  }
-  return NEUTRAL_COLORS[Math.abs(h) % NEUTRAL_COLORS.length]!;
-}
-
 function CreatorAvatar({
   creator,
   slug,
@@ -585,53 +534,44 @@ function CreatorAvatar({
   slug: string | null;
   className?: string;
 }) {
-  const brand = brandFor(slug, creator);
+  const url = avatarUrl(slug);
+  const [errored, setErrored] = useState(false);
   const klass = className ? `repo-avatar ${className}` : "repo-avatar";
 
-  if (brand.svg) {
-    // Brand SVGs that hard-code their fill (google / meta / alibaba / mistral
-    // / xiaomi / nvidia / amazon / perplexity / databricks / baidu / tencent)
-    // get a neutral dark tile so the brand color reads. SVGs that use
-    // currentColor (xai / kimi / cohere / reka / ai21 / etc.) get the brand
-    // color as background with white glyph on top.
-    const hardcodedFill = HARDCODED_FILL_SVGS.has(brand.svg);
+  if (url && !errored) {
+    // Official GitHub-org avatar — the canonical brand mark every AI lab
+    // self-serves. Plain <img>, lazy + async so 50+ rows don't block first
+    // paint. onError trips the monogram fallback if a redirect ever 404s.
     return (
-      <span
-        className={klass}
-        aria-label={creator}
-        style={{
-          background: hardcodedFill ? "var(--surface-3)" : brand.color,
-          color: brand.fg,
-          padding: 2,
-        }}
-      >
-        <SourceLogo source={brand.svg} size="sm" />
+      <span className={klass} aria-label={creator}>
+        <img
+          src={url}
+          alt={creator}
+          loading="lazy"
+          decoding="async"
+          onError={() => setErrored(true)}
+        />
       </span>
     );
   }
 
-  // Monogram fallback: brand color tile + contrast text.
+  // Monogram fallback for the rare creators with no public GH org.
+  const initials = defaultInitials(creator);
   return (
     <span
       className={klass}
       aria-label={creator}
       style={{
-        background: brand.color,
-        color: brand.fg,
+        background: MONOGRAM_FALLBACK_COLOR,
+        color: "#fff",
         fontWeight: 700,
-        fontSize: brand.initials.length > 1 ? 9 : 11,
+        fontSize: initials.length > 1 ? 9 : 11,
       }}
     >
-      <span aria-hidden="true">{brand.initials}</span>
+      <span aria-hidden="true">{initials}</span>
     </span>
   );
 }
-
-// SVGs whose paths hard-code a `fill="#..."` (not currentColor). For these,
-// the tile background stays neutral so the SVG's own brand color shows.
-// simpleicons SVGs all use currentColor so they tint correctly — only the
-// pre-existing DeepSeek mark hard-codes its blue fill.
-const HARDCODED_FILL_SVGS = new Set<SourceName>(["deepseek"]);
 
 // ---------------------------------------------------------------------------
 // Filter chip group (reuses .period-tab look so it lives inside .period-switcher)
@@ -722,12 +662,14 @@ function fmtPrice(v: number | null): string {
 }
 
 function fmtSpeed(v: number | null): string {
-  if (v === null) return "—";
+  // 0 tok/s isn't a real measurement — treat as missing data so models
+  // without benchmark coverage don't render "0" next to live numbers.
+  if (v === null || v <= 0) return "—";
   return v.toFixed(0);
 }
 
 function fmtSec(v: number | null): string {
-  if (v === null) return "—";
+  if (v === null || v <= 0) return "—";
   if (v < 1) return `${(v * 1000).toFixed(0)} ms`;
   return `${v.toFixed(2)} s`;
 }

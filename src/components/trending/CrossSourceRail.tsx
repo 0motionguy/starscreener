@@ -38,7 +38,7 @@ export function CrossSourceRail({ repos, limit = 3 }: CrossSourceRailProps) {
                   </span>
                   <MentionSourcePips repo={repo} />
                 </div>
-                <RepoSparkline data={repo.sparklineData?.slice(-10)} repo={repo} />
+                <RepoSparkline data={repo.sparklineData?.slice(-30)} repo={repo} />
               </Link>
             );
           })}

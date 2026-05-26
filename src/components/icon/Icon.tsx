@@ -88,6 +88,7 @@ export function Icon({
 }
 
 export type SourceName =
+  | "aiso"
   | "anthropic"
   | "arxiv"
   | "bluesky"
@@ -141,6 +142,7 @@ export interface SourceLogoProps {
 }
 
 const SOURCE_LABEL: Record<SourceName, string> = {
+  aiso: "AISO",
   anthropic: "Anthropic",
   arxiv: "arXiv",
   bluesky: "Bluesky",

@@ -1,72 +1,41 @@
 // Agent-runtime trending — filters the derived-repos corpus down to repos
-// that look like AI agent runtimes / frameworks (AutoGen, CrewAI, Open
-// Interpreter, OpenDevin, LangGraph, Hermes, AutoGPT, etc.) rather than the
-// agent-commerce / x402 payments stack.
+// that look like AI agent runtimes / frameworks (OpenClaw, Hermes, Claude
+// Code, Codex, CrewAI, LangGraph, AutoGen, etc.) rather than memory libs,
+// trading bots, skills packs, or the agent-commerce / x402 payments stack.
 //
 // Selection rules (in order of precedence):
-//   1. Whitelist hit  — canonical agent-runtime repos always included if
-//      they're present in the corpus.
-//   2. Description regex hit — `\b(agent|agentic|autonomous|crew|orchestrator
-//      |multi-agent)\b` (case-insensitive). Excludes payments / wallet / x402
-//      / defi keywords to keep the agent-commerce stack out.
-//   3. Sort: whitelisted repos first (in original momentum order), then
-//      regex-matched repos by `momentumScore` desc. Top `limit` returned.
+//   1. Whitelist hit — sourced from the canonical `AGENT_REPO_SET` in
+//      `agent-repos.ts` (single source of truth shared with /tools/top-10
+//      agent board and sidebar source counts).
+//   2. Description / name regex hit — agent / agentic / autonomous / crew /
+//      orchestrator / swarm etc., minus the EXCLUDE_RE blocklist below.
+//   3. Sort: whitelisted repos first (by momentumScore desc), then regex
+//      matches by momentumScore desc. Top `limit` returned. The page-level
+//      `sortRepos` reranks via the TOP composite when ranker=top.
 //
 // This module reads from `getDerivedRepos()` — every row already carries the
 // full Repo shape (stars, deltas, sparkline, mentions, momentumScore,
 // crossSignalScore), so we don't re-map from raw OSSInsight rows.
 
+import { AGENT_REPO_SET } from "@/lib/agent-repos";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import type { Repo } from "@/lib/types";
 
-// Canonical agent-runtime repos. Lowercase. Keep this list short and
-// curated — it's the override layer for "include even if their description
-// doesn't say 'agent' literally."
-const AGENT_WHITELIST: ReadonlySet<string> = new Set(
-  [
-    "microsoft/autogen",
-    "joaomdmoura/crewai",
-    "openinterpreter/open-interpreter",
-    "opendevin/opendevin",
-    "all-hands-ai/openhands",
-    "langchain-ai/langgraph",
-    "langchain-ai/langchain",
-    "significant-gravitas/autogpt",
-    "geekan/metagpt",
-    "vinetwigs/hermesai",
-    "nousresearch/hermes-agent",
-    "frdel/agent-zero",
-    "eosphoros-ai/db-gpt",
-    "smol-ai/developer",
-    "stitionai/devika",
-    "princeton-nlp/swe-agent",
-    "huggingface/smolagents",
-    "block/goose",
-    "browser-use/browser-use",
-    "skyvern-ai/skyvern",
-    "tencentqqgylab/appagent",
-    "modelscope/agentscope",
-    "phidatahq/phidata",
-    "agno-agi/agno",
-    "humanlayer/humanlayer",
-    "blacklotuslabs/blacklotus",
-    "letta-ai/letta",
-    "transformeroptimus/superagi",
-    "kyegomez/swarms",
-    "memodb-io/memobase",
-    "promptfoo/promptfoo",
-    "lablab-ai/openclaw",
-    "openclaw/openclaw",
-    "aymeric-ai/awesome-agents",
-    "tauricresearch/tradingagents",
-  ].map((s) => s.toLowerCase()),
-);
+// Canonical agent-runtime whitelist — single source of truth.
+// Includes OpenClaw, Hermes, Claude Code, Codex, Superpowers, LangGraph,
+// CrewAI, etc. Curated specifically to exclude memory DBs, trading bots,
+// skills packs, awesome-lists, and tutorials.
+const AGENT_WHITELIST: ReadonlySet<string> = AGENT_REPO_SET;
 
 const AGENT_RE =
   /\b(agents?|agentic|autonomous|crew|orchestrator|swarm|multi[\s-]agents?|llm[\s-]agents?|ai[\s-]agents?|agent[\s-]framework|agent[\s-]runtime)\b/i;
 
+// Repos that match the agent regex but aren't agent runtimes.
+// Memory DBs, trading bots, vibe-trading, quant platforms, skills packs,
+// curated lists, tutorials, datasets — operator-rejected on 2026-05-24
+// for surfacing on /?cat=agents.
 const EXCLUDE_RE =
-  /\b(x402|stablecoin|defi|nft|wallet|airdrop|crypto[\s-]payment|onchain[\s-]payment|skills?|awesome-|cookbook|tutorial|course|lessons|guide|roadmap|examples|cheatsheet|notebook)\b/i;
+  /\b(x402|stablecoin|defi|nft|wallet|airdrop|crypto[\s-]payment|onchain[\s-]payment|memor(y|ies)|trading|trader|vibe[\s-]?trading|quant|brain|skills?|awesome-|cookbook|tutorial|course|lessons|guide|roadmap|examples|cheatsheet|notebook|dataset|hello[\s-])\b|教程|实战|入门|从零/i;
 
 interface RankedAgent {
   repo: Repo;

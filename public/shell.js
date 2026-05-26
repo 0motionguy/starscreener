@@ -111,8 +111,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindTabsets() {
     $$('[data-tabset]').forEach(set => {
-      if (set.dataset.trBound === '1') return;
-      set.dataset.trBound = '1';
+      if (set.__trBound === true) return;
+      set.__trBound = true;
       const tabs = $$('[data-tab]', set);
       tabs.forEach(t => {
         t.addEventListener('click', () => {
@@ -142,8 +142,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindSegmented() {
     $$('.segmented').forEach(seg => {
-      if (seg.dataset.trBound === '1') return;
-      seg.dataset.trBound = '1';
+      if (seg.__trBound === true) return;
+      seg.__trBound = true;
       const btns = $$('button', seg);
       btns.forEach(b => {
         b.addEventListener('click', () => {
@@ -205,8 +205,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindWatchButtons() {
     $$('[data-watch-toggle]').forEach(btn => {
-      if (btn.dataset.trBound === '1') return;
-      btn.dataset.trBound = '1';
+      if (btn.__trBound === true) return;
+      btn.__trBound = true;
       btn.addEventListener('click', () => {
         const isOn = btn.classList.toggle('on');
         const label = btn.childNodes[1];
@@ -230,8 +230,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindAlertConfig() {
     $$('[data-alert-toggle]').forEach(btn => {
-      if (btn.dataset.trBound === '1') return;
-      btn.dataset.trBound = '1';
+      if (btn.__trBound === true) return;
+      btn.__trBound = true;
       const panel = document.querySelector('[data-alert-panel]');
       if (!panel) return;
       // Start expanded by default to show the value prop; collapse on second click
@@ -247,8 +247,8 @@
      ───────────────────────────────────────────────────────────── */
   function bindFeedChips() {
     $$('.feed-filter').forEach(row => {
-      if (row.dataset.trBound === '1') return;
-      row.dataset.trBound = '1';
+      if (row.__trBound === true) return;
+      row.__trBound = true;
       const chips = $$('.feed-chip', row);
       chips.forEach(c => {
         c.addEventListener('click', () => {
@@ -309,203 +309,21 @@
     }, 3200);
   }
 
-  /* ─────────────────────────────────────────────────────────────
-     Repo hover preview — popover with stats + sparkline + mentions
-     Bind to .repo-link or [data-repo-hover] elements
-     ───────────────────────────────────────────────────────────── */
-  const REPO_PREVIEW_DATA = {
-    'vercel/next.js':       { stars: '135K', delta: '+1.2K', spark: '120,135,155,180,205,240,290', mentions: 2841, why: 'Cited in 12 arXiv papers · 18% star surge · top on HN today', topChannel: 'Hacker News' },
-    'vercel/ai-sdk':        { stars: '14.2K', delta: '+892', spark: '8,9,10,11,12,13,14', mentions: 1840, why: 'New release with streaming UI · 24h surge on Twitter', topChannel: 'X / Twitter' },
-    'anthropics/anthropic-cookbook': { stars: '12.4K', delta: '+340', spark: '40,55,75,100,135,180,260', mentions: 1284, why: 'New skills update · Hugging Face trending model · 6 cross-source', topChannel: 'X / Twitter' },
-    'anthropics/claude-code': { stars: '24.8K', delta: '+1.8K', spark: '8,10,12,14,18,22,25', mentions: 3120, why: 'Skills marketplace launch · top across 6 sources today', topChannel: 'Hacker News' },
-    'huggingface/transformers': { stars: '142K', delta: '+850', spark: '100,108,116,124,132,138,144', mentions: 1953, why: 'New release · referenced in 8 arXiv papers this week', topChannel: 'arXiv' },
-    'huggingface/smolagents': { stars: '8.4K', delta: '+1.1K', spark: '2,3,4,5,6,7,8', mentions: 1420, why: 'Tiny agents framework · HN front page · GitHub trending #1', topChannel: 'Hacker News' },
-    'langchain-ai/langchain': { stars: '98.2K', delta: '+612', spark: '80,84,87,91,94,96,98', mentions: 2210, why: 'NPM downloads +24% · Reddit r/MachineLearning thread peak', topChannel: 'NPM' },
-    'langchain-ai/langgraph': { stars: '6.8K', delta: '+412', spark: '4,4,5,5,6,6,7', mentions: 980, why: 'Multi-agent orchestration · 12 production case studies posted', topChannel: 'X / Twitter' },
-    'microsoft/vscode':     { stars: '169K', delta: '+412', spark: '160,162,163,165,166,167,169', mentions: 612, why: 'New AI features in stable · Copilot integration update', topChannel: 'Dev.to' },
-    'openai/whisper':       { stars: '74.8K', delta: '+820', spark: '55,58,62,66,69,72,74', mentions: 1640, why: 'New checkpoint release · benchmark gains · viral demo', topChannel: 'Reddit' },
-    'modelcontextprotocol/servers': { stars: '24.1K', delta: '+1.4K', spark: '14,16,18,20,22,23,24', mentions: 940, why: 'MCP adoption surge · new community servers · Claude Desktop integration', topChannel: 'Hacker News' },
-    'tinygrad/tinygrad':    { stars: '32.8K', delta: '+228', spark: '28,29,30,31,32,32,33', mentions: 540, why: 'New backend support · George Hotz stream peak', topChannel: 'X / Twitter' },
-    'cline/cline':          { stars: '22.1K', delta: '+1.6K', spark: '12,14,16,18,20,21,22', mentions: 2240, why: 'Autonomous coding agent · viral demo thread · #1 Product Hunt', topChannel: 'Product Hunt' },
-    'ollama/ollama':        { stars: '108K', delta: '+1.4K', spark: '92,96,99,102,104,106,108', mentions: 2150, why: 'Local model runner · new GGUF support · HN discussion peak', topChannel: 'Hacker News' },
-    'unslothai/unsloth':    { stars: '18.6K', delta: '+720', spark: '12,13,14,15,16,17,18', mentions: 1080, why: '2× faster fine-tuning · arXiv cited 4× this week', topChannel: 'arXiv' },
-    'crewAIInc/crewAI':     { stars: '23.4K', delta: '+520', spark: '18,19,20,21,22,22,23', mentions: 1340, why: 'Multi-agent framework · enterprise adoption signals', topChannel: 'Reddit' },
-    'pydantic/pydantic-ai': { stars: '7.2K', delta: '+880', spark: '3,4,5,6,7,7,7', mentions: 1180, why: 'Type-safe LLM library · 24h breakout on Twitter', topChannel: 'X / Twitter' },
-    'comfyanonymous/ComfyUI': { stars: '64.2K', delta: '+340', spark: '58,59,60,61,62,63,64', mentions: 820, why: 'Stable Diffusion node UI · new workflow library shipped', topChannel: 'Reddit' },
-    'exo-explore/exo':      { stars: '18.1K', delta: '+1.2K', spark: '12,13,14,15,16,17,18', mentions: 1640, why: 'Distributed inference cluster · iPhone+Mac demo viral', topChannel: 'X / Twitter' },
-    'mastra-ai/mastra':     { stars: '4.2K', delta: '+612', spark: '2,2,3,3,3,4,4', mentions: 720, why: 'TypeScript agent framework · Vercel-backed launch', topChannel: 'Hacker News' },
-    'shadcn-ui/ui':         { stars: '78.2K', delta: '+420', spark: '72,74,75,76,77,77,78', mentions: 920, why: 'Charts module release · Dev.to spike + Twitter rollouts', topChannel: 'Dev.to' },
-    'meta-llama/llama-stack': { stars: '5.8K', delta: '+540', spark: '3,3,4,4,5,5,6', mentions: 820, why: 'Llama 4 release prep · OSS reference stack', topChannel: 'X / Twitter' },
-    'microsoft/autogen':    { stars: '38.4K', delta: '+280', spark: '34,35,36,37,37,38,38', mentions: 740, why: 'v0.4 redesign · multi-agent benchmarks shipped', topChannel: 'arXiv' },
-    'openai/openai-cookbook': { stars: '62.4K', delta: '+340', spark: '58,59,60,61,61,62,62', mentions: 880, why: 'New o1 examples · agents starter kits added', topChannel: 'Dev.to' },
-    'mintlify/writer':      { stars: '3.4K', delta: '+220', spark: '2,2,3,3,3,3,3', mentions: 480, why: 'Doc generation · new MCP-aware writer', topChannel: 'Product Hunt' },
-    'continuedev/continue': { stars: '21.8K', delta: '+512', spark: '18,19,19,20,20,21,21', mentions: 1120, why: 'Open-source Copilot · new MCP support', topChannel: 'Hacker News' },
-    'AgenticAI/agentic':    { stars: '2.4K', delta: '+340', spark: '1,1,2,2,2,2,2', mentions: 380, why: 'Agent framework · Y Combinator W26 batch announce', topChannel: 'X / Twitter' },
-  };
-
-  // Deterministic fallback: hash the repo name to stable plausible stats
-  // so unknown repos still get real-looking previews (no '—' placeholders).
-  function fallbackPreview(ref) {
-    let h = 0; for (let i = 0; i < ref.length; i++) h = ((h << 5) - h + ref.charCodeAt(i)) | 0;
-    const seed = Math.abs(h);
-    const pick = (arr) => arr[seed % arr.length];
-    const range = (lo, hi, salt) => lo + (Math.abs(h >> (salt || 0)) % (hi - lo));
-    const starsNum = range(1200, 96000, 1);
-    const stars = starsNum >= 10000 ? (starsNum / 1000).toFixed(1) + 'K' : starsNum.toLocaleString();
-    const deltaNum = range(40, 1800, 3);
-    const mentions = range(120, 2400, 5);
-    const base = range(8, 80, 7);
-    const slope = range(1, 8, 9) / 4;
-    const spark = Array.from({ length: 7 }, (_, i) => Math.round(base + slope * i + (i % 2) * 0.5)).join(',');
-    const channels = ['Hacker News', 'X / Twitter', 'Reddit', 'Dev.to', 'Product Hunt', 'Bluesky', 'arXiv', 'NPM'];
-    const reasons = [
-      'Cross-source trending in the last 24h',
-      'Star surge across multiple mention channels',
-      'Mentioned on ' + range(4, 8, 11) + ' independent sources today',
-      'NPM downloads up · GitHub stars accelerating',
-      'Discussed on HN front page · X thread peak',
-    ];
-    return { stars, delta: '+' + (deltaNum > 999 ? (deltaNum / 1000).toFixed(1) + 'K' : deltaNum), spark, mentions, why: pick(reasons), topChannel: pick(channels) };
-  }
-
-  function detailHref(ref) {
-    // Repo refs are owner/name; map to the Next.js dynamic route. Encode each
-    // segment separately so '/' between owner and name stays a real slash.
-    const r = (ref || '').toString();
-    const slash = r.indexOf('/');
-    if (slash === -1) {
-      return '/repo/' + encodeURIComponent(r);
-    }
-    const owner = encodeURIComponent(r.slice(0, slash));
-    const name = encodeURIComponent(r.slice(slash + 1));
-    return '/repo/' + owner + '/' + name;
-  }
-
-  function bindRepoHover() {
-    let pop = null, hideTimer;
-    function ensure() {
-      if (pop) return pop;
-      pop = document.createElement('div');
-      pop.className = 'repo-pop';
-      document.body.appendChild(pop);
-      pop.addEventListener('mouseenter', () => clearTimeout(hideTimer));
-      pop.addEventListener('mouseleave', () => { hideTimer = setTimeout(close, 180); });
-      return pop;
-    }
-    function close() { if (pop) pop.classList.remove('open'); }
-    function open(target, cursorX, cursorY) {
-      const ref = (target.dataset.repo || target.textContent.trim()).replace(/\s+/g, '');
-      const d = REPO_PREVIEW_DATA[ref] || fallbackPreview(ref);
-      const owner = ref.includes('/') ? ref.split('/')[0] : '';
-      const name = ref.includes('/') ? ref.split('/')[1] : ref;
-      const initial = (name || ref).charAt(0).toUpperCase();
-      const p = ensure();
-      p.innerHTML =
-        '<div class="rp-head">' +
-          '<div class="rp-logo">' + initial + '</div>' +
-          '<div class="rp-id">' +
-            '<span class="rp-name">' + name + '</span>' +
-            '<span class="rp-owner">' + owner + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="rp-stats">' +
-          '<div class="rp-stat"><span class="l">Stars</span><span class="v">' + d.stars + '</span></div>' +
-          '<div class="rp-stat"><span class="l">Δ 24h</span><span class="v up">' + d.delta + '</span></div>' +
-          '<div class="rp-stat"><span class="l">Mentions</span><span class="v">' + d.mentions + '</span></div>' +
-        '</div>' +
-        '<div class="rp-spark spark" data-points="' + d.spark + '"></div>' +
-        '<div class="rp-why">' + d.why + '</div>' +
-        '<div class="rp-mentions">' +
-          '<span class="spip on" style="background:var(--accent);"></span>' +
-          '<span class="ct">' + d.topChannel + '</span>' +
-          '<span class="lb">top mention source</span>' +
-        '</div>' +
-        '<div class="rp-cta">' +
-          '<button class="b" data-quick-watch>★ Watch</button>' +
-          '<a class="b primary" href="' + detailHref(ref) + '" data-quick-open>Open →</a>' +
-        '</div>';
-      // Position relative to cursor — anchor at cursor, float UP and to the
-      // RIGHT (top-right quadrant relative to pointer). Fall back to a
-      // target-relative anchor if cursor coords weren't captured.
-      const popW = 340;
-      const popH = p.offsetHeight || 280;
-      const cx = typeof cursorX === 'number'
-        ? cursorX
-        : target.getBoundingClientRect().right;
-      const cy = typeof cursorY === 'number'
-        ? cursorY
-        : target.getBoundingClientRect().top;
-      let left = cx + 14 + window.scrollX;     // right of cursor
-      let top  = cy - popH - 12 + window.scrollY; // above cursor
-      // Clamp right edge — if popover would overflow viewport, anchor to
-      // the LEFT of the cursor instead so it still drifts up.
-      if (cx + 14 + popW + 8 > window.innerWidth) {
-        left = cx - popW - 14 + window.scrollX;
-        if (left < 8) left = 8;
-      }
-      // Clamp top — if popover would go above viewport, flip BELOW cursor.
-      if (cy - popH - 12 < 8) {
-        top = cy + 16 + window.scrollY;
-      }
-      p.style.left = left + 'px';
-      p.style.top = top + 'px';
-      p.classList.add('open');
-      renderAllSparks(p);
-    }
-    document.addEventListener('mouseover', (e) => {
-      const t = e.target.closest('[data-repo-hover], .repo-link, .repo-name, .repo, .fr-co .name, .rev-row .name, .tracked-card .tc-repo, .act-card .repo');
-      if (t) {
-        clearTimeout(hideTimer);
-        open(t, e.clientX, e.clientY);
-      }
-    });
-    document.addEventListener('mouseout', (e) => {
-      const t = e.target.closest('[data-repo-hover], .repo-link, .repo-name, .repo, .fr-co .name, .rev-row .name, .tracked-card .tc-repo, .act-card .repo');
-      if (t) {
-        const rel = e.relatedTarget;
-        if (rel && (rel.closest && rel.closest('.repo-pop'))) return;
-        hideTimer = setTimeout(close, 220);
-      }
-    });
-    document.addEventListener('click', (e) => {
-      // Navigate to detail page on repo-name / repo-link click (outside popover)
-      if (!e.target.closest('.repo-pop')) {
-        const link = e.target.closest('[data-repo-hover], .repo-link, .repo-name, .fr-co .name, .rev-row .name, .tracked-card .tc-repo, .act-card .repo');
-        if (link) {
-          // Don't hijack actual <a> tags or action buttons
-          const inAction = e.target.closest('a, button, .row-actions, [data-quick-watch], [data-quick-open]');
-          if (!inAction) {
-            e.preventDefault();
-            const ref = (link.dataset.repo || link.textContent.trim()).replace(/\s+/g, '');
-            window.location.href = detailHref(ref);
-            return;
-          }
-        }
-      }
-      if (e.target.closest('.repo-pop')) return;
-      close();
-    });
-
-    // Make repo-name elements feel clickable (cursor + hover)
-    function markClickable() {
-      $$('.repo-name, .fr-co .name, .rev-row .name, .tracked-card .tc-repo, .act-card .repo').forEach(el => {
-        if (el.dataset.clickable === '1') return;
-        el.dataset.clickable = '1';
-        el.style.cursor = 'pointer';
-      });
-    }
-    markClickable();
-    // Re-mark periodically in case rows get injected later (e.g. via row-actions shim)
-    new MutationObserver(markClickable).observe(document.body, { childList: true, subtree: true });
-  }
+  /* Repo hover preview removed 2026-05-24 — the popover was fed by hardcoded
+     fake stats with a hash-based fallback for unknown repos. Operator killed
+     it. The dead /api/repos/{owner}/{name}/hover route was deleted with it.
+     `bindRepoHover` is a no-op stub so the old call site + window.TR export
+     keep working without throwing. The actual click-to-detail navigation is
+     handled by Next.js <Link href={...}> wrappers on .repo-name already. */
+  function bindRepoHover() {}
 
   /* ─────────────────────────────────────────────────────────────
      Share menu — Twitter / LinkedIn / Reddit / Bluesky / copy / embed
      ───────────────────────────────────────────────────────────── */
   function bindShareMenus() {
     $$('.share-wrap').forEach(wrap => {
-      if (wrap.dataset.trBound === '1') return;
-      wrap.dataset.trBound = '1';
+      if (wrap.__trBound === true) return;
+      wrap.__trBound = true;
       const btn = $('.share-btn', wrap);
       const menu = $('.share-menu', wrap);
       if (!btn || !menu) return;
@@ -612,7 +430,7 @@
      Next.js App Router swaps DOM without a full page reload, which
      leaves new .spark / .segmented / [data-tabset] / .share-wrap
      / [data-counter] / .fade-up elements unbound. All bind* helpers
-     are idempotent via data-tr-bound, so we can safely re-run them
+     are idempotent via __trBound (JS property — invisible to React hydration), so we can safely re-run them
      whenever the subtree changes. Debounced to coalesce rapid mutations.
      ───────────────────────────────────────────────────────────── */
   function rebindAll() {

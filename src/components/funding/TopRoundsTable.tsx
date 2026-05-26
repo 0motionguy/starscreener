@@ -1,15 +1,14 @@
-// TopRoundsTable renders the 10-row funding table from the HTML mockup.
-// Rows are live-first, with seeded rounds filling the table when the current
-// funding window exposes fewer than ten structured amounts.
+// TopRoundsTable renders the top-N funding rounds from real data only.
+//
+// 2026-05-23: dropped withSeedRows() — previously padded with SEED_ROUNDS
+// (Anthropic $3.5B / Cursor $900M / Mistral $640M / Perplexity $520M etc),
+// which surfaced fabricated rounds when the live spine was empty. Now
+// shows only what TOOLBOX has collected; empty state when nothing.
 
 import Link from "next/link";
 
 import type { FundingSignal } from "@/lib/funding/types";
-import {
-  ensureFundingSignals,
-  relAge,
-  ROUND_LABEL,
-} from "./fundingDisplayData";
+import { relAge, ROUND_LABEL } from "./fundingDisplayData";
 
 interface TopRound {
   signal: FundingSignal;
@@ -39,6 +38,30 @@ function logoLetter(name: string): string {
   return /[A-Z0-9]/.test(ch) ? ch : ".";
 }
 
+/** Infer a domain from the company name when extracted.companyWebsite is
+ *  missing — "Anthropic" → "anthropic.com", "Together AI" → "togetherai.com". */
+function inferDomain(name: string): string {
+  const trimmed = name.trim();
+  if (trimmed.includes(".")) {
+    return trimmed.toLowerCase().replace(/\s+/g, "").replace(/^https?:\/\//, "").replace(/\/$/, "");
+  }
+  return trimmed.toLowerCase().replace(/[^a-z0-9]+/g, "") + ".com";
+}
+
+function logoUrlFor(name: string, website: string | null | undefined, explicit: string | null | undefined): string {
+  if (explicit) return explicit;
+  let domain = "";
+  if (website) {
+    try {
+      domain = new URL(website).hostname.replace(/^www\./, "");
+    } catch {
+      domain = "";
+    }
+  }
+  if (!domain) domain = inferDomain(name);
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`;
+}
+
 function pickHost(url: string | null | undefined): string {
   if (!url) return "";
   try {
@@ -49,30 +72,31 @@ function pickHost(url: string | null | undefined): string {
   }
 }
 
-function withSeedRows(rounds: TopRound[], limit: number): TopRound[] {
-  if (rounds.length >= limit) return rounds.slice(0, limit);
-  const existing = rounds.map((r) => r.signal);
-  const seeded = ensureFundingSignals(existing, limit);
-  const byId = new Map(rounds.map((r) => [r.signal.id, r]));
-  return seeded.slice(0, limit).map((signal) => byId.get(signal.id) ?? { signal });
-}
-
 export function TopRoundsTable({
   rounds,
   limit = 10,
   totalRounds,
 }: TopRoundsTableProps) {
-  const rows = withSeedRows(rounds, limit);
+  const rows = rounds.slice(0, limit);
+  const honestTotal = totalRounds ?? rounds.length;
 
   return (
     <div className="panel fade-up" style={{ marginBottom: 14 }}>
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 01"}</span>
-        <span className="ph-title">Top rounds - last 7 days</span>
+        <span className="ph-title">Top rounds &middot; structured amounts</span>
         <span className="ph-meta">
-          {rows.length} of <b>{Math.max(rows.length, rounds.length, totalRounds ?? 0)}</b> - sorted by amount
+          {rows.length} of <b>{honestTotal}</b> - sorted by amount
         </span>
       </div>
+      {rows.length === 0 ? (
+        <div style={{ padding: "28px 16px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-faint)" }}>
+          No structured funding rounds in window. TOOLBOX funding collectors
+          (TechCrunch / VentureBeat / Sifted / SEC Form D / Crunchbase
+          news) may be quiet or stale &mdash; check {"`ssh toolbox`"} for
+          collector status.
+        </div>
+      ) : (
       <div>
         {rows.map((r, idx) => {
           const ex = r.signal.extracted;
@@ -82,10 +106,24 @@ export function TopRoundsTable({
           const source = SOURCE_LABEL[r.signal.sourcePlatform] ?? r.signal.sourcePlatform;
           const repo = r.matchedRepo ?? null;
 
+          const logoSrc = logoUrlFor(company, ex?.companyWebsite, ex?.companyLogoUrl);
+
           return (
             <div className="fund-row" key={`${r.signal.id}-${idx}`}>
               <span className="fr-rank">{idx + 1}</span>
-              <div className="fr-logo">{logoLetter(company)}</div>
+              <div className="fr-logo">
+                {/* eslint-disable-next-line @next/next/no-img-element -- favicon, no Image optimization */}
+                <img
+                  src={logoSrc}
+                  alt=""
+                  width={20}
+                  height={20}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ display: "block", width: 20, height: 20, objectFit: "contain" }}
+                  data-fallback-letter={logoLetter(company)}
+                />
+              </div>
               <div className="fr-co">
                 <span className="name">
                   {repo ? (
@@ -124,6 +162,7 @@ export function TopRoundsTable({
           );
         })}
       </div>
+      )}
     </div>
   );
 }

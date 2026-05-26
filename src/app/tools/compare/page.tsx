@@ -1,13 +1,16 @@
-// /tools/compare — multi-repo head-to-head matrix.
+// /tools/compare — multi-repo star-history comparison.
 //
-// Server Component. Parses up to 6 repos from `?repos=owner1/name1,...`,
-// resolves them against the derived-repos corpus, and renders a 10-metric
-// table with empty "ADD REPO" slots filling out the rest. Tier letter per
-// repo is computed against the same scoring used by /tools/tier-list:
-// the corpus is scored + sorted desc, top-50 sliced into cumulative
-// S(5%) / A(15%) / B(35%) / C(65%) / D(100%) bands, and each selected
-// repo is matched against those slices. Repos outside the top-50 get a
-// null tier and render the "off-list" sublabel.
+// Server Component. Layout:
+//
+//   1. CompareHero — sticky chrome (eyebrow / title / KPI strip).
+//   2. CompareSearchPicker — paste / search for repos to add.
+//   3. CompareChipSelector — chip row of selected repos + add-repo CTA.
+//   4. CompareChartGallery — the same StarChart that powers /tools/star-history,
+//      rendering 1-6 repos as overlaid cumulative-stars lines with the
+//      13 ECharts themes + window + scale controls.
+//
+// Parses up to 6 repos from `?repos=owner1/name1,...`, resolves them
+// against the derived-repos corpus, and hands them to the chart.
 //
 // Default view (`?repos=` absent or all entries invalid) opens the top
 // curated comparison built from the largest 7d movers.
@@ -25,19 +28,18 @@ import {
 } from "@/lib/trending";
 import type { Repo } from "@/lib/types";
 
+import { CompareChartGallery } from "@/components/tools/compare/CompareChartGallery";
+import { CompareChipSelector } from "@/components/tools/compare/CompareChipSelector";
 import { CompareHero } from "@/components/tools/compare/CompareHero";
-import {
-  CompareTable,
-  type CompareEntry,
-  type TierLetter,
-} from "@/components/tools/compare/CompareTable";
+import { CompareSearchPicker } from "@/components/tools/compare/CompareSearchPicker";
+import { CompareTrayBridge } from "@/components/tools/compare/CompareTrayBridge";
 
 export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Compare — TrendingRepo",
   description:
-    "Side-by-side comparison of up to 6 tracked open-source repos across stars, weekly and monthly velocity, cross-source mentions, category, language, first-observed date, last commit, and live S/A/B/C/D tier.",
+    "Side-by-side comparison of up to 6 tracked open-source repos: stars, velocity, mentions, mention matrix, normalized star-activity overlay, and a Why X over Y narrative.",
   openGraph: {
     images: [
       { url: "/api/og/tools/compare", width: 1200, height: 630 },
@@ -50,15 +52,6 @@ interface Props {
 }
 
 const MAX_REPOS = 6;
-const TIER_BUCKET_LIMIT = 50;
-
-const TIER_DEFINITIONS: Array<{ letter: TierLetter; cumulative: number }> = [
-  { letter: "S", cumulative: 0.05 },
-  { letter: "A", cumulative: 0.15 },
-  { letter: "B", cumulative: 0.35 },
-  { letter: "C", cumulative: 0.65 },
-  { letter: "D", cumulative: 1.0 },
-];
 
 function parseReposParam(
   raw: string | string[] | undefined,
@@ -74,7 +67,6 @@ function parseReposParam(
         s.length > 0 &&
         s.length <= 200 &&
         s.includes("/") &&
-        // Basic shape: owner/name. Reject path segments, query, anything weird.
         /^[A-Za-z0-9._\-]+\/[A-Za-z0-9._\-]+$/.test(s),
     );
 }
@@ -91,83 +83,11 @@ function dedupePreserveCase(names: string[]): string[] {
   return out;
 }
 
-function computeScore(repo: Repo, mentions: number): number {
-  const d7 = Number.isFinite(repo.starsDelta7d) ? repo.starsDelta7d : 0;
-  const d24 = Number.isFinite(repo.starsDelta24h) ? repo.starsDelta24h : 0;
-  const liveScore = d7 * 0.6 + d24 * 1.2 + mentions * 40;
-  if (liveScore > 0) return liveScore;
-  const momentum = Number.isFinite(repo.momentumScore) ? repo.momentumScore : 0;
-  const stars = Number.isFinite(repo.stars) ? repo.stars : 0;
-  return momentum + Math.log10(stars + 1);
-}
-
-function readMentions(repo: Repo): number {
-  return (
-    repo.mentions?.total7d ??
-    repo.mentions?.total24h ??
-    repo.mentionCount24h ??
-    0
-  );
-}
-
-interface TierIndex {
-  byFullName: Map<string, TierLetter>;
-}
-
-/**
- * Build a fullName → TierLetter map from the full derived corpus, applying
- * the same scoring + top-50 cumulative band slicing the tier-list page uses.
- * Repos outside the top-50 are absent from the map (caller treats absence
- * as null/off-list).
- */
-function buildTierIndex(repos: Repo[]): TierIndex {
-  const scored = repos
-    .filter((r) => r.fullName.includes("/"))
-    .map((r) => ({ repo: r, score: computeScore(r, readMentions(r)) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, TIER_BUCKET_LIMIT);
-
-  const byFullName = new Map<string, TierLetter>();
-  const total = scored.length;
-  let cursor = 0;
-  for (let i = 0; i < TIER_DEFINITIONS.length; i += 1) {
-    const def = TIER_DEFINITIONS[i];
-    const isLast = i === TIER_DEFINITIONS.length - 1;
-    const endIdx = isLast
-      ? total
-      : Math.max(cursor, Math.round(total * def.cumulative));
-    for (let j = cursor; j < endIdx; j += 1) {
-      byFullName.set(scored[j].repo.fullName.toLowerCase(), def.letter);
-    }
-    cursor = endIdx;
-  }
-  return { byFullName };
-}
-
-function resolveEntries(
-  fullNames: string[],
-  tierIndex: TierIndex,
-): CompareEntry[] {
-  const out: CompareEntry[] = [];
+function resolveRepos(fullNames: string[]): Repo[] {
+  const out: Repo[] = [];
   for (const name of fullNames) {
     const repo = getDerivedRepoByFullName(name);
-    if (!repo) continue;
-    const mentions7d = readMentions(repo);
-    const tier = tierIndex.byFullName.get(repo.fullName.toLowerCase()) ?? null;
-    const has30d = repo.starsDelta30dMissing !== true;
-    const has7d = repo.starsDelta7dMissing !== true;
-    const delta30d = has30d
-      ? repo.starsDelta30d
-      : has7d
-        ? repo.starsDelta7d * 4.3
-        : 0;
-    out.push({
-      repo,
-      tier,
-      mentions7d,
-      delta30d,
-      delta30dEstimated: !has30d && has7d,
-    });
+    if (repo) out.push(repo);
   }
   return out;
 }
@@ -178,11 +98,6 @@ interface CuratedPreset {
   rationale: string;
 }
 
-/**
- * Build four curated preset comparisons off the top-7d movers, mixing
- * 2-up and 3-up combinations so the empty state demonstrates the range of
- * the tool. Falls through gracefully when the corpus is small.
- */
 function buildCuratedPresets(repos: Repo[]): CuratedPreset[] {
   const movers = [...repos]
     .filter((r) => r.fullName.includes("/"))
@@ -211,7 +126,6 @@ function buildCuratedPresets(repos: Repo[]): CuratedPreset[] {
       rationale: "Maximum 6-column matchup. Useful for category sweeps.",
     });
   }
-  // Category contrast: pair a 7d-leader with a stable-mover further down.
   if (movers.length >= 6) {
     presets.push({
       title: "Leader vs. quiet killer",
@@ -239,44 +153,44 @@ export default async function ComparePage({ searchParams }: Props) {
   );
 
   const allRepos = getDerivedRepos();
-  const tierIndex = buildTierIndex(allRepos);
   const presets = buildCuratedPresets(allRepos);
-  const requestedEntries = resolveEntries(requested, tierIndex);
-  const defaultPreset =
-    presets.find((preset) => preset.repos.length >= MAX_REPOS) ?? presets[0] ?? null;
-  const fallbackNames =
-    requestedEntries.length > 0
-      ? []
-      : (defaultPreset?.repos ?? allRepos.slice(0, MAX_REPOS).map((repo) => repo.fullName));
-  const entries =
-    requestedEntries.length > 0
-      ? requestedEntries
-      : resolveEntries(fallbackNames.slice(0, MAX_REPOS), tierIndex);
+  const repoList = resolveRepos(requested);
 
   const fetchedAt = getLastFetchedAt();
-  // Selected names = the ones we successfully resolved (so remove-links
-  // stay self-consistent against the rendered table).
-  const selectedFullNames = entries.map((e) => e.repo.fullName);
-  const hasRepos = entries.length > 0;
+  const selectedFullNames = repoList.map((r) => r.fullName);
+  const selectedIds = repoList.map((r) => r.id);
+  const hasRepos = repoList.length > 0;
 
   return (
     <div className="cmp-page">
       <ComparePageStyles />
+      <CompareTrayBridge
+        selectedFullNames={selectedFullNames}
+        selectedIds={selectedIds}
+      />
       <CompareHero
-        selectedCount={entries.length}
+        selectedCount={repoList.length}
         maxCount={MAX_REPOS}
         fetchedAt={fetchedAt}
         hasRepos={hasRepos}
       />
 
+      <CompareSearchPicker
+        selectedFullNames={selectedFullNames}
+        maxRepos={MAX_REPOS}
+        variant={hasRepos ? "compact" : "hero"}
+      />
+
       {hasRepos ? (
-        <section className="cmp-table-section" aria-label="Comparison matrix">
-          <CompareTable
-            entries={entries}
-            maxRepos={MAX_REPOS}
+        <>
+          <CompareChipSelector
+            repos={repoList}
             selectedFullNames={selectedFullNames}
+            maxRepos={MAX_REPOS}
           />
-        </section>
+
+          <CompareChartGallery repos={repoList} />
+        </>
       ) : (
         <CompareFallback presets={presets} />
       )}
@@ -311,7 +225,7 @@ function CompareFallback({ presets }: { presets: CuratedPreset[] }) {
               >
                 /tools/compare?repos=vercel/next.js,sveltejs/svelte
               </Link>
-              . You can stack up to {MAX_REPOS} repos at once.
+              . You can stack up to 6 repos at once.
             </div>
           </div>
         ) : (
@@ -354,12 +268,12 @@ function ComparePageStyles() {
         margin: 0 auto;
       }
 
-      /* ---------- Hero ---------- */
+      /* ---------- Hero (unchanged from wave-1) ---------- */
       .cmp-hero {
         position: relative;
         padding: 0 0 22px;
         border-bottom: 1px solid var(--border-subtle);
-        margin-bottom: 24px;
+        margin-bottom: 18px;
       }
       .cmp-hero-eyebrow {
         display: flex;
@@ -370,12 +284,9 @@ function ComparePageStyles() {
         color: var(--fg-faint);
         letter-spacing: 0.10em;
         text-transform: uppercase;
+        flex-wrap: wrap;
       }
-      .cmp-hero-back {
-        color: var(--fg-muted);
-        text-decoration: none;
-        transition: color var(--d-fast) var(--ease);
-      }
+      .cmp-hero-back { color: var(--fg-muted); text-decoration: none; transition: color var(--motion-fast) var(--ease); }
       .cmp-hero-back:hover { color: var(--accent); }
       .cmp-hero-sep { color: var(--surface-4); }
       .cmp-hero-eyebrow-num { color: var(--accent); font-weight: 600; }
@@ -403,6 +314,8 @@ function ComparePageStyles() {
         gap: 0;
         border: 1px solid var(--border-subtle);
         background: var(--surface);
+        border-radius: var(--r-md);
+        overflow: hidden;
       }
       .cmp-hero-stat {
         padding: 14px 18px;
@@ -414,7 +327,7 @@ function ComparePageStyles() {
       .cmp-hero-stat:last-child { border-right: none; }
       .cmp-hero-stat-label {
         font-family: var(--font-mono);
-        font-size: 9.5px;
+        font-size: 10px;
         color: var(--fg-faint);
         letter-spacing: 0.10em;
         text-transform: uppercase;
@@ -434,281 +347,408 @@ function ComparePageStyles() {
         font-weight: 400;
       }
 
-      /* ---------- Table ---------- */
-      .cmp-table-section { margin-top: 8px; }
-      .cmp-table-wrap {
+      /* ---------- Search picker ---------- */
+      .cmp-pick {
+        position: relative;
+        margin: 0 0 14px;
+      }
+      .cmp-pick.is-hero {
+        margin: 8px 0 20px;
+        padding: 22px 22px 18px;
+        background:
+          radial-gradient(120% 90% at 0% 0%, color-mix(in oklab, var(--accent) 10%, transparent) 0%, transparent 60%),
+          var(--surface);
         border: 1px solid var(--border-subtle);
-        background: var(--surface);
-        overflow-x: auto;
+        border-radius: var(--r-lg);
       }
-      .cmp-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-family: var(--font-mono);
-        font-size: 12px;
-      }
-      .cmp-table th, .cmp-table td {
-        text-align: left;
-        vertical-align: top;
-        border-right: 1px solid var(--border-subtle);
-        border-bottom: 1px solid var(--border-subtle);
-      }
-      .cmp-table th:last-child, .cmp-table td:last-child { border-right: none; }
-      .cmp-table tbody tr:last-child td,
-      .cmp-table tbody tr:last-child th { border-bottom: none; }
-      .cmp-table tbody tr:nth-child(even) td,
-      .cmp-table tbody tr:nth-child(even) th { background: var(--surface-2); }
-
-      .cmp-th { padding: 14px 14px; background: var(--surface); }
-      .cmp-th-corner {
-        background: var(--surface);
-        border-bottom: 1px solid var(--border-subtle);
-      }
-      .cmp-th-corner-label {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--accent);
-        letter-spacing: 0.10em;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-      .cmp-th-corner-sub {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-faint);
-        margin-top: 3px;
-      }
-
-      .cmp-th-repo { min-width: 200px; }
-      .cmp-th-repo-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 0;
-      }
-      .cmp-th-repo-logo {
-        width: 36px;
-        height: 36px;
-        border-radius: 6px;
-        background: var(--surface-3);
-        object-fit: cover;
-        flex-shrink: 0;
-      }
-      .cmp-th-repo-logo--monogram {
-        display: grid;
-        place-items: center;
-        font-family: var(--font-display);
-        font-size: 16px;
-        font-weight: 700;
-        color: var(--fg-bright);
-      }
-      .cmp-th-repo-meta {
-        flex: 1;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .cmp-th-repo-name {
-        text-decoration: none;
-        font-family: var(--font-display);
-        font-size: 13.5px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      .cmp-pick-eyebrow {
         display: flex;
         align-items: baseline;
-        gap: 2px;
-      }
-      .cmp-th-repo-owner { color: var(--fg-muted); font-weight: 400; }
-      .cmp-th-repo-slash { color: var(--surface-4); margin: 0 2px; }
-      .cmp-th-repo-repo {
-        color: var(--fg-bright);
-        font-weight: 600;
-      }
-      .cmp-th-repo-tags {
-        display: flex;
-        gap: 6px;
+        gap: 10px;
+        margin: 0 0 10px;
         flex-wrap: wrap;
-        align-items: center;
       }
-      .cmp-th-repo-stars {
+      .cmp-pick-eyebrow-num {
         font-family: var(--font-mono);
-        font-size: 10.5px;
+        font-size: 11px;
         color: var(--accent);
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-      }
-      .cmp-th-repo-tag {
-        font-family: var(--font-mono);
-        font-size: 9.5px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        padding: 2px 6px;
-        background: var(--surface-2);
-        border: 1px solid var(--border-subtle);
-      }
-      .cmp-th-repo-foot {
-        margin-top: 10px;
-        display: flex;
-        justify-content: flex-end;
-      }
-      .cmp-th-repo-remove {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-faint);
-        letter-spacing: 0.08em;
-        text-decoration: none;
-        text-transform: uppercase;
-        padding: 2px 6px;
-        border: 1px solid var(--border-subtle);
-        background: var(--surface-2);
-        transition: color var(--d-fast) var(--ease),
-                    border-color var(--d-fast) var(--ease);
-      }
-      .cmp-th-repo-remove:hover {
-        color: var(--accent);
-        border-color: var(--accent);
-      }
-
-      .cmp-th-empty {
-        background: repeating-linear-gradient(
-          45deg,
-          var(--surface) 0,
-          var(--surface) 8px,
-          var(--surface-2) 8px,
-          var(--surface-2) 16px
-        );
-        min-width: 180px;
-      }
-      .cmp-th-empty-body {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-        padding: 6px 0;
-      }
-      .cmp-th-empty-index {
-        font-family: var(--font-mono);
-        font-size: 9.5px;
-        color: var(--fg-faint);
         letter-spacing: 0.10em;
         font-weight: 600;
       }
-      .cmp-th-empty-cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+      .cmp-pick-eyebrow-title {
         font-family: var(--font-display);
-        font-size: 13px;
-        color: var(--fg-bright);
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        padding: 6px 10px;
-        background: var(--surface);
-        border: 1px dashed var(--border);
-      }
-      .cmp-th-empty-plus {
-        color: var(--accent);
-        font-size: 14px;
-        line-height: 1;
-      }
-      .cmp-th-empty-help {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-muted);
-        text-decoration: none;
-        letter-spacing: 0.04em;
-      }
-      .cmp-th-empty-help:hover { color: var(--accent); }
-      .cmp-th-empty-hint {
-        font-family: var(--font-mono);
-        font-size: 9.5px;
-        color: var(--fg-faint);
-      }
-      .cmp-th-empty-hint code,
-      .cmp-empty-fallback-body code,
-      .cmp-empty-eyebrow-sub code {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg);
-        background: var(--surface-3);
-        padding: 0 4px;
-        border-radius: 2px;
-      }
-
-      .cmp-row-label {
-        padding: 14px 16px;
-        background: var(--surface-2);
-        font-family: var(--font-mono);
-        text-align: left;
-      }
-      .cmp-row-label-main {
-        display: block;
-        font-size: 12.5px;
-        color: var(--fg-bright);
-        font-weight: 600;
-        letter-spacing: 0.02em;
-      }
-      .cmp-row-label-sub {
-        display: block;
-        font-size: 9.5px;
-        color: var(--fg-faint);
-        letter-spacing: 0.10em;
-        text-transform: uppercase;
-        margin-top: 3px;
-      }
-
-      .cmp-cell {
-        padding: 14px 14px;
-        font-variant-numeric: tabular-nums;
-        min-width: 180px;
-      }
-      .cmp-cell-empty {
-        background: repeating-linear-gradient(
-          45deg,
-          var(--surface) 0,
-          var(--surface) 8px,
-          var(--surface-2) 8px,
-          var(--surface-2) 16px
-        ) !important;
-        text-align: center;
-      }
-      .cmp-cell-empty-dash {
-        font-family: var(--font-mono);
-        font-size: 14px;
-        color: var(--fg-faint);
-      }
-      .cmp-cell-body {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-      .cmp-cell-value {
-        font-family: var(--font-mono);
         font-size: 15px;
         color: var(--fg-bright);
         font-weight: 600;
+      }
+      .cmp-pick-eyebrow-meta {
+        margin-left: auto;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--fg-faint);
+      }
+      .cmp-pick-field {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 8px 0 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        transition:
+          border-color var(--motion-fast) var(--ease),
+          background var(--motion-fast) var(--ease),
+          box-shadow var(--motion-fast) var(--ease);
+      }
+      .cmp-pick.is-hero .cmp-pick-field {
+        padding: 4px 8px 4px 14px;
+        border-radius: var(--r-lg);
+        background: var(--surface-2);
+      }
+      .cmp-pick-field:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+      }
+      .cmp-pick-field.is-open { border-color: var(--accent); }
+      .cmp-pick-field.is-full { opacity: 0.65; }
+      .cmp-pick-icon {
+        display: grid;
+        place-items: center;
+        color: var(--fg-muted);
+        flex: 0 0 auto;
+      }
+      .cmp-pick-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: var(--fg-bright);
+        font-family: var(--font-display);
+        font-size: 14.5px;
+        padding: 12px 0;
         letter-spacing: -0.005em;
       }
-      .cmp-cell-value-mono { font-weight: 500; }
-      .cmp-cell-sub {
+      .cmp-pick.is-hero .cmp-pick-input {
+        font-size: 17px;
+        padding: 16px 0;
+      }
+      .cmp-pick-input::placeholder {
+        color: var(--fg-faint);
+        font-weight: 400;
+      }
+      .cmp-pick-input::-webkit-search-cancel-button { display: none; }
+      .cmp-pick-clear {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        background: transparent;
+        border: 0;
+        color: var(--fg-muted);
+        border-radius: var(--r-xs);
+        cursor: pointer;
+        transition: all var(--motion-fast) var(--ease);
+      }
+      .cmp-pick-clear:hover {
+        color: var(--down);
+        background: var(--down-soft);
+      }
+      .cmp-pick-kbd {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--fg-faint);
+        padding: 3px 6px;
+        background: var(--surface-3);
+        border: 1px solid var(--border-subtle);
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+      }
+      .cmp-pick-pop {
+        position: absolute;
+        z-index: 60;
+        left: 0;
+        right: 0;
+        top: calc(100% + 6px);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
+      .cmp-pick.is-hero .cmp-pick-pop { border-radius: var(--r-lg); }
+      .cmp-pick-state {
+        padding: 16px 14px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--fg-muted);
+        text-align: center;
+      }
+      .cmp-pick-state-err { color: var(--down); }
+      .cmp-pick-state b { color: var(--fg-bright); font-weight: 600; }
+      .cmp-pick-list {
+        list-style: none;
+        margin: 0;
+        padding: 4px;
+        max-height: 360px;
+        overflow-y: auto;
+      }
+      .cmp-pick-row {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr auto auto auto;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 10px;
+        background: transparent;
+        border: 0;
+        color: var(--fg-bright);
+        text-align: left;
+        cursor: pointer;
+        border-radius: var(--r-xs);
+        transition: background var(--motion-fast) var(--ease);
+      }
+      .cmp-pick-row.is-active {
+        background: color-mix(in oklab, var(--accent) 12%, transparent);
+      }
+      .cmp-pick-row.is-already {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .cmp-pick-row:disabled { cursor: not-allowed; }
+      .cmp-pick-row-avatar {
+        width: 22px; height: 22px;
+        display: grid; place-items: center;
+        flex: 0 0 22px;
+      }
+      .cmp-pick-row-mono {
+        width: 22px; height: 22px;
+        display: grid; place-items: center;
+        background: var(--surface-3);
+        color: var(--fg-faint);
+        font-family: var(--font-mono);
+        font-size: 9px;
+        font-weight: 700;
+        border-radius: 3px;
+      }
+      .cmp-pick-row-name {
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .cmp-pick-row-owner { color: var(--fg-muted); }
+      .cmp-pick-row-repo { color: var(--fg-bright); font-weight: 600; }
+      .cmp-pick-row-lang {
         font-family: var(--font-mono);
         font-size: 10px;
         color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 2px 6px;
+        background: var(--surface-2);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--r-xs);
+      }
+      .cmp-pick-row-stars {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+      }
+      .cmp-pick-row-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 4px 8px;
+        background: color-mix(in oklab, var(--accent) 14%, transparent);
+        border-radius: var(--r-xs);
+      }
+      .cmp-pick-row.is-already .cmp-pick-row-cta {
+        color: var(--up);
+        background: var(--up-soft);
+      }
+      .cmp-pick-foot {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 8px 12px;
+        background: var(--surface-2);
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--fg-faint);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border-top: 1px solid var(--border-subtle);
+      }
+      .cmp-pick-foot-right { margin-left: auto; color: var(--fg-muted); }
+
+      /* ---------- Chip selector ---------- */
+      .cmp-chip-clear-all {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--fg-muted);
+        text-decoration: none;
+        padding: 3px 8px;
+        border-radius: var(--r-xs);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        transition: all var(--motion-fast) var(--ease);
+      }
+      .cmp-chip-clear-all:hover {
+        color: var(--down);
+        background: var(--down-soft);
+      }
+      .cmp-chip-hint kbd {
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        color: var(--fg);
+        background: var(--surface-3);
+        border: 1px solid var(--border-subtle);
+        padding: 1px 5px;
+        border-radius: 3px;
+        margin: 0 2px;
+      }
+
+      /* button-shaped add-slot (was an anchor) keeps same styling */
+      button.cmp-chip-add {
+        cursor: pointer;
+        font-family: var(--font-mono);
+        appearance: none;
+      }
+
+      .cmp-chip-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--r-lg);
+        margin-bottom: 16px;
+      }
+      .cmp-chip-head {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .cmp-chip-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.10em;
+        font-weight: 600;
+      }
+      .cmp-chip-count {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--fg-faint);
+      }
+      .cmp-chip-count b { color: var(--fg); font-weight: 500; }
+      .cmp-chip-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .cmp-chip-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 8px 6px 6px;
+        background: var(--surface-2);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--r-xs);
+      }
+      .cmp-chip-avatar {
+        width: 18px;
+        height: 18px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 18px;
+      }
+      .cmp-chip-mono {
+        width: 18px; height: 18px;
+        display: grid; place-items: center;
+        background: var(--surface-3);
+        color: var(--fg-faint);
+        font-family: var(--font-mono);
+        font-size: 8px;
+        font-weight: 600;
+        border-radius: var(--r-xs);
+      }
+      .cmp-chip-name {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        color: var(--fg-bright);
+        text-decoration: none;
+        white-space: nowrap;
+        max-width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cmp-chip-name:hover { color: var(--accent); }
+      .cmp-chip-owner { color: var(--fg-muted); }
+      .cmp-chip-remove {
+        display: inline-grid;
+        place-items: center;
+        width: 18px;
+        height: 18px;
+        color: var(--fg-faint);
+        text-decoration: none;
+        border-radius: var(--r-xs);
+        transition: all var(--motion-fast) var(--ease);
+      }
+      .cmp-chip-remove:hover {
+        color: var(--down);
+        background: var(--down-soft);
+      }
+      .cmp-chip-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 10px;
+        background: transparent;
+        border: 1px dashed var(--border);
+        border-radius: var(--r-xs);
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all var(--motion-fast) var(--ease);
+      }
+      .cmp-chip-add:hover {
+        background: var(--accent-wash);
+        border-color: var(--accent);
+        color: var(--accent-hover);
+      }
+      .cmp-chip-hint {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--fg-faint);
         letter-spacing: 0.04em;
       }
-      .cmp-cell-est {
-        font-size: 9px;
-        color: var(--fg-faint);
-        text-transform: uppercase;
-        letter-spacing: 0.10em;
-        font-weight: 400;
-        margin-left: 4px;
+      .cmp-chip-hint code {
+        background: var(--surface-3);
+        padding: 0 4px;
+        border-radius: 2px;
+        color: var(--fg);
       }
+
 
       /* ---------- Empty state ---------- */
       .cmp-empty {
@@ -752,9 +792,10 @@ function ComparePageStyles() {
         padding: 18px 20px;
         background: var(--surface);
         border: 1px solid var(--border-subtle);
+        border-radius: var(--r-lg);
         text-decoration: none;
-        transition: border-color var(--d-fast) var(--ease),
-                    transform var(--d-fast) var(--ease);
+        transition: border-color var(--motion-fast) var(--ease),
+                    transform var(--motion-fast) var(--ease);
       }
       .cmp-preset:hover {
         border-color: var(--accent);
@@ -790,6 +831,7 @@ function ComparePageStyles() {
         padding: 2px 7px;
         background: var(--surface-2);
         border: 1px solid var(--border-subtle);
+        border-radius: var(--r-xs);
       }
       .cmp-preset-rationale {
         font-family: var(--font-mono);
@@ -809,6 +851,7 @@ function ComparePageStyles() {
         padding: 28px 24px;
         background: var(--surface);
         border: 1px dashed var(--border);
+        border-radius: var(--r-lg);
       }
       .cmp-empty-fallback-title {
         font-family: var(--font-display);

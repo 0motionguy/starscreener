@@ -3,7 +3,7 @@
 // derives a six-row desk feed from the seeded account context.
 
 import type { ReactNode } from "react";
-import { ChevronUp, FileText, Star } from "lucide-react";
+import { Icon } from "@/lib/icons";
 
 interface AlertEvent {
   id?: string;
@@ -73,11 +73,11 @@ const SEEDED_EVENTS: AlertEvent[] = [
 ];
 
 const KIND_GLYPH: Record<NonNullable<AlertEvent["kind"]>, ReactNode> = {
-  release: <ChevronUp size={11} strokeWidth={2.5} aria-hidden="true" />,
-  breakout: <ChevronUp size={11} strokeWidth={2.5} aria-hidden="true" />,
-  mention: <Star size={11} strokeWidth={2} fill="currentColor" aria-hidden="true" />,
-  digest: <FileText size={11} strokeWidth={2} aria-hidden="true" />,
-  threshold: <Star size={11} strokeWidth={2} fill="currentColor" aria-hidden="true" />,
+  release: <Icon name="chevron-up" size={11} />,
+  breakout: <Icon name="chevron-up" size={11} />,
+  mention: <Icon name="star-fill" size={11} />,
+  digest: <Icon name="file" size={11} />,
+  threshold: <Icon name="star-fill" size={11} />,
 };
 
 export function AccountAlertInbox({ events }: AccountAlertInboxProps) {

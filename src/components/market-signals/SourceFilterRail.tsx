@@ -1,8 +1,15 @@
-// SourceFilterRail - 30 source toggles using the shell .src-toggle contract.
+// SourceFilterRail — source toggles using the shell .src-toggle contract.
 // URL ?src= carries comma-separated enabled source slugs; missing or empty
 // means all enabled.
+//
+// 2026-05-23: swapped colored dots for real /brand/sources/*.svg logos where
+// available. Sources without a brand SVG (lobsters, google, meta, mistral,
+// cohere, xai, perplexity, qwen, skills, mcp custom, agent-repos, funding,
+// revenue, pypi, openrouter) keep the colored dot.
 
 import Link from "next/link";
+
+import { SourceLogo, type SourceName } from "@/components/icon/Icon";
 
 export type MarketSourceTotals = Record<string, number>;
 
@@ -73,6 +80,27 @@ const SOURCE_GROUPS: SourceGroup[] = [
 
 const SOURCE_TOTAL = SOURCE_GROUPS.reduce((sum, group) => sum + group.entries.length, 0);
 
+// slug → brand logo file under /brand/sources/. Slugs not mapped here fall
+// back to the colored dot indicator.
+const SOURCE_LOGO_MAP: Partial<Record<string, SourceName>> = {
+  github: "github",
+  hn: "hackernews",
+  reddit: "reddit",
+  x: "x-twitter",
+  bsky: "bluesky",
+  ph: "producthunt",
+  devto: "devto",
+  arxiv: "arxiv",
+  npm: "npm",
+  "hf-models": "huggingface",
+  "hf-datasets": "huggingface",
+  "hf-spaces": "huggingface",
+  openai: "openai",
+  anthropic: "anthropic",
+  deepseek: "deepseek",
+  mcp: "modelcontextprotocol",
+};
+
 function toggleHref(slug: string, selected: Set<string>, window: string): string {
   const next = new Set(selected);
   if (next.has(slug)) next.delete(slug);
@@ -116,6 +144,7 @@ export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilte
           <div className="col" style={{ gap: 2 }} role="group" aria-label={group.title}>
             {group.entries.map((entry) => {
               const on = allOn || selected.has(entry.slug);
+              const logo = SOURCE_LOGO_MAP[entry.slug];
               return (
                 <Link
                   key={entry.slug}
@@ -125,7 +154,13 @@ export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilte
                   aria-current={on ? "true" : undefined}
                   data-source={entry.slug}
                 >
-                  <span className="src-dot" style={{ background: entry.colorVar }} />
+                  {logo ? (
+                    <span className="src-logo" aria-hidden="true" style={{ display: "inline-grid", placeItems: "center", width: 14, height: 14 }}>
+                      <SourceLogo source={logo} size="sm" alt="" />
+                    </span>
+                  ) : (
+                    <span className="src-dot" style={{ background: entry.colorVar }} />
+                  )}
                   <span>{entry.label}</span>
                   <span className="src-count">{formatCount(sourceTotals[entry.slug] ?? 0)}</span>
                 </Link>

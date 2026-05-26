@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=390,initial-scale=1,viewport-fit=cover">
+<title>Trending — Trending Repos</title>
+<style>
+  :root{
+    --bg:#000; --elev-1:#1c1c1e; --elev-2:#2c2c2e; --elev-3:#3a3a3c;
+    --label:#fff; --label-2:rgba(235,235,245,.60); --label-3:rgba(235,235,245,.30); --label-4:rgba(235,235,245,.18);
+    --fill-1:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.24); --fill-3:rgba(118,118,128,.16);
+    --sep:rgba(84,84,88,.30); --sep-strong:rgba(84,84,88,.55);
+    --accent:#ff6b35; --accent-soft:rgba(255,107,53,.16); --accent-dim:rgba(255,107,53,.24);
+    --blue:#0a84ff; --green:#30d158; --yellow:#ffd60a; --red:#ff453a; --purple:#bf5af2;
+    --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+    --f-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    --f-mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+  html,body{width:390px;height:844px;background:var(--bg);color:var(--label);font-family:var(--f-text);font-size:17px;line-height:1.41;letter-spacing:-.014em;overflow:hidden;position:relative;}
+
+  /* one accent flourish — top edge */
+  body::before{content:"";position:absolute;top:-160px;left:-80px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.10) 0%,transparent 65%);filter:blur(40px);pointer-events:none;z-index:0;}
+
+  .status-bar{height:54px;padding:18px 30px 0;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:600;letter-spacing:-.4px;position:relative;z-index:10;}
+  .status-bar .time{font-variant-numeric:tabular-nums;}
+  .status-bar .sys{display:flex;align-items:center;gap:5px;}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:37px;background:#000;border-radius:99px;z-index:30;pointer-events:none;}
+  .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#fff;opacity:.85;z-index:25;}
+
+  .screen{position:relative;width:100%;height:100%;display:flex;flex-direction:column;z-index:1;}
+
+  /* Nav bar — Large Title style */
+  .nav-bar{padding:6px 16px 0;display:flex;align-items:center;justify-content:space-between;}
+  .nav-bar h1{font-family:var(--f-display);font-size:34px;font-weight:700;letter-spacing:-1.0px;line-height:1.0;color:var(--label);}
+  .nav-bar h1 .em{color:var(--accent);}
+  .nav-actions{display:flex;align-items:center;gap:6px;}
+  .icon-btn{width:36px;height:36px;border-radius:99px;background:var(--fill-3);border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent);}
+  .icon-btn svg{width:18px;height:18px;}
+  .avatar-btn{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3a3a3c,#1c1c1e);border:1.5px solid var(--accent);overflow:hidden;cursor:pointer;display:grid;place-items:center;color:var(--label);font-size:12px;font-weight:600;font-family:var(--f-display);}
+
+  .sub-line{padding:4px 18px 0;display:flex;align-items:center;gap:8px;}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(48,209,88,.2);}
+  .sub-text{font-family:var(--f-mono);font-size:12.5px;color:var(--label-2);font-variant-numeric:tabular-nums;letter-spacing:.01em;}
+  .sub-text b{color:var(--label);font-weight:600;}
+
+  /* Segmented control — iOS style */
+  .segmented{margin:14px 16px 0;display:flex;background:var(--fill-3);border-radius:9px;padding:2px;height:32px;position:relative;}
+  .seg{flex:1;background:none;border:0;color:var(--label-2);font-family:var(--f-text);font-size:13px;font-weight:500;letter-spacing:-.08px;border-radius:7px;cursor:pointer;display:grid;place-items:center;}
+  .seg.on{background:var(--elev-2);color:var(--label);box-shadow:0 3px 8px rgba(0,0,0,.16),0 .5px 0 rgba(255,255,255,.05) inset;font-weight:600;}
+
+  /* Source chip rail */
+  .src-rail{display:flex;gap:8px;padding:12px 16px 4px;overflow-x:auto;scrollbar-width:none;}
+  .src-rail::-webkit-scrollbar{display:none;}
+  .src-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;background:var(--fill-3);border:0;color:var(--label-2);font-family:var(--f-text);font-size:13px;font-weight:500;letter-spacing:-.08px;white-space:nowrap;cursor:pointer;}
+  .src-chip svg{width:13px;height:13px;}
+  .src-chip.on{background:var(--label);color:var(--bg);font-weight:600;}
+  .src-chip .badge{margin-left:2px;font-family:var(--f-mono);font-size:10.5px;background:rgba(0,0,0,.18);padding:1px 5px;border-radius:4px;color:inherit;}
+  .src-chip.on .badge{background:rgba(0,0,0,.08);}
+
+  /* List */
+  .feed{flex:1;overflow-y:auto;padding:8px 0 10px;}
+  .feed::-webkit-scrollbar{display:none;}
+
+  .rank-strip{padding:14px 16px 8px;font-family:var(--f-text);font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--label-3);display:flex;align-items:baseline;justify-content:space-between;}
+  .rank-strip .right{font-family:var(--f-mono);text-transform:none;font-weight:500;font-size:11.5px;color:var(--label-3);letter-spacing:.04em;}
+
+  .card{
+    margin:0 16px 8px;padding:14px 14px 12px;border-radius:16px;
+    background:var(--elev-1);
+    cursor:pointer;transition:transform .15s,background .15s;
+    position:relative;overflow:hidden;
+  }
+  .card:active{transform:scale(.992);background:var(--elev-2);}
+  .card .rank-num{position:absolute;top:14px;right:14px;font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--label-3);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+
+  .card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#444,#222);display:grid;place-items:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:14px;flex-shrink:0;letter-spacing:-.3px;}
+  .avatar.a{background:linear-gradient(135deg,#cc785c,#8b4513);}
+  .avatar.b{background:linear-gradient(135deg,#5b8def,#3d5af1);}
+  .avatar.c{background:linear-gradient(135deg,#a78bfa,#7c3aed);}
+  .avatar.d{background:linear-gradient(135deg,#34d399,#059669);}
+  .avatar.e{background:linear-gradient(135deg,#fbbf24,#d97706);}
+  .avatar.f{background:linear-gradient(135deg,#f87171,#dc2626);}
+  .avatar.g{background:linear-gradient(135deg,#60a5fa,#1d4ed8);}
+  .titles{flex:1;min-width:0;margin-right:24px;}
+  .owner{font-size:12px;font-weight:500;color:var(--label-2);letter-spacing:-.08px;line-height:1.1;margin-bottom:2px;}
+  .name{font-family:var(--f-display);font-size:17px;font-weight:600;letter-spacing:-.4px;color:var(--label);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.18;}
+  .ai-badge{position:absolute;top:14px;right:42px;display:inline-flex;align-items:center;gap:4px;padding:3px 7px 3px 6px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+  .ai-badge svg{width:9px;height:9px;}
+
+  .desc{font-size:14px;font-weight:400;letter-spacing:-.16px;color:var(--label-2);line-height:1.38;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+  .stats-row{display:flex;align-items:center;gap:12px;font-family:var(--f-mono);font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.04px;color:var(--label-2);}
+  .stars{color:var(--label);display:inline-flex;align-items:center;gap:4px;}
+  .stars svg{width:12px;height:12px;fill:var(--label);}
+  .delta{color:var(--accent);font-weight:600;display:inline-flex;align-items:center;gap:2px;}
+  .delta svg{width:9px;height:9px;}
+  .lang{display:inline-flex;align-items:center;gap:5px;color:var(--label-2);}
+  .lang .dot{width:8px;height:8px;border-radius:50%;}
+  .lang .dot.py{background:#3572A5;} .lang .dot.ts{background:#2b7489;} .lang .dot.js{background:#f7df1e;} .lang .dot.go{background:#00ADD8;} .lang .dot.rs{background:#dea584;}
+  .age{margin-left:auto;color:var(--label-3);font-size:11.5px;display:inline-flex;align-items:center;gap:6px;}
+  .spark{width:54px;height:18px;flex-shrink:0;}
+
+  /* Featured card — top of list, larger */
+  .card.feat{background:linear-gradient(180deg,rgba(255,107,53,.08) 0%,var(--elev-1) 60%);border:.5px solid var(--accent-dim);}
+  .card.feat .ai-badge{background:var(--accent);color:#000;}
+
+  /* Tab bar — vibrancy */
+  .tab-bar{position:absolute;bottom:0;left:0;right:0;height:83px;padding:6px 0 22px;display:flex;justify-content:space-around;align-items:flex-start;background:rgba(20,20,22,.78);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-top:.5px solid var(--sep);z-index:15;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 8px 0;background:none;border:0;color:var(--label-3);font-family:var(--f-text);font-size:10px;font-weight:500;letter-spacing:-.06px;cursor:pointer;min-width:56px;}
+  .tab svg{width:26px;height:26px;}
+  .tab.on{color:var(--accent);}
+  .tab.on svg{fill:var(--accent);}
+  .tab .ico{width:26px;height:26px;display:grid;place-items:center;color:currentColor;}
+  .tab .ico svg{fill:currentColor;}
+</style>
+</head>
+<body>
+  <div class="island"></div>
+  <header class="status-bar">
+    <span class="time">9:41</span>
+    <span class="sys">
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="6" width="3" height="5" rx=".5"/><rect x="4.5" y="4" width="3" height="7" rx=".5"/><rect x="9" y="2" width="3" height="9" rx=".5"/><rect x="13.5" y="0" width="3" height="11" rx=".5"/></svg>
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="#fff"><path d="M7.5 0C4.7 0 2.1 1 0 2.7L1.4 4.1C3.1 2.8 5.2 2 7.5 2C9.8 2 11.9 2.8 13.6 4.1L15 2.7C12.9 1 10.3 0 7.5 0ZM7.5 4C5.7 4 4.1 4.6 2.8 5.7L4.2 7.1C5.1 6.4 6.3 6 7.5 6C8.7 6 9.9 6.4 10.8 7.1L12.2 5.7C10.9 4.6 9.3 4 7.5 4ZM7.5 8C6.7 8 6 8.3 5.4 8.8L7.5 11L9.6 8.8C9 8.3 8.3 8 7.5 8Z"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3.5" stroke="#fff" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#fff"/><rect x="23.5" y="4" width="1.5" height="5" rx=".7" fill="#fff" fill-opacity=".4"/></svg>
+    </span>
+  </header>
+
+  <div class="screen">
+    <div class="nav-bar">
+      <h1>Trending<span class="em">.</span></h1>
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/><path d="M13 13 L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="avatar-btn">MK</button>
+      </div>
+    </div>
+
+    <div class="sub-line">
+      <span class="live-dot"></span>
+      <span class="sub-text"><b>2,481</b> repos · refreshed <b>3m ago</b></span>
+    </div>
+
+    <div class="segmented">
+      <button class="seg on">24H</button>
+      <button class="seg">7D</button>
+      <button class="seg">30D</button>
+    </div>
+
+    <div class="src-rail">
+      <button class="src-chip on">All <span class="badge">2,481</span></button>
+      <button class="src-chip">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.5 15.6c.4.1.5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.2 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3.1-1.9 3.7-3.6 4 .3.3.6.7.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 0z"/></svg>
+        GitHub <span class="badge">1.2k</span>
+      </button>
+      <button class="src-chip">𝕏 <span class="badge">812</span></button>
+      <button class="src-chip">Reddit <span class="badge">524</span></button>
+      <button class="src-chip">HN <span class="badge">340</span></button>
+      <button class="src-chip">🤗 HF</button>
+    </div>
+
+    <div class="feed">
+      <div class="rank-strip">
+        <span>Top in last 24 hours</span>
+        <span class="right">live ranker · top composite</span>
+      </div>
+
+      <article class="card feat">
+        <span class="rank-num">#01</span>
+        <span class="ai-badge"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 0 L5.6 3.4 L9 4.5 L5.6 5.6 L4.5 9 L3.4 5.6 L0 4.5 L3.4 3.4 Z"/></svg> AI</span>
+        <div class="card-head">
+          <div class="avatar a">A</div>
+          <div class="titles">
+            <div class="owner">anthropics</div>
+            <div class="name">financial-services-plugins</div>
+          </div>
+        </div>
+        <p class="desc">Plugins for the Anthropic Claude Code Workbench to query Bloomberg, FactSet &amp; market data.</p>
+        <div class="stats-row">
+          <span class="stars"><svg viewBox="0 0 12 12"><path d="M6 .5 L7.5 4.3 L11.5 4.5 L8.4 7 L9.4 11 L6 8.7 L2.6 11 L3.6 7 L.5 4.5 L4.5 4.3 Z"/></svg>2,481</span>
+          <span class="delta"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 1 L8 6 H1 Z"/></svg>+396</span>
+          <svg class="spark" viewBox="0 0 54 18" fill="none"><path d="M0 14 L6 13 L12 12 L18 11 L24 9 L30 8 L36 6 L42 5 L48 3 L54 1" stroke="#ff6b35" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M0 14 L6 13 L12 12 L18 11 L24 9 L30 8 L36 6 L42 5 L48 3 L54 1 L54 18 L0 18 Z" fill="url(#g1)" opacity=".25"/><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="18"><stop offset="0" stop-color="#ff6b35"/><stop offset="1" stop-color="#ff6b35" stop-opacity="0"/></linearGradient></defs></svg>
+          <span class="age">3h</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="rank-num">#02</span>
+        <span class="ai-badge"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 0 L5.6 3.4 L9 4.5 L5.6 5.6 L4.5 9 L3.4 5.6 L0 4.5 L3.4 3.4 Z"/></svg> AI</span>
+        <div class="card-head">
+          <div class="avatar b">a</div>
+          <div class="titles">
+            <div class="owner">addyosmani</div>
+            <div class="name">agent-skills</div>
+          </div>
+        </div>
+        <p class="desc">Curated agent skills, prompts, and patterns for building Claude Code workflows that ship.</p>
+        <div class="stats-row">
+          <span class="stars"><svg viewBox="0 0 12 12"><path d="M6 .5 L7.5 4.3 L11.5 4.5 L8.4 7 L9.4 11 L6 8.7 L2.6 11 L3.6 7 L.5 4.5 L4.5 4.3 Z"/></svg>1,847</span>
+          <span class="delta"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 1 L8 6 H1 Z"/></svg>+327</span>
+          <span class="lang"><span class="dot ts"></span>TS</span>
+          <svg class="spark" viewBox="0 0 54 18" fill="none"><path d="M0 16 L6 15 L12 13 L18 14 L24 11 L30 9 L36 8 L42 6 L48 4 L54 3" stroke="#ff6b35" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          <span class="age">4h</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="rank-num">#03</span>
+        <span class="ai-badge"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 0 L5.6 3.4 L9 4.5 L5.6 5.6 L4.5 9 L3.4 5.6 L0 4.5 L3.4 3.4 Z"/></svg> AI</span>
+        <div class="card-head">
+          <div class="avatar c">R</div>
+          <div class="titles">
+            <div class="owner">ruvnet</div>
+            <div class="name">ruflo</div>
+          </div>
+        </div>
+        <p class="desc">Local-first multi-agent orchestrator. Run swarms of Claude/GPT/Gemini against the same codebase.</p>
+        <div class="stats-row">
+          <span class="stars"><svg viewBox="0 0 12 12"><path d="M6 .5 L7.5 4.3 L11.5 4.5 L8.4 7 L9.4 11 L6 8.7 L2.6 11 L3.6 7 L.5 4.5 L4.5 4.3 Z"/></svg>1,402</span>
+          <span class="delta"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 1 L8 6 H1 Z"/></svg>+289</span>
+          <span class="lang"><span class="dot py"></span>Py</span>
+          <svg class="spark" viewBox="0 0 54 18" fill="none"><path d="M0 15 L6 13 L12 14 L18 11 L24 10 L30 7 L36 6 L42 4 L48 5 L54 2" stroke="#ff6b35" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          <span class="age">5h</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="rank-num">#04</span>
+        <div class="card-head">
+          <div class="avatar d">V</div>
+          <div class="titles">
+            <div class="owner">vercel-labs</div>
+            <div class="name">zero-native</div>
+          </div>
+        </div>
+        <p class="desc">Zero-config native mobile SDK for Vercel AI Gateway. iOS, Android, React Native in one package.</p>
+        <div class="stats-row">
+          <span class="stars"><svg viewBox="0 0 12 12"><path d="M6 .5 L7.5 4.3 L11.5 4.5 L8.4 7 L9.4 11 L6 8.7 L2.6 11 L3.6 7 L.5 4.5 L4.5 4.3 Z"/></svg>1,128</span>
+          <span class="delta"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 1 L8 6 H1 Z"/></svg>+247</span>
+          <span class="lang"><span class="dot ts"></span>TS</span>
+          <svg class="spark" viewBox="0 0 54 18" fill="none"><path d="M0 12 L6 14 L12 13 L18 10 L24 9 L30 11 L36 8 L42 6 L48 5 L54 3" stroke="#ff6b35" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          <span class="age">8h</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="rank-num">#05</span>
+        <div class="card-head">
+          <div class="avatar e">L</div>
+          <div class="titles">
+            <div class="owner">langchain-ai</div>
+            <div class="name">langgraph-studio</div>
+          </div>
+        </div>
+        <p class="desc">Visual IDE for designing, debugging &amp; observing LangGraph agents with time-travel state.</p>
+        <div class="stats-row">
+          <span class="stars"><svg viewBox="0 0 12 12"><path d="M6 .5 L7.5 4.3 L11.5 4.5 L8.4 7 L9.4 11 L6 8.7 L2.6 11 L3.6 7 L.5 4.5 L4.5 4.3 Z"/></svg>981</span>
+          <span class="delta"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 1 L8 6 H1 Z"/></svg>+218</span>
+          <span class="lang"><span class="dot py"></span>Py</span>
+          <svg class="spark" viewBox="0 0 54 18" fill="none"><path d="M0 14 L6 15 L12 12 L18 13 L24 11 L30 9 L36 10 L42 7 L48 6 L54 4" stroke="#ff6b35" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          <span class="age">11h</span>
+        </div>
+      </article>
+    </div>
+
+    <nav class="tab-bar">
+      <button class="tab on">
+        <span class="ico"><svg viewBox="0 0 26 26"><path d="M3 19 L9 13 L13 16 L21 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M16 7 H21 V12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
+        Trending
+      </button>
+      <button class="tab">
+        <span class="ico"><svg viewBox="0 0 26 26"><path d="M13 3 L15.5 10.5 L23 13 L15.5 15.5 L13 23 L10.5 15.5 L3 13 L10.5 10.5 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/></svg></span>
+        AI &amp; LLMs
+      </button>
+      <button class="tab">
+        <span class="ico"><svg viewBox="0 0 26 26"><path d="M7 4 H19 V22 L13 18 L7 22 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/></svg></span>
+        Watchlist
+      </button>
+      <button class="tab">
+        <span class="ico"><svg viewBox="0 0 26 26"><path d="M6 11 C 6 7 9 4 13 4 C 17 4 20 7 20 11 V 16 L 22 19 H 4 L 6 16 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M10 20 C 10 22 11.5 23 13 23 C 14.5 23 16 22 16 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></span>
+        Alerts
+      </button>
+      <button class="tab">
+        <span class="ico"><svg viewBox="0 0 26 26"><circle cx="13" cy="9" r="4.5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M4 22 C 4 17 8 14 13 14 C 18 14 22 17 22 22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></span>
+        You
+      </button>
+    </nav>
+  </div>
+
+  <div class="home-indicator"></div>
+</body>
+</html>

@@ -24,11 +24,32 @@
 
 import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import Script from "next/script";
 import { Suspense } from "react";
+import { Toaster } from "sonner";
 
 // MUST be first import — validates env on server boot.
 import "@/lib/bootstrap";
+
+// Web fonts — bound to CSS vars consumed by public/shell.css.
+// See docs/DESIGN-SYSTEM.md §3 (Typography) for the full contract.
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
+});
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist-mono",
+});
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+  variable: "--font-space-grotesk",
+});
 
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
@@ -85,7 +106,7 @@ export default async function RootLayout({
       </IdleMount>
       <div className="app">
         <Sidebar />
-        <Topbar />
+        <Topbar authEnabled={Boolean(clerkPublishableKey)} />
         <Ticker />
         <main className="main" id="main-content" tabIndex={-1}>
           {children}
@@ -97,7 +118,12 @@ export default async function RootLayout({
   );
 
   return (
-    <html lang="en" className="dark" data-theme="orange" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
+      data-theme="orange"
+      suppressHydrationWarning
+    >
       <head>
         {/* shell.css owns the v6 design tokens (--bg, --accent, --surface, etc.) */}
         <link rel="stylesheet" href="/shell.css" />
@@ -126,8 +152,8 @@ export default async function RootLayout({
               <ClerkProvider
                 publishableKey={clerkPublishableKey}
                 appearance={clerkAppearance}
-                signInUrl={buildAuthHref("/sign-in", "/you")}
-                signUpUrl={buildAuthHref("/sign-up", "/you")}
+                signInUrl={buildAuthHref("/sign-in", "/account")}
+                signUpUrl={buildAuthHref("/sign-up", "/account")}
                 afterSignOutUrl="/"
               >
                 {appChrome}
@@ -139,6 +165,7 @@ export default async function RootLayout({
         </PostHogProvider>
         {/* shell.js handles sparklines, clock, sidebar drawer, share menus, repo hover preview, etc. */}
         <Script src="/shell.js" strategy="afterInteractive" />
+        <Toaster theme="dark" position="bottom-right" richColors closeButton />
       </body>
     </html>
   );

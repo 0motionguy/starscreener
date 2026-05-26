@@ -18,7 +18,7 @@ import {
   CONTRIBUTION_TYPE_LABEL,
   type ContributionType as UiContributionType,
 } from "@/lib/ideas/sample-contributions";
-import { Zap, Wrench, Hammer } from "@/lib/icons";
+import { Icon, Wrench, Hammer } from "@/lib/icons";
 import {
   MessageCircleIcon,
   MagnifierIcon,
@@ -38,7 +38,7 @@ const CHIP_EMOJI: Record<UiContributionType, ReactNode> = {
   comment: <MessageCircleIcon size={14} color="currentColor" />,
   evidence: <MagnifierIcon size={14} color="currentColor" />,
   repo: <GithubIcon size={14} color="currentColor" />,
-  feature: <Zap width={14} height={14} strokeWidth={2} color="var(--accent)" />,
+  feature: <Icon name="zap" size="md" style={{ color: "var(--accent)" }} />,
   workaround: <Wrench size={14} strokeWidth={2} color="currentColor" />,
   project: <RocketIcon size={14} color="currentColor" />,
   "i-would-use": <EyeIcon size={14} color="currentColor" />,

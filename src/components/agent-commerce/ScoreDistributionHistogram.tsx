@@ -8,10 +8,11 @@ interface ScoreDistributionHistogramProps {
 
 export function ScoreDistributionHistogram({
   items,
-  displayItemCount = 142,
+  displayItemCount,
 }: ScoreDistributionHistogramProps) {
   const buckets = new Array<number>(10).fill(0);
-  const sample = getScoreSample(items, displayItemCount);
+  const sample = getScoreSample(items);
+  const itemCountLabel = displayItemCount ?? sample.length;
 
   for (const score of sample) {
     const s = Math.max(0, Math.min(100, score));
@@ -27,7 +28,7 @@ export function ScoreDistributionHistogram({
     <div className="panel">
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 06"}</span>
-        <span className="ph-title">Score distribution - {displayItemCount} items</span>
+        <span className="ph-title">Score distribution - {itemCountLabel} items</span>
         <span className="ph-meta">bucket = composite 0-10</span>
       </div>
       <div className="score-dist" style={scoreDistStyle}>

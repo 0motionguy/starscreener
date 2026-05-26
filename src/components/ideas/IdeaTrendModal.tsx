@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { X } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 
 interface IdeaTrendModalProps {
   trendingRepos: { fullName: string; pitch: string }[];
@@ -91,7 +91,7 @@ export function IdeaTrendModal({ trendingRepos }: IdeaTrendModalProps) {
             aria-label="Close"
             onClick={close}
           >
-            <X size={16} strokeWidth={2} aria-hidden="true" />
+            <Icon name="close" size="lg" />
           </button>
         </header>
         <div className="modal-body">

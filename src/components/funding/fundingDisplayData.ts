@@ -1,242 +1,16 @@
 import type { FundingRoundType, FundingSignal } from "@/lib/funding/types";
 
-type FundingSeed = {
-  companyName: string;
-  companyWebsite: string;
-  amount: number;
-  amountDisplay: string;
-  roundType: FundingRoundType;
-  investors: string[];
-  headline: string;
-  description: string;
-  sourceUrl: string;
-  sourcePlatform: FundingSignal["sourcePlatform"];
-  tags: string[];
-  ageHours: number;
-  confidence: NonNullable<FundingSignal["extracted"]>["confidence"];
-};
+// 2026-05-23: SEED_ROUNDS (Anthropic $3.5B / Cursor $900M / Mistral $640M /
+// Perplexity $520M / Together AI $305M / Vercel $250M / Codeium $150M /
+// Pinecone $140M / Modal $87M / Lovable $60M / Replicate $40M / LangChain
+// $25M / CrewAI $18M / Baseten $75M) and the associated SEED_SEC_COMPANIES
+// set + buildSeedFundingSignals() factory were removed. The funding page
+// reads live RSS (TechCrunch / VentureBeat / Sifted) + committed
+// funding-news.json only — no fabricated rounds.
+//
+// DEFAULT_INVESTORS was kept for InvestorChips.tsx, which is now an
+// orphan file; if you delete it, drop DEFAULT_INVESTORS too.
 
-const SEED_ROUNDS: FundingSeed[] = [
-  {
-    companyName: "Anthropic",
-    companyWebsite: "https://anthropic.com",
-    amount: 3_500_000_000,
-    amountDisplay: "$3.5B",
-    roundType: "series-d-plus",
-    investors: ["Lightspeed", "Menlo Ventures", "Bessemer Venture Partners", "Salesforce Ventures"],
-    headline: "Anthropic closes a late-stage AI safety and model-platform round",
-    description: "Foundation-model capital with enterprise AI demand and safety tooling tailwinds.",
-    sourceUrl: "https://techcrunch.com/category/artificial-intelligence/anthropic-series-f",
-    sourcePlatform: "techcrunch",
-    tags: ["ai", "foundation-model", "llm"],
-    ageHours: 26,
-    confidence: "high",
-  },
-  {
-    companyName: "Cursor",
-    companyWebsite: "https://cursor.com",
-    amount: 900_000_000,
-    amountDisplay: "$900M",
-    roundType: "series-c",
-    investors: ["Thrive Capital", "Andreessen Horowitz", "Benchmark", "Index Ventures"],
-    headline: "Cursor raises a major Series C for AI-native software development",
-    description: "Coding-agent demand drives another step-up round in developer tooling.",
-    sourceUrl: "https://theinformation.com/articles/cursor-series-c",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "coding", "developer-tools"],
-    ageHours: 2,
-    confidence: "high",
-  },
-  {
-    companyName: "Mistral AI",
-    companyWebsite: "https://mistral.ai",
-    amount: 640_000_000,
-    amountDisplay: "$640M",
-    roundType: "series-b",
-    investors: ["General Catalyst", "Lightspeed", "Andreessen Horowitz", "Nvidia"],
-    headline: "Mistral AI adds new capital for open-weight model expansion",
-    description: "European foundation-model lab continues to scale enterprise distribution.",
-    sourceUrl: "https://sifted.eu/articles/mistral-ai-series-b",
-    sourcePlatform: "sifted",
-    tags: ["ai", "foundation-model", "europe"],
-    ageHours: 6,
-    confidence: "high",
-  },
-  {
-    companyName: "Perplexity",
-    companyWebsite: "https://perplexity.ai",
-    amount: 520_000_000,
-    amountDisplay: "$520M",
-    roundType: "series-c",
-    investors: ["IVP", "NEA", "Nvidia", "Jeff Bezos"],
-    headline: "Perplexity raises Series C capital for answer-engine growth",
-    description: "Search and research workflows remain a large AI application wedge.",
-    sourceUrl: "https://techcrunch.com/2026/05/18/perplexity-series-c",
-    sourcePlatform: "techcrunch",
-    tags: ["ai", "search", "consumer"],
-    ageHours: 42,
-    confidence: "high",
-  },
-  {
-    companyName: "Together AI",
-    companyWebsite: "https://together.ai",
-    amount: 305_000_000,
-    amountDisplay: "$305M",
-    roundType: "series-b",
-    investors: ["Salesforce Ventures", "Kleiner Perkins", "Lux Capital", "Coatue"],
-    headline: "Together AI raises Series B for inference and fine-tuning infrastructure",
-    description: "Model-serving cloud demand keeps AI infrastructure rounds hot.",
-    sourceUrl: "https://news.crunchbase.com/ai/together-ai-series-b",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "infra", "inference", "cloud"],
-    ageHours: 30,
-    confidence: "high",
-  },
-  {
-    companyName: "Vercel",
-    companyWebsite: "https://vercel.com",
-    amount: 250_000_000,
-    amountDisplay: "$250M",
-    roundType: "series-d-plus",
-    investors: ["Accel", "Tiger Global", "GV", "Greenoaks"],
-    headline: "Vercel extends growth funding around frontend cloud and AI app deployment",
-    description: "Frontend infrastructure remains a developer platform funding theme.",
-    sourceUrl: "https://venturebeat.com/ai/vercel-growth-round",
-    sourcePlatform: "venturebeat",
-    tags: ["developer-tools", "devtools", "cloud"],
-    ageHours: 118,
-    confidence: "medium",
-  },
-  {
-    companyName: "Codeium",
-    companyWebsite: "https://codeium.com",
-    amount: 150_000_000,
-    amountDisplay: "$150M",
-    roundType: "series-c",
-    investors: ["General Catalyst", "Kleiner Perkins", "Greenoaks"],
-    headline: "Codeium files Form D after closing a Series C for AI code completion",
-    description: "SEC filing confirms a developer-assistant round with enterprise traction.",
-    sourceUrl: "https://www.sec.gov/Archives/edgar/data/codeium-form-d",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "coding", "developer-tools"],
-    ageHours: 86,
-    confidence: "high",
-  },
-  {
-    companyName: "Pinecone",
-    companyWebsite: "https://pinecone.io",
-    amount: 140_000_000,
-    amountDisplay: "$140M",
-    roundType: "series-c",
-    investors: ["Andreessen Horowitz", "Menlo Ventures", "Wing VC"],
-    headline: "Pinecone raises fresh capital as vector database workloads expand",
-    description: "Retrieval and embedding infrastructure sees durable enterprise spend.",
-    sourceUrl: "https://techcrunch.com/2026/05/15/pinecone-vector-database-series-c",
-    sourcePlatform: "techcrunch",
-    tags: ["ai", "vector", "database"],
-    ageHours: 122,
-    confidence: "medium",
-  },
-  {
-    companyName: "Modal Labs",
-    companyWebsite: "https://modal.com",
-    amount: 87_000_000,
-    amountDisplay: "$87M",
-    roundType: "series-a",
-    investors: ["Redpoint Ventures", "Amplify Partners", "Lux Capital"],
-    headline: "Modal Labs raises Series A for serverless GPU compute",
-    description: "AI infrastructure startups keep pulling capital into compute orchestration.",
-    sourceUrl: "https://newcomer.co/p/modal-labs-series-a",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "infra", "gpu", "cloud"],
-    ageHours: 52,
-    confidence: "high",
-  },
-  {
-    companyName: "Lovable",
-    companyWebsite: "https://lovable.dev",
-    amount: 60_000_000,
-    amountDisplay: "$60M",
-    roundType: "series-a",
-    investors: ["Creandum", "Northzone", "20VC"],
-    headline: "Lovable raises Series A for AI application generation",
-    description: "Application builders remain one of the highest-velocity AI app categories.",
-    sourceUrl: "https://www.eu-startups.com/2026/05/lovable-series-a",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "agent", "developer-tools"],
-    ageHours: 74,
-    confidence: "high",
-  },
-  {
-    companyName: "Replicate",
-    companyWebsite: "https://replicate.com",
-    amount: 40_000_000,
-    amountDisplay: "$40M",
-    roundType: "series-b",
-    investors: ["Andreessen Horowitz", "Sequoia Capital", "Y Combinator"],
-    headline: "Replicate files Form D for AI model deployment infrastructure",
-    description: "Model API and open-source deployment workflows continue to attract capital.",
-    sourceUrl: "https://www.sec.gov/Archives/edgar/data/replicate-form-d",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "infra", "developer-tools"],
-    ageHours: 138,
-    confidence: "medium",
-  },
-  {
-    companyName: "LangChain",
-    companyWebsite: "https://langchain.com",
-    amount: 25_000_000,
-    amountDisplay: "$25M",
-    roundType: "series-a",
-    investors: ["Benchmark", "Sequoia Capital", "Amplify Partners"],
-    headline: "LangChain raises Series A around agent frameworks and observability",
-    description: "Agent framework usage keeps turning open-source gravity into startup demand.",
-    sourceUrl: "https://www.sec.gov/Archives/edgar/data/langchain-form-d",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "agent", "framework"],
-    ageHours: 126,
-    confidence: "high",
-  },
-  {
-    companyName: "CrewAI",
-    companyWebsite: "https://crewai.com",
-    amount: 18_000_000,
-    amountDisplay: "$18M",
-    roundType: "series-a",
-    investors: ["Boldstart Ventures", "Insight Partners", "Y Combinator"],
-    headline: "CrewAI files Form D for multi-agent orchestration software",
-    description: "Agent frameworks get another early-stage capital signal.",
-    sourceUrl: "https://www.sec.gov/Archives/edgar/data/crewai-form-d",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "agent", "framework"],
-    ageHours: 82,
-    confidence: "medium",
-  },
-  {
-    companyName: "Baseten",
-    companyWebsite: "https://baseten.co",
-    amount: 75_000_000,
-    amountDisplay: "$75M",
-    roundType: "series-c",
-    investors: ["IVP", "Greylock", "Conviction"],
-    headline: "Baseten expands Series C to meet production AI inference demand",
-    description: "Inference platforms remain an active AI infrastructure funding category.",
-    sourceUrl: "https://siliconcanals.com/baseten-series-c-ai-inference",
-    sourcePlatform: "newsapi",
-    tags: ["ai", "infra", "inference"],
-    ageHours: 96,
-    confidence: "medium",
-  },
-];
-
-const SEED_SEC_COMPANIES = new Set([
-  "Codeium",
-  "Modal Labs",
-  "Lovable",
-  "CrewAI",
-  "LangChain",
-  "Replicate",
-]);
 
 export const DEFAULT_INVESTORS = [
   { name: "a16z", count: 7 },
@@ -253,58 +27,25 @@ export const DEFAULT_INVESTORS = [
   { name: "Tiger Global", count: 2 },
 ] as const;
 
-export function buildSeedFundingSignals(now = Date.now()): FundingSignal[] {
-  return SEED_ROUNDS.map((round, index) => {
-    const publishedAt = new Date(now - round.ageHours * 60 * 60 * 1000).toISOString();
-    return {
-      id: `seed-funding-${index}-${round.companyName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-      headline: round.headline,
-      description: round.description,
-      sourceUrl: round.sourceUrl,
-      sourcePlatform: round.sourcePlatform,
-      publishedAt,
-      discoveredAt: publishedAt,
-      tags: round.tags,
-      extracted: {
-        companyName: round.companyName,
-        companyWebsite: round.companyWebsite,
-        companyLogoUrl: null,
-        amount: round.amount,
-        amountDisplay: round.amountDisplay,
-        currency: "USD",
-        roundType: round.roundType,
-        investors: round.investors,
-        investorsEnriched: round.investors.map((name) => ({
-          name,
-          isKnown: true,
-          confidence: "medium",
-        })),
-        confidence: round.confidence,
-      },
-    };
-  });
-}
-
+// Real-data-only signal preparer. The `minimum` parameter is preserved
+// for API compatibility but no longer triggers SEED_ROUNDS padding —
+// previous behavior fabricated Anthropic $3.5B / Cursor $900M / Mistral
+// $640M etc. when the live spine was thin. Honesty contract: empty real
+// data renders as fewer rows, not as invented rows.
 export function ensureFundingSignals(
   signals: FundingSignal[],
-  minimum = 12,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- kept for caller compat
+  _minimum = 12,
 ): FundingSignal[] {
   const output: FundingSignal[] = [];
   const seen = new Set<string>();
-  const add = (signal: FundingSignal) => {
+  for (const signal of signals) {
     const company = signal.extracted?.companyName ?? signal.headline;
     const key = `${company}:${signal.sourceUrl || signal.id}`.toLowerCase();
-    if (seen.has(key)) return;
+    if (seen.has(key)) continue;
     seen.add(key);
     output.push(signal);
-  };
-
-  for (const signal of signals) add(signal);
-  for (const signal of buildSeedFundingSignals()) {
-    if (output.length >= minimum) break;
-    add(signal);
   }
-
   return output.sort((a, b) => {
     const amountDelta = (b.extracted?.amount ?? 0) - (a.extracted?.amount ?? 0);
     if (amountDelta !== 0) return amountDelta;
@@ -312,25 +53,14 @@ export function ensureFundingSignals(
   });
 }
 
+// Real SEC-filtered signals only. No SEED_SEC_COMPANIES padding.
 export function ensureSecFundingSignals(
   signals: FundingSignal[],
   minimum = 6,
 ): FundingSignal[] {
-  const output = signals.filter((signal) => signal.extracted?.amount);
-  const seenCompanies = new Set(
-    output.map((signal) => (signal.extracted?.companyName ?? "").toLowerCase()),
-  );
-
-  for (const signal of buildSeedFundingSignals()) {
-    const company = signal.extracted?.companyName ?? "";
-    if (!SEED_SEC_COMPANIES.has(company)) continue;
-    if (seenCompanies.has(company.toLowerCase())) continue;
-    output.push(signal);
-    seenCompanies.add(company.toLowerCase());
-    if (output.length >= minimum) break;
-  }
-
-  return output.slice(0, minimum);
+  return signals
+    .filter((signal) => signal.extracted?.amount)
+    .slice(0, minimum);
 }
 
 export function compactCurrency(amount: number | null | undefined): string {

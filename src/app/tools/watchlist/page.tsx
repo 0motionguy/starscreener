@@ -79,10 +79,7 @@ export default async function WatchlistPage() {
   })();
 
   return (
-    <div
-      className="watchlist-tool"
-      style={{ padding: "16px 22px 32px", maxWidth: 1500, margin: "0 auto" }}
-    >
+    <div className="watchlist-tool">
       <WatchlistPageStyles />
 
       <WatchlistHero
@@ -90,7 +87,7 @@ export default async function WatchlistPage() {
         suggestionCount={suggestions.length}
       />
 
-      <WatchlistClient reposById={reposById} />
+      <WatchlistClient reposById={reposById} fetchedAt={fetchedAt} />
 
       <WatchlistSuggestions repos={suggestions} />
 
@@ -108,6 +105,16 @@ export default async function WatchlistPage() {
 function WatchlistPageStyles() {
   return (
     <style>{`
+      /* Wave-2 watchlist page chrome.
+         Inherits page-head / page-eyebrow / page-title / page-sub from
+         shell.css. Component-scoped rules below cover the hero pill grid
+         + the suggestions strip (the in-board table chrome lives in
+         WatchlistClient.tsx so it stays co-located with the markup). */
+      .watchlist-tool {
+        padding: 18px 22px 40px;
+        max-width: 1500px;
+        margin: 0 auto;
+      }
       .watchlist-tool .wl-hero {
         display: flex;
         gap: 22px;
@@ -124,8 +131,8 @@ function WatchlistPageStyles() {
       .watchlist-tool .wl-pill {
         background: var(--surface);
         border: 1px solid var(--border-subtle);
-        border-radius: var(--r-1);
-        padding: 12px 14px;
+        border-radius: var(--r-lg);
+        padding: 14px 16px 12px;
         display: flex;
         flex-direction: column;
         gap: 4px;
@@ -133,7 +140,7 @@ function WatchlistPageStyles() {
       }
       .watchlist-tool .wl-pill-l {
         font-family: var(--font-mono);
-        font-size: 9.5px;
+        font-size: 10px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--fg-faint);
@@ -144,6 +151,7 @@ function WatchlistPageStyles() {
         font-weight: 600;
         color: var(--fg-bright);
         font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
       }
       .watchlist-tool .wl-pill-s {
         font-family: var(--font-mono);
@@ -151,14 +159,39 @@ function WatchlistPageStyles() {
         color: var(--fg-muted);
       }
 
-      /* Suggestions grid ------------------------------------------------ */
+      /* Suggestions strip ---------------------------------------------- */
       .watchlist-tool .wl-suggestions {
         margin-top: 18px;
         background: var(--surface);
         border: 1px solid var(--border-subtle);
-        border-radius: var(--r-1);
+        border-radius: var(--r-lg);
         padding: 14px 16px 16px;
       }
+      .watchlist-tool .wl-suggestions .wl-eyebrow {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .watchlist-tool .wl-suggestions .wl-eyebrow .num {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.10em;
+        font-weight: 600;
+      }
+      .watchlist-tool .wl-suggestions .wl-eyebrow .title {
+        font-size: 13.5px;
+        color: var(--fg-bright);
+        font-weight: 500;
+      }
+      .watchlist-tool .wl-suggestions .wl-eyebrow .meta {
+        margin-left: auto;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--fg-faint);
+      }
+      .watchlist-tool .wl-suggestions .wl-eyebrow .meta b { color: var(--fg); font-weight: 500; }
       .watchlist-tool .wl-suggestions-grid {
         margin-top: 12px;
         display: grid;
@@ -173,17 +206,17 @@ function WatchlistPageStyles() {
         color: var(--fg-muted);
         background: var(--surface-2);
         border: 1px dashed var(--border-subtle);
-        border-radius: var(--r-1);
+        border-radius: var(--r-md);
       }
       .watchlist-tool .wl-tile {
         background: var(--surface-2);
         border: 1px solid var(--border-subtle);
-        border-radius: var(--r-1);
+        border-radius: var(--r-md);
         padding: 12px 13px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        transition: border-color var(--d-fast) var(--ease);
+        transition: border-color var(--motion-fast) var(--ease);
       }
       .watchlist-tool .wl-tile:hover { border-color: var(--accent); }
       .watchlist-tool .wl-tile-head {
@@ -201,7 +234,7 @@ function WatchlistPageStyles() {
         font-family: var(--font-mono);
         font-size: 10px;
         font-weight: 600;
-        border-radius: 2px;
+        border-radius: var(--r-xs);
       }
       .watchlist-tool .wl-tile-id { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
       .watchlist-tool .wl-tile-name {
@@ -236,7 +269,7 @@ function WatchlistPageStyles() {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1px;
         background: var(--border-subtle);
-        border-radius: 2px;
+        border-radius: var(--r-xs);
         overflow: hidden;
       }
       .watchlist-tool .wl-tile-stats > div {
@@ -264,7 +297,7 @@ function WatchlistPageStyles() {
       .watchlist-tool .wl-tile-stats dd.up { color: var(--up); }
       .watchlist-tool .wl-tile-stats dd.muted { color: var(--fg-muted); }
 
-      /* Pin button (client island) -------------------------------------- */
+      /* Pin button (suggestions tile) ---------------------------------- */
       .watchlist-tool .wl-pin {
         display: inline-flex;
         align-items: center;
@@ -272,14 +305,14 @@ function WatchlistPageStyles() {
         padding: 5px 10px;
         background: transparent;
         border: 1px solid var(--border-subtle);
-        border-radius: 2px;
+        border-radius: var(--r-xs);
         color: var(--fg-faint);
         font-family: var(--font-mono);
         font-size: 10.5px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
         cursor: pointer;
-        transition: all var(--d-fast) var(--ease);
+        transition: all var(--motion-fast) var(--ease);
       }
       .watchlist-tool .wl-pin:hover { color: var(--fg-bright); border-color: var(--border); }
       .watchlist-tool .wl-pin.on {
@@ -292,6 +325,8 @@ function WatchlistPageStyles() {
         font-size: 11px;
         font-weight: 700;
         line-height: 1;
+        display: inline-flex;
+        align-items: center;
       }
 
       /* Sync note ------------------------------------------------------- */

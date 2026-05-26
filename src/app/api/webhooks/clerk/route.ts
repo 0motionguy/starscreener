@@ -443,4 +443,17 @@ async function handleUserDeleted(data: ClerkUserPayload): Promise<void> {
   } catch (err) {
     console.error("[clerk-webhook] idea-contributions cascade failed", err);
   }
+
+  try {
+    const { deleteReactionsByUser } = await import("@/lib/repo-reactions");
+    const removed = await deleteReactionsByUser(data.id);
+    if (removed > 0) {
+      console.info("[clerk-webhook] user.deleted cascade repo-reactions", {
+        userId: data.id,
+        removed,
+      });
+    }
+  } catch (err) {
+    console.error("[clerk-webhook] repo-reactions cascade failed", err);
+  }
 }

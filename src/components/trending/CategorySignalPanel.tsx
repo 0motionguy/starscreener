@@ -57,7 +57,7 @@ export function CategorySignalPanel({ category, count, repos }: CategorySignalPa
             <span className="category-mark">{String(index + 1).padStart(2, "0")}</span>
             <span className="category-name">{repo.fullName}</span>
             <span className="category-desc">{repo.description || repo.language || "Live signal candidate"}</span>
-            <RepoSparkline data={repo.sparklineData?.slice(-8)} repo={repo} />
+            <RepoSparkline data={repo.sparklineData?.slice(-30)} repo={repo} />
             <span className="category-metric">
               +{(repo.starsDelta24h ?? 0).toLocaleString()} stars · {(repo.channelsFiring ?? 0).toLocaleString()} sources
             </span>

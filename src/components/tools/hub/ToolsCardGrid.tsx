@@ -15,14 +15,8 @@
 // /tools/digest, /tools/revenue-estimate, /tools/treemap are NOT part of
 // the launch grid — they live as routes but stay out of the hub surface.
 
-import {
-  Activity,
-  BarChart3,
-  Bookmark,
-  Layers,
-  Sparkles,
-  Trophy,
-} from "lucide-react";
+import { Icon } from "@/lib/icons";
+import { Trophy } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import type { Top10Item } from "@/lib/top10/types";
 
@@ -70,7 +64,8 @@ export function ToolsCardGrid({ movers, top10, trackedCount }: ToolsCardGridProp
       <ToolHubCard
         number="01"
         slug="watchlist"
-        icon={<Bookmark size={22} color="var(--accent)" strokeWidth={2} />}
+        category="TRACK"
+        icon={<Icon name="bookmark" size={22} style={{ color: "var(--accent)" }} />}
         title="Watchlist"
         tagline="Pin your repos. Track 24h deltas. Screenshot the lineup."
         shareText="Just built my OSS watchlist on trendingrepo.com — these are the repos I'm tracking this week."
@@ -84,7 +79,8 @@ export function ToolsCardGrid({ movers, top10, trackedCount }: ToolsCardGridProp
       <ToolHubCard
         number="02"
         slug="compare"
-        icon={<Layers size={22} color="var(--accent)" strokeWidth={2} />}
+        category="HEAD TO HEAD"
+        icon={<Icon name="layers" size={22} style={{ color: "var(--accent)" }} />}
         title="Compare"
         tagline="Pit two repos head-to-head across 10 metrics. Share the verdict."
         shareText="Head-to-head: who's pulling ahead on stars, forks, and community velocity? See the matrix."
@@ -98,7 +94,8 @@ export function ToolsCardGrid({ movers, top10, trackedCount }: ToolsCardGridProp
       <ToolHubCard
         number="03"
         slug="tier-list"
-        icon={<BarChart3 size={22} color="var(--accent)" strokeWidth={2} />}
+        category="RANK"
+        icon={<Icon name="bar-chart" size={22} style={{ color: "var(--accent)" }} />}
         title="Tier List"
         tagline="S / A / B / C / D — your take on the trend desk. Drag, share, debate."
         shareText="My S-tier picks for the OSS trend desk this week. Disagree in replies."
@@ -112,7 +109,8 @@ export function ToolsCardGrid({ movers, top10, trackedCount }: ToolsCardGridProp
       <ToolHubCard
         number="04"
         slug="star-history"
-        icon={<Activity size={22} color="var(--accent)" strokeWidth={2} />}
+        category="PLOT"
+        icon={<Icon name="activity" size={22} style={{ color: "var(--accent)" }} />}
         title="Star History"
         tagline="30-day cumulative curves. Plot up to 6 repos. Annotate the breakout."
         shareText="Star history says it all — look at this curve."
@@ -126,6 +124,7 @@ export function ToolsCardGrid({ movers, top10, trackedCount }: ToolsCardGridProp
       <ToolHubCard
         number="05"
         slug="top-10"
+        category="SNAPSHOT"
         icon={<Trophy size={22} color="var(--accent)" strokeWidth={2} />}
         title="Top 10 — Daily"
         tagline="Frozen daily snapshot of the desk's loudest movers. Made to be screenshot."
@@ -140,13 +139,14 @@ export function ToolsCardGrid({ movers, top10, trackedCount }: ToolsCardGridProp
       <ToolHubCard
         number="06"
         slug="pro"
-        icon={<Sparkles size={22} color="var(--accent)" strokeWidth={2} />}
+        category="UPGRADE"
+        icon={<Icon name="sparkles" size={22} style={{ color: "var(--accent)" }} />}
         title="More tools - PRO"
         tagline="6-way compare. 5-yr history. RSS / webhooks. CSV + API access."
         shareText="Upgrading to trendingrepo PRO for the deep tools."
         hashtags={[]}
         routeLabel="/pricing"
-        metaLabel={<>From $19/mo</>}
+        metaLabel={<>From $6.50/mo</>}
       >
         <ProUpsellPreview />
       </ToolHubCard>

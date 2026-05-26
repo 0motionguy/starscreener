@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { Icon } from "@/lib/icons";
 import type { TierDefinition } from "@/lib/pricing/tiers";
 import type { UserTierRecord } from "@/lib/pricing/user-tiers";
 
@@ -83,7 +83,7 @@ export function AccountBillingPanel({
               Unlock unlimited watchlist, API access and email digest.
             </span>
             <Link className="btn primary sm" href="/pricing">
-              <ArrowUpRight size={14} strokeWidth={1.8} aria-hidden="true" />
+              <Icon name="arrow-up-right" size="md" />
               Upgrade plan
             </Link>
           </div>

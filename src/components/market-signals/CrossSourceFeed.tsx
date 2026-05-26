@@ -1,6 +1,9 @@
-// CrossSourceFeed - seven repos firing across multiple mention sources.
-// Live derived repos are used first; seeded rows fill the visible cockpit
-// when the current data spine has fewer than seven 5-source hits.
+// CrossSourceFeed — repos firing across multiple real mention sources.
+//
+// Real data only. No SEED_ROWS padding, no fillChannels() synthesizer that
+// fabricated source diversity to hit a target count. If the spine has
+// fewer than `limit` real hits, the feed renders shorter rather than
+// inventing rows.
 
 import Link from "next/link";
 
@@ -42,48 +45,10 @@ interface FeedRow {
   tag: string;
 }
 
-const SEED_ROWS: FeedRow[] = [
-  seedRow("vercel/ai-sdk", ["github", "hackernews", "twitter", "reddit", "bluesky", "devto"], 2841, 94, "v6 release", "ai-framework"),
-  seedRow("cline/cline", ["github", "hackernews", "reddit", "bluesky", "devto"], 624, 91, "best Copilot alt", "coding-agent"),
-  seedRow("huggingface/smolagents", ["github", "hackernews", "twitter", "huggingface", "arxiv"], 186, 88, "cited in arXiv", "agents"),
-  seedRow("exo-explore/exo", ["github", "hackernews", "reddit", "twitter", "bluesky"], 1842, 86, "AI cluster at home", "local-ai"),
-  seedRow("ollama/ollama", ["github", "hackernews", "reddit", "twitter", "devto"], 2841, 84, "release velocity", "local-models"),
-  seedRow("anthropics/claude-code", ["github", "hackernews", "twitter", "reddit", "bluesky"], 1128, 82, "extended thinking", "coding-agent"),
-  seedRow("langchain-ai/langgraph", ["github", "hackernews", "twitter", "reddit", "devto"], 982, 78, "human-in-the-loop persistence", "orchestration"),
-];
-
-function seedRow(
-  fullName: string,
-  channels: SocialPlatform[],
-  totalMentions: number,
-  score: number,
-  note: string,
-  tag: string,
-): FeedRow {
-  return {
-    id: `seed:${fullName}`,
-    fullName,
-    href: repoHref(fullName),
-    active: new Set(channels),
-    totalMentions,
-    score,
-    note,
-    tag,
-  };
-}
-
 function repoHref(fullName: string): string {
   const [owner, name] = fullName.split("/");
   if (!owner || !name) return "/market-signals";
   return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
-}
-
-function stableHash(value: string): number {
-  let hash = 0;
-  for (let i = 0; i < value.length; i += 1) {
-    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
-  }
-  return hash;
 }
 
 function channelStatus(repo: Repo, key: SocialPlatform): boolean {
@@ -98,20 +63,6 @@ function channelStatus(repo: Repo, key: SocialPlatform): boolean {
   return false;
 }
 
-function fillChannels(repo: Repo, active: Set<SocialPlatform>, target: number): Set<SocialPlatform> {
-  if (active.size >= target) return active;
-  const ordered = [...CHANNELS].sort((a, b) => {
-    const aHash = stableHash(`${repo.fullName}:${a.key}`);
-    const bHash = stableHash(`${repo.fullName}:${b.key}`);
-    return aHash - bHash;
-  });
-  for (const channel of ordered) {
-    active.add(channel.key);
-    if (active.size >= target) break;
-  }
-  return active;
-}
-
 function scoreFor(repo: Repo): number {
   const score = repo.crossSignalScore;
   if (typeof score === "number") {
@@ -122,18 +73,17 @@ function scoreFor(repo: Repo): number {
   return Math.round(Math.min(100, Math.max(0, repo.momentumScore ?? 0)));
 }
 
-function rowFromRepo(repo: Repo, minChannels: number): FeedRow {
+function rowFromRepo(repo: Repo): FeedRow {
   const active = new Set<SocialPlatform>();
   for (const channel of CHANNELS) {
     if (channelStatus(repo, channel.key)) active.add(channel.key);
   }
-  fillChannels(repo, active, minChannels);
 
   const totalMentions =
     repo.mentions?.total24h ??
     repo.mentionCount24h ??
-    Math.max(1, (repo.starsDelta24h ?? 0) + (repo.starsDelta7d ?? 0));
-  const tag = repo.tags?.[0] ?? repo.topics?.[0] ?? repo.collectionNames?.[0] ?? "ai-infra";
+    (repo.starsDelta24h ?? 0) + (repo.starsDelta7d ?? 0);
+  const tag = repo.tags?.[0] ?? repo.topics?.[0] ?? repo.collectionNames?.[0] ?? "—";
   const note =
     repo.lastReleaseTag
       ? `${repo.lastReleaseTag} release`
@@ -155,7 +105,7 @@ function rowFromRepo(repo: Repo, minChannels: number): FeedRow {
 
 function buildRows(repos: Repo[], minChannels: number, limit: number): FeedRow[] {
   const derivedRows = repos
-    .map((repo) => rowFromRepo(repo, minChannels))
+    .map(rowFromRepo)
     .sort((a, b) => {
       if (b.active.size !== a.active.size) return b.active.size - a.active.size;
       if (b.score !== a.score) return b.score - a.score;
@@ -170,13 +120,7 @@ function buildRows(repos: Repo[], minChannels: number, limit: number): FeedRow[]
     seen.add(row.fullName.toLowerCase());
     if (rows.length >= limit) return rows;
   }
-  for (const row of SEED_ROWS) {
-    if (seen.has(row.fullName.toLowerCase())) continue;
-    rows.push(row);
-    seen.add(row.fullName.toLowerCase());
-    if (rows.length >= limit) return rows;
-  }
-  return rows.slice(0, limit);
+  return rows;
 }
 
 function formatCount(n: number): string {
@@ -187,15 +131,15 @@ function formatCount(n: number): string {
 
 export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSourceFeedProps) {
   const rows = buildRows(repos, minChannels, limit);
-  const totalHits = Math.max(
-    142,
-    rows.length,
-    repos.filter((repo) => {
-      const perSource = repo.mentions?.perSource;
-      if (!perSource) return (repo.channelsFiring ?? 0) >= minChannels;
-      return Object.values(perSource).filter((entry) => (entry?.count24h ?? 0) > 0).length >= minChannels;
-    }).length,
-  );
+  // Honest total: real repos hitting the threshold today, no synthetic floor.
+  const totalHits = repos.filter((repo) => {
+    const perSource = repo.mentions?.perSource;
+    if (!perSource) return (repo.channelsFiring ?? 0) >= minChannels;
+    return (
+      Object.values(perSource).filter((entry) => (entry?.count24h ?? 0) > 0)
+        .length >= minChannels
+    );
+  }).length;
 
   return (
     <div className="card">
@@ -207,6 +151,11 @@ export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSour
         <span className="chip up">{totalHits.toLocaleString()} today</span>
       </div>
 
+      {rows.length === 0 ? (
+        <div style={{ padding: "20px 16px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-faint)" }}>
+          No repos crossing {minChannels} sources right now — pipe is quiet.
+        </div>
+      ) : (
       <div>
         {rows.map((row) => {
           const [owner, repoName] = row.fullName.split("/");
@@ -241,6 +190,7 @@ export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSour
           </Link>
         </div>
       </div>
+      )}
     </div>
   );
 }

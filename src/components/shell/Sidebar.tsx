@@ -157,10 +157,10 @@ export async function Sidebar() {
         <div className="uc-pitch">
           Smart alerts, <b>6-way compare</b>, full 5-yr history, RSS/webhook feeds, CSV export, API access.
         </div>
-        <Link className="uc-cta" href="/account?tab=billing" prefetch={false}>
-          Go PRO · $19/mo
+        <Link className="uc-cta" href="/account" prefetch={false}>
+          Go PRO · $6.50/mo
         </Link>
-        <div className="uc-price">or Team $49/mo · 7 seats</div>
+        <div className="uc-price">Less than a SF latte ☕ · Team $49/mo</div>
       </div>
 
       <div className="sidebar-footer">

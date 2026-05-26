@@ -1,15 +1,66 @@
+// RepoHeroCard — 1:1 port of the standalone Profile reference's `PFHero`
+// section (see C:/tmp/asset_e0686a47.js lines 369–431). Renders the
+// breadcrumb + identity + tags + engage rows for /repo/[owner]/[name].
+//
+// All data comes from props already collected by the server page. No
+// client-side fetches at the section root — interactive slots (heart,
+// unicorn, save, compare, share) are isolated client islands.
+//
+// PF -> live component map for the engage row:
+//   PF.heart       -> <RepoLikeButton/>           (optimistic + cooldown)
+//   PF.unicorn     -> <RepoReactionButton kind="unicorn"/>
+//   PF.bookmark    -> <WatchButton variant="hero"/>   (Save + count)
+//   PF.comments    -> <a href="#comments">             (anchor scroll)
+//   PF.spacer      -> <span class="spacer"/>            (flex push)
+//   PF.compare     -> <RepoCompareButton/>             (tray-aware)
+//   PF.bell        -> <Link href="/account?tab=alerts">
+//   PF.download    -> <a href="…/brief.csv" download>
+//   PF.rss         -> <Link href="…&delivery=rss">
+//   PF.arrowUpRight-> <a href=github.url class="pf-react primary">
+//
+// Data fields consumed:
+//   repo.owner / repo.name / repo.fullName / repo.url
+//   repo.language / repo.topics / repo.tags / repo.categoryId
+//   repo.collectionNames / repo.lastReleaseTag / repo.movementStatus
+//   repo.channelsFiring / repo.rank / repo.description
+//   repo.ownerAvatarUrl / repo.id / repo.stars
+//   likeCount / liked / unicornStatus.{count,active}
+//   commentsCount / signedIn / signInUrl
+//
+// Empty-state behavior:
+//   - no description       -> tagline row omitted
+//   - no tags resolved     -> tags row omitted
+//   - no rank known        -> rank pill omitted (no fake #—)
+//   - no language          -> language pill omitted
+//   - no avatar URL        -> first letter of name in display font
+//   - no watcher baseline  -> Save renders without count, never a fake 0
+
 import Link from "next/link";
-import { ChevronDown, ChevronUp, TrendingUp } from "lucide-react";
 
+import { Icon } from "@/components/icon/Icon";
+import { RepoCompareButton } from "@/components/repo/RepoCompareButton";
+import { RepoLikeButton } from "@/components/repo/RepoLikeButton";
+import { RepoReactionButton } from "@/components/repo/RepoReactionButton";
+import { WatchButton } from "@/components/repo/WatchButton";
 import type { RepoProfile } from "@/lib/repo-profiles";
+import type { RepoReactionStatus } from "@/lib/repo-reactions";
 import type { Repo } from "@/lib/types";
-
-import { RepoCompareButton } from "./RepoCompareButton";
-import { WatchButton } from "./WatchButton";
 
 interface RepoHeroCardProps {
   repo: Repo;
   profile?: RepoProfile | null;
+  /** Server-resolved like-set cardinality at render time. */
+  likeCount: number;
+  /** Server-resolved `liked` for the current viewer (false when anon). */
+  liked: boolean;
+  /** Server-resolved unicorn reaction status. */
+  unicornStatus: RepoReactionStatus;
+  /** Active (non-tombstoned) comment count for the Discuss button. */
+  commentsCount: number;
+  /** Whether the current viewer has a Clerk session. */
+  signedIn: boolean;
+  /** Where to send anonymous viewers when they click a gated action. */
+  signInUrl: string;
 }
 
 function deriveAvatarSeed(name: string): string {
@@ -17,14 +68,19 @@ function deriveAvatarSeed(name: string): string {
   return clean.charAt(0).toUpperCase() || "?";
 }
 
-function formatBaselineWatchers(repo: Repo): number {
-  const mentionBase = repo.mentions?.total7d ?? repo.mentionCount24h ?? 0;
-  const starBase = repo.starsDelta7d > 0 ? repo.starsDelta7d / 40 : 0;
-  return Math.max(1, Math.round(mentionBase / 12 + starBase));
-}
-
-function buildHeroTags(repo: Repo): string[] {
-  const raw = [
+/**
+ * Build the hero's tag chip row from real Repo fields.
+ *
+ * The order mirrors the PF standalone reference: first chip is the most
+ * salient category (gets `brand` tint), the rest are supporting facets,
+ * then the rank tag is appended (`warn` tint = trending/amber, the
+ * closest existing variant to PF's `kind="trend"`).
+ *
+ * We cap at 6 facet chips + 1 optional rank chip so the row never wraps
+ * onto a third line on a 1080-wide hero.
+ */
+function buildHeroTagFacets(repo: Repo): string[] {
+  const raw: Array<string | null | undefined> = [
     ...(repo.tags ?? []),
     ...(repo.topics ?? []),
     repo.language,
@@ -38,256 +94,198 @@ function buildHeroTags(repo: Repo): string[] {
   return Array.from(
     new Set(
       raw
-        .filter(Boolean)
-        .map((tag) => String(tag).replace(/[_-]/g, " ").toUpperCase()),
+        .filter((tag): tag is string => Boolean(tag))
+        .map((tag) => tag.replace(/[_-]/g, " ").toUpperCase()),
     ),
   ).slice(0, 6);
 }
 
-export function RepoHeroCard({ repo, profile }: RepoHeroCardProps) {
-  const trendBadgeRank =
-    typeof repo.rank === "number" && repo.rank > 0 ? `#${repo.rank}` : null;
-  const tags = buildHeroTags(repo);
+export function RepoHeroCard({
+  repo,
+  profile: _profile,
+  likeCount,
+  liked,
+  unicornStatus,
+  commentsCount,
+  signedIn,
+  signInUrl,
+}: RepoHeroCardProps) {
+  const tagFacets = buildHeroTagFacets(repo);
+  const rankLabel =
+    typeof repo.rank === "number" && repo.rank > 0
+      ? `TRENDING #${repo.rank}`
+      : null;
   const avatarSeed = deriveAvatarSeed(repo.name || repo.owner);
-  const npmPackage = profile?.surfaces.npmPackages[0] ?? null;
-  const visible = repo.url;
-  const activeAlerts =
-    (repo.starsDelta24h > 0 ? 1 : 0) +
-    ((repo.channelsFiring ?? 0) >= 3 ? 1 : 0) +
-    (repo.lastReleaseTag ? 1 : 0);
-  const shareText = `${repo.fullName} is trending on TrendingRepo`;
-  const alertHref = `/account?tab=alerts&repo=${encodeURIComponent(repo.fullName)}`;
+  const avatarUrl = repo.ownerAvatarUrl || null;
+  const alertHref = `/account/alerts?repo=${encodeURIComponent(repo.fullName)}`;
+  const briefHref = `/api/repos/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}/brief.csv`;
+  const rssHref = `${alertHref}&delivery=rss`;
+  const githubHref = repo.url || `https://github.com/${repo.fullName}`;
+  const formattedComments = commentsCount.toLocaleString("en-US");
+  const description = (repo.description ?? "").trim();
+  const language = (repo.language ?? "").trim();
 
   return (
-    <div className="hero-card">
-      <div className="hero-row">
-        <div
-          className="repo-avatar xl"
-          style={{
-            background: "var(--surface-3)",
-            color: "var(--fg-bright)",
-            fontFamily: "var(--font-display)",
-            fontWeight: 800,
-          }}
-          aria-hidden="true"
+    <section className="pf-card pf-hero">
+      <div className="pf-corner-tl" aria-hidden />
+      <div className="pf-corner-tr" aria-hidden />
+      <div className="pf-corner-bl" aria-hidden />
+      <div className="pf-corner-br" aria-hidden />
+
+      {/* PF.crumb row: owner / name / · / public pill / lang pill / github pill */}
+      <div className="pf-crumb">
+        <span className="owner">{repo.owner}</span>
+        <span className="sep">/</span>
+        <span className="name">{repo.name}</span>
+        <span className="sep" aria-hidden="true">
+          ·
+        </span>
+        <span className="pill" aria-label="Visibility: public">
+          public
+        </span>
+        {language ? (
+          <span className="pill" aria-label={`Primary language: ${language}`}>
+            <span className="lang-dot tone-0" aria-hidden="true" />
+            {language}
+          </span>
+        ) : null}
+        <a
+          className="pill"
+          href={githubHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${repo.fullName} on GitHub`}
         >
-          {avatarSeed}
-        </div>
-        <div className="hero-meta">
-          <div
-            className="hero-handle"
-            data-repo-hover
-            data-repo={repo.fullName}
-          >
-            <span className="owner">{repo.owner}</span>/
-            <span className="name">{repo.name}</span>
-            <span className="muted" style={{ marginLeft: 8 }}>
-              {" · public"}
-              {repo.language ? ` · ${repo.language}` : ""}
-              {npmPackage ? ` · ${npmPackage}` : ""}
-            </span>
+          <Icon name="external" size={11} aria-hidden="true" />
+          github.com/{repo.fullName}
+        </a>
+      </div>
+
+      {/* PF.id row: avatar + title (repo.name, not fullName) + tagline */}
+      <div className="pf-hero-row">
+        {avatarUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element -- external avatar
+          <img
+            className="pf-avatar"
+            src={avatarUrl}
+            alt={`${repo.owner} avatar`}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div className="pf-avatar" aria-hidden="true">
+            {avatarSeed}
           </div>
-          <h1 className="hero-name">{repo.name}</h1>
-          {repo.description ? (
-            <p className="hero-desc">{repo.description}</p>
+        )}
+
+        <div className="pf-hero-meta">
+          <h1 className="pf-title" data-repo-hover data-repo={repo.fullName}>
+            {repo.name}
+          </h1>
+          {description ? (
+            <p className="pf-tagline">{description}</p>
           ) : null}
-          {tags.length > 0 || trendBadgeRank ? (
-            <div className="hero-tags">
-              {tags.map((tag, index) => (
-                <span key={tag} className={`tag${index === 0 ? " brand" : ""}`}>
-                  {tag.toUpperCase()}
+          {tagFacets.length > 0 || rankLabel ? (
+            <div className="pf-tags">
+              {tagFacets.map((tag, index) => (
+                <span
+                  key={tag}
+                  className={`pf-tag${index === 0 ? " brand" : ""}`}
+                >
+                  {tag}
                 </span>
               ))}
-              {trendBadgeRank ? (
-                <span className="tag up">
-                  <TrendingUp
-                    size={11}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                    style={{ display: "inline", verticalAlign: "-1px", marginRight: 3 }}
-                  />
-                  TRENDING {trendBadgeRank}
+              {rankLabel ? (
+                <span className="pf-tag warn" aria-label={rankLabel}>
+                  {rankLabel}
                 </span>
               ) : null}
             </div>
           ) : null}
-
-          <div className="hero-actions">
-            <WatchButton
-              repoId={repo.id}
-              fullName={repo.fullName}
-              stars={repo.stars}
-              baselineWatchers={formatBaselineWatchers(repo)}
-            />
-            <button type="button" className="btn" data-alert-toggle>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                aria-hidden="true"
-              >
-                <path d="M3 12V8a5 5 0 0110 0v4l1 2H2l1-2zM6 14a2 2 0 004 0" />
-              </svg>
-              Set alert
-              {activeAlerts > 0 ? (
-                <span
-                  style={{
-                    marginLeft: 4,
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    color: "var(--up)",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  <ChevronUp size={11} strokeWidth={2} aria-hidden="true" />
-                  {activeAlerts} armed
-                </span>
-              ) : null}
-            </button>
-            <RepoCompareButton repoId={repo.id} fullName={repo.fullName} />
-            <Link
-              className="btn ghost"
-              href={`/tools/tier-list?seed=${encodeURIComponent(repo.fullName)}`}
-              title={`Open tier-list workspace seeded with ${repo.fullName}`}
-              prefetch={false}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                aria-hidden="true"
-              >
-                <rect x="2.5" y="3" width="11" height="10" rx="1" />
-                <path d="M5 6h6m-6 3h6m-6 3h3" />
-              </svg>
-              Tier list
-            </Link>
-            {visible ? (
-              <a
-                className="btn ghost"
-                href={repo.url}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  aria-hidden="true"
-                >
-                  <path d="M3 8a5 5 0 015-5m0 10a5 5 0 005-5M5 8h6M8 5l3 3-3 3" />
-                </svg>
-                Visit
-              </a>
-            ) : null}
-            <div style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
-              <div className="share-wrap">
-                <button
-                  type="button"
-                  className="share-btn"
-                  title="Share / Embed"
-                  aria-label="Share or embed"
-                >
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    aria-hidden="true"
-                  >
-                    <circle cx="4" cy="8" r="2" />
-                    <circle cx="12" cy="4" r="2" />
-                    <circle cx="12" cy="12" r="2" />
-                    <path d="M6 7l4-2m-4 4l4 2" />
-                  </svg>
-                  Share
-                </button>
-                <div className="share-menu">
-                  <div className="item x" data-share="x" data-text={shareText}>
-                    <span className="sm-ico">X</span>Share to X
-                  </div>
-                  <div className="item li" data-share="li">
-                    <span className="sm-ico">in</span>Share to LinkedIn
-                  </div>
-                  <div className="item rd" data-share="rd" data-text={shareText}>
-                    <span className="sm-ico">R</span>Share to Reddit
-                  </div>
-                  <div className="item bs" data-share="bs" data-text={shareText}>
-                    <span className="sm-ico">B</span>Share to Bluesky
-                  </div>
-                  <div className="divider" />
-                  <div className="item cp" data-share="cp">
-                    <span className="sm-ico">⌧</span>Copy link
-                  </div>
-                  <div className="item em" data-share="em">
-                    <span className="sm-ico">&lt;/&gt;</span>Embed widget
-                    <span className="pro-tag">PRO</span>
-                  </div>
-                  <div className="item" data-share="rss">
-                    <span className="sm-ico">RSS</span>Copy RSS URL
-                    <span className="pro-tag">PRO</span>
-                  </div>
-                </div>
-              </div>
-              <Link className="btn ghost sm" href={`${alertHref}&delivery=rss`} title="RSS / Webhook">
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  aria-hidden="true"
-                >
-                  <path d="M3 11a4 4 0 014 4M3 7a8 8 0 018 8" />
-                  <circle cx="3" cy="13" r="1.4" fill="currentColor" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-
-          <div className="alert-config" data-alert-panel style={{ marginTop: 10 }}>
-            <span className="ac-label">Alert me when</span>
-            <button type="button" className="ac-token">
-              stars rise <b>+5%</b> in <b>24h</b>
-              <ChevronDown size={10} strokeWidth={2} className="arr" aria-hidden="true" />
-            </button>
-            <span className="ac-label">OR</span>
-            <button type="button" className="ac-token">
-              mentions hit <b>top-10</b>
-              <ChevronDown size={10} strokeWidth={2} className="arr" aria-hidden="true" />
-            </button>
-            <span className="ac-label">DELIVER via</span>
-            <button type="button" className="ac-token">
-              Email · Slack
-              <ChevronDown size={10} strokeWidth={2} className="arr" aria-hidden="true" />
-            </button>
-            <span className="grow" />
-            <span className="pro-lock">
-              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                <path d="M5 7V5a3 3 0 016 0v2h1v7H4V7h1zm5 0V5a2 2 0 10-4 0v2h4z" />
-              </svg>
-              RSS · Webhook · SMS
-            </span>
-            <Link className="btn primary sm" href={alertHref}>
-              Save alert
-            </Link>
-          </div>
         </div>
       </div>
-    </div>
+
+      {/* PF.engage row: heart + unicorn + save + comments + spacer +
+          compare + alert + export + rss + visit. Each interactive control
+          is a client island; the surrounding row is server-rendered. */}
+      <div className="pf-engage">
+        <RepoLikeButton
+          repoFullName={repo.fullName}
+          initialCount={likeCount}
+          initialLiked={liked}
+          signedIn={signedIn}
+          signInUrl={signInUrl}
+        />
+        <RepoReactionButton
+          repoFullName={repo.fullName}
+          kind="unicorn"
+          iconName="unicorn"
+          variantClass="unicorn"
+          activeColorVar="var(--unicorn)"
+          initialCount={unicornStatus.count}
+          initialActive={unicornStatus.active}
+          signedIn={signedIn}
+          signInUrl={signInUrl}
+          inactiveLabel="Mark as unicorn"
+          activeLabel="Remove unicorn"
+        />
+        <WatchButton
+          variant="hero"
+          repoId={repo.id}
+          fullName={repo.fullName}
+          stars={repo.stars}
+        />
+        <a
+          className="pf-react"
+          href="#comments"
+          aria-label={`Jump to ${formattedComments} comments`}
+        >
+          <Icon name="messages-square" size={14} className="gly" />
+          <span>Comments</span>
+          <span className="count">{formattedComments}</span>
+        </a>
+
+        <span className="spacer" aria-hidden="true" />
+
+        <RepoCompareButton repoId={repo.id} fullName={repo.fullName} />
+        <Link
+          className="pf-react"
+          href={alertHref}
+          prefetch={false}
+          title="Configure alerts in your account"
+        >
+          <Icon name="bell" size={13} className="gly" />
+          <span>Set alert</span>
+        </Link>
+        <a
+          className="pf-react"
+          href={briefHref}
+          download
+          title="Export this repo's intelligence as CSV"
+        >
+          <Icon name="download" size={13} className="gly" />
+          <span>Export</span>
+        </a>
+        <Link
+          className="pf-react"
+          href={rssHref}
+          prefetch={false}
+          title="Subscribe via RSS / webhook"
+        >
+          <Icon name="rss" size={13} className="gly" />
+          <span>RSS</span>
+        </Link>
+        <a
+          className="pf-react primary"
+          href={githubHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Visit ${repo.fullName} on GitHub`}
+        >
+          <Icon name="arrow-up-right" size={13} className="gly" />
+          <span>Visit repo</span>
+        </a>
+      </div>
+    </section>
   );
 }

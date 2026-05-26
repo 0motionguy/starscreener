@@ -35,6 +35,12 @@ export interface ToolHubCardProps {
   hashtags?: string[];
   /** Route badge text (defaults to "/tools/{slug}"). */
   routeLabel?: string;
+  /**
+   * Tool category — small mono caps label rendered as an eyebrow above the
+   * title. E.g. "TRACK", "RANK", "PLOT", "SNAPSHOT". When omitted, the
+   * eyebrow is skipped.
+   */
+  category?: string;
   /** Optional muted footer meta (e.g. "Live - 184 tracked"). */
   metaLabel?: ReactNode;
   /** Render preview snippet. */
@@ -52,6 +58,7 @@ export function ToolHubCard({
   shareText,
   hashtags,
   routeLabel,
+  category,
   metaLabel,
   children,
   shareUrl,
@@ -69,6 +76,12 @@ export function ToolHubCard({
       <div className="hub-card-title-row">
         <span className="hub-card-icon" aria-hidden="true">{icon}</span>
         <div className="hub-card-title-block">
+          {category ? (
+            <span className="hub-card-eyebrow">
+              <span className="hub-card-eyebrow-dot" aria-hidden="true" />
+              <span className="hub-card-eyebrow-tag">{category}</span>
+            </span>
+          ) : null}
           <h3 className="hub-card-title">{title}</h3>
           <p className="hub-card-tagline">{tagline}</p>
         </div>

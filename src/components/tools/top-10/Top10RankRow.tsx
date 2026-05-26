@@ -1,18 +1,29 @@
 // Top10RankRow — one row in the daily archive board.
 //
 // Reads:
-// - rank, title/slug from the frozen Top10Item.
+// - rank, title/slug, score, badges, sparkline from the frozen Top10Item.
 // - live Repo via getDerivedRepoByFullName(slug) for stars + Δ7d + mentions.
 //   When the live repo is missing (deleted/archived since snapshot), the row
 //   falls back to whatever the snapshot froze.
 //
-// Tier badge: rank 1-3 = S, 4-7 = A, 8-10 = B. Pure positional inference per
-// the brief — no separate tier source is wired through the snapshot.
+// Layout (left → right):
+//   rank · avatar · owner/name · 24h · 7d · ★ stars · sparkline · mentions
+//
+// 2026-05-23: removed SCORE + TIER per design pass.
+// 2026-05-24: removed velocity pill (HOT/WARM) + description per share-card
+// parity pass — the OG image and the on-screen row now share one vocabulary,
+// and the row uses its full horizontal budget instead of feeling chopped.
+// 2026-05-24 (round 2): split stars cell into 24h delta + 7d delta + total
+// stars so each row carries the three numbers that justify the rank. The
+// column header lives in Top10Board's `.t10-row-head`.
 
 import Image from "next/image";
 import Link from "next/link";
 
+import { Icon } from "@/components/icon/Icon";
 import { MentionCell } from "@/components/trending/MentionSourcePips";
+import { RepoSparkline } from "@/components/trending/RepoSparkline";
+import { formatDelta, formatStars } from "@/lib/top10/format";
 import type { Top10Item } from "@/lib/top10/types";
 import type { Repo } from "@/lib/types";
 
@@ -21,34 +32,16 @@ interface Top10RankRowProps {
   repo: Repo | null;
 }
 
-function tierFor(rank: number): "S" | "A" | "B" {
-  if (rank <= 3) return "S";
-  if (rank <= 7) return "A";
-  return "B";
-}
-
-function formatStars(value: number): string {
-  if (value >= 100_000) return `${Math.round(value / 1000)}k`;
-  if (value >= 10_000) return `${(value / 1000).toFixed(1)}k`;
-  if (value >= 1_000) return `${(value / 1000).toFixed(1)}k`;
-  return value.toLocaleString();
-}
-
-function formatDelta(value: number, missing: boolean): {
-  text: string;
-  sign: "up" | "down" | "flat" | "unknown";
-} {
-  if (missing) return { text: "—", sign: "unknown" };
-  if (value === 0) return { text: "·", sign: "flat" };
-  const sign = value > 0 ? "up" : "down";
-  const prefix = value > 0 ? "+" : "−";
-  const abs = Math.abs(value);
-  if (abs >= 1000) return { text: `${prefix}${(abs / 1000).toFixed(1)}k`, sign };
-  return { text: `${prefix}${abs}`, sign };
+function trendDirectionForSpark(points: number[]): "up" | "down" | "muted" {
+  if (points.length < 2) return "muted";
+  const first = points[0];
+  const last = points[points.length - 1];
+  if (last > first) return "up";
+  if (last < first) return "down";
+  return "muted";
 }
 
 export function Top10RankRow({ item, repo }: Top10RankRowProps) {
-  const tier = tierFor(item.rank);
   const isTop3 = item.rank <= 3;
 
   // Snapshot-frozen identity: prefer Top10Item.owner + (title - "/" - everything),
@@ -60,7 +53,8 @@ export function Top10RankRow({ item, repo }: Top10RankRowProps) {
   const detailHref = isRepoLink ? `/repo/${owner}/${name}` : item.href;
 
   const stars = repo?.stars ?? 0;
-  const delta = formatDelta(
+  const delta24h = formatDelta(repo?.starsDelta24h ?? 0, !repo);
+  const delta7d = formatDelta(
     repo?.starsDelta7d ?? 0,
     repo?.starsDelta7dMissing ?? !repo,
   );
@@ -69,8 +63,16 @@ export function Top10RankRow({ item, repo }: Top10RankRowProps) {
   const initial = item.avatarLetter || (owner ? owner[0] : item.title[0] || "?");
   const gradient = `linear-gradient(135deg, ${item.avatarGradient[0]}, ${item.avatarGradient[1]})`;
 
+  // Sparkline: prefer Top10Item.sparkline (snapshot-frozen), fallback to live repo.
+  const sparkPoints =
+    item.sparkline && item.sparkline.length > 1
+      ? item.sparkline
+      : repo?.sparklineData?.slice(-30) ?? [];
+  const sparkDir = trendDirectionForSpark(sparkPoints);
+  const hasSpark = sparkPoints.length > 1;
+
   return (
-    <li className={`t10-row tier-${tier}${isTop3 ? " top3" : ""}`}>
+    <li className={`t10-row${isTop3 ? " top3" : ""}`}>
       <span className="t10-rank">
         <span className="t10-rank-num">{String(item.rank).padStart(2, "0")}</span>
       </span>
@@ -93,25 +95,35 @@ export function Top10RankRow({ item, repo }: Top10RankRowProps) {
       </span>
 
       <span className="t10-id">
-        <Link href={detailHref} className="t10-id-link" prefetch={false}>
-          {isRepoLink ? (
-            <>
-              <span className="t10-owner">{owner}</span>
-              <span className="t10-slash">/</span>
-              <span className="t10-name">{name}</span>
-            </>
-          ) : (
-            <span className="t10-name">{item.title}</span>
-          )}
-        </Link>
-        {item.description && (
-          <span className="t10-desc">{item.description}</span>
-        )}
+        <span className="t10-id-top">
+          <Link href={detailHref} className="t10-id-link" prefetch={false}>
+            {isRepoLink ? (
+              <>
+                <span className="t10-owner">{owner}</span>
+                <span className="t10-slash">/</span>
+                <span className="t10-name">{name}</span>
+              </>
+            ) : (
+              <span className="t10-name">{item.title}</span>
+            )}
+          </Link>
+        </span>
       </span>
 
+      <span className={`t10-d24 t10-delta-${delta24h.sign}`}>{delta24h.text}</span>
+      <span className={`t10-d7d t10-delta-${delta7d.sign}`}>{delta7d.text}</span>
+
       <span className="t10-stars">
+        <Icon name="star-fill" size="sm" className="t10-star-icon" aria-hidden="true" />
         <span className="t10-stars-num">{formatStars(stars)}</span>
-        <span className={`t10-delta t10-delta-${delta.sign}`}>{delta.text}</span>
+      </span>
+
+      <span className="t10-spark-cell" aria-hidden="true">
+        {hasSpark ? (
+          <RepoSparkline data={sparkPoints} variant={sparkDir} />
+        ) : (
+          <span className="t10-spark-empty">·</span>
+        )}
       </span>
 
       <span className="t10-mentions">
@@ -120,10 +132,6 @@ export function Top10RankRow({ item, repo }: Top10RankRowProps) {
         ) : (
           <span className="t10-mentions-empty">—</span>
         )}
-      </span>
-
-      <span className={`t10-tier tier-badge-${tier}`} aria-label={`Tier ${tier}`}>
-        {tier}
       </span>
     </li>
   );

@@ -1,16 +1,17 @@
-/* Minimal globals — UI v4 dismantled 2026-05-19.
+/* Minimal globals — UI v6 + Revive 2026-05-23.
  *
- * The 6,732-line monolith now lives at _archive/ui-v4/src/app/globals.css for
- * reference. Token definitions in design/v4/tokens.css are kept available for
- * the rebuild to consume optionally; remove the @import below if the new HTML
- * ships its own design tokens.
+ * Tokens, typography, body atmosphere, and all component primitives now live
+ * in public/shell.css (loaded via <link rel="stylesheet" href="/shell.css">
+ * in layout.tsx). The previous design/v4/tokens.css import was dropped per
+ * docs/DESIGN-SYSTEM.md — there is one design system now, not two.
+ *
+ * The 6,732-line v4 globals.css monolith remains at _archive/ui-v4/src/app/
+ * globals.css for reference only.
  */
 
 @import "tailwindcss";
-@import "../../design/v4/tokens.css";
 /* shell.css is loaded via <link rel="stylesheet" href="/shell.css" /> in layout.tsx.
-   Don't @import it here — it would land after design/v4/tokens.css's preceding
-   rules, violating the CSS spec ("@import must precede all other rules"). */
+   See docs/DESIGN-SYSTEM.md for tokens, primitives, and change rules. */
 
 @source not "../../_archive";
 @source not "../../.audit";
@@ -20,8 +21,9 @@
 @source not "../../dogfood-output";
 @source not "../../test-results";
 
-/* Bare body baseline so the placeholder home renders legibly. The rebuild
-   will replace this with whatever the new design system requires. */
+/* Pre-shell baseline. The real chrome (atmosphere, fonts, palette) is owned
+   by public/shell.css. These rules only guarantee a legible first paint if
+   shell.css fails to load (network, CSP block, dev hot-reload hiccup). */
 html {
   background: #08090a;
   color-scheme: dark;
@@ -30,8 +32,8 @@ html {
 body {
   margin: 0;
   background: #08090a;
-  color: #e6e6e6;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+  color: #f1f5f9;
+  font-family: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -118,7 +118,28 @@ export function RevenueLeaderboard({
           return (
             <div className="rev-row" key={startup.slug ?? `${startup.name}-${index}`}>
               <span className="rr-rank">{index + 1}</span>
-              <div className="rr-logo">{logoLetter(startup.name)}</div>
+              <div className="rr-logo">
+                {startup.iconUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element -- external TrustMRR CDN logo */
+                  <img
+                    src={startup.iconUrl}
+                    alt=""
+                    width={28}
+                    height={28}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                      borderRadius: "inherit",
+                    }}
+                  />
+                ) : (
+                  logoLetter(startup.name)
+                )}
+              </div>
               <div className="rr-co">
                 <span className="name">
                   {startup.name}{" "}

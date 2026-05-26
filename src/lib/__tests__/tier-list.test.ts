@@ -24,6 +24,8 @@ import {
   hasTierListUrlState,
   stateHash,
 } from "../tier-list/url";
+import { composeTierShareText } from "../tier-list/share-text";
+import { decodeStateParam, pickFirst } from "../tier-list/state-url";
 
 // ---------------------------------------------------------------------------
 // short-id
@@ -296,4 +298,137 @@ test("payload schema accepts a complete persisted shape", () => {
   };
   const result = tierListPayloadSchema.safeParse(payload);
   assert.equal(result.success, true);
+});
+
+// ---------------------------------------------------------------------------
+// composeTierShareText — Twitter body composer for the share intent.
+// Regression coverage for the 2026-05-25 "tier summary missing from tweet"
+// bug. The helper must (a) include non-empty tier lines, (b) skip empty
+// tiers, (c) strip the owner/ prefix, (d) stay within maxChars, (e) ellipse
+// long tiers with "+N more" instead of overflowing.
+// ---------------------------------------------------------------------------
+
+test("composeTierShareText emits one line per non-empty tier with owner/ stripped", () => {
+  const out = composeTierShareText(
+    {
+      title: "AI Coding Agents",
+      tiers: [
+        {
+          id: "S",
+          label: "S",
+          color: TIER_COLORS[0]!,
+          items: ["anthropics/claude-code", "openai/codex"],
+        },
+        {
+          id: "A",
+          label: "A",
+          color: TIER_COLORS[1]!,
+          items: ["cline/cline"],
+        },
+        // Empty tier — must NOT appear in output.
+        { id: "B", label: "B", color: TIER_COLORS[2]!, items: [] },
+      ],
+    },
+    220,
+  );
+  assert.ok(out.startsWith("AI Coding Agents\n\n"), `prefix: ${out}`);
+  assert.match(out, /S — claude-code, codex/);
+  assert.match(out, /A — cline/);
+  assert.ok(!out.includes("B —"), "empty B tier must be omitted");
+  assert.ok(!out.includes("anthropics/"), "owner prefix must be stripped");
+});
+
+test("composeTierShareText returns title only when all tiers are empty", () => {
+  const out = composeTierShareText(
+    {
+      title: "Empty board",
+      tiers: [
+        { id: "S", label: "S", color: TIER_COLORS[0]!, items: [] },
+        { id: "A", label: "A", color: TIER_COLORS[1]!, items: [] },
+      ],
+    },
+    220,
+  );
+  assert.equal(out, "Empty board");
+});
+
+test("composeTierShareText ellipses an overflowing tier with `+N more`", () => {
+  const longItems = Array.from(
+    { length: 12 },
+    (_, i) => `org/super-long-repo-name-${i}`,
+  );
+  const out = composeTierShareText(
+    {
+      title: "Stress",
+      tiers: [
+        { id: "S", label: "S", color: TIER_COLORS[0]!, items: longItems },
+      ],
+    },
+    220,
+  );
+  assert.ok(out.length <= 220, `body ${out.length} > 220 chars: ${out}`);
+  assert.match(out, /\+\d+ more$/, `expected trailing "+N more": ${out}`);
+});
+
+test("composeTierShareText never exceeds maxChars even with many populated tiers", () => {
+  const out = composeTierShareText(
+    {
+      title: "All tiers full",
+      tiers: TIER_COLORS.slice(0, 7).map((color, i) => ({
+        id: String.fromCharCode(65 + i),
+        label: String.fromCharCode(65 + i),
+        color,
+        items: Array.from({ length: 5 }, (_, j) => `org/repo-${i}-${j}`),
+      })),
+    },
+    220,
+  );
+  assert.ok(out.length <= 220, `body ${out.length} > 220 chars`);
+});
+
+// ---------------------------------------------------------------------------
+// decodeStateParam — base64 → validated payload.
+// ---------------------------------------------------------------------------
+
+test("pickFirst returns undefined for empty/missing input", () => {
+  assert.equal(pickFirst(undefined), undefined);
+  assert.equal(pickFirst(""), undefined);
+  assert.equal(pickFirst([]), undefined);
+  assert.equal(pickFirst([""]), undefined);
+});
+
+test("pickFirst unwraps the first non-empty entry from an array", () => {
+  assert.equal(pickFirst("abc"), "abc");
+  assert.equal(pickFirst(["abc"]), "abc");
+  assert.equal(pickFirst(["abc", "def"]), "abc");
+});
+
+test("decodeStateParam returns null for malformed/empty input", () => {
+  assert.equal(decodeStateParam(undefined), null);
+  assert.equal(decodeStateParam(""), null);
+  assert.equal(decodeStateParam("not-base64-!@#"), null);
+  // Valid base64 but invalid JSON:
+  assert.equal(decodeStateParam(Buffer.from("not json").toString("base64")), null);
+  // Valid JSON but doesn't satisfy the schema:
+  assert.equal(
+    decodeStateParam(Buffer.from(JSON.stringify({ foo: 1 })).toString("base64")),
+    null,
+  );
+});
+
+test("decodeStateParam round-trips a well-formed payload", () => {
+  const payload = {
+    ...makeValidDraft(),
+    shortId: "ABCDEFGH",
+    createdAt: "2026-05-25T00:00:00.000Z",
+    updatedAt: "2026-05-25T00:00:00.000Z",
+    viewCount: 0,
+    published: false,
+    ownerHandle: null,
+  };
+  const encoded = Buffer.from(JSON.stringify(payload)).toString("base64");
+  const decoded = decodeStateParam(encoded);
+  assert.ok(decoded);
+  assert.equal(decoded.title, payload.title);
+  assert.equal(decoded.tiers.length, payload.tiers.length);
 });

@@ -258,32 +258,60 @@ test("composeIdeaPublishedPost leaves short pitches verbatim", () => {
 // buildShareToXUrl
 // ---------------------------------------------------------------------------
 
-test("buildShareToXUrl URL-encodes text and url params", () => {
+// 2026-05-24 — buildShareToXUrl now embeds the URL inline at the top of
+// the tweet text (matches star-history.com's pattern, which reliably
+// triggers Twitter's compose-time unfurl preview). No more `?url=`,
+// `?via=`, or `?hashtags=` query params — everything is in `?text=`.
+
+test("buildShareToXUrl places the URL on the first line, body after a blank line", () => {
   const url = buildShareToXUrl({
     text: "Hello world & friends",
     url: "https://trendingrepo.com/ideas/abc?x=1",
   });
-  assert.match(url, /text=Hello\+world\+%26\+friends/);
-  assert.match(url, /url=https%3A%2F%2Ftrendingrepo\.com%2Fideas%2Fabc%3Fx%3D1/);
+  const decoded = new URL(url).searchParams.get("text");
+  assert.equal(
+    decoded,
+    "https://trendingrepo.com/ideas/abc?x=1\n\nHello world & friends",
+  );
+  assert.ok(!url.includes("&url="), "no ?url= param when URL is inline");
 });
 
-test("buildShareToXUrl strips leading @ from via handle", () => {
+test("buildShareToXUrl appends `via @handle` inline and strips leading @", () => {
   const url = buildShareToXUrl({
     text: "hi",
     url: "https://trendingrepo.com",
     via: ["@@trendingrepo"],
   });
-  assert.match(url, /via=trendingrepo/);
-  assert.ok(!url.includes("via=%40"));
+  const decoded = new URL(url).searchParams.get("text") ?? "";
+  assert.ok(decoded.endsWith("via @trendingrepo"));
+  assert.ok(!url.includes("via=%40"), "no doubled @ in encoded text");
+  assert.ok(!url.includes("&via="), "no ?via= query param");
 });
 
-test("buildShareToXUrl omits via when the handle is empty", () => {
+test("buildShareToXUrl omits the via line when the handle is empty", () => {
   const url = buildShareToXUrl({
     text: "hi",
     url: "https://trendingrepo.com",
     via: [""],
   });
-  assert.ok(!url.includes("via="));
+  const decoded = new URL(url).searchParams.get("text") ?? "";
+  assert.ok(!decoded.includes("via"));
+  assert.ok(!url.includes("&via="));
+});
+
+test("buildShareToXUrl renders hashtags inline with leading #", () => {
+  const url = buildShareToXUrl({
+    text: "build a tier list",
+    url: "https://trendingrepo.com/tierlist/XYZ",
+    hashtags: ["tierlist", "#github", "opensource"],
+    via: ["TrendingRepo"],
+  });
+  const decoded = new URL(url).searchParams.get("text") ?? "";
+  assert.ok(
+    decoded.endsWith("#tierlist #github #opensource via @TrendingRepo"),
+    `got: ${decoded}`,
+  );
+  assert.ok(!url.includes("&hashtags="));
 });
 
 // ---------------------------------------------------------------------------

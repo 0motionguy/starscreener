@@ -13,8 +13,17 @@ export type AnalystAction = "watch" | "build" | "ignore" | "research";
 
 export type AnalystVerdict = "strong" | "early" | "weak" | "noise";
 
+/** A cited source backing the analysis — rendered as a Sources row and fed
+ * into JSON-LD `citation` for answer-engine / agent readability. */
+export interface ConsensusCitation {
+  title: string;
+  url: string;
+}
+
 export interface ConsensusItemReport {
   fullName: string;
+  /** One-line expert framing: what it is + its category niche. Optional. */
+  tagline?: string;
   summary: string;
   scores: ConsensusSignalScores;
   evidence: string[];
@@ -24,6 +33,8 @@ export interface ConsensusItemReport {
   whyNow: string;
   whatToDo: AnalystAction;
   whatToDoDetail: string;
+  /** Real cited sources (GitHub, HN, news, releases). Optional. */
+  citations?: ConsensusCitation[];
 }
 
 export interface ConsensusRibbonReport {
@@ -87,12 +98,26 @@ function normalizeScores(input: unknown): ConsensusSignalScores {
   };
 }
 
+function normalizeCitations(input: unknown): ConsensusCitation[] | undefined {
+  if (!Array.isArray(input)) return undefined;
+  const out: ConsensusCitation[] = [];
+  for (const c of input) {
+    if (!c || typeof c !== "object") continue;
+    const { title, url } = c as Partial<ConsensusCitation>;
+    if (typeof title === "string" && typeof url === "string" && /^https?:\/\//i.test(url)) {
+      out.push({ title: title.slice(0, 160), url });
+    }
+  }
+  return out.length > 0 ? out.slice(0, 8) : undefined;
+}
+
 function normalizeItem(input: unknown): ConsensusItemReport | null {
   if (!input || typeof input !== "object") return null;
   const it = input as Partial<ConsensusItemReport>;
   if (typeof it.fullName !== "string") return null;
   return {
     fullName: it.fullName,
+    tagline: typeof it.tagline === "string" && it.tagline.trim() ? it.tagline : undefined,
     summary: typeof it.summary === "string" ? it.summary : "",
     scores: normalizeScores(it.scores),
     evidence: Array.isArray(it.evidence) ? it.evidence.filter((e): e is string => typeof e === "string") : [],
@@ -102,6 +127,7 @@ function normalizeItem(input: unknown): ConsensusItemReport | null {
     whyNow: typeof it.whyNow === "string" ? it.whyNow : "",
     whatToDo: asAction(it.whatToDo),
     whatToDoDetail: typeof it.whatToDoDetail === "string" ? it.whatToDoDetail : "",
+    citations: normalizeCitations(it.citations),
   };
 }
 

@@ -1,6 +1,13 @@
-// CapitalFlowChart renders the server-side 30-day area chart from the mockup.
-// Daily dollars are bucketed from funding signals; Series C+ days get markers.
+"use client";
 
+// CapitalFlowChart renders the 30-day area chart from the mockup. Daily
+// dollars are bucketed from funding signals; Series C+ days get markers.
+// Client Component because it forwards function props (yFormatter,
+// tooltipFormatter) into <AuroraChart> ("use client"). The Server→Client
+// boundary cannot serialize functions, so this wrapper has to live
+// client-side too.
+
+import { AuroraChart } from "@/components/charts/AuroraChart";
 import type { FundingSignal } from "@/lib/funding/types";
 import { ensureFundingSignals } from "./fundingDisplayData";
 
@@ -9,12 +16,6 @@ interface CapitalFlowChartProps {
 }
 
 const DAYS = 30;
-const VB_W = 800;
-const VB_H = 200;
-const PAD_LEFT = 40;
-const PAD_RIGHT = 10;
-const PAD_TOP = 20;
-const PAD_BOTTOM = 20;
 
 const BREAKOUT_ROUNDS = new Set([
   "series-c",
@@ -88,37 +89,33 @@ function shortDate(d: Date): string {
   return d.toLocaleString("en-US", { month: "short", day: "numeric" });
 }
 
+function toIso(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 export function CapitalFlowChart({ signals }: CapitalFlowChartProps) {
   const buckets = bucketByDay(signals);
-  const peakUsd = Math.max(1, ...buckets.map((b) => b.totalUsd));
-  const axisCeiling = Math.max(1, peakUsd * 1.15);
 
-  const innerW = VB_W - PAD_LEFT - PAD_RIGHT;
-  const innerH = VB_H - PAD_TOP - PAD_BOTTOM;
-  const scaleX = (i: number) => PAD_LEFT + (i / Math.max(1, DAYS - 1)) * innerW;
-  const scaleY = (v: number) => PAD_TOP + innerH * (1 - v / axisCeiling);
+  // Reshape into the Aurora-friendly data array.
+  const data = buckets.map((b) => ({
+    d: toIso(b.date),
+    totalUsd: b.totalUsd,
+    topCompany: b.topCompany,
+    topAmount: b.topAmount,
+  }));
 
-  const linePts = buckets.map(
-    (b, i) => `${scaleX(i).toFixed(2)},${scaleY(b.totalUsd).toFixed(2)}`,
-  );
-  const lineD = `M${linePts.join(" L")}`;
-  const baselineY = scaleY(0);
-  const areaD = `M${scaleX(0).toFixed(2)},${baselineY.toFixed(2)} L${linePts.join(
-    " L",
-  )} L${scaleX(DAYS - 1).toFixed(2)},${baselineY.toFixed(2)} Z`;
-
+  // Pick the top-2 breakout days as vertical markers on the chart.
   const breakouts = buckets
     .map((b, i) => ({ ...b, i }))
     .filter((b) => b.topAmount > 0)
     .sort((a, b) => b.topAmount - a.topAmount)
     .slice(0, 2);
 
-  const topPts = buckets
-    .map((b, i) => ({ b, i }))
-    .sort((a, b) => b.b.totalUsd - a.b.totalUsd)
-    .slice(0, 3);
+  const markers = breakouts.map((b) => ({
+    x: toIso(b.date),
+    label: `${b.topCompany} ${formatTopAmount(b.topAmount)}`,
+  }));
 
-  const ySteps = [1, 0.75, 0.5, 0.25, 0];
   const firstDate = buckets[0]?.date;
   const lastDate = buckets[DAYS - 1]?.date;
 
@@ -148,48 +145,17 @@ export function CapitalFlowChart({ signals }: CapitalFlowChartProps) {
         </div>
       </div>
       <div className="flow-chart">
-        <svg viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="none" role="img">
-          <title>30-day funding capital flow</title>
-          <g className="grid">
-            {ySteps.map((step) => (
-              <line
-                key={step}
-                x1={PAD_LEFT}
-                y1={scaleY(axisCeiling * step)}
-                x2={VB_W}
-                y2={scaleY(axisCeiling * step)}
-              />
-            ))}
-          </g>
-          <g className="axis">
-            {ySteps.map((step) => (
-              <text key={step} x={PAD_LEFT - 4} y={scaleY(axisCeiling * step) + 2} textAnchor="end">
-                {formatCurrencyAxis(axisCeiling * step)}
-              </text>
-            ))}
-          </g>
-          <path className="area" d={areaD} />
-          <path className="line" d={lineD} />
-          {breakouts.map((b) => (
-            <g key={`${b.i}-${b.topCompany}`}>
-              <line
-                x1={scaleX(b.i)}
-                y1={PAD_TOP}
-                x2={scaleX(b.i)}
-                y2={VB_H - PAD_BOTTOM}
-                className="marker"
-              />
-              <text x={scaleX(b.i) + 4} y={PAD_TOP + 12} className="marker-label">
-                {b.topCompany} {formatTopAmount(b.topAmount)}
-              </text>
-            </g>
-          ))}
-          <g>
-            {topPts.map(({ b, i }) => (
-              <circle key={i} cx={scaleX(i)} cy={scaleY(b.totalUsd)} r={3} className="pt" />
-            ))}
-          </g>
-        </svg>
+        <AuroraChart
+          data={data}
+          xKey="d"
+          variant="area"
+          height={220}
+          series={[{ dataKey: "totalUsd", name: "Capital raised" }]}
+          markers={markers}
+          yFormatter={formatCurrencyAxis}
+          tooltipFormatter={formatCurrencyAxis}
+          ariaLabel="30-day funding capital flow"
+        />
       </div>
       <div className="row between funding-chart-foot">
         <span>{firstDate ? shortDate(firstDate) : "Start"}</span>

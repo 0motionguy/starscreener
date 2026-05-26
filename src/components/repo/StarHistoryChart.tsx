@@ -1,315 +1,258 @@
-// StarHistoryChart — server-rendered inline SVG with a 12-month star
-// history line, smooth gradient fill, and event markers overlaid as
-// vertical guides + label chips.
+"use client";
+
+// StarHistoryChart — card shell that wraps the unified `<AuroraChart>`
+// Recharts primitive. Renders a window-filterable star history line, an
+// optional dashed npm-downloads overlay on a second y-axis (when the repo
+// has a canonical npm package), and dashed event markers fed from real
+// GitHub release events + cross-source mentions.
 //
-// Generates the path d-string deterministically from the input series so
-// SSR + hydration agree. No client JS dependency — purely an SVG snapshot.
+// Marked "use client" because it forwards function props (yFormatter,
+// xFormatter, tooltipFormatter) into <AuroraChart> ("use client"). Function
+// values cannot cross the RSC Server→Client serialization boundary, so the
+// wrapper has to live on the client side too. All inputs (Repo, payload
+// arrays, range string) are plain serializable data.
 
-import { Flag } from "lucide-react";
+import Link from "next/link";
 
+import { AuroraChart, AURORA, compactNumber, shortDate } from "@/components/charts/AuroraChart";
+import { Icon } from "@/components/icon/Icon";
 import type { Repo } from "@/lib/types";
 import type { StarActivityPayload } from "@/lib/star-activity";
+import type { DailyDownload } from "@/lib/npm-daily";
+
+export type ChartRange = "1m" | "3m" | "6m" | "1y" | "all";
+
+export const CHART_RANGES: readonly ChartRange[] = ["1m", "3m", "6m", "1y", "all"] as const;
+
+const RANGE_DAYS: Record<ChartRange, number | null> = {
+  "1m": 30,
+  "3m": 90,
+  "6m": 180,
+  "1y": 365,
+  all: null,
+};
+
+const RANGE_LABEL: Record<ChartRange, string> = {
+  "1m": "1M",
+  "3m": "3M",
+  "6m": "6M",
+  "1y": "1Y",
+  all: "ALL",
+};
 
 interface ChartEvent {
-  /** 0..1 along x axis (left edge → right edge of plot area). */
-  x: number;
-  /** 0..1 from top of plot area. */
+  /** ISO YYYY-MM-DD (preferred) OR 0..1 fractional position along the x axis
+   *  (kept for back-compat with the pre-Aurora call sites). Numeric forms
+   *  fall back to a relative-position rendering inside the wrapper card —
+   *  marker lines on the new Recharts canvas only resolve from real dates. */
+  x: string | number;
+  /** 0..1 from top of plot area — used by the legacy card footer position. */
   y: number;
   label: string;
   color: string;
+  url?: string;
 }
 
 interface StarHistoryChartProps {
   repo: Repo;
   starActivity?: StarActivityPayload | null;
+  npmDaily?: DailyDownload[] | null;
+  npmPackage?: string | null;
   events?: ChartEvent[];
+  range: ChartRange;
 }
 
-const VIEW_W = 1000;
-const VIEW_H = 280;
-const PLOT = { x: 40, y: 20, w: 920, h: 220 };
-
-function smoothPath(points: { x: number; y: number }[]): string {
-  if (points.length === 0) return "";
-  if (points.length === 1) {
-    return `M${points[0].x.toFixed(2)},${points[0].y.toFixed(2)}`;
-  }
-  // Catmull-Rom -> cubic Bezier
-  const ctrl = 0.18;
-  let d = `M${points[0].x.toFixed(2)},${points[0].y.toFixed(2)}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i - 1] ?? points[i];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[i + 2] ?? p2;
-    const c1x = p1.x + (p2.x - p0.x) * ctrl;
-    const c1y = p1.y + (p2.y - p0.y) * ctrl;
-    const c2x = p2.x - (p3.x - p1.x) * ctrl;
-    const c2y = p2.y - (p3.y - p1.y) * ctrl;
-    d += ` C${c1x.toFixed(2)},${c1y.toFixed(2)} ${c2x.toFixed(2)},${c2y.toFixed(2)} ${p2.x.toFixed(2)},${p2.y.toFixed(2)}`;
-  }
-  return d;
+interface DataPoint {
+  d: string;
+  stars: number | null;
+  npm: number | null;
 }
 
-function projectSeries(series: number[]): {
-  line: { x: number; y: number }[];
-  min: number;
-  max: number;
-} {
-  if (series.length === 0) {
-    return { line: [], min: 0, max: 0 };
-  }
-  const min = Math.min(...series);
-  const max = Math.max(...series);
-  const range = max - min || 1;
-  const line = series.map((v, i) => {
-    const x =
-      series.length === 1
-        ? PLOT.x + PLOT.w / 2
-        : PLOT.x + (PLOT.w * i) / (series.length - 1);
-    const y = PLOT.y + PLOT.h - ((v - min) / range) * PLOT.h;
-    return { x, y };
-  });
-  return { line, min, max };
+function parseDayMs(day: string): number {
+  return Date.UTC(
+    Number(day.slice(0, 4)),
+    Number(day.slice(5, 7)) - 1,
+    Number(day.slice(8, 10)),
+  );
 }
 
-function formatStarLabel(v: number): string {
-  if (v >= 1000) return `${(v / 1000).toFixed(1)}K`;
-  return v.toLocaleString();
+function todayUtcMs(): number {
+  const d = new Date();
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+}
+
+function rangeHref(range: ChartRange): string {
+  return range === "1y" ? "?" : `?range=${range}`;
 }
 
 export function StarHistoryChart({
   repo,
   starActivity,
+  npmDaily,
+  npmPackage,
   events = [],
+  range,
 }: StarHistoryChartProps) {
-  // Build a numeric series — prefer 12mo star-activity, fall back to
-  // sparklineData if star-activity is missing or insufficient.
-  const series = (() => {
-    if (starActivity?.points && starActivity.points.length > 1) {
-      // Sample down to ~52 points so the SVG stays light.
-      const pts = starActivity.points.map((p) => p.s);
-      if (pts.length <= 60) return pts;
-      const step = Math.ceil(pts.length / 60);
-      return pts.filter((_, i) => i % step === 0);
+  // Window selection — only points inside the user's range slice.
+  const days = RANGE_DAYS[range];
+  const cutoffMs = days === null ? -Infinity : Date.now() - days * 86_400_000;
+
+  // Star points within window, with optional downsampling so the SVG stays
+  // light at large windows.
+  const rawStars = (starActivity?.points ?? []).filter(
+    (p) => parseDayMs(p.d) >= cutoffMs,
+  );
+  const starPoints = (() => {
+    if (rawStars.length <= 80) return rawStars;
+    const step = Math.ceil(rawStars.length / 80);
+    return rawStars.filter((_, i) => i % step === 0);
+  })();
+
+  // Fallback: 30d OSS-Insight sparkline baked into the trending payload when
+  // backfill hasn't landed yet. Synthesize dates ending today.
+  const sparklineUsed =
+    starPoints.length < 2 &&
+    Array.isArray(repo.sparklineData) &&
+    repo.sparklineData.length > 1;
+
+  const seededStars: Array<{ d: string; s: number }> = sparklineUsed
+    ? (() => {
+        const len = repo.sparklineData!.length;
+        const today = todayUtcMs();
+        return repo.sparklineData!.map((s, i) => {
+          const ms = today - (len - 1 - i) * 86_400_000;
+          const dt = new Date(ms);
+          const d = `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}-${String(dt.getUTCDate()).padStart(2, "0")}`;
+          return { d, s };
+        });
+      })()
+    : starPoints.map((p) => ({ d: p.d, s: p.s }));
+
+  // Merge stars + npm-downloads onto the same daily timeline so Recharts can
+  // walk a single data array (one entry per UTC day).
+  const npmByDay = new Map<string, number>();
+  for (const p of npmDaily ?? []) {
+    if (parseDayMs(p.date) >= cutoffMs) {
+      npmByDay.set(p.date, p.downloads);
     }
-    return repo.sparklineData ?? [];
-  })();
+  }
+  const data: DataPoint[] = seededStars.map(({ d, s }) => ({
+    d,
+    stars: s,
+    npm: npmByDay.get(d) ?? null,
+  }));
 
-  const { line, min, max } = projectSeries(series);
-  const linePath = smoothPath(line);
-  const areaPath =
-    line.length > 0
-      ? `${linePath} L${line[line.length - 1].x.toFixed(2)},${PLOT.y + PLOT.h} L${line[0].x.toFixed(2)},${PLOT.y + PLOT.h} Z`
-      : "";
-  const npmPath =
-    line.length > 1
-      ? smoothPath(
-          line.map((p, i) => {
-            const lift = 18 + (i / Math.max(1, line.length - 1)) * 22;
-            return {
-              x: p.x,
-              y: Math.min(PLOT.y + PLOT.h - 10, Math.max(PLOT.y + 12, p.y + lift)),
-            };
-          }),
-        )
-      : "";
+  // Pull any npm-only days that didn't have a matching star bucket. Rare,
+  // but keeps the overlay continuous on edges of the window.
+  for (const [day, downloads] of npmByDay) {
+    if (!seededStars.find((p) => p.d === day)) {
+      data.push({ d: day, stars: null, npm: downloads });
+    }
+  }
+  data.sort((a, b) => (a.d < b.d ? -1 : a.d > b.d ? 1 : 0));
 
-  const yLabels = (() => {
-    const range = max - min || 1;
-    return [0.25, 0.5, 0.75].map((t) => ({
-      y: PLOT.y + PLOT.h - t * PLOT.h,
-      label: formatStarLabel(Math.round(min + t * range)),
+  const hasStarData = seededStars.length > 1;
+  const hasNpm = (npmDaily ?? []).length > 1;
+
+  // Convert events into Aurora markers — only the ones whose `x` field is a
+  // real date string survive (numeric/fractional ones can't anchor to a
+  // categorical x-axis cleanly).
+  const markers = events
+    .filter((e) => typeof e.x === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.x))
+    .map((e) => ({
+      x: e.x as string,
+      label: e.label,
+      color: e.color,
     }));
-  })();
-
-  const finalDot = line.length > 0 ? line[line.length - 1] : null;
 
   return (
     <div className="hero-chart-wrap">
       <div className="hero-chart-head">
         <h2 className="hero-chart-title">
-          ▌ <b>Star history</b> · 12 months · annotated with release + mention events
+          ▌ <b>Star history</b> · {RANGE_LABEL[range]}
+          {sparklineUsed
+            ? " · 30d OSS-Insight fallback while stargazer backfill warms"
+            : hasNpm && npmPackage
+              ? ` · annotated with releases + ${npmPackage} downloads`
+              : " · annotated with releases + mention events"}
         </h2>
         <div className="grow" />
         <div className="legend-row">
           <span className="lg">
-            <span
-              className="lg-sw"
-              style={{ background: "var(--accent)" }}
-            />{" "}
-            Stars
+            <span className="lg-sw" style={{ background: AURORA.lead }} /> Stars
           </span>
-          <span className="lg">
-            <span
-              className="lg-sw"
-              style={{ background: "var(--up)" }}
-            />{" "}
-            NPM (rel.)
-          </span>
-          <span className="lg">
-            <span
-              className="lg-sw"
-              style={{
-                background: "var(--info)",
-                height: 8,
-                width: 8,
-                borderRadius: "50%",
-              }}
-            />{" "}
-            Events
-          </span>
+          {hasNpm ? (
+            <span className="lg">
+              <span className="lg-sw" style={{ background: AURORA.secondary }} />{" "}
+              NPM downloads
+            </span>
+          ) : null}
+          {events.length > 0 ? (
+            <span className="lg">
+              <span
+                className="lg-sw"
+                style={{
+                  background: "var(--info)",
+                  height: 8,
+                  width: 8,
+                  borderRadius: "50%",
+                }}
+              />{" "}
+              Events
+            </span>
+          ) : null}
         </div>
         <div className="segmented" aria-label="Star history time range">
-          <button type="button">1M</button>
-          <button type="button">3M</button>
-          <button type="button">6M</button>
-          <button type="button" className="on">
-            1Y
-          </button>
-          <button type="button">ALL</button>
+          {CHART_RANGES.map((r) => (
+            <Link
+              key={r}
+              href={rangeHref(r)}
+              prefetch={false}
+              scroll={false}
+              className={r === range ? "on" : ""}
+              aria-current={r === range ? "true" : undefined}
+            >
+              {RANGE_LABEL[r]}
+            </Link>
+          ))}
         </div>
       </div>
       <div className="hero-chart-body">
-        <svg
-          viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ display: "block", width: "100%" }}
-          aria-label={`${repo.fullName} star history`}
-        >
-          <defs>
-            <linearGradient id="starGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="0%"
-                stopColor="var(--accent)"
-                stopOpacity="0.45"
-              />
-              <stop
-                offset="60%"
-                stopColor="var(--accent)"
-                stopOpacity="0.10"
-              />
-              <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-
-          <g className="hero-chart-grid">
-            {yLabels.map((g) => (
-              <line
-                key={`grid-${g.y}`}
-                x1={PLOT.x}
-                x2={PLOT.x + PLOT.w}
-                y1={g.y}
-                y2={g.y}
-              />
-            ))}
-          </g>
-
-          <g className="hero-chart-axis">
-            {yLabels.map((g) => (
-              <text
-                key={`yl-${g.y}`}
-                x={PLOT.x - 5}
-                y={g.y + 4}
-                textAnchor="end"
-              >
-                {g.label}
-              </text>
-            ))}
-          </g>
-
-          {areaPath ? <path d={areaPath} fill="url(#starGrad)" /> : null}
-          {npmPath ? (
-            <path
-              d={npmPath}
-              fill="none"
-              stroke="var(--up)"
-              strokeWidth={1.5}
-              strokeDasharray="4 4"
-              opacity={0.72}
-            />
-          ) : null}
-          {linePath ? (
-            <path
-              d={linePath}
-              fill="none"
-              stroke="var(--accent)"
-              strokeWidth={2.2}
-              strokeLinejoin="round"
-              strokeLinecap="round"
-            />
-          ) : null}
-
-          {events.map((e, i) => {
-            const cx = PLOT.x + e.x * PLOT.w;
-            const cy = PLOT.y + e.y * PLOT.h;
-            return (
-              <g
-                key={`ev-${i}-${e.label}`}
-                transform={`translate(${cx.toFixed(2)}, ${cy.toFixed(2)})`}
-              >
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2={(PLOT.y + PLOT.h - cy).toFixed(2)}
-                  stroke={e.color}
-                  strokeWidth="1"
-                  strokeDasharray="2 2"
-                  opacity="0.7"
-                />
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="5"
-                  fill="var(--surface)"
-                  stroke={e.color}
-                  strokeWidth="2"
-                />
-                <circle cx="0" cy="0" r="2" fill={e.color} />
-                <g transform="translate(8, -8)">
-                  <rect
-                    x="-2"
-                    y="-12"
-                    width={Math.max(40, e.label.length * 6 + 8)}
-                    height="16"
-                    fill="var(--surface-2)"
-                    stroke="var(--border-subtle)"
-                    rx="1"
-                  />
-                  <text
-                    x="2"
-                    y="-1"
-                    fontFamily="var(--font-mono)"
-                    fontSize="9"
-                    fill={e.color}
-                  >
-                    {e.label}
-                  </text>
-                </g>
-              </g>
-            );
-          })}
-
-          {finalDot ? (
-            <>
-              <circle
-                cx={finalDot.x.toFixed(2)}
-                cy={finalDot.y.toFixed(2)}
-                r="4"
-                fill="var(--accent)"
-              />
-              <circle
-                cx={finalDot.x.toFixed(2)}
-                cy={finalDot.y.toFixed(2)}
-                r="8"
-                fill="var(--accent)"
-                opacity="0.25"
-              />
-            </>
-          ) : null}
-        </svg>
+        {hasStarData ? (
+          <AuroraChart
+            data={data}
+            xKey="d"
+            variant={hasNpm ? "dualArea" : "area"}
+            height={280}
+            series={
+              hasNpm
+                ? [
+                    { dataKey: "stars", name: "Stars" },
+                    { dataKey: "npm", name: "NPM/day", rightAxis: true, color: AURORA.secondary },
+                  ]
+                : [{ dataKey: "stars", name: "Stars" }]
+            }
+            markers={markers}
+            yFormatter={compactNumber}
+            xFormatter={shortDate}
+            tooltipFormatter={compactNumber}
+            ariaLabel={`${repo.fullName} star history`}
+          />
+        ) : (
+          <div className="chart-empty" role="status">
+            <div className="chart-empty-mark">
+              <Icon name="flag" size={14} />
+            </div>
+            <div>
+              <div className="chart-empty-title">Star history warming</div>
+              <div className="chart-empty-sub">
+                The stargazer backfill for {repo.fullName} is still being walked.
+                A timeline appears here as soon as ≥ 2 days of activity have been
+                indexed.
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {events.length > 0 ? (
@@ -323,12 +266,20 @@ export function StarHistoryChart({
                   color: "var(--surface)",
                 }}
               >
-                <Flag size={11} strokeWidth={2} aria-hidden="true" />
+                <Icon name="flag" size={11} />
               </div>
               <div>
-                <div className="event-title">{e.label}</div>
+                <div className="event-title">
+                  {e.url ? (
+                    <a href={e.url} target="_blank" rel="noreferrer noopener">
+                      {e.label}
+                    </a>
+                  ) : (
+                    e.label
+                  )}
+                </div>
                 <div className="event-meta">
-                  event marker · {Math.round(e.x * 12)}mo
+                  event marker
                 </div>
               </div>
             </div>

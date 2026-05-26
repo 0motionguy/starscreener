@@ -38,16 +38,22 @@ import { AgentCommerceRouteStyles } from "@/components/agent-commerce/AgentComme
 import { AgentCommerceTokenTape } from "@/components/agent-commerce/AgentCommerceTokenTape";
 import { AcValueStrip } from "@/components/agent-commerce/AcValueStrip";
 import { AcKpiStrip } from "@/components/agent-commerce/AcKpiStrip";
-import { ProtocolPulseGrid } from "@/components/agent-commerce/ProtocolPulseGrid";
 import { OnchainSettlements } from "@/components/agent-commerce/OnchainSettlements";
-import { TokenGainersTable } from "@/components/agent-commerce/TokenGainersTable";
-import { TokenLosersTable } from "@/components/agent-commerce/TokenLosersTable";
-import { CompositeMoversBoard } from "@/components/agent-commerce/CompositeMoversBoard";
-import { ScoreDistributionHistogram } from "@/components/agent-commerce/ScoreDistributionHistogram";
+import { PaymentVolumeChart } from "@/components/agent-commerce/PaymentVolumeChart";
 import { TopFacilitatorsTable } from "@/components/agent-commerce/TopFacilitatorsTable";
+import { AgentTokensPanel } from "@/components/agent-commerce/AgentTokensPanel";
+import { VirtualsAgentsPanel } from "@/components/agent-commerce/VirtualsAgentsPanel";
+import { X402ServicesPanel } from "@/components/agent-commerce/X402ServicesPanel";
+import { fetchAgentTokens } from "@/lib/agent-commerce/live-tokens";
+import { fetchVirtualAgents } from "@/lib/agent-commerce/virtuals";
+import { fetchX402Market } from "@/lib/agent-commerce/agentic-market";
 import { getTokenRows } from "@/components/agent-commerce/displayData";
 
-export const revalidate = 1800;
+// 60-second ISR — keeps the live x402 quote/agentic feeds + the
+// PaymentVolumeChart freshness pill within ~1 min of upstream changes.
+// Underlying TOOLBOX collectors still write daily, but the live RSS +
+// CoinGecko + Virtuals fetches above benefit from the tighter cycle.
+export const revalidate = 60;
 
 // Note: SEO 66 is by-design on /agent-commerce — middleware sets
 // X-Robots-Tag: noindex,nofollow via the cost-guard config because the page
@@ -116,13 +122,31 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const period = (PERIODS.find((p) => p.id === rawPeriod)?.id ??
     "24h") as AgentCommercePeriod;
 
-  // Fire all refresh hooks in parallel. allSettled so a single broken slug
-  // doesn't take the page down.
-  await Promise.allSettled([
-    refreshAgentCommerceFromStore(),
-    refreshBaseX402OnchainFromStore(),
-    refreshSolanaX402OnchainFromStore(),
-    refreshDuneX402VolumeFromStore(),
+  // Fire all refresh hooks + live data fetches in parallel.
+  // Sources:
+  //   - refreshAgentCommerceFromStore / refreshBaseX402... / refreshSolanaX402... /
+  //     refreshDuneX402... — TOOLBOX-collected JSON via the data-store
+  //   - fetchAgentTokens — live CoinGecko quotes for AI-agent tokens
+  //   - fetchVirtualAgents — live Virtuals Protocol on-Base agent registry
+  //     (VIRTUAL price flows in below from the CoinGecko fetch above)
+  const [, , , , agentTokens] = await Promise.all([
+    refreshAgentCommerceFromStore().catch(() => undefined),
+    refreshBaseX402OnchainFromStore().catch(() => undefined),
+    refreshSolanaX402OnchainFromStore().catch(() => undefined),
+    refreshDuneX402VolumeFromStore().catch(() => undefined),
+    fetchAgentTokens().catch(() => []),
+  ]);
+  const virtualPriceUsd =
+    agentTokens.find((t) => t.id === "virtual-protocol")?.priceUsd ?? 0;
+  const [virtualAgents, x402Market] = await Promise.all([
+    fetchVirtualAgents(virtualPriceUsd, 10).catch(() => []),
+    fetchX402Market(200).catch(() => ({
+      services: [],
+      totalServices: 0,
+      categories: [],
+      networks: [],
+      fetchedAt: new Date().toISOString(),
+    })),
   ]);
 
   const items = safe(() => getAgentCommerceItems(), []);
@@ -154,101 +178,117 @@ export default async function AgentCommercePage({ searchParams }: Props) {
     /solana|sol-/i.test(name) || name.toLowerCase().includes("crossmint");
   const isBaseFac = (name: string): boolean => !isSolanaFac(name);
 
+  // Real on-chain volumes from Dune — no synthetic floors. Empty days
+  // surface as 0 so the operator can see TOOLBOX dune-x402-volume is quiet.
   const baseVolumeUsd24h = sumDuneVolume(dune?.rows, isBaseFac);
   const solanaVolumeUsd24h = sumDuneVolume(dune?.rows, isSolanaFac);
-  const displayBaseVolumeUsd24h = baseVolumeUsd24h > 0 ? baseVolumeUsd24h : 2_420_000;
-  const displaySolanaVolumeUsd24h = solanaVolumeUsd24h > 0 ? solanaVolumeUsd24h : 890_000;
-  const onchain24hUsd = displayBaseVolumeUsd24h + displaySolanaVolumeUsd24h;
+  const onchain24hUsd = baseVolumeUsd24h + solanaVolumeUsd24h;
 
-  // KPI strip math.
-  const totalSettlements = onchain24hUsd;
   const basePctShare =
-    totalSettlements > 0
-      ? Math.round((displayBaseVolumeUsd24h / totalSettlements) * 100)
+    onchain24hUsd > 0
+      ? Math.round((baseVolumeUsd24h / onchain24hUsd) * 100)
       : 0;
-  const solanaPctShare = totalSettlements > 0 ? 100 - basePctShare : 0;
+  const solanaPctShare = onchain24hUsd > 0 ? 100 - basePctShare : 0;
 
   const x402EndpointCount =
     Object.keys(base?.byFacilitator ?? {}).length +
     Object.keys(solana?.byFacilitator ?? {}).length;
-  const displayItemCount = Math.max(stats.totalItems, 142);
-  const displayX402Count = Math.max(stats.x402EnabledCount, x402EndpointCount, 87);
-  const displayMcpServers = Math.max(stats.mcpServerCount, 62);
-  const displayPortalReady = Math.max(stats.portalReadyCount, 42);
-  const displayNewThisWeek = Math.max(stats.thisWeekCount, 6);
 
-  // MCP health is derived from the display corpus until live server probes
-  // carry health state per server.
-  const mcpServers = displayMcpServers;
-  const mcpDegraded = Math.min(3, Math.max(0, mcpServers - 59));
-  const mcpHealthy = Math.max(0, mcpServers - mcpDegraded);
+  // Real counts only — no synthetic floors (was: 142, 87, 62, 42, 6, 18).
+  const itemCount = stats.totalItems;
+  const x402Count = Math.max(stats.x402EnabledCount, x402EndpointCount);
+  const mcpServers = stats.mcpServerCount;
+  const portalReady = stats.portalReadyCount;
+  const newThisWeek = stats.thisWeekCount;
+  // Until live MCP health probes ship, we don't know which servers are
+  // degraded — show 0 degraded and let the operator see the honest signal.
+  const mcpHealthy = mcpServers;
+  const mcpDegraded = 0;
+  const a2aCount = stats.byProtocol["a2a"] ?? 0;
 
-  const a2aCount = Math.max(stats.byProtocol["a2a"] ?? 0, 18);
-  const gainers = getTokenRows(items, "gainers", 5);
-  const losers = getTokenRows(items, "losers", 3);
+  // Token tables are now driven by live CoinGecko data (no SEED_TOKENS).
+  const gainers = getTokenRows(agentTokens, "gainers", 5);
+  const losers = getTokenRows(agentTokens, "losers", 3);
 
   return (
     <div className="agent-commerce-page">
       <AgentCommerceRouteStyles />
+      <AcPageStyles />
       <AgentCommerceTokenTape
         gainers={gainers}
         losers={losers}
-        baseVolumeUsd24h={displayBaseVolumeUsd24h}
-        solanaVolumeUsd24h={displaySolanaVolumeUsd24h}
-        x402Endpoints={displayX402Count}
+        baseVolumeUsd24h={baseVolumeUsd24h}
+        solanaVolumeUsd24h={solanaVolumeUsd24h}
+        x402Endpoints={x402Count}
         mcpServers={mcpServers}
-        portalReady={displayPortalReady}
+        portalReady={portalReady}
       />
       <AgentCommerceHero
         period={period}
         fetchedAt={fetchedAt}
-        itemCount={displayItemCount}
-        liveEndpoints={displayX402Count}
+        itemCount={itemCount}
+        liveEndpoints={x402Count}
         onchain24hUsd={onchain24hUsd}
       />
 
       <AcKpiStrip
-        itemsTracked={displayItemCount}
-        x402Enabled={displayX402Count}
-        x402NewThisWeek={displayNewThisWeek}
+        itemsTracked={itemCount}
+        x402Enabled={x402Count}
+        x402NewThisWeek={newThisWeek}
         mcpServers={mcpServers}
         mcpHealthy={mcpHealthy}
         mcpDegraded={mcpDegraded}
         onchain24hUsd={onchain24hUsd}
         basePctShare={basePctShare}
         solanaPctShare={solanaPctShare}
-        portalReady={displayPortalReady}
+        portalReady={portalReady}
       />
 
-      <ProtocolPulseGrid
-        x402OnchainUsd={onchain24hUsd}
-        x402EndpointCount={displayX402Count}
-        mcpServerCount={mcpServers}
-        mcpHealthy={mcpHealthy}
-        mcpDegraded={mcpDegraded}
-        a2aCount={a2aCount}
-      />
+      <div className="ac-page-grid">
+        <div className="ac-main">
+          <PaymentVolumeChart base={base} solana={solana} />
 
-      <OnchainSettlements
-        base={base}
-        solana={solana}
-        baseVolumeUsd24h={displayBaseVolumeUsd24h}
-        solanaVolumeUsd24h={displaySolanaVolumeUsd24h}
-      />
+          <OnchainSettlements
+            base={base}
+            solana={solana}
+            baseVolumeUsd24h={baseVolumeUsd24h}
+            solanaVolumeUsd24h={solanaVolumeUsd24h}
+          />
 
-      <div className="ac-cols fade-up">
-        <TokenGainersTable items={items} limit={5} />
-        <TokenLosersTable items={items} limit={3} />
-      </div>
+          <X402ServicesPanel market={x402Market} limit={12} />
 
-      <CompositeMoversBoard items={items} limit={10} />
+          <VirtualsAgentsPanel agents={virtualAgents} />
+        </div>
 
-      <div className="ac-cols fade-up">
-        <ScoreDistributionHistogram items={items} displayItemCount={displayItemCount} />
-        <TopFacilitatorsTable base={base} solana={solana} dune={dune} limit={5} />
+        <div className="ac-rail">
+          <AgentTokensPanel tokens={agentTokens} />
+          <TopFacilitatorsTable base={base} solana={solana} dune={dune} limit={5} />
+        </div>
       </div>
 
       <AcValueStrip />
     </div>
+  );
+}
+
+function AcPageStyles() {
+  return (
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `
+.ac-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  margin-top: 6px;
+}
+.ac-main { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ac-rail { min-width: 0; }
+@media (max-width: 1100px) {
+  .ac-page-grid { grid-template-columns: 1fr; }
+}
+`,
+      }}
+    />
   );
 }

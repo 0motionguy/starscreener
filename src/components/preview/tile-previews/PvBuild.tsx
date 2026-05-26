@@ -1,7 +1,7 @@
 // PvBuild — build workflow preview: NEW banner + 3 repo rows + connect CTA.
 // Pixel-faithful to index.html:732-756.
 import type { ReactNode } from "react";
-import { Star } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 
 export function PvBuild() {
   const REPOS: Array<{
@@ -19,10 +19,9 @@ export function PvBuild() {
       name: "crewAIInc/crewAI",
       note: (
         <>
-          <Star
+          <Icon
+            name="star"
             size={9}
-            strokeWidth={2}
-            aria-hidden="true"
             style={{ verticalAlign: "-1px", marginRight: 3 }}
           />
           +312 24h

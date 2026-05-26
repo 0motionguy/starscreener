@@ -48,7 +48,12 @@ export async function KpiStrip() {
     <div className="kpi-strip">
       <div className="kpi">
         <span className="kpi-label">Repos tracked</span>
-        <span className="kpi-value" data-counter data-target={trackedCount}>
+        <span
+          className="kpi-value"
+          data-counter
+          data-target={trackedCount}
+          suppressHydrationWarning
+        >
           {trackedCount.toLocaleString()}
         </span>
         <span className="kpi-delta up">
@@ -58,7 +63,12 @@ export async function KpiStrip() {
       </div>
       <div className="kpi">
         <span className="kpi-label">Mentions captured</span>
-        <span className="kpi-value" data-counter data-target={mentions24h}>
+        <span
+          className="kpi-value"
+          data-counter
+          data-target={mentions24h}
+          suppressHydrationWarning
+        >
           {mentions24h.toLocaleString()}
         </span>
         <span className="kpi-delta up">
@@ -70,7 +80,12 @@ export async function KpiStrip() {
         <span className="kpi-label">Breakouts today</span>
         {counts ? (
           <>
-            <span className="kpi-value" data-counter data-target={42}>
+            <span
+              className="kpi-value"
+              data-counter
+              data-target={42}
+              suppressHydrationWarning
+            >
               42
             </span>
             <span className="kpi-delta up">

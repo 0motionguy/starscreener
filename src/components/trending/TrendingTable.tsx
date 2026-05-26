@@ -84,7 +84,7 @@ export function TrendingTable({
             {extraHeaders.map((label) => (
               <th key={label} className="num col-velocity">{label}</th>
             ))}
-            <th className="num col-meta">Mentions</th>
+            <th className="col-meta mention-pack-cell">Mentions</th>
             <th className="col-actions">Actions</th>
           </tr>
         </thead>
@@ -152,7 +152,7 @@ export function TrendingTable({
                     </td>
                   ))
                 )}
-                <td className="num mention-pack-cell" data-label="Mentions">
+                <td className="mention-pack-cell" data-label="Mentions">
                   <Link
                     href={detailHref}
                     className="mention-link"

@@ -77,7 +77,24 @@ export function TrackedOssCards({ cards }: TrackedOssCardsProps) {
             <div className="tracked-card" key={card.repo.fullName}>
               <div className="tc-head">
                 <span className="tc-rank">{String(idx + 1).padStart(2, "0")}</span>
-                <div className="tc-logo">{logoLetter(card.repo.name)}</div>
+                <div className="tc-logo">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- GitHub avatar CDN */}
+                  <img
+                    src={`https://avatars.githubusercontent.com/${card.repo.owner}?s=80&v=4`}
+                    alt=""
+                    width={28}
+                    height={28}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                      borderRadius: "inherit",
+                    }}
+                  />
+                </div>
                 <div className="tc-id">
                   <span className="tc-name">
                     {displayName}{" "}

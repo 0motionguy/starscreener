@@ -2,52 +2,66 @@
 //
 // 4-aspect share card for /top10. Renders any category × window × aspect
 // combination as a PNG (default) or SVG (?format=svg). Composition mirrors
-// the on-page ranking but tuned for thumbnail legibility — top 5 rows for
-// h/sq/yt, top 10 for v (IG Story portrait).
+// the on-page ranking — all 10 rows on every aspect (2026-05-24 parity pass).
 //
 // Imports the same builders the page uses so the card and the page can never
 // drift on rank order.
+//
+// Parity contract with src/components/tools/top-10/Top10RankRow.tsx:
+//   - No velocity pill (HOT/WARM), no description line.
+//   - Orange star (★) prefixes the star count, matching the page row.
+//   - For repo-style categories (repos/agents/movers) the row shows avatar +
+//     owner/name + ★ stars + delta + sparkline. For news/funding/llms it
+//     falls back to the gradient-letter avatar + score, since those slugs
+//     don't resolve to a live Repo.
+//   - satori (the engine behind next/og) only supports flex + a CSS subset,
+//     so we can't reuse Top10RankRow directly. Keep this file visually
+//     aligned by hand.
 
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 
-import { getDerivedRepos } from "@/lib/derived-repos";
-import {
-  getHnTopStories,
-  refreshHackernewsTrendingFromStore,
-} from "@/lib/hackernews-trending";
-import {
-  getBlueskyTopPosts,
-  refreshBlueskyTrendingFromStore,
-} from "@/lib/bluesky-trending";
-import {
-  getDevtoTopArticles,
-  refreshDevtoTrendingFromStore,
-} from "@/lib/devto-trending";
-import {
-  getLobstersTopStories,
-  refreshLobstersTrendingFromStore,
-} from "@/lib/lobsters-trending";
-import {
-  getRecentLaunches,
-  refreshProducthuntLaunchesFromStore,
-} from "@/lib/producthunt";
-import {
-  getFundingSignalsThisWeek,
-  refreshFundingNewsFromStore,
-} from "@/lib/funding-news";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import type { Repo, RepoMentionsRollup, SocialPlatform } from "@/lib/types";
 
 import { Dot, StarMark, truncate } from "@/lib/og-primitives";
-import {
-  buildAgentTop10,
-  buildFundingTop10,
-  buildMoversTop10,
-  buildNewsTop10,
-  buildRepoTop10,
-  emptyBundle,
-} from "@/lib/top10/builders";
+import { buildCustomBundleFromSlugs } from "@/lib/top10/build-custom-bundle";
+import { formatDelta, formatStars } from "@/lib/top10/format";
+import { resolveBundle } from "@/lib/top10/resolve-bundle";
+
+// Mirror of CHANNELS in MentionSourcePips.tsx — drives which source logos
+// render as pips on the right of each OG row. Order is intentional (matches
+// the page's pip ordering). Lobsters is excluded because there's no brand
+// SVG in /public/brand/sources/.
+const MENTION_CHANNELS: Array<{
+  key: SocialPlatform;
+  logo: string;
+  title: string;
+}> = [
+  { key: "github", logo: "github", title: "GitHub" },
+  { key: "hackernews", logo: "hackernews", title: "Hacker News" },
+  { key: "twitter", logo: "x-twitter", title: "X / Twitter" },
+  { key: "reddit", logo: "reddit", title: "Reddit" },
+  { key: "bluesky", logo: "bluesky", title: "Bluesky" },
+  { key: "devto", logo: "devto", title: "Dev.to" },
+  { key: "producthunt", logo: "producthunt", title: "Product Hunt" },
+  { key: "huggingface", logo: "huggingface", title: "Hugging Face" },
+  { key: "arxiv", logo: "arxiv", title: "arXiv" },
+  { key: "npm", logo: "npm", title: "npm" },
+];
+
+function sourceCount(
+  perSource: RepoMentionsRollup["perSource"] | undefined,
+  key: SocialPlatform,
+): number {
+  const channel = perSource?.[key];
+  if (!channel) return 0;
+  return (
+    channel.count ?? Math.max(channel.count24h ?? 0, channel.count7d ?? 0)
+  );
+}
 import {
   CATEGORY_META,
   TOP10_CATEGORIES,
@@ -78,15 +92,6 @@ type Aspect = keyof typeof ASPECT_DIMENSIONS;
 
 const CACHE_HEADER = "public, s-maxage=300, stale-while-revalidate=3600";
 
-const TITLE_BY_CATEGORY: Record<Top10Category, string> = {
-  repos: "The 10 repos\neveryone's starring.",
-  llms: "The 10 models\neveryone's downloading.",
-  agents: "The 10 agents\neveryone's running.",
-  movers: "The 10 fastest\nmovers right now.",
-  news: "The 10 stories\nfeeds can't ignore.",
-  funding: "The 10 biggest\nrounds this week.",
-};
-
 // ---------------------------------------------------------------------------
 // Themes — palette registry lives in src/lib/top10/themes.ts (also consumed
 // by the on-page ThemePicker so both surfaces agree pixel-for-pixel). The
@@ -103,51 +108,61 @@ function parseTheme(value: string | null): Theme {
   return isValidThemeId(value) ? value : "dark";
 }
 
-// ---------------------------------------------------------------------------
-// Bundle resolver — picks the right builder per category, refreshes async
-// data sources first.
-// ---------------------------------------------------------------------------
+// Convert a #RRGGBB hex string to `rgba(r, g, b, a)` — used to mix the brand
+// color with a low-alpha wash on the top-3 row backgrounds, matching the
+// page's `linear-gradient(var(--accent-wash), ...)` treatment.
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
-async function resolveBundle(
-  category: Top10Category,
-  window: Top10Window,
-): Promise<Top10Bundle> {
-  switch (category) {
-    case "repos":
-    case "agents":
-    case "movers": {
-      // Repo-derived. getDerivedRepos is sync + cached, no refresh needed.
-      const repos = getDerivedRepos();
-      if (category === "repos") return buildRepoTop10(repos, window);
-      if (category === "agents") return buildAgentTop10(repos, window);
-      return buildMoversTop10(repos, window);
-    }
-    case "llms": {
-      // Wave 4 will populate from the AA leaderboard. Empty until then.
-      return emptyBundle(window);
-    }
-    case "news": {
-      await Promise.allSettled([
-        refreshHackernewsTrendingFromStore(),
-        refreshBlueskyTrendingFromStore(),
-        refreshDevtoTrendingFromStore(),
-        refreshLobstersTrendingFromStore(),
-        refreshProducthuntLaunchesFromStore(),
-      ]);
-      return buildNewsTop10({
-        hn: getHnTopStories(40),
-        bluesky: getBlueskyTopPosts(40),
-        devto: getDevtoTopArticles(40),
-        lobsters: getLobstersTopStories(40),
-        producthunt: getRecentLaunches(7, 40),
-      });
-    }
-    case "funding": {
-      await refreshFundingNewsFromStore().catch(() => undefined);
-      const signals = getFundingSignalsThisWeek();
-      return signals.length > 0 ? buildFundingTop10(signals) : emptyBundle("7d");
-    }
+// formatStars + formatDelta now live in @/lib/top10/format so the page row
+// and the OG card share one source of truth (round 1 ate a "49k vs 49.5k"
+// regression because they had drifted inline copies).
+
+// SVG card returned when no snapshot exists for the requested past date.
+// Renders as the same dimensions as the live PNG so the X unfurl crop is
+// consistent; tells the receiver honestly that history isn't filled yet.
+function buildEmptySvg(
+  width: number,
+  height: number,
+  theme: Theme,
+  date: string,
+): string {
+  const c = THEMES[theme];
+  const padX = Math.round(width * 0.06);
+  const titleSize = Math.round(height * 0.06);
+  const bodySize = Math.round(height * 0.025);
+  const eyebrowSize = Math.round(height * 0.020);
+  const titleY = height * 0.4;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="${c.bg}"/><text x="${padX}" y="${height * 0.18}" font-family="ui-monospace,monospace" font-size="${eyebrowSize}" fill="${c.textTertiary}" letter-spacing="2">// TRENDINGREPO · TOP 10 · NO SNAPSHOT</text><text x="${padX}" y="${titleY}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="${titleSize}" fill="${c.textPrimary}" font-weight="700">No top 10 for ${escapeXml(date)}</text><text x="${padX}" y="${titleY + titleSize * 1.5}" font-family="ui-monospace,monospace" font-size="${bodySize}" fill="${c.textTertiary}">The daily snapshot cron starts baking at 23:55 UTC.</text><text x="${padX}" y="${titleY + titleSize * 1.5 + bodySize * 1.6}" font-family="ui-monospace,monospace" font-size="${bodySize}" fill="${c.textTertiary}">Pick a more recent date — or today's live top 10.</text><rect x="0" y="${height - 6}" width="${width}" height="6" fill="${c.accentStrip}"/></svg>`;
+}
+
+// Build a normalized polyline points string for an inline sparkline SVG.
+// Returns "" for series < 2 points so the caller can skip rendering.
+function sparklinePolyline(
+  points: number[],
+  width: number,
+  height: number,
+): string {
+  if (points.length < 2) return "";
+  let min = points[0];
+  let max = points[0];
+  for (const p of points) {
+    if (p < min) min = p;
+    if (p > max) max = p;
   }
+  const range = max - min || 1;
+  const stepX = width / (points.length - 1);
+  return points
+    .map((y, i) => {
+      const px = i * stepX;
+      const py = height - ((y - min) / range) * height;
+      return `${px.toFixed(1)},${py.toFixed(1)}`;
+    })
+    .join(" ");
 }
 
 // ---------------------------------------------------------------------------
@@ -174,28 +189,21 @@ function buildSvg(
 ): string {
   const c = THEMES[theme];
   const padX = Math.round(width * 0.06);
-  const padTop = Math.round(height * 0.08);
-  const headerH = Math.round(height * 0.22);
-  const footerH = Math.round(height * 0.08);
+  const padTop = Math.round(height * 0.06);
+  const headerH = Math.round(height * 0.05);
+  const footerH = Math.round(height * 0.06);
   const listTop = padTop + headerH;
   const listH = height - listTop - footerH - padTop * 0.5;
   const rowH = listH / Math.max(1, rowCount);
 
-  const titleLines = TITLE_BY_CATEGORY[category].split("\n");
-  const titleSize = Math.round(height * 0.06);
-  const numberLabel = `// ${new Date().toISOString().slice(0, 10)}`;
+  const headerSize = Math.round(height * 0.020);
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const headerLeft = `// TRENDINGREPO · TOP 10 · ${category.toUpperCase()} · ${window.toUpperCase()} · ${dateStr}`;
 
   const header = `
     <g>
-      <text x="${padX}" y="${padTop * 0.7}" font-family="ui-monospace,monospace" font-size="${Math.round(height * 0.018)}" fill="${c.textTertiary}" letter-spacing="2">// TRENDINGREPO · TOP 10 · ${category.toUpperCase()} · ${window.toUpperCase()}</text>
-      <text x="${width - padX}" y="${padTop * 0.7}" text-anchor="end" font-family="ui-monospace,monospace" font-size="${Math.round(height * 0.018)}" fill="${c.up}" letter-spacing="2">● LIVE</text>
-      <text x="${padX}" y="${padTop + Math.round(headerH * 0.2)}" font-family="ui-monospace,monospace" font-size="${Math.round(height * 0.022)}" fill="${c.brand}" letter-spacing="3" font-weight="600">${escapeXml(numberLabel)}</text>
-      ${titleLines
-        .map(
-          (l, i) =>
-            `<text x="${padX}" y="${padTop + Math.round(headerH * 0.45) + i * titleSize * 1.05}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="${titleSize}" fill="${c.textPrimary}" font-weight="800" letter-spacing="-1">${escapeXml(l)}</text>`,
-        )
-        .join("")}
+      <text x="${padX}" y="${padTop + headerSize}" font-family="ui-monospace,monospace" font-size="${headerSize}" fill="${c.textTertiary}" letter-spacing="2">${escapeXml(headerLeft)}</text>
+      <text x="${width - padX}" y="${padTop + headerSize}" text-anchor="end" font-family="ui-monospace,monospace" font-size="${headerSize}" fill="${c.up}" letter-spacing="2">● LIVE</text>
     </g>
   `;
 
@@ -213,12 +221,19 @@ function buildSvg(
       const rankSize = Math.round(rowH * 0.55);
       const titleSizePx = Math.round(rowH * 0.42);
       const scoreSizePx = Math.round(rowH * 0.36);
+      // Orange star glyph anchored just left of the score (text-anchor=end).
+      // Approx score-text width = scoreText.length * scoreSizePx * 0.6 (mono).
+      const scoreWidth = scoreText.length * scoreSizePx * 0.6;
+      const starSize = scoreSizePx * 0.95;
+      const starX = width - padX - scoreWidth - starSize - 6;
+      const starY = y + rowH * 0.6 - starSize * 0.9;
       return `
         <g>
           <rect x="${padX}" y="${y + 4}" width="3" height="${rowH - 8}" fill="${railColor}"/>
           <text x="${padX + 14}" y="${y + rowH * 0.62}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="${rankSize}" fill="${i < 3 ? railColor : c.rankRest}" font-weight="700">${String(item.rank).padStart(2, "0")}</text>
           <text x="${padX + 14 + rankSize * 1.4}" y="${y + rowH * 0.6}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="${titleSizePx}" fill="${c.textPrimary}" font-weight="600">${titleText}</text>
-          <text x="${width - padX}" y="${y + rowH * 0.6}" text-anchor="end" font-family="ui-monospace,monospace" font-size="${scoreSizePx}" fill="${c.up}" font-weight="600">${escapeXml(scoreText)}</text>
+          <g transform="translate(${starX}, ${starY}) scale(${starSize / 24})"><path d="M12 2l2.9 6.9L22 10l-5.5 4.5 1.9 7.5L12 18l-6.4 4 1.9-7.5L2 10l7.1-1.1L12 2z" fill="${c.brand}"/></g>
+          <text x="${width - padX}" y="${y + rowH * 0.6}" text-anchor="end" font-family="ui-monospace,monospace" font-size="${scoreSizePx}" fill="${c.textPrimary}" font-weight="600">${escapeXml(scoreText)}</text>
         </g>
       `;
     })
@@ -261,6 +276,8 @@ function CardJSX({
   height,
   rowCount,
   theme,
+  repoBySlug,
+  origin,
 }: {
   bundle: Top10Bundle;
   category: Top10Category;
@@ -269,15 +286,15 @@ function CardJSX({
   height: number;
   rowCount: number;
   theme: Theme;
+  repoBySlug: Map<string, Repo>;
+  origin: string;
 }) {
   const c = THEMES[theme];
-  const titleLines = TITLE_BY_CATEGORY[category].split("\n");
   const padding =
-    width >= 1200 ? "48px 64px" : width >= 1080 ? "44px 52px" : "40px 48px";
+    width >= 1200 ? "36px 56px 28px" : width >= 1080 ? "32px 48px 24px" : "28px 40px 22px";
 
-  const titleSize = Math.round(height * 0.058);
-  const subSize = Math.round(height * 0.018);
-  const rowGap = 8;
+  const subSize = Math.round(height * 0.020);
+  const dateStr = new Date().toISOString().slice(0, 10);
 
   return (
     <div
@@ -293,7 +310,7 @@ function CardJSX({
         position: "relative",
       }}
     >
-      {/* Header strip */}
+      {/* Compact single-line header — brand · category · window · date · LIVE */}
       <div
         style={{
           display: "flex",
@@ -305,9 +322,20 @@ function CardJSX({
           letterSpacing: 2,
         }}
       >
-        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <StarMark size={subSize + 2} color={c.brand} />
-          <span>{`// TRENDINGREPO · TOP 10 · ${category.toUpperCase()} · ${window.toUpperCase()}`}</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <StarMark size={subSize + 4} color={c.brand} />
+          <span style={{ display: "flex", color: c.textPrimary, fontWeight: 600 }}>
+            TRENDINGREPO
+          </span>
+          <span style={{ display: "flex" }}>·</span>
+          <span style={{ display: "flex" }}>{`TOP 10`}</span>
+          <span style={{ display: "flex" }}>·</span>
+          <span style={{ display: "flex" }}>{category.toUpperCase()}</span>
+          <span style={{ display: "flex" }}>·</span>
+          <span style={{ display: "flex" }}>{window.toUpperCase()}</span>
+          <span style={{ display: "flex", color: c.brand, marginLeft: 6 }}>
+            {`// ${dateStr}`}
+          </span>
         </span>
         <span
           style={{
@@ -322,67 +350,21 @@ function CardJSX({
         </span>
       </div>
 
-      {/* Date pill */}
-      <div
-        style={{
-          display: "flex",
-          marginTop: 24,
-          fontFamily: "monospace",
-          fontSize: Math.round(height * 0.022),
-          color: c.brand,
-          letterSpacing: 3,
-          fontWeight: 600,
-        }}
-      >
-        {`// ${new Date().toISOString().slice(0, 10)}`}
-      </div>
-
-      {/* Title */}
+      {/* Rows — wrapped in a card frame with 1px gaps so they read as a
+          stacked list, mirroring the .t10-rows treatment on the page. */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          marginTop: 8,
-        }}
-      >
-        {titleLines.map((l, i) => (
-          <span
-            key={i}
-            style={{
-              fontSize: titleSize,
-              fontWeight: 800,
-              letterSpacing: -1,
-              lineHeight: 1,
-              color: c.textPrimary,
-            }}
-          >
-            {l}
-          </span>
-        ))}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          marginTop: 8,
-          fontFamily: "monospace",
-          fontSize: subSize,
-          color: c.textTertiary,
-          letterSpacing: 2,
-        }}
-      >
-        {`${windowDisplay(window)} · ${bundle.meta.meanScore} · ${bundle.meta.totalMovement.toUpperCase()}`}
-      </div>
-
-      {/* Rows */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginTop: 28,
-          gap: rowGap,
+          marginTop: 22,
+          gap: 1,
+          backgroundColor: c.railRest,
+          borderRadius: 8,
+          overflow: "hidden",
           flex: 1,
         }}
       >
+        <CardHeaderRow height={height} theme={theme} />
         {bundle.items.slice(0, rowCount).map((item, i) => (
           <CardRow
             key={item.slug}
@@ -390,6 +372,8 @@ function CardJSX({
             index={i}
             height={height}
             theme={theme}
+            liveRepo={repoBySlug.get(item.slug.toLowerCase()) ?? null}
+            origin={origin}
           />
         ))}
         {bundle.items.length === 0 && (
@@ -406,26 +390,55 @@ function CardJSX({
         )}
       </div>
 
-      {/* Footer */}
+      {/* Bottom stats strip — 4 cells matching the page's .t10-meta grid
+          (Movement, Mean Score, Hottest, Coldest). Uses 1px gap with the
+          railRest bg-fill trick the rows container uses, so it reads as a
+          framed bar instead of four floating cells. */}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 12,
-          fontFamily: "monospace",
-          fontSize: subSize,
-          color: c.textTertiary,
-          letterSpacing: 2,
+          marginTop: 10,
+          gap: 1,
+          backgroundColor: c.railRest,
+          borderRadius: 8,
+          overflow: "hidden",
+          border: `1px solid ${c.railRest}`,
         }}
       >
-        <span>TRENDINGREPO.COM/TOP10</span>
-        <span style={{ display: "flex", color: c.textPrimary }}>
-          {bundle.meta.totalMovement.toUpperCase()}
-        </span>
+        <StatCell
+          label="movement"
+          value={bundle.meta.totalMovement}
+          sub={bundle.meta.totalMovementSub}
+          height={height}
+          theme={theme}
+        />
+        <StatCell
+          label="mean score"
+          value={bundle.meta.meanScore}
+          sub={bundle.meta.meanScoreSub}
+          height={height}
+          theme={theme}
+        />
+        <StatCell
+          label="hottest"
+          value={bundle.meta.hottest}
+          sub={bundle.meta.hottestSub}
+          height={height}
+          theme={theme}
+          tone="hot"
+        />
+        <StatCell
+          label="coldest"
+          value={bundle.meta.coldest ?? "—"}
+          sub={bundle.meta.coldestSub}
+          height={height}
+          theme={theme}
+          tone="cold"
+        />
       </div>
 
-      {/* Accent strip */}
+      {/* Accent strip — URL footer dropped because the stats strip above
+          already carries `+18% net`; repeating it just stole vertical room. */}
       <div
         style={{
           position: "absolute",
@@ -441,37 +454,210 @@ function CardJSX({
   );
 }
 
-function CardRow({
-  item,
-  index,
+function StatCell({
+  label,
+  value,
+  sub,
   height,
   theme,
+  tone,
 }: {
-  item: Top10Item;
-  index: number;
+  label: string;
+  value: string;
+  sub?: string;
   height: number;
   theme: Theme;
+  tone?: "hot" | "cold";
 }) {
   const c = THEMES[theme];
-  const railColor =
-    index === 0
-      ? c.rail1
-      : index === 1
-        ? c.rail2
-        : index === 2
-          ? c.rail3
-          : c.railRest;
-  const rowFontTitle = Math.round(height * 0.034);
-  const rowFontRank = Math.round(height * 0.038);
-  const rowFontScore = Math.round(height * 0.026);
-  const owner = item.owner ? `${item.owner} / ` : "";
+  const labelSize = Math.round(height * 0.014);
+  const valueSize = Math.round(height * 0.024);
+  const subSize = Math.round(height * 0.014);
+  const valueColor =
+    tone === "hot"
+      ? c.brand
+      : tone === "cold"
+        ? c.textTertiary
+        : c.textPrimary;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        gap: 3,
+        padding: "10px 14px",
+        backgroundColor: c.bg,
+      }}
+    >
+      <span
+        style={{
+          display: "flex",
+          fontFamily: "monospace",
+          fontSize: labelSize,
+          letterSpacing: 2,
+          textTransform: "uppercase",
+          color: c.textTertiary,
+        }}
+      >
+        {label}
+      </span>
+      <span
+        style={{
+          display: "flex",
+          fontFamily: "monospace",
+          fontSize: valueSize,
+          color: valueColor,
+          fontWeight: 500,
+        }}
+      >
+        {truncate(value, 22)}
+      </span>
+      {sub ? (
+        <span
+          style={{
+            display: "flex",
+            fontFamily: "monospace",
+            fontSize: subSize,
+            color: c.textTertiary,
+            letterSpacing: 1,
+          }}
+        >
+          {truncate(sub, 28)}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+// Column-header row above the OG card rows. Labels the naked numeric cells
+// (24H / 7D / STARS / MENTIONS) so the OG card reads identically to the page.
+// Widths match CardRow + MentionPipsCell exactly so columns align.
+function CardHeaderRow({ height, theme }: { height: number; theme: Theme }) {
+  const c = THEMES[theme];
+  const labelSize = Math.round(height * 0.018);
+  const avatarSize = Math.round(height * 0.046);
+  const mentionsW = Math.round(height * 0.22);
+
+  const labelStyle = {
+    display: "flex",
+    fontFamily: "monospace",
+    fontSize: labelSize,
+    letterSpacing: 2,
+    color: c.textTertiary,
+    textTransform: "uppercase" as const,
+  };
+
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
         gap: 14,
-        padding: "6px 0 6px 12px",
+        padding: "6px 14px",
+        backgroundColor: c.bg,
+        borderLeft: "3px solid transparent",
+      }}
+    >
+      <span style={{ display: "flex", width: 44 }} />
+      <span style={{ display: "flex", width: avatarSize }} />
+      <span style={{ display: "flex", flex: 1 }} />
+      <span style={{ ...labelStyle, width: 72, justifyContent: "flex-end" }}>
+        24H
+      </span>
+      <span style={{ ...labelStyle, width: 72, justifyContent: "flex-end" }}>
+        7D
+      </span>
+      <span style={{ ...labelStyle, width: 100, justifyContent: "flex-end" }}>
+        STARS
+      </span>
+      <span style={{ display: "flex", width: Math.round(height * 0.115) }} />
+      <span style={{ ...labelStyle, width: mentionsW, justifyContent: "flex-end" }}>
+        MENTIONS
+      </span>
+    </div>
+  );
+}
+
+function CardRow({
+  item,
+  index,
+  height,
+  theme,
+  liveRepo,
+  origin,
+}: {
+  item: Top10Item;
+  index: number;
+  height: number;
+  theme: Theme;
+  liveRepo: Repo | null;
+  origin: string;
+}) {
+  const c = THEMES[theme];
+  const isTop3 = index < 3;
+
+  const rowFontTitle = Math.round(height * 0.030);
+  const rowFontRank = isTop3
+    ? Math.round(height * 0.040)
+    : Math.round(height * 0.034);
+  const rowFontStars = Math.round(height * 0.026);
+  const avatarSize = Math.round(height * 0.046);
+
+  const owner = item.owner ?? "";
+  const name = item.title;
+
+  // Star count: prefer live Repo.stars when we have it (repos/agents/movers),
+  // fall back to the snapshot's deltaPct / score for news / funding / llms.
+  // Uses formatStars (1-decimal in 10k-100k) to match the on-page format.
+  const stars = liveRepo?.stars;
+  const starsLabel =
+    stars !== undefined
+      ? formatStars(stars)
+      : item.deltaPct !== undefined
+        ? `${item.deltaPct >= 0 ? "+" : ""}${item.deltaPct.toFixed(0)}%`
+        : item.score.toFixed(2);
+
+  // Deltas: matches page's formatDelta — "+594" / "+1.3k" / "·" / "—".
+  // 24h is missing when no live repo at all. 7d has its own missing flag for
+  // "genuinely flat" vs "unknown yet" distinction (matches page).
+  const delta24h = formatDelta(liveRepo?.starsDelta24h ?? 0, !liveRepo);
+  const delta7d = formatDelta(
+    liveRepo?.starsDelta7d ?? 0,
+    liveRepo?.starsDelta7dMissing ?? !liveRepo,
+  );
+  const deltaColor = (d: typeof delta24h) =>
+    d.sign === "up" ? c.up : c.textTertiary;
+
+  // Sparkline: snapshot-frozen series wins, fall back to live spine.
+  const sparkPoints =
+    item.sparkline && item.sparkline.length > 1
+      ? item.sparkline
+      : (liveRepo?.sparklineData?.slice(-30) ?? []);
+  const sparkW = Math.round(height * 0.115);
+  const sparkH = Math.round(height * 0.030);
+  const sparkPath = sparklinePolyline(sparkPoints, sparkW, sparkH);
+  const sparkRising =
+    sparkPoints.length > 1 &&
+    sparkPoints[sparkPoints.length - 1] >= sparkPoints[0];
+  const sparkColor = sparkRising ? c.up : c.textTertiary;
+
+  const avatarBg = `linear-gradient(135deg, ${item.avatarGradient[0]}, ${item.avatarGradient[1]})`;
+
+  // Top-3 wash + orange left rail mirror the page's `.t10-row.top3`
+  // treatment. Composed inline (no `undefined`/spread) because satori is
+  // picky about partial style objects with the linear-gradient path.
+  const rowBg = isTop3 ? hexToRgba(c.brand, 0.08) : c.bg;
+  const railColor = isTop3 ? c.brand : "transparent";
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        padding: "5px 14px",
+        backgroundColor: rowBg,
         borderLeft: `3px solid ${railColor}`,
       }}
     >
@@ -480,55 +666,247 @@ function CardRow({
           display: "flex",
           fontSize: rowFontRank,
           fontWeight: 700,
-          color: index < 3 ? railColor : c.rankRest,
-          width: 56,
-          fontFamily: "sans-serif",
+          color: isTop3 ? c.brand : c.rankRest,
+          width: 44,
+          fontFamily: "monospace",
         }}
       >
         {String(item.rank).padStart(2, "0")}
       </span>
+      {liveRepo?.ownerAvatarUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element -- satori needs raw <img>
+        <img
+          src={liveRepo.ownerAvatarUrl}
+          width={avatarSize}
+          height={avatarSize}
+          alt=""
+          style={{
+            display: "flex",
+            borderRadius: 2,
+            backgroundColor: c.textTertiary,
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            width: avatarSize,
+            height: avatarSize,
+            backgroundImage: avatarBg,
+            color: c.bg,
+            fontFamily: "monospace",
+            fontWeight: 700,
+            fontSize: Math.round(avatarSize * 0.5),
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 2,
+          }}
+        >
+          {item.avatarLetter}
+        </div>
+      )}
       <span
         style={{
           display: "flex",
           flex: 1,
           fontSize: rowFontTitle,
           color: c.textPrimary,
-          fontWeight: 600,
-          fontFamily: "sans-serif",
+          fontWeight: 500,
+          fontFamily: "monospace",
           overflow: "hidden",
         }}
       >
-        {truncate(owner + item.title, 40)}
+        {owner ? (
+          <>
+            <span style={{ display: "flex", color: c.textTertiary }}>
+              {owner}
+            </span>
+            <span
+              style={{
+                display: "flex",
+                color: c.textTertiary,
+                opacity: 0.55,
+                padding: "0 4px",
+              }}
+            >
+              /
+            </span>
+            <span style={{ display: "flex", color: c.textPrimary }}>
+              {truncate(name, 32)}
+            </span>
+          </>
+        ) : (
+          <span style={{ display: "flex" }}>{truncate(name, 40)}</span>
+        )}
       </span>
       <span
         style={{
           display: "flex",
-          fontSize: rowFontScore,
+          justifyContent: "flex-end",
+          width: 72,
           fontFamily: "monospace",
-          color: c.up,
-          fontWeight: 600,
+          fontSize: Math.round(rowFontStars * 0.95),
+          color: deltaColor(delta24h),
+          fontVariantNumeric: "tabular-nums",
         }}
       >
-        {item.deltaPct !== undefined
-          ? `${item.deltaPct >= 0 ? "+" : ""}${item.deltaPct.toFixed(0)}%`
-          : item.score.toFixed(2)}
+        {delta24h.text}
       </span>
+      <span
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          width: 72,
+          fontFamily: "monospace",
+          fontSize: Math.round(rowFontStars * 0.95),
+          color: deltaColor(delta7d),
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {delta7d.text}
+      </span>
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          gap: 6,
+          width: 100,
+          fontFamily: "monospace",
+          fontSize: rowFontStars,
+          fontWeight: 600,
+          color: c.textPrimary,
+        }}
+      >
+        <StarMark size={rowFontStars} color={c.brand} />
+        <span style={{ display: "flex" }}>{starsLabel}</span>
+      </span>
+      {sparkPath ? (
+        <svg
+          width={sparkW}
+          height={sparkH}
+          viewBox={`0 0 ${sparkW} ${sparkH}`}
+          style={{ display: "flex" }}
+        >
+          <polyline
+            points={sparkPath}
+            fill="none"
+            stroke={sparkColor}
+            strokeWidth={1.5}
+          />
+        </svg>
+      ) : (
+        <span style={{ display: "flex", width: sparkW }} />
+      )}
+      <MentionPipsCell
+        liveRepo={liveRepo}
+        height={height}
+        theme={theme}
+        origin={origin}
+      />
     </div>
   );
 }
 
-function windowDisplay(w: Top10Window): string {
-  switch (w) {
-    case "24h":
-      return "24-HOUR WINDOW";
-    case "7d":
-      return "7-DAY WINDOW";
-    case "30d":
-      return "30-DAY WINDOW";
-    case "ytd":
-      return "YEAR-TO-DATE";
+function MentionPipsCell({
+  liveRepo,
+  height,
+  theme,
+  origin,
+}: {
+  liveRepo: Repo | null;
+  height: number;
+  theme: Theme;
+  origin: string;
+}) {
+  const c = THEMES[theme];
+  const pipSize = Math.round(height * 0.028);
+  const countSize = Math.round(height * 0.022);
+  const cellWidth = Math.round(height * 0.22);
+
+  const rollup = liveRepo?.mentions?.perSource;
+  const active = MENTION_CHANNELS.map((ch) => ({
+    ...ch,
+    n: sourceCount(rollup, ch.key),
+  })).filter((ch) => ch.n > 0);
+  const visible = active.slice(0, 4);
+  const overflow = active.length - visible.length;
+  const total =
+    liveRepo?.mentions?.total ??
+    liveRepo?.mentions?.total24h ??
+    liveRepo?.mentionCount24h ??
+    0;
+
+  if (active.length === 0 && total === 0) {
+    return (
+      <span
+        style={{
+          display: "flex",
+          width: cellWidth,
+          justifyContent: "flex-end",
+          color: c.textTertiary,
+          fontFamily: "monospace",
+          fontSize: countSize * 0.8,
+        }}
+      >
+        —
+      </span>
+    );
   }
+
+  return (
+    <span
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        width: cellWidth,
+        justifyContent: "flex-end",
+      }}
+    >
+      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        {visible.map((ch) => (
+          // eslint-disable-next-line @next/next/no-img-element -- satori needs raw <img>
+          <img
+            key={ch.key}
+            src={`${origin}/brand/sources/${ch.logo}.svg`}
+            width={pipSize}
+            height={pipSize}
+            alt=""
+            style={{ display: "flex" }}
+          />
+        ))}
+        {overflow > 0 ? (
+          <span
+            style={{
+              display: "flex",
+              fontFamily: "monospace",
+              fontSize: countSize * 0.7,
+              color: c.textTertiary,
+              marginLeft: 2,
+            }}
+          >
+            +{overflow}
+          </span>
+        ) : null}
+      </span>
+      {total > 0 ? (
+        <span
+          style={{
+            display: "flex",
+            fontFamily: "monospace",
+            fontSize: countSize,
+            color: c.textPrimary,
+            fontWeight: 600,
+          }}
+        >
+          {total.toLocaleString("en-US")}
+        </span>
+      ) : null}
+    </span>
+  );
 }
+
 
 // ---------------------------------------------------------------------------
 // Route handler
@@ -577,11 +955,41 @@ export async function GET(request: NextRequest) {
   Sentry.setTag("og.aspect", aspect);
   Sentry.setTag("og.format", format);
 
-  // 5 rows for h/sq/yt; 10 rows for v (IG Story portrait has the headroom).
-  const rowCount = aspect === "v" ? 10 : 5;
+  // All aspects render all 10 rows (2026-05-24 parity pass — was 5/10 split).
+  const rowCount = 10;
+
+  // 2026-05-25: date archive dropped — OG always renders today's live
+  // ranking (or a user-composed `?my=` list). The `?date=` param is still
+  // tolerated for back-compat with cached share links but is ignored.
+
+  // `?my=slug1,slug2,…` — user-composed top 10. Overrides live so the share
+  // card always reflects exactly the slugs in the URL.
+  const myParam = searchParams.get("my");
+  const mySlugs = myParam
+    ? myParam.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 10)
+    : [];
 
   try {
-    const bundle = await resolveBundle(category, window);
+    const bundle: Top10Bundle =
+      mySlugs.length > 0
+        ? buildCustomBundleFromSlugs(mySlugs, window)
+        : await resolveBundle(category, window);
+
+    // Resolve live Repo data for repo-style categories so the row can render
+    // avatar + real star count + 7d delta + sparkline. News/funding/llms
+    // items don't have a repo backing — Map.get returns undefined and CardRow
+    // gracefully falls back to the gradient-letter avatar + snapshot score.
+    const repoBySlug = new Map<string, Repo>();
+    if (category === "repos" || category === "agents" || category === "movers") {
+      for (const item of bundle.items) {
+        try {
+          const repo = getDerivedRepoByFullName(item.slug);
+          if (repo) repoBySlug.set(item.slug.toLowerCase(), repo);
+        } catch {
+          // Derived spine missing on cold deploy — fall through to snapshot.
+        }
+      }
+    }
 
     if (format === "svg") {
       const svg = buildSvg(
@@ -606,6 +1014,10 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    // Origin for absolute <img> URLs inside satori — brand SVGs at
+    // /brand/sources/*.svg need to resolve to a fully-qualified URL.
+    const origin = new URL(request.url).origin;
+
     return new ImageResponse(
       (
         <CardJSX
@@ -616,6 +1028,8 @@ export async function GET(request: NextRequest) {
           height={dim.height}
           rowCount={rowCount}
           theme={theme}
+          repoBySlug={repoBySlug}
+          origin={origin}
         />
       ),
       {

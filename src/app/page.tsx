@@ -8,7 +8,7 @@ import {
   getLlmsAsRepos,
   refreshCategoryFromStore,
 } from "@/lib/category-adapters";
-import { refreshAaLlmsFromStore, getAaLlmsRanked } from "@/lib/aa-llms";
+import { refreshAaLlmsFromStore, getAaLlmsRanked, getAaLlmsFile } from "@/lib/aa-llms";
 import {
   LlmsLeaderboardTable,
   FeaturedLlms,
@@ -23,7 +23,6 @@ import type { Repo } from "@/lib/types";
 import { FeaturedRepos } from "@/components/trending/FeaturedRepos";
 import { TrendingHubHero, type CategoryId, type WindowId, CATEGORIES, WINDOWS } from "@/components/trending/TrendingHubHero";
 import { TrendingControlBar } from "@/components/trending/TrendingControlBar";
-import { KpiStrip } from "@/components/trending/KpiStrip";
 import { TrendingTable } from "@/components/trending/TrendingTable";
 
 export const revalidate = 1800;
@@ -59,11 +58,13 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const ranker = normalizeRanker(rawRank);
 
   await refreshTrendingFromStore().catch(() => undefined);
-  if (category === "llms") {
-    await refreshAaLlmsFromStore().catch(() => undefined);
-  } else if (category !== "repos") {
+  // Always refresh AA LLMs so the control-bar pill count is honest from any
+  // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
+  // cheap to call on every render.
+  await refreshAaLlmsFromStore().catch(() => undefined);
+  if (category !== "repos" && category !== "llms") {
     await refreshCategoryFromStore(category).catch(() => undefined);
-  } else if (ranker === "trend") {
+  } else if (category === "repos" && ranker === "trend") {
     await refreshTrendshiftFromStore().catch(() => undefined);
   }
 
@@ -78,8 +79,13 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // items must have non-zero delta in the active time window. Otherwise rows
   // with 7d/30d activity but no 24h movement sneak to the top of the 24h
   // view — operator-rejected ("TOP RANKING IS SHIT").
+  //
+  // Agents excluded from this filter — the agents bucket is already curated
+  // by a tight whitelist (AGENT_REPO_SET), so curated builds like Hermes /
+  // Superpowers / Claude Code from past_week / past_month buckets must stay
+  // visible even when their 24h delta is zero.
   const requireWindowDelta =
-    sort === "momentum" && ranker === "top" && (category === "repos" || category === "agents");
+    sort === "momentum" && ranker === "top" && category === "repos";
   const repos = requireWindowDelta
     ? rawRepos.filter((r) => {
         if (timeWindow === "24h") return (r.starsDelta24h ?? 0) > 0;
@@ -98,8 +104,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const switcherCounts: Partial<Record<CategoryId, number>> = {
     repos: safe(() => getDerivedRepoCount(), repos.length),
     agents: counts?.agentRepos ?? 0,
-    // llms count will be the AA model count once Wave 4 wires the reader.
-    llms: 0,
+    llms: safe(() => getAaLlmsFile().models.length, 0),
   };
 
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
@@ -110,8 +115,6 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   return (
     <div className="route-shell">
       <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
-
-      <KpiStrip />
 
       {category === "llms" ? (
         <FeaturedLlms rows={aaRows} />

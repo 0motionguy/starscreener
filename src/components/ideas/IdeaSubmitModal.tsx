@@ -9,7 +9,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { ArrowRight, X } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 
 interface IdeaSubmitModalProps {
   signedIn: boolean;
@@ -159,7 +159,7 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
             aria-label="Close"
             onClick={close}
           >
-            <X size={16} strokeWidth={2} aria-hidden="true" />
+            <Icon name="close" size="lg" />
           </button>
         </header>
         {successId ? (
@@ -171,7 +171,7 @@ export function IdeaSubmitModal({ signedIn }: IdeaSubmitModalProps) {
               style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
             >
               View the idea{" "}
-              <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
+              <Icon name="arrow-right" size="md" />
             </a>
           </div>
         ) : (

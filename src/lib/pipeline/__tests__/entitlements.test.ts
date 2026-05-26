@@ -108,8 +108,10 @@ test("TIERS: every declared tier has every feature key defined", () => {
 
 test("TIERS: pricing reflects the tier design brief", () => {
   assert.equal(TIERS.free.priceMonthlyUsd, 0);
-  assert.equal(TIERS.pro.priceMonthlyUsd, 19);
-  assert.equal(TIERS.pro.priceYearlyUsd, 180);
+  // Pro repriced 2026-05 to $6.50/mo ($60/yr) — "cheaper than a latte"
+  // positioning (see TIERS.pro.priceCompare in src/lib/pricing/tiers.ts).
+  assert.equal(TIERS.pro.priceMonthlyUsd, 6.5);
+  assert.equal(TIERS.pro.priceYearlyUsd, 60);
   assert.equal(TIERS.team.priceMonthlyUsd, 49);
   assert.equal(TIERS.team.priceYearlyUsd, 480);
   assert.equal(TIERS.team.minSeats, 3);
@@ -166,7 +168,7 @@ test("monthlyCostForSeats: team billing honors min + extra seats", () => {
   assert.equal(monthlyCostForSeats("team", 3), 49); // min
   assert.equal(monthlyCostForSeats("team", 4), 49 + 49); // +1 extra
   assert.equal(monthlyCostForSeats("team", 2), 49); // clamps to min
-  assert.equal(monthlyCostForSeats("pro", 1), 19);
+  assert.equal(monthlyCostForSeats("pro", 1), 6.5);
   assert.equal(monthlyCostForSeats("free", 1), 0);
   assert.equal(monthlyCostForSeats("enterprise", 10), null);
 });

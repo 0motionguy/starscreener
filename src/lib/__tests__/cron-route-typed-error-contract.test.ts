@@ -20,7 +20,7 @@ const ROUTES: CronRouteCase[] = [
   { name: "freshness-state", path: "/api/cron/freshness/state", method: "GET", modulePath: "@/app/api/cron/freshness/state/route" },
   { name: "llm-aggregate", path: "/api/cron/llm/aggregate", method: "GET", modulePath: "@/app/api/cron/llm/aggregate/route" },
   { name: "llm-sync-models", path: "/api/cron/llm/sync-models", method: "GET", modulePath: "@/app/api/cron/llm/sync-models/route" },
-  { name: "mcp-rotate-usage", path: "/api/cron/mcp/rotate-usage", method: "POST", modulePath: "@/app/api/cron/mcp/rotate-usage/route" },
+  // mcp-rotate-usage route was removed in fc3c3b155 (strip MCP surfaces); entry retired.
   { name: "news-auto-recover", path: "/api/cron/news-auto-recover", method: "POST", modulePath: "@/app/api/cron/news-auto-recover/route" },
   { name: "twitter-daily", path: "/api/cron/twitter-daily", method: "POST", modulePath: "@/app/api/cron/twitter-daily/route" },
   { name: "twitter-weekly-recap", path: "/api/cron/twitter-weekly-recap", method: "POST", modulePath: "@/app/api/cron/twitter-weekly-recap/route" },

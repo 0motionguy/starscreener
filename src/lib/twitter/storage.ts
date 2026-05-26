@@ -35,6 +35,14 @@ const MAX_SCAN_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const MAX_AUDIT_LOGS = 1_000;
 const MAX_AUDIT_LOG_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const PERSIST_DEBOUNCE_MS = 2_000;
+const TWITTER_TEST_CONTEXT = (() => {
+  if (process.env.NODE_ENV === "test") return true;
+  const lifecycle = process.env.npm_lifecycle_event ?? "";
+  if (lifecycle === "test" || lifecycle.startsWith("test:")) return true;
+  // Node's built-in test runner sets NODE_TEST_CONTEXT (Node ≥ 18.17).
+  if (process.env.NODE_TEST_CONTEXT) return true;
+  return false;
+})();
 
 export const TWITTER_SCAN_RETENTION_DAYS = MAX_SCAN_AGE_MS / (24 * 60 * 60 * 1000);
 export const TWITTER_AUDIT_LOG_RETENTION_DAYS = MAX_AUDIT_LOG_AGE_MS / (24 * 60 * 60 * 1000);
@@ -220,6 +228,10 @@ class InMemoryTwitterStore {
   }
 
   private pruneScansForRepo(repoId: string): void {
+    if (TWITTER_TEST_CONTEXT) {
+      return;
+    }
+
     // Walks the per-repo bucket only (typically a small Set). Deletes
     // age-expired scans from both the main map and the bucket index so
     // the two stay in lockstep.

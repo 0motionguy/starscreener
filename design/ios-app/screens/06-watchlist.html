@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=390,initial-scale=1,viewport-fit=cover">
+<title>Watchlist — Trending Repos</title>
+<style>
+  :root{
+    --bg:#000; --elev-1:#1c1c1e; --elev-2:#2c2c2e; --elev-3:#3a3a3c;
+    --label:#fff; --label-2:rgba(235,235,245,.60); --label-3:rgba(235,235,245,.30); --label-4:rgba(235,235,245,.18);
+    --fill-1:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.24); --fill-3:rgba(118,118,128,.16);
+    --sep:rgba(84,84,88,.30); --sep-strong:rgba(84,84,88,.55);
+    --accent:#ff6b35; --accent-soft:rgba(255,107,53,.16); --accent-dim:rgba(255,107,53,.28);
+    --blue:#0a84ff; --green:#30d158; --yellow:#ffd60a; --red:#ff453a; --purple:#bf5af2; --pink:#ff375f;
+    --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+    --f-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    --f-mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+  html,body{width:390px;height:844px;background:var(--bg);color:var(--label);font-family:var(--f-text);font-size:17px;line-height:1.41;letter-spacing:-.014em;overflow:hidden;position:relative;}
+
+  /* one accent flourish */
+  body::before{content:"";position:absolute;top:-160px;right:-100px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.08) 0%,transparent 65%);filter:blur(40px);pointer-events:none;z-index:0;}
+
+  .status-bar{height:54px;padding:18px 30px 0;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:600;letter-spacing:-.4px;position:relative;z-index:10;}
+  .status-bar .time{font-variant-numeric:tabular-nums;}
+  .status-bar .sys{display:flex;align-items:center;gap:5px;}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:37px;background:#000;border-radius:99px;z-index:30;pointer-events:none;}
+  .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#fff;opacity:.85;z-index:25;}
+
+  .screen{position:relative;width:100%;height:100%;display:flex;flex-direction:column;z-index:1;}
+
+  /* Large Title nav */
+  .nav-bar{padding:6px 16px 0;display:flex;align-items:center;justify-content:space-between;}
+  .nav-bar h1{font-family:var(--f-display);font-size:34px;font-weight:700;letter-spacing:-1.0px;line-height:1.0;color:var(--label);}
+  .nav-bar h1 .em{color:var(--accent);}
+  .nav-actions{display:flex;align-items:center;gap:6px;}
+  .icon-btn{width:36px;height:36px;border-radius:99px;background:var(--fill-3);border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent);}
+  .icon-btn svg{width:18px;height:18px;}
+  .avatar-btn{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3a3a3c,#1c1c1e);border:1.5px solid var(--accent);display:grid;place-items:center;color:var(--label);font-size:12px;font-weight:600;font-family:var(--f-display);cursor:pointer;}
+
+  .sub-line{padding:4px 18px 0;display:flex;align-items:center;gap:8px;}
+  .sub-text{font-family:var(--f-mono);font-size:12.5px;color:var(--label-2);font-variant-numeric:tabular-nums;}
+  .sub-text b{color:var(--label);font-weight:600;}
+
+  /* Segmented control */
+  .segmented{margin:14px 16px 0;display:flex;background:var(--fill-3);border-radius:9px;padding:2px;height:32px;}
+  .seg{flex:1;background:none;border:0;color:var(--label-2);font-family:var(--f-text);font-size:13px;font-weight:500;letter-spacing:-.08px;border-radius:7px;cursor:pointer;display:grid;place-items:center;}
+  .seg.on{background:var(--elev-2);color:var(--label);box-shadow:0 3px 8px rgba(0,0,0,.16),0 .5px 0 rgba(255,255,255,.05) inset;font-weight:600;}
+  .seg .n{font-family:var(--f-mono);font-size:11px;margin-left:5px;opacity:.7;font-variant-numeric:tabular-nums;}
+
+  /* Quick stats strip */
+  .quick-stats{margin:14px 16px 0;padding:14px;border-radius:14px;background:var(--elev-1);display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .qs{display:flex;flex-direction:column;align-items:flex-start;gap:2px;position:relative;}
+  .qs:not(:last-child)::after{content:"";position:absolute;right:-6px;top:4px;bottom:4px;width:.5px;background:var(--sep);}
+  .qs .v{font-family:var(--f-display);font-size:22px;font-weight:700;letter-spacing:-.6px;font-variant-numeric:tabular-nums;color:var(--label);line-height:1.05;}
+  .qs .v.up{color:var(--green);}
+  .qs .v.accent{color:var(--accent);}
+  .qs .l{font-size:11.5px;font-weight:500;color:var(--label-2);letter-spacing:-.06px;}
+
+  /* Section headers */
+  .section{padding:18px 18px 8px;display:flex;align-items:baseline;justify-content:space-between;}
+  .section h2{font-family:var(--f-display);font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--label-3);}
+  .section .right{font-family:var(--f-mono);font-size:11.5px;color:var(--label-3);letter-spacing:.04em;}
+
+  /* List */
+  .scroll{flex:1;overflow-y:auto;padding:0 0 14px;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  .list{margin:0 16px;background:var(--elev-1);border-radius:14px;overflow:hidden;}
+  .list-row{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;position:relative;}
+  .list-row:not(:last-child)::after{content:"";position:absolute;left:60px;right:0;bottom:0;height:.5px;background:var(--sep);}
+  .list-row:active{background:var(--elev-2);}
+
+  .avatar{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:14px;flex-shrink:0;letter-spacing:-.3px;}
+  .avatar.v{background:linear-gradient(135deg,#fff,#666);color:#000;}
+  .avatar.a{background:linear-gradient(135deg,#cc785c,#8b4513);}
+  .avatar.o{background:linear-gradient(135deg,#10a37f,#076148);}
+  .avatar.l{background:linear-gradient(135deg,#fbbf24,#d97706);}
+  .avatar.ol{background:linear-gradient(135deg,#fff,#a3a3a3);color:#000;}
+  .avatar.vl{background:linear-gradient(135deg,#22d3ee,#0891b2);}
+  .avatar.hf{background:linear-gradient(135deg,#fcd34d,#f59e0b);}
+
+  .row-main{flex:1;min-width:0;}
+  .row-top{display:flex;align-items:baseline;gap:8px;}
+  .row-name{font-family:var(--f-display);font-size:16px;font-weight:600;letter-spacing:-.32px;color:var(--label);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row-owner{font-size:11.5px;font-weight:500;color:var(--label-3);letter-spacing:-.06px;flex-shrink:0;}
+  .row-sub{margin-top:3px;display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;color:var(--label-2);font-variant-numeric:tabular-nums;}
+  .row-sub .d{display:inline-flex;align-items:center;gap:3px;}
+  .row-sub .d.up{color:var(--green);font-weight:600;}
+  .row-sub .d.up svg{width:8px;height:8px;}
+  .row-sub .flag{display:inline-flex;align-items:center;gap:4px;padding:2px 6px 2px 5px;border-radius:5px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+  .row-sub .flag.rel{background:rgba(48,209,88,.16);color:var(--green);}
+  .row-sub .flag.iss{background:rgba(255,69,58,.16);color:var(--red);}
+  .row-sub .flag.act{background:rgba(10,132,255,.16);color:var(--blue);}
+  .row-sub .flag svg{width:8px;height:8px;}
+
+  .row-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+  .bell{width:30px;height:30px;border-radius:8px;border:0;background:var(--fill-3);display:grid;place-items:center;cursor:pointer;color:var(--label-2);}
+  .bell svg{width:14px;height:14px;}
+  .bell.on{background:var(--accent-soft);color:var(--accent);}
+  .row-spark{width:48px;height:14px;}
+
+  /* Swipe hint demo on first card */
+  .list-row.swipe{transform:translateX(-72px);background:var(--elev-1);position:relative;transition:transform .25s;}
+  .list-row.swipe::after{display:none;}
+  .swipe-actions{position:absolute;right:0;top:0;bottom:0;display:flex;}
+  .swipe-actions .sa{width:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#fff;font-size:11px;font-weight:500;letter-spacing:-.06px;}
+  .swipe-actions .sa svg{width:18px;height:18px;}
+  .swipe-actions .sa.alert{background:var(--blue);}
+  .swipe-actions .sa.del{background:var(--red);}
+
+  /* Suggestion card */
+  .sug-card{margin:0 16px;padding:14px;border-radius:14px;background:var(--elev-1);display:flex;flex-direction:column;gap:10px;cursor:pointer;}
+  .sug-card:active{background:var(--elev-2);}
+  .sug-top{display:flex;align-items:center;gap:10px;}
+  .sug-title{font-family:var(--f-display);font-size:15px;font-weight:600;letter-spacing:-.24px;color:var(--label);flex:1;}
+  .add-btn{padding:6px 10px;border-radius:99px;background:var(--accent);color:#0a0606;border:0;font-family:var(--f-text);font-size:12px;font-weight:600;letter-spacing:-.08px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+  .add-btn svg{width:11px;height:11px;}
+  .sug-reason{font-size:13.5px;color:var(--label-2);line-height:1.4;letter-spacing:-.08px;}
+
+  /* Tab bar */
+  .tab-bar{position:absolute;bottom:0;left:0;right:0;height:83px;padding:6px 0 22px;display:flex;justify-content:space-around;align-items:flex-start;background:rgba(20,20,22,.78);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-top:.5px solid var(--sep);z-index:15;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 8px 0;background:none;border:0;color:var(--label-3);font-family:var(--f-text);font-size:10px;font-weight:500;letter-spacing:-.06px;cursor:pointer;min-width:56px;}
+  .tab svg{width:26px;height:26px;}
+  .tab.on{color:var(--accent);}
+  .tab .ico{width:26px;height:26px;display:grid;place-items:center;color:currentColor;}
+  .tab .ico svg{fill:currentColor;}
+</style>
+</head>
+<body>
+  <div class="island"></div>
+  <header class="status-bar">
+    <span class="time">9:41</span>
+    <span class="sys">
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="6" width="3" height="5" rx=".5"/><rect x="4.5" y="4" width="3" height="7" rx=".5"/><rect x="9" y="2" width="3" height="9" rx=".5"/><rect x="13.5" y="0" width="3" height="11" rx=".5"/></svg>
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="#fff"><path d="M7.5 0C4.7 0 2.1 1 0 2.7L1.4 4.1C3.1 2.8 5.2 2 7.5 2C9.8 2 11.9 2.8 13.6 4.1L15 2.7C12.9 1 10.3 0 7.5 0ZM7.5 4C5.7 4 4.1 4.6 2.8 5.7L4.2 7.1C5.1 6.4 6.3 6 7.5 6C8.7 6 9.9 6.4 10.8 7.1L12.2 5.7C10.9 4.6 9.3 4 7.5 4ZM7.5 8C6.7 8 6 8.3 5.4 8.8L7.5 11L9.6 8.8C9 8.3 8.3 8 7.5 8Z"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3.5" stroke="#fff" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#fff"/><rect x="23.5" y="4" width="1.5" height="5" rx=".7" fill="#fff" fill-opacity=".4"/></svg>
+    </span>
+  </header>
+
+  <div class="screen">
+    <div class="nav-bar">
+      <h1>Watchlist<span class="em">.</span></h1>
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Add">
+          <svg viewBox="0 0 18 18" fill="none"><path d="M9 4 V14 M4 9 H14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="avatar-btn">MK</button>
+      </div>
+    </div>
+
+    <div class="sub-line">
+      <span class="sub-text"><b>7</b> repos tracked · <b>3</b> moving today</span>
+    </div>
+
+    <div class="segmented">
+      <button class="seg on">All<span class="n">7</span></button>
+      <button class="seg">Rising<span class="n">3</span></button>
+      <button class="seg">Quiet<span class="n">2</span></button>
+      <button class="seg">Alerts<span class="n">4</span></button>
+    </div>
+
+    <div class="scroll">
+      <div class="quick-stats" style="margin-top:14px;">
+        <div class="qs">
+          <span class="v up">+1.2k</span>
+          <span class="l">stars 7d</span>
+        </div>
+        <div class="qs">
+          <span class="v accent">2</span>
+          <span class="l">releases</span>
+        </div>
+        <div class="qs">
+          <span class="v">4</span>
+          <span class="l">alerts on</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Moving today</h2>
+        <span class="right">swipe to manage</span>
+      </div>
+      <div class="list">
+        <div class="list-row swipe">
+          <div class="avatar v">V</div>
+          <div class="row-main">
+            <div class="row-top">
+              <span class="row-owner">vercel /</span>
+              <span class="row-name">next.js</span>
+            </div>
+            <div class="row-sub">
+              <span class="d up"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M4 1 L7 6 H1 Z"/></svg>+184</span>
+              <span class="flag rel"><svg viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="2.5"/></svg>v15.4</span>
+            </div>
+          </div>
+          <div class="row-right">
+            <button class="bell on" aria-label="Alert on">
+              <svg viewBox="0 0 14 14" fill="currentColor"><path d="M3 6 C 3 4 4.5 2.5 7 2.5 C 9.5 2.5 11 4 11 6 V 9 L 12 10.5 H 2 L 3 9 Z"/><path d="M5.5 11.5 C 5.5 12.5 6.2 13 7 13 C 7.8 13 8.5 12.5 8.5 11.5" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+            </button>
+            <svg class="row-spark" viewBox="0 0 48 14" fill="none"><path d="M0 12 L8 11 L16 9 L24 7 L32 6 L40 4 L48 2" stroke="#ff6b35" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="swipe-actions">
+            <div class="sa alert"><svg viewBox="0 0 18 18" fill="currentColor"><path d="M5 8 C 5 6 6.5 4.5 9 4.5 C 11.5 4.5 13 6 13 8 V 11 L 14 12.5 H 4 L 5 11 Z"/></svg>Alert</div>
+            <div class="sa del"><svg viewBox="0 0 18 18" fill="none"><path d="M5 5 L13 13 M5 13 L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Remove</div>
+          </div>
+        </div>
+
+        <div class="list-row">
+          <div class="avatar a">A</div>
+          <div class="row-main">
+            <div class="row-top">
+              <span class="row-owner">anthropics /</span>
+              <span class="row-name">claude-code</span>
+            </div>
+            <div class="row-sub">
+              <span class="d up"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M4 1 L7 6 H1 Z"/></svg>+92</span>
+              <span class="flag act"><svg viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="2.5"/></svg>active</span>
+            </div>
+          </div>
+          <div class="row-right">
+            <button class="bell on"><svg viewBox="0 0 14 14" fill="currentColor"><path d="M3 6 C 3 4 4.5 2.5 7 2.5 C 9.5 2.5 11 4 11 6 V 9 L 12 10.5 H 2 L 3 9 Z"/></svg></button>
+            <svg class="row-spark" viewBox="0 0 48 14" fill="none"><path d="M0 11 L8 12 L16 10 L24 8 L32 9 L40 5 L48 4" stroke="#ff6b35" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          </div>
+        </div>
+
+        <div class="list-row">
+          <div class="avatar o">O</div>
+          <div class="row-main">
+            <div class="row-top">
+              <span class="row-owner">openai /</span>
+              <span class="row-name">codex</span>
+            </div>
+            <div class="row-sub">
+              <span class="d up"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M4 1 L7 6 H1 Z"/></svg>+47</span>
+              <span class="flag iss"><svg viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="2.5"/></svg>issues +28</span>
+            </div>
+          </div>
+          <div class="row-right">
+            <button class="bell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 6 C 3 4 4.5 2.5 7 2.5 C 9.5 2.5 11 4 11 6 V 9 L 12 10.5 H 2 L 3 9 Z"/></svg></button>
+            <svg class="row-spark" viewBox="0 0 48 14" fill="none"><path d="M0 10 L8 9 L16 8 L24 9 L32 8 L40 6 L48 5" stroke="#ff6b35" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Quiet · no movement</h2>
+      </div>
+      <div class="list">
+        <div class="list-row">
+          <div class="avatar l">L</div>
+          <div class="row-main">
+            <div class="row-top">
+              <span class="row-owner">langchain-ai /</span>
+              <span class="row-name">langgraph</span>
+            </div>
+            <div class="row-sub">
+              <span>—</span>
+              <span style="color:var(--label-3);">no change · 3d</span>
+            </div>
+          </div>
+          <div class="row-right">
+            <button class="bell on"><svg viewBox="0 0 14 14" fill="currentColor"><path d="M3 6 C 3 4 4.5 2.5 7 2.5 C 9.5 2.5 11 4 11 6 V 9 L 12 10.5 H 2 L 3 9 Z"/></svg></button>
+          </div>
+        </div>
+        <div class="list-row">
+          <div class="avatar ol">O</div>
+          <div class="row-main">
+            <div class="row-top">
+              <span class="row-owner">ollama /</span>
+              <span class="row-name">ollama</span>
+            </div>
+            <div class="row-sub">
+              <span>—</span>
+              <span style="color:var(--label-3);">no change · 1d</span>
+            </div>
+          </div>
+          <div class="row-right">
+            <button class="bell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 6 C 3 4 4.5 2.5 7 2.5 C 9.5 2.5 11 4 11 6 V 9 L 12 10.5 H 2 L 3 9 Z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Suggested for you</h2>
+        <span class="right">based on your interests</span>
+      </div>
+      <div class="sug-card">
+        <div class="sug-top">
+          <div class="avatar vl">V</div>
+          <div class="sug-title"><span style="color:var(--label-3);font-weight:500;">vllm-project /</span> vllm</div>
+          <button class="add-btn">
+            <svg viewBox="0 0 11 11" fill="none"><path d="M5.5 2 V9 M2 5.5 H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Watch
+          </button>
+        </div>
+        <p class="sug-reason">3 of your AI repos depend on it. Stars rising +152/d — likely to trend this week.</p>
+      </div>
+    </div>
+
+    <nav class="tab-bar">
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><path d="M3 19 L9 13 L13 16 L21 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M16 7 H21 V12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>Trending</button>
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><path d="M13 3 L15.5 10.5 L23 13 L15.5 15.5 L13 23 L10.5 15.5 L3 13 L10.5 10.5 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/></svg></span>AI &amp; LLMs</button>
+      <button class="tab on"><span class="ico"><svg viewBox="0 0 26 26" fill="currentColor"><path d="M7 4 H19 V22 L13 18 L7 22 Z"/></svg></span>Watchlist</button>
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><path d="M6 11 C 6 7 9 4 13 4 C 17 4 20 7 20 11 V 16 L 22 19 H 4 L 6 16 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M10 20 C 10 22 11.5 23 13 23 C 14.5 23 16 22 16 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></span>Alerts</button>
+      <button class="tab"><span class="ico"><svg viewBox="0 0 26 26"><circle cx="13" cy="9" r="4.5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M4 22 C 4 17 8 14 13 14 C 18 14 22 17 22 22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></span>You</button>
+    </nav>
+  </div>
+
+  <div class="home-indicator"></div>
+</body>
+</html>

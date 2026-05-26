@@ -54,6 +54,15 @@ const isProtectedRoute = createRouteMatcher([
   "/build(.*)",
 ]);
 
+// `?preview=1` is an anonymous-design-preview escape hatch — used to share
+// signed-in surfaces (`/account`, `/build`) for review without forcing a
+// Clerk sign-in. The page itself must also branch on this flag and render
+// with safe fallback data. Strictly a dev/preview affordance; do NOT depend
+// on it for real product behaviour.
+function isPreviewRequest(req: NextRequest): boolean {
+  return req.nextUrl.searchParams.get("preview") === "1";
+}
+
 // Routes that are still public in the product sense, but need Clerk's
 // middleware context so route handlers/server components can call `auth()`
 // and decide their own anonymous-vs-signed-in shape instead of throwing
@@ -175,9 +184,10 @@ async function middlewareWithoutClerk(
     return crawlerCostGuardResponse();
   }
 
-  const res = isProtectedRoute(req)
-    ? redirectToSignIn(req)
-    : NextResponse.next();
+  const res =
+    isProtectedRoute(req) && !isPreviewRequest(req)
+      ? redirectToSignIn(req)
+      : NextResponse.next();
   await setRefCookieIfNeeded(req, res);
   return res;
 }
@@ -214,7 +224,9 @@ const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   // 3. Protected routes use our own redirect instead of `auth.protect()`.
   //    With Clerk development keys, `auth.protect()` can rewrite signed-out
   //    product routes to a 404 before users ever reach our sign-in page.
-  if (isProtectedRoute(req)) {
+  //    `?preview=1` bypasses the redirect so signed-in surfaces can be
+  //    shared anonymously for design review.
+  if (isProtectedRoute(req) && !isPreviewRequest(req)) {
     const session = await auth();
     if (!session.userId) {
       const redirect = redirectToSignIn(req);

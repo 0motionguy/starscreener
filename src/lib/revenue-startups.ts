@@ -37,6 +37,9 @@ export interface VerifiedStartup {
   visitorsLast30Days: number | null;
   /** When this startup's website matched one of our tracked repos. */
   matchedRepoFullName: string | null;
+  /** TrustMRR-hosted logo URL (CloudFront). Null when the upstream record
+   *  lacks an icon — leaderboard falls back to a letter monogram. */
+  iconUrl: string | null;
 }
 
 /**
@@ -89,6 +92,8 @@ interface RawCatalogEntry {
   country: string | null;
   foundedDate: string | null;
   visitorsLast30Days: number | null;
+  /** TrustMRR-hosted logo URL — optional in the raw payload. */
+  icon?: string | null;
 }
 
 interface RawCatalogFile {
@@ -171,6 +176,10 @@ function projectCatalog(raw: RawCatalogFile | null): {
           ? entry.visitorsLast30Days
           : null,
       matchedRepoFullName: overlayBySlug.get(entry.slug) ?? null,
+      iconUrl:
+        typeof entry.icon === "string" && /^https?:\/\//.test(entry.icon)
+          ? entry.icon
+          : null,
     });
   }
   out.sort((a, b) => b.mrrCents - a.mrrCents);

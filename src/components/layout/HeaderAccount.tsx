@@ -31,10 +31,10 @@ function SignedOutAccountLink() {
     <Link
       href="/sign-in"
       className="btn-signup"
-      title="Sign in or create an account"
-      aria-label="Sign in or create an account"
+      title="Sign in"
+      aria-label="Sign in"
     >
-      <span>Account</span>
+      <span>Sign in</span>
     </Link>
   );
 }
@@ -46,7 +46,7 @@ function HeaderAccountLoading() {
       aria-label="Loading account"
       aria-busy="true"
     >
-      <span>Account</span>
+      <span>Sign in</span>
     </span>
   );
 }

@@ -53,11 +53,21 @@ export function TrendingHubHero({ category, window: timeWindow }: TrendingHubHer
       <div>
         <div className="page-eyebrow">
           <span className={`live-dot ${fresh?.status ?? "cold"}`} aria-hidden="true" />{" "}
-          <b>{getStatusLabel(fresh?.status ?? "cold")}</b> · scanned {fresh?.ageLabel ?? "—"} · 30 mention sources ·{" "}
-          {tracked.toLocaleString()} candidates
+          <b>{getStatusLabel(fresh?.status ?? "cold")}</b> · scanned {fresh?.ageLabel ?? "—"} · 30 mention sources
         </div>
         <h1 className="page-title">Trending — the radar for everything AI</h1>
         <p className="page-sub">Cross-signal scoring · refreshed every 30 minutes</p>
+      </div>
+      <div className="page-head-stat" aria-label="Repos tracked">
+        <span className="page-head-stat-eyebrow">
+          <span className="live-dot live" aria-hidden="true" />
+          tracked live
+        </span>
+        <span className="page-head-stat-value">
+          <span className="page-head-stat-arrow" aria-hidden="true">↗</span>
+          {tracked.toLocaleString()}
+        </span>
+        <span className="page-head-stat-label">repos &middot; scanned every 30 min</span>
       </div>
     </div>
   );

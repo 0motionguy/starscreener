@@ -1,21 +1,25 @@
-// AccountIdentityHero — .id-hero block with avatar, name, handle, bio,
-// tags, action buttons and a .plan-card on the right.
+// AccountIdentityHero — slim .id-hero block: avatar, name, handle, member-since,
+// email, tier/watching tags, plus "view public profile" + sign-out. The legacy
+// plan-card and the in-hero tab buttons were removed when /account collapsed to
+// a single screen (billing now lives in AccountBillingPanel on /account).
 
 import Link from "next/link";
-import { ExternalLink, Plus, Settings } from "lucide-react";
+import { Icon } from "@/lib/icons";
+import { AccountSignOut } from "@/components/account/AccountSignOut";
 import type { TierDefinition, UserTier } from "@/lib/pricing/tiers";
-import type { UserTierRecord } from "@/lib/pricing/user-tiers";
 
 interface Props {
   displayName: string;
   handle: string;
   email: string | null;
   memberSince: Date | string | null;
-  timezone: string;
   tier: TierDefinition;
-  tierRecord: UserTierRecord | null;
   watchingCount: number;
   watchingCap: number;
+  // Server-resolved Boolean(getClerkPublishableKey()). The sign-out control is
+  // a Clerk component that throws without a mounted ClerkProvider, so we only
+  // render it when auth is actually enabled.
+  authEnabled: boolean;
 }
 
 function initials(name: string, handle: string): string {
@@ -41,30 +45,16 @@ function formatTierLabel(tier: UserTier): string {
   return tier.toUpperCase();
 }
 
-function formatPrice(usd: number | null | undefined): string {
-  if (usd === null || usd === undefined) return "—";
-  if (usd === 0) return "$0";
-  return `$${usd}/mo`;
-}
-
-function formatRenewal(record: UserTierRecord | null): string {
-  if (!record?.expiresAt) return "no expiry";
-  const d = new Date(record.expiresAt);
-  if (Number.isNaN(d.getTime())) return "no expiry";
-  return `renews ${d.toISOString().slice(0, 10)}`;
-}
-
 export function AccountIdentityHero(props: Props) {
   const {
     displayName,
     handle,
     email,
     memberSince,
-    timezone,
     tier,
-    tierRecord,
     watchingCount,
     watchingCap,
+    authEnabled,
   } = props;
 
   const capLabel = watchingCap < 0 ? "∞" : watchingCap.toString();
@@ -77,21 +67,14 @@ export function AccountIdentityHero(props: Props) {
       <div className="id-meta">
         <h1 className="id-name">{displayName}</h1>
         <div className="id-handle">
-          @<b>{handle}</b> · member since <b>{formatMemberSince(memberSince)}</b> ·{" "}
-          {timezone}
+          @<b>{handle}</b> · member since <b>{formatMemberSince(memberSince)}</b>
+          {email ? (
+            <>
+              {" "}
+              · <b>{email}</b>
+            </>
+          ) : null}
         </div>
-        {email ? (
-          <p className="id-bio">
-            Signed in as <b>{email}</b>. This is your private dashboard — only
-            you can see it. Configure alerts, manage your watchlist, copy your
-            referral link or rotate API keys below.
-          </p>
-        ) : (
-          <p className="id-bio">
-            This is your private dashboard. Configure alerts, manage your
-            watchlist, copy your referral link or rotate API keys below.
-          </p>
-        )}
         <div className="id-tags">
           <span className="tag brand">{formatTierLabel(tier.key)}</span>
           {watchingCount > 0 ? (
@@ -99,37 +82,13 @@ export function AccountIdentityHero(props: Props) {
               {watchingCount}/{capLabel} WATCHING
             </span>
           ) : null}
-          {tier.features.csvExport ? <span className="tag">CSV EXPORT</span> : null}
-          {tier.features.emailDigest ? <span className="tag">DIGEST</span> : null}
         </div>
         <div className="id-actions" style={{ marginTop: 6 }}>
-          <Link className="btn primary" href="/account?tab=alerts">
-            <Plus size={14} strokeWidth={1.8} aria-hidden="true" />
-            New alert
-          </Link>
           <Link className="btn" href={`/u/${handle}`}>
-            <ExternalLink size={14} strokeWidth={1.8} aria-hidden="true" />
+            <Icon name="external" size="md" />
             View public profile
           </Link>
-          <Link className="btn ghost" href="/account?tab=settings">
-            <Settings size={14} strokeWidth={1.8} aria-hidden="true" />
-            Settings
-          </Link>
-        </div>
-      </div>
-      <div className="plan-card">
-        <span className="plan-meta">CURRENT PLAN</span>
-        <span className="plan-name">{formatTierLabel(tier.key)}</span>
-        <span className="plan-meta">
-          {formatPrice(tier.priceMonthlyUsd)} · {formatRenewal(tierRecord)}
-        </span>
-        <div className="plan-cta">
-          Watching {watchingCount} / {capLabel} ·{" "}
-          {tier.features.maxAlertRules < 0
-            ? "unlimited alerts"
-            : `${tier.features.maxAlertRules} alert rules`}
-          <br />
-          <Link href="/account?tab=billing">Manage plan →</Link>
+          {authEnabled ? <AccountSignOut /> : null}
         </div>
       </div>
     </div>

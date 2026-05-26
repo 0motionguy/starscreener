@@ -57,7 +57,7 @@ export function Top10SubBoards({
           <article key={cat} className="t10-subcard">
             <header className="t10-subhead">
               <h3 className="t10-subtitle">
-                <span className="slash">//</span> Top 10 · {meta.label}
+                <span className="slash">{"//"}</span> Top 10 · {meta.label}
               </h3>
               <span className="t10-subwindow">{WINDOW_FRIENDLY_LABEL[window]}</span>
             </header>

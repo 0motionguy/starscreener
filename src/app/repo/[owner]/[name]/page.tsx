@@ -1,6 +1,11 @@
-// Repo detail — phase 1B. Per-repo profile page wired from the data spine.
-// Dynamic per-repo data isn't always hot, so this route opts out of ISR
-// and renders on demand.
+// Repo detail — Profile-standalone parity rebuild.
+//
+// Renders the exact section tree from C:/tmp/asset_e0686a47.js lines 1048-1112
+// (App + Footer). Mounts the 7 profile components owned by Agents 2-8 inside
+// a `.pf-main-inner` wrapper, then `<ProfileFooter />` as a sibling.
+//
+// Dynamic per-repo data isn't always hot, so this route opts out of ISR and
+// renders on demand.
 
 import { notFound } from "next/navigation";
 
@@ -21,30 +26,41 @@ import {
   type NormalizedGithubEvent,
 } from "@/lib/github-events";
 import { getRelatedReposFor } from "@/lib/repo-related";
-import { getFundingEventsForRepo } from "@/lib/funding/repo-events";
-import { synthesizeWhy } from "@/lib/why-narrative";
+import { getDailyDownloadsForPackage } from "@/lib/npm-daily";
+import {
+  refreshRepoCommunityProfileFromStore,
+  getRepoCommunityProfile,
+} from "@/lib/repo-community-profile";
+import { listCommentsForRepo } from "@/lib/repo-comments";
+import {
+  getReactionsForComment,
+  emptyReactionAggregate,
+} from "@/lib/repo-comment-reactions";
+import { getLikeStatus } from "@/lib/repo-likes";
+import { getReactionStatus } from "@/lib/repo-reactions";
+import {
+  refreshConsensusVerdictsFromStore,
+  getConsensusItemReport,
+  getConsensusVerdictsPayload,
+} from "@/lib/consensus-verdicts";
+import { buildRepoJsonLd } from "@/lib/seo/repo-jsonld";
+import { getOptionalUser } from "@/lib/auth/server";
+import type { CrossSourceChannel, Repo } from "@/lib/types";
 
 import { RepoHeroCard } from "@/components/repo/RepoHeroCard";
-import { WhyTrendingPanel } from "@/components/repo/WhyTrendingPanel";
-import { RepoKpiStrip } from "@/components/repo/RepoKpiStrip";
+import { RepoOwnerRepoSnapshot } from "@/components/repo/RepoOwnerRepoSnapshot";
+import { RepoSignalSummary } from "@/components/repo/RepoSignalSummary";
 import {
-  StarHistoryChart,
-  type ChartEvent,
-} from "@/components/repo/StarHistoryChart";
-import { SourceBreakdownGrid } from "@/components/repo/SourceBreakdownGrid";
-import { MentionTimelineStrip } from "@/components/repo/MentionTimelineStrip";
-import { RepoValueStrip } from "@/components/repo/RepoValueStrip";
-import {
-  RepoActivityFeed,
-  FEED_FILTERS,
-  FEED_SORTS,
-  type FeedFilter,
-  type FeedSort,
-} from "@/components/repo/RepoActivityFeed";
-import { MaintainersRow } from "@/components/repo/MaintainersRow";
-import { ReleasesCard } from "@/components/repo/ReleasesCard";
-import { OrgFundingCard } from "@/components/repo/OrgFundingCard";
+  RepoStarChart,
+  type ChartRange,
+  type ChartScale,
+  type ReleaseMarker,
+  type MentionMarker,
+} from "@/components/repo/RepoStarChart";
 import { RelatedReposCard } from "@/components/repo/RelatedReposCard";
+import { RepoCommentsThread } from "@/components/repo/RepoCommentsThread";
+
+import { ProfileFooter } from "@/components/layout/ProfileFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -53,22 +69,43 @@ interface PageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
+function clampDescription(text: string, max = 155): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  return `${clean.slice(0, max - 1).trimEnd()}…`;
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { owner, name } = await params;
   const full = `${owner}/${name}`;
   const ogPath = `/api/og/repo/${owner}/${name}`;
+
+  // Prefer the AISO/Kimi verdict summary for the meta description — it's
+  // original, specific, evidence-based prose that makes a far better search
+  // snippet than the generic boilerplate. Falls back when no verdict exists.
+  let description = `Trending signal profile for ${full}: stars, forks, mentions across HN, Reddit, X, Bluesky and more. Updated continuously.`;
+  try {
+    await refreshConsensusVerdictsFromStore();
+    const verdict = getConsensusItemReport(full);
+    if (verdict && verdict.summary.trim().length > 0) {
+      description = clampDescription(verdict.summary);
+    }
+  } catch {
+    /* keep boilerplate */
+  }
+
   return {
     title: `${full} — TrendingRepo`,
-    description: `Trending signal profile for ${full}: stars, forks, mentions across HN, Reddit, X, Bluesky and more. Updated continuously.`,
+    description,
     openGraph: {
       title: `${full} — TrendingRepo`,
-      description: `Trending signal profile for ${full}.`,
+      description,
       images: [{ url: ogPath, width: 1200, height: 630, alt: `${full} on TrendingRepo` }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${full} — TrendingRepo`,
-      description: `Trending signal profile for ${full}.`,
+      description,
       images: [ogPath],
     },
   };
@@ -88,150 +125,67 @@ async function loadGithubEvents(
   }
 }
 
-function chartEventFromGithubEvent(
-  event: NormalizedGithubEvent,
-  index: number,
-): ChartEvent | null {
-  const createdAt = event.createdAt ? Date.parse(event.createdAt) : NaN;
-  const now = Date.now();
-  const yearAgo = now - 365 * 24 * 60 * 60 * 1000;
-  const x = Number.isFinite(createdAt)
-    ? Math.min(0.96, Math.max(0.04, (createdAt - yearAgo) / (now - yearAgo)))
-    : Math.min(0.92, 0.22 + index * 0.18);
-
-  if (event.type === "ReleaseEvent") {
+function buildReleaseMarkers(events: NormalizedGithubEvent[]): ReleaseMarker[] {
+  const out: ReleaseMarker[] = [];
+  for (const event of events) {
+    if (event.type !== "ReleaseEvent") continue;
+    if (!event.createdAt) continue;
     const release = (event.payload as {
-      release?: { tag_name?: string; name?: string };
+      release?: { tag_name?: string; name?: string; html_url?: string };
     }).release;
-    return {
-      x,
-      y: Math.max(0.08, 0.34 - index * 0.05),
-      label: release?.tag_name ?? release?.name ?? "release",
-      color: "var(--up)",
-    };
+    out.push({
+      ts: event.createdAt,
+      tag: release?.tag_name ?? release?.name ?? "release",
+      url: release?.html_url ?? "",
+    });
+    if (out.length >= 8) break;
   }
-
-  if (event.type === "WatchEvent") {
-    return {
-      x,
-      y: 0.18,
-      label: "star surge",
-      color: "var(--warning)",
-    };
-  }
-
-  if (event.type === "PullRequestEvent") {
-    const pr = (event.payload as { pull_request?: { number?: number } })
-      .pull_request;
-    return {
-      x,
-      y: 0.42,
-      label: `PR #${pr?.number ?? index + 1}`,
-      color: "var(--info)",
-    };
-  }
-
-  return null;
+  return out;
 }
 
-function deriveChartEvents(
-  repo: NonNullable<ReturnType<typeof getDerivedRepoByFullName>>,
-  events: NormalizedGithubEvent[],
-): ChartEvent[] {
-  const derived = events
-    .map(chartEventFromGithubEvent)
-    .filter((event): event is ChartEvent => Boolean(event))
-    .slice(0, 4);
+function buildMentionMarkers(repo: Repo): MentionMarker[] {
+  const out: MentionMarker[] = [];
+  const detail = repo.mentions?.detail?.perSource;
+  if (!detail) return out;
 
-  if (derived.length >= 4) return derived.slice(0, 4);
-
-  if (repo.lastReleaseTag) {
-    derived.push({
-      x: 0.9,
-      y: 0.12,
-      label: repo.lastReleaseTag,
-      color: "var(--up)",
+  for (const source of Object.keys(detail) as CrossSourceChannel[]) {
+    const bucket = detail[source];
+    const top = bucket?.top?.[0];
+    if (!top) continue;
+    out.push({
+      ts: top.observedAt,
+      source,
+      title: (top.title ?? "").slice(0, 60),
+      url: top.url,
     });
+    if (out.length >= 6) break;
   }
-
-  if (repo.starsDelta7d > 0) {
-    derived.push({
-      x: 0.78,
-      y: 0.24,
-      label: `+${repo.starsDelta7d.toLocaleString()} stars`,
-      color: "var(--accent)",
-    });
-  }
-
-  if ((repo.channelsFiring ?? 0) > 0) {
-    derived.push({
-      x: 0.86,
-      y: 0.32,
-      label: `${repo.channelsFiring} sources`,
-      color: "var(--info)",
-    });
-  }
-
-  const mentionTotal = repo.mentions?.total7d ?? repo.mentionCount24h ?? 0;
-  const fallbackEvents: ChartEvent[] = [
-    {
-      x: 0.18,
-      y: 0.36,
-      label: repo.createdAt ? "repo launch" : "first tracked",
-      color: "var(--accent)",
-    },
-    {
-      x: 0.46,
-      y: 0.26,
-      label: mentionTotal > 0 ? `${mentionTotal.toLocaleString()} mentions` : "source pickup",
-      color: "var(--warning)",
-    },
-    {
-      x: 0.68,
-      y: 0.2,
-      label: repo.rank > 0 ? `rank #${repo.rank}` : "trend score",
-      color: "var(--info)",
-    },
-    {
-      x: 0.92,
-      y: 0.14,
-      label: repo.lastReleaseTag ?? "latest activity",
-      color: "var(--up)",
-    },
-  ];
-
-  for (const event of fallbackEvents) {
-    if (derived.length >= 4) break;
-    if (derived.some((item) => item.label === event.label)) continue;
-    derived.push(event);
-  }
-
-  return derived.slice(0, 4);
+  return out;
 }
 
 export default async function RepoDetailPage({ params, searchParams }: PageProps) {
   const { owner, name } = await params;
   const fullName = `${owner}/${name}`;
   const sp = (await searchParams) ?? {};
-  const rawFeed = typeof sp.feed === "string" ? sp.feed : "all";
-  const activeFeedFilter: FeedFilter =
-    (FEED_FILTERS as readonly string[]).includes(rawFeed)
-      ? (rawFeed as FeedFilter)
-      : "all";
-  const rawSort = typeof sp.sort === "string" ? sp.sort : "default";
-  const activeFeedSort: FeedSort =
-    (FEED_SORTS as readonly string[]).includes(rawSort)
-      ? (rawSort as FeedSort)
-      : "default";
 
-  // Trending + profiles + star-activity + github-events are independent
-  // store reads; serialising them adds 3 round-trips of dead latency.
-  // Parallelise via Promise.all — each refresh has its own internal
-  // 30s rate-limit + in-flight dedupe so a parallel call is still cheap.
+  const rawRange = typeof sp.range === "string" ? sp.range : "1y";
+  const RANGE_KEYS: readonly ChartRange[] = ["1m", "3m", "6m", "1y", "all"];
+  const activeRange: ChartRange =
+    (RANGE_KEYS as readonly string[]).includes(rawRange)
+      ? (rawRange as ChartRange)
+      : "1y";
+
+  const rawScale = typeof sp.scale === "string" ? sp.scale : "lin";
+  const activeScale: ChartScale = rawScale === "log" ? "log" : "lin";
+
+  // Trending + profiles + star-activity + fork-activity + community profile
+  // are independent store reads; parallelise them.
   await Promise.all([
     refreshTrendingFromStore().catch(() => undefined),
     refreshRepoProfilesFromStore().catch(() => undefined),
     refreshStarActivityFromStore(fullName).catch(() => undefined),
+    refreshRepoCommunityProfileFromStore(fullName).catch(() => undefined),
+    refreshConsensusVerdictsFromStore().catch(() => undefined),
   ]);
 
   const repo = (() => {
@@ -256,14 +210,6 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
 
   const events = await loadGithubEvents(fullName);
 
-  const fundingEvents = (() => {
-    try {
-      return getFundingEventsForRepo(fullName);
-    } catch {
-      return [];
-    }
-  })();
-
   const related = (() => {
     try {
       return getRelatedReposFor(fullName);
@@ -272,9 +218,6 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     }
   })();
 
-  // Repo profile lives in a separate store; the why-panel uses
-  // synthesizeWhy regardless, but having the profile loaded means future
-  // surfaces can hang npm / homepage / PH off the same render pass.
   const profile = (() => {
     try {
       return getRepoProfile(fullName);
@@ -283,9 +226,27 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     }
   })();
 
-  const why = (() => {
+  const community = (() => {
     try {
-      return synthesizeWhy(repo);
+      return getRepoCommunityProfile(fullName);
+    } catch {
+      return null;
+    }
+  })();
+
+  // AISO/Kimi consensus verdict for this repo. null when the analyst hasn't
+  // produced one yet — the Signal Summary falls back to local synthesis.
+  const consensusItem = (() => {
+    try {
+      return getConsensusItemReport(fullName);
+    } catch {
+      return null;
+    }
+  })();
+
+  const consensusComputedAt = (() => {
+    try {
+      return getConsensusVerdictsPayload().computedAt || null;
     } catch {
       return null;
     }
@@ -299,52 +260,123 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     }
   })();
 
-  const chartEvents = deriveChartEvents(repo, events);
+  // Auth + per-user state. getOptionalUser() returns null for signed-out
+  // viewers so the page renders publicly with sign-in CTAs where needed.
+  const user = await getOptionalUser();
+  const clerkUserId = user?.clerkUserId ?? null;
+  const signedIn = user !== null;
+  const signInUrl = `/sign-in?redirect_url=${encodeURIComponent(
+    `/repo/${owner}/${name}`,
+  )}`;
+
+  // Comments + reactions (loaded once on the server; the client widgets
+  // hydrate with these as seed values).
+  const comments = await listCommentsForRepo(fullName).catch(() => []);
+  const reactionEntries = await Promise.all(
+    comments.map(async (comment) => {
+      try {
+        const reactions = await getReactionsForComment(comment.id, clerkUserId);
+        return [comment.id, reactions] as const;
+      } catch {
+        return [comment.id, emptyReactionAggregate()] as const;
+      }
+    }),
+  );
+  const initialReactions = Object.fromEntries(reactionEntries);
+
+  // Like + unicorn status (server-side seed for the hero's reaction row).
+  // Parallelize — both are independent JSONL reads.
+  const [likeStatus, unicornStatus] = await Promise.all([
+    getLikeStatus(fullName, clerkUserId).catch(() => ({
+      count: 0,
+      liked: false,
+    })),
+    getReactionStatus(fullName, "unicorn", clerkUserId).catch(() => ({
+      count: 0,
+      active: false,
+    })),
+  ]);
+
+  // npm-daily series for the chart's npm-downloads overlay.
+  const npmPackage = profile?.surfaces.npmPackages[0] ?? null;
+  const npmDaily = npmPackage ? getDailyDownloadsForPackage(npmPackage) : [];
+
+  // Chart event markers — release events + cross-source mention markers
+  // (real timestamps, real URLs, no synthetic fallback).
+  const releaseMarkers = buildReleaseMarkers(events);
+  const mentionMarkers = buildMentionMarkers(repo);
+
+  // Weekly commit cadence for the bar overlay on the chart.
+  const commitsLast52Weeks = community?.commitsLast52Weeks ?? [];
+
+  const jsonLd = buildRepoJsonLd(repo, consensusItem, consensusComputedAt);
 
   return (
-    <div className="repo-detail-shell">
-      <div className="repo-hero">
-        <RepoHeroCard repo={repo} profile={profile} />
-        <WhyTrendingPanel repo={repo} preloadedText={why?.text ?? null} />
-      </div>
-
-      <RepoKpiStrip repo={repo} starActivity={starActivity} profile={profile} />
-
-      <StarHistoryChart
-        repo={repo}
-        starActivity={starActivity}
-        events={chartEvents}
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
-      <div className="row between" style={{ margin: "8px 0 10px" }}>
-        <div className="eyebrow">▌ Mentions by source · 4 primary channels</div>
-        {typeof repo.channelsFiring === "number" && repo.channelsFiring > 0 ? (
-          <span className="chip up">{repo.channelsFiring} active</span>
-        ) : null}
-      </div>
-      <SourceBreakdownGrid repo={repo} />
-
-      <MentionTimelineStrip repo={repo} />
-
-      <RepoValueStrip repo={repo} />
-
-      <div className="body-grid">
-        <RepoActivityFeed
+      <div className="pf-main-inner">
+        {/* 1. Hero — full width. Pulse card removed: constellation/firing
+            data is sparse for most repos and the empty state read as
+            broken. Bring it back when per-source 24h counts are wired. */}
+        <RepoHeroCard
           repo={repo}
-          events={events}
-          fundingEvents={fundingEvents}
-          fetchedAt={fetchedAt}
-          activeFilter={activeFeedFilter}
-          activeSort={activeFeedSort}
+          profile={profile}
+          likeCount={likeStatus.count}
+          liked={likeStatus.liked}
+          unicornStatus={unicornStatus}
+          commentsCount={comments.length}
+          signedIn={signedIn}
+          signInUrl={signInUrl}
         />
 
-        <aside className="col gap-4">
-          <MaintainersRow repo={repo} events={events} />
-          <ReleasesCard repo={repo} events={events} />
-          <OrgFundingCard repo={repo} events={fundingEvents} />
-          <RelatedReposCard repo={repo} related={related} />
-        </aside>
+        {/* 2. Owner / Repo snapshot — absorbs language breakdown + org card */}
+        <section className="pf-section">
+          <RepoOwnerRepoSnapshot repo={repo} community={community} />
+        </section>
+
+        {/* 3. Signal summary — prose verdict */}
+        <RepoSignalSummary
+          repo={repo}
+          community={community}
+          profile={profile}
+          consensusItem={consensusItem}
+          fetchedAt={fetchedAt}
+        />
+
+        {/* 4. Star history — full width. Fork chart removed: no
+            fork-activity series exists yet, the empty state shipped as
+            visual deadweight. Bring it back when getForkActivity has a
+            real cron writing to it. */}
+        <section className="pf-section">
+          <RepoStarChart
+            repo={repo}
+            starActivity={starActivity}
+            npmDaily={npmDaily}
+            npmPackage={npmPackage}
+            commitsLast52Weeks={commitsLast52Weeks}
+            releases={releaseMarkers}
+            mentions={mentionMarkers}
+            range={activeRange}
+            scale={activeScale}
+          />
+        </section>
+
+        {/* 5. Related repos */}
+        <RelatedReposCard repo={repo} related={related} />
+
+        {/* 6. Comments */}
+        <RepoCommentsThread
+          repoFullName={fullName}
+          comments={comments}
+          initialReactions={initialReactions}
+          currentUserId={clerkUserId}
+          signInUrl={signInUrl}
+        />
       </div>
-    </div>
+      <ProfileFooter fetchedAt={fetchedAt} />
+    </>
   );
 }

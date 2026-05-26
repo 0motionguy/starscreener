@@ -16,13 +16,11 @@ interface Row {
   volumeUsd: number;
 }
 
-const SEEDED_ROWS: Row[] = [
-  { name: "x402.org", chain: "Base", txs: 8124, volumeUsd: 1_820_000 },
-  { name: "solana-x402", chain: "Solana", txs: 3012, volumeUsd: 680_000 },
-  { name: "basepay-relayer-1", chain: "Base", txs: 2184, volumeUsd: 420_000 },
-  { name: "agentic-pay", chain: "Base", txs: 1604, volumeUsd: 248_000 },
-  { name: "crossmint", chain: "Solana", txs: 1205, volumeUsd: 160_000 },
-];
+// 2026-05-23: SEEDED_ROWS (x402.org 8,124 tx $1.82M, solana-x402 3,012 tx
+// $680K, basepay-relayer-1 2,184 tx $420K, agentic-pay 1,604 tx $248K,
+// crossmint 1,205 tx $160K) deleted. Real data only — TOOLBOX collectors
+// `base-x402-onchain` + `solana-x402-onchain` + `dune-x402-volume` are the
+// sole source. Empty data → empty state.
 
 function reduceVolume(rows: DuneX402VolumeFile["rows"] | undefined): Map<string, number> {
   const out = new Map<string, number>();
@@ -52,13 +50,16 @@ export function TopFacilitatorsTable({
   const volumeByFacilitator = reduceVolume(dune?.rows);
   const rows: Row[] = [];
 
+  // Real on-chain volumes only — no synthetic $230 / $160 per-settlement
+  // multipliers for facilitators missing from the Dune feed. If a facilitator
+  // has 0 reported volume, it shows $0 (honest).
   if (base?.byFacilitator) {
     for (const [name, stat] of Object.entries(base.byFacilitator)) {
       rows.push({
         name,
         chain: "Base",
         txs: stat?.totalTxs ?? 0,
-        volumeUsd: volumeByFacilitator.get(name) ?? (stat?.x402Settlements ?? 0) * 230,
+        volumeUsd: volumeByFacilitator.get(name) ?? 0,
       });
     }
   }
@@ -68,15 +69,9 @@ export function TopFacilitatorsTable({
         name,
         chain: "Solana",
         txs: stat?.totalTxs ?? 0,
-        volumeUsd: volumeByFacilitator.get(name) ?? (stat?.x402Settlements ?? 0) * 160,
+        volumeUsd: volumeByFacilitator.get(name) ?? 0,
       });
     }
-  }
-
-  const seen = new Set(rows.map((row) => `${row.name}-${row.chain}`));
-  for (const row of SEEDED_ROWS) {
-    const key = `${row.name}-${row.chain}`;
-    if (!seen.has(key)) rows.push(row);
   }
 
   const ranked = rows.sort((a, b) => b.txs - a.txs).slice(0, limit);
@@ -85,9 +80,15 @@ export function TopFacilitatorsTable({
     <div className="panel">
       <div className="panel-head">
         <span className="ph-eyebrow">{"// 07"}</span>
-        <span className="ph-title">Top facilitators - Base + Solana</span>
-        <span className="ph-meta">x402 endpoints sorted by tx count</span>
+        <span className="ph-title">Top facilitators · Base + Solana</span>
+        <span className="ph-meta">tx count · last 24h</span>
       </div>
+      {ranked.length === 0 ? (
+        <div style={{ padding: "20px 14px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-faint)" }}>
+          No facilitator activity in window. TOOLBOX base-x402-onchain /
+          solana-x402-onchain / dune-x402-volume collectors may be quiet.
+        </div>
+      ) : (
       <div>
         {ranked.map((row, idx) => (
           <div className="tok-row" key={`${row.name}-${row.chain}`} style={tokRowStyle}>
@@ -111,6 +112,7 @@ export function TopFacilitatorsTable({
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

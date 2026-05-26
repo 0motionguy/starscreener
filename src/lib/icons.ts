@@ -1,7 +1,20 @@
-// Canonical lucide icon re-exports.
-// Import icons from "@/lib/icons" everywhere in the app.
-// Adding a new icon: add it to lucide-react's import set below.
+// Icon entry point.
+//
+// CANONICAL: use `<Icon name="trending-up" />` from "@/lib/icons" for every
+// UI icon (132 SVGs in /public/icons/). Use `<SourceLogo source="github" />`
+// for the 21 brand logos.
+//
+// The lucide-react re-exports below are kept temporarily for back-compat
+// with existing callsites — they're @deprecated. Migrate to `<Icon name="…" />`
+// surface-by-surface per docs/DESIGN-SYSTEM.md §14.
 
+export { Icon, SourceLogo } from "@/components/icon/Icon";
+export type { IconName, IconSize, IconProps, SourceName, SourceLogoProps } from "@/components/icon/Icon";
+
+/**
+ * @deprecated Use `<Icon name="…" />` from "@/lib/icons" instead.
+ * The lucide-react re-exports stay alive until every callsite migrates.
+ */
 export {
   // Trending row actions + table
   Star,

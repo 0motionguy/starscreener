@@ -6,7 +6,7 @@
 
 import { useEffect, useState } from "react";
 
-import { CircleCheck } from "@/lib/icons";
+import { Icon } from "@/lib/icons";
 import { useWatchlistStore } from "@/lib/store";
 
 interface PinButtonProps {
@@ -37,7 +37,7 @@ export function PinButton({ repoId, fullName, stars }: PinButtonProps) {
       onClick={onClick}
     >
       <span aria-hidden="true" className="wl-pin-icon">
-        {watched ? <CircleCheck size={12} /> : "+"}
+        {watched ? <Icon name="check-circle" size="sm" /> : "+"}
       </span>
       {label}
     </button>

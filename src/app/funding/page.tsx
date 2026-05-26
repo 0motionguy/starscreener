@@ -16,10 +16,8 @@ import {
   getFundingSignalsThisWeek,
   getFundingFetchedAt,
 } from "@/lib/funding-news";
-import {
-  refreshSecFormDFromStore,
-  getSecFormDSignals,
-} from "@/lib/funding/sec-form-d";
+import { refreshSecFormDFromStore } from "@/lib/funding/sec-form-d";
+import { fetchLiveFundingSignals } from "@/lib/funding/live-rss";
 import { matchFundingEventToRepo } from "@/lib/funding/match";
 import { buildCandidates } from "@/lib/funding/repo-events";
 import type { FundingSignal } from "@/lib/funding/types";
@@ -34,9 +32,8 @@ import { FundingKpiStrip } from "@/components/funding/FundingKpiStrip";
 import { TopRoundsTable } from "@/components/funding/TopRoundsTable";
 import { SectorHeatmap } from "@/components/funding/SectorHeatmap";
 import { CapitalFlowChart } from "@/components/funding/CapitalFlowChart";
-import { FundingSourcePills } from "@/components/funding/FundingSourcePills";
-import { InvestorChips } from "@/components/funding/InvestorChips";
-import { SecFormDFeed } from "@/components/funding/SecFormDFeed";
+import { AIStocksPanel } from "@/components/funding/AIStocksPanel";
+import { PreIPOSection } from "@/components/funding/PreIPOSection";
 import { ConfidenceChipsBlock } from "@/components/funding/ConfidenceChipsBlock";
 import { FoundersCta } from "@/components/funding/FoundersCta";
 import {
@@ -444,12 +441,30 @@ export default async function FundingPage({ searchParams }: Props) {
 
   // Fire refresh hooks in parallel. allSettled so one slow / missing slug
   // doesn't take the page down.
-  await Promise.allSettled([
-    refreshFundingNewsFromStore(),
-    refreshSecFormDFromStore(),
+  //
+  // Also fetches live TechCrunch + VentureBeat + Sifted RSS in parallel —
+  // gives the page fresh structured rounds even when the committed
+  // funding-news.json is stale (TOOLBOX collectors offline).
+  const [, , liveRss] = await Promise.all([
+    refreshFundingNewsFromStore().catch(() => undefined),
+    refreshSecFormDFromStore().catch(() => undefined),
+    fetchLiveFundingSignals().catch(() => [] as FundingSignal[]),
   ]);
 
-  const allSignals = safe(() => getFundingSignals(), []);
+  const committed = safe(() => getFundingSignals(), []);
+  // Merge live RSS rounds with the committed spine. Live rows are deduped
+  // against committed by `companyName + amount`; ties resolved to whichever
+  // row was published earlier.
+  const liveByKey = new Map<string, FundingSignal>();
+  for (const s of liveRss) {
+    const key = `${s.extracted?.companyName ?? ""}:${s.extracted?.amount ?? 0}`.toLowerCase();
+    liveByKey.set(key, s);
+  }
+  for (const s of committed) {
+    const key = `${s.extracted?.companyName ?? ""}:${s.extracted?.amount ?? 0}`.toLowerCase();
+    if (!liveByKey.has(key)) liveByKey.set(key, s);
+  }
+  const allSignals = Array.from(liveByKey.values());
   const stats = safe(() => getFundingStats(), {
     totalSignals: 0,
     extractedSignals: 0,
@@ -460,7 +475,6 @@ export default async function FundingPage({ searchParams }: Props) {
   });
   const thisWeek = safe(() => getFundingSignalsThisWeek(), []);
   const fetchedAt = safe(() => getFundingFetchedAt(), null);
-  const secSignals = safe(() => getSecFormDSignals(), []);
 
   // Apply selected period window to the body signals. Fill from realistic
   // seeded rows only when the live accessor exposes fewer rows than the mockup.
@@ -528,19 +542,6 @@ export default async function FundingPage({ searchParams }: Props) {
     18,
   );
 
-  // SEC mini-feed: prefer the dedicated slug; if empty, derive from main
-  // signals matching SEC sources / "Form D" headlines.
-  const secRows =
-    secSignals.length > 0
-      ? secSignals
-      : windowed.filter((s) =>
-          (s.sourceUrl + " " + s.headline).toLowerCase().includes("form d"),
-        );
-  const secThisWeek = secRows.filter((s) => {
-    const t = Date.parse(s.publishedAt);
-    return Number.isFinite(t) && t >= Date.now() - 7 * 24 * 60 * 60 * 1000;
-  }).length;
-
   const totalSources = 38;
   // Honest source count — reflects sources actually contributing to the
   // active window. No synthetic floor; degrades to 0 when feeds are empty.
@@ -573,22 +574,15 @@ export default async function FundingPage({ searchParams }: Props) {
           <div>
             <TopRoundsTable rounds={topRounds} limit={TOP_N} totalRounds={displayTotalRounds} />
             <SectorHeatmap signals={windowed} period={period} activeSector={activeSector} />
+            <PreIPOSection />
             <CapitalFlowChart signals={last30} />
           </div>
 
           <div>
-            {/* Pills always render unfiltered totals — they're the drilldown
-                navigator, so they need to show full per-publisher counts
-                independent of the active source. */}
-            <FundingSourcePills
-              signals={ensureFundingSignals(rawWindowed, 18)}
-              totalSources={totalSources}
-              liveSources={liveSources}
-              period={period}
-              activeSource={activeSource}
-            />
-            <InvestorChips signals={windowed} limit={12} />
-            <SecFormDFeed signals={secRows} thisWeekCount={secThisWeek} limit={6} />
+            {/* AI stocks rail — replaces the prior SOURCES / INVESTORS /
+                SEC FORM D triplet. Pre-IPO snapshot + live public quotes
+                from Yahoo Finance. See AIStocksPanel. */}
+            <AIStocksPanel />
             <ConfidenceChipsBlock signals={windowed} />
           </div>
         </div>

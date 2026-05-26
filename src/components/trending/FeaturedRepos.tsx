@@ -90,7 +90,7 @@ export function FeaturedRepos({ repos, fetchedAt }: FeaturedReposProps) {
                   {(repo.channelsFiring ?? 0).toLocaleString()} <span className="delta up-text">sources</span>
                 </span>
               </div>
-              <RepoSparkline data={repo.sparklineData?.slice(-14)} repo={repo} />
+              <RepoSparkline data={repo.sparklineData?.slice(-30)} repo={repo} />
             </div>
           </article>
         );

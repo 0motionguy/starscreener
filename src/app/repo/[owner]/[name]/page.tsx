@@ -337,19 +337,10 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
           <RepoOwnerRepoSnapshot repo={repo} community={community} />
         </section>
 
-        {/* 3. Signal summary — prose verdict */}
-        <RepoSignalSummary
-          repo={repo}
-          community={community}
-          profile={profile}
-          consensusItem={consensusItem}
-          fetchedAt={fetchedAt}
-        />
-
-        {/* 4. Star history — full width. Fork chart removed: no
-            fork-activity series exists yet, the empty state shipped as
-            visual deadweight. Bring it back when getForkActivity has a
-            real cron writing to it. */}
+        {/* 3. Star history — full width. Placed ABOVE the signal summary so
+            the timeline leads the analysis (the "why it's trending" prose
+            reads better with the chart already in view). Fork chart removed:
+            no fork-activity series exists yet. */}
         <section className="pf-section">
           <RepoStarChart
             repo={repo}
@@ -363,6 +354,15 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
             scale={activeScale}
           />
         </section>
+
+        {/* 4. Signal summary — prose verdict, below the chart */}
+        <RepoSignalSummary
+          repo={repo}
+          community={community}
+          profile={profile}
+          consensusItem={consensusItem}
+          fetchedAt={fetchedAt}
+        />
 
         {/* 5. Related repos */}
         <RelatedReposCard repo={repo} related={related} />

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-25T23:22:27.222Z",
+  "fetchedAt": "2026-05-26T04:34:37.130Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -3827,15 +3827,15 @@
       ]
     },
     "garrytan/gbrain": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmjzhvxd3i2s",
-        "cid": "bafyreicu2vigtblzbjm4fqpqww2aw2gelmr5u7yknvvjzh3o7slmfcfqxa",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmjzhvxd3i2s",
-        "text": "GBrain is SOTA retrieval for agents and free for your use. MIT license. It currently is designed for OpenClaw and Hermes Agent but it does have full MCP server support that lets you use it with almost any agent harness. https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmq5irajv224",
+        "cid": "bafyreicfmu4agip7dbxkxdnq4zlqzy4hflhbp6hmxqsntprjxu4akhoj2a",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmq5irajv224",
+        "text": "Yes https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -3843,8 +3843,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T17:45:04.000Z",
-        "hoursSincePosted": 4.4
+        "createdAt": "2026-05-26T04:17:49.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -3873,6 +3873,90 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmq5irajv224",
+          "cid": "bafyreicfmu4agip7dbxkxdnq4zlqzy4hflhbp6hmxqsntprjxu4akhoj2a",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmq5irajv224",
+          "text": "Yes https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T04:17:49.000Z",
+          "createdUtc": 1779769069,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmprrgdrba2s",
+          "cid": "bafyreie2jegc3nn6asv2zeuuehh27qd357mrqmgfqyi7kvrd4yjovl36bi",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmprrgdrba2s",
+          "text": "Yes absolutely here are some tutorials https://github.com/garrytan/gbrain/tree/master/docs/tutorials",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T00:39:44.000Z",
+          "createdUtc": 1779755984,
+          "ageHours": 3.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmpqunxwbq2s",
+          "cid": "bafyreihex3ln2sy63opkefbdgvxnb7fntb3m2lfo67jcmfw6p5m2ma57wa",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmpqunxwbq2s",
+          "text": "GBrain is free and open source at https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T00:35:49.000Z",
+          "createdUtc": 1779755749,
+          "ageHours": 3.98,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -11010,19 +11094,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jfc47fjoy4wr4wtax256z6ke/app.bsky.feed.post/3mmgxaqgr4s2o",
-        "cid": "bafyreig5yzq56yukpnlkiexgtx4nmujxdu3kjwg2zlmd7jhhu2sfulam2a",
-        "bskyUrl": "https://bsky.app/profile/yyano.bsky.social/post/3mmgxaqgr4s2o",
-        "text": "rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies github.com/rtk-ai/rtk おためしで動かしてる。かなり圧縮できていいかんじ。",
+        "uri": "at://did:plc:kwo35zhaa7w7kyjnsfwns4uq/app.bsky.feed.post/3mmpsrww2fc2v",
+        "cid": "bafyreidfpujbmzyjoxrdwk6yd37ynulemebfzcoqxkglknvfr7vs4bzflu",
+        "bskyUrl": "https://bsky.app/profile/darth-vada.bsky.social/post/3mmpsrww2fc2v",
+        "text": "Ohh my brain. Sorry it’s rtk. github.com/rtk-ai/rtk",
         "author": {
-          "handle": "yyano.bsky.social",
-          "displayName": "yyano"
+          "handle": "darth-vada.bsky.social",
+          "displayName": "Darth Vada"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T12:38:13.928Z",
-        "hoursSincePosted": 2.73
+        "createdAt": "2026-05-26T01:12:20.082Z",
+        "hoursSincePosted": 3.37
       },
       "posts": [
         {
@@ -11115,6 +11199,34 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kwo35zhaa7w7kyjnsfwns4uq/app.bsky.feed.post/3mmpsrww2fc2v",
+          "cid": "bafyreidfpujbmzyjoxrdwk6yd37ynulemebfzcoqxkglknvfr7vs4bzflu",
+          "bskyUrl": "https://bsky.app/profile/darth-vada.bsky.social/post/3mmpsrww2fc2v",
+          "text": "Ohh my brain. Sorry it’s rtk. github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "darth-vada.bsky.social",
+            "displayName": "Darth Vada"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T01:12:20.082Z",
+          "createdUtc": 1779757940,
+          "ageHours": 3.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
@@ -18025,25 +18137,53 @@
     },
     "cli/cli": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
-        "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
-        "bskyUrl": "https://bsky.app/profile/deokgonkimdgkim.bsky.social/post/3mm34bct2mc2l",
-        "text": "github.com/cli/cli/blob... gh는 또 왜! snap 설치하지 말라 하나.. snap 편하고 좋은데. 안 그런가? ㅋ",
+        "uri": "at://did:plc:ymoeg4trisbzfowiaemnu7xz/app.bsky.feed.post/3mmq36qsehs2j",
+        "cid": "bafyreif3l3gouo6ww5aydcq7fxry3qnftknnts2bbjpeublglogkairaw4",
+        "bskyUrl": "https://bsky.app/profile/chenjiahan.bsky.social/post/3mmq36qsehs2j",
+        "text": "GitHub CLI has had an open issue for short-lived OAuth tokens since 2022. With agents and supply-chain attacks becoming more common, I hope this gets more attention now. github.com/cli/cli/issu...",
         "author": {
-          "handle": "deokgonkimdgkim.bsky.social",
-          "displayName": "Deokgon Kim"
+          "handle": "chenjiahan.bsky.social",
+          "displayName": "Jiahan Chen"
         },
-        "likeCount": 0,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T19:36:05.054Z",
-        "hoursSincePosted": 4.56
+        "createdAt": "2026-05-26T03:42:24.729Z",
+        "hoursSincePosted": 0.87
       },
       "posts": [
+        {
+          "uri": "at://did:plc:ymoeg4trisbzfowiaemnu7xz/app.bsky.feed.post/3mmq36qsehs2j",
+          "cid": "bafyreif3l3gouo6ww5aydcq7fxry3qnftknnts2bbjpeublglogkairaw4",
+          "bskyUrl": "https://bsky.app/profile/chenjiahan.bsky.social/post/3mmq36qsehs2j",
+          "text": "GitHub CLI has had an open issue for short-lived OAuth tokens since 2022. With agents and supply-chain attacks becoming more common, I hope this gets more attention now. github.com/cli/cli/issu...",
+          "author": {
+            "handle": "chenjiahan.bsky.social",
+            "displayName": "Jiahan Chen"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T03:42:24.729Z",
+          "createdUtc": 1779766944,
+          "ageHours": 0.87,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cli/cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
           "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
@@ -18232,22 +18372,51 @@
       "count7d": 1,
       "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
-        "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
-        "bskyUrl": "https://bsky.app/profile/francistm.bsky.social/post/3mmh4kxye5c2b",
-        "text": "Shipped ken v0.4.0 — pure-Go port of MinishLab/semble (hybrid code search for AI agents). Drop-in MCP replacement, no Python, single static binary. go install + ken download-model and you're running. github.com/townsendmeri...",
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmpwcwvag62o",
+        "cid": "bafyreiaexp5worrq2jj5j6hlt23sw2nmbmkagqclogpo26jhed7u7fc4vm",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmpwcwvag62o",
+        "text": "semble Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read. https://github.com/MinishLab/semble",
         "author": {
-          "handle": "francistm.bsky.social"
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
         },
         "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-22T14:13:26.096Z",
-        "hoursSincePosted": 1.15
+        "replyCount": 0,
+        "createdAt": "2026-05-26T02:15:31.573616+00:00",
+        "hoursSincePosted": 2.32
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmpwcwvag62o",
+          "cid": "bafyreiaexp5worrq2jj5j6hlt23sw2nmbmkagqclogpo26jhed7u7fc4vm",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmpwcwvag62o",
+          "text": "semble Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read. https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T02:15:31.573616+00:00",
+          "createdUtc": 1779761731,
+          "ageHours": 2.32,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
           "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
@@ -27041,23 +27210,22 @@
     },
     "anthropics/knowledge-work-plugins": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
-        "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mmppct27bs2j",
+        "cid": "bafyreiduqdtw3afzmclabqnmyhc7dkog6xgvapix7djmrh22xjqg757nau",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mmppct27bs2j",
+        "text": "📡 Builder signal of the day Anthropic-Cybersecurity-Skills — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/anthropics/knowledge-work-plugins",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "rickqian.bsky.social"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-25T14:51:14.000Z",
-        "hoursSincePosted": 1.22
+        "replyCount": 0,
+        "createdAt": "2026-05-26T00:10:10.896236+00:00",
+        "hoursSincePosted": 4.41
       },
       "posts": [
         {
@@ -27121,6 +27289,33 @@
             },
             {
               "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mmppct27bs2j",
+          "cid": "bafyreiduqdtw3afzmclabqnmyhc7dkog6xgvapix7djmrh22xjqg757nau",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mmppct27bs2j",
+          "text": "📡 Builder signal of the day Anthropic-Cybersecurity-Skills — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/anthropics/knowledge-work-plugins",
+          "author": {
+            "handle": "rickqian.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T00:10:10.896236+00:00",
+          "createdUtc": 1779754210,
+          "ageHours": 4.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
               "matchType": "url",
               "confidence": 1
             }
@@ -28047,6 +28242,55 @@
           "linkedRepos": [
             {
               "fullName": "OrcaSlicer/OrcaSlicer",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kubernetes-sigs/agent-sandbox": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5sdiawbhokcnncqt55tn3co3/app.bsky.feed.post/3mmq5be7zjk2z",
+        "cid": "bafyreicllymtnuwa7fyd3pzqrj2ahx7atcezzgegxg5q534njmq3k2jtoq",
+        "bskyUrl": "https://bsky.app/profile/usrbinkat.io/post/3mmq5be7zjk2z",
+        "text": "I gotta it's back to the kubernetes. github.com/kubernetes-s...",
+        "author": {
+          "handle": "usrbinkat.io"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-26T04:19:54.774Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5sdiawbhokcnncqt55tn3co3/app.bsky.feed.post/3mmq5be7zjk2z",
+          "cid": "bafyreicllymtnuwa7fyd3pzqrj2ahx7atcezzgegxg5q534njmq3k2jtoq",
+          "bskyUrl": "https://bsky.app/profile/usrbinkat.io/post/3mmq5be7zjk2z",
+          "text": "I gotta it's back to the kubernetes. github.com/kubernetes-s...",
+          "author": {
+            "handle": "usrbinkat.io"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T04:19:54.774Z",
+          "createdUtc": 1779769194,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kubernetes-sigs/agent-sandbox",
               "matchType": "url",
               "confidence": 1
             }
@@ -31878,15 +32122,15 @@
       ]
     },
     "garrytan--gbrain": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmjzhvxd3i2s",
-        "cid": "bafyreicu2vigtblzbjm4fqpqww2aw2gelmr5u7yknvvjzh3o7slmfcfqxa",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmjzhvxd3i2s",
-        "text": "GBrain is SOTA retrieval for agents and free for your use. MIT license. It currently is designed for OpenClaw and Hermes Agent but it does have full MCP server support that lets you use it with almost any agent harness. https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmq5irajv224",
+        "cid": "bafyreicfmu4agip7dbxkxdnq4zlqzy4hflhbp6hmxqsntprjxu4akhoj2a",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmq5irajv224",
+        "text": "Yes https://github.com/garrytan/gbrain",
         "author": {
           "handle": "garrytan-mirr.selfhosted.social",
           "displayName": "Garry Tan [UNOFFICIAL]"
@@ -31894,8 +32138,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-23T17:45:04.000Z",
-        "hoursSincePosted": 4.4
+        "createdAt": "2026-05-26T04:17:49.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -31924,6 +32168,90 @@
               "matchType": "url",
               "confidence": 1
             },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmq5irajv224",
+          "cid": "bafyreicfmu4agip7dbxkxdnq4zlqzy4hflhbp6hmxqsntprjxu4akhoj2a",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmq5irajv224",
+          "text": "Yes https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T04:17:49.000Z",
+          "createdUtc": 1779769069,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmprrgdrba2s",
+          "cid": "bafyreie2jegc3nn6asv2zeuuehh27qd357mrqmgfqyi7kvrd4yjovl36bi",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmprrgdrba2s",
+          "text": "Yes absolutely here are some tutorials https://github.com/garrytan/gbrain/tree/master/docs/tutorials",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T00:39:44.000Z",
+          "createdUtc": 1779755984,
+          "ageHours": 3.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mmpqunxwbq2s",
+          "cid": "bafyreihex3ln2sy63opkefbdgvxnb7fntb3m2lfo67jcmfw6p5m2ma57wa",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmpqunxwbq2s",
+          "text": "GBrain is free and open source at https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T00:35:49.000Z",
+          "createdUtc": 1779755749,
+          "ageHours": 3.98,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
               "matchType": "url",
@@ -39061,19 +39389,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jfc47fjoy4wr4wtax256z6ke/app.bsky.feed.post/3mmgxaqgr4s2o",
-        "cid": "bafyreig5yzq56yukpnlkiexgtx4nmujxdu3kjwg2zlmd7jhhu2sfulam2a",
-        "bskyUrl": "https://bsky.app/profile/yyano.bsky.social/post/3mmgxaqgr4s2o",
-        "text": "rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies github.com/rtk-ai/rtk おためしで動かしてる。かなり圧縮できていいかんじ。",
+        "uri": "at://did:plc:kwo35zhaa7w7kyjnsfwns4uq/app.bsky.feed.post/3mmpsrww2fc2v",
+        "cid": "bafyreidfpujbmzyjoxrdwk6yd37ynulemebfzcoqxkglknvfr7vs4bzflu",
+        "bskyUrl": "https://bsky.app/profile/darth-vada.bsky.social/post/3mmpsrww2fc2v",
+        "text": "Ohh my brain. Sorry it’s rtk. github.com/rtk-ai/rtk",
         "author": {
-          "handle": "yyano.bsky.social",
-          "displayName": "yyano"
+          "handle": "darth-vada.bsky.social",
+          "displayName": "Darth Vada"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-22T12:38:13.928Z",
-        "hoursSincePosted": 2.73
+        "createdAt": "2026-05-26T01:12:20.082Z",
+        "hoursSincePosted": 3.37
       },
       "posts": [
         {
@@ -39166,6 +39494,34 @@
             },
             {
               "fullName": "colbymchenry/codegraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kwo35zhaa7w7kyjnsfwns4uq/app.bsky.feed.post/3mmpsrww2fc2v",
+          "cid": "bafyreidfpujbmzyjoxrdwk6yd37ynulemebfzcoqxkglknvfr7vs4bzflu",
+          "bskyUrl": "https://bsky.app/profile/darth-vada.bsky.social/post/3mmpsrww2fc2v",
+          "text": "Ohh my brain. Sorry it’s rtk. github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "darth-vada.bsky.social",
+            "displayName": "Darth Vada"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T01:12:20.082Z",
+          "createdUtc": 1779757940,
+          "ageHours": 3.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
@@ -46076,25 +46432,53 @@
     },
     "cli--cli": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
-        "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
-        "bskyUrl": "https://bsky.app/profile/deokgonkimdgkim.bsky.social/post/3mm34bct2mc2l",
-        "text": "github.com/cli/cli/blob... gh는 또 왜! snap 설치하지 말라 하나.. snap 편하고 좋은데. 안 그런가? ㅋ",
+        "uri": "at://did:plc:ymoeg4trisbzfowiaemnu7xz/app.bsky.feed.post/3mmq36qsehs2j",
+        "cid": "bafyreif3l3gouo6ww5aydcq7fxry3qnftknnts2bbjpeublglogkairaw4",
+        "bskyUrl": "https://bsky.app/profile/chenjiahan.bsky.social/post/3mmq36qsehs2j",
+        "text": "GitHub CLI has had an open issue for short-lived OAuth tokens since 2022. With agents and supply-chain attacks becoming more common, I hope this gets more attention now. github.com/cli/cli/issu...",
         "author": {
-          "handle": "deokgonkimdgkim.bsky.social",
-          "displayName": "Deokgon Kim"
+          "handle": "chenjiahan.bsky.social",
+          "displayName": "Jiahan Chen"
         },
-        "likeCount": 0,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-17T19:36:05.054Z",
-        "hoursSincePosted": 4.56
+        "createdAt": "2026-05-26T03:42:24.729Z",
+        "hoursSincePosted": 0.87
       },
       "posts": [
+        {
+          "uri": "at://did:plc:ymoeg4trisbzfowiaemnu7xz/app.bsky.feed.post/3mmq36qsehs2j",
+          "cid": "bafyreif3l3gouo6ww5aydcq7fxry3qnftknnts2bbjpeublglogkairaw4",
+          "bskyUrl": "https://bsky.app/profile/chenjiahan.bsky.social/post/3mmq36qsehs2j",
+          "text": "GitHub CLI has had an open issue for short-lived OAuth tokens since 2022. With agents and supply-chain attacks becoming more common, I hope this gets more attention now. github.com/cli/cli/issu...",
+          "author": {
+            "handle": "chenjiahan.bsky.social",
+            "displayName": "Jiahan Chen"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T03:42:24.729Z",
+          "createdUtc": 1779766944,
+          "ageHours": 0.87,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cli/cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:iedjrrdrxgzpvwxdiidl2vmn/app.bsky.feed.post/3mm34bct2mc2l",
           "cid": "bafyreidsxqklk75icpcychkdglscrin2tlkoxzpg65o4bb53mp4256iyoq",
@@ -46283,22 +46667,51 @@
       "count7d": 1,
       "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
-        "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
-        "bskyUrl": "https://bsky.app/profile/francistm.bsky.social/post/3mmh4kxye5c2b",
-        "text": "Shipped ken v0.4.0 — pure-Go port of MinishLab/semble (hybrid code search for AI agents). Drop-in MCP replacement, no Python, single static binary. go install + ken download-model and you're running. github.com/townsendmeri...",
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmpwcwvag62o",
+        "cid": "bafyreiaexp5worrq2jj5j6hlt23sw2nmbmkagqclogpo26jhed7u7fc4vm",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmpwcwvag62o",
+        "text": "semble Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read. https://github.com/MinishLab/semble",
         "author": {
-          "handle": "francistm.bsky.social"
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
         },
         "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-22T14:13:26.096Z",
-        "hoursSincePosted": 1.15
+        "replyCount": 0,
+        "createdAt": "2026-05-26T02:15:31.573616+00:00",
+        "hoursSincePosted": 2.32
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mmpwcwvag62o",
+          "cid": "bafyreiaexp5worrq2jj5j6hlt23sw2nmbmkagqclogpo26jhed7u7fc4vm",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mmpwcwvag62o",
+          "text": "semble Fast and Accurate Code Search for Agents. Uses ~98% fewer tokens than grep+read. https://github.com/MinishLab/semble",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T02:15:31.573616+00:00",
+          "createdUtc": 1779761731,
+          "ageHours": 2.32,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MinishLab/semble",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:hosvhu6ascflszx7dab7ayyo/app.bsky.feed.post/3mmh4kxye5c2b",
           "cid": "bafyreig7wwcjqiiyyvx6u2xlztbh6yxbfwvdrvxgpxapbu5nezvjpeq5zi",
@@ -55092,23 +55505,22 @@
     },
     "anthropics--knowledge-work-plugins": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jbqcwhxtnchfilrbteswkz5k/app.bsky.feed.post/3mmoq3fuwuhk2",
-        "cid": "bafyreibsvzoiam7mgx3bvwdyehqucer4leio7s3avbtipf6y5amuo65ux4",
-        "bskyUrl": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmoq3fuwuhk2",
-        "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 5625 stars today 2. https://github.com/anthropics/knowledge-work-plugins - Python, 1448 stars today 3. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 3167 stars today 4 […]",
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mmppct27bs2j",
+        "cid": "bafyreiduqdtw3afzmclabqnmyhc7dkog6xgvapix7djmrh22xjqg757nau",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mmppct27bs2j",
+        "text": "📡 Builder signal of the day Anthropic-Cybersecurity-Skills — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/anthropics/knowledge-work-plugins",
         "author": {
-          "handle": "ghtrend.newsmast.social.ap.brid.gy",
-          "displayName": "GitHub Trending"
+          "handle": "rickqian.bsky.social"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-25T14:51:14.000Z",
-        "hoursSincePosted": 1.22
+        "replyCount": 0,
+        "createdAt": "2026-05-26T00:10:10.896236+00:00",
+        "hoursSincePosted": 4.41
       },
       "posts": [
         {
@@ -55172,6 +55584,33 @@
             },
             {
               "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mmppct27bs2j",
+          "cid": "bafyreiduqdtw3afzmclabqnmyhc7dkog6xgvapix7djmrh22xjqg757nau",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mmppct27bs2j",
+          "text": "📡 Builder signal of the day Anthropic-Cybersecurity-Skills — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/anthropics/knowledge-work-plugins",
+          "author": {
+            "handle": "rickqian.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T00:10:10.896236+00:00",
+          "createdUtc": 1779754210,
+          "ageHours": 4.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
               "matchType": "url",
               "confidence": 1
             }
@@ -56104,26 +56543,85 @@
           ]
         }
       ]
+    },
+    "kubernetes-sigs--agent-sandbox": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5sdiawbhokcnncqt55tn3co3/app.bsky.feed.post/3mmq5be7zjk2z",
+        "cid": "bafyreicllymtnuwa7fyd3pzqrj2ahx7atcezzgegxg5q534njmq3k2jtoq",
+        "bskyUrl": "https://bsky.app/profile/usrbinkat.io/post/3mmq5be7zjk2z",
+        "text": "I gotta it's back to the kubernetes. github.com/kubernetes-s...",
+        "author": {
+          "handle": "usrbinkat.io"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-26T04:19:54.774Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5sdiawbhokcnncqt55tn3co3/app.bsky.feed.post/3mmq5be7zjk2z",
+          "cid": "bafyreicllymtnuwa7fyd3pzqrj2ahx7atcezzgegxg5q534njmq3k2jtoq",
+          "bskyUrl": "https://bsky.app/profile/usrbinkat.io/post/3mmq5be7zjk2z",
+          "text": "I gotta it's back to the kubernetes. github.com/kubernetes-s...",
+          "author": {
+            "handle": "usrbinkat.io"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-26T04:19:54.774Z",
+          "createdUtc": 1779769194,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kubernetes-sigs/agent-sandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "cli/cli",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 4
     },
     {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "MinishLab/semble",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
-      "fullName": "Lum1104/Understand-Anything",
+      "fullName": "garrytan/gbrain",
+      "count7d": 3,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/knowledge-work-plugins",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "OrcaSlicer/OrcaSlicer",
+      "fullName": "kubernetes-sigs/agent-sandbox",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "rtk-ai/rtk",
       "count7d": 1,
       "likesSum7d": 0
     }

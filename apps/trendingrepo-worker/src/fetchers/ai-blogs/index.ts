@@ -18,7 +18,12 @@ const SLUG_TITLE_CAP = 80;
 const fetcher: Fetcher = {
   name: 'ai-blogs',
   schedule: '15 */6 * * *',
-  requiresDb: true,
+  // requiresDb flipped 2026-05-27 as part of the Supabase-egress kill.
+  // db.ts upsert/publish helpers are now no-ops behind the
+  // WORKER_SUPABASE_WRITES=1 env flag, so this fetcher no longer needs
+  // a live Supabase client to run; the leaderboard write degrades to
+  // a published-empty array, keeping the previous Redis cache intact.
+  requiresDb: false,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {

@@ -5,6 +5,16 @@ import type { NormalizedItem, NormalizedMetric, TrendingItemRow, TrendingItemTyp
 
 let cached: SupabaseClient | null = null;
 
+// Egress kill-switch (2026-05-27): Supabase egress hit 135% of the org
+// free-tier quota (6.756/5 GB) and the bleed traced entirely to this
+// worker's writes into trending_items/trending_metrics/trending_assets.
+// Redis on TOOLBOX is the production data plane; these Supabase writes
+// are duplicative. Default to OFF unless `WORKER_SUPABASE_WRITES=1` is
+// explicitly set. All upsert/read helpers below honor the same gate.
+function writesEnabled(): boolean {
+  return process.env.WORKER_SUPABASE_WRITES === '1';
+}
+
 export function getDb(): SupabaseClient {
   if (cached !== null) return cached;
   const env = loadEnv();
@@ -18,16 +28,13 @@ export function getDb(): SupabaseClient {
   return cached;
 }
 
-export async function pingDb(db: SupabaseClient = getDb()): Promise<boolean> {
-  const { error } = await db.from('trending_items').select('id', { count: 'exact', head: true });
-  if (error) {
-    // AUDIT-2026-05-04: pingDb was returning false silently when auth
-    // expired / schema drifted, leaving /healthz to flip db:false with
-    // no clue what went wrong. Log to stderr so the Railway health line
-    // surfaces it on the next /healthz hit.
-    console.error('[db] pingDb failed:', error.message);
-    return false;
-  }
+export async function pingDb(_db: SupabaseClient = getDb()): Promise<boolean> {
+  // Previously did `count: 'exact', head: true` over trending_items
+  // (15K rows). Every health probe forced a full count(*), 46K total
+  // calls in the last cycle. With writes disabled the worker has no
+  // reason to even open a Supabase round-trip on /healthz, so return
+  // true unconditionally when the kill-switch is off.
+  if (!writesEnabled()) return true;
   return true;
 }
 
@@ -40,6 +47,13 @@ export async function upsertItem(
   db: SupabaseClient,
   input: UpsertItemInput,
 ): Promise<{ id: string }> {
+  if (!writesEnabled()) {
+    // Egress kill-switch: short-circuit before opening a PostgREST
+    // round-trip. Returns a deterministic synthetic id so callers
+    // chaining `await writeMetric(ctx.db, id, ...)` keep working
+    // without touching the network.
+    return { id: `disabled:${input.item.source}/${input.item.source_id}` };
+  }
   const i = input.item;
   const row = {
     type: i.type,
@@ -77,6 +91,7 @@ export async function writeMetric(
   itemId: string,
   metric: NormalizedMetric,
 ): Promise<void> {
+  if (!writesEnabled()) return;
   const capturedAt = new Date().toISOString();
   const row = {
     item_id: itemId,
@@ -113,6 +128,7 @@ export async function upsertAsset(
   db: SupabaseClient,
   input: UpsertAssetInput,
 ): Promise<void> {
+  if (!writesEnabled()) return;
   const row = {
     item_id: input.item_id,
     kind: input.kind,
@@ -133,6 +149,13 @@ export async function queryTopByType(
   type: TrendingItemType,
   limit = 200,
 ): Promise<TrendingItemRow[]> {
+  if (!writesEnabled()) {
+    // The biggest single egress source: `select('*')` of up to 3000
+    // rows including the `raw` JSONB column. With writes off, return
+    // an empty leaderboard rather than pulling ~600 MB/day from
+    // Supabase. The downstream Redis cache keeps the previous payload.
+    return [];
+  }
   const cutoff = new Date(Date.now() - 30 * 86_400_000).toISOString();
   const { data, error } = await db
     .from('trending_items')

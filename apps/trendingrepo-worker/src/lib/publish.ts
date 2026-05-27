@@ -41,6 +41,13 @@ export async function publishLeaderboard(
   type: TrendingItemType,
   limit = DEFAULT_LIMIT,
 ): Promise<{ items: number; writtenAt: string; redisPublished: boolean }> {
+  // Egress kill-switch (2026-05-27): when Supabase writes are gated off
+  // queryTopByType returns []. Without this guard we'd overwrite the
+  // existing Redis leaderboard with an empty payload, violating the
+  // keep-last-50 rule (docs/INGESTION.md#rule-keep-last-50-cache).
+  if (process.env.WORKER_SUPABASE_WRITES !== '1') {
+    return { items: 0, writtenAt: new Date().toISOString(), redisPublished: false };
+  }
   const rows = await queryTopByType(db, type, limit);
   const now = new Date().toISOString();
   const payload: LeaderboardPayload = {

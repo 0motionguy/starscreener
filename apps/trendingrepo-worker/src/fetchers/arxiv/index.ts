@@ -22,7 +22,12 @@ const MAX_PAGES_PER_CATEGORY = 5;
 const fetcher: Fetcher = {
   name: 'arxiv',
   schedule: '45 */6 * * *',
-  requiresDb: true,
+  // requiresDb flipped 2026-05-27 as part of the Supabase-egress kill.
+  // db.ts upsert/writeMetric/publish helpers are now no-ops behind the
+  // WORKER_SUPABASE_WRITES=1 env flag, so this fetcher runs against
+  // the proxied throwOnUseDb safely — every db.* call short-circuits
+  // inside db.ts before hitting the network.
+  requiresDb: false,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {

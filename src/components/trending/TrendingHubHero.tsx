@@ -3,7 +3,12 @@
 // `?window=` query params from props.
 
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
-import { getLastFetchedAt, getTrackedRepoCount } from "@/lib/trending";
+import { getLastFetchedAt } from "@/lib/trending";
+// Registry-inclusive tracked count: every repo ever seen (trending + recent +
+// repo-registry + manual + pipeline). Used to be the cold trending-only count
+// from getTrackedRepoCount, which under-reported once the persistent registry
+// shipped (732 vs the canonical 838+).
+import { getDerivedRepoCount } from "@/lib/derived-repos";
 import Link from "next/link";
 
 const CATEGORIES = [
@@ -40,7 +45,7 @@ export function TrendingHubHero({ category, window: timeWindow }: TrendingHubHer
   const fresh = fetchedAt ? classifyFreshness("repos", fetchedAt) : null;
   const tracked = (() => {
     try {
-      return getTrackedRepoCount();
+      return getDerivedRepoCount();
     } catch {
       return 0;
     }

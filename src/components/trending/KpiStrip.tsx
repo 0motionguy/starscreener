@@ -1,13 +1,14 @@
 // KpiStrip — emits the 5-cell .kpi-strip used on the Trending hub.
 // shell.js animates the [data-counter] spans from 0 → target.
 
-import { getTrackedRepoCount, getDeltasComputedAt, getLastFetchedAt } from "@/lib/trending";
+import { getDeltasComputedAt, getLastFetchedAt } from "@/lib/trending";
+import { getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
 import { Icon } from "@/lib/icons";
 
 export async function KpiStrip() {
-  const trackedCount = safe(() => getTrackedRepoCount(), 0);
+  const trackedCount = safe(() => getDerivedRepoCount(), 0);
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
   const deltasAt = safe(() => getDeltasComputedAt() || null, null);
   const counts = await getSidebarSourceCounts().catch(() => null);

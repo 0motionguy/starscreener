@@ -1,6 +1,9 @@
 // Statusbar — global footer. Server component. Clocks driven by shell.js.
 
-import { getTrackedRepoCount, getLastFetchedAt } from "@/lib/trending";
+import { getLastFetchedAt } from "@/lib/trending";
+// Registry-inclusive count (was getTrackedRepoCount which read only the cold
+// trending.json seed). Matches the hero + control-bar pills.
+import { getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { classifyFreshness, type FreshnessStatus } from "@/lib/news/freshness";
 
@@ -22,7 +25,7 @@ const PIPE_DOT: Record<FreshnessStatus, string> = {
 export async function Statusbar() {
   const trackedCount = (() => {
     try {
-      return getTrackedRepoCount();
+      return getDerivedRepoCount();
     } catch {
       return 0;
     }

@@ -4,7 +4,8 @@
 // driven by the `previewVariant` field on the tiles array.
 
 import Link from "next/link";
-import { refreshTrendingFromStore, getTrackedRepoCount } from "@/lib/trending";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { listIdeas } from "@/lib/ideas";
 import {
@@ -81,7 +82,7 @@ export default async function PreviewPage() {
       .catch(() => 0),
   ]);
 
-  const trackedRepos = safe(() => getTrackedRepoCount(), 0);
+  const trackedRepos = safe(() => getDerivedRepoCount(), 0);
   const mentions24h = counts
     ? counts.hackernewsStories +
       counts.lobstersStories +

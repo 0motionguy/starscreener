@@ -82,10 +82,15 @@ function addFullName(out: Map<string, string>, raw: unknown): void {
   out.set(fullName.toLowerCase(), fullName);
 }
 
+interface RegistryPayloadLite {
+  repos?: Record<string, { fullName?: string; lastSeenAt?: string }>;
+}
+
 function collectFullNames(
   trending: TrendingPayload | null,
   recentRepos: RecentReposPayload | null,
   manualRepos: ManualReposPayload | null,
+  registry: RegistryPayloadLite | null,
 ): string[] {
   const names = new Map<string, string>();
   for (const periodBuckets of Object.values(trending?.buckets ?? {})) {
@@ -96,6 +101,16 @@ function collectFullNames(
   }
   for (const row of recentRepos?.items ?? []) addFullName(names, row?.fullName);
   for (const row of manualRepos?.items ?? []) addFullName(names, row?.fullName);
+  // Registry tier — every repo ever seen (includes ones dropped from trending).
+  // Sorted by lastSeenAt desc so the natural map-insert order surfaces fresher
+  // repos to the batch loop first; existing names are already keyed (dedup).
+  // This closes the metadata gap that left registry-only profiles showing
+  // "not available" for stars/lang/topics. Bounded by the registry cap (2000)
+  // → ~36 GH GraphQL batches at BATCH_SIZE=25 (safe under the hourly quota).
+  const registryEntries = Object.values(registry?.repos ?? {}).sort((a, b) =>
+    (b.lastSeenAt ?? '') < (a.lastSeenAt ?? '') ? -1 : (b.lastSeenAt ?? '') > (a.lastSeenAt ?? '') ? 1 : 0,
+  );
+  for (const entry of registryEntries) addFullName(names, entry?.fullName);
   return Array.from(names.values()).sort((a, b) =>
     a.toLowerCase().localeCompare(b.toLowerCase()),
   );
@@ -240,12 +255,14 @@ const fetcher: Fetcher = {
       'recent-repos',
       'manual-repos',
       'repo-metadata',
+      'repo-registry',
     ] as const;
     const reads = await Promise.allSettled([
       readDataStore<TrendingPayload>('trending'),
       readDataStore<RecentReposPayload>('recent-repos'),
       readDataStore<ManualReposPayload>('manual-repos'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
+      readDataStore<RegistryPayloadLite>('repo-registry'),
     ]);
     const readFailures: Array<{ key: string; err: string }> = [];
     const values = reads.map((r, i) => {
@@ -262,11 +279,12 @@ const fetcher: Fetcher = {
         'repo-metadata: some reads failed; degrading those sources to null',
       );
     }
-    const [trending, recentRepos, manualRepos, previous] = values as [
+    const [trending, recentRepos, manualRepos, previous, registry] = values as [
       TrendingPayload | null,
       RecentReposPayload | null,
       ManualReposPayload | null,
       RepoMetadataPayload | null,
+      RegistryPayloadLite | null,
     ];
 
     const previousByName = new Map<string, RepoMetadataItem>();
@@ -275,7 +293,7 @@ const fetcher: Fetcher = {
     }
 
     const fetchedAt = new Date().toISOString();
-    const fullNames = collectFullNames(trending, recentRepos, manualRepos);
+    const fullNames = collectFullNames(trending, recentRepos, manualRepos, registry);
     const itemsByName = new Map<string, RepoMetadataItem>();
     const failures: RepoMetadataPayload['failures'] = [];
     const errors: RunResult['errors'] = [];

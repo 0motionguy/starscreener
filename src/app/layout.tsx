@@ -64,6 +64,14 @@ import { Topbar } from "@/components/shell/Topbar";
 import { Ticker } from "@/components/shell/Ticker";
 import { Statusbar } from "@/components/shell/Statusbar";
 
+// A5 (2026-05-27): refreshing the registry at the root layout keeps the
+// Statusbar count consistent across every route, not just `/`. The refresh
+// is 30s-rate-limited + in-flight-deduped inside createPayloadReader, so
+// calling it on every page render is near-free. Without this, navigating
+// to e.g. /pricing showed the bundled-data fallback count instead of the
+// registry-inclusive count.
+import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
+
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
@@ -97,6 +105,9 @@ export const viewport: Viewport = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Keep the Statusbar count fresh across every route (A5).
+  await refreshRepoRegistryFromStore().catch(() => undefined);
+
   const clerkPublishableKey = getClerkPublishableKey();
 
   const appChrome = (

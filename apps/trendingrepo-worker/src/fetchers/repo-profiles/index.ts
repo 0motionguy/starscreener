@@ -12,6 +12,12 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
+import {
+  extractTrendingFullNames,
+  rankedRegistryFullNames,
+  unionOrderedFullNames,
+  type RegistryPayloadLite,
+} from '../../lib/util/registry-candidates.js';
 
 const TOP_LIMIT = Math.max(
   1,
@@ -64,7 +70,7 @@ interface PhLaunchesPayload {
 interface RepoProfile {
   fullName: string;
   rank: number | null;
-  selectedFrom: 'manual_include' | 'trending_top_24h';
+  selectedFrom: 'manual_include' | 'trending_top_24h' | 'registry_tail';
   websiteUrl: string | null;
   websiteSource: 'producthunt' | 'github_homepage' | 'npm_homepage' | null;
   status: 'no_website' | 'scan_pending';
@@ -146,17 +152,23 @@ const fetcher: Fetcher = {
 
     // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
     // null instead of crashing the whole fetcher. Same fix as f39cd09d.
+    //
+    // 2026-05-27 (B-series): added `repo-registry` so the candidate set
+    // includes dropped repos via the rankedRegistryFullNames helper. Before
+    // this, every registry-only repo silently missed AISO scan enrichment.
     const READ_KEYS = [
       'trending',
       'repo-metadata',
       'npm-packages',
       'producthunt-launches',
+      'repo-registry',
     ] as const;
     const reads = await Promise.allSettled([
       readDataStore<TrendingPayload>('trending'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
       readDataStore<NpmPackagesPayload>('npm-packages'),
       readDataStore<PhLaunchesPayload>('producthunt-launches'),
+      readDataStore<RegistryPayloadLite>('repo-registry'),
     ]);
     const readFailures: Array<{ key: string; err: string }> = [];
     const values = reads.map((r, i) => {
@@ -173,11 +185,12 @@ const fetcher: Fetcher = {
         'repo-profiles: some reads failed; degrading those sources to null',
       );
     }
-    const [trending, repoMetadata, npmPackages, phLaunches] = values as [
+    const [trending, repoMetadata, npmPackages, phLaunches, registry] = values as [
       TrendingPayload | null,
       RepoMetadataPayload | null,
       NpmPackagesPayload | null,
       PhLaunchesPayload | null,
+      RegistryPayloadLite | null,
     ];
 
     const metadataByRepo = new Map<string, RepoMetadataItem>();
@@ -204,16 +217,40 @@ const fetcher: Fetcher = {
       }
     }
 
-    const rankMap = buildTrendingRankMap(trending);
-    const candidates: Array<{ fullName: string; rank: number | null; key: string }> = [];
-    for (const [key, rank] of rankMap.entries()) {
-      if (candidates.length >= TOP_LIMIT) break;
-      candidates.push({
-        fullName: metadataByRepo.get(key)?.fullName ?? key,
+    // Candidate selection: trending first (ranked), then registry tail
+    // (recency-ordered) to fill up to TOP_LIMIT. Trending repos keep their
+    // rank; registry-tail repos carry rank=null + selectedFrom='registry_tail'.
+    const trendingNames = extractTrendingFullNames(trending);
+    const trendingRankByKey = new Map<string, number>();
+    {
+      let nextRank = 0;
+      for (const fullName of trendingNames) {
+        const key = normalizeRepoKey(fullName);
+        if (trendingRankByKey.has(key)) continue;
+        nextRank += 1;
+        trendingRankByKey.set(key, nextRank);
+      }
+    }
+    const registryTail = rankedRegistryFullNames(registry, TOP_LIMIT);
+    const orderedFullNames = unionOrderedFullNames(trendingNames, registryTail).slice(
+      0,
+      TOP_LIMIT,
+    );
+    const candidates: Array<{
+      fullName: string;
+      rank: number | null;
+      key: string;
+      fromTrending: boolean;
+    }> = orderedFullNames.map((fullName) => {
+      const key = normalizeRepoKey(fullName);
+      const rank = trendingRankByKey.get(key) ?? null;
+      return {
+        fullName: metadataByRepo.get(key)?.fullName ?? fullName,
         rank,
         key,
-      });
-    }
+        fromTrending: rank !== null,
+      };
+    });
 
     const now = new Date().toISOString();
     let queued = 0;
@@ -256,7 +293,7 @@ const fetcher: Fetcher = {
       const profile: RepoProfile = {
         fullName: meta?.fullName ?? candidate.fullName,
         rank: candidate.rank,
-        selectedFrom: 'trending_top_24h',
+        selectedFrom: candidate.fromTrending ? 'trending_top_24h' : 'registry_tail',
         websiteUrl,
         websiteSource,
         status: websiteUrl ? 'scan_pending' : 'no_website',

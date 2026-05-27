@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-27T03:59:36.610Z",
+  "fetchedAt": "2026-05-27T09:55:19.777Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1445,
+  "scannedArticles": 1439,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -187,14 +187,14 @@
     "tag-agentic-top-7d": 5,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 10,
+    "tag-codex-top-7d": 8,
     "tag-cursor-top-7d": 49,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 5,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 30,
-    "tag-workflow-top-7d": 51,
+    "tag-workflow-top-7d": 49,
     "tag-workflows-top-7d": 2,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
@@ -2089,6 +2089,27 @@
       "linkedRepos": []
     },
     {
+      "id": 3759724,
+      "title": "How Are Developers Actually Using AI At Work?",
+      "description": "JSNation is coming soon, and besides my talk (I’ll drop the link in the comments so I don’t spam you...",
+      "url": "https://dev.to/sylwia-lask/how-are-developers-actually-using-ai-at-work-4g9c",
+      "author": {
+        "username": "sylwia-lask",
+        "name": "Sylwia Laskowska",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3535771%2Fe22860d5-274b-43c9-819b-56b162e5bd5a.jpeg"
+      },
+      "reactionsCount": 11,
+      "commentsCount": 10,
+      "readingTime": 4,
+      "publishedAt": "2026-05-27T07:11:18Z",
+      "tags": [
+        "discuss",
+        "ai"
+      ],
+      "trendingScore": 8.38,
+      "linkedRepos": []
+    },
+    {
       "id": 3693795,
       "title": "Rediscovering Domain-Driven Design, one MCP server at a time",
       "description": "Developers are reinventing Bounded Contexts and Anti-Corruption Layers for MCP servers without knowing it. The patterns already exist - and they've been battle-tested for 20 years.",
@@ -2526,34 +2547,6 @@
       ],
       "trendingScore": 6.35,
       "linkedRepos": []
-    },
-    {
-      "id": 3703180,
-      "title": "What Happens When You Run `npm run dev`",
-      "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
-      "url": "https://dev.to/lovestaco/what-happens-when-you-run-npm-run-dev-ae9",
-      "author": {
-        "username": "lovestaco",
-        "name": "Athreya aka Maneshwar",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
-      },
-      "reactionsCount": 8,
-      "commentsCount": 0,
-      "readingTime": 6,
-      "publishedAt": "2026-05-19T18:45:40Z",
-      "tags": [
-        "webdev",
-        "programming",
-        "javascript",
-        "beginners"
-      ],
-      "trendingScore": 6.3,
-      "linkedRepos": [
-        {
-          "fullName": "HexmosTech/git-lrc",
-          "location": "body"
-        }
-      ]
     }
   ]
 }

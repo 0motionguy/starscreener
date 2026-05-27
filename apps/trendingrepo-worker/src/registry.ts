@@ -60,6 +60,11 @@ import dropIntakeDrain from './fetchers/drop-intake-drain/index.js';
 // searches HN/Reddit/dev.to/Bluesky/ProductHunt(+Tavily) per repo and publishes
 // `repo-mentions-detail-rollup` to redis (the detail behind profile source pips).
 import crossSourceSweep from './fetchers/cross-source-sweep/index.js';
+// Persistent accumulating repo collection — unions trending/recent/metadata/
+// consensus into a durable `repo-registry` slug (never drops), so the tracked
+// count grows past 1000 and dropped repos are retained. App reads it via
+// src/lib/derived-repos/loaders/registry.ts.
+import repoRegistry from './fetchers/repo-registry/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -99,6 +104,7 @@ export const FETCHERS: Fetcher[] = [
   artificialanalysis,
   dropIntakeDrain,
   crossSourceSweep,
+  repoRegistry,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

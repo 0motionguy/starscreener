@@ -57,9 +57,21 @@ async function readSlug<T>(slug: string, log?: Logger): Promise<T | null> {
   }
 }
 
+interface RegistryPayload {
+  repos?: Record<string, { fullName?: string }>;
+}
+
 export async function loadTrackedRepos(opts: { log?: Logger } = {}): Promise<Map<string, string>> {
   const { log } = opts;
   const tracked = new Map<string, string>();
+
+  // Primary: the persistent repo-registry (accumulates every repo ever seen,
+  // incl. ones dropped from trending) so dropped repos keep getting their
+  // mentions swept/attributed. Falls through to trending/recent below.
+  const registry = await readSlug<RegistryPayload>('repo-registry', log);
+  for (const entry of Object.values(registry?.repos ?? {})) {
+    addFullName(tracked, entry?.fullName);
+  }
 
   const trending = await readSlug<TrendingPayload>('trending', log);
   if (trending && trending.buckets) {

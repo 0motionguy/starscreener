@@ -60,6 +60,7 @@ import { getArxivRecentFile } from "../../arxiv";
 import { getAllPhLaunches } from "../../producthunt";
 import { getFundingEventsForRepo } from "../../funding/repo-events";
 import { getCrossSourceDetail } from "../../cross-source-mentions";
+import { getRepoMentionsLedger } from "../../mentions-ledger";
 
 // ---------------------------------------------------------------------------
 // Lifetime aggregation — all-time mention counts from the bundled scraper
@@ -531,17 +532,29 @@ export function decorateWithMentionsRollup(
       for (const [channel, bucket] of Object.entries(detail.perSource)) {
         if (!bucket) continue;
         const c = channel as SocialPlatform;
+        const cur = perSource[c] ?? { count24h: 0, count7d: 0 };
         const sweep7d = bucket.count7d ?? 0;
-        if (sweep7d > (perSource[c]?.count7d ?? 0)) {
-          // Preserve the lifetime `count` already populated by the
-          // source-first walkers above — the sweep is 7d-windowed and
-          // shouldn't clobber the all-time tally.
-          perSource[c] = {
-            count24h: perSource[c]?.count24h ?? 0,
-            count7d: sweep7d,
-            count: perSource[c]?.count,
-          };
-        }
+        // countLifetime is the sweep's monotonic never-drops tally; it carries
+        // lifetime for twitter/tavily/producthunt that the ledger doesn't track.
+        const sweepLife = bucket.countLifetime ?? sweep7d;
+        perSource[c] = {
+          count24h: cur.count24h,
+          count7d: Math.max(cur.count7d, sweep7d),
+          count: Math.max(cur.count ?? 0, sweepLife),
+        };
+      }
+    }
+
+    // Mentions ledger — authoritative LIFETIME counts for the 5 SADD-deduped
+    // source channels (hackernews/reddit/bluesky/devto/lobsters). These never
+    // drop (unlike the 7d-windowed bundled `.length`), so they win the lifetime
+    // `count`. count24h/count7d are left untouched (scoring depends on them).
+    const ledger = getRepoMentionsLedger(key);
+    if (ledger?.perSource) {
+      for (const [src, n] of Object.entries(ledger.perSource)) {
+        const c = src as SocialPlatform;
+        const cur = perSource[c] ?? { count24h: 0, count7d: 0 };
+        perSource[c] = { ...cur, count: Math.max(cur.count ?? 0, n ?? 0) };
       }
     }
 

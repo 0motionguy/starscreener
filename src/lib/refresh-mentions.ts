@@ -20,6 +20,7 @@ import { refreshNpmFromStore } from "./npm";
 import { refreshProducthuntLaunchesFromStore } from "./producthunt";
 import { refreshArxivFromStore } from "./arxiv";
 import { refreshCrossSourceMentionsFromStore } from "./cross-source-mentions";
+import { refreshMentionsLedgerFromStore } from "./mentions-ledger";
 
 /**
  * Refresh all mention/cross-source stores in parallel. Never throws — each
@@ -38,5 +39,7 @@ export async function refreshAllMentionStores(): Promise<void> {
     refreshProducthuntLaunchesFromStore().catch(() => undefined),
     refreshArxivFromStore().catch(() => undefined),
     refreshCrossSourceMentionsFromStore().catch(() => undefined),
+    // Lifetime cumulative per-source counts (worker mentions-ledger snapshot).
+    refreshMentionsLedgerFromStore().catch(() => undefined),
   ]);
 }

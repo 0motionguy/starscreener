@@ -8,6 +8,7 @@ import {
   buildRollupRepos,
   dedupeMentions,
   isDistinctiveName,
+  mergeRollupRepos,
   searchTwitterApify,
   toRepoInput,
   type Mention,
@@ -37,6 +38,7 @@ describe('buildRollupRepos', () => {
     expect(repo?.totalMentions7d).toBe(7);
     const hn = repo?.perSource.hackernews;
     expect(hn?.count7d).toBe(7);
+    expect(hn?.countLifetime).toBe(7);
     expect(hn?.top).toHaveLength(5); // trimmed
     expect(hn?.top[0]?.engagement.score).toBe(6); // highest score first
     expect(hn?.top[4]?.engagement.score).toBe(2);
@@ -60,6 +62,44 @@ describe('buildRollupRepos', () => {
       mention({ url: 'https://x/fresh' }),
     ]);
     expect(repos['owner/repo']?.totalMentions7d).toBe(1);
+  });
+});
+
+describe('mergeRollupRepos', () => {
+  it('never drops a source not re-found this run; counts take the max', () => {
+    const existing = buildRollupRepos([
+      mention({ fullName: 'a/b', source: 'devto', url: 'https://d/1' }),
+      mention({ fullName: 'a/b', source: 'devto', url: 'https://d/2' }),
+      mention({ fullName: 'a/b', source: 'hackernews', url: 'https://h/1' }),
+    ]);
+    // Fresh run only re-found hackernews (1 item) for a/b — devto absent.
+    const fresh = buildRollupRepos([
+      mention({ fullName: 'a/b', source: 'hackernews', url: 'https://h/1' }),
+    ]);
+    const merged = mergeRollupRepos(existing, fresh);
+    expect(merged['a/b']?.perSource.devto?.countLifetime).toBe(2); // retained, not dropped
+    expect(merged['a/b']?.perSource.hackernews?.countLifetime).toBe(1);
+  });
+
+  it('keeps a repo absent from the fresh run entirely', () => {
+    const existing = buildRollupRepos([mention({ fullName: 'old/repo', url: 'https://x/1' })]);
+    const fresh = buildRollupRepos([mention({ fullName: 'new/repo', url: 'https://x/2' })]);
+    const merged = mergeRollupRepos(existing, fresh);
+    expect(Object.keys(merged).sort()).toEqual(['new/repo', 'old/repo']);
+  });
+
+  it('unions top mentions deduped by url, best-5 by score', () => {
+    const existing = buildRollupRepos([
+      mention({ fullName: 'a/b', url: 'https://x/old', engagement: { score: 1 } }),
+    ]);
+    const fresh = buildRollupRepos([
+      mention({ fullName: 'a/b', url: 'https://x/new', engagement: { score: 9 } }),
+      mention({ fullName: 'a/b', url: 'https://x/old', engagement: { score: 1 } }), // dup url
+    ]);
+    const merged = mergeRollupRepos(existing, fresh);
+    const top = merged['a/b']?.perSource.hackernews?.top ?? [];
+    expect(top).toHaveLength(2); // deduped
+    expect(top[0]?.url).toBe('https://x/new'); // highest score first
   });
 });
 

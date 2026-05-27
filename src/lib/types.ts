@@ -108,6 +108,8 @@ export interface CrossSourceMentionDetail {
 
 export interface CrossSourceDetailPerSource {
   count7d: number;
+  /** Monotonic lifetime count from the sweep merge — never drops on re-sweep. */
+  countLifetime?: number;
   top: CrossSourceMentionDetail[];
 }
 

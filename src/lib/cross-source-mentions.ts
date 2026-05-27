@@ -34,7 +34,10 @@ interface RawRollupRepo {
   fullName?: string;
   totalMentions7d?: number;
   perSource?: Partial<
-    Record<CrossSourceChannel, { count7d?: number; top?: RawRollupMention[] }>
+    Record<
+      CrossSourceChannel,
+      { count7d?: number; countLifetime?: number; top?: RawRollupMention[] }
+    >
   >;
 }
 
@@ -88,8 +91,12 @@ function buildIndex(payload: RollupPayload): Map<string, CrossSourceDetailRollup
               ? m.observedAt
               : new Date(0).toISOString(),
         }));
+      const count7d =
+        typeof bucket.count7d === "number" ? bucket.count7d : top.length;
       perSource[channel] = {
-        count7d: typeof bucket.count7d === "number" ? bucket.count7d : top.length,
+        count7d,
+        countLifetime:
+          typeof bucket.countLifetime === "number" ? bucket.countLifetime : count7d,
         top,
       };
     }

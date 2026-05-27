@@ -72,6 +72,9 @@ const MIN_REFRESH_INTERVAL_MS = 30_000;
 let cache: Map<string, MentionsLedgerEntry> = new Map();
 let lastRefreshMs = 0;
 let inflight: Promise<void> | null = null;
+// Snapshot writtenAt — exported as the data version so getDerivedRepos()'s
+// cache key invalidates when a fresh ledger snapshot lands.
+let lastWrittenAt = "";
 
 // ---------------------------------------------------------------------------
 // Refresh hook — pulls fresh ledger snapshot from the data-store.
@@ -105,6 +108,7 @@ export async function refreshMentionsLedgerFromStore(
       const result = await target.read<MentionsLedgerSnapshot>(STORE_KEY);
       if (result.data && result.source !== "missing") {
         cache = buildCache(result.data.entries);
+        lastWrittenAt = result.data.writtenAt ?? result.writtenAt ?? "";
       }
       // Total miss: leave the cache as-is. First-ever cold start that gets
       // a miss keeps the empty Map; subsequent refreshes will try again
@@ -163,6 +167,11 @@ export function getRepoMentionsLedger(
   return cache.get(fullName.toLowerCase()) ?? null;
 }
 
+/** Data version (snapshot writtenAt) for derived-repos cache invalidation. */
+export function getMentionsLedgerDataVersion(): string {
+  return lastWrittenAt;
+}
+
 // ---------------------------------------------------------------------------
 // Test-only — reset module state so each test starts from a clean cache.
 // ---------------------------------------------------------------------------
@@ -171,4 +180,5 @@ export function _resetMentionsLedgerCacheForTests(): void {
   cache = new Map();
   lastRefreshMs = 0;
   inflight = null;
+  lastWrittenAt = "";
 }

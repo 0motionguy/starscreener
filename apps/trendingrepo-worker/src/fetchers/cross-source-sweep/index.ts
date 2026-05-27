@@ -486,7 +486,11 @@ export function dedupeMentions(mentions: Mention[]): Mention[] {
 
 // --- rollup ----------------------------------------------------------------
 
-interface RollupBucket { count7d: number; top: Mention[]; }
+// `countLifetime` is the monotonic, never-drops mention count for the bucket;
+// `count7d` is this run's 7d-window count. The merge below keeps lifetime from
+// receding when a re-sweep's window happens to be smaller (the founder's
+// "mentions should remain, not a 24h thingy").
+interface RollupBucket { count7d: number; countLifetime: number; top: Mention[]; }
 interface RollupRepo { fullName: string; totalMentions7d: number; perSource: Record<string, RollupBucket>; }
 interface RollupPayload {
   computedAt: string;
@@ -501,8 +505,9 @@ export function buildRollupRepos(mentions: Mention[], windowDays = 7): Record<st
     const ts = Date.parse(ev.observedAt);
     if (Number.isFinite(ts) && ts < cutoff) continue;
     const r = (repos[ev.fullName] ??= { fullName: ev.fullName, totalMentions7d: 0, perSource: {} });
-    const bucket = (r.perSource[ev.source] ??= { count7d: 0, top: [] });
+    const bucket = (r.perSource[ev.source] ??= { count7d: 0, countLifetime: 0, top: [] });
     bucket.count7d += 1;
+    bucket.countLifetime += 1;
     r.totalMentions7d += 1;
     bucket.top.push(ev);
   }
@@ -516,6 +521,58 @@ export function buildRollupRepos(mentions: Mention[], windowDays = 7): Record<st
     }
   }
   return repos;
+}
+
+/** Merge one source's existing + fresh buckets so counts never drop: count7d
+ *  and countLifetime take the max, `top` is the best-5 of the union (deduped by
+ *  url). Used per (repo, source) by mergeRollupRepos. */
+function mergeBucket(existing: RollupBucket | undefined, fresh: RollupBucket | undefined): RollupBucket {
+  const exLife = existing?.countLifetime ?? existing?.count7d ?? 0;
+  const frLife = fresh?.countLifetime ?? fresh?.count7d ?? 0;
+  const seen = new Set<string>();
+  const top: Mention[] = [];
+  for (const m of [...(fresh?.top ?? []), ...(existing?.top ?? [])]) {
+    if (!m.url || seen.has(m.url)) continue;
+    seen.add(m.url);
+    top.push(m);
+  }
+  top.sort((a, b) => {
+    const sd = (b.engagement?.score ?? 0) - (a.engagement?.score ?? 0);
+    return sd !== 0 ? sd : Date.parse(b.observedAt) - Date.parse(a.observedAt);
+  });
+  return {
+    count7d: Math.max(existing?.count7d ?? 0, fresh?.count7d ?? 0),
+    countLifetime: Math.max(exLife, frLife),
+    top: top.slice(0, 5),
+  };
+}
+
+/** Read-then-merge the fresh rollup over the existing one PER (repo, source) so
+ *  a re-swept repo never loses prior coverage (sources not re-found this run are
+ *  retained; counts take the max). Replaces the old shallow per-repo replace. */
+export function mergeRollupRepos(
+  existing: Record<string, RollupRepo>,
+  fresh: Record<string, RollupRepo>,
+): Record<string, RollupRepo> {
+  const out: Record<string, RollupRepo> = {};
+  for (const [k, r] of Object.entries(existing)) out[k] = r;
+  for (const [k, freshRepo] of Object.entries(fresh)) {
+    const ex = out[k];
+    if (!ex) {
+      out[k] = freshRepo;
+      continue;
+    }
+    const perSource: Record<string, RollupBucket> = {};
+    const sources = new Set([...Object.keys(ex.perSource), ...Object.keys(freshRepo.perSource)]);
+    let total = 0;
+    for (const s of sources) {
+      const merged = mergeBucket(ex.perSource[s], freshRepo.perSource[s]);
+      perSource[s] = merged;
+      total += merged.count7d;
+    }
+    out[k] = { fullName: freshRepo.fullName, totalMentions7d: total, perSource };
+  }
+  return out;
 }
 
 // --- top-N selection -------------------------------------------------------
@@ -564,6 +621,18 @@ async function loadTopRepos(limit: number): Promise<RepoInput[]> {
     'consensus-trending',
   ).catch(() => null);
   for (const item of ct?.items ?? []) push(item?.fullName);
+
+  // TERTIARY: the persistent registry (dropped repos), most-recently-seen
+  // first, to fill any remaining budget — so dropped repos keep getting swept.
+  if (out.length < limit) {
+    const registry = await readDataStore<{
+      repos?: Record<string, { fullName?: string; lastSeenAt?: string }>;
+    }>('repo-registry').catch(() => null);
+    const entries = Object.values(registry?.repos ?? {}).sort((a, b) =>
+      (b.lastSeenAt ?? '') < (a.lastSeenAt ?? '') ? -1 : (b.lastSeenAt ?? '') > (a.lastSeenAt ?? '') ? 1 : 0,
+    );
+    for (const e of entries) push(e?.fullName);
+  }
 
   return out;
 }
@@ -644,7 +713,7 @@ const fetcher: Fetcher = {
     // covered this run keep their prior detail (read-then-merge).
     const freshRepos = buildRollupRepos(combinedMentions);
     const existing = await readDataStore<RollupPayload>('repo-mentions-detail-rollup').catch(() => null);
-    const mergedRepos: Record<string, RollupRepo> = { ...(existing?.repos ?? {}), ...freshRepos };
+    const mergedRepos = mergeRollupRepos(existing?.repos ?? {}, freshRepos);
     const payload: RollupPayload = {
       computedAt: new Date().toISOString(),
       windowDays: 7,

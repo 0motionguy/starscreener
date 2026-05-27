@@ -16,6 +16,7 @@ import { describe, it, expect } from 'vitest';
 import {
   applyLedger,
   extractIds,
+  mergeLedgerSnapshot,
   projectSnapshots,
   type LedgerSource,
   type LedgerWorkItem,
@@ -341,7 +342,7 @@ describe('applyLedger', () => {
   it('handles empty work-item list without touching Redis', async () => {
     const { ops, sets, hashes, zset } = makeMemRedis();
     const result = await applyLedger(ops, []);
-    expect(result).toEqual({ reposTouched: 0, newMentions: 0, leaderboardSize: 0 });
+    expect(result).toEqual({ reposTouched: 0, newMentions: 0, leaderboardSize: 0, entries: [] });
     expect(sets.size).toBe(0);
     expect(hashes.size).toBe(0);
     expect(zset.size).toBe(0);
@@ -355,5 +356,36 @@ describe('applyLedger', () => {
     ];
     await applyLedger(ops, items);
     expect(sets.has('ss:mentions:v1:a/b:hackernews')).toBe(true);
+  });
+
+  it('returns flattened entries (perSource + total) for the snapshot', async () => {
+    const { ops } = makeMemRedis();
+    const result = await applyLedger(ops, projectSnapshots(snapshots));
+    const vercel = result.entries.find((e) => e.fullName === 'vercel/next.js');
+    expect(vercel?.total).toBe(8);
+    expect(vercel?.perSource).toEqual({ hackernews: 3, reddit: 2, bluesky: 1, lobsters: 2 });
+    expect(vercel?.sources[0]).toBe('hackernews'); // sorted desc by count
+  });
+});
+
+describe('mergeLedgerSnapshot', () => {
+  const entry = (fullName: string, total: number) => ({
+    fullName,
+    perSource: { hackernews: total } as Record<string, number>,
+    total,
+    sources: ['hackernews'],
+  });
+
+  it('accumulates: untouched repos retained, touched repos overwritten', () => {
+    const existing = { entries: [entry('old/repo', 5), entry('shared/repo', 2)], writtenAt: 't0' };
+    const out = mergeLedgerSnapshot(existing, [entry('shared/repo', 9), entry('new/repo', 1)], 't1');
+    const byName = Object.fromEntries(out.entries.map((e) => [e.fullName, e.total]));
+    expect(byName).toEqual({ 'old/repo': 5, 'shared/repo': 9, 'new/repo': 1 });
+    expect(out.writtenAt).toBe('t1');
+  });
+
+  it('handles a null existing snapshot (first run)', () => {
+    const out = mergeLedgerSnapshot(null, [entry('a/b', 3)], 't1');
+    expect(out.entries).toHaveLength(1);
   });
 });

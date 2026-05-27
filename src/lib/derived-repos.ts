@@ -44,11 +44,18 @@ import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
 import { getTwitterSignalsDataVersion } from "./twitter";
 import { getCrossSourceMentionsDataVersion } from "./cross-source-mentions";
+import { getMentionsLedgerDataVersion } from "./mentions-ledger";
 import {
   __resetPipelineReposCacheForTests,
   getPipelineRepos,
   getPipelineReposDataVersion,
 } from "./derived-repos/loaders/pipeline-jsonl";
+import {
+  __resetRepoRegistryForTests,
+  buildBaseRepoFromRegistry,
+  getRegistryRepos,
+  getRepoRegistryDataVersion,
+} from "./derived-repos/loaders/registry";
 import {
   baseRepoFromTrending,
   buildTrendingAggregates,
@@ -100,6 +107,8 @@ function computeCacheKey(): string {
     getTwitterSignalsDataVersion(),
     getPipelineReposDataVersion(),
     getCrossSourceMentionsDataVersion(),
+    getRepoRegistryDataVersion(),
+    getMentionsLedgerDataVersion(),
     getRepoMetadataFetchedAt() ?? "",
   ].join(":");
   _cacheKeyComputedAtMs = now;
@@ -292,6 +301,49 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     seenFullNames.add(normalized);
   }
 
+  // Supplemental: the persistent repo-registry (redis-backed) — every repo
+  // ever seen, including ones that have DROPPED out of the live trending feed.
+  // This is what makes the collection accumulate past 1000 and retains dropped
+  // repos instead of letting them vanish on the next oss-trending overwrite.
+  // Each entry carries last-known stats; we overlay committed metadata when
+  // present so stars/topics stay fresh, then feed the row through the same
+  // classify+score pass as the rest.
+  for (const entry of getRegistryRepos()) {
+    const normalized = entry.fullName.toLowerCase();
+    if (seenFullNames.has(normalized)) continue;
+    const metadata = getRepoMetadata(entry.fullName);
+    const base = buildBaseRepoFromRegistry(entry);
+    const enrichedBase: Repo = {
+      ...base,
+      fullName: metadata?.fullName ?? base.fullName,
+      name: metadata?.name ?? base.name,
+      owner: metadata?.owner ?? base.owner,
+      ownerAvatarUrl: metadata?.ownerAvatarUrl || base.ownerAvatarUrl,
+      description: metadata?.description || base.description,
+      url: metadata?.url ?? base.url,
+      language: metadata?.language ?? base.language,
+      topics: metadata?.topics ?? base.topics,
+      stars: metadata?.stars ?? base.stars,
+      forks: metadata?.forks ?? base.forks,
+      openIssues: metadata?.openIssues ?? base.openIssues,
+      lastCommitAt:
+        metadata?.pushedAt ||
+        metadata?.updatedAt ||
+        metadata?.createdAt ||
+        base.lastCommitAt,
+      createdAt: metadata?.createdAt ?? base.createdAt,
+      archived: metadata?.archived ?? base.archived,
+    };
+    repos.push({
+      ...enrichedBase,
+      sparklineData: synthesizeRecentRepoSparkline(
+        enrichedBase.stars,
+        enrichedBase.createdAt,
+      ),
+    });
+    seenFullNames.add(normalized);
+  }
+
   // Supplemental fallback: pipeline-persisted `.data/repos.jsonl` rows that
   // aren't covered by trending/recent/manual. This catches mature repos
   // (ollama/ollama, vercel/next.js, huggingface/transformers, …) that have
@@ -440,4 +492,5 @@ export function __resetDerivedReposCache(): void {
   _cacheKeyComputed = "";
   _cacheKeyComputedAtMs = 0;
   __resetPipelineReposCacheForTests();
+  __resetRepoRegistryForTests();
 }

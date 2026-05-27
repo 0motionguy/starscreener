@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
+import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import {
@@ -59,6 +60,10 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const ranker = normalizeRanker(rawRank);
 
   await refreshTrendingFromStore().catch(() => undefined);
+  // Hydrate the persistent repo-registry so getDerivedRepos() includes repos
+  // that have dropped out of the live trending feed (the accumulating
+  // collection). 30s rate-limit + dedupe inside — cheap per render.
+  await refreshRepoRegistryFromStore().catch(() => undefined);
   // Always refresh AA LLMs so the control-bar pill count is honest from any
   // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
   // cheap to call on every render.

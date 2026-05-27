@@ -11,6 +11,7 @@ import { notFound } from "next/navigation";
 
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
+import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
   refreshRepoProfilesFromStore,
@@ -190,6 +191,9 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     // Hydrate per-source mention caches + cross-source detail so the profile's
     // source pips + mention block render the live redis data (not a cold cache).
     refreshAllMentionStores().catch(() => undefined),
+    // Hydrate the persistent repo-registry so a repo that has dropped out of
+    // the live trending feed still resolves here (instead of 404ing).
+    refreshRepoRegistryFromStore().catch(() => undefined),
   ]);
 
   const repo = (() => {

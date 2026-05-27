@@ -24,7 +24,7 @@
 // collectors are currently publishing; the seed job pulls deeper history.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { readDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { loadEnv } from '../../lib/env.js';
 
 // --------------------------------------------------------------------------
@@ -299,10 +299,21 @@ export function projectSnapshots(snapshots: UpstreamSnapshots): LedgerWorkItem[]
 // index hash) and ZADDs the top-N to the leaderboard.
 // --------------------------------------------------------------------------
 
+// Flattened per-repo snapshot entry — matches the shape the app read-side
+// (src/lib/mentions-ledger.ts MentionsLedgerEntry) expects.
+export interface LedgerSnapshotEntry {
+  fullName: string;
+  perSource: Record<string, number>;
+  total: number;
+  sources: string[];
+}
+
 export interface ApplyResult {
   reposTouched: number;
   newMentions: number;
   leaderboardSize: number;
+  /** Fresh {fullName, perSource, total} for every repo touched this run. */
+  entries: LedgerSnapshotEntry[];
 }
 
 export async function applyLedger(
@@ -324,16 +335,27 @@ export async function applyLedger(
   }
 
   // Recompute totals for repos touched this run and update the leaderboard.
+  // Also capture the per-source breakdown so the fetcher can flatten it into
+  // the `mentions-ledger` snapshot slug (the app read-side).
   const totals: Array<{ repo: string; total: number }> = [];
+  const entries: LedgerSnapshotEntry[] = [];
   for (const repo of touchedRepos) {
     const indexKey = `${KEY_PREFIX}:${repo}:_index`;
     const hash = await ops.hgetall(indexKey);
     let total = 0;
-    for (const value of Object.values(hash)) {
+    const perSource: Record<string, number> = {};
+    for (const [field, value] of Object.entries(hash)) {
       const n = Number.parseInt(String(value), 10);
-      if (Number.isFinite(n) && n > 0) total += n;
+      if (Number.isFinite(n) && n > 0) {
+        perSource[field] = n;
+        total += n;
+      }
     }
-    if (total > 0) totals.push({ repo, total });
+    if (total > 0) {
+      totals.push({ repo, total });
+      const sources = Object.keys(perSource).sort((a, b) => (perSource[b] ?? 0) - (perSource[a] ?? 0));
+      entries.push({ fullName: repo, perSource, total, sources });
+    }
   }
 
   // Top-N by total — leaderboard is a ZSET, sorted ascending by score, so
@@ -351,7 +373,33 @@ export async function applyLedger(
     reposTouched: touchedRepos.size,
     newMentions,
     leaderboardSize: top.length,
+    entries,
   };
+}
+
+// --------------------------------------------------------------------------
+// Flatten — read-then-merge this run's touched entries over the existing
+// `mentions-ledger` snapshot so the slug accumulates lifetime totals for every
+// repo ever touched (untouched repos retain their last computed entry). This
+// is the slug the app read-side (src/lib/mentions-ledger.ts) consumes.
+// --------------------------------------------------------------------------
+
+interface LedgerSnapshot {
+  entries: LedgerSnapshotEntry[];
+  writtenAt: string;
+}
+
+export function mergeLedgerSnapshot(
+  existing: LedgerSnapshot | null,
+  fresh: LedgerSnapshotEntry[],
+  now: string,
+): LedgerSnapshot {
+  const byRepo = new Map<string, LedgerSnapshotEntry>();
+  for (const e of existing?.entries ?? []) {
+    if (e && typeof e.fullName === 'string') byRepo.set(e.fullName.toLowerCase(), e);
+  }
+  for (const e of fresh) byRepo.set(e.fullName.toLowerCase(), e);
+  return { entries: Array.from(byRepo.values()), writtenAt: now };
 }
 
 // --------------------------------------------------------------------------
@@ -426,15 +474,25 @@ const fetcher: Fetcher = {
 
     try {
       const result = await applyLedger(ops, items);
+
+      // Flatten: read-then-merge this run's touched entries over the existing
+      // `mentions-ledger` snapshot so the app read-side gets lifetime totals.
+      const now = new Date().toISOString();
+      const existing = await readDataStore<LedgerSnapshot>('mentions-ledger').catch(() => null);
+      const snapshot = mergeLedgerSnapshot(existing, result.entries, now);
+      const writeRes = await writeDataStore('mentions-ledger', snapshot);
+
       ctx.log.info(
         {
           reposTouched: result.reposTouched,
           newMentions: result.newMentions,
           leaderboardSize: result.leaderboardSize,
+          snapshotEntries: snapshot.entries.length,
+          snapshotRedis: writeRes.source,
         },
         'mentions-ledger applied',
       );
-      return done(startedAt, totalIds, true, errors);
+      return done(startedAt, totalIds, writeRes.source === 'redis', errors);
     } catch (err) {
       const message = (err as Error).message;
       ctx.log.error({ err: message }, 'mentions-ledger apply failed');

@@ -65,6 +65,12 @@ import crossSourceSweep from './fetchers/cross-source-sweep/index.js';
 // count grows past 1000 and dropped repos are retained. App reads it via
 // src/lib/derived-repos/loaders/registry.ts.
 import repoRegistry from './fetchers/repo-registry/index.js';
+// Scheduled batch enrichment of community profile (license, languages, org,
+// README, etc.) for the registry's top-N by recency. Closes the gap where
+// dropped/registry-only repos show "—" in RepoOwnerRepoSnapshot because the
+// existing on-demand path (src/lib/repo-community-profile.ts) is only
+// triggered by signed-in users. Wave 3A — 2026-05-27.
+import repoCommunityProfile from './fetchers/repo-community-profile/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -105,6 +111,7 @@ export const FETCHERS: Fetcher[] = [
   dropIntakeDrain,
   crossSourceSweep,
   repoRegistry,
+  repoCommunityProfile,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

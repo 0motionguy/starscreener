@@ -8,6 +8,7 @@ import {
   buildRollupRepos,
   dedupeMentions,
   isDistinctiveName,
+  searchTwitterApify,
   toRepoInput,
   type Mention,
 } from '../index.js';
@@ -92,6 +93,14 @@ describe('isDistinctiveName', () => {
     expect(isDistinctiveName('cli')).toBe(false);
     expect(isDistinctiveName('api')).toBe(false);
     expect(isDistinctiveName('ab')).toBe(false);
+  });
+});
+
+describe('searchTwitterApify', () => {
+  it('is gated off (no network) when no Apify token is present', async () => {
+    const repo = toRepoInput('vercel/next.js');
+    await expect(searchTwitterApify(repo ? [repo] : [], undefined)).resolves.toEqual([]);
+    await expect(searchTwitterApify(repo ? [repo] : [], '')).resolves.toEqual([]);
   });
 });
 

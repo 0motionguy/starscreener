@@ -19,6 +19,10 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+// Reuse the proven Apify `apidojo~tweet-scraper` caller (run-sync-get-dataset-
+// items + field-name normalization) rather than re-implementing it. Gated on
+// APIFY_API_TOKEN — see searchTwitterApify.
+import { runTweetScraper } from '../x-funding/index.js';
 
 // 150 covers the home page's full 24h view plus the 7d/30d (gainer/trend)
 // rows, which re-sort the same `trending` set, before the consensus tail.
@@ -27,6 +31,12 @@ const REPO_CONCURRENCY = 4;
 const FETCH_TIMEOUT_MS = 15_000;
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
 const TEXT_TRUNCATE = 500;
+// Twitter via Apify is cost-bearing (the operator deliberately keeps Apify
+// spend low — see the reddit-Apify decision). Cap it: ONE batched actor run
+// (not one-per-repo) covering only the top slice, gated on APIFY_API_TOKEN so
+// it stays off — and free — until a key is dropped in.
+const TWITTER_BATCH_REPOS = 40;
+const TWITTER_MAX_ITEMS = 200;
 const UA = 'TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; cross-source-sweep)';
 
 type Channel =
@@ -246,6 +256,68 @@ async function searchTavily(repo: RepoInput, apiKey: string | undefined): Promis
   } catch {
     return [];
   }
+}
+
+// Twitter via Apify — gated on APIFY_API_TOKEN (off + free without it). One
+// batched actor run for the top slice; attribute each tweet to whichever batch
+// repo its text references (github URL → owner/repo → distinctive name).
+interface TweetRow {
+  text?: string; full_text?: string; url?: string; twitterUrl?: string;
+  id?: string | number; createdAt?: string; created_at?: string;
+  username?: string; user?: { screen_name?: string; userName?: string };
+  likeCount?: number; retweetCount?: number; replyCount?: number;
+}
+
+export async function searchTwitterApify(
+  repos: RepoInput[],
+  token: string | undefined,
+): Promise<Mention[]> {
+  if (!token) return [];
+  const batch = repos.slice(0, TWITTER_BATCH_REPOS);
+  if (batch.length === 0) return [];
+  let tweets: TweetRow[];
+  try {
+    tweets = (await runTweetScraper(token, {
+      searchTerms: batch.map((r) => `"${r.fullName}"`),
+      maxItems: TWITTER_MAX_ITEMS,
+      sort: 'Latest',
+      tweetLanguage: 'en',
+    })) as TweetRow[];
+  } catch {
+    return [];
+  }
+  const out: Mention[] = [];
+  for (const t of tweets) {
+    const text = str(t.text ?? t.full_text);
+    if (!text) continue;
+    const lower = text.toLowerCase();
+    const handle = str(t.username || t.user?.screen_name || t.user?.userName);
+    const url =
+      str(t.url || t.twitterUrl) ||
+      (handle && t.id ? `https://x.com/${handle}/status/${t.id}` : '');
+    if (!url) continue;
+    const observedAt = str(t.createdAt ?? t.created_at) || new Date().toISOString();
+    const score = num(t.likeCount) + num(t.retweetCount);
+    for (const r of batch) {
+      const full = r.fullName.toLowerCase();
+      const hit =
+        lower.includes(`github.com/${full}`) ||
+        lower.includes(full) ||
+        (isDistinctiveName(r.name) && lower.includes(r.name.toLowerCase()));
+      if (!hit) continue;
+      out.push({
+        source: 'twitter',
+        fullName: r.fullName,
+        url,
+        title: truncate(text, 200),
+        text: truncate(text),
+        author: handle || null,
+        engagement: { score, comments: num(t.replyCount) },
+        observedAt,
+      });
+    }
+  }
+  return out;
 }
 
 async function blueskySession(): Promise<string | null> {
@@ -517,7 +589,24 @@ const fetcher: Fetcher = {
     const jwt = await blueskySession();
     const phSnapshot = await readDataStore<{ launches?: PhLaunch[] }>('producthunt-launches').catch(() => null);
     const phLaunches = Array.isArray(phSnapshot?.launches) ? phSnapshot.launches : [];
-    const tavilyKey = process.env.TAVILY_API_KEY;
+    const tavilyKey = process.env.TAVILY_API_KEY?.trim();
+    const apifyToken = process.env.APIFY_API_TOKEN?.trim();
+
+    // Key-presence check — reports which optional keys are present and which
+    // channels they gate, so the operator can see the activation state at a
+    // glance. Tavily + Twitter(Apify) light up automatically on the next run
+    // once their key lands in the worker env (no code deploy needed).
+    ctx.log.info(
+      {
+        hackernews: 'live',
+        bluesky: jwt ? 'live' : 'no-creds (BLUESKY_HANDLE/APP_PASSWORD)',
+        producthunt: phLaunches.length ? 'snapshot' : 'no-snapshot',
+        tavily: tavilyKey ? 'live' : 'off (set TAVILY_API_KEY)',
+        twitter: apifyToken ? `apify·top${TWITTER_BATCH_REPOS}` : 'off (set APIFY_API_TOKEN)',
+        foldIn: 'devto,hackernews,reddit,lobsters,bluesky (source-first snapshots)',
+      },
+      'cross-source-sweep channel status',
+    );
 
     const allMentions: Mention[] = [];
     const queue = [...repos];
@@ -541,11 +630,14 @@ const fetcher: Fetcher = {
     await Promise.all(Array.from({ length: Math.min(REPO_CONCURRENCY, repos.length) }, () => worker()));
 
     // Fold the source-first snapshots (Dev.to / Reddit / Lobsters / HN /
-    // Bluesky) for our top repos into the stream, then de-dup against the live
-    // HN/Bluesky results so per-source counts aren't double-inflated.
+    // Bluesky) for our top repos into the stream + a gated, batched Apify
+    // Twitter search, then de-dup so per-source counts aren't double-inflated.
     const topLower = new Set(repos.map((r) => r.fullName.toLowerCase()));
-    const folded = await foldSourceFirstSnapshots(topLower).catch(() => [] as Mention[]);
-    const combinedMentions = dedupeMentions([...allMentions, ...folded]);
+    const [folded, tweets] = await Promise.all([
+      foldSourceFirstSnapshots(topLower).catch(() => [] as Mention[]),
+      searchTwitterApify(repos, apifyToken).catch(() => [] as Mention[]),
+    ]);
+    const combinedMentions = dedupeMentions([...allMentions, ...folded, ...tweets]);
 
     // Build this run's rollup, then merge over the existing one so repos not
     // covered this run keep their prior detail (read-then-merge).
@@ -568,6 +660,7 @@ const fetcher: Fetcher = {
         totalRepos: Object.keys(mergedRepos).length,
         liveMentions: allMentions.length,
         foldedMentions: folded.length,
+        twitterMentions: tweets.length,
         mentions: combinedMentions.length,
         bySource: sourceCounts,
         bluesky: jwt ? 'on' : 'off',

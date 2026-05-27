@@ -595,8 +595,9 @@ const fetcher: Fetcher = {
     // Key-presence check — reports which optional keys are present and which
     // channels they gate, so the operator can see the activation state at a
     // glance. Tavily + Twitter(Apify) light up automatically on the next run
-    // once their key lands in the worker env (no code deploy needed).
-    ctx.log.info(
+    // once their key lands in the worker env (no code deploy needed). Logged
+    // at WARN so it's visible under the worker's LOG_LEVEL=warn (once/day).
+    ctx.log.warn(
       {
         hackernews: 'live',
         bluesky: jwt ? 'live' : 'no-creds (BLUESKY_HANDLE/APP_PASSWORD)',
@@ -653,7 +654,9 @@ const fetcher: Fetcher = {
 
     const sourceCounts: Record<string, number> = {};
     for (const m of combinedMentions) sourceCounts[m.source] = (sourceCounts[m.source] ?? 0) + 1;
-    ctx.log.info(
+    // WARN so the per-run outcome (per-source counts, redis publish) is visible
+    // under LOG_LEVEL=warn — one line per daily run.
+    ctx.log.warn(
       {
         reposSwept: processed,
         freshRepos: Object.keys(freshRepos).length,

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-27T10:41:10.483Z",
+  "fetchedAt": "2026-05-27T16:27:26.628Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -92,6 +92,22 @@
     },
     {
       "rank": 6,
+      "id": "victor/LongCat-Video-Avatar-1.5",
+      "author": "victor",
+      "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
+      "likes": 120,
+      "trendingScore": 117,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T13:56:32.000Z",
+      "lastModified": "2026-05-26T16:44:17.000Z",
+      "models": []
+    },
+    {
+      "rank": 7,
       "id": "mikeee/qwen-7b-chat",
       "author": "mikeee",
       "url": "https://huggingface.co/spaces/mikeee/qwen-7b-chat",
@@ -104,22 +120,6 @@
       ],
       "createdAt": "2023-08-04T12:40:21.000Z",
       "lastModified": "2026-04-09T04:02:47.000Z",
-      "models": []
-    },
-    {
-      "rank": 7,
-      "id": "victor/LongCat-Video-Avatar-1.5",
-      "author": "victor",
-      "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
-      "likes": 112,
-      "trendingScore": 109,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-22T13:56:32.000Z",
-      "lastModified": "2026-05-26T16:44:17.000Z",
       "models": []
     },
     {
@@ -276,6 +276,22 @@
     },
     {
       "rank": 17,
+      "id": "webml-community/bonsai-image-webgpu",
+      "author": "webml-community",
+      "url": "https://huggingface.co/spaces/webml-community/bonsai-image-webgpu",
+      "likes": 68,
+      "trendingScore": 66,
+      "sdk": "static",
+      "tags": [
+        "static",
+        "region:us"
+      ],
+      "createdAt": "2026-05-26T17:12:36.000Z",
+      "lastModified": "2026-05-26T20:57:36.000Z",
+      "models": []
+    },
+    {
+      "rank": 18,
       "id": "ysharma/fast-image-studio",
       "author": "ysharma",
       "url": "https://huggingface.co/spaces/ysharma/fast-image-studio",
@@ -291,7 +307,7 @@
       "models": []
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": "k2-fsa/OmniVoice",
       "author": "k2-fsa",
       "url": "https://huggingface.co/spaces/k2-fsa/OmniVoice",
@@ -307,7 +323,7 @@
       "models": []
     },
     {
-      "rank": 19,
+      "rank": 20,
       "id": "prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
       "author": "prithivMLmods",
       "url": "https://huggingface.co/spaces/prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
@@ -324,7 +340,7 @@
       "models": []
     },
     {
-      "rank": 20,
+      "rank": 21,
       "id": "Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
       "author": "Onise",
       "url": "https://huggingface.co/spaces/Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
@@ -341,12 +357,12 @@
       "models": []
     },
     {
-      "rank": 21,
+      "rank": 22,
       "id": "stabilityai/stable-audio-3",
       "author": "stabilityai",
       "url": "https://huggingface.co/spaces/stabilityai/stable-audio-3",
-      "likes": 56,
-      "trendingScore": 55,
+      "likes": 57,
+      "trendingScore": 56,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -354,22 +370,6 @@
       ],
       "createdAt": "2026-05-20T15:54:00.000Z",
       "lastModified": "2026-05-22T21:24:33.000Z",
-      "models": []
-    },
-    {
-      "rank": 22,
-      "id": "webml-community/bonsai-image-webgpu",
-      "author": "webml-community",
-      "url": "https://huggingface.co/spaces/webml-community/bonsai-image-webgpu",
-      "likes": 56,
-      "trendingScore": 55,
-      "sdk": "static",
-      "tags": [
-        "static",
-        "region:us"
-      ],
-      "createdAt": "2026-05-26T17:12:36.000Z",
-      "lastModified": "2026-05-26T20:57:36.000Z",
       "models": []
     },
     {
@@ -410,7 +410,7 @@
       "id": "selfit-camera/Omni-Image-Editor",
       "author": "selfit-camera",
       "url": "https://huggingface.co/spaces/selfit-camera/Omni-Image-Editor",
-      "likes": 1772,
+      "likes": 1774,
       "trendingScore": 46,
       "sdk": "gradio",
       "tags": [
@@ -474,8 +474,8 @@
       "id": "multimodalart/z-image-6b-pixel-space",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/z-image-6b-pixel-space",
-      "likes": 40,
-      "trendingScore": 40,
+      "likes": 42,
+      "trendingScore": 41,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -520,6 +520,22 @@
     },
     {
       "rank": 32,
+      "id": "bytedance-research/Lance",
+      "author": "bytedance-research",
+      "url": "https://huggingface.co/spaces/bytedance-research/Lance",
+      "likes": 38,
+      "trendingScore": 37,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T05:42:54.000Z",
+      "lastModified": "2026-05-27T11:24:58.000Z",
+      "models": []
+    },
+    {
+      "rank": 33,
       "id": "ibuildproducts/wan22-i2v-v4-demo",
       "author": "ibuildproducts",
       "url": "https://huggingface.co/spaces/ibuildproducts/wan22-i2v-v4-demo",
@@ -535,7 +551,7 @@
       "models": []
     },
     {
-      "rank": 33,
+      "rank": 34,
       "id": "multimodalart/qwen-image-multiple-angles-3d-camera",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/qwen-image-multiple-angles-3d-camera",
@@ -551,7 +567,7 @@
       "models": []
     },
     {
-      "rank": 34,
+      "rank": 35,
       "id": "suraj291/Survival_Island_Game",
       "author": "suraj291",
       "url": "https://huggingface.co/spaces/suraj291/Survival_Island_Game",
@@ -568,7 +584,7 @@
       "models": []
     },
     {
-      "rank": 35,
+      "rank": 36,
       "id": "r3gm/wan2-2-fp8da-aoti-previewG",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-previewG",
@@ -585,7 +601,7 @@
       "models": []
     },
     {
-      "rank": 36,
+      "rank": 37,
       "id": "HiDream-ai/HiDream-O1-Image-Dev",
       "author": "HiDream-ai",
       "url": "https://huggingface.co/spaces/HiDream-ai/HiDream-O1-Image-Dev",
@@ -598,22 +614,6 @@
       ],
       "createdAt": "2026-05-09T15:35:22.000Z",
       "lastModified": "2026-05-09T18:21:38.000Z",
-      "models": []
-    },
-    {
-      "rank": 37,
-      "id": "bytedance-research/Lance",
-      "author": "bytedance-research",
-      "url": "https://huggingface.co/spaces/bytedance-research/Lance",
-      "likes": 34,
-      "trendingScore": 33,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-22T05:42:54.000Z",
-      "lastModified": "2026-05-27T09:37:04.000Z",
       "models": []
     },
     {
@@ -766,6 +766,22 @@
     },
     {
       "rank": 47,
+      "id": "openbmb/VoxCPM-Demo",
+      "author": "openbmb",
+      "url": "https://huggingface.co/spaces/openbmb/VoxCPM-Demo",
+      "likes": 502,
+      "trendingScore": 26,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2025-09-16T14:53:41.000Z",
+      "lastModified": "2026-05-23T09:59:35.000Z",
+      "models": []
+    },
+    {
+      "rank": 48,
       "id": "multimodalart/scenema-audio",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/scenema-audio",
@@ -781,7 +797,7 @@
       "models": []
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "mrfakename/anima-v1",
       "author": "mrfakename",
       "url": "https://huggingface.co/spaces/mrfakename/anima-v1",
@@ -801,7 +817,7 @@
       "models": []
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "HuggingFaceTB/smol-training-playbook",
       "author": "HuggingFaceTB",
       "url": "https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook",
@@ -818,22 +834,6 @@
       ],
       "createdAt": "2025-09-12T15:07:42.000Z",
       "lastModified": "2026-02-11T13:12:41.000Z",
-      "models": []
-    },
-    {
-      "rank": 50,
-      "id": "openbmb/VoxCPM-Demo",
-      "author": "openbmb",
-      "url": "https://huggingface.co/spaces/openbmb/VoxCPM-Demo",
-      "likes": 498,
-      "trendingScore": 24,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2025-09-16T14:53:41.000Z",
-      "lastModified": "2026-05-23T09:59:35.000Z",
       "models": []
     }
   ]

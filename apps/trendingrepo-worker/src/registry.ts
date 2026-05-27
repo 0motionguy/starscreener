@@ -71,6 +71,12 @@ import repoRegistry from './fetchers/repo-registry/index.js';
 // existing on-demand path (src/lib/repo-community-profile.ts) is only
 // triggered by signed-in users. Wave 3A — 2026-05-27.
 import repoCommunityProfile from './fetchers/repo-community-profile/index.js';
+// Daily forward-append of one cumulative star-count point per registry
+// repo. Mirrors scripts/append-star-activity.mjs (which only sees the
+// trending tier) and adds registry-tier coverage so dropped repos get a
+// timeline too. Closes the "Star history not yet available" surface for
+// the long tail. Wave C1 — 2026-05-27.
+import starActivity from './fetchers/star-activity/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -112,6 +118,7 @@ export const FETCHERS: Fetcher[] = [
   crossSourceSweep,
   repoRegistry,
   repoCommunityProfile,
+  starActivity,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

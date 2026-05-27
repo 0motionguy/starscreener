@@ -27,6 +27,7 @@ You receive a JSON object with:
 - consensus: { score, confidence, verdict, sourceCount, externalRank, oursRank, maxRankGap }
 - sources: per-source rank/score (gh, hf, hn, x, r, pdh, dev, bs, ours)
 - weights: source weights used by the composite
+- citationCandidates: pre-built {title, url} list of canonical pages on every source where this entity has a present signal. Pick 2-5 of these for "citations" (NEVER invent URLs — only pick from this list).
 
 VERDICT BANDS
 - strong_consensus: ≥5 sources agree, low rank gap. Real signal.
@@ -39,6 +40,7 @@ OUTPUT
 You must respond with ONLY a JSON object matching this schema. No prose around it. No code fences.
 
 {
+  "tagline": "≤12 words — what this entity IS, in expert framing (e.g. 'open-source agent orchestration framework with built-in tool calling').",
   "summary": "1-2 sentence paragraph: what is happening, why it matters or doesn't.",
   "scores": {
     "momentum": 0-100,
@@ -54,8 +56,15 @@ You must respond with ONLY a JSON object matching this schema. No prose around i
   "confidence": 0-100,
   "whyNow": "What changed recently to surface this.",
   "whatToDo": "watch" | "build" | "ignore" | "research",
-  "whatToDoDetail": "1 sentence — actionable, specific."
+  "whatToDoDetail": "1 sentence — actionable, specific.",
+  "citations": [{ "title": "string ≤80 chars", "url": "MUST be from input citationCandidates" }]
 }
+
+CITATION RULES
+- Output 2-5 citations. Pick from input citationCandidates ONLY. Never invent a URL.
+- Prefer citations from sources where the entity ranked best (lowest rank number).
+- ALWAYS include the GitHub URL when present. Never duplicate the same URL twice.
+- If citationCandidates has fewer than 2 entries, output exactly what's there.
 
 INTERNAL PROCESS (apply silently before producing JSON)
 1. BULL CASE — strongest argument the signal is real.
@@ -104,7 +113,23 @@ const SignalScoresSchema = z.object({
   hypeRisk: z.number().min(0).max(100),
 });
 
+// Citation row — {title, url}. URL must be a real https URL (Zod `.url()`
+// would also accept ftp://, custom schemes; we constrain to https here so a
+// hallucinated `javascript:` or relative URL can't leak through and break
+// the renderer's `_blank` target chain on the profile page). Title is
+// clamped to 80 chars; over-long titles get dropped to keep the source row
+// readable.
+export const CitationSchema = z.object({
+  title: z.string().min(1).max(80),
+  url: z.string().regex(/^https:\/\/[^\s]+$/i, 'https URL required'),
+});
+
 export const ItemReportSchema = z.object({
+  // tagline + citations are optional during the rolling deploy so existing
+  // 505 backfilled items (without these fields) still validate when
+  // re-read by the read-then-merge path. Fresh items SHOULD populate both,
+  // but the schema doesn't reject older payloads.
+  tagline: z.string().min(1).max(160).optional(),
   summary: z.string().min(1),
   scores: SignalScoresSchema,
   evidence: z.array(z.string()).min(1).max(8),
@@ -114,6 +139,7 @@ export const ItemReportSchema = z.object({
   whyNow: z.string().min(1),
   whatToDo: z.enum(['watch', 'build', 'ignore', 'research']),
   whatToDoDetail: z.string().min(1),
+  citations: z.array(CitationSchema).max(8).optional(),
 });
 
 export const RibbonSchema = z.object({
@@ -122,6 +148,7 @@ export const RibbonSchema = z.object({
   poolNote: z.string().optional(),
 });
 
+export type Citation = z.infer<typeof CitationSchema>;
 export type ItemReport = z.infer<typeof ItemReportSchema>;
 export type Ribbon = z.infer<typeof RibbonSchema>;
 
@@ -130,6 +157,79 @@ export interface AnalystUserMessageContext {
   bandCounts: Record<ConsensusVerdictBand, number>;
   sourceStats: Record<ConsensusExternalSource, { count: number; rows: number }>;
   weights: Record<ConsensusExternalSource, number>;
+}
+
+// Per-source URL pattern. Each function returns a canonical https URL where
+// the entity has a discoverable presence on that source. Some sources have a
+// stable per-entity page (GitHub, HuggingFace); others only support search
+// (HN, Reddit, X, Bluesky, ProductHunt, Dev.to). Either way the URL is real
+// — Kimi is told to pick from this list verbatim, never invent.
+const SOURCE_URL_BUILDERS: Record<
+  ConsensusExternalSource,
+  { title: (fullName: string) => string; url: (fullName: string) => string }
+> = {
+  gh: {
+    title: (n) => `GitHub: ${n}`,
+    url: (n) => `https://github.com/${n}`,
+  },
+  hf: {
+    title: (n) => `HuggingFace: ${n}`,
+    url: (n) => `https://huggingface.co/${n}`,
+  },
+  hn: {
+    title: (n) => `Hacker News mentions of ${n}`,
+    url: (n) => `https://hn.algolia.com/?q=${encodeURIComponent(n)}&sort=byPopularity`,
+  },
+  x: {
+    title: (n) => `X (Twitter) search: ${n}`,
+    url: (n) => `https://x.com/search?q=${encodeURIComponent(n)}&src=typed_query`,
+  },
+  r: {
+    title: (n) => `Reddit search: ${n}`,
+    url: (n) => `https://www.reddit.com/search/?q=${encodeURIComponent(n)}`,
+  },
+  pdh: {
+    title: (n) => `Product Hunt search: ${n}`,
+    url: (n) => `https://www.producthunt.com/search?q=${encodeURIComponent(n)}`,
+  },
+  dev: {
+    title: (n) => `dev.to search: ${n}`,
+    url: (n) => `https://dev.to/search?q=${encodeURIComponent(n)}`,
+  },
+  bs: {
+    title: (n) => `Bluesky search: ${n}`,
+    url: (n) => `https://bsky.app/search?q=${encodeURIComponent(n)}`,
+  },
+};
+
+/**
+ * Build the citation candidate list for a given consensus item. Returns one
+ * entry per external source where the item has a present signal. Sorted by
+ * source rank (best/lowest rank first) so Kimi's top picks come from the
+ * strongest sources. GitHub is always returned first when present.
+ *
+ * Exported so unit tests can validate the URL-building logic without going
+ * through the full LLM call shape.
+ */
+export function buildCitationCandidates(item: ConsensusItem): Citation[] {
+  const candidates: Array<Citation & { sortKey: number }> = [];
+  for (const src of Object.keys(SOURCE_URL_BUILDERS) as ConsensusExternalSource[]) {
+    const component = item.sources[src];
+    if (!component || !component.present) continue;
+    const builder = SOURCE_URL_BUILDERS[src];
+    // Sort by rank — lower rank = stronger signal = better candidate. GitHub
+    // gets a tiebreaker bonus (sortKey -1000 floor) so it always leads when
+    // present, since it's the canonical home for repos.
+    const rank = typeof component.rank === 'number' ? component.rank : 9999;
+    const sortKey = src === 'gh' ? -1000 + rank : rank;
+    candidates.push({
+      title: builder.title(item.fullName),
+      url: builder.url(item.fullName),
+      sortKey,
+    });
+  }
+  candidates.sort((a, b) => a.sortKey - b.sortKey);
+  return candidates.map(({ title, url }) => ({ title, url }));
 }
 
 export function buildItemUserMessage(
@@ -141,6 +241,7 @@ export function buildItemUserMessage(
       .filter(([, c]) => c.present)
       .map(([k, c]) => [k, { rank: c.rank, score: c.score, normalized: Number(c.normalized.toFixed(3)) }]),
   );
+  const citationCandidates = buildCitationCandidates(item);
   return JSON.stringify(
     {
       entity: { fullName: item.fullName, type: detectEntityType(item.fullName) },
@@ -160,6 +261,7 @@ export function buildItemUserMessage(
         bandCounts: ctx.bandCounts,
         sourceStats: ctx.sourceStats,
       },
+      citationCandidates,
     },
     null,
     2,

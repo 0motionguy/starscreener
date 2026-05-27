@@ -13,7 +13,7 @@
 // payload itself updates as new repos cross the star threshold.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { pickGithubToken } from '../../lib/util/github-token-pool.js';
 
 const API_URL = 'https://api.github.com/search/repositories';
@@ -218,25 +218,81 @@ const fetcher: Fetcher = {
       }
     }
 
-    const items = Array.from(deduped.values())
-      .sort((a, b) => {
-        const createdDelta = Date.parse(b.createdAt) - Date.parse(a.createdAt);
-        if (createdDelta !== 0) return createdDelta;
-        return b.stars - a.stars;
-      })
-      .slice(0, MAX_ITEMS);
+    // Wave 2A (2026-05-27): read existing → union → cap, never empty the cache.
+    // Before this, if all 3 GH search windows threw, we'd write `items: []` and
+    // overwrite the previous good payload. That matches the recent-repos=0 prod
+    // symptom flagged in the handover. The fix mirrors the registry + cross-
+    // source-sweep pattern + the docs/INGESTION.md "keep last-50, never empty
+    // the cache" rule (2026-05-08).
+    const fresh = Array.from(deduped.values());
+    const existing = await readDataStore<RecentReposPayload>('recent-repos').catch(() => null);
+    const existingItems = Array.isArray(existing?.items) ? existing.items : [];
 
+    // Zero-write guard: if all windows produced nothing AND we have prior data,
+    // preserve the prior payload (touch fetchedAt so freshness probes see
+    // motion). Log WARN so the GH outage surfaces in the run-summary.
+    if (fresh.length === 0 && existingItems.length > 0) {
+      ctx.log.warn(
+        { existingItems: existingItems.length, errors: errors.length },
+        'recent-repos: all windows produced 0 rows — preserving prior payload, not overwriting cache',
+      );
+      const preserved: RecentReposPayload = { fetchedAt, items: existingItems };
+      const result = await writeDataStore('recent-repos', preserved);
+      return done(startedAt, existingItems.length, result.source === 'redis', errors);
+    }
+
+    const items = mergeRecentRepos(existingItems, fresh, MAX_ITEMS);
     const payload: RecentReposPayload = { fetchedAt, items };
     const result = await writeDataStore('recent-repos', payload);
 
     ctx.log.info(
-      { items: items.length, redisSource: result.source, writtenAt: result.writtenAt },
+      {
+        items: items.length,
+        fresh: fresh.length,
+        existing: existingItems.length,
+        redisSource: result.source,
+        writtenAt: result.writtenAt,
+      },
       'recent-repos published',
     );
 
     return done(startedAt, items.length, result.source === 'redis', errors);
   },
 };
+
+/**
+ * Pure merge helper for the recent-repos cache: union existing + fresh rows
+ * (fresh wins on case-insensitive fullName collision), sort newest-first by
+ * createdAt then by stars desc, cap at `max`. Extracted from `run()` so the
+ * zero-write guard is testable.
+ *
+ * The semantics match the registry's `buildRegistry` pattern (read → union →
+ * dedupe → cap, never empty). Use this pattern for any new recent-repos
+ * mutation.
+ */
+export function mergeRecentRepos(
+  existing: RecentRepoRow[],
+  fresh: RecentRepoRow[],
+  max: number = MAX_ITEMS,
+): RecentRepoRow[] {
+  const map = new Map<string, RecentRepoRow>();
+  for (const row of existing) {
+    const key = row.fullName.toLowerCase();
+    if (key) map.set(key, row);
+  }
+  // Fresh rows overlay existing — newer stats win on collision.
+  for (const row of fresh) {
+    const key = row.fullName.toLowerCase();
+    if (key) map.set(key, row);
+  }
+  return Array.from(map.values())
+    .sort((a, b) => {
+      const createdDelta = Date.parse(b.createdAt) - Date.parse(a.createdAt);
+      if (createdDelta !== 0) return createdDelta;
+      return b.stars - a.stars;
+    })
+    .slice(0, max);
+}
 
 export default fetcher;
 

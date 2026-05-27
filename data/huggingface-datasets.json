@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-27T10:34:20.795Z",
+  "fetchedAt": "2026-05-27T16:16:00.484Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -160,7 +160,7 @@
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
       "downloads": 3574,
-      "likes": 182,
+      "likes": 185,
       "trendingScore": 75,
       "tags": [
         "language:en",
@@ -328,8 +328,8 @@
       "author": "armand0e",
       "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
       "downloads": 574,
-      "likes": 42,
-      "trendingScore": 40,
+      "likes": 46,
+      "trendingScore": 44,
       "tags": [
         "task_categories:text-generation",
         "size_categories:n<1K",
@@ -650,6 +650,46 @@
     },
     {
       "rank": 22,
+      "id": "Jackrong/Claude-opus-4.6-TraceInversion-9000x",
+      "author": "Jackrong",
+      "url": "https://huggingface.co/datasets/Jackrong/Claude-opus-4.6-TraceInversion-9000x",
+      "downloads": 397,
+      "likes": 30,
+      "trendingScore": 26,
+      "tags": [
+        "task_categories:text-generation",
+        "annotations_creators:machine-generated",
+        "language:en",
+        "language:zh",
+        "language:ko",
+        "language:ja",
+        "language:ru",
+        "language:es",
+        "license:apache-2.0",
+        "size_categories:1K<n<10K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.07267",
+        "region:us",
+        "reasoning",
+        "trace-inversion",
+        "synthetic-data",
+        "chain-of-thought",
+        "distillation",
+        "claude-opus",
+        "negentropy",
+        "qwen",
+        "unsloth"
+      ],
+      "createdAt": "2026-05-19T03:51:28.000Z",
+      "lastModified": "2026-05-19T10:20:02.000Z"
+    },
+    {
+      "rank": 23,
       "id": "Modotte/CodeX-2M-Thinking",
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
@@ -686,46 +726,6 @@
       ],
       "createdAt": "2025-11-15T16:35:25.000Z",
       "lastModified": "2026-02-10T07:23:38.000Z"
-    },
-    {
-      "rank": 23,
-      "id": "Jackrong/Claude-opus-4.6-TraceInversion-9000x",
-      "author": "Jackrong",
-      "url": "https://huggingface.co/datasets/Jackrong/Claude-opus-4.6-TraceInversion-9000x",
-      "downloads": 397,
-      "likes": 29,
-      "trendingScore": 25,
-      "tags": [
-        "task_categories:text-generation",
-        "annotations_creators:machine-generated",
-        "language:en",
-        "language:zh",
-        "language:ko",
-        "language:ja",
-        "language:ru",
-        "language:es",
-        "license:apache-2.0",
-        "size_categories:1K<n<10K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2603.07267",
-        "region:us",
-        "reasoning",
-        "trace-inversion",
-        "synthetic-data",
-        "chain-of-thought",
-        "distillation",
-        "claude-opus",
-        "negentropy",
-        "qwen",
-        "unsloth"
-      ],
-      "createdAt": "2026-05-19T03:51:28.000Z",
-      "lastModified": "2026-05-19T10:20:02.000Z"
     },
     {
       "rank": 24,
@@ -851,6 +851,21 @@
     },
     {
       "rank": 28,
+      "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
+      "author": "NodeLinker",
+      "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
+      "downloads": 14297,
+      "likes": 37,
+      "trendingScore": 24,
+      "tags": [
+        "license:mit",
+        "region:us"
+      ],
+      "createdAt": "2026-04-30T16:21:51.000Z",
+      "lastModified": "2026-05-01T19:27:38.000Z"
+    },
+    {
+      "rank": 29,
       "id": "HuggingFaceBio/carbon-pretraining-corpus",
       "author": "HuggingFaceBio",
       "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
@@ -878,27 +893,12 @@
       "lastModified": "2026-05-14T12:41:15.000Z"
     },
     {
-      "rank": 29,
-      "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "author": "NodeLinker",
-      "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
-      "downloads": 14297,
-      "likes": 36,
-      "trendingScore": 23,
-      "tags": [
-        "license:mit",
-        "region:us"
-      ],
-      "createdAt": "2026-04-30T16:21:51.000Z",
-      "lastModified": "2026-05-01T19:27:38.000Z"
-    },
-    {
       "rank": 30,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
       "downloads": 1033822,
-      "likes": 2832,
+      "likes": 2833,
       "trendingScore": 23,
       "tags": [
         "task_categories:text-generation",
@@ -1299,6 +1299,46 @@
     },
     {
       "rank": 44,
+      "id": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+      "author": "Jackrong",
+      "url": "https://huggingface.co/datasets/Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+      "downloads": 343,
+      "likes": 17,
+      "trendingScore": 16,
+      "tags": [
+        "task_categories:text-generation",
+        "annotations_creators:machine-generated",
+        "language:en",
+        "language:zh",
+        "language:ko",
+        "language:ru",
+        "language:ja",
+        "language:es",
+        "license:apache-2.0",
+        "size_categories:1K<n<10K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.07267",
+        "region:us",
+        "reasoning",
+        "trace-inversion",
+        "synthetic-data",
+        "chain-of-thought",
+        "distillation",
+        "claude-opus",
+        "negentropy",
+        "qwen",
+        "unsloth"
+      ],
+      "createdAt": "2026-05-19T03:51:00.000Z",
+      "lastModified": "2026-05-19T10:20:17.000Z"
+    },
+    {
+      "rank": 45,
       "id": "ning423/deepseek-hermes-reasoning-traces",
       "author": "ning423",
       "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
@@ -1333,7 +1373,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 45,
+      "rank": 46,
       "id": "AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
@@ -1360,7 +1400,7 @@
       "lastModified": "2026-04-22T10:29:32.000Z"
     },
     {
-      "rank": 46,
+      "rank": 47,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
@@ -1403,7 +1443,7 @@
       "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "cais/mmlu",
       "author": "cais",
       "url": "https://huggingface.co/datasets/cais/mmlu",
@@ -1436,7 +1476,7 @@
       "lastModified": "2024-03-08T20:36:26.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "camvsl/Articraft-10K",
       "author": "camvsl",
       "url": "https://huggingface.co/datasets/camvsl/Articraft-10K",
@@ -1451,7 +1491,7 @@
       "lastModified": "2026-05-15T05:05:02.000Z"
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "Exgentic/agent-llm-traces",
       "author": "Exgentic",
       "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
@@ -1479,29 +1519,6 @@
       ],
       "createdAt": "2026-05-07T13:59:42.000Z",
       "lastModified": "2026-05-14T18:50:50.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "tinixai/ocr_annual_financials",
-      "author": "tinixai",
-      "url": "https://huggingface.co/datasets/tinixai/ocr_annual_financials",
-      "downloads": 7099,
-      "likes": 18,
-      "trendingScore": 15,
-      "tags": [
-        "task_categories:document-question-answering",
-        "task_categories:text-generation",
-        "language:vi",
-        "license:cc-by-nc-4.0",
-        "size_categories:10K<n<100K",
-        "modality:document",
-        "modality:text",
-        "library:datasets",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-05-12T15:11:00.000Z",
-      "lastModified": "2026-05-18T15:35:53.000Z"
     }
   ]
 }

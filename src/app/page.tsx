@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
+import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import {
@@ -62,6 +63,10 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
   // cheap to call on every render.
   await refreshAaLlmsFromStore().catch(() => undefined);
+  // Hydrate per-source mention caches + cross-source detail so the repo rows'
+  // source pips reflect live redis data (not a cold cache). Each refresh is
+  // 30s rate-limited + in-flight-deduped, so this is cheap per render.
+  await refreshAllMentionStores().catch(() => undefined);
   if (category !== "repos" && category !== "llms") {
     await refreshCategoryFromStore(category).catch(() => undefined);
   } else if (category === "repos" && ranker === "trend") {

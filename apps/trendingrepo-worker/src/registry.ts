@@ -56,6 +56,10 @@ import artificialanalysis from './fetchers/artificialanalysis/index.js';
 // calls back to the Vercel /enrich endpoint to run the existing pipeline
 // ingest. See header for the producer/consumer contract.
 import dropIntakeDrain from './fetchers/drop-intake-drain/index.js';
+// Repo-first cross-source mention sweep — for the top-100 (consensus-trending),
+// searches HN/Reddit/dev.to/Bluesky/ProductHunt(+Tavily) per repo and publishes
+// `repo-mentions-detail-rollup` to redis (the detail behind profile source pips).
+import crossSourceSweep from './fetchers/cross-source-sweep/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -94,6 +98,7 @@ export const FETCHERS: Fetcher[] = [
   lmarena,
   artificialanalysis,
   dropIntakeDrain,
+  crossSourceSweep,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

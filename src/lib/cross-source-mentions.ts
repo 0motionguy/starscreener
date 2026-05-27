@@ -1,16 +1,18 @@
-// Cross-source mentions detail loader.
+// Cross-source mentions detail loader — DATA-STORE backed (redis → bundled file).
 //
-// Reads data/repo-mentions-detail-rollup.json — the output of
-// scripts/sweep-cross-source-mentions.ts — and exposes a sync getter
-// keyed by repo fullName. The sweep writes top 5 mentions per source per
-// repo over a 7d window; this loader is the read-side counterpart that
-// feeds `mentions.detail` on the derived-repos pipeline.
+// Reads the `repo-mentions-detail-rollup` payload (the output of the worker's
+// `cross-source-sweep` fetcher / scripts/sweep-cross-source-mentions.ts) via
+// the data-store: redis first, falling back to the bundled
+// `data/repo-mentions-detail-rollup.json` on a cold start. Exposes a sync
+// getter keyed by repo fullName + an async refresh hook that the home + repo
+// pages call so fresh sweep output reaches profiles WITHOUT a redeploy.
 //
-// File-mtime caching mirrors other per-source loaders so derived-repos
-// memoization invalidates correctly when a fresh sweep lands.
+// 2026-05-27: was readFileSync-only (frozen at build time), which is why fresh
+// sweeps never surfaced. Migrated to createPayloadReader (mirrors
+// src/lib/consensus-verdicts.ts). Call refreshCrossSourceMentionsFromStore()
+// in the render path — see src/lib/refresh-mentions.ts.
 
-import { readFileSync, statSync } from "node:fs";
-import { resolve } from "node:path";
+import { createPayloadReader } from "./data-store-reader";
 
 import type {
   CrossSourceChannel,
@@ -18,58 +20,55 @@ import type {
   CrossSourceMentionDetail,
 } from "./types";
 
-const ROLLUP_FILE = resolve(process.cwd(), "data/repo-mentions-detail-rollup.json");
+interface RawRollupMention {
+  source?: string;
+  url?: string;
+  title?: string;
+  text?: string;
+  author?: string | null;
+  engagement?: { score?: number; comments?: number; reactions?: number };
+  observedAt?: string;
+}
 
 interface RawRollupRepo {
   fullName?: string;
   totalMentions7d?: number;
   perSource?: Partial<
-    Record<
-      CrossSourceChannel,
-      {
-        count7d?: number;
-        top?: Array<{
-          source?: string;
-          url?: string;
-          title?: string;
-          text?: string;
-          author?: string | null;
-          engagement?: { score?: number; comments?: number; reactions?: number };
-          observedAt?: string;
-        }>;
-      }
-    >
+    Record<CrossSourceChannel, { count7d?: number; top?: RawRollupMention[] }>
   >;
 }
 
-interface RawRollupFile {
+interface RollupPayload {
   computedAt?: string;
   scanRunId?: string;
   windowDays?: number;
   repos?: Record<string, RawRollupRepo>;
 }
 
-let _byFullName: Map<string, CrossSourceDetailRollup> | null = null;
-let _dataVersion: string | null = null;
+const EMPTY: RollupPayload = { repos: {} };
 
-function fileSignature(): string | null {
-  try {
-    const stat = statSync(ROLLUP_FILE);
-    return `${stat.mtimeMs}:${stat.size}`;
-  } catch {
-    return null;
-  }
-}
+const reader = createPayloadReader<RollupPayload>({
+  key: "repo-mentions-detail-rollup",
+  emptyPayload: EMPTY,
+  normalize: (raw) =>
+    raw && typeof raw === "object" && !Array.isArray(raw)
+      ? (raw as RollupPayload)
+      : EMPTY,
+});
 
-function loadFresh(): Map<string, CrossSourceDetailRollup> {
+/**
+ * Hydrate the rollup from the data-store (redis → bundled file → memory).
+ * Cheap to call per-render — 30s rate-limit + in-flight dedupe inside.
+ */
+export const refreshCrossSourceMentionsFromStore = reader.refresh;
+
+// Per-repo index, rebuilt only when a fresh payload reference lands.
+let _idxPayload: RollupPayload | null = null;
+let _idx: Map<string, CrossSourceDetailRollup> | null = null;
+
+function buildIndex(payload: RollupPayload): Map<string, CrossSourceDetailRollup> {
   const map = new Map<string, CrossSourceDetailRollup>();
-  let raw: RawRollupFile;
-  try {
-    raw = JSON.parse(readFileSync(ROLLUP_FILE, "utf8")) as RawRollupFile;
-  } catch {
-    return map; // file missing or unreadable — sweep hasn't run yet
-  }
-  for (const [fullName, repo] of Object.entries(raw.repos ?? {})) {
+  for (const [fullName, repo] of Object.entries(payload.repos ?? {})) {
     if (!fullName.includes("/")) continue;
     const perSource: CrossSourceDetailRollup["perSource"] = {};
     for (const [src, bucket] of Object.entries(repo.perSource ?? {})) {
@@ -85,7 +84,9 @@ function loadFresh(): Map<string, CrossSourceDetailRollup> {
           author: typeof m.author === "string" ? m.author : null,
           engagement: m.engagement ?? {},
           observedAt:
-            typeof m.observedAt === "string" ? m.observedAt : new Date(0).toISOString(),
+            typeof m.observedAt === "string"
+              ? m.observedAt
+              : new Date(0).toISOString(),
         }));
       perSource[channel] = {
         count7d: typeof bucket.count7d === "number" ? bucket.count7d : top.length,
@@ -101,37 +102,37 @@ function loadFresh(): Map<string, CrossSourceDetailRollup> {
   return map;
 }
 
-function ensureLoaded(): Map<string, CrossSourceDetailRollup> {
-  const sig = fileSignature();
-  if (_byFullName && _dataVersion === sig) return _byFullName;
-  _byFullName = loadFresh();
-  _dataVersion = sig;
-  return _byFullName;
+function ensureIndex(): Map<string, CrossSourceDetailRollup> {
+  const payload = reader.getPayload();
+  if (_idx && _idxPayload === payload) return _idx;
+  _idx = buildIndex(payload);
+  _idxPayload = payload;
+  return _idx;
 }
 
 /**
- * Sync getter for the per-repo cross-source detail rollup. Returns null
- * when the sweep hasn't produced data for the repo (or hasn't run at all).
+ * Sync getter for the per-repo cross-source detail rollup. Returns null when
+ * the sweep hasn't produced data for the repo (or refresh hasn't run yet).
  */
 export function getCrossSourceDetail(
   fullName: string,
 ): CrossSourceDetailRollup | null {
   if (typeof fullName !== "string" || !fullName.includes("/")) return null;
-  const map = ensureLoaded();
-  return map.get(fullName.toLowerCase()) ?? null;
+  return ensureIndex().get(fullName.toLowerCase()) ?? null;
 }
 
 /**
- * Data version for the derived-repos cache key. Returns a stable string
- * keyed on the rollup file's mtime + size so the cache invalidates the
- * moment a fresh sweep commit lands.
+ * Data version for the derived-repos cache key. Keyed on the data-store
+ * `writtenAt` so the derived cache invalidates the moment a fresh sweep lands
+ * in redis (was file mtime+size in the readFileSync era).
  */
 export function getCrossSourceMentionsDataVersion(): string {
-  return fileSignature() ?? "";
+  return reader.getEntry()?.writtenAt ?? "";
 }
 
 /** Test-only memo reset. */
 export function __resetCrossSourceMentionsForTests(): void {
-  _byFullName = null;
-  _dataVersion = null;
+  reader.reset();
+  _idxPayload = null;
+  _idx = null;
 }

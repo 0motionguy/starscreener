@@ -10,6 +10,7 @@
 import { notFound } from "next/navigation";
 
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
+import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
   refreshRepoProfilesFromStore,
@@ -186,6 +187,9 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     refreshStarActivityFromStore(fullName).catch(() => undefined),
     refreshRepoCommunityProfileFromStore(fullName).catch(() => undefined),
     refreshConsensusVerdictsFromStore().catch(() => undefined),
+    // Hydrate per-source mention caches + cross-source detail so the profile's
+    // source pips + mention block render the live redis data (not a cold cache).
+    refreshAllMentionStores().catch(() => undefined),
   ]);
 
   const repo = (() => {

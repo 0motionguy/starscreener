@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-27T04:54:01.899Z",
+  "fetchedAt": "2026-05-27T10:34:20.795Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -160,8 +160,8 @@
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/structured-wikipedia",
       "downloads": 3574,
-      "likes": 180,
-      "trendingScore": 74,
+      "likes": 182,
+      "trendingScore": 75,
       "tags": [
         "language:en",
         "language:fr",
@@ -324,6 +324,36 @@
     },
     {
       "rank": 11,
+      "id": "armand0e/qwen3.7-max-pi-traces",
+      "author": "armand0e",
+      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
+      "downloads": 574,
+      "likes": 42,
+      "trendingScore": 40,
+      "tags": [
+        "task_categories:text-generation",
+        "size_categories:n<1K",
+        "format:json",
+        "format:agent-traces",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "agent-traces",
+        "format:agent-traces",
+        "pi",
+        "distillation",
+        "qwen/qwen3.7-max",
+        "teich"
+      ],
+      "createdAt": "2026-05-23T01:55:28.000Z",
+      "lastModified": "2026-05-23T02:58:23.000Z"
+    },
+    {
+      "rank": 12,
       "id": "nvidia/Nemotron-Personas-Korea",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea",
@@ -353,36 +383,6 @@
       ],
       "createdAt": "2026-04-20T21:07:49.000Z",
       "lastModified": "2026-04-23T07:42:48.000Z"
-    },
-    {
-      "rank": 12,
-      "id": "armand0e/qwen3.7-max-pi-traces",
-      "author": "armand0e",
-      "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
-      "downloads": 574,
-      "likes": 41,
-      "trendingScore": 39,
-      "tags": [
-        "task_categories:text-generation",
-        "size_categories:n<1K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "format:agent-traces",
-        "pi",
-        "distillation",
-        "qwen/qwen3.7-max",
-        "teich"
-      ],
-      "createdAt": "2026-05-23T01:55:28.000Z",
-      "lastModified": "2026-05-23T02:58:23.000Z"
     },
     {
       "rank": 13,
@@ -894,6 +894,30 @@
     },
     {
       "rank": 30,
+      "id": "HuggingFaceFW/fineweb",
+      "author": "HuggingFaceFW",
+      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
+      "downloads": 1033822,
+      "likes": 2832,
+      "trendingScore": 23,
+      "tags": [
+        "task_categories:text-generation",
+        "language:en",
+        "license:odc-by",
+        "size_categories:10B<n<100B",
+        "modality:tabular",
+        "modality:text",
+        "arxiv:2306.01116",
+        "arxiv:2109.07445",
+        "arxiv:2406.17557",
+        "doi:10.57967/hf/2493",
+        "region:us"
+      ],
+      "createdAt": "2024-04-18T14:33:13.000Z",
+      "lastModified": "2025-07-11T20:16:53.000Z"
+    },
+    {
+      "rank": 31,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -925,7 +949,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 31,
+      "rank": 32,
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
@@ -958,30 +982,6 @@
       ],
       "createdAt": "2026-05-08T00:14:06.000Z",
       "lastModified": "2026-05-04T15:38:59.000Z"
-    },
-    {
-      "rank": 32,
-      "id": "HuggingFaceFW/fineweb",
-      "author": "HuggingFaceFW",
-      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
-      "downloads": 974637,
-      "likes": 2816,
-      "trendingScore": 22,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:odc-by",
-        "size_categories:10B<n<100B",
-        "modality:tabular",
-        "modality:text",
-        "arxiv:2306.01116",
-        "arxiv:2109.07445",
-        "arxiv:2406.17557",
-        "doi:10.57967/hf/2493",
-        "region:us"
-      ],
-      "createdAt": "2024-04-18T14:33:13.000Z",
-      "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
       "rank": 33,

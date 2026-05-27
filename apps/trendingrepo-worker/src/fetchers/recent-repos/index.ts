@@ -15,6 +15,11 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { pickGithubToken } from '../../lib/util/github-token-pool.js';
+import {
+  caseInsensitiveKey,
+  mergeAndCap,
+  shouldPreserveCache,
+} from '../../lib/util/cache-merge.js';
 
 const API_URL = 'https://api.github.com/search/repositories';
 const API_VERSION = '2022-11-28';
@@ -221,9 +226,10 @@ const fetcher: Fetcher = {
     // Wave 2A (2026-05-27): read existing → union → cap, never empty the cache.
     // Before this, if all 3 GH search windows threw, we'd write `items: []` and
     // overwrite the previous good payload. That matches the recent-repos=0 prod
-    // symptom flagged in the handover. The fix mirrors the registry + cross-
-    // source-sweep pattern + the docs/INGESTION.md "keep last-50, never empty
-    // the cache" rule (2026-05-08).
+    // symptom flagged in the handover. The fix uses the shared mergeAndCap
+    // helper (apps/trendingrepo-worker/src/lib/util/cache-merge.ts), which
+    // encodes the docs/INGESTION.md "keep last-50, never empty the cache" rule
+    // (2026-05-08) as a single primitive.
     const fresh = Array.from(deduped.values());
     const existing = await readDataStore<RecentReposPayload>('recent-repos').catch(() => null);
     const existingItems = Array.isArray(existing?.items) ? existing.items : [];
@@ -231,7 +237,7 @@ const fetcher: Fetcher = {
     // Zero-write guard: if all windows produced nothing AND we have prior data,
     // preserve the prior payload (touch fetchedAt so freshness probes see
     // motion). Log WARN so the GH outage surfaces in the run-summary.
-    if (fresh.length === 0 && existingItems.length > 0) {
+    if (shouldPreserveCache({ fresh, existing: existingItems })) {
       ctx.log.warn(
         { existingItems: existingItems.length, errors: errors.length },
         'recent-repos: all windows produced 0 rows — preserving prior payload, not overwriting cache',
@@ -263,35 +269,30 @@ const fetcher: Fetcher = {
 /**
  * Pure merge helper for the recent-repos cache: union existing + fresh rows
  * (fresh wins on case-insensitive fullName collision), sort newest-first by
- * createdAt then by stars desc, cap at `max`. Extracted from `run()` so the
- * zero-write guard is testable.
+ * createdAt then by stars desc, cap at `max`. Thin wrapper over the shared
+ * `mergeAndCap` primitive so the local tests continue to exercise this
+ * exact comparator/key shape.
  *
  * The semantics match the registry's `buildRegistry` pattern (read → union →
- * dedupe → cap, never empty). Use this pattern for any new recent-repos
- * mutation.
+ * dedupe → cap, never empty). Use the shared helper directly for new
+ * fetchers; this re-export stays for back-compat with existing callers.
  */
 export function mergeRecentRepos(
   existing: RecentRepoRow[],
   fresh: RecentRepoRow[],
   max: number = MAX_ITEMS,
 ): RecentRepoRow[] {
-  const map = new Map<string, RecentRepoRow>();
-  for (const row of existing) {
-    const key = row.fullName.toLowerCase();
-    if (key) map.set(key, row);
-  }
-  // Fresh rows overlay existing — newer stats win on collision.
-  for (const row of fresh) {
-    const key = row.fullName.toLowerCase();
-    if (key) map.set(key, row);
-  }
-  return Array.from(map.values())
-    .sort((a, b) => {
+  return mergeAndCap({
+    existing,
+    fresh,
+    key: caseInsensitiveKey<RecentRepoRow>('fullName'),
+    compare: (a, b) => {
       const createdDelta = Date.parse(b.createdAt) - Date.parse(a.createdAt);
       if (createdDelta !== 0) return createdDelta;
       return b.stars - a.stars;
-    })
-    .slice(0, max);
+    },
+    max,
+  });
 }
 
 export default fetcher;

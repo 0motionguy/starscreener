@@ -1487,5 +1487,108 @@
     "writes_canonical_entity_kind": [
       "mention"
     ]
+  },
+  {
+    "id": "repo-registry",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 3600000,
+    "cost_signal_metric": {
+      "type": "none"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "repo-registry"
+    ],
+    "output_record_shape": "metadata_table",
+    "consumer_surfaces": [
+      "src/lib/derived-repos/loaders/registry.ts",
+      "src/lib/derived-repos.ts"
+    ],
+    "depends_on": [
+      "oss-trending",
+      "repo-metadata",
+      "consensus-trending",
+      "recent-repos"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
+    "id": "mentions-ledger",
+    "category": "social",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 1800000,
+    "cost_signal_metric": {
+      "type": "none"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "mentions-ledger"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/mentions-ledger.ts",
+      "src/lib/derived-repos/decorators/mentions-rollup.ts"
+    ],
+    "depends_on": [
+      "hackernews",
+      "reddit",
+      "bluesky",
+      "devto",
+      "lobsters"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "mention"
+    ]
+  },
+  {
+    "id": "repo-community-profile",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "pat_quota_pct",
+      "scope": "hour"
+    },
+    "rate_limit": {
+      "per_hour": 5000,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://api.github.com",
+    "auth_required": true,
+    "auth_scheme": "github_pat_pool",
+    "primary_output_keys": {
+      "pattern": "repo-community:<owner>__<name>",
+      "cardinality_source": "watchlist"
+    },
+    "output_record_shape": "metadata_table",
+    "consumer_surfaces": [
+      "src/lib/repo-community-profile.ts",
+      "src/components/repo/RepoOwnerRepoSnapshot.tsx"
+    ],
+    "depends_on": [
+      "repo-registry"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
   }
 ]

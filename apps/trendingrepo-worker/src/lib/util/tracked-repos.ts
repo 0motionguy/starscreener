@@ -10,9 +10,7 @@
 // a valid result — callers that need at least one tracked repo enforce that.
 
 import type { Logger } from 'pino';
-import { getRedis } from '../redis.js';
-
-const NAMESPACE = 'ss:data:v1';
+import { readDataStore } from '../redis.js';
 
 interface TrendingPayload {
   buckets?: Record<string, Record<string, unknown[]>>;
@@ -46,12 +44,13 @@ function recentRepoRows(payload: RecentPayload | unknown[] | null): unknown[] {
 }
 
 async function readSlug<T>(slug: string, log?: Logger): Promise<T | null> {
-  const redis = await getRedis();
-  if (!redis) return null;
+  // Delegate to readDataStore so gzip-compressed payloads (the `trending` slug
+  // is stored gz1:-prefixed) are decompressed before JSON.parse. Reading the
+  // raw value + JSON.parse directly threw "Unexpected token 'g', gz1:H4sIAA…"
+  // and silently emptied the tracked-repo map for bluesky/twitter (fixed
+  // 2026-05-27).
   try {
-    const raw = await redis.get(`${NAMESPACE}:${slug}`);
-    if (!raw) return null;
-    return JSON.parse(raw) as T;
+    return await readDataStore<T>(slug);
   } catch (err) {
     log?.warn({ slug, err: (err as Error).message }, 'tracked-repos: failed to read slug');
     return null;

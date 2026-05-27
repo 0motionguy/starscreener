@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildRollupRepos,
+  dedupeMentions,
   isDistinctiveName,
   toRepoInput,
   type Mention,
@@ -58,6 +59,26 @@ describe('buildRollupRepos', () => {
       mention({ url: 'https://x/fresh' }),
     ]);
     expect(repos['owner/repo']?.totalMentions7d).toBe(1);
+  });
+});
+
+describe('dedupeMentions', () => {
+  it('collapses same repo + source + url; keeps distinct urls and distinct sources', () => {
+    const out = dedupeMentions([
+      mention({ source: 'hackernews', url: 'https://x/1' }), // live
+      mention({ source: 'hackernews', url: 'https://x/1' }), // fold-in dup → dropped
+      mention({ source: 'hackernews', url: 'https://x/2' }), // distinct url → kept
+      mention({ source: 'devto', url: 'https://x/1' }), // distinct source → kept
+    ]);
+    expect(out).toHaveLength(3);
+  });
+
+  it('is case-insensitive on fullName', () => {
+    const out = dedupeMentions([
+      mention({ fullName: 'Owner/Repo', url: 'https://x/1' }),
+      mention({ fullName: 'owner/repo', url: 'https://x/1' }),
+    ]);
+    expect(out).toHaveLength(1);
   });
 });
 

@@ -20,7 +20,9 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 
-const TOP_N = 100;
+// 150 covers the home page's full 24h view plus the 7d/30d (gainer/trend)
+// rows, which re-sort the same `trending` set, before the consensus tail.
+const TOP_N = 150;
 const REPO_CONCURRENCY = 4;
 const FETCH_TIMEOUT_MS = 15_000;
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
@@ -32,6 +34,7 @@ type Channel =
   | 'reddit'
   | 'bluesky'
   | 'devto'
+  | 'lobsters'
   | 'producthunt'
   | 'tavily'
   | 'twitter';
@@ -136,76 +139,13 @@ async function searchHackerNews(repo: RepoInput): Promise<Mention[]> {
   }
 }
 
-async function searchReddit(repo: RepoInput): Promise<Mention[]> {
-  const queries = [`github.com/${repo.fullName}`, `${repo.owner}/${repo.name}`];
-  if (isDistinctiveName(repo.name)) queries.push(repo.name);
-  const seen = new Map<string, Mention>();
-  for (const q of queries) {
-    const url = `https://old.reddit.com/search.json?q=${encodeURIComponent(q)}&sort=new&t=week&limit=50`;
-    let data: { data?: { children?: Array<{ data?: Record<string, unknown> }> } };
-    try {
-      data = (await fetchJson(url)) as typeof data;
-    } catch {
-      continue; // 429 / network — skip this query, keep going
-    }
-    for (const c of data.data?.children ?? []) {
-      const d = (c.data ?? {}) as Record<string, unknown>;
-      const id = typeof d.id === 'string' ? d.id : null;
-      if (!id || seen.has(id)) continue;
-      const permalink = typeof d.permalink === 'string' ? d.permalink : null;
-      seen.set(id, {
-        source: 'reddit',
-        fullName: repo.fullName,
-        url: permalink ? `https://www.reddit.com${permalink}` : String(d.url ?? ''),
-        title: truncate(d.title, 200),
-        text: truncate(d.selftext),
-        author: typeof d.author === 'string' ? d.author : null,
-        engagement: {
-          score: typeof d.score === 'number' ? d.score : 0,
-          comments: typeof d.num_comments === 'number' ? d.num_comments : 0,
-        },
-        observedAt: isoFromUnix(d.created_utc),
-      });
-    }
-  }
-  return Array.from(seen.values());
-}
-
-async function searchDevto(repo: RepoInput): Promise<Mention[]> {
-  const url =
-    `https://dev.to/search/feed_content?per_page=30&class_name=Article` +
-    `&search_fields=body_text&q=${encodeURIComponent(repo.fullName)}`;
-  try {
-    let data: { result?: Array<Record<string, unknown>> };
-    try {
-      data = (await fetchJson(url, { timeoutMs: 25_000 })) as typeof data;
-    } catch {
-      await new Promise((r) => setTimeout(r, 1_000));
-      data = (await fetchJson(url, { timeoutMs: 25_000 })) as typeof data;
-    }
-    return (data.result ?? []).map((a) => {
-      const user = (a.user ?? {}) as Record<string, unknown>;
-      return {
-        source: 'devto' as const,
-        fullName: repo.fullName,
-        url: typeof a.url === 'string' ? a.url : `https://dev.to${a.path ?? ''}`,
-        title: truncate(a.title, 200),
-        text: truncate(a.description ?? a.summary ?? ''),
-        author: typeof user.username === 'string' ? user.username : null,
-        engagement: {
-          score:
-            (typeof a.public_reactions_count === 'number' ? a.public_reactions_count : 0) ||
-            (typeof a.positive_reactions_count === 'number' ? a.positive_reactions_count : 0),
-          comments: typeof a.comments_count === 'number' ? a.comments_count : 0,
-        },
-        observedAt:
-          (typeof a.published_at === 'string' ? a.published_at : null) ?? new Date().toISOString(),
-      };
-    });
-  } catch {
-    return [];
-  }
-}
+// NOTE: live per-repo Reddit + Dev.to search were removed 2026-05-27. From the
+// prod worker's VPS IP, `old.reddit.com/search.json` returns a "Blocked" page
+// (Reddit blocks datacenter IPs) and `dev.to/search/feed_content` returns an
+// empty result set for every query (endpoint dead). Both channels are now
+// folded in from their source-first snapshots (`reddit-mentions`,
+// `devto-mentions`) via foldSourceFirstSnapshots() below — which carry richer,
+// already-attributed per-repo buckets anyway.
 
 async function searchBluesky(repo: RepoInput, jwt: string | null): Promise<Mention[]> {
   if (!jwt) return [];
@@ -324,6 +264,154 @@ async function blueskySession(): Promise<string | null> {
   }
 }
 
+// --- source-first fold-in --------------------------------------------------
+// The per-source collectors (devto, hackernews, reddit, lobsters, bluesky)
+// publish per-repo buckets keyed by fullName. Fold every snapshot bucket for
+// OUR top repos into the mention stream so the rollup is the union of every
+// channel we collect — not just the live (HN/Bluesky) searches. This is the
+// only path that surfaces Dev.to (search endpoint dead) and Reddit (public
+// JSON IP-blocked from the VPS), and it enriches HN/Bluesky with items the
+// source-first scan caught that the live per-repo search missed.
+
+function asArray(value: unknown): Record<string, unknown>[] {
+  return Array.isArray(value) ? (value as Record<string, unknown>[]) : [];
+}
+function num(value: unknown): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : 0;
+}
+function str(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
+interface SnapshotAdapter {
+  key: string;
+  source: Channel;
+  listField: string;
+  map: (row: Record<string, unknown>, fullName: string) => Mention;
+}
+
+const SNAPSHOT_ADAPTERS: SnapshotAdapter[] = [
+  {
+    key: 'devto-mentions',
+    source: 'devto',
+    listField: 'articles',
+    map: (a, fullName) => {
+      const user = (a.user ?? {}) as Record<string, unknown>;
+      const author = (a.author ?? {}) as Record<string, unknown>;
+      return {
+        source: 'devto',
+        fullName,
+        url: str(a.url),
+        title: truncate(a.title, 200),
+        text: truncate(a.description ?? a.summary ?? ''),
+        author: str(author.username || user.username) || null,
+        engagement: {
+          score: num(a.reactionsCount) || num(a.public_reactions_count),
+          comments: num(a.commentsCount) || num(a.comments_count),
+        },
+        observedAt: str(a.publishedAt ?? a.published_at) || new Date().toISOString(),
+      };
+    },
+  },
+  {
+    key: 'hackernews-repo-mentions',
+    source: 'hackernews',
+    listField: 'stories',
+    map: (s, fullName) => ({
+      source: 'hackernews',
+      fullName,
+      url: str(s.url) || `https://news.ycombinator.com/item?id=${str(s.id) || num(s.id)}`,
+      title: truncate(s.title, 200),
+      text: truncate(s.storyText ?? ''),
+      author: str(s.by) || null,
+      engagement: { score: num(s.score), comments: num(s.descendants) },
+      observedAt: isoFromUnix(s.createdUtc),
+    }),
+  },
+  {
+    key: 'reddit-mentions',
+    source: 'reddit',
+    listField: 'posts',
+    map: (p, fullName) => ({
+      source: 'reddit',
+      fullName,
+      url: str(p.permalink) || str(p.url),
+      title: truncate(p.title, 200),
+      text: truncate(p.selftext ?? ''),
+      author: str(p.author) || null,
+      engagement: { score: num(p.score), comments: num(p.numComments) },
+      observedAt: isoFromUnix(p.createdUtc),
+    }),
+  },
+  {
+    key: 'lobsters-mentions',
+    source: 'lobsters',
+    listField: 'stories',
+    map: (s, fullName) => ({
+      source: 'lobsters',
+      fullName,
+      url: str(s.commentsUrl) || str(s.url),
+      title: truncate(s.title, 200),
+      text: truncate(s.description ?? ''),
+      author: str(s.by) || null,
+      engagement: { score: num(s.score), comments: num(s.commentCount) },
+      observedAt: isoFromUnix(s.createdUtc),
+    }),
+  },
+  {
+    key: 'bluesky-mentions',
+    source: 'bluesky',
+    listField: 'posts',
+    map: (p, fullName) => {
+      const author = (p.author ?? {}) as Record<string, unknown>;
+      return {
+        source: 'bluesky',
+        fullName,
+        url: str(p.url) || str(p.uri),
+        title: truncate(p.text, 200),
+        text: truncate(p.text ?? ''),
+        author: str(author.handle || p.handle) || null,
+        engagement: { score: num(p.likeCount) + num(p.repostCount), comments: num(p.replyCount) },
+        observedAt: str(p.indexedAt) || new Date().toISOString(),
+      };
+    },
+  },
+];
+
+export async function foldSourceFirstSnapshots(topLower: Set<string>): Promise<Mention[]> {
+  const out: Mention[] = [];
+  for (const adapter of SNAPSHOT_ADAPTERS) {
+    const snap = await readDataStore<{ mentions?: Record<string, unknown> }>(adapter.key).catch(
+      () => null,
+    );
+    const mentions = snap?.mentions ?? {};
+    for (const [fullName, bucket] of Object.entries(mentions)) {
+      if (!topLower.has(fullName.toLowerCase())) continue;
+      const rows = asArray((bucket as Record<string, unknown> | null)?.[adapter.listField]);
+      for (const row of rows) {
+        const m = adapter.map(row, fullName);
+        if (m.url) out.push(m);
+      }
+    }
+  }
+  return out;
+}
+
+/** Collapse duplicate mentions (same repo + channel + url). Live HN/Bluesky
+ *  searches and the source-first fold-in can surface the same item; this keeps
+ *  the first occurrence so per-source counts aren't double-inflated. */
+export function dedupeMentions(mentions: Mention[]): Mention[] {
+  const seen = new Set<string>();
+  const out: Mention[] = [];
+  for (const m of mentions) {
+    const k = `${m.fullName.toLowerCase()}|${m.source}|${m.url}`;
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(m);
+  }
+  return out;
+}
+
 // --- rollup ----------------------------------------------------------------
 
 interface RollupBucket { count7d: number; top: Mention[]; }
@@ -367,18 +455,44 @@ export function toRepoInput(fullName: unknown): RepoInput | null {
   return { fullName, owner, name };
 }
 
+// Window priority mirrors the home page's default view (24h first), so the
+// repos users actually see get swept before we spend budget on the long tail.
+const TRENDING_WINDOWS = ['past_24_hours', 'past_week', 'past_month'] as const;
+type TrendingFile = {
+  buckets?: Record<string, Record<string, Array<{ repo_name?: string }>>>;
+};
+
 async function loadTopRepos(limit: number): Promise<RepoInput[]> {
   const seen = new Set<string>();
   const out: RepoInput[] = [];
-  const ct = await readDataStore<{ items?: Array<{ fullName?: string }> }>('consensus-trending');
-  for (const item of ct?.items ?? []) {
-    if (out.length >= limit) break;
-    const repo = toRepoInput(item.fullName);
+  const push = (fullName: unknown): void => {
+    if (out.length >= limit) return;
+    const repo = toRepoInput(fullName);
     if (repo && !seen.has(repo.fullName.toLowerCase())) {
       seen.add(repo.fullName.toLowerCase());
       out.push(repo);
     }
+  };
+
+  // PRIMARY: the home-page repo universe. `getDerivedRepos()` builds on the
+  // `trending` snapshot's "All" language slice; sweep the same set so coverage
+  // lands on the rows the home page + profiles actually render. (Before
+  // 2026-05-27 the sweep read only `consensus-trending`, a near-disjoint set —
+  // so its HN/Bluesky hits rarely reached the home page.)
+  const trending = await readDataStore<TrendingFile>('trending').catch(() => null);
+  const buckets = trending?.buckets ?? {};
+  for (const window of TRENDING_WINDOWS) {
+    for (const row of buckets[window]?.All ?? []) push(row?.repo_name);
+    if (out.length >= limit) break;
   }
+
+  // SECONDARY: the consensus-trending ranked list (the consensus surface +
+  // agents/llms). Fills any remaining budget after the home-page set.
+  const ct = await readDataStore<{ items?: Array<{ fullName?: string }> }>(
+    'consensus-trending',
+  ).catch(() => null);
+  for (const item of ct?.items ?? []) push(item?.fullName);
+
   return out;
 }
 
@@ -414,8 +528,6 @@ const fetcher: Fetcher = {
         if (!repo) return;
         const results = await Promise.allSettled([
           searchHackerNews(repo),
-          searchReddit(repo),
-          searchDevto(repo),
           searchBluesky(repo, jwt),
           Promise.resolve(searchProductHunt(repo, phLaunches)),
           searchTavily(repo, tavilyKey),
@@ -428,9 +540,16 @@ const fetcher: Fetcher = {
     };
     await Promise.all(Array.from({ length: Math.min(REPO_CONCURRENCY, repos.length) }, () => worker()));
 
+    // Fold the source-first snapshots (Dev.to / Reddit / Lobsters / HN /
+    // Bluesky) for our top repos into the stream, then de-dup against the live
+    // HN/Bluesky results so per-source counts aren't double-inflated.
+    const topLower = new Set(repos.map((r) => r.fullName.toLowerCase()));
+    const folded = await foldSourceFirstSnapshots(topLower).catch(() => [] as Mention[]);
+    const combinedMentions = dedupeMentions([...allMentions, ...folded]);
+
     // Build this run's rollup, then merge over the existing one so repos not
     // covered this run keep their prior detail (read-then-merge).
-    const freshRepos = buildRollupRepos(allMentions);
+    const freshRepos = buildRollupRepos(combinedMentions);
     const existing = await readDataStore<RollupPayload>('repo-mentions-detail-rollup').catch(() => null);
     const mergedRepos: Record<string, RollupRepo> = { ...(existing?.repos ?? {}), ...freshRepos };
     const payload: RollupPayload = {
@@ -441,13 +560,15 @@ const fetcher: Fetcher = {
     const result = await writeDataStore('repo-mentions-detail-rollup', payload);
 
     const sourceCounts: Record<string, number> = {};
-    for (const m of allMentions) sourceCounts[m.source] = (sourceCounts[m.source] ?? 0) + 1;
+    for (const m of combinedMentions) sourceCounts[m.source] = (sourceCounts[m.source] ?? 0) + 1;
     ctx.log.info(
       {
         reposSwept: processed,
         freshRepos: Object.keys(freshRepos).length,
         totalRepos: Object.keys(mergedRepos).length,
-        mentions: allMentions.length,
+        liveMentions: allMentions.length,
+        foldedMentions: folded.length,
+        mentions: combinedMentions.length,
         bySource: sourceCounts,
         bluesky: jwt ? 'on' : 'off',
         tavily: tavilyKey ? 'on' : 'off',
@@ -455,7 +576,7 @@ const fetcher: Fetcher = {
       },
       'cross-source-sweep published',
     );
-    return done(startedAt, allMentions.length, result.source === 'redis');
+    return done(startedAt, combinedMentions.length, result.source === 'redis');
   },
 };
 

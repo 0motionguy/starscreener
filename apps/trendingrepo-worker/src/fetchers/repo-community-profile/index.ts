@@ -167,12 +167,21 @@ function splitFullName(fullName: string): { owner: string; name: string } | null
 }
 
 /**
- * Pure: select up to `limit` registry repos, ordered by `lastSeenAt` desc.
+ * Pure: select up to `limit` registry repos, ordered by `lastSeenAt`.
+ *
+ * `order` controls direction (default 'asc' = oldest-first):
+ *   - 'asc' — dropped-tail-first. Right default for community-profile
+ *     because the on-demand POST path already covers actively-visited
+ *     (typically trending-tier) repos. The worker fetcher's job is the
+ *     tail that never gets visited.
+ *   - 'desc' — most-recently-seen first. Use for backfill/cold-start.
+ *
  * Skips malformed entries. Exported for vitest.
  */
 export function pickProfileCandidates(
   registry: RegistryPayload | null,
   limit: number = COMMUNITY_PROFILE_LIMIT,
+  order: 'asc' | 'desc' = 'asc',
 ): string[] {
   const entries = Object.values(registry?.repos ?? {}).filter(
     (e): e is RegistryEntry =>
@@ -182,9 +191,12 @@ export function pickProfileCandidates(
       (e as RegistryEntry).fullName.includes('/') &&
       typeof (e as RegistryEntry).lastSeenAt === 'string',
   );
-  entries.sort((a, b) =>
-    b.lastSeenAt < a.lastSeenAt ? -1 : b.lastSeenAt > a.lastSeenAt ? 1 : 0,
-  );
+  const dir = order === 'asc' ? 1 : -1;
+  entries.sort((a, b) => {
+    if (a.lastSeenAt < b.lastSeenAt) return -1 * dir;
+    if (a.lastSeenAt > b.lastSeenAt) return 1 * dir;
+    return 0;
+  });
   return entries.slice(0, limit).map((e) => e.fullName);
 }
 

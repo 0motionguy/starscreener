@@ -41,17 +41,22 @@ export interface RegistryPayloadLite {
 
 /**
  * Return up to `limit` fullNames from the registry, ordered by
- * `lastSeenAt` descending (most recently seen first). Skips malformed
- * entries.
+ * `lastSeenAt`. Skips malformed entries.
  *
- * The order matters: callers typically want freshness-prioritised
- * enrichment so visible-in-trending repos refresh before the tail.
+ * `order` controls direction:
+ *   - 'desc' (default) — most recently seen first. Use for freshness-
+ *     prioritised enrichment when on-demand traffic already covers the
+ *     visible trending tier.
+ *   - 'asc' — oldest seen first. Use for enrichment that targets the
+ *     dropped tail (e.g. community-profile, star-activity for the
+ *     registry-only repos that never get visited).
  *
  * Pure.
  */
 export function rankedRegistryFullNames(
   registry: RegistryPayloadLite | null | undefined,
   limit: number,
+  order: 'desc' | 'asc' = 'desc',
 ): string[] {
   const entries = Object.values(registry?.repos ?? {}).filter(
     (e): e is RegistryEntryLite =>
@@ -61,9 +66,12 @@ export function rankedRegistryFullNames(
       (e as RegistryEntryLite).fullName.includes('/') &&
       typeof (e as RegistryEntryLite).lastSeenAt === 'string',
   );
-  entries.sort((a, b) =>
-    b.lastSeenAt < a.lastSeenAt ? -1 : b.lastSeenAt > a.lastSeenAt ? 1 : 0,
-  );
+  const dir = order === 'asc' ? 1 : -1;
+  entries.sort((a, b) => {
+    if (a.lastSeenAt < b.lastSeenAt) return -1 * dir;
+    if (a.lastSeenAt > b.lastSeenAt) return 1 * dir;
+    return 0;
+  });
   return entries.slice(0, limit).map((e) => e.fullName);
 }
 

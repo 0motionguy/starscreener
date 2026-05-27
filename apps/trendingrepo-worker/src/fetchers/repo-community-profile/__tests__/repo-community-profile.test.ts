@@ -14,7 +14,7 @@ describe('pickProfileCandidates', () => {
     expect(pickProfileCandidates({ repos: {} }, 25)).toEqual([]);
   });
 
-  it('orders by lastSeenAt descending (most-recent first)', () => {
+  it('defaults to lastSeenAt ascending (oldest/dropped-tail first)', () => {
     const registry = {
       repos: {
         'old/a': entry('old/a', '2026-04-01T00:00:00.000Z'),
@@ -22,10 +22,25 @@ describe('pickProfileCandidates', () => {
         'new/c': entry('new/c', '2026-05-27T00:00:00.000Z'),
       },
     };
-    expect(pickProfileCandidates(registry, 25)).toEqual(['new/c', 'mid/b', 'old/a']);
+    expect(pickProfileCandidates(registry, 25)).toEqual(['old/a', 'mid/b', 'new/c']);
   });
 
-  it('respects the limit', () => {
+  it('supports explicit desc order', () => {
+    const registry = {
+      repos: {
+        'old/a': entry('old/a', '2026-04-01T00:00:00.000Z'),
+        'mid/b': entry('mid/b', '2026-05-15T00:00:00.000Z'),
+        'new/c': entry('new/c', '2026-05-27T00:00:00.000Z'),
+      },
+    };
+    expect(pickProfileCandidates(registry, 25, 'desc')).toEqual([
+      'new/c',
+      'mid/b',
+      'old/a',
+    ]);
+  });
+
+  it('respects the limit (oldest 2 by default)', () => {
     const registry = {
       repos: {
         a: entry('a/one', '2026-05-27T10:00:00.000Z'),
@@ -34,7 +49,7 @@ describe('pickProfileCandidates', () => {
         d: entry('d/four', '2026-05-27T07:00:00.000Z'),
       },
     };
-    expect(pickProfileCandidates(registry, 2)).toEqual(['a/one', 'b/two']);
+    expect(pickProfileCandidates(registry, 2)).toEqual(['d/four', 'c/three']);
   });
 
   it('skips entries without a valid fullName', () => {

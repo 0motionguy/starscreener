@@ -185,7 +185,14 @@ const fetcher: Fetcher = {
     const registry = await readDataStore<RegistryPayloadLite>('repo-registry').catch(
       () => null,
     );
-    const candidates = rankedRegistryFullNames(registry, STAR_ACTIVITY_LIMIT);
+    // Oldest-first: the GH Action append-star-activity.mjs already covers
+    // the trending tier daily. Our job is the registry tail (dropped
+    // repos) that the GH Action's bundled-data input misses.
+    const candidates = rankedRegistryFullNames(
+      registry,
+      STAR_ACTIVITY_LIMIT,
+      'asc',
+    );
     if (candidates.length === 0) {
       ctx.log.warn('star-activity: no registry candidates available');
       return done(startedAt, 0, false, errors);

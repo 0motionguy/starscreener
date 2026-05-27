@@ -77,6 +77,11 @@ import repoCommunityProfile from './fetchers/repo-community-profile/index.js';
 // timeline too. Closes the "Star history not yet available" surface for
 // the long tail. Wave C1 — 2026-05-27.
 import starActivity from './fetchers/star-activity/index.js';
+// Daily deep-coverage sweep of consensus-trending ranks 31-200, skipping any
+// fullName already in consensus-verdicts.items. Closes the gap between the
+// primary analyst's hourly TOP_N=30 and the full 200-item pool that
+// consensus-trending publishes. Wave 3 — 2026-05-27.
+import consensusAnalystTail from './fetchers/consensus-analyst-tail/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -119,6 +124,7 @@ export const FETCHERS: Fetcher[] = [
   repoRegistry,
   repoCommunityProfile,
   starActivity,
+  consensusAnalystTail,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

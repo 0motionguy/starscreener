@@ -199,7 +199,13 @@ export function pickProfileCandidates(
   entries.sort((a, b) => {
     if (a.lastSeenAt < b.lastSeenAt) return -1 * dir;
     if (a.lastSeenAt > b.lastSeenAt) return 1 * dir;
-    return 0;
+    // Tiebreaker by fullName (case-insensitive): registry's hourly tick
+    // updates ~700+ repos to the same lastSeenAt; without this the
+    // sort is non-deterministic and the same block gets picked every
+    // run, never reaching the alphabetic tail.
+    const aN = a.fullName.toLowerCase();
+    const bN = b.fullName.toLowerCase();
+    return aN < bN ? -1 : aN > bN ? 1 : 0;
   });
   return entries.slice(0, limit).map((e) => e.fullName);
 }

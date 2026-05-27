@@ -9,7 +9,17 @@
 services:
   trendingrepo:
     container_name: toolbox-trendingrepo-1
-    image: trendingrepo-app:vps-v1
+    # Pinned to a moving alias (NOT a per-build timestamp tag). Each successful
+    # `docker build` on the box must retag the freshly-built image as
+    # `:current-prod` (in addition to the immutable `:vps-<timestamp>-<sha>`
+    # tag for rollback). That way a `git checkout` of this file no longer
+    # breaks the running stack — the compose file stays valid across deploys.
+    # Operator deploy sequence (TOOLBOX, /opt/trendingrepo):
+    #   ATAG=vps-$(date +%Y%m%d%H%M%S)-<sha>
+    #   docker build -t trendingrepo-app:$ATAG . && \
+    #     docker tag trendingrepo-app:$ATAG trendingrepo-app:current-prod && \
+    #     docker compose -f docker-compose.trendingrepo.yml up -d
+    image: trendingrepo-app:current-prod
     restart: unless-stopped
     env_file:
       - /opt/trendingrepo/.env.production

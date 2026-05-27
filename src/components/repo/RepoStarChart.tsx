@@ -720,11 +720,11 @@ export function RepoStarChart(props: RepoStarChartProps): ReactElement {
               <Icon name="flag" size={14} />
             </div>
             <div>
-              <div className="pf-chart-empty-title">Star history warming</div>
+              <div className="pf-chart-empty-title">Star history not yet available</div>
               <div className="pf-chart-empty-sub">
-                The stargazer backfill for {repo.fullName} is still being walked.
-                A timeline appears here as soon as ≥ 2 days of activity have been
-                indexed.
+                We don&apos;t have a sampled star timeline for {repo.fullName} yet.
+                The chart populates once the daily snapshot pass collects its first
+                data points for this repo.
               </div>
             </div>
           </div>

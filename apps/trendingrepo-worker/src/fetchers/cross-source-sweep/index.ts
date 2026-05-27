@@ -24,9 +24,12 @@ import { readDataStore, writeDataStore } from '../../lib/redis.js';
 // APIFY_API_TOKEN — see searchTwitterApify.
 import { runTweetScraper } from '../x-funding/index.js';
 
-// 150 covers the home page's full 24h view plus the 7d/30d (gainer/trend)
-// rows, which re-sort the same `trending` set, before the consensus tail.
-const TOP_N = 150;
+// Bumped 150 → 250 (2026-05-27) to push the registry-only tail into the
+// rollup so dropped repos get cross-source mention markers. Per-repo
+// channel fan-out (~3 key-free channels × ~500ms / concurrency 4) ≈ 95s
+// wall-clock for 250 repos at daily 06:00 UTC — safe. Twitter (Apify) is
+// still batched-top-40 + gated on APIFY_API_TOKEN, so no Apify cost change.
+const TOP_N = 250;
 const REPO_CONCURRENCY = 4;
 const FETCH_TIMEOUT_MS = 15_000;
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;

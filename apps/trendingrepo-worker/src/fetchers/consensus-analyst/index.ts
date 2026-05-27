@@ -20,10 +20,15 @@ import type {
   ConsensusTrendingPayload,
 } from '../consensus-trending/types.js';
 
-const TOP_N = 14;
-// Kimi K2.6 reasoning model is ~80s per call. Sequential 14-item sweep =
-// 18min, blowing the hourly slot. Concurrency 4 brings it to ~5min wall
-// while staying conservative on the subscription's likely concurrency cap.
+// Bumped 14 → 30 (2026-05-27) to widen LLM verdict coverage to the
+// registry-only tail without blowing the hourly slot. Wall-clock budget:
+// Kimi K2.6 is ~80s/call at concurrency 4, so 30/4 × 80s ≈ 10 min. Cron is
+// `0 * * * *`; next consensus-trending tick is :50, so no overlap. Template
+// fallback below preserves existing items if Kimi + NanoGPT are both out.
+const TOP_N = 30;
+// Kimi K2.6 reasoning model is ~80s per call. Concurrency 4 keeps the sweep
+// to ~10min wall while staying conservative on the subscription's likely
+// concurrency cap.
 const ITEM_CONCURRENCY = 4;
 
 interface VerdictsItemPayload extends ItemReport {

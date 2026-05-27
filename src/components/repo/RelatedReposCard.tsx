@@ -144,8 +144,21 @@ function clampMomentum(value: number): number {
   return Math.round(value);
 }
 
-export function RelatedReposCard({ repo: _repo, related }: RelatedReposCardProps) {
+export function RelatedReposCard({ repo, related }: RelatedReposCardProps) {
   const items = Array.isArray(related) ? related.slice(0, 5) : [];
+
+  // Hide the card entirely for low-signal registry-only repos: empty
+  // results + fewer than 5 lifetime mentions total means we have neither
+  // related data nor enough mention signal to make the empty state useful.
+  // Established repos with mentions still see the empty-state message,
+  // which correctly reads as "we have signal but nothing related yet".
+  const totalMentions =
+    (repo.mentions?.total ?? 0) +
+    (repo.mentions?.total7d ?? 0) +
+    (repo.mentions?.total24h ?? 0);
+  if (items.length === 0 && totalMentions < 5) {
+    return null;
+  }
 
   return (
     <section className="pf-section">

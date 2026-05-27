@@ -27,10 +27,14 @@ import { pickGithubToken } from '../../lib/util/github-token-pool.js';
 
 // --- env-tunable knobs -----------------------------------------------------
 
+// Max bumped 100 → 300 (2026-05-27) to cover more of the dropped tail per
+// run. At 6 GH endpoints × 300 repos / concurrency 4 ≈ 15 min wall-clock —
+// within the hourly slot. Pool of 20 tokens absorbs the rate-limit fan-out
+// (300 × 6 = 1800 calls/run; 5000/h per token; pool = 100k/h ceiling).
 const COMMUNITY_PROFILE_LIMIT = Math.max(
   1,
   Math.min(
-    100,
+    300,
     Number.parseInt(process.env.COMMUNITY_PROFILE_LIMIT ?? '25', 10) || 25,
   ),
 );

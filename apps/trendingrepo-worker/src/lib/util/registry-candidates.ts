@@ -70,7 +70,15 @@ export function rankedRegistryFullNames(
   entries.sort((a, b) => {
     if (a.lastSeenAt < b.lastSeenAt) return -1 * dir;
     if (a.lastSeenAt > b.lastSeenAt) return 1 * dir;
-    return 0;
+    // Tiebreaker by fullName (case-insensitive): repo-registry's hourly
+    // tick updates ~700 repos to the SAME timestamp, so without a
+    // tiebreaker the sort is non-deterministic — picking up the same
+    // first-100 every run by JS-implementation-specific quirk and never
+    // reaching the rest of the equal-timestamp block. Stable name sort
+    // means the selection rotates predictably as new repos are added.
+    const aN = a.fullName.toLowerCase();
+    const bN = b.fullName.toLowerCase();
+    return aN < bN ? -1 : aN > bN ? 1 : 0;
   });
   return entries.slice(0, limit).map((e) => e.fullName);
 }

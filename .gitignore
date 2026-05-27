@@ -134,3 +134,23 @@ awesome-codex-skills/
 # clerk configuration (can include secrets)
 /.clerk/
 .tier-staging/
+
+# Operator-local scratch artifacts (screenshots, audit dumps, debug HTML)
+# Added 2026-05-27 to clean up the 8+ untracked artifacts accumulating at
+# the repo root.
+/._*
+/.audit-*.html
+/.audit-*.json
+/.echarts-themes/
+/.specify/
+/.verify-auth/
+/_tmp_*.html
+/_tmp_*.json
+/_tmp_*.mts
+/tmp_*.mts
+/trending-repos-ios-gallery.html
+/trending-repos-ios-gallery.html.artifact.json
+# Typo'd Windows-path-as-filename artifact (the path-resolver wrote literal
+# `Usersmirko...` instead of `C:\Users\mirko\...`); ignore by prefix.
+/Usersmirko*
+

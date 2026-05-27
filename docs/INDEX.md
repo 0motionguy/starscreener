@@ -119,7 +119,9 @@ Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 | `docs/INDEX.md` | this file | 2026-05-05 |
 | `docs/API.md` | Public API surface | 2026-05-05 |
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
-| `docs/DEPLOY.md` | Vercel + Railway deploy paths, env wiring, Node 22.x | 2026-05-05 |
+| `docs/DEPLOY-TOOLBOX.md` | **CURRENT** prod deploy runbook (TOOLBOX build → tag → compose-up sequence) + hardening TODO | 2026-05-27 |
+| `docs/REGISTRY-AND-LIFETIME-MENTIONS.md` | The persistent repo-registry + lifetime mentions ledger architecture; what `getDerivedRepoCount()` actually counts | 2026-05-27 |
+| `docs/DEPLOY.md` | (legacy) Vercel + Railway deploy paths — **superseded by `DEPLOY-TOOLBOX.md` 2026-05-27**; prod moved off Vercel | 2026-05-05 |
 | `docs/ENGINE.md` | 88 workflows + 14 cron routes + 44 active worker fetchers (47 dirs on disk) + 55 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
 | `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |

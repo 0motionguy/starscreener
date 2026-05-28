@@ -334,12 +334,39 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       createdAt: metadata?.createdAt ?? base.createdAt,
       archived: metadata?.archived ?? base.archived,
     };
+    // Delta-join — root-cause fix for the site-wide "—" delta wipe. The
+    // `deltas` slug (getDeltas) is keyed by OSS Insight repo_id, and the
+    // registry entry carries that same repoId, so attach real star-deltas to
+    // registry-served repos here too. Previously deltas were ONLY joined in the
+    // trending-aggregates loop above; when the `trending` slug was empty
+    // (OSSInsight outage) that loop produced nothing and the registry became the
+    // only source — categorically deltaless — so every delta on the site read
+    // "—" even though the data was sitting in the `deltas` slug. This decouples
+    // delta enrichment from the trending feed. Verified: 494/1408 registry repos
+    // carry a real non-zero 24h delta in the slug.
+    const regDelta = entry.repoId ? deltas.repos[entry.repoId] : undefined;
+    const rHas24 = isRealDelta(regDelta?.delta_24h);
+    const rHas7 = isRealDelta(regDelta?.delta_7d);
+    const rHas30 = isRealDelta(regDelta?.delta_30d);
+    const rV24 = rHas24 ? (regDelta!.delta_24h.value as number) : 0;
+    const rV7 = rHas7 ? (regDelta!.delta_7d.value as number) : 0;
+    const rV30 = rHas30 ? (regDelta!.delta_30d.value as number) : 0;
+    const rHasMovement = rHas24 || rHas7 || rHas30;
     repos.push({
       ...enrichedBase,
-      sparklineData: synthesizeRecentRepoSparkline(
-        enrichedBase.stars,
-        enrichedBase.createdAt,
-      ),
+      starsDelta24h: rV24,
+      starsDelta7d: rV7,
+      starsDelta30d: rV30,
+      starsDelta24hMissing: !rHas24,
+      starsDelta7dMissing: !rHas7,
+      starsDelta30dMissing: !rHas30,
+      hasMovementData: rHasMovement,
+      sparklineData: rHasMovement
+        ? synthesizeSparkline(enrichedBase.stars, rV24, rV7, rV30)
+        : synthesizeRecentRepoSparkline(
+            enrichedBase.stars,
+            enrichedBase.createdAt,
+          ),
     });
     seenFullNames.add(normalized);
   }

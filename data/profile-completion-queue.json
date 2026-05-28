@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T23:42:39.627Z",
+  "generatedAt": "2026-05-28T02:10:07.643Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -164,6 +164,36 @@
       "lastSweptAt": null
     },
     {
+      "fullName": "kylejckson/PaintFE",
+      "rank": 21,
+      "completenessScore": 49,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 13,
+        "enrichment": 0
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 1030,
+      "lastSweptAt": null
+    },
+    {
       "fullName": "simplifaisoul/osiris",
       "rank": 16,
       "completenessScore": 55,
@@ -193,36 +223,6 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 1029,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "kylejckson/PaintFE",
-      "rank": 22,
-      "completenessScore": 49,
-      "breakdown": {
-        "required": 30,
-        "coverage": 6,
-        "deltas": 13,
-        "enrichment": 0
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
       "priority": 1029,
       "lastSweptAt": null
     },
@@ -1122,39 +1122,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "mvanhorn/printing-press-library",
-      "rank": 80,
-      "completenessScore": 45,
-      "breakdown": {
-        "required": 25,
-        "coverage": 0,
-        "deltas": 20,
-        "enrichment": 0
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 975,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "Yeachan-Heo/oh-my-codex",
       "rank": 60,
       "completenessScore": 66,
@@ -1182,6 +1149,39 @@
       "socialFiring": 1,
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
+      "recommendedAction": "both",
+      "priority": 974,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "mvanhorn/printing-press-library",
+      "rank": 81,
+      "completenessScore": 45,
+      "breakdown": {
+        "required": 25,
+        "coverage": 0,
+        "deltas": 20,
+        "enrichment": 0
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 0,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 974,
       "lastSweptAt": null
@@ -1215,6 +1215,38 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
       "priority": 973,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "earendil-works/pi",
+      "rank": 72,
+      "completenessScore": 56,
+      "breakdown": {
+        "required": 25,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 972,
       "lastSweptAt": null
     },
     {
@@ -1280,38 +1312,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "earendil-works/pi",
-      "rank": 74,
-      "completenessScore": 56,
-      "breakdown": {
-        "required": 25,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 970,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "kunchenguid/no-mistakes",
       "rank": 76,
       "completenessScore": 55,
@@ -1342,37 +1342,6 @@
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
       "priority": 969,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "TwilitRealm/dusklight",
-      "rank": 78,
-      "completenessScore": 54,
-      "breakdown": {
-        "required": 25,
-        "coverage": 12,
-        "deltas": 7,
-        "enrichment": 10
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 2,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "both",
-      "priority": 968,
       "lastSweptAt": null
     },
     {
@@ -1433,6 +1402,36 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
       "priority": 965,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "can1357/oh-my-pi",
+      "rank": 80,
+      "completenessScore": 56,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 0
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "hackernews",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 964,
       "lastSweptAt": null
     },
     {
@@ -1531,20 +1530,21 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "can1357/oh-my-pi",
-      "rank": 82,
-      "completenessScore": 56,
+      "fullName": "TwilitRealm/dusklight",
+      "rank": 78,
+      "completenessScore": 60,
       "breakdown": {
-        "required": 30,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 0
+        "required": 25,
+        "coverage": 12,
+        "deltas": 13,
+        "enrichment": 10
       },
-      "missingFields": [],
+      "missingFields": [
+        "topics"
+      ],
       "underScannedSources": [
         "twitter",
         "reddit",
-        "hackernews",
         "devto",
         "lobsters",
         "producthunt",
@@ -1553,16 +1553,16 @@
         "arxiv",
         "funding"
       ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
+      "socialFiring": 2,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "both",
       "priority": 962,
       "lastSweptAt": null
     },
     {
       "fullName": "chenhg5/cc-connect",
-      "rank": 72,
+      "rank": 73,
       "completenessScore": 68,
       "breakdown": {
         "required": 25,
@@ -1587,37 +1587,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 960,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "OpenListTeam/OpenList",
-      "rank": 81,
-      "completenessScore": 61,
-      "breakdown": {
-        "required": 30,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 958,
+      "priority": 959,
       "lastSweptAt": null
     },
     {
@@ -1650,6 +1620,36 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 958,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "OpenListTeam/OpenList",
+      "rank": 82,
+      "completenessScore": 61,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 957,
       "lastSweptAt": null
     },
     {

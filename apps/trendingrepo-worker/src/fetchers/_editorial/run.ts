@@ -15,24 +15,25 @@ import { z } from 'zod';
 import type { FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { callLlm, getLlmProvider, isLlmConfigured } from '../../lib/llm/router.js';
-import { parseJson } from '../../lib/llm/kimi-client.js';
 import type { LlmProvider } from '../../lib/llm/types.js';
 
-// Same contract as editorial-writer's EditorialReportSchema: a one-line tagline
-// (optional, meta-description use) + a 2-4 sentence expert overview. Kept here
-// as the canonical schema for the sibling fetchers (editorial-writer keeps its
-// own copy — not refactored, to avoid touching the about-to-ship /best path).
-export const EditorialReportSchema = z.object({
-  tagline: z.string().min(1).max(160).optional(),
-  overview: z.string().min(40).max(900),
-});
+// Editorial overviews are generated as PLAIN TEXT, not a JSON object. kimi-k2.6
+// (via NanoGPT, the live fallback) reliably writes a 2-4 sentence paragraph, but
+// when asked for a `{tagline, overview}` JSON object on the thin editorial input
+// it "satisfices" — emits a stub tagline and DROPS the overview, failing schema
+// validation every time (this is why /best never went live). Asking for the
+// paragraph directly and validating its length is robust. Verified on the box
+// against kimi-k2.6 (876-char expert overview) 2026-05-28.
+const OverviewSchema = z.string().trim().min(40).max(1200);
 
-export type EditorialReport = z.infer<typeof EditorialReportSchema>;
-
-export interface EditorialItem extends EditorialReport {
+export interface EditorialItem {
   /** Storage key for this entry (topic slug / compare pair key / repo fullName). */
   slug: string;
   title: string;
+  /** Optional ≤160-char framing. Currently unused (reserved for meta descriptions). */
+  tagline?: string;
+  /** 2-4 sentence evergreen expert overview. */
+  overview: string;
 }
 
 export interface EditorialPayload {
@@ -131,22 +132,23 @@ export async function runEditorial(
             userMessage: item.userMessage,
             maxTokens: 2000,
             temperature: 0.5,
-            jsonMode: true,
           },
           { feature: 'editorial', task_type: 'summary', request_id: randomUUID() },
         );
         usedProvider = r.meta.provider;
         usedModel = r.meta.model;
-        const parsed = parseJson(r.text);
-        const validated = EditorialReportSchema.safeParse(parsed);
+        // Plain-text overview — trim + strip any stray wrapping quotes the model
+        // added despite the prompt, then length-validate.
+        const overview = stripWrappingQuotes(r.text.trim());
+        const validated = OverviewSchema.safeParse(overview);
         if (!validated.success) {
           ctx.log.warn(
-            { key: item.key, issues: validated.error.issues.slice(0, 3) },
-            `${opts.fetcherName}: report failed schema validation`,
+            { key: item.key, len: overview.length, issues: validated.error.issues.slice(0, 2) },
+            `${opts.fetcherName}: overview failed length validation`,
           );
           continue;
         }
-        fresh[item.key] = { slug: item.key, title: item.title, ...validated.data };
+        fresh[item.key] = { slug: item.key, title: item.title, overview: validated.data };
       } catch (err) {
         ctx.log.warn(
           { key: item.key, err: err instanceof Error ? err.message : String(err) },
@@ -218,6 +220,17 @@ async function loadExistingItems(slug: string): Promise<Record<string, Editorial
     /* fall through to empty */
   }
   return {};
+}
+
+/** Strip a single pair of wrapping straight/smart quotes the model sometimes adds. */
+function stripWrappingQuotes(s: string): string {
+  if (
+    s.length >= 2 &&
+    ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith('“') && s.endsWith('”')))
+  ) {
+    return s.slice(1, -1).trim();
+  }
+  return s;
 }
 
 function done(

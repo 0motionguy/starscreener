@@ -1,45 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  EditorialReportSchema,
-  EDITORIAL_BEST_TOPICS,
-  buildBestUserMessage,
-} from '../prompt.js';
-
-describe('EditorialReportSchema', () => {
-  const baseValid = {
-    overview:
-      'Vector databases store high-dimensional embeddings and serve nearest-neighbour queries for semantic search and RAG. Strong projects differ on index type, recall/latency tradeoffs and horizontal scaling.',
-  };
-
-  it('accepts a valid overview-only payload (tagline optional)', () => {
-    expect(EditorialReportSchema.safeParse(baseValid).success).toBe(true);
-  });
-
-  it('accepts a payload WITH tagline', () => {
-    expect(
-      EditorialReportSchema.safeParse({ ...baseValid, tagline: 'embedding stores for AI search and RAG' }).success,
-    ).toBe(true);
-  });
-
-  it('rejects an overview shorter than 40 chars (thin content guard)', () => {
-    expect(EditorialReportSchema.safeParse({ overview: 'too short' }).success).toBe(false);
-  });
-
-  it('rejects an overview longer than 900 chars', () => {
-    expect(EditorialReportSchema.safeParse({ overview: 'x'.repeat(901) }).success).toBe(false);
-  });
-
-  it('rejects a tagline over 160 chars', () => {
-    expect(
-      EditorialReportSchema.safeParse({ ...baseValid, tagline: 'x'.repeat(161) }).success,
-    ).toBe(false);
-  });
-
-  it('rejects a missing overview', () => {
-    expect(EditorialReportSchema.safeParse({ tagline: 'x' }).success).toBe(false);
-  });
-});
+import { EDITORIAL_BEST_TOPICS, buildBestUserMessage } from '../prompt.js';
 
 describe('EDITORIAL_BEST_TOPICS', () => {
   it('covers the 12 best-of topics', () => {

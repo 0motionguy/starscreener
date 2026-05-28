@@ -6166,6 +6166,38 @@ a.repo-avatar:hover {
   color: #1a0a2e;
   border-color: var(--violet, #8b5cf6);
 }
+/* NEW-drop surfacing — freshly-listed /drop repos flagged for 24h across the
+   ticker, featured row, and trending table. Driven by src/lib/recent-drops.ts
+   (getNewFullNameSet). Brand-orange so it reads as "fresh", with a glow to set
+   it apart from the same-colored TOP chip. */
+.feat-rank-chip.rank-new {
+  background: var(--accent);
+  color: #1a0e08;
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.feat.new {
+  border-color: var(--accent);
+  box-shadow: var(--accent-glow-wide);
+}
+.tick .tick-tag[data-new] {
+  background: var(--accent);
+  color: #1a0e08;
+  border-radius: var(--r-xs);
+}
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--t-control);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+}
 
 /* =========================================================================
    /tools hub — 6-card share-worthy grid
@@ -15318,3 +15350,23 @@ th.sortable.active .aa-th-arrow {
 .pf-prose strong { color: var(--fg); font-weight: 600; }
 .pf-prose code { font-family: var(--font-mono); font-size: 0.88em; background: var(--surface-3); border: 1px solid var(--border-subtle); border-radius: var(--r-sm); padding: 1px 5px; }
 .pf-prose blockquote { margin: 0 0 16px; padding-left: 14px; border-left: 2px solid var(--accent-line); color: var(--fg-subtle); }
+
+/* ── Models tab — OpenRouter model landscape (/?cat=models) ───────── */
+.models-hero { padding: 16px; margin-bottom: 14px; }
+.models-hero-head { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.models-hero-title { font-family: var(--font-display); font-size: 19px; font-weight: 600; letter-spacing: -0.01em; color: var(--fg-bright); }
+.models-hero-sub { color: var(--fg-muted); font-size: 12.5px; line-height: 1.55; margin-top: 4px; max-width: 68ch; }
+.models-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(146px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.models-stat { background: var(--surface-2); border: 1px solid var(--border-subtle); border-radius: var(--r-4); padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.models-stat-k { color: var(--fg-muted); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.models-stat-v { color: var(--fg-bright); font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.models-stat-sub { color: var(--fg-subtle); font-family: var(--font-mono); font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.models-chart-wrap { margin-top: 2px; }
+.models-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 10px; }
+.models-legend-item { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-muted); }
+.models-legend-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.models-attr { color: var(--fg-subtle); font-size: 10.5px; line-height: 1.5; margin-top: 10px; max-width: 70ch; }
+.models-attr a { color: var(--fg-muted); text-decoration: none; }
+.models-attr a:hover { color: var(--accent); }
+.modality-chip { font-family: var(--font-mono); font-size: 9.5px; padding: 1px 7px; border-radius: var(--r-pill); border: 1px solid var(--border); color: var(--fg-muted); white-space: nowrap; }
+.repo-avatar-mono { display: inline-flex; align-items: center; justify-content: center; background: var(--surface-4); color: var(--fg); font-weight: 700; font-size: 9px; font-family: var(--font-mono); }

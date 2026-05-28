@@ -51,6 +51,9 @@ next-env.d.ts
 !/.data/aiso-rescan-queue.jsonl
 !/.data/mcp-usage.jsonl
 
+# runtime data-store file mirror (Redis is source of truth; written at listing time)
+/data/recent-drops.json
+
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/
 

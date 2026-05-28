@@ -22,6 +22,11 @@ const COPY: Record<Exclude<CategoryId, "repos">, { title: string; deck: string; 
     deck: "Frontier model rankings backed by Artificial Analysis — intelligence, price, speed, latency.",
     cta: "/llms",
   },
+  models: {
+    title: "Model marketplace",
+    deck: "Every model routable through OpenRouter — pricing, context window, modality, and live weekly-usage rank.",
+    cta: "/?cat=models",
+  },
 };
 
 export function CategorySignalPanel({ category, count, repos }: CategorySignalPanelProps) {
@@ -72,6 +77,7 @@ function pickLeaders(category: CategoryId, repos: Repo[]): Repo[] {
   const matchers: Record<Exclude<CategoryId, "repos">, string[]> = {
     agents: ["agent", "crew", "workflow", "automation"],
     llms: ["llm", "model", "hugging", "transformer", "rag"],
+    models: ["model", "llm", "inference", "openrouter", "serving"],
   };
   const words = category === "repos" ? [] : matchers[category];
   const scored = repos.map((repo) => ({

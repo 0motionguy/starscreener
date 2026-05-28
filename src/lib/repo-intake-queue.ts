@@ -85,6 +85,44 @@ export async function enqueueDrop(payload: DropQueuePayload): Promise<{
   }
 }
 
+const DEEP_ENRICH_QUEUE_KEY = "queue:drop-deep-enrich";
+
+export interface DeepEnrichQueuePayload {
+  /** Submission record id. */
+  submissionId: string;
+  /** Repo full name (`owner/name`). */
+  fullName: string;
+  /** Wall-clock when the producer LPUSHed. */
+  enqueuedAt: string;
+}
+
+/**
+ * LPUSH a deep-enrich job after a drop is listed. The worker
+ * `drop-deep-enrich-drain` RPOPs it and builds the community profile + LLM
+ * editorial overview for that one repo NOW (instead of waiting for the daily
+ * sweep). Best-effort: a Redis miss is a silent noop — the normal cadence
+ * still enriches the repo, so this is an accelerator, not a critical path.
+ */
+export async function enqueueDeepEnrich(
+  payload: DeepEnrichQueuePayload,
+): Promise<{ ok: boolean; queueDepth: number | null }> {
+  const store = getDataStore();
+  const client = store.redisClient();
+  if (!client || !client.lpush) {
+    return { ok: false, queueDepth: null };
+  }
+  try {
+    const depth = await client.lpush(
+      DEEP_ENRICH_QUEUE_KEY,
+      JSON.stringify(payload),
+    );
+    return { ok: true, queueDepth: depth };
+  } catch (err) {
+    console.error("[repo-intake-queue] deep-enrich lpush failed:", err);
+    return { ok: false, queueDepth: null };
+  }
+}
+
 /** Read the current queue depth (LLEN). Returns null on Redis miss. */
 export async function peekQueueDepth(): Promise<number | null> {
   const store = getDataStore();

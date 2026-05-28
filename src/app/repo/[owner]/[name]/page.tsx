@@ -33,6 +33,10 @@ import {
   refreshRepoCommunityProfileFromStore,
   getRepoCommunityProfile,
 } from "@/lib/repo-community-profile";
+import {
+  refreshRepoEditorialFromStore,
+  getRepoEditorial,
+} from "@/lib/repo-editorial-store";
 import { listCommentsForRepo } from "@/lib/repo-comments";
 import {
   getReactionsForComment,
@@ -55,6 +59,7 @@ import type { CrossSourceChannel, Repo } from "@/lib/types";
 import { RepoHeroCard } from "@/components/repo/RepoHeroCard";
 import { RepoOwnerRepoSnapshot } from "@/components/repo/RepoOwnerRepoSnapshot";
 import { RepoSignalSummary } from "@/components/repo/RepoSignalSummary";
+import { RepoEditorialOverview } from "@/components/repo/RepoEditorialOverview";
 import {
   RepoStarChart,
   type ChartRange,
@@ -195,6 +200,9 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     refreshRepoProfilesFromStore().catch(() => undefined),
     refreshStarActivityFromStore(fullName).catch(() => undefined),
     refreshRepoCommunityProfileFromStore(fullName).catch(() => undefined),
+    // Per-repo LLM editorial overview (written by the worker drop-deep-enrich
+    // -drain for freshly-dropped repos). Absent for most repos — harmless.
+    refreshRepoEditorialFromStore(fullName).catch(() => undefined),
     refreshConsensusVerdictsFromStore().catch(() => undefined),
     // Hydrate per-source mention caches + cross-source detail so the profile's
     // source pips + mention block render the live redis data (not a cold cache).
@@ -245,6 +253,14 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
   const community = (() => {
     try {
       return getRepoCommunityProfile(fullName);
+    } catch {
+      return null;
+    }
+  })();
+
+  const editorial = (() => {
+    try {
+      return getRepoEditorial(fullName);
     } catch {
       return null;
     }
@@ -325,7 +341,7 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
   // Weekly commit cadence for the bar overlay on the chart.
   const commitsLast52Weeks = community?.commitsLast52Weeks ?? [];
 
-  const jsonLd = buildRepoJsonLd(repo, consensusItem, consensusComputedAt);
+  const jsonLd = buildRepoJsonLd(repo, consensusItem, consensusComputedAt, editorial);
 
   // FAQ + breadcrumb structured data. FAQ entries are shared with the
   // rendered <RepoFaq> (same buildFaq) so the FAQPage text matches the DOM;
@@ -390,6 +406,10 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
             scale={activeScale}
           />
         </section>
+
+        {/* 3b. Editorial overview — LLM "what it is" card for dropped repos
+            (only present when the deep-enrich drain wrote one). */}
+        {editorial ? <RepoEditorialOverview editorial={editorial} /> : null}
 
         {/* 4. Signal summary — prose verdict, below the chart */}
         <RepoSignalSummary

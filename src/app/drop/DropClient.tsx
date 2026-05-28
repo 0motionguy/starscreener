@@ -123,6 +123,8 @@ export function DropClient({
     trackedPath: null,
   });
   const [pollIds, setPollIds] = useState<string[]>([]);
+  const [flashIds, setFlashIds] = useState<Set<string>>(() => new Set());
+  const prevStatusRef = useRef<Map<string, string>>(new Map());
   const pollTimerRef = useRef<NodeJS.Timeout | null>(null);
   const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -132,6 +134,38 @@ export function DropClient({
     const interval = setInterval(() => setTick((t) => t + 1), 5000);
     return () => clearInterval(interval);
   }, []);
+
+  // Flash a row the moment it flips to LIVE so the QUEUED → SCANNING → LIVE
+  // transition pops. The `was !== undefined` guard skips rows already live on
+  // first render (no flash on initial load).
+  useEffect(() => {
+    const prev = prevStatusRef.current;
+    const newlyLive: string[] = [];
+    for (const s of submissions) {
+      const was = prev.get(s.id);
+      const isLive = s.status === "listed" || s.status === "matched";
+      const wasLive = was === "listed" || was === "matched";
+      if (isLive && was !== undefined && !wasLive) newlyLive.push(s.id);
+    }
+    const next = new Map<string, string>();
+    for (const s of submissions) next.set(s.id, s.status);
+    prevStatusRef.current = next;
+
+    if (newlyLive.length === 0) return;
+    setFlashIds((cur) => {
+      const n = new Set(cur);
+      for (const id of newlyLive) n.add(id);
+      return n;
+    });
+    const timer = setTimeout(() => {
+      setFlashIds((cur) => {
+        const n = new Set(cur);
+        for (const id of newlyLive) n.delete(id);
+        return n;
+      });
+    }, 2600);
+    return () => clearTimeout(timer);
+  }, [submissions]);
 
   const refreshList = useCallback(async () => {
     try {
@@ -497,7 +531,10 @@ export function DropClient({
               const chip = statusChipDescriptor(row);
               const handle = row.publicContact;
               return (
-                <li key={row.id} className={styles.queueRow}>
+                <li
+                  key={row.id}
+                  className={`${styles.queueRow}${flashIds.has(row.id) ? ` ${styles.flashLive}` : ""}`}
+                >
                   <span
                     className={styles.queueAvatar}
                     aria-hidden="true"

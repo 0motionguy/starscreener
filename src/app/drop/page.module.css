@@ -364,6 +364,19 @@
   border-top: 0;
 }
 
+/* LIVE pop — a row flashes green the moment it flips QUEUED/SCANNING → LIVE. */
+@keyframes dropLiveFlash {
+  from {
+    background: color-mix(in srgb, var(--up) 26%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+.flashLive {
+  animation: dropLiveFlash 2.6s var(--ease, ease-out);
+}
+
 .queueAvatar {
   align-items: center;
   background: var(--surface-2, color-mix(in srgb, var(--accent) 12%, var(--surface)));

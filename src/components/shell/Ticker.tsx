@@ -2,6 +2,7 @@
 // Per-page consumers can pass their own items[] to override the default feed.
 
 import { getTopMoversByDelta24h } from "@/lib/trending";
+import { getRecentDrops } from "@/lib/recent-drops";
 
 export interface TickerItem {
   tag: string;
@@ -26,7 +27,7 @@ export function Ticker({ items }: TickerProps) {
       <div className="ticker-tape">
         {doubled.map((it, i) => (
           <span className="tick" key={`${it.label}-${i}`}>
-            <span className="tick-tag">{it.tag}</span>
+            <span className="tick-tag" data-new={it.tag === "NEW" ? "" : undefined}>{it.tag}</span>
             {it.imageUrl ? (
               <img
                 className="tick-avatar"
@@ -53,7 +54,29 @@ function tone(t: TickerItem["tone"]): string {
   return "delta-up";
 }
 
+function buildNewDropItems(): TickerItem[] {
+  try {
+    return getRecentDrops()
+      .slice(0, 3)
+      .map((drop) => ({
+        tag: "NEW",
+        label: drop.fullName,
+        value: "just dropped",
+        tone: "up" as const,
+        imageUrl:
+          drop.avatarUrl ||
+          (drop.owner
+            ? `https://github.com/${encodeURIComponent(drop.owner)}.png?size=48`
+            : undefined),
+      }));
+  } catch {
+    return [];
+  }
+}
+
 function buildDefaultTicker(): TickerItem[] {
+  const news = buildNewDropItems();
+
   let movers: { fullName: string; starsDelta24h: number }[] = [];
   try {
     movers = getTopMoversByDelta24h(5).map((row) => ({
@@ -68,9 +91,9 @@ function buildDefaultTicker(): TickerItem[] {
     { tag: "PIPE", label: "TrendingRepo", value: "LIVE · 30 mention sources", tone: "up" },
   ];
 
-  if (movers.length === 0) return fallback;
+  if (movers.length === 0) return news.length > 0 ? [...news, ...fallback] : fallback;
 
-  return movers.map((row) => {
+  const moverItems: TickerItem[] = movers.map((row) => {
     const v = row.starsDelta24h;
     const pretty = v >= 0 ? `+${v} stars 24h` : `${v} stars 24h`;
     const owner = row.fullName.split("/")[0] ?? "";
@@ -86,4 +109,6 @@ function buildDefaultTicker(): TickerItem[] {
         : undefined,
     };
   });
+
+  return [...news, ...moverItems];
 }

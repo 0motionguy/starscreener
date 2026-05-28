@@ -71,6 +71,7 @@ import { Statusbar } from "@/components/shell/Statusbar";
 // to e.g. /pricing showed the bundled-data fallback count instead of the
 // registry-inclusive count.
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
+import { refreshRecentDropsFromStore } from "@/lib/recent-drops";
 
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
@@ -109,6 +110,9 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   // Keep the Statusbar count fresh across every route (A5).
   await refreshRepoRegistryFromStore().catch(() => undefined);
+  // Warm the recent-drops cache so the global Ticker can surface freshly-listed
+  // /drop repos as NEW. 30s-rate-limited + deduped inside, so it's near-free.
+  await refreshRecentDropsFromStore().catch(() => undefined);
 
   const clerkPublishableKey = getClerkPublishableKey();
 

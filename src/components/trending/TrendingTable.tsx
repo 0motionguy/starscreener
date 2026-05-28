@@ -19,6 +19,8 @@ interface TrendingTableProps {
   category?: CategoryId;
   language?: string;
   sort?: string;
+  /** Lowercased fullNames listed in the last 24h — floated to the top + badged NEW. */
+  newSet?: Set<string>;
 }
 
 const PERIODS: WindowId[] = ["24h", "7d", "30d"];
@@ -31,8 +33,18 @@ export function TrendingTable({
   category = "repos",
   language = "all",
   sort = "momentum",
+  newSet,
 }: TrendingTableProps) {
-  const top = repos.slice(0, limit);
+  // Float freshly-dropped repos to the top so a NEW listing is visible without
+  // scrolling (relative order preserved within each group).
+  const ordered =
+    newSet && newSet.size > 0
+      ? [
+          ...repos.filter((r) => newSet.has(r.fullName.toLowerCase())),
+          ...repos.filter((r) => !newSet.has(r.fullName.toLowerCase())),
+        ]
+      : repos;
+  const top = ordered.slice(0, limit);
   const fresh = fetchedAt ? classifyFreshness("repos", fetchedAt) : null;
   const freshCls = fresh?.status === "live" ? "fresh-live" : fresh?.status === "warn" ? "fresh-warm" : "fresh-cold";
   const windowLabel = timeWindow.toUpperCase();
@@ -128,6 +140,9 @@ export function TrendingTable({
                         <span className="repo-owner">{owner}/</span>
                         {name}
                       </Link>
+                      {newSet?.has(repo.fullName.toLowerCase()) ? (
+                        <span className="new-badge">NEW</span>
+                      ) : null}
                       <div className="repo-desc">{repo.description || "No description published."}</div>
                     </div>
                   </div>

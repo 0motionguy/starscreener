@@ -157,7 +157,7 @@ interface GithubOwnerUser {
 
 // --- helpers ---------------------------------------------------------------
 
-function payloadSlug(fullName: string): string {
+export function payloadSlug(fullName: string): string {
   return `repo-community:${fullName.toLowerCase().replace('/', '__')}`;
 }
 
@@ -390,7 +390,7 @@ async function fetchOwnerProfile(
  * fails (e.g. 401/403/404) — every other endpoint degrades to null / [] but
  * the assembled profile still ships.
  */
-async function fetchProfile(
+export async function fetchProfile(
   ctx: FetcherContext,
   fullName: string,
   token: string | undefined,

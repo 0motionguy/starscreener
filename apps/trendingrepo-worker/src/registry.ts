@@ -52,10 +52,21 @@ import aiBlogs from './fetchers/ai-blogs/index.js';
 // required). The /?cat=llms surface clones the AA leaderboard.
 import lmarena from './fetchers/lmarena/index.js';
 import artificialanalysis from './fetchers/artificialanalysis/index.js';
+// OpenRouter model marketplace — catalogue (pricing/context/modality/created)
+// joined with live weekly-usage rank. Powers the /?cat=models adoption surface
+// (complement to the AA quality leaderboard on /?cat=llms). 6-hourly, public
+// APIs, no key. Full-catalogue snapshot with shouldPreserveCache zero-write
+// guard.
+import openrouterModels from './fetchers/openrouter-models/index.js';
 // DORP intake-queue consumer — drains `queue:drop-a-repo` every minute and
 // calls back to the Vercel /enrich endpoint to run the existing pipeline
 // ingest. See header for the producer/consumer contract.
 import dropIntakeDrain from './fetchers/drop-intake-drain/index.js';
+// DORP deep-enrich consumer — drains `queue:drop-deep-enrich` every minute and
+// builds the community profile + LLM editorial overview for a freshly-listed
+// drop NOW (instead of waiting for the daily community-profile sweep). Producer
+// is the app's /enrich endpoint (LPUSH on status → listed).
+import dropDeepEnrichDrain from './fetchers/drop-deep-enrich-drain/index.js';
 // Repo-first cross-source mention sweep — for the top-100 (consensus-trending),
 // searches HN/Reddit/dev.to/Bluesky/ProductHunt(+Tavily) per repo and publishes
 // `repo-mentions-detail-rollup` to redis (the detail behind profile source pips).
@@ -123,7 +134,9 @@ export const FETCHERS: Fetcher[] = [
   aiBlogs,
   lmarena,
   artificialanalysis,
+  openrouterModels,
   dropIntakeDrain,
+  dropDeepEnrichDrain,
   crossSourceSweep,
   repoRegistry,
   repoCommunityProfile,

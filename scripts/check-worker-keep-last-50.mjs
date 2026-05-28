@@ -76,6 +76,7 @@ const ALLOW = new Map([
   ['mentions-ledger', 'Snapshot writer reads existing then merges (see mergeLedgerSnapshot); manual pattern that satisfies the rule.'],
   ['cross-source-sweep', 'Uses mergeRollupRepos for monotonic countLifetime accumulation; manual pattern that satisfies the rule.'],
   ['drop-intake-drain', 'Queue consumer; no on-disk cache to keep-50.'],
+  ['drop-deep-enrich-drain', 'Queue consumer; per-repo slug writes (repo-community:*, repo-editorial:*) and skips the write when fetchProfile/runRepoEditorial returns null, so a key is never zeroed. No single accumulating slug.'],
   ['npm-downloads', 'Daily telemetry snapshot.'],
   ['pypi-downloads', 'Daily telemetry snapshot.'],
   ['npm-dependents', 'Daily snapshot.'],

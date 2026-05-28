@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
+import { enqueueDeepEnrich } from "@/lib/repo-intake-queue";
 import { runScanChannels, SCAN_CHANNEL_COUNT } from "@/lib/repo-scan-channels";
 import {
   getRepoSubmissionById,
@@ -132,6 +134,30 @@ export async function POST(
       { ok: false, error: "submission disappeared mid-enrich" },
       { status: 500 },
     );
+  }
+
+  // A freshly-listed drop should pop as NEW on the home surfaces + drop feed
+  // without waiting for the 30-min ISR window (the recent-drops slug was written
+  // by recordRecentDrop inside the intake path above).
+  if (intakeOk && after.status === "listed") {
+    // Kick off deep enrichment (community profile + LLM editorial overview) for
+    // this one repo immediately — the worker drains `queue:drop-deep-enrich`.
+    // Best-effort: never fail the enrich response on a queue hiccup.
+    try {
+      await enqueueDeepEnrich({
+        submissionId: id,
+        fullName: after.normalizedFullName,
+        enqueuedAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.warn("[enrich] enqueueDeepEnrich failed for", id, err);
+    }
+    try {
+      revalidatePath("/");
+      revalidatePath("/drop");
+    } catch (err) {
+      console.warn("[enrich] revalidatePath failed for", id, err);
+    }
   }
 
   const publicShape = toPublicRepoSubmission(after);

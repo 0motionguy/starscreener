@@ -15,6 +15,7 @@ import {
   manualRepoRecordFromRepo,
   upsertManualRepoRecord,
 } from "@/lib/manual-repos";
+import { recordRecentDrop } from "@/lib/recent-drops";
 
 export interface RepoIntakeSummary {
   submissionId: string;
@@ -103,6 +104,18 @@ export async function runRepoIntakeForSubmission(
       matchesFound,
       repoPath,
     });
+
+    // Surface this freshly-listed repo as NEW across the app (ticker /
+    // featured / trending). Best-effort — a store hiccup must never fail intake.
+    try {
+      await recordRecentDrop({
+        fullName: ingest.repo.fullName,
+        listedAt: scannedAt,
+        avatarUrl: ingest.repo.ownerAvatarUrl,
+      });
+    } catch (err) {
+      console.warn("[repo-intake] recordRecentDrop failed", err);
+    }
 
     return {
       submissionId: submission.id,

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
+import { refreshRecentDropsFromStore, getNewFullNameSet } from "@/lib/recent-drops";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
@@ -12,9 +13,19 @@ import {
 } from "@/lib/category-adapters";
 import { refreshAaLlmsFromStore, getAaLlmsRanked, getAaLlmsFile } from "@/lib/aa-llms";
 import {
+  refreshOpenrouterFromStore,
+  getOpenrouterFile,
+  getOpenrouterRanked,
+  getOpenrouterStats,
+  buildModelGrowthSeries,
+} from "@/lib/openrouter";
+import {
   LlmsLeaderboardTable,
   FeaturedLlms,
 } from "@/components/llms/LlmsLeaderboardTable";
+import { ModelsSection } from "@/components/models/ModelsSection";
+import { buildItemListJsonLd } from "@/lib/seo/structured-data";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
 import {
   refreshTrendshiftFromStore,
@@ -68,10 +79,16 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
   // cheap to call on every render.
   await refreshAaLlmsFromStore().catch(() => undefined);
+  // Always refresh the OpenRouter catalogue so the Models tab pill count is
+  // honest from any view (30s rate-limit + dedupe inside — cheap per render).
+  await refreshOpenrouterFromStore().catch(() => undefined);
   // Hydrate per-source mention caches + cross-source detail so the repo rows'
   // source pips reflect live redis data (not a cold cache). Each refresh is
   // 30s rate-limited + in-flight-deduped, so this is cheap per render.
   await refreshAllMentionStores().catch(() => undefined);
+  // Freshly-listed /drop repos surface as NEW (ticker / featured / trending).
+  // 30s-rate-limited + deduped inside the reader, so cheap per render.
+  await refreshRecentDropsFromStore().catch(() => undefined);
   if (category !== "repos" && category !== "llms") {
     await refreshCategoryFromStore(category).catch(() => undefined);
   } else if (category === "repos" && ranker === "trend") {
@@ -123,21 +140,51 @@ export default async function TrendingHubPage({ searchParams }: Props) {
     repos: safe(() => getDerivedRepoCount(), repos.length),
     agents: counts?.agentRepos ?? 0,
     llms: safe(() => getAaLlmsFile().models.length, 0),
+    models: safe(() => getOpenrouterFile().models.length, 0),
   };
 
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
+  // NEW set drives the featured pin + trending float/badge for repos that
+  // dropped in the last 24h. Empty set when nothing recent / store cold.
+  const newSet = safe(() => getNewFullNameSet(), new Set<string>());
 
   const aaRows =
     category === "llms" ? safe(() => getAaLlmsRanked(200), []) : [];
+
+  // OpenRouter Models tab data — only materialised when the tab is active.
+  const orRows =
+    category === "models" ? safe(() => getOpenrouterRanked(500), []) : [];
+  const orStats = category === "models" ? safe(() => getOpenrouterStats(), null) : null;
+  const orGrowth =
+    category === "models" && orRows.length > 0
+      ? buildModelGrowthSeries(orRows)
+      : { data: [], authors: [] };
+  const orFetchedAt =
+    category === "models" ? safe(() => getOpenrouterFile().fetchedAt, "") : "";
+  // ItemList JSON-LD — the top-used models, so answer engines can cite the
+  // Models surface for "most-used AI models" style queries. Each item points
+  // to its canonical OpenRouter model page.
+  const orJsonLd =
+    category === "models" && orRows.length > 0
+      ? buildItemListJsonLd(
+          "Most-used AI models on OpenRouter",
+          "/?cat=models",
+          orRows.slice(0, 20).map((m) => ({
+            name: m.name,
+            path: `https://openrouter.ai/${m.id}`,
+            description: orModelDesc(m),
+          })),
+        )
+      : null;
 
   return (
     <div className="route-shell">
       <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
 
-      {category === "llms" ? (
+      {category === "models" ? null : category === "llms" ? (
         <FeaturedLlms rows={aaRows} />
       ) : (
-        <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} />
+        <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} newSet={newSet} />
       )}
 
       <TrendingControlBar
@@ -148,7 +195,19 @@ export default async function TrendingHubPage({ searchParams }: Props) {
         counts={switcherCounts}
       />
 
-      {category === "llms" ? (
+      {category === "models" ? (
+        orStats ? (
+          <>
+            <JsonLd data={orJsonLd} />
+            <ModelsSection
+              rows={orRows}
+              stats={orStats}
+              growth={orGrowth}
+              fetchedAt={orFetchedAt}
+            />
+          </>
+        ) : null
+      ) : category === "llms" ? (
         <LlmsLeaderboardTable rows={aaRows} showFeatured={false} />
       ) : (
         <TrendingTable
@@ -159,6 +218,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
           category={category}
           language={language}
           sort={sort}
+          newSet={newSet}
         />
       )}
     </div>
@@ -259,6 +319,23 @@ function safe<T>(fn: () => T, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+// Plain-text description for the Models ItemList JSON-LD entries.
+function orModelDesc(m: {
+  author: string;
+  contextLength: number;
+  priceInPerM: number | null;
+}): string {
+  const parts: string[] = [m.author];
+  if (m.contextLength >= 1_000_000) {
+    parts.push(`${(m.contextLength / 1_000_000).toFixed(m.contextLength % 1_000_000 === 0 ? 0 : 1)}M context`);
+  } else if (m.contextLength >= 1_000) {
+    parts.push(`${Math.round(m.contextLength / 1_000)}K context`);
+  }
+  if (m.priceInPerM === 0) parts.push("free");
+  else if (m.priceInPerM !== null) parts.push(`$${m.priceInPerM}/1M input`);
+  return parts.join(" · ");
 }
 
 function cleanQueryPage(input: Record<string, string>): Record<string, string> {

@@ -54,6 +54,50 @@ async function checkUrl(path) {
   }
 }
 
+// Ask Perplexity the target question and report whether trendingrepo.com is in
+// the cited sources. This boolean — across the target queries — is the real GEO
+// KPI (are AI engines citing us?), not search rank. Key-gated: only runs when
+// PERPLEXITY_API_KEY is set, so CI / offline runs stay key-free.
+async function checkCitation(query) {
+  const key = process.env.PERPLEXITY_API_KEY;
+  try {
+    const res = await fetch("https://api.perplexity.ai/chat/completions", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${key}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: process.env.PERPLEXITY_MODEL || "sonar",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Answer concisely and cite your sources. The user is researching trending open-source projects.",
+          },
+          { role: "user", content: query },
+        ],
+      }),
+    });
+    if (!res.ok) return { error: `HTTP ${res.status}` };
+    const data = await res.json();
+    // Perplexity returns top-level `citations` (array of URLs) and/or
+    // `search_results` ([{url,...}]). Collect both, defensively.
+    const sources = [
+      ...(Array.isArray(data.citations) ? data.citations : []),
+      ...(Array.isArray(data.search_results)
+        ? data.search_results.map((s) => s?.url).filter(Boolean)
+        : []),
+    ];
+    const cited = sources.some(
+      (u) => typeof u === "string" && u.includes("trendingrepo.com"),
+    );
+    return { cited, sources };
+  } catch (err) {
+    return { error: String(err?.message || err) };
+  }
+}
+
 async function main() {
   console.log(`\nGEO citation-contract probe → ${BASE}\n`);
   let ok = 0;
@@ -70,12 +114,40 @@ async function main() {
   }
   console.log(`\n${ok}/${TARGETS.length} canonical answer URLs return 200. ${bad ? `${bad} BROKEN.` : "Contract intact."}\n`);
 
-  // --- Optional citation check (manual / future) -------------------------
-  // For each query, ask Perplexity (PERPLEXITY_API_KEY) or Google AI and check
-  // whether the cited sources include trendingrepo.com. Record the hit rate
-  // over time — that is the GEO KPI. Left unwired so this script stays
-  // key-free and CI-safe; enable behind an env flag when ready.
+  // --- Citation check (the GEO KPI) — key-gated -------------------------
+  // Runs only when PERPLEXITY_API_KEY is set, so CI / offline stays key-free.
+  if (process.env.PERPLEXITY_API_KEY) {
+    console.log("GEO citation check (Perplexity) — is trendingrepo.com cited?\n");
+    let hits = 0;
+    let asked = 0;
+    let errors = 0;
+    for (const [query] of TARGETS) {
+      asked++;
+      const r = await checkCitation(query);
+      if (r.error) {
+        errors++;
+        console.log(`??    [${r.error}] Q: "${query}"`);
+      } else {
+        if (r.cited) hits++;
+        console.log(`${r.cited ? "CITED" : "miss "} Q: "${query}"`);
+      }
+      // Gentle on rate limits.
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+    }
+    const measured = asked - errors;
+    console.log(
+      `\nGEO citation hit-rate: ${hits}/${measured} measured queries cite trendingrepo.com` +
+        (errors ? ` (${errors} errored)` : "") +
+        "\n",
+    );
+  } else {
+    console.log(
+      "(citation check skipped — set PERPLEXITY_API_KEY to measure AI-engine citations)\n",
+    );
+  }
 
+  // Exit status reflects the CONTRACT only; the citation check is informational
+  // so it never fails CI.
   process.exit(bad > 0 ? 1 : 0);
 }
 

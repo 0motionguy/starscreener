@@ -98,6 +98,67 @@ async function checkCitation(query) {
   }
 }
 
+// Fallback when there's no Perplexity key: ask NanoGPT (OpenAI-compatible,
+// kimi-k2.6 by default — the worker's LLM). NOTE: this is a plain LLM with NO
+// live web search, so it measures whether the model SURFACES trendingrepo.com
+// from its training knowledge, not live AI-search citation. Honest, cheaper
+// baseline ("are we in the model's mental map yet?"). Streams (kimi-k2.6 stalls
+// on non-stream) and scans the answer text for a trendingrepo mention.
+async function checkMentionNanoGpt(query) {
+  const key = process.env.NANOGPT_API_KEY;
+  const base = process.env.NANOGPT_BASE_URL || "https://nano-gpt.com/api/v1";
+  const model = process.env.NANOGPT_MODEL || "moonshotai/kimi-k2.6";
+  try {
+    const res = await fetch(`${base}/chat/completions`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        model,
+        max_tokens: 700,
+        temperature: 0.3,
+        stream: true,
+        messages: [
+          {
+            role: "system",
+            content:
+              "Answer concisely. Recommend specific open-source projects, and if you know a good website or resource for discovering or tracking trending open-source repositories, name it explicitly.",
+          },
+          { role: "user", content: query },
+        ],
+      }),
+    });
+    if (!res.ok || !res.body) return { error: `HTTP ${res.status}` };
+    let text = "";
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split("\n");
+      buf = lines.pop() || "";
+      for (const line of lines) {
+        const t = line.trim();
+        if (!t.startsWith("data:")) continue;
+        const payload = t.slice(5).trim();
+        if (!payload || payload === "[DONE]") continue;
+        try {
+          const j = JSON.parse(payload);
+          const d = j.choices?.[0]?.delta?.content;
+          if (d) text += d;
+        } catch {
+          /* ignore non-JSON keepalive lines */
+        }
+      }
+    }
+    const cited = /trendingrepo/i.test(text);
+    return { cited, sources: cited ? ["(named in answer text)"] : [] };
+  } catch (err) {
+    return { error: String(err?.message || err) };
+  }
+}
+
 async function main() {
   console.log(`\nGEO citation-contract probe → ${BASE}\n`);
   let ok = 0;
@@ -116,33 +177,43 @@ async function main() {
 
   // --- Citation check (the GEO KPI) — key-gated -------------------------
   // Runs only when PERPLEXITY_API_KEY is set, so CI / offline stays key-free.
-  if (process.env.PERPLEXITY_API_KEY) {
-    console.log("GEO citation check (Perplexity) — is trendingrepo.com cited?\n");
+  const citeProvider = process.env.PERPLEXITY_API_KEY
+    ? "perplexity"
+    : process.env.NANOGPT_API_KEY
+      ? "nanogpt"
+      : null;
+  if (citeProvider) {
+    const label =
+      citeProvider === "perplexity"
+        ? "Perplexity — trendingrepo.com in cited sources?"
+        : `NanoGPT (${process.env.NANOGPT_MODEL || "moonshotai/kimi-k2.6"}) — trendingrepo.com surfaced in answer? (no live search)`;
+    console.log(`GEO citation check via ${label}\n`);
+    const probe = citeProvider === "perplexity" ? checkCitation : checkMentionNanoGpt;
     let hits = 0;
     let asked = 0;
     let errors = 0;
     for (const [query] of TARGETS) {
       asked++;
-      const r = await checkCitation(query);
+      const r = await probe(query);
       if (r.error) {
         errors++;
         console.log(`??    [${r.error}] Q: "${query}"`);
       } else {
         if (r.cited) hits++;
-        console.log(`${r.cited ? "CITED" : "miss "} Q: "${query}"`);
+        console.log(`${r.cited ? "HIT  " : "miss "} Q: "${query}"`);
       }
-      // Gentle on rate limits.
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     const measured = asked - errors;
+    const metric = citeProvider === "perplexity" ? "citation" : "LLM-mention";
     console.log(
-      `\nGEO citation hit-rate: ${hits}/${measured} measured queries cite trendingrepo.com` +
+      `\nGEO ${metric} hit-rate: ${hits}/${measured} queries surface trendingrepo.com` +
         (errors ? ` (${errors} errored)` : "") +
         "\n",
     );
   } else {
     console.log(
-      "(citation check skipped — set PERPLEXITY_API_KEY to measure AI-engine citations)\n",
+      "(citation check skipped — set PERPLEXITY_API_KEY or NANOGPT_API_KEY to measure)\n",
     );
   }
 

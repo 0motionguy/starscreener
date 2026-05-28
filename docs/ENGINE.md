@@ -1,12 +1,14 @@
 ---
-last-verified: 2026-05-05
+last-verified: 2026-05-27
 verified-by: claude
 status: living
 ---
 
 # ENGINE - STARSCREENER workflow + cron + key inventory
 
-Last derived from filesystem on 2026-05-05. Direct re-derivation:
+Worker section (§3) re-derived 2026-05-27 after the registry-aware
+enrichment hardening; GH Actions + cron-route sections last derived
+2026-05-05. Direct re-derivation:
 
 - Workflows: `Glob .github/workflows/*.yml` (count = 63)
 - Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 15)
@@ -143,7 +145,15 @@ them on a schedule today.
 
 ---
 
-## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers
+## 3. Worker (apps/trendingrepo-worker/) - ~41 active fetchers
+
+> **2026-05-27 update:** registry-aware enrichment cascade landed. New
+> fetchers: `repo-registry` (:47), `repo-community-profile` (:33),
+> `star-activity` (4:17 daily), plus `mentions-ledger` (4×/hr) finished its
+> snapshot-flatten step. Shared primitives at
+> `apps/trendingrepo-worker/src/lib/util/{cache-merge,registry-candidates}.ts`.
+> Zero-write hazard lint at `scripts/check-worker-keep-last-50.mjs`. Full
+> record: `docs/WORKER-HARDENING-2026-05-27.md`.
 
 Source: `apps/trendingrepo-worker/src/registry.ts` (`FETCHERS[]`) +
 each fetcher's `index.ts`. Schedules are 5-field UTC cron strings used
@@ -210,10 +220,34 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | npm-packages | `17 9 * * *` | `npm-packages` | matches scrape-npm.yml lag window |
 | x-funding | `30 0,12 * * *` | `x-funding` | 2x/day |
 | glama | `15 */6 * * *` | `glama` | |
+| repo-registry | `47 * * * *` | `repo-registry` | NEW 2026-05-27: persistent accumulating registry (LRU cap 2000, never drops). Reads trending (authoritative) + fill-only from metadata/consensus/recent. App folds via `src/lib/derived-repos/loaders/registry.ts`. |
+| repo-community-profile | `33 * * * *` | `repo-community:{o}__{n}` (per-repo) | NEW 2026-05-27: 6-endpoint GH community fan-out (license/languages/README/org/etc.) for registry top-N selected ASC by lastSeenAt+fullName tiebreak. 24h TTL. Cooperates with on-demand `src/lib/repo-community-profile.ts` (last-write-wins). Env: `COMMUNITY_PROFILE_LIMIT` (def 25, max 300). |
+| star-activity | `17 4 * * *` | `star-activity:{o}__{n}` (per-repo) | NEW 2026-05-27: daily forward-append of cumulative stars for the registry tier (GH Action `append-star-activity.mjs` covers trending tier only). Env: `STAR_ACTIVITY_LIMIT` (def 50, max 200). |
+| mentions-ledger | `*/15 * * * *` (4×/hr) | `mentions-ledger` | Cumulative lifetime mention snapshot; reads HN/Reddit/Bluesky/Dev.to/Lobsters snapshot slugs, SADD+HINCRBY new mention IDs, flattens to the snapshot slug the app decorator reads. |
 
 Worker entrypoint: `apps/trendingrepo-worker/src/index.ts` (`--cron` mode).
-Health endpoint: `src/server.ts`. Deploy: Railway, image built per
-`Dockerfile`, scanned weekly by trivy-worker-image.yml.
+Health endpoint: `src/server.ts`. **Deploy: TOOLBOX (193.53.40.118)** — a
+locally-built OCI image (`toolbox-trendingrepo-worker:vps-<ts>-<sha>`)
+loaded onto the box + compose-tag-bumped, NOT Railway (Railway deleted
+2026-05-26). See `reference_toolbox_worker_deploy.md`. Still scanned by
+trivy-worker-image.yml in CI.
+
+### 3a. Shared worker primitives (2026-05-27)
+
+- `src/lib/util/cache-merge.ts` — `mergeAndCap()` + `shouldPreserveCache()`
+  + `caseInsensitiveKey()`. The "never empty the cache" rule as a pure
+  function. New fetchers that read→union→cap should import this.
+- `src/lib/util/registry-candidates.ts` — `rankedRegistryFullNames(reg,
+  limit, order?)` + `unionOrderedFullNames()` + `extractTrendingFullNames()`.
+  Candidate selection from registry+trending. `order='asc'` for dropped-tail
+  enrichment; includes a `fullName` tiebreaker (the registry tick stamps
+  ~700 repos with the same `lastSeenAt`, so a single-key sort is
+  non-deterministic).
+- `scripts/check-worker-keep-last-50.mjs` — CI lint (in `lint:guards`) that
+  fails any fetcher writing without a merge primitive unless allow-listed.
+  11 fetchers are `AUDIT-PENDING-2026-05-27` (bluesky/hackernews/devto/
+  lobsters/twitter/oss-trending/collection-rankings/consensus-trending/
+  repo-metadata/repo-profiles) — migration backlog.
 
 ---
 

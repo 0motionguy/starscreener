@@ -32,6 +32,19 @@ function formatDate(iso: string | null | undefined): string {
   return `${yyyy}-${mm}-${dd}`;
 }
 
+/** Renders a machine-readable <time datetime> when the iso is valid, else a
+ *  plain span with the fallback text. Gives answer engines structured
+ *  temporal data without faking a timestamp we don't have. */
+function DateValue({ iso, text }: { iso: string | null | undefined; text: string }) {
+  const ts = iso ? Date.parse(iso) : NaN;
+  if (!Number.isFinite(ts)) return <span className="val">{text}</span>;
+  return (
+    <time className="val" dateTime={new Date(ts).toISOString()}>
+      {text}
+    </time>
+  );
+}
+
 export function RepoDatesFooter({ repo, events }: RepoDatesFooterProps) {
   const latestPushIso =
     events?.find((e) => e.type === "PushEvent")?.createdAt ??
@@ -49,15 +62,15 @@ export function RepoDatesFooter({ repo, events }: RepoDatesFooterProps) {
     <section className="pf-card pf-dates">
       <div className="item">
         <span className="lbl">Created</span>
-        <span className="val">{formatDate(repo.createdAt)}</span>
+        <DateValue iso={repo.createdAt} text={formatDate(repo.createdAt)} />
       </div>
       <div className="item">
         <span className="lbl">Updated</span>
-        <span className="val">{ageLabel(updatedIso)}</span>
+        <DateValue iso={updatedIso} text={ageLabel(updatedIso)} />
       </div>
       <div className="item">
         <span className="lbl">Last commit</span>
-        <span className="val">{ageLabel(latestPushIso)}</span>
+        <DateValue iso={latestPushIso} text={ageLabel(latestPushIso)} />
       </div>
     </section>
   );

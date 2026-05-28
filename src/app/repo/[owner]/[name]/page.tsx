@@ -46,6 +46,9 @@ import {
   getConsensusVerdictsPayload,
 } from "@/lib/consensus-verdicts";
 import { buildRepoJsonLd } from "@/lib/seo/repo-jsonld";
+import { buildBreadcrumbJsonLd, buildFaqJsonLd } from "@/lib/seo/structured-data";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getCategoryMeta } from "@/lib/categories";
 import { getOptionalUser } from "@/lib/auth/server";
 import type { CrossSourceChannel, Repo } from "@/lib/types";
 
@@ -61,6 +64,8 @@ import {
 } from "@/components/repo/RepoStarChart";
 import { RelatedReposCard } from "@/components/repo/RelatedReposCard";
 import { RepoCommentsThread } from "@/components/repo/RepoCommentsThread";
+import { RepoFaq, buildFaq } from "@/components/repo/RepoFaq";
+import { RepoDatesFooter } from "@/components/repo/RepoDatesFooter";
 
 import { ProfileFooter } from "@/components/layout/ProfileFooter";
 
@@ -97,7 +102,10 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return {
-    title: `${full} — TrendingRepo`,
+    // Value-forward title (CTR): bare repo-name titles lose to GitHub itself
+    // on name queries. `absolute` bypasses the layout's "%s — TrendingRepo"
+    // template so the keywords aren't pushed past Google's ~60-char cutoff.
+    title: { absolute: `${full} — stars, momentum & trend analysis · TrendingRepo` },
     description,
     openGraph: {
       title: `${full} — TrendingRepo`,
@@ -319,12 +327,32 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
 
   const jsonLd = buildRepoJsonLd(repo, consensusItem, consensusComputedAt);
 
+  // FAQ + breadcrumb structured data. FAQ entries are shared with the
+  // rendered <RepoFaq> (same buildFaq) so the FAQPage text matches the DOM;
+  // RepoFaq hides itself below 3 answerable Q's, so mirror that gate here.
+  const faqEntries = buildFaq({ repo, community, profile });
+  const faqLd =
+    faqEntries.length >= 3
+      ? buildFaqJsonLd(faqEntries.map((e) => ({ q: e.q, a: e.text })))
+      : null;
+  const categoryMeta = getCategoryMeta(repo.categoryId);
+  const breadcrumbLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Categories", path: "/categories" },
+    ...(categoryMeta
+      ? [{ name: categoryMeta.name, path: `/categories/${categoryMeta.id}` }]
+      : []),
+    { name: repo.fullName, path: `/repo/${repo.owner}/${repo.name}` },
+  ]);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <JsonLd data={breadcrumbLd} />
+      <JsonLd data={faqLd} />
       <div className="pf-main-inner">
         {/* 1. Hero — full width. Pulse card removed: constellation/firing
             data is sparse for most repos and the empty state read as
@@ -375,7 +403,10 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
         {/* 5. Related repos */}
         <RelatedReposCard repo={repo} related={related} />
 
-        {/* 6. Comments */}
+        {/* 6. FAQ — crawlable Q&A (mirrors the FAQPage JSON-LD above) */}
+        <RepoFaq repo={repo} community={community} profile={profile} />
+
+        {/* 7. Comments */}
         <RepoCommentsThread
           repoFullName={fullName}
           comments={comments}
@@ -383,6 +414,9 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
           currentUserId={clerkUserId}
           signInUrl={signInUrl}
         />
+
+        {/* 8. Dates — closing card with machine-readable <time> */}
+        <RepoDatesFooter repo={repo} events={events} />
       </div>
       <ProfileFooter fetchedAt={fetchedAt} />
     </>

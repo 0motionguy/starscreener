@@ -23,6 +23,8 @@ interface RepoFaqProps {
 interface FaqEntry {
   q: string;
   a: JSX.Element | string;
+  /** Plain-text answer for FAQPage JSON-LD — must match what `a` renders. */
+  text: string;
 }
 
 function formatDate(iso: string | null | undefined): string | null {
@@ -36,6 +38,14 @@ function formatDate(iso: string | null | undefined): string | null {
   });
 }
 
+function hostOf(url: string): string {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return url;
+  }
+}
+
 function maintenanceVerdict(repo: Repo): string {
   const v = classifyFreshness("repos", repo.lastCommitAt);
   if (v.ageMs === null) return "unknown — no recent commit data";
@@ -44,7 +54,7 @@ function maintenanceVerdict(repo: Repo): string {
   return "stalled — no commits for an extended period";
 }
 
-function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
+export function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
   const out: FaqEntry[] = [];
 
   // 1. What is this repo?
@@ -52,6 +62,7 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
     out.push({
       q: `What is ${repo.fullName}?`,
       a: repo.description.trim(),
+      text: repo.description.trim(),
     });
   }
 
@@ -81,6 +92,11 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
         .
       </>
     ),
+    text: `Maintained by ${ownerLabel} (${ownerType}) on GitHub${
+      community?.ownerProfile?.publicRepos
+        ? ` · ${community.ownerProfile.publicRepos.toLocaleString()} public repos`
+        : ""
+    }.`,
   });
 
   // 3. What's the primary language?
@@ -92,6 +108,7 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
     out.push({
       q: `What language is ${repo.name} written in?`,
       a: `Primarily ${repo.language}.${breakdown}`,
+      text: `Primarily ${repo.language}.${breakdown}`,
     });
   }
 
@@ -102,6 +119,9 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
     out.push({
       q: `When was ${repo.name} created? When was the last update?`,
       a: `${created ? `Created ${created}` : "Creation date unknown"}${
+        updated ? ` · last commit ${updated}.` : "."
+      }`,
+      text: `${created ? `Created ${created}` : "Creation date unknown"}${
         updated ? ` · last commit ${updated}.` : "."
       }`,
     });
@@ -129,6 +149,7 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
           .
         </>
       ),
+      text: `Install from npm: npm install ${npmPkg}. Or visit npmjs.com/package/${npmPkg}.`,
     });
   } else {
     out.push({
@@ -142,13 +163,16 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
           Then follow the README in the cloned directory.
         </>
       ),
+      text: `Clone the repo: git clone https://github.com/${repo.fullName}.git — then follow the README in the cloned directory.`,
     });
   }
 
   // 6. Active maintenance?
+  const maintenance = maintenanceVerdict(repo);
   out.push({
     q: `Is ${repo.name} actively maintained?`,
-    a: maintenanceVerdict(repo),
+    a: maintenance,
+    text: maintenance,
   });
 
   // 7. License?
@@ -170,6 +194,7 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
       ) : (
         `${community.license.name} (${community.license.spdxId}).`
       ),
+      text: `${community.license.name} (${community.license.spdxId}).`,
     });
   }
 
@@ -215,6 +240,9 @@ function buildFaq({ repo, community, profile }: RepoFaqProps): FaqEntry[] {
           ) : null}
         </>
       ),
+      text: `${docsUrl ? `Documentation: ${hostOf(docsUrl)}. ` : ""}${
+        homepageUrl ? `Project homepage: ${hostOf(homepageUrl)}.` : ""
+      }`.trim(),
     });
   }
 

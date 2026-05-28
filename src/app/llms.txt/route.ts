@@ -56,6 +56,7 @@ export function GET(): Response {
 - [Research](${base}/research) - cited repos from arXiv and paper signals
 - [Categories](${base}/categories) - 15 curated buckets (AI Agents, MCP, DevTools, Local LLM, Security, etc.)
 - [Best-of guides](${base}/best) - curated, regularly-updated top-N rankings (best AI agents, AI coding assistants, MCP servers, local LLM tools, vector databases, ...)
+- [Glossary](${base}/glossary) - plain-English definitions (What is an AI agent? MCP? RAG? a vector database? a local LLM?) each paired with the trending projects behind it
 - [Collections](${base}/collections) - 28 curated OSS Insight collections
 
 ## Per-source feeds
@@ -122,6 +123,10 @@ Plausible LLM/agent queries paired with the canonical TrendingRepo URL that reso
 - "What's hot on Bluesky in tech?" -> ${base}/bluesky/trending
 - "Compare two GitHub repos by momentum?" -> ${base}/compare
 - "Open-source alternatives to <owner>/<repo>?" -> ${base}/alternatives/<owner>/<repo>
+- "What is an AI agent?" -> ${base}/glossary/ai-agent
+- "What is MCP / the Model Context Protocol?" -> ${base}/glossary/mcp
+- "What is RAG?" -> ${base}/glossary/rag
+- "What is a vector database?" -> ${base}/glossary/vector-database
 - "Curated lists of OSS by theme?" -> ${base}/collections
 
 ## Machine endpoints

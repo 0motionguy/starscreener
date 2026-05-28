@@ -25,6 +25,7 @@
 
 import { CATEGORIES } from "@/lib/constants";
 import { BEST_TOPICS } from "@/lib/best-topics";
+import { GLOSSARY } from "@/lib/glossary";
 import { getAllPostsMeta } from "@/lib/blog";
 import { loadAllCollections } from "@/lib/collections";
 import { absoluteUrl } from "@/lib/seo";
@@ -67,6 +68,7 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/categories", priority: 0.8, changefreq: "daily" },
   { path: "/best", priority: 0.85, changefreq: "daily" },
   { path: "/blog", priority: 0.8, changefreq: "daily" },
+  { path: "/glossary", priority: 0.75, changefreq: "weekly" },
   { path: "/collections", priority: 0.8, changefreq: "daily" },
   { path: "/hackernews/trending", priority: 0.8, changefreq: "hourly" },
   { path: "/bluesky/trending", priority: 0.75, changefreq: "daily" },
@@ -158,6 +160,17 @@ export function GET(): Response {
           caption: t.blurb,
         },
       ],
+    });
+  }
+
+  // 3a2. Glossary terms — definitional pages, each with a dynamic OG image.
+  for (const t of GLOSSARY) {
+    entries.push({
+      loc: absoluteUrl(`/glossary/${t.slug}`),
+      lastmod: now,
+      changefreq: "monthly",
+      priority: 0.7,
+      images: [{ loc: absoluteUrl(`/glossary/${t.slug}/opengraph-image`), title: `What is ${t.term}?` }],
     });
   }
 

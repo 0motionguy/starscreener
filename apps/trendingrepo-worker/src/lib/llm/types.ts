@@ -15,7 +15,8 @@ export type LlmFeature =
   | 'agent_commerce'
   | 'aiso_scan'
   | 'idea_card'
-  | 'digest';
+  | 'digest'
+  | 'editorial';
 
 export type LlmTaskType =
   | 'item'

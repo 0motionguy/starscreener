@@ -16,6 +16,7 @@ import {
   refreshConsensusVerdictsFromStore,
   getConsensusItemReport,
 } from "@/lib/consensus-verdicts";
+import { refreshEditorialBestFromStore } from "@/lib/editorial-store";
 import {
   BEST_TOPIC_SLUGS,
   getBestTopic,
@@ -97,6 +98,7 @@ export default async function BestTopicPage({ params }: PageProps) {
     refreshRepoRegistryFromStore().catch(() => undefined),
     refreshAllMentionStores().catch(() => undefined),
     refreshConsensusVerdictsFromStore().catch(() => undefined),
+    refreshEditorialBestFromStore().catch(() => undefined),
   ]);
 
   const repos = (() => {

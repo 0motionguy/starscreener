@@ -82,6 +82,10 @@ import starActivity from './fetchers/star-activity/index.js';
 // primary analyst's hourly TOP_N=30 and the full 200-item pool that
 // consensus-trending publishes. Wave 3 — 2026-05-27.
 import consensusAnalystTail from './fetchers/consensus-analyst-tail/index.js';
+// LLM-written evergreen expert overviews for the /best/[topic] answer-surfaces
+// (GEO citation lever). Daily; writes `editorial-best`; app reads it via
+// src/lib/editorial-store.ts and prefers it over the deterministic intro.
+import editorialWriter from './fetchers/editorial-writer/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -125,6 +129,7 @@ export const FETCHERS: Fetcher[] = [
   repoCommunityProfile,
   starActivity,
   consensusAnalystTail,
+  editorialWriter,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

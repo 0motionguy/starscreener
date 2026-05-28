@@ -11,6 +11,7 @@
 // re-skinned table), with a deterministic data-grounded fallback otherwise.
 
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { getEditorialBest } from "@/lib/editorial-store";
 import type { FaqEntry } from "@/lib/seo/structured-data";
 import type { Repo } from "@/lib/types";
 
@@ -185,12 +186,21 @@ function todayLabel(): string {
 }
 
 export function buildBestIntro(topic: BestTopic, repos: Repo[]): string {
-  const lead = `This is our ranked list of the best ${topic.blurb}.`;
-  const method = ` Every project is open source and ranked by TrendingRepo's cross-source momentum score — GitHub star velocity weighted with live mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to — not by raw star count, so newer breakouts surface alongside the established leaders.`;
   const count =
     repos.length > 0
       ? ` ${repos.length} ${repos.length === 1 ? "project" : "projects"} qualified as of ${todayLabel()}.`
       : "";
+  // Prefer the LLM-written expert overview (worker `editorial-best` slug) when
+  // present — evergreen definitional prose answer-engines cite — then append
+  // the live qualifying count. Caller must have awaited
+  // refreshEditorialBestFromStore(). Falls back to the deterministic intro when
+  // no overview is stored (no Redis locally, or worker hasn't run yet).
+  const editorial = getEditorialBest(topic.slug);
+  if (editorial?.overview) {
+    return `${editorial.overview}${count}`;
+  }
+  const lead = `This is our ranked list of the best ${topic.blurb}.`;
+  const method = ` Every project is open source and ranked by TrendingRepo's cross-source momentum score — GitHub star velocity weighted with live mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to — not by raw star count, so newer breakouts surface alongside the established leaders.`;
   return `${lead}${method}${count}`;
 }
 

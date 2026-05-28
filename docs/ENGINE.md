@@ -177,7 +177,7 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | Fetcher | Schedule (UTC) | Output Redis key | Notes |
 |---|---|---|---|
 | hn-pulse | `*/10 * * * *` | `hn-pulse` | high-frequency HN signals |
-| consensus-analyst | `0 * * * *` | `consensus-analyst` | Kimi K2.6 driven; bounded concurrency 4 (~5 min wall) |
+| consensus-analyst | `0 * * * *` | `consensus-verdicts` | Kimi K2.6 driven; bounded concurrency 4 (~5 min wall). NEW 2026-05-27: each verdict now emits `tagline` (≤12 words) + `citations[]` (2–5 https URLs from a vetted per-source candidate list); schema fields optional for rolling-deploy compat. |
 | hackernews | `10 * * * *` | `hackernews` | |
 | oss-trending | `22 * * * *` | `oss-trending` | OSS Insight |
 | recent-repos | `25 * * * *` | `recent-repos` | |
@@ -224,6 +224,7 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | repo-community-profile | `33 * * * *` | `repo-community:{o}__{n}` (per-repo) | NEW 2026-05-27: 6-endpoint GH community fan-out (license/languages/README/org/etc.) for registry top-N selected ASC by lastSeenAt+fullName tiebreak. 24h TTL. Cooperates with on-demand `src/lib/repo-community-profile.ts` (last-write-wins). Env: `COMMUNITY_PROFILE_LIMIT` (def 25, max 300). |
 | star-activity | `17 4 * * *` | `star-activity:{o}__{n}` (per-repo) | NEW 2026-05-27: daily forward-append of cumulative stars for the registry tier (GH Action `append-star-activity.mjs` covers trending tier only). Env: `STAR_ACTIVITY_LIMIT` (def 50, max 200). |
 | mentions-ledger | `*/15 * * * *` (4×/hr) | `mentions-ledger` | Cumulative lifetime mention snapshot; reads HN/Reddit/Bluesky/Dev.to/Lobsters snapshot slugs, SADD+HINCRBY new mention IDs, flattens to the snapshot slug the app decorator reads. |
+| consensus-analyst-tail | `0 5 * * *` | `consensus-verdicts` | NEW 2026-05-27: daily deep-coverage sweep of consensus-trending ranks 31–200 minus already-verdicted items; reuses consensus-analyst's prompt + ItemReportSchema; bounded concurrency. Brings full 200-item pool under verdict coverage within ~3 days. Env: `CONSENSUS_TAIL_LIMIT` (def 60, max 120). |
 
 Worker entrypoint: `apps/trendingrepo-worker/src/index.ts` (`--cron` mode).
 Health endpoint: `src/server.ts`. **Deploy: TOOLBOX (193.53.40.118)** — a
@@ -248,6 +249,19 @@ trivy-worker-image.yml in CI.
   11 fetchers are `AUDIT-PENDING-2026-05-27` (bluesky/hackernews/devto/
   lobsters/twitter/oss-trending/collection-rankings/consensus-trending/
   repo-metadata/repo-profiles) — migration backlog.
+
+### 3b. App-side operator cron — github-pool-sweep (2026-05-27)
+
+`/api/cron/github-pool-sweep` (`src/app/api/cron/github-pool-sweep/route.ts`,
+`verifyCronAuth` bearer, `?dry=1` plan-only mode) DELs stale
+`pool:github:tokens:*` Redis keys — quarantined-then-rotated PAT state that
+otherwise lingers up to the 30-day hydration TTL. Pure planner in
+`src/lib/github-pool-sweeper.ts` with 48h/24h grace windows. Triggered by a
+TOOLBOX cron.d entry (`/etc/cron.d/trendingrepo-github-pool-sweep`, daily
+`33 4 * * *` UTC) curling `http://127.0.0.1:3023` — NOT a GH Action, because
+scheduled Actions only fire from the default branch and this work ships on
+`bot/swarm-a6-producthunt-reader` (164 commits ahead of main, intentionally
+unmerged).
 
 ---
 

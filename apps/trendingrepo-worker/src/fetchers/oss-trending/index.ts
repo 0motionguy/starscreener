@@ -166,23 +166,48 @@ const fetcher: Fetcher = {
     const trendsPayload: TrendingPayload = { fetchedAt, buckets };
     const hotPayload: HotCollectionsPayload = { fetchedAt, rows: hotRows };
 
-    const [trendsRes, hotRes] = await Promise.all([
-      writeDataStore('trending', trendsPayload),
-      writeDataStore('hot-collections', hotPayload),
-    ]);
+    // Zero-write guard — root-cause fix for the 2026-05-28 site-wide delta wipe.
+    // When api.ossinsight.io is fully down, every bucket fetch fails and comes
+    // back empty. Writing that empty payload OVERWRITES the last-known-good
+    // `trending` slug, which zeroes every repo's star-delta site-wide and forces
+    // the deltaless registry fallback ("—" + monogram everywhere). Preserve the
+    // existing slug instead — slightly-stale beats empty, same contract as the
+    // keep-last-50 collector rule. Only a TOTAL failure (totalRows === 0)
+    // triggers preservation; partial buckets still publish.
+    let trendsSource = 'preserved';
+    let hotSource = 'preserved';
+    if (totalRows > 0) {
+      const res = await writeDataStore('trending', trendsPayload);
+      trendsSource = res.source;
+    } else {
+      ctx.log.error(
+        'oss-trending: ALL buckets empty (api.ossinsight.io down?) — preserving last-known-good `trending` slug instead of overwriting with empty',
+      );
+      errors.push({
+        stage: 'guard-trending',
+        message: 'all buckets empty; preserved last-known-good trending slug',
+      });
+    }
+    if (hotRows.length > 0) {
+      const res = await writeDataStore('hot-collections', hotPayload);
+      hotSource = res.source;
+    } else {
+      ctx.log.warn(
+        'oss-trending: no hot collections this run — preserving last-known-good hot-collections slug',
+      );
+    }
 
     ctx.log.info(
       {
         totalRows,
         hotCollections: hotRows.length,
-        trendingRedis: trendsRes.source,
-        hotRedis: hotRes.source,
+        trendingRedis: trendsSource,
+        hotRedis: hotSource,
       },
       'oss-trending published',
     );
 
-    const redisPublished =
-      trendsRes.source === 'redis' && hotRes.source === 'redis';
+    const redisPublished = trendsSource === 'redis' && hotSource === 'redis';
     return done(startedAt, totalRows + hotRows.length, redisPublished, errors);
   },
 };

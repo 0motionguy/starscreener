@@ -384,6 +384,20 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     seenFullNames.add(normalized);
   }
 
+  // 1.9 Avatar floor — a GitHub owner avatar is deterministically derivable
+  // from the login (github.com/{owner}.png → 302 → avatars.githubusercontent),
+  // so a repo must NEVER fall back to a monogram just because the
+  // `repo-metadata` enrichment slug is cold/empty/stale. Root-cause fix for the
+  // mass-monogram regression: logos were sourced ONLY from repo-metadata, and
+  // when that slug went empty (worker stale) ~half the rows lost their logo.
+  // The <img> in FeaturedRepos/TrendingTable already monogram-falls-back on
+  // 404, so deriving is strictly safer than leaving it blank.
+  repos = repos.map((r) =>
+    r.ownerAvatarUrl || !r.owner
+      ? r
+      : { ...r, ownerAvatarUrl: `https://github.com/${r.owner}.png` },
+  );
+
   // 2. Classify first so scoreBatch's per-category averages use the real
   //    topic-derived categoryIds instead of the "other" placeholder.
   const classifications = classifyBatch(repos);

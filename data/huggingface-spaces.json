@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-28T04:55:03.356Z",
+  "fetchedAt": "2026-05-28T10:41:16.207Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -95,8 +95,8 @@
       "id": "victor/LongCat-Video-Avatar-1.5",
       "author": "victor",
       "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
-      "likes": 130,
-      "trendingScore": 125,
+      "likes": 133,
+      "trendingScore": 127,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -180,8 +180,8 @@
       "id": "webml-community/bonsai-image-webgpu",
       "author": "webml-community",
       "url": "https://huggingface.co/spaces/webml-community/bonsai-image-webgpu",
-      "likes": 81,
-      "trendingScore": 78,
+      "likes": 86,
+      "trendingScore": 83,
       "sdk": "static",
       "tags": [
         "static",
@@ -410,8 +410,8 @@
       "id": "selfit-camera/Omni-Image-Editor",
       "author": "selfit-camera",
       "url": "https://huggingface.co/spaces/selfit-camera/Omni-Image-Editor",
-      "likes": 1774,
-      "trendingScore": 46,
+      "likes": 1777,
+      "trendingScore": 47,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -423,6 +423,22 @@
     },
     {
       "rank": 26,
+      "id": "bytedance-research/Lance",
+      "author": "bytedance-research",
+      "url": "https://huggingface.co/spaces/bytedance-research/Lance",
+      "likes": 48,
+      "trendingScore": 47,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T05:42:54.000Z",
+      "lastModified": "2026-05-27T11:24:58.000Z",
+      "models": []
+    },
+    {
+      "rank": 27,
       "id": "FrameAI4687/Omni-Video-Factory",
       "author": "FrameAI4687",
       "url": "https://huggingface.co/spaces/FrameAI4687/Omni-Video-Factory",
@@ -438,7 +454,7 @@
       "models": []
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": "akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
       "author": "akhaliq",
       "url": "https://huggingface.co/spaces/akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
@@ -454,7 +470,7 @@
       "models": []
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": "multimodalart/z-image-6b-pixel-space",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/z-image-6b-pixel-space",
@@ -467,22 +483,6 @@
       ],
       "createdAt": "2026-05-22T12:46:34.000Z",
       "lastModified": "2026-05-22T19:37:35.000Z",
-      "models": []
-    },
-    {
-      "rank": 29,
-      "id": "bytedance-research/Lance",
-      "author": "bytedance-research",
-      "url": "https://huggingface.co/spaces/bytedance-research/Lance",
-      "likes": 43,
-      "trendingScore": 42,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-22T05:42:54.000Z",
-      "lastModified": "2026-05-27T11:24:58.000Z",
       "models": []
     },
     {
@@ -523,7 +523,7 @@
       "id": "Saravutw/Omni-Video-Factory-Iframe-API",
       "author": "Saravutw",
       "url": "https://huggingface.co/spaces/Saravutw/Omni-Video-Factory-Iframe-API",
-      "likes": 66,
+      "likes": 71,
       "trendingScore": 38,
       "sdk": "gradio",
       "tags": [
@@ -818,22 +818,19 @@
     },
     {
       "rank": 50,
-      "id": "HuggingFaceTB/smol-training-playbook",
-      "author": "HuggingFaceTB",
-      "url": "https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook",
-      "likes": 3172,
-      "trendingScore": 24,
-      "sdk": "docker",
+      "id": "nvidia/LocateAnything",
+      "author": "nvidia",
+      "url": "https://huggingface.co/spaces/nvidia/LocateAnything",
+      "likes": 25,
+      "trendingScore": 25,
+      "sdk": "gradio",
       "tags": [
-        "docker",
-        "research-article-template",
-        "research paper",
-        "scientific paper",
-        "data visualization",
+        "gradio",
+        "arxiv:2605.27365",
         "region:us"
       ],
-      "createdAt": "2025-09-12T15:07:42.000Z",
-      "lastModified": "2026-02-11T13:12:41.000Z",
+      "createdAt": "2026-03-18T08:09:56.000Z",
+      "lastModified": "2026-05-27T09:35:37.000Z",
       "models": []
     }
   ]

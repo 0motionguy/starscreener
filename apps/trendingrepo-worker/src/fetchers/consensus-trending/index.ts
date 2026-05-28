@@ -1,5 +1,6 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import { scoreConsensus, CONSENSUS_WEIGHTS, bandCounts, EXTERNAL_SOURCES } from './scoring.js';
 import type {
   ConsensusExternalSource,
@@ -100,7 +101,16 @@ function fromLeaderboard(
       row,
       sortKey: toNumber(row[scoreField]) ?? 0,
     }))
-    .sort((a, b) => b.sortKey - a.sortKey);
+    // Deterministic tiebreak: when sortKeys tie (common on low-traffic sources
+    // where many repos share count=1), break by fullName so rank assignment is
+    // stable run-to-run and borderline verdicts don't flicker in/out.
+    .sort(
+      (a, b) =>
+        b.sortKey - a.sortKey ||
+        String(a.row.fullName)
+          .toLowerCase()
+          .localeCompare(String(b.row.fullName).toLowerCase()),
+    );
   return sorted.map((entry, idx) => ({
     fullName: String(entry.row.fullName),
     rank: idx + 1,
@@ -121,7 +131,11 @@ function fromProductHunt(p: ProductHuntPayload | null): ConsensusSourceInput[] {
   }
   const sorted = Array.from(byRepo.entries())
     .map(([fullName, votes]) => ({ fullName, votes }))
-    .sort((a, b) => b.votes - a.votes);
+    .sort(
+      (a, b) =>
+        b.votes - a.votes ||
+        a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()),
+    );
   return sorted.map((entry, idx) => ({
     fullName: entry.fullName,
     rank: idx + 1,
@@ -257,22 +271,42 @@ const fetcher: Fetcher = {
       items,
     };
 
-    const result = await writeDataStore('consensus-trending', payload);
-    ctx.log.info(
-      {
-        itemCount: items.length,
-        bandCounts: payload.bandCounts,
-        sourceRows: Object.fromEntries(
-          EXTERNAL_SOURCES.map((k) => [k, input[k].length]),
-        ),
-        oursRows: input.ours.length,
-        redisSource: result.source,
-        writtenAt: result.writtenAt,
-      },
-      'consensus-trending published',
-    );
+    // Zero-write guard (keep-last-50 rule): when every upstream read is empty
+    // (all 9 slugs cold/flaky), scoreConsensus returns []. Writing that empty
+    // payload would zero /consensus until the next good tick. Preserve the
+    // last-known-good slug instead.
+    const existing = await readDataStore<ConsensusTrendingPayload>(
+      'consensus-trending',
+    ).catch(() => null);
+    let redisSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: items,
+        existing: existing?.items ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'consensus-trending: empty recompute (all upstreams cold?) — preserving last-known-good consensus-trending',
+      );
+    } else {
+      const result = await writeDataStore('consensus-trending', payload);
+      redisSource = result.source;
+      ctx.log.info(
+        {
+          itemCount: items.length,
+          bandCounts: payload.bandCounts,
+          sourceRows: Object.fromEntries(
+            EXTERNAL_SOURCES.map((k) => [k, input[k].length]),
+          ),
+          oursRows: input.ours.length,
+          redisSource: result.source,
+          writtenAt: result.writtenAt,
+        },
+        'consensus-trending published',
+      );
+    }
 
-    return done(startedAt, items.length, result.source === 'redis');
+    return done(startedAt, items.length, redisSource === 'redis');
   },
 };
 

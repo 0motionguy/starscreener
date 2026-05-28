@@ -13,7 +13,7 @@
 // HTTP client's ETag cache to keep redis namespace tidy.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
 const LANGUAGES = ['All', 'Python', 'TypeScript', 'Rust', 'Go'] as const;
@@ -123,6 +123,15 @@ const fetcher: Fetcher = {
     const buckets: Record<string, Record<string, OssRow[]>> = {};
     let totalRows = 0;
 
+    // Read the last-known-good payload so a per-bucket fetch failure can
+    // preserve that bucket instead of replacing it with [] (partial-outage
+    // protection — OSSInsight's CDN flakes per-PoP, so one language/window can
+    // 500 while the rest 200). The total-failure guard below still handles a
+    // full outage.
+    const priorBuckets =
+      (await readDataStore<TrendingPayload>('trending').catch(() => null))
+        ?.buckets ?? {};
+
     for (const period of PERIODS) {
       buckets[period] = {};
       for (const language of LANGUAGES) {
@@ -139,9 +148,23 @@ const fetcher: Fetcher = {
           ctx.log.info({ period, language, rows: rows.length }, 'bucket fetched');
         } catch (err) {
           const message = (err as Error).message;
-          ctx.log.error({ period, language, err: message }, 'bucket fetch failed');
-          errors.push({ stage: `bucket:${label}`, message });
-          buckets[period]![language] = [];
+          const prior = priorBuckets[period]?.[language] ?? [];
+          if (prior.length > 0) {
+            ctx.log.warn(
+              { period, language, err: message, preserved: prior.length },
+              'bucket fetch failed — preserving last-known-good bucket',
+            );
+            errors.push({
+              stage: `bucket:${label}`,
+              message: `${message} (preserved ${prior.length} cached)`,
+            });
+            buckets[period]![language] = prior;
+            totalRows += prior.length;
+          } else {
+            ctx.log.error({ period, language, err: message }, 'bucket fetch failed');
+            errors.push({ stage: `bucket:${label}`, message });
+            buckets[period]![language] = [];
+          }
         }
         await sleep(TRENDS_PAUSE_MS);
       }

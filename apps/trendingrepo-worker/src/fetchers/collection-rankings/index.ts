@@ -189,18 +189,35 @@ const fetcher: Fetcher = {
       collections,
     };
 
-    const result = await writeDataStore('collection-rankings', payload);
-    ctx.log.info(
-      {
-        collections: COLLECTIONS.length,
-        totalRows,
-        redisSource: result.source,
-        writtenAt: result.writtenAt,
-      },
-      'collection-rankings published',
-    );
+    // Zero-write guard (keep-last-50 rule): when api.ossinsight.io is down,
+    // every collection ranking fails and totalRows is 0. Writing that empty
+    // payload would zero the collection-rankings slug. Preserve the
+    // last-known-good slug instead — slightly-stale beats empty.
+    let resultSource = 'preserved';
+    if (totalRows > 0) {
+      const result = await writeDataStore('collection-rankings', payload);
+      resultSource = result.source;
+      ctx.log.info(
+        {
+          collections: COLLECTIONS.length,
+          totalRows,
+          redisSource: result.source,
+          writtenAt: result.writtenAt,
+        },
+        'collection-rankings published',
+      );
+    } else {
+      ctx.log.error(
+        'collection-rankings: all rankings empty (api.ossinsight.io down?) — preserving last-known-good collection-rankings slug',
+      );
+      errors.push({
+        stage: 'guard',
+        message:
+          'all rankings empty; preserved last-known-good collection-rankings slug',
+      });
+    }
 
-    return done(startedAt, totalRows, result.source === 'redis', errors);
+    return done(startedAt, totalRows, resultSource === 'redis', errors);
   },
 };
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T06:36:04.274Z",
+  "generatedAt": "2026-05-28T10:46:07.160Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -197,6 +197,36 @@
       "lastSweptAt": null
     },
     {
+      "fullName": "st-tech/ppf-contact-solver",
+      "rank": 22,
+      "completenessScore": 49,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 13,
+        "enrichment": 0
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 1029,
+      "lastSweptAt": null
+    },
+    {
       "fullName": "router-for-me/CLIProxyAPI",
       "rank": 12,
       "completenessScore": 61,
@@ -382,35 +412,6 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
       "priority": 1019,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "st-tech/ppf-contact-solver",
-      "rank": 22,
-      "completenessScore": 60,
-      "breakdown": {
-        "required": 30,
-        "coverage": 12,
-        "deltas": 13,
-        "enrichment": 5
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 2,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 1018,
       "lastSweptAt": null
     },
     {
@@ -690,7 +691,7 @@
     },
     {
       "fullName": "chengzuopeng/stock-sdk",
-      "rank": 54,
+      "rank": 53,
       "completenessScore": 43,
       "breakdown": {
         "required": 30,
@@ -716,7 +717,7 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 1003,
+      "priority": 1004,
       "lastSweptAt": null
     },
     {
@@ -750,7 +751,7 @@
     },
     {
       "fullName": "arcsin1/oh-my-ppt",
-      "rank": 52,
+      "rank": 51,
       "completenessScore": 48,
       "breakdown": {
         "required": 25,
@@ -778,7 +779,7 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 1000,
+      "priority": 1001,
       "lastSweptAt": null
     },
     {
@@ -815,7 +816,7 @@
     },
     {
       "fullName": "kylejckson/PaintFE",
-      "rank": 53,
+      "rank": 52,
       "completenessScore": 49,
       "breakdown": {
         "required": 30,
@@ -840,12 +841,12 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 998,
+      "priority": 999,
       "lastSweptAt": null
     },
     {
       "fullName": "Renhuai123/ziwei-doushu",
-      "rank": 59,
+      "rank": 58,
       "completenessScore": 43,
       "breakdown": {
         "required": 30,
@@ -871,43 +872,12 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 998,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "jingyaogong/minimind-o",
-      "rank": 51,
-      "completenessScore": 53,
-      "breakdown": {
-        "required": 30,
-        "coverage": 0,
-        "deltas": 13,
-        "enrichment": 10
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "sweep",
-      "priority": 996,
+      "priority": 999,
       "lastSweptAt": null
     },
     {
       "fullName": "wechat-article/wechat-article-exporter",
-      "rank": 61,
+      "rank": 60,
       "completenessScore": 43,
       "breakdown": {
         "required": 30,
@@ -933,7 +903,7 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 996,
+      "priority": 997,
       "lastSweptAt": null
     },
     {
@@ -1000,7 +970,7 @@
     },
     {
       "fullName": "BenedictKing/ccx",
-      "rank": 60,
+      "rank": 59,
       "completenessScore": 50,
       "breakdown": {
         "required": 30,
@@ -1026,18 +996,18 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 990,
+      "priority": 991,
       "lastSweptAt": null
     },
     {
-      "fullName": "88lin/video_vip",
-      "rank": 63,
-      "completenessScore": 49,
+      "fullName": "tashfeenahmed/freellmapi",
+      "rank": 49,
+      "completenessScore": 61,
       "breakdown": {
         "required": 25,
         "coverage": 6,
-        "deltas": 13,
-        "enrichment": 5
+        "deltas": 20,
+        "enrichment": 10
       },
       "missingFields": [
         "topics"
@@ -1045,38 +1015,6 @@
       "underScannedSources": [
         "twitter",
         "reddit",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 988,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "AnInsomniacy/motrix-next",
-      "rank": 55,
-      "completenessScore": 66,
-      "breakdown": {
-        "required": 25,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 15
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
         "bluesky",
         "devto",
         "lobsters",
@@ -1090,75 +1028,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 979,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "antirez/ds4",
-      "rank": 67,
-      "completenessScore": 56,
-      "breakdown": {
-        "required": 25,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 977,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "mvanhorn/cli-printing-press",
-      "rank": 73,
-      "completenessScore": 50,
-      "breakdown": {
-        "required": 30,
-        "coverage": 0,
-        "deltas": 20,
-        "enrichment": 0
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 977,
+      "priority": 990,
       "lastSweptAt": null
     },
     {
       "fullName": "gethasp/hasp",
-      "rank": 85,
+      "rank": 81,
       "completenessScore": 38,
       "breakdown": {
         "required": 25,
@@ -1186,20 +1061,85 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 977,
+      "priority": 981,
       "lastSweptAt": null
     },
     {
-      "fullName": "crynta/terax-ai",
-      "rank": 58,
+      "fullName": "AnInsomniacy/motrix-next",
+      "rank": 54,
       "completenessScore": 66,
       "breakdown": {
-        "required": 30,
+        "required": 25,
         "coverage": 6,
         "deltas": 20,
-        "enrichment": 10
+        "enrichment": 15
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "both",
+      "priority": 980,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "mvanhorn/cli-printing-press",
+      "rank": 70,
+      "completenessScore": 50,
+      "breakdown": {
+        "required": 30,
+        "coverage": 0,
+        "deltas": 20,
+        "enrichment": 0
       },
       "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 0,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 980,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "antirez/ds4",
+      "rank": 65,
+      "completenessScore": 56,
+      "breakdown": {
+        "required": 25,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [
+        "topics"
+      ],
       "underScannedSources": [
         "twitter",
         "reddit",
@@ -1214,14 +1154,14 @@
       ],
       "socialFiring": 1,
       "staleDeltas": false,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "sweep",
-      "priority": 976,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 979,
       "lastSweptAt": null
     },
     {
       "fullName": "mvanhorn/printing-press-library",
-      "rank": 80,
+      "rank": 77,
       "completenessScore": 45,
       "breakdown": {
         "required": 25,
@@ -1249,12 +1189,42 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 975,
+      "priority": 978,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "crynta/terax-ai",
+      "rank": 57,
+      "completenessScore": 66,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 10
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "hackernews",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "sweep",
+      "priority": 977,
       "lastSweptAt": null
     },
     {
       "fullName": "kiwifs/kiwifs",
-      "rank": 77,
+      "rank": 74,
       "completenessScore": 50,
       "breakdown": {
         "required": 30,
@@ -1280,12 +1250,41 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 973,
+      "priority": 976,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "RyanCodrai/turbovec",
+      "rank": 64,
+      "completenessScore": 62,
+      "breakdown": {
+        "required": 30,
+        "coverage": 12,
+        "deltas": 20,
+        "enrichment": 0
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 2,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 974,
       "lastSweptAt": null
     },
     {
       "fullName": "Yeachan-Heo/oh-my-codex",
-      "rank": 62,
+      "rank": 61,
       "completenessScore": 66,
       "breakdown": {
         "required": 25,
@@ -1312,41 +1311,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 972,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "RyanCodrai/turbovec",
-      "rank": 66,
-      "completenessScore": 62,
-      "breakdown": {
-        "required": 30,
-        "coverage": 12,
-        "deltas": 20,
-        "enrichment": 0
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 2,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 972,
+      "priority": 973,
       "lastSweptAt": null
     },
     {
       "fullName": "earendil-works/pi",
-      "rank": 74,
+      "rank": 71,
       "completenessScore": 56,
       "breakdown": {
         "required": 25,
@@ -1373,12 +1343,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 970,
+      "priority": 973,
       "lastSweptAt": null
     },
     {
       "fullName": "Kopuz-org/kopuz",
-      "rank": 71,
+      "rank": 68,
       "completenessScore": 60,
       "breakdown": {
         "required": 30,
@@ -1404,12 +1374,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "sweep",
-      "priority": 969,
+      "priority": 972,
       "lastSweptAt": null
     },
     {
       "fullName": "kunchenguid/no-mistakes",
-      "rank": 76,
+      "rank": 73,
       "completenessScore": 55,
       "breakdown": {
         "required": 25,
@@ -1437,12 +1407,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 969,
+      "priority": 972,
       "lastSweptAt": null
     },
     {
       "fullName": "agent-of-empires/agent-of-empires",
-      "rank": 84,
+      "rank": 80,
       "completenessScore": 50,
       "breakdown": {
         "required": 30,
@@ -1468,136 +1438,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 966,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "anthropics/knowledge-work-plugins",
-      "rank": 69,
-      "completenessScore": 68,
-      "breakdown": {
-        "required": 25,
-        "coverage": 18,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 3,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 963,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "TwilitRealm/dusklight",
-      "rank": 78,
-      "completenessScore": 60,
-      "breakdown": {
-        "required": 25,
-        "coverage": 12,
-        "deltas": 13,
-        "enrichment": 10
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 2,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "both",
-      "priority": 962,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "NVlabs/Sana",
-      "rank": 79,
-      "completenessScore": 59,
-      "breakdown": {
-        "required": 30,
-        "coverage": 6,
-        "deltas": 13,
-        "enrichment": 10
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "sweep",
-      "priority": 962,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "Gentleman-Programming/gentle-ai",
-      "rank": 87,
-      "completenessScore": 51,
-      "breakdown": {
-        "required": 20,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "description",
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 962,
+      "priority": 970,
       "lastSweptAt": null
     },
     {
       "fullName": "guokaigdg/animal-island-ui",
-      "rank": 90,
+      "rank": 85,
       "completenessScore": 48,
       "breakdown": {
         "required": 25,
@@ -1625,20 +1471,85 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 962,
+      "priority": 967,
       "lastSweptAt": null
     },
     {
-      "fullName": "NVlabs/cuda-oxide",
-      "rank": 72,
-      "completenessScore": 67,
+      "fullName": "anthropics/knowledge-work-plugins",
+      "rank": 66,
+      "completenessScore": 68,
       "breakdown": {
-        "required": 30,
-        "coverage": 12,
+        "required": 25,
+        "coverage": 18,
         "deltas": 20,
         "enrichment": 5
       },
-      "missingFields": [],
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 3,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 966,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "Gentleman-Programming/gentle-ai",
+      "rank": 83,
+      "completenessScore": 51,
+      "breakdown": {
+        "required": 20,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [
+        "description",
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 966,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "TwilitRealm/dusklight",
+      "rank": 75,
+      "completenessScore": 60,
+      "breakdown": {
+        "required": 25,
+        "coverage": 12,
+        "deltas": 13,
+        "enrichment": 10
+      },
+      "missingFields": [
+        "topics"
+      ],
       "underScannedSources": [
         "twitter",
         "reddit",
@@ -1651,15 +1562,45 @@
         "funding"
       ],
       "socialFiring": 2,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "both",
+      "priority": 965,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "NVlabs/Sana",
+      "rank": 76,
+      "completenessScore": 59,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 13,
+        "enrichment": 10
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": true,
       "recommendedAction": "sweep",
-      "priority": 961,
+      "priority": 965,
       "lastSweptAt": null
     },
     {
       "fullName": "can1357/oh-my-pi",
-      "rank": 83,
+      "rank": 79,
       "completenessScore": 56,
       "breakdown": {
         "required": 30,
@@ -1684,21 +1625,53 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 961,
+      "priority": 965,
       "lastSweptAt": null
     },
     {
-      "fullName": "OpenListTeam/OpenList",
-      "rank": 81,
-      "completenessScore": 61,
+      "fullName": "NVlabs/cuda-oxide",
+      "rank": 69,
+      "completenessScore": 67,
       "breakdown": {
         "required": 30,
-        "coverage": 6,
+        "coverage": 12,
         "deltas": 20,
         "enrichment": 5
       },
       "missingFields": [],
       "underScannedSources": [
+        "twitter",
+        "reddit",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 2,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 964,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "slopsmith/slopsmith",
+      "rank": 100,
+      "completenessScore": 38,
+      "breakdown": {
+        "required": 25,
+        "coverage": 0,
+        "deltas": 13,
+        "enrichment": 0
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "twitter",
         "reddit",
         "hackernews",
         "bluesky",
@@ -1710,16 +1683,16 @@
         "arxiv",
         "funding"
       ],
-      "socialFiring": 1,
-      "staleDeltas": false,
+      "socialFiring": 0,
+      "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 958,
+      "recommendedAction": "both",
+      "priority": 962,
       "lastSweptAt": null
     },
     {
       "fullName": "chenhg5/cc-connect",
-      "rank": 75,
+      "rank": 72,
       "completenessScore": 68,
       "breakdown": {
         "required": 25,
@@ -1744,12 +1717,44 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 957,
+      "priority": 960,
       "lastSweptAt": null
     },
     {
-      "fullName": "openclaw/crabbox",
-      "rank": 93,
+      "fullName": "larksuite/cli",
+      "rank": 84,
+      "completenessScore": 56,
+      "breakdown": {
+        "required": 25,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 960,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "Kianmhz/GooseRelayVPN",
+      "rank": 91,
       "completenessScore": 50,
       "breakdown": {
         "required": 30,
@@ -1775,24 +1780,26 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 957,
+      "priority": 959,
       "lastSweptAt": null
     },
     {
-      "fullName": "ConardLi/garden-skills",
-      "rank": 94,
-      "completenessScore": 49,
+      "fullName": "ExtendDB/extenddb",
+      "rank": 98,
+      "completenessScore": 44,
       "breakdown": {
-        "required": 30,
+        "required": 25,
         "coverage": 6,
         "deltas": 13,
         "enrichment": 0
       },
-      "missingFields": [],
+      "missingFields": [
+        "topics"
+      ],
       "underScannedSources": [
         "twitter",
         "reddit",
-        "hackernews",
+        "bluesky",
         "devto",
         "lobsters",
         "producthunt",
@@ -1804,45 +1811,13 @@
       "socialFiring": 1,
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 957,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "larksuite/cli",
-      "rank": 88,
-      "completenessScore": 56,
-      "breakdown": {
-        "required": 25,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 956,
+      "priority": 958,
       "lastSweptAt": null
     },
     {
       "fullName": "microsoft/waza",
-      "rank": 86,
+      "rank": 82,
       "completenessScore": 61,
       "breakdown": {
         "required": 25,
@@ -1869,12 +1844,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 953,
+      "priority": 957,
       "lastSweptAt": null
     },
     {
-      "fullName": "Kianmhz/GooseRelayVPN",
-      "rank": 98,
+      "fullName": "therealaleph/MasterHttpRelayVPN-RUST",
+      "rank": 94,
       "completenessScore": 50,
       "breakdown": {
         "required": 30,
@@ -1900,12 +1875,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 952,
+      "priority": 956,
       "lastSweptAt": null
     },
     {
       "fullName": "luongnv89/claude-howto",
-      "rank": 97,
+      "rank": 90,
       "completenessScore": 56,
       "breakdown": {
         "required": 30,
@@ -1930,12 +1905,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 947,
+      "priority": 954,
       "lastSweptAt": null
     },
     {
       "fullName": "lsdefine/GenericAgent",
-      "rank": 95,
+      "rank": 88,
       "completenessScore": 61,
       "breakdown": {
         "required": 30,
@@ -1960,12 +1935,43 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 944,
+      "priority": 951,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "jingyaogong/minimind-o",
+      "rank": 97,
+      "completenessScore": 53,
+      "breakdown": {
+        "required": 30,
+        "coverage": 0,
+        "deltas": 13,
+        "enrichment": 10
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 0,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "sweep",
+      "priority": 950,
       "lastSweptAt": null
     },
     {
       "fullName": "LearningCircuit/local-deep-research",
-      "rank": 92,
+      "rank": 87,
       "completenessScore": 67,
       "breakdown": {
         "required": 30,
@@ -1989,21 +1995,50 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 941,
+      "priority": 946,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "presenton/presenton",
+      "rank": 95,
+      "completenessScore": 60,
+      "breakdown": {
+        "required": 30,
+        "coverage": 12,
+        "deltas": 13,
+        "enrichment": 5
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 2,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 945,
       "lastSweptAt": null
     }
   ],
   "summary": {
     "byAction": {
       "enrich": 0,
-      "sweep": 34,
-      "both": 30,
+      "sweep": 33,
+      "both": 32,
       "noop": 0
     },
-    "p10Score": 45,
+    "p10Score": 44,
     "p50Score": 56,
     "channelsFiringHistogram": {
-      "0": 22,
+      "0": 23,
       "1": 29,
       "2": 9,
       "3": 4,

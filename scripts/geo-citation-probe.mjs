@@ -34,6 +34,13 @@ const TARGETS = [
   ["Top Rust ecosystem projects right now?", "/categories/rust-ecosystem"],
   ["Browse trending open-source categories", "/categories"],
   ["Curated best-of open-source rankings", "/best"],
+  // Wave 2 surfaces — keep in sync with src/app/llms.txt/route.ts.
+  ["Curated OSS collections", "/collections"],
+  ["AI / open-source glossary", "/glossary"],
+  ["What is an AI agent?", "/glossary/ai-agent"],
+  ["What is MCP / the Model Context Protocol?", "/glossary/mcp"],
+  ["What is RAG?", "/glossary/rag"],
+  ["What is a vector database?", "/glossary/vector-database"],
 ];
 
 async function checkUrl(path) {

@@ -44,44 +44,28 @@ interface StaticHub {
   changefreq: UrlEntry["changefreq"];
 }
 
+// Only canonical 200-returning hubs belong here. The v6 cutover retired ~30
+// legacy paths (/githubrepo, /skills, /mcp, /top10, /breakouts, /consensus,
+// /signals, /twitter, /agent-repos, /npm, /research, /papers, /arxiv/*,
+// /huggingface/*, /hackernews/*, /bluesky/*, /devto, /lobsters, /producthunt,
+// /reddit/*, /digest, /top, /trends, /tierlist, /compare, /docs, /search,
+// /submit) — they 308/307 via next.config. Redirects in a sitemap waste crawl
+// budget and erode trust, so they were removed (2026-05-28). Where a legacy
+// alias redirected to a real v6 page, the canonical target is listed instead
+// (/breakout, /market-signals, /drop). Verify with: curl -sI the path → 200.
 const STATIC_HUBS: StaticHub[] = [
   { path: "/", priority: 1.0, changefreq: "hourly" },
-  { path: "/githubrepo", priority: 0.98, changefreq: "hourly" },
-  { path: "/skills", priority: 0.95, changefreq: "hourly" },
-  { path: "/mcp", priority: 0.95, changefreq: "hourly" },
-  { path: "/top10", priority: 0.95, changefreq: "hourly" },
-  { path: "/breakouts", priority: 0.9, changefreq: "hourly" },
+  { path: "/breakout", priority: 0.9, changefreq: "hourly" },
+  { path: "/market-signals", priority: 0.85, changefreq: "hourly" },
   { path: "/funding", priority: 0.9, changefreq: "hourly" },
-  { path: "/consensus", priority: 0.9, changefreq: "hourly" },
-  { path: "/signals", priority: 0.85, changefreq: "hourly" },
-  { path: "/twitter", priority: 0.85, changefreq: "hourly" },
-  { path: "/agent-repos", priority: 0.8, changefreq: "hourly" },
-  { path: "/npm", priority: 0.8, changefreq: "hourly" },
-  { path: "/research", priority: 0.8, changefreq: "daily" },
-  { path: "/papers", priority: 0.8, changefreq: "daily" },
-  { path: "/arxiv/trending", priority: 0.75, changefreq: "daily" },
-  { path: "/huggingface", priority: 0.75, changefreq: "daily" },
-  { path: "/huggingface/trending", priority: 0.8, changefreq: "daily" },
-  { path: "/huggingface/datasets", priority: 0.75, changefreq: "daily" },
-  { path: "/huggingface/spaces", priority: 0.75, changefreq: "daily" },
   { path: "/revenue", priority: 0.8, changefreq: "daily" },
   { path: "/categories", priority: 0.8, changefreq: "daily" },
   { path: "/best", priority: 0.85, changefreq: "daily" },
   { path: "/blog", priority: 0.8, changefreq: "daily" },
   { path: "/glossary", priority: 0.75, changefreq: "weekly" },
   { path: "/collections", priority: 0.8, changefreq: "daily" },
-  { path: "/hackernews/trending", priority: 0.8, changefreq: "hourly" },
-  { path: "/bluesky/trending", priority: 0.75, changefreq: "daily" },
-  { path: "/devto", priority: 0.75, changefreq: "daily" },
-  { path: "/lobsters", priority: 0.75, changefreq: "daily" },
-  { path: "/producthunt", priority: 0.75, changefreq: "daily" },
-  { path: "/reddit", priority: 0.75, changefreq: "daily" },
-  { path: "/reddit/trending", priority: 0.75, changefreq: "daily" },
-  { path: "/digest", priority: 0.7, changefreq: "daily" },
   { path: "/ideas", priority: 0.7, changefreq: "daily" },
-  { path: "/top", priority: 0.7, changefreq: "daily" },
-  { path: "/trends", priority: 0.7, changefreq: "daily" },
-  { path: "/tierlist", priority: 0.65, changefreq: "weekly" },
+  { path: "/drop", priority: 0.6, changefreq: "weekly" },
   { path: "/tools", priority: 0.6, changefreq: "weekly" },
   { path: "/tools/star-history", priority: 0.6, changefreq: "weekly" },
   { path: "/tools/treemap", priority: 0.6, changefreq: "weekly" },
@@ -91,23 +75,18 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/tools/digest", priority: 0.6, changefreq: "daily" },
   { path: "/tools/compare", priority: 0.6, changefreq: "weekly" },
   { path: "/tools/watchlist", priority: 0.5, changefreq: "weekly" },
-  { path: "/compare", priority: 0.5, changefreq: "weekly" },
   { path: "/methodology", priority: 0.5, changefreq: "weekly" },
-  { path: "/docs", priority: 0.5, changefreq: "weekly" },
-  { path: "/search", priority: 0.5, changefreq: "weekly" },
   { path: "/about", priority: 0.5, changefreq: "monthly" },
   { path: "/contact", priority: 0.45, changefreq: "monthly" },
-  { path: "/submit", priority: 0.5, changefreq: "weekly" },
   { path: "/pricing", priority: 0.6, changefreq: "weekly" },
 ];
 
 // Static hub paths that ship their own `opengraph-image.tsx`. Keyed by
 // path for O(1) lookup as we build the entry list.
 const HUBS_WITH_OG: Record<string, string> = {
-  "/": "/opengraph-image",
-  "/top10": "/api/og/top10?cat=repos&aspect=h",
-  "/breakouts": "/breakouts/opengraph-image",
-  "/compare": "/compare/opengraph-image",
+  // /top10, /breakouts, /compare removed from STATIC_HUBS (they redirect), so
+  // their OG entries are dropped too. Homepage points at the real /api/og/default.
+  "/": "/api/og/default",
 };
 
 export function GET(): Response {

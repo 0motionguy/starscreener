@@ -275,17 +275,12 @@ const nextConfig: NextConfig = {
       // and break the public API docs.
       { source: "/search", destination: "/", permanent: true },
 
-      // ---- T5 — Dynamic collections → / (302 temporary) ------------------
-      // Collections (48 detail routes) are still folded into the homepage
-      // pending a rebuilt surface. Kept 302 so we can repoint without waiting
-      // for browser caches to expire.
-      //
-      // NOTE (2026-05-28): /categories + /categories/:slug redirects REMOVED —
-      // these are now real indexable answer-surfaces at
-      // src/app/categories/[slug]/page.tsx (the GEO citation contract in
-      // llms.txt points AI engines at /categories/<slug>; they must 200).
-      { source: "/collections", destination: "/", permanent: false },
-      { source: "/collections/:slug", destination: "/", permanent: false },
+      // ---- T5 — REMOVED (2026-05-28) -------------------------------------
+      // /categories, /categories/:slug, /collections and /collections/:slug
+      // are now real indexable answer-surfaces (src/app/{categories,collections}),
+      // not homepage folds. The GEO citation contract in llms.txt + the
+      // sitemap point AI engines at them, so they must return 200 — no
+      // redirects here.
 
       // ---- Legacy: /news → /market-signals --------------------------------
       // Previously pointed at /signals; that hop is gone in v6 — the cross-

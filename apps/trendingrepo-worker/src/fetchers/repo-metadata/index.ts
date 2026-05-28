@@ -13,6 +13,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import { fetchJsonWithRetry } from '../../lib/util/http-helpers.js';
 import {
   parseRateLimitHeaders,
@@ -370,17 +371,35 @@ const fetcher: Fetcher = {
       items,
       failures,
     };
-    const result = await writeDataStore('repo-metadata', out);
-    ctx.log.info(
-      {
-        items: items.length,
-        sourceCount: fullNames.length,
-        failures: failures.length,
-        redisSource: result.source,
-      },
-      'repo-metadata published',
-    );
-    return done(startedAt, items.length, result.source === 'redis', errors);
+    // Zero-write guard (keep-last-50 rule): per-repo failures already keep the
+    // previous item, but if the INPUT roster (trending/recent/manual/registry)
+    // is all cold then fullNames is empty, the loop never runs, and items is
+    // []. Writing that would zero repo-metadata and every /repo/* page that
+    // reads it. Preserve the last-known-good slug instead.
+    let redisSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: items,
+        existing: previous?.items ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'repo-metadata: empty roster (all input sources cold?) — preserving last-known-good repo-metadata',
+      );
+    } else {
+      const result = await writeDataStore('repo-metadata', out);
+      redisSource = result.source;
+      ctx.log.info(
+        {
+          items: items.length,
+          sourceCount: fullNames.length,
+          failures: failures.length,
+          redisSource: result.source,
+        },
+        'repo-metadata published',
+      );
+    }
+    return done(startedAt, items.length, redisSource === 'redis', errors);
   },
 };
 

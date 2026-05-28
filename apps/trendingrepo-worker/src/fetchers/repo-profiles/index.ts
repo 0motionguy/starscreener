@@ -12,6 +12,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import {
   extractTrendingFullNames,
   rankedRegistryFullNames,
@@ -326,17 +327,36 @@ const fetcher: Fetcher = {
       },
       profiles,
     };
-    const result = await writeDataStore('repo-profiles', payload);
-    ctx.log.info(
-      {
-        profiles: profiles.length,
-        queued,
-        noWebsite,
-        redisSource: result.source,
-      },
-      'repo-profiles published',
-    );
-    return done(startedAt, profiles.length, result.source === 'redis');
+    // Zero-write guard (keep-last-50 rule): when the candidate roster
+    // (trending + registry + repo-metadata) is all cold, profiles is empty.
+    // Writing that would zero repo-profiles. Preserve the last-known-good slug.
+    const existingProfiles = await readDataStore<RepoProfilesPayload>(
+      'repo-profiles',
+    ).catch(() => null);
+    let redisSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: profiles,
+        existing: existingProfiles?.profiles ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'repo-profiles: empty candidate roster (upstreams cold?) — preserving last-known-good repo-profiles',
+      );
+    } else {
+      const result = await writeDataStore('repo-profiles', payload);
+      redisSource = result.source;
+      ctx.log.info(
+        {
+          profiles: profiles.length,
+          queued,
+          noWebsite,
+          redisSource: result.source,
+        },
+        'repo-profiles published',
+      );
+    }
+    return done(startedAt, profiles.length, redisSource === 'redis');
   },
 };
 

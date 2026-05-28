@@ -20,7 +20,18 @@ import { SITE_URL } from "@/lib/seo";
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
 
 export function getIndexNowKey(): string | null {
-  const k = process.env.INDEXNOW_KEY?.trim();
+  const raw = process.env.INDEXNOW_KEY;
+  if (!raw) return null;
+  // Defensive sanitisation: the prod env var has shipped with a trailing
+  // LITERAL "\r\n" (backslash-r-backslash-n as text, from a mis-saved env
+  // file) which plain .trim() can't remove — it made getIndexNowKey() return
+  // null, so the /<key>.txt verification file 404'd and IndexNow never worked.
+  // Strip literal \r\n\t escape sequences AND real control/whitespace, then
+  // validate. (The env var should also be cleaned at source.)
+  const k = raw
+    .replace(/\\[rnt]/g, "")
+    .replace(/[\r\n\t ]/g, "")
+    .trim();
   if (!k) return null;
   // Spec: 8-128 chars, [a-zA-Z0-9-]
   if (!/^[a-zA-Z0-9-]{8,128}$/.test(k)) {

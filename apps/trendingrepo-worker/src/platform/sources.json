@@ -1626,5 +1626,109 @@
     "writes_canonical_entity_kind": [
       "repo"
     ]
+  },
+  {
+    "id": "editorial-writer",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "usd",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "editorial-best"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/editorial-store.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache"
+  },
+  {
+    "id": "editorial-categories",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "usd",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "editorial-categories"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/editorial-categories.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache"
+  },
+  {
+    "id": "editorial-compare",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "usd",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "editorial-compare"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/editorial-compare.ts"
+    ],
+    "depends_on": [
+      "consensus-analyst"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache"
+  },
+  {
+    "id": "editorial-alternatives",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "usd",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "editorial-alternatives"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/editorial-alternatives.ts"
+    ],
+    "depends_on": [
+      "consensus-analyst"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache"
   }
 ]

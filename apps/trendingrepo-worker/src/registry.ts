@@ -97,6 +97,13 @@ import consensusAnalystTail from './fetchers/consensus-analyst-tail/index.js';
 // (GEO citation lever). Daily; writes `editorial-best`; app reads it via
 // src/lib/editorial-store.ts and prefers it over the deterministic intro.
 import editorialWriter from './fetchers/editorial-writer/index.js';
+// Sibling editorial fetchers — LLM-written evergreen overviews for the other
+// GEO answer-surfaces. All share _editorial/run.ts (read→generate→merge→
+// never-empty). Daily, staggered after editorial-writer. App readers:
+// src/lib/editorial-{categories,compare,alternatives}.ts.
+import editorialCategories from './fetchers/editorial-categories/index.js';
+import editorialCompare from './fetchers/editorial-compare/index.js';
+import editorialAlternatives from './fetchers/editorial-alternatives/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -143,6 +150,9 @@ export const FETCHERS: Fetcher[] = [
   starActivity,
   consensusAnalystTail,
   editorialWriter,
+  editorialCategories,
+  editorialCompare,
+  editorialAlternatives,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

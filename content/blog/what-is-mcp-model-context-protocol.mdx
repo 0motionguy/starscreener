@@ -1,0 +1,55 @@
+---
+title: "What Is MCP? The Model Context Protocol, Explained"
+description: "A plain-English guide to the Model Context Protocol (MCP) — what it is, why it exploded in 2025-26, and the open-source servers worth watching."
+date: "2026-05-28"
+updated: "2026-05-28"
+author: "TrendingRepo"
+tags: ["mcp", "ai-agents", "explainer"]
+---
+
+The **Model Context Protocol (MCP)** is an open standard that lets AI
+assistants talk to external tools, data, and services through one consistent
+interface. Instead of every app inventing its own way to plug a model into a
+database, a file system, or an API, MCP defines a common contract: a *server*
+exposes capabilities, and any MCP-aware *client* (Claude, an IDE agent, a
+custom app) can use them.
+
+## Why it matters
+
+Before MCP, connecting a model to real systems meant bespoke glue code per
+integration. MCP collapses that into a reusable server you write once and any
+client can call. That is why adoption moved fast across 2025 and into 2026:
+the protocol turns "wire this one model to this one tool" into "publish a
+server, and the whole ecosystem can use it."
+
+In practice MCP servers wrap things like GitHub, Postgres, a browser, a search
+index, or an internal API. The agent discovers the server's tools, then calls
+them with structured arguments — no prompt-engineering hacks to fake tool use.
+
+## What to look for in an MCP server
+
+- **Clear capability surface** — well-named tools with typed inputs/outputs.
+- **Real auth** — production servers gate access; toy ones don't.
+- **Active maintenance** — the spec is young and still moving; stale servers
+  drift out of compatibility.
+- **Cross-client testing** — a server that only works with one client is a
+  weaker bet than one validated against several.
+
+## Where to track the movers
+
+We rank MCP projects by cross-source momentum — GitHub star velocity weighted
+with mentions across Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to —
+rather than raw star count, so genuinely new breakouts surface alongside the
+established registries:
+
+- The live [MCP category leaderboard](/categories/mcp) — the full ranked feed.
+- Our editorial [best MCP servers](/best/mcp-servers) — curated top picks with a
+  short verdict on each.
+
+If you're evaluating two specific projects, our head-to-head
+[comparison pages](/categories) put their stars, momentum and cross-platform
+mentions side by side.
+
+MCP is still early. The winners are the servers that stay compatible as the
+spec evolves and that solve a real integration developers were hand-rolling
+before — watch momentum, not just stars.

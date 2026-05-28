@@ -1,0 +1,49 @@
+---
+title: "How TrendingRepo Ranks Trending Repos (Momentum, Not Stars)"
+description: "Why we rank open-source projects by cross-source momentum instead of raw GitHub stars — and how the 0-100 score is computed."
+date: "2026-05-27"
+updated: "2026-05-28"
+author: "TrendingRepo"
+tags: ["methodology", "trending", "github"]
+---
+
+Raw GitHub star counts are a popularity museum: they tell you what *was* big,
+not what's *moving*. A repo with 80k stars that hasn't shipped in a year is
+less interesting than a three-week-old project firing on Hacker News, Reddit
+and X at once. So TrendingRepo ranks by **momentum**, not totals.
+
+## The momentum score
+
+Every tracked repo gets a 0-100 momentum score that combines:
+
+- **Star velocity** over 24h / 7d / 30d windows (not cumulative stars).
+- **Fork growth** and **contributor churn** — real building, not just bookmarking.
+- **Commit freshness** and **release cadence** — is it alive?
+- **Anti-spam dampening** — star bursts with no follow-through get discounted.
+
+On top of that we layer **cross-source mention signals**: when a repo is being
+discussed on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to at the
+same time, that cross-platform confirmation is a far stronger signal than a
+spike on any single source.
+
+## Cross-source beats single-source
+
+One feed is weak; five feeds agreeing is a real trend. A repo that's only
+trending on one platform is often noise — recycled content, a paid push, or a
+single viral thread. We weight cross-source agreement heavily and flag repos
+firing on three or more platforms as breakouts.
+
+## Where the rankings live
+
+- The homepage and [category leaderboards](/categories) — the full ranked feeds.
+- Curated [best-of guides](/best) — editorial top picks per topic with a verdict.
+- Head-to-head [comparisons](/categories) — two repos' stars, momentum and
+  mentions side by side.
+
+## What we publish here
+
+This blog covers what's actually breaking out and why: weekly movers, category
+deep-dives, and explainers on the protocols and tools showing up across the
+signal sources. The thesis is always the same — **track momentum, read the
+cross-source evidence, and you'll see the winners before the star count
+catches up.**

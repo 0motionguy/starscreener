@@ -73,6 +73,13 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/*": ["./.data/twitter-*.jsonl"],
     "/api/openapi.json": ["./docs/openapi.json"],
+    // Blog MDX is read at build for the static post pages, but the
+    // force-static sitemap-pages route + blog index re-read content/blog on
+    // ISR revalidation — trace the files so the standalone (VPS) server has
+    // them. Vercel includes repo files automatically; this covers Docker.
+    "/sitemap-pages.xml": ["./content/blog/**/*"],
+    "/blog": ["./content/blog/**/*"],
+    "/blog/[slug]": ["./content/blog/**/*"],
     // /reddit/trending uses readFileSync(data/reddit-all-posts.json) as
     // SSR cold-cache fallback (src/app/reddit/trending/page.tsx:loadBundledFallback).
     // Without this trace the lambda has no copy of the file and the page

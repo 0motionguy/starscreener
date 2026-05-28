@@ -25,6 +25,7 @@
 
 import { CATEGORIES } from "@/lib/constants";
 import { BEST_TOPICS } from "@/lib/best-topics";
+import { getAllPostsMeta } from "@/lib/blog";
 import { loadAllCollections } from "@/lib/collections";
 import { absoluteUrl } from "@/lib/seo";
 import {
@@ -65,6 +66,7 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/revenue", priority: 0.8, changefreq: "daily" },
   { path: "/categories", priority: 0.8, changefreq: "daily" },
   { path: "/best", priority: 0.85, changefreq: "daily" },
+  { path: "/blog", priority: 0.8, changefreq: "daily" },
   { path: "/collections", priority: 0.8, changefreq: "daily" },
   { path: "/hackernews/trending", priority: 0.8, changefreq: "hourly" },
   { path: "/bluesky/trending", priority: 0.75, changefreq: "daily" },
@@ -156,6 +158,16 @@ export function GET(): Response {
           caption: t.blurb,
         },
       ],
+    });
+  }
+
+  // 3b. Blog posts (MDX). Evergreen articles; lastmod from frontmatter.
+  for (const post of getAllPostsMeta()) {
+    entries.push({
+      loc: absoluteUrl(`/blog/${post.slug}`),
+      lastmod: new Date(post.updated ?? post.date),
+      changefreq: "monthly",
+      priority: 0.7,
     });
   }
 

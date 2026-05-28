@@ -15259,3 +15259,18 @@ th.sortable.active .aa-th-arrow {
   .footer-inner { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 10px; align-items: flex-start; }
 }
+
+/* Long-form article body — blog posts (MDX) and any prose surface. Token-only,
+   readable measure. See docs/DESIGN-SYSTEM.md §7.2 (cards/panels). */
+.pf-prose { color: var(--fg); font-size: 15px; line-height: 1.7; max-width: 72ch; }
+.pf-prose > :first-child { margin-top: 0; }
+.pf-prose p { margin: 0 0 16px; color: var(--fg-muted); }
+.pf-prose h2 { font-family: var(--font-display); font-size: 22px; letter-spacing: -0.01em; color: var(--fg); margin: 32px 0 12px; }
+.pf-prose h3 { font-size: 17px; color: var(--fg); margin: 24px 0 10px; }
+.pf-prose ul, .pf-prose ol { margin: 0 0 16px; padding-left: 22px; color: var(--fg-muted); }
+.pf-prose li { margin: 0 0 6px; }
+.pf-prose a { color: var(--accent); text-decoration: none; }
+.pf-prose a:hover { color: var(--accent-hover); text-decoration: underline; }
+.pf-prose strong { color: var(--fg); font-weight: 600; }
+.pf-prose code { font-family: var(--font-mono); font-size: 0.88em; background: var(--surface-3); border: 1px solid var(--border-subtle); border-radius: var(--r-sm); padding: 1px 5px; }
+.pf-prose blockquote { margin: 0 0 16px; padding-left: 14px; border-left: 2px solid var(--accent-line); color: var(--fg-subtle); }

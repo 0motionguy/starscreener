@@ -26,6 +26,7 @@ export function GET(): Response {
     { loc: absoluteUrl("/sitemap-pages.xml"), lastmod: now },
     { loc: absoluteUrl("/sitemap-repos.xml"), lastmod: now },
     { loc: absoluteUrl("/sitemap-compare.xml"), lastmod: now },
+    { loc: absoluteUrl("/sitemap-alternatives.xml"), lastmod: now },
     { loc: absoluteUrl("/sitemap-news.xml"), lastmod: now },
     { loc: absoluteUrl("/sitemap-digest.xml"), lastmod: now },
   ]);

@@ -121,6 +121,7 @@ Plausible LLM/agent queries paired with the canonical TrendingRepo URL that reso
 - "Top Rust ecosystem projects right now?" -> ${base}/categories/rust-ecosystem
 - "What's hot on Bluesky in tech?" -> ${base}/bluesky/trending
 - "Compare two GitHub repos by momentum?" -> ${base}/compare
+- "Open-source alternatives to <owner>/<repo>?" -> ${base}/alternatives/<owner>/<repo>
 - "Curated lists of OSS by theme?" -> ${base}/collections
 
 ## Machine endpoints

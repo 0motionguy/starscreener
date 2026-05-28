@@ -39,6 +39,11 @@ const ROUTES = [
   "/trends",
   "/agent-commerce", "/agent-commerce/facilitator",
   "/repo/anthropics/anthropic-cookbook",
+  // GEO answer-surfaces (2026-05-28) — now LLM-prose-bearing, audit them too.
+  "/best", "/best/ai-agents",
+  "/categories/ai-agents",
+  "/glossary", "/glossary/ai-agent",
+  "/collections",
 ];
 
 async function runOne(route) {
@@ -50,7 +55,18 @@ async function runOne(route) {
   }
   if (API_KEY) url.searchParams.set("key", API_KEY);
 
-  const res = await fetch(url.toString());
+  // Per-route timeout so a slow/hung PSI Lighthouse run can't stall the whole
+  // sweep (the API has no SLA on full-category runs — heavy pages can hang).
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), 120_000);
+  let res;
+  try {
+    res = await fetch(url.toString(), { signal: ac.signal });
+  } catch (err) {
+    return { route, error: err?.name === "AbortError" ? "timeout (120s)" : String(err?.message || err) };
+  } finally {
+    clearTimeout(timer);
+  }
   if (!res.ok) {
     return { route, error: `HTTP ${res.status}` };
   }

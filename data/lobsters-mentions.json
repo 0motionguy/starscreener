@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-28T09:01:41.468Z",
+  "fetchedAt": "2026-05-28T12:52:13.123Z",
   "windowDays": 7,
-  "scannedStories": 79,
+  "scannedStories": 80,
   "mentions": {
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
       "count7d": 1,
@@ -456,6 +456,44 @@
           ]
         }
       ]
+    },
+    "google/ax": {
+      "count7d": 1,
+      "scoreSum7d": 1,
+      "topStory": {
+        "shortId": "3k9g2c",
+        "title": "ax, Google’s new highly distributed agent executor",
+        "score": 1,
+        "url": "https://github.com/google/ax",
+        "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
+        "hoursSincePosted": 2.2202777777777776
+      },
+      "stories": [
+        {
+          "shortId": "3k9g2c",
+          "title": "ax, Google’s new highly distributed agent executor",
+          "url": "https://github.com/google/ax",
+          "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
+          "by": "",
+          "score": 1,
+          "commentCount": 0,
+          "createdUtc": 1779964740,
+          "ageHours": 2.2202777777777776,
+          "trendingScore": 0.115342256740933,
+          "tags": [
+            "ai",
+            "distributed"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "google/ax",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -518,6 +556,11 @@
       "fullName": "withastro/flue",
       "count7d": 1,
       "scoreSum7d": 2
+    },
+    {
+      "fullName": "google/ax",
+      "count7d": 1,
+      "scoreSum7d": 1
     }
   ]
 }

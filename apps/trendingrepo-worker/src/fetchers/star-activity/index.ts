@@ -68,10 +68,6 @@ function payloadSlug(fullName: string): string {
   return `star-activity:${fullName.toLowerCase().replace('/', '__')}`;
 }
 
-function todayUtc(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
 function ghHeaders(token: string | undefined): Record<string, string> {
   const h: Record<string, string> = {
     Accept: 'application/vnd.github+json',
@@ -95,7 +91,7 @@ export function appendToday(
   currentStars: number,
   now: string = new Date().toISOString(),
 ): StarActivityPayload {
-  const today = todayUtc();
+  const today = now.slice(0, 10);
   const points = Array.isArray(payload?.points) ? [...payload.points] : [];
   const last = points[points.length - 1];
   const prevStars = last?.s ?? 0;

@@ -248,8 +248,12 @@ const nextConfig: NextConfig = {
       { source: "/huggingface/spaces", destination: "/market-signals?src=huggingface", permanent: true },
       { source: "/arxiv", destination: "/market-signals?src=arxiv", permanent: true },
       { source: "/arxiv/trending", destination: "/market-signals?src=arxiv", permanent: true },
-      // MCP registry was an agent-tooling aggregator → agent-commerce hub.
-      { source: "/mcp", destination: "/agent-commerce", permanent: true },
+      // MCP: repoint the legacy /mcp alias to the live MCP category answer
+      // surface (2026-05-28). Was → /agent-commerce, which the middleware
+      // cost-guard 429s for crawlers — so AI engines following llms.txt's
+      // "Top MCP servers" citation hit a wall. /categories/mcp is a cheap ISR
+      // page that returns 200 to every bot.
+      { source: "/mcp", destination: "/categories/mcp", permanent: true },
 
       // ---- T4 — Retired marketing pages → / ------------------------------
       // No v6 replacement; the legacy URLs are not coming back at these paths.
@@ -264,12 +268,15 @@ const nextConfig: NextConfig = {
       // and break the public API docs.
       { source: "/search", destination: "/", permanent: true },
 
-      // ---- T5 — Dynamic categories/collections → / (302 temporary) -------
-      // Categories had 14 detail routes and collections had 48 — too granular
-      // to enumerate. Keep these 302 so we can repoint to a rebuilt surface
-      // without waiting for browser caches to expire.
-      { source: "/categories", destination: "/", permanent: false },
-      { source: "/categories/:slug", destination: "/", permanent: false },
+      // ---- T5 — Dynamic collections → / (302 temporary) ------------------
+      // Collections (48 detail routes) are still folded into the homepage
+      // pending a rebuilt surface. Kept 302 so we can repoint without waiting
+      // for browser caches to expire.
+      //
+      // NOTE (2026-05-28): /categories + /categories/:slug redirects REMOVED —
+      // these are now real indexable answer-surfaces at
+      // src/app/categories/[slug]/page.tsx (the GEO citation contract in
+      // llms.txt points AI engines at /categories/<slug>; they must 200).
       { source: "/collections", destination: "/", permanent: false },
       { source: "/collections/:slug", destination: "/", permanent: false },
 

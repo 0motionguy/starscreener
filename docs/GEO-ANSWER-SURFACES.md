@@ -111,25 +111,39 @@ for the target question?** `scripts/geo-citation-probe.mjs` checks the contract
 whether `trendingrepo.com` appears in the cited sources (key-gated, left as a
 TODO so the script stays CI-safe).
 
-## Surfaces shipped (2026-05-28)
+## Surfaces shipped (2026-05-28, Wave 1 + 2)
+
+All on `bot/swarm-a6-producthunt-reader` (build-green, pushed). **Not yet in
+prod** — TOOLBOX deploy is gated; runbook in the handover (below).
 
 - `/categories` + `/categories/[slug]` (15) — category leaderboards.
 - `/best` + `/best/[topic]` (12) — verdict-forward listicles.
 - `/compare/[a]/vs/[b]` — head-to-head comparisons (+ `sitemap-compare.xml`).
-- Sitewide Organization JSON-LD (root layout).
+- `/alternatives/[owner]/[name]` — "alternatives to X" (+ `sitemap-alternatives.xml`).
+- `/collections` + `/collections/[slug]` (28) — rebuilt from the curated YAMLs.
+- `/glossary` + `/glossary/[term]` (8) — "what is X" (DefinedTerm + FAQPage).
+- `/blog` + `/blog/[slug]` (MDX, next-mdx-remote) — BlogPosting schema.
+- `/repo/[owner]/[name]` enriched — mounted FAQ + dates `<time>`, FAQPage +
+  BreadcrumbList schema, CTR title.
+- Sitewide Organization JSON-LD (root layout); Sidebar links all new surfaces.
 - `/mcp` repointed off the crawler-429 wall to `/categories/mcp`; `llms.txt`
-  citation contract repaired (12/12 URLs 200).
+  citation contract repaired + extended (**18/18 URLs 200**); ~30 redirecting v6
+  hubs purged from `sitemap-pages.xml`.
 
-## Backlog (next GEO waves)
+## Backlog (next GEO waves) — see `~/.claude/plans/handover-2026-05-28-geo-wave3.md`
 
-- **B — editorial-writer worker**: extend the consensus-analyst LLM
+- **Deploy to prod (TOOLBOX)** — the #1 gap; nothing is live until this runs.
+  Runbook: [DEPLOY-TOOLBOX.md](DEPLOY-TOOLBOX.md). Then submit sitemap + IndexNow.
+- **G5 — editorial-writer worker**: extend the consensus-analyst LLM
   ([apps/trendingrepo-worker](../apps/trendingrepo-worker)) to draft per-category
-  / per-listicle / per-comparison prose (slugs `editorial-categories`,
-  `editorial-best`, `editorial-compare`), read via a `refreshEditorialFromStore`
-  hook to enrich the deterministic copy. Cache-safe (`mergeAndCap`); deploy to
-  TOOLBOX is a gated prod step.
-- **C — MDX blog** at `/blog` for weekly trend reports + evergreen deep-dives
-  (NewsArticle schema; finally populates `sitemap-news.xml`).
-- **D — broader hygiene**: prune redirecting hubs from `sitemap-pages.xml`
-  (`/skills`, `/consensus`, `/breakouts`, `/githubrepo`, …); repoint or rebuild
-  the remaining dead llms.txt links; CTR title pass on `/repo/[...]`.
+  / -listicle / -comparison / -alternatives prose (slugs `editorial-categories`,
+  `editorial-best`, `editorial-compare`, `editorial-alternatives`), read via a
+  `refreshEditorialFromStore` hook to enrich the deterministic copy. Cache-safe
+  (`mergeAndCap`); + auto weekly blog from the daily ribbon. Deploy gated.
+- **Measurement**: wire `geo-citation-probe.mjs` to query Perplexity/Google AI
+  (the real citation KPI, key-gated); capture a Search Console baseline.
+- **Polish**: repoint the `llms.txt` *navigational* lists (Primary surfaces /
+  per-source feeds still 308 — the "cite us" samples are clean); IndexNow ping on
+  deploy; graduate the perfignored new routes into `perf/routes.json`; surface
+  the new sections in the homepage body; expand glossary/best coverage; add unit
+  tests for the new libs.

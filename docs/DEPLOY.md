@@ -1,6 +1,21 @@
 # Deploying TrendingRepo
 
-TrendingRepo runs on two environments in parallel:
+> ## ⚠️ STALE — DO NOT FOLLOW FOR PROD (snapshot of the Vercel + Railway era)
+> Production now runs on **TOOLBOX (193.53.40.118) behind Cloudflare**. The
+> `starscreener` Vercel project is **paused + Git-disconnected**, and Railway
+> was **deleted (2026-05-26)**. Both environments below are gone.
+>
+> **Current prod runbook → [DEPLOY-TOOLBOX.md](DEPLOY-TOOLBOX.md).**
+> Prod must return `Server: cloudflare` with no `X-Vercel-*` headers. Never run
+> `vercel deploy/promote/git connect/unpause` for `starscreener`/`aiso` (see
+> CLAUDE.md cross-project policy). This file is kept only for the env-var matrix
+> + historical context below.
+
+---
+
+## Historical (Vercel + Railway era — no longer operational)
+
+TrendingRepo used to run on two environments in parallel:
 
 | Deploy    | URL                                            | Role                                      |
 |-----------|------------------------------------------------|-------------------------------------------|

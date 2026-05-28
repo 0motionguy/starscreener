@@ -4,7 +4,27 @@ verified-by: claude
 status: living
 ---
 
-## What just shipped (2026-05-19)
+## What just shipped (2026-05-28) — GEO answer-surfaces, Wave 1 + 2
+
+On `bot/swarm-a6-producthunt-reader` (13 commits `f2c10ab03→777c76a67`, pushed,
+local prod build EXIT=0). **NOT yet in prod** — TOOLBOX deploy is gated.
+
+- **Root cause fixed:** the v6 cutover demolished the answer-surfaces `llms.txt`
+  told AI engines to cite (`/categories/*` 302→home, `/mcp` 308→`/agent-commerce`
+  which 429s crawlers). Every "cite us" instruction resolved to a dead end.
+- **Rebuilt as real, citable, indexable pages:** `/categories` + `/categories/[slug]`
+  (15), `/best` + `/best/[topic]` (12), `/compare/[a]/vs/[b]`, `/alternatives/[owner]/[name]`,
+  `/collections` (28), `/glossary` (8), `/blog` (MDX). Repo detail page enriched
+  (mounted the orphaned FAQ + dates, FAQPage/Breadcrumb schema, CTR title).
+- **Contract repaired:** `/mcp`→`/categories/mcp`; `llms.txt` 18/18 URLs 200;
+  ~30 redirecting v6 hubs purged from the sitemap; Organization JSON-LD sitewide;
+  Sidebar links all new surfaces. Caught + fixed a latent Satori OG 500.
+- **Docs/skill:** `docs/GEO-ANSWER-SURFACES.md` + `geo-answer-surfaces` skill +
+  `scripts/geo-citation-probe.mjs`.
+- **OPEN:** prod deploy (gated), G5 editorial-writer worker (LLM prose), real
+  citation tracking, polish. Full handover: `~/.claude/plans/handover-2026-05-28-geo-wave3.md`.
+
+## What shipped (2026-05-19)
 
 - UI v6 rebuild Phase A landed on `fix/csp-clerk-cname-fonts`: 14 routes
   shipped across 13 commits since the shell foundation (`8fdc0af7f`).

@@ -6,23 +6,36 @@
 
 **Cache column**: each route table in §3 carries a `Cache` column with one of `ISR` / `static` / `dynamic` / `private`. Values track the canonical cache policy declared in [`perf/routes.json`](../perf/routes.json) — that file is the source of truth for cache lifetimes, revalidate windows, and per-route performance budgets. When the policy diverges between this map and `perf/routes.json`, treat `perf/routes.json` as canonical and bring this doc back into sync. (Note: `perf/routes.json` lives in main checkout; in branches that predate PR1 it may not be present, which is fine — the column values here are still authoritative for documentation purposes.)
 
-**Last refreshed**: 2026-05-09 (route-doc cleanup against current sidebar + sitemap truth)
+**Last refreshed**: §1 (nav) + answer-surfaces updated 2026-05-28; §2–§3 route tables still reflect pre-v6 truth (see banner).
+
+> ## ⚠️ PARTIALLY STALE — §2/§3 predate the v6 cutover
+> The route tables in §2–§3 below describe the **pre-v6 (V5) site** and have NOT
+> been reconciled to v6. Many routes they present as live ISR pages now **308/302
+> redirect** (`/githubrepo`, `/skills`, `/mcp`, `/agent-repos`, `/breakouts`,
+> `/consensus`, `/signals`, `/twitter`, `/npm`, `/research`, per-source feeds, …) —
+> see `next.config.ts` `redirects()` for the authoritative map. The **current
+> sidebar + route inventory is §1** (refreshed 2026-05-28). The **current GEO
+> answer-surfaces** (`/categories`, `/best`, `/compare`, `/alternatives`,
+> `/collections`, `/glossary`, `/blog`) are documented in
+> [GEO-ANSWER-SURFACES.md](GEO-ANSWER-SURFACES.md). Treat `next.config.ts`,
+> `src/app/sitemap-pages.xml/route.ts`, and `src/components/shell/Sidebar.tsx` as
+> route truth until §2/§3 get a full v6 rebuild.
 
 ---
 
-## 1. Sidebar navigation — 9 rendered groups, 28 fixed clickable nav routes (+2 disabled placeholders)
+## 1. Sidebar navigation — v6 shell (current, refreshed 2026-05-28)
 
-[src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order:
+[src/components/shell/Sidebar.tsx](../src/components/shell/Sidebar.tsx) defines the menu (the old `src/components/layout/SidebarContent.tsx` is archived). Groups in render order:
 
-1. **TREND TERMINAL** — Trending Repos / Trending Skills / Trending MCP / Trending AGNT / Breakouts / Consensus
-2. **SIGNAL TERMINAL** — Market Signals / Hacker News / Lobsters / Dev.to / Bluesky / Reddit / X (Twitter) / Product Hunt
-3. **LLM / PACK TERMINAL** — NPM Packages / HF Models (single sidebar row; Datasets/Spaces are in-page tabs)
-4. **LAUNCH TERMINAL** — Funding Radar / Revenue / Agent Commerce / Hackathons (disabled) / Launch (disabled)
-5. **RESEARCH TERMINAL** — arXiv Papers / Cited Repos
-6. **EXPLORE** — Digest / Ideas / Collections
-7. **TOOLS** — Watchlist / Compare / Tier List / Top 10
-8. **RECENT** — recent repo links from local browser state (dynamic)
-9. **WATCHING** — top 5 watchlist preview cards (user-state)
+1. **Discover** — Trending (`/`) / Breakout / Categories (`/categories`) / Best Of (`/best`) / Collections (`/collections`) / Watchlist (`/tools/watchlist`)
+2. **Tools** — Top 10 (`/tools/top-10`) / Star History (`/tools/star-history`) / Tier List (`/tools/tier-list`) / Compare (`/tools/compare`)
+3. **Learn** — Blog (`/blog`) / Glossary (`/glossary`)
+4. **Market** — Mentions (`/market-signals`) / Funding / Revenue / Agent Commerce
+5. **Account** — Profile (`/account`) · plus the **Drop a repo** CTA (`/drop`) + upgrade card + live-pulse footer
+
+**GEO answer-surfaces** (the indexable/citable layer, mostly not in the sidebar — reachable via breadcrumbs + sitemap + cross-links): `/categories/[slug]` (15), `/best/[topic]` (12), `/compare/[...]/vs/[...]`, `/alternatives/[owner]/[name]`, `/collections/[slug]` (28), `/glossary/[term]` (8), `/blog/[slug]`. All read the data-store via `getDerivedRepos()` + consensus verdicts; see [GEO-ANSWER-SURFACES.md](GEO-ANSWER-SURFACES.md).
+
+> The pre-v6 group list (TREND/SIGNAL/LLM/LAUNCH/RESEARCH TERMINAL …) was removed — those sidebar rows + their routes (`/skills`, `/mcp`, `/githubrepo`, `/breakouts`, `/consensus`, per-source feeds) now redirect; §3 below still describes that old structure pending a rebuild.
 
 **Orphaned but URL-reachable** (kept on disk, not fixed sidebar rows): `/` (home dashboard), `/top` (Top 100), `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/tools`, `/tools/star-history`, `/tools/treemap`, `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue), `/huggingface/datasets`, `/huggingface/spaces`, `/huggingface/models` (HF models alias). BACKLOG AGN-63 tracks the keep-vs-retire decision.
 

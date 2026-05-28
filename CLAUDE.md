@@ -73,12 +73,15 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - New here? `docs/ARCHITECTURE.md`
 - Data layer (Redis-backed)? [tasks/data-api.md](tasks/data-api.md) — full plan, provisioning steps, phased roadmap
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`
-- Deploy issues? `docs/DEPLOY.md`
+- Deploy issues? **`docs/DEPLOY-TOOLBOX.md`** (prod = TOOLBOX + Cloudflare). `docs/DEPLOY.md` is the STALE Vercel/Railway-era snapshot — do not follow it for prod.
+- **SEO / GEO work (answer-surfaces, llms.txt, schema, sitemaps)** → [docs/GEO-ANSWER-SURFACES.md](docs/GEO-ANSWER-SURFACES.md) — the playbook + reusable JSON-LD primitives (`src/lib/seo/structured-data.ts`, `src/components/seo/*`) + the 200-only citation contract + `scripts/geo-citation-probe.mjs`. Wave 1+2 (2026-05-28) shipped /categories, /best, /compare, /alternatives, /collections, /glossary, /blog + repo-page enrichment on `bot/swarm-a6-producthunt-reader` (NOT yet in prod). Local `geo-answer-surfaces` skill mirrors it.
 - Adding a signal source? `docs/SOURCE_DISCOVERY.md`
 - **Worker fetcher hardening (read if touching `apps/trendingrepo-worker/src/fetchers/`)** → [docs/WORKER-HARDENING-2026-05-27.md](docs/WORKER-HARDENING-2026-05-27.md) — the registry-aware enrichment cascade, the `cache-merge` + `registry-candidates` shared primitives, the `check-worker-keep-last-50` lint, and the `AUDIT-PENDING` migration backlog.
 - `apps/trendingrepo-worker/` is the prod data plane: **41 fetchers ON MAIN** (NOT worktree branches — that CLAUDE.md claim was stale), builds a local OCI image deployed to TOOLBOX as a Docker tenant. Reads/writes `ss:data:v1:<slug>` on TOOLBOX-internal redis:6379. See memory `reference_worker_on_main.md` + `reference_toolbox_worker_deploy.md`.
 
 ## Anti-Patterns Already Burned
+- **OG image routes follow Satori, not the DOM (burned 2026-05-28).** In any `opengraph-image.tsx` / `/api/og/*` route, an element with >1 child needs `display:flex`, OR collapse interpolated titles to a SINGLE child — `` {`What is ${x}?`} `` not `What is {x}?`. OG routes render on-demand so `next build` does NOT catch the error; it 500s on every social unfurl / Image Search fetch. Also: a catch-all `[...slug]` route CANNOT have a sibling file-convention `opengraph-image.tsx` ("catch-all must be the last segment") — serve its OG from an `/api/og/.../[...slug]/route.tsx` and set `openGraph.images` manually.
+- **When verifying SSR/JSON-LD via curl, count `@type` with `grep -o … | wc -l`, not `grep -c`.** Next streams the RSC flight payload into the HTML, duplicating every string — `grep -c` (lines) misleads. Same reason `notFound()` shows HTTP 200 in dev but 404 in a prod build.
 - Don't switch Twitter collector back to API mode — it silently fails on Vercel.
 - Don't mock Redis in tests that exercise scoring logic — 2026-Q1 incident.
 - Don't use cookie-based Twitter scrapers — dead provider.

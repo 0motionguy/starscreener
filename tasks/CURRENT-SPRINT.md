@@ -10,6 +10,18 @@ mentions-ledger-2026-05-21: **NEW SESSION HANDOVER** at docs/HANDOVER-2026-05-21
 
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
+## 🟢 GEO answer-surfaces — Wave 1 + 2 SHIPPED (2026-05-28, not yet in prod)
+
+On `bot/swarm-a6-producthunt-reader` (13 commits `f2c10ab03→777c76a67`, build
+EXIT=0, pushed). Rebuilt the GEO/SEO answer-surfaces the v6 cutover demolished:
+`/categories`, `/best`, `/compare`, `/alternatives`, `/collections`, `/glossary`,
+`/blog` + repo-page enrichment (FAQ/dates/schema/CTR) + `llms.txt` citation
+contract repair (18/18 URLs 200) + sitemap hygiene + Sidebar nav.
+
+- **Playbook:** [docs/GEO-ANSWER-SURFACES.md](../docs/GEO-ANSWER-SURFACES.md) (+ local `geo-answer-surfaces` skill).
+- **Next-session handover (prod deploy + G5 worker + measurement + polish):** `~/.claude/plans/handover-2026-05-28-geo-wave3.md`.
+- **OPEN:** prod deploy to TOOLBOX (gated), LLM editorial-writer worker, citation tracking.
+
 ## ✅ UI v6 rebuild — Phase A complete (2026-05-19)
 
 14 routes shipped on `fix/csp-clerk-cname-fonts` since the shell

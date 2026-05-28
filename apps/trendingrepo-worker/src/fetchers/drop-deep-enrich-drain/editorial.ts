@@ -28,11 +28,35 @@ const CitationSchema = z.object({
 
 export const RepoEditorialReportSchema = z.object({
   tagline: z.string().min(1).max(160).optional(),
-  overview: z.string().min(40).max(900),
+  overview: z.string().min(30).max(900),
   citations: z.array(CitationSchema).max(5).optional(),
 });
 
 export type RepoEditorialReport = z.infer<typeof RepoEditorialReportSchema>;
+
+// Strip hashtags, @mentions, emoji-ish symbols, and collapse whitespace. Small
+// fallback models (NanoGPT kimi-k2.6) sometimes degenerate into hashtag spam on
+// README-derived input — this keeps such noise out of the stored prose.
+function sanitizeProse(input: unknown): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/[#＃@][\p{L}\p{N}_]+/gu, "")
+    .replace(
+      /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\u{FE0F}]/gu,
+      "",
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Coalesce the overview from the keys models actually emit, sanitize, clamp.
+function coalesceOverview(obj: Record<string, unknown>): string {
+  for (const key of ["overview", "summary", "description", "body"]) {
+    const v = sanitizeProse(obj[key]);
+    if (v.length >= 30) return v.slice(0, 900);
+  }
+  return "";
+}
 
 export interface RepoEditorialPayload extends RepoEditorialReport {
   fullName: string;
@@ -53,18 +77,20 @@ INPUT
 A JSON object describing one repo: { fullName, topics, languages, license, homepageUrl, readmeExcerpt, citationCandidates }.
 
 OUTPUT
-Respond with ONLY a JSON object (no prose around it, no code fences):
+Respond with ONLY a JSON object (no prose around it, no code fences). Emit "overview" FIRST and treat it as the most important field:
 {
-  "tagline": "≤12 words — what this repo IS, in expert framing.",
-  "overview": "2-4 sentences. Define what the project does, what problem it solves, who it is for, and what makes it notable. Concrete and specific — ground it in the README and topics, never invent features.",
-  "citations": [{ "title": "string ≤80 chars", "url": "MUST be from input citationCandidates" }]
+  "overview": "2-4 complete sentences. Define what the project does, what problem it solves, who it is for, and what makes it notable. Concrete and specific — ground it in the README and topics, never invent features.",
+  "tagline": "A single noun phrase, at most 12 words. No punctuation lists.",
+  "citations": [{ "title": "string <=80 chars", "url": "MUST be from input citationCandidates" }]
 }
 
-RULES
+HARD RULES
+- Output ONLY the JSON object. Stop immediately after the closing brace.
+- NEVER use hashtags (#word), emojis, @mentions, or social-media phrasing. This is analytical prose, not a social post.
+- Do NOT repeat words or phrases. No filler, no marketing fluff, no hedging ("might", "perhaps"), no first person, no "this repository".
 - Factual and grounded in the provided README/topics. Do NOT invent features, benchmarks, star counts, dates, or funding.
-- Expert, neutral, concrete. No marketing fluff, no hedging ("might", "perhaps"), no first person, no "this repository".
 - Lead the overview with what the project actually does, not "This is a repo that...".
-- Plain text only in tagline/overview (no markdown, no links).
+- Plain text only in overview/tagline (no markdown, no links, no lists).
 - citations: 1-3 entries, picked ONLY from input citationCandidates. Always include the GitHub URL. Never invent a URL.`;
 
 interface RepoEditorialInput {
@@ -132,13 +158,33 @@ export async function runRepoEditorial(
         systemPrompt: SYSTEM_PROMPT,
         userMessage: buildUserMessage(input),
         maxTokens: 2000,
-        temperature: 0.5,
+        // Low temperature: the fallback model degenerates into hashtag spam at
+        // 0.5 on README-derived input. 0.2 keeps it on-task.
+        temperature: 0.2,
         jsonMode: true,
       },
       { feature: 'editorial', task_type: 'summary', request_id: randomUUID() },
     );
     const parsed = parseJson(r.text);
-    const validated = RepoEditorialReportSchema.safeParse(parsed);
+    const obj =
+      parsed && typeof parsed === 'object'
+        ? (parsed as Record<string, unknown>)
+        : {};
+
+    // Normalize before validation: pull overview from whatever key the model
+    // used, sanitize hashtag/emoji noise, clamp the tagline. A tagline longer
+    // than 140 chars is the model cramming the overview in — drop it.
+    const overview = coalesceOverview(obj);
+    const taglineRaw = sanitizeProse(obj.tagline);
+    const tagline =
+      taglineRaw.length > 0 && taglineRaw.length <= 140 ? taglineRaw : undefined;
+    const citations = Array.isArray(obj.citations) ? obj.citations : undefined;
+
+    const validated = RepoEditorialReportSchema.safeParse({
+      overview,
+      tagline,
+      citations,
+    });
     if (!validated.success) {
       ctx.log.warn(
         { fullName, issues: validated.error.issues.slice(0, 3) },

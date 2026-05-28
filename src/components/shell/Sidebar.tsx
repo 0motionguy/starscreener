@@ -25,6 +25,11 @@ import {
   Layers,
   GitCompare,
   AtSign,
+  LayoutGrid,
+  Trophy,
+  Library,
+  Newspaper,
+  BookOpen,
 } from "lucide-react";
 
 export async function Sidebar() {
@@ -64,6 +69,24 @@ export async function Sidebar() {
           </span>
           <span>Breakout</span>
         </NavLink>
+        <NavLink href="/categories" prefetch={false}>
+          <span className="nav-icon">
+            <LayoutGrid size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Categories</span>
+        </NavLink>
+        <NavLink href="/best" prefetch={false}>
+          <span className="nav-icon">
+            <Trophy size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Best Of</span>
+        </NavLink>
+        <NavLink href="/collections" prefetch={false}>
+          <span className="nav-icon">
+            <Library size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Collections</span>
+        </NavLink>
         <NavLink href="/tools/watchlist" prefetch={false}>
           <span className="nav-icon">
             <Bookmark size={16} strokeWidth={1.5} aria-hidden="true" />
@@ -99,6 +122,22 @@ export async function Sidebar() {
             <GitCompare size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Compare</span>
+        </NavLink>
+      </div>
+
+      <div className="nav-group">
+        <div className="nav-label">Learn</div>
+        <NavLink href="/blog" prefetch={false}>
+          <span className="nav-icon">
+            <Newspaper size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Blog</span>
+        </NavLink>
+        <NavLink href="/glossary" prefetch={false}>
+          <span className="nav-icon">
+            <BookOpen size={16} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <span>Glossary</span>
         </NavLink>
       </div>
 

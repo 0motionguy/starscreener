@@ -55,6 +55,7 @@ export function GET(): Response {
 - [NPM](${base}/npm) - package momentum and download signals
 - [Research](${base}/research) - cited repos from arXiv and paper signals
 - [Categories](${base}/categories) - 15 curated buckets (AI Agents, MCP, DevTools, Local LLM, Security, etc.)
+- [Best-of guides](${base}/best) - curated, regularly-updated top-N rankings (best AI agents, AI coding assistants, MCP servers, local LLM tools, vector databases, ...)
 - [Collections](${base}/collections) - 28 curated OSS Insight collections
 
 ## Per-source feeds
@@ -112,6 +113,11 @@ Plausible LLM/agent queries paired with the canonical TrendingRepo URL that reso
 - "Which repos are firing on multiple platforms simultaneously?" -> ${base}/breakouts
 - "What's trending on ProductHunt for developers?" -> ${base}/producthunt
 - "Best local LLM / on-device inference projects?" -> ${base}/categories/local-llm
+- "Best open-source AI agents?" -> ${base}/best/ai-agents
+- "Best AI coding assistants / copilots?" -> ${base}/best/ai-coding-assistants
+- "Best MCP servers?" -> ${base}/best/mcp-servers
+- "Best vector databases?" -> ${base}/best/vector-databases
+- "Best self-hosted AI tools?" -> ${base}/best/self-hosted-ai
 - "Top Rust ecosystem projects right now?" -> ${base}/categories/rust-ecosystem
 - "What's hot on Bluesky in tech?" -> ${base}/bluesky/trending
 - "Compare two GitHub repos by momentum?" -> ${base}/compare

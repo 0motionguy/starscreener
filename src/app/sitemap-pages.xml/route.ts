@@ -24,6 +24,7 @@
 //   re-running the file IO for `loadAllCollections()` on every crawl.
 
 import { CATEGORIES } from "@/lib/constants";
+import { BEST_TOPICS } from "@/lib/best-topics";
 import { loadAllCollections } from "@/lib/collections";
 import { absoluteUrl } from "@/lib/seo";
 import {
@@ -63,6 +64,7 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/huggingface/spaces", priority: 0.75, changefreq: "daily" },
   { path: "/revenue", priority: 0.8, changefreq: "daily" },
   { path: "/categories", priority: 0.8, changefreq: "daily" },
+  { path: "/best", priority: 0.85, changefreq: "daily" },
   { path: "/collections", priority: 0.8, changefreq: "daily" },
   { path: "/hackernews/trending", priority: 0.8, changefreq: "hourly" },
   { path: "/bluesky/trending", priority: 0.75, changefreq: "daily" },
@@ -140,7 +142,24 @@ export function GET(): Response {
     });
   }
 
-  // 3. Curated collection pages — each ships a dynamic OG image.
+  // 3. "Best of" listicle pages — each ships a dynamic OG image.
+  for (const t of BEST_TOPICS) {
+    entries.push({
+      loc: absoluteUrl(`/best/${t.slug}`),
+      lastmod: now,
+      changefreq: "daily",
+      priority: 0.75,
+      images: [
+        {
+          loc: absoluteUrl(`/best/${t.slug}/opengraph-image`),
+          title: t.title,
+          caption: t.blurb,
+        },
+      ],
+    });
+  }
+
+  // 4. Curated collection pages — each ships a dynamic OG image.
   for (const c of loadAllCollections()) {
     entries.push({
       loc: absoluteUrl(`/collections/${c.slug}`),

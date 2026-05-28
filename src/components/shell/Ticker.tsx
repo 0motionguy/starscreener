@@ -8,6 +8,8 @@ export interface TickerItem {
   label: string;
   value: string;
   tone?: "up" | "down" | "flat";
+  /** Optional small avatar shown before the label (e.g. repo owner). */
+  imageUrl?: string;
 }
 
 interface TickerProps {
@@ -25,6 +27,17 @@ export function Ticker({ items }: TickerProps) {
         {doubled.map((it, i) => (
           <span className="tick" key={`${it.label}-${i}`}>
             <span className="tick-tag">{it.tag}</span>
+            {it.imageUrl ? (
+              <img
+                className="tick-avatar"
+                src={it.imageUrl}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                width={18}
+                height={18}
+              />
+            ) : null}
             <b>{it.label}</b>
             <span className={tone(it.tone)}>{it.value}</span>
           </span>
@@ -60,11 +73,17 @@ function buildDefaultTicker(): TickerItem[] {
   return movers.map((row) => {
     const v = row.starsDelta24h;
     const pretty = v >= 0 ? `+${v} stars 24h` : `${v} stars 24h`;
+    const owner = row.fullName.split("/")[0] ?? "";
     return {
       tag: "REPO",
       label: row.fullName,
       value: pretty,
       tone: v >= 0 ? "up" : "down",
+      // GitHub serves any owner's avatar at github.com/<owner>.png (user or
+      // org); CSP img-src allows https. No stored avatar needed.
+      imageUrl: owner
+        ? `https://github.com/${encodeURIComponent(owner)}.png?size=48`
+        : undefined,
     };
   });
 }

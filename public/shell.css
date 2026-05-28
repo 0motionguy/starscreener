@@ -577,6 +577,14 @@ img { max-width: 100%; display: block; }
 .tick .delta-up { color: var(--up); }
 .tick .delta-dn { color: var(--down); }
 .tick .delta-fl { color: var(--fg-faint); }
+.tick .tick-avatar {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
 
 /* MAIN */
 .main {

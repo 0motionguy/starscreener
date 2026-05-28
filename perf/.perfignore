@@ -47,3 +47,12 @@
 /huggingface/spaces
 /huggingface/datasets
 /huggingface/trending
+
+# GEO answer-surfaces shipped 2026-05-28 (categories already covered above).
+# ISR/static content pages; defer perf budgets until a Lighthouse baseline
+# exists, then graduate into perf/routes.json with warmup cadences.
+/best
+/best/[topic]
+/blog
+/blog/[slug]
+/compare/[...slug]

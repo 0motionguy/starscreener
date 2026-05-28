@@ -59,7 +59,15 @@ function readAll(): BlogPost[] {
 }
 
 export function getAllPostsMeta(): BlogPostMeta[] {
-  return readAll().map(({ body: _body, ...meta }) => meta);
+  return readAll().map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    date: p.date,
+    updated: p.updated,
+    author: p.author,
+    tags: p.tags,
+  }));
 }
 
 export function getAllSlugs(): string[] {

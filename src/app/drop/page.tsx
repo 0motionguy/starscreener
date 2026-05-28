@@ -1,7 +1,7 @@
 import { TOTAL_SCAN_CHANNEL_COUNT } from "@/lib/repo-scan-channels";
 import {
   computeSubmissionStats,
-  listRepoSubmissions,
+  listPublicRepoSubmissions,
   toPublicRepoSubmission,
 } from "@/lib/repo-submissions";
 
@@ -19,7 +19,7 @@ export const metadata = {
 async function fetchInitialState() {
   try {
     const [records, stats] = await Promise.all([
-      listRepoSubmissions(),
+      listPublicRepoSubmissions(),
       computeSubmissionStats(),
     ]);
     return {

@@ -407,6 +407,27 @@ export async function listRepoSubmissions(): Promise<RepoSubmissionRecord[]> {
   return readAllSubmissions();
 }
 
+// Synthetic test/smoke submissions (e2e probes + manual QA drops like
+// `dorp-email-smoke-*`, `test-repo-*`) live in the same store as real drops.
+// Hide them from public surfaces — the live queue and the hero stats — while
+// keeping them visible to admin tooling for debugging.
+const SYNTHETIC_SUBMISSION_PATTERN =
+  /(?:^|\/)(?:dorp-|test-repo-\d)|-smoke-\d/i;
+
+export function isSyntheticTestSubmission(
+  record: Pick<RepoSubmissionRecord, "normalizedFullName">,
+): boolean {
+  return SYNTHETIC_SUBMISSION_PATTERN.test(record.normalizedFullName);
+}
+
+/** Public-facing submission list — excludes synthetic test/smoke entries. */
+export async function listPublicRepoSubmissions(): Promise<
+  RepoSubmissionRecord[]
+> {
+  const records = await readAllSubmissions();
+  return records.filter((record) => !isSyntheticTestSubmission(record));
+}
+
 export function summarizeRepoSubmissionQueue(
   records: RepoSubmissionRecord[],
 ): RepoSubmissionQueueSummary {
@@ -579,7 +600,10 @@ function median(values: number[]): number | null {
 }
 
 export async function computeSubmissionStats(): Promise<RepoSubmissionStats> {
-  const records = await readAllSubmissions();
+  // Public marketing stats — never count synthetic test/smoke entries.
+  const records = (await readAllSubmissions()).filter(
+    (record) => !isSyntheticTestSubmission(record),
+  );
   const now = Date.now();
   const weekAgo = now - 7 * MS_PER_DAY;
   const monthAgo = now - 30 * MS_PER_DAY;

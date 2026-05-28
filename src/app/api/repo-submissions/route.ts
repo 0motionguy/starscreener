@@ -6,7 +6,7 @@ import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { enqueueDrop, peekQueueDepth } from "@/lib/repo-intake-queue";
 import {
   computeSubmissionStats,
-  listRepoSubmissions,
+  listPublicRepoSubmissions,
   submitRepoToQueue,
   summarizeRepoSubmissionQueue,
   toPublicRepoSubmission,
@@ -58,7 +58,7 @@ export async function GET(): Promise<
 > {
   try {
     const [records, stats, queueDepth] = await Promise.all([
-      listRepoSubmissions(),
+      listPublicRepoSubmissions(),
       computeSubmissionStats(),
       peekQueueDepth(),
     ]);

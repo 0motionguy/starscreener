@@ -70,29 +70,29 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const sort = normalizeSort(rawSort);
   const ranker = normalizeRanker(rawRank);
 
-  await refreshTrendingFromStore().catch(() => undefined);
+  await refreshTrendingFromStore().catch(onRefreshError("trending"));
   // Hydrate the persistent repo-registry so getDerivedRepos() includes repos
   // that have dropped out of the live trending feed (the accumulating
   // collection). 30s rate-limit + dedupe inside — cheap per render.
-  await refreshRepoRegistryFromStore().catch(() => undefined);
+  await refreshRepoRegistryFromStore().catch(onRefreshError("repo-registry"));
   // Always refresh AA LLMs so the control-bar pill count is honest from any
   // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
   // cheap to call on every render.
-  await refreshAaLlmsFromStore().catch(() => undefined);
+  await refreshAaLlmsFromStore().catch(onRefreshError("aa-llms"));
   // Always refresh the OpenRouter catalogue so the Models tab pill count is
   // honest from any view (30s rate-limit + dedupe inside — cheap per render).
-  await refreshOpenrouterFromStore().catch(() => undefined);
+  await refreshOpenrouterFromStore().catch(onRefreshError("openrouter"));
   // Hydrate per-source mention caches + cross-source detail so the repo rows'
   // source pips reflect live redis data (not a cold cache). Each refresh is
   // 30s rate-limited + in-flight-deduped, so this is cheap per render.
-  await refreshAllMentionStores().catch(() => undefined);
+  await refreshAllMentionStores().catch(onRefreshError("mentions"));
   // Freshly-listed /drop repos surface as NEW (ticker / featured / trending).
   // 30s-rate-limited + deduped inside the reader, so cheap per render.
-  await refreshRecentDropsFromStore().catch(() => undefined);
+  await refreshRecentDropsFromStore().catch(onRefreshError("recent-drops"));
   if (category !== "repos" && category !== "llms") {
-    await refreshCategoryFromStore(category).catch(() => undefined);
+    await refreshCategoryFromStore(category).catch(onRefreshError(`category:${category}`));
   } else if (category === "repos" && ranker === "trend") {
-    await refreshTrendshiftFromStore().catch(() => undefined);
+    await refreshTrendshiftFromStore().catch(onRefreshError("trendshift"));
   }
 
   const rawRepos = (() => {
@@ -135,7 +135,13 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const language = rawLang;
   const sorted = sortRepos(repos, timeWindow, sort, ranker, category);
 
-  const counts = await getSidebarSourceCounts().catch(() => null);
+  const counts = await getSidebarSourceCounts().catch((err) => {
+    console.error(
+      "[home] data refresh failed: sidebar-counts",
+      err instanceof Error ? err.message : err,
+    );
+    return null;
+  });
   const switcherCounts: Partial<Record<CategoryId, number>> = {
     repos: safe(() => getDerivedRepoCount(), repos.length),
     agents: counts?.agentRepos ?? 0,
@@ -319,6 +325,20 @@ function safe<T>(fn: () => T, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+// Surface a store-refresh failure to server logs instead of swallowing it
+// silently. Returns undefined so a cold/failed source never throws the
+// (ISR-cached) render — the page still degrades gracefully — but the operator
+// is no longer blind to *which* source was down during a brownout.
+function onRefreshError(source: string): (err: unknown) => undefined {
+  return (err) => {
+    console.error(
+      `[home] data refresh failed: ${source}`,
+      err instanceof Error ? err.message : err,
+    );
+    return undefined;
+  };
 }
 
 // Plain-text description for the Models ItemList JSON-LD entries.

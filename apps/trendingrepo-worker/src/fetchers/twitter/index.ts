@@ -29,7 +29,8 @@
 import * as cheerio from 'cheerio';
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 
 const DEFAULT_NITTER_INSTANCE = 'https://nt.vern.cc';
@@ -268,7 +269,28 @@ const fetcher: Fetcher = {
       ...(degraded && bailReason ? { degradedReason: bailReason } : {}),
     };
 
-    const result = await writeDataStore('twitter-repo-signals', payload);
+    // Zero-write guard (keep-last-50 rule): the public Nitter instance is
+    // frequently down/rate-limited, making allPosts empty. Overwriting the slug
+    // with an empty payload zeroes twitter signals until the next good run —
+    // the intermittent flake. Preserve the last-known-good slug instead.
+    const existing = await readDataStore<{ posts?: unknown[] }>(
+      'twitter-repo-signals',
+    ).catch(() => null);
+    let source = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: allPosts,
+        existing: existing?.posts ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        { degraded, failed, bailReason },
+        'twitter: empty scan — preserving last-known-good twitter-repo-signals',
+      );
+    } else {
+      const result = await writeDataStore('twitter-repo-signals', payload);
+      source = result.source;
+    }
     ctx.log.info(
       {
         instance,
@@ -276,11 +298,11 @@ const fetcher: Fetcher = {
         failed,
         posts: allPosts.length,
         degraded,
-        redis: result.source,
+        redis: source,
       },
       'twitter published',
     );
-    return done(startedAt, allPosts.length, result.source === 'redis');
+    return done(startedAt, allPosts.length, source === 'redis');
   },
 };
 

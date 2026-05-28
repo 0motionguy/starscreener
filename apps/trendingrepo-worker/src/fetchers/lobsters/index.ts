@@ -8,7 +8,8 @@
 //   - ss:data:v1:lobsters-mentions  (per-repo mention buckets last 7d)
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 
@@ -238,22 +239,58 @@ const fetcher: Fetcher = {
       leaderboard,
     };
 
-    const trendingResult = await writeDataStore('lobsters-trending', trendingPayload);
-    const mentionsResult = await writeDataStore('lobsters-mentions', mentionsPayload);
+    // Zero-write guard (keep-last-50 rule): lobste.rs has no official API and
+    // we scrape JSON pages; a transient outage makes this run come back empty.
+    // Preserve the last-known-good slug instead of zeroing the surfaces.
+    const existingTrending = await readDataStore<{ stories?: unknown[] }>(
+      'lobsters-trending',
+    ).catch(() => null);
+    const existingMentions = await readDataStore<{ leaderboard?: unknown[] }>(
+      'lobsters-mentions',
+    ).catch(() => null);
+
+    let trendingSource = 'preserved';
+    let mentionsSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: trendingStories,
+        existing: existingTrending?.stories ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'lobsters: empty trending scan — preserving last-known-good lobsters-trending',
+      );
+    } else {
+      const r = await writeDataStore('lobsters-trending', trendingPayload);
+      trendingSource = r.source;
+    }
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: leaderboard,
+        existing: existingMentions?.leaderboard ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'lobsters: empty mentions scan — preserving last-known-good lobsters-mentions',
+      );
+    } else {
+      const r = await writeDataStore('lobsters-mentions', mentionsPayload);
+      mentionsSource = r.source;
+    }
 
     ctx.log.info(
       {
         trending: trendingStories.length,
         mentions: Object.keys(mentions).length,
-        trendingRedis: trendingResult.source,
-        mentionsRedis: mentionsResult.source,
+        trendingRedis: trendingSource,
+        mentionsRedis: mentionsSource,
       },
       'lobsters published',
     );
     return done(
       startedAt,
       stories.length,
-      trendingResult.source === 'redis' || mentionsResult.source === 'redis',
+      trendingSource === 'redis' || mentionsSource === 'redis',
     );
   },
 };

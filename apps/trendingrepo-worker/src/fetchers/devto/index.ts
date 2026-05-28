@@ -12,7 +12,8 @@
 //   - ss:data:v1:devto-trending  (top AI/dev articles regardless of repo link)
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import {
   fetchArticleList,
   fetchDetailsBatched,
@@ -320,22 +321,58 @@ const fetcher: Fetcher = {
       articles: trendingArticles,
     };
 
-    const mentionsResult = await writeDataStore('devto-mentions', mentionsPayload);
-    const trendingResult = await writeDataStore('devto-trending', trendingPayload);
+    // Zero-write guard (keep-last-50 rule): dev.to is rate-limited and
+    // IP-blocked from the VPS, so a run can legitimately come back empty.
+    // Preserve the last-known-good slug instead of zeroing the surfaces.
+    const existingMentions = await readDataStore<{ leaderboard?: unknown[] }>(
+      'devto-mentions',
+    ).catch(() => null);
+    const existingTrending = await readDataStore<{ articles?: unknown[] }>(
+      'devto-trending',
+    ).catch(() => null);
+
+    let mentionsSource = 'preserved';
+    let trendingSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: leaderboard,
+        existing: existingMentions?.leaderboard ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'devto: empty mentions scan — preserving last-known-good devto-mentions',
+      );
+    } else {
+      const r = await writeDataStore('devto-mentions', mentionsPayload);
+      mentionsSource = r.source;
+    }
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: trendingArticles,
+        existing: existingTrending?.articles ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'devto: empty trending scan — preserving last-known-good devto-trending',
+      );
+    } else {
+      const r = await writeDataStore('devto-trending', trendingPayload);
+      trendingSource = r.source;
+    }
 
     ctx.log.info(
       {
         mentions: Object.keys(mentions).length,
         trending: trendingArticles.length,
-        mentionsRedis: mentionsResult.source,
-        trendingRedis: trendingResult.source,
+        mentionsRedis: mentionsSource,
+        trendingRedis: trendingSource,
       },
       'devto published',
     );
     return done(
       startedAt,
       normalized.length,
-      mentionsResult.source === 'redis' || trendingResult.source === 'redis',
+      mentionsSource === 'redis' || trendingSource === 'redis',
     );
   },
 };

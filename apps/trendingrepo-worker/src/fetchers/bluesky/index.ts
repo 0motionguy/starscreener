@@ -13,7 +13,8 @@
 //   - ss:data:v1:bluesky-trending  (top-engagement posts across families)
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import {
   BlueskyRateLimitError,
   collectPostUrls,
@@ -338,23 +339,59 @@ const fetcher: Fetcher = {
       posts: trendingMerged,
     };
 
-    const mentionsResult = await writeDataStore('bluesky-mentions', mentionsPayload);
-    const trendingResult = await writeDataStore('bluesky-trending', trendingPayload);
+    // Zero-write guard (keep-last-50 rule): preserve the last-known-good slug
+    // when an AT-proto rate-limit / outage makes this run come back empty,
+    // instead of zeroing the bluesky surfaces until the next good run.
+    const existingMentions = await readDataStore<{ leaderboard?: unknown[] }>(
+      'bluesky-mentions',
+    ).catch(() => null);
+    const existingTrending = await readDataStore<{ posts?: unknown[] }>(
+      'bluesky-trending',
+    ).catch(() => null);
+
+    let mentionsSource = 'preserved';
+    let trendingSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: leaderboard,
+        existing: existingMentions?.leaderboard ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'bluesky: empty mentions scan — preserving last-known-good bluesky-mentions',
+      );
+    } else {
+      const r = await writeDataStore('bluesky-mentions', mentionsPayload);
+      mentionsSource = r.source;
+    }
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: trendingMerged,
+        existing: existingTrending?.posts ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'bluesky: empty trending scan — preserving last-known-good bluesky-trending',
+      );
+    } else {
+      const r = await writeDataStore('bluesky-trending', trendingPayload);
+      trendingSource = r.source;
+    }
 
     const itemsSeen = rawMentionPosts.length + trendingByUri.size;
     ctx.log.info(
       {
         mentions: Object.keys(mentions).length,
         trending: trendingMerged.length,
-        mentionsRedis: mentionsResult.source,
-        trendingRedis: trendingResult.source,
+        mentionsRedis: mentionsSource,
+        trendingRedis: trendingSource,
       },
       'bluesky published',
     );
     return done(
       startedAt,
       itemsSeen,
-      mentionsResult.source === 'redis' || trendingResult.source === 'redis',
+      mentionsSource === 'redis' || trendingSource === 'redis',
     );
   },
 };

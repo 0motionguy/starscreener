@@ -8,7 +8,8 @@
 //   - ss:data:v1:hackernews-repo-mentions  (repo-linked stories last 7d)
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import {
   fetchTopStoryIds,
   fetchItemsBatched,
@@ -357,23 +358,61 @@ const fetcher: Fetcher = {
       leaderboard,
     };
 
-    const trendingResult = await writeDataStore('hackernews-trending', trendingPayload);
-    const mentionsResult = await writeDataStore('hackernews-repo-mentions', mentionsPayload);
+    // Zero-write guard (keep-last-50 rule): if both upstreams (Firebase +
+    // Algolia) flake and return nothing, trendingMerged + the mentions
+    // leaderboard come back empty. Overwriting with that empty payload zeroes
+    // the hackernews surfaces until the next good run — the intermittent
+    // "works→fails→works". Preserve the last-known-good slug instead.
+    const existingTrending = await readDataStore<{ stories?: unknown[] }>(
+      'hackernews-trending',
+    ).catch(() => null);
+    const existingMentions = await readDataStore<{ leaderboard?: unknown[] }>(
+      'hackernews-repo-mentions',
+    ).catch(() => null);
+
+    let trendingSource = 'preserved';
+    let mentionsSource = 'preserved';
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: trendingMerged,
+        existing: existingTrending?.stories ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'hackernews: empty trending scan — preserving last-known-good hackernews-trending',
+      );
+    } else {
+      const r = await writeDataStore('hackernews-trending', trendingPayload);
+      trendingSource = r.source;
+    }
+    if (
+      shouldPreserveCache<unknown>({
+        fresh: leaderboard,
+        existing: existingMentions?.leaderboard ?? [],
+      })
+    ) {
+      ctx.log.warn(
+        'hackernews: empty mentions scan — preserving last-known-good hackernews-repo-mentions',
+      );
+    } else {
+      const r = await writeDataStore('hackernews-repo-mentions', mentionsPayload);
+      mentionsSource = r.source;
+    }
 
     const itemsSeen = rawItems.length + algoliaHits.length;
     ctx.log.info(
       {
         trending: trendingMerged.length,
         mentions: Object.keys(mentions).length,
-        trendingRedis: trendingResult.source,
-        mentionsRedis: mentionsResult.source,
+        trendingRedis: trendingSource,
+        mentionsRedis: mentionsSource,
       },
       'hackernews published',
     );
     return done(
       startedAt,
       itemsSeen,
-      trendingResult.source === 'redis' || mentionsResult.source === 'redis',
+      trendingSource === 'redis' || mentionsSource === 'redis',
     );
   },
 };

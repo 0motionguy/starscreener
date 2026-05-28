@@ -8,6 +8,7 @@
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { getCategoryMeta, getCategoryRepos } from "@/lib/categories";
+import { getEditorialAlternatives } from "@/lib/editorial-alternatives";
 import type { FaqEntry } from "@/lib/seo/structured-data";
 import type { Repo } from "@/lib/types";
 
@@ -49,8 +50,16 @@ function todayLabel(): string {
 
 export function buildAlternativesIntro(target: Repo, alts: Repo[], categoryName: string | null): string {
   const cat = categoryName ? categoryName.toLowerCase() : "open-source";
-  const lead = `Looking for alternatives to ${target.fullName}? These are the top open-source ${cat} projects on TrendingRepo, ranked by cross-source momentum — GitHub star velocity weighted with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`;
   const ctx = ` ${target.name} has ${fmt(target.stars)} stars; ${alts.length} comparable ${alts.length === 1 ? "project" : "projects"} are ranked below as of ${todayLabel()}.`;
+  // Prefer the LLM-written "alternatives to X" framing (worker
+  // `editorial-alternatives` slug) when present — then append the live stats.
+  // Caller must have awaited refreshEditorialAlternativesFromStore(). Falls back
+  // to the deterministic lead when no overview is stored.
+  const editorial = getEditorialAlternatives(target.fullName);
+  if (editorial?.overview) {
+    return `${editorial.overview}${ctx}`;
+  }
+  const lead = `Looking for alternatives to ${target.fullName}? These are the top open-source ${cat} projects on TrendingRepo, ranked by cross-source momentum — GitHub star velocity weighted with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`;
   return `${lead}${ctx}`;
 }
 

@@ -17,6 +17,7 @@ import Link from "next/link";
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
+import { refreshEditorialCategoriesFromStore } from "@/lib/editorial-categories";
 import {
   CATEGORY_SLUGS,
   getCategoryMeta,
@@ -94,6 +95,7 @@ export default async function CategoryHubPage({ params }: PageProps) {
     refreshTrendingFromStore().catch(() => undefined),
     refreshRepoRegistryFromStore().catch(() => undefined),
     refreshAllMentionStores().catch(() => undefined),
+    refreshEditorialCategoriesFromStore().catch(() => undefined),
   ]);
 
   const repos = (() => {

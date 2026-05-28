@@ -17,10 +17,12 @@ import {
   refreshConsensusVerdictsFromStore,
   getConsensusItemReport,
 } from "@/lib/consensus-verdicts";
+import { refreshEditorialCompareFromStore } from "@/lib/editorial-compare";
 import {
   parseComparePath,
   comparePath,
   buildCompareFaq,
+  buildCompareIntro,
   compareLeader,
 } from "@/lib/compare-pairs";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
@@ -107,6 +109,7 @@ export default async function ComparePage({ params }: PageProps) {
     refreshRepoRegistryFromStore().catch(() => undefined),
     refreshAllMentionStores().catch(() => undefined),
     refreshConsensusVerdictsFromStore().catch(() => undefined),
+    refreshEditorialCompareFromStore().catch(() => undefined),
   ]);
 
   const repoA = (() => {
@@ -141,6 +144,7 @@ export default async function ComparePage({ params }: PageProps) {
   })();
 
   const leader = compareLeader(repoA, repoB);
+  const intro = buildCompareIntro(repoA, repoB, leader);
   const faq = buildCompareFaq(repoA, repoB);
 
   const breadcrumb = buildBreadcrumbJsonLd([
@@ -173,17 +177,7 @@ export default async function ComparePage({ params }: PageProps) {
         <h1>
           {repoA.fullName} vs {repoB.fullName}
         </h1>
-        <p>
-          A live side-by-side comparison of {repoA.name} and {repoB.name} — GitHub stars, momentum
-          score, star velocity and cross-source mentions, refreshed continuously.{" "}
-          {leader.tie ? (
-            <>Both are closely matched on momentum right now.</>
-          ) : (
-            <>
-              <strong>{leader.winnerFullName}</strong> currently leads on cross-source momentum.
-            </>
-          )}
-        </p>
+        <p>{intro}</p>
       </header>
 
       <div className="card">

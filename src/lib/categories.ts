@@ -12,6 +12,7 @@
 
 import { CATEGORIES } from "@/lib/constants";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { getEditorialCategories } from "@/lib/editorial-categories";
 import type { FaqEntry } from "@/lib/seo/structured-data";
 import type { Repo } from "@/lib/types";
 
@@ -57,7 +58,6 @@ function formatList(names: string[]): string {
 export function buildCategoryIntro(meta: CategoryMeta, repos: Repo[]): string {
   const topNames = repos.slice(0, 3).map((r) => r.fullName);
   const count = repos.length;
-  const lead = `${meta.name} on TrendingRepo covers ${lowerFirst(meta.description)}.`;
   const tracking =
     count > 0
       ? ` We're tracking ${count} open-source ${count === 1 ? "project" : "projects"} in this category, ranked by a cross-source momentum score that blends GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`
@@ -66,6 +66,16 @@ export function buildCategoryIntro(meta: CategoryMeta, repos: Repo[]): string {
     topNames.length > 0
       ? ` The current top movers are ${formatList(topNames)}.`
       : "";
+  // Prefer the LLM-written expert overview (worker `editorial-categories` slug)
+  // when present — evergreen definitional prose answer-engines cite — then
+  // append the live tracking count + top movers. Caller must have awaited
+  // refreshEditorialCategoriesFromStore(). Falls back to the deterministic lead
+  // when no overview is stored (no Redis locally, or worker hasn't run yet).
+  const editorial = getEditorialCategories(meta.id);
+  if (editorial?.overview) {
+    return `${editorial.overview}${tracking}${top}`;
+  }
+  const lead = `${meta.name} on TrendingRepo covers ${lowerFirst(meta.description)}.`;
   return `${lead}${tracking}${top}`;
 }
 

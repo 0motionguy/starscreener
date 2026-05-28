@@ -15,6 +15,7 @@ import {
   refreshConsensusVerdictsFromStore,
   getConsensusItemReport,
 } from "@/lib/consensus-verdicts";
+import { refreshEditorialAlternativesFromStore } from "@/lib/editorial-alternatives";
 import {
   getAlternatives,
   buildAlternativesIntro,
@@ -78,6 +79,7 @@ export default async function AlternativesPage({ params }: PageProps) {
     refreshRepoRegistryFromStore().catch(() => undefined),
     refreshAllMentionStores().catch(() => undefined),
     refreshConsensusVerdictsFromStore().catch(() => undefined),
+    refreshEditorialAlternativesFromStore().catch(() => undefined),
   ]);
 
   const { target, alternatives, categoryName } = getAlternatives(fullName, 12);

@@ -10,6 +10,7 @@
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getConsensusItemReport } from "@/lib/consensus-verdicts";
+import { getEditorialCompare } from "@/lib/editorial-compare";
 import type { FaqEntry } from "@/lib/seo/structured-data";
 import type { Repo } from "@/lib/types";
 
@@ -125,6 +126,34 @@ export function compareLeader(repoA: Repo, repoB: Repo): CompareLeader {
   return ma >= mb
     ? { tie: false, winnerFullName: repoA.fullName, winnerMomentum: ma, loserMomentum: mb }
     : { tie: false, winnerFullName: repoB.fullName, winnerMomentum: mb, loserMomentum: ma };
+}
+
+/**
+ * Canonical editorial-store key for a pair — fullNames sorted alphabetically,
+ * matching the worker's compareKey (editorial-compare/prompt.ts) and comparePath.
+ */
+export function compareEditorialKey(a: string, b: string): string {
+  const [first, second] = [a, b].sort((x, y) => x.toLowerCase().localeCompare(y.toLowerCase()));
+  return `${first}__vs__${second}`;
+}
+
+/**
+ * Intro paragraph for a compare page. Prefers the LLM-written "X vs Y" framing
+ * (worker `editorial-compare` slug) when present — the comparative analysis
+ * answer engines cite — else a deterministic description. Always appends the
+ * data-grounded "which leads" call (live momentum, never fabricated by the LLM).
+ * Caller must have awaited refreshEditorialCompareFromStore().
+ */
+export function buildCompareIntro(repoA: Repo, repoB: Repo, leader: CompareLeader): string {
+  const leadLine = leader.tie
+    ? `Both are closely matched on momentum right now.`
+    : `${leader.winnerFullName} currently leads on cross-source momentum.`;
+  const editorial = getEditorialCompare(compareEditorialKey(repoA.fullName, repoB.fullName));
+  if (editorial?.overview) {
+    return `${editorial.overview} ${leadLine}`;
+  }
+  const base = `A live side-by-side comparison of ${repoA.name} and ${repoB.name} — GitHub stars, momentum score, star velocity and cross-source mentions, refreshed continuously.`;
+  return `${base} ${leadLine}`;
 }
 
 function fmt(n: number | undefined): string {

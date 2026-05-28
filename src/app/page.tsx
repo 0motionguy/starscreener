@@ -96,7 +96,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // visible even when their 24h delta is zero.
   const requireWindowDelta =
     sort === "momentum" && ranker === "top" && category === "repos";
-  const repos = requireWindowDelta
+  const windowFiltered = requireWindowDelta
     ? rawRepos.filter((r) => {
         if (timeWindow === "24h") return (r.starsDelta24h ?? 0) > 0;
         if (timeWindow === "7d") return (r.starsDelta7d ?? 0) > 0;
@@ -104,6 +104,14 @@ export default async function TrendingHubPage({ searchParams }: Props) {
         return true;
       })
     : rawRepos;
+  // Graceful floor — never render an empty radar when we actually have repos.
+  // The active-window delta filter above wipes the whole list when per-window
+  // deltas are stale/zero across the board (e.g. the `trending` slug is
+  // momentarily empty in prod and getDerivedRepos() falls back to the
+  // registry, whose accumulated repos carry no 24h delta). In that case show
+  // the unfiltered set rather than "0 repos" — slightly-stale beats empty,
+  // same contract as the keep-last-50 collector rule.
+  const repos = windowFiltered.length > 0 ? windowFiltered : rawRepos;
 
   // Language filter removed (operator: "all its only about AI · no filter per coding language").
   // `lang` URL param is accepted for back-compat but no longer filters the list.

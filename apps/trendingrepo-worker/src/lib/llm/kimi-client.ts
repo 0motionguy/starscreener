@@ -25,6 +25,11 @@ import OpenAI from 'openai';
 import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
 import type { LlmCallOptions, LlmCallResult } from './shared.js';
+import {
+  createStreamIdleTimeout,
+  toIdleTimeoutError,
+  DEFAULT_STREAM_IDLE_TIMEOUT_MS,
+} from './stream-timeout.js';
 
 const DEFAULT_BASE_URL = 'https://api.kimi.com/coding/v1';
 const DEFAULT_MODEL = 'kimi-for-coding';
@@ -57,45 +62,63 @@ export async function callKimi(opts: LlmCallOptions): Promise<LlmCallResult> {
   const startedAt = Date.now();
   let ttftMs: number | null = null;
 
-  // Kimi For Coding endpoint requires stream:true for the K2.6 reasoning
-  // model — non-stream requests hang silently for any non-trivial payload.
-  const stream = await client.chat.completions.create({
-    model,
-    max_tokens: opts.maxTokens ?? 2048,
-    temperature: opts.temperature ?? 0.4,
-    stream: true,
-    stream_options: { include_usage: true },
-    messages: [
-      { role: 'system', content: opts.systemPrompt },
-      { role: 'user', content: opts.userMessage },
-    ],
-    ...(opts.jsonMode ? { response_format: { type: 'json_object' as const } } : {}),
-  });
-
   let text = '';
   let inputTokens = 0;
   let outputTokens = 0;
   let cachedInputTokens = 0;
-  for await (const chunk of stream) {
-    const delta = chunk.choices?.[0]?.delta as
-      | { content?: string; reasoning_content?: string }
-      | undefined;
-    if (delta?.content) {
-      if (ttftMs === null) ttftMs = Date.now() - startedAt;
-      text += delta.content;
+
+  // Idle-timeout guard: a stalled stream (or a create() that never responds)
+  // would otherwise pin the consensus-analyst worker indefinitely. Aborts when
+  // no chunk arrives within the idle budget; the router treats the resulting
+  // AbortError as a retryable timeout and falls back to NanoGPT.
+  const idle = createStreamIdleTimeout();
+  try {
+    // Kimi For Coding endpoint requires stream:true for the K2.6 reasoning
+    // model — non-stream requests hang silently for any non-trivial payload.
+    const stream = await client.chat.completions.create(
+      {
+        model,
+        max_tokens: opts.maxTokens ?? 2048,
+        temperature: opts.temperature ?? 0.4,
+        stream: true,
+        stream_options: { include_usage: true },
+        messages: [
+          { role: 'system', content: opts.systemPrompt },
+          { role: 'user', content: opts.userMessage },
+        ],
+        ...(opts.jsonMode ? { response_format: { type: 'json_object' as const } } : {}),
+      },
+      { signal: idle.signal },
+    );
+
+    for await (const chunk of stream) {
+      idle.reset();
+      const delta = chunk.choices?.[0]?.delta as
+        | { content?: string; reasoning_content?: string }
+        | undefined;
+      if (delta?.content) {
+        if (ttftMs === null) ttftMs = Date.now() - startedAt;
+        text += delta.content;
+      }
+      const usage = chunk.usage as
+        | {
+            prompt_tokens?: number;
+            completion_tokens?: number;
+            prompt_tokens_details?: { cached_tokens?: number };
+          }
+        | undefined;
+      if (usage) {
+        inputTokens = usage.prompt_tokens ?? inputTokens;
+        outputTokens = usage.completion_tokens ?? outputTokens;
+        cachedInputTokens = usage.prompt_tokens_details?.cached_tokens ?? cachedInputTokens;
+      }
     }
-    const usage = chunk.usage as
-      | {
-          prompt_tokens?: number;
-          completion_tokens?: number;
-          prompt_tokens_details?: { cached_tokens?: number };
-        }
-      | undefined;
-    if (usage) {
-      inputTokens = usage.prompt_tokens ?? inputTokens;
-      outputTokens = usage.completion_tokens ?? outputTokens;
-      cachedInputTokens = usage.prompt_tokens_details?.cached_tokens ?? cachedInputTokens;
-    }
+  } catch (err) {
+    throw idle.timedOut
+      ? toIdleTimeoutError('kimi', DEFAULT_STREAM_IDLE_TIMEOUT_MS, err)
+      : err;
+  } finally {
+    idle.clear();
   }
 
   return {

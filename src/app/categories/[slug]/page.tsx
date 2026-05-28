@@ -19,7 +19,6 @@ import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/regist
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { refreshEditorialCategoriesFromStore } from "@/lib/editorial-categories";
 import {
-  CATEGORY_SLUGS,
   getCategoryMeta,
   getCategoryRepos,
   buildCategoryIntro,
@@ -43,9 +42,12 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return CATEGORY_SLUGS.map((slug) => ({ slug }));
-}
+// Deliberately NO generateStaticParams: this page reads the worker's
+// `editorial-categories` slug (Redis), unavailable in the Docker build stage —
+// prerendering would bake the deterministic fallback. On-demand ISR (revalidate
+// above) renders the first request in the live container with Redis, so the LLM
+// overview shows and the page self-heals after every deploy. dynamicParams
+// defaults true; unknown slugs fall through to notFound().
 
 function clampDescription(text: string, max = 155): string {
   const clean = text.replace(/\s+/g, " ").trim();

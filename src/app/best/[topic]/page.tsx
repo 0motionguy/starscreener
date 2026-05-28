@@ -18,7 +18,6 @@ import {
 } from "@/lib/consensus-verdicts";
 import { refreshEditorialBestFromStore } from "@/lib/editorial-store";
 import {
-  BEST_TOPIC_SLUGS,
   getBestTopic,
   selectTopicRepos,
   buildBestIntro,
@@ -42,9 +41,13 @@ interface PageProps {
   params: Promise<{ topic: string }>;
 }
 
-export function generateStaticParams() {
-  return BEST_TOPIC_SLUGS.map((topic) => ({ topic }));
-}
+// Deliberately NO generateStaticParams: this page reads the worker's
+// `editorial-best` slug (Redis), which is NOT available in the Docker build
+// stage — prerendering would bake the deterministic fallback and only a manual
+// revalidate would flip it. On-demand ISR (revalidate above) renders the first
+// request in the live container with Redis, so the LLM overview shows and the
+// page self-heals after every deploy. dynamicParams defaults true; unknown
+// topics fall through to notFound().
 
 function clampDescription(text: string, max = 155): string {
   const clean = text.replace(/\s+/g, " ").trim();

@@ -1,5 +1,14 @@
 # HANDOVER — Build our OWN star-velocity refresher engine (2026-05-29)
 
+> ## ✅ STATUS: SHIPPED + DEPLOYED + VERIFIED (2026-05-29, later same day)
+> The recurring engine described below is BUILT and LIVE on TOOLBOX. Don't rebuild it.
+> - **`velocity-refresh`** (`*/40 * * * *`) — cheap top-N `/repos` refresh, merges into `star-activity-deltas`. **`velocity-seed`** (daily `13 6 * * *`) — bounded throttled newest-first stargazer walk (top-150) seeding recent 7d/30d anchors with Retry-After + 403 backoff + token rotation. Both in `apps/trendingrepo-worker/src/fetchers/`, registered, cron auto-fires off the branch deploy.
+> - **% fix:** `src/lib/velocity-pct.ts` (period-start base `stars-delta`) applied to 5 display surfaces.
+> - **Surfacing fix:** `requireWindowDelta` extended to Gainer/Trend tabs (`src/app/page.tsx`).
+> - **Stars fix:** `saEntry.stars_now` wired into `repo.stars` precedence in both `derived-repos.ts` loops (registry repos no longer show "2 stars" beside a +939 delta).
+> - **Result:** slug coverage 10/33 → **real24 184 / real7 152 / real30 178** of 325; all of `/`, `/?rank=gainer`, `/?rank=trend`, `/?cat=agents` verified showing real velocity + correct % (no "— — —" at top). Commits `2d566e963`, `0dea85501`, `682af263c` on `bot/swarm-a6-producthunt-reader`.
+> - **Open follow-on (not blocking):** long-tail repos outside the seeded top-N still show "—" for 7d/30d until the cheap daily snapshot accrues enough days — broad coverage builds over time by design; visible tiers are covered now.
+
 ## THE GOAL (operator's words, this is the north star)
 
 > "USE the GitHub token pool and build our OWN refresher engine. Every 30m or 1h,

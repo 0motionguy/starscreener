@@ -79,11 +79,14 @@ const CONCURRENCY = clampEnv('VELOCITY_BACKFILL_CONCURRENCY', 3, 1, 8);
 // Window we reconstruct (30d + tolerance headroom).
 const RECENT_DAYS = clampEnv('VELOCITY_BACKFILL_RECENT_DAYS', 35, 7, 90);
 // Extra stargazer pages for hot repos whose last-100 stars don't reach 30d back.
-// 120×100 = 12k stars → exact 30d for anything gaining <400/day (above the
-// board's hottest mover). Bounded + throttled + token-rotated to stay under the
-// secondary limit; and skipped entirely once a repo already has a ≥30d series
-// (see existingCoversWindow), so we don't re-walk the whole hot set every day.
-const MAX_PAGEBACK = clampEnv('VELOCITY_BACKFILL_MAX_PAGEBACK', 120, 0, 400);
+// 400×100 = 40k stars → exact 30d for anything gaining <~1.3k/day (covers all
+// but rare viral megaspikes). The loop STOPS early once it reaches the 30d
+// cutoff, so slow/moderate repos walk only a few pages — the high cap only bites
+// the genuinely fast ones. Safe to walk hard: a full deep run logged 0 secondary
+// rate-limit hits across the 20-token pool. Skipped entirely once a repo already
+// resolves both windows (see existingCoversWindows), so the hot set is deep-walked
+// once then maintained cheaply by daily snapshots.
+const MAX_PAGEBACK = clampEnv('VELOCITY_BACKFILL_MAX_PAGEBACK', 400, 0, 1000);
 const PAGEBACK_DELAY_MS = 60; // gentle inter-page delay during deep walks
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
@@ -112,18 +115,20 @@ export function chunk<T>(arr: readonly T[], size: number): T[][] {
 }
 
 /**
- * True when an existing series already has a point at/older than the window
- * floor (`cutoffDay`, YYYY-MM-DD) — i.e. merging it gives a real 30d anchor, so
- * the expensive stargazer page-back can be skipped this run. Pure.
+ * True when the existing series ALREADY yields non-cold-start 7d AND 30d via the
+ * engine's own delta logic — the only safe signal that the deep stargazer
+ * page-back can be skipped this run. A lone ancient point is NOT enough: a series
+ * like [Jan-18, today] has no anchor near the 7d/30d targets, so
+ * computeWindowDelta falls to cold-start. Reusing entryFromPayload guarantees the
+ * skip decision matches exactly what the board will display. Pure.
  */
-export function seriesCoversWindow(
-  points: ReadonlyArray<{ d?: unknown }> | null | undefined,
-  cutoffDay: string,
+export function existingCoversWindows(
+  payload: Parameters<typeof entryFromPayload>[0],
 ): boolean {
-  return (
-    Array.isArray(points) &&
-    points.some((p) => p && typeof p.d === 'string' && p.d <= cutoffDay)
-  );
+  const e = entryFromPayload(payload);
+  if (!e) return false;
+  const ok = (b: string): boolean => b !== 'cold-start' && b !== 'no-history';
+  return ok(e.delta_7d.basis) && ok(e.delta_30d.basis);
 }
 
 const STARGAZER_FRAGMENT = `fragment SG on Repository {
@@ -375,17 +380,18 @@ async function processRepo(
   if (total <= 0) return { status: 'skip' };
 
   const cutoffMs = now.getTime() - RECENT_DAYS * DAY_MS;
-  const cutoffDay = dayKey(cutoffMs);
 
-  // Read existing FIRST: if it already holds a point at/older than the window
-  // floor (from a prior deep walk or accumulated daily snapshots), the merged
-  // series already spans 30d — so we can skip the expensive page-back and just
-  // refresh the recent window. This is what keeps the engine sustainable: the
-  // hot set is deep-walked once, then maintained cheaply by daily snapshots.
+  // Read existing FIRST: if it already resolves BOTH windows (non-cold-start 7d
+  // AND 30d — from a prior deep walk or dense daily snapshots), skip the
+  // expensive page-back and just refresh the recent window. This keeps the engine
+  // sustainable: the hot set is deep-walked once, then maintained cheaply. NOTE:
+  // a lone ancient point must NOT short-circuit the walk (that bug left 184 repos
+  // cold-start) — existingCoversWindows uses the real delta basis, not "has any
+  // old point".
   const slug = payloadSlug(fullName);
   const existing = await readDataStore<StarActivityPayload>(slug).catch(() => null);
   const existingPoints = Array.isArray(existing?.points) ? existing.points : [];
-  const existingCoversWindow = seriesCoversWindow(existingPoints, cutoffDay);
+  const existingCoversWindow = existingCoversWindows(existing);
 
   let timestamps = parsed.starredAtMs;
   // coveredFirstStar = we hold a timestamp for every star the repo has.

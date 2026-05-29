@@ -4,7 +4,7 @@ import {
   buildBatchQuery,
   parseRepoNode,
   reconstructDenseSeries,
-  seriesCoversWindow,
+  existingCoversWindows,
 } from '../index.js';
 import { entryFromPayload } from '../../star-activity-deltas/index.js';
 
@@ -60,16 +60,41 @@ describe('parseRepoNode', () => {
   });
 });
 
-describe('seriesCoversWindow', () => {
-  const cutoff = '2026-04-24';
-  it('true when a point is at/older than the window floor (skip deep walk)', () => {
-    expect(seriesCoversWindow([{ d: '2026-03-01' }, { d: '2026-05-29' }], cutoff)).toBe(true);
-    expect(seriesCoversWindow([{ d: cutoff }], cutoff)).toBe(true); // boundary inclusive
+describe('existingCoversWindows', () => {
+  it('true only when existing already resolves non-cold-start 7d AND 30d', () => {
+    // Dense slow-repo series (exact windows) → safe to skip the deep walk.
+    const dense = reconstructDenseSeries({
+      timestamps: [
+        ms('2026-03-01T00:00:00Z'),
+        ms('2026-04-29T00:00:00Z'),
+        ms('2026-05-22T00:00:00Z'),
+        ms('2026-05-28T00:00:00Z'),
+        ms('2026-05-29T08:00:00Z'),
+      ],
+      total: 5,
+      coveredFirstStar: true,
+      recentDays: 35,
+      now: NOW,
+    });
+    expect(
+      existingCoversWindows({ points: dense, backfillSource: 'stargazer-api', coversFirstStar: true }),
+    ).toBe(true);
   });
-  it('false when all points are newer than the floor (must page back)', () => {
-    expect(seriesCoversWindow([{ d: '2026-05-27' }, { d: '2026-05-29' }], cutoff)).toBe(false);
-    expect(seriesCoversWindow([], cutoff)).toBe(false);
-    expect(seriesCoversWindow(null, cutoff)).toBe(false);
+
+  it('false for a lone-ancient-point series (the bug: must still page back)', () => {
+    // [Jan-18, today] — has an old point but NO anchor near 7d/30d → cold-start.
+    expect(
+      existingCoversWindows({
+        points: [
+          { d: '2026-01-18', s: 100 },
+          { d: '2026-05-29', s: 198201 },
+        ],
+        backfillSource: 'dual-ended',
+        coversFirstStar: true,
+      }),
+    ).toBe(false);
+    expect(existingCoversWindows(null)).toBe(false);
+    expect(existingCoversWindows({ points: [{ d: '2026-05-29', s: 1 }] })).toBe(false);
   });
 });
 

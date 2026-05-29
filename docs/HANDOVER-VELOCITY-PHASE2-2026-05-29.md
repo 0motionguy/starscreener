@@ -18,7 +18,10 @@ TOOLBOX cron.d — never a GH Action).
   empty-recompute → ERROR signal.
 - `velocity-seed` (`13 6 * * *`) — bounded (top-150) throttled newest-first stargazer
   walk seeding recent 7d/30d anchors. Retry-After + 403 backoff + token rotation.
-- Files: `apps/trendingrepo-worker/src/fetchers/velocity-{refresh,seed}/index.ts`.
+- `velocity-backfill` (`17 2 * * *`) — SHIPPED later same day. FULL-registry GraphQL
+  stargazer-timestamp backfill via the GH pool (cost-1/repo). Took coverage 325→1455,
+  stars_now 100%. This is roadmap item #1, done. See §1 below + memory.
+- Files: `apps/trendingrepo-worker/src/fetchers/velocity-{refresh,seed,backfill}/index.ts`.
 - App reads `star-activity-deltas` via `src/lib/star-activity-deltas.ts` + the Delta
   Engine `resolveDelta` (`src/lib/derived-repos/delta-engine.ts`, prefers it for 7d/30d).
 
@@ -45,7 +48,19 @@ snapshot accruing points — leave it; don't force-seed.
 
 ## 🧭 ROADMAP — ranked (what the fresh session should do)
 
-### 1. ★ Public GitHub-events SQL → daily star-delta engine  (HIGHEST LEVERAGE — NO GCP, NO KEYS, FREE)
+### 1. ✅ SHIPPED 2026-05-29 — full-registry star-delta engine (`velocity-backfill`)
+**STATUS: DONE — via the GraphQL pool, NOT ClickHouse.** Worker fetcher
+`velocity-backfill` (daily `17 2 * * *`; commit `25bd5cff3`; live image
+`vps-20260529150707-25bd5cff3`): one cost-1 GraphQL `stargazers(last:100, orderBy:STARRED_AT)`
+call per repo via the shared GH token pool → `stargazerCount` + retroactive `starredAt`
+timestamps → dense daily series → exact 24h/7d/30d for the WHOLE registry through the
+existing `entryFromPayload`/`mergeDeltaRepos` pipeline. Bounded page-back for hot repos;
+zero-write guard. **Coverage 325 → 1455 repos, stars_now 100%, real 24h/7d/30d
+1445/1326/1066.** Prod-verified: `/`, `/?rank=gainer`, `/?rank=trend` = 0 triple-blank rows.
+⚠️ **ClickHouse/BigQuery RULED OUT — do NOT re-attempt:** `play.clickhouse.com` github_events
+is ~6 weeks STALE (probed live: `max(created_at)=2026-04-16`, zero May data). The original
+ClickHouse plan below is kept only as historical rationale.
+
 **Problem it solves:** the stargazer walk hits GitHub's secondary rate limit by
 construction (700-repo sweep failed 571/700). A pre-aggregated GH-Archive copy removes
 pagination entirely — one query gets every repo's daily star counts.

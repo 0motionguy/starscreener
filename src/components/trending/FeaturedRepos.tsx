@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import type { Repo } from "@/lib/types";
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
+import { velocityPct } from "@/lib/velocity-pct";
 import { MentionSourcePips } from "./MentionSourcePips";
 import { RepoSparkline } from "./RepoSparkline";
 
@@ -68,7 +69,7 @@ export function FeaturedRepos({ repos, fetchedAt, newSet }: FeaturedReposProps) 
         const href = `/repo/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}`;
         const avatarUrl = repo.ownerAvatarUrl;
         const delta = slot.deltaWindow === "7d" ? repo.starsDelta7d : slot.deltaWindow === "30d" ? repo.starsDelta30d : repo.starsDelta24h;
-        const velocity = repo.stars > 0 ? (delta / repo.stars) * 100 : 0;
+        const velocity = velocityPct(delta, repo.stars) ?? 0;
 
         return (
           <article key={repo.id} className={`feat ${variant.className}`}>

@@ -10,6 +10,7 @@ import { Icon } from "@/lib/icons";
 import type { RepoCommunityProfile } from "@/lib/repo-community-profile";
 import type { StarActivityPayload } from "@/lib/star-activity";
 import type { Repo } from "@/lib/types";
+import { formatVelocityPct } from "@/lib/velocity-pct";
 
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
 
@@ -45,13 +46,13 @@ function velocityLabel(repo: Repo): string {
   if (stars > 0) {
     const delta24 = repo.starsDelta24h ?? 0;
     if (delta24 > 0) {
-      const pct = (delta24 / stars) * 100;
-      return `+${pct.toFixed(1)}%`;
+      const p = formatVelocityPct(delta24, stars);
+      if (p) return p;
     }
     const delta7 = repo.starsDelta7d ?? 0;
     if (delta7 > 0) {
-      const pct = (delta7 / stars) * 100;
-      return `+${pct.toFixed(1)}%`;
+      const p = formatVelocityPct(delta7, stars);
+      if (p) return p;
     }
   }
   if (typeof repo.trendScore24h === "number" && repo.trendScore24h > 0) {

@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { formatVelocityPct } from "@/lib/velocity-pct";
 import { RepoSparkline } from "./RepoSparkline";
 
 export function TopMoversRail({ limit = 8 }: { limit?: number }) {
@@ -28,7 +29,9 @@ export function TopMoversRail({ limit = 8 }: { limit?: number }) {
           {movers.map((repo) => {
             const href = `/repo/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}`;
             const delta = repo.starsDelta24h ?? 0;
-            const pct = repo.stars ? (delta / repo.stars) * 100 : 0;
+            // Growth over the period start (stars - delta); falls back to the
+            // absolute when the base is too small to yield a meaningful %.
+            const pctText = formatVelocityPct(delta, repo.stars ?? 0);
             return (
               <Link key={repo.id} className="side-row mover-row" href={href} data-repo-hover data-repo={repo.fullName} prefetch={false}>
                 <div className="repo-avatar avatar-token mini" aria-hidden="true">
@@ -42,8 +45,7 @@ export function TopMoversRail({ limit = 8 }: { limit?: number }) {
                   <RepoSparkline data={repo.sparklineData?.slice(-30)} repo={repo} />
                 </div>
                 <div className={delta >= 0 ? "side-delta up-text" : "side-delta dn-text"}>
-                  {delta >= 0 ? "+" : ""}
-                  {pct.toFixed(1)}%
+                  {pctText || (delta >= 0 ? `+${compact(delta)}` : compact(delta))}
                 </div>
               </Link>
             );

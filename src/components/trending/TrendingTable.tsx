@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import type { Repo } from "@/lib/types";
 import { classifyFreshness, getStatusLabel } from "@/lib/news/freshness";
+import { formatVelocityPct } from "@/lib/velocity-pct";
 import type { CategoryId, WindowId } from "./TrendingHubHero";
 import { MentionCell } from "./MentionSourcePips";
 import { RepoSparkline } from "./RepoSparkline";
@@ -218,10 +219,10 @@ interface PeriodCellProps {
 }
 
 function PeriodCell({ delta, stars, label, highlight }: PeriodCellProps) {
-  const pct = stars > 0 ? (delta / stars) * 100 : 0;
   const dir = delta > 0 ? "up" : delta < 0 ? "dn" : "flat";
   const deltaText = delta === 0 ? "—" : delta > 0 ? `+${compact(delta)}` : compact(delta);
-  const pctText = delta === 0 ? "" : pct >= 0 ? `+${pct.toFixed(1)}%` : `${pct.toFixed(1)}%`;
+  // % is growth over the period start (stars - delta), not the current total.
+  const pctText = formatVelocityPct(delta, stars);
 
   return (
     <td className={`num period-cell period-${dir}${highlight ? " period-active" : ""}`} data-label={label}>

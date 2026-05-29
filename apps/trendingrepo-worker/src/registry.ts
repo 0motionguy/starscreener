@@ -95,6 +95,15 @@ import starActivity from './fetchers/star-activity/index.js';
 // 05:30 UTC, after star-activity has appended today's points. App reads it
 // via src/lib/star-activity-deltas.ts. Wave — 2026-05-29.
 import starActivityDeltas from './fetchers/star-activity-deltas/index.js';
+// Our OWN recurring star-velocity engine (OSS-Insight-independent). Two tiers:
+//  - velocity-refresh: every 40 min, CHEAP top-N `/repos` snapshot → refreshes
+//    24h/7d/30d numbers and merges them into the `star-activity-deltas` slug.
+//  - velocity-seed: daily, BOUNDED+THROTTLED newest-first stargazer walk that
+//    seeds the recent 7d/30d anchor points the refresh diffs against. The naive
+//    full-registry walk does NOT scale (secondary rate limit), so the walk stays
+//    bounded to the top-N movers. See each fetcher's header + docs/ENGINE.md.
+import velocityRefresh from './fetchers/velocity-refresh/index.js';
+import velocitySeed from './fetchers/velocity-seed/index.js';
 // Daily deep-coverage sweep of consensus-trending ranks 31-200, skipping any
 // fullName already in consensus-verdicts.items. Closes the gap between the
 // primary analyst's hourly TOP_N=30 and the full 200-item pool that
@@ -156,6 +165,8 @@ export const FETCHERS: Fetcher[] = [
   repoCommunityProfile,
   starActivity,
   starActivityDeltas,
+  velocityRefresh,
+  velocitySeed,
   consensusAnalystTail,
   editorialWriter,
   editorialCategories,

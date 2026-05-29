@@ -88,6 +88,14 @@ const RECENT_DAYS = clampEnv('VELOCITY_BACKFILL_RECENT_DAYS', 35, 7, 90);
 // once then maintained cheaply by daily snapshots.
 const MAX_PAGEBACK = clampEnv('VELOCITY_BACKFILL_MAX_PAGEBACK', 400, 0, 1000);
 const PAGEBACK_DELAY_MS = 60; // gentle inter-page delay during deep walks
+// Hard ceiling on total stargazer page-back requests PER RUN so the backfill
+// can't drain the GraphQL pool the Next.js app shares. The skip-guard means each
+// daily run only walks repos still missing a window, so coverage converges across
+// runs even when a single run is budget-capped.
+const PAGE_BUDGET = clampEnv('VELOCITY_BACKFILL_PAGE_BUDGET', 15000, 100, 100000);
+
+// Per-run remaining page-back budget (reset at the top of run()).
+let pagebackBudgetRemaining = 0;
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
 const STARS_PAGE = 100;
@@ -308,13 +316,41 @@ async function runGraphql(
       continue;
     }
     if (!res.ok) return null;
+    let json: { data?: Record<string, unknown>; errors?: unknown[] };
     try {
-      return (await res.json()) as { data?: Record<string, unknown>; errors?: unknown[] };
+      json = (await res.json()) as { data?: Record<string, unknown>; errors?: unknown[] };
     } catch {
       return null;
     }
+    // CRITICAL: GraphQL reports rate-limits as HTTP 200 with errors[].type
+    // 'RATE_LIMITED'/'RATE_LIMIT' (NOT a 403/429 status). recordRateLimit above
+    // already marked this token exhausted (remaining=0) so pickGithubToken skips
+    // it; here we back off + rotate to a fresh token and retry rather than
+    // silently dropping the batch.
+    if (isGraphqlRateLimited(json)) {
+      log.warn({ attempt }, 'velocity-backfill: GraphQL rate-limited (200+errors) — rotating token');
+      await sleep(Math.min(BASE_BACKOFF_MS * 2 ** attempt, MAX_BACKOFF_MS));
+      token = pickGithubToken() ?? token;
+      continue;
+    }
+    return json;
   }
   return null;
+}
+
+/** GraphQL surfaces rate-limits as HTTP 200 + an errors[] entry, not a status code. */
+function isGraphqlRateLimited(json: { errors?: unknown[] } | null): boolean {
+  return (
+    !!json &&
+    Array.isArray(json.errors) &&
+    json.errors.some(
+      (e) =>
+        !!e &&
+        typeof e === 'object' &&
+        ((e as { type?: unknown }).type === 'RATE_LIMITED' ||
+          (e as { type?: unknown }).type === 'RATE_LIMIT'),
+    )
+  );
 }
 
 /**
@@ -332,6 +368,8 @@ async function pageBackOlder(
   const extra: number[] = [];
   let cursor: string | null = startCursor;
   for (let i = 0; i < MAX_PAGEBACK && cursor; i++) {
+    if (pagebackBudgetRemaining <= 0) break; // per-run pool budget spent
+    pagebackBudgetRemaining -= 1;
     if (i > 0) await sleep(PAGEBACK_DELAY_MS);
     const token = pickGithubToken() ?? undefined;
     const query = `query { repository(owner: ${JSON.stringify(owner)}, name: ${JSON.stringify(
@@ -469,6 +507,8 @@ const fetcher: Fetcher = {
       ctx.log.warn('velocity-backfill: no GitHub token in pool — skipping run');
       return done(startedAt, 0, false, errors);
     }
+
+    pagebackBudgetRemaining = PAGE_BUDGET; // reset per-run deep-walk budget
 
     const registry = await readDataStore<RegistryPayloadLite>('repo-registry').catch(
       () => null,

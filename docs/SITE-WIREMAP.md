@@ -199,6 +199,7 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 | enrich-repo-profiles | hourly `41 * * * *` | repo-profiles | `/u/[handle]`, repo profile completeness |
 | refresh-star-activity + append-star-activity | daily `17 3 * * *` | star-activity time series | `/repo/[owner]/[name]/star-activity` |
 | star-activity-deltas (worker, NEW 2026-05-29) | daily `30 5 * * *` | `star-activity-deltas` | `/` Top/Gainer/Trend 24h/7d/30d via the Delta Engine — GitHub-direct, the OSS-Insight-INDEPENDENT 7d/30d backbone |
+| velocity-refresh + velocity-seed (worker, NEW 2026-05-29) | refresh `*/40 * * * *`, seed daily `13 6 * * *` | `star-activity-deltas` (refresh merges top-N) + `star-activity:*` (seed) | `/`, `/?rank=gainer`, `/?rank=trend` — OUR recurring velocity engine: 40-min cheap `/repos` refresh keeps 24h/7d/30d numbers fresh; daily bounded newest-first stargazer-walk seed lays the recent 7d/30d anchors. Gainer/Trend now filter to repos with real delta in their window (`requireWindowDelta`, extended 2026-05-29). |
 | cron-llm | hourly `10 * * * *` | LLM-enriched fields on ideas | `/ideas` |
 | cron-pipeline-ingest | every 2h `15 */2 * * *` | mention-store hydrate | repo profile recent mentions feed |
 | cron-pipeline-persist | every 6h `30 */6 * * *` | mention-store persist | (same) |

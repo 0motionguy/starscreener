@@ -118,13 +118,24 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // by a tight whitelist (AGENT_REPO_SET), so curated builds like Hermes /
   // Superpowers / Claude Code from past_week / past_month buckets must stay
   // visible even when their 24h delta is zero.
+  // Extended 2026-05-29: the same hard rule now also covers the Gainer (24h)
+  // and Trend (30d) velocity tabs. They were exempt, so a stale-OSS trendScore
+  // (preserved by the oss-trending zero-write guard) floated zero/"—"-delta
+  // repos to the top of a velocity board — gainer's #1 literally read "— — —".
+  // Each velocity tab filters on ITS window: top→active selector, gainer→24h,
+  // trend→30d. The graceful floor below still prevents an empty radar when the
+  // filter wipes everything. Agents stays exempt (curated AGENT_REPO_SET).
   const requireWindowDelta =
-    sort === "momentum" && ranker === "top" && category === "repos";
+    sort === "momentum" &&
+    category === "repos" &&
+    (ranker === "top" || ranker === "gainer" || ranker === "trend");
+  const filterWindow: WindowId =
+    ranker === "gainer" ? "24h" : ranker === "trend" ? "30d" : timeWindow;
   const windowFiltered = requireWindowDelta
     ? rawRepos.filter((r) => {
-        if (timeWindow === "24h") return (r.starsDelta24h ?? 0) > 0;
-        if (timeWindow === "7d") return (r.starsDelta7d ?? 0) > 0;
-        if (timeWindow === "30d") return (r.starsDelta30d ?? 0) > 0;
+        if (filterWindow === "24h") return (r.starsDelta24h ?? 0) > 0;
+        if (filterWindow === "7d") return (r.starsDelta7d ?? 0) > 0;
+        if (filterWindow === "30d") return (r.starsDelta30d ?? 0) > 0;
         return true;
       })
     : rawRepos;

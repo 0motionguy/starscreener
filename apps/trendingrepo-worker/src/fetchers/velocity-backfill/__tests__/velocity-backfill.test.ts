@@ -4,6 +4,7 @@ import {
   buildBatchQuery,
   parseRepoNode,
   reconstructDenseSeries,
+  seriesCoversWindow,
 } from '../index.js';
 import { entryFromPayload } from '../../star-activity-deltas/index.js';
 
@@ -56,6 +57,19 @@ describe('parseRepoNode', () => {
   it('returns null for a null node (deleted/renamed repo alias)', () => {
     expect(parseRepoNode(null)).toBeNull();
     expect(parseRepoNode({})).toBeNull();
+  });
+});
+
+describe('seriesCoversWindow', () => {
+  const cutoff = '2026-04-24';
+  it('true when a point is at/older than the window floor (skip deep walk)', () => {
+    expect(seriesCoversWindow([{ d: '2026-03-01' }, { d: '2026-05-29' }], cutoff)).toBe(true);
+    expect(seriesCoversWindow([{ d: cutoff }], cutoff)).toBe(true); // boundary inclusive
+  });
+  it('false when all points are newer than the floor (must page back)', () => {
+    expect(seriesCoversWindow([{ d: '2026-05-27' }, { d: '2026-05-29' }], cutoff)).toBe(false);
+    expect(seriesCoversWindow([], cutoff)).toBe(false);
+    expect(seriesCoversWindow(null, cutoff)).toBe(false);
   });
 });
 

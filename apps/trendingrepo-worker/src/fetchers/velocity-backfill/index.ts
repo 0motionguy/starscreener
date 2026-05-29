@@ -78,9 +78,13 @@ const BATCH = clampEnv('VELOCITY_BACKFILL_BATCH', 20, 1, 50);
 const CONCURRENCY = clampEnv('VELOCITY_BACKFILL_CONCURRENCY', 3, 1, 8);
 // Window we reconstruct (30d + tolerance headroom).
 const RECENT_DAYS = clampEnv('VELOCITY_BACKFILL_RECENT_DAYS', 35, 7, 90);
-// Extra stargazer pages for hot repos (>100 stars in the window). 4×100=400
-// more → exact 30d for anything gaining <500/window; beyond that = cold-start.
-const MAX_PAGEBACK = clampEnv('VELOCITY_BACKFILL_MAX_PAGEBACK', 4, 0, 20);
+// Extra stargazer pages for hot repos whose last-100 stars don't reach 30d back.
+// 120×100 = 12k stars → exact 30d for anything gaining <400/day (above the
+// board's hottest mover). Bounded + throttled + token-rotated to stay under the
+// secondary limit; and skipped entirely once a repo already has a ≥30d series
+// (see existingCoversWindow), so we don't re-walk the whole hot set every day.
+const MAX_PAGEBACK = clampEnv('VELOCITY_BACKFILL_MAX_PAGEBACK', 120, 0, 400);
+const PAGEBACK_DELAY_MS = 60; // gentle inter-page delay during deep walks
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
 const STARS_PAGE = 100;
@@ -105,6 +109,21 @@ export function chunk<T>(arr: readonly T[], size: number): T[][] {
   const out: T[][] = [];
   for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
   return out;
+}
+
+/**
+ * True when an existing series already has a point at/older than the window
+ * floor (`cutoffDay`, YYYY-MM-DD) — i.e. merging it gives a real 30d anchor, so
+ * the expensive stargazer page-back can be skipped this run. Pure.
+ */
+export function seriesCoversWindow(
+  points: ReadonlyArray<{ d?: unknown }> | null | undefined,
+  cutoffDay: string,
+): boolean {
+  return (
+    Array.isArray(points) &&
+    points.some((p) => p && typeof p.d === 'string' && p.d <= cutoffDay)
+  );
 }
 
 const STARGAZER_FRAGMENT = `fragment SG on Repository {
@@ -308,6 +327,7 @@ async function pageBackOlder(
   const extra: number[] = [];
   let cursor: string | null = startCursor;
   for (let i = 0; i < MAX_PAGEBACK && cursor; i++) {
+    if (i > 0) await sleep(PAGEBACK_DELAY_MS);
     const token = pickGithubToken() ?? undefined;
     const query = `query { repository(owner: ${JSON.stringify(owner)}, name: ${JSON.stringify(
       name,
@@ -355,14 +375,33 @@ async function processRepo(
   if (total <= 0) return { status: 'skip' };
 
   const cutoffMs = now.getTime() - RECENT_DAYS * DAY_MS;
+  const cutoffDay = dayKey(cutoffMs);
+
+  // Read existing FIRST: if it already holds a point at/older than the window
+  // floor (from a prior deep walk or accumulated daily snapshots), the merged
+  // series already spans 30d — so we can skip the expensive page-back and just
+  // refresh the recent window. This is what keeps the engine sustainable: the
+  // hot set is deep-walked once, then maintained cheaply by daily snapshots.
+  const slug = payloadSlug(fullName);
+  const existing = await readDataStore<StarActivityPayload>(slug).catch(() => null);
+  const existingPoints = Array.isArray(existing?.points) ? existing.points : [];
+  const existingCoversWindow = seriesCoversWindow(existingPoints, cutoffDay);
+
   let timestamps = parsed.starredAtMs;
   // coveredFirstStar = we hold a timestamp for every star the repo has.
   let coveredFirstStar = total <= timestamps.length;
   const oldestMs = timestamps.length > 0 ? timestamps[0]! : Infinity;
 
   // Hot repo: 100 most-recent stars don't reach the window floor and there's
-  // more history → page back (bounded) to recover exact 7d/30d.
-  if (!coveredFirstStar && oldestMs > cutoffMs && parsed.hasPreviousPage && parsed.startCursor) {
+  // more history → page back (bounded) to recover exact 7d/30d. Skipped when
+  // the existing series already covers the window.
+  if (
+    !coveredFirstStar &&
+    !existingCoversWindow &&
+    oldestMs > cutoffMs &&
+    parsed.hasPreviousPage &&
+    parsed.startCursor
+  ) {
     const extra = await pageBackOlder(fullName, parsed.startCursor, cutoffMs, log);
     if (extra.length > 0) {
       timestamps = [...timestamps, ...extra].sort((a, b) => a - b);
@@ -379,9 +418,6 @@ async function processRepo(
   });
   if (recentPoints.length < 2) return { status: 'skip' };
 
-  const slug = payloadSlug(fullName);
-  const existing = await readDataStore<StarActivityPayload>(slug).catch(() => null);
-  const existingPoints = Array.isArray(existing?.points) ? existing.points : [];
   const firstRecentDay = recentPoints[0]!.d;
   // Preserve older chart history; replace the recent window with our
   // timestamp-accurate points.

@@ -1,11 +1,18 @@
 // TOP composite ranker for the trending hub default view (`/`).
 //
 // Combines five normalized signals into a 0-100 score:
-//   starVelocity     × 0.40   WINDOW-AWARE star delta blend (see WINDOW_WEIGHTS)
-//   mentionVelocity  × 0.30   weighted blend of 24h/7d cross-source mentions
+//   starVelocity     × 0.55   WINDOW-AWARE star delta blend (see WINDOW_WEIGHTS)
+//   mentionVelocity  × 0.20   weighted blend of 24h/7d cross-source mentions
 //   freshnessScore   × 0.10   1/(days since last commit + 1)
-//   sourceDiversity  × 0.10   unique mention sources firing (out of 6)
+//   sourceDiversity  × 0.05   unique mention sources firing (out of 6)
 //   breakoutBonus    × 0.10   binary boost when 24h delta > 3× cohort median AND ≥3 sources
+//
+// 2026-05-29 operator fix ("TOP is bad — Qwen #1, it's an LLM not a momentum
+// repo"): star-velocity raised 0.40→0.55 and mention-velocity cut 0.30→0.20
+// so this STAR-velocity board is dominated by genuine star momentum, not
+// social buzz. Previously a heavily-mentioned LLM with a tiny star delta
+// (Qwen, +22/24h) outranked repos with real star movement (colby +275,
+// BigBox +150) because mentions+freshness+diversity = half the score.
 //
 // 2026-05-24 operator fix: previously the star-velocity blend was a fixed
 // 50/30/20 across 24h/7d/30d regardless of the active window, which let
@@ -26,10 +33,10 @@ import type { WindowId } from "@/components/trending/TrendingHubHero";
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 
-const WEIGHT_STAR_VELOCITY = 0.40;
-const WEIGHT_MENTION_VELOCITY = 0.30;
+const WEIGHT_STAR_VELOCITY = 0.55;
+const WEIGHT_MENTION_VELOCITY = 0.20;
 const WEIGHT_FRESHNESS = 0.10;
-const WEIGHT_SOURCE_DIVERSITY = 0.10;
+const WEIGHT_SOURCE_DIVERSITY = 0.05;
 const WEIGHT_BREAKOUT = 0.10;
 
 const MENTION_SOURCE_TARGET = 6; // HN + Bluesky + Lobsters + Reddit + X + DevTo

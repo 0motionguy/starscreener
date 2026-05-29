@@ -35,14 +35,20 @@ import {
 
 // --- env-tunable knobs -----------------------------------------------------
 
+// Widened 2026-05-29: cover the FULL registry daily (not just a 50-repo
+// tail) so every visible repo gets a fresh daily star point — the
+// prerequisite for `star-activity-deltas` to compute real 24h/7d/30d for
+// the whole homepage set (GitHub-direct velocity, OSS-Insight-independent).
+// Cost is 1 cheap `/repos/{owner}/{name}` call per repo; ~750 calls/day at
+// concurrency 8 is trivial for the 20-token pool.
 const STAR_ACTIVITY_LIMIT = Math.max(
   1,
   Math.min(
-    200,
-    Number.parseInt(process.env.STAR_ACTIVITY_LIMIT ?? '50', 10) || 50,
+    3000,
+    Number.parseInt(process.env.STAR_ACTIVITY_LIMIT ?? '800', 10) || 800,
   ),
 );
-const CONCURRENCY = 4;
+const CONCURRENCY = 8;
 const FETCH_TIMEOUT_MS = 12_000;
 
 // --- payload shape (mirrors src/lib/star-activity.ts) ---------------------
@@ -181,9 +187,12 @@ const fetcher: Fetcher = {
     const registry = await readDataStore<RegistryPayloadLite>('repo-registry').catch(
       () => null,
     );
-    // Oldest-first: the GH Action append-star-activity.mjs already covers
-    // the trending tier daily. Our job is the registry tail (dropped
-    // repos) that the GH Action's bundled-data input misses.
+    // Full-registry coverage (2026-05-29): with STAR_ACTIVITY_LIMIT now
+    // defaulting to 800 (≥ the registry size), this snapshots EVERY registry
+    // repo daily, not just the dropped tail — so `star-activity-deltas` has a
+    // fresh latest point for the whole homepage set. Oldest-first ordering is
+    // retained so that if the registry ever grows past the limit, the
+    // longest-unseen repos are prioritised.
     const candidates = rankedRegistryFullNames(
       registry,
       STAR_ACTIVITY_LIMIT,

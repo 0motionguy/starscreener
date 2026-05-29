@@ -145,6 +145,13 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
   const isRealDelta = (d: DeltaValue | undefined): boolean =>
     !!d && d.value !== null && d.basis !== "cold-start";
 
+  // Raw delta value for RANKING (trendScore) + sparkline synthesis: accepts
+  // cold-start numbers (only nulls/untracked → 0). Distinct from isRealDelta,
+  // which gates the DISPLAYED starsDelta so unreliable cold-start values render
+  // as "—". Ranking tolerates noise — an ordering beats an all-zero tie.
+  const rawDelta = (d: DeltaValue | undefined): number =>
+    !d || d.value === null ? 0 : d.value;
+
   let repos: Repo[] = [];
 
   for (const aggregate of aggregates.values()) {
@@ -209,10 +216,6 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     // For synthesis we accept cold-start raw values (numbers only — nulls and
     // repo-not-tracked fall back to 0), because even diagnostic partial-window
     // numbers produce a more useful visual curve than a flat dotted line.
-    const rawDelta = (d: DeltaValue | undefined): number => {
-      if (!d || d.value === null) return 0;
-      return d.value;
-    };
     const realSparkline = Array.isArray(withHistory.sparklineData)
       ? withHistory.sparklineData
       : [];
@@ -361,6 +364,15 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       starsDelta7dMissing: !rHas7,
       starsDelta30dMissing: !rHas30,
       hasMovementData: rHasMovement,
+      // Set trendScore from the joined deltas so the Gainer (trendScore24h) and
+      // Trend (trendScore30d) rankers have a real ordering for registry-served
+      // repos. Without this they were undefined → 0 → both tabs unranked
+      // whenever the `trending` slug is empty (OSSInsight outage) and the
+      // registry is the sole source. Raw values (cold-start tolerated) for
+      // ranking; the displayed starsDelta above stays isRealDelta-gated.
+      trendScore24h: rawDelta(regDelta?.delta_24h),
+      trendScore7d: rawDelta(regDelta?.delta_7d),
+      trendScore30d: rawDelta(regDelta?.delta_30d),
       sparklineData: rHasMovement
         ? synthesizeSparkline(enrichedBase.stars, rV24, rV7, rV30)
         : synthesizeRecentRepoSparkline(

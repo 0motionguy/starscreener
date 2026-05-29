@@ -79,9 +79,13 @@ interface StarActivityPointLite {
 interface StarActivityPayloadLite {
   points?: StarActivityPointLite[];
   // True when the backfill walked all the way back to the repo's first star.
-  // When set, points[0] is the genuine inception, so a repo younger than a
-  // window has gained ALL its stars within that window.
   coversFirstStar?: boolean;
+  // "stargazer-api"/"dual-ended" backfills walk the stargazer list
+  // OLDEST-FIRST, so points[0] is the repo's genuine first star even when the
+  // conservative coversFirstStar flag is false (it under-reports for
+  // fully-walked small repos — verified on rowboatlabs/rowboat). Only
+  // "snapshot-only" (forward-append) payloads have an unreliable points[0].
+  backfillSource?: string;
 }
 
 export type SADeltaBasis = 'exact' | 'nearest' | 'cold-start' | 'no-history';
@@ -190,7 +194,13 @@ export function entryFromPayload(
   if (!latest || typeof latest.s !== 'number' || typeof latest.d !== 'string') {
     return null;
   }
-  const covers = payload?.coversFirstStar === true;
+  // Trust points[0] as genuine inception when the series came from a
+  // stargazer-list walk (oldest-first), not just when coversFirstStar is set.
+  const src = payload?.backfillSource;
+  const reliableInception =
+    payload?.coversFirstStar === true ||
+    src === 'stargazer-api' ||
+    src === 'dual-ended';
   const byKey = {} as Record<`delta_${WindowKey}`, SADeltaValue>;
   for (const w of WINDOWS) {
     byKey[`delta_${w.key}`] = computeWindowDelta(
@@ -198,7 +208,7 @@ export function entryFromPayload(
       latest,
       w.days,
       w.tolDays,
-      covers,
+      reliableInception,
     );
   }
   return {

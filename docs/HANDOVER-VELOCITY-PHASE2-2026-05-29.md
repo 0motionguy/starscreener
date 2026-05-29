@@ -45,20 +45,35 @@ snapshot accruing points — leave it; don't force-seed.
 
 ## 🧭 ROADMAP — ranked (what the fresh session should do)
 
-### 1. ★ GH Archive → BigQuery daily star-delta engine  (HIGHEST LEVERAGE)
+### 1. ★ Public GitHub-events SQL → daily star-delta engine  (HIGHEST LEVERAGE — NO GCP, NO KEYS, FREE)
 **Problem it solves:** the stargazer walk hits GitHub's secondary rate limit by
-construction (a 700-repo sweep failed 571/700). BigQuery removes pagination entirely.
-**Approach:** one daily job queries `githubarchive.day.YYYYMMDD` `WatchEvent` rows →
-`COUNT(DISTINCT actor.id)` per repo per day for the whole registry → write per-repo
-daily points into the `star-activity:*` slugs (or compute deltas directly into
-`star-activity-deltas`). No stargazer pagination → broad 7d/30d coverage, free-tier
-(1TB/mo; a 30-day WatchEvent slice ≈ tens of GB). Caveat: BigQuery GH Archive copy has
-dup/missing noise — `COUNT(DISTINCT)` + treat as velocity (not exact absolute counts).
-**NEEDS FROM OPERATOR:** a GCP project + service-account JSON (BigQuery read). Add
-`GOOGLE_APPLICATION_CREDENTIALS` / project id to the worker `.env` on TOOLBOX.
-**Effort:** L. **Build as:** a new worker fetcher `velocity-archive` (daily), keep
-`velocity-seed` as a bounded freshness top-up. Sources: gharchive.org, BigQuery public
-datasets.
+construction (700-repo sweep failed 571/700). A pre-aggregated GH-Archive copy removes
+pagination entirely — one query gets every repo's daily star counts.
+**Use ClickHouse's PUBLIC playground (no account, no key, no Google):** it mirrors the GH
+Archive `github_events` table (7.5B rows, refreshed hourly). One HTTP request returns
+per-repo daily new-star counts for the WHOLE registry:
+```
+curl 'https://play.clickhouse.com/?user=play' --data-binary \
+"SELECT repo_name, toDate(created_at) AS d, uniqExact(actor_login) AS stars
+ FROM github_events
+ WHERE event_type='WatchEvent' AND created_at >= now() - INTERVAL 35 DAY
+   AND repo_name IN ('owner/a','owner/b', ...)
+ GROUP BY repo_name, d ORDER BY repo_name, d FORMAT JSON"
+```
+Write the per-repo daily points into the `star-activity:*` slugs (or deltas straight into
+`star-activity-deltas`). **No GCP, no service account, no GitHub rate limit.**
+**Build as:** worker fetcher `velocity-archive` (daily). FIRST `DESCRIBE github_events`
+to confirm column names against the live schema. CRITICAL: play.clickhouse.com is a free
+demo with NO SLA — treat it as a BACKFILL/enrichment source: cache results into OUR slugs
+(source of truth) and degrade gracefully if it's unreachable (keep velocity-seed + the
+daily `/repos` snapshot as fallback). Chunk the `repo_name IN (...)` list if the registry
+is large. Effort: M.
+**Note — you may not need this at all:** the existing daily `star-activity` `/repos`
+snapshot ALREADY broadens 7d/30d coverage over ~7–30 days at $0 with no rate-limit
+("let it warm"). This item just buys INSTANT broad coverage instead of waiting.
+**Fallbacks:** GH Archive raw hourly files (data.gharchive.org, no account, heavier —
+process on the TOOLBOX box) if ClickHouse-play is flaky; BigQuery is the SAME data but
+only worth it if you specifically want GCP + an SLA — otherwise skip it.
 
 ### 2. velocity-seed REST → GraphQL stargazers  (no new keys)
 Replace the REST `star+json` page-walk with GraphQL
@@ -138,13 +153,15 @@ ISR cache (bare `/` comes back fresh; query-param routes are already dynamic).
 > Read `docs/HANDOVER-VELOCITY-PHASE2-2026-05-29.md` fully, then `docs/ENGINE.md`. The
 > velocity engine (velocity-refresh */40 + velocity-seed daily) + % fix + surfacing fix +
 > stars fix + freshness monitoring are SHIPPED and live on TOOLBOX (branch
-> `bot/swarm-a6-producthunt-reader`). Don't rebuild them. GOAL: build roadmap item #1 —
-> the GH Archive → BigQuery daily star-delta engine — to make 7d/30d coverage broad and
-> cheap WITHOUT the stargazer rate-limit. I will provide a GCP project + service-account
-> key (ask me for it). Build it as a new worker fetcher `velocity-archive` (daily) that
-> queries githubarchive WatchEvent counts per registry repo and writes per-repo points
-> into the `star-activity:*` slugs; keep velocity-seed as a bounded top-up. Verify slug
-> coverage climbs, deploy to TOOLBOX (recipes in the doc), confirm `/`, `/?rank=gainer`,
-> `/?rank=trend` still lead with real velocity. Prod = TOOLBOX/Cloudflare, NOT Vercel.
-> Don't re-diagnose: OSSInsight is dead, the token pool is healthy, the engine works —
-> BigQuery is purely about cheap BROAD coverage. Get explicit consent before any deploy.
+> `bot/swarm-a6-producthunt-reader`). Don't rebuild them. GOAL: build roadmap item #1 — a
+> daily star-delta engine sourced from the PUBLIC ClickHouse `github_events` dataset
+> (`https://play.clickhouse.com/?user=play`, no account/key/GCP) to make 7d/30d coverage
+> broad and cheap WITHOUT the GitHub stargazer rate-limit. Build it as a new worker fetcher
+> `velocity-archive` (daily): `DESCRIBE github_events` first, then query per-repo daily
+> WatchEvent counts (uniqExact(actor_login)) for the registry, chunk the repo IN-list,
+> write per-repo points into the `star-activity:*` slugs. CRITICAL: ClickHouse-play has no
+> SLA — cache into our slugs + degrade gracefully (keep velocity-seed + the daily snapshot
+> as fallback). Verify slug coverage climbs, deploy to TOOLBOX (recipes in the doc),
+> confirm `/`, `/?rank=gainer`, `/?rank=trend` still lead with real velocity. Prod =
+> TOOLBOX/Cloudflare, NOT Vercel. Don't re-diagnose: OSSInsight is dead, token pool healthy,
+> engine works — this is purely cheap BROAD coverage. Get explicit consent before any deploy.

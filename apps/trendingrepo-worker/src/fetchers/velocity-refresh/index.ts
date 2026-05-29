@@ -248,15 +248,32 @@ const fetcher: Fetcher = {
     await Promise.all(workers);
 
     const freshEntries = Object.values(fresh);
-    const priorRepos = prior?.repos ?? {};
 
-    // Zero-write guard: an empty recompute (every fetch failed) must not blank a
-    // populated slug — same hazard class as the recent-repos regression.
+    // Re-read the slug right before merge to shrink the cross-fetcher race
+    // window: the daily star-activity-deltas full recompute may have written
+    // during our ~25s of GitHub calls, and merging onto the start-of-run
+    // snapshot would silently drop its fresh entries. Fall back to the
+    // start-of-run prior if the re-read fails.
+    const latest = await readDataStore<StarActivityDeltasPayload>(
+      'star-activity-deltas',
+    ).catch(() => null);
+    const priorRepos = latest?.repos ?? prior?.repos ?? {};
+
+    // Zero-write guard: an empty recompute (every fetch failed — most often the
+    // GH token pool is exhausted/expired) must not blank a populated slug.
+    // Surface it as an ERROR + a run error so it shows in the run-summary and is
+    // caught by the star-activity-deltas freshness monitor, rather than silently
+    // serving a stale board.
     if (shouldPreserveCache({ fresh: freshEntries, existing: Object.values(priorRepos) })) {
-      ctx.log.warn(
+      ctx.log.error(
         { candidates: candidates.length, priorRepos: Object.keys(priorRepos).length },
-        'velocity-refresh: empty recompute — preserving prior slug',
+        'velocity-refresh: empty recompute — preserving prior slug (check GH token pool health)',
       );
+      errors.push({
+        stage: 'empty-recompute',
+        message:
+          'all top-N refreshes failed (likely GH token pool exhausted); preserved prior slug',
+      });
       return done(startedAt, 0, false, errors);
     }
 
@@ -266,23 +283,32 @@ const fetcher: Fetcher = {
       coverage: computeCoverage(mergedRepos),
       repos: mergedRepos,
     };
-    const result = await writeDataStore('star-activity-deltas', payload, {
-      writer: 'velocity-refresh',
-    });
-
-    ctx.log.info(
-      {
-        candidates: candidates.length,
-        refreshed,
-        skipped,
-        totalRepos: Object.keys(mergedRepos).length,
-        coverage: payload.coverage,
-        redisSource: result.source,
-      },
-      'velocity-refresh published',
-    );
-
-    return done(startedAt, refreshed, result.source === 'redis', errors);
+    // Wrap the final write: a Redis blip here would otherwise throw, lose this
+    // tick's intra-day refresh, and only surface in logs. Capture + degrade.
+    try {
+      const result = await writeDataStore('star-activity-deltas', payload, {
+        writer: 'velocity-refresh',
+      });
+      ctx.log.info(
+        {
+          candidates: candidates.length,
+          refreshed,
+          skipped,
+          totalRepos: Object.keys(mergedRepos).length,
+          coverage: payload.coverage,
+          redisSource: result.source,
+        },
+        'velocity-refresh published',
+      );
+      return done(startedAt, refreshed, result.source === 'redis', errors);
+    } catch (err) {
+      errors.push({
+        stage: 'write:star-activity-deltas',
+        message: (err as Error).message ?? String(err),
+      });
+      ctx.log.error({ err }, 'velocity-refresh: slug write failed — prior preserved');
+      return done(startedAt, 0, false, errors);
+    }
   },
 };
 

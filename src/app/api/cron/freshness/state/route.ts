@@ -113,6 +113,16 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(6),
   },
   {
+    // Velocity engine backbone (velocity-refresh */40 + star-activity-deltas
+    // daily). Homepage Top/Gainer/Trend read this for 24h/7d/30d. Monitored so
+    // a silent engine death (e.g. GH_TOKEN_POOL expiry — has happened before)
+    // surfaces as stale instead of users finding empty velocity columns. 6h
+    // budget = ~9 missed */40 refresh ticks before YELLOW.
+    name: "star-activity-deltas",
+    redisSlugs: ["star-activity-deltas"],
+    ...hours(6),
+  },
+  {
     name: "hot-collections",
     redisSlugs: ["hot-collections"],
     ...hours(6),

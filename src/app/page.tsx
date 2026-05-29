@@ -71,31 +71,25 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const sort = normalizeSort(rawSort);
   const ranker = normalizeRanker(rawRank);
 
-  await refreshTrendingFromStore().catch(onRefreshError("trending"));
-  // Hydrate the persistent repo-registry so getDerivedRepos() includes repos
-  // that have dropped out of the live trending feed (the accumulating
-  // collection). 30s rate-limit + dedupe inside — cheap per render.
-  await refreshRepoRegistryFromStore().catch(onRefreshError("repo-registry"));
-  // Hydrate GitHub-direct star deltas so getDerivedRepos() ranks Top/Gainer/
-  // Trend by real 24h/7d/30d growth even while OSS Insight is down (the Delta
-  // Engine prefers this for 7d/30d). 30s rate-limit + dedupe — cheap per render.
-  await refreshStarActivityDeltasFromStore().catch(
-    onRefreshError("star-activity-deltas"),
-  );
-  // Always refresh AA LLMs so the control-bar pill count is honest from any
-  // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
-  // cheap to call on every render.
-  await refreshAaLlmsFromStore().catch(onRefreshError("aa-llms"));
-  // Always refresh the OpenRouter catalogue so the Models tab pill count is
-  // honest from any view (30s rate-limit + dedupe inside — cheap per render).
-  await refreshOpenrouterFromStore().catch(onRefreshError("openrouter"));
-  // Hydrate per-source mention caches + cross-source detail so the repo rows'
-  // source pips reflect live redis data (not a cold cache). Each refresh is
-  // 30s rate-limited + in-flight-deduped, so this is cheap per render.
-  await refreshAllMentionStores().catch(onRefreshError("mentions"));
-  // Freshly-listed /drop repos surface as NEW (ticker / featured / trending).
-  // 30s-rate-limited + deduped inside the reader, so cheap per render.
-  await refreshRecentDropsFromStore().catch(onRefreshError("recent-drops"));
+  // Hydrate all per-source caches from Redis IN PARALLEL. These reads are
+  // independent and each is internally 30s-rate-limited + in-flight-deduped, so
+  // on a warm render they're near-free; on a cold/stale render parallelizing
+  // collapses ~7 serial Redis round-trips into one wall-clock wait. Each keeps
+  // its own .catch so a single cold source never rejects the batch (the page
+  // still degrades gracefully). Covers: trending feed, the accumulating
+  // repo-registry (dropped repos), GitHub-direct star deltas (Top/Gainer/Trend),
+  // AA LLMs + OpenRouter pill counts, all-source mention pips, and NEW /drops.
+  await Promise.all([
+    refreshTrendingFromStore().catch(onRefreshError("trending")),
+    refreshRepoRegistryFromStore().catch(onRefreshError("repo-registry")),
+    refreshStarActivityDeltasFromStore().catch(
+      onRefreshError("star-activity-deltas"),
+    ),
+    refreshAaLlmsFromStore().catch(onRefreshError("aa-llms")),
+    refreshOpenrouterFromStore().catch(onRefreshError("openrouter")),
+    refreshAllMentionStores().catch(onRefreshError("mentions")),
+    refreshRecentDropsFromStore().catch(onRefreshError("recent-drops")),
+  ]);
   if (category !== "repos" && category !== "llms") {
     await refreshCategoryFromStore(category).catch(onRefreshError(`category:${category}`));
   } else if (category === "repos" && ranker === "trend") {

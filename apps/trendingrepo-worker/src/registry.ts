@@ -88,6 +88,13 @@ import repoCommunityProfile from './fetchers/repo-community-profile/index.js';
 // timeline too. Closes the "Star history not yet available" surface for
 // the long tail. Wave C1 — 2026-05-27.
 import starActivity from './fetchers/star-activity/index.js';
+// GitHub-direct 24h/7d/30d star deltas computed from the per-repo
+// `star-activity` daily series — the OSS-Insight-independent backbone for
+// the homepage Top/Gainer/Trend tabs. Removes the single point of failure
+// where an api.ossinsight.io outage blanked every 7d/30d delta. Daily
+// 05:30 UTC, after star-activity has appended today's points. App reads it
+// via src/lib/star-activity-deltas.ts. Wave — 2026-05-29.
+import starActivityDeltas from './fetchers/star-activity-deltas/index.js';
 // Daily deep-coverage sweep of consensus-trending ranks 31-200, skipping any
 // fullName already in consensus-verdicts.items. Closes the gap between the
 // primary analyst's hourly TOP_N=30 and the full 200-item pool that
@@ -148,6 +155,7 @@ export const FETCHERS: Fetcher[] = [
   repoRegistry,
   repoCommunityProfile,
   starActivity,
+  starActivityDeltas,
   consensusAnalystTail,
   editorialWriter,
   editorialCategories,

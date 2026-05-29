@@ -30,8 +30,12 @@ import {
   assembleRepoFromTrending,
   getDeltas,
   lastFetchedAt,
-  type DeltaValue,
 } from "./trending";
+import {
+  getStarActivityDeltas,
+  getStarActivityDeltasDataVersion,
+} from "./star-activity-deltas";
+import { resolveDelta } from "./derived-repos/delta-engine";
 import { scoreBatch } from "./pipeline/scoring/engine";
 import {
   classifyBatch,
@@ -109,6 +113,7 @@ function computeCacheKey(): string {
     getCrossSourceMentionsDataVersion(),
     getRepoRegistryDataVersion(),
     getMentionsLedgerDataVersion(),
+    getStarActivityDeltasDataVersion(),
     getRepoMetadataFetchedAt() ?? "",
   ].join(":");
   _cacheKeyComputedAtMs = now;
@@ -133,6 +138,10 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
 
   const aggregates = buildTrendingAggregates();
   const deltas = getDeltas();
+  // GitHub-direct 24h/7d/30d deltas (worker `star-activity-deltas` slug),
+  // keyed by lowercased fullName. The OSS-Insight-independent backbone the
+  // resolver prefers for 7d/30d. Empty object when the slug isn't populated.
+  const saDeltas = getStarActivityDeltas().repos;
   const fetchedAt = lastFetchedAt;
 
   // repoId -> OSSInsights period-star fallback. Lifetime totals come from
@@ -142,15 +151,10 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     starsNowByRepoId.set(repoId, entry.stars_now);
   }
 
-  const isRealDelta = (d: DeltaValue | undefined): boolean =>
-    !!d && d.value !== null && d.basis !== "cold-start";
-
-  // Raw delta value for RANKING (trendScore) + sparkline synthesis: accepts
-  // cold-start numbers (only nulls/untracked → 0). Distinct from isRealDelta,
-  // which gates the DISPLAYED starsDelta so unreliable cold-start values render
-  // as "—". Ranking tolerates noise — an ordering beats an all-zero tie.
-  const rawDelta = (d: DeltaValue | undefined): number =>
-    !d || d.value === null ? 0 : d.value;
+  // Delta resolution (24h/7d/30d source precedence) lives in the pure,
+  // unit-tested ./derived-repos/delta-engine module — `resolveDelta` is
+  // imported at the top and used by both the trending-aggregate loop and the
+  // registry loop below.
 
   let repos: Repo[] = [];
 
@@ -165,32 +169,24 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     const starsNow =
       (repoIdLookup && starsNowByRepoId.get(repoIdLookup)) || 0;
     const deltaEntry = repoIdLookup ? deltas.repos[repoIdLookup] : undefined;
+    const saEntry = saDeltas[aggregate.row.repo_name?.toLowerCase() ?? ""];
 
-    const mergeDelta = (
-      primary: number,
-      hasPrimary: boolean,
-      fallback: DeltaValue | undefined,
-    ): { value: number; missing: boolean } => {
-      if (hasPrimary) return { value: primary, missing: false };
-      if (isRealDelta(fallback)) {
-        return { value: fallback!.value as number, missing: false };
-      }
-      return { value: 0, missing: true };
-    };
-
-    const d24 = mergeDelta(
-      aggregate.stars24h,
-      aggregate.has24h,
+    const d24 = resolveDelta(
+      "24h",
+      { has: aggregate.has24h, value: aggregate.stars24h },
+      saEntry?.delta_24h,
       deltaEntry?.delta_24h,
     );
-    const d7 = mergeDelta(
-      aggregate.stars7d,
-      aggregate.has7d,
+    const d7 = resolveDelta(
+      "7d",
+      { has: aggregate.has7d, value: aggregate.stars7d },
+      saEntry?.delta_7d,
       deltaEntry?.delta_7d,
     );
-    const d30 = mergeDelta(
-      aggregate.stars30d,
-      aggregate.has30d,
+    const d30 = resolveDelta(
+      "30d",
+      { has: aggregate.has30d, value: aggregate.stars30d },
+      saEntry?.delta_30d,
       deltaEntry?.delta_30d,
     );
     const starsTotal =
@@ -222,12 +218,7 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     const sparkline =
       realSparkline.length >= 7
         ? realSparkline
-        : synthesizeSparkline(
-            starsTotal,
-            aggregate.has24h ? aggregate.stars24h : rawDelta(deltaEntry?.delta_24h),
-            aggregate.has7d ? aggregate.stars7d : rawDelta(deltaEntry?.delta_7d),
-            aggregate.has30d ? aggregate.stars30d : rawDelta(deltaEntry?.delta_30d),
-          );
+        : synthesizeSparkline(starsTotal, d24.rank, d7.rank, d30.rank);
 
     repos.push({
       ...withHistory,
@@ -247,9 +238,13 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       starsDelta24h: d24.value,
       starsDelta7d: d7.value,
       starsDelta30d: d30.value,
-      trendScore24h: aggregate.trendScore24h,
-      trendScore7d: aggregate.trendScore7d,
-      trendScore30d: aggregate.trendScore30d,
+      // Keep OSS Insight's momentum score when present (healthy path); fall
+      // back to the resolved delta rank (star-activity-derived) when it's
+      // absent — i.e. during an OSS Insight outage — so Gainer (trendScore24h)
+      // and Trend (trendScore30d) still order the registry-served repos.
+      trendScore24h: aggregate.trendScore24h || d24.rank,
+      trendScore7d: aggregate.trendScore7d || d7.rank,
+      trendScore30d: aggregate.trendScore30d || d30.rank,
       sparklineData: sparkline,
       hasMovementData: !(d24.missing && d7.missing && d30.missing),
       starsDelta24hMissing: d24.missing,
@@ -337,44 +332,49 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       createdAt: metadata?.createdAt ?? base.createdAt,
       archived: metadata?.archived ?? base.archived,
     };
-    // Delta-join — root-cause fix for the site-wide "—" delta wipe. The
-    // `deltas` slug (getDeltas) is keyed by OSS Insight repo_id, and the
-    // registry entry carries that same repoId, so attach real star-deltas to
-    // registry-served repos here too. Previously deltas were ONLY joined in the
-    // trending-aggregates loop above; when the `trending` slug was empty
-    // (OSSInsight outage) that loop produced nothing and the registry became the
-    // only source — categorically deltaless — so every delta on the site read
-    // "—" even though the data was sitting in the `deltas` slug. This decouples
-    // delta enrichment from the trending feed. Verified: 494/1408 registry repos
-    // carry a real non-zero 24h delta in the slug.
+    // Delta Engine join — the registry is the SOLE source whenever the
+    // `trending` slug is empty (OSS Insight outage), so it must carry full
+    // 24h/7d/30d deltas. There's no OSS Insight bucket on this path (has:false);
+    // the resolver prefers star-activity (GitHub-direct, deep) for 7d/30d so
+    // they stay populated through the outage, then falls back to the snapshot/
+    // TOOLBOX `deltas` slug (keyed by repoId) — which is real only for 24h.
     const regDelta = entry.repoId ? deltas.repos[entry.repoId] : undefined;
-    const rHas24 = isRealDelta(regDelta?.delta_24h);
-    const rHas7 = isRealDelta(regDelta?.delta_7d);
-    const rHas30 = isRealDelta(regDelta?.delta_30d);
-    const rV24 = rHas24 ? (regDelta!.delta_24h.value as number) : 0;
-    const rV7 = rHas7 ? (regDelta!.delta_7d.value as number) : 0;
-    const rV30 = rHas30 ? (regDelta!.delta_30d.value as number) : 0;
-    const rHasMovement = rHas24 || rHas7 || rHas30;
+    const saEntry = saDeltas[normalized];
+    const r24 = resolveDelta(
+      "24h",
+      { has: false, value: 0 },
+      saEntry?.delta_24h,
+      regDelta?.delta_24h,
+    );
+    const r7 = resolveDelta(
+      "7d",
+      { has: false, value: 0 },
+      saEntry?.delta_7d,
+      regDelta?.delta_7d,
+    );
+    const r30 = resolveDelta(
+      "30d",
+      { has: false, value: 0 },
+      saEntry?.delta_30d,
+      regDelta?.delta_30d,
+    );
+    const rHasMovement = !r24.missing || !r7.missing || !r30.missing;
     repos.push({
       ...enrichedBase,
-      starsDelta24h: rV24,
-      starsDelta7d: rV7,
-      starsDelta30d: rV30,
-      starsDelta24hMissing: !rHas24,
-      starsDelta7dMissing: !rHas7,
-      starsDelta30dMissing: !rHas30,
+      starsDelta24h: r24.value,
+      starsDelta7d: r7.value,
+      starsDelta30d: r30.value,
+      starsDelta24hMissing: r24.missing,
+      starsDelta7dMissing: r7.missing,
+      starsDelta30dMissing: r30.missing,
       hasMovementData: rHasMovement,
-      // Set trendScore from the joined deltas so the Gainer (trendScore24h) and
-      // Trend (trendScore30d) rankers have a real ordering for registry-served
-      // repos. Without this they were undefined → 0 → both tabs unranked
-      // whenever the `trending` slug is empty (OSSInsight outage) and the
-      // registry is the sole source. Raw values (cold-start tolerated) for
-      // ranking; the displayed starsDelta above stays isRealDelta-gated.
-      trendScore24h: rawDelta(regDelta?.delta_24h),
-      trendScore7d: rawDelta(regDelta?.delta_7d),
-      trendScore30d: rawDelta(regDelta?.delta_30d),
+      // trendScore from the resolved rank (cold-start tolerated) so Gainer
+      // (trendScore24h) and Trend (trendScore30d) order registry-served repos.
+      trendScore24h: r24.rank,
+      trendScore7d: r7.rank,
+      trendScore30d: r30.rank,
       sparklineData: rHasMovement
-        ? synthesizeSparkline(enrichedBase.stars, rV24, rV7, rV30)
+        ? synthesizeSparkline(enrichedBase.stars, r24.rank, r7.rank, r30.rank)
         : synthesizeRecentRepoSparkline(
             enrichedBase.stars,
             enrichedBase.createdAt,

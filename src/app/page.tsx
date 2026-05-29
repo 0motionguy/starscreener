@@ -4,6 +4,7 @@ import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshRecentDropsFromStore, getNewFullNameSet } from "@/lib/recent-drops";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
+import { refreshStarActivityDeltasFromStore } from "@/lib/star-activity-deltas";
 import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import {
@@ -75,6 +76,12 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // that have dropped out of the live trending feed (the accumulating
   // collection). 30s rate-limit + dedupe inside — cheap per render.
   await refreshRepoRegistryFromStore().catch(onRefreshError("repo-registry"));
+  // Hydrate GitHub-direct star deltas so getDerivedRepos() ranks Top/Gainer/
+  // Trend by real 24h/7d/30d growth even while OSS Insight is down (the Delta
+  // Engine prefers this for 7d/30d). 30s rate-limit + dedupe — cheap per render.
+  await refreshStarActivityDeltasFromStore().catch(
+    onRefreshError("star-activity-deltas"),
+  );
   // Always refresh AA LLMs so the control-bar pill count is honest from any
   // view. The refresh has internal 30s rate-limit + in-flight dedupe so it's
   // cheap to call on every render.

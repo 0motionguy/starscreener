@@ -132,6 +132,65 @@ coverage that the GH Action daily run misses.
 
 Env knobs: `STAR_ACTIVITY_LIMIT` (default 50, max 200).
 
+### `star-activity-deltas` (schedule `30 5 * * *`) — added 2026-05-29 (the Delta Engine)
+
+GitHub-direct 24h/7d/30d star deltas, computed from the per-repo `star-activity`
+daily series and published to a single slug `star-activity-deltas` keyed by
+lowercased fullName. This is the **root-cause fix for the recurring "homepage
+7d/30d go blank" bug.**
+
+**The bug it kills.** Every 7d/30d delta on the site used to derive from
+api.ossinsight.io — directly via the `trending` `past_week`/`past_month`
+buckets, or transitively via the snapshot-based `deltas` fetcher. Two
+compounding failures meant a single OSS Insight outage blanked 7d/30d sitewide:
+
+1. **OSS Insight is a SPOF** — it 500s on every window for days at a time
+   (confirmed 2026-05-29). When it's down, `trending` is empty, so the
+   `past_week`/`past_month` buckets vanish.
+2. **The `deltas` snapshot ring was too shallow** — `MAX_SNAPSHOTS` was 64
+   (≈2.67 days at one snapshot/hour), so the 7d and 30d windows could NEVER
+   find an in-buffer historical snapshot. Their basis was permanently
+   `cold-start`, which `isRealDelta` (in `src/lib/derived-repos.ts`) gates out
+   of DISPLAY → "—". 24h survived only because a ~24h snapshot fits the ring.
+   Bumped to 216 (~9 days) on 2026-05-29 so the 7d window resolves to real
+   `nearest` when OSS Insight is healthy — but the ring is still
+   OSS-Insight-fed (no fresh snapshot is written while `trending` is empty), so
+   it is NOT the durable 7d/30d source.
+
+**The durable fix.** `star-activity` is collected straight from the GitHub API
+and survives OSS Insight outages. This fetcher diffs `latest.s` against the
+point nearest `latest − N days` (24h/7d/30d) with tolerance → basis
+`exact`/`nearest`/`cold-start`/`no-history`, mirroring the existing semantics
+so the app's display gate is unchanged. Pure helpers `computeWindowDelta` and
+`entryFromPayload` are exported for vitest. Zero-write guard via
+`shouldPreserveCache` (never overwrites a populated slug with an empty
+recompute). Env: `STAR_ACTIVITY_DELTAS_LIMIT` (default 5000).
+
+**The Delta Engine** (`src/lib/derived-repos/delta-engine.ts`, `resolveDelta`).
+One resolver, used by BOTH delta-join paths in `derived-repos.ts` (the
+trending-aggregate loop and the registry loop) — replacing the divergent
+per-loop logic that was the actual bug (the registry path had no GitHub-direct
+fallback). Precedence per (repo, window):
+
+| Window | Precedence |
+|---|---|
+| 24h | OSS Insight bucket → snapshot `deltas` → `star-activity-deltas` → "—" |
+| 7d / 30d | **`star-activity-deltas`** → OSS Insight bucket → snapshot `deltas` → "—" |
+
+`value`/`missing` gate the DISPLAY (real bases only — cold-start renders "—");
+`rank` feeds `trendScore` and tolerates a cold-start number so Gainer
+(`trendScore24h`) and Trend (`trendScore30d`) still order when the display is
+"—". App reader: `src/lib/star-activity-deltas.ts`
+(`refreshStarActivityDeltasFromStore` + `getStarActivityDeltas`), hydrated in
+`src/app/page.tsx` before render.
+
+**Coverage caveat.** 7d/30d show real numbers only for repos with enough
+star-activity depth: the trending tier (backfilled via the stargazer walk) has
+it today; the registry tail accumulates ~1 point/day via the `star-activity`
+fetcher, or is seeded immediately by a one-off run of
+`scripts/backfill-star-activity.mjs` over the top registry fullNames. Until a
+repo has depth, its 7d/30d honestly show "—" rather than a fabricated number.
+
 ### `repo-registry` (schedule `47 * * * *`) — shipped earlier (eba6fe7) but landed in this hardening run
 
 Persistent accumulating repo collection. Reads `trending` (authoritative

@@ -183,7 +183,7 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | recent-repos | `25 * * * *` | `recent-repos` | |
 | trustmrr | `27 * * * *` | `trustmrr` | matches sync-trustmrr.yml hourly slot |
 | trendshift-daily | `35 * * * *` | `trendshift-daily` | |
-| deltas | `40 * * * *` | `deltas` | |
+| deltas | `40 * * * *` | `deltas` | Snapshot-ring 24h/7d deltas diffed from `trending` history. Ring deepened 64→216 (~9d) on 2026-05-29 so the 7d window resolves to real `nearest` (not `cold-start`) when OSS Insight is healthy. NO LONGER the 7d/30d SPOF — that backbone is `star-activity-deltas`. |
 | repo-profiles | `41 * * * *` | `repo-profiles` | matches enrich-repo-profiles.yml |
 | engagement-composite | `45 * * * *` | `engagement-composite` | |
 | consensus-trending | `50 * * * *` | `consensus-trending` | |
@@ -223,6 +223,7 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | repo-registry | `47 * * * *` | `repo-registry` | NEW 2026-05-27: persistent accumulating registry (LRU cap 2000, never drops). Reads trending (authoritative) + fill-only from metadata/consensus/recent. App folds via `src/lib/derived-repos/loaders/registry.ts`. |
 | repo-community-profile | `33 * * * *` | `repo-community:{o}__{n}` (per-repo) | NEW 2026-05-27: 6-endpoint GH community fan-out (license/languages/README/org/etc.) for registry top-N selected ASC by lastSeenAt+fullName tiebreak. 24h TTL. Cooperates with on-demand `src/lib/repo-community-profile.ts` (last-write-wins). Env: `COMMUNITY_PROFILE_LIMIT` (def 25, max 300). |
 | star-activity | `17 4 * * *` | `star-activity:{o}__{n}` (per-repo) | NEW 2026-05-27: daily forward-append of cumulative stars for the registry tier (GH Action `append-star-activity.mjs` covers trending tier only). Env: `STAR_ACTIVITY_LIMIT` (def 50, max 200). |
+| star-activity-deltas | `30 5 * * *` | `star-activity-deltas` | NEW 2026-05-29: GitHub-direct 24h/7d/30d star deltas computed from the per-repo `star-activity` series — the OSS-Insight-INDEPENDENT backbone for the homepage Top/Gainer/Trend tabs (root-cause fix for the "7d/30d blank during an api.ossinsight.io outage" bug). Keyed by lowercased fullName; app joins via `src/lib/star-activity-deltas.ts` and the `resolveDelta` engine (`src/lib/derived-repos/delta-engine.ts`) prefers it for 7d/30d. Zero-write guard. Env: `STAR_ACTIVITY_DELTAS_LIMIT` (def 5000). |
 | mentions-ledger | `*/15 * * * *` (4×/hr) | `mentions-ledger` | Cumulative lifetime mention snapshot; reads HN/Reddit/Bluesky/Dev.to/Lobsters snapshot slugs, SADD+HINCRBY new mention IDs, flattens to the snapshot slug the app decorator reads. |
 | consensus-analyst-tail | `0 5 * * *` | `consensus-verdicts` | NEW 2026-05-27: daily deep-coverage sweep of consensus-trending ranks 31–200 minus already-verdicted items; reuses consensus-analyst's prompt + ItemReportSchema; bounded concurrency. Brings full 200-item pool under verdict coverage within ~3 days. Env: `CONSENSUS_TAIL_LIMIT` (def 60, max 120). |
 

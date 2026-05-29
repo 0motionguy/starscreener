@@ -36,7 +36,16 @@ const TRENDING_META_KEY = 'ss:meta:v1:trending';
 const SNAPSHOT_PREFIX = 'ss:data:v1:deltas:snapshot:';
 const SNAPSHOT_INDEX_KEY = 'ss:data:v1:deltas:snapshot-index';
 const SNAPSHOT_TTL_SECONDS = 35 * 24 * 60 * 60; // 35 days
-const MAX_SNAPSHOTS = 64; // bounded ring; ~one per hour x ~3 days = plenty
+// Bounded ring, ~one snapshot per hour. Was 64 (~2.67d) — too shallow for
+// the 7d window to EVER find an in-buffer snapshot, so 7d/30d here were
+// permanently `cold-start`. Raised to 216 (~9 days) so the 7d window
+// resolves to real `exact`/`nearest` values when OSS Insight is healthy.
+// The 30d window is intentionally NOT served from this ring: the durable
+// 30d backbone is the GitHub-direct `star-activity-deltas` slug (which
+// also survives OSS Insight outages — this ring cannot, since no fresh
+// snapshot is written while `trending` is empty). Memory: 216 trending
+// payloads × ~100KB ≈ 20MB, acceptable on the internal redis.
+const MAX_SNAPSHOTS = 216;
 
 // Target windows (seconds) + per-window buffer (how far off a candidate
 // snapshot may be from `target = now - window` before falling back).

@@ -147,7 +147,7 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
-| `/` (Home dashboard) | ISR | `getDerivedRepos()` + skills/MCP summaries + derived movers | scrape-trending + skill/MCP refreshers | mixed | OSS Insight + derived ecosystem feeds |
+| `/` (Home dashboard) | ISR | `getDerivedRepos()` + skills/MCP summaries + derived movers. Top/Gainer/Trend 24h/7d/30d resolved by the **Delta Engine** (`src/lib/derived-repos/delta-engine.ts` `resolveDelta`): OSS Insight bucket → `star-activity-deltas` (GitHub-direct, PRIMARY for 7d/30d) → snapshot `deltas`. | scrape-trending + worker `star-activity-deltas` + skill/MCP refreshers | mixed | OSS Insight + GitHub-direct (`star-activity-deltas` = 7d/30d backbone, survives OSS Insight outages) + derived |
 | `/repo/[owner]/[name]` | ISR | `getDerivedRepoByFullName()` + `buildCanonicalRepoProfile()` (11 loaders + 6 synthesizers) | every collector (this is the fan-in point) | every cron | every API |
 | `/repo/[owner]/[name]/star-activity` | ISR | star-activity time series | refresh-star-activity + append-star-activity | daily `17 3 * * *` | GitHub stargazers API (pool-aware) |
 | `/u/[handle]` | ISR | `getProfile()` from data-store | enrich-repo-profiles + GitHub user fetch | hourly `41 * * * *` | GitHub user API + derived |
@@ -198,6 +198,7 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 | promote-unknown-mentions | daily `30 4 * * *` | `data/unknown-mentions-promoted.json` | `/admin/unknown-mentions` |
 | enrich-repo-profiles | hourly `41 * * * *` | repo-profiles | `/u/[handle]`, repo profile completeness |
 | refresh-star-activity + append-star-activity | daily `17 3 * * *` | star-activity time series | `/repo/[owner]/[name]/star-activity` |
+| star-activity-deltas (worker, NEW 2026-05-29) | daily `30 5 * * *` | `star-activity-deltas` | `/` Top/Gainer/Trend 24h/7d/30d via the Delta Engine — GitHub-direct, the OSS-Insight-INDEPENDENT 7d/30d backbone |
 | cron-llm | hourly `10 * * * *` | LLM-enriched fields on ideas | `/ideas` |
 | cron-pipeline-ingest | every 2h `15 */2 * * *` | mention-store hydrate | repo profile recent mentions feed |
 | cron-pipeline-persist | every 6h `30 */6 * * *` | mention-store persist | (same) |
@@ -244,10 +245,11 @@ When you ask "what collector matters most", count incoming edges:
 | **refresh-skill-*** | 2 surfaces (`/skills` + `/skills/[slug]`) |
 | **enrich-repo-profiles** | profile completeness (low blast radius if dies — old data persists) |
 | **snapshot-stars (NEW)** | every delta number on every leaderboard |
+| **star-activity-deltas (worker)** | homepage Top/Gainer/Trend 7d/30d — GitHub-direct, decouples them from OSS Insight |
 
 **Top 3 single points of failure** by blast radius:
 1. **scrape-trending** — kills every derived-repos consumer
-2. **OSS Insight upstream** (api.ossinsight.io) — same blast radius from the API side
+2. **OSS Insight upstream** (api.ossinsight.io) — same blast radius from the API side, BUT **7d/30d star deltas no longer depend on it** (2026-05-29): the `star-activity-deltas` worker computes them GitHub-direct, so an OSS Insight outage now degrades only 24h freshness while 7d/30d stay populated. (This SPOF is exactly what blanked 7d/30d before the fix.)
 3. **Redis** (data-store) — kills everything (mitigated by 3-tier fallback to bundled JSON + memory)
 
 ---

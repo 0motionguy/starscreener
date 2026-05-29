@@ -45,6 +45,28 @@ describe('computeWindowDelta', () => {
     expect([d24, d7, d30].every(isReal)).toBe(true);
   });
 
+  it('young repo (covers first star, younger than window) → full growth is REAL', () => {
+    // Created 5 days ago, gained all 500 stars within those 5 days.
+    const points = series([
+      [5, 80],
+      [4, 180],
+      [3, 300],
+      [1, 440],
+      [0, 500],
+    ]);
+    const latest = points[points.length - 1];
+    // coversFirstStar=true: 7d & 30d windows both exceed the 5-day life, so
+    // the windowed delta is the full current count (it had 0 before it existed).
+    const d7 = computeWindowDelta(points, latest, 7, 2, true);
+    const d30 = computeWindowDelta(points, latest, 30, 5, true);
+    expect(d7).toMatchObject({ value: 500, basis: 'nearest' });
+    expect(d30).toMatchObject({ value: 500, basis: 'nearest' });
+    expect(isReal(d7)).toBe(true);
+    expect(isReal(d30)).toBe(true);
+    // Without coversFirstStar, the same series can't trust inception → cold-start.
+    expect(computeWindowDelta(points, latest, 30, 5, false).basis).toBe('cold-start');
+  });
+
   it('gappy series → nearest within tolerance, cold-start beyond', () => {
     // Points 8d / 4d / today ago.
     const points = series([

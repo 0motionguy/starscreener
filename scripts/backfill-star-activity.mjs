@@ -434,12 +434,34 @@ async function main() {
   if (!args.dryRun) {
     assertWritableDataStoreEnv();
   }
-  const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? "";
-  if (!token) {
+  // Token pool: GH_TOKEN_POOL (comma-separated, ~20 tokens) is rotated
+  // per-repo so a single token's secondary-rate-limit (GitHub returns 403 on
+  // rapid multi-page stargazer pagination) can't sink the whole batch — the
+  // exact failure mode that 403'd 149/150 established repos on 2026-05-29.
+  // Falls back to a single GITHUB_TOKEN / GH_TOKEN.
+  const tokenPool = (process.env.GH_TOKEN_POOL ?? "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  if (tokenPool.length === 0) {
+    const single = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? "";
+    if (single) tokenPool.push(single);
+  }
+  if (tokenPool.length === 0) {
     console.warn(
-      "[backfill-star-activity] no GITHUB_TOKEN set — unauthenticated rate limit (60/hr) will exhaust quickly",
+      "[backfill-star-activity] no GH_TOKEN_POOL/GITHUB_TOKEN — unauthenticated rate limit (60/hr) will exhaust quickly",
     );
   }
+  let tokenCursor = 0;
+  const nextToken = () => {
+    if (tokenPool.length === 0) return "";
+    const t = tokenPool[tokenCursor % tokenPool.length];
+    tokenCursor += 1;
+    return t;
+  };
+  console.log(
+    `[backfill-star-activity] token pool size=${tokenPool.length}`,
+  );
 
   let repos;
   if (args.repos && args.repos.length > 0) {
@@ -523,7 +545,28 @@ async function main() {
           continue;
         }
       }
-      const result = await backfillOne(fullName, token);
+      // Rotate a fresh token per repo + retry on 403/429 (secondary rate
+      // limit) by advancing to the next token in the pool.
+      let result;
+      let attempts = 0;
+      const maxAttempts = Math.min(4, tokenPool.length || 1);
+      for (;;) {
+        try {
+          result = await backfillOne(fullName, nextToken());
+          break;
+        } catch (e) {
+          attempts += 1;
+          const msg = String(e?.message ?? e);
+          if (attempts < maxAttempts && /\b(403|429)\b/.test(msg)) {
+            console.warn(
+              `[retry] ${fullName}: ${msg} — rotating token (${attempts}/${maxAttempts})`,
+            );
+            await new Promise((r) => setTimeout(r, 1500));
+            continue;
+          }
+          throw e;
+        }
+      }
       if (result.payload.backfillSource === "snapshot-only") {
         skipped += 1;
         console.log(

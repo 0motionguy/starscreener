@@ -78,6 +78,10 @@ interface StarActivityPointLite {
 }
 interface StarActivityPayloadLite {
   points?: StarActivityPointLite[];
+  // True when the backfill walked all the way back to the repo's first star.
+  // When set, points[0] is the genuine inception, so a repo younger than a
+  // window has gained ALL its stars within that window.
+  coversFirstStar?: boolean;
 }
 
 export type SADeltaBasis = 'exact' | 'nearest' | 'cold-start' | 'no-history';
@@ -124,11 +128,27 @@ export function computeWindowDelta(
   latest: StarActivityPointLite,
   windowDays: number,
   tolDays: number,
+  coversFirstStar = false,
 ): SADeltaValue {
   if (points.length < 2) return NO_HISTORY;
   const latestMs = dayMs(latest.d);
   if (!Number.isFinite(latestMs)) return NO_HISTORY;
   const targetMs = latestMs - windowDays * DAY_MS;
+
+  // Young-repo case: when our series covers the repo's first star AND that
+  // first star is more recent than the window start, the repo gained ALL of
+  // its stars inside this window (it had 0 before it existed). The windowed
+  // delta is therefore the full current count — a REAL number, not "—". This
+  // is what populates 7d/30d for brand-new viral repos (a 5-day-old repo's
+  // 30d delta == its total stars). Without this they'd look back for a
+  // non-existent 30-days-ago point and fall to cold-start.
+  const oldest = points[0];
+  if (oldest && coversFirstStar) {
+    const oldestMs = dayMs(oldest.d);
+    if (Number.isFinite(oldestMs) && oldestMs > targetMs) {
+      return { value: latest.s, basis: 'nearest', from_d: oldest.d };
+    }
+  }
 
   let best: StarActivityPointLite | null = null;
   let bestDiff = Infinity;
@@ -170,9 +190,16 @@ export function entryFromPayload(
   if (!latest || typeof latest.s !== 'number' || typeof latest.d !== 'string') {
     return null;
   }
+  const covers = payload?.coversFirstStar === true;
   const byKey = {} as Record<`delta_${WindowKey}`, SADeltaValue>;
   for (const w of WINDOWS) {
-    byKey[`delta_${w.key}`] = computeWindowDelta(points, latest, w.days, w.tolDays);
+    byKey[`delta_${w.key}`] = computeWindowDelta(
+      points,
+      latest,
+      w.days,
+      w.tolDays,
+      covers,
+    );
   }
   return {
     stars_now: latest.s,

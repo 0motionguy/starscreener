@@ -96,6 +96,30 @@ last few pages). **PROVEN:** after seeding, `backnotprop/plannotator` → 24h +9
 5. **Commit `scripts/recent-velocity-points.mjs`** + deploy worker + app.
 6. **Docs:** fold this into `docs/ENGINE.md` + `docs/SITE-WIREMAP.md` once stable.
 
+## ⚠️ CRITICAL SCALE FINDING (the naive bulk walk does NOT scale)
+
+A full 700-repo `recent-velocity-points.mjs` sweep (concurrency 6, 20-token pool)
+**failed 571/700**: clean through ~repo 125, then secondary-rate-limit 403s
+cascaded across the rest. Even 20 tokens can't absorb 6 concurrent workers each
+walking multi-page stargazer lists with the heavy `star+json` accept header.
+`thin=118` = genuinely stale repos (no stars in last 35d) — that's CORRECT, not a bug.
+
+**Implication for the recurring fetcher (design around this, do NOT retry the
+naive sweep):**
+- Refresh only the **top ~150–300 by current velocity** every 30–60 min, not all
+  1558. A full registry pass at most **once daily**, heavily throttled.
+- **Low concurrency (2–3), real inter-request delay**, and per-repo token rotation
+  AND per-token cooldown. Honor `Retry-After` / `x-ratelimit-remaining`; back off
+  on 403 instead of just rotating.
+- **Prefer the cheap path:** for most repos the single `/repos/{owner}/{name}`
+  call (1 request, gives `stargazers_count`) feeds the DAILY snapshot, and deltas
+  come from accumulated daily points over time — NO stargazer walk needed once a
+  few days of daily snapshots exist. Reserve the expensive newest-first walk for
+  a one-time recent-anchor seed of the visible top-N only.
+- Net: velocity coverage should build PRIMARILY from the cheap daily snapshot
+  accumulating over days, with the stargazer walk as a bounded top-N seed — not a
+  repeated full-registry walk.
+
 ## GOTCHAS / LEARNINGS (do not repeat these)
 
 - **`coversFirstStar` flag is unreliable** — false even for fully-walked small
@@ -145,11 +169,12 @@ last few pages). **PROVEN:** after seeding, `backnotprop/plannotator` → 24h +9
 ## CURRENT STATE (honest)
 
 - Ranking: FIXED + live. 24h velocity: WORKING (~170 real).
-- 7d/30d: ~11/38 real as of handover; a corrected 700-repo recent-velocity sweep
-  was running at handover (the earlier "full sweep" hit the gz1 registry-read bug
-  → 0 repos). After it completes + `star-activity-deltas` re-runs, real7/real30
-  should climb to the hundreds for actively-starred repos. Re-verify with the
-  probe below.
+- 7d/30d: **~10/33 real — did NOT broadly improve.** The 700-repo bulk sweep
+  FAILED 571/700 to secondary rate limit (see CRITICAL SCALE FINDING above). The
+  mechanism is PROVEN on individually-seeded repos (plannotator, scrapegraph) but
+  bulk backfill at scale is the open problem. The cheap daily-snapshot path
+  (accumulating over days) is the sustainable route to broad coverage; the
+  stargazer walk only works for a bounded top-N. This is the core remaining work.
 - The RECURRING engine is NOT built yet — only the one-time manual script exists.
 
 ## VERIFICATION

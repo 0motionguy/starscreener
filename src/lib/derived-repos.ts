@@ -189,12 +189,22 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       saEntry?.delta_30d,
       deltaEntry?.delta_30d,
     );
+    // GitHub-direct current star count from the velocity engine
+    // (star-activity-deltas, refreshed every 40 min by velocity-refresh).
+    // Preferred over the stale snapshot/activity fallbacks so a repo without
+    // repo-metadata enrichment shows its REAL total instead of a tiny stale
+    // number (e.g. "2 stars" next to a +939 30d delta) — which also lets
+    // velocityPct compute a real % off a credible base.
+    const saStarsNow =
+      saEntry && typeof saEntry.stars_now === "number" ? saEntry.stars_now : 0;
     const starsTotal =
       metadata && metadata.stars > 0
         ? metadata.stars
-        : starsNow > 0
-          ? starsNow
-          : aggregate.activityStars;
+        : saStarsNow > 0
+          ? saStarsNow
+          : starsNow > 0
+            ? starsNow
+            : aggregate.activityStars;
     const forksTotal = metadata?.forks ?? aggregate.forks;
 
     const enrichedBase: Repo = {
@@ -310,6 +320,12 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     const normalized = entry.fullName.toLowerCase();
     if (seenFullNames.has(normalized)) continue;
     const metadata = getRepoMetadata(entry.fullName);
+    // GitHub-direct current star count (velocity engine). Used as the stars
+    // fallback so a registry repo without repo-metadata shows its REAL total
+    // instead of a stale tiny number, and velocityPct gets a credible base.
+    const saEntry = saDeltas[normalized];
+    const saStarsNow =
+      saEntry && typeof saEntry.stars_now === "number" ? saEntry.stars_now : 0;
     const base = buildBaseRepoFromRegistry(entry);
     const enrichedBase: Repo = {
       ...base,
@@ -321,7 +337,7 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       url: metadata?.url ?? base.url,
       language: metadata?.language ?? base.language,
       topics: metadata?.topics ?? base.topics,
-      stars: metadata?.stars ?? base.stars,
+      stars: metadata?.stars ?? (saStarsNow > 0 ? saStarsNow : base.stars),
       forks: metadata?.forks ?? base.forks,
       openIssues: metadata?.openIssues ?? base.openIssues,
       lastCommitAt:
@@ -339,7 +355,6 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     // they stay populated through the outage, then falls back to the snapshot/
     // TOOLBOX `deltas` slug (keyed by repoId) — which is real only for 24h.
     const regDelta = entry.repoId ? deltas.repos[entry.repoId] : undefined;
-    const saEntry = saDeltas[normalized];
     const r24 = resolveDelta(
       "24h",
       { has: false, value: 0 },

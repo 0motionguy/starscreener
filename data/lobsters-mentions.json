@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-28T23:53:37.953Z",
+  "fetchedAt": "2026-05-29T04:56:40.791Z",
   "windowDays": 7,
   "scannedStories": 78,
   "mentions": {
@@ -420,6 +420,44 @@
         }
       ]
     },
+    "google/ax": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "shortId": "3k9g2c",
+        "title": "ax, Google’s new highly distributed agent executor",
+        "score": 3,
+        "url": "https://github.com/google/ax",
+        "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
+        "hoursSincePosted": 18.294444444444444
+      },
+      "stories": [
+        {
+          "shortId": "3k9g2c",
+          "title": "ax, Google’s new highly distributed agent executor",
+          "url": "https://github.com/google/ax",
+          "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
+          "by": "",
+          "score": 3,
+          "commentCount": 1,
+          "createdUtc": 1779964740,
+          "ageHours": 18.294444444444444,
+          "trendingScore": 0.03281372272943253,
+          "tags": [
+            "distributed",
+            "vibecoding"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "google/ax",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "withastro/flue": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -450,44 +488,6 @@
           "linkedRepos": [
             {
               "fullName": "withastro/flue",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "google/ax": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "shortId": "3k9g2c",
-        "title": "ax, Google’s new highly distributed agent executor",
-        "score": 2,
-        "url": "https://github.com/google/ax",
-        "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
-        "hoursSincePosted": 13.243611111111111
-      },
-      "stories": [
-        {
-          "shortId": "3k9g2c",
-          "title": "ax, Google’s new highly distributed agent executor",
-          "url": "https://github.com/google/ax",
-          "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
-          "by": "",
-          "score": 2,
-          "commentCount": 1,
-          "createdUtc": 1779964740,
-          "ageHours": 13.243611111111111,
-          "trendingScore": 0.03360455932414562,
-          "tags": [
-            "distributed",
-            "vibecoding"
-          ],
-          "description": "",
-          "linkedRepos": [
-            {
-              "fullName": "google/ax",
               "matchType": "url",
               "confidence": 1
             }
@@ -553,12 +553,12 @@
       "scoreSum7d": 4
     },
     {
-      "fullName": "withastro/flue",
+      "fullName": "google/ax",
       "count7d": 1,
-      "scoreSum7d": 2
+      "scoreSum7d": 3
     },
     {
-      "fullName": "google/ax",
+      "fullName": "withastro/flue",
       "count7d": 1,
       "scoreSum7d": 2
     }

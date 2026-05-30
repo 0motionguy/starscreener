@@ -1029,65 +1029,51 @@
     "decision_pending": "Worker fetcher exists in apps/trendingrepo-worker/src/fetchers/ai-blogs but is NOT imported in registry.ts; active writers are scripts/scrape-claude-rss.mjs + scripts/scrape-openai-rss.mjs. Re-enable the worker fetcher (RSS phase 1 only) OR delete?"
   },
   {
-    "id": "twitter-signals",
+    "id": "twitter",
     "category": "social",
     "kind": "collector",
-    "state": "intent-only",
-    "freshness_budget_ms": 43200000,
+    "state": "active",
+    "freshness_budget_ms": 5400000,
     "cost_signal_metric": {
-      "type": "apify_units",
-      "scope": "day"
+      "type": "none",
+      "scope": "hour"
     },
     "owner": "UNASSIGNED",
     "upstream_url": [
-      "https://api.apify.com/v2/acts/apidojo~tweet-scraper",
-      "https://twitter.com",
-      "https://nitter.net"
+      "https://nitter.privacyredirect.com"
     ],
-    "auth_required": true,
-    "auth_scheme": "apify_token",
+    "auth_required": false,
+    "auth_scheme": "none",
     "primary_output_keys": [
-      "twitter-repo-signals",
-      "twitter-scans",
-      "twitter-ingestion-audit"
+      "twitter-repo-signals"
     ],
     "output_record_shape": "mention_feed",
     "consensus_role": "mention-feed",
     "consumer_surfaces": [
       "src/lib/twitter/signal-data.ts",
-      "src/lib/twitter/builder.ts"
+      "src/lib/twitter/builder.ts",
+      "src/lib/mentions-ledger.ts"
     ],
     "depends_on": [
-      "repo-metadata"
+      "repo-registry"
     ],
     "supports_backfill": false,
-    "fallback_strategy": "provider-chain",
+    "fallback_strategy": "cache",
     "providers": [
       {
-        "id": "apify-tweet-scraper",
+        "id": "camofox-nitter",
         "role": "primary",
-        "cost_class": "apify_units"
-      },
-      {
-        "id": "twitter-web",
-        "role": "fallback",
-        "cost_class": "rate_limit_pct"
-      },
-      {
-        "id": "nitter",
-        "role": "fallback",
-        "cost_class": "rate_limit_pct"
-      },
-      {
-        "id": "fixture",
-        "role": "fallback",
         "cost_class": "none"
+      },
+      {
+        "id": "nitter-direct",
+        "role": "fallback",
+        "cost_class": "rate_limit_pct"
       }
     ],
     "writes_canonical_entity_kind": [
       "mention"
-    ],
-    "decision_pending": "Twitter signals are written by scripts/collect-twitter-signals.ts (workflow-side, no scrape-<id>.mjs match). The verifier check 2 cannot match this row to a worker fetcher OR a scrape-<id>.mjs script. Either: (a) rename script to scripts/scrape-twitter-signals.mjs/ts, (b) add a worker fetcher that wraps the collector, or (c) extend the verifier to recognize collect-*.ts scripts. State stays 'active' downgraded to 'intent-only' once decision is recorded."
+    ]
   },
   {
     "id": "trending",

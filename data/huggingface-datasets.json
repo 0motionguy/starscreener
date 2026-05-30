@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-30T14:11:01.697Z",
+  "fetchedAt": "2026-05-30T19:46:10.526Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/UltraData-SFT-2605",
       "downloads": 8096,
-      "likes": 217,
-      "trendingScore": 160,
+      "likes": 220,
+      "trendingScore": 163,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -41,8 +41,8 @@
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3",
       "downloads": 21716,
-      "likes": 218,
-      "trendingScore": 104,
+      "likes": 219,
+      "trendingScore": 105,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -297,8 +297,8 @@
       "author": "jasperai",
       "url": "https://huggingface.co/datasets/jasperai/monet",
       "downloads": 256618,
-      "likes": 71,
-      "trendingScore": 64,
+      "likes": 75,
+      "trendingScore": 67,
       "tags": [
         "task_categories:text-to-image",
         "task_categories:image-feature-extraction",
@@ -1102,6 +1102,38 @@
     },
     {
       "rank": 37,
+      "id": "amphora/ResearchMath-14k",
+      "author": "amphora",
+      "url": "https://huggingface.co/datasets/amphora/ResearchMath-14k",
+      "downloads": 466,
+      "likes": 22,
+      "trendingScore": 22,
+      "tags": [
+        "task_categories:text-generation",
+        "task_categories:question-answering",
+        "language:en",
+        "license:mit",
+        "size_categories:10K<n<100K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2605.28003",
+        "region:us",
+        "mathematics",
+        "research-problems",
+        "open-problems",
+        "arxiv",
+        "reasoning",
+        "dataset"
+      ],
+      "createdAt": "2026-05-28T01:58:50.000Z",
+      "lastModified": "2026-05-28T02:11:42.000Z"
+    },
+    {
+      "rank": 38,
       "id": "SALT-NLP/SWE-chat",
       "author": "SALT-NLP",
       "url": "https://huggingface.co/datasets/SALT-NLP/SWE-chat",
@@ -1134,7 +1166,7 @@
       "lastModified": "2026-04-29T15:05:22.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "r0b0tlab/deepseek-hermes-reasoning-traces",
       "author": "r0b0tlab",
       "url": "https://huggingface.co/datasets/r0b0tlab/deepseek-hermes-reasoning-traces",
@@ -1169,7 +1201,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "ShadenA/MathNet",
       "author": "ShadenA",
       "url": "https://huggingface.co/datasets/ShadenA/MathNet",
@@ -1212,7 +1244,7 @@
       "lastModified": "2026-04-27T23:48:47.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "LukaDev13/Liminal-Dreamcore-1K",
       "author": "LukaDev13",
       "url": "https://huggingface.co/datasets/LukaDev13/Liminal-Dreamcore-1K",
@@ -1233,7 +1265,7 @@
       "lastModified": "2026-05-18T22:03:11.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "roneneldan/TinyStories",
       "author": "roneneldan",
       "url": "https://huggingface.co/datasets/roneneldan/TinyStories",
@@ -1256,38 +1288,6 @@
       ],
       "createdAt": "2023-05-12T19:04:09.000Z",
       "lastModified": "2024-08-12T13:27:26.000Z"
-    },
-    {
-      "rank": 42,
-      "id": "amphora/ResearchMath-14k",
-      "author": "amphora",
-      "url": "https://huggingface.co/datasets/amphora/ResearchMath-14k",
-      "downloads": 466,
-      "likes": 19,
-      "trendingScore": 19,
-      "tags": [
-        "task_categories:text-generation",
-        "task_categories:question-answering",
-        "language:en",
-        "license:mit",
-        "size_categories:10K<n<100K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2605.28003",
-        "region:us",
-        "mathematics",
-        "research-problems",
-        "open-problems",
-        "arxiv",
-        "reasoning",
-        "dataset"
-      ],
-      "createdAt": "2026-05-28T01:58:50.000Z",
-      "lastModified": "2026-05-28T02:11:42.000Z"
     },
     {
       "rank": 43,
@@ -1365,6 +1365,23 @@
     },
     {
       "rank": 46,
+      "id": "stanford-vision-lab/gpic",
+      "author": "stanford-vision-lab",
+      "url": "https://huggingface.co/datasets/stanford-vision-lab/gpic",
+      "downloads": 7322,
+      "likes": 23,
+      "trendingScore": 18,
+      "tags": [
+        "language:en",
+        "license:mit",
+        "arxiv:2605.30341",
+        "region:us"
+      ],
+      "createdAt": "2026-05-03T20:45:00.000Z",
+      "lastModified": "2026-05-29T09:50:14.000Z"
+    },
+    {
+      "rank": 47,
       "id": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
       "author": "Jackrong",
       "url": "https://huggingface.co/datasets/Jackrong/Claude-opus-4.7-TraceInversion-5000x",
@@ -1404,7 +1421,7 @@
       "lastModified": "2026-05-19T10:20:17.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "HuggingFaceFW/fineweb-edu",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
@@ -1434,7 +1451,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1464,7 +1481,7 @@
       "lastModified": "2026-05-09T06:36:26.000Z"
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "ngocdang83/tran-vi-teacher",
       "author": "ngocdang83",
       "url": "https://huggingface.co/datasets/ngocdang83/tran-vi-teacher",
@@ -1494,41 +1511,6 @@
       ],
       "createdAt": "2026-05-22T16:46:21.000Z",
       "lastModified": "2026-05-25T08:24:01.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "ning423/deepseek-hermes-reasoning-traces",
-      "author": "ning423",
-      "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
-      "downloads": 538,
-      "likes": 15,
-      "trendingScore": 15,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:apache-2.0",
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "format:optimized-parquet",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "hermes",
-        "agent",
-        "tool-calling",
-        "reasoning",
-        "sft",
-        "lora",
-        "function-calling",
-        "deepseek",
-        "chatml"
-      ],
-      "createdAt": "2026-05-03T14:43:24.000Z",
-      "lastModified": "2026-05-04T00:18:27.000Z"
     }
   ]
 }

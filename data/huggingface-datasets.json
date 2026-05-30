@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-30T08:42:57.187Z",
+  "fetchedAt": "2026-05-30T14:11:01.697Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/UltraData-SFT-2605",
       "downloads": 8096,
-      "likes": 213,
-      "trendingScore": 156,
+      "likes": 217,
+      "trendingScore": 160,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -41,7 +41,7 @@
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3",
       "downloads": 21716,
-      "likes": 217,
+      "likes": 218,
       "trendingScore": 104,
       "tags": [
         "task_categories:text-generation",
@@ -293,6 +293,32 @@
     },
     {
       "rank": 10,
+      "id": "jasperai/monet",
+      "author": "jasperai",
+      "url": "https://huggingface.co/datasets/jasperai/monet",
+      "downloads": 256618,
+      "likes": 71,
+      "trendingScore": 64,
+      "tags": [
+        "task_categories:text-to-image",
+        "task_categories:image-feature-extraction",
+        "task_categories:zero-shot-image-classification",
+        "language:en",
+        "license:apache-2.0",
+        "size_categories:100M<n<1B",
+        "arxiv:2605.21272",
+        "region:us",
+        "multimodal",
+        "image-text",
+        "captioning",
+        "text-to-image",
+        "synthetic-data"
+      ],
+      "createdAt": "2026-04-28T14:37:04.000Z",
+      "lastModified": "2026-05-29T10:16:25.000Z"
+    },
+    {
+      "rank": 11,
       "id": "open-thoughts/AgentTrove",
       "author": "open-thoughts",
       "url": "https://huggingface.co/datasets/open-thoughts/AgentTrove",
@@ -323,7 +349,7 @@
       "lastModified": "2026-05-07T14:20:40.000Z"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "id": "armand0e/qwen3.7-max-pi-traces",
       "author": "armand0e",
       "url": "https://huggingface.co/datasets/armand0e/qwen3.7-max-pi-traces",
@@ -351,32 +377,6 @@
       ],
       "createdAt": "2026-05-23T01:55:28.000Z",
       "lastModified": "2026-05-23T02:58:23.000Z"
-    },
-    {
-      "rank": 12,
-      "id": "jasperai/monet",
-      "author": "jasperai",
-      "url": "https://huggingface.co/datasets/jasperai/monet",
-      "downloads": 256618,
-      "likes": 58,
-      "trendingScore": 52,
-      "tags": [
-        "task_categories:text-to-image",
-        "task_categories:image-feature-extraction",
-        "task_categories:zero-shot-image-classification",
-        "language:en",
-        "license:apache-2.0",
-        "size_categories:100M<n<1B",
-        "arxiv:2605.21272",
-        "region:us",
-        "multimodal",
-        "image-text",
-        "captioning",
-        "text-to-image",
-        "synthetic-data"
-      ],
-      "createdAt": "2026-04-28T14:37:04.000Z",
-      "lastModified": "2026-05-29T10:16:25.000Z"
     },
     {
       "rank": 13,
@@ -1259,6 +1259,38 @@
     },
     {
       "rank": 42,
+      "id": "amphora/ResearchMath-14k",
+      "author": "amphora",
+      "url": "https://huggingface.co/datasets/amphora/ResearchMath-14k",
+      "downloads": 466,
+      "likes": 19,
+      "trendingScore": 19,
+      "tags": [
+        "task_categories:text-generation",
+        "task_categories:question-answering",
+        "language:en",
+        "license:mit",
+        "size_categories:10K<n<100K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2605.28003",
+        "region:us",
+        "mathematics",
+        "research-problems",
+        "open-problems",
+        "arxiv",
+        "reasoning",
+        "dataset"
+      ],
+      "createdAt": "2026-05-28T01:58:50.000Z",
+      "lastModified": "2026-05-28T02:11:42.000Z"
+    },
+    {
+      "rank": 43,
       "id": "SWE-bench/SWE-bench_Verified",
       "author": "SWE-bench",
       "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
@@ -1281,7 +1313,7 @@
       "lastModified": "2026-02-27T20:36:38.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "unh1nge/comfyui-character-composer",
       "author": "unh1nge",
       "url": "https://huggingface.co/datasets/unh1nge/comfyui-character-composer",
@@ -1309,7 +1341,7 @@
       "lastModified": "2026-05-07T19:19:01.000Z"
     },
     {
-      "rank": 44,
+      "rank": 45,
       "id": "Kwai-Klear/GoLongRL",
       "author": "Kwai-Klear",
       "url": "https://huggingface.co/datasets/Kwai-Klear/GoLongRL",
@@ -1330,38 +1362,6 @@
       ],
       "createdAt": "2026-05-19T11:22:48.000Z",
       "lastModified": "2026-05-26T08:10:01.000Z"
-    },
-    {
-      "rank": 45,
-      "id": "amphora/ResearchMath-14k",
-      "author": "amphora",
-      "url": "https://huggingface.co/datasets/amphora/ResearchMath-14k",
-      "downloads": 466,
-      "likes": 18,
-      "trendingScore": 18,
-      "tags": [
-        "task_categories:text-generation",
-        "task_categories:question-answering",
-        "language:en",
-        "license:mit",
-        "size_categories:10K<n<100K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2605.28003",
-        "region:us",
-        "mathematics",
-        "research-problems",
-        "open-problems",
-        "arxiv",
-        "reasoning",
-        "dataset"
-      ],
-      "createdAt": "2026-05-28T01:58:50.000Z",
-      "lastModified": "2026-05-28T02:11:42.000Z"
     },
     {
       "rank": 46,

@@ -1592,6 +1592,42 @@
     ]
   },
   {
+    "id": "velocity-backfill",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "pat_quota_pct",
+      "scope": "hour"
+    },
+    "rate_limit": {
+      "per_hour": 5000,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://api.github.com/graphql",
+    "auth_required": true,
+    "auth_scheme": "github_pat_pool",
+    "primary_output_keys": [
+      "star-activity-deltas"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/star-activity-deltas.ts",
+      "src/app/page.tsx"
+    ],
+    "depends_on": [
+      "repo-registry",
+      "star-activity"
+    ],
+    "supports_backfill": true,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
     "id": "repo-community-profile",
     "category": "repo-derived",
     "kind": "enrichment",

@@ -10,6 +10,8 @@ import { describe, expect, it } from 'vitest';
 import {
   buildNitterSearchUrl,
   parseNitterSearchHtml,
+  resolveNitterChain,
+  shouldRetryAfterCamofoxError,
   type TwitterRepoSignalPost,
 } from '../index.js';
 
@@ -146,5 +148,100 @@ describe('parseNitterSearchHtml', () => {
   it('returns an empty array for unparseable HTML rather than throwing', () => {
     const result = parseNitterSearchHtml('<html><body>nope</body></html>', 'a/b', fetchedAt, 'q');
     expect(result).toEqual([]);
+  });
+});
+
+// --------------------------------------------------------------------------
+// H6 — resolveNitterChain. The fallback chain is the resilience hatch for
+// when the head instance dies mid-run. Tests cover the env precedence and
+// the defensive shape sanitisation (trailing slashes, empty entries, dups).
+// --------------------------------------------------------------------------
+
+describe('resolveNitterChain', () => {
+  it('uses TWITTER_NITTER_CHAIN comma-separated value when present', () => {
+    const chain = resolveNitterChain({
+      chainEnv: 'https://nitter.a.test, https://nitter.b.test ,https://nitter.c.test/',
+      useCamofox: true,
+    });
+    expect(chain).toEqual([
+      'https://nitter.a.test',
+      'https://nitter.b.test',
+      'https://nitter.c.test',
+    ]);
+  });
+
+  it('falls back to TWITTER_NITTER_INSTANCE (single) when chain env is empty', () => {
+    const chain = resolveNitterChain({
+      singleEnv: 'https://nitter.legacy.test/',
+      useCamofox: true,
+    });
+    // Single env head + default chain tail, dedup'd by URL.
+    expect(chain[0]).toBe('https://nitter.legacy.test');
+    expect(chain.length).toBeGreaterThan(1);
+  });
+
+  it('falls back to camofox default chain when both env vars are unset', () => {
+    const chain = resolveNitterChain({ useCamofox: true });
+    expect(chain[0]).toBe('https://nitter.privacyredirect.com');
+    expect(chain.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('falls back to direct-fetch default chain when useCamofox is false', () => {
+    const chain = resolveNitterChain({ useCamofox: false });
+    expect(chain[0]).toBe('https://nt.vern.cc');
+  });
+
+  it('dedupes URLs across env + defaults preserving first-seen order', () => {
+    const chain = resolveNitterChain({
+      singleEnv: 'https://nitter.privacyredirect.com',
+      useCamofox: true,
+    });
+    // Should appear exactly once even though it's also in the default chain.
+    const matches = chain.filter((u) => u === 'https://nitter.privacyredirect.com');
+    expect(matches).toHaveLength(1);
+  });
+
+  it('handles whitespace and trailing slashes in env values', () => {
+    const chain = resolveNitterChain({
+      chainEnv: '  https://x.test/  ,,https://y.test/// ',
+      useCamofox: true,
+    });
+    expect(chain).toEqual(['https://x.test', 'https://y.test']);
+  });
+});
+
+// --------------------------------------------------------------------------
+// H5 — shouldRetryAfterCamofoxError. The retry hatch should fire ONLY for
+// transient camofox surface errors (navigate/evaluate 5xx). 4xx, timeouts,
+// parse errors are durable — retrying would burn a tab without value.
+// --------------------------------------------------------------------------
+
+describe('shouldRetryAfterCamofoxError', () => {
+  it('returns true for camofox navigate 500/502/503/504', () => {
+    expect(shouldRetryAfterCamofoxError('camofox navigate 500 Internal Server Error for https://x')).toBe(true);
+    expect(shouldRetryAfterCamofoxError('camofox navigate 502 Bad Gateway for https://x')).toBe(true);
+    expect(shouldRetryAfterCamofoxError('camofox navigate 503 Service Unavailable for https://x')).toBe(true);
+    expect(shouldRetryAfterCamofoxError('camofox navigate 504 Gateway Timeout for https://x')).toBe(true);
+  });
+
+  it('returns true for camofox evaluate 5xx', () => {
+    expect(shouldRetryAfterCamofoxError('camofox evaluate 500 Internal Server Error')).toBe(true);
+    expect(shouldRetryAfterCamofoxError('camofox evaluate 599 Network Connect Timeout Error')).toBe(true);
+  });
+
+  it('returns false for 4xx (durable client errors)', () => {
+    expect(shouldRetryAfterCamofoxError('camofox navigate 403 Forbidden for https://x')).toBe(false);
+    expect(shouldRetryAfterCamofoxError('camofox navigate 404 Not Found for https://x')).toBe(false);
+    expect(shouldRetryAfterCamofoxError('camofox evaluate 401 Unauthorized')).toBe(false);
+  });
+
+  it('returns false for timeouts / aborted requests', () => {
+    expect(shouldRetryAfterCamofoxError('The operation was aborted')).toBe(false);
+    expect(shouldRetryAfterCamofoxError('fetch failed')).toBe(false);
+  });
+
+  it('returns false for unrelated nitter parse errors', () => {
+    expect(shouldRetryAfterCamofoxError('nitter 502 Bad Gateway for https://x')).toBe(false);
+    expect(shouldRetryAfterCamofoxError('camofox evaluate error: no result')).toBe(false);
   });
 });

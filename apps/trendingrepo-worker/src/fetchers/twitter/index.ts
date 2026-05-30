@@ -37,6 +37,20 @@ const DEFAULT_NITTER_INSTANCE = 'https://nt.vern.cc';
 // When TWITTER_USE_CAMOFOX=1, default to an instance proven alive behind Anubis
 // (the public direct-fetch network is dead post-2026; camofox bypasses the PoW).
 const DEFAULT_NITTER_INSTANCE_CAMOFOX = 'https://nitter.privacyredirect.com';
+
+// H6: fallback chain. When the active instance hits consecutive failures, we
+// rotate to the next one rather than bailing the whole run. The list is
+// operator-curated from the camofox-friendly subset of public Nitter instances
+// (mirrors scripts/_twitter-collector.ts's DEFAULT_NITTER_INSTANCES). Override
+// via TWITTER_NITTER_CHAIN as a comma-separated list of full URLs.
+const DEFAULT_NITTER_CHAIN_CAMOFOX = [
+  'https://nitter.privacyredirect.com',
+  'https://nuku.trabun.org',
+  'https://nitter.poast.org',
+] as const;
+const DEFAULT_NITTER_CHAIN_DIRECT = [
+  'https://nt.vern.cc',
+] as const;
 const REQUEST_TIMEOUT_MS = 10_000;
 const REQUEST_PAUSE_MS = 750;
 const MAX_REPOS_PER_RUN = 50;
@@ -55,8 +69,14 @@ const CAMOFOX_SESSION_KEY = 'nitter-sweep';
 // Empirical (2026-05-30 on nitter.privacyredirect.com behind Anubis): 8s post-
 // navigate often shows the layout shell but no .timeline-item rows; 12s lets
 // Nitter's upstream scrape finish + render. The page is JS-static after that
-// — no further state changes.
+// — no further state changes. Used as a fallback wall-clock cap when the
+// camofox /wait endpoint isn't available; smart-wait can return earlier.
 const CAMOFOX_NAVIGATE_WAIT_MS = 12_000;
+const CAMOFOX_SMART_WAIT_MS = 8_000;
+// Selector list for the smart wait — terminal states that mean Nitter has
+// finished rendering (either tweets present OR an explicit empty-state).
+// Multiple selectors comma-separated so any one match satisfies the wait.
+const CAMOFOX_TERMINAL_SELECTOR = '.timeline-item, .no-results-message, .error-panel';
 
 export interface TwitterRepoSignalPost {
   id: string;
@@ -86,6 +106,54 @@ export interface TwitterRepoSignalsPayload {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Resolve the ordered Nitter instance chain for this run.
+ *
+ * Precedence:
+ *   1. TWITTER_NITTER_CHAIN — comma-separated full URLs (operator override)
+ *   2. TWITTER_NITTER_INSTANCE — single URL (legacy; promoted to chain head)
+ *   3. Defaults — camofox-friendly chain when useCamofox, direct chain otherwise
+ *
+ * Trailing slashes are stripped, empty entries dropped, dedup'd in order.
+ * Pure / I/O-free — exported for unit testing.
+ */
+export function resolveNitterChain(opts: {
+  chainEnv?: string;
+  singleEnv?: string;
+  useCamofox: boolean;
+}): string[] {
+  const norm = (s: string): string => s.trim().replace(/\/+$/, '');
+  const seen = new Set<string>();
+  const out: string[] = [];
+  const push = (s: string): void => {
+    const u = norm(s);
+    if (!u || seen.has(u)) return;
+    seen.add(u);
+    out.push(u);
+  };
+
+  if (opts.chainEnv && opts.chainEnv.trim()) {
+    for (const part of opts.chainEnv.split(',')) push(part);
+    if (out.length > 0) return out;
+  }
+  if (opts.singleEnv && opts.singleEnv.trim()) push(opts.singleEnv);
+  const defaults = opts.useCamofox ? DEFAULT_NITTER_CHAIN_CAMOFOX : DEFAULT_NITTER_CHAIN_DIRECT;
+  for (const part of defaults) push(part);
+  return out;
+}
+
+/**
+ * H5 retry decision. A camofox `/navigate` or `/evaluate` failure that surfaces
+ * as a 5xx is the canonical transient: Anubis JWT renewing, upstream Nitter
+ * worker bounce, or a stale tab. Recreating the tab + retrying once recovers
+ * cleanly. Anything else (timeout, 4xx, parse error) is NOT retried — those
+ * are durable failures that a retry won't fix.
+ * Pure / I/O-free — exported for unit testing.
+ */
+export function shouldRetryAfterCamofoxError(message: string): boolean {
+  return /\b(navigate|evaluate)\s+5\d\d\b/.test(message);
 }
 
 /**
@@ -234,6 +302,32 @@ function sleepMs(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+/**
+ * Smart wait — tries camofox's `/wait` selector endpoint to return as soon as
+ * a terminal Nitter state appears (.timeline-item OR .no-results-message OR
+ * .error-panel). Falls back to a wall-clock sleep on any failure so this
+ * change is strictly an improvement: worst-case behavior is identical to the
+ * pre-perf-pass code path. Cuts average hot-tier per-repo wait from 12s to
+ * ~3-6s when the page lands early.
+ */
+async function camofoxWaitForTerminal(tabId: string): Promise<'selector' | 'fallback-sleep'> {
+  try {
+    const res = await camofoxFetch(`/tabs/${tabId}/wait`, {
+      method: 'POST',
+      body: {
+        userId: CAMOFOX_USER_ID,
+        selector: CAMOFOX_TERMINAL_SELECTOR,
+        timeoutMs: CAMOFOX_SMART_WAIT_MS,
+      },
+    });
+    if (res.ok) return 'selector';
+  } catch {
+    // /wait endpoint may not exist in older camofox builds; fall through.
+  }
+  await sleepMs(CAMOFOX_NAVIGATE_WAIT_MS);
+  return 'fallback-sleep';
+}
+
 export async function fetchViaCamofox(tabId: string, url: string): Promise<string> {
   const nav = await camofoxFetch(`/tabs/${tabId}/navigate`, {
     method: 'POST',
@@ -243,9 +337,9 @@ export async function fetchViaCamofox(tabId: string, url: string): Promise<strin
     throw new Error(`camofox navigate ${nav.status} ${nav.statusText} for ${url}`);
   }
   // Anubis releases the page, but Nitter still needs to fetch upstream tweets
-  // and render them. networkidle isn't enough on every instance — give it a
-  // fixed wall-clock wait so timeline-items have actually populated.
-  await sleepMs(CAMOFOX_NAVIGATE_WAIT_MS);
+  // and render them. networkidle isn't enough on every instance — wait for a
+  // terminal Nitter selector (results or no-results) with a wall-clock cap.
+  await camofoxWaitForTerminal(tabId);
   const evalRes = await camofoxFetch(`/tabs/${tabId}/evaluate`, {
     method: 'POST',
     needsAuth: true,
@@ -295,12 +389,23 @@ const fetcher: Fetcher = {
     }
 
     const useCamofox = process.env.TWITTER_USE_CAMOFOX === '1';
-    const defaultInstance = useCamofox
+    // H6: resolve the instance chain (TWITTER_NITTER_CHAIN comma-separated,
+    // legacy TWITTER_NITTER_INSTANCE single, or built-in defaults). We start
+    // on chain[0] and rotate to chain[i+1] on consecutive failures, so a
+    // dead privacyredirect doesn't blank twitter for the full hour.
+    const instanceChain = resolveNitterChain({
+      chainEnv: process.env.TWITTER_NITTER_CHAIN,
+      singleEnv: process.env.TWITTER_NITTER_INSTANCE,
+      useCamofox,
+    });
+    let instanceIdx = 0;
+    let instance = instanceChain[instanceIdx] ?? (useCamofox
       ? DEFAULT_NITTER_INSTANCE_CAMOFOX
-      : DEFAULT_NITTER_INSTANCE;
-    const instance =
-      process.env.TWITTER_NITTER_INSTANCE?.trim().replace(/\/+$/, '') ||
-      defaultInstance;
+      : DEFAULT_NITTER_INSTANCE);
+    ctx.log.info(
+      { instanceChainLength: instanceChain.length, headInstance: instance },
+      'twitter: instance chain resolved',
+    );
 
     const tracked = await loadTrackedRepos({ log: ctx.log });
     if (tracked.size === 0) {
@@ -332,17 +437,24 @@ const fetcher: Fetcher = {
     // If the camofox service is unreachable, we degrade to the direct fetch
     // (which will likely also fail behind Anubis, but produces consistent
     // signals rather than crashing the fetcher).
-    let camofoxTabId: string | undefined;
-    if (useCamofox) {
+    const makeFreshTab = async (currentInstance: string): Promise<string | undefined> => {
+      if (!useCamofox) return undefined;
       try {
-        camofoxTabId = await createCamofoxTab(`${instance}/`);
-        ctx.log.info({ tabId: camofoxTabId }, 'twitter: camofox tab created');
+        return await createCamofoxTab(`${currentInstance}/`);
       } catch (err) {
         ctx.log.error(
-          { err: (err as Error).message },
-          'twitter: camofox tab creation failed — falling back to direct fetch',
+          { err: (err as Error).message, instance: currentInstance },
+          'twitter: camofox tab creation failed',
         );
+        return undefined;
       }
+    };
+
+    let camofoxTabId: string | undefined = await makeFreshTab(instance);
+    if (useCamofox && camofoxTabId) {
+      ctx.log.info({ tabId: camofoxTabId, instance }, 'twitter: camofox tab created');
+    } else if (useCamofox && !camofoxTabId) {
+      ctx.log.warn({ instance }, 'twitter: camofox tab create failed — falling back to direct fetch');
     }
 
     const allPosts: TwitterRepoSignalPost[] = [];
@@ -350,32 +462,89 @@ const fetcher: Fetcher = {
     let consecutiveFailures = 0;
     let bailedOut = false;
     let bailReason: string | undefined;
+    let retriesPerformed = 0;
+    let instanceRotations = 0;
     const fetchedAt = new Date().toISOString();
 
     try {
       for (const repoFullName of repos) {
         const url = buildNitterSearchUrl(instance, repoFullName);
-        try {
-          const html = camofoxTabId
-            ? await fetchViaCamofox(camofoxTabId, url)
-            : await fetchNitterPage(url);
-          const posts = parseNitterSearchHtml(html, repoFullName, fetchedAt, url);
-          allPosts.push(...posts);
-          consecutiveFailures = 0;
-          ctx.log.debug({ repoFullName, posts: posts.length }, 'twitter: repo scanned');
-        } catch (err) {
+        let attempt = 0;
+        let lastErr: Error | undefined;
+
+        // Inner attempt loop — one retry on transient camofox 5xx (H5).
+        for (;;) {
+          try {
+            const html = camofoxTabId
+              ? await fetchViaCamofox(camofoxTabId, url)
+              : await fetchNitterPage(url);
+            const posts = parseNitterSearchHtml(html, repoFullName, fetchedAt, url);
+            allPosts.push(...posts);
+            consecutiveFailures = 0;
+            lastErr = undefined;
+            ctx.log.debug({ repoFullName, posts: posts.length, attempt }, 'twitter: repo scanned');
+            break;
+          } catch (err) {
+            lastErr = err as Error;
+            if (attempt === 0 && camofoxTabId && shouldRetryAfterCamofoxError(lastErr.message)) {
+              // H5: tab is likely poisoned (stale Anubis JWT or upstream
+              // Nitter worker bounce). Close, recreate, retry once.
+              attempt += 1;
+              retriesPerformed += 1;
+              ctx.log.warn(
+                { repoFullName, err: lastErr.message },
+                'twitter: camofox 5xx — retrying with fresh tab',
+              );
+              try {
+                await closeCamofoxTab(camofoxTabId);
+              } catch {
+                /* best-effort */
+              }
+              camofoxTabId = await makeFreshTab(instance);
+              if (camofoxTabId) continue;
+            }
+            break;
+          }
+        }
+
+        if (lastErr) {
           failed += 1;
           consecutiveFailures += 1;
           ctx.log.warn(
-            { repoFullName, err: (err as Error).message },
+            { repoFullName, err: lastErr.message, attempt, instance },
             'twitter: nitter fetch failed',
           );
-          // Bail early if the instance is clearly down — don't burn 50 timeouts.
+
+          // H6: on consecutive failures, rotate to the next instance in the
+          // chain BEFORE bailing. The dead-host case (entire instance gone)
+          // shows as 5 in-a-row failures; rotating recovers the run on the
+          // next instance instead of returning an empty payload for the hour.
           if (consecutiveFailures >= 5) {
-            bailedOut = true;
-            bailReason = `consecutive-failures:${consecutiveFailures}`;
-            ctx.log.warn({ bailReason }, 'twitter: bailing early — instance likely down');
-            break;
+            const nextInstance = instanceChain[instanceIdx + 1];
+            if (nextInstance) {
+              const oldInstance = instance;
+              instanceIdx += 1;
+              instance = nextInstance;
+              instanceRotations += 1;
+              ctx.log.warn(
+                { oldInstance, newInstance: instance, consecutiveFailures },
+                'twitter: rotating to fallback nitter instance',
+              );
+              if (camofoxTabId) {
+                try {
+                  await closeCamofoxTab(camofoxTabId);
+                } catch {
+                  /* best-effort */
+                }
+              }
+              camofoxTabId = await makeFreshTab(instance);
+              consecutiveFailures = 0;
+            } else {
+              bailedOut = true;
+              bailReason = `consecutive-failures-on-last-instance:${consecutiveFailures}`;
+              ctx.log.warn({ bailReason }, 'twitter: bailing — chain exhausted');
+              break;
+            }
           }
         }
         await sleep(REQUEST_PAUSE_MS);
@@ -432,6 +601,9 @@ const fetcher: Fetcher = {
         failed,
         posts: allPosts.length,
         degraded,
+        retriesPerformed,
+        instanceRotations,
+        chainLength: instanceChain.length,
         redis: source,
       },
       'twitter published',

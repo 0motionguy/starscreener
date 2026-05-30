@@ -1004,10 +1004,11 @@
     "id": "ai-blogs",
     "category": "research",
     "kind": "collector",
-    "state": "intent-only",
+    "state": "active",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
-      "type": "none"
+      "type": "none",
+      "scope": "hour"
     },
     "owner": "UNASSIGNED",
     "upstream_url": "multiple",
@@ -1025,8 +1026,7 @@
     "fallback_strategy": "cache",
     "writes_canonical_entity_kind": [
       "mention"
-    ],
-    "decision_pending": "Worker fetcher exists in apps/trendingrepo-worker/src/fetchers/ai-blogs but is NOT imported in registry.ts; active writers are scripts/scrape-claude-rss.mjs + scripts/scrape-openai-rss.mjs. Re-enable the worker fetcher (RSS phase 1 only) OR delete?"
+    ]
   },
   {
     "id": "twitter",

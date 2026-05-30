@@ -45,13 +45,17 @@ Status reconciled in the **2026-05-30 hygiene wave** (branch
 - [ ] Flip `TOOLBOX_READ_*` feature flags ON per source (8 readers: HN, Reddit, Bluesky, DevTo, Lobsters, NPM, RSS, ArXiv). Currently all OFF in production despite the dual-write workflows landing the data in the Toolbox spine. Phase B migration; out of scope for the rebuild. Owner: CTO. Done when each flag is ON in prod env, soak passes 7-day reliability check, and the legacy JSONL writes can be retired.
 - [x] **Remove Storybook entirely** (added 2026-05-30). 6 `@storybook/*` devDeps + `storybook` + 2 `package.json` scripts + `.storybook/main.ts` + `.storybook/preview.ts` were dead — zero `.stories.tsx` files in `src/`, zero `from "@storybook/..."` imports anywhere, memory `feedback_no_storybook` rejects it as a deliverable. Done in commit `526a4ddd1`; `npm install` removed 239 packages. Follow-up (Wave B): orphan `/storybook-static/` and `/docs/storybook/` entries still in `.gitignore` — harmless, can be swept later.
 
-## Pre-existing TypeScript errors blocking strict typecheck (2026-05-20)
+## Pre-existing TypeScript errors blocking strict typecheck (2026-05-20, resolved 2026-05-30)
 
 Discovered during Wave A verification; NOT caused by the rebuild but
 flagged here so Wave B agents fix them as part of their route work.
 
-- [ ] `src/app/revenue/page.tsx:368` — `RevenueLeaderboard` call missing required prop `nextLimit`. Pre-dates the rebuild (last touched at commit `0a79c30dc`). Owner: br worktree (Codex agent, /revenue route). Done when typecheck reports zero errors against this file.
-- [ ] `src/components/tools/ToolsActivityStrip.tsx:47,51` — discriminated union narrowing fails on `.hover` and `.label` accesses (one variant of the input row type lacks both fields). Working-tree modification from prior session. Owner: bl worktree (Codex agent, /tools route). Done when typecheck reports zero errors against this file.
+**Status: RESOLVED.** Verified on `cleanup/2026-05-30-hygiene` —
+`npm run typecheck` exits 0, so both files no longer error. If
+either error returns, restore the bullet and reassign.
+
+- [x] `src/app/revenue/page.tsx:368` — `RevenueLeaderboard` call missing required prop `nextLimit`. Resolved in a subsequent commit to either file; typecheck is clean.
+- [x] `src/components/tools/ToolsActivityStrip.tsx:47,51` — discriminated union narrowing on `.hover` and `.label`. Resolved; typecheck is clean.
 
 ## From audit (2026-05-04) — not in Sprint 1
 - [ ] Profile completeness scanner (owner: data quality engineer). Done when a scanner report is generated and each profile field has pass/fail coverage output. Target sprint: Sprint 3.

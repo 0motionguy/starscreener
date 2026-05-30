@@ -129,8 +129,11 @@ import velocitySeed from './fetchers/velocity-seed/index.js';
 // isn't half "— — —". ClickHouse/GH-Archive was ruled out (playground ~6wk
 // stale); GraphQL stargazers(last:100) is cost-1, live, and retroactive.
 import velocityBackfill from './fetchers/velocity-backfill/index.js';
-// NOTE: starsByCategory import dropped — same reason as openrouterUsage
-// above. Re-add when the fetcher lands as a tracked commit.
+// Daily 90D stacked-by-category star-delta roll-up for the home-hero chart.
+// Reads repo-registry + all `star-activity:*` slugs, sums per-day deltas into
+// 7 hero buckets, writes `stars-by-category-daily`. Runs daily 06:00 UTC
+// after star-activity (04:17) + star-activity-deltas (05:30).
+import starsByCategory from './fetchers/stars-by-category/index.js';
 // Daily deep-coverage sweep of consensus-trending ranks 31-200, skipping any
 // fullName already in consensus-verdicts.items. Closes the gap between the
 // primary analyst's hourly TOP_N=30 and the full 200-item pool that
@@ -199,6 +202,7 @@ export const FETCHERS: Fetcher[] = [
   velocityRefresh,
   velocitySeed,
   velocityBackfill,
+  starsByCategory,
   consensusAnalystTail,
   editorialWriter,
   editorialCategories,

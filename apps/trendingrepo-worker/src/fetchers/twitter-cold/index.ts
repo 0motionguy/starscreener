@@ -29,12 +29,14 @@ import {
 } from '../mentions-ledger/index.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { pickColdRepos } from '../twitter/_picker.js';
-import { scanRepoBatch } from '../twitter/_scan.js';
+import { scanRepoBatchParallel } from '../twitter/_scan.js';
 import { resolveNitterChain } from '../twitter/index.js';
 
 const CURSOR_KEY = 'ss:twitter-cold:cursor';
 const REPOS_PER_RUN = 150;
 const HOT_WARM_BUDGET = 500;
+// H7: same N=4 parallel-tabs setup as warm.
+const CONCURRENCY = 4;
 
 interface LedgerSnapshot {
   entries: Array<{
@@ -104,11 +106,12 @@ const fetcher: Fetcher = {
       'twitter-cold: starting nitter sweep',
     );
 
-    const scan = await scanRepoBatch({
+    const scan = await scanRepoBatchParallel({
       repos: picked.repos,
       instanceChain,
       log: ctx.log,
       scanLabel: 'twitter-cold',
+      concurrency: CONCURRENCY,
     });
 
     const byRepo: Record<string, string[]> = {};

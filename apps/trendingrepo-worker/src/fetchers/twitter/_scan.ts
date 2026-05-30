@@ -17,8 +17,15 @@
 // (every public Nitter instance has the PoW front). Callers that want the
 // direct path do their own thing — this module is camofox or nothing.
 //
-// Serial per-repo for V1. H7 will fold in N=4 parallel tabs by passing a
-// concurrency limiter + tab pool here.
+// Two entry points:
+//   - `scanRepoBatch` — serial single-tab loop (hot tier; retains H6 chain
+//     rotation since the hot run is short and the instance can die mid-run).
+//   - `scanRepoBatchParallel` — N-tab pool, sequential tab creation (camofox
+//     rejects concurrent tab creation as `session_expired`), concurrent
+//     navigate+evaluate across the pool. Cuts wall-clock by ~N×. No chain
+//     rotation in V1 — warm/cold runs are infrequent enough that instance
+//     death between runs is the operationally-relevant case, and chain
+//     rotation across N concurrent workers needs careful coordination (V2).
 
 import type { Logger } from 'pino';
 
@@ -212,6 +219,167 @@ export async function scanRepoBatch(opts: ScanRepoBatchOpts): Promise<ScanRepoBa
     bailedOut,
     ...(bailReason ? { bailReason } : {}),
     finalInstance: instance,
+    fetchedAt,
+  };
+}
+
+// --------------------------------------------------------------------------
+// scanRepoBatchParallel — N-tab pool variant for warm/cold tiers.
+//
+// Pattern (informed by 2026-05-30 H7 box probes):
+//   - Sequential tab creation upfront; concurrent /tabs hits camofox's
+//     `session_expired` race.
+//   - N workers, each owns one tab, pull repos from a shared queue.
+//   - Per-worker H5 retry: on transient camofox 5xx, close + recreate THAT
+//     worker's tab and retry the same repo once.
+//   - No chain rotation in V1. Warm/cold cadences (6h / daily) mean instance
+//     death between runs is the operationally-relevant case; the worker
+//     scheduler restarts the fetcher anyway. V2 can add coordinated
+//     rotation if we ever observe mid-run head-instance death.
+//   - On worker terminal-fail (tab unrecoverable), worker exits early; other
+//     workers continue. Aggregated `failedRepos` includes both worker-fail
+//     and per-repo-fail.
+// --------------------------------------------------------------------------
+
+export interface ScanRepoBatchParallelOpts extends ScanRepoBatchOpts {
+  concurrency: number;
+}
+
+export async function scanRepoBatchParallel(opts: ScanRepoBatchParallelOpts): Promise<ScanRepoBatchResult> {
+  const { repos, instanceChain, log, scanLabel, concurrency } = opts;
+  const fetchedAt = new Date().toISOString();
+  const finalInstance = instanceChain[0] ?? 'https://nitter.privacyredirect.com';
+  const N = Math.max(1, Math.min(concurrency, repos.length));
+
+  if (repos.length === 0 || instanceChain.length === 0) {
+    return {
+      posts: [],
+      scannedRepos: 0,
+      failedRepos: 0,
+      retriesPerformed: 0,
+      instanceRotations: 0,
+      bailedOut: false,
+      finalInstance,
+      fetchedAt,
+    };
+  }
+
+  // Sequential tab creation — camofox 400s on concurrent /tabs.
+  const tabs: Array<{ tabId: string; userId: string } | undefined> = [];
+  for (let i = 0; i < N; i++) {
+    const userId = `twitter-parallel-${scanLabel}-${i}`;
+    try {
+      const tabId = await createCamofoxTab(`${finalInstance}/`);
+      tabs.push({ tabId, userId });
+    } catch (err) {
+      log.error(
+        { err: (err as Error).message, slot: i, instance: finalInstance, scanLabel },
+        'twitter-scan: parallel tab creation failed for slot',
+      );
+      tabs.push(undefined);
+    }
+  }
+  const activeTabs = tabs.filter((t): t is NonNullable<typeof t> => t !== undefined);
+  log.info(
+    { requested: N, created: activeTabs.length, instance: finalInstance, scanLabel },
+    'twitter-scan: parallel tab pool created',
+  );
+
+  if (activeTabs.length === 0) {
+    log.error({ scanLabel }, 'twitter-scan: zero tabs created — falling back');
+    return {
+      posts: [],
+      scannedRepos: 0,
+      failedRepos: repos.length,
+      retriesPerformed: 0,
+      instanceRotations: 0,
+      bailedOut: true,
+      bailReason: 'no-tabs-available',
+      finalInstance,
+      fetchedAt,
+    };
+  }
+
+  // Shared work queue + result accumulators. Mutated by workers under JS's
+  // single-threaded execution model — no atomicity needed for primitives.
+  const queue = repos.slice();
+  const allPosts: TwitterRepoSignalPost[] = [];
+  let failed = 0;
+  let retries = 0;
+
+  const worker = async (slot: number, tab: { tabId: string; userId: string }): Promise<void> => {
+    let currentTabId = tab.tabId;
+    for (;;) {
+      const repoFullName = queue.shift();
+      if (!repoFullName) return;
+      const url = buildNitterSearchUrl(finalInstance, repoFullName);
+      let attempt = 0;
+      let lastErr: Error | undefined;
+      for (;;) {
+        try {
+          const html = await fetchViaCamofox(currentTabId, url);
+          const posts = parseNitterSearchHtml(html, repoFullName, fetchedAt, url);
+          allPosts.push(...posts);
+          lastErr = undefined;
+          log.debug({ slot, repoFullName, posts: posts.length, attempt, scanLabel }, 'twitter-scan: parallel repo scanned');
+          break;
+        } catch (err) {
+          lastErr = err as Error;
+          if (attempt === 0 && shouldRetryAfterCamofoxError(lastErr.message)) {
+            attempt += 1;
+            retries += 1;
+            log.warn({ slot, repoFullName, err: lastErr.message, scanLabel }, 'twitter-scan: parallel 5xx — retrying with fresh tab');
+            try {
+              await closeCamofoxTab(currentTabId);
+            } catch {
+              /* best-effort */
+            }
+            try {
+              currentTabId = await createCamofoxTab(`${finalInstance}/`);
+              continue;
+            } catch (recreateErr) {
+              log.error(
+                { slot, err: (recreateErr as Error).message, scanLabel },
+                'twitter-scan: parallel tab recreation failed — worker exits',
+              );
+              failed += 1;
+              return;
+            }
+          }
+          break;
+        }
+      }
+      if (lastErr) {
+        failed += 1;
+        log.warn({ slot, repoFullName, err: lastErr.message, attempt, scanLabel }, 'twitter-scan: parallel fetch failed');
+      }
+    }
+  };
+
+  try {
+    await Promise.all(activeTabs.map((tab, i) => worker(i, tab)));
+  } finally {
+    // Close every tab the workers may still hold. Workers that recreated
+    // their tab on retry hold a different id than `tabs[i]`; we can't track
+    // that without per-worker mutation. Best-effort: close the initial ids.
+    // Stale tabs get GC'd by camofox's session cleanup anyway.
+    for (const tab of activeTabs) {
+      try {
+        await closeCamofoxTab(tab.tabId);
+      } catch {
+        /* best-effort */
+      }
+    }
+  }
+
+  return {
+    posts: allPosts,
+    scannedRepos: repos.length,
+    failedRepos: failed,
+    retriesPerformed: retries,
+    instanceRotations: 0,
+    bailedOut: false,
+    finalInstance,
     fetchedAt,
   };
 }

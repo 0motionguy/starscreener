@@ -32,13 +32,16 @@ import {
 } from '../mentions-ledger/index.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { pickWarmRepos } from '../twitter/_picker.js';
-import { scanRepoBatch } from '../twitter/_scan.js';
+import { scanRepoBatchParallel } from '../twitter/_scan.js';
 import { resolveNitterChain } from '../twitter/index.js';
 
 const CURSOR_KEY = 'ss:twitter-warm:cursor';
 const WARM_TIER_START = 51;
 const WARM_TIER_SIZE = 450;
 const REPOS_PER_RUN = 150;
+// H7: 4 parallel camofox tabs cuts 150-repo run from ~13 min → ~3.5 min.
+// Memory: ~80 MB per tab, ~320 MB total — well under the 1 GiB cap.
+const CONCURRENCY = 4;
 
 interface LedgerSnapshot {
   entries: Array<{
@@ -105,11 +108,12 @@ const fetcher: Fetcher = {
       'twitter-warm: starting nitter sweep',
     );
 
-    const scan = await scanRepoBatch({
+    const scan = await scanRepoBatchParallel({
       repos: picked.repos,
       instanceChain,
       log: ctx.log,
       scanLabel: 'twitter-warm',
+      concurrency: CONCURRENCY,
     });
 
     // Group posts by repoFullName and project into ledger work items.

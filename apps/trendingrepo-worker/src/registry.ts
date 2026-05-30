@@ -58,9 +58,12 @@ import artificialanalysis from './fetchers/artificialanalysis/index.js';
 // APIs, no key. Full-catalogue snapshot with shouldPreserveCache zero-write
 // guard.
 import openrouterModels from './fetchers/openrouter-models/index.js';
-// NOTE: openrouterUsage import dropped — the fetcher source file lives
-// uncommitted in another agent's working tree; importing breaks the
-// build. Re-add when that fetcher actually lands as a tracked commit.
+// OpenRouter weekly per-MODEL token-volume time-series + top-30 latest-week
+// leaderboard with WoW deltas. Powers the rebuilt /?cat=models chart +
+// sidebar. Official endpoint when OPENROUTER_API_KEY is set; brittle
+// Server Action fallback otherwise. 6-hourly, offset by 13m from
+// openrouter-models so they don't contend.
+import openrouterUsage from './fetchers/openrouter-usage/index.js';
 // DORP intake-queue consumer — drains `queue:drop-a-repo` every minute and
 // calls back to the Vercel /enrich endpoint to run the existing pipeline
 // ingest. See header for the producer/consumer contract.
@@ -175,6 +178,7 @@ export const FETCHERS: Fetcher[] = [
   lmarena,
   artificialanalysis,
   openrouterModels,
+  openrouterUsage,
   dropIntakeDrain,
   dropDeepEnrichDrain,
   dropTwitterDrain,

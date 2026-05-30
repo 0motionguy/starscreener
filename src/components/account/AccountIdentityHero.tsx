@@ -1,7 +1,10 @@
-// AccountIdentityHero — slim .id-hero block: avatar, name, handle, member-since,
-// email, tier/watching tags, plus "view public profile" + sign-out. The legacy
-// plan-card and the in-hero tab buttons were removed when /account collapsed to
-// a single screen (billing now lives in AccountBillingPanel on /account).
+// AccountIdentityHero — tight single-row identity strip (operator decree
+// 2026-05-30: the previous hero card wasted ~280px of vertical space with a
+// huge 88px avatar, stacked actions and oversized typography). Now it's a
+// terminal-style header bar: 44px avatar, inline name + handle + tier chip
+// + watching counter + member-since, actions docked to the right.
+//
+// Same data contract as before; only the layout/typography moved.
 
 import Link from "next/link";
 import { Icon } from "@/lib/icons";
@@ -58,39 +61,49 @@ export function AccountIdentityHero(props: Props) {
   } = props;
 
   const capLabel = watchingCap < 0 ? "∞" : watchingCap.toString();
+  const memberSinceLabel = formatMemberSince(memberSince);
 
   return (
-    <div className="id-hero">
-      <div className="id-avatar" aria-hidden="true">
+    <header className="id-strip" aria-label="Account identity">
+      <div className="id-strip-avatar" aria-hidden="true">
         {initials(displayName, handle)}
       </div>
-      <div className="id-meta">
-        <h1 className="id-name">{displayName}</h1>
-        <div className="id-handle">
-          @<b>{handle}</b> · member since <b>{formatMemberSince(memberSince)}</b>
+
+      <div className="id-strip-core">
+        <div className="id-strip-line1">
+          <h1 className="id-strip-name">{displayName}</h1>
+          <span className="id-strip-handle">@{handle}</span>
+          <span className="id-strip-divider" aria-hidden="true" />
+          <span className="tag brand id-strip-tier">{formatTierLabel(tier.key)}</span>
+          <span className="id-strip-watching">
+            <Icon name="bookmark" size={11} />
+            <b>{watchingCount}</b>
+            <span className="muted">/{capLabel}</span>
+            <span className="id-strip-watching-label">watching</span>
+          </span>
+        </div>
+        <div className="id-strip-line2">
+          <span className="id-strip-meta">
+            <span className="muted">member since</span> {memberSinceLabel}
+          </span>
           {email ? (
             <>
-              {" "}
-              · <b>{email}</b>
+              <span className="id-strip-dot" aria-hidden="true">·</span>
+              <span className="id-strip-meta id-strip-email" title={email}>
+                {email}
+              </span>
             </>
           ) : null}
         </div>
-        <div className="id-tags">
-          <span className="tag brand">{formatTierLabel(tier.key)}</span>
-          {watchingCount > 0 ? (
-            <span className="tag">
-              {watchingCount}/{capLabel} WATCHING
-            </span>
-          ) : null}
-        </div>
-        <div className="id-actions" style={{ marginTop: 6 }}>
-          <Link className="btn" href={`/u/${handle}`}>
-            <Icon name="external" size="md" />
-            View public profile
-          </Link>
-          {authEnabled ? <AccountSignOut /> : null}
-        </div>
       </div>
-    </div>
+
+      <div className="id-strip-actions">
+        <Link className="btn sm" href={`/u/${handle}`}>
+          <Icon name="external" size={12} />
+          Public profile
+        </Link>
+        {authEnabled ? <AccountSignOut /> : null}
+      </div>
+    </header>
   );
 }

@@ -107,7 +107,7 @@ export function AccountWatchlistPreview({
   const visible = expanded ? rows : rows.slice(0, 6);
 
   return (
-    <section className="card" aria-labelledby="account-watchlist-head">
+    <section className="card wlist-card" aria-labelledby="account-watchlist-head">
       <div className="card-head">
         <h2 className="card-title" id="account-watchlist-head">
           <b>Watchlist</b> &middot; {rows.length.toLocaleString()} repo

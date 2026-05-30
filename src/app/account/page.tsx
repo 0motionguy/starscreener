@@ -13,11 +13,13 @@ import {
   getDerivedRepoByFullName,
   getDerivedRepos,
 } from "@/lib/derived-repos";
+import { Icon } from "@/lib/icons";
 
 import {
   AccountWatchlistPreview,
   type AccountWatchlistRow,
 } from "@/components/account/AccountWatchlistPreview";
+import { AccountAlertInbox } from "@/components/account/AccountAlertInbox";
 import { AccountBillingPanel } from "@/components/account/AccountBillingPanel";
 
 export const dynamic = "force-dynamic";
@@ -53,12 +55,46 @@ const FALLBACK_WATCHLIST_FULL_NAMES = [
   "anthropics/claude-code",
 ];
 
-const MANAGE_LINKS = [
-  { href: "/account/alerts", label: "Alerts" },
-  { href: "/account/referrals", label: "Referrals" },
-  { href: "/account/api-keys", label: "API keys" },
-  { href: "/account/drops", label: "Drops" },
-  { href: "/account/settings", label: "Settings" },
+interface ManageLink {
+  href: string;
+  label: string;
+  icon: string;
+  description: string;
+  /** Optional count badge (e.g. drops pending review, unread alerts). */
+  count?: number;
+}
+
+const MANAGE_LINKS: ManageLink[] = [
+  {
+    href: "/account/alerts",
+    label: "Alerts",
+    icon: "bell",
+    description: "Threshold + breakout rules",
+  },
+  {
+    href: "/account/referrals",
+    label: "Referrals",
+    icon: "share",
+    description: "Invite codes & rewards",
+  },
+  {
+    href: "/account/api-keys",
+    label: "API keys",
+    icon: "key",
+    description: "Programmatic access tokens",
+  },
+  {
+    href: "/account/drops",
+    label: "Drops",
+    icon: "inbox",
+    description: "Submitted repos awaiting review",
+  },
+  {
+    href: "/account/settings",
+    label: "Settings",
+    icon: "settings",
+    description: "Profile, email & preferences",
+  },
 ];
 
 export default async function AccountPage() {
@@ -106,12 +142,29 @@ export default async function AccountPage() {
 
   return (
     <div className="col gap-4">
-      <AccountWatchlistPreview repos={watchlistRepos} expanded />
+      <div className="acc-split">
+        <AccountWatchlistPreview repos={watchlistRepos} expanded />
+        <AccountAlertInbox events={[]} />
+      </div>
       <AccountBillingPanel tier={ctx.tier} tierRecord={ctx.tierRecord} />
-      <nav className="acc-manage" aria-label="More account sections">
+      <nav className="acc-manage-grid" aria-label="More account sections">
         {MANAGE_LINKS.map((link) => (
-          <Link key={link.href} href={link.href}>
-            {link.label}
+          <Link key={link.href} href={link.href} className="acc-manage-card">
+            <span className="acc-manage-icon" aria-hidden="true">
+              <Icon name={link.icon} size={16} />
+            </span>
+            <span className="acc-manage-text">
+              <span className="acc-manage-label">
+                {link.label}
+                {typeof link.count === "number" && link.count > 0 ? (
+                  <span className="acc-manage-count">{link.count}</span>
+                ) : null}
+              </span>
+              <span className="acc-manage-desc">{link.description}</span>
+            </span>
+            <span className="acc-manage-chev" aria-hidden="true">
+              <Icon name="chevron-right" size={12} />
+            </span>
           </Link>
         ))}
       </nav>

@@ -18,8 +18,20 @@ import {
   getOpenrouterFile,
   getOpenrouterRanked,
   getOpenrouterStats,
-  buildModelGrowthSeries,
 } from "@/lib/openrouter";
+import {
+  refreshOpenrouterUsageFromStore,
+  getOpenrouterUsageFile,
+  buildUsageChartData,
+  buildLeaderboardView,
+} from "@/lib/openrouter-usage";
+import {
+  refreshStarsByCategoryFromStore,
+  getStarsByCategoryFile,
+  toChartData as toStarsByCategoryChartData,
+  HERO_CATEGORIES as STARS_HERO_CATEGORIES,
+} from "@/lib/stars-by-category";
+import { StarsByCategoryHero } from "@/components/charts/StarsByCategoryHero";
 import {
   LlmsLeaderboardTable,
   FeaturedLlms,
@@ -87,6 +99,8 @@ export default async function TrendingHubPage({ searchParams }: Props) {
     ),
     refreshAaLlmsFromStore().catch(onRefreshError("aa-llms")),
     refreshOpenrouterFromStore().catch(onRefreshError("openrouter")),
+    refreshOpenrouterUsageFromStore().catch(onRefreshError("openrouter-usage")),
+    refreshStarsByCategoryFromStore().catch(onRefreshError("stars-by-category")),
     refreshAllMentionStores().catch(onRefreshError("mentions")),
     refreshRecentDropsFromStore().catch(onRefreshError("recent-drops")),
   ]);
@@ -173,12 +187,37 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const orRows =
     category === "models" ? safe(() => getOpenrouterRanked(500), []) : [];
   const orStats = category === "models" ? safe(() => getOpenrouterStats(), null) : null;
-  const orGrowth =
-    category === "models" && orRows.length > 0
-      ? buildModelGrowthSeries(orRows)
-      : { data: [], authors: [] };
+  const orUsage =
+    category === "models"
+      ? safe(() => buildUsageChartData(getOpenrouterUsageFile()), {
+          points: [],
+          models: [],
+          meta: {},
+        })
+      : { points: [], models: [], meta: {} };
+  const orLeaderboard =
+    category === "models"
+      ? safe(() => buildLeaderboardView(getOpenrouterUsageFile(), 20), [])
+      : [];
   const orFetchedAt =
     category === "models" ? safe(() => getOpenrouterFile().fetchedAt, "") : "";
+  const orUsageFetchedAt =
+    category === "models" ? safe(() => getOpenrouterUsageFile().fetchedAt, "") : "";
+
+  // Home-hero "stars stacked by category" chart — only materialised on the
+  // default /?cat=repos tab. Reads the worker-aggregated daily slug, projects
+  // to chart shape, paints zero-impact empty state when the worker hasn't
+  // populated yet.
+  const starsByCatData =
+    category === "repos"
+      ? safe(() => toStarsByCategoryChartData(getStarsByCategoryFile()), {
+          points: [],
+          categories: STARS_HERO_CATEGORIES,
+          fetchedAt: "1970-01-01T00:00:00.000Z",
+          windowDays: 0,
+          totalRepos: 0,
+        })
+      : null;
   // ItemList JSON-LD — the top-used models, so answer engines can cite the
   // Models surface for "most-used AI models" style queries. Each item points
   // to its canonical OpenRouter model page.
@@ -195,34 +234,49 @@ export default async function TrendingHubPage({ searchParams }: Props) {
         )
       : null;
 
+  // /?cat=models layout — operator decree 2026-05-30: skip the second
+  // header (stats strip is enough) and push the global filter bar BELOW
+  // the chart, since this tab is data-first. Other categories keep the
+  // hero → featured → controls → table flow.
+  const isModels = category === "models";
+  const controlBar = (
+    <TrendingControlBar
+      activeCategory={category}
+      activeRanker={ranker}
+      activeWindow={timeWindow}
+      activeSort={sort}
+      counts={switcherCounts}
+    />
+  );
+
   return (
     <div className="route-shell">
       <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
 
-      {category === "models" ? null : category === "llms" ? (
+      {isModels ? null : category === "llms" ? (
         <FeaturedLlms rows={aaRows} />
       ) : (
-        <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} newSet={newSet} />
+        <>
+          {starsByCatData ? <StarsByCategoryHero data={starsByCatData} /> : null}
+          <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} newSet={newSet} />
+        </>
       )}
 
-      <TrendingControlBar
-        activeCategory={category}
-        activeRanker={ranker}
-        activeWindow={timeWindow}
-        activeSort={sort}
-        counts={switcherCounts}
-      />
+      {isModels ? null : controlBar}
 
-      {category === "models" ? (
+      {isModels ? (
         orStats ? (
           <>
             <JsonLd data={orJsonLd} />
             <ModelsSection
               rows={orRows}
               stats={orStats}
-              growth={orGrowth}
+              usage={orUsage}
+              leaderboard={orLeaderboard}
               fetchedAt={orFetchedAt}
+              usageFetchedAt={orUsageFetchedAt}
             />
+            {controlBar}
           </>
         ) : null
       ) : category === "llms" ? (

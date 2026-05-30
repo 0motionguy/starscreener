@@ -1,71 +1,110 @@
 "use client";
 
 // ModelsSection — the /?cat=models surface. OpenRouter model landscape:
-// a headline stat strip + the "AI model explosion" growth chart (cumulative
-// routable models over time, stacked by lab) + a ranked table of the
-// catalogue. Adoption axis (OpenRouter weekly-usage rank) — complement to the
-// Artificial Analysis quality leaderboard on /?cat=llms.
+// a headline stat strip + a split panel (LEFT: real weekly token volume by
+// lab, the "AI usage by lab" chart; RIGHT: dense top-N free models rail) +
+// a ranked table of the full catalogue.
 //
-// All data arrives as plain props from the server page (the loader at
-// src/lib/openrouter.ts touches fs and can't run client-side). This component
-// only renders.
+// Adoption axis (OpenRouter weekly token totals + usage rank) — complement
+// to the Artificial Analysis quality leaderboard on /?cat=llms.
+//
+// All data arrives as plain props from the server page (loaders at
+// src/lib/openrouter.ts + src/lib/openrouter-usage.ts touch fs and can't
+// run client-side). This component only renders.
 
 import { useMemo, useState } from "react";
 
 import { AuroraChart, type AuroraSeries } from "@/components/charts/AuroraChart";
-import type { GrowthSeries, OpenrouterRow, OpenrouterStats } from "@/lib/openrouter";
+import type { OpenrouterRow, OpenrouterStats } from "@/lib/openrouter";
+import type { LeaderboardView, UsageChartData } from "@/lib/openrouter-usage";
 
-// Lab band colours — mirror the --series-1..7 design tokens (public/shell.css
-// :root) plus a neutral 8th for the "other" band. Concrete hex because Recharts
-// paints SVG gradient stops, which don't reliably resolve CSS custom props.
-const LAB_PALETTE = [
-  "#ff6b35", // --series-1 / accent
-  "#22c55e", // --series-2 / up
-  "#3ad6c5", // --series-3 / cyan
-  "#ffb547", // --series-4 / warning
-  "#ff4d4d", // --series-5 / down
-  "#a78bfa", // --series-6 / violet
-  "#f472b6", // --series-7 / pink
-  "#6b7785", // neutral — "other"
-] as const;
+// Each band is coloured by its AUTHOR — so anthropic models all read as one
+// orange family, deepseek as one green family, etc. Within an author we vary
+// lightness so siblings stay distinguishable. Mirrors the lab palette on
+// --series-1..7 in public/shell.css.
+const AUTHOR_HUE: Record<string, string> = {
+  anthropic: "#ff6b35",   // orange — lava (accent)
+  deepseek: "#22c55e",    // green
+  google: "#3ad6c5",      // cyan
+  openai: "#a78bfa",      // violet
+  tencent: "#f472b6",     // pink
+  xiaomi: "#ffb547",      // warning amber
+  meta: "#4a86e8",        // azure
+  "meta-llama": "#4a86e8",
+  mistralai: "#ff8a3d",
+  qwen: "#ff4d4d",        // red
+  moonshotai: "#16a766",  // green-deep
+  minimax: "#9d6bff",     // violet-deep
+  "z-ai": "#0fa5e9",      // bright cyan
+  "x-ai": "#facc15",      // yellow (was monochrome — too dim on dark)
+  openrouter: "#ffd166",  // saffron
+  stepfun: "#06b6d4",     // sky-cyan
+  arcee: "#ef4444",       // red-bright
+  "arcee-ai": "#ef4444",
+  baidu: "#3b82f6",       // blue
+  nvidia: "#76b900",      // NVIDIA green
+  cohere: "#d946ef",      // fuchsia
+  microsoft: "#0078d4",   // ms blue
+  perplexity: "#1fa2c1",  // teal
+  amazon: "#ff9900",      // aws orange
+  poolside: "#14b8a6",    // teal-deep
+  // Others = the long tail. Muted dark slate (operator decree 2026-05-30:
+  // "reduce Others 2-3x smaller visible") — band still renders at its real
+  // height so totals are honest, but the dark color visually recedes into
+  // the chart background so the named top-20 bands above it dominate.
+  others: "#2d3748",      // slate-800 (almost invisible on the dark canvas)
+} as const;
+const NEUTRAL = "#6b7785";
 
 const TABLE_LIMIT = 100;
+const FREE_RAIL_LIMIT = 7;
 
 interface Props {
   rows: OpenrouterRow[];
   stats: OpenrouterStats;
-  growth: GrowthSeries;
+  usage: UsageChartData;
+  /** Top-20 latest-week leaderboard rows with WoW deltas + free flag. */
+  leaderboard: LeaderboardView[];
+  /** ISO from the catalogue payload (openrouter-models slug). */
   fetchedAt: string;
+  /** ISO from the usage payload (openrouter-usage slug). */
+  usageFetchedAt: string;
 }
 
-export function ModelsSection({ rows, stats, growth, fetchedAt }: Props) {
-  const series: AuroraSeries[] = useMemo(
-    () =>
-      growth.authors.map((a, i) => ({
-        dataKey: a,
-        name: prettyAuthor(a),
-        color: LAB_PALETTE[i % LAB_PALETTE.length],
-      })),
-    [growth.authors],
-  );
+export function ModelsSection({
+  rows,
+  stats,
+  usage,
+  leaderboard,
+  fetchedAt,
+  usageFetchedAt,
+}: Props) {
+  const usageSeries: AuroraSeries[] = useMemo(() => {
+    // Sibling models from the same author would collide on hue; vary lightness
+    // by author-occurrence index so e.g. claude-sonnet/claude-opus read apart.
+    const seenPerAuthor = new Map<string, number>();
+    return usage.models.map((id) => {
+      const m = usage.meta[id];
+      const author = (m?.author ?? "others").toLowerCase();
+      const base = AUTHOR_HUE[author] ?? NEUTRAL;
+      const n = seenPerAuthor.get(author) ?? 0;
+      seenPerAuthor.set(author, n + 1);
+      return {
+        dataKey: id,
+        name: m ? `${prettyAuthor(author)} · ${m.label}` : id,
+        color: shadeForOccurrence(base, n),
+      };
+    });
+  }, [usage.models, usage.meta]);
 
+  const freeRail = useMemo(() => pickFreeModels(rows), [rows]);
+  const totalFree = freeRail.length;
   const visible = rows.slice(0, TABLE_LIMIT);
+  const latestWeekTotal = useMemo(() => latestWeekSum(usage), [usage]);
 
   return (
     <>
-      <div className="card models-hero">
-        <div className="models-hero-head">
-          <div className="grow">
-            <div className="models-hero-title">The AI model landscape</div>
-            <p className="models-hero-sub">
-              Every model routable through OpenRouter — pricing, context window
-              and the month it went live — joined with live weekly-usage rank.
-              The adoption axis, beside the quality leaderboard on the LLMs tab.
-            </p>
-          </div>
-          <FreshBadge iso={fetchedAt} />
-        </div>
-
+      <div className="card models-hero models-hero-compact">
         <div className="models-stats">
           <Stat
             k="Routable models"
@@ -74,7 +113,7 @@ export function ModelsSection({ rows, stats, growth, fetchedAt }: Props) {
           />
           <Stat
             k="Most used · 7d"
-            v={stats.mostUsed ? stats.mostUsed.name : "—"}
+            v={stats.mostUsed ? stripAuthor(stats.mostUsed.name, stats.mostUsed.author) : "—"}
             sub={stats.mostUsed ? prettyAuthor(stats.mostUsed.author) : "no ranking"}
           />
           <Stat
@@ -103,38 +142,162 @@ export function ModelsSection({ rows, stats, growth, fetchedAt }: Props) {
           />
         </div>
 
-        <div className="models-chart-wrap">
-          <AuroraChart
-            data={growth.data}
-            series={series}
-            xKey="month"
-            variant="stacked"
-            height={300}
-            xFormatter={shortMonth}
-            yFormatter={(n) => Math.round(n).toLocaleString()}
-            tooltipFormatter={(n) => `${Math.round(n).toLocaleString()} models`}
-            tooltipLabelFormatter={(m) => shortMonth(m)}
-            ariaLabel="Cumulative routable models over time, by lab"
-          />
-          <div className="models-legend" aria-hidden="true">
-            {series.map((s) => (
-              <span key={s.dataKey} className="models-legend-item">
-                <span
-                  className="models-legend-dot"
-                  style={{ background: s.color }}
-                />
-                {s.name}
-              </span>
-            ))}
+        <div className="models-split">
+          {/* LEFT — usage chart */}
+          <div className="models-split-chart">
+            <div className="models-split-head">
+              <div>
+                <div className="models-split-title">Top models · weekly usage</div>
+                <div className="models-split-sub">
+                  Weekly tokens routed through OpenRouter, stacked by model
+                  {latestWeekTotal > 0 && (
+                    <>
+                      {" "}· latest week{" "}
+                      <span className="num">{fmtTokens(latestWeekTotal)}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+              <FreshBadge iso={usageFetchedAt} />
+            </div>
+
+            <div className="models-chart-wrap">
+              {usage.points.length > 0 ? (
+                <div className="models-chart-row">
+                  <div className="models-chart-main">
+                    <AuroraChart
+                      data={usage.points}
+                      series={usageSeries}
+                      xKey="week"
+                      variant="stackedBars"
+                      height={320}
+                      xFormatter={shortWeek}
+                      yFormatter={(n) => fmtTokens(n)}
+                      tooltipFormatter={(n) => `${fmtTokens(n)} tokens`}
+                      tooltipLabelFormatter={(w) => weekRange(w)}
+                      ariaLabel="Weekly stacked usage — each bar is one week, segments are models"
+                    />
+                  </div>
+                  {leaderboard.length > 0 && (
+                    <aside
+                      className="models-latest"
+                      aria-label="LLM leaderboard — this week"
+                    >
+                      <div className="models-latest-head">
+                        <span className="models-latest-week">This week</span>
+                        <span className="models-latest-total">
+                          Top {leaderboard.length}
+                        </span>
+                      </div>
+                      <ul
+                        className="models-latest-list"
+                        role="list"
+                        aria-label={`Top ${leaderboard.length} models — scroll for the full list`}
+                      >
+                        {leaderboard.map((r) => (
+                          <li
+                            key={r.slug}
+                            className={`models-lb-row${r.isFree ? " is-free" : ""}`}
+                          >
+                            <span className="models-lb-rank">{r.rank}</span>
+                            <div className="models-lb-text">
+                              <div className="models-lb-name" title={r.slug}>
+                                <span>{r.label}</span>
+                                {r.isFree && (
+                                  <span className="models-lb-free">free</span>
+                                )}
+                              </div>
+                              <div className="models-lb-meta">
+                                <span className="models-lb-tokens">
+                                  {fmtTokens(r.totalTokens)}
+                                </span>
+                                {r.change !== null && (
+                                  <span
+                                    className={`models-lb-delta ${
+                                      r.change > 0
+                                        ? "up"
+                                        : r.change < 0
+                                          ? "down"
+                                          : "flat"
+                                    }`}
+                                    title={`Week-over-week ${(r.change * 100).toFixed(1)}%`}
+                                  >
+                                    {r.change > 0 ? "↑" : r.change < 0 ? "↓" : "·"}
+                                    {Math.abs(r.change * 100).toFixed(0)}%
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                      {leaderboard.length > 6 && (
+                        <div className="models-latest-more">
+                          ↕ scroll · {leaderboard.length} total
+                        </div>
+                      )}
+                    </aside>
+                  )}
+                </div>
+              ) : (
+                <div className="models-empty">
+                  Usage time-series not loaded yet. Add{" "}
+                  <code>OPENROUTER_API_KEY</code> to the worker env to enable
+                  the official daily dataset.
+                </div>
+              )}
+            </div>
           </div>
-          <p className="models-attr">
-            Cumulative count of models routable on{" "}
-            <a href="https://openrouter.ai/models" target="_blank" rel="noopener">
-              openrouter.ai
-            </a>
-            , by the month each went live. Usage = weekly rank order (OpenRouter
-            does not publish per-model token volume).
-          </p>
+
+          {/* RIGHT — free models rail */}
+          <div className="models-split-side">
+            <div className="models-split-head">
+              <div>
+                <div className="models-split-title">Top free models</div>
+                <div className="models-split-sub">
+                  $0 in / $0 out · ranked by weekly usage ·{" "}
+                  <span className="num">{totalFree}</span> total
+                </div>
+              </div>
+            </div>
+
+            <ul className="free-rail" role="list">
+              {freeRail.length === 0 ? (
+                <li className="free-rail-empty">No free models available.</li>
+              ) : (
+                freeRail.map((m, i) => (
+                  <li key={m.id} className="free-rail-item">
+                    <span className={`rank ${i < 3 ? `top top-${i + 1}` : ""}`}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <ModelAvatar author={m.author} />
+                    <div className="free-rail-text">
+                      <span className="free-rail-name">
+                        <span className="free-rail-owner">{m.author}/</span>
+                        {stripAuthor(m.name, m.author)}
+                      </span>
+                      <span className="free-rail-meta">
+                        {fmtTokens(m.contextLength)} ctx · {fmtModality(m)}
+                        {m.usageRank !== null && (
+                          <>
+                            {" · "}
+                            <span className="muted">global #{m.usageRank}</span>
+                          </>
+                        )}
+                      </span>
+                    </div>
+                  </li>
+                ))
+              )}
+            </ul>
+            {totalFree > FREE_RAIL_LIMIT && (
+              <p className="models-attr">
+                Showing all{" "}
+                <span className="num">{totalFree}</span> free models — scroll
+                the list to see the rest.
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -177,10 +340,12 @@ export function ModelsSection({ rows, stats, growth, fetchedAt }: Props) {
                       : i === 2
                         ? "rank top top-3"
                         : "rank";
+                const isFree =
+                  r.priceInPerM === 0 && r.priceOutPerM === 0;
                 return (
                   <tr
                     key={r.id}
-                    className="stagger-row"
+                    className={`stagger-row${isFree ? " model-row-free" : ""}`}
                     style={{ animationDelay: `${Math.min(i * 0.03, 0.25)}s` }}
                   >
                     <td data-label="Rank">
@@ -204,10 +369,14 @@ export function ModelsSection({ rows, stats, growth, fetchedAt }: Props) {
                       <span className="star-value">{fmtTokens(r.contextLength)}</span>
                     </td>
                     <td className="num" data-label="$ In · 1M">
-                      <span className="star-value">{fmtPrice(r.priceInPerM)}</span>
+                      <span className={`star-value${isFree ? " price-free" : ""}`}>
+                        {fmtPrice(r.priceInPerM)}
+                      </span>
                     </td>
                     <td className="num" data-label="$ Out · 1M">
-                      <span className="star-value">{fmtPrice(r.priceOutPerM)}</span>
+                      <span className={`star-value${isFree ? " price-free" : ""}`}>
+                        {fmtPrice(r.priceOutPerM)}
+                      </span>
                     </td>
                     <td data-label="Modality">
                       <span className="modality-chip">{fmtModality(r)}</span>
@@ -236,6 +405,61 @@ export function ModelsSection({ rows, stats, growth, fetchedAt }: Props) {
       </div>
     </>
   );
+}
+
+// ---------------------------------------------------------------------------
+// Selectors
+// ---------------------------------------------------------------------------
+
+function pickFreeModels(rows: OpenrouterRow[]): OpenrouterRow[] {
+  // Strictly free both ways — anything with a non-zero or unknown price gets
+  // dropped. Sort by usage rank (most-used first), unranked tied alphabetic
+  // (deterministic per the registry-sort tiebreaker rule).
+  return rows
+    .filter((r) => r.priceInPerM === 0 && r.priceOutPerM === 0)
+    .sort((a, b) => {
+      const ar = a.usageRank ?? Number.POSITIVE_INFINITY;
+      const br = b.usageRank ?? Number.POSITIVE_INFINITY;
+      if (ar !== br) return ar - br;
+      return a.id.toLowerCase().localeCompare(b.id.toLowerCase());
+    });
+}
+
+function latestWeekSum(usage: UsageChartData): number {
+  if (usage.points.length === 0) return 0;
+  const last = usage.points[usage.points.length - 1]!;
+  let total = 0;
+  for (const m of usage.models) {
+    const v = last[m];
+    if (typeof v === "number") total += v;
+  }
+  return total;
+}
+
+// Shade adjustment so sibling models from the same author render distinctly
+// without leaving the brand-hue family. n=0 keeps the base; n>0 walks through
+// lighter then darker tints alternately.
+function shadeForOccurrence(hex: string, n: number): string {
+  if (n === 0) return hex;
+  const { r, g, b } = parseHex(hex);
+  // Symmetric walk: +12% lighter, -12% darker, +24%, -24%, …
+  const stepPct = 0.12 * Math.ceil(n / 2);
+  const sign = n % 2 === 1 ? 1 : -1;
+  const k = 1 + sign * stepPct;
+  const cl = (v: number) => Math.max(0, Math.min(255, Math.round(v * k)));
+  return `#${[cl(r), cl(g), cl(b)]
+    .map((v) => v.toString(16).padStart(2, "0"))
+    .join("")}`;
+}
+
+function parseHex(hex: string): { r: number; g: number; b: number } {
+  const s = hex.startsWith("#") ? hex.slice(1) : hex;
+  const v = s.length === 3 ? s.split("").map((c) => c + c).join("") : s;
+  return {
+    r: parseInt(v.slice(0, 2), 16),
+    g: parseInt(v.slice(2, 4), 16),
+    b: parseInt(v.slice(4, 6), 16),
+  };
 }
 
 // Honest freshness chrome — the live (green) pip only shows when the payload
@@ -357,6 +581,10 @@ function prettyAuthor(slug: string): string {
     microsoft: "Microsoft",
     cohere: "Cohere",
     perplexity: "Perplexity",
+    "z-ai": "Z.AI",
+    xiaomi: "Xiaomi",
+    openrouter: "OpenRouter",
+    others: "Other",
     other: "Other",
   };
   if (map[slug]) return map[slug];
@@ -377,13 +605,15 @@ function stripAuthor(name: string, author: string): string {
 
 function fmtTokens(n: number): string {
   if (!n || n <= 0) return "—";
+  if (n >= 1_000_000_000_000) return `${(n / 1_000_000_000_000).toFixed(1).replace(/\.0$/, "")}T`;
+  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B`;
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
   if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
-  return String(n);
+  return String(Math.round(n));
 }
 
 function fmtPrice(v: number | null): string {
-  if (v === null) return "—";
+  if (v === null || v < 0) return "—";
   if (v === 0) return "Free";
   if (v < 0.1) return `$${v.toFixed(3)}`;
   if (v < 1) return `$${v.toFixed(2)}`;
@@ -404,15 +634,32 @@ function fmtCtxBlurb(r: OpenrouterRow): string {
   const bits: string[] = [];
   if (r.contextLength > 0) bits.push(`${fmtTokens(r.contextLength)} ctx`);
   if (r.priceInPerM === 0 && r.priceOutPerM === 0) bits.push("free");
-  else if (r.priceInPerM !== null) bits.push(`${fmtPrice(r.priceInPerM)}/1M in`);
+  else if (r.priceInPerM !== null && r.priceInPerM >= 0)
+    bits.push(`${fmtPrice(r.priceInPerM)}/1M in`);
   return bits.join(" · ") || r.author;
 }
 
-function shortMonth(raw: string | number): string {
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+function shortWeek(raw: string | number): string {
   if (typeof raw !== "string") return String(raw);
-  const m = /^(\d{4})-(\d{2})$/.exec(raw);
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
   if (!m) return raw;
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const year = m[1]!.slice(2);
   const idx = Math.max(0, Math.min(11, parseInt(m[2]!, 10) - 1));
-  return `${months[idx]} '${m[1]!.slice(2)}`;
+  return `${MONTHS[idx]} ${parseInt(m[3]!, 10)} '${year}`;
+}
+
+function weekRange(raw: string | number): string {
+  if (typeof raw !== "string") return String(raw);
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+  if (!m) return raw;
+  const start = new Date(`${raw}T00:00:00Z`);
+  const end = new Date(start.getTime() + 6 * 86_400_000);
+  const fmt = (d: Date) =>
+    `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+  return `Week of ${fmt(start)} → ${fmt(end)}, ${start.getUTCFullYear()}`;
 }

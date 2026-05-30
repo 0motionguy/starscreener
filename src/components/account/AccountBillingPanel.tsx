@@ -1,3 +1,9 @@
+// AccountBillingPanel — dense one-card billing strip (operator decree
+// 2026-05-30: collapse the 3 stats into a single horizontal row, keep the
+// subscription line + upgrade CTA but compact). Same data + same routes,
+// just denser. Mirrors the `.models-stats` strip pattern from the models
+// surface so the visual language stays consistent across the app.
+
 import Link from "next/link";
 import { Icon } from "@/lib/icons";
 import type { TierDefinition } from "@/lib/pricing/tiers";
@@ -26,15 +32,18 @@ export function AccountBillingPanel({
   const isFree = tier.key === "free";
   const watchCap =
     tier.features.maxWatchlistRepos < 0
-      ? "unlimited"
+      ? "∞"
       : tier.features.maxWatchlistRepos.toLocaleString();
   const alertCap =
     tier.features.maxAlertRules < 0
-      ? "unlimited"
+      ? "∞"
       : tier.features.maxAlertRules.toLocaleString();
+  const subscriptionLabel = tierRecord?.stripeSubscriptionId
+    ? `Stripe · ${maskSubscriptionId(tierRecord.stripeSubscriptionId)}`
+    : "No paid subscription record attached";
 
   return (
-    <section className="card" aria-labelledby="account-billing-head">
+    <section className="card billing-strip" aria-labelledby="account-billing-head">
       <div className="card-head">
         <h2 className="card-title" id="account-billing-head">
           <b>Billing</b> &middot; current plan
@@ -42,53 +51,43 @@ export function AccountBillingPanel({
         <span className="grow" />
         <span className="tag">{tier.key.toUpperCase()}</span>
       </div>
-      <div style={{ padding: 14, display: "grid", gap: 12 }}>
-        <div className="g-3">
-          <div className="kpi">
-            <span className="kpi-label">Plan</span>
-            <span className="kpi-value">{tier.displayName}</span>
-            <span className="kpi-delta">{price}</span>
-          </div>
-          <div className="kpi">
-            <span className="kpi-label">Watchlist cap</span>
-            <span className="kpi-value">{watchCap}</span>
-            <span className="kpi-delta">repos</span>
-          </div>
-          <div className="kpi">
-            <span className="kpi-label">Alert rules</span>
-            <span className="kpi-value">{alertCap}</span>
-            <span className="kpi-delta">rules</span>
-          </div>
+
+      <div className="billing-stats">
+        <div className="billing-stat">
+          <span className="billing-stat-k">Plan</span>
+          <span className="billing-stat-v">{tier.displayName}</span>
+          <span className="billing-stat-sub">{price}</span>
         </div>
-        <div className="feed-item">
-          <b>Subscription</b>
-          <span>
-            {tierRecord?.stripeSubscriptionId
-              ? `Stripe ${maskSubscriptionId(tierRecord.stripeSubscriptionId)}`
-              : "No paid subscription record attached."}
+        <div className="billing-stat">
+          <span className="billing-stat-k">Watchlist cap</span>
+          <span className="billing-stat-v">{watchCap}</span>
+          <span className="billing-stat-sub">repos</span>
+        </div>
+        <div className="billing-stat">
+          <span className="billing-stat-k">Alert rules</span>
+          <span className="billing-stat-v">{alertCap}</span>
+          <span className="billing-stat-sub">rules</span>
+        </div>
+        <div className="billing-stat billing-stat-sub-only">
+          <span className="billing-stat-k">Subscription</span>
+          <span className="billing-stat-sub-line" title={subscriptionLabel}>
+            {subscriptionLabel}
           </span>
         </div>
-        {isFree ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 12,
-              alignItems: "center",
-              paddingTop: 8,
-              borderTop: "1px solid var(--border-subtle)",
-            }}
-          >
-            <span className="muted" style={{ fontSize: 11 }}>
-              Unlock unlimited watchlist, API access and email digest.
-            </span>
-            <Link className="btn primary sm" href="/pricing">
-              <Icon name="arrow-up-right" size="md" />
-              Upgrade plan
-            </Link>
-          </div>
-        ) : null}
       </div>
+
+      {isFree ? (
+        <div className="billing-cta">
+          <span className="billing-cta-copy">
+            <Icon name="sparkles" size={12} />
+            Unlock unlimited watchlist, API access &amp; email digest
+          </span>
+          <Link className="btn primary sm" href="/pricing">
+            <Icon name="arrow-up-right" size={12} />
+            Upgrade plan
+          </Link>
+        </div>
+      ) : null}
     </section>
   );
 }

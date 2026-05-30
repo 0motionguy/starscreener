@@ -190,7 +190,15 @@ export function getOpenrouterStats(): OpenrouterStats {
     if (m.usageRank !== null && (mostUsed === null || m.usageRank < mostUsed.usageRank!)) {
       mostUsed = m;
     }
-    if (m.contextLength >= 1_000_000 && m.priceInPerM !== null) {
+    // Cheapest ≥1M ctx: ignore meta-routers like openrouter/auto which carry
+    // a sentinel `-1` price (variable per route). Free models (0) are valid
+    // and win when present. The previous logic let `-1` win and the surface
+    // showed "$-1000000.000" — burned 2026-05-30.
+    if (
+      m.contextLength >= 1_000_000 &&
+      m.priceInPerM !== null &&
+      m.priceInPerM >= 0
+    ) {
       if (
         cheapestBigContext === null ||
         m.priceInPerM < cheapestBigContext.priceInPerM!

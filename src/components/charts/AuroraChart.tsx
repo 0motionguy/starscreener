@@ -7,11 +7,12 @@
 // theme picker, for the rest use ONE style".
 //
 // Five rendering shapes share the same DNA — pick via the `variant` prop:
-//   • area       — single area line (the default; star-history, capital flow)
-//   • dualArea   — primary area + secondary line on a 2nd y-axis (npm overlay)
-//   • bars       — vertical bars with rounded tops (mention volume, daily Δ)
-//   • stacked    — multi-series stacked area (sources × time)
-//   • sparkline  — tiny inline area, no axes, no grid (table cells)
+//   • area        — single area line (the default; star-history, capital flow)
+//   • dualArea    — primary area + secondary line on a 2nd y-axis (npm overlay)
+//   • bars        — vertical bars with rounded tops (mention volume, daily Δ)
+//   • stacked     — multi-series stacked area (sources × time)
+//   • stackedBars — multi-series stacked column chart (model share by week)
+//   • sparkline   — tiny inline area, no axes, no grid (table cells)
 //
 // Use it like a styled component: pass `data` (an array of points), `series`
 // (one or more `{ dataKey, color?, name? }`), and optional formatters. Aurora
@@ -71,6 +72,7 @@ export type AuroraVariant =
   | "dualArea"
   | "bars"
   | "stacked"
+  | "stackedBars"
   | "sparkline";
 
 export interface AuroraSeries {
@@ -306,6 +308,71 @@ export function AuroraChart<T extends object>({
                 fill={colorForIndex(s, i)}
                 radius={[3, 3, 0, 0]}
                 maxBarSize={28}
+                isAnimationActive={!freeze}
+                animationDuration={800}
+                animationEasing="ease-out"
+              />
+            ))}
+            {(markers ?? []).map((m, i) => (
+              <ReferenceLine
+                key={`mk-${i}`}
+                x={m.x}
+                stroke={m.color ?? AURORA.secondary}
+                strokeDasharray="3 3"
+                strokeOpacity={0.7}
+                label={
+                  m.label
+                    ? {
+                        value: m.label,
+                        position: "top",
+                        fill: m.color ?? AURORA.secondary,
+                        fontSize: 9.5,
+                        fontFamily: "ui-monospace, monospace",
+                      }
+                    : undefined
+                }
+              />
+            ))}
+          </BarChart>
+        ) : variant === "stackedBars" ? (
+          <BarChart data={data} margin={{ top: 16, right: 18, bottom: 0, left: 0 }}>
+            <CartesianGrid stroke={AURORA.grid} strokeDasharray="3 6" vertical={false} />
+            <XAxis
+              dataKey={xKey}
+              tick={AXIS_TICK}
+              axisLine={{ stroke: AURORA.grid }}
+              tickLine={false}
+              minTickGap={28}
+              tickFormatter={xFormatter ?? shortDate}
+            />
+            <YAxis
+              tick={AXIS_TICK}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={yFormatter}
+              width={42}
+            />
+            <Tooltip
+              cursor={{ fill: "rgba(255,107,53,0.08)" }}
+              content={(props) => (
+                <AuroraTooltip
+                  {...(props as unknown as Parameters<typeof AuroraTooltip>[0])}
+                  valueFormatter={tooltipValueFmt}
+                  labelFormatter={tooltipLabelFormatter}
+                />
+              )}
+            />
+            {series.map((s, i) => (
+              <Bar
+                key={s.dataKey}
+                dataKey={s.dataKey}
+                name={s.name ?? s.dataKey}
+                stackId="stk"
+                fill={colorForIndex(s, i)}
+                // Only round the topmost segment per bar (last series in
+                // the stack). Recharts paints in declared order so the LAST
+                // series sits on top.
+                radius={i === series.length - 1 ? [3, 3, 0, 0] : 0}
                 isAnimationActive={!freeze}
                 animationDuration={800}
                 animationEasing="ease-out"

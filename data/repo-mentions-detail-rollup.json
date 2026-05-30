@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-30T08:30:41.031Z",
-  "scanRunId": "sweep-2026-05-30T08:30:33.660Z",
+  "computedAt": "2026-05-30T13:42:52.230Z",
+  "scanRunId": "sweep-2026-05-30T13:42:41.674Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -1026,7 +1026,7 @@
               "text": "",
               "author": "cwwc",
               "engagement": {
-                "score": 8,
+                "score": 9,
                 "comments": 2
               },
               "observedAt": "2026-05-29T22:00:58.000Z"
@@ -1654,7 +1654,7 @@
     },
     "Lum1104/Understand-Anything": {
       "fullName": "Lum1104/Understand-Anything",
-      "totalMentions7d": 9,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -1667,15 +1667,15 @@
               "text": "",
               "author": "ulrischa",
               "engagement": {
-                "score": 2,
-                "comments": 0
+                "score": 20,
+                "comments": 2
               },
               "observedAt": "2026-05-26T16:31:43.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 8,
+          "count7d": 7,
           "top": [
             {
               "source": "bluesky",
@@ -3589,10 +3589,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 95,
+      "totalMentions7d": 62,
       "perSource": {
         "hackernews": {
-          "count7d": 95,
+          "count7d": 62,
           "top": [
             {
               "source": "hackernews",
@@ -3623,6 +3623,19 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/secluso/core",
+              "title": "Show HN: Open-source private home security camera system (end-to-end encryption)",
+              "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
+              "author": "arrdalan",
+              "engagement": {
+                "score": 88,
+                "comments": 21
+              },
+              "observedAt": "2026-05-29T22:32:29.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
               "url": "https://github.com/scanaislop/aislop",
               "title": "Show HN: AISlop, a CLI for catching AI generated code smells",
               "text": "Hi, I’m Kenny, I’ve been building aislop. I starting working on this after using Claude Code, codex and opencode several times and noticing some slops. They aren’t syntax and passes most tests, they are patterns like empty catch blocks, useless comments, duplicated helpers, dead code and many more. So I built a tool to scan and check for these patterns and wired it into hooks so after each tool call, the agent checks for the slops.<p>You can try it out with npx aislop scan.<p>It’s all local and ",
@@ -3636,28 +3649,15 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/secluso/core",
-              "title": "Show HN: Open-source private home security camera system (end-to-end encryption)",
-              "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
-              "author": "arrdalan",
-              "engagement": {
-                "score": 57,
-                "comments": 14
-              },
-              "observedAt": "2026-05-29T22:32:29.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://www.phoronix.com/news/Intel-Linux-USB4STREAM",
-              "title": "Introducing USB4STREAM Protocol for Linux – Opening Up Some Nifty Uses for USB4",
+              "url": "https://openai.com/index/strengthening-societal-resilience-with-rosalind-biodefense/",
+              "title": "OpenAI Announces Rosalind Biodefense",
               "text": "",
-              "author": "voxadam",
+              "author": "JustSkyfall",
               "engagement": {
-                "score": 24,
-                "comments": 3
+                "score": 18,
+                "comments": 7
               },
-              "observedAt": "2026-05-25T16:41:32.000Z"
+              "observedAt": "2026-05-29T15:05:17.000Z"
             }
           ]
         }
@@ -5879,10 +5879,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 24,
+      "totalMentions7d": 31,
       "perSource": {
         "hackernews": {
-          "count7d": 24,
+          "count7d": 31,
           "top": [
             {
               "source": "hackernews",
@@ -5893,7 +5893,7 @@
               "author": "thm",
               "engagement": {
                 "score": 1081,
-                "comments": 511
+                "comments": 512
               },
               "observedAt": "2026-05-26T13:08:13.000Z"
             },
@@ -5909,6 +5909,19 @@
                 "comments": 204
               },
               "observedAt": "2026-05-26T15:58:02.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/legal/transactional/danish-pension-fund-excludes-spacex-citing-governance-valuation-2026-05-29/",
+              "title": "Danish pension fund excludes SpaceX citing governance and valuation",
+              "text": "",
+              "author": "vrganj",
+              "engagement": {
+                "score": 292,
+                "comments": 234
+              },
+              "observedAt": "2026-05-30T08:00:20.000Z"
             },
             {
               "source": "hackernews",
@@ -5935,19 +5948,6 @@
                 "comments": 2
               },
               "observedAt": "2026-05-29T14:23:30.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/world/asia-pacific/openais-altman-says-ai-unlikely-lead-jobs-apocalypse-2026-05-26/",
-              "title": "Sam Altman: I was wrong, AI unlikely to lead to jobs apocalypse",
-              "text": "",
-              "author": "dryadin",
-              "engagement": {
-                "score": 18,
-                "comments": 16
-              },
-              "observedAt": "2026-05-26T11:17:06.000Z"
             }
           ]
         }
@@ -7467,10 +7467,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 13,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 13,
+          "count7d": 14,
           "top": [
             {
               "source": "hackernews",
@@ -7481,7 +7481,7 @@
               "author": "jhonovich",
               "engagement": {
                 "score": 119,
-                "comments": 73
+                "comments": 74
               },
               "observedAt": "2026-05-28T17:10:05.000Z"
             },
@@ -8456,7 +8456,7 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 7,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
           "count7d": 2,
@@ -8490,7 +8490,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 5,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -8534,19 +8534,6 @@
             {
               "source": "bluesky",
               "fullName": "colbymchenry/codegraph",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. http",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-23T13:22:39.168Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "colbymchenry/codegraph",
               "url": "https://bsky.app/profile/nemu-echosphere.bsky.social/post/3mmvi52gnjd2h",
               "title": "💎 README原文：\"CodeGraph only helps when queried directly — otherwise a sub-agent reads files regardless and CodeGraph becomes overhead.\" ベンチマークは「アーキテクチャの質問1つへの回答」。探索タスク。実装・テスト・デバッグのループ全体ではない。 https://g",
               "text": "💎 README原文：\"CodeGraph only helps when queried directly — otherwise a sub-agent reads files regardless and CodeGraph becomes overhead.\" ベンチマークは「アーキテクチャの質問1つへの回答」。探索タスク。実装・テスト・デバッグのループ全体ではない。 https://github.com/colbymchenry/codegraph #LLM #ClaudeCode",
@@ -8563,10 +8550,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 45,
+      "totalMentions7d": 65,
       "perSource": {
         "hackernews": {
-          "count7d": 45,
+          "count7d": 65,
           "top": [
             {
               "source": "hackernews",
@@ -8576,7 +8563,7 @@
               "text": "",
               "author": "possibilistic",
               "engagement": {
-                "score": 539,
+                "score": 542,
                 "comments": 251
               },
               "observedAt": "2026-05-28T21:45:54.000Z"
@@ -8742,7 +8729,7 @@
               "text": "Semble : un outil de recherche de code pour les agents IA qui consomme ~98% moins de tokens que grep+read, tourne entièrement en local sur CPU, et s'intègre comme serveur MCP dans Claude Code, Cursor, Codex ou OpenCode. https://github.com/MinishLab/semble",
               "author": "camilleroux.com",
               "engagement": {
-                "score": 11,
+                "score": 12,
                 "comments": 3
               },
               "observedAt": "2026-05-29T16:00:20.782Z"
@@ -8766,10 +8753,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 62,
+      "totalMentions7d": 63,
       "perSource": {
         "hackernews": {
-          "count7d": 62,
+          "count7d": 63,
           "top": [
             {
               "source": "hackernews",
@@ -8792,8 +8779,8 @@
               "text": "",
               "author": "PinkG",
               "engagement": {
-                "score": 791,
-                "comments": 540
+                "score": 807,
+                "comments": 551
               },
               "observedAt": "2026-05-29T14:40:47.000Z"
             },
@@ -9467,10 +9454,10 @@
     },
     "anthropics/claude-plugins-official": {
       "fullName": "anthropics/claude-plugins-official",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -9484,19 +9471,6 @@
                 "comments": 3
               },
               "observedAt": "2026-05-24T13:25:13.064Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "anthropics/claude-plugins-official",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk6vzdvie2",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. http",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 2331 stars today 2. https://github.com/anthropics/claude-plugins-official - Python, 2172 stars today 3. https://github.com/colbymchenry/codegraph - TypeScript, 2434 stars today 4 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-23T13:22:39.168Z"
             }
           ]
         }
@@ -9594,10 +9568,10 @@
     },
     "mukul975/Anthropic-Cybersecurity-Skills": {
       "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
-      "totalMentions7d": 3,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -9624,19 +9598,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-23T19:08:46.862Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
-              "title": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-",
-              "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-23T13:22:46.061Z"
             }
           ]
         }

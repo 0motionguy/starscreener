@@ -200,8 +200,11 @@ async function main() {
     stampPerRecord: false,
   });
   if (redisResult.source !== "redis") {
-    throw new Error(
-      "staleness-report data-store write skipped; set REDIS_URL or Upstash env",
+    // Soft-skip: file mirror at OUT_PATH already landed and is the
+    // deliverable. Genuine transport errors propagate from inside
+    // writeDataStore. Same contract as scrape-funding-news.mjs.
+    console.warn(
+      `[sweep-staleness] data-store write skipped (Redis env unset); file mirror at ${OUT_PATH} is the source of truth this run.`,
     );
   }
 

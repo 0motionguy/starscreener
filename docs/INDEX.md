@@ -179,8 +179,6 @@ until labeled. Phase 1.5 will classify or rewrite.
 | Path | Topic | Reason / known drift |
 |---|---|---|
 | `docs/REPO-OVERVIEW.md` | One-page repo overview | Pre-restructure; verify before citing |
-| `docs/STORYBOOK_COMPONENT_LIBRARY.md` | Storybook setup and components | -- |
-| `docs/DESIGN_SYSTEM_V3.md` | Design system V3 reference | Superseded by `design/v4/DESIGN_SYSTEM.md` (living) |
 | `docs/BUNDLE.md` | Bundle size baseline + heavy modules | -- |
 | `docs/CORS-POLICY.md` | CORS policy | -- |
 | `docs/KEY-ROTATION.md` | Production secret rotation runbook | Cross-reference with `docs/RUNBOOK-secret-rotation.md` |

@@ -149,8 +149,10 @@ export async function main() {
     stampPerRecord: false,
   });
   if (redisResult.source !== "redis") {
-    throw new Error(
-      "unknown-mentions-promoted data-store write skipped; set REDIS_URL or Upstash env",
+    // Soft-skip: file mirror at OUT_PATH already landed and the GH workflow
+    // auto-commits it. Same contract as scrape-funding-news.mjs.
+    console.warn(
+      `[promote-unknown-mentions] data-store write skipped (Redis env unset); file mirror at ${OUT_PATH} is the source of truth this run.`,
     );
   }
 

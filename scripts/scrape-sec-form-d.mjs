@@ -480,11 +480,16 @@ async function main() {
   if (outputPath === OUT_PATH) {
     const redisResult = await writeDataStore("funding-news-sec", payload);
     if (redisResult.source !== "redis") {
-      throw new Error(
-        "funding-news-sec data-store write skipped; set REDIS_URL or Upstash env",
+      // Soft-skip — same contract as scrape-funding-news.mjs. File mirror at
+      // outputPath is the deliverable when Redis env is unset; the workflow's
+      // auto-commit ships it. Genuine transport errors throw from inside
+      // writeDataStore and never reach this branch.
+      console.warn(
+        `[sec-form-d] data-store write skipped (Redis env unset); file mirror at ${outputPath} is the source of truth this run.`,
       );
+    } else {
+      console.log("[sec-form-d] redis write ok -> funding-news-sec");
     }
-    console.log("[sec-form-d] redis write ok -> funding-news-sec");
 
     // TOOLBOX dual-write: emit `funding.sec.formd` per Form D filing.
     // Best-effort — env-unset = silent skip; failures never block.

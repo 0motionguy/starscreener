@@ -1,7 +1,7 @@
 // filterReposBySources - URL-driven source filter for cockpit-style pages.
 //
 // Bridges the 30-slug filter rail UI (used by /market-signals, /tools and
-// any future cockpit) with the 8-value SocialPlatform mention spine on
+// any future cockpit) with the SocialPlatform mention spine on
 // derived Repo records. Slugs that map cleanly to SocialPlatform filter
 // by `repo.mentions.perSource[platform].count24h > 0`; the rest fall back
 // to topic / tag / collection / fullName / description substring matching
@@ -28,7 +28,6 @@ const SLUG_TO_PLATFORM: Partial<Record<string, SocialPlatform>> = {
   reddit: "reddit",
   x: "twitter",
   bsky: "bluesky",
-  ph: "producthunt",
   devto: "devto",
   lobsters: "lobsters",
 };

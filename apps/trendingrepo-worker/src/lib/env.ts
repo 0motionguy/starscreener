@@ -16,8 +16,6 @@ const envSchema = z
     GH_TOKEN_POOL: z.string().optional(),
     GITHUB_TOKEN_POOL: z.string().optional(),
     HF_TOKEN: z.string().optional(),
-    PRODUCTHUNT_TOKEN: z.string().optional(),
-    PRODUCTHUNT_TOKENS: z.string().optional(),
     DEVTO_API_KEY: z.string().optional(),
     DEVTO_API_KEYS: z.string().optional(),
     BLUESKY_HANDLE: z.string().optional(),

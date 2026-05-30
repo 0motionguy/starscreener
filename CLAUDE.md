@@ -17,7 +17,7 @@ stale assumptions. The audit found this is the root cause of the
 
 # STARSCREENER
 
-Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit/HN/Bluesky/ProductHunt/DevTo signals, computes scoring + classification, surfaces breakout repos before they go mainstream.
+Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit/HN/Bluesky/DevTo signals, computes scoring + classification, surfaces breakout repos before they go mainstream.
 
 ## Tech Stack
 - **Framework:** Next.js 15 (App Router, Turbopack, RSC + client islands)

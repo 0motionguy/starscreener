@@ -128,7 +128,7 @@ export async function GET(): Promise<Response> {
   const header = [
     "# TrendingRepo — Top 100 Repos",
     "",
-    `Live snapshot — last refresh: ${lastFetched}. Source: aggregated GitHub + Reddit + HN + Bluesky + dev.to + ProductHunt + Lobsters signals.`,
+    `Live snapshot — last refresh: ${lastFetched}. Source: aggregated GitHub + Reddit + HN + Bluesky + dev.to + Lobsters signals.`,
     "",
     "---",
   ].join("\n");
@@ -158,7 +158,7 @@ export async function GET(): Promise<Response> {
     `- Last upstream pipeline refresh: ${lastFetched}`,
     "- Refresh cadence: every 20 minutes (deterministic GitHub Actions cron, not on-demand)",
     "- This file's edge cache: 24h (s-maxage=86400, stale-while-revalidate=172800)",
-    "- Underlying data sources span GitHub, Reddit, Hacker News, ProductHunt, Bluesky, dev.to, Lobsters, arxiv, npm, and Twitter/X (via Apify)",
+    "- Underlying data sources span GitHub, Reddit, Hacker News, Bluesky, dev.to, Lobsters, arxiv, npm, and Twitter/X (via Apify)",
   ].join("\n");
 
   // 15 first-party categories (mirrors src/lib/constants.ts CATEGORIES). One
@@ -193,7 +193,7 @@ export async function GET(): Promise<Response> {
     "## Definitions",
     "",
     "- **Momentum score** — 0-100 composite of star velocity (24h/7d/30d), fork growth, contributor churn, commit freshness, and release cadence, with anti-spam dampening. Computed every 3h.",
-    "- **Cross-signal breakout** — a repo firing on >= 3 distinct platforms (GitHub, HN, Reddit, ProductHunt, Bluesky, Twitter, dev.to, Lobsters) inside the same 24h trending window.",
+    "- **Cross-signal breakout** — a repo firing on >= 3 distinct platforms (GitHub, HN, Reddit, Bluesky, Twitter, dev.to, Lobsters) inside the same 24h trending window.",
     "- **Stars velocity** — net new stargazers per window (24h / 7d / 30d), percentile-normalized against same-language peers so absolute scale doesn't dominate the ranking.",
     "- **Trending window** — the rolling 24h interval that anchors most TrendingRepo surfaces. 7d and 30d windows are derived for context and decay-detection.",
     "- **Category** — one of 15 first-party buckets a repo is classified into (exactly one). Drives /categories/{id} surfaces and the bubble map.",

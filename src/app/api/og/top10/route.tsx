@@ -46,7 +46,6 @@ const MENTION_CHANNELS: Array<{
   { key: "reddit", logo: "reddit", title: "Reddit" },
   { key: "bluesky", logo: "bluesky", title: "Bluesky" },
   { key: "devto", logo: "devto", title: "Dev.to" },
-  { key: "producthunt", logo: "producthunt", title: "Product Hunt" },
   { key: "huggingface", logo: "huggingface", title: "Hugging Face" },
   { key: "arxiv", logo: "arxiv", title: "arXiv" },
   { key: "npm", logo: "npm", title: "npm" },

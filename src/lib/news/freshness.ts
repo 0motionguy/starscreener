@@ -12,7 +12,6 @@ import {
   DEVTO_STALE_THRESHOLD_MS,
   FAST_DATA_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
-  PRODUCTHUNT_STALE_THRESHOLD_MS,
 } from "@/lib/source-health-thresholds";
 
 export type NewsSource =
@@ -21,7 +20,6 @@ export type NewsSource =
   | "bluesky"
   | "devto"
   | "lobsters"
-  | "producthunt"
   | "twitter"
   | "npm"
   | "mcp"
@@ -58,7 +56,6 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   bluesky: FAST_DATA_STALE_THRESHOLD_MS,
   lobsters: FAST_DATA_STALE_THRESHOLD_MS,
   devto: DEVTO_STALE_THRESHOLD_MS,
-  producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS,
   npm: NPM_STALE_THRESHOLD_MS,
   // Twitter freshness is reported through the scan-ingestion system, not a
   // fast JSON scraper. Its collector runs on a slower 3h cadence, so use the

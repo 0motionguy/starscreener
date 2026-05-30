@@ -46,8 +46,7 @@ export async function Statusbar() {
       counts.lobstersStories +
       counts.devtoArticles +
       counts.blueskyPosts +
-      counts.redditPosts +
-      counts.producthuntLaunches
+      counts.redditPosts
     : 0;
 
   const status: FreshnessStatus = fresh?.status ?? "cold";

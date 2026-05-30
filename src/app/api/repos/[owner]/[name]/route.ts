@@ -10,7 +10,7 @@
 //   - `?v=2` (default when the param is omitted or any other value is
 //     passed) → new canonical shape assembled by buildCanonicalRepoProfile.
 //     Top-level keys: ok, fetchedAt, v, repo, score, reasons, mentions,
-//     freshness, twitter, npm, productHunt, revenue, funding, related.
+//     freshness, twitter, npm, revenue, funding, related.
 //
 // Both shapes use the same auth model (public read), the same slug regex,
 // and the same cache posture as sibling read endpoints

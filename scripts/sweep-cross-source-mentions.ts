@@ -3,8 +3,8 @@
 // Cross-source mentions sweep.
 //
 // For each top-N trending repo (or each repo from a profile-completion queue),
-// actively probes 8 channels — Twitter, Reddit, HackerNews, Bluesky, dev.to,
-// Lobsters, ProductHunt, and Tavily web search — and writes:
+// actively probes 7 channels — Twitter, Reddit, HackerNews, Bluesky, dev.to,
+// Lobsters, and Tavily web search — and writes:
 //   - data/repo-mentions-detail.jsonl   (append-only event log)
 //   - data/repo-mentions-detail-rollup.json + Redis
 //                                       (top 5 per source, last 7d)
@@ -57,7 +57,6 @@ import {
   searchDevto,
   searchHackerNews,
   searchLobsters,
-  searchProductHunt,
   searchReddit,
   searchTavily,
   searchTwitter,
@@ -74,7 +73,6 @@ const DATA_DIR = resolve(ROOT, "data");
 const TRENDING_FILE = resolve(DATA_DIR, "trending.json");
 const REPO_METADATA_FILE = resolve(DATA_DIR, "repo-metadata.json");
 const NPM_FILE = resolve(DATA_DIR, "npm-packages.json");
-const PH_FILE = resolve(DATA_DIR, "producthunt-launches.json");
 const LOBSTERS_FILE = resolve(DATA_DIR, "lobsters-trending.json");
 const DETAIL_JSONL = resolve(DATA_DIR, "repo-mentions-detail.jsonl");
 const ROLLUP_FILE = resolve(DATA_DIR, "repo-mentions-detail-rollup.json");
@@ -486,7 +484,6 @@ function buildTwitterQueriesForRepo(repo: RepoInput): string[] {
 interface SweepContext {
   blueskySession: { accessJwt: string } | null;
   lobstersSnapshot: unknown | null;
-  productHuntSnapshot: unknown | null;
   tavilyKey: string | null;
   apifyToken: string | null;
   sourceOnly: string | null;
@@ -510,7 +507,6 @@ async function runRepo(repo: RepoInput, ctx: SweepContext): Promise<Mention[]> {
   if (should("bluesky")) tasks.push(searchBluesky(repo, ctx.blueskySession));
   if (should("devto")) tasks.push(searchDevto(repo));
   if (should("lobsters")) tasks.push(searchLobsters(repo, ctx.lobstersSnapshot));
-  if (should("producthunt")) tasks.push(searchProductHunt(repo, ctx.productHuntSnapshot));
   if (should("tavily")) tasks.push(searchTavily(repo, ctx.tavilyKey));
 
   const results = await Promise.allSettled(tasks);
@@ -786,11 +782,10 @@ async function main(): Promise<void> {
   const scanRunId = `sweep-${new Date().toISOString()}`;
 
   // Load context: metadata, packages, snapshots, sessions.
-  const [metadataFile, npmFile, lobstersFile, phFile] = await Promise.all([
+  const [metadataFile, npmFile, lobstersFile] = await Promise.all([
     readJson<{ items?: MetadataItem[] }>(REPO_METADATA_FILE, { items: [] }),
     readJson<{ packages?: NpmPackage[] }>(NPM_FILE, { packages: [] }),
     readJson<unknown>(LOBSTERS_FILE, null),
-    readJson<unknown>(PH_FILE, null),
   ]);
   const metadata = buildMetadataIndex(metadataFile.items ?? []);
   const packages = buildPackageIndex(npmFile.packages ?? []);
@@ -823,7 +818,6 @@ async function main(): Promise<void> {
   const ctx: SweepContext = {
     blueskySession,
     lobstersSnapshot: lobstersFile,
-    productHuntSnapshot: phFile,
     tavilyKey: process.env.TAVILY_API_KEY ?? null,
     apifyToken: process.env.APIFY_API_TOKEN ?? null,
     sourceOnly: opts.sourceOnly,

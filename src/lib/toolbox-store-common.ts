@@ -3,7 +3,7 @@
 // Common types + fetch wrapper + helpers used by per-signal adapters in
 // toolbox-store.ts (mentions: hn/reddit/bluesky/devto) and
 // toolbox-store-velocity.ts (stars + fork velocity). New adapters
-// (huggingface variants, producthunt, openai-rss, etc.) import from here
+// (huggingface variants, openai-rss, etc.) import from here
 // instead of duplicating the boilerplate.
 //
 // Each adapter still owns its own row-shaping logic (mapping TOOLBOX

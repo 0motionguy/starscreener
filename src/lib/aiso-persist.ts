@@ -183,7 +183,6 @@ function makeMinimalProfile(
       githubUrl: `https://github.com/${fullName}`,
       docsUrl: null,
       npmPackages: [],
-      productHuntLaunchId: null,
     },
     aisoScan: scan,
     error: null,

@@ -25,7 +25,6 @@ function makeItem(
     'hn',
     'x',
     'r',
-    'pdh',
     'dev',
     'bs',
   ];
@@ -205,7 +204,6 @@ describe('buildItemUserMessage', () => {
       hn: { count: 5, rows: 50 },
       x: { count: 0, rows: 0 },
       r: { count: 3, rows: 30 },
-      pdh: { count: 0, rows: 0 },
       dev: { count: 0, rows: 0 },
       bs: { count: 0, rows: 0 },
     },
@@ -215,8 +213,7 @@ describe('buildItemUserMessage', () => {
       hn: 0.15,
       x: 0.1,
       r: 0.15,
-      pdh: 0.05,
-      dev: 0.1,
+      dev: 0.15,
       bs: 0.1,
     },
   };

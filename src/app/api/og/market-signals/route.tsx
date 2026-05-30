@@ -19,7 +19,6 @@ const SOURCES = [
   "Reddit",
   "X",
   "Bluesky",
-  "ProductHunt",
   "Dev.to",
   "npm",
   "arXiv",

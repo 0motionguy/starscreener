@@ -24,7 +24,6 @@ import {
   getAllPostsFile,
   refreshRedditAllPostsFromStore,
 } from "./reddit-all-data";
-import { getPhFile, refreshProducthuntLaunchesFromStore } from "./producthunt";
 import { getFundingSignals, refreshFundingNewsFromStore } from "./funding-news";
 import {
   getRevenueOverlaysMeta,
@@ -43,7 +42,6 @@ export interface SidebarSourceCounts {
   devtoArticles: number;
   blueskyPosts: number;
   redditPosts: number;
-  producthuntLaunches: number;
   // Collections — rendered as neutral count.
   fundingSignals: number;
   revenueOverlays: number;
@@ -62,7 +60,6 @@ const ZERO_COUNTS: SidebarSourceCounts = {
   devtoArticles: 0,
   blueskyPosts: 0,
   redditPosts: 0,
-  producthuntLaunches: 0,
   fundingSignals: 0,
   revenueOverlays: 0,
   npmPackages: 0,
@@ -97,7 +94,6 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     refreshDevtoTrendingFromStore(),
     refreshBlueskyTrendingFromStore(),
     refreshRedditAllPostsFromStore(),
-    refreshProducthuntLaunchesFromStore(),
     refreshFundingNewsFromStore(),
     refreshRevenueOverlaysFromStore(),
     refreshNpmFromStore(),
@@ -140,7 +136,6 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     devtoArticles: safe(() => getDevtoTrendingFile().articles.length, 0),
     blueskyPosts: safe(() => getBlueskyTrendingFile().posts.length, 0),
     redditPosts: safe(() => getAllPostsFile().posts.length, 0),
-    producthuntLaunches: safe(() => getPhFile().launches.length, 0),
     fundingSignals: safe(() => getFundingSignals().length, 0),
     revenueOverlays: overlaysCount,
     npmPackages: npmCount,

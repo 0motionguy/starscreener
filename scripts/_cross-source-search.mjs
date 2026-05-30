@@ -7,7 +7,7 @@
 // Mention shape:
 //   {
 //     source:   "twitter" | "reddit" | "hackernews" | "bluesky" |
-//               "devto" | "lobsters" | "producthunt" | "tavily",
+//               "devto" | "lobsters" | "tavily",
 //     fullName: "owner/name",                         // attribution
 //     url:      string,                               // canonical link
 //     title:    string,                               // headline-ish text
@@ -419,35 +419,6 @@ export async function searchLobsters(repo, snapshot) {
 }
 
 // ---------------------------------------------------------------------------
-// ProductHunt — local launches snapshot (refreshed every 4-6h)
-// ---------------------------------------------------------------------------
-
-export async function searchProductHunt(repo, snapshot) {
-  if (isChannelDisabled("producthunt")) return emptyResult("producthunt", "disabled via env");
-  if (!snapshot) return emptyResult("producthunt", "no snapshot loaded");
-  const launches = Array.isArray(snapshot.launches) ? snapshot.launches : [];
-  const fullLower = repo.fullName.toLowerCase();
-  const matches = launches.filter((l) => {
-    if (l.linkedRepo && l.linkedRepo.toLowerCase() === fullLower) return true;
-    const website = l.website?.toLowerCase() ?? "";
-    return website.includes(`github.com/${fullLower}`);
-  });
-  return matches.map((l) => ({
-    source: "producthunt",
-    fullName: repo.fullName,
-    url: scrubUrl(l.url ?? ""),
-    title: truncate(l.name ?? "", 200),
-    text: truncate(l.tagline ?? l.description ?? "", TEXT_TRUNCATE),
-    author: Array.isArray(l.makers) ? l.makers.map((m) => m.username).filter(Boolean).join(", ") || null : null,
-    engagement: {
-      score: l.votesCount ?? 0,
-      comments: l.commentsCount ?? 0,
-    },
-    observedAt: l.createdAt ?? l.featuredAt ?? nowIso(),
-  }));
-}
-
-// ---------------------------------------------------------------------------
 // Tavily — REST web search (NEW)
 // ---------------------------------------------------------------------------
 
@@ -626,6 +597,5 @@ export const ALL_CHANNELS = [
   "bluesky",
   "devto",
   "lobsters",
-  "producthunt",
   "tavily",
 ];

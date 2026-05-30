@@ -25,7 +25,6 @@ const CHANNELS: {
   { key: "reddit", cls: "reddit", logo: "reddit", title: "Reddit" },
   { key: "bluesky", cls: "bsky", logo: "bluesky", title: "Bluesky" },
   { key: "devto", cls: "devto", logo: "devto", title: "Dev.to" },
-  { key: "producthunt", cls: "ph", logo: "producthunt", title: "Product Hunt" },
   { key: "huggingface", cls: "hf", logo: "huggingface", title: "Hugging Face" },
   { key: "arxiv", cls: "arxiv", logo: "arxiv", title: "arXiv" },
   { key: "npm", cls: "npm", logo: "npm", title: "npm" },

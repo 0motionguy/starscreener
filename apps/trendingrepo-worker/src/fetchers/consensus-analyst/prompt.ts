@@ -25,7 +25,7 @@ INPUT
 You receive a JSON object with:
 - entity: { fullName, type } — repository, model, or skill identifier
 - consensus: { score, confidence, verdict, sourceCount, externalRank, oursRank, maxRankGap }
-- sources: per-source rank/score (gh, hf, hn, x, r, pdh, dev, bs, ours)
+- sources: per-source rank/score (gh, hf, hn, x, r, dev, bs, ours)
 - weights: source weights used by the composite
 - citationCandidates: pre-built {title, url} list of canonical pages on every source where this entity has a present signal. Pick 2-5 of these for "citations" (NEVER invent URLs — only pick from this list).
 
@@ -162,7 +162,7 @@ export interface AnalystUserMessageContext {
 // Per-source URL pattern. Each function returns a canonical https URL where
 // the entity has a discoverable presence on that source. Some sources have a
 // stable per-entity page (GitHub, HuggingFace); others only support search
-// (HN, Reddit, X, Bluesky, ProductHunt, Dev.to). Either way the URL is real
+// (HN, Reddit, X, Bluesky, Dev.to). Either way the URL is real
 // — Kimi is told to pick from this list verbatim, never invent.
 const SOURCE_URL_BUILDERS: Record<
   ConsensusExternalSource,
@@ -187,10 +187,6 @@ const SOURCE_URL_BUILDERS: Record<
   r: {
     title: (n) => `Reddit search: ${n}`,
     url: (n) => `https://www.reddit.com/search/?q=${encodeURIComponent(n)}`,
-  },
-  pdh: {
-    title: (n) => `Product Hunt search: ${n}`,
-    url: (n) => `https://www.producthunt.com/search?q=${encodeURIComponent(n)}`,
   },
   dev: {
     title: (n) => `dev.to search: ${n}`,

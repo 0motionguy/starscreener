@@ -43,7 +43,6 @@ import {
 } from "./pipeline/classification/classifier";
 import { decorateWithCrossSignal } from "./derived-repos/decorators/cross-signal";
 import { decorateWithMentionsRollup } from "./derived-repos/decorators/mentions-rollup";
-import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt";
 import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
 import { getTwitterSignalsDataVersion } from "./twitter";
@@ -485,9 +484,6 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
   // `repo.mentionCount24h` with the all-source 24h sum so existing
   // scoring + UI consumers see the unified total instead of just twitter.
   repos = decorateWithMentionsRollup(repos);
-
-  // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
-  repos = decorateWithProductHunt(repos);
 
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);

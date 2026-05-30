@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Bucket the cached TrustMRR catalog into (category, star-range, ph-launch?)
-// benchmark bands and write data/revenue-benchmarks.json. Consumed by the
+// Bucket the cached TrustMRR catalog into (category, star-range) benchmark
+// bands and write data/revenue-benchmarks.json. Consumed by the
 // /tools/revenue-estimate page.
 //
 // Deliberately *not* a regression — with a few-hundred-startup corpus and
@@ -11,14 +11,13 @@
 // Inputs:
 //   data/trustmrr-startups.json   — full catalog (scripts/sync-trustmrr.mjs)
 //   data/repo-metadata.json       — for the star counts of matched repos
-//   data/producthunt-launches.json — for the "launched on PH" dimension
 //   data/revenue-overlays.json    — to map catalog slug → repo fullName
 //
 // Output:
 //   data/revenue-benchmarks.json
 //     {
 //       generatedAt, version, totalStartups, totalBuckets,
-//       buckets: [{ category, starBand, phLaunched, n, p25, p50, p75 }],
+//       buckets: [{ category, starBand, n, p25, p50, p75 }],
 //       starBands: string[]
 //     }
 
@@ -34,13 +33,11 @@ const DATA_DIR = resolve(ROOT, "data");
 const CATALOG_FILE = resolve(DATA_DIR, "trustmrr-startups.json");
 const OVERLAYS_FILE = resolve(DATA_DIR, "revenue-overlays.json");
 const REPO_METADATA_FILE = resolve(DATA_DIR, "repo-metadata.json");
-const PH_FILE = resolve(DATA_DIR, "producthunt-launches.json");
 const OUT_FILE = resolve(DATA_DIR, "revenue-benchmarks.json");
 
 const MIN_BUCKET_SIZE = 5; // skip buckets with n < 5
 
 // Star bands tuned to where the action is for indie-hacker / devtools repos.
-// Feel free to revisit after a few sync cycles.
 const STAR_BANDS = [
   { label: "0-100", min: 0, max: 100 },
   { label: "100-500", min: 100, max: 500 },
@@ -86,7 +83,6 @@ async function main() {
 
   const overlays = await readJsonSafe(OVERLAYS_FILE, { overlays: {} });
   const metadata = await readJsonSafe(REPO_METADATA_FILE, { items: [] });
-  const ph = await readJsonSafe(PH_FILE, { launches: [] });
 
   // slug -> repo fullName (from the overlay match)
   const slugToFullName = new Map();
@@ -104,32 +100,19 @@ async function main() {
     }
   }
 
-  // fullName -> has PH launch (any tracked launch)
-  const phLaunchedFullNames = new Set();
-  const phLaunches = Array.isArray(ph.launches) ? ph.launches : [];
-  for (const launch of phLaunches) {
-    const candidates = [
-      launch?.repoFullName,
-      launch?.linkedRepo,
-      launch?.githubFullName,
-    ].filter(Boolean);
-    for (const c of candidates) phLaunchedFullNames.add(c);
-  }
-
-  // Build per-(category, band, ph) buckets from the catalog. For startups
-  // matched to a repo, use that repo's stars and PH-launched flag; for
-  // unmatched startups, stars are unknown — bucket them under a synthetic
-  // starBand "unmatched" so the estimator can expose them as "category-only"
-  // benchmarks when no star count is given.
+  // Build per-(category, band) buckets from the catalog. For startups
+  // matched to a repo, use that repo's stars; for unmatched startups, stars
+  // are unknown — bucket them under a synthetic starBand "unmatched" so the
+  // estimator can expose them as "category-only" benchmarks when no star
+  // count is given.
   const buckets = new Map();
 
-  function push(category, starBand, phLaunched, mrrCents) {
-    const key = `${category}||${starBand}||${phLaunched ? "ph" : "noph"}`;
+  function push(category, starBand, mrrCents) {
+    const key = `${category}||${starBand}`;
     if (!buckets.has(key)) {
       buckets.set(key, {
         category,
         starBand,
-        phLaunched,
         values: [],
       });
     }
@@ -157,8 +140,7 @@ async function main() {
     const stars = fullName ? starsByFullName.get(fullName) : null;
     const band = bandFor(stars);
     const starBand = band ? band.label : "unmatched";
-    const phLaunched = fullName ? phLaunchedFullNames.has(fullName) : false;
-    push(category, starBand, phLaunched, mrrCents);
+    push(category, starBand, mrrCents);
   }
 
   const serialized = [];
@@ -168,7 +150,6 @@ async function main() {
     serialized.push({
       category: bucket.category,
       starBand: bucket.starBand,
-      phLaunched: bucket.phLaunched,
       n: bucket.values.length,
       p25: percentile(sorted, 0.25),
       p50: percentile(sorted, 0.5),
@@ -181,8 +162,7 @@ async function main() {
     if (cat !== 0) return cat;
     const ai = STAR_BANDS.findIndex((b2) => b2.label === a.starBand);
     const bi = STAR_BANDS.findIndex((b2) => b2.label === b.starBand);
-    if (ai !== bi) return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-    return Number(b.phLaunched) - Number(a.phLaunched);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
   });
 
   const out = {

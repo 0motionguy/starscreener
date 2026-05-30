@@ -5,7 +5,6 @@ import {
   redditMentionsToEvents,
   bskyMentionsToEvents,
   devtoMentionsToEvents,
-  producthuntLaunchesToEvents,
   huggingfaceModelsToEvents,
   huggingfaceSpacesToEvents,
   huggingfaceDatasetsToEvents,
@@ -182,36 +181,6 @@ test("redditMentionsToEvents — emits one event per repo", () => {
   assert.ok(keys.includes("score_sum_7d"));
   assert.ok(keys.includes("top_post"));
   assert.ok(keys.includes("posts_top10"));
-});
-
-test("producthuntLaunchesToEvents — emits one event per launch with PH metrics", () => {
-  const payload = {
-    launches: [
-      {
-        id: 12345,
-        name: "Cool Product",
-        tagline: "Does cool things",
-        url: "https://www.producthunt.com/posts/cool-product",
-        website: "https://cool.example",
-        votesCount: 250,
-        commentsCount: 30,
-        createdAt: "2026-05-12T00:00:00Z",
-        topics: ["AI", "Productivity"],
-        makers: [{ name: "Alice" }],
-        thumbnail: "https://ph.example/img.png",
-      },
-    ],
-  };
-  const events = producthuntLaunchesToEvents(payload);
-  assert.equal(events.length, 1);
-  assert.equal(events[0].signal_type, "trending.producthunt.launches");
-  assert.equal(events[0].target_url, "https://www.producthunt.com/posts/cool-product");
-  assert.equal(events[0].produced_by, "trendingrepo-producthunt");
-  const keys = events[0].normalized.map((n) => n.key);
-  assert.ok(keys.includes("votes_count"));
-  assert.ok(keys.includes("comments_count"));
-  assert.ok(keys.includes("topics"));
-  assert.ok(keys.includes("makers"));
 });
 
 test("huggingfaceModelsToEvents — emits one event per model, caps at 100", () => {

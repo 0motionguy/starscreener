@@ -11,7 +11,7 @@
 //     twitter, reddit, hackernews, bluesky, devto, lobsters
 //   read-from-data-file (we walk the bundled JSON, attribute by linked-repo
 //   field, and bucket by timestamp into 24h / 7d windows):
-//     npm, huggingface, arxiv, producthunt
+//     npm, huggingface, arxiv
 //
 // The decorator is pure + memoizes the npm/hf/arxiv index by data-version
 // so it pays the bucketization cost once per cold-Lambda warm.
@@ -33,7 +33,6 @@
 //   npm:         count of npm packages with linkedRepo === full
 //   huggingface: count of HF models whose id === full (+ unambiguous name fallback)
 //   arxiv:       count of papers whose linkedRepos[].fullName === full (+ name fallback)
-//   producthunt: count of launches with linkedRepo === full
 //   funding:     count of funding events resolved to this repo (no time gate)
 //   reddit:      0 — reddit-mentions.json is currently empty (OAuth blocker)
 //
@@ -57,7 +56,6 @@ import { getNpmPackages } from "../../npm";
 // always return zero. Import preserved only as a marker for grep.
 // (was: import { getHfTrendingFile } from "../../huggingface")
 import { getArxivRecentFile } from "../../arxiv";
-import { getAllPhLaunches } from "../../producthunt";
 import { getFundingEventsForRepo } from "../../funding/repo-events";
 import { getCrossSourceDetail } from "../../cross-source-mentions";
 import { getRepoMentionsLedger } from "../../mentions-ledger";
@@ -87,11 +85,11 @@ function buildLifetimeIndex<T>(
 
 /**
  * Memoized lifetime indexes for the linked-repo-fanout sources (npm, HF,
- * arXiv, producthunt). Each indexed by data identity so the lifetime walk
- * pays its cost once per cold Lambda. HF + arXiv carry an unambiguous
- * NAME-only fallback (same dedup strategy as the 24h/7d BucketIndex) so a
- * GitHub repo whose owner differs from the HF/arXiv slug can still pick up
- * lifetime hits when the trailing name segment is unique.
+ * arXiv). Each indexed by data identity so the lifetime walk pays its cost
+ * once per cold Lambda. HF + arXiv carry an unambiguous NAME-only fallback
+ * (same dedup strategy as the 24h/7d BucketIndex) so a GitHub repo whose
+ * owner differs from the HF/arXiv slug can still pick up lifetime hits when
+ * the trailing name segment is unique.
  */
 interface LifetimeIndex {
   byFull: Map<string, number>;
@@ -101,7 +99,6 @@ interface LifetimeIndex {
 let _npmLifetime: { token: unknown; index: LifetimeIndex } | null = null;
 let _hfLifetime: { token: unknown; index: LifetimeIndex } | null = null;
 let _arxivLifetime: { token: unknown; index: LifetimeIndex } | null = null;
-let _phLifetime: { token: unknown; index: LifetimeIndex } | null = null;
 
 function buildLifetimeNameFallback(
   byFull: Map<string, number>,
@@ -145,18 +142,6 @@ function hfLifetimeIndex(): LifetimeIndex {
   return { byFull: new Map(), byName: new Map() };
 }
 
-function phLifetimeIndex(): LifetimeIndex {
-  const launches = getAllPhLaunches();
-  if (_phLifetime && _phLifetime.token === launches) return _phLifetime.index;
-  const byFull = buildLifetimeIndex(
-    launches,
-    (l) => (l.linkedRepo ? l.linkedRepo.toLowerCase() : null),
-  );
-  const index: LifetimeIndex = { byFull };
-  _phLifetime = { token: launches, index };
-  return index;
-}
-
 function arxivLifetimeIndex(): LifetimeIndex {
   const file = getArxivRecentFile();
   const papers = file?.papers ?? [];
@@ -196,7 +181,6 @@ function emptyPerSource(): Record<SocialPlatform, RepoMentionsPerSource> {
     huggingface: { count24h: 0, count7d: 0 },
     arxiv:       { count24h: 0, count7d: 0 },
     github:      { count24h: 0, count7d: 0 },
-    producthunt: { count24h: 0, count7d: 0 },
     funding:     { count24h: 0, count7d: 0 },
     tavily:      { count24h: 0, count7d: 0 },
   };
@@ -289,7 +273,6 @@ function buildNameOnlyFallback(
 let _npmIndex: { token: unknown; index: BucketIndex } | null = null;
 let _hfIndex: { token: unknown; index: BucketIndex } | null = null;
 let _arxivIndex: { token: unknown; index: BucketIndex } | null = null;
-let _phIndex: { token: unknown; index: BucketIndex } | null = null;
 
 function npmIndex(nowMs: number): BucketIndex {
   const packages = getNpmPackages();
@@ -309,22 +292,6 @@ function hfIndex(_nowMs: number): BucketIndex {
   // returns an empty bucket so consumers downstream still resolve to
   // count24h=0 / count7d=0 / count=0 without a TypeError.
   return { perRepo: new Map(), byName: new Map() };
-}
-
-function phIndex(nowMs: number): BucketIndex {
-  // ProductHunt launches come tagged with linkedRepo (owner/name) when the
-  // scraper resolved a github URL; un-resolved launches still ship in the
-  // file but skip here. Bucket by createdAt — a launch is one mention.
-  const launches = getAllPhLaunches();
-  if (_phIndex && _phIndex.token === launches) return _phIndex.index;
-  const index = buildBucketIndex(
-    launches,
-    (l) => (l.linkedRepo ? l.linkedRepo.toLowerCase() : null),
-    (l) => l.createdAt,
-    nowMs,
-  );
-  _phIndex = { token: launches, index };
-  return index;
 }
 
 function arxivIndex(nowMs: number): BucketIndex {
@@ -373,11 +340,9 @@ export function decorateWithMentionsRollup(
   const npm = npmIndex(nowMs);
   const hf = hfIndex(nowMs);
   const arxiv = arxivIndex(nowMs);
-  const ph = phIndex(nowMs);
   const npmLife = npmLifetimeIndex();
   const hfLife = hfLifetimeIndex();
   const arxivLife = arxivLifetimeIndex();
-  const phLife = phLifetimeIndex();
 
   return repos.map((r) => {
     const perSource = emptyPerSource();
@@ -484,16 +449,6 @@ export function decorateWithMentionsRollup(
       };
     }
 
-    const phEntry = ph.perRepo.get(lowerFull);
-    const phLifeCount = phLife.byFull.get(lowerFull);
-    if (phEntry || phLifeCount) {
-      perSource.producthunt = {
-        count24h: phEntry?.count24h ?? 0,
-        count7d: phEntry?.count7d ?? 0,
-        count: phLifeCount ?? 0,
-      };
-    }
-
     // Funding events are joined to repos via the curated alias registry
     // (data/funding-aliases.json). The matcher is memoized internally so
     // calling it once per repo per render is cheap. Each event's
@@ -535,7 +490,7 @@ export function decorateWithMentionsRollup(
         const cur = perSource[c] ?? { count24h: 0, count7d: 0 };
         const sweep7d = bucket.count7d ?? 0;
         // countLifetime is the sweep's monotonic never-drops tally; it carries
-        // lifetime for twitter/tavily/producthunt that the ledger doesn't track.
+        // lifetime for twitter/tavily that the ledger doesn't track.
         const sweepLife = bucket.countLifetime ?? sweep7d;
         perSource[c] = {
           count24h: cur.count24h,
@@ -584,9 +539,7 @@ export function __resetMentionsRollupMemoForTests(): void {
   _npmIndex = null;
   _hfIndex = null;
   _arxivIndex = null;
-  _phIndex = null;
   _npmLifetime = null;
   _hfLifetime = null;
   _arxivLifetime = null;
-  _phLifetime = null;
 }

@@ -15,7 +15,6 @@ import type { HnStory } from "../../hackernews";
 import type { BskyPost } from "../../bluesky";
 import type { DevtoArticle } from "../../devto";
 import type { LobstersStory } from "../../lobsters";
-import type { Launch } from "../../producthunt";
 
 import {
   buildFundingTop10,
@@ -249,14 +248,12 @@ test("buildNewsTop10: dedupes by canonical URL and caps at 10", () => {
   ];
   const devto: DevtoArticle[] = [];
   const bsky: BskyPost[] = [];
-  const ph: Launch[] = [];
 
   const bundle = buildNewsTop10({
     hn,
     bluesky: bsky,
     devto,
     lobsters,
-    producthunt: ph,
   });
   assert.equal(bundle.items.length, 1);
 });
@@ -278,7 +275,6 @@ test("buildNewsTop10: caps at 10 when all sources crowded", () => {
     bluesky: [],
     devto: [],
     lobsters: [],
-    producthunt: [],
   });
   assert.equal(bundle.items.length, 10);
 });

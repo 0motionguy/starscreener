@@ -34,7 +34,7 @@ try {
 const SOURCE_NAME = {
   gh: "GitHub", github: "GitHub", hn: "Hacker News", hackernews: "Hacker News",
   r: "Reddit", reddit: "Reddit", x: "X", twitter: "X", bs: "Bluesky", bluesky: "Bluesky",
-  dev: "Dev.to", devto: "Dev.to", pdh: "Product Hunt", producthunt: "Product Hunt",
+  dev: "Dev.to", devto: "Dev.to",
   hf: "Hugging Face", huggingface: "Hugging Face", npm: "npm", ours: "TrendingRepo's pipeline",
 };
 const clamp = (n) => Math.max(0, Math.min(100, Math.round(n)));

@@ -28,7 +28,7 @@ const SCORE_INPUTS: ReadonlyArray<{
     label: "Cross-source mentions",
     weight: "0.6× / source",
     detail:
-      "Count of distinct discussions on Hacker News, Reddit, Bluesky, Lobsters, dev.to, ProductHunt, and X / Twitter. Multiple sources stack — six platforms talking is the breakout signal.",
+      "Count of distinct discussions on Hacker News, Reddit, Bluesky, Lobsters, dev.to, and X / Twitter. Multiple sources stack — six platforms talking is the breakout signal.",
   },
   {
     label: "Engagement composite",
@@ -61,7 +61,6 @@ const SOURCE_SCHEDULE: ReadonlyArray<{
   { source: "Reddit", cadence: "every 6h" },
   { source: "Bluesky", cadence: "every 8h" },
   { source: "Lobsters", cadence: "every 6h" },
-  { source: "ProductHunt", cadence: "every 12h" },
   { source: "X / Twitter", cadence: "every 8h" },
   { source: "dev.to", cadence: "every 24h" },
   { source: "arXiv", cadence: "every 24h" },

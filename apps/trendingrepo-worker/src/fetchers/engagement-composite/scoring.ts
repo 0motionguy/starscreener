@@ -5,7 +5,7 @@
 // with a 0-100 compositeScore.
 //
 // Normalization strategy per component:
-//   - hn / reddit / bluesky / devto / ph  → percentile rank within cohort
+//   - hn / reddit / bluesky / devto  → percentile rank within cohort
 //     These distributions are bursty but bounded; percentile rank gives a
 //     cohort-relative answer that stays meaningful even on quiet days.
 //   - npm / ghStars                       → log-normalized fraction
@@ -32,22 +32,20 @@ import { COMPONENT_KEYS } from './types.js';
  * Component weights. Sum MUST equal 1.00 — asserted in unit tests so a
  * future tweak that breaks the invariant fails CI immediately.
  *
- *   ghStars (.25)  — strongest leading indicator of mainstream traction
+ *   ghStars (.30)  — strongest leading indicator of mainstream traction
  *   hn      (.20)  — best engagement signal pre-mainstream
  *   npm     (.20)  — actual usage, not just attention
  *   reddit  (.15)  — broader-but-noisier developer attention
- *   ph      (.10)  — launch moment, mostly orthogonal to other signals
- *   bluesky (.05)  — early-mover signal, low volume so capped low
- *   devto   (.05)  — slow-burn long-tail content signal
+ *   bluesky (.075) — early-mover signal, low volume so capped low
+ *   devto   (.075) — slow-burn long-tail content signal
  */
 export const WEIGHTS: Record<ComponentKey, number> = {
   hn: 0.20,
   reddit: 0.15,
-  bluesky: 0.05,
-  devto: 0.05,
+  bluesky: 0.075,
+  devto: 0.075,
   npm: 0.20,
-  ghStars: 0.25,
-  ph: 0.10,
+  ghStars: 0.30,
 };
 
 /** Components that use percentile-rank normalization. */
@@ -56,7 +54,6 @@ const PERCENTILE_COMPONENTS: ReadonlySet<ComponentKey> = new Set<ComponentKey>([
   'reddit',
   'bluesky',
   'devto',
-  'ph',
 ]);
 
 /** Components that use log10 normalization (heavy-tailed). */

@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-30T13:43:34.133Z",
+  "fetchedAt": "2026-05-30T19:19:55.307Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1452,
+  "scannedArticles": 1464,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 9,
+    "global-rising": 10,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,14 +188,14 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 11,
-    "tag-cursor-top-7d": 45,
+    "tag-cursor-top-7d": 47,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 10,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 46,
-    "tag-workflow-top-7d": 36,
-    "tag-workflows-top-7d": 6,
+    "tag-promptengineering-top-7d": 48,
+    "tag-workflow-top-7d": 34,
+    "tag-workflows-top-7d": 7,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
@@ -826,6 +826,29 @@
         "zsh"
       ],
       "trendingScore": 28.96,
+      "linkedRepos": []
+    },
+    {
+      "id": 3785430,
+      "title": "Your AI Agent Should Text You First",
+      "description": "A practical, slightly opinionated Hermes Agent use case: an always-on chief of staff that remembers your work, schedules itself, uses tools, and reports back with receipts.",
+      "url": "https://dev.to/nimay_04/your-ai-agent-should-text-you-first-2b3b",
+      "author": {
+        "username": "nimay_04",
+        "name": "Nimesh Kulkarni",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3604005%2F962463d0-717a-46e7-b0ea-0d7cd72431e0.jpg"
+      },
+      "reactionsCount": 11,
+      "commentsCount": 2,
+      "readingTime": 8,
+      "publishedAt": "2026-05-30T18:48:07Z",
+      "tags": [
+        "hermesagentchallenge",
+        "ai",
+        "opensource",
+        "productivity"
+      ],
+      "trendingScore": 25.93,
       "linkedRepos": []
     },
     {
@@ -2290,6 +2313,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3784969,
+      "title": "Hermes Agent Gets Smarter Every Day. So Does the Bill.",
+      "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           Hermes Agent...",
+      "url": "https://dev.to/chintanonweb/hermes-agent-gets-smarter-every-day-so-does-the-bill-4i8o",
+      "author": {
+        "username": "chintanonweb",
+        "name": "chintanonweb",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1145978%2Fc93ba904-43b0-4dc7-8fe9-b4ce35bf3da3.png"
+      },
+      "reactionsCount": 17,
+      "commentsCount": 0,
+      "readingTime": 12,
+      "publishedAt": "2026-05-30T16:45:58Z",
+      "tags": [
+        "hermesagentchallenge",
+        "devchallenge",
+        "agents",
+        "ai"
+      ],
+      "trendingScore": 8.15,
+      "linkedRepos": []
+    },
+    {
       "id": 3656535,
       "title": "AI Didn't Make Software Engineering Easier. It Made the Hard Parts Harder.",
       "description": "When I started using AI tools seriously across my side projects, I expected the work to get easier....",
@@ -2405,6 +2451,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3756670,
+      "title": "An LLM API call, in 4 GIFs",
+      "description": "This is the first post of series Building TinyAgent where we are going to build a small agent from...",
+      "url": "https://dev.to/jasmin/an-llm-api-call-in-4-gifs-33b1",
+      "author": {
+        "username": "jasmin",
+        "name": "Jasmin Virdi",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F322836%2Fde35ee13-9df1-4b90-9734-9f29aafe4ef4.jpeg"
+      },
+      "reactionsCount": 74,
+      "commentsCount": 44,
+      "readingTime": 4,
+      "publishedAt": "2026-05-26T20:52:22Z",
+      "tags": [
+        "llm",
+        "javascript",
+        "ai",
+        "beginners"
+      ],
+      "trendingScore": 7.91,
+      "linkedRepos": []
+    },
+    {
       "id": 3718161,
       "title": "Claude Code vs. OpenCode without the hype ✅",
       "description": "Everyone wants a coding agent now.  Not a chatbot that explains code.  An actual agent that can read...",
@@ -2471,75 +2540,6 @@
         "tutorial"
       ],
       "trendingScore": 7.71,
-      "linkedRepos": []
-    },
-    {
-      "id": 3620449,
-      "title": "Best ROAS Optimization Tools: Get More Revenue from Every Ad Dollar",
-      "description": "You open your ads dashboard and the number jumps out immediately.  ROAS was 4.2x last quarter. Now...",
-      "url": "https://dev.to/hellyeahai/best-roas-optimization-tools-get-more-revenue-from-every-ad-dollar-13b5",
-      "author": {
-        "username": "hadil",
-        "name": "Hadil Ben Abdallah",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1209000%2Fb29d37d8-2efe-4391-9796-a6f8a483f1bd.png"
-      },
-      "reactionsCount": 50,
-      "commentsCount": 0,
-      "readingTime": 9,
-      "publishedAt": "2026-05-12T08:58:56Z",
-      "tags": [
-        "ai",
-        "sass",
-        "marketing",
-        "tooling"
-      ],
-      "trendingScore": 7.7,
-      "linkedRepos": []
-    },
-    {
-      "id": 3771654,
-      "title": "I Built an MCP Agent Framework for My B.Tech Major Project. It Got 750+ npm Downloads in Week One. Here's the Comeback Story.",
-      "description": "This is a submission for the GitHub Finish-Up-A-Thon Challenge              What I Built   Last...",
-      "url": "https://dev.to/om_shree_0709/i-built-an-mcp-agent-framework-for-my-btech-major-project-it-got-750-npm-downloads-in-week-one-14f1",
-      "author": {
-        "username": "om_shree_0709",
-        "name": "Om Shree",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2900392%2F78ad1723-16ab-4e46-b39c-7f3feb416d23.jpg"
-      },
-      "reactionsCount": 15,
-      "commentsCount": 0,
-      "readingTime": 4,
-      "publishedAt": "2026-05-28T13:40:00Z",
-      "tags": [
-        "githubcopilot",
-        "githubchallenge",
-        "mcp",
-        "opensource"
-      ],
-      "trendingScore": 7.39,
-      "linkedRepos": []
-    },
-    {
-      "id": 3710535,
-      "title": "AI Native DevCon’26: The London conference for developers building with AI",
-      "description": "The bottleneck moved from writing code to governing it.  The promise was 2× throughput. The reality...",
-      "url": "https://dev.to/tessl/ai-native-devcon26-the-london-conference-for-developers-building-with-ai-4nm9",
-      "author": {
-        "username": "rohan_sharma",
-        "name": "Rohan Sharma",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1936949%2Fa1fd5434-8c99-4531-9491-2d117d2e6996.jpg"
-      },
-      "reactionsCount": 31,
-      "commentsCount": 5,
-      "readingTime": 5,
-      "publishedAt": "2026-05-21T06:06:32Z",
-      "tags": [
-        "ai",
-        "productivity",
-        "career",
-        "eventsinyourcity"
-      ],
-      "trendingScore": 7.36,
       "linkedRepos": []
     }
   ]

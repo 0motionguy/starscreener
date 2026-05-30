@@ -707,8 +707,8 @@ either error returns, restore the bullet and reassign.
 - [ ] **ENGINE.md full rewrite** â€” re-derive from `.github/workflows/` glob; cover all ~83 workflows with correct schedules; include 21 SRE workflows currently absent
 - [ ] **DATABASE.md full rewrite** â€” document current Redis + Supabase duality; reference ADR 0001 + `apps/trendingrepo-worker/src/lib/db.ts:upsertItem()`
 - [ ] **SCORING.md full rewrite** â€” document v3 8-source consensus + Kimi K2.6 AI Analyst (refs `apps/trendingrepo-worker/src/fetchers/consensus-trending/{types.ts,scoring.ts}`)
-- [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
-- [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
+- [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`; mark living/snapshot/needs-rewrite
+- [x] **docs/DESIGN_SYSTEM.md rewrite** â€” DONE 2026-05-30: deleted the V3 stub (pointed to V4 but V6 is current per CLAUDE.md). README + INDEX inbound refs updated to docs/DESIGN-SYSTEM.md (V6 canonical).
 - [x] Phase 4 part 3 — scripts/ Redis-key sweep — DONE 2026-05-05 (3 migrations: scripts/enrich-arxiv.mjs x2 + scripts/audit-redis-file-drift.mjs x1; exported `keys` shim from scripts/_data-store-write.mjs; check-redis-keys.mjs now scans scripts/).
 - [x] B4 — engine-inventory PR gate — DONE 2026-05-05 (`.github/workflows/engine-inventory-check.yml`).
 

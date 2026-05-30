@@ -3,7 +3,11 @@ import { z } from "zod";
 
 import { parseBody } from "@/lib/api/parse-body";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
-import { enqueueDrop, peekQueueDepth } from "@/lib/repo-intake-queue";
+import {
+  enqueueDrop,
+  enqueueTwitterScan,
+  peekQueueDepth,
+} from "@/lib/repo-intake-queue";
 import {
   computeSubmissionStats,
   listPublicRepoSubmissions,
@@ -131,6 +135,16 @@ export async function POST(
       });
       enqueued = enqueueResult.ok;
       queueDepth = enqueueResult.queueDepth;
+
+      // Best-effort: also kick the dedicated twitter scan so the new repo's
+      // profile shows a Twitter mentions count within ~1-2 min (vs ~31 h via
+      // the hourly top-50 rotation). Silent on Redis miss — the hourly
+      // fetcher will still pick the repo up eventually.
+      await enqueueTwitterScan({
+        fullName: result.submission.fullName,
+        enqueuedAt: new Date().toISOString(),
+        source: "web:repo-submissions",
+      }).catch(() => undefined);
     }
 
     return NextResponse.json({ ok: true, result, enqueued, queueDepth });

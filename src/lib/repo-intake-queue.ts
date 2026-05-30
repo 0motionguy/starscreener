@@ -123,6 +123,55 @@ export async function enqueueDeepEnrich(
   }
 }
 
+const TWITTER_SCAN_QUEUE_KEY = "queue:drop-twitter";
+
+export interface TwitterScanQueuePayload {
+  /** Repo full name (`owner/name`). */
+  fullName: string;
+  /** Wall-clock when the producer LPUSHed. */
+  enqueuedAt: string;
+  /** Producer attribution. */
+  source: string;
+  /** Number of failed scan attempts made by the worker. Missing means 0. */
+  attempts?: number;
+  /** Last failed scan attempt timestamp. */
+  lastAttemptAt?: string;
+  /** Truncated worker error from the last failed attempt. */
+  lastError?: string;
+  /** Set by the worker when the payload moves to `queue:drop-twitter:dead`. */
+  deadLetteredAt?: string;
+}
+
+/**
+ * LPUSH an on-demand twitter scan job. The worker `drop-twitter-drain`
+ * RPOPs it, runs ONE camofox→nitter scan for that repo, and SADDs the new
+ * tweet IDs into the cumulative `ss:mentions:v1:<repo>:twitter` ledger.
+ * Pickup latency ~60s + scan ~5–10s, so a newly-dropped repo has its first
+ * twitter mention count visible within ~1–2 minutes.
+ *
+ * Best-effort: a Redis miss is a silent noop (the hourly twitter fetcher
+ * will eventually pick the repo up when it rotates into the top-50 set).
+ */
+export async function enqueueTwitterScan(
+  payload: TwitterScanQueuePayload,
+): Promise<{ ok: boolean; queueDepth: number | null }> {
+  const store = getDataStore();
+  const client = store.redisClient();
+  if (!client || !client.lpush) {
+    return { ok: false, queueDepth: null };
+  }
+  try {
+    const depth = await client.lpush(
+      TWITTER_SCAN_QUEUE_KEY,
+      JSON.stringify(payload),
+    );
+    return { ok: true, queueDepth: depth };
+  } catch (err) {
+    console.error("[repo-intake-queue] twitter-scan lpush failed:", err);
+    return { ok: false, queueDepth: null };
+  }
+}
+
 /** Read the current queue depth (LLEN). Returns null on Redis miss. */
 export async function peekQueueDepth(): Promise<number | null> {
   const store = getDataStore();

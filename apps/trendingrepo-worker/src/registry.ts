@@ -58,12 +58,9 @@ import artificialanalysis from './fetchers/artificialanalysis/index.js';
 // APIs, no key. Full-catalogue snapshot with shouldPreserveCache zero-write
 // guard.
 import openrouterModels from './fetchers/openrouter-models/index.js';
-// OpenRouter weekly token-volume time-series (per-author) — powers the
-// "AI usage by lab" chart on /?cat=models. Official endpoint when
-// OPENROUTER_API_KEY is set; brittle Server Action fallback when not.
-// 6-hourly, offset by 13 minutes from openrouter-models so they don't
-// contend.
-import openrouterUsage from './fetchers/openrouter-usage/index.js';
+// NOTE: openrouterUsage import dropped — the fetcher source file lives
+// uncommitted in another agent's working tree; importing breaks the
+// build. Re-add when that fetcher actually lands as a tracked commit.
 // DORP intake-queue consumer — drains `queue:drop-a-repo` every minute and
 // calls back to the Vercel /enrich endpoint to run the existing pipeline
 // ingest. See header for the producer/consumer contract.
@@ -122,12 +119,8 @@ import velocitySeed from './fetchers/velocity-seed/index.js';
 // isn't half "— — —". ClickHouse/GH-Archive was ruled out (playground ~6wk
 // stale); GraphQL stargazers(last:100) is cost-1, live, and retroactive.
 import velocityBackfill from './fetchers/velocity-backfill/index.js';
-// Daily 90-day stacked-by-category star-delta roll-up — single pre-aggregated
-// payload that powers the home-page hero "Daily GitHub stars · stacked by
-// category" chart. Reads repo-registry + all `star-activity:*` slugs, sums
-// per-day deltas into 7 hero buckets, writes `stars-by-category-daily`.
-// Runs daily 06:00 UTC after star-activity (04:17) + deltas (05:30).
-import starsByCategory from './fetchers/stars-by-category/index.js';
+// NOTE: starsByCategory import dropped — same reason as openrouterUsage
+// above. Re-add when the fetcher lands as a tracked commit.
 // Daily deep-coverage sweep of consensus-trending ranks 31-200, skipping any
 // fullName already in consensus-verdicts.items. Closes the gap between the
 // primary analyst's hourly TOP_N=30 and the full 200-item pool that
@@ -182,7 +175,6 @@ export const FETCHERS: Fetcher[] = [
   lmarena,
   artificialanalysis,
   openrouterModels,
-  openrouterUsage,
   dropIntakeDrain,
   dropDeepEnrichDrain,
   dropTwitterDrain,
@@ -194,7 +186,6 @@ export const FETCHERS: Fetcher[] = [
   velocityRefresh,
   velocitySeed,
   velocityBackfill,
-  starsByCategory,
   consensusAnalystTail,
   editorialWriter,
   editorialCategories,

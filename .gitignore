@@ -110,9 +110,6 @@ awesome-codex-skills/
 .hive-mind/
 .tmp-*.log
 
-# storybook static build output (built artifact, not source)
-/storybook-static/
-
 # operator scratch — non-dot-prefixed shapes (existing .tmp_* / .tmp-* patterns miss these)
 /tmp_*.json
 /tmp-*.log
@@ -124,9 +121,6 @@ awesome-codex-skills/
 
 # Stryker mutation HTML reports (config stays committed)
 /reports/
-
-# generated Storybook static output rendered into docs
-/docs/storybook/
 
 # local agent vector DB (per-machine runtime state, regenerated automatically)
 /ruvector.db

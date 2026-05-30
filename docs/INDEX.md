@@ -80,32 +80,6 @@ Next-wave plan: see `tasks/NEXT-WAVE-2026-05-06.md`.
 | `DEVELOPMENT.md` | Local dev notes | needs-verification |
 | `SPRINTS.md` | Tech debt sprint plan | needs-verification |
 | `TECH_DEBT_AUDIT.md` | Top10Page.tsx refactor architecture review | snapshot |
-| `AGN-217-VITO-ARCH-REVIEW.md` | Typed-error envelope review on mutating routes | worklog |
-| `AGN-703-SUMMARY.md` | Mobile overflow audit summary | worklog |
-| `AGN-703-mobile-overflow-audit.md` | Mobile overflow audit (390px) | worklog |
-| `AGN-761-BLOCKER.md` | Visual proof blocker (2026-05-04) | worklog |
-| `AGN-790-SEO-AUDIT.md` | SEO-001 inside-out audit | worklog |
-| `AGN-791-WORKLOG.md` | SEO-002 why-narrative engine | worklog |
-| `AGN-792-BLOCKER.md` | AISO API rate limit blocker | worklog |
-| `AGN-792-WORKLOG.md` | SEO-003 AISO scan + lowest-dimension fix | worklog |
-| `AGN-795-COVERAGE-REPORT.md` | Coverage report | worklog |
-| `AGN-795-SITEMAP-AUDIT.md` | Sitemap freshness + completeness audit | worklog |
-| `AGN-797-AISO-PATCHSET.md` | aiso.tools dogfood patchset | worklog |
-| `AGN-797-WORKLOG.md` | SEO-009 pluggable AISO-fix protocol | worklog |
-| `AGN-798-WORKLOG.md` | SEO-007 recurring monthly self-scan routine | worklog |
-| `AGN-799-BLOCKER-NOTE.md` | AGN-799 push blocker (2026-05-05) | worklog |
-| `AGN-833-WORKLOG.md` | AGN-833 heartbeat | worklog |
-| `AGN-851-WORKLOG.md` | OBS-6 long-tasks profiler | worklog |
-| `AGN-911-WORKLOG.md` | AGN-911 worklog | worklog |
-| `AGN-912-WORKLOG.md` | AGN-912 worklog | worklog |
-| `AGN-915-WORKLOG.md` | AGN-915 worklog | worklog |
-| `AGN-924-WORKLOG.md` | AGN-924 worklog (2026-05-05) | worklog |
-| `AGN-930-WORKLOG.md` | Font loading audit (preload + display:swap) | worklog |
-| `AGN-1239-ROUTE-STATE-AUDIT.md` | Frontend route-state drift audit | worklog |
-| `AGN-1263-WORKLOG.md` | SEO-007 monthly AISO self-scan regression watcher | worklog |
-
-Recommendation: AGN-* worklogs at root are temporary. Sweep into
-`docs/archive/worklogs/` after their tickets close (target: Phase 1.4).
 
 ---
 

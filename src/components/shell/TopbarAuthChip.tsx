@@ -12,19 +12,23 @@
 // Signed in   → alerts bell + Clerk <UserButton/> popover (Manage account / Sign out).
 
 import Link from "next/link";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignUpButton, UserButton } from "@clerk/nextjs";
 
 import { Icon } from "@/components/icon/Icon";
 
 export function TopbarAuthChip() {
+  // ONE auth slot (operator decree 2026-05-30): a single "Sign up" CTA when
+  // logged-out — Clerk's modal lets the user toggle to sign-in inside it —
+  // and the same slot becomes the UserButton (avatar + popover) once signed
+  // in. No dual sign-in/sign-up split outside the modal.
   return (
     <>
       <SignedOut>
-        <SignInButton mode="modal">
-          <button type="button" className="btn primary sm" aria-label="Sign in">
-            Sign in
+        <SignUpButton mode="modal">
+          <button type="button" className="btn primary sm" aria-label="Sign up">
+            Sign up
           </button>
-        </SignInButton>
+        </SignUpButton>
       </SignedOut>
       <SignedIn>
         <Link className="icon-btn" href="/account/alerts" aria-label="Alerts">

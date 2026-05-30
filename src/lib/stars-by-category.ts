@@ -166,9 +166,21 @@ export interface StarsByCategoryChartData {
 
 /**
  * Project the raw file into the chart-ready shape Recharts wants. Pure.
+ *
+ * The optional `sinceDate` (YYYY-MM-DD, inclusive) clips the timeline to
+ * recent days only — operator decree 2026-05-30 was to start the home-hero
+ * chart at May 2026 so the meaningful weekly bars aren't squeezed against
+ * the y-axis by 2 months of near-zero history. Default mirrors that ask;
+ * pass `null` to disable the clip.
  */
-export function toChartData(file: StarsByCategoryFile): StarsByCategoryChartData {
-  const points: ByCategoryPoint[] = file.days.map((day) => {
+export function toChartData(
+  file: StarsByCategoryFile,
+  sinceDate: string | null = "2026-05-01",
+): StarsByCategoryChartData {
+  const days = sinceDate
+    ? file.days.filter((day) => day.d >= sinceDate)
+    : file.days;
+  const points: ByCategoryPoint[] = days.map((day) => {
     const point: ByCategoryPoint = { d: day.d };
     for (const cat of HERO_CATEGORIES) {
       point[cat.id] = day.byCategory[cat.id] ?? 0;
@@ -179,7 +191,7 @@ export function toChartData(file: StarsByCategoryFile): StarsByCategoryChartData
     points,
     categories: HERO_CATEGORIES,
     fetchedAt: file.fetchedAt,
-    windowDays: file.windowDays,
+    windowDays: days.length,
     totalRepos: file.totalRepos,
   };
 }

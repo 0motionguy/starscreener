@@ -24,9 +24,12 @@ interface TopbarProps {
 }
 
 function TopbarSignInLink() {
+  // Static fallback while the Clerk-backed TopbarAuthChip is loading.
+  // Matches the chip's signed-out layout (single primary Sign up) so the
+  // topbar doesn't flicker on hydration.
   return (
-    <Link href="/sign-in" className="btn primary sm" aria-label="Sign in">
-      Sign in
+    <Link href="/sign-up" className="btn primary sm" aria-label="Sign up">
+      Sign up
     </Link>
   );
 }
@@ -210,23 +213,25 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
         <Icon name="menu" size="lg" />
       </button>
 
-      {crumbs && crumbs.length > 0 ? (
-        <nav className="crumbs">
-          {crumbs.map((c, i) => {
-            const last = i === crumbs.length - 1;
-            const sep = i > 0 ? <span className={`sep${c.sub ? " crumb-sub" : ""}`}>/</span> : null;
-            const label = last ? <b>{c.label}</b> : c.href ? <Link href={c.href}>{c.label}</Link> : <span className={c.sub ? "crumb-sub" : undefined}>{c.label}</span>;
-            return (
-              <span key={`${c.label}-${i}`} style={{ display: "contents" }}>
-                {sep}
-                {label}
-              </span>
-            );
-          })}
-        </nav>
-      ) : (
-        <nav className="crumbs" aria-hidden="true" />
-      )}
+      <div className="topbar-left">
+        {crumbs && crumbs.length > 0 ? (
+          <nav className="crumbs">
+            {crumbs.map((c, i) => {
+              const last = i === crumbs.length - 1;
+              const sep = i > 0 ? <span className={`sep${c.sub ? " crumb-sub" : ""}`}>/</span> : null;
+              const label = last ? <b>{c.label}</b> : c.href ? <Link href={c.href}>{c.label}</Link> : <span className={c.sub ? "crumb-sub" : undefined}>{c.label}</span>;
+              return (
+                <span key={`${c.label}-${i}`} style={{ display: "contents" }}>
+                  {sep}
+                  {label}
+                </span>
+              );
+            })}
+          </nav>
+        ) : (
+          <nav className="crumbs" aria-hidden="true" />
+        )}
+      </div>
 
       <div ref={wrapRef} className="searchbar" style={{ position: "relative" }}>
         <Icon name="search" size="md" />
@@ -263,6 +268,10 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
       </div>
 
       <div className="topbar-actions">
+        <Link href="/drop" className="btn topbar-drop sm" aria-label="Drop a repo">
+          <Icon name="download" size="sm" />
+          <span className="topbar-drop-label">Drop a repo</span>
+        </Link>
         <div className="share-wrap">
           <button className="share-btn" type="button" aria-label="Share">
             <Icon name="share" size="sm" />

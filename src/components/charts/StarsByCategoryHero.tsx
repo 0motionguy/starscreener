@@ -87,7 +87,7 @@ export function StarsByCategoryHero({ data }: Props) {
               series={series}
               xKey="d"
               variant="stackedBars"
-              height={300}
+              height={180}
               xFormatter={shortDate}
               yFormatter={formatStars}
               tooltipFormatter={(n) => `${formatStars(n)} stars`}

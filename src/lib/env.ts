@@ -80,8 +80,6 @@ const EnvSchema = z.object({
   // hitting DATABASE_URL via the :6543 pooler.
   DIRECT_URL: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
-  NEXTAUTH_SECRET: z.string().optional(),
-  NEXTAUTH_URL: z.string().url().optional(),
 
   // ── Clerk (auth provider) ──────────────────────────────────────────────
   // pk_test_… for dev, pk_live_… for prod. Public — exposed to the browser.

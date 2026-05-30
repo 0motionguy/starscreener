@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-30T09:03:10.877Z",
+  "fetchedAt": "2026-05-30T14:18:01.534Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -22,6 +22,22 @@
     },
     {
       "rank": 2,
+      "id": "victor/LongCat-Video-Avatar-1.5",
+      "author": "victor",
+      "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
+      "likes": 164,
+      "trendingScore": 154,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T13:56:32.000Z",
+      "lastModified": "2026-05-26T16:44:17.000Z",
+      "models": []
+    },
+    {
+      "rank": 3,
       "id": "TencentARC/Pixal3D",
       "author": "TencentARC",
       "url": "https://huggingface.co/spaces/TencentARC/Pixal3D",
@@ -34,22 +50,6 @@
       ],
       "createdAt": "2026-04-30T14:43:47.000Z",
       "lastModified": "2026-05-15T09:00:53.000Z",
-      "models": []
-    },
-    {
-      "rank": 3,
-      "id": "victor/LongCat-Video-Avatar-1.5",
-      "author": "victor",
-      "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
-      "likes": 161,
-      "trendingScore": 151,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-22T13:56:32.000Z",
-      "lastModified": "2026-05-26T16:44:17.000Z",
       "models": []
     },
     {
@@ -111,8 +111,8 @@
       "id": "webml-community/bonsai-image-webgpu",
       "author": "webml-community",
       "url": "https://huggingface.co/spaces/webml-community/bonsai-image-webgpu",
-      "likes": 120,
-      "trendingScore": 114,
+      "likes": 124,
+      "trendingScore": 117,
       "sdk": "static",
       "tags": [
         "static",
@@ -210,6 +210,22 @@
     },
     {
       "rank": 13,
+      "id": "bytedance-research/Lance",
+      "author": "bytedance-research",
+      "url": "https://huggingface.co/spaces/bytedance-research/Lance",
+      "likes": 78,
+      "trendingScore": 75,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-22T05:42:54.000Z",
+      "lastModified": "2026-05-28T17:00:43.000Z",
+      "models": []
+    },
+    {
+      "rank": 14,
       "id": "HiDream-ai/HiDream-O1-Image",
       "author": "HiDream-ai",
       "url": "https://huggingface.co/spaces/HiDream-ai/HiDream-O1-Image",
@@ -222,22 +238,6 @@
       ],
       "createdAt": "2026-05-09T15:30:47.000Z",
       "lastModified": "2026-05-09T18:48:40.000Z",
-      "models": []
-    },
-    {
-      "rank": 14,
-      "id": "bytedance-research/Lance",
-      "author": "bytedance-research",
-      "url": "https://huggingface.co/spaces/bytedance-research/Lance",
-      "likes": 77,
-      "trendingScore": 74,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-22T05:42:54.000Z",
-      "lastModified": "2026-05-28T17:00:43.000Z",
       "models": []
     },
     {
@@ -274,6 +274,23 @@
     },
     {
       "rank": 17,
+      "id": "nvidia/LocateAnything",
+      "author": "nvidia",
+      "url": "https://huggingface.co/spaces/nvidia/LocateAnything",
+      "likes": 72,
+      "trendingScore": 72,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "arxiv:2605.27365",
+        "region:us"
+      ],
+      "createdAt": "2026-03-18T08:09:56.000Z",
+      "lastModified": "2026-05-30T12:58:14.000Z",
+      "models": []
+    },
+    {
+      "rank": 18,
       "id": "r3gm/wan2-2-fp8da-aoti-preview",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-preview",
@@ -290,7 +307,7 @@
       "models": []
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": "kulkas2pintu/wan222",
       "author": "kulkas2pintu",
       "url": "https://huggingface.co/spaces/kulkas2pintu/wan222",
@@ -304,23 +321,6 @@
       ],
       "createdAt": "2026-03-27T08:57:40.000Z",
       "lastModified": "2026-03-26T22:35:15.000Z",
-      "models": []
-    },
-    {
-      "rank": 19,
-      "id": "nvidia/LocateAnything",
-      "author": "nvidia",
-      "url": "https://huggingface.co/spaces/nvidia/LocateAnything",
-      "likes": 69,
-      "trendingScore": 69,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "arxiv:2605.27365",
-        "region:us"
-      ],
-      "createdAt": "2026-03-18T08:09:56.000Z",
-      "lastModified": "2026-05-30T06:22:13.000Z",
       "models": []
     },
     {
@@ -507,7 +507,7 @@
       "id": "mrfakename/Z-Image-Turbo",
       "author": "mrfakename",
       "url": "https://huggingface.co/spaces/mrfakename/Z-Image-Turbo",
-      "likes": 3254,
+      "likes": 3261,
       "trendingScore": 41,
       "sdk": "gradio",
       "tags": [
@@ -720,7 +720,7 @@
       "id": "openbmb/VoxCPM-Demo",
       "author": "openbmb",
       "url": "https://huggingface.co/spaces/openbmb/VoxCPM-Demo",
-      "likes": 514,
+      "likes": 517,
       "trendingScore": 30,
       "sdk": "gradio",
       "tags": [
@@ -782,6 +782,22 @@
     },
     {
       "rank": 48,
+      "id": "build-small-hackathon/registration",
+      "author": "build-small-hackathon",
+      "url": "https://huggingface.co/spaces/build-small-hackathon/registration",
+      "likes": 64,
+      "trendingScore": 29,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-06T17:25:59.000Z",
+      "lastModified": "2026-05-29T10:23:33.000Z",
+      "models": []
+    },
+    {
+      "rank": 49,
       "id": "r3gm/wan2-2-fp8da-aoti-previewE",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-previewE",
@@ -798,27 +814,11 @@
       "models": []
     },
     {
-      "rank": 49,
-      "id": "build-small-hackathon/registration",
-      "author": "build-small-hackathon",
-      "url": "https://huggingface.co/spaces/build-small-hackathon/registration",
-      "likes": 63,
-      "trendingScore": 28,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-06T17:25:59.000Z",
-      "lastModified": "2026-05-29T10:23:33.000Z",
-      "models": []
-    },
-    {
       "rank": 50,
       "id": "facebook/vggt-omega",
       "author": "facebook",
       "url": "https://huggingface.co/spaces/facebook/vggt-omega",
-      "likes": 42,
+      "likes": 43,
       "trendingScore": 27,
       "sdk": "gradio",
       "tags": [

@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-30T13:42:52.230Z",
-  "scanRunId": "sweep-2026-05-30T13:42:41.674Z",
+  "computedAt": "2026-05-30T19:19:16.648Z",
+  "scanRunId": "sweep-2026-05-30T19:19:08.451Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -29,10 +29,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 12,
           "top": [
             {
               "source": "hackernews",
@@ -1013,10 +1013,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 15,
+      "totalMentions7d": 10,
       "perSource": {
         "hackernews": {
-          "count7d": 15,
+          "count7d": 10,
           "top": [
             {
               "source": "hackernews",
@@ -1030,6 +1030,19 @@
                 "comments": 2
               },
               "observedAt": "2026-05-29T22:00:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.reuters.com/graphics/CHINA-MILITARY/NUCLEAR/zjpqmbrlqpx/",
+              "title": "China building ASAT launchers to defend against Elon Musk's Golden Dome",
+              "text": "",
+              "author": "infinitewars",
+              "engagement": {
+                "score": 5,
+                "comments": 7
+              },
+              "observedAt": "2026-05-30T16:55:14.000Z"
             },
             {
               "source": "hackernews",
@@ -1069,19 +1082,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-28T10:35:25.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://economist.com/graphic-detail/2026/05/25/why-science-is-becoming-less-innovative",
-              "title": "Why science is becoming less innovative",
-              "text": "",
-              "author": "andsoitis",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-27T07:52:26.000Z"
             }
           ]
         }
@@ -1654,26 +1654,8 @@
     },
     "Lum1104/Understand-Anything": {
       "fullName": "Lum1104/Understand-Anything",
-      "totalMentions7d": 8,
+      "totalMentions7d": 7,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "Lum1104/Understand-Anything",
-              "url": "https://understand-anything.com/",
-              "title": "Understand Anything – Graphs that teach the codebase",
-              "text": "",
-              "author": "ulrischa",
-              "engagement": {
-                "score": 20,
-                "comments": 2
-              },
-              "observedAt": "2026-05-26T16:31:43.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 7,
           "top": [
@@ -3589,10 +3571,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 62,
+      "totalMentions7d": 99,
       "perSource": {
         "hackernews": {
-          "count7d": 62,
+          "count7d": 99,
           "top": [
             {
               "source": "hackernews",
@@ -3602,10 +3584,36 @@
               "text": "",
               "author": "simonw",
               "engagement": {
-                "score": 1082,
+                "score": 1084,
                 "comments": 1238
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://qazinform.com/news/anthropic-surpasses-openai-to-become-worlds-most-valuable-ai-startup",
+              "title": "Anthropic surpasses OpenAI to become most valuable AI startup",
+              "text": "",
+              "author": "Bolat14",
+              "engagement": {
+                "score": 376,
+                "comments": 416
+              },
+              "observedAt": "2026-05-30T13:56:34.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/secluso/core",
+              "title": "Show HN: Open-source private home security camera system (end-to-end encryption)",
+              "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
+              "author": "arrdalan",
+              "engagement": {
+                "score": 104,
+                "comments": 23
+              },
+              "observedAt": "2026-05-29T22:32:29.000Z"
             },
             {
               "source": "hackernews",
@@ -3623,41 +3631,15 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/secluso/core",
-              "title": "Show HN: Open-source private home security camera system (end-to-end encryption)",
-              "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
-              "author": "arrdalan",
-              "engagement": {
-                "score": 88,
-                "comments": 21
-              },
-              "observedAt": "2026-05-29T22:32:29.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
               "url": "https://github.com/scanaislop/aislop",
               "title": "Show HN: AISlop, a CLI for catching AI generated code smells",
               "text": "Hi, I’m Kenny, I’ve been building aislop. I starting working on this after using Claude Code, codex and opencode several times and noticing some slops. They aren’t syntax and passes most tests, they are patterns like empty catch blocks, useless comments, duplicated helpers, dead code and many more. So I built a tool to scan and check for these patterns and wired it into hooks so after each tool call, the agent checks for the slops.<p>You can try it out with npx aislop scan.<p>It’s all local and ",
               "author": "Heavykenny",
               "engagement": {
                 "score": 72,
-                "comments": 60
+                "comments": 61
               },
               "observedAt": "2026-05-29T13:37:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/strengthening-societal-resilience-with-rosalind-biodefense/",
-              "title": "OpenAI Announces Rosalind Biodefense",
-              "text": "",
-              "author": "JustSkyfall",
-              "engagement": {
-                "score": 18,
-                "comments": 7
-              },
-              "observedAt": "2026-05-29T15:05:17.000Z"
             }
           ]
         }
@@ -5879,10 +5861,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 31,
+      "totalMentions7d": 30,
       "perSource": {
         "hackernews": {
-          "count7d": 31,
+          "count7d": 30,
           "top": [
             {
               "source": "hackernews",
@@ -5900,6 +5882,19 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
+              "url": "https://www.reuters.com/legal/transactional/danish-pension-fund-excludes-spacex-citing-governance-valuation-2026-05-29/",
+              "title": "Danish pension fund excludes SpaceX citing governance and valuation",
+              "text": "",
+              "author": "vrganj",
+              "engagement": {
+                "score": 439,
+                "comments": 332
+              },
+              "observedAt": "2026-05-30T08:00:20.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
               "url": "https://www.reuters.com/business/world-at-work/uber-lyft-drivers-massachusetts-form-first-us-ride-share-union-2026-05-26/",
               "title": "Uber, Lyft drivers in Massachusetts form first US ride-share union",
               "text": "",
@@ -5909,19 +5904,6 @@
                 "comments": 204
               },
               "observedAt": "2026-05-26T15:58:02.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/legal/transactional/danish-pension-fund-excludes-spacex-citing-governance-valuation-2026-05-29/",
-              "title": "Danish pension fund excludes SpaceX citing governance and valuation",
-              "text": "",
-              "author": "vrganj",
-              "engagement": {
-                "score": 292,
-                "comments": 234
-              },
-              "observedAt": "2026-05-30T08:00:20.000Z"
             },
             {
               "source": "hackernews",
@@ -6426,10 +6408,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -6469,6 +6451,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-29T15:33:16.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://news.ycombinator.com/item?id=48337689",
+              "title": "I spent a year building agent memory on knowledge graphs. Here are my 5 mistakes",
+              "text": "I spent the past year building a unified memory layer for my AI agents using knowledge graphs and ontologies on top of MongoDB. I followed every trend first. I reached for the shiny frameworks and tried to design the perfect upfront ontology. I made basically every mistake possible.<p>Naive memory fails at scale. File search bloats the context window once memory gets big. Claude Code handles it this way out of the box. Even semantic search over history can&#x27;t traverse the relationships betwe",
+              "author": "pauliusztin",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-30T16:04:30.000Z"
             },
             {
               "source": "hackernews",
@@ -7493,7 +7488,7 @@
               "text": "",
               "author": "droidjj",
               "engagement": {
-                "score": 39,
+                "score": 40,
                 "comments": 17
               },
               "observedAt": "2026-05-28T16:54:42.000Z"
@@ -7506,7 +7501,7 @@
               "text": "I work with a bunch of people that just left college and we were discussing how to avoid deskilling and I said &quot;well, you could go to local meetups&quot;. They&#x27;re in NYC (I&#x27;m in Florida right now) and said there isn&#x27;t much going on and I couldn&#x27;t believe it. Asked some more experienced friends that have been living there for longer and they said that it all died during COVID and never came back.<p>I ran or helped organize meetups in multiple places, back in Brazil where ",
               "author": "mlinhares",
               "engagement": {
-                "score": 35,
+                "score": 36,
                 "comments": 30
               },
               "observedAt": "2026-05-24T12:39:30.000Z"
@@ -7879,10 +7874,10 @@
     },
     "tinyhumansai/openhuman": {
       "fullName": "tinyhumansai/openhuman",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -7896,19 +7891,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-28T12:00:12.264Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "tinyhumansai/openhuman",
-              "url": "https://bsky.app/profile/rusttrending.bsky.social/post/3mmk2m4scss2p",
-              "title": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★26025 https://github.com/tinyhumansai/openhuman",
-              "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★26025 https://github.com/tinyhumansai/openhuman",
-              "author": "rusttrending.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-23T18:16:16.962Z"
             }
           ]
         }
@@ -8550,10 +8532,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 65,
+      "totalMentions7d": 69,
       "perSource": {
         "hackernews": {
-          "count7d": 65,
+          "count7d": 69,
           "top": [
             {
               "source": "hackernews",
@@ -8563,8 +8545,8 @@
               "text": "",
               "author": "possibilistic",
               "engagement": {
-                "score": 542,
-                "comments": 251
+                "score": 549,
+                "comments": 254
               },
               "observedAt": "2026-05-28T21:45:54.000Z"
             },
@@ -8615,8 +8597,8 @@
               "text": "Hi HN, we’re open-sourcing ktx. It’s an executable context layer that makes agents reliable on your data stack.<p>We built it after going through the experience of building production-grade data agents for dozens of companies. If you’ve also tried building them, or simply tried using Claude Code or Codex on your data warehouse, you’ll know that accuracy is the #1 issue. Agents are great at generating valid SQL, but it’s not always correct SQL.<p>To cite a few examples of “agents gone wrong”:<p>-",
               "author": "lucamrtl",
               "engagement": {
-                "score": 83,
-                "comments": 24
+                "score": 84,
+                "comments": 26
               },
               "observedAt": "2026-05-28T15:05:06.000Z"
             }
@@ -8753,10 +8735,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 63,
+      "totalMentions7d": 68,
       "perSource": {
         "hackernews": {
-          "count7d": 63,
+          "count7d": 68,
           "top": [
             {
               "source": "hackernews",
@@ -8766,7 +8748,7 @@
               "text": "",
               "author": "simonw",
               "engagement": {
-                "score": 1082,
+                "score": 1084,
                 "comments": 1238
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
@@ -8779,10 +8761,23 @@
               "text": "",
               "author": "PinkG",
               "engagement": {
-                "score": 807,
-                "comments": 551
+                "score": 816,
+                "comments": 557
               },
               "observedAt": "2026-05-29T14:40:47.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rmyndharis/OpenWA",
+              "url": "https://qazinform.com/news/anthropic-surpasses-openai-to-become-worlds-most-valuable-ai-startup",
+              "title": "Anthropic surpasses OpenAI to become most valuable AI startup",
+              "text": "",
+              "author": "Bolat14",
+              "engagement": {
+                "score": 376,
+                "comments": 416
+              },
+              "observedAt": "2026-05-30T13:56:34.000Z"
             },
             {
               "source": "hackernews",
@@ -8792,7 +8787,7 @@
               "text": "",
               "author": "zdw",
               "engagement": {
-                "score": 265,
+                "score": 266,
                 "comments": 126
               },
               "observedAt": "2026-05-26T16:41:58.000Z"
@@ -8809,19 +8804,6 @@
                 "comments": 7
               },
               "observedAt": "2026-05-29T15:05:17.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rmyndharis/OpenWA",
-              "url": "https://www.reuters.com/world/asia-pacific/openais-altman-says-ai-unlikely-lead-jobs-apocalypse-2026-05-26/",
-              "title": "Sam Altman: I was wrong, AI unlikely to lead to jobs apocalypse",
-              "text": "",
-              "author": "dryadin",
-              "engagement": {
-                "score": 18,
-                "comments": 16
-              },
-              "observedAt": "2026-05-26T11:17:06.000Z"
             }
           ]
         }
@@ -9568,10 +9550,10 @@
     },
     "mukul975/Anthropic-Cybersecurity-Skills": {
       "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "bluesky",
@@ -9585,19 +9567,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-27T15:38:05.901Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
-              "url": "https://bsky.app/profile/boardwire.bsky.social/post/3mmk5jyqvdn23",
-              "title": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSe",
-              "text": "Anthropic-Cybersecurity-Skills ships 754 structured skills for AI agen Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF. Apache 2.0. #MITREATTACK #NISTCSF #AgentSecurity 🔗 https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
-              "author": "boardwire.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-23T19:08:46.862Z"
             }
           ]
         }

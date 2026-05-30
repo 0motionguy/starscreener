@@ -1076,6 +1076,69 @@
     ]
   },
   {
+    "id": "twitter-warm",
+    "category": "social",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 32400000,
+    "cost_signal_metric": {
+      "type": "none",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://nitter.privacyredirect.com",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "mentions-ledger"
+    ],
+    "output_record_shape": "mention_feed",
+    "consumer_surfaces": [
+      "src/lib/mentions-ledger.ts"
+    ],
+    "depends_on": [
+      "star-activity-deltas",
+      "twitter"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "mention"
+    ]
+  },
+  {
+    "id": "twitter-cold",
+    "category": "social",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 129600000,
+    "cost_signal_metric": {
+      "type": "none",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://nitter.privacyredirect.com",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "mentions-ledger"
+    ],
+    "output_record_shape": "mention_feed",
+    "consumer_surfaces": [
+      "src/lib/mentions-ledger.ts"
+    ],
+    "depends_on": [
+      "star-activity-deltas",
+      "repo-registry",
+      "twitter-warm"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "mention"
+    ]
+  },
+  {
     "id": "drop-twitter-drain",
     "category": "ops",
     "kind": "collector",

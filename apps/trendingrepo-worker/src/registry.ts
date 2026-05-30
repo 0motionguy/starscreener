@@ -27,6 +27,13 @@ import consensusAnalyst from './fetchers/consensus-analyst/index.js';
 // Phase B Group 2 (social)
 import lobsters from './fetchers/lobsters/index.js';
 import twitter from './fetchers/twitter/index.js';
+// Twitter tier 2 + 3 — H4 of the 2026-05-30 handover. Hot covers ranks
+// 1..50 hourly; warm scans ranks 51..500 every 6h via a rotating Redis
+// cursor; cold walks the registry tail (ranks 501+) daily, also cursor-
+// paged. All three share the camofox+nitter scan loop in
+// twitter/_scan.ts and write into the cumulative mentions ledger.
+import twitterWarm from './fetchers/twitter-warm/index.js';
+import twitterCold from './fetchers/twitter-cold/index.js';
 // Cumulative mentions ledger — reads snapshot slugs (HN, Reddit, Bluesky,
 // Dev.to, Lobsters), runs SADD + HINCRBY for new mention IDs.
 import mentionsLedger from './fetchers/mentions-ledger/index.js';
@@ -163,6 +170,8 @@ export const FETCHERS: Fetcher[] = [
   consensusTrending,
   consensusAnalyst,
   lobsters,
+  twitterWarm,
+  twitterCold,
   bluesky,
   hackernews,
   devto,

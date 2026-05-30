@@ -31,7 +31,8 @@ import * as cheerio from 'cheerio';
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
-import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
+import { pickHotRepos } from './_picker.js';
+import { scanRepoBatch } from './_scan.js';
 
 const DEFAULT_NITTER_INSTANCE = 'https://nt.vern.cc';
 // When TWITTER_USE_CAMOFOX=1, default to an instance proven alive behind Anubis
@@ -390,30 +391,34 @@ const fetcher: Fetcher = {
 
     const useCamofox = process.env.TWITTER_USE_CAMOFOX === '1';
     // H6: resolve the instance chain (TWITTER_NITTER_CHAIN comma-separated,
-    // legacy TWITTER_NITTER_INSTANCE single, or built-in defaults). We start
-    // on chain[0] and rotate to chain[i+1] on consecutive failures, so a
-    // dead privacyredirect doesn't blank twitter for the full hour.
+    // legacy TWITTER_NITTER_INSTANCE single, or built-in defaults). The
+    // scan loop rotates through the chain on consecutive failures.
     const instanceChain = resolveNitterChain({
       chainEnv: process.env.TWITTER_NITTER_CHAIN,
       singleEnv: process.env.TWITTER_NITTER_INSTANCE,
       useCamofox,
     });
-    let instanceIdx = 0;
-    let instance = instanceChain[instanceIdx] ?? (useCamofox
+    const headInstance = instanceChain[0] ?? (useCamofox
       ? DEFAULT_NITTER_INSTANCE_CAMOFOX
       : DEFAULT_NITTER_INSTANCE);
     ctx.log.info(
-      { instanceChainLength: instanceChain.length, headInstance: instance },
+      { instanceChainLength: instanceChain.length, headInstance },
       'twitter: instance chain resolved',
     );
 
-    const tracked = await loadTrackedRepos({ log: ctx.log });
-    if (tracked.size === 0) {
-      ctx.log.warn('twitter: tracked repos empty — writing empty payload');
+    // H4: velocity-ranked top-N picker (was loadTrackedRepos + slice(0,50) —
+    // registry order, which kept scanning the same 50 every hour regardless
+    // of whether anything was actually breaking out). Hot tier now follows
+    // 24h star velocity from `star-activity-deltas`; warm/cold pick the
+    // ranks below. Picker falls back to registry order when deltas are
+    // empty (cold-start protection).
+    const picked = await pickHotRepos({ limit: MAX_REPOS_PER_RUN, log: ctx.log });
+    if (picked.repos.length === 0) {
+      ctx.log.warn('twitter: hot picker returned 0 repos — writing empty payload');
       const payload: TwitterRepoSignalsPayload = {
         fetchedAt: startedAt,
         source: 'nitter',
-        instance,
+        instance: headInstance,
         windowDays: 7,
         scannedRepos: 0,
         failedRepos: 0,
@@ -425,169 +430,56 @@ const fetcher: Fetcher = {
       const result = await writeDataStore('twitter-repo-signals', payload);
       return done(startedAt, 0, result.source === 'redis');
     }
-
-    // Cap repo set to keep one run bounded — operator can grow later.
-    const repos = Array.from(tracked.values()).slice(0, MAX_REPOS_PER_RUN);
     ctx.log.info(
-      { instance, useCamofox, repos: repos.length },
+      { headInstance, useCamofox, repos: picked.repos.length, pickerSource: picked.source },
       'twitter: starting nitter sweep',
     );
 
-    // When camofox is enabled, one tab handles Anubis once for the whole run.
-    // If the camofox service is unreachable, we degrade to the direct fetch
-    // (which will likely also fail behind Anubis, but produces consistent
-    // signals rather than crashing the fetcher).
-    const makeFreshTab = async (currentInstance: string): Promise<string | undefined> => {
-      if (!useCamofox) return undefined;
-      try {
-        return await createCamofoxTab(`${currentInstance}/`);
-      } catch (err) {
-        ctx.log.error(
-          { err: (err as Error).message, instance: currentInstance },
-          'twitter: camofox tab creation failed',
-        );
-        return undefined;
-      }
-    };
-
-    let camofoxTabId: string | undefined = await makeFreshTab(instance);
-    if (useCamofox && camofoxTabId) {
-      ctx.log.info({ tabId: camofoxTabId, instance }, 'twitter: camofox tab created');
-    } else if (useCamofox && !camofoxTabId) {
-      ctx.log.warn({ instance }, 'twitter: camofox tab create failed — falling back to direct fetch');
-    }
-
-    const allPosts: TwitterRepoSignalPost[] = [];
-    let failed = 0;
-    let consecutiveFailures = 0;
-    let bailedOut = false;
-    let bailReason: string | undefined;
-    let retriesPerformed = 0;
-    let instanceRotations = 0;
-    const fetchedAt = new Date().toISOString();
-
-    try {
-      for (const repoFullName of repos) {
-        const url = buildNitterSearchUrl(instance, repoFullName);
-        let attempt = 0;
-        let lastErr: Error | undefined;
-
-        // Inner attempt loop — one retry on transient camofox 5xx (H5).
-        for (;;) {
-          try {
-            const html = camofoxTabId
-              ? await fetchViaCamofox(camofoxTabId, url)
-              : await fetchNitterPage(url);
-            const posts = parseNitterSearchHtml(html, repoFullName, fetchedAt, url);
-            allPosts.push(...posts);
-            consecutiveFailures = 0;
-            lastErr = undefined;
-            ctx.log.debug({ repoFullName, posts: posts.length, attempt }, 'twitter: repo scanned');
-            break;
-          } catch (err) {
-            lastErr = err as Error;
-            if (attempt === 0 && camofoxTabId && shouldRetryAfterCamofoxError(lastErr.message)) {
-              // H5: tab is likely poisoned (stale Anubis JWT or upstream
-              // Nitter worker bounce). Close, recreate, retry once.
-              attempt += 1;
-              retriesPerformed += 1;
-              ctx.log.warn(
-                { repoFullName, err: lastErr.message },
-                'twitter: camofox 5xx — retrying with fresh tab',
-              );
-              try {
-                await closeCamofoxTab(camofoxTabId);
-              } catch {
-                /* best-effort */
-              }
-              camofoxTabId = await makeFreshTab(instance);
-              if (camofoxTabId) continue;
-            }
-            break;
-          }
-        }
-
-        if (lastErr) {
-          failed += 1;
-          consecutiveFailures += 1;
-          ctx.log.warn(
-            { repoFullName, err: lastErr.message, attempt, instance },
-            'twitter: nitter fetch failed',
-          );
-
-          // H6: on consecutive failures, rotate to the next instance in the
-          // chain BEFORE bailing. The dead-host case (entire instance gone)
-          // shows as 5 in-a-row failures; rotating recovers the run on the
-          // next instance instead of returning an empty payload for the hour.
-          if (consecutiveFailures >= 5) {
-            const nextInstance = instanceChain[instanceIdx + 1];
-            if (nextInstance) {
-              const oldInstance = instance;
-              instanceIdx += 1;
-              instance = nextInstance;
-              instanceRotations += 1;
-              ctx.log.warn(
-                { oldInstance, newInstance: instance, consecutiveFailures },
-                'twitter: rotating to fallback nitter instance',
-              );
-              if (camofoxTabId) {
-                try {
-                  await closeCamofoxTab(camofoxTabId);
-                } catch {
-                  /* best-effort */
-                }
-              }
-              camofoxTabId = await makeFreshTab(instance);
-              consecutiveFailures = 0;
-            } else {
-              bailedOut = true;
-              bailReason = `consecutive-failures-on-last-instance:${consecutiveFailures}`;
-              ctx.log.warn({ bailReason }, 'twitter: bailing — chain exhausted');
-              break;
-            }
-          }
-        }
-        await sleep(REQUEST_PAUSE_MS);
-      }
-    } finally {
-      if (camofoxTabId) await closeCamofoxTab(camofoxTabId);
-    }
+    // Single-batch camofox+nitter scan with H5 retry + H6 rotation built in.
+    // useCamofox=false would only work pre-Anubis; left for parity.
+    const scan = await scanRepoBatch({
+      repos: picked.repos,
+      instanceChain: useCamofox ? instanceChain : [headInstance],
+      log: ctx.log,
+      scanLabel: 'twitter-hot',
+    });
 
     // De-dupe across repos: a tweet that mentions two tracked repos shows up
     // twice in `posts` but with different `repoFullName`. That's intentional —
-    // consumers index by (id, repoFullName). But within a single repo bucket
-    // each id is already unique (parseNitterSearchHtml dedupes).
+    // consumers index by (id, repoFullName). Within a single repo bucket
+    // parseNitterSearchHtml already dedupes by tweet id.
 
-    const degraded = bailedOut || (failed > 0 && allPosts.length === 0);
+    const degraded = scan.bailedOut || (scan.failedRepos > 0 && scan.posts.length === 0);
     const payload: TwitterRepoSignalsPayload = {
-      fetchedAt,
+      fetchedAt: scan.fetchedAt,
       source: 'nitter',
-      instance,
+      instance: scan.finalInstance,
       windowDays: 7,
-      scannedRepos: repos.length,
-      failedRepos: failed,
-      totalPosts: allPosts.length,
-      posts: allPosts,
+      scannedRepos: scan.scannedRepos,
+      failedRepos: scan.failedRepos,
+      totalPosts: scan.posts.length,
+      posts: scan.posts,
       degraded,
-      ...(degraded && bailReason ? { degradedReason: bailReason } : {}),
+      ...(degraded && scan.bailReason ? { degradedReason: scan.bailReason } : {}),
     };
 
     // Zero-write guard (keep-last-50 rule): the public Nitter instance is
-    // frequently down/rate-limited, making allPosts empty. Overwriting the slug
-    // with an empty payload zeroes twitter signals until the next good run —
-    // the intermittent flake. Preserve the last-known-good slug instead.
+    // frequently down/rate-limited, making scan.posts empty. Overwriting the
+    // slug with an empty payload zeroes twitter signals until the next good
+    // run — the intermittent flake. Preserve the last-known-good slug
+    // instead.
     const existing = await readDataStore<{ posts?: unknown[] }>(
       'twitter-repo-signals',
     ).catch(() => null);
     let source = 'preserved';
     if (
       shouldPreserveCache<unknown>({
-        fresh: allPosts,
+        fresh: scan.posts,
         existing: existing?.posts ?? [],
       })
     ) {
       ctx.log.warn(
-        { degraded, failed, bailReason },
+        { degraded, failed: scan.failedRepos, bailReason: scan.bailReason },
         'twitter: empty scan — preserving last-known-good twitter-repo-signals',
       );
     } else {
@@ -596,19 +488,20 @@ const fetcher: Fetcher = {
     }
     ctx.log.info(
       {
-        instance,
-        scanned: repos.length,
-        failed,
-        posts: allPosts.length,
+        instance: scan.finalInstance,
+        scanned: scan.scannedRepos,
+        failed: scan.failedRepos,
+        posts: scan.posts.length,
         degraded,
-        retriesPerformed,
-        instanceRotations,
+        retriesPerformed: scan.retriesPerformed,
+        instanceRotations: scan.instanceRotations,
         chainLength: instanceChain.length,
+        pickerSource: picked.source,
         redis: source,
       },
       'twitter published',
     );
-    return done(startedAt, allPosts.length, source === 'redis');
+    return done(startedAt, scan.posts.length, source === 'redis');
   },
 };
 

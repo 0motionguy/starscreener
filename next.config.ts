@@ -338,7 +338,7 @@ const nextConfig: NextConfig = {
     const csp = [
       "default-src 'self'",
       "img-src 'self' data: https: blob:",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev https://clerk.trendingrepo.com https://challenges.cloudflare.com https://*.vercel-analytics.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev https://clerk.trendingrepo.com https://challenges.cloudflare.com https://static.cloudflareinsights.com https://*.vercel-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "worker-src 'self' blob:",

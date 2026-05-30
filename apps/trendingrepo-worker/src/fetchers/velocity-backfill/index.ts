@@ -89,10 +89,12 @@ const RECENT_DAYS = clampEnv('VELOCITY_BACKFILL_RECENT_DAYS', 35, 7, 90);
 const MAX_PAGEBACK = clampEnv('VELOCITY_BACKFILL_MAX_PAGEBACK', 400, 0, 1000);
 const PAGEBACK_DELAY_MS = 60; // gentle inter-page delay during deep walks
 // Hard ceiling on total stargazer page-back requests PER RUN so the backfill
-// can't drain the GraphQL pool the Next.js app shares. The skip-guard means each
-// daily run only walks repos still missing a window, so coverage converges across
+// can't drain the GraphQL pool the Next.js app shares. Tuned 2026-05-30: 15k
+// left ~130 repos cold-start on 30d after one run; 30k hits ~98%+ in a single
+// pass at 02:17 UTC when app traffic is low. The skip-guard means each daily
+// run only walks repos still missing a window, so coverage converges across
 // runs even when a single run is budget-capped.
-const PAGE_BUDGET = clampEnv('VELOCITY_BACKFILL_PAGE_BUDGET', 15000, 100, 100000);
+const PAGE_BUDGET = clampEnv('VELOCITY_BACKFILL_PAGE_BUDGET', 30000, 100, 100000);
 
 // Per-run remaining page-back budget (reset at the top of run()).
 let pagebackBudgetRemaining = 0;

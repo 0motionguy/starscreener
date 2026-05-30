@@ -16,6 +16,7 @@ import { describe, it, expect } from 'vitest';
 import {
   applyLedger,
   extractIds,
+  groupTwitterByRepo,
   mergeLedgerSnapshot,
   projectSnapshots,
   type LedgerSource,
@@ -125,6 +126,20 @@ const snapshots: UpstreamSnapshots = {
       },
     },
   },
+  // Twitter slice is in the POST-ADAPTER nested shape — the raw slug is flat,
+  // groupTwitterByRepo turns it into this. Includes a tweet id 't101' shared
+  // across vercel + svelte (one tweet mentioning both repos) — verifies that
+  // per-repo SADD sets stay isolated (each accrues t101 independently).
+  twitter: {
+    mentions: {
+      'vercel/next.js': {
+        posts: [{ id: 't100' }, { id: 't101' }],
+      },
+      'sveltejs/svelte': {
+        posts: [{ id: 't101' }, { id: 't200' }],
+      },
+    },
+  },
 };
 
 // --------------------------------------------------------------------------
@@ -157,6 +172,11 @@ describe('extractIds', () => {
     expect(ids).toEqual(['xyz']);
   });
 
+  it('extracts Twitter tweet ids (post-adapter shape)', () => {
+    const ids = extractIds('twitter', { posts: [{ id: 't100' }, { id: 't101' }] });
+    expect(ids).toEqual(['t100', 't101']);
+  });
+
   it('skips missing/empty ids and tolerates malformed buckets', () => {
     expect(extractIds('hackernews', null)).toEqual([]);
     expect(extractIds('hackernews', { stories: [{ id: null }, { id: '' }, { id: 7 }] })).toEqual(['7']);
@@ -177,8 +197,9 @@ describe('extractIds', () => {
 describe('projectSnapshots', () => {
   it('produces one work item per (repo, source) bucket', () => {
     const items = projectSnapshots(snapshots);
-    // 5 sources contribute: hn(2 repos) + reddit(1) + bluesky(1) + devto(1) + lobsters(1)
-    expect(items).toHaveLength(6);
+    // 6 sources contribute: hn(2 repos) + reddit(1) + bluesky(1) + devto(1)
+    //   + lobsters(1) + twitter(2 repos: vercel + svelte)
+    expect(items).toHaveLength(8);
     const bySource = items.reduce<Record<string, number>>((acc, it) => {
       acc[it.source] = (acc[it.source] ?? 0) + 1;
       return acc;
@@ -189,6 +210,7 @@ describe('projectSnapshots', () => {
       bluesky: 1,
       devto: 1,
       lobsters: 1,
+      twitter: 2,
     });
   });
 
@@ -208,6 +230,7 @@ describe('projectSnapshots', () => {
       bluesky: null,
       devto: null,
       lobsters: null,
+      twitter: null,
     });
     expect(items2).toEqual([]);
   });
@@ -242,20 +265,26 @@ describe('applyLedger', () => {
     const result = await applyLedger(ops, items);
 
     expect(result.reposTouched).toBe(2); // vercel/next.js + sveltejs/svelte
-    // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters = 8
-    // Sveltejs/svelte: 1 HN + 2 devto = 3
-    // Total = 11
-    expect(result.newMentions).toBe(11);
+    // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters + 2 twitter = 10
+    // Sveltejs/svelte: 1 HN + 2 devto + 2 twitter = 5
+    // Total = 15 (the shared tweet id t101 accrues to BOTH sets — intended)
+    expect(result.newMentions).toBe(15);
 
-    // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters
+    // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters + 2 twitter
     expect(sets.get('ss:mentions:v1:vercel/next.js:hackernews')?.size).toBe(3);
     expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')?.size).toBe(2);
     expect(sets.get('ss:mentions:v1:vercel/next.js:bluesky')?.size).toBe(1);
     expect(sets.get('ss:mentions:v1:vercel/next.js:lobsters')?.size).toBe(2);
+    expect(sets.get('ss:mentions:v1:vercel/next.js:twitter')?.size).toBe(2);
 
-    // Sveltejs/svelte: 1 HN + 2 devto
+    // Sveltejs/svelte: 1 HN + 2 devto + 2 twitter
     expect(sets.get('ss:mentions:v1:sveltejs/svelte:hackernews')?.size).toBe(1);
     expect(sets.get('ss:mentions:v1:sveltejs/svelte:devto')?.size).toBe(2);
+    expect(sets.get('ss:mentions:v1:sveltejs/svelte:twitter')?.size).toBe(2);
+
+    // Cross-repo SADD isolation: t101 lives in BOTH repos' twitter sets.
+    expect(sets.get('ss:mentions:v1:vercel/next.js:twitter')?.has('t101')).toBe(true);
+    expect(sets.get('ss:mentions:v1:sveltejs/svelte:twitter')?.has('t101')).toBe(true);
 
     // Index hash exactly mirrors set cardinality after a single run.
     const vercelIdx = hashes.get('ss:mentions:v1:vercel/next.js:_index');
@@ -263,10 +292,12 @@ describe('applyLedger', () => {
     expect(vercelIdx?.get('reddit')).toBe(2);
     expect(vercelIdx?.get('bluesky')).toBe(1);
     expect(vercelIdx?.get('lobsters')).toBe(2);
+    expect(vercelIdx?.get('twitter')).toBe(2);
 
     const svelteIdx = hashes.get('ss:mentions:v1:sveltejs/svelte:_index');
     expect(svelteIdx?.get('hackernews')).toBe(1);
     expect(svelteIdx?.get('devto')).toBe(2);
+    expect(svelteIdx?.get('twitter')).toBe(2);
   });
 
   it('second run with identical input is a no-op: SADD returns 0, HINCRBY does not fire', async () => {
@@ -281,6 +312,7 @@ describe('applyLedger', () => {
     // Set sizes unchanged on the second run.
     expect(sets.get('ss:mentions:v1:vercel/next.js:hackernews')?.size).toBe(3);
     expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')?.size).toBe(2);
+    expect(sets.get('ss:mentions:v1:vercel/next.js:twitter')?.size).toBe(2);
 
     // Index hash unchanged — HINCRBY skipped, so values are still the first-run totals.
     const vercelIdx = hashes.get('ss:mentions:v1:vercel/next.js:_index');
@@ -288,6 +320,7 @@ describe('applyLedger', () => {
     expect(vercelIdx?.get('reddit')).toBe(2);
     expect(vercelIdx?.get('bluesky')).toBe(1);
     expect(vercelIdx?.get('lobsters')).toBe(2);
+    expect(vercelIdx?.get('twitter')).toBe(2);
   });
 
   it('partial re-add: HINCRBY fires only for the new members', async () => {
@@ -314,10 +347,10 @@ describe('applyLedger', () => {
 
     await applyLedger(ops, items);
 
-    // Vercel/next.js: 3+2+1+2 = 8 mentions across sources.
-    // Sveltejs/svelte: 1+2 = 3 mentions.
-    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBe(8);
-    expect(zset.get('ss:mentions:leaderboard:v1::sveltejs/svelte')).toBe(3);
+    // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters + 2 twitter = 10
+    // Sveltejs/svelte: 1 HN + 2 devto + 2 twitter = 5
+    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBe(10);
+    expect(zset.get('ss:mentions:leaderboard:v1::sveltejs/svelte')).toBe(5);
   });
 
   it('leaderboard updates with the new total after a partial follow-up run', async () => {
@@ -362,9 +395,82 @@ describe('applyLedger', () => {
     const { ops } = makeMemRedis();
     const result = await applyLedger(ops, projectSnapshots(snapshots));
     const vercel = result.entries.find((e) => e.fullName === 'vercel/next.js');
-    expect(vercel?.total).toBe(8);
-    expect(vercel?.perSource).toEqual({ hackernews: 3, reddit: 2, bluesky: 1, lobsters: 2 });
+    expect(vercel?.total).toBe(10);
+    expect(vercel?.perSource).toEqual({
+      hackernews: 3,
+      reddit: 2,
+      bluesky: 1,
+      lobsters: 2,
+      twitter: 2,
+    });
     expect(vercel?.sources[0]).toBe('hackernews'); // sorted desc by count
+  });
+});
+
+// --------------------------------------------------------------------------
+// groupTwitterByRepo — flat `posts[{id, repoFullName}]` → nested
+// `{mentions: {repo: {posts: [{id}]}}}` so the projector iterates twitter
+// the same way as the other 5 sources. Defensive: drops posts with missing
+// repoFullName / id and tolerates a null snapshot.
+// --------------------------------------------------------------------------
+
+describe('groupTwitterByRepo', () => {
+  it('groups flat posts by repoFullName into the nested ledger shape', () => {
+    const out = groupTwitterByRepo({
+      posts: [
+        { id: 't100', repoFullName: 'vercel/next.js' },
+        { id: 't101', repoFullName: 'vercel/next.js' },
+        { id: 't200', repoFullName: 'sveltejs/svelte' },
+      ],
+    });
+    expect(out.mentions).toEqual({
+      'vercel/next.js': { posts: [{ id: 't100' }, { id: 't101' }] },
+      'sveltejs/svelte': { posts: [{ id: 't200' }] },
+    });
+  });
+
+  it('preserves a tweet that mentions two repos under BOTH buckets', () => {
+    const out = groupTwitterByRepo({
+      posts: [
+        { id: 't101', repoFullName: 'vercel/next.js' },
+        { id: 't101', repoFullName: 'sveltejs/svelte' },
+      ],
+    });
+    expect(out.mentions?.['vercel/next.js']?.posts).toEqual([{ id: 't101' }]);
+    expect(out.mentions?.['sveltejs/svelte']?.posts).toEqual([{ id: 't101' }]);
+  });
+
+  it('drops posts with missing/empty id or repoFullName', () => {
+    const out = groupTwitterByRepo({
+      posts: [
+        { id: 't1', repoFullName: 'a/b' },
+        { id: '', repoFullName: 'a/b' },
+        { id: 't2', repoFullName: '' },
+        { id: 't3' } as { id: string; repoFullName?: string },
+        { repoFullName: 'a/b' } as { id?: string; repoFullName: string },
+        { id: 't4', repoFullName: 'not-a-repo' }, // no slash
+      ],
+    });
+    expect(out.mentions).toEqual({
+      'a/b': { posts: [{ id: 't1' }] },
+    });
+  });
+
+  it('tolerates null / missing snapshot', () => {
+    expect(groupTwitterByRepo(null)).toEqual({ mentions: {} });
+    expect(groupTwitterByRepo(undefined)).toEqual({ mentions: {} });
+    expect(groupTwitterByRepo({})).toEqual({ mentions: {} });
+  });
+
+  it('round-trips through extractIds for twitter', () => {
+    const out = groupTwitterByRepo({
+      posts: [
+        { id: 't100', repoFullName: 'vercel/next.js' },
+        { id: 't101', repoFullName: 'vercel/next.js' },
+      ],
+    });
+    const ids = extractIds('twitter', out.mentions?.['vercel/next.js']);
+    expect(ids).toEqual(['t100', 't101']);
   });
 });
 

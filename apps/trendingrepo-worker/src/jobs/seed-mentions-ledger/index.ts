@@ -23,8 +23,14 @@
 //   3. data/repo-mentions-detail-rollup.json — the 7d top-N rollup file.
 //      Same URL-as-ID strategy. Catches URLs the JSONL missed.
 //
-// Sources outside LEDGER_SOURCES (tavily, twitter as seen in JSONL today)
-// are skipped — Phase A's contract is 5 named sources.
+// Sources outside SEED_SOURCES (tavily today; twitter intentionally too —
+// see below) are skipped. SEED_SOURCES is the original 5 named sources that
+// shared a stable URL-as-id contract across the JSONL/rollup history files.
+// Twitter joined the live ledger in 2026-05-30 with tweet NUMERIC IDs as the
+// SADD member; backfilling from this job would inject URL-shaped IDs that
+// don't dedupe against the live fetcher's tweet-id-shaped IDs, causing
+// over-count. The live fetcher's own runs will accumulate twitter going
+// forward without help from the seed.
 //
 // Idempotent — re-running adds nothing new because SADD dedupes member
 // strings regardless of which input source produced them.
@@ -44,7 +50,6 @@ import { initSentry, flushSentry, captureException } from '../../lib/sentry.js';
 import { getLogger } from '../../lib/log.js';
 import { readDataStore } from '../../lib/redis.js';
 import {
-  LEDGER_SOURCES,
   applyLedger,
   buildRedisOps,
   extractIds,
@@ -62,7 +67,8 @@ import {
 // keys (e.g. hackernews/index.ts writes `hackernews-repo-mentions`).
 // --------------------------------------------------------------------------
 
-const SNAPSHOT_SLUGS: Record<LedgerSource, string> = {
+// Twitter is intentionally excluded from the seed; see file header.
+const SNAPSHOT_SLUGS: Record<Exclude<LedgerSource, 'twitter'>, string> = {
   hackernews: 'hackernews-repo-mentions',
   reddit: 'reddit-mentions',
   bluesky: 'bluesky-mentions',
@@ -125,7 +131,11 @@ async function projectFromSnapshots(): Promise<LedgerWorkItem[]> {
 // fetchers produce URL-mappable mentions, so dedupe holds.
 // --------------------------------------------------------------------------
 
-const KNOWN_SOURCES = new Set<LedgerSource>(LEDGER_SOURCES);
+// Seed-time source set. Deliberately a subset of LEDGER_SOURCES — twitter is
+// EXCLUDED here (URL-shaped seed IDs would not dedupe against tweet-id-shaped
+// live IDs; see file header).
+const SEED_SOURCES = ['hackernews', 'reddit', 'bluesky', 'devto', 'lobsters'] as const satisfies readonly LedgerSource[];
+const KNOWN_SOURCES = new Set<LedgerSource>(SEED_SOURCES);
 
 function isLedgerSource(value: unknown): value is LedgerSource {
   return typeof value === 'string' && KNOWN_SOURCES.has(value as LedgerSource);

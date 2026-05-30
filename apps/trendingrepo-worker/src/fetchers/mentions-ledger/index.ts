@@ -53,8 +53,19 @@ interface LobstersSnapshot {
   mentions?: Record<string, { stories?: Array<{ shortId?: string }> }>;
 }
 
+// Twitter slug is FLAT (one posts[] array across all repos) — `groupTwitterByRepo`
+// adapts it into the nested {mentions: {repo: {posts: [{id}]}}} shape the
+// projector iterates. We only depend on `id` + `repoFullName` here.
+interface TwitterFlatSnapshot {
+  posts?: Array<{ id?: string; repoFullName?: string }>;
+}
+
+interface TwitterAdaptedSnapshot {
+  mentions?: Record<string, { posts?: Array<{ id?: string }> }>;
+}
+
 // --------------------------------------------------------------------------
-// Source registry — the 5 snapshot slugs we project into the ledger. Order
+// Source registry — the 6 snapshot slugs we project into the ledger. Order
 // matters only for logging consistency.
 // --------------------------------------------------------------------------
 
@@ -64,6 +75,7 @@ export const LEDGER_SOURCES = [
   'bluesky',
   'devto',
   'lobsters',
+  'twitter',
 ] as const;
 export type LedgerSource = (typeof LEDGER_SOURCES)[number];
 
@@ -73,6 +85,7 @@ const SLUG_BY_SOURCE: Record<LedgerSource, string> = {
   bluesky: 'bluesky-mentions',
   devto: 'devto-mentions',
   lobsters: 'lobsters-mentions',
+  twitter: 'twitter-repo-signals',
 };
 
 const KEY_PREFIX = 'ss:mentions:v1';
@@ -136,8 +149,50 @@ export function extractIds(
       }
       break;
     }
+    case 'twitter': {
+      // After groupTwitterByRepo the bucket holds {posts: [{id}]}. Tweet IDs
+      // are globally unique numeric strings — same shape contract as Reddit.
+      const posts = (bucket as { posts?: Array<{ id?: unknown }> }).posts ?? [];
+      for (const p of posts) {
+        const id = p?.id;
+        if (id === undefined || id === null || id === '') continue;
+        out.push(String(id));
+      }
+      break;
+    }
   }
   return out;
+}
+
+// --------------------------------------------------------------------------
+// Twitter slug shape adapter.
+//
+// The other 5 mention sources publish `{mentions: Record<fullName, bucket>}`.
+// Twitter's `twitter-repo-signals` is flat: `{posts: Array<{id, repoFullName}>}`
+// (one array across all tracked repos). This helper groups the flat list by
+// repoFullName so the existing `projectSnapshots` projector can iterate it
+// unchanged. Pure / I/O-free — exported for unit testing.
+// --------------------------------------------------------------------------
+
+export function groupTwitterByRepo(
+  snap: TwitterFlatSnapshot | null | undefined,
+): TwitterAdaptedSnapshot {
+  const out: Record<string, { posts: Array<{ id: string }> }> = {};
+  if (!snap || !Array.isArray(snap.posts)) return { mentions: out };
+  for (const post of snap.posts) {
+    if (!post || typeof post !== 'object') continue;
+    const repo = post.repoFullName;
+    const id = post.id;
+    if (!repo || typeof repo !== 'string' || repo.indexOf('/') < 0) continue;
+    if (!id || typeof id !== 'string') continue;
+    let bucket = out[repo];
+    if (!bucket) {
+      bucket = { posts: [] };
+      out[repo] = bucket;
+    }
+    bucket.posts.push({ id });
+  }
+  return { mentions: out };
 }
 
 // --------------------------------------------------------------------------
@@ -271,6 +326,10 @@ export interface UpstreamSnapshots {
   bluesky?: BlueskySnapshot | null;
   devto?: DevtoSnapshot | null;
   lobsters?: LobstersSnapshot | null;
+  // Twitter comes through post-adapter (groupTwitterByRepo) so the projector
+  // can iterate it like the others. The raw `twitter-repo-signals` slug is
+  // flat — the adapter runs in `run()` before projection.
+  twitter?: TwitterAdaptedSnapshot | null;
 }
 
 export function projectSnapshots(snapshots: UpstreamSnapshots): LedgerWorkItem[] {
@@ -421,9 +480,9 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, errors);
     }
 
-    // Read all 5 upstream snapshots in parallel. Each can be null if its
+    // Read all 6 upstream snapshots in parallel. Each can be null if its
     // collector hasn't published yet; the projector tolerates nulls.
-    const [hn, reddit, bluesky, devto, lobsters] = await Promise.all([
+    const [hn, reddit, bluesky, devto, lobsters, twitterRaw] = await Promise.all([
       readDataStore<HnSnapshot>(SLUG_BY_SOURCE.hackernews).catch((err) => {
         errors.push({ stage: 'read:hackernews', message: (err as Error).message });
         return null;
@@ -444,9 +503,23 @@ const fetcher: Fetcher = {
         errors.push({ stage: 'read:lobsters', message: (err as Error).message });
         return null;
       }),
+      readDataStore<TwitterFlatSnapshot>(SLUG_BY_SOURCE.twitter).catch((err) => {
+        errors.push({ stage: 'read:twitter', message: (err as Error).message });
+        return null;
+      }),
     ]);
 
-    const items = projectSnapshots({ hackernews: hn, reddit, bluesky, devto, lobsters });
+    // Twitter publishes a flat posts[] — group by repoFullName to match the
+    // nested shape the projector expects.
+    const twitter = groupTwitterByRepo(twitterRaw);
+    const items = projectSnapshots({
+      hackernews: hn,
+      reddit,
+      bluesky,
+      devto,
+      lobsters,
+      twitter,
+    });
     const totalIds = items.reduce((sum, i) => sum + i.ids.length, 0);
     ctx.log.info(
       {
@@ -457,6 +530,7 @@ const fetcher: Fetcher = {
         bluesky: bluesky ? Object.keys(bluesky.mentions ?? {}).length : 0,
         devto: devto ? Object.keys(devto.mentions ?? {}).length : 0,
         lobsters: lobsters ? Object.keys(lobsters.mentions ?? {}).length : 0,
+        twitter: twitter.mentions ? Object.keys(twitter.mentions).length : 0,
       },
       'mentions-ledger projected',
     );

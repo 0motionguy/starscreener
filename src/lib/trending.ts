@@ -17,6 +17,8 @@ import { cache } from "react";
 
 import trending from "../../data/trending.json";
 import deltasData from "../../data/deltas.json";
+import { FAST_DATA_STALE_THRESHOLD_MS } from "./source-health-thresholds";
+import { shouldUseToolboxPayload } from "./toolbox-freshness";
 import type { Repo } from "./types";
 
 export type TrendingPeriod = "past_24_hours" | "past_week" | "past_month";
@@ -290,7 +292,14 @@ async function readDeltasWithToolboxFallback(
     if (apiUrl && apiKey) {
       const { fetchDeltasFromToolbox } = await import("./toolbox-store-velocity");
       const toolboxFile = await fetchDeltasFromToolbox({ apiUrl, apiKey });
-      if (toolboxFile) {
+      if (
+        toolboxFile &&
+        shouldUseToolboxPayload({
+          source: "velocity",
+          timestamp: toolboxFile.computedAt,
+          freshnessBudgetMs: FAST_DATA_STALE_THRESHOLD_MS,
+        })
+      ) {
         return { data: toolboxFile, source: "redis", ageMs: 0, fresh: true };
       }
     }
@@ -484,4 +493,3 @@ export function assembleRepoFromTrending(repo: Repo, d: DeltasJson): Repo {
     contributorsDelta30dMissing: true,
   };
 }
-

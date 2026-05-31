@@ -6,7 +6,7 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { getDataStore } from "@/lib/data-store";
+import { getDataStore, type RedisClientLike } from "@/lib/data-store";
 import {
   WORKER_HEALTH_DISABLED_SPECS,
   WORKER_HEALTH_SPECS,
@@ -42,6 +42,7 @@ function checkOptionalBearer(request: NextRequest): NextResponse | null {
 
 const SLUG_TABLE = WORKER_HEALTH_SPECS;
 const DISABLED_SLUG_TABLE = WORKER_HEALTH_DISABLED_SPECS;
+const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
 
 type SlugStatus = "green" | "amber" | "red" | "missing";
 
@@ -75,6 +76,49 @@ interface HealthResponse {
   disabledSlugs: DisabledSlugHealthSpec[];
 }
 
+function dataStoreMetaKey(slug: string): string {
+  return `${DATA_STORE_META_NAMESPACE}:${slug}`;
+}
+
+function parseRedisWrittenAt(raw: unknown): string | null {
+  const valid = (value: string): string | null =>
+    Number.isFinite(Date.parse(value)) ? value : null;
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "string" && raw.length > 0) {
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw) as { writtenAt?: unknown };
+        return typeof parsed.writtenAt === "string" &&
+          parsed.writtenAt.length > 0
+          ? valid(parsed.writtenAt)
+          : null;
+      } catch {
+        return null;
+      }
+    }
+    return valid(raw);
+  }
+  if (typeof raw === "object") {
+    const parsed = raw as { writtenAt?: unknown };
+    return typeof parsed.writtenAt === "string" && parsed.writtenAt.length > 0
+      ? valid(parsed.writtenAt)
+      : null;
+  }
+  return null;
+}
+
+async function readRedisMetaWrittenAt(
+  redis: RedisClientLike | null,
+  slug: string,
+): Promise<string | null> {
+  if (!redis) return null;
+  try {
+    return parseRedisWrittenAt(await redis.get(dataStoreMetaKey(slug)));
+  } catch {
+    return null;
+  }
+}
+
 function classifyAge(
   ageSec: number | null,
   cadenceMin: number,
@@ -96,11 +140,12 @@ export async function GET(
   if (deny) return deny;
 
   const store = getDataStore();
+  const redis = store.redisClient();
   const now = Date.now();
 
   const probes = await Promise.all(
     SLUG_TABLE.map(async (spec) => {
-      const writtenAt = await store.writtenAt(spec.slug).catch(() => null);
+      const writtenAt = await readRedisMetaWrittenAt(redis, spec.slug);
       const ageSec =
         writtenAt !== null
           ? Math.max(0, Math.floor((now - new Date(writtenAt).getTime()) / 1000))

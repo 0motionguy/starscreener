@@ -9,7 +9,7 @@ describe('worker registry', () => {
 
   it('schedules ProductHunt as a worker-owned production data source', () => {
     expect(listFetcherNames()).toContain('producthunt');
-    expect(getFetcher('producthunt')?.schedule).toBe('8 11,15,19,23 * * *');
+    expect(getFetcher('producthunt')?.schedule).toBe('8 */4 * * *');
     expect(SOURCE_CONTRACTS.find((source) => source.id === 'producthunt')).toMatchObject({
       auth_scheme: 'producthunt_token_pool',
       primary_output_keys: ['producthunt-launches'],

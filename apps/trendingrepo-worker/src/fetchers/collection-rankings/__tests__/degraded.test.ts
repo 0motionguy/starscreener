@@ -103,4 +103,62 @@ describe('collection-rankings degraded writes', () => {
     expect(payload.errors?.length).toBeGreaterThan(0);
     expect(write?.[2]).toEqual({ writer: 'worker:collection-rankings:degraded' });
   });
+
+  it('backfills from the packaged seed instead of publishing empty rows when prior is missing', async () => {
+    readDataStoreMock.mockResolvedValueOnce(null);
+    const { default: fetcher } = await import('../index.js');
+
+    const result = await fetcher.run(makeContext());
+
+    expect(result.redisPublished).toBe(true);
+    expect(result.itemsSeen).toBeGreaterThan(0);
+
+    const write = (writeDataStoreMock.mock.calls as unknown as Array<
+      [string, unknown, unknown?]
+    >).find(([slug]) => slug === 'collection-rankings');
+    expect(write).toBeDefined();
+    const payload = write?.[1] as {
+      status?: string;
+      dataAsOf?: string | null;
+      collections?: Record<string, { stars?: unknown[]; issues?: unknown[] }>;
+      errors?: unknown[];
+    };
+
+    expect(payload.status).toBe('degraded');
+    expect(payload.dataAsOf).toBe('2026-05-16T08:19:55.847Z');
+    expect(payload.collections?.['10139']?.stars?.length ?? 0).toBeGreaterThan(0);
+    expect(
+      payload.errors?.some((entry) => JSON.stringify(entry).includes('seed')),
+    ).toBe(true);
+    expect(write?.[2]).toEqual({ writer: 'worker:collection-rankings:degraded' });
+  });
+
+  it('does not preserve an already-empty prior payload as healthy data', async () => {
+    readDataStoreMock.mockResolvedValueOnce({
+      fetchedAt: '2026-05-31T09:00:00.000Z',
+      period: 'past_28_days',
+      collections: {
+        '10139': {
+          stars: [],
+          issues: [],
+        },
+      },
+      status: 'degraded',
+    });
+    const { default: fetcher } = await import('../index.js');
+
+    await fetcher.run(makeContext());
+
+    const write = (writeDataStoreMock.mock.calls as unknown as Array<
+      [string, unknown, unknown?]
+    >).find(([slug]) => slug === 'collection-rankings');
+    expect(write).toBeDefined();
+    const payload = write?.[1] as {
+      dataAsOf?: string | null;
+      collections?: Record<string, { stars?: unknown[]; issues?: unknown[] }>;
+    };
+
+    expect(payload.dataAsOf).toBe('2026-05-16T08:19:55.847Z');
+    expect(payload.collections?.['10139']?.stars?.length ?? 0).toBeGreaterThan(0);
+  });
 });

@@ -41,6 +41,9 @@ interface HealthBody {
   recentReposFetchedAt: string | null;
   repoMetadataFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
+  collectionRankingsStatus?: "ok" | "degraded";
+  collectionRankingsDataAsOf?: string | null;
+  collectionRankingsErrorCount?: number;
   redditFetchedAt: string | null;
   redditCold: boolean;
   blueskyFetchedAt: string | null;
@@ -478,9 +481,19 @@ export async function GET(
       deps.collectionRankings.getCollectionRankingsFetchedAt();
 
     const sources = deps.sourceHealth.getScannerSourceHealth();
-    const degradedSources = deps.sourceHealth
+    const scannerDegradedSources = deps.sourceHealth
       .getDegradedScannerSources()
       .map((source) => source.id);
+    const collectionRankingsStatus =
+      deps.collectionRankings.getCollectionRankingsStatus();
+    const collectionRankingsDataAsOf =
+      deps.collectionRankings.getCollectionRankingsDataAsOf();
+    const collectionRankingsErrorCount =
+      deps.collectionRankings.getCollectionRankingsErrorCount();
+    const degradedSources =
+      collectionRankingsStatus === "degraded"
+        ? [...scannerDegradedSources, "collection-rankings"]
+        : scannerDegradedSources;
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
       sources.map((source) => [source.id, source]),
     );
@@ -545,6 +558,9 @@ export async function GET(
       recentReposFetchedAt,
       repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
+      collectionRankingsStatus,
+      collectionRankingsDataAsOf,
+      collectionRankingsErrorCount,
       redditFetchedAt: reddit?.fetchedAt ?? null,
       redditCold: reddit?.cold ?? true,
       blueskyFetchedAt: bluesky?.fetchedAt ?? null,

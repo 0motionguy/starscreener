@@ -373,10 +373,10 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       id: "hackernews",
       label: "Hacker News",
       provider: "HN Firebase + Algolia",
-      cadence: "20m",
+      cadence: "1h",
       fetchedAt: hnCold ? null : getHnFetchedAt(),
       staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
-      degradedAfterMs: FAST_20M_DEGRADED_THRESHOLD_MS,
+      degradedAfterMs: FAST_HOURLY_DEGRADED_THRESHOLD_MS,
       cold: hnCold,
       degraded: hnLowVolume,
       metrics: {

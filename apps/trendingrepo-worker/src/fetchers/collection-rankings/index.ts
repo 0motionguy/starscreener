@@ -17,6 +17,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import seedRankings from './seed.json' with { type: 'json' };
 
 interface CollectionRef {
   id: number;
@@ -103,6 +104,9 @@ export interface CollectionRankingsPayload {
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
+const SEED_COLLECTION_RANKINGS =
+  seedRankings as unknown as CollectionRankingsPayload;
+
 function toNumber(value: unknown): number | null {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : null;
@@ -133,6 +137,27 @@ function normalize(row: RankingRow): NormalizedRankingRow {
     currentPeriodRank: toNumber(row.current_period_rank),
     pastPeriodRank: toNumber(row.past_period_rank),
   };
+}
+
+function rankingRows(
+  payload: CollectionRankingsPayload | null | undefined,
+  collectionId: string,
+  metric: Metric,
+): NormalizedRankingRow[] {
+  return payload?.collections?.[collectionId]?.[metric] ?? [];
+}
+
+function countRankingRows(
+  payload: CollectionRankingsPayload | null | undefined,
+): number {
+  if (!payload?.collections) return 0;
+  let count = 0;
+  for (const collection of Object.values(payload.collections)) {
+    for (const metric of METRICS) {
+      count += collection[metric]?.length ?? 0;
+    }
+  }
+  return count;
 }
 
 const fetcher: Fetcher = {
@@ -180,25 +205,44 @@ const fetcher: Fetcher = {
           );
         } catch (err) {
           const message = (err as Error).message;
-          const priorRows = prior?.collections?.[String(collection.id)]?.[metric] ?? [];
+          const collectionId = String(collection.id);
+          const priorRows = rankingRows(prior, collectionId, metric);
+          const seedRows = rankingRows(
+            SEED_COLLECTION_RANKINGS,
+            collectionId,
+            metric,
+          );
+          const fallbackRows =
+            priorRows.length > 0
+              ? priorRows
+              : seedRows.length > 0
+                ? seedRows
+                : [];
+          const fallbackSource =
+            priorRows.length > 0
+              ? 'cached'
+              : seedRows.length > 0
+                ? 'seed'
+                : null;
           ctx.log.error(
             {
               collection: collection.id,
               metric,
               err: message,
-              preservedRows: priorRows.length,
+              preservedRows: fallbackRows.length,
+              fallbackSource,
             },
-            priorRows.length > 0
-              ? 'ranking fetch failed - preserving prior rows for collection metric'
+            fallbackRows.length > 0
+              ? 'ranking fetch failed - preserving fallback rows for collection metric'
               : 'ranking fetch failed',
           );
-          if (priorRows.length > 0) {
-            metrics[metric] = priorRows;
-            preservedRows += priorRows.length;
-            totalRows += priorRows.length;
+          if (fallbackRows.length > 0 && fallbackSource) {
+            metrics[metric] = fallbackRows;
+            preservedRows += fallbackRows.length;
+            totalRows += fallbackRows.length;
             errors.push({
               stage: label,
-              message: `${message} (preserved ${priorRows.length} cached)`,
+              message: `${message} (preserved ${fallbackRows.length} ${fallbackSource})`,
             });
           } else {
             errors.push({ stage: label, message });
@@ -209,12 +253,23 @@ const fetcher: Fetcher = {
       collections[String(collection.id)] = metrics;
     }
 
+    const rowfulPrior = countRankingRows(prior) > 0 ? prior : null;
+    const rowfulSeed =
+      countRankingRows(SEED_COLLECTION_RANKINGS) > 0
+        ? SEED_COLLECTION_RANKINGS
+        : null;
     const payload: CollectionRankingsPayload = {
       fetchedAt,
       period: PERIOD,
       collections,
       status: errors.length > 0 ? 'degraded' : 'ok',
-      dataAsOf: errors.length > 0 ? prior?.dataAsOf ?? prior?.fetchedAt ?? null : fetchedAt,
+      dataAsOf:
+        errors.length > 0
+          ? rowfulPrior?.dataAsOf ??
+            rowfulPrior?.fetchedAt ??
+            rowfulSeed?.fetchedAt ??
+            null
+          : fetchedAt,
       ...(errors.length > 0 ? { errors } : {}),
     };
 
@@ -235,6 +290,7 @@ const fetcher: Fetcher = {
         {
           collections: COLLECTIONS.length,
           totalRows,
+          preservedRows,
           redisSource: result.source,
           writtenAt: result.writtenAt,
         },
@@ -242,31 +298,13 @@ const fetcher: Fetcher = {
       );
     } else {
       ctx.log.error(
-        'collection-rankings: all rankings empty (api.ossinsight.io down?) - publishing degraded collection-rankings payload',
+        'collection-rankings: all rankings empty (api.ossinsight.io down?) - skipping empty degraded publish',
       );
       errors.push({
         stage: 'guard',
         message:
-          'all rankings empty; published degraded collection-rankings payload',
+          'all rankings empty; skipped empty collection-rankings publish',
       });
-    }
-
-    if (totalRows === 0) {
-      const result = await writeDataStore('collection-rankings', payload, {
-        writer: 'worker:collection-rankings:degraded',
-      });
-      resultSource = result.source;
-      ctx.log.info(
-        {
-          collections: COLLECTIONS.length,
-          totalRows,
-          preservedRows,
-          status: payload.status,
-          redisSource: result.source,
-          writtenAt: result.writtenAt,
-        },
-        'collection-rankings degraded payload published',
-      );
     }
 
     return done(startedAt, totalRows, resultSource === 'redis', errors);

@@ -33,6 +33,9 @@ test("/api/worker/health: disabled legacy slugs stay visible but inactive", () =
   const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
 
   for (const slug of [
+    "reddit-mentions",
+    "reddit-all-posts",
+    "github-events:_index",
     "huggingface-trending",
     "trending-mcp",
     "trending-skill",

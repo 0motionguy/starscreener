@@ -62,6 +62,24 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
 export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec> = [
   {
+    slug: "reddit-mentions",
+    fetcher: "reddit",
+    reason:
+      "live Reddit collector is intentionally paused on HOSTUP; reddit-baselines remains active separately",
+  },
+  {
+    slug: "reddit-all-posts",
+    fetcher: "reddit",
+    reason:
+      "live Reddit collector is intentionally paused on HOSTUP; do not treat the stale historical all-posts slug as worker-owned",
+  },
+  {
+    slug: "github-events:_index",
+    fetcher: "github-events",
+    reason:
+      "github-events fetcher code exists but is not registered in the live worker fleet",
+  },
+  {
     slug: "huggingface-trending",
     fetcher: "scrape-huggingface",
     reason:

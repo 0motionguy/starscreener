@@ -116,8 +116,8 @@ async function main() {
       body: appHealth.body,
     });
   }
-  if (appHealth.body?.status === "error" || appHealth.body?.error) {
-    fail("/api/health reports hard error", appHealth.body);
+  if (appHealth.body?.status !== "ok" || appHealth.body?.error) {
+    fail("/api/health is not fresh", appHealth.body);
   }
 
   if (!workerHealth.okStatus || workerHealth.body?.ok !== true) {

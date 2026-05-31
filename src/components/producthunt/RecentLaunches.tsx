@@ -8,7 +8,6 @@
 // StarScreener when the launch links to a tracked repo.
 
 import Image from "next/image";
-import Link from "next/link";
 import { getAiLaunches, producthuntCold } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { RepoLink } from "@/components/repo/RepoLink";

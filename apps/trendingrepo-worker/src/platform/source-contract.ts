@@ -62,6 +62,7 @@ export interface RateLimit {
 export type AuthScheme =
   | 'github_pat_pool'
   | 'producthunt_token_pool'
+  | 'reddit_oauth_client_credentials'
   | 'apify_token'
   | 'twitter_web_cookies'
   | 'firecrawl'

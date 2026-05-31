@@ -17,11 +17,7 @@
 import { beforeEach, after, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { _setStoreForTests } from "../../../../../lib/api/rate-limit";
-import {
-  MemoryRateLimitStore,
-  _resetFallbackWarningForTests,
-} from "../../../../../lib/api/rate-limit-store";
+import type { RateLimitStore } from "../../../../../lib/api/rate-limit-store";
 
 const ADMIN_SCAN_WINDOW_MS = 60_000;
 const ADMIN_SCAN_MAX = 8;
@@ -30,11 +26,30 @@ const ADMIN_TOKEN = "test-admin-token-rate-limit-fixture-32chars";
 const previousAdminToken = process.env.ADMIN_TOKEN;
 process.env.ADMIN_TOKEN = ADMIN_TOKEN;
 
+async function loadRateLimitHelpers() {
+  const rateLimitModule = await import("../../../../../lib/api/rate-limit");
+  const storeModule = await import("../../../../../lib/api/rate-limit-store");
+  const rateLimitNamespace = rateLimitModule as typeof rateLimitModule & {
+    default?: typeof rateLimitModule;
+  };
+  const storeNamespace = storeModule as typeof storeModule & {
+    default?: typeof storeModule;
+  };
+  const rateLimit = rateLimitNamespace.default ?? rateLimitNamespace;
+  const store = storeNamespace.default ?? storeNamespace;
+  return {
+    _setStoreForTests: rateLimit._setStoreForTests,
+    _resetFallbackWarningForTests: store._resetFallbackWarningForTests,
+    MemoryRateLimitStore: store.MemoryRateLimitStore,
+  };
+}
+
 async function primeSaturatedStore(
   ip: string,
   windowMs: number,
   maxRequests: number,
-): Promise<MemoryRateLimitStore> {
+): Promise<RateLimitStore> {
+  const { MemoryRateLimitStore, _setStoreForTests } = await loadRateLimitHelpers();
   const store = new MemoryRateLimitStore();
   const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
   const key = `rl:${ip}:${windowMs}:${maxRequests}`;
@@ -45,17 +60,19 @@ async function primeSaturatedStore(
   return store;
 }
 
-beforeEach(() => {
+beforeEach(async () => {
+  const { _setStoreForTests, _resetFallbackWarningForTests } = await loadRateLimitHelpers();
   _setStoreForTests(null);
   _resetFallbackWarningForTests();
 });
 
-after(() => {
+after(async () => {
   if (previousAdminToken === undefined) {
     delete process.env.ADMIN_TOKEN;
   } else {
     process.env.ADMIN_TOKEN = previousAdminToken;
   }
+  const { _setStoreForTests } = await loadRateLimitHelpers();
   _setStoreForTests(null);
 });
 
@@ -63,7 +80,11 @@ test("POST /api/admin/scan: returns 429 with Retry-After when rate-limit bucket 
   const ip = "198.51.100.50";
   await primeSaturatedStore(ip, ADMIN_SCAN_WINDOW_MS, ADMIN_SCAN_MAX);
 
-  const { POST } = await import("../route");
+  const routeModule = await import("../route");
+  const routeNamespace = routeModule as typeof routeModule & {
+    default?: typeof routeModule;
+  };
+  const { POST } = routeNamespace.default ?? routeNamespace;
   const { NextRequest } = await import("next/server");
 
   const req = new Request("http://localhost/api/admin/scan", {
@@ -73,7 +94,7 @@ test("POST /api/admin/scan: returns 429 with Retry-After when rate-limit bucket 
       authorization: `Bearer ${ADMIN_TOKEN}`,
       "content-type": "application/json",
     },
-    body: JSON.stringify({ source: "reddit" }),
+    body: JSON.stringify({ source: "hackernews" }),
   });
   const res = await POST(new NextRequest(req) as never);
 

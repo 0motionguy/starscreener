@@ -108,8 +108,6 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   { slug: "trustmrr-startups", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
   { slug: "trustmrr-startups:meta", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
   { slug: "revenue-overlays", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
-  { slug: "reddit-mentions", fetcher: "reddit", cadenceMin: 60 },
-  { slug: "reddit-all-posts", fetcher: "reddit", cadenceMin: 60 },
   { slug: "hackernews-trending", fetcher: "hackernews", cadenceMin: 60 },
   { slug: "hackernews-repo-mentions", fetcher: "hackernews", cadenceMin: 60 },
   { slug: "bluesky-trending", fetcher: "bluesky", cadenceMin: 60 },
@@ -133,6 +131,8 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   { slug: "revenue-benchmarks", fetcher: "revenue-benchmarks", cadenceMin: 60 * 24, blocking: false },
 
   // weekly — slow-moving baselines
+  // Live Reddit collection is paused; baselines remain tracked as a separate
+  // slow-moving snapshot until the OAuth-backed live collector is re-enabled.
   { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
 
   // newer skill sources (cadence inherited from each fetcher's schedule)

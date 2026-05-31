@@ -61,12 +61,15 @@ test("getFreshnessSnapshot: returns all eight expected source keys", () => {
 test("getFreshnessSnapshot: never-scanned sources have null lastScanAt + ageMs + stale=false", () => {
   const snap = getFreshnessSnapshot();
 
-  // twitter and github are not tracked by source-health yet, so they
-  // are guaranteed never-scanned in the current codebase.
+  // reddit is intentionally disabled as a live collector, while twitter and
+  // github are not tracked by source-health yet, so all three are guaranteed
+  // never-scanned in the current codebase.
+  const reddit = snap.sources.reddit;
   const twitter = snap.sources.twitter;
   const github = snap.sources.github;
 
   for (const [label, entry] of [
+    ["reddit", reddit],
     ["twitter", twitter],
     ["github", github],
   ] as const) {
@@ -92,18 +95,18 @@ test("getFreshnessSnapshot: stale flag matches threshold constants", () => {
   const snap = getFreshnessSnapshot(now);
 
   // Any non-null entry's stale flag must equal the comparison we'd do
-  // against that source's threshold. Reddit uses FAST_DATA (2h), so we
+  // against that source's threshold. Hacker News uses FAST_DATA, so we
   // cross-check the math via evaluateSourceFreshness too to catch drift.
-  const reddit = snap.sources.reddit;
-  if (reddit.lastScanAt && reddit.ageMs !== null) {
+  const hackernews = snap.sources.hackernews;
+  if (hackernews.lastScanAt && hackernews.ageMs !== null) {
     const viaEvaluator = evaluateSourceFreshness({
-      fetchedAt: reddit.lastScanAt,
+      fetchedAt: hackernews.lastScanAt,
       cold: false,
       staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
       degradedAfterMs: 45 * 60 * 1000,
       nowMs: now,
     });
-    assert.equal(reddit.stale, viaEvaluator.stale);
+    assert.equal(hackernews.stale, viaEvaluator.stale);
   }
 });
 

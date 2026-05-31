@@ -28,8 +28,10 @@ test("freshness state route exposes expanded inventory with advisory blocking fl
     };
     const byName = new Map(body.sources.map((source) => [source.name, source]));
 
-    assert.ok(body.sources.length >= 45, `expected expanded inventory, got ${body.sources.length}`);
+    assert.ok(body.sources.length >= 44, `expected expanded inventory, got ${body.sources.length}`);
     assert.equal(byName.get("trending-repos")?.blocking, true);
+    assert.equal(byName.has("reddit"), false, "live reddit collector should be disabled");
+    assert.ok(byName.has("reddit-baselines"), "reddit baselines should remain tracked");
     for (const source of [
       "hotness-snapshots",
       "mcp-dependents",

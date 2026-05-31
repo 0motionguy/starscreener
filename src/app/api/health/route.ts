@@ -141,7 +141,6 @@ type SoftHealthKey =
   | "recentRepos"
   | "repoMetadata"
   | "collectionRankings"
-  | "reddit"
   | "bluesky"
   | "hn"
   | "producthunt"
@@ -183,11 +182,6 @@ const SOFT_HEALTH_KEYS: Array<{
     id: "collectionRankings",
     storeKey: "collection-rankings",
     thresholdMs: RANKINGS_STALE_THRESHOLD_MS,
-  },
-  {
-    id: "reddit",
-    storeKey: "reddit-mentions",
-    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
   },
   {
     id: "bluesky",

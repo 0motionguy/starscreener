@@ -15,4 +15,16 @@ describe('worker registry', () => {
       primary_output_keys: ['producthunt-launches'],
     });
   });
+
+  it('keeps the live Reddit collector paused until OAuth credentials are intentionally enabled', () => {
+    expect(listFetcherNames()).not.toContain('reddit');
+    expect(getFetcher('reddit')).toBeUndefined();
+    expect(listFetcherNames()).toContain('reddit-baselines');
+    expect(SOURCE_CONTRACTS.find((source) => source.id === 'reddit')).toMatchObject({
+      state: 'paused',
+      auth_required: true,
+      auth_scheme: 'reddit_oauth_client_credentials',
+      primary_output_keys: ['reddit-mentions', 'reddit-all-posts'],
+    });
+  });
 });

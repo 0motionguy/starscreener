@@ -59,7 +59,7 @@ Most fetchers run hourly at a staggered minute; a few have specialized cadences.
 | `hackernews` | hourly | `hackernews-repo-mentions`, `hackernews-trending` |
 | `bluesky` | hourly | `bluesky-mentions` |
 | `devto` | every 6h | `devto-mentions`, `devto-trending` |
-| `reddit` | hourly | `reddit-mentions` |
+| `reddit` | paused | live OAuth collector disabled until HOSTUP has Reddit client credentials |
 | `lobsters` | hourly | `lobsters-mentions` |
 | `twitter` | hourly | `twitter-signals` (Nitter; needs APIFY_API_TOKEN for the Apify actor path) |
 | `mentions-ledger` | `7,22,37,52 * * * *` | `mentions-ledger` snapshot (flattened from SADD/HINCRBY backing sets) |

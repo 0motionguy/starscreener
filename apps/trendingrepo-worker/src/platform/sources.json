@@ -773,7 +773,7 @@
     "id": "reddit",
     "category": "social",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -781,8 +781,8 @@
     },
     "owner": "UNASSIGNED",
     "upstream_url": "https://www.reddit.com/r/{sub}/new.json",
-    "auth_required": false,
-    "auth_scheme": "none",
+    "auth_required": true,
+    "auth_scheme": "reddit_oauth_client_credentials",
     "primary_output_keys": [
       "reddit-mentions",
       "reddit-all-posts"

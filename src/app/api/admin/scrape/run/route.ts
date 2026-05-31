@@ -35,7 +35,6 @@ export const dynamic = "force-dynamic";
 // runtime tuple still works fine. Keeping the literal in this file makes
 // the SCRIPTS map below self-contained.
 const COLLECTORS = [
-  "reddit",
   "hackernews",
   "bluesky",
   "devto",
@@ -59,7 +58,6 @@ type ScriptSpec = {
 };
 
 const SCRIPTS: Record<CollectorName, ScriptSpec> = {
-  reddit: { rel: "scripts/scrape-reddit.mjs", runner: "node" },
   hackernews: { rel: "scripts/scrape-hackernews.mjs", runner: "node" },
   bluesky: { rel: "scripts/scrape-bluesky.mjs", runner: "node" },
   devto: { rel: "scripts/scrape-devto.mjs", runner: "node" },
@@ -88,10 +86,6 @@ const CHILD_ENV_ALLOW = [
   "UPSTASH_REDIS_REST_URL",
   "UPSTASH_REDIS_REST_TOKEN",
   "DATA_STORE_DISABLE",
-  "REDDIT_CLIENT_ID",
-  "REDDIT_CLIENT_SECRET",
-  "REDDIT_USER_AGENT",
-  "REDDIT_USER_AGENTS",
   "BLUESKY_HANDLE",
   "BLUESKY_APP_PASSWORD",
   "GITHUB_TOKEN",

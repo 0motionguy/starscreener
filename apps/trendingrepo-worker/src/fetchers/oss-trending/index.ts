@@ -75,6 +75,7 @@ export interface TrendingPayload {
   status?: 'ok' | 'degraded';
   dataAsOf?: string | null;
   errors?: Array<{ stage: string; message: string }>;
+  source?: string;
 }
 
 export interface HotCollectionsPayload {
@@ -152,9 +153,15 @@ const fetcher: Fetcher = {
       (await readDataStore<HotCollectionsPayload>('hot-collections').catch(
         () => null,
       )) ?? null;
+    const internalTrendingFallback = buildFallbackTrendingPayload(
+      await readFallbackSources(),
+      fetchedAt,
+    );
     let totalRows = 0;
     let preservedTrendRows = 0;
+    let internalTrendRows = 0;
     let missingTrendFallbacks = 0;
+    const trendPayloadErrors: Array<{ stage: string; message: string }> = [];
 
     for (const period of PERIODS) {
       buckets[period] = {};
@@ -172,29 +179,60 @@ const fetcher: Fetcher = {
           ctx.log.info({ period, language, rows: rows.length }, 'bucket fetched');
         } catch (err) {
           const message = (err as Error).message;
+          const internalRows = trendingRows(
+            internalTrendingFallback,
+            period,
+            language,
+          );
           const priorRows = trendingRows(priorTrending, period, language);
-          if (priorRows.length > 0) {
-            buckets[period]![language] = priorRows;
-            preservedTrendRows += priorRows.length;
-            totalRows += priorRows.length;
+          if (internalTrendingFallback) {
+            const fallbackRows = internalRows;
+            buckets[period]![language] = fallbackRows;
+            internalTrendRows += fallbackRows.length;
+            totalRows += fallbackRows.length;
             ctx.log.warn(
               {
                 period,
                 language,
                 err: message,
-                preservedRows: priorRows.length,
+                preservedRows: fallbackRows.length,
+                fallbackSource: 'internal-github',
               },
-              'bucket fetch failed - preserving cached rows',
+              'bucket fetch failed - serving fallback rows',
             );
             errors.push({
               stage: `bucket:${label}`,
-              message: `${message} (preserved ${priorRows.length} cached)`,
+              message: `${message} (served ${fallbackRows.length} internal-github)`,
+            });
+          } else if (priorRows.length > 0) {
+            const fallbackRows = priorRows;
+            buckets[period]![language] = fallbackRows;
+            preservedTrendRows += fallbackRows.length;
+            trendPayloadErrors.push({
+              stage: `bucket:${label}`,
+              message: `${message} (preserved ${fallbackRows.length} cached)`,
+            });
+            totalRows += fallbackRows.length;
+            ctx.log.warn(
+              {
+                period,
+                language,
+                err: message,
+                preservedRows: fallbackRows.length,
+                fallbackSource: 'cached',
+              },
+              'bucket fetch failed - serving fallback rows',
+            );
+            errors.push({
+              stage: `bucket:${label}`,
+              message: `${message} (served ${fallbackRows.length} cached)`,
             });
           } else {
             ctx.log.error({ period, language, err: message }, 'bucket fetch failed');
             errors.push({ stage: `bucket:${label}`, message });
             buckets[period]![language] = [];
             missingTrendFallbacks += 1;
+            trendPayloadErrors.push({ stage: `bucket:${label}`, message });
           }
         }
         await sleep(TRENDS_PAUSE_MS);
@@ -256,20 +294,20 @@ const fetcher: Fetcher = {
       }
     }
 
-    const trendErrors = errors.filter((error) =>
-      error.stage.startsWith('bucket:'),
-    );
-    const trendStatus = trendErrors.length > 0 ? 'degraded' : 'ok';
+    const trendStatus = trendPayloadErrors.length > 0 ? 'degraded' : 'ok';
     const hotStatus = hotPayloadErrors.length > 0 ? 'degraded' : 'ok';
     const trendsPayload: TrendingPayload = {
       fetchedAt,
       buckets,
       status: trendStatus,
+      ...(internalTrendRows > 0 && trendPayloadErrors.length === 0
+        ? { source: 'internal-github-fallback' }
+        : {}),
       dataAsOf:
         trendStatus === 'degraded'
           ? priorTrending?.dataAsOf ?? priorTrending?.fetchedAt ?? null
           : fetchedAt,
-      ...(trendErrors.length > 0 ? { errors: trendErrors } : {}),
+      ...(trendPayloadErrors.length > 0 ? { errors: trendPayloadErrors } : {}),
     };
     const hotPayload: HotCollectionsPayload = {
       fetchedAt,
@@ -299,10 +337,7 @@ const fetcher: Fetcher = {
       );
       trendsSource = trendsRes.source === 'redis' ? 'redis' : 'preserved';
     } else if (totalRows === 0) {
-      const fallbackPayload = buildFallbackTrendingPayload(
-        await readFallbackSources(),
-        fetchedAt,
-      );
+      const fallbackPayload = internalTrendingFallback;
       if (fallbackPayload) {
         const fallbackRows = countTrendingRows(fallbackPayload);
         const message = `all OSSInsight buckets empty; published ${fallbackRows} internal fallback rows`;
@@ -360,6 +395,7 @@ const fetcher: Fetcher = {
         totalRows,
         hotCollections: hotRows.length,
         preservedTrendRows,
+        internalTrendRows,
         preservedHotRows,
         githubHotRows,
         trendingRedis: trendsSource,

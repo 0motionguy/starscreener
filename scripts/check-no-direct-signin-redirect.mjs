@@ -31,21 +31,6 @@ const ALLOW_LIST = new Set([
   "src/app/sign-up/[[...sign-up]]/page.tsx",
   // Middleware can rewrite to /sign-in
   "src/middleware.ts",
-
-  // === HISTORIC ALLOW-LIST — D.2 follow-up refactor ===
-  // Existing top-bar/header "Sign in" Link components and empty-state
-  // CTAs. Operator preference (handover 2026-05-31 Section A) is
-  // modal-everywhere — these should be migrated to useAuthGate +
-  // openSignInModal in a follow-up PR. The lint guards NEW regressions
-  // while these remain documented debt.
-  "src/components/build/BuildEmptyStates.tsx",
-  "src/components/build/BuildHero.tsx",
-  "src/components/build/BuildRepoSelector.tsx",
-  "src/components/layout/HeaderAccount.tsx",
-  "src/components/repo/RepoProfileTopbar.tsx",
-  "src/components/repo/RepoProfileTopbarAuth.tsx",
-  "src/app/repo/[owner]/[name]/page.tsx",
-  "src/app/tools/watchlist/page.tsx",
 ]);
 
 // Patterns that indicate a hand-rolled sign-in redirect outside the helper.
@@ -55,6 +40,7 @@ const RE_LIST = [
   { name: "<a href sign-in> JSX", re: /<a\s[^>]*href\s*=\s*\{?["'`][^"'`]*\/sign-in/ },
   { name: "<Link href sign-in> JSX", re: /<Link\s[^>]*href\s*=\s*\{?["'`][^"'`]*\/sign-in/ },
   { name: "signInUrl / signInHref variable", re: /\b(?:signInUrl|signInHref)\s*[:=]\s*["'`][^"'`]*\/sign-in/ },
+  { name: "window.location signInUrl variable", re: /window\.location\.(?:assign|href)\s*=?\s*\(?\s*(?:signInUrl|signInHref)\b/ },
 ];
 
 function walk(dir, out = []) {

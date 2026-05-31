@@ -7,7 +7,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { getDataStore } from "@/lib/data-store";
-import type { StarActivityPayload } from "@/lib/star-activity";
+import type { StarActivityPayload } from "@/lib/star-activity-shared";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

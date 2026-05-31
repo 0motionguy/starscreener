@@ -61,6 +61,7 @@ export interface RateLimit {
 
 export type AuthScheme =
   | 'github_pat_pool'
+  | 'producthunt_token_pool'
   | 'apify_token'
   | 'twitter_web_cookies'
   | 'firecrawl'
@@ -112,6 +113,7 @@ export type CanonicalEntityKind =
   | 'repo'
   | 'package'
   | 'model'
+  | 'product'
   | 'company'
   | 'mention'
   | 'event';

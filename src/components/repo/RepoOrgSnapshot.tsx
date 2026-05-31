@@ -18,7 +18,7 @@ import { ageLabel as _ageLabel } from "@/lib/format-age";
 import { Icon } from "@/lib/icons";
 
 import type { RepoCommunityProfile } from "@/lib/repo-community-profile";
-import type { StarActivityPayload } from "@/lib/star-activity";
+import type { StarActivityPayload } from "@/lib/star-activity-shared";
 import type { Repo } from "@/lib/types";
 import { formatVelocityPct } from "@/lib/velocity-pct";
 

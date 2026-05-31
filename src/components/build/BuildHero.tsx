@@ -7,6 +7,7 @@
 // anchor since the cheap version of "select" is a dropdown inside the page.
 
 import Link from "next/link";
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 
 interface BuildHeroProps {
   hasRepoSelected: boolean;
@@ -25,9 +26,13 @@ export function BuildHero({ hasRepoSelected, selectedFullName }: BuildHeroProps)
         </p>
       </div>
       <div className="header-actions">
-        <Link className="btn primary" href="/sign-in?redirect_url=/build">
+        <AuthGateButton
+          className="btn primary"
+          redirectUrl="/build"
+          authenticatedHref="/build"
+        >
           Connect GitHub
-        </Link>
+        </AuthGateButton>
         <Link className="btn" href="#repo-selector">
           Select repo
         </Link>

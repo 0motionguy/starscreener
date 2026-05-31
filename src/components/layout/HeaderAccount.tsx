@@ -20,7 +20,7 @@
 //     `ssr: false` so the Clerk hook never executes during prerender.
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 
 interface HeaderAccountProps {
   authEnabled: boolean;
@@ -28,14 +28,13 @@ interface HeaderAccountProps {
 
 function SignedOutAccountLink() {
   return (
-    <Link
-      href="/sign-in"
+    <AuthGateButton
       className="btn-signup"
       title="Sign in"
-      aria-label="Sign in"
+      ariaLabel="Sign in"
     >
       <span>Sign in</span>
-    </Link>
+    </AuthGateButton>
   );
 }
 

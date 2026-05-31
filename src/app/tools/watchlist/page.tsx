@@ -15,8 +15,8 @@
 // budget while still letting deploys flush the cache.
 
 import type { Metadata } from "next";
-import Link from "next/link";
 
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 import { WatchlistClient } from "@/components/tools/watchlist/WatchlistClient";
 import { WatchlistHero } from "@/components/tools/watchlist/WatchlistHero";
 import { WatchlistSuggestions } from "@/components/tools/watchlist/WatchlistSuggestions";
@@ -93,9 +93,9 @@ export default async function WatchlistPage() {
 
       <p className="wl-sync-note">
         Pins are stored locally in your browser.{" "}
-        <Link href="/sign-in" className="wl-sync-link" prefetch={false}>
+        <AuthGateButton className="wl-sync-link auth-gate-text-button" redirectUrl="/tools/watchlist">
           Sign in
-        </Link>{" "}
+        </AuthGateButton>{" "}
         to sync your watchlist across devices.
       </p>
     </div>

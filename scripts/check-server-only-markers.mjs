@@ -24,9 +24,6 @@ const DIRECTIVE_RE = /^import\s+["']server-only["'];?\s*$/m;
 const ALLOW_LIST = new Set([
   // Pure types / shared interfaces (no runtime side-effect on import)
   "src/lib/redis.ts", // RuntimeRedis interface only — actual client lives in callers
-  // Isomorphic exports (client imports a constant/type; fs touch is `typeof window`-guarded)
-  "src/lib/stars-by-category.ts", // HERO_CATEGORIES + types used by client chart; fs reads guarded per 908438418
-  "src/lib/data-store.ts", // dynamically imported by stars-by-category inside typeof-window guard; structural-split TODO
   // Tests run via vitest, not bundled into client
   // (any file matching __tests__ or .test. is auto-skipped below)
 ]);

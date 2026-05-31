@@ -51,7 +51,7 @@ export async function Sidebar() {
           <img src="/brand/trendingrepo-mark-v7.svg" alt="" width={24} height={24} loading="eager" decoding="async" />
         </span>
         <span className="brand-name">
-          <span style={{ color: "var(--fg-bright)" }}>trending</span><b>repo</b><span className="dot">.</span>
+          <span className="brand-name-primary">trending</span><b>repo</b><span className="dot">.</span>
         </span>
       </Link>
 
@@ -150,13 +150,13 @@ export async function Sidebar() {
         <div>
           <b>Drop a repo</b>
           <br />
-          <span style={{ fontSize: "10.5px", color: "var(--fg-faint)" }}>Surface yours · 30s</span>
+          <span className="sidebar-drop-meta">Surface yours · 30s</span>
         </div>
       </Link>
 
       <div className="upgrade-card">
         <div className="uc-eyebrow">
-          <Sparkles size={11} strokeWidth={1.8} aria-hidden="true" style={{ display: "inline", verticalAlign: "-1px", marginRight: 4 }} />
+          <Sparkles size={11} strokeWidth={1.8} aria-hidden="true" className="uc-eyebrow-icon" />
           UNLOCK TRENDINGREPO
         </div>
         <div className="uc-pitch">

@@ -26,6 +26,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 import { Icon } from "@/components/icon/Icon";
 
 import styles from "./repoProfileShell.module.css";
@@ -41,15 +42,14 @@ const SignInSlot = dynamic(
   {
     ssr: false,
     loading: () => (
-      <Link
-        href="/sign-in"
+      <AuthGateButton
         className={`${styles.btn} ${styles.btnPrimary}`}
-        aria-label="Sign in"
-        aria-busy="true"
+        ariaLabel="Sign in"
+        redirectUrl={typeof window === "undefined" ? undefined : window.location.pathname}
       >
         <Icon name="user" />
         <span>Sign in</span>
-      </Link>
+      </AuthGateButton>
     ),
   },
 );
@@ -133,13 +133,14 @@ export function RepoProfileTopbar({
         {authEnabled ? (
           <SignInSlot />
         ) : (
-          <Link
-            href="/sign-in"
+          <AuthGateButton
             className={`${styles.btn} ${styles.btnPrimary}`}
+            redirectUrl={`/repo/${owner}/${name}`}
+            ariaLabel="Sign in"
           >
             <Icon name="user" />
             <span>Sign in</span>
-          </Link>
+          </AuthGateButton>
         )}
       </div>
     </header>

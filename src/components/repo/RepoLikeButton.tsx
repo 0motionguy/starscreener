@@ -25,6 +25,7 @@ import { useCallback, useRef, useState } from "react";
 import type { JSX } from "react";
 
 import { Icon } from "@/components/icon/Icon";
+import { openSignInModal } from "@/lib/auth/open-sign-in-modal";
 
 interface RepoLikeButtonProps {
   /** "owner/name" — used to derive the API path. */
@@ -69,7 +70,7 @@ export function RepoLikeButton({
 
   const handleClick = useCallback(async () => {
     if (!signedIn) {
-      window.location.assign(signInUrl);
+      openSignInModal(signInUrl);
       return;
     }
 

@@ -9,6 +9,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   applyOverrides,
+  hasOverrideDbConfig,
   findGhostOverrides,
   summarizeOverrides,
   type SourceOverride,
@@ -185,5 +186,19 @@ describe('summarizeOverrides', () => {
 
   it('returns zeros for an empty map', () => {
     expect(summarizeOverrides(new Map())).toEqual({ total: 0, paused: 0, deprecated: 0 });
+  });
+});
+
+describe('hasOverrideDbConfig', () => {
+  it('requires both Supabase URL and service role before loading overrides from DB', () => {
+    expect(hasOverrideDbConfig({})).toBe(false);
+    expect(hasOverrideDbConfig({ SUPABASE_URL: 'https://db.example.test' })).toBe(false);
+    expect(hasOverrideDbConfig({ SUPABASE_SERVICE_ROLE: 'service-role' })).toBe(false);
+    expect(
+      hasOverrideDbConfig({
+        SUPABASE_URL: 'https://db.example.test',
+        SUPABASE_SERVICE_ROLE: 'service-role',
+      }),
+    ).toBe(true);
   });
 });

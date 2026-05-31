@@ -10,53 +10,33 @@
 // `points: []` and the component renders an honest empty state. We do not
 // fabricate days from snapshot data.
 //
-// NOTE: this file deliberately omits `import "server-only"` even though it
-// touches fs/path. The client-side StarsByCategoryHero imports HERO_CATEGORIES
-// + the chart-data type from here. The actual fs read is guarded with
-// `typeof window === "undefined"` (commit 908438418) so the client bundle is
-// safe. Allow-listed in scripts/check-server-only-markers.mjs.
+import "server-only";
 
 import { resolve } from "path";
 import { readFileSync } from "fs";
+import {
+  HERO_CATEGORIES,
+  type ByCategoryDay,
+  type ByCategoryPoint,
+  type HeroCategoryId,
+  type StarsByCategoryChartData,
+  type StarsByCategoryFile,
+} from "@/lib/stars-by-category-shared";
 
-// Guard with typeof window so the client bundle doesn't call resolve at
-// module-load — `path` gets stubbed to src/lib/empty-module.js for client
-// imports and crashes with "resolve is not a function" otherwise.
-const BUNDLED_PATH = typeof window === "undefined"
-  ? resolve(process.cwd(), "data", "stars-by-category.json")
-  : "";
+const BUNDLED_PATH = resolve(process.cwd(), "data", "stars-by-category.json");
 const REDIS_SLUG = "stars-by-category-daily";
 const MIN_REFRESH_INTERVAL_MS = 30_000;
 
 const EPOCH_ZERO = "1970-01-01T00:00:00.000Z";
 
-// Keep the canonical hero category order in lockstep with the worker's
-// HERO_CATEGORIES. Duplicated here only because the worker package is
-// self-contained (tsconfig rootDir: src), so the app can't import it.
-export const HERO_CATEGORIES = [
-  { id: "ai-agents", label: "AI Agents", color: "#A855F7" },
-  { id: "devtools", label: "DevTools", color: "#FB923C" },
-  { id: "mcp", label: "MCP", color: "#14B8A6" },
-  { id: "ai-ml", label: "AI/ML", color: "#3ad6c5" },
-  { id: "browser-automation", label: "Browser", color: "#0EA5E9" },
-  { id: "local-llm", label: "Local LLM", color: "#6366F1" },
-  { id: "other", label: "Other", color: "#4b5563" },
-] as const;
-
-export type HeroCategoryId = (typeof HERO_CATEGORIES)[number]["id"];
-
-export interface ByCategoryDay {
-  d: string;
-  byCategory: Partial<Record<HeroCategoryId, number>>;
-}
-
-export interface StarsByCategoryFile {
-  fetchedAt: string;
-  windowDays: number;
-  totalRepos: number;
-  missingSeries: number;
-  days: ByCategoryDay[];
-}
+export {
+  HERO_CATEGORIES,
+  type ByCategoryDay,
+  type ByCategoryPoint,
+  type HeroCategoryId,
+  type StarsByCategoryChartData,
+  type StarsByCategoryFile,
+};
 
 function emptyFile(): StarsByCategoryFile {
   return {
@@ -126,12 +106,6 @@ export async function refreshStarsByCategoryFromStore(): Promise<void> {
 
   inflight = (async () => {
     try {
-      // Client bundle never refreshes — avoid pulling data-store (server-only)
-      // into the client chunk via Webpack's dynamic-import tracing.
-      if (typeof window !== "undefined") {
-        if (!cache) cache = loadBundled();
-        return;
-      }
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<unknown>(REDIS_SLUG);
@@ -160,26 +134,6 @@ export function getStarsByCategoryFile(): StarsByCategoryFile {
 // ---------------------------------------------------------------------------
 // Chart-shape projection for AuroraChart (stackedBars variant).
 // ---------------------------------------------------------------------------
-
-export interface ByCategoryPoint {
-  /** X-axis key — YYYY-MM-DD. */
-  d: string;
-  /** One numeric column per category id. */
-  [categoryId: string]: string | number;
-}
-
-export interface StarsByCategoryChartData {
-  /** Days oldest → newest, one entry per UTC day in the window. */
-  points: ByCategoryPoint[];
-  /** Band keys in legend order (matches HERO_CATEGORIES). */
-  categories: typeof HERO_CATEGORIES;
-  /** ISO of the worker's last successful aggregation run. */
-  fetchedAt: string;
-  /** Window length the worker computed (typically 90). */
-  windowDays: number;
-  /** Repos covered in that aggregation. */
-  totalRepos: number;
-}
 
 /**
  * Project the raw file into the chart-ready shape Recharts wants. Pure.

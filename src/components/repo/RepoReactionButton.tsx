@@ -27,6 +27,7 @@ import { useCallback, useRef, useState } from "react";
 import type { CSSProperties, JSX } from "react";
 
 import { Icon } from "@/components/icon/Icon";
+import { openSignInModal } from "@/lib/auth/open-sign-in-modal";
 import type { RepoReactionKind } from "@/lib/repo-reactions";
 
 interface RepoReactionButtonProps {
@@ -95,7 +96,7 @@ export function RepoReactionButton({
 
   const handleClick = useCallback(async () => {
     if (!signedIn) {
-      window.location.assign(signInUrl);
+      openSignInModal(signInUrl);
       return;
     }
 

@@ -57,7 +57,7 @@ import {
   filterPayloadByWindow,
   type StarActivityPayload,
   type StarActivityWindow,
-} from "@/lib/star-activity";
+} from "@/lib/star-activity-shared";
 import type { DailyDownload } from "@/lib/npm-daily";
 import type { Repo } from "@/lib/types";
 

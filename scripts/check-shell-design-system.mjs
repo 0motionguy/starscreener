@@ -30,8 +30,6 @@ const SHELL_DIR = "src/components/shell";
 // To retire an entry: move the inline styles to shell.css + remove
 // the file from this set + re-run `npm run lint:shell-ds`.
 const ALLOW_FILES = new Set([
-  "src/components/shell/Sidebar.tsx",
-  "src/components/shell/Topbar.tsx",
   // Status/Ticker/FreshnessPill/NavLink/TopbarAuthChip currently clean
   // — keep out of allow-list so any new inline style there fails.
 ]);

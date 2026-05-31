@@ -4,6 +4,7 @@ import bluesky from './fetchers/bluesky/index.js';
 import hackernews from './fetchers/hackernews/index.js';
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
+import producthunt from './fetchers/producthunt/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
 // Phase B Group 1 (signals)
 import ossTrending from './fetchers/oss-trending/index.js';
@@ -179,6 +180,7 @@ export const FETCHERS: Fetcher[] = [
   hackernews,
   devto,
   reddit,
+  producthunt,
   twitter,
   mentionsLedger,
   npmDownloads,

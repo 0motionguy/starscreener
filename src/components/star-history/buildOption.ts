@@ -11,7 +11,7 @@
 // POSTER + SKETCH on the page are special SVG compositions (not ECharts) so
 // they're handled in page.tsx / SketchArt.tsx, not here.
 
-import type { StarActivityPayload, StarActivityScale } from "@/lib/star-activity";
+import type { StarActivityPayload, StarActivityScale } from "@/lib/star-activity-shared";
 
 type EOption = Record<string, unknown>;
 

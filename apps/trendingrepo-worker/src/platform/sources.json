@@ -804,6 +804,43 @@
     ]
   },
   {
+    "id": "producthunt",
+    "category": "social",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 57600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "rate_limit": {
+      "per_hour": 6250,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://api.producthunt.com/v2/api/graphql",
+    "auth_required": true,
+    "auth_scheme": "producthunt_token_pool",
+    "primary_output_keys": [
+      "producthunt-launches"
+    ],
+    "output_record_shape": "ranked_list",
+    "consensus_role": "mention-feed",
+    "consumer_surfaces": [
+      "src/lib/producthunt.ts",
+      "src/lib/sidebar-source-counts.ts"
+    ],
+    "depends_on": [
+      "repo-registry"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "product",
+      "repo"
+    ]
+  },
+  {
     "id": "npm-downloads",
     "category": "package",
     "kind": "snapshot",

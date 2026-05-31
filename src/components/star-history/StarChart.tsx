@@ -30,7 +30,7 @@ import {
   registerPublicThemes,
   type PublicThemeName,
 } from "@/lib/charts/public-themes";
-import type { StarActivityScale } from "@/lib/star-activity";
+import type { StarActivityScale } from "@/lib/star-activity-shared";
 
 echarts.use([
   LineChart,

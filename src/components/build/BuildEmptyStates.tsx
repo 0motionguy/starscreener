@@ -3,7 +3,7 @@
 // no-repo-selected landing this is the primary content surface alongside
 // the repo selector.
 
-import Link from "next/link";
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 
 interface BuildEmptyStatesProps {
   /** When true, the "No repo connected" card is suppressed (we already
@@ -26,12 +26,13 @@ export function BuildEmptyStates({ hasRepoSelected }: BuildEmptyStatesProps) {
               Connect or select a GitHub repo to detect meaningful build
               progress.
             </p>
-            <Link
+            <AuthGateButton
               className="tiny-btn primary"
-              href="/sign-in?redirect_url=/build"
+              redirectUrl="/build"
+              authenticatedHref="/build"
             >
               Connect GitHub
-            </Link>
+            </AuthGateButton>
           </div>
         ) : null}
         <div className="empty-state">

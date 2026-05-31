@@ -142,6 +142,9 @@ test("only known callers may import Clerk hooks (useUser / useAuth)", () => {
     // gate pattern as HeaderAccountLoaded; its own file header asserts this
     // allow-list membership.
     join("src", "components", "repo", "RepoProfileTopbarAuth.tsx"),
+    // Pricing checkout is dynamically mounted only after the pricing page
+    // passes the server-resolved authEnabled gate through CheckoutLauncher.
+    join("src", "components", "pricing", "CheckoutLauncherLoaded.tsx"),
     // Sign-in / sign-up route surfaces are children of the layout's
     // ClerkProvider and reach Clerk hooks via Clerk's own components.
   ]);

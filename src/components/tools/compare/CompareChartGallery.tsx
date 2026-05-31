@@ -30,7 +30,7 @@ import {
   type StarActivityPayload,
   type StarActivityScale,
   type StarActivityWindow,
-} from "@/lib/star-activity";
+} from "@/lib/star-activity-shared";
 import type { Repo } from "@/lib/types";
 
 // The themes star-history's ThemeLab exposes, minus `sketch` (custom SVG

@@ -29,13 +29,7 @@
 //   src/lib/api/rate-limit-store.ts — same Upstash-with-memory-fallback
 //   pattern, same factory shape, same one-shot warn discipline.
 //
-// NOTE: this file deliberately omits `import "server-only"` because
-// stars-by-category.ts dynamically imports it inside a `typeof window`
-// guard, and Webpack still traces dynamic imports. Allow-listed in
-// scripts/check-server-only-markers.mjs. The proper structural fix is
-// to split stars-by-category into a client-safe shared module + a
-// server-only reader so this directive can come back. Tracked as
-// docs/TECH-DEBT — D.1 follow-up.
+import "server-only";
 
 import { dirname, resolve } from "path";
 import { DataStoreFatalError } from "@/lib/errors";

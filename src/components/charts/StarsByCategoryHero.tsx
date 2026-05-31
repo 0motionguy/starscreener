@@ -20,7 +20,7 @@ import { AuroraChart, type AuroraSeries, shortDate } from "@/components/charts/A
 import {
   HERO_CATEGORIES,
   type StarsByCategoryChartData,
-} from "@/lib/stars-by-category";
+} from "@/lib/stars-by-category-shared";
 
 interface Props {
   data: StarsByCategoryChartData;

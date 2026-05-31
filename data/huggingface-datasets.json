@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-31T04:57:31.318Z",
+  "fetchedAt": "2026-05-31T09:27:38.321Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -8,9 +8,9 @@
       "id": "openbmb/UltraData-SFT-2605",
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/UltraData-SFT-2605",
-      "downloads": 8096,
-      "likes": 223,
-      "trendingScore": 166,
+      "downloads": 11036,
+      "likes": 225,
+      "trendingScore": 168,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -40,9 +40,9 @@
       "id": "openbmb/Ultra-FineWeb-L3",
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3",
-      "downloads": 21716,
-      "likes": 219,
-      "trendingScore": 105,
+      "downloads": 27284,
+      "likes": 221,
+      "trendingScore": 107,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -296,9 +296,9 @@
       "id": "jasperai/monet",
       "author": "jasperai",
       "url": "https://huggingface.co/datasets/jasperai/monet",
-      "downloads": 256618,
-      "likes": 76,
-      "trendingScore": 68,
+      "downloads": 265463,
+      "likes": 77,
+      "trendingScore": 69,
       "tags": [
         "task_categories:text-to-image",
         "task_categories:image-feature-extraction",
@@ -784,6 +784,23 @@
     },
     {
       "rank": 26,
+      "id": "stanford-vision-lab/gpic",
+      "author": "stanford-vision-lab",
+      "url": "https://huggingface.co/datasets/stanford-vision-lab/gpic",
+      "downloads": 15525,
+      "likes": 31,
+      "trendingScore": 26,
+      "tags": [
+        "language:en",
+        "license:mit",
+        "arxiv:2605.30341",
+        "region:us"
+      ],
+      "createdAt": "2026-05-03T20:45:00.000Z",
+      "lastModified": "2026-05-29T09:50:14.000Z"
+    },
+    {
+      "rank": 27,
       "id": "Modotte/CodeX-2M-Thinking",
       "author": "Modotte",
       "url": "https://huggingface.co/datasets/Modotte/CodeX-2M-Thinking",
@@ -822,7 +839,7 @@
       "lastModified": "2026-02-10T07:23:38.000Z"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": "nvidia/Nemotron-Image-Training-v3",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Image-Training-v3",
@@ -846,7 +863,7 @@
       "lastModified": "2026-04-28T08:35:01.000Z"
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": "apptek-com/apptek_callcenter_dialogues",
       "author": "apptek-com",
       "url": "https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues",
@@ -880,7 +897,7 @@
       "lastModified": "2026-05-08T22:49:17.000Z"
     },
     {
-      "rank": 29,
+      "rank": 30,
       "id": "iletisim/dezenformasyon-bultenleri",
       "author": "iletisim",
       "url": "https://huggingface.co/datasets/iletisim/dezenformasyon-bultenleri",
@@ -915,7 +932,7 @@
       "lastModified": "2026-05-03T09:10:37.000Z"
     },
     {
-      "rank": 30,
+      "rank": 31,
       "id": "alibaba-multimodal-industrial-ai/IndustryBench",
       "author": "alibaba-multimodal-industrial-ai",
       "url": "https://huggingface.co/datasets/alibaba-multimodal-industrial-ai/IndustryBench",
@@ -944,7 +961,7 @@
       "lastModified": "2026-05-13T05:23:50.000Z"
     },
     {
-      "rank": 31,
+      "rank": 32,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -959,7 +976,7 @@
       "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "id": "HuggingFaceFW/fineweb",
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
@@ -983,7 +1000,7 @@
       "lastModified": "2025-07-11T20:16:53.000Z"
     },
     {
-      "rank": 33,
+      "rank": 34,
       "id": "HuggingFaceBio/carbon-pretraining-corpus",
       "author": "HuggingFaceBio",
       "url": "https://huggingface.co/datasets/HuggingFaceBio/carbon-pretraining-corpus",
@@ -1011,7 +1028,39 @@
       "lastModified": "2026-05-14T12:41:15.000Z"
     },
     {
-      "rank": 34,
+      "rank": 35,
+      "id": "amphora/ResearchMath-14k",
+      "author": "amphora",
+      "url": "https://huggingface.co/datasets/amphora/ResearchMath-14k",
+      "downloads": 640,
+      "likes": 23,
+      "trendingScore": 23,
+      "tags": [
+        "task_categories:text-generation",
+        "task_categories:question-answering",
+        "language:en",
+        "license:mit",
+        "size_categories:10K<n<100K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2605.28003",
+        "region:us",
+        "mathematics",
+        "research-problems",
+        "open-problems",
+        "arxiv",
+        "reasoning",
+        "dataset"
+      ],
+      "createdAt": "2026-05-28T01:58:50.000Z",
+      "lastModified": "2026-05-31T02:31:10.000Z"
+    },
+    {
+      "rank": 36,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -1043,7 +1092,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 35,
+      "rank": 37,
       "id": "blanchon/opencs2_dataset",
       "author": "blanchon",
       "url": "https://huggingface.co/datasets/blanchon/opencs2_dataset",
@@ -1078,7 +1127,7 @@
       "lastModified": "2026-05-04T15:38:59.000Z"
     },
     {
-      "rank": 36,
+      "rank": 38,
       "id": "zhen-nan/L2P-dataset",
       "author": "zhen-nan",
       "url": "https://huggingface.co/datasets/zhen-nan/L2P-dataset",
@@ -1099,55 +1148,6 @@
       ],
       "createdAt": "2026-05-14T07:14:41.000Z",
       "lastModified": "2026-05-22T08:01:59.000Z"
-    },
-    {
-      "rank": 37,
-      "id": "amphora/ResearchMath-14k",
-      "author": "amphora",
-      "url": "https://huggingface.co/datasets/amphora/ResearchMath-14k",
-      "downloads": 466,
-      "likes": 22,
-      "trendingScore": 22,
-      "tags": [
-        "task_categories:text-generation",
-        "task_categories:question-answering",
-        "language:en",
-        "license:mit",
-        "size_categories:10K<n<100K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2605.28003",
-        "region:us",
-        "mathematics",
-        "research-problems",
-        "open-problems",
-        "arxiv",
-        "reasoning",
-        "dataset"
-      ],
-      "createdAt": "2026-05-28T01:58:50.000Z",
-      "lastModified": "2026-05-31T02:31:10.000Z"
-    },
-    {
-      "rank": 38,
-      "id": "stanford-vision-lab/gpic",
-      "author": "stanford-vision-lab",
-      "url": "https://huggingface.co/datasets/stanford-vision-lab/gpic",
-      "downloads": 7322,
-      "likes": 27,
-      "trendingScore": 22,
-      "tags": [
-        "language:en",
-        "license:mit",
-        "arxiv:2605.30341",
-        "region:us"
-      ],
-      "createdAt": "2026-05-03T20:45:00.000Z",
-      "lastModified": "2026-05-29T09:50:14.000Z"
     },
     {
       "rank": 39,

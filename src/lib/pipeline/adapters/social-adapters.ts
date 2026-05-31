@@ -39,7 +39,10 @@ import {
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.
-import { sourceHealthTracker } from "@/lib/source-health-tracker";
+import {
+  isSourceHealthDisabled,
+  sourceHealthTracker,
+} from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -786,9 +789,12 @@ export class GitHubActivityAdapter implements SocialAdapter {
  * reachable; otherwise the Twitter section is hidden in UI.
  */
 export function getDefaultSocialAdapters(): SocialAdapter[] {
-  return [
-    new HackerNewsAdapter(),
-    new RedditAdapter(),
-    new GitHubActivityAdapter(),
-  ];
+  const adapters: SocialAdapter[] = [new HackerNewsAdapter()];
+  if (!isSourceHealthDisabled("reddit")) {
+    adapters.push(new RedditAdapter());
+  }
+  if (!isSourceHealthDisabled("github-search")) {
+    adapters.push(new GitHubActivityAdapter());
+  }
+  return adapters;
 }

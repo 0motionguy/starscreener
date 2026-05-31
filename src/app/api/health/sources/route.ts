@@ -18,6 +18,7 @@
 import { NextResponse } from "next/server";
 
 import {
+  DISABLED_SOURCES,
   KNOWN_SOURCES,
   sourceHealthTracker,
   type SourceHealthSnapshot,
@@ -47,8 +48,10 @@ interface HealthSourcesBody {
     closed: number;
     open: number;
     halfOpen: number;
+    disabled: number;
     openSources: string[];
     halfOpenSources: string[];
+    disabledSources: string[];
   };
   options: {
     windowSize: number;
@@ -120,8 +123,10 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
       closed,
       open,
       halfOpen,
+      disabled: DISABLED_SOURCES.length,
       openSources,
       halfOpenSources,
+      disabledSources: [...DISABLED_SOURCES].sort(),
     },
     options: {
       windowSize: opts.windowSize,

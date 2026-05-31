@@ -1,16 +1,13 @@
 // OSS Insight trending + hot collections fetcher.
 //
-// Ports `scripts/scrape-trending.mjs` (the `--skip-collection-rankings`
-// path) into the worker. Pulls 3 periods x 5 languages from
-// /v1/trends/repos/, plus /v1/collections/hot/, then publishes two
-// data-store slugs:
-//   - `trending`         (ss:data:v1:trending)         buckets payload
-//   - `hot-collections`  (ss:data:v1:hot-collections)  hot-collections payload
+// Pulls 3 periods x 5 languages from /v1/trends/repos/, plus
+// /v1/collections/hot/, then publishes two data-store slugs:
+//   - `trending`
+//   - `hot-collections`
 //
-// Cadence: hourly at :27 (matches .github/workflows/scrape-trending.yml).
-// OSS Insight allows ~600 req/hr per IP; we throttle 1.5s between bucket
-// requests to stay polite. Endpoints don't emit ETag, so we disable the
-// HTTP client's ETag cache to keep redis namespace tidy.
+// The producer never publishes empty upstream failures over last-known-good
+// data. Partial failures preserve cached leaf rows; total failures can publish
+// an internal degraded fallback built from other fresh worker outputs.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
@@ -19,6 +16,11 @@ import {
   countTrendingRows,
   readFallbackSources,
 } from './fallback.js';
+import {
+  buildGithubCollectionRankingsFallback,
+  buildHotCollectionsFromRankings,
+  readGithubCollectionFallbackSources,
+} from '../collection-rankings/fallback.js';
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
 const LANGUAGES = ['All', 'Python', 'TypeScript', 'Rust', 'Go'] as const;
@@ -70,6 +72,10 @@ export interface NormalizedHotCollectionRow {
 export interface TrendingPayload {
   fetchedAt: string;
   buckets: Record<string, Record<string, OssRow[]>>;
+  status?: 'ok' | 'degraded';
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
+  source?: string;
 }
 
 export interface HotCollectionsPayload {
@@ -78,6 +84,7 @@ export interface HotCollectionsPayload {
   status?: 'ok' | 'degraded';
   dataAsOf?: string | null;
   errors?: Array<{ stage: string; message: string }>;
+  source?: string;
 }
 
 const sleep = (ms: number): Promise<void> =>
@@ -111,12 +118,22 @@ function normalizeHotCollectionRow(
   };
 }
 
+function trendingRows(
+  payload: TrendingPayload | null | undefined,
+  period: string,
+  language: string,
+): OssRow[] {
+  return payload?.buckets?.[period]?.[language] ?? [];
+}
+
+function hotRowsFromPayload(
+  payload: HotCollectionsPayload | null | undefined,
+): NormalizedHotCollectionRow[] {
+  return Array.isArray(payload?.rows) ? payload.rows : [];
+}
+
 const fetcher: Fetcher = {
   name: 'oss-trending',
-  // Staggered to :22 (was :27 — clustered with 3 others). Runs first in
-  // the cluster so deltas (:40) sees a fresh `trending` payload. Cron-tick
-  // budget is generous: 22s of bucket fetches comfortably finish before
-  // recent-repos starts at :25.
   schedule: '22 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
@@ -129,20 +146,22 @@ const fetcher: Fetcher = {
 
     const fetchedAt = new Date().toISOString();
     const buckets: Record<string, Record<string, OssRow[]>> = {};
-    let totalRows = 0;
-
-    // Read the last-known-good payload so a per-bucket fetch failure can
-    // preserve that bucket instead of replacing it with [] (partial-outage
-    // protection — OSSInsight's CDN flakes per-PoP, so one language/window can
-    // 500 while the rest 200). The total-failure guard below still handles a
-    // full outage.
-    const priorBuckets =
-      (await readDataStore<TrendingPayload>('trending').catch(() => null))
-        ?.buckets ?? {};
+    const priorTrending =
+      (await readDataStore<TrendingPayload>('trending').catch(() => null)) ??
+      null;
     const priorHotCollections =
       (await readDataStore<HotCollectionsPayload>('hot-collections').catch(
         () => null,
       )) ?? null;
+    const internalTrendingFallback = buildFallbackTrendingPayload(
+      await readFallbackSources(),
+      fetchedAt,
+    );
+    let totalRows = 0;
+    let preservedTrendRows = 0;
+    let internalTrendRows = 0;
+    let missingTrendFallbacks = 0;
+    const trendPayloadErrors: Array<{ stage: string; message: string }> = [];
 
     for (const period of PERIODS) {
       buckets[period] = {};
@@ -160,22 +179,60 @@ const fetcher: Fetcher = {
           ctx.log.info({ period, language, rows: rows.length }, 'bucket fetched');
         } catch (err) {
           const message = (err as Error).message;
-          const prior = priorBuckets[period]?.[language] ?? [];
-          if (prior.length > 0) {
+          const internalRows = trendingRows(
+            internalTrendingFallback,
+            period,
+            language,
+          );
+          const priorRows = trendingRows(priorTrending, period, language);
+          if (internalTrendingFallback) {
+            const fallbackRows = internalRows;
+            buckets[period]![language] = fallbackRows;
+            internalTrendRows += fallbackRows.length;
+            totalRows += fallbackRows.length;
             ctx.log.warn(
-              { period, language, err: message, preserved: prior.length },
-              'bucket fetch failed — preserving last-known-good bucket',
+              {
+                period,
+                language,
+                err: message,
+                preservedRows: fallbackRows.length,
+                fallbackSource: 'internal-github',
+              },
+              'bucket fetch failed - serving fallback rows',
             );
             errors.push({
               stage: `bucket:${label}`,
-              message: `${message} (preserved ${prior.length} cached)`,
+              message: `${message} (served ${fallbackRows.length} internal-github)`,
             });
-            buckets[period]![language] = prior;
-            totalRows += prior.length;
+          } else if (priorRows.length > 0) {
+            const fallbackRows = priorRows;
+            buckets[period]![language] = fallbackRows;
+            preservedTrendRows += fallbackRows.length;
+            trendPayloadErrors.push({
+              stage: `bucket:${label}`,
+              message: `${message} (preserved ${fallbackRows.length} cached)`,
+            });
+            totalRows += fallbackRows.length;
+            ctx.log.warn(
+              {
+                period,
+                language,
+                err: message,
+                preservedRows: fallbackRows.length,
+                fallbackSource: 'cached',
+              },
+              'bucket fetch failed - serving fallback rows',
+            );
+            errors.push({
+              stage: `bucket:${label}`,
+              message: `${message} (served ${fallbackRows.length} cached)`,
+            });
           } else {
             ctx.log.error({ period, language, err: message }, 'bucket fetch failed');
             errors.push({ stage: `bucket:${label}`, message });
             buckets[period]![language] = [];
+            missingTrendFallbacks += 1;
+            trendPayloadErrors.push({ stage: `bucket:${label}`, message });
           }
         }
         await sleep(TRENDS_PAUSE_MS);
@@ -183,6 +240,10 @@ const fetcher: Fetcher = {
     }
 
     let hotRows: NormalizedHotCollectionRow[] = [];
+    let preservedHotRows = 0;
+    let githubHotRows = 0;
+    let missingHotFallback = false;
+    const hotPayloadErrors: Array<{ stage: string; message: string }> = [];
     try {
       const { data } = await ctx.http.json<OssEnvelope<HotCollectionRow>>(
         HOT_COLLECTIONS_URL,
@@ -194,95 +255,149 @@ const fetcher: Fetcher = {
       ctx.log.info({ rows: hotRows.length }, 'hot collections fetched');
     } catch (err) {
       const message = (err as Error).message;
-      ctx.log.error({ err: message }, 'hot collections fetch failed');
-      errors.push({ stage: 'hot-collections', message });
-    }
-
-    const trendsPayload: TrendingPayload = { fetchedAt, buckets };
-    const hotErrors = errors.filter((err) => err.stage === 'hot-collections');
-    const hotPayload: HotCollectionsPayload =
-      hotRows.length > 0
-        ? { fetchedAt, rows: hotRows, status: 'ok', dataAsOf: fetchedAt }
-        : {
-            fetchedAt,
-            rows: priorHotCollections?.rows ?? [],
-            status: 'degraded',
-            dataAsOf:
-              priorHotCollections?.dataAsOf ?? priorHotCollections?.fetchedAt ?? null,
-            errors:
-              hotErrors.length > 0
-                ? hotErrors
-                : [
-                    {
-                      stage: 'hot-collections',
-                      message: 'empty hot collections response',
-                    },
-                  ],
-          };
-
-    // Zero-write guard — root-cause fix for the 2026-05-28 site-wide delta wipe.
-    // When api.ossinsight.io is fully down, every bucket fetch fails and comes
-    // back empty. Writing that empty payload OVERWRITES the last-known-good
-    // `trending` slug, which zeroes every repo's star-delta site-wide and forces
-    // the deltaless registry fallback ("—" + monogram everywhere). Preserve the
-    // existing slug instead — slightly-stale beats empty, same contract as the
-    // keep-last-50 collector rule. Only a TOTAL failure (totalRows === 0)
-    // triggers preservation; partial buckets still publish.
-    let trendsSource = 'preserved';
-    let hotSource = 'preserved';
-    if (totalRows > 0) {
-      const res = await writeDataStore('trending', trendsPayload);
-      trendsSource = res.source;
-    } else {
-      const fallbackPayload = buildFallbackTrendingPayload(
-        await readFallbackSources(),
+      const priorRows = hotRowsFromPayload(priorHotCollections);
+      const githubFallback = buildGithubCollectionRankingsFallback(
+        await readGithubCollectionFallbackSources(),
         fetchedAt,
       );
-      if (fallbackPayload) {
-        const fallbackRows = countTrendingRows(fallbackPayload);
-        const res = await writeDataStore('trending', fallbackPayload, {
-          writer: 'worker:oss-trending:fallback',
-        });
-        totalRows = fallbackRows;
-        trendsSource = res.source;
+      const fallbackRows = buildHotCollectionsFromRankings(githubFallback);
+      if (fallbackRows.length > 0) {
+        hotRows = fallbackRows;
+        githubHotRows = hotRows.length;
         ctx.log.warn(
-          { fallbackRows },
-          'oss-trending: ALL buckets empty; published internal fallback trending payload',
+          { err: message, rows: hotRows.length },
+          'hot collections fetch failed - serving github-metadata fallback rows',
         );
         errors.push({
-          stage: 'fallback-trending',
-          message: `all OSSInsight buckets empty; published ${fallbackRows} internal fallback rows`,
+          stage: 'hot-collections',
+          message: `${message} (served ${hotRows.length} github-metadata fallback)`,
         });
+      } else if (priorRows.length > 0) {
+        hotRows = priorRows;
+        preservedHotRows = priorRows.length;
+        ctx.log.warn(
+          { err: message, preservedRows: priorRows.length },
+          'hot collections fetch failed - preserving cached rows',
+        );
+        const preserved = {
+          stage: 'hot-collections',
+          message: `${message} (preserved ${priorRows.length} cached)`,
+        };
+        errors.push(preserved);
+        hotPayloadErrors.push(preserved);
       } else {
-        ctx.log.error(
-          'oss-trending: ALL buckets empty (api.ossinsight.io down?) — preserving last-known-good `trending` slug instead of overwriting with empty',
-        );
-        errors.push({
-          stage: 'guard-trending',
-          message: 'all buckets empty; preserved last-known-good trending slug',
-        });
+        ctx.log.error({ err: message }, 'hot collections fetch failed');
+        const failed = { stage: 'hot-collections', message };
+        errors.push(failed);
+        hotPayloadErrors.push(failed);
+        missingHotFallback = true;
       }
     }
-    if (hotRows.length > 0) {
-      const res = await writeDataStore('hot-collections', hotPayload);
-      hotSource = res.source;
+
+    const trendStatus = trendPayloadErrors.length > 0 ? 'degraded' : 'ok';
+    const hotStatus = hotPayloadErrors.length > 0 ? 'degraded' : 'ok';
+    const trendsPayload: TrendingPayload = {
+      fetchedAt,
+      buckets,
+      status: trendStatus,
+      ...(internalTrendRows > 0 && trendPayloadErrors.length === 0
+        ? { source: 'internal-github-fallback' }
+        : {}),
+      dataAsOf:
+        trendStatus === 'degraded'
+          ? priorTrending?.dataAsOf ?? priorTrending?.fetchedAt ?? null
+          : fetchedAt,
+      ...(trendPayloadErrors.length > 0 ? { errors: trendPayloadErrors } : {}),
+    };
+    const hotPayload: HotCollectionsPayload = {
+      fetchedAt,
+      rows: hotRows,
+      status: hotStatus,
+      ...(githubHotRows > 0 && hotPayloadErrors.length === 0
+        ? { source: 'github-metadata-fallback' }
+        : {}),
+      dataAsOf:
+        hotStatus === 'degraded'
+          ? priorHotCollections?.dataAsOf ??
+            priorHotCollections?.fetchedAt ??
+            null
+          : fetchedAt,
+      ...(hotPayloadErrors.length > 0 ? { errors: hotPayloadErrors } : {}),
+    };
+
+    let trendsSource: 'redis' | 'preserved' = 'preserved';
+    let hotSource: 'redis' | 'preserved' = 'preserved';
+    if (totalRows > 0 && missingTrendFallbacks === 0) {
+      const trendsRes = await writeDataStore(
+        'trending',
+        trendsPayload,
+        trendStatus === 'degraded'
+          ? { writer: 'worker:oss-trending:degraded' }
+          : {},
+      );
+      trendsSource = trendsRes.source === 'redis' ? 'redis' : 'preserved';
+    } else if (totalRows === 0) {
+      const fallbackPayload = internalTrendingFallback;
+      if (fallbackPayload) {
+        const fallbackRows = countTrendingRows(fallbackPayload);
+        const message = `all OSSInsight buckets empty; published ${fallbackRows} internal fallback rows`;
+        const trendsRes = await writeDataStore(
+          'trending',
+          {
+            ...fallbackPayload,
+            status: 'degraded',
+            dataAsOf: fetchedAt,
+            errors: [{ stage: 'fallback-trending', message }],
+          } satisfies TrendingPayload,
+          { writer: 'worker:oss-trending:fallback' },
+        );
+        totalRows = fallbackRows;
+        trendsSource = trendsRes.source === 'redis' ? 'redis' : 'preserved';
+        errors.push({ stage: 'fallback-trending', message });
+        ctx.log.warn({ fallbackRows }, message);
+      } else {
+        const message = 'all trend buckets empty; skipped empty trending publish';
+        errors.push({ stage: 'guard:trending', message });
+        ctx.log.error({ totalRows, preservedTrendRows }, message);
+      }
     } else {
-      ctx.log.warn(
-        'oss-trending: no hot collections this run; publishing degraded hot-collections payload',
+      const message = `missing cached rows for ${missingTrendFallbacks} failed trend bucket(s); skipped empty trending publish`;
+      errors.push({ stage: 'guard:trending', message });
+      ctx.log.error(
+        {
+          totalRows,
+          preservedTrendRows,
+          missingTrendFallbacks,
+        },
+        message,
       );
     }
 
-    if (hotRows.length === 0) {
-      const res = await writeDataStore('hot-collections', hotPayload, {
-        writer: 'worker:oss-trending:degraded',
-      });
-      hotSource = res.source;
+    if (hotRows.length > 0 && !missingHotFallback) {
+      const hotRes = await writeDataStore(
+        'hot-collections',
+        hotPayload,
+        hotStatus === 'degraded'
+          ? { writer: 'worker:oss-trending:degraded' }
+          : {},
+      );
+      hotSource = hotRes.source === 'redis' ? 'redis' : 'preserved';
+    } else {
+      const message = missingHotFallback
+        ? 'no cached hot collection rows after upstream failure; skipped empty hot-collections publish'
+        : 'hot collections empty; skipped empty hot-collections publish';
+      errors.push({ stage: 'guard:hot-collections', message });
+      ctx.log.error({ hotCollections: hotRows.length }, message);
     }
 
     ctx.log.info(
       {
         totalRows,
         hotCollections: hotRows.length,
+        preservedTrendRows,
+        internalTrendRows,
+        preservedHotRows,
+        githubHotRows,
         trendingRedis: trendsSource,
         hotRedis: hotSource,
       },

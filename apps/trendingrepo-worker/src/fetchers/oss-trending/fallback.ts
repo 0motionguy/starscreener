@@ -357,13 +357,21 @@ export function buildFallbackTrendingPayload(
   return countTrendingRows(payload) > 0 ? payload : null;
 }
 
+async function safeReadDataStore<T>(slug: string): Promise<T | null> {
+  try {
+    return (await readDataStore<T>(slug)) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function readFallbackSources(): Promise<FallbackSources> {
   const [registry, metadata, consensus, recent, starActivityDeltas] = await Promise.all([
-    readDataStore<RegistryPayload>('repo-registry').catch(() => null),
-    readDataStore<RepoMetadataPayload>('repo-metadata').catch(() => null),
-    readDataStore<ConsensusPayload>('consensus-trending').catch(() => null),
-    readDataStore<RecentReposPayload>('recent-repos').catch(() => null),
-    readDataStore<StarActivityDeltasPayload>('star-activity-deltas').catch(() => null),
+    safeReadDataStore<RegistryPayload>('repo-registry'),
+    safeReadDataStore<RepoMetadataPayload>('repo-metadata'),
+    safeReadDataStore<ConsensusPayload>('consensus-trending'),
+    safeReadDataStore<RecentReposPayload>('recent-repos'),
+    safeReadDataStore<StarActivityDeltasPayload>('star-activity-deltas'),
   ]);
   return { registry, metadata, consensus, recent, starActivityDeltas };
 }

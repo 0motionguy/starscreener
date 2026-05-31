@@ -353,7 +353,48 @@ describe('oss-trending fallback', () => {
     expect(bucket(payload, 'past_month', 'TypeScript')[0]?.stars).toBe('90');
   });
 
-  it('publishes a degraded hot-collections payload when only that endpoint is down', async () => {
+  it('does not publish an empty hot-collections payload when the endpoint is down without cache', async () => {
+    const { default: fetcher } = await import('../index.js');
+
+    await fetcher.run(makeContext());
+
+    const writes = writeDataStoreMock.mock.calls as unknown as Array<
+      [string, unknown, unknown?]
+    >;
+    const hotWrite = writes.find(([slug]) => slug === 'hot-collections');
+    expect(hotWrite).toBeUndefined();
+  });
+
+  it('publishes hot-collections from github metadata fallback when OSSInsight hot endpoint is down cold', async () => {
+    readDataStoreMock.mockImplementation(async (slug: string) => {
+      if (slug === 'trending') return emptyTrendingPayload();
+      if (slug === 'hot-collections') return null;
+      if (slug === 'repo-metadata') {
+        return {
+          fetchedAt: '2026-06-01T00:00:00.000Z',
+          items: [
+            {
+              githubId: 155220641,
+              fullName: 'huggingface/transformers',
+              stars: 152000,
+              openIssues: 950,
+            },
+          ],
+        };
+      }
+      if (slug === 'star-activity-deltas') {
+        return {
+          computedAt: '2026-06-01T00:00:00.000Z',
+          repos: {
+            'huggingface/transformers': {
+              stars_now: 152000,
+              delta_30d: { value: 321, basis: 'exact' },
+            },
+          },
+        };
+      }
+      return null;
+    });
     const { default: fetcher } = await import('../index.js');
 
     await fetcher.run(makeContext());
@@ -363,17 +404,12 @@ describe('oss-trending fallback', () => {
     >;
     const hotWrite = writes.find(([slug]) => slug === 'hot-collections');
     expect(hotWrite).toBeDefined();
-
-    const payload = hotWrite?.[1] as {
-      status?: string;
-      rows?: unknown[];
-      dataAsOf?: string | null;
-      errors?: Array<{ stage: string; message: string }>;
-    };
-    expect(payload.status).toBe('degraded');
-    expect(payload.rows).toEqual([]);
-    expect(payload.dataAsOf).toBeNull();
-    expect(payload.errors?.[0]?.stage).toBe('hot-collections');
-    expect(hotWrite?.[2]).toEqual({ writer: 'worker:oss-trending:degraded' });
+    expect((hotWrite?.[1] as { status?: string }).status).toBe('ok');
+    expect((hotWrite?.[1] as { source?: string }).source).toBe(
+      'github-metadata-fallback',
+    );
+    expect((hotWrite?.[1] as { rows?: unknown[] }).rows?.length).toBeGreaterThan(
+      0,
+    );
   });
 });

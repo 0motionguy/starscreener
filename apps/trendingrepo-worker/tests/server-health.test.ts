@@ -8,6 +8,9 @@ const ENV_KEYS = [
   'UPSTASH_REDIS_REST_TOKEN',
   'SUPABASE_URL',
   'SUPABASE_SERVICE_ROLE',
+  'WORKER_HEALTH_FORCE_SCHEDULER',
+  'WORKER_HEALTH_STARTUP_GRACE_MS',
+  'WORKER_HEALTH_MAX_IDLE_MS',
 ] as const;
 
 const previousEnv = new Map<string, string | undefined>();
@@ -45,5 +48,33 @@ describe('worker healthcheck', () => {
     const { oneShotHealthcheck } = await import('../src/server.js');
 
     await expect(oneShotHealthcheck()).resolves.toBe(1);
+  });
+
+  it('fails enforced health when cron has not reported progress after startup grace', async () => {
+    for (const key of ENV_KEYS) delete process.env[key];
+    process.env.DATA_STORE_DISABLE = '1';
+    process.env.WORKER_HEALTH_FORCE_SCHEDULER = '1';
+    process.env.WORKER_HEALTH_STARTUP_GRACE_MS = '0';
+
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    const { oneShotHealthcheck } = await import('../src/server.js');
+
+    await expect(oneShotHealthcheck({ enforceScheduler: true })).resolves.toBe(1);
+  });
+
+  it('passes enforced health after recordRun marks scheduler progress', async () => {
+    for (const key of ENV_KEYS) delete process.env[key];
+    process.env.DATA_STORE_DISABLE = '1';
+    process.env.WORKER_HEALTH_FORCE_SCHEDULER = '1';
+    process.env.WORKER_HEALTH_STARTUP_GRACE_MS = '0';
+    process.env.WORKER_HEALTH_MAX_IDLE_MS = '60000';
+
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    const { oneShotHealthcheck, recordRun } = await import('../src/server.js');
+    recordRun(new Date());
+
+    await expect(oneShotHealthcheck({ enforceScheduler: true })).resolves.toBe(0);
   });
 });

@@ -42,7 +42,10 @@ export interface TrendingRow {
 
 interface TrendingFile {
   fetchedAt: string;
-  buckets: Record<TrendingPeriod, Record<TrendingLanguage, TrendingRow[]>>;
+  buckets: Partial<Record<TrendingPeriod, Partial<Record<TrendingLanguage, TrendingRow[]>>>>;
+  status?: "ok" | "degraded";
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 // Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
@@ -87,6 +90,20 @@ export function getAllFullNames(): string[] {
     }
   }
   return out;
+}
+
+export function countTrendingPayloadRows(file: TrendingFile): number {
+  let count = 0;
+  for (const langMap of Object.values(file.buckets ?? {})) {
+    for (const rows of Object.values(langMap)) {
+      if (Array.isArray(rows)) count += rows.length;
+    }
+  }
+  return count;
+}
+
+export function isUsableTrendingPayload(file: TrendingFile): boolean {
+  return countTrendingPayloadRows(file) > 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -234,7 +251,11 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
         readDeltasWithToolboxFallback(store),
       ]);
 
-      if (trendingResult.data && trendingResult.source !== "missing") {
+      if (
+        trendingResult.data &&
+        trendingResult.source !== "missing" &&
+        isUsableTrendingPayload(trendingResult.data)
+      ) {
         data = trendingResult.data;
         _fullNameToRepoId = null;
       }

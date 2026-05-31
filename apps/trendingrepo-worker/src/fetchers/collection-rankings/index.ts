@@ -17,52 +17,21 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
-import seedRankings from './seed.json' with { type: 'json' };
-
-interface CollectionRef {
-  id: number;
-  slug: string;
-}
-
-// Source: data/collections/*.yml (id + filename without .yml). Must stay
-// in lockstep with that directory; cross-check with `head -2 *.yml` if
-// adding a new collection.
-const COLLECTIONS: CollectionRef[] = [
-  { id: 10139, slug: 'a2a-protocol' },
-  { id: 10141, slug: 'agent-harness' },
-  { id: 10124, slug: 'agent-skills' },
-  { id: 10098, slug: 'ai-agent-frameworks' },
-  { id: 10114, slug: 'ai-agent-memory' },
-  { id: 10113, slug: 'ai-browser-agents' },
-  { id: 10136, slug: 'ai-code-review' },
-  { id: 10112, slug: 'ai-coding-assistants' },
-  { id: 10130, slug: 'ai-finops' },
-  { id: 10127, slug: 'ai-governance' },
-  { id: 10125, slug: 'ai-infrastructure' },
-  { id: 10135, slug: 'ai-observability' },
-  { id: 10116, slug: 'ai-safety-alignment' },
-  { id: 10122, slug: 'ai-video-generation' },
-  { id: 10010, slug: 'artificial-intelligence' },
-  { id: 10075, slug: 'chatgpt-alternatives' },
-  { id: 10078, slug: 'chatgpt-apps' },
-  { id: 10106, slug: 'coding-agents' },
-  { id: 10126, slug: 'edge-ai' },
-  { id: 10134, slug: 'knowledge-graphs-for-ai' },
-  { id: 10110, slug: 'llm-finetuning' },
-  { id: 10109, slug: 'llm-inference-engines' },
-  { id: 10076, slug: 'llm-tools' },
-  { id: 10105, slug: 'mcp-servers' },
-  { id: 10121, slug: 'model-compression' },
-  { id: 10118, slug: 'multimodal-ai' },
-  { id: 10108, slug: 'rag-frameworks' },
-  { id: 10117, slug: 'vector-databases' },
-];
+import {
+  COLLECTIONS,
+  METRICS,
+  SEED_COLLECTION_RANKINGS,
+  buildGithubCollectionRankingsFallback,
+  countRankingRows,
+  rankingRows,
+  readGithubCollectionFallbackSources,
+  type CollectionRankingsPayload,
+  type Metric,
+  type NormalizedRankingRow,
+} from './fallback.js';
 
 const PERIOD = 'past_28_days';
-const METRICS = ['stars', 'issues'] as const;
 const PAUSE_MS = 400;
-
-type Metric = (typeof METRICS)[number];
 
 interface RankingRow {
   repo_id?: string | number;
@@ -76,36 +45,12 @@ interface RankingRow {
   past_period_rank?: string | number;
 }
 
-interface NormalizedRankingRow {
-  repoId: number | null;
-  repoName: string;
-  currentPeriodGrowth: number | null;
-  pastPeriodGrowth: number | null;
-  growthPop: number | null;
-  rankPop: number | null;
-  total: number | null;
-  currentPeriodRank: number | null;
-  pastPeriodRank: number | null;
-}
-
 interface OssEnvelope<T> {
   data?: { rows?: T[] };
 }
 
-export interface CollectionRankingsPayload {
-  fetchedAt: string;
-  period: string;
-  collections: Record<string, Record<Metric, NormalizedRankingRow[]>>;
-  status?: 'ok' | 'degraded';
-  dataAsOf?: string | null;
-  errors?: Array<{ stage: string; message: string }>;
-}
-
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
-
-const SEED_COLLECTION_RANKINGS =
-  seedRankings as unknown as CollectionRankingsPayload;
 
 function toNumber(value: unknown): number | null {
   const parsed = Number.parseInt(String(value ?? ''), 10);
@@ -139,27 +84,6 @@ function normalize(row: RankingRow): NormalizedRankingRow {
   };
 }
 
-function rankingRows(
-  payload: CollectionRankingsPayload | null | undefined,
-  collectionId: string,
-  metric: Metric,
-): NormalizedRankingRow[] {
-  return payload?.collections?.[collectionId]?.[metric] ?? [];
-}
-
-function countRankingRows(
-  payload: CollectionRankingsPayload | null | undefined,
-): number {
-  if (!payload?.collections) return 0;
-  let count = 0;
-  for (const collection of Object.values(payload.collections)) {
-    for (const metric of METRICS) {
-      count += collection[metric]?.length ?? 0;
-    }
-  }
-  return count;
-}
-
 const fetcher: Fetcher = {
   name: 'collection-rankings',
   // Every 6h at :17 - matches refresh-collection-rankings.yml.
@@ -180,8 +104,14 @@ const fetcher: Fetcher = {
       (await readDataStore<CollectionRankingsPayload>('collection-rankings').catch(
         () => null,
       )) ?? null;
+    const githubFallback = buildGithubCollectionRankingsFallback(
+      await readGithubCollectionFallbackSources(),
+      fetchedAt,
+    );
     let totalRows = 0;
     let preservedRows = 0;
+    let githubFallbackRows = 0;
+    const payloadErrors: RunResult['errors'] = [];
 
     for (const collection of COLLECTIONS) {
       const metrics: Record<Metric, NormalizedRankingRow[]> = {
@@ -206,6 +136,7 @@ const fetcher: Fetcher = {
         } catch (err) {
           const message = (err as Error).message;
           const collectionId = String(collection.id);
+          const githubRows = rankingRows(githubFallback, collectionId, metric);
           const priorRows = rankingRows(prior, collectionId, metric);
           const seedRows = rankingRows(
             SEED_COLLECTION_RANKINGS,
@@ -213,13 +144,17 @@ const fetcher: Fetcher = {
             metric,
           );
           const fallbackRows =
-            priorRows.length > 0
+            githubRows.length > 0
+              ? githubRows
+              : priorRows.length > 0
               ? priorRows
               : seedRows.length > 0
                 ? seedRows
                 : [];
           const fallbackSource =
-            priorRows.length > 0
+            githubRows.length > 0
+              ? 'github-metadata'
+              : priorRows.length > 0
               ? 'cached'
               : seedRows.length > 0
                 ? 'seed'
@@ -238,7 +173,15 @@ const fetcher: Fetcher = {
           );
           if (fallbackRows.length > 0 && fallbackSource) {
             metrics[metric] = fallbackRows;
-            preservedRows += fallbackRows.length;
+            if (fallbackSource === 'github-metadata') {
+              githubFallbackRows += fallbackRows.length;
+            } else {
+              preservedRows += fallbackRows.length;
+              payloadErrors.push({
+                stage: label,
+                message: `${message} (preserved ${fallbackRows.length} ${fallbackSource})`,
+              });
+            }
             totalRows += fallbackRows.length;
             errors.push({
               stage: label,
@@ -246,6 +189,7 @@ const fetcher: Fetcher = {
             });
           } else {
             errors.push({ stage: label, message });
+            payloadErrors.push({ stage: label, message });
           }
         }
         await sleep(PAUSE_MS);
@@ -262,15 +206,18 @@ const fetcher: Fetcher = {
       fetchedAt,
       period: PERIOD,
       collections,
-      status: errors.length > 0 ? 'degraded' : 'ok',
+      status: payloadErrors.length > 0 ? 'degraded' : 'ok',
+      ...(githubFallbackRows > 0 && payloadErrors.length === 0
+        ? { source: 'github-metadata-fallback' }
+        : {}),
       dataAsOf:
-        errors.length > 0
+        payloadErrors.length > 0
           ? rowfulPrior?.dataAsOf ??
             rowfulPrior?.fetchedAt ??
             rowfulSeed?.fetchedAt ??
             null
           : fetchedAt,
-      ...(errors.length > 0 ? { errors } : {}),
+      ...(payloadErrors.length > 0 ? { errors: payloadErrors } : {}),
     };
 
     // Zero-write guard (keep-last-50 rule): when api.ossinsight.io is down,
@@ -291,6 +238,7 @@ const fetcher: Fetcher = {
           collections: COLLECTIONS.length,
           totalRows,
           preservedRows,
+          githubFallbackRows,
           redisSource: result.source,
           writtenAt: result.writtenAt,
         },
@@ -301,6 +249,11 @@ const fetcher: Fetcher = {
         'collection-rankings: all rankings empty (api.ossinsight.io down?) - skipping empty degraded publish',
       );
       errors.push({
+        stage: 'guard',
+        message:
+          'all rankings empty; skipped empty collection-rankings publish',
+      });
+      payloadErrors.push({
         stage: 'guard',
         message:
           'all rankings empty; skipped empty collection-rankings publish',

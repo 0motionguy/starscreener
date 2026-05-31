@@ -6,6 +6,10 @@ import {
   WORKER_HEALTH_DISABLED_SPECS,
   WORKER_HEALTH_SPECS,
 } from "../../worker-health-specs";
+import {
+  applyPayloadHealthToSlugStatus,
+  summarizeWorkerPayloadHealth,
+} from "../../worker-health-payload";
 
 test("/api/health: stale freshness remains HTTP 200 availability", () => {
   assert.equal(getHealthHttpStatusForStatus("ok", false), 200);
@@ -59,4 +63,58 @@ test("/api/worker/health: TrustMRR catalog cadence matches daily producer", () =
   const overlays = WORKER_HEALTH_SPECS.find((item) => item.slug === "revenue-overlays");
   assert.ok(overlays, "missing worker health spec for revenue-overlays");
   assert.equal(overlays.cadenceMin, 60);
+});
+
+test("/api/worker/health: degraded payloads are not reported as pure green", () => {
+  assert.equal(
+    applyPayloadHealthToSlugStatus("green", {
+      payloadStatus: "degraded",
+      dataAsOf: "2026-05-31T20:00:00.000Z",
+      errorCount: 1,
+      rowCount: 10,
+    }),
+    "amber",
+  );
+  assert.equal(
+    applyPayloadHealthToSlugStatus("green", {
+      payloadStatus: "ok",
+      dataAsOf: null,
+      errorCount: null,
+      rowCount: 0,
+    }),
+    "red",
+  );
+});
+
+test("/api/worker/health: payload row-quality summary covers OSSInsight slugs", () => {
+  assert.deepEqual(
+    summarizeWorkerPayloadHealth("trending", {
+      status: "degraded",
+      dataAsOf: "2026-05-31T20:00:00.000Z",
+      errors: [{ stage: "bucket:past_week/Rust", message: "500" }],
+      buckets: {
+        past_week: {
+          Rust: [{ repo_name: "cached/project" }],
+          Go: [{ repo_name: "cached/go" }],
+        },
+      },
+    }),
+    {
+      payloadStatus: "degraded",
+      dataAsOf: "2026-05-31T20:00:00.000Z",
+      errorCount: 1,
+      rowCount: 2,
+    },
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("collection-rankings", {
+      collections: {
+        "10139": {
+          stars: [{ repoName: "cached/project" }],
+          issues: [],
+        },
+      },
+    }).rowCount,
+    1,
+  );
 });

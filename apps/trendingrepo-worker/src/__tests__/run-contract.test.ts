@@ -36,6 +36,14 @@ function emptyResult(name: string): RunResult {
   };
 }
 
+function warningResult(name: string): RunResult {
+  const result = emptyResult(name);
+  return {
+    ...result,
+    errors: [{ stage: 'test', message: 'soft failure' }],
+  };
+}
+
 function makeMock(name: string): {
   fetcher: Fetcher;
   captured: { contract: FetcherContext['contract'] | undefined };
@@ -52,6 +60,16 @@ function makeMock(name: string): {
     },
   };
   return { fetcher, captured };
+}
+
+function makeWarnMock(name: string): Fetcher {
+  return {
+    name,
+    schedule: '0 * * * *',
+    async run() {
+      return warningResult(name);
+    },
+  };
 }
 
 describe('runFetcher → SourceContract binding (Move 1, Phase 3)', () => {
@@ -107,6 +125,18 @@ describe('runFetcher → SourceContract binding (Move 1, Phase 3)', () => {
     expect(summary).toContain(
       `contract_freshness_budget_ms=${known!.freshness_budget_ms}`,
     );
+  });
+
+  it('emits status=warn when the fetcher returns soft errors', async () => {
+    const known = SOURCE_CONTRACTS[0];
+    expect(known).toBeDefined();
+
+    await runFetcher(makeWarnMock(known!.id), { dryRun: true });
+
+    const lines = logSpy.mock.calls.map((c) => String(c[0] ?? ''));
+    const summary = lines.find((l) => l.startsWith('[run-summary]'));
+    expect(summary).toBeDefined();
+    expect(summary).toContain('status=warn');
   });
 
   it('emits contract_freshness_budget_ms=missing when no contract is found', async () => {

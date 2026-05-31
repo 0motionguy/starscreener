@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { getHealthHttpStatusForStatus } from "../../health-status";
@@ -6,15 +8,35 @@ import {
   WORKER_HEALTH_DISABLED_SPECS,
   WORKER_HEALTH_SPECS,
 } from "../../worker-health-specs";
-import {
-  FETCHERS,
-  SOURCE_CONTRACTS,
-} from "../../../../apps/trendingrepo-worker/src/registry";
+import sourcesData from "../../../../apps/trendingrepo-worker/src/platform/sources.json";
+import type { SourceContract } from "../../../../apps/trendingrepo-worker/src/platform/source-contract";
 import {
   applyPayloadHealthToSlugStatus,
   isWorkerHealthStrictlyOk,
   summarizeWorkerPayloadHealth,
 } from "../../worker-health-payload";
+
+const SOURCE_CONTRACTS = sourcesData as readonly SourceContract[];
+
+function registeredWorkerFetcherNames(): string[] {
+  const registryPath = resolve(
+    process.cwd(),
+    "apps",
+    "trendingrepo-worker",
+    "src",
+    "registry.ts",
+  );
+  const registrySource = readFileSync(registryPath, "utf8");
+
+  return [
+    ...new Set(
+      Array.from(
+        registrySource.matchAll(/from ['"]\.\/fetchers\/([^'"]+)\/index\.js['"]/g),
+        (match) => match[1]!,
+      ),
+    ),
+  ].sort();
+}
 
 test("/api/health: stale freshness remains HTTP 200 availability", () => {
   assert.equal(getHealthHttpStatusForStatus("ok", false), 200);
@@ -107,7 +129,7 @@ test("/api/worker/health: every active worker concrete output is tracked", () =>
       (item) => item.slug,
     ),
   );
-  const fetchers = new Set(FETCHERS.map((fetcher) => fetcher.name));
+  const fetchers = new Set(registeredWorkerFetcherNames());
   const missing: string[] = [];
 
   for (const source of SOURCE_CONTRACTS) {

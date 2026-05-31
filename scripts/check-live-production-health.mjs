@@ -77,10 +77,11 @@ async function main() {
   console.log(`# Live production health - ${new Date().toISOString()}`);
   console.log(`base=${BASE_URL}`);
 
-  const [appHealth, workerHealth, sourceHealth] = await Promise.all([
+  const [appHealth, workerHealth, sourceHealth, adminOverview] = await Promise.all([
     fetchJson("/api/health"),
     fetchJson("/api/worker/health"),
     fetchJson("/api/health/sources", [200, 207]),
+    fetchJson("/api/admin/overview", [401]),
   ]);
 
   console.log("\n/api/health");
@@ -110,6 +111,18 @@ async function main() {
       {
         http: sourceHealth.status,
         summary: sourceHealth.body?.summary,
+      },
+      null,
+      2,
+    ),
+  );
+
+  console.log("\n/api/admin/overview unauthenticated guard");
+  console.log(
+    JSON.stringify(
+      {
+        http: adminOverview.status,
+        reason: adminOverview.body?.reason ?? null,
       },
       null,
       2,
@@ -146,6 +159,18 @@ async function main() {
     });
   } else if ((sourceSummary.open ?? 0) > 0 || (sourceSummary.halfOpen ?? 0) > 0) {
     fail("/api/health/sources has open circuit breakers", sourceSummary);
+  }
+
+  if (
+    !adminOverview.okStatus ||
+    adminOverview.body?.reason !== "unauthorized"
+  ) {
+    fail("/api/admin/overview unauthenticated guard is not locked", {
+      http: adminOverview.status,
+      body: adminOverview.body,
+      expected:
+        "401 unauthorized. 503 means ADMIN_TOKEN is missing; 200 means admin is public.",
+    });
   }
 
   if (process.exitCode) return;

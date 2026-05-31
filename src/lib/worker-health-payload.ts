@@ -1,3 +1,5 @@
+import "server-only";
+
 import { gunzipSync } from "node:zlib";
 
 const GZIP_MAGIC_PREFIX = "gz1:";

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T17:58:08.368Z",
+  "generatedAt": "2026-05-31T19:14:29.279Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -965,6 +965,35 @@
       "lastSweptAt": null
     },
     {
+      "fullName": "ogulcancelik/herdr",
+      "rank": 48,
+      "completenessScore": 67,
+      "breakdown": {
+        "required": 30,
+        "coverage": 12,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 2,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 985,
+      "lastSweptAt": null
+    },
+    {
       "fullName": "microsoft/waza",
       "rank": 54,
       "completenessScore": 61,
@@ -1273,6 +1302,36 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
       "priority": 976,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "YouMind-OpenLab/awesome-gpt-image-2",
+      "rank": 60,
+      "completenessScore": 66,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 10
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 974,
       "lastSweptAt": null
     },
     {
@@ -1891,7 +1950,7 @@
   "summary": {
     "byAction": {
       "enrich": 0,
-      "sweep": 35,
+      "sweep": 37,
       "both": 26,
       "noop": 0
     },
@@ -1899,8 +1958,8 @@
     "p50Score": 56,
     "channelsFiringHistogram": {
       "0": 13,
-      "1": 36,
-      "2": 10,
+      "1": 37,
+      "2": 11,
       "3": 2,
       "4": 0,
       "5": 0

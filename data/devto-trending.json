@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-31T08:49:08.751Z",
+  "fetchedAt": "2026-05-31T13:48:58.646Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1454,
+  "scannedArticles": 1441,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 8,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,7 +188,7 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 10,
-    "tag-cursor-top-7d": 46,
+    "tag-cursor-top-7d": 45,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 9,
     "tag-mcp-top-7d": 100,
@@ -1077,6 +1077,29 @@
         "postgres"
       ],
       "trendingScore": 20.21,
+      "linkedRepos": []
+    },
+    {
+      "id": 3788299,
+      "title": "Java vs C#: Optimizing Docker for Kubernetes",
+      "description": "There's a question that keeps surfacing across engineering teams — sometimes in architecture reviews,...",
+      "url": "https://dev.to/syedahmershah/java-vs-c-optimizing-docker-for-kubernetes-1kkc",
+      "author": {
+        "username": "syedahmershah",
+        "name": "Syed Ahmer Shah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3021645%2Fad95c369-a218-4eb1-9eca-5f628e887906.png"
+      },
+      "reactionsCount": 32,
+      "commentsCount": 6,
+      "readingTime": 21,
+      "publishedAt": "2026-05-31T09:58:22Z",
+      "tags": [
+        "java",
+        "csharp",
+        "docker",
+        "kubernetes"
+      ],
+      "trendingScore": 20.05,
       "linkedRepos": []
     },
     {
@@ -2323,7 +2346,7 @@
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F322836%2Fde35ee13-9df1-4b90-9734-9f29aafe4ef4.jpeg"
       },
       "reactionsCount": 79,
-      "commentsCount": 49,
+      "commentsCount": 52,
       "readingTime": 4,
       "publishedAt": "2026-05-26T20:52:22Z",
       "tags": [
@@ -2332,7 +2355,7 @@
         "ai",
         "beginners"
       ],
-      "trendingScore": 8.19,
+      "trendingScore": 8.23,
       "linkedRepos": []
     },
     {
@@ -2515,29 +2538,6 @@
         "gemmachallenge",
         "gemma",
         "ai"
-      ],
-      "trendingScore": 7.71,
-      "linkedRepos": []
-    },
-    {
-      "id": 3750708,
-      "title": "Why does AI forget what you said (and how to fix it)",
-      "description": "I received following comment on my hallucinations blog post.                       Comment on Why...",
-      "url": "https://dev.to/aws/why-does-ai-forget-what-you-said-and-how-to-fix-it-52f6",
-      "author": {
-        "username": "rohini_gaonkar",
-        "name": "Rohini Gaonkar",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F376787%2F8af3bcfb-d567-4de1-9b33-b6becfe6d85b.jpeg"
-      },
-      "reactionsCount": 36,
-      "commentsCount": 30,
-      "readingTime": 7,
-      "publishedAt": "2026-05-25T15:08:33Z",
-      "tags": [
-        "ai",
-        "beginners",
-        "aws",
-        "tutorial"
       ],
       "trendingScore": 7.71,
       "linkedRepos": []

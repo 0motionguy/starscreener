@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-31T08:49:08.751Z",
+  "fetchedAt": "2026-05-31T13:48:58.646Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1454,
+  "scannedArticles": 1441,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 8,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,7 +188,7 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 10,
-    "tag-cursor-top-7d": 46,
+    "tag-cursor-top-7d": 45,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 9,
     "tag-mcp-top-7d": 100,
@@ -216,7 +216,7 @@
         "author": "rohitg00",
         "reactions": 29,
         "comments": 10,
-        "hoursSincePosted": 163,
+        "hoursSincePosted": 168,
         "readingTime": 6
       },
       "articles": [
@@ -240,7 +240,7 @@
             "agents",
             "opensource"
           ],
-          "trendingScore": 0.52,
+          "trendingScore": 0.5,
           "linkedRepos": [
             {
               "fullName": "rohitg00/ai-engineering-from-scratch",
@@ -250,177 +250,18 @@
         }
       ]
     },
-    "vercel-labs/skills": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3740141,
-        "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-        "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-        "author": "deraileddash",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 166.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3740141,
-          "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-          "description": "Introduction   We had a few big announcements from Google I/O 2026 in the AI space. One was...",
-          "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-          "author": {
-            "username": "deraileddash",
-            "name": "Darren \"Dazbo\" Lester",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F548192%2F86492fc3-866f-4a3f-8a58-de3c6f467742.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T10:36:37Z",
-          "tags": [
-            "agentskills",
-            "antigravitycli",
-            "gemini",
-            "googleantigravity"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "coreyhaines31/marketingskills",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "coreyhaines31/marketingskills": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3740141,
-        "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-        "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-        "author": "deraileddash",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 166.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3740141,
-          "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-          "description": "Introduction   We had a few big announcements from Google I/O 2026 in the AI space. One was...",
-          "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-          "author": {
-            "username": "deraileddash",
-            "name": "Darren \"Dazbo\" Lester",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F548192%2F86492fc3-866f-4a3f-8a58-de3c6f467742.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T10:36:37Z",
-          "tags": [
-            "agentskills",
-            "antigravitycli",
-            "gemini",
-            "googleantigravity"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "coreyhaines31/marketingskills",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "vercel-labs/agent-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3740141,
-        "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-        "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-        "author": "deraileddash",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 166.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3740141,
-          "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-          "description": "Introduction   We had a few big announcements from Google I/O 2026 in the AI space. One was...",
-          "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-          "author": {
-            "username": "deraileddash",
-            "name": "Darren \"Dazbo\" Lester",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F548192%2F86492fc3-866f-4a3f-8a58-de3c6f467742.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T10:36:37Z",
-          "tags": [
-            "agentskills",
-            "antigravitycli",
-            "gemini",
-            "googleantigravity"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "coreyhaines31/marketingskills",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "NousResearch/hermes-agent": {
       "count7d": 11,
       "reactionsSum7d": 40,
-      "commentsSum7d": 17,
+      "commentsSum7d": 19,
       "topArticle": {
         "id": 3765980,
         "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
         "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
         "author": "stephen_sebastian_c85ea2b",
         "reactions": 12,
-        "comments": 11,
-        "hoursSincePosted": 87.1,
+        "comments": 13,
+        "hoursSincePosted": 92.1,
         "readingTime": 6
       },
       "articles": [
@@ -435,7 +276,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
           },
           "reactionsCount": 12,
-          "commentsCount": 11,
+          "commentsCount": 13,
           "readingTime": 6,
           "publishedAt": "2026-05-27T17:45:36Z",
           "tags": [
@@ -444,7 +285,7 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 0.31,
+          "trendingScore": 0.32,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -607,7 +448,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -731,15 +572,15 @@
     "github/github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 2,
-      "commentsSum7d": 1,
+      "commentsSum7d": 3,
       "topArticle": {
         "id": 3755932,
         "title": "Vibecoding Our First MCP Server",
         "url": "https://dev.to/dvddpl/vibecoding-our-first-mcp-server-jmh",
         "author": "dvddpl",
         "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 113.8,
+        "comments": 3,
+        "hoursSincePosted": 118.8,
         "readingTime": 16
       },
       "articles": [
@@ -754,7 +595,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F132615%2Fc7c6d1d6-2cb8-4d37-9908-3f1393e2e7ff.png"
           },
           "reactionsCount": 2,
-          "commentsCount": 1,
+          "commentsCount": 3,
           "readingTime": 16,
           "publishedAt": "2026-05-26T15:00:28Z",
           "tags": [
@@ -773,110 +614,74 @@
         }
       ]
     },
-    "Lum1104/Understand-Anything": {
-      "count7d": 3,
-      "reactionsSum7d": 0,
+    "withcoral/coral": {
+      "count7d": 2,
+      "reactionsSum7d": 8,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3786510,
-        "title": "Graphs That Teach: How Understand-Anything Turns Codebases Into Interactive Maps",
-        "url": "https://dev.to/hiroki-ii-ai/graphs-that-teach-how-understand-anything-turns-codebases-into-interactive-maps-3nc3",
-        "author": "hiroki-ii-ai",
-        "reactions": 0,
+        "id": 3768521,
+        "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
+        "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
+        "author": "himanshu_748",
+        "reactions": 7,
         "comments": 1,
-        "hoursSincePosted": 7.4,
+        "hoursSincePosted": 80,
         "readingTime": 4
       },
       "articles": [
         {
-          "id": 3786510,
-          "title": "Graphs That Teach: How Understand-Anything Turns Codebases Into Interactive Maps",
-          "description": "A Claude Code plugin that maps 45.9k stars in 8 days — not by impressing, but by teaching you code.",
-          "url": "https://dev.to/hiroki-ii-ai/graphs-that-teach-how-understand-anything-turns-codebases-into-interactive-maps-3nc3",
+          "id": 3768521,
+          "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
+          "description": "A journey into bridging open-source metrics, cross-source SQL joins, and AI-driven grant...",
+          "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
           "author": {
-            "username": "hiroki-ii-ai",
-            "name": "HIROKI II",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3894576%2Fcdfa9f16-143b-49bc-88f7-b1e6434993c0.png"
+            "username": "himanshu_748",
+            "name": "Himanshu Kumar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3226847%2F8b999f0b-76e8-4a5b-a87d-449ab82832bc.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 7,
           "commentsCount": 1,
           "readingTime": 4,
-          "publishedAt": "2026-05-31T01:24:28Z",
-          "tags": [
-            "ai",
-            "claude",
-            "knowledgegraph",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3744982,
-          "title": "One Open Source Project a Day (No. 75): Understand Anything - The AI Engine That Turns Any Codebase Into an Explorable Knowledge Graph",
-          "description": "Introduction    \"Graphs that teach &gt; graphs that impress.\"   This is the 75th article in...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-75-understand-anything-the-ai-engine-that-turns-any-codebase-5d3i",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-25T02:50:56Z",
+          "publishedAt": "2026-05-28T05:47:51Z",
           "tags": [
             "opensource",
-            "ai",
-            "claude",
-            "agents"
+            "webdev",
+            "showdev",
+            "ai"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
-              "fullName": "Lum1104/Understand-Anything",
+              "fullName": "withcoral/coral",
               "location": "body"
             }
           ]
         },
         {
-          "id": 3759155,
-          "title": "The Representation Problem: Why RAG vs. Agentic Search Is the Wrong Debate",
-          "description": "The industry has been asking the wrong question.  When Boris Cherny — the creator and Head of Claude...",
-          "url": "https://dev.to/chen115y/the-representation-problem-why-rag-vs-agentic-search-is-the-wrong-debate-4j8f",
+          "id": 3787895,
+          "title": "How I Built RepoSense: A GitHub Intelligence CLI With Coral SQL",
+          "description": "Every developer I know has the same problem: 300 open issues, 40 stale PRs, a security label buried...",
+          "url": "https://dev.to/athulkrishnan_h_210b5ea44/how-i-built-reposense-a-github-intelligence-cli-with-coral-sql-4jgm",
           "author": {
-            "username": "chen115y",
-            "name": "Yaohua Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
+            "username": "athulkrishnan_h_210b5ea44",
+            "name": "ATHULKRISHNAN H",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3409073%2Faa7a19ed-bf8e-4870-bca6-bd9866fdc983.jpg"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 17,
-          "publishedAt": "2026-05-26T20:02:49Z",
+          "readingTime": 10,
+          "publishedAt": "2026-05-31T08:17:38Z",
           "tags": [
-            "rag",
-            "ai",
-            "llm",
-            "architecture"
+            "coral",
+            "sql",
+            "github",
+            "hackathon"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "Lum1104/Understand-Anything",
-              "location": "body"
-            },
-            {
-              "fullName": "VectifyAI/PageIndex",
-              "location": "body"
-            },
-            {
-              "fullName": "garrytan/gbrain",
-              "location": "body"
+              "fullName": "withcoral/coral",
+              "location": "tag"
             }
           ]
         }
@@ -893,7 +698,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 65.3,
+        "hoursSincePosted": 70.3,
         "readingTime": 4
       },
       "articles": [
@@ -965,7 +770,7 @@
     },
     "github/awesome-copilot": {
       "count7d": 3,
-      "reactionsSum7d": 9,
+      "reactionsSum7d": 10,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3760823,
@@ -974,7 +779,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 65.3,
+        "hoursSincePosted": 70.3,
         "readingTime": 4
       },
       "articles": [
@@ -1015,6 +820,34 @@
           ]
         },
         {
+          "id": 3777548,
+          "title": "VS Code Prompt Files - Custom Slash Commands for GitHub Copilot",
+          "description": "Prompt files turn repeated GitHub Copilot chat requests into slash commands. You write the...",
+          "url": "https://dev.to/petermilovcik/vs-code-prompt-files-custom-slash-commands-for-github-copilot-1m4f",
+          "author": {
+            "username": "petermilovcik",
+            "name": "PeterMilovcik",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F211647%2F9baca065-4f35-4fda-b33e-d2a7da1707c9.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-29T10:33:32Z",
+          "tags": [
+            "ai",
+            "githubcopilot",
+            "programming",
+            "productivity"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "github/awesome-copilot",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3764842,
           "title": "GitHub Copilot CLI Plugins and Marketplaces: Extend Your Terminal Agent",
           "description": "Learn how GitHub Copilot CLI plugins and marketplaces work, how to install them, and how to build your own.",
@@ -1045,34 +878,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3777548,
-          "title": "VS Code Prompt Files - Custom Slash Commands for GitHub Copilot",
-          "description": "Prompt files turn repeated GitHub Copilot chat requests into slash commands. You write the...",
-          "url": "https://dev.to/petermilovcik/vs-code-prompt-files-custom-slash-commands-for-github-copilot-1m4f",
-          "author": {
-            "username": "petermilovcik",
-            "name": "PeterMilovcik",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F211647%2F9baca065-4f35-4fda-b33e-d2a7da1707c9.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-05-29T10:33:32Z",
-          "tags": [
-            "ai",
-            "githubcopilot",
-            "programming",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/awesome-copilot",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -1087,7 +892,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 65.3,
+        "hoursSincePosted": 70.3,
         "readingTime": 4
       },
       "articles": [
@@ -1224,7 +1029,7 @@
         "author": "iamprincejkc",
         "reactions": 9,
         "comments": 3,
-        "hoursSincePosted": 91.2,
+        "hoursSincePosted": 96.2,
         "readingTime": 3
       },
       "articles": [
@@ -1258,51 +1063,6 @@
         }
       ]
     },
-    "withcoral/coral": {
-      "count7d": 1,
-      "reactionsSum7d": 7,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3768521,
-        "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
-        "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
-        "author": "himanshu_748",
-        "reactions": 7,
-        "comments": 1,
-        "hoursSincePosted": 75,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3768521,
-          "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
-          "description": "A journey into bridging open-source metrics, cross-source SQL joins, and AI-driven grant...",
-          "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
-          "author": {
-            "username": "himanshu_748",
-            "name": "Himanshu Kumar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3226847%2F8b999f0b-76e8-4a5b-a87d-449ab82832bc.png"
-          },
-          "reactionsCount": 7,
-          "commentsCount": 1,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T05:47:51Z",
-          "tags": [
-            "opensource",
-            "webdev",
-            "showdev",
-            "ai"
-          ],
-          "trendingScore": 0.09,
-          "linkedRepos": [
-            {
-              "fullName": "withcoral/coral",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "rtk-ai/rtk": {
       "count7d": 3,
       "reactionsSum7d": 28,
@@ -1314,7 +1074,7 @@
         "author": "webmaxru",
         "reactions": 27,
         "comments": 1,
-        "hoursSincePosted": 132.6,
+        "hoursSincePosted": 137.6,
         "readingTime": 12
       },
       "articles": [
@@ -1338,7 +1098,7 @@
             "github",
             "productivity"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.31,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -1423,7 +1183,7 @@
         "author": "ricardoceci",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 91,
+        "hoursSincePosted": 96,
         "readingTime": 8
       },
       "articles": [
@@ -1468,7 +1228,7 @@
         "author": "shy",
         "reactions": 1,
         "comments": 5,
-        "hoursSincePosted": 124.8,
+        "hoursSincePosted": 129.8,
         "readingTime": 12
       },
       "articles": [
@@ -1502,51 +1262,6 @@
         }
       ]
     },
-    "ChromeDevTools/chrome-devtools-mcp": {
-      "count7d": 1,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3739982,
-        "title": "WebMCP Is the Quiet Google I/O Announcement That Could Make Web Apps Agent-Ready",
-        "url": "https://dev.to/nkalra0123/webmcp-is-the-quiet-google-io-announcement-that-could-make-web-apps-agent-ready-1p9l",
-        "author": "nkalra0123",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 164.9,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3739982,
-          "title": "WebMCP Is the Quiet Google I/O Announcement That Could Make Web Apps Agent-Ready",
-          "description": "This is a submission for the Google I/O Writing Challenge    At Google I/O 2026, the loud...",
-          "url": "https://dev.to/nkalra0123/webmcp-is-the-quiet-google-io-announcement-that-could-make-web-apps-agent-ready-1p9l",
-          "author": {
-            "username": "nkalra0123",
-            "name": "Nitin Kalra",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F159292%2Fecd62477-0bf0-4b11-9e60-7e4ac8893b92.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T11:54:22Z",
-          "tags": [
-            "devchallenge",
-            "googleiochallenge",
-            "webdev",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -1558,7 +1273,7 @@
         "author": "alexmercedcoder",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 90.5,
+        "hoursSincePosted": 95.5,
         "readingTime": 12
       },
       "articles": [
@@ -1659,7 +1374,7 @@
         "author": "zakarov",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 23.6,
+        "hoursSincePosted": 28.6,
         "readingTime": 16
       },
       "articles": [
@@ -1704,7 +1419,7 @@
         "author": "abhi_a_c8c6d876c38861c9ee",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 54.7,
+        "hoursSincePosted": 59.7,
         "readingTime": 8
       },
       "articles": [
@@ -1777,7 +1492,7 @@
         "author": "emersondelatorre",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 57.7,
+        "hoursSincePosted": 62.7,
         "readingTime": 12
       },
       "articles": [
@@ -1854,7 +1569,7 @@
         "author": "bspann",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 102.3,
+        "hoursSincePosted": 107.3,
         "readingTime": 5
       },
       "articles": [
@@ -1899,7 +1614,7 @@
         "author": "ventureio",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 17.1,
+        "hoursSincePosted": 22.1,
         "readingTime": 6
       },
       "articles": [
@@ -1980,7 +1695,7 @@
         "author": "ventureio",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 17.1,
+        "hoursSincePosted": 22.1,
         "readingTime": 6
       },
       "articles": [
@@ -2061,7 +1776,7 @@
         "author": "lizziepika",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.2,
+        "hoursSincePosted": 61.2,
         "readingTime": 2
       },
       "articles": [
@@ -2106,7 +1821,7 @@
         "author": "andrew-ooo",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 68.4,
+        "hoursSincePosted": 73.4,
         "readingTime": 10
       },
       "articles": [
@@ -2140,6 +1855,132 @@
         }
       ]
     },
+    "Lum1104/Understand-Anything": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3744982,
+        "title": "One Open Source Project a Day (No. 75): Understand Anything - The AI Engine That Turns Any Codebase Into an Explorable Knowledge Graph",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-75-understand-anything-the-ai-engine-that-turns-any-codebase-5d3i",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 155,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3744982,
+          "title": "One Open Source Project a Day (No. 75): Understand Anything - The AI Engine That Turns Any Codebase Into an Explorable Knowledge Graph",
+          "description": "Introduction    \"Graphs that teach &gt; graphs that impress.\"   This is the 75th article in...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-75-understand-anything-the-ai-engine-that-turns-any-codebase-5d3i",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-25T02:50:56Z",
+          "tags": [
+            "opensource",
+            "ai",
+            "claude",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3759155,
+          "title": "The Representation Problem: Why RAG vs. Agentic Search Is the Wrong Debate",
+          "description": "The industry has been asking the wrong question.  When Boris Cherny — the creator and Head of Claude...",
+          "url": "https://dev.to/chen115y/the-representation-problem-why-rag-vs-agentic-search-is-the-wrong-debate-4j8f",
+          "author": {
+            "username": "chen115y",
+            "name": "Yaohua Chen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 17,
+          "publishedAt": "2026-05-26T20:02:49Z",
+          "tags": [
+            "rag",
+            "ai",
+            "llm",
+            "architecture"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "location": "body"
+            },
+            {
+              "fullName": "VectifyAI/PageIndex",
+              "location": "body"
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3663204,
+        "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
+        "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
+        "author": "leolr",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 121.2,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3663204,
+          "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
+          "description": "AI Coding Standards at Scale: How We Versioned Our Team's AI Rules with Claude Code   \"AI amplifies...",
+          "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
+          "author": {
+            "username": "leolr",
+            "name": "Léo Le Roy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3928836%2F1b448e20-f99c-47c9-8184-7d49849201b9.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-26T12:34:36Z",
+          "tags": [
+            "ai",
+            "automation",
+            "claude",
+            "cursor"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "JuliusBrussee/caveman": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -2151,7 +1992,7 @@
         "author": "schoaib",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 95.2,
+        "hoursSincePosted": 100.2,
         "readingTime": 3
       },
       "articles": [
@@ -2221,51 +2062,6 @@
         }
       ]
     },
-    "mattpocock/skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3663204,
-        "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
-        "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
-        "author": "leolr",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 116.2,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3663204,
-          "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
-          "description": "AI Coding Standards at Scale: How We Versioned Our Team's AI Rules with Claude Code   \"AI amplifies...",
-          "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
-          "author": {
-            "username": "leolr",
-            "name": "Léo Le Roy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3928836%2F1b448e20-f99c-47c9-8184-7d49849201b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-26T12:34:36Z",
-          "tags": [
-            "ai",
-            "automation",
-            "claude",
-            "cursor"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "EveryInc/compound-engineering-plugin": {
       "count7d": 1,
       "reactionsSum7d": 5,
@@ -2277,7 +2073,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 9.3,
+        "hoursSincePosted": 14.2,
         "readingTime": 5
       },
       "articles": [
@@ -2301,7 +2097,7 @@
             "claude",
             "programming"
           ],
-          "trendingScore": 0.42,
+          "trendingScore": 0.27,
           "linkedRepos": [
             {
               "fullName": "EveryInc/compound-engineering-plugin",
@@ -2322,7 +2118,7 @@
         "author": "rkttu",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.1,
+        "hoursSincePosted": 118.1,
         "readingTime": 8
       },
       "articles": [
@@ -2395,7 +2191,7 @@
         "author": "emersondelatorre",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 57.7,
+        "hoursSincePosted": 62.7,
         "readingTime": 12
       },
       "articles": [
@@ -2444,7 +2240,7 @@
         "author": "shogun444",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 25.9,
+        "hoursSincePosted": 30.9,
         "readingTime": 9
       },
       "articles": [
@@ -2468,10 +2264,55 @@
             "ai",
             "productivity"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "thesysdev/openui",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "langchain4j/langchain4j": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3775960,
+        "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
+        "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
+        "author": "shayesta",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 49.4,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3775960,
+          "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
+          "description": "Table of Contents 🗒️    Where it all starts: LLMs Making LLMs smarter: RAG Plugging...",
+          "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
+          "author": {
+            "username": "shayesta",
+            "name": "shayesta",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F384148%2F6b3ec9ff-c989-41a5-b7ba-5232cf3faf3a.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-29T12:25:07Z",
+          "tags": [
+            "ai",
+            "learning",
+            "llm",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "langchain4j/langchain4j",
               "location": "body"
             }
           ]
@@ -2483,63 +2324,35 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 2,
       "topArticle": {
-        "id": 3764690,
-        "title": "Surviving an AZ Failover for Our Build Runner Fleet at 3am",
-        "url": "https://dev.to/claire_nguyen/surviving-an-az-failover-for-our-build-runner-fleet-at-3am-pg7",
-        "author": "claire_nguyen",
+        "id": 3757783,
+        "title": "Per-customer budget caps on our caption pipeline: 3 weeks with virtual keys",
+        "url": "https://dev.to/elise_moreau/per-customer-budget-caps-on-our-caption-pipeline-3-weeks-with-virtual-keys-hip",
+        "author": "elise_moreau",
         "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 91.4,
+        "comments": 1,
+        "hoursSincePosted": 118.9,
         "readingTime": 4
       },
       "articles": [
         {
-          "id": 3764690,
-          "title": "Surviving an AZ Failover for Our Build Runner Fleet at 3am",
-          "description": "TL;DR: We lost an AWS AZ for 47 minutes back in March. Our build runner fleet on EKS mostly survived,...",
-          "url": "https://dev.to/claire_nguyen/surviving-an-az-failover-for-our-build-runner-fleet-at-3am-pg7",
+          "id": 3757783,
+          "title": "Per-customer budget caps on our caption pipeline: 3 weeks with virtual keys",
+          "description": "TL;DR: We were burning around €4,200/month in vision-LLM costs across roughly 80 customers, with zero...",
+          "url": "https://dev.to/elise_moreau/per-customer-budget-caps-on-our-caption-pipeline-3-weeks-with-virtual-keys-hip",
           "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-27T13:24:15Z",
-          "tags": [
-            "devops",
-            "sre",
-            "infrastructure",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3765542,
-          "title": "Virtual keys per tenant: ditching our custom LLM billing layer",
-          "description": "TL;DR: We had 11,247 lines of Python middleware handling per-tenant LLM cost attribution, rate...",
-          "url": "https://dev.to/marcuswwchen/virtual-keys-per-tenant-ditching-our-custom-llm-billing-layer-2p7b",
-          "author": {
-            "username": "marcuswwchen",
-            "name": "Marcus Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3859428%2F572085fe-831d-498b-854b-41102c7902ee.jpg"
+            "username": "elise_moreau",
+            "name": "Elise Moreau",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864909%2F72833c18-30db-4456-82ee-e7d2016cc38f.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 1,
           "readingTime": 4,
-          "publishedAt": "2026-05-27T16:02:19Z",
+          "publishedAt": "2026-05-26T14:53:00Z",
           "tags": [
             "llm",
-            "mlops",
             "infrastructure",
-            "devops"
+            "mlops",
+            "machinelearning"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -2567,34 +2380,6 @@
             "computervision",
             "mlops",
             "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3771542,
-          "title": "Our PR-review bot kept hitting 429s. Bifrost key pooling fixed it.",
-          "description": "TL;DR: Our internal PR-review bot was getting 429'd by Anthropic between 9am and 11am Sydney time. We...",
-          "url": "https://dev.to/claire_nguyen/our-pr-review-bot-kept-hitting-429s-bifrost-key-pooling-fixed-it-4m9f",
-          "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T13:22:11Z",
-          "tags": [
-            "devops",
-            "infrastructure",
-            "llm",
-            "sre"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -2633,6 +2418,65 @@
           ]
         },
         {
+          "id": 3751239,
+          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
+          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
+          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
+          "author": {
+            "username": "marcorinaldi_ai",
+            "name": "Marco Rinaldi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-25T16:53:43Z",
+          "tags": [
+            "computervision",
+            "mlops",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            },
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3764690,
+          "title": "Surviving an AZ Failover for Our Build Runner Fleet at 3am",
+          "description": "TL;DR: We lost an AWS AZ for 47 minutes back in March. Our build runner fleet on EKS mostly survived,...",
+          "url": "https://dev.to/claire_nguyen/surviving-an-az-failover-for-our-build-runner-fleet-at-3am-pg7",
+          "author": {
+            "username": "claire_nguyen",
+            "name": "claire nguyen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-27T13:24:15Z",
+          "tags": [
+            "devops",
+            "sre",
+            "infrastructure",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3771997,
           "title": "Tracing our 4-stage product photo pipeline through Bifrost",
           "description": "TL;DR: We added OpenTelemetry tracing across the four LLM and VLM hops in our product-photo pipeline...",
@@ -2661,96 +2505,6 @@
         }
       ]
     },
-    "langchain4j/langchain4j": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3775960,
-        "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
-        "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
-        "author": "shayesta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 44.4,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3775960,
-          "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
-          "description": "Table of Contents 🗒️    Where it all starts: LLMs Making LLMs smarter: RAG Plugging...",
-          "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
-          "author": {
-            "username": "shayesta",
-            "name": "shayesta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F384148%2F6b3ec9ff-c989-41a5-b7ba-5232cf3faf3a.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-29T12:25:07Z",
-          "tags": [
-            "ai",
-            "learning",
-            "llm",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "langchain4j/langchain4j",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "andrewyng/context-hub": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3766493,
-        "title": "The Internet Is for Agents",
-        "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
-        "author": "keithjmackay",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 84.5,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3766493,
-          "title": "The Internet Is for Agents",
-          "description": "The Internet Is for Agents   For over a year now, more than half of internet traffic has not...",
-          "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
-          "author": {
-            "username": "keithjmackay",
-            "name": "Keith MacKay",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1499463%2Fdc7d3636-8482-4d6e-b619-fb4367cf4dfd.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-05-27T20:19:56Z",
-          "tags": [
-            "agents",
-            "infrastructure",
-            "mcp",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "andrewyng/context-hub",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "VectifyAI/PageIndex": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2762,7 +2516,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 108.8,
+        "hoursSincePosted": 113.8,
         "readingTime": 17
       },
       "articles": [
@@ -2815,7 +2569,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 108.8,
+        "hoursSincePosted": 113.8,
         "readingTime": 17
       },
       "articles": [
@@ -2857,6 +2611,99 @@
         }
       ]
     },
+    "BerriAI/litellm": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3751239,
+        "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
+        "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
+        "author": "marcorinaldi_ai",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 140.9,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3751239,
+          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
+          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
+          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
+          "author": {
+            "username": "marcorinaldi_ai",
+            "name": "Marco Rinaldi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-25T16:53:43Z",
+          "tags": [
+            "computervision",
+            "mlops",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            },
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft/playwright-cli": {
+      "count7d": 1,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3764759,
+        "title": "Playwright MCP vs Rendershot MCP: choosing a browser MCP server in 2026",
+        "url": "https://dev.to/rendershot/playwright-mcp-vs-rendershot-mcp-choosing-a-browser-mcp-server-in-2026-3kk2",
+        "author": "rendershot",
+        "reactions": 2,
+        "comments": 1,
+        "hoursSincePosted": 96.1,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3764759,
+          "title": "Playwright MCP vs Rendershot MCP: choosing a browser MCP server in 2026",
+          "description": "Two MCP servers, both built around Playwright, that solve almost completely different problems. Here's when to use each — and the cost tradeoff that's hiding in the choice.",
+          "url": "https://dev.to/rendershot/playwright-mcp-vs-rendershot-mcp-choosing-a-browser-mcp-server-in-2026-3kk2",
+          "author": {
+            "username": "rendershot",
+            "name": "Ohad Badihi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3901160%2Fb62d72eb-8d63-4de4-a6a3-9ea35a0e40eb.jpeg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 6,
+          "publishedAt": "2026-05-27T13:40:49Z",
+          "tags": [
+            "ai",
+            "webdev",
+            "playwright",
+            "mcp"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/playwright-cli",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "qdrant/qdrant": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2868,7 +2715,7 @@
         "author": "parikalp_bhardwaj_9e9d812",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 11.8,
+        "hoursSincePosted": 16.8,
         "readingTime": 21
       },
       "articles": [
@@ -2913,7 +2760,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 103.3,
+        "hoursSincePosted": 108.3,
         "readingTime": 7
       },
       "articles": [
@@ -2958,7 +2805,7 @@
         "author": "venkatakrishna_s",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 148.2,
+        "hoursSincePosted": 153.2,
         "readingTime": 3
       },
       "articles": [
@@ -3003,7 +2850,7 @@
         "author": "pwd9000",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 90.8,
+        "hoursSincePosted": 95.8,
         "readingTime": 11
       },
       "articles": [
@@ -3052,7 +2899,7 @@
         "author": "tenglongai2026",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 81,
+        "hoursSincePosted": 86,
         "readingTime": 1
       },
       "articles": [
@@ -3095,7 +2942,7 @@
         "author": "grimicorn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.4,
+        "hoursSincePosted": 134.4,
         "readingTime": 3
       },
       "articles": [
@@ -3141,7 +2988,7 @@
         "author": "rohitg00",
         "reactions": 29,
         "comments": 10,
-        "hoursSincePosted": 163,
+        "hoursSincePosted": 168,
         "readingTime": 6
       },
       "articles": [
@@ -3165,7 +3012,7 @@
             "agents",
             "opensource"
           ],
-          "trendingScore": 0.52,
+          "trendingScore": 0.5,
           "linkedRepos": [
             {
               "fullName": "rohitg00/ai-engineering-from-scratch",
@@ -3175,177 +3022,18 @@
         }
       ]
     },
-    "vercel-labs--skills": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3740141,
-        "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-        "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-        "author": "deraileddash",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 166.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3740141,
-          "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-          "description": "Introduction   We had a few big announcements from Google I/O 2026 in the AI space. One was...",
-          "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-          "author": {
-            "username": "deraileddash",
-            "name": "Darren \"Dazbo\" Lester",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F548192%2F86492fc3-866f-4a3f-8a58-de3c6f467742.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T10:36:37Z",
-          "tags": [
-            "agentskills",
-            "antigravitycli",
-            "gemini",
-            "googleantigravity"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "coreyhaines31/marketingskills",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "coreyhaines31--marketingskills": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3740141,
-        "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-        "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-        "author": "deraileddash",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 166.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3740141,
-          "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-          "description": "Introduction   We had a few big announcements from Google I/O 2026 in the AI space. One was...",
-          "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-          "author": {
-            "username": "deraileddash",
-            "name": "Darren \"Dazbo\" Lester",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F548192%2F86492fc3-866f-4a3f-8a58-de3c6f467742.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T10:36:37Z",
-          "tags": [
-            "agentskills",
-            "antigravitycli",
-            "gemini",
-            "googleantigravity"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "coreyhaines31/marketingskills",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "vercel-labs--agent-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 8,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3740141,
-        "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-        "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-        "author": "deraileddash",
-        "reactions": 8,
-        "comments": 0,
-        "hoursSincePosted": 166.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3740141,
-          "title": "Configuring MCP Servers and Skills for Antigravity CLI and IDE",
-          "description": "Introduction   We had a few big announcements from Google I/O 2026 in the AI space. One was...",
-          "url": "https://dev.to/gde/configuring-mcp-servers-and-skills-for-antigravity-cli-and-ide-2bh0",
-          "author": {
-            "username": "deraileddash",
-            "name": "Darren \"Dazbo\" Lester",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F548192%2F86492fc3-866f-4a3f-8a58-de3c6f467742.jpg"
-          },
-          "reactionsCount": 8,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T10:36:37Z",
-          "tags": [
-            "agentskills",
-            "antigravitycli",
-            "gemini",
-            "googleantigravity"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "coreyhaines31/marketingskills",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "nousresearch--hermes-agent": {
       "count7d": 11,
       "reactionsSum7d": 40,
-      "commentsSum7d": 17,
+      "commentsSum7d": 19,
       "topArticle": {
         "id": 3765980,
         "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
         "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
         "author": "stephen_sebastian_c85ea2b",
         "reactions": 12,
-        "comments": 11,
-        "hoursSincePosted": 87.1,
+        "comments": 13,
+        "hoursSincePosted": 92.1,
         "readingTime": 6
       },
       "articles": [
@@ -3360,7 +3048,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
           },
           "reactionsCount": 12,
-          "commentsCount": 11,
+          "commentsCount": 13,
           "readingTime": 6,
           "publishedAt": "2026-05-27T17:45:36Z",
           "tags": [
@@ -3369,7 +3057,7 @@
             "agents",
             "ai"
           ],
-          "trendingScore": 0.31,
+          "trendingScore": 0.32,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3532,7 +3220,7 @@
             "devchallenge",
             "agents"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -3656,15 +3344,15 @@
     "github--github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 2,
-      "commentsSum7d": 1,
+      "commentsSum7d": 3,
       "topArticle": {
         "id": 3755932,
         "title": "Vibecoding Our First MCP Server",
         "url": "https://dev.to/dvddpl/vibecoding-our-first-mcp-server-jmh",
         "author": "dvddpl",
         "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 113.8,
+        "comments": 3,
+        "hoursSincePosted": 118.8,
         "readingTime": 16
       },
       "articles": [
@@ -3679,7 +3367,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F132615%2Fc7c6d1d6-2cb8-4d37-9908-3f1393e2e7ff.png"
           },
           "reactionsCount": 2,
-          "commentsCount": 1,
+          "commentsCount": 3,
           "readingTime": 16,
           "publishedAt": "2026-05-26T15:00:28Z",
           "tags": [
@@ -3698,110 +3386,74 @@
         }
       ]
     },
-    "lum1104--understand-anything": {
-      "count7d": 3,
-      "reactionsSum7d": 0,
+    "withcoral--coral": {
+      "count7d": 2,
+      "reactionsSum7d": 8,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3786510,
-        "title": "Graphs That Teach: How Understand-Anything Turns Codebases Into Interactive Maps",
-        "url": "https://dev.to/hiroki-ii-ai/graphs-that-teach-how-understand-anything-turns-codebases-into-interactive-maps-3nc3",
-        "author": "hiroki-ii-ai",
-        "reactions": 0,
+        "id": 3768521,
+        "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
+        "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
+        "author": "himanshu_748",
+        "reactions": 7,
         "comments": 1,
-        "hoursSincePosted": 7.4,
+        "hoursSincePosted": 80,
         "readingTime": 4
       },
       "articles": [
         {
-          "id": 3786510,
-          "title": "Graphs That Teach: How Understand-Anything Turns Codebases Into Interactive Maps",
-          "description": "A Claude Code plugin that maps 45.9k stars in 8 days — not by impressing, but by teaching you code.",
-          "url": "https://dev.to/hiroki-ii-ai/graphs-that-teach-how-understand-anything-turns-codebases-into-interactive-maps-3nc3",
+          "id": 3768521,
+          "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
+          "description": "A journey into bridging open-source metrics, cross-source SQL joins, and AI-driven grant...",
+          "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
           "author": {
-            "username": "hiroki-ii-ai",
-            "name": "HIROKI II",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3894576%2Fcdfa9f16-143b-49bc-88f7-b1e6434993c0.png"
+            "username": "himanshu_748",
+            "name": "Himanshu Kumar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3226847%2F8b999f0b-76e8-4a5b-a87d-449ab82832bc.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 7,
           "commentsCount": 1,
           "readingTime": 4,
-          "publishedAt": "2026-05-31T01:24:28Z",
-          "tags": [
-            "ai",
-            "claude",
-            "knowledgegraph",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3744982,
-          "title": "One Open Source Project a Day (No. 75): Understand Anything - The AI Engine That Turns Any Codebase Into an Explorable Knowledge Graph",
-          "description": "Introduction    \"Graphs that teach &gt; graphs that impress.\"   This is the 75th article in...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-75-understand-anything-the-ai-engine-that-turns-any-codebase-5d3i",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-25T02:50:56Z",
+          "publishedAt": "2026-05-28T05:47:51Z",
           "tags": [
             "opensource",
-            "ai",
-            "claude",
-            "agents"
+            "webdev",
+            "showdev",
+            "ai"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
-              "fullName": "Lum1104/Understand-Anything",
+              "fullName": "withcoral/coral",
               "location": "body"
             }
           ]
         },
         {
-          "id": 3759155,
-          "title": "The Representation Problem: Why RAG vs. Agentic Search Is the Wrong Debate",
-          "description": "The industry has been asking the wrong question.  When Boris Cherny — the creator and Head of Claude...",
-          "url": "https://dev.to/chen115y/the-representation-problem-why-rag-vs-agentic-search-is-the-wrong-debate-4j8f",
+          "id": 3787895,
+          "title": "How I Built RepoSense: A GitHub Intelligence CLI With Coral SQL",
+          "description": "Every developer I know has the same problem: 300 open issues, 40 stale PRs, a security label buried...",
+          "url": "https://dev.to/athulkrishnan_h_210b5ea44/how-i-built-reposense-a-github-intelligence-cli-with-coral-sql-4jgm",
           "author": {
-            "username": "chen115y",
-            "name": "Yaohua Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
+            "username": "athulkrishnan_h_210b5ea44",
+            "name": "ATHULKRISHNAN H",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3409073%2Faa7a19ed-bf8e-4870-bca6-bd9866fdc983.jpg"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 17,
-          "publishedAt": "2026-05-26T20:02:49Z",
+          "readingTime": 10,
+          "publishedAt": "2026-05-31T08:17:38Z",
           "tags": [
-            "rag",
-            "ai",
-            "llm",
-            "architecture"
+            "coral",
+            "sql",
+            "github",
+            "hackathon"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "Lum1104/Understand-Anything",
-              "location": "body"
-            },
-            {
-              "fullName": "VectifyAI/PageIndex",
-              "location": "body"
-            },
-            {
-              "fullName": "garrytan/gbrain",
-              "location": "body"
+              "fullName": "withcoral/coral",
+              "location": "tag"
             }
           ]
         }
@@ -3818,7 +3470,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 65.3,
+        "hoursSincePosted": 70.3,
         "readingTime": 4
       },
       "articles": [
@@ -3890,7 +3542,7 @@
     },
     "github--awesome-copilot": {
       "count7d": 3,
-      "reactionsSum7d": 9,
+      "reactionsSum7d": 10,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3760823,
@@ -3899,7 +3551,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 65.3,
+        "hoursSincePosted": 70.3,
         "readingTime": 4
       },
       "articles": [
@@ -3940,6 +3592,34 @@
           ]
         },
         {
+          "id": 3777548,
+          "title": "VS Code Prompt Files - Custom Slash Commands for GitHub Copilot",
+          "description": "Prompt files turn repeated GitHub Copilot chat requests into slash commands. You write the...",
+          "url": "https://dev.to/petermilovcik/vs-code-prompt-files-custom-slash-commands-for-github-copilot-1m4f",
+          "author": {
+            "username": "petermilovcik",
+            "name": "PeterMilovcik",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F211647%2F9baca065-4f35-4fda-b33e-d2a7da1707c9.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-29T10:33:32Z",
+          "tags": [
+            "ai",
+            "githubcopilot",
+            "programming",
+            "productivity"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "github/awesome-copilot",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3764842,
           "title": "GitHub Copilot CLI Plugins and Marketplaces: Extend Your Terminal Agent",
           "description": "Learn how GitHub Copilot CLI plugins and marketplaces work, how to install them, and how to build your own.",
@@ -3970,34 +3650,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3777548,
-          "title": "VS Code Prompt Files - Custom Slash Commands for GitHub Copilot",
-          "description": "Prompt files turn repeated GitHub Copilot chat requests into slash commands. You write the...",
-          "url": "https://dev.to/petermilovcik/vs-code-prompt-files-custom-slash-commands-for-github-copilot-1m4f",
-          "author": {
-            "username": "petermilovcik",
-            "name": "PeterMilovcik",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F211647%2F9baca065-4f35-4fda-b33e-d2a7da1707c9.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-05-29T10:33:32Z",
-          "tags": [
-            "ai",
-            "githubcopilot",
-            "programming",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/awesome-copilot",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -4012,7 +3664,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 65.3,
+        "hoursSincePosted": 70.3,
         "readingTime": 4
       },
       "articles": [
@@ -4149,7 +3801,7 @@
         "author": "iamprincejkc",
         "reactions": 9,
         "comments": 3,
-        "hoursSincePosted": 91.2,
+        "hoursSincePosted": 96.2,
         "readingTime": 3
       },
       "articles": [
@@ -4183,51 +3835,6 @@
         }
       ]
     },
-    "withcoral--coral": {
-      "count7d": 1,
-      "reactionsSum7d": 7,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3768521,
-        "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
-        "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
-        "author": "himanshu_748",
-        "reactions": 7,
-        "comments": 1,
-        "hoursSincePosted": 75,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3768521,
-          "title": "Building RepoRank — The Open Source Impact & Funding Readiness Engine",
-          "description": "A journey into bridging open-source metrics, cross-source SQL joins, and AI-driven grant...",
-          "url": "https://dev.to/himanshu_748/building-reporank-the-open-source-impact-funding-readiness-engine-47k9",
-          "author": {
-            "username": "himanshu_748",
-            "name": "Himanshu Kumar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3226847%2F8b999f0b-76e8-4a5b-a87d-449ab82832bc.png"
-          },
-          "reactionsCount": 7,
-          "commentsCount": 1,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T05:47:51Z",
-          "tags": [
-            "opensource",
-            "webdev",
-            "showdev",
-            "ai"
-          ],
-          "trendingScore": 0.09,
-          "linkedRepos": [
-            {
-              "fullName": "withcoral/coral",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "rtk-ai--rtk": {
       "count7d": 3,
       "reactionsSum7d": 28,
@@ -4239,7 +3846,7 @@
         "author": "webmaxru",
         "reactions": 27,
         "comments": 1,
-        "hoursSincePosted": 132.6,
+        "hoursSincePosted": 137.6,
         "readingTime": 12
       },
       "articles": [
@@ -4263,7 +3870,7 @@
             "github",
             "productivity"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.31,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -4348,7 +3955,7 @@
         "author": "ricardoceci",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 91,
+        "hoursSincePosted": 96,
         "readingTime": 8
       },
       "articles": [
@@ -4393,7 +4000,7 @@
         "author": "shy",
         "reactions": 1,
         "comments": 5,
-        "hoursSincePosted": 124.8,
+        "hoursSincePosted": 129.8,
         "readingTime": 12
       },
       "articles": [
@@ -4427,51 +4034,6 @@
         }
       ]
     },
-    "chromedevtools--chrome-devtools-mcp": {
-      "count7d": 1,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3739982,
-        "title": "WebMCP Is the Quiet Google I/O Announcement That Could Make Web Apps Agent-Ready",
-        "url": "https://dev.to/nkalra0123/webmcp-is-the-quiet-google-io-announcement-that-could-make-web-apps-agent-ready-1p9l",
-        "author": "nkalra0123",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 164.9,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3739982,
-          "title": "WebMCP Is the Quiet Google I/O Announcement That Could Make Web Apps Agent-Ready",
-          "description": "This is a submission for the Google I/O Writing Challenge    At Google I/O 2026, the loud...",
-          "url": "https://dev.to/nkalra0123/webmcp-is-the-quiet-google-io-announcement-that-could-make-web-apps-agent-ready-1p9l",
-          "author": {
-            "username": "nkalra0123",
-            "name": "Nitin Kalra",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F159292%2Fecd62477-0bf0-4b11-9e60-7e4ac8893b92.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-24T11:54:22Z",
-          "tags": [
-            "devchallenge",
-            "googleiochallenge",
-            "webdev",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics--claude-code": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -4483,7 +4045,7 @@
         "author": "alexmercedcoder",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 90.5,
+        "hoursSincePosted": 95.5,
         "readingTime": 12
       },
       "articles": [
@@ -4584,7 +4146,7 @@
         "author": "zakarov",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 23.6,
+        "hoursSincePosted": 28.6,
         "readingTime": 16
       },
       "articles": [
@@ -4629,7 +4191,7 @@
         "author": "abhi_a_c8c6d876c38861c9ee",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 54.7,
+        "hoursSincePosted": 59.7,
         "readingTime": 8
       },
       "articles": [
@@ -4702,7 +4264,7 @@
         "author": "emersondelatorre",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 57.7,
+        "hoursSincePosted": 62.7,
         "readingTime": 12
       },
       "articles": [
@@ -4779,7 +4341,7 @@
         "author": "bspann",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 102.3,
+        "hoursSincePosted": 107.3,
         "readingTime": 5
       },
       "articles": [
@@ -4824,7 +4386,7 @@
         "author": "ventureio",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 17.1,
+        "hoursSincePosted": 22.1,
         "readingTime": 6
       },
       "articles": [
@@ -4905,7 +4467,7 @@
         "author": "ventureio",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 17.1,
+        "hoursSincePosted": 22.1,
         "readingTime": 6
       },
       "articles": [
@@ -4986,7 +4548,7 @@
         "author": "lizziepika",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.2,
+        "hoursSincePosted": 61.2,
         "readingTime": 2
       },
       "articles": [
@@ -5031,7 +4593,7 @@
         "author": "andrew-ooo",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 68.4,
+        "hoursSincePosted": 73.4,
         "readingTime": 10
       },
       "articles": [
@@ -5065,6 +4627,132 @@
         }
       ]
     },
+    "lum1104--understand-anything": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3744982,
+        "title": "One Open Source Project a Day (No. 75): Understand Anything - The AI Engine That Turns Any Codebase Into an Explorable Knowledge Graph",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-75-understand-anything-the-ai-engine-that-turns-any-codebase-5d3i",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 155,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3744982,
+          "title": "One Open Source Project a Day (No. 75): Understand Anything - The AI Engine That Turns Any Codebase Into an Explorable Knowledge Graph",
+          "description": "Introduction    \"Graphs that teach &gt; graphs that impress.\"   This is the 75th article in...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-75-understand-anything-the-ai-engine-that-turns-any-codebase-5d3i",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-25T02:50:56Z",
+          "tags": [
+            "opensource",
+            "ai",
+            "claude",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3759155,
+          "title": "The Representation Problem: Why RAG vs. Agentic Search Is the Wrong Debate",
+          "description": "The industry has been asking the wrong question.  When Boris Cherny — the creator and Head of Claude...",
+          "url": "https://dev.to/chen115y/the-representation-problem-why-rag-vs-agentic-search-is-the-wrong-debate-4j8f",
+          "author": {
+            "username": "chen115y",
+            "name": "Yaohua Chen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 17,
+          "publishedAt": "2026-05-26T20:02:49Z",
+          "tags": [
+            "rag",
+            "ai",
+            "llm",
+            "architecture"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "location": "body"
+            },
+            {
+              "fullName": "VectifyAI/PageIndex",
+              "location": "body"
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock--skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3663204,
+        "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
+        "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
+        "author": "leolr",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 121.2,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3663204,
+          "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
+          "description": "AI Coding Standards at Scale: How We Versioned Our Team's AI Rules with Claude Code   \"AI amplifies...",
+          "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
+          "author": {
+            "username": "leolr",
+            "name": "Léo Le Roy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3928836%2F1b448e20-f99c-47c9-8184-7d49849201b9.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-26T12:34:36Z",
+          "tags": [
+            "ai",
+            "automation",
+            "claude",
+            "cursor"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "juliusbrussee--caveman": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -5076,7 +4764,7 @@
         "author": "schoaib",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 95.2,
+        "hoursSincePosted": 100.2,
         "readingTime": 3
       },
       "articles": [
@@ -5146,51 +4834,6 @@
         }
       ]
     },
-    "mattpocock--skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3663204,
-        "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
-        "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
-        "author": "leolr",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 116.2,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3663204,
-          "title": "AI Coding Standards at Scale: Versioned AI Rules for Cursor, Claude Code, and Beyond",
-          "description": "AI Coding Standards at Scale: How We Versioned Our Team's AI Rules with Claude Code   \"AI amplifies...",
-          "url": "https://dev.to/leolr/ai-coding-standards-at-scale-versioned-ai-rules-for-cursor-claude-code-and-beyond-2j84",
-          "author": {
-            "username": "leolr",
-            "name": "Léo Le Roy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3928836%2F1b448e20-f99c-47c9-8184-7d49849201b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-26T12:34:36Z",
-          "tags": [
-            "ai",
-            "automation",
-            "claude",
-            "cursor"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "everyinc--compound-engineering-plugin": {
       "count7d": 1,
       "reactionsSum7d": 5,
@@ -5202,7 +4845,7 @@
         "author": "arshtechpro",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 9.3,
+        "hoursSincePosted": 14.2,
         "readingTime": 5
       },
       "articles": [
@@ -5226,7 +4869,7 @@
             "claude",
             "programming"
           ],
-          "trendingScore": 0.42,
+          "trendingScore": 0.27,
           "linkedRepos": [
             {
               "fullName": "EveryInc/compound-engineering-plugin",
@@ -5247,7 +4890,7 @@
         "author": "rkttu",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.1,
+        "hoursSincePosted": 118.1,
         "readingTime": 8
       },
       "articles": [
@@ -5320,7 +4963,7 @@
         "author": "emersondelatorre",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 57.7,
+        "hoursSincePosted": 62.7,
         "readingTime": 12
       },
       "articles": [
@@ -5369,7 +5012,7 @@
         "author": "shogun444",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 25.9,
+        "hoursSincePosted": 30.9,
         "readingTime": 9
       },
       "articles": [
@@ -5393,10 +5036,55 @@
             "ai",
             "productivity"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "thesysdev/openui",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "langchain4j--langchain4j": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3775960,
+        "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
+        "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
+        "author": "shayesta",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 49.4,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3775960,
+          "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
+          "description": "Table of Contents 🗒️    Where it all starts: LLMs Making LLMs smarter: RAG Plugging...",
+          "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
+          "author": {
+            "username": "shayesta",
+            "name": "shayesta",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F384148%2F6b3ec9ff-c989-41a5-b7ba-5232cf3faf3a.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-29T12:25:07Z",
+          "tags": [
+            "ai",
+            "learning",
+            "llm",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "langchain4j/langchain4j",
               "location": "body"
             }
           ]
@@ -5408,63 +5096,35 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 2,
       "topArticle": {
-        "id": 3764690,
-        "title": "Surviving an AZ Failover for Our Build Runner Fleet at 3am",
-        "url": "https://dev.to/claire_nguyen/surviving-an-az-failover-for-our-build-runner-fleet-at-3am-pg7",
-        "author": "claire_nguyen",
+        "id": 3757783,
+        "title": "Per-customer budget caps on our caption pipeline: 3 weeks with virtual keys",
+        "url": "https://dev.to/elise_moreau/per-customer-budget-caps-on-our-caption-pipeline-3-weeks-with-virtual-keys-hip",
+        "author": "elise_moreau",
         "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 91.4,
+        "comments": 1,
+        "hoursSincePosted": 118.9,
         "readingTime": 4
       },
       "articles": [
         {
-          "id": 3764690,
-          "title": "Surviving an AZ Failover for Our Build Runner Fleet at 3am",
-          "description": "TL;DR: We lost an AWS AZ for 47 minutes back in March. Our build runner fleet on EKS mostly survived,...",
-          "url": "https://dev.to/claire_nguyen/surviving-an-az-failover-for-our-build-runner-fleet-at-3am-pg7",
+          "id": 3757783,
+          "title": "Per-customer budget caps on our caption pipeline: 3 weeks with virtual keys",
+          "description": "TL;DR: We were burning around €4,200/month in vision-LLM costs across roughly 80 customers, with zero...",
+          "url": "https://dev.to/elise_moreau/per-customer-budget-caps-on-our-caption-pipeline-3-weeks-with-virtual-keys-hip",
           "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-27T13:24:15Z",
-          "tags": [
-            "devops",
-            "sre",
-            "infrastructure",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3765542,
-          "title": "Virtual keys per tenant: ditching our custom LLM billing layer",
-          "description": "TL;DR: We had 11,247 lines of Python middleware handling per-tenant LLM cost attribution, rate...",
-          "url": "https://dev.to/marcuswwchen/virtual-keys-per-tenant-ditching-our-custom-llm-billing-layer-2p7b",
-          "author": {
-            "username": "marcuswwchen",
-            "name": "Marcus Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3859428%2F572085fe-831d-498b-854b-41102c7902ee.jpg"
+            "username": "elise_moreau",
+            "name": "Elise Moreau",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864909%2F72833c18-30db-4456-82ee-e7d2016cc38f.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 1,
           "readingTime": 4,
-          "publishedAt": "2026-05-27T16:02:19Z",
+          "publishedAt": "2026-05-26T14:53:00Z",
           "tags": [
             "llm",
-            "mlops",
             "infrastructure",
-            "devops"
+            "mlops",
+            "machinelearning"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -5492,34 +5152,6 @@
             "computervision",
             "mlops",
             "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3771542,
-          "title": "Our PR-review bot kept hitting 429s. Bifrost key pooling fixed it.",
-          "description": "TL;DR: Our internal PR-review bot was getting 429'd by Anthropic between 9am and 11am Sydney time. We...",
-          "url": "https://dev.to/claire_nguyen/our-pr-review-bot-kept-hitting-429s-bifrost-key-pooling-fixed-it-4m9f",
-          "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T13:22:11Z",
-          "tags": [
-            "devops",
-            "infrastructure",
-            "llm",
-            "sre"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -5558,6 +5190,65 @@
           ]
         },
         {
+          "id": 3751239,
+          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
+          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
+          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
+          "author": {
+            "username": "marcorinaldi_ai",
+            "name": "Marco Rinaldi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-25T16:53:43Z",
+          "tags": [
+            "computervision",
+            "mlops",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            },
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3764690,
+          "title": "Surviving an AZ Failover for Our Build Runner Fleet at 3am",
+          "description": "TL;DR: We lost an AWS AZ for 47 minutes back in March. Our build runner fleet on EKS mostly survived,...",
+          "url": "https://dev.to/claire_nguyen/surviving-an-az-failover-for-our-build-runner-fleet-at-3am-pg7",
+          "author": {
+            "username": "claire_nguyen",
+            "name": "claire nguyen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-27T13:24:15Z",
+          "tags": [
+            "devops",
+            "sre",
+            "infrastructure",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3771997,
           "title": "Tracing our 4-stage product photo pipeline through Bifrost",
           "description": "TL;DR: We added OpenTelemetry tracing across the four LLM and VLM hops in our product-photo pipeline...",
@@ -5586,96 +5277,6 @@
         }
       ]
     },
-    "langchain4j--langchain4j": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3775960,
-        "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
-        "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
-        "author": "shayesta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 44.4,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3775960,
-          "title": "Demystifying the AI Wave: A Backend Engineer's Guide to LLMs, RAG, and Agents",
-          "description": "Table of Contents 🗒️    Where it all starts: LLMs Making LLMs smarter: RAG Plugging...",
-          "url": "https://dev.to/shayesta/demystifying-the-ai-wave-a-backend-engineers-guide-to-llms-rag-and-agents-383d",
-          "author": {
-            "username": "shayesta",
-            "name": "shayesta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F384148%2F6b3ec9ff-c989-41a5-b7ba-5232cf3faf3a.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-29T12:25:07Z",
-          "tags": [
-            "ai",
-            "learning",
-            "llm",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "langchain4j/langchain4j",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "andrewyng--context-hub": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3766493,
-        "title": "The Internet Is for Agents",
-        "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
-        "author": "keithjmackay",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 84.5,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3766493,
-          "title": "The Internet Is for Agents",
-          "description": "The Internet Is for Agents   For over a year now, more than half of internet traffic has not...",
-          "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
-          "author": {
-            "username": "keithjmackay",
-            "name": "Keith MacKay",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1499463%2Fdc7d3636-8482-4d6e-b619-fb4367cf4dfd.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-05-27T20:19:56Z",
-          "tags": [
-            "agents",
-            "infrastructure",
-            "mcp",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "andrewyng/context-hub",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "vectifyai--pageindex": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5687,7 +5288,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 108.8,
+        "hoursSincePosted": 113.8,
         "readingTime": 17
       },
       "articles": [
@@ -5740,7 +5341,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 108.8,
+        "hoursSincePosted": 113.8,
         "readingTime": 17
       },
       "articles": [
@@ -5782,6 +5383,99 @@
         }
       ]
     },
+    "berriai--litellm": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3751239,
+        "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
+        "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
+        "author": "marcorinaldi_ai",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 140.9,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3751239,
+          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
+          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
+          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
+          "author": {
+            "username": "marcorinaldi_ai",
+            "name": "Marco Rinaldi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-25T16:53:43Z",
+          "tags": [
+            "computervision",
+            "mlops",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            },
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft--playwright-cli": {
+      "count7d": 1,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3764759,
+        "title": "Playwright MCP vs Rendershot MCP: choosing a browser MCP server in 2026",
+        "url": "https://dev.to/rendershot/playwright-mcp-vs-rendershot-mcp-choosing-a-browser-mcp-server-in-2026-3kk2",
+        "author": "rendershot",
+        "reactions": 2,
+        "comments": 1,
+        "hoursSincePosted": 96.1,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3764759,
+          "title": "Playwright MCP vs Rendershot MCP: choosing a browser MCP server in 2026",
+          "description": "Two MCP servers, both built around Playwright, that solve almost completely different problems. Here's when to use each — and the cost tradeoff that's hiding in the choice.",
+          "url": "https://dev.to/rendershot/playwright-mcp-vs-rendershot-mcp-choosing-a-browser-mcp-server-in-2026-3kk2",
+          "author": {
+            "username": "rendershot",
+            "name": "Ohad Badihi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3901160%2Fb62d72eb-8d63-4de4-a6a3-9ea35a0e40eb.jpeg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 6,
+          "publishedAt": "2026-05-27T13:40:49Z",
+          "tags": [
+            "ai",
+            "webdev",
+            "playwright",
+            "mcp"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/playwright-cli",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "qdrant--qdrant": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5793,7 +5487,7 @@
         "author": "parikalp_bhardwaj_9e9d812",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 11.8,
+        "hoursSincePosted": 16.8,
         "readingTime": 21
       },
       "articles": [
@@ -5838,7 +5532,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 103.3,
+        "hoursSincePosted": 108.3,
         "readingTime": 7
       },
       "articles": [
@@ -5883,7 +5577,7 @@
         "author": "venkatakrishna_s",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 148.2,
+        "hoursSincePosted": 153.2,
         "readingTime": 3
       },
       "articles": [
@@ -5928,7 +5622,7 @@
         "author": "pwd9000",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 90.8,
+        "hoursSincePosted": 95.8,
         "readingTime": 11
       },
       "articles": [
@@ -5977,7 +5671,7 @@
         "author": "tenglongai2026",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 81,
+        "hoursSincePosted": 86,
         "readingTime": 1
       },
       "articles": [
@@ -6020,7 +5714,7 @@
         "author": "grimicorn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.4,
+        "hoursSincePosted": 134.4,
         "readingTime": 3
       },
       "articles": [
@@ -6073,7 +5767,7 @@
     {
       "fullName": "github/awesome-copilot",
       "count7d": 3,
-      "reactionsSum7d": 9
+      "reactionsSum7d": 10
     },
     {
       "fullName": "anthropics/anthropic-sdk-csharp",
@@ -6081,28 +5775,13 @@
       "reactionsSum7d": 9
     },
     {
-      "fullName": "coreyhaines31/marketingskills",
-      "count7d": 1,
-      "reactionsSum7d": 8
-    },
-    {
-      "fullName": "vercel-labs/agent-skills",
-      "count7d": 1,
-      "reactionsSum7d": 8
-    },
-    {
-      "fullName": "vercel-labs/skills",
-      "count7d": 1,
+      "fullName": "withcoral/coral",
+      "count7d": 2,
       "reactionsSum7d": 8
     },
     {
       "fullName": "obra/superpowers",
       "count7d": 4,
-      "reactionsSum7d": 7
-    },
-    {
-      "fullName": "withcoral/coral",
-      "count7d": 1,
       "reactionsSum7d": 7
     },
     {
@@ -6126,17 +5805,17 @@
       "reactionsSum7d": 3
     },
     {
-      "fullName": "ChromeDevTools/chrome-devtools-mcp",
-      "count7d": 1,
-      "reactionsSum7d": 2
-    },
-    {
       "fullName": "dotnet/skills",
       "count7d": 1,
       "reactionsSum7d": 2
     },
     {
       "fullName": "github/github-mcp-server",
+      "count7d": 1,
+      "reactionsSum7d": 2
+    },
+    {
+      "fullName": "microsoft/playwright-cli",
       "count7d": 1,
       "reactionsSum7d": 2
     },
@@ -6153,11 +5832,6 @@
     {
       "fullName": "thedotmack/claude-mem",
       "count7d": 2,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "andrewyng/context-hub",
-      "count7d": 1,
       "reactionsSum7d": 1
     },
     {
@@ -6191,11 +5865,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "Lum1104/Understand-Anything",
-      "count7d": 3,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "alirezarezvani/claude-skills",
       "count7d": 2,
       "reactionsSum7d": 0
@@ -6206,8 +5875,18 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "Lum1104/Understand-Anything",
+      "count7d": 2,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "openai/codex",
       "count7d": 2,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "BerriAI/litellm",
+      "count7d": 1,
       "reactionsSum7d": 0
     },
     {

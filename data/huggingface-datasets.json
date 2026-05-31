@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-31T09:27:38.321Z",
+  "fetchedAt": "2026-05-31T14:15:48.141Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/UltraData-SFT-2605",
       "downloads": 11036,
-      "likes": 225,
-      "trendingScore": 168,
+      "likes": 227,
+      "trendingScore": 170,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -41,8 +41,8 @@
       "author": "openbmb",
       "url": "https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3",
       "downloads": 27284,
-      "likes": 221,
-      "trendingScore": 107,
+      "likes": 222,
+      "trendingScore": 108,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -257,6 +257,32 @@
     },
     {
       "rank": 9,
+      "id": "jasperai/monet",
+      "author": "jasperai",
+      "url": "https://huggingface.co/datasets/jasperai/monet",
+      "downloads": 265463,
+      "likes": 79,
+      "trendingScore": 71,
+      "tags": [
+        "task_categories:text-to-image",
+        "task_categories:image-feature-extraction",
+        "task_categories:zero-shot-image-classification",
+        "language:en",
+        "license:apache-2.0",
+        "size_categories:100M<n<1B",
+        "arxiv:2605.21272",
+        "region:us",
+        "multimodal",
+        "image-text",
+        "captioning",
+        "text-to-image",
+        "synthetic-data"
+      ],
+      "createdAt": "2026-04-28T14:37:04.000Z",
+      "lastModified": "2026-05-29T10:16:25.000Z"
+    },
+    {
+      "rank": 10,
       "id": "ADSKAILab/Zero-To-CAD-1m",
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
@@ -290,32 +316,6 @@
       ],
       "createdAt": "2026-04-11T16:07:48.000Z",
       "lastModified": "2026-05-03T14:11:21.000Z"
-    },
-    {
-      "rank": 10,
-      "id": "jasperai/monet",
-      "author": "jasperai",
-      "url": "https://huggingface.co/datasets/jasperai/monet",
-      "downloads": 265463,
-      "likes": 77,
-      "trendingScore": 69,
-      "tags": [
-        "task_categories:text-to-image",
-        "task_categories:image-feature-extraction",
-        "task_categories:zero-shot-image-classification",
-        "language:en",
-        "license:apache-2.0",
-        "size_categories:100M<n<1B",
-        "arxiv:2605.21272",
-        "region:us",
-        "multimodal",
-        "image-text",
-        "captioning",
-        "text-to-image",
-        "synthetic-data"
-      ],
-      "createdAt": "2026-04-28T14:37:04.000Z",
-      "lastModified": "2026-05-29T10:16:25.000Z"
     },
     {
       "rank": 11,

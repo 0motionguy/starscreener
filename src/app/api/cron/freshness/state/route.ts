@@ -31,6 +31,7 @@ interface SourceSpec {
     slugs: (nowMs: number) => string[];
   }>;
   blocking?: boolean;
+  enabled?: boolean;
   budgetMs: number;
   budgetLabel: string;
 }
@@ -248,10 +249,11 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   },
   {
     // trending-mcp: no producer in registry (Codex audit P1 2026-05-17).
-    // Demoted to advisory pending implementation of an MCP rollup fetcher.
+    // Disabled from live freshness until an MCP rollup fetcher lands.
     name: "trending-mcp",
     redisSlugs: ["trending-mcp"],
     blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {
@@ -280,11 +282,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     name: "mcp-smithery-rank",
     redisSlugs: ["mcp-smithery-rank"],
     blocking: false,
+    enabled: false,
     ...hours(12),
   },
   {
     // mcp-usage-snapshot: depends on trending-mcp which has no producer.
-    // Demoted to advisory until upstream lands.
+    // Disabled until upstream lands.
     name: "mcp-usage-snapshot",
     redisSlugGroups: [
       {
@@ -293,12 +296,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       },
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
-    // trending-skills: workflows exist (refresh-skill-*.yml) but
-    // Redis writes unverified vs the multi-slug list below.
-    // Demoted to advisory pending registry verification.
+    // trending-skills: workflows exist (refresh-skill-*.yml) but there is no
+    // current live app route or worker-owned producer. Disabled until rebuilt.
     name: "trending-skills",
     redisSlugs: [
       "trending-skill",
@@ -308,6 +311,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "trending-skill-lobehub",
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
@@ -316,6 +320,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     name: "skill-sidechannels",
     redisSlugs: ["awesome-skills", "skill-derivative-count"],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
@@ -326,6 +331,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "skill-install-snapshot:prev:30d",
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
@@ -632,7 +638,9 @@ async function handle(
   try {
     const inspect = resolveInspectSource(inspectSource);
     const sources = await Promise.all(
-      SOURCE_SPECS.map((spec) => inspect(spec, nowMs)),
+      SOURCE_SPECS.filter((spec) => spec.enabled !== false).map((spec) =>
+        inspect(spec, nowMs),
+      ),
     );
     sources.sort((a, b) => a.name.localeCompare(b.name));
 

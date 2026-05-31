@@ -32,14 +32,9 @@ import type { CSSProperties } from "react";
 
 import { useWatchlistStore } from "@/lib/store";
 import { useClientSession } from "@/lib/hooks/useClientSession";
+import { openSignInModal } from "@/lib/auth/open-sign-in-modal";
 import { HeartIcon } from "@/components/icons-animated";
 import { Icon } from "@/components/icon/Icon";
-
-function signInHref(): string {
-  if (typeof window === "undefined") return "/sign-in";
-  const here = window.location.pathname + window.location.search;
-  return `/sign-in?redirect_url=${encodeURIComponent(here)}`;
-}
 
 type WatchButtonVariant = "watch" | "compact" | "hero";
 
@@ -78,7 +73,7 @@ export function WatchButton({
 
   const onClick = () => {
     if (signedOut) {
-      window.location.assign(signInHref());
+      openSignInModal();
       return;
     }
     toggle(repoId, stars, fullName);

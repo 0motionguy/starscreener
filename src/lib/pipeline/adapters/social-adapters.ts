@@ -359,6 +359,9 @@ export class RedditAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (isSourceHealthDisabled("reddit")) {
+      return [];
+    }
     if (sourceHealthTracker.isOpen("reddit")) {
       return [];
     }
@@ -615,6 +618,9 @@ export class GitHubActivityAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (isSourceHealthDisabled("github-search")) {
+      return [];
+    }
     if (sourceHealthTracker.isOpen("github-search")) {
       return [];
     }

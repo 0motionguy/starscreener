@@ -25,6 +25,13 @@ export async function recordRedditCall(
     await redis.hincrby(usageKey, "success", 1);
   } else {
     await redis.hincrby(usageKey, "fail", 1);
+    if (params.statusCode === 403) {
+      await redis.hincrby(usageKey, "blocked", 1);
+      await redis.hset(usageKey, "lastBlockedAt", new Date().toISOString());
+    } else if (params.statusCode === 429) {
+      await redis.hincrby(usageKey, "rateLimited", 1);
+      await redis.hset(usageKey, "last429At", new Date().toISOString());
+    }
   }
   await redis.hset(usageKey, "lastStatusCode", params.statusCode);
   await redis.hset(usageKey, "lastResponseMs", params.responseTimeMs);

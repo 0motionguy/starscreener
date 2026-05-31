@@ -64,51 +64,38 @@ export const clerkAppearance: Appearance = {
     headerTitle:
       "text-[#f1f5f9] text-2xl font-semibold tracking-tight font-[var(--font-space-grotesk)]",
     headerSubtitle: "text-[#6b7785] text-sm",
-    // Force a vertical stack of social buttons — Clerk's modal default
-    // packs them into a 3-column grid when there are 2-3 providers, which
-    // truncates labels ("Goog..." "X / T..."). One per row + bigger
-    // padding makes them the primary CTA pattern.
-    socialButtons:
-      "!grid-cols-1 !flex !flex-col gap-3 w-full",
     socialButtonsBlockButton: [
-      "w-full",
-      "!border !border-[#ff6b35]/40",
-      "bg-[#101418] hover:bg-[#1a2026]",
-      "hover:!border-[#ff6b35]",
-      "!text-white",
-      "!py-5 px-6",
+      "border border-[#222a32]",
+      "bg-[#101418] hover:bg-[#151a20]",
+      "text-[#f1f5f9]",
       "transition-colors",
-      "justify-start gap-4",
-      "min-h-[60px]",
     ].join(" "),
-    socialButtonsBlockButtonText:
-      "!text-white !font-bold !text-[17px]",
-    socialButtonsProviderIcon:
-      "!opacity-100 !w-7 !h-7 !brightness-100",
-    // Per-provider icon overrides: GitHub + X marks are monochrome
-    // BLACK silhouettes — invisible on our #101418 button bg. Invert
-    // them to white. Google stays untouched (its mark is multicolor).
-    socialButtonsProviderIcon__github: "!invert",
-    socialButtonsProviderIcon__x: "!invert",
-    socialButtonsProviderIcon__twitter: "!invert",
-    // Operator decree 2026-05-31: social-only Sign up modal. The plain
-    // "hidden" Tailwind class lost the specificity war with Clerk's
-    // own display:flex; switching to "!hidden" forces display:none!important.
-    dividerRow: "!hidden",
-    dividerLine: "!hidden",
-    dividerText: "!hidden",
-    form: "!hidden",
-    formField: "!hidden",
-    formFieldRow: "!hidden",
-    formButtonPrimary: "!hidden",
-    formFieldLabel: "!hidden",
-    formFieldInput: "!hidden",
-    formFieldAction: "!hidden",
-    formResendCodeLink: "!hidden",
-    // Form sub-element styling intentionally pruned — the parent
-    // `form: "!hidden"` removes the whole tree from the modal, so
-    // formFieldLabel/Input/etc. would never paint anyway. Kept the
-    // footer/identityPreview rules below since those still render.
+    socialButtonsBlockButtonText: "text-[#f1f5f9] font-medium",
+    dividerLine: "bg-[#222a32]",
+    dividerText: "text-[#6b7785] text-xs uppercase tracking-wider",
+    formFieldLabel: "text-[#f1f5f9] text-sm font-medium mb-1.5",
+    formFieldInput: [
+      "bg-[#101418]",
+      "border border-[#222a32]",
+      "text-[#f1f5f9]",
+      "placeholder:text-[#6b7785]/60",
+      "focus:border-[#ff6b35]",
+      "focus:ring-2 focus:ring-[#ff6b35]/30",
+      "focus:outline-none",
+      "transition-colors",
+    ].join(" "),
+    formFieldInputShowPasswordButton: "text-[#6b7785] hover:text-[#f1f5f9]",
+    formFieldHintText: "text-[#6b7785] text-xs",
+    formFieldErrorText: "text-[#ff4d4d] text-xs",
+    formFieldSuccessText: "text-[#22c55e] text-xs",
+    formButtonPrimary: [
+      "bg-[#ff6b35] hover:bg-[#ff8458] active:bg-[#c44a1f]",
+      "text-[#08090a] font-semibold",
+      "shadow-none",
+      "border-0",
+      "transition-colors",
+      "uppercase tracking-wide text-sm",
+    ].join(" "),
     formButtonReset:
       "text-[#6b7785] hover:text-[#f1f5f9] transition-colors",
     footer: "bg-transparent",
@@ -123,6 +110,8 @@ export const clerkAppearance: Appearance = {
       "bg-[#101418] border border-[#222a32] rounded-lg",
     identityPreviewText: "text-[#f1f5f9]",
     identityPreviewEditButton:
+      "text-[#ff6b35] hover:text-[#ff8458] transition-colors",
+    formResendCodeLink:
       "text-[#ff6b35] hover:text-[#ff8458] transition-colors",
     otpCodeFieldInput: [
       "bg-[#101418] border border-[#222a32]",

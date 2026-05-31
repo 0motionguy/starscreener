@@ -53,7 +53,7 @@ export const revalidate = 1800;
 export const metadata = {
   title: "Market Signals",
   description:
-    "Live cross-source telemetry across 30+ feeds. GitHub, X, HN, Reddit, Bluesky, npm, arXiv, Dev.to, Lobsters, Hugging Face - one cockpit.",
+    "Live cross-source telemetry across 30+ feeds. GitHub, X, HN, Reddit, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
   openGraph: {
     images: [
       { url: "/api/og/market-signals", width: 1200, height: 630, alt: "TrendingRepo — Market Signals" },
@@ -159,6 +159,7 @@ function buildSourceTotals(
     reddit: Math.max(0, mentionsFor(repos, "reddit") || counts?.redditPosts || 0),
     x: Math.max(0, mentionsFor(repos, "twitter") || counts?.twitterRepos || 0),
     bsky: Math.max(0, mentionsFor(repos, "bluesky") || counts?.blueskyPosts || 0),
+    ph: Math.max(0, mentionsFor(repos, "producthunt") || counts?.producthuntLaunches || 0),
     devto: Math.max(0, mentionsFor(repos, "devto") || counts?.devtoArticles || 0),
     lobsters: Math.max(0, mentionsFor(repos, "lobsters") || counts?.lobstersStories || 0),
     arxiv: Math.max(0, counts?.arxivPapers ?? 0),

@@ -27,6 +27,7 @@ export interface RepoProfileSurface {
   githubUrl: string;
   docsUrl: string | null;
   npmPackages: string[];
+  productHuntLaunchId: string | null;
 }
 
 export interface RepoProfile {
@@ -34,7 +35,7 @@ export interface RepoProfile {
   rank: number | null;
   selectedFrom: string;
   websiteUrl: string | null;
-  websiteSource: "github_homepage" | "npm_homepage" | null;
+  websiteSource: "producthunt" | "github_homepage" | "npm_homepage" | null;
   status: RepoProfileStatus;
   lastProfiledAt: string;
   nextScanAfter: string | null;

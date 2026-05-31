@@ -47,7 +47,7 @@ interface StaticHub {
 // Only canonical 200-returning hubs belong here. The v6 cutover retired ~30
 // legacy paths (/githubrepo, /skills, /mcp, /top10, /breakouts, /consensus,
 // /signals, /twitter, /agent-repos, /npm, /research, /papers, /arxiv/*,
-// /huggingface/*, /hackernews/*, /bluesky/*, /devto, /lobsters,
+// /huggingface/*, /hackernews/*, /bluesky/*, /devto, /lobsters, /producthunt,
 // /reddit/*, /digest, /top, /trends, /tierlist, /compare, /docs, /search,
 // /submit) — they 308/307 via next.config. Redirects in a sitemap waste crawl
 // budget and erode trust, so they were removed (2026-05-28). Where a legacy

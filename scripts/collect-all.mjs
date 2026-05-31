@@ -50,6 +50,11 @@ const SOURCES = [
     countPaths: ["data/lobsters-trending.json", "data/lobsters-mentions.json"],
   },
   {
+    name: "ph",
+    script: "scrape:ph",
+    countPaths: ["data/producthunt-launches.json"],
+  },
+  {
     name: "twitter",
     script: "collect:twitter",
     countPaths: [".data/twitter-repo-signals.jsonl", ".data/twitter-scans.jsonl"],

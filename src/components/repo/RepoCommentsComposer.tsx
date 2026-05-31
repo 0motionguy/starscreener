@@ -40,7 +40,6 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { Icon } from "@/components/icon/Icon";
-import { openSignInModal } from "@/lib/auth/open-sign-in-modal";
 import type { RepoComment } from "@/lib/repo-comments";
 
 interface RepoCommentsComposerProps {
@@ -153,9 +152,8 @@ export function RepoCommentsComposer({
     if (!signedIn) {
       // Belt-and-braces — the button is hidden when signed-out, but a
       // Cmd+Enter keystroke from a stale focus state shouldn't be a silent
-      // no-op. Open the Clerk modal in place (falls back to a hard /sign-in
-      // redirect if Clerk's browser SDK isn't loaded).
-      openSignInModal();
+      // no-op. Send the user where they need to be.
+      window.location.assign(signInUrl);
       return;
     }
     if (!trimmed || busy) return;
@@ -196,7 +194,7 @@ export function RepoCommentsComposer({
         onOptimisticRevert(optimisticId);
       } else if (res.status === 401) {
         onOptimisticRevert(optimisticId);
-        openSignInModal();
+        window.location.assign(signInUrl);
       } else if (res.status === 429) {
         onOptimisticRevert(optimisticId);
         setErr("Slow down — too many posts in the last minute");
@@ -307,13 +305,9 @@ export function RepoCommentsComposer({
           >
             Sign in to join the discussion
           </p>
-          <button
-            type="button"
-            className="btn primary"
-            onClick={() => openSignInModal()}
-          >
+          <a className="btn primary" href={signInUrl}>
             Sign in
-          </button>
+          </a>
         </div>
       </div>
     );

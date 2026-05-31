@@ -87,7 +87,7 @@ import dropDeepEnrichDrain from './fetchers/drop-deep-enrich-drain/index.js';
 // count on their profile within ~1-2 min (vs ~31h via hourly rotation).
 import dropTwitterDrain from './fetchers/drop-twitter-drain/index.js';
 // Repo-first cross-source mention sweep — for the top-100 (consensus-trending),
-// searches HN/Reddit/dev.to/Bluesky(+Tavily) per repo and publishes
+// searches HN/Reddit/dev.to/Bluesky/ProductHunt(+Tavily) per repo and publishes
 // `repo-mentions-detail-rollup` to redis (the detail behind profile source pips).
 import crossSourceSweep from './fetchers/cross-source-sweep/index.js';
 // Persistent accumulating repo collection — unions trending/recent/metadata/

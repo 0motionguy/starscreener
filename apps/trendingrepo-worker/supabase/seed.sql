@@ -35,6 +35,7 @@ with item_inserts as (
     ('hf_space','huggingface','lmsys/chatbot-arena-leaderboard','lmsys-chatbot-arena-leaderboard','Chatbot Arena','https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard','lmsys', now() - interval '6 days', 280000, 2),
     ('idea','hackernews','41234567','self-hosting-llms','Self-hosting LLMs is finally cheap','https://news.ycombinator.com/item?id=41234567','dang', now() - interval '1 day', 1100, 2),
     ('idea','hackernews','41234580','rust-grew-up','Rust grew up','https://news.ycombinator.com/item?id=41234580','dang', now() - interval '3 days', 870, 1),
+    ('idea','producthunt','agnt-2026','agnt-launch','AGNT launches the marketplace','https://www.producthunt.com/posts/agnt-launch','mirko', now() - interval '7 days', 540, 1),
     ('idea','devto','typescript-decorators-2026','typescript-decorators','TypeScript decorators in 2026','https://dev.to/foo/ts-decorators','foo', now() - interval '14 days', 220, 1),
     ('idea','reddit','t3_a1b2c3','vibe-coding','Vibe coding considered harmful','https://reddit.com/r/programming/comments/a1b2c3','rust_user', now() - interval '40 days', 110, 1)
   returning id, source, source_id

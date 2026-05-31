@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: PageProps) {
 
   const title = `Best ${meta.name} — Trending Open-Source Projects | ${SITE_NAME}`;
   const description = clampDescription(
-    `${meta.description}. The top trending open-source ${meta.name} repos right now, ranked by cross-source momentum across GitHub, Hacker News, Reddit, X, Bluesky and Dev.to. Updated continuously.`,
+    `${meta.description}. The top trending open-source ${meta.name} repos right now, ranked by cross-source momentum across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to. Updated continuously.`,
   );
   const canonical = absoluteUrl(`/categories/${slug}`);
 

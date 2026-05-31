@@ -21,7 +21,7 @@ const ROUTES: CronRouteCase[] = [
   { name: "llm-aggregate", path: "/api/cron/llm/aggregate", method: "GET", modulePath: "@/app/api/cron/llm/aggregate/route" },
   { name: "llm-sync-models", path: "/api/cron/llm/sync-models", method: "GET", modulePath: "@/app/api/cron/llm/sync-models/route" },
   // mcp-rotate-usage route was removed in fc3c3b155 (strip MCP surfaces); entry retired.
-  // news-auto-recover route was removed in the 2026-05-30 hygiene wave (no GHA caller); entry retired.
+  { name: "news-auto-recover", path: "/api/cron/news-auto-recover", method: "POST", modulePath: "@/app/api/cron/news-auto-recover/route" },
   { name: "twitter-daily", path: "/api/cron/twitter-daily", method: "POST", modulePath: "@/app/api/cron/twitter-daily/route" },
   { name: "twitter-weekly-recap", path: "/api/cron/twitter-weekly-recap", method: "POST", modulePath: "@/app/api/cron/twitter-weekly-recap/route" },
   { name: "webhooks-dead-letter-digest", path: "/api/cron/webhooks/dead-letter-digest", method: "GET", modulePath: "@/app/api/cron/webhooks/dead-letter-digest/route" },

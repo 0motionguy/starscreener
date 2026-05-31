@@ -105,6 +105,7 @@ export type SourceName =
   | "obsidian"
   | "ollama"
   | "openai"
+  | "producthunt"
   | "reddit"
   | "supabase"
   | "vercel"
@@ -158,6 +159,7 @@ const SOURCE_LABEL: Record<SourceName, string> = {
   obsidian: "Obsidian",
   ollama: "Ollama",
   openai: "OpenAI",
+  producthunt: "Product Hunt",
   reddit: "Reddit",
   supabase: "Supabase",
   vercel: "Vercel",

@@ -28,6 +28,12 @@ import {
   getNpmPackagesFile,
   refreshNpmFromStore,
 } from "./npm";
+import {
+  getPhFile,
+  getProducthuntFetchedAt,
+  isProducthuntCold,
+  refreshProducthuntLaunchesFromStore,
+} from "./producthunt";
 import { getAllPostsFile, refreshRedditAllPostsFromStore } from "./reddit-all-data";
 import {
   getRedditFetchedAt,
@@ -49,18 +55,21 @@ import {
 // with existing server-side callers; do not edit values here.
 export {
   FAST_DATA_STALE_THRESHOLD_MS,
+  PRODUCTHUNT_STALE_THRESHOLD_MS,
   DEVTO_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
 } from "./source-health-thresholds";
 
 import {
   FAST_DATA_STALE_THRESHOLD_MS,
+  PRODUCTHUNT_STALE_THRESHOLD_MS,
   DEVTO_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
 } from "./source-health-thresholds";
 
 const FAST_20M_DEGRADED_THRESHOLD_MS = 45 * 60 * 1000;
 const FAST_HOURLY_DEGRADED_THRESHOLD_MS = 90 * 60 * 1000;
+const PRODUCTHUNT_DEGRADED_THRESHOLD_MS = 8 * 60 * 60 * 1000;
 const DEVTO_DEGRADED_THRESHOLD_MS = 24 * 60 * 60 * 1000;
 const NPM_DEGRADED_THRESHOLD_MS = 36 * 60 * 60 * 1000;
 const MAX_FUTURE_CLOCK_SKEW_MS = 5 * 60 * 1000;
@@ -69,6 +78,7 @@ export type ScannerSourceId =
   | "reddit"
   | "hackernews"
   | "bluesky"
+  | "producthunt"
   | "devto"
   | "lobsters"
   | "npm";
@@ -100,6 +110,7 @@ export async function refreshScannerSourceHealthFromStore(): Promise<void> {
     refreshBlueskyMentionsFromStore(),
     refreshLobstersMentionsFromStore(),
     refreshDevtoMentionsFromStore(),
+    refreshProducthuntLaunchesFromStore(),
     refreshNpmFromStore(),
   ]);
 }
@@ -271,6 +282,20 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
     blueskyNotes.push("Bluesky did not advance through any search pages.");
   }
 
+  const phFile = getPhFile();
+  const producthuntCold = isProducthuntCold();
+  const phAuthMissing = !process.env.PRODUCTHUNT_TOKEN;
+  const phEmpty = !producthuntCold && (phFile.launches?.length ?? 0) === 0;
+  const phNotes: string[] = [];
+  if (phAuthMissing) {
+    phNotes.push(
+      "PRODUCTHUNT_TOKEN is not configured, so this scraper cannot refresh locally.",
+    );
+  }
+  if (phEmpty) {
+    phNotes.push("Product Hunt launch window came back empty.");
+  }
+
   const devtoFile = getDevtoFile();
   const devtoCold = isDevtoCold();
   const devtoLowVolume =
@@ -369,6 +394,23 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       notes: blueskyNotes,
     }),
     buildSourceHealth({
+      id: "producthunt",
+      label: "Product Hunt",
+      provider: "Product Hunt GraphQL",
+      cadence: "4h",
+      fetchedAt: producthuntCold ? null : getProducthuntFetchedAt(),
+      staleAfterMs: PRODUCTHUNT_STALE_THRESHOLD_MS,
+      degradedAfterMs: PRODUCTHUNT_DEGRADED_THRESHOLD_MS,
+      cold: producthuntCold,
+      degraded: phEmpty || phAuthMissing,
+      metrics: {
+        authConfigured: !phAuthMissing,
+        launches: phFile.launches?.length ?? 0,
+        windowDays: phFile.windowDays ?? null,
+      },
+      notes: phNotes,
+    }),
+    buildSourceHealth({
       id: "devto",
       label: "dev.to",
       provider: "dev.to public API",
@@ -452,6 +494,7 @@ export type FreshnessSourceId =
   | "hackernews"
   | "bluesky"
   | "devto"
+  | "producthunt"
   | "twitter"
   | "npm"
   | "github";
@@ -475,6 +518,7 @@ const HEALTH_TO_FRESHNESS_ID: Partial<Record<ScannerSourceId, FreshnessSourceId>
   hackernews: "hackernews",
   bluesky: "bluesky",
   devto: "devto",
+  producthunt: "producthunt",
   npm: "npm",
 };
 
@@ -492,6 +536,7 @@ export function getFreshnessSnapshot(nowMs: number = Date.now()): FreshnessSnaps
     hackernews: emptyEntry(),
     bluesky: emptyEntry(),
     devto: emptyEntry(),
+    producthunt: emptyEntry(),
     twitter: emptyEntry(),
     npm: emptyEntry(),
     github: emptyEntry(),

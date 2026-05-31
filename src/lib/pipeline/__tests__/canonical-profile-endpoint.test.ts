@@ -150,6 +150,7 @@ test("v=2 returns canonical shape with all top-level keys", async () => {
     "freshness",
     "twitter",
     "npm",
+    "productHunt",
     "revenue",
     "funding",
     "related",

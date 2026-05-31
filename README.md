@@ -286,7 +286,7 @@ older `--v2-*` names are aliased to V3 in `src/app/globals.css` so partially
 migrated components inherit the V3 palette automatically.
 
 The full token vocabulary (surfaces, hairlines, ink, accents, motion) is
-documented in [`docs/DESIGN-SYSTEM.md`](./docs/DESIGN-SYSTEM.md). Two CI
+documented in [`docs/DESIGN_SYSTEM.md`](./docs/DESIGN_SYSTEM.md). Two CI
 guards prevent regression: `npm run lint:tokens` rejects new `--v2-*` /
 legacy hex references, and `npm run lint:v3-budget` snapshots `--v2-*`
 alias counts in `scripts/_v3-token-baseline.json` and fails when any

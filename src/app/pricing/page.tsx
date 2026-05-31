@@ -280,7 +280,7 @@ export default function PricingPage() {
 
           <p className="ps-lede">
             Real-time discovery across GitHub, Hacker News, Reddit, X, Bluesky,
-            Dev.to, arXiv, and more. Breakout alerts, watchlists,
+            Product Hunt, Dev.to, arXiv, and more. Breakout alerts, watchlists,
             webhooks, CSV exports, digests, and reports. For {formatUsd(proPrice)}/month.
           </p>
 

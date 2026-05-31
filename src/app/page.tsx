@@ -56,7 +56,7 @@ export const revalidate = 1800;
 export const metadata = {
   title: "TrendingRepo - the radar for everything AI",
   description:
-    "Real-time trend discovery across GitHub, HN, Reddit, X, Bluesky, Dev.to and 23 more. Updated every 30 min.",
+    "Real-time trend discovery across GitHub, HN, Reddit, X, Bluesky, ProductHunt, Dev.to and 23 more. Updated every 30 min.",
   openGraph: {
     images: [
       { url: "/api/og/default", width: 1200, height: 630, alt: "TrendingRepo — the trend map for open source" },

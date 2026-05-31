@@ -9,17 +9,18 @@ import type {
 } from './types.js';
 
 export const CONSENSUS_WEIGHTS: Record<ConsensusExternalSource, number> = {
-  gh: 0.22,
-  hf: 0.20,
-  hn: 0.18,
+  gh: 0.20,
+  hf: 0.18,
+  hn: 0.16,
   x: 0.14,
   r: 0.10,
-  dev: 0.10,
+  pdh: 0.08,
+  dev: 0.08,
   bs: 0.06,
 };
 
 export const EXTERNAL_SOURCES: readonly ConsensusExternalSource[] = [
-  'gh', 'hf', 'hn', 'x', 'r', 'dev', 'bs',
+  'gh', 'hf', 'hn', 'x', 'r', 'pdh', 'dev', 'bs',
 ] as const;
 
 const ALL_SOURCES: readonly ConsensusSource[] = [

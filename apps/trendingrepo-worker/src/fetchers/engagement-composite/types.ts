@@ -15,7 +15,8 @@ export type ComponentKey =
   | 'bluesky'
   | 'devto'
   | 'npm'
-  | 'ghStars';
+  | 'ghStars'
+  | 'ph';
 
 export const COMPONENT_KEYS: readonly ComponentKey[] = [
   'hn',
@@ -24,6 +25,7 @@ export const COMPONENT_KEYS: readonly ComponentKey[] = [
   'devto',
   'npm',
   'ghStars',
+  'ph',
 ] as const;
 
 /** Per-repo raw aggregated signal values prior to normalization. */
@@ -35,6 +37,7 @@ export interface NormalizedRepoSignals {
   devto: number;     // article reaction count in 7d window
   npm: number;       // npm weekly download count for any matched package
   ghStars: number;   // weekly star velocity (delta_7d, falling back to delta_24h * 7)
+  ph: number;        // PH vote count for matching launch
 }
 
 export interface ComponentScore {

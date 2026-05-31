@@ -17,6 +17,7 @@ export type EngineErrorSource =
   | "github"
   | "reddit"
   | "bluesky"
+  | "producthunt"
   | "hackernews"
   | "devto"
   | "lobsters"

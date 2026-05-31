@@ -312,6 +312,51 @@ export function devtoMentionsToEvents(payload) {
   return events;
 }
 
+/**
+ * Transform trendingrepo Product Hunt launches payload → TOOLBOX events.
+ *
+ * One event per launch, signal_type=`trending.producthunt.launches`.
+ * Target URL is the launch's product page URL (or website if available).
+ */
+export function producthuntLaunchesToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const launches = payload.launches;
+  if (!Array.isArray(launches)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const launch of launches) {
+    if (!launch || typeof launch !== "object") continue;
+    const targetUrl = String(launch.url ?? launch.website ?? "");
+    if (!targetUrl || !/^https?:\/\//i.test(targetUrl)) continue;
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "trending.producthunt.launches",
+      normalized: [
+        { key: "id", value: launch.id ?? null, confidence: 1.0 },
+        { key: "name", value: launch.name ?? "", confidence: 1.0 },
+        { key: "tagline", value: launch.tagline ?? "", confidence: 1.0 },
+        { key: "votes_count", value: launch.votesCount ?? 0, confidence: 1.0 },
+        { key: "comments_count", value: launch.commentsCount ?? 0, confidence: 1.0 },
+        { key: "created_at", value: launch.createdAt ?? "", confidence: 1.0 },
+        ...(launch.topics ? [{ key: "topics", value: launch.topics, confidence: 1.0 }] : []),
+        ...(launch.makers ? [{ key: "makers", value: launch.makers, confidence: 1.0 }] : []),
+        ...(launch.thumbnail ? [{ key: "thumbnail", value: launch.thumbnail, confidence: 1.0 }] : []),
+        // linkedRepo (owner/name) — camelCase to match the consumer in
+        // src/lib/toolbox-store-producthunt.ts (reads event.fields.linkedRepo).
+        // Required for the `launchesByRepo` rollup that powers /repo/* PH pips.
+        ...(launch.linkedRepo ? [{ key: "linkedRepo", value: launch.linkedRepo, confidence: 1.0 }] : []),
+      ],
+      produced_by: `${PRODUCED_BY}-producthunt`,
+      produced_at: producedAt,
+    });
+  }
+  return events;
+}
 
 /**
  * Generic HuggingFace transformer used by models/spaces/datasets variants.
@@ -820,6 +865,9 @@ export async function ingestBskyMentionsToToolbox(payload) {
 }
 export async function ingestDevtoMentionsToToolbox(payload) {
   return postToolboxEvents(devtoMentionsToEvents(payload));
+}
+export async function ingestProducthuntLaunchesToToolbox(payload) {
+  return postToolboxEvents(producthuntLaunchesToEvents(payload));
 }
 export async function ingestHuggingfaceModelsToToolbox(payload) {
   return postToolboxEvents(huggingfaceModelsToEvents(payload));

@@ -80,12 +80,39 @@ Next-wave plan: see `tasks/NEXT-WAVE-2026-05-06.md`.
 | `DEVELOPMENT.md` | Local dev notes | needs-verification |
 | `SPRINTS.md` | Tech debt sprint plan | needs-verification |
 | `TECH_DEBT_AUDIT.md` | Top10Page.tsx refactor architecture review | snapshot |
+| `AGN-217-VITO-ARCH-REVIEW.md` | Typed-error envelope review on mutating routes | worklog |
+| `AGN-703-SUMMARY.md` | Mobile overflow audit summary | worklog |
+| `AGN-703-mobile-overflow-audit.md` | Mobile overflow audit (390px) | worklog |
+| `AGN-761-BLOCKER.md` | Visual proof blocker (2026-05-04) | worklog |
+| `AGN-790-SEO-AUDIT.md` | SEO-001 inside-out audit | worklog |
+| `AGN-791-WORKLOG.md` | SEO-002 why-narrative engine | worklog |
+| `AGN-792-BLOCKER.md` | AISO API rate limit blocker | worklog |
+| `AGN-792-WORKLOG.md` | SEO-003 AISO scan + lowest-dimension fix | worklog |
+| `AGN-795-COVERAGE-REPORT.md` | Coverage report | worklog |
+| `AGN-795-SITEMAP-AUDIT.md` | Sitemap freshness + completeness audit | worklog |
+| `AGN-797-AISO-PATCHSET.md` | aiso.tools dogfood patchset | worklog |
+| `AGN-797-WORKLOG.md` | SEO-009 pluggable AISO-fix protocol | worklog |
+| `AGN-798-WORKLOG.md` | SEO-007 recurring monthly self-scan routine | worklog |
+| `AGN-799-BLOCKER-NOTE.md` | AGN-799 push blocker (2026-05-05) | worklog |
+| `AGN-833-WORKLOG.md` | AGN-833 heartbeat | worklog |
+| `AGN-851-WORKLOG.md` | OBS-6 long-tasks profiler | worklog |
+| `AGN-911-WORKLOG.md` | AGN-911 worklog | worklog |
+| `AGN-912-WORKLOG.md` | AGN-912 worklog | worklog |
+| `AGN-915-WORKLOG.md` | AGN-915 worklog | worklog |
+| `AGN-924-WORKLOG.md` | AGN-924 worklog (2026-05-05) | worklog |
+| `AGN-930-WORKLOG.md` | Font loading audit (preload + display:swap) | worklog |
+| `AGN-1239-ROUTE-STATE-AUDIT.md` | Frontend route-state drift audit | worklog |
+| `AGN-1263-WORKLOG.md` | SEO-007 monthly AISO self-scan regression watcher | worklog |
+
+Recommendation: AGN-* worklogs at root are temporary. Sweep into
+`docs/archive/worklogs/` after their tickets close (target: Phase 1.4).
 
 ---
 
 ## Living docs (kept current; safe to trust)
 
-These have `status: living` frontmatter. Drift-audit re-derive: `node scripts/check-docs-freshness.mjs`.
+These have `status: living` frontmatter and were drift-audited 2026-05-05.
+Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 
 | Path | Topic | Last verified |
 |---|---|---|
@@ -94,16 +121,30 @@ These have `status: living` frontmatter. Drift-audit re-derive: `node scripts/ch
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
 | `docs/DEPLOY-TOOLBOX.md` | **CURRENT** prod deploy runbook (TOOLBOX build → tag → compose-up sequence) + hardening TODO | 2026-05-27 |
 | `docs/REGISTRY-AND-LIFETIME-MENTIONS.md` | The persistent repo-registry + lifetime mentions ledger architecture; what `getDerivedRepoCount()` actually counts | 2026-05-27 |
-| `docs/DEPLOY.md` | (legacy) 16-line redirect stub to DEPLOY-TOOLBOX.md (retired 2026-05-30) | 2026-05-30 |
+| `docs/DEPLOY.md` | (legacy) Vercel + Railway deploy paths — **superseded by `DEPLOY-TOOLBOX.md` 2026-05-27**; prod moved off Vercel | 2026-05-05 |
 | `docs/ENGINE.md` | 88 workflows + 14 cron routes + 44 active worker fetchers (47 dirs on disk) + 55 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
 | `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |
+| `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation | 2026-05-05 |
 | `docs/SITE-WIREMAP.md` | Every route -> data -> collector -> external API | 2026-05-05 |
 | `docs/SOURCE_DISCOVERY.md` | Query families and discovery slices for new sources | 2026-05-05 |
 | `docs/TWITTER_SIGNAL_LAYER.md` | Apify provider, 4-query bundle, ingest auth, leaderboards | 2026-05-05 |
+| `docs/perf/AGN-852-heap-snapshot-drill-2026-05-04.md` | Heap snapshot drill (AGN-852) | 2026-05-05 |
 | `docs/protocols/mcp.md` | MCP integration protocol | 2026-05-05 |
 | `docs/protocols/portal.md` | Portal protocol | 2026-05-05 |
 | `docs/protocols/skills.md` | Skills protocol | 2026-05-05 |
+| `docs/runbook-aiso-operator-checklist.md` | AISO operator checklist | 2026-05-05 |
+| `docs/runbook-heap-leak.md` | Heap leak (AGN-852 / OBS-7) | 2026-05-05 |
+| `docs/runbook-redis-oom.md` | Redis OOM / writes failing | 2026-05-05 |
+| `docs/runbook-scrape-trending-stuck.md` | scrape-trending stuck | 2026-05-05 |
+| `docs/runbook-stripe-secret-rotation.md` | Stripe webhook secret rotation | 2026-05-05 |
+| `docs/runbooks/apify-down.md` | Twitter signal stop -- Apify provider down | 2026-05-05 |
+| `docs/runbooks/github-pool-exhausted.md` | Token pool exhausted recovery (canonical) | 2026-05-05 |
+| `docs/runbooks/redis-full.md` | Redis full / write failure | 2026-05-05 |
+| `docs/runbooks/rollback.md` | General rollback procedure | 2026-05-05 |
+| `docs/runbooks/vercel-deploy-failing.md` | Vercel deploy failing | 2026-05-05 |
+| `docs/security/encryption-at-rest.md` | Encryption at rest | 2026-05-05 |
+| `docs/security/x-forwarded-for-trust-contract.md` | X-Forwarded-For trust contract | 2026-05-05 |
 
 ---
 
@@ -122,8 +163,13 @@ SCORING remain snapshot pending Phase 1.5 follow-up rewrite.
 | `docs/SCORING.md` | Scoring algorithms and weights | 2026-05-05 | Describes deprecated v1/v2; current is 8-source v3 + Kimi K2.6 (PR #52) |
 | `docs/RUNBOOK.md` | Catch-all operator runbook (legacy) | 2026-05-05 | Largely superseded by `docs/OPERATOR.md` + `docs/runbooks/` |
 | `docs/RUNBOOK-secret-rotation.md` | Quarterly secret rotation runbook | 2026-05-05 | References non-existent `src/lib/cron-auth.ts`; ProductHunt cron drift |
+| `docs/runbook-github-pool-exhausted.md` | Duplicate of canonical | 2026-05-05 | Duplicate of `docs/runbooks/github-pool-exhausted.md`; canonicalize |
 | `docs/protocols/DEPLOY_RUNBOOK.md` | Deploy runbook protocol | 2026-05-05 | Hardcoded "215/215 pass" likely stale; paths still valid |
 | `docs/protocols/PAPERCLIP-AGENT-ONBOARDING-CHECKLIST.md` | Paperclip agent onboarding | 2026-05-05 | Step 2 omits `docs/INDEX.md` + `docs/OPERATOR.md` from session-open list |
+| `docs/perf/2026-05-04-bundle-report.md` | Bundle report 2026-05-04 | 2026-05-04 | -- |
+| `docs/perf/AGN-150-api-route-profile-2026-05-04.md` | API route profile (AGN-150) | 2026-05-04 | -- |
+| `docs/perf/AGN-191-api-route-investigation-2026-05-04.md` | API route investigation (AGN-191) | 2026-05-04 | -- |
+| `docs/perf/agn-926-proof-2026-05-05.md` | AGN-926 proof | 2026-05-05 | -- |
 
 ### Other dated reference docs (unlabeled / needs-verification)
 
@@ -133,6 +179,8 @@ until labeled. Phase 1.5 will classify or rewrite.
 | Path | Topic | Reason / known drift |
 |---|---|---|
 | `docs/REPO-OVERVIEW.md` | One-page repo overview | Pre-restructure; verify before citing |
+| `docs/STORYBOOK_COMPONENT_LIBRARY.md` | Storybook setup and components | -- |
+| `docs/DESIGN_SYSTEM_V3.md` | Design system V3 reference | Superseded by `design/v4/DESIGN_SYSTEM.md` (living) |
 | `docs/BUNDLE.md` | Bundle size baseline + heavy modules | -- |
 | `docs/CORS-POLICY.md` | CORS policy | -- |
 | `docs/KEY-ROTATION.md` | Production secret rotation runbook | Cross-reference with `docs/RUNBOOK-secret-rotation.md` |
@@ -153,7 +201,9 @@ add content here -- update the target instead.
 
 | Path | Redirects to |
 |---|---|
+| `docs/DESIGN_SYSTEM.md` | `design/v4/DESIGN_SYSTEM.md` |
 | `docs/RUNBOOK.md` | `docs/OPERATOR.md` |
+| `docs/runbook-github-pool-exhausted.md` | `docs/runbooks/github-pool-exhausted.md` |
 
 ---
 
@@ -224,16 +274,24 @@ under Phase 1.4.
 
 | Path | Operation |
 |---|---|
-| `docs/runbooks/clerk-pk-live-bringup.md` | Clerk PK live bringup |
-| `docs/runbooks/refund-30-day.md` | 30-day refund flow |
-| `docs/runbooks/stripe-live-mode-bringup.md` | Stripe live-mode bringup |
-| `docs/runbooks/STAGE5-BRINGUP-CHECKLIST.md` | Stage-5 bringup checklist |
+| `docs/runbooks/apify-down.md` | Twitter signal stop -- Apify provider down |
+| `docs/runbooks/github-pool-exhausted.md` | Token pool exhausted recovery |
+| `docs/runbooks/redis-full.md` | Redis full / write failure |
+| `docs/runbooks/rollback.md` | General rollback procedure |
+| `docs/runbooks/vercel-deploy-failing.md` | Vercel deploy failing |
 
-### Loose runbooks at `docs/` root
+### Loose runbooks at `docs/` root (sweep candidates)
 
 | Path | Operation |
 |---|---|
+| `docs/runbook-aiso-operator-checklist.md` | AISO operator checklist |
+| `docs/runbook-github-pool-exhausted.md` | Duplicate of canonical |
+| `docs/runbook-heap-leak.md` | Heap leak (AGN-852 / OBS-7) |
+| `docs/runbook-redis-oom.md` | Redis OOM / writes failing |
+| `docs/runbook-scrape-trending-stuck.md` | scrape-trending stuck |
 | `docs/RUNBOOK-secret-rotation.md` | Quarterly secret rotation |
+| `docs/runbook-stripe-secret-rotation.md` | Stripe webhook secret rotation |
+| `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation |
 
 ---
 
@@ -254,6 +312,9 @@ under Phase 1.4.
 | Path | Subject |
 |---|---|
 | `docs/refactor-plans/agent-commerce-split.md` | Agent commerce split |
+| `docs/refactor-plans/all-trending-tabs-split.md` | All-trending tabs split |
+| `docs/refactor-plans/live-top-table-split.md` | Live top table split |
+| `docs/refactor-plans/subreddit-mindshare-split.md` | Subreddit mindshare split |
 
 ---
 

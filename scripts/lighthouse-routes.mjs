@@ -32,7 +32,7 @@ const ROUTES = [
   "/reddit/trending", "/hackernews/trending", "/lobsters", "/devto", "/bluesky/trending",
   "/twitter", "/signals", "/top10", "/compare",
   "/funding", "/revenue",
-  "/arxiv/trending", "/huggingface", "/npm",
+  "/arxiv/trending", "/producthunt", "/huggingface", "/npm",
   "/breakouts", "/categories", "/methodology", "/research",
   "/tools/revenue-estimate",
   "/repo/vercel/next.js",

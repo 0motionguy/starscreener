@@ -7,6 +7,7 @@ import { resolve } from "node:path";
 export interface RevenueBenchmarkBucket {
   category: string;
   starBand: string;
+  phLaunched: boolean;
   n: number;
   p25: number; // cents
   p50: number;
@@ -93,12 +94,14 @@ export function listCategories(): string[] {
 export interface EstimateInput {
   category: string | null;
   starBand: string | null;
+  phLaunched: boolean | null;
 }
 
 export interface Estimate {
   bucket: RevenueBenchmarkBucket | null;
   fallback:
     | "exact"
+    | "ignored_ph"
     | "ignored_stars"
     | "category_only"
     | "none";
@@ -122,22 +125,29 @@ export function estimateMrrFromBuckets(
   const matches = (
     categoryMatch: (b: RevenueBenchmarkBucket) => boolean,
     starMatch: (b: RevenueBenchmarkBucket) => boolean,
-  ) => buckets.filter((b) => categoryMatch(b) && starMatch(b));
+    phMatch: (b: RevenueBenchmarkBucket) => boolean,
+  ) => buckets.filter((b) => categoryMatch(b) && starMatch(b) && phMatch(b));
 
   const cat = (b: RevenueBenchmarkBucket) =>
     input.category ? b.category === input.category : true;
   const star = (b: RevenueBenchmarkBucket) =>
     input.starBand ? b.starBand === input.starBand : true;
+  const ph = (b: RevenueBenchmarkBucket) =>
+    input.phLaunched === null ? true : b.phLaunched === input.phLaunched;
 
   // Try exact match first, then progressively relax.
-  let pick = matches(cat, star);
+  let pick = matches(cat, star, ph);
   let fallback: Estimate["fallback"] = "exact";
+  if (pick.length === 0 && input.phLaunched !== null) {
+    pick = matches(cat, star, () => true);
+    fallback = "ignored_ph";
+  }
   if (pick.length === 0 && input.starBand !== null) {
-    pick = matches(cat, () => true);
+    pick = matches(cat, () => true, ph);
     fallback = "ignored_stars";
   }
   if (pick.length === 0 && input.category !== null) {
-    pick = matches(cat, () => true);
+    pick = matches(cat, () => true, () => true);
     fallback = "category_only";
   }
   if (pick.length === 0) {
@@ -152,6 +162,7 @@ export function estimateMrrFromBuckets(
   const bucket: RevenueBenchmarkBucket = {
     category: input.category ?? "aggregate",
     starBand: input.starBand ?? "aggregate",
+    phLaunched: input.phLaunched ?? false,
     n: totalN,
     p25: weighted((b) => b.p25),
     p50: weighted((b) => b.p50),

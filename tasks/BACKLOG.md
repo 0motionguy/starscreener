@@ -25,37 +25,25 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 ## Doc-hygiene follow-ups (2026-05-05 drift audit)
 - [ ] Relocate worklog/coverage files older than 30 days to `docs/archive/worklogs/`. Sweep at root for `AGN-*-WORKLOG.md` and `AGN-*-COVERAGE-REPORT.md` whose `last-touched` frontmatter is past the 30-day budget; move + update any inbound links. Done when root contains no worklog/coverage file older than 30 days and a follow-up audit re-runs cleanly.
 
-## UI v6 rebuild — Wave D deferred dismantling (2026-05-20, partially executed 2026-05-30)
+## UI v6 rebuild — Wave D deferred dismantling (2026-05-20)
 
 Items deliberately deferred from the v6 UI rebuild sweep per operator
 decision ("conservative dismantling"). The rebuild ships the UI work
 only; cleanup runs as a separate sprint once the rebuild is stable.
 
-Status reconciled in the **2026-05-30 hygiene wave** (branch
-`cleanup/2026-05-30-hygiene`) — see the inline notes per item.
-
-- [x] **Delete `_archive/ui-v4/**` (830 files, 5.4MB).** Reconciled 2026-05-30: the directory no longer exists in the working tree (`find _archive -type f` returns 0). A residual reference comment lives at `src/app/globals.css:8` and a doc mention in this file's body — both informational, left alone.
-- [x] **Delete 4 PARKED `src/lib/` subdirectories.** Reconciled 2026-05-30: no `_PARKED.md` markers remain anywhere under `src/lib/`. Surviving content is actively used and must NOT be cut: `src/lib/charts/theme/*` is the chart-theme source-of-truth referenced from `CLAUDE.md`, `src/lib/compare/short-id.ts` underpins compare URLs, `src/lib/onboarding/progress.ts` is wired to the account funnel. `src/lib/skills/` is gone.
-- [~] **Delete 4 dead scripts.** Partially executed 2026-05-30 — only 2 of the 4 were truly orphan. Audit-vs-reality:
-  - [x] `scripts/purge-twitter-synthetic-data.ts` + `package.json` `purge:twitter:synthetic` — **DELETED**, no caller.
-  - [x] `scripts/reset-data.mjs` + `package.json` `reset:data` — **DELETED**, no caller.
-  - [ ] `scripts/scrape-sec-form-d.mjs` — **KEEP, NOT DEAD**. Called by `.github/workflows/collect-funding.yml:48` (`npm run scrape:sec-form-d`) and on the keep-last-50 allow-list at `scripts/check-collector-keep-last-50.mjs:58`. The original BACKLOG flag was incorrect — drop this row, do not re-propose.
-  - [ ] `scripts/reconcile-repo-stores.mjs` — **KEEP, NOT DEAD**. The test `src/lib/pipeline/__tests__/repo-store-reconciliation.test.ts:28-53` reads + copies + executes this script in a tempdir harness; deletion would break `npm test`. Drop this row, do not re-propose.
-- [x] **Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts`.** Done 2026-05-30 (commit `8f0d3c050`). Two follow-on cleanups landed in the same commit: removed the entry from `scripts/check-zod-on-mutating-routes.mjs` and retired the row in `src/lib/__tests__/cron-route-typed-error-contract.test.ts`. Note: this file's line 704 already claimed "DELETED 2026-05-05" which was a stale claim — the route still existed until 2026-05-30.
+- [ ] Delete `_archive/ui-v4/**` (830 files, 5.4MB). TS already excludes it; no `src/` imports reference it. Verify with `grep -r "_archive/ui-v4" src/` returning empty, then `git rm -r _archive/ui-v4/`. Owner: CTO. Done when the archive directory is gone and the next `npm run build` succeeds.
+- [ ] Delete 4 PARKED `src/lib/` subdirectories: `src/lib/charts/`, `src/lib/compare/`, `src/lib/onboarding/`, `src/lib/skills/`. Each has a `_PARKED.md` marker and zero external consumers per the 2026-05-19 audit. Verify per-directory with `grep -r "from \"@/lib/<dir>" src/` before removal. Owner: CTO. Done when no `_PARKED.md` files remain under `src/lib/` and typecheck stays green.
+- [ ] Delete 4 dead scripts: `scripts/scrape-sec-form-d.mjs`, `scripts/purge-twitter-synthetic-data.ts`, `scripts/reconcile-repo-stores.mjs`, `scripts/reset-data.mjs`. Verify with `grep -r "<script-name>" .github/workflows/ package.json` returning empty. Owner: platform engineer. Done when each script's path is gone and CI still passes.
+- [ ] Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts`. Verify no `.github/workflows/*.yml` schedule references the path. Owner: platform engineer. Done when the route file is gone and no scheduled workflow names the endpoint.
 - [ ] Flip `TOOLBOX_READ_*` feature flags ON per source (8 readers: HN, Reddit, Bluesky, DevTo, Lobsters, NPM, RSS, ArXiv). Currently all OFF in production despite the dual-write workflows landing the data in the Toolbox spine. Phase B migration; out of scope for the rebuild. Owner: CTO. Done when each flag is ON in prod env, soak passes 7-day reliability check, and the legacy JSONL writes can be retired.
-- [x] **Remove Storybook entirely** (added 2026-05-30). 6 `@storybook/*` devDeps + `storybook` + 2 `package.json` scripts + `.storybook/main.ts` + `.storybook/preview.ts` were dead — zero `.stories.tsx` files in `src/`, zero `from "@storybook/..."` imports anywhere, memory `feedback_no_storybook` rejects it as a deliverable. Done in commit `526a4ddd1`; `npm install` removed 239 packages. Follow-up (Wave B): orphan `/storybook-static/` and `/docs/storybook/` entries still in `.gitignore` — harmless, can be swept later.
 
-## Pre-existing TypeScript errors blocking strict typecheck (2026-05-20, resolved 2026-05-30)
+## Pre-existing TypeScript errors blocking strict typecheck (2026-05-20)
 
 Discovered during Wave A verification; NOT caused by the rebuild but
 flagged here so Wave B agents fix them as part of their route work.
 
-**Status: RESOLVED.** Verified on `cleanup/2026-05-30-hygiene` —
-`npm run typecheck` exits 0, so both files no longer error. If
-either error returns, restore the bullet and reassign.
-
-- [x] `src/app/revenue/page.tsx:368` — `RevenueLeaderboard` call missing required prop `nextLimit`. Resolved in a subsequent commit to either file; typecheck is clean.
-- [x] `src/components/tools/ToolsActivityStrip.tsx:47,51` — discriminated union narrowing on `.hover` and `.label`. Resolved; typecheck is clean.
+- [ ] `src/app/revenue/page.tsx:368` — `RevenueLeaderboard` call missing required prop `nextLimit`. Pre-dates the rebuild (last touched at commit `0a79c30dc`). Owner: br worktree (Codex agent, /revenue route). Done when typecheck reports zero errors against this file.
+- [ ] `src/components/tools/ToolsActivityStrip.tsx:47,51` — discriminated union narrowing fails on `.hover` and `.label` accesses (one variant of the input row type lacks both fields). Working-tree modification from prior session. Owner: bl worktree (Codex agent, /tools route). Done when typecheck reports zero errors against this file.
 
 ## From audit (2026-05-04) — not in Sprint 1
 - [ ] Profile completeness scanner (owner: data quality engineer). Done when a scanner report is generated and each profile field has pass/fail coverage output. Target sprint: Sprint 3.
@@ -707,8 +695,8 @@ either error returns, restore the bullet and reassign.
 - [ ] **ENGINE.md full rewrite** â€” re-derive from `.github/workflows/` glob; cover all ~83 workflows with correct schedules; include 21 SRE workflows currently absent
 - [ ] **DATABASE.md full rewrite** â€” document current Redis + Supabase duality; reference ADR 0001 + `apps/trendingrepo-worker/src/lib/db.ts:upsertItem()`
 - [ ] **SCORING.md full rewrite** â€” document v3 8-source consensus + Kimi K2.6 AI Analyst (refs `apps/trendingrepo-worker/src/fetchers/consensus-trending/{types.ts,scoring.ts}`)
-- [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`; mark living/snapshot/needs-rewrite
-- [x] **docs/DESIGN_SYSTEM.md rewrite** â€” DONE 2026-05-30: deleted the V3 stub (pointed to V4 but V6 is current per CLAUDE.md). README + INDEX inbound refs updated to docs/DESIGN-SYSTEM.md (V6 canonical).
+- [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
+- [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
 - [x] Phase 4 part 3 — scripts/ Redis-key sweep — DONE 2026-05-05 (3 migrations: scripts/enrich-arxiv.mjs x2 + scripts/audit-redis-file-drift.mjs x1; exported `keys` shim from scripts/_data-store-write.mjs; check-redis-keys.mjs now scans scripts/).
 - [x] B4 — engine-inventory PR gate — DONE 2026-05-05 (`.github/workflows/engine-inventory-check.yml`).
 

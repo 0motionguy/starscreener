@@ -57,6 +57,7 @@ const DISPLAY_SOURCE_ORDER: SocialPlatform[] = [
   "reddit",
   "bluesky",
   "devto",
+  "producthunt",
   "huggingface",
   "arxiv",
   "npm",
@@ -80,6 +81,7 @@ function activeSourcesForRepo(repo: Repo): SocialPlatform[] {
   if ((repo.reddit?.mentions7d ?? 0) > 0) active.add("reddit");
   if ((repo.bluesky?.mentions7d ?? 0) > 0) active.add("bluesky");
   if ((repo.devto?.mentions7d ?? 0) > 0) active.add("devto");
+  if (repo.producthunt?.launchedOnPH) active.add("producthunt");
   if ((repo.linkedArxivIds?.length ?? 0) > 0) active.add("arxiv");
   if ((repo.linkedHfModels?.length ?? 0) > 0) active.add("huggingface");
   if (repo.channelStatus?.github) active.add("github");

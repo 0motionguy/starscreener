@@ -103,6 +103,7 @@ function makeRepoProfile(
       githubUrl: `https://github.com/${fullName}`,
       docsUrl: "https://docs.example",
       npmPackages: ["preserved-pkg"],
+      productHuntLaunchId: "ph-1",
     },
     aisoScan: null,
     error: null,
@@ -240,12 +241,13 @@ test("persist updates existing entry without clobbering preserved fields", async
         rank: 1,
         selectedFrom: "trending_top_24h",
         websiteUrl: "https://old.nextjs.org",
-        websiteSource: "github_homepage",
+        websiteSource: "producthunt",
         error: "previous-error",
         surfaces: {
           githubUrl: "https://github.com/vercel/next.js",
           docsUrl: "https://nextjs.org/docs",
           npmPackages: ["next", "create-next-app"],
+          productHuntLaunchId: "ph-next-js",
         },
       }),
     ],
@@ -262,8 +264,9 @@ test("persist updates existing entry without clobbering preserved fields", async
   // Preserved:
   assert.equal(profile.rank, 1);
   assert.equal(profile.selectedFrom, "trending_top_24h");
-  assert.equal(profile.websiteSource, "github_homepage");
+  assert.equal(profile.websiteSource, "producthunt");
   assert.deepEqual(profile.surfaces.npmPackages, ["next", "create-next-app"]);
+  assert.equal(profile.surfaces.productHuntLaunchId, "ph-next-js");
   assert.equal(profile.surfaces.docsUrl, "https://nextjs.org/docs");
   // Overlaid:
   assert.equal(profile.status, "scanned");

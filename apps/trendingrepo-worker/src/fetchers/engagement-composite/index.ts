@@ -89,6 +89,14 @@ interface RepoMetadataPayload {
   items?: RepoMetadataItem[];
 }
 
+interface PhLaunch {
+  linkedRepo?: string | null;
+  votesCount?: number;
+}
+interface PhLaunchesPayload {
+  launches?: PhLaunch[];
+}
+
 // ---------------------------------------------------------------------------
 // Aggregation helpers
 // ---------------------------------------------------------------------------
@@ -122,6 +130,7 @@ function ensureRow(accum: SignalAccum, fullName: string): NormalizedRepoSignals 
       devto: 0,
       npm: 0,
       ghStars: 0,
+      ph: 0,
     };
     accum.rows.set(lower, row);
   }
@@ -161,6 +170,7 @@ const fetcher: Fetcher = {
       readDataStore<NpmPackagesPayload>('npm-packages'),
       readDataStore<DeltasPayload>('deltas'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
+      readDataStore<PhLaunchesPayload>('producthunt-launches'),
     ]);
     const READ_KEYS = [
       'hackernews-repo-mentions',
@@ -170,6 +180,7 @@ const fetcher: Fetcher = {
       'npm-packages',
       'deltas',
       'repo-metadata',
+      'producthunt-launches',
     ] as const;
     const readFailures: Array<{ key: string; err: string }> = [];
     const values = reads.map((r, i) => {
@@ -194,6 +205,7 @@ const fetcher: Fetcher = {
       npmPackages,
       deltas,
       repoMetadata,
+      phLaunches,
     ] = values as [
       HnMentionsPayload | null,
       RedditMentionsPayload | null,
@@ -202,6 +214,7 @@ const fetcher: Fetcher = {
       NpmPackagesPayload | null,
       DeltasPayload | null,
       RepoMetadataPayload | null,
+      PhLaunchesPayload | null,
     ];
 
     const accum = emptyAccum();
@@ -301,6 +314,25 @@ const fetcher: Fetcher = {
       }
     }
 
+    // ---- ProductHunt --------------------------------------------------------
+    // Aggregate votes across all launches that linkedRepo to a given
+    // full name (some repos have multiple PH launches over their lifetime).
+    let phRepoCount = 0;
+    const phByRepo = new Map<string, number>();
+    for (const launch of phLaunches?.launches ?? []) {
+      const linked = launch?.linkedRepo;
+      if (typeof linked !== 'string' || !linked.includes('/')) continue;
+      const votes = nonNegative(safeNumber(launch.votesCount));
+      if (votes <= 0) continue;
+      const lower = linked.toLowerCase();
+      phByRepo.set(lower, (phByRepo.get(lower) ?? 0) + votes);
+      phRepoCount += 1;
+    }
+    for (const [lower, total] of phByRepo.entries()) {
+      const row = ensureRow(accum, lower);
+      row.ph = total;
+    }
+
     // Resolve canonical fullName casing on every row (in case the row was
     // created from a lowercase mention key but a canonical exists).
     for (const [lower, row] of accum.rows.entries()) {
@@ -334,6 +366,7 @@ const fetcher: Fetcher = {
           npmPackages: npmPackageMatches,
           npmRepos: npmByRepo.size,
           ghStars: ghStarsRepoCount,
+          ph: phRepoCount,
         },
         redisSource: result.source,
         writtenAt: result.writtenAt,

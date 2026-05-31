@@ -22,7 +22,7 @@
 // Therefore: mature repos in the pipeline (ollama/ollama, huggingface/
 // transformers, vercel/next.js, ...) are invisible to `listRepoMetadata()`.
 //
-// This blocks funding matching, AISO joins,
+// This blocks funding matching, ProductHunt launch linking, AISO joins,
 // and any other surface keyed on the metadata candidate set.
 //
 // Fix: fold every `.data/repos.jsonl` fullName that isn't already in

@@ -43,7 +43,7 @@ export function SignalsHero({
         </div>
         <h1 className="page-title">Market signals - the cockpit</h1>
         <p className="page-sub">
-          Cross-source view across HN, Reddit, X, Bluesky, Dev.to, npm downloads,
+          Cross-source view across HN, Reddit, X, Bluesky, Dev.to, ProductHunt, npm downloads,
           arXiv papers and their cited repos, Hugging Face, AI labs, and more. One screen,
           all signals, ranked by consensus x velocity.
         </p>

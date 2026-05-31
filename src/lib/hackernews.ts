@@ -148,7 +148,7 @@ export const hnFetchedAt: string = mentionsFile.fetchedAt;
 // valid run with zero mentions is still fresh data (quiet dev-OSS day);
 // we guard only on missing fetchedAt metadata so /api/health can
 // distinguish "never scraped" from "stale committed snapshot." Mirrors
-// blueskyCold.
+// producthuntCold / blueskyCold.
 export const hnCold: boolean =
   !mentionsFile.fetchedAt || !mentionsFile.mentions;
 

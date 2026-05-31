@@ -44,6 +44,7 @@ export type AgentCommerceSourceKey =
   | "hn"
   | "reddit"
   | "bluesky"
+  | "producthunt"
   | "x402scan"
   | "agentic-market"
   | "portal-crawl"

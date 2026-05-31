@@ -17,6 +17,7 @@ import { refreshDevtoMentionsFromStore } from "./devto";
 import { refreshLobstersMentionsFromStore } from "./lobsters";
 import { refreshRedditMentionsFromStore } from "./reddit-data";
 import { refreshNpmFromStore } from "./npm";
+import { refreshProducthuntLaunchesFromStore } from "./producthunt";
 import { refreshArxivFromStore } from "./arxiv";
 import { refreshCrossSourceMentionsFromStore } from "./cross-source-mentions";
 import { refreshMentionsLedgerFromStore } from "./mentions-ledger";
@@ -35,6 +36,7 @@ export async function refreshAllMentionStores(): Promise<void> {
     refreshLobstersMentionsFromStore().catch(() => undefined),
     refreshRedditMentionsFromStore().catch(() => undefined),
     refreshNpmFromStore().catch(() => undefined),
+    refreshProducthuntLaunchesFromStore().catch(() => undefined),
     refreshArxivFromStore().catch(() => undefined),
     refreshCrossSourceMentionsFromStore().catch(() => undefined),
     // Lifetime cumulative per-source counts (worker mentions-ledger snapshot).

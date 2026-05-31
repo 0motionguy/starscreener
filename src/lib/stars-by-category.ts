@@ -13,12 +13,7 @@
 import { resolve } from "path";
 import { readFileSync } from "fs";
 
-// Guard with typeof window so the client bundle doesn't call resolve at
-// module-load — `path` gets stubbed to src/lib/empty-module.js for client
-// imports and crashes with "resolve is not a function" otherwise.
-const BUNDLED_PATH = typeof window === "undefined"
-  ? resolve(process.cwd(), "data", "stars-by-category.json")
-  : "";
+const BUNDLED_PATH = resolve(process.cwd(), "data", "stars-by-category.json");
 const REDIS_SLUG = "stars-by-category-daily";
 const MIN_REFRESH_INTERVAL_MS = 30_000;
 

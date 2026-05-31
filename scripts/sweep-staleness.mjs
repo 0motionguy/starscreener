@@ -34,6 +34,7 @@ const OUT_PATH = resolve(DATA_DIR, "staleness-report.json");
 // MIRROR of src/lib/source-health.ts:10-13. Multiply by 2 to get the
 // `cadence × 2` threshold the sweeper reports against.
 const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+const PRODUCTHUNT_STALE_THRESHOLD_MS = 16 * 60 * 60 * 1000;
 const DEVTO_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
 const NPM_STALE_THRESHOLD_MS = 50 * 60 * 60 * 1000;
 
@@ -95,6 +96,13 @@ const SOURCES = [
     file: "npm-packages.json",
     pluck: (payload) => (Array.isArray(payload?.packages) ? payload.packages : []),
     idOf: (r) => r.name ?? r.fullName ?? "<unknown>",
+  },
+  {
+    slug: "producthunt-launches",
+    threshold: PRODUCTHUNT_STALE_THRESHOLD_MS,
+    file: "producthunt-launches.json",
+    pluck: (payload) => (Array.isArray(payload?.launches) ? payload.launches : []),
+    idOf: (r) => r.id ?? r.name ?? "<unknown>",
   },
   {
     slug: "devto-trending",

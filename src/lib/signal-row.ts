@@ -10,6 +10,7 @@ export type MonoSource =
   | "devto"
   | "lobsters"
   | "twitter"
+  | "producthunt"
   | "github"
   | "mcp"
   | "skills";

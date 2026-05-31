@@ -1,0 +1,283 @@
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { dirname, resolve } from "node:path";
+import { test } from "node:test";
+import { fileURLToPath } from "node:url";
+import { normalizePost, isAiAdjacent } from "../scrape-producthunt.mjs";
+import {
+  extractGithubLink,
+  extractLinkedUrls,
+  extractXLink,
+  hasAiKeyword,
+  normalizeGithubUrl,
+  normalizeXUrl,
+  daysBetween,
+} from "../_ph-shared.mjs";
+
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+
+test("importing scrape-producthunt as a module does not run the scraper", () => {
+  const res = spawnSync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "-e",
+      "import './scripts/scrape-producthunt.mjs'; console.log('imported');",
+    ],
+    {
+      cwd: REPO_ROOT,
+      env: { ...process.env, PRODUCTHUNT_TOKEN: "" },
+      encoding: "utf8",
+    },
+  );
+  assert.equal(res.status, 0, res.stderr);
+  assert.match(res.stdout, /imported/);
+});
+
+// ---------------------------------------------------------------------------
+// extractGithubLink
+// ---------------------------------------------------------------------------
+
+test("extractGithubLink: finds a github URL in a text blob", () => {
+  const hit = extractGithubLink(
+    "Check the repo: https://github.com/openai/gym, it's great",
+  );
+  assert.ok(hit);
+  assert.equal(hit.fullName, "openai/gym");
+  assert.equal(hit.url, "https://github.com/openai/gym");
+});
+
+test("extractGithubLink: strips trailing .git and punctuation", () => {
+  const hit = extractGithubLink("clone https://github.com/foo/bar.git.");
+  assert.ok(hit);
+  assert.equal(hit.fullName, "foo/bar");
+});
+
+test("extractGithubLink: rejects reserved owners (orgs/settings/trending)", () => {
+  assert.equal(extractGithubLink("https://github.com/orgs/foo"), null);
+  assert.equal(extractGithubLink("https://github.com/settings/profile"), null);
+  assert.equal(extractGithubLink("https://github.com/trending/rust"), null);
+});
+
+test("extractGithubLink: returns null when no URL present", () => {
+  assert.equal(extractGithubLink("just a product website"), null);
+  assert.equal(extractGithubLink(""), null);
+  assert.equal(extractGithubLink(null), null);
+});
+
+test("normalizeGithubUrl: canonicalizes repo links", () => {
+  assert.equal(
+    normalizeGithubUrl("https://github.com/openai/gym/tree/main"),
+    "https://github.com/openai/gym",
+  );
+  assert.equal(normalizeGithubUrl("https://github.com/trending/rust"), null);
+});
+
+test("normalizeXUrl: canonicalizes twitter and x profile links", () => {
+  assert.equal(
+    normalizeXUrl("https://twitter.com/openai/status/12345?t=1"),
+    "https://x.com/openai/status/12345",
+  );
+  assert.equal(normalizeXUrl("https://www.x.com/openai/"), "https://x.com/openai");
+  assert.equal(normalizeXUrl("https://x.com/home"), null);
+});
+
+test("extractXLink: finds an x/twitter URL in a text blob", () => {
+  assert.equal(
+    extractXLink("follow along at https://twitter.com/acme/status/99"),
+    "https://x.com/acme/status/99",
+  );
+  assert.equal(extractXLink("no social links here"), null);
+});
+
+test("extractLinkedUrls: finds github + x links in html", () => {
+  const links = extractLinkedUrls(
+    '<a href="https://github.com/foo/bar">Repo</a><a href="https://x.com/foo">X</a>',
+    "https://example.com",
+  );
+  assert.deepEqual(links, {
+    githubUrl: "https://github.com/foo/bar",
+    xUrl: "https://x.com/foo",
+  });
+});
+
+// ---------------------------------------------------------------------------
+// hasAiKeyword
+// ---------------------------------------------------------------------------
+
+test("hasAiKeyword: matches LLM/agent/MCP/Claude skill/RAG jargon", () => {
+  assert.ok(hasAiKeyword("Built an LLM-powered tool"));
+  assert.ok(hasAiKeyword("AI agent for customer support"));
+  assert.ok(hasAiKeyword("MCP server for Claude Desktop"));
+  assert.ok(hasAiKeyword("Claude skill for deep research"));
+  assert.ok(hasAiKeyword("RAG pipeline for legal docs"));
+  assert.ok(hasAiKeyword("Generative AI-powered product"));
+  assert.ok(hasAiKeyword("Anthropic-built prompt library"));
+});
+
+test("hasAiKeyword: ignores unrelated product text", () => {
+  assert.ok(!hasAiKeyword("Fancy spreadsheet alternative"));
+  assert.ok(!hasAiKeyword("Photo editor with filters"));
+  assert.ok(!hasAiKeyword("Social marketing scheduler"));
+  assert.ok(!hasAiKeyword(""));
+  assert.ok(!hasAiKeyword(null));
+});
+
+// ---------------------------------------------------------------------------
+// daysBetween
+// ---------------------------------------------------------------------------
+
+test("daysBetween: absolute non-negative day count", () => {
+  const a = "2026-04-20T00:00:00Z";
+  const b = "2026-04-22T12:00:00Z";
+  assert.equal(daysBetween(a, b), 2);
+});
+
+test("daysBetween: clamps negative differences to 0", () => {
+  // Future-dated post (shouldn't happen but defend anyway).
+  const a = "2027-01-01T00:00:00Z";
+  const b = "2026-01-01T00:00:00Z";
+  assert.equal(daysBetween(a, b), 0);
+});
+
+// ---------------------------------------------------------------------------
+// normalizePost
+// ---------------------------------------------------------------------------
+
+test("normalizePost: shapes a valid PH post node", () => {
+  const tracked = new Map([["openai/gym", "openai/gym"]]);
+  const twoDaysAgo = new Date(Date.now() - 2 * 86_400_000).toISOString();
+  const node = {
+    id: "1234",
+    name: "LLMKit",
+    tagline: "LLM dev stack",
+    description: "Open source at https://github.com/openai/gym — try it",
+    url: "https://www.producthunt.com/posts/llmkit",
+    votesCount: 230,
+    commentsCount: 12,
+    createdAt: twoDaysAgo,
+    website: "https://llmkit.example.com",
+    thumbnail: { url: "https://example.com/thumb.png" },
+    topics: {
+      edges: [
+        { node: { slug: "developer-tools", name: "Developer Tools" } },
+        { node: { slug: "artificial-intelligence", name: "AI" } },
+      ],
+    },
+    makers: [
+      { name: "Alice", username: "alice", twitterUsername: "alice_ai" },
+    ],
+  };
+  const launch = normalizePost(node, tracked);
+  assert.equal(launch.id, "1234");
+  assert.equal(launch.name, "LLMKit");
+  assert.equal(launch.votesCount, 230);
+  assert.equal(launch.linkedRepo, "openai/gym");
+  assert.equal(launch.githubUrl, "https://github.com/openai/gym");
+  assert.equal(launch.xUrl, "https://x.com/alice_ai");
+  assert.deepEqual(launch.topics, ["developer-tools", "artificial-intelligence"]);
+  assert.equal(launch.makers[0].username, "alice");
+  assert.equal(launch.daysSinceLaunch, 2);
+  assert.equal(launch.thumbnail, "https://example.com/thumb.png");
+});
+
+test("normalizePost: returns null for malformed or incomplete nodes", () => {
+  assert.equal(normalizePost(null, new Map()), null);
+  assert.equal(normalizePost({ id: "x" }, new Map()), null);
+  assert.equal(
+    normalizePost({ createdAt: new Date().toISOString() }, new Map()),
+    null,
+  );
+});
+
+test("normalizePost: linkedRepo null when GH URL not in tracked set", () => {
+  const node = {
+    id: "5",
+    name: "Untracked",
+    tagline: "",
+    createdAt: new Date().toISOString(),
+    description: "source: https://github.com/unknown/repo",
+  };
+  const launch = normalizePost(node, new Map());
+  assert.equal(launch.githubUrl, "https://github.com/unknown/repo");
+  assert.equal(launch.linkedRepo, null);
+});
+
+test("normalizePost: empty website+description yields null githubUrl", () => {
+  const node = {
+    id: "7",
+    name: "X",
+    tagline: "Y",
+    description: "",
+    website: null,
+    createdAt: new Date().toISOString(),
+  };
+  const launch = normalizePost(node, new Map());
+  assert.equal(launch.githubUrl, null);
+  assert.equal(launch.xUrl, null);
+  assert.equal(launch.linkedRepo, null);
+});
+
+// ---------------------------------------------------------------------------
+// isAiAdjacent
+// ---------------------------------------------------------------------------
+
+test("isAiAdjacent: 'artificial-intelligence' topic qualifies outright", () => {
+  assert.ok(
+    isAiAdjacent({
+      name: "BoringName",
+      tagline: "",
+      description: "",
+      topics: ["artificial-intelligence"],
+      makers: [],
+    }),
+  );
+});
+
+test("isAiAdjacent: broad developer-tools topic still needs an AI keyword", () => {
+  assert.ok(
+    !isAiAdjacent({
+      name: "Build Log Viewer",
+      tagline: "Debug production deploys",
+      description: "A dashboard for logs and release notes",
+      topics: ["developer-tools"],
+      makers: [],
+    }),
+  );
+});
+
+test("isAiAdjacent: MCP in tagline qualifies even with non-AI topic", () => {
+  assert.ok(
+    isAiAdjacent({
+      name: "Desktop Buddy",
+      tagline: "MCP server for your dock",
+      description: "",
+      topics: ["productivity"],
+      makers: [],
+    }),
+  );
+});
+
+test("isAiAdjacent: Claude skill in name qualifies", () => {
+  assert.ok(
+    isAiAdjacent({
+      name: "DeepResearch Claude Skill",
+      tagline: "Multi-step web research",
+      description: "",
+      topics: ["saas"],
+      makers: [],
+    }),
+  );
+});
+
+test("isAiAdjacent: unrelated product rejected", () => {
+  assert.ok(
+    !isAiAdjacent({
+      name: "Spreadsheet Pro",
+      tagline: "Better sheets",
+      description: "Fast formula engine",
+      topics: ["saas"],
+      makers: [],
+    }),
+  );
+});

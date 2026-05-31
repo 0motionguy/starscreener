@@ -340,6 +340,7 @@ export const KNOWN_SOURCES = [
   "github-search",
   "nitter",
   "lobsters",
+  "producthunt",
 ] as const;
 
 export type KnownSource = (typeof KNOWN_SOURCES)[number];

@@ -60,6 +60,7 @@ const SOCIAL_PLATFORMS: ReadonlyArray<Exclude<SocialPlatform, "github">> = [
   "bluesky",
   "devto",
   "lobsters",
+  "producthunt",
   "npm",
   "huggingface",
   "arxiv",

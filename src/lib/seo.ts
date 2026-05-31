@@ -30,7 +30,7 @@ export const OG_CACHE_HEADERS = {
   "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
 } as const;
 export const SITE_DESCRIPTION =
-  "The trend map for open source. See what's heating up on GitHub, Reddit, Hacker News, Bluesky, and dev.to — one live terminal for every signal.";
+  "The trend map for open source. See what's heating up on GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to — one live terminal for every signal.";
 
 /**
  * Resolve a site-relative path to an absolute URL using the configured

@@ -12,6 +12,7 @@ import {
   DEVTO_STALE_THRESHOLD_MS,
   FAST_DATA_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
+  PRODUCTHUNT_STALE_THRESHOLD_MS,
 } from "@/lib/source-health-thresholds";
 import type { ScannerSourceHealth } from "@/lib/source-health";
 import type { DeltaCoverageQuality } from "@/lib/trending";
@@ -44,6 +45,8 @@ interface HealthBody {
   blueskyCold: boolean;
   hnFetchedAt: string | null;
   hnCold: boolean;
+  producthuntFetchedAt: string | null;
+  producthuntCold: boolean;
   devtoFetchedAt: string | null;
   devtoCold: boolean;
   lobstersFetchedAt: string | null;
@@ -60,6 +63,7 @@ interface HealthBody {
     reddit: number | null;
     bluesky: number | null;
     hn: number | null;
+    producthunt: number | null;
     devto: number | null;
     lobsters: number | null;
     npm: number | null;
@@ -67,6 +71,7 @@ interface HealthBody {
   thresholdSeconds: {
     fastData: number;
     collectionRankings: number;
+    producthunt: number;
     devto: number;
     npm: number;
   };
@@ -80,6 +85,7 @@ interface HealthBody {
     reddit: boolean;
     bluesky: boolean;
     hn: boolean;
+    producthunt: boolean;
     devto: boolean;
     lobsters: boolean;
     npm: boolean;
@@ -138,6 +144,7 @@ type SoftHealthKey =
   | "reddit"
   | "bluesky"
   | "hn"
+  | "producthunt"
   | "devto"
   | "lobsters"
   | "npm";
@@ -191,6 +198,11 @@ const SOFT_HEALTH_KEYS: Array<{
     id: "hn",
     storeKey: "hackernews-repo-mentions",
     thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
+  },
+  {
+    id: "producthunt",
+    storeKey: "producthunt-launches",
+    thresholdMs: PRODUCTHUNT_STALE_THRESHOLD_MS,
   },
   {
     id: "devto",
@@ -479,6 +491,7 @@ export async function GET(
     const reddit = sourceById.get("reddit");
     const bluesky = sourceById.get("bluesky");
     const hn = sourceById.get("hackernews");
+    const producthunt = sourceById.get("producthunt");
     const devto = sourceById.get("devto");
     const lobsters = sourceById.get("lobsters");
     const npm = sourceById.get("npm");
@@ -516,6 +529,7 @@ export async function GET(
       (reddit?.stale ?? false) ||
       (bluesky?.stale ?? false) ||
       (hn?.stale ?? false) ||
+      (producthunt?.stale ?? false) ||
       (devto?.stale ?? false) ||
       (lobsters?.stale ?? false) ||
       (npm?.stale ?? false);
@@ -541,6 +555,8 @@ export async function GET(
       blueskyCold: bluesky?.cold ?? true,
       hnFetchedAt: hn?.fetchedAt ?? null,
       hnCold: hn?.cold ?? true,
+      producthuntFetchedAt: producthunt?.fetchedAt ?? null,
+      producthuntCold: producthunt?.cold ?? true,
       devtoFetchedAt: devto?.fetchedAt ?? null,
       devtoCold: devto?.cold ?? true,
       lobstersFetchedAt: lobsters?.fetchedAt ?? null,
@@ -565,6 +581,7 @@ export async function GET(
         reddit: reddit?.ageSeconds ?? null,
         bluesky: bluesky?.ageSeconds ?? null,
         hn: hn?.ageSeconds ?? null,
+        producthunt: producthunt?.ageSeconds ?? null,
         devto: devto?.ageSeconds ?? null,
         lobsters: lobsters?.ageSeconds ?? null,
         npm: npm?.ageSeconds ?? null,
@@ -572,6 +589,7 @@ export async function GET(
       thresholdSeconds: {
         fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
         collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
+        producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS / 1000,
         devto: DEVTO_STALE_THRESHOLD_MS / 1000,
         npm: NPM_STALE_THRESHOLD_MS / 1000,
       },
@@ -585,6 +603,7 @@ export async function GET(
         reddit: reddit?.stale ?? false,
         bluesky: bluesky?.stale ?? false,
         hn: hn?.stale ?? false,
+        producthunt: producthunt?.stale ?? false,
         devto: devto?.stale ?? false,
         lobsters: lobsters?.stale ?? false,
         npm: npm?.stale ?? false,
@@ -687,6 +706,8 @@ export async function GET(
         blueskyCold: true,
         hnFetchedAt: null,
         hnCold: true,
+        producthuntFetchedAt: null,
+        producthuntCold: true,
         devtoFetchedAt: null,
         devtoCold: true,
         lobstersFetchedAt: null,
@@ -703,6 +724,7 @@ export async function GET(
           reddit: null,
           bluesky: null,
           hn: null,
+          producthunt: null,
           devto: null,
           lobsters: null,
           npm: null,
@@ -710,6 +732,7 @@ export async function GET(
         thresholdSeconds: {
           fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
           collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
+          producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS / 1000,
           devto: DEVTO_STALE_THRESHOLD_MS / 1000,
           npm: NPM_STALE_THRESHOLD_MS / 1000,
         },
@@ -723,6 +746,7 @@ export async function GET(
           reddit: false,
           bluesky: false,
           hn: false,
+          producthunt: false,
           devto: false,
           lobsters: false,
           npm: false,

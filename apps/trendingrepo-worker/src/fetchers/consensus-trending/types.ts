@@ -1,5 +1,5 @@
-// Consensus v3: 1 internal source ("ours") + 7 external sources.
-// External weights sum to 1.0 (gh+hf+hn+x+r+dev+bs).
+// Consensus v3: 1 internal source ("ours") + 8 external sources.
+// External weights sum to 1.0 (gh+hf+hn+x+r+pdh+dev+bs).
 // "ours" sits outside the external weighting — used for verdict-band
 // classification (early-call detection, divergence vs external composite).
 export type ConsensusInternalSource = 'ours';
@@ -10,6 +10,7 @@ export type ConsensusExternalSource =
   | 'hn'
   | 'x'
   | 'r'
+  | 'pdh'
   | 'dev'
   | 'bs';
 
@@ -35,6 +36,7 @@ export interface ConsensusScoreInput {
   hn: ConsensusSourceInput[];
   x: ConsensusSourceInput[];
   r: ConsensusSourceInput[];
+  pdh: ConsensusSourceInput[];
   dev: ConsensusSourceInput[];
   bs: ConsensusSourceInput[];
   limit?: number;
@@ -53,7 +55,7 @@ export interface ConsensusItem {
   consensusScore: number;
   /** 0–100. weight_sum_of_present_sources × concordance_factor × 100. */
   confidence: number;
-  /** Count of external sources present (0–7). */
+  /** Count of external sources present (0–8). */
   sourceCount: number;
   /** Rank in the external composite ranking (post-fusion, 1-N). null if no external sources. */
   externalRank: number | null;

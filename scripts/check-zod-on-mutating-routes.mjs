@@ -44,6 +44,10 @@ const ALLOW_NO_PARSEBODY = new Map([
     "No-body cron trigger — verifyCronAuth handles trust.",
   ],
   [
+    "src/app/api/cron/news-auto-recover/route.ts",
+    "No-body cron trigger — verifyCronAuth handles trust.",
+  ],
+  [
     "src/app/api/cron/mcp/rotate-usage/route.ts",
     "No-body cron trigger — verifyCronAuth handles trust.",
   ],

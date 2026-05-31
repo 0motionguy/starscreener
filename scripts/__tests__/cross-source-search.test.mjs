@@ -1,11 +1,11 @@
-// Unit tests for the 7 cross-source channel adapters in
+// Unit tests for the 8 cross-source channel adapters in
 // scripts/_cross-source-search.mjs. Each adapter:
 //   - takes a RepoInput (and optionally session/snapshot/apiKey/queryStrings)
 //   - returns Mention[] (never throws — fail-soft)
 //
-// All adapters except the snapshot-based ones (Lobsters) reach the network
-// through globalThis.fetch, so we stub fetch per-test and restore it in
-// `t.after`. searchAlgoliaStories (used by searchHackerNews) also goes
+// All adapters except the snapshot-based ones (Lobsters, ProductHunt) reach
+// the network through globalThis.fetch, so we stub fetch per-test and restore
+// it in `t.after`. searchAlgoliaStories (used by searchHackerNews) also goes
 // through the same global fetch; mocking it is sufficient.
 
 import assert from "node:assert/strict";
@@ -17,6 +17,7 @@ import {
   searchBluesky,
   searchDevto,
   searchLobsters,
+  searchProductHunt,
   searchTavily,
   searchTwitter,
 } from "../_cross-source-search.mjs";
@@ -415,6 +416,57 @@ test("searchLobsters: matches by fullName, filters non-matches", async () => {
   assert.equal(m.author, "lobster1");
   assert.equal(m.engagement.score, 12);
   assert.equal(m.engagement.comments, 4);
+});
+
+// ---------------------------------------------------------------------------
+// searchProductHunt (snapshot-based; doesn't touch fetch)
+// ---------------------------------------------------------------------------
+
+test("searchProductHunt: missing snapshot returns []", async () => {
+  const result = await searchProductHunt(makeRepo(), null);
+  assert.deepEqual(result, []);
+});
+
+test("searchProductHunt: empty launches returns []", async () => {
+  const result = await searchProductHunt(makeRepo(), { launches: [] });
+  assert.deepEqual(result, []);
+});
+
+test("searchProductHunt: matches by linkedRepo, filters non-matches", async () => {
+  const repo = makeRepo();
+  const snapshot = {
+    launches: [
+      {
+        name: "NextJS Tools",
+        tagline: "Tools for Next.js",
+        url: "https://producthunt.com/posts/nextjs-tools",
+        linkedRepo: "vercel/next.js",
+        website: "https://example.com/nextjs-tools",
+        votesCount: 200,
+        commentsCount: 12,
+        makers: [{ username: "ph_maker" }],
+        createdAt: "2026-04-20T12:00:00.000Z",
+      },
+      {
+        // Unrelated launch — no linkedRepo, no matching website.
+        name: "Other thing",
+        tagline: "Random",
+        url: "https://producthunt.com/posts/other",
+        linkedRepo: null,
+        website: "https://other.com",
+        votesCount: 1,
+        commentsCount: 0,
+      },
+    ],
+  };
+  const result = await searchProductHunt(repo, snapshot);
+  assert.equal(result.length, 1, "non-matching launch filtered");
+  const m = result[0];
+  assertMentionShape(m, "producthunt");
+  assert.equal(m.title, "NextJS Tools");
+  assert.equal(m.author, "ph_maker");
+  assert.equal(m.engagement.score, 200);
+  assert.equal(m.engagement.comments, 12);
 });
 
 // ---------------------------------------------------------------------------

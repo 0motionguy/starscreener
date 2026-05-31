@@ -50,7 +50,7 @@ export async function GET() {
             }}
           >
             Real-time discovery across GitHub, Hacker News, Reddit, X,
-            Bluesky, Dev.to and 23 more — one live terminal
+            Bluesky, ProductHunt, Dev.to and 23 more — one live terminal
             for every signal.
           </div>
         </div>

@@ -36,6 +36,7 @@ const SCRIPTS: Record<string, string> = {
   devto: "scripts/scrape-devto.mjs",
   hackernews: "scripts/scrape-hackernews.mjs",
   lobsters: "scripts/scrape-lobsters.mjs",
+  producthunt: "scripts/scrape-producthunt.mjs",
   npm: "scripts/scrape-npm.mjs",
   "npm-daily": "scripts/scrape-npm-daily.mjs",
   trending: "scripts/scrape-trending.mjs",

@@ -20,6 +20,7 @@ const eslintConfig = [
       "build/**",
       "coverage/**",
       "playwright-report/**",
+      "storybook-static/**",
       "test-results/**",
       "apps/trendingrepo-worker/dist/**",
       ".echarts-themes/**",

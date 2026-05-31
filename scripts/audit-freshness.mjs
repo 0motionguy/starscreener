@@ -33,6 +33,7 @@ const DEFAULT_BUDGETS_MS = {
   reddit: 6 * HOUR,
   bluesky: 6 * HOUR,
   devto: 24 * HOUR,
+  producthunt: 12 * HOUR,
   arxiv: 24 * HOUR,
   huggingface: 24 * HOUR,
   "huggingface-datasets": 24 * HOUR,

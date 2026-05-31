@@ -7,6 +7,7 @@ export type ConsensusExternalSource =
   | "hn"
   | "x"
   | "r"
+  | "pdh"
   | "dev"
   | "bs";
 export type ConsensusSource = ConsensusInternalSource | ConsensusExternalSource;
@@ -60,17 +61,19 @@ export const EXTERNAL_SOURCES: readonly ConsensusExternalSource[] = [
   "hn",
   "x",
   "r",
+  "pdh",
   "dev",
   "bs",
 ] as const;
 
 export const DEFAULT_WEIGHTS: Record<ConsensusExternalSource, number> = {
-  gh: 0.22,
-  hf: 0.20,
-  hn: 0.18,
+  gh: 0.20,
+  hf: 0.18,
+  hn: 0.16,
   x: 0.14,
   r: 0.10,
-  dev: 0.10,
+  pdh: 0.08,
+  dev: 0.08,
   bs: 0.06,
 };
 
@@ -89,6 +92,7 @@ const EMPTY_STATS: Record<ConsensusExternalSource, { count: number; rows: number
   hn: { count: 0, rows: 0 },
   x: { count: 0, rows: 0 },
   r: { count: 0, rows: 0 },
+  pdh: { count: 0, rows: 0 },
   dev: { count: 0, rows: 0 },
   bs: { count: 0, rows: 0 },
 };

@@ -45,6 +45,7 @@ const SOURCE_MARKS: Partial<Record<SocialPlatform, { cls: string; label: string 
   reddit: { cls: "reddit", label: "R" },
   bluesky: { cls: "bsky", label: "B" },
   devto: { cls: "devto", label: "D" },
+  producthunt: { cls: "ph", label: "P" },
   huggingface: { cls: "hf", label: "F" },
   arxiv: { cls: "arxiv", label: "A" },
   npm: { cls: "npm", label: "N" },

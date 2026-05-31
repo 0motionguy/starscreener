@@ -47,6 +47,7 @@ import {
   getNpmDependentsCount,
   refreshNpmDependentsFromStore,
 } from "@/lib/npm-dependents";
+import { getLaunchForRepo, type Launch } from "@/lib/producthunt";
 import {
   getLobstersMentions,
   lobstersStoryHref,
@@ -119,6 +120,7 @@ export interface CanonicalRepoProfile {
   freshness: FreshnessSnapshot;
   twitter: TwitterRepoPanel | null;
   npm: CanonicalRepoProfileNpm;
+  productHunt: Launch | null;
   revenue: CanonicalRepoProfileRevenue;
   funding: RepoFundingEvent[];
   related: RelatedRepoItem[];
@@ -196,6 +198,39 @@ function synthesizeTwitterMentions(
     });
   }
   return out;
+}
+
+/**
+ * Synthesize a single RepoMention row from a ProductHunt Launch.
+ *
+ * ProductHunt launches are a per-repo singleton (one launch per repo at most
+ * per cycle). We project the launch into a RepoMention so it shows up in the
+ * recent feed. ID is `producthunt-<launch.id>`.
+ */
+function synthesizeProductHuntMention(
+  launch: Launch | null,
+  repoId: string,
+  discoveredAt: string,
+): RepoMention | null {
+  if (!launch) return null;
+  return {
+    id: `producthunt-${launch.id}`,
+    repoId,
+    platform: "producthunt",
+    author: launch.makers?.[0]?.username ?? launch.name,
+    authorFollowers: null,
+    content: launch.tagline || launch.description || launch.name,
+    url: launch.url,
+    sentiment: "neutral",
+    engagement: (launch.votesCount ?? 0) + (launch.commentsCount ?? 0),
+    reach: 0,
+    postedAt: launch.createdAt,
+    discoveredAt,
+    isInfluencer: false,
+    confidence: 1.0,
+    matchReason: "github_repo_field",
+    normalizedUrl: launch.url,
+  };
 }
 
 /**
@@ -440,6 +475,7 @@ export async function buildCanonicalRepoProfile(
   const reasons = getRepoReasons(repo.fullName);
   const freshness = getFreshnessSnapshot();
   const related = getRelatedReposFor(repo.fullName);
+  const productHunt = getLaunchForRepo(repo.fullName);
   const funding = getFundingEventsForRepo(repo.fullName);
   const ideas = getIdeasForRepo(repo.fullName);
 
@@ -472,14 +508,15 @@ export async function buildCanonicalRepoProfile(
     twitter = null;
   }
 
-  // Synthesize Twitter + Lobsters + NPM + HuggingFace + ArXiv mentions
-  // (these signals live outside the general mentionStore — see
+  // Synthesize Twitter + ProductHunt + Lobsters + NPM + HuggingFace + ArXiv
+  // mentions (these signals live outside the general mentionStore — see
   // synthesizeTwitterMentions docstring) and mix them into the recent slice +
   // countsBySource. Sort newest-first by postedAt and re-cap to
   // PROFILE_MENTIONS_LIMIT so a viral repo doesn't push HN/Reddit out of the
   // slice.
   const fetchedAtIso = new Date().toISOString();
   const twitterSynth = synthesizeTwitterMentions(twitter, repo.id, fetchedAtIso);
+  const phSynth = synthesizeProductHuntMention(productHunt, repo.id, fetchedAtIso);
   const lobstersBucket = getLobstersMentions(repo.fullName);
   const lobstersSynth = synthesizeLobstersMentions(
     lobstersBucket?.stories,
@@ -507,6 +544,7 @@ export async function buildCanonicalRepoProfile(
     ...hfSynth,
     ...arxivSynth,
   ];
+  if (phSynth) synthMentions.push(phSynth);
 
   const mergedRecent =
     synthMentions.length > 0
@@ -537,6 +575,7 @@ export async function buildCanonicalRepoProfile(
       dailyDownloads: npmDailyDownloads,
       dependents: npmDependents,
     },
+    productHunt,
     revenue: {
       verified: verifiedRevenue,
       selfReported: selfReportedRevenue,
@@ -554,6 +593,7 @@ export const __test = {
   encodeCursor,
   countMentionsByPlatform,
   synthesizeTwitterMentions,
+  synthesizeProductHuntMention,
   synthesizeLobstersMentions,
   synthesizeNpmMentions,
   synthesizeHuggingFaceMentions,

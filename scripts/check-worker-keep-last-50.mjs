@@ -77,6 +77,7 @@ const ALLOW = new Map([
   ['npm-dependents', 'Daily snapshot.'],
   ['npm-packages', 'Daily snapshot.'],
   ['glama', 'Daily snapshot.'],
+  ['producthunt', '4x/day snapshot of upstream API.'],
   ['x-funding', '2x/day snapshot of upstream funding feed.'],
   ['funding-news', '6h snapshot of upstream funding feeds.'],
   ['crunchbase', '6h snapshot of upstream feed.'],

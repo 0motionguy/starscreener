@@ -9,6 +9,7 @@ import type { HnStory } from "@/lib/hackernews";
 import type { BskyPost } from "@/lib/bluesky";
 import type { DevtoArticle } from "@/lib/devto";
 import type { LobstersStory } from "@/lib/lobsters";
+import type { Launch } from "@/lib/producthunt";
 import type { FundingSignal } from "@/lib/funding/types";
 
 import {
@@ -421,7 +422,7 @@ export function buildMoversTop10(
 // ---------------------------------------------------------------------------
 
 interface NormalizedNewsItem {
-  source: "hn" | "bluesky" | "devto" | "lobsters";
+  source: "hn" | "bluesky" | "devto" | "lobsters" | "ph";
   id: string;
   title: string;
   url: string;
@@ -443,6 +444,7 @@ export function buildNewsTop10(
     bluesky: BskyPost[];
     devto: DevtoArticle[];
     lobsters: LobstersStory[];
+    producthunt: Launch[];
   },
   extras?: BuildExtras,
 ): Top10Bundle {
@@ -450,6 +452,7 @@ export function buildNewsTop10(
   const bskyNorm = normalizeBy(input.bluesky, (p) => p.trendingScore ?? p.likeCount + 2 * p.repostCount);
   const devNorm = normalizeBy(input.devto, (a) => a.trendingScore ?? a.reactionsCount);
   const lobNorm = normalizeBy(input.lobsters, (s) => s.trendingScore ?? s.score);
+  const phNorm = normalizeBy(input.producthunt, (l) => l.votesCount);
 
   const merged: NormalizedNewsItem[] = [
     ...input.hn.map((s, i) => ({
@@ -492,6 +495,16 @@ export function buildNewsTop10(
       norm: lobNorm[i] ?? 0,
       publishedAt: (s.createdUtc || 0) * 1000,
     })),
+    ...input.producthunt.map((l, i) => ({
+      source: "ph" as const,
+      id: `ph-${l.id}`,
+      title: `${l.name} — ${l.tagline || ""}`.trim().replace(/\s+—\s+$/, ""),
+      url: l.url,
+      author: l.makers?.[0]?.username ?? "producthunt",
+      raw: l.votesCount,
+      norm: phNorm[i] ?? 0,
+      publishedAt: Date.parse(l.createdAt) || 0,
+    })),
   ];
 
   // Dedupe by canonical URL — same article surfaced on multiple sources keeps
@@ -512,6 +525,7 @@ export function buildNewsTop10(
     bluesky: "Bluesky",
     devto: "dev.to",
     lobsters: "Lobsters",
+    ph: "Product Hunt",
   };
 
   const items: Top10Item[] = decorateItems(

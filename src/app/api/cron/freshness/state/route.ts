@@ -106,7 +106,10 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   {
     name: "trending-repos",
     metaSource: "trending",
-    redisSlugs: ["trending", "trending-lite"],
+    // HOSTUP worker-owned output. `trending-lite` is emitted only by the
+    // legacy script path and is not a live worker payload, so it must not make
+    // production freshness look dead.
+    redisSlugs: ["trending"],
     ...hours(6),
   },
   {

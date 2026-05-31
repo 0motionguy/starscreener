@@ -116,6 +116,22 @@ export interface DevtoMentionsFile {
 let mentionsFile: DevtoMentionsFile = devtoMentionsData as unknown as DevtoMentionsFile;
 enrichDevtoWindowedCounts(mentionsFile);
 
+export function isDevtoMentionsColdPayload(file: DevtoMentionsFile): boolean {
+  return (
+    !file.fetchedAt ||
+    file.fetchedAt.startsWith("1970-") ||
+    file.scannedArticles === 0
+  );
+}
+
+export function isUsableDevtoMentionsPayload(file: DevtoMentionsFile): boolean {
+  return (
+    !isDevtoMentionsColdPayload(file) &&
+    (Object.keys(file.mentions ?? {}).length > 0 ||
+      (file.leaderboard?.length ?? 0) > 0)
+  );
+}
+
 /**
  * Backfill `count24h` / `count30d` on each repo mention from the raw
  * `articles` array. dev.to articles carry `publishedAt` (ISO); we map
@@ -142,20 +158,14 @@ export const devtoBodyFetchMode: DevtoBodyFetchMode = mentionsFile.bodyFetchMode
 // suppresses the freshness gate while cold; once a real run lands the
 // daily-cron staleness threshold kicks in.
 export const devtoCold: boolean =
-  !mentionsFile.fetchedAt ||
-  mentionsFile.fetchedAt.startsWith("1970-") ||
-  mentionsFile.scannedArticles === 0;
+  isDevtoMentionsColdPayload(mentionsFile);
 
 export function getDevtoFetchedAt(): string {
   return mentionsFile.fetchedAt;
 }
 
 export function isDevtoCold(): boolean {
-  return (
-    !mentionsFile.fetchedAt ||
-    mentionsFile.fetchedAt.startsWith("1970-") ||
-    mentionsFile.scannedArticles === 0
-  );
+  return isDevtoMentionsColdPayload(mentionsFile);
 }
 
 function buildDevtoMentionsByLowerName(file: DevtoMentionsFile): Map<string, DevtoRepoMention> {
@@ -278,7 +288,11 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     const result = await getDataStore().read<DevtoMentionsFile>(
       "devto-mentions",
     );
-    if (result.data && result.source !== "missing") {
+    if (
+      result.data &&
+      result.source !== "missing" &&
+      isUsableDevtoMentionsPayload(result.data)
+    ) {
       mentionsFile = result.data;
       enrichDevtoWindowedCounts(mentionsFile);
       mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);

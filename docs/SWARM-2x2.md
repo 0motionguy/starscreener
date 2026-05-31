@@ -168,6 +168,29 @@ Running `npm run dev` or `npm run build` from `C:\dev\trendingrepo` while the fo
 - Each session may use its own `TaskCreate` to break its task into subtasks. The harness scopes these per-session — they do not leak across agents.
 - Shared schema or shared module changes: upstream agent ships first to `main`, downstream agent rebases. Announce in chat once the upstream PR is merged so the downstream knows to rebase.
 
+## Enforcement (added 2026-05-31 after parallel-agent debacle)
+
+The 2026-05-31 wave found that the docs above were getting violated:
+another swarm session flipped the working tree branch 3× in 24h and
+pushed `cleanup/2026-05-30-hygiene` without consent. Two automated
+guardrails now back this contract:
+
+- **Session start: `npm run wt:health`** — reports every worktree's
+  staged/unstaged/untracked counts, ahead/behind vs origin, and flags
+  pending changes to high-conflict files (Sidebar.tsx, shell.css,
+  package.json, next.config.ts, Clerk config). Catches "the other
+  agent left WIP in my worktree" in 2 seconds. Add `--strict` to fail
+  CI/agent boot when red flags exist.
+- **Pre-commit: `.githooks/pre-commit`** (activate with
+  `npm run hooks:install`) refuses:
+  - Commits on `bot/swarm-*` from the main `c:/dev/trendingrepo`
+    checkout (swarm work belongs in `trendingrepo-wt/<slot>/`).
+  - Commits with >30 staged files spanning >5 top-level dirs, the
+    fingerprint of accidental `git add -A` / `git add .`.
+
+Bypass with `git commit --no-verify` only when the wide change is
+intentional (mass rename, hardening sweep, codemod).
+
 ---
 
 *Authoritative spec — agents must read this on session start. CLAUDE.md links here.*

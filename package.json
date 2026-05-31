@@ -55,6 +55,8 @@
     "lint:routes-config": "node scripts/check-routes-config.mjs",
     "lint:server-only": "node scripts/check-server-only-markers.mjs",
     "lint:no-signin-redirect": "node scripts/check-no-direct-signin-redirect.mjs",
+    "wt:health": "node scripts/check-worktree-cleanliness.mjs",
+    "wt:health:strict": "node scripts/check-worktree-cleanliness.mjs --strict",
     "hooks:install": "node scripts/install-githooks.mjs",
     "verify:pool-throughput": "node scripts/verify-pool-throughput.mjs",
     "verify:sentry-wiring": "node scripts/verify-sentry-wiring.mjs",

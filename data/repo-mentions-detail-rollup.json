@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-31T08:48:17.439Z",
-  "scanRunId": "sweep-2026-05-31T08:48:08.998Z",
+  "computedAt": "2026-05-31T13:48:18.545Z",
+  "scanRunId": "sweep-2026-05-31T13:48:10.895Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -1654,10 +1654,10 @@
     },
     "Lum1104/Understand-Anything": {
       "fullName": "Lum1104/Understand-Anything",
-      "totalMentions7d": 7,
+      "totalMentions7d": 6,
       "perSource": {
         "bluesky": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "bluesky",
@@ -1730,24 +1730,11 @@
     },
     "Alishahryar1/free-claude-code": {
       "fullName": "Alishahryar1/free-claude-code",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "bluesky": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
-            {
-              "source": "bluesky",
-              "fullName": "Alishahryar1/free-claude-code",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
-              "title": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - Typ",
-              "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-24T13:25:26.666Z"
-            },
             {
               "source": "bluesky",
               "fullName": "Alishahryar1/free-claude-code",
@@ -3571,10 +3558,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 23,
+      "totalMentions7d": 76,
       "perSource": {
         "hackernews": {
-          "count7d": 23,
+          "count7d": 76,
           "top": [
             {
               "source": "hackernews",
@@ -3584,7 +3571,7 @@
               "text": "",
               "author": "simonw",
               "engagement": {
-                "score": 1087,
+                "score": 1088,
                 "comments": 1240
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
@@ -3597,8 +3584,8 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 402,
-                "comments": 457
+                "score": 409,
+                "comments": 463
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
             },
@@ -3610,8 +3597,8 @@
               "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
               "author": "arrdalan",
               "engagement": {
-                "score": 119,
-                "comments": 26
+                "score": 120,
+                "comments": 28
               },
               "observedAt": "2026-05-29T22:32:29.000Z"
             },
@@ -3623,23 +3610,23 @@
               "text": "",
               "author": "Muhammad523",
               "engagement": {
-                "score": 66,
-                "comments": 7
+                "score": 119,
+                "comments": 15
               },
               "observedAt": "2026-05-31T00:25:12.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://news.ycombinator.com/item?id=48257711",
-              "title": "Is a Claw driven Hacker News user a problem?",
-              "text": "I&#x27;m using OpenClaw and a handful of prompts to generate a set of custom HN comment pages for myself each day. One page is from nice follows, another from users I find particularly detached from reality, and another for comments matching a list of topics, with sentiment indicators.<p>As a result of this filtration my impact as a voter on the site is amplified. Previously I may have seen one mention of topic X per day where now I see twenty. My voting criteria haven&#x27;t changed but the vol",
-              "author": "delichon",
+              "url": "https://github.com/scanaislop/aislop",
+              "title": "Show HN: AISlop, a CLI for catching AI generated code smells",
+              "text": "Hi, I’m Kenny, I’ve been building aislop. I starting working on this after using Claude Code, codex and opencode several times and noticing some slops. They aren’t syntax and passes most tests, they are patterns like empty catch blocks, useless comments, duplicated helpers, dead code and many more. So I built a tool to scan and check for these patterns and wired it into hooks so after each tool call, the agent checks for the slops.<p>You can try it out with npx aislop scan.<p>It’s all local and ",
+              "author": "Heavykenny",
               "engagement": {
-                "score": 8,
-                "comments": 15
+                "score": 72,
+                "comments": 63
               },
-              "observedAt": "2026-05-24T14:49:55.000Z"
+              "observedAt": "2026-05-29T13:37:38.000Z"
             }
           ]
         }
@@ -5861,10 +5848,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 12,
           "top": [
             {
               "source": "hackernews",
@@ -5887,7 +5874,7 @@
               "text": "",
               "author": "vrganj",
               "engagement": {
-                "score": 458,
+                "score": 460,
                 "comments": 12
               },
               "observedAt": "2026-05-30T08:00:20.000Z"
@@ -7496,19 +7483,6 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
-              "url": "https://news.ycombinator.com/item?id=48256791",
-              "title": "Ask HN: Are Tech Meetups Dead?",
-              "text": "I work with a bunch of people that just left college and we were discussing how to avoid deskilling and I said &quot;well, you could go to local meetups&quot;. They&#x27;re in NYC (I&#x27;m in Florida right now) and said there isn&#x27;t much going on and I couldn&#x27;t believe it. Asked some more experienced friends that have been living there for longer and they said that it all died during COVID and never came back.<p>I ran or helped organize meetups in multiple places, back in Brazil where ",
-              "author": "mlinhares",
-              "engagement": {
-                "score": 36,
-                "comments": 30
-              },
-              "observedAt": "2026-05-24T12:39:30.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "floci-io/floci",
               "url": "https://cbs12.com/news/local/florida-news-viral-tiktok-charges-dismissed-for-woman-without-right-hand-cited-for-holding-phone-while-driving-south-florida-texting-while-driving-wireless-communication-device",
               "title": "Woman without right hand charged for holding phone in right hand while driving",
               "text": "",
@@ -7531,6 +7505,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-29T02:57:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "floci-io/floci",
+              "url": "https://www.floridatoday.com/story/tech/science/space/2026/05/28/blue-origin-new-glenn-rocket-apparently-explodes-on-launch-pad-in-cape-canaveral-florida--live/90305379007/",
+              "title": "Blue Origin New Glenn Rocket Apparently Explodes at Cape Canaveral, Florida",
+              "text": "",
+              "author": "bookmtn",
+              "engagement": {
+                "score": 10,
+                "comments": 3
+              },
+              "observedAt": "2026-05-29T01:49:20.000Z"
             }
           ]
         }
@@ -7992,11 +7979,24 @@
     },
     "crynta/terax-ai": {
       "fullName": "crynta/terax-ai",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "crynta/terax-ai",
+              "url": "https://bsky.app/profile/midu.dev/post/3mn5mrgp52b2f",
+              "title": "¡Nueva terminal para programadores! Pensada especialmente para uso con IA. ✓ Solo 7MB. Rendimiento brutal ✓ Para Windows, macOS y Linux ✓ Editor, Git, agentes y preview web ✓ Sin telemetría ni registr",
+              "text": "¡Nueva terminal para programadores! Pensada especialmente para uso con IA. ✓ Solo 7MB. Rendimiento brutal ✓ Para Windows, macOS y Linux ✓ Editor, Git, agentes y preview web ✓ Sin telemetría ni registro Gratis y de código abierto: github.com/crynta/terax-ai",
+              "author": "midu.dev",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-31T13:01:57.574Z"
+            },
             {
               "source": "bluesky",
               "fullName": "crynta/terax-ai",
@@ -8425,10 +8425,10 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 7,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -8442,24 +8442,11 @@
                 "comments": 0
               },
               "observedAt": "2026-05-28T20:44:37.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "colbymchenry/codegraph",
-              "url": "https://github.com/colbymchenry/codegraph",
-              "title": "Supercharge Claude Code, Cursor, Codex with Semantic Code Intelligence",
-              "text": "",
-              "author": "beyti",
-              "engagement": {
-                "score": 1,
-                "comments": 2
-              },
-              "observedAt": "2026-05-24T11:25:10.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 5,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -8503,19 +8490,6 @@
             {
               "source": "bluesky",
               "fullName": "colbymchenry/codegraph",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2r3uwx5v2",
-              "title": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - Typ",
-              "text": "7. https://github.com/Alishahryar1/free-claude-code - Python, 565 stars today 8. https://github.com/colbymchenry/codegraph - TypeScript, 2993 stars today 9. https://github.com/multica-ai/multica - TypeScript, 584 stars today 10. https://github.com/shiyu-coder/Kronos - Python, 96 stars today 11 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-24T13:25:26.666Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "colbymchenry/codegraph",
               "url": "https://bsky.app/profile/nemu-echosphere.bsky.social/post/3mmvi52gnjd2h",
               "title": "💎 README原文：\"CodeGraph only helps when queried directly — otherwise a sub-agent reads files regardless and CodeGraph becomes overhead.\" ベンチマークは「アーキテクチャの質問1つへの回答」。探索タスク。実装・テスト・デバッグのループ全体ではない。 https://g",
               "text": "💎 README原文：\"CodeGraph only helps when queried directly — otherwise a sub-agent reads files regardless and CodeGraph becomes overhead.\" ベンチマークは「アーキテクチャの質問1つへの回答」。探索タスク。実装・テスト・デバッグのループ全体ではない。 https://github.com/colbymchenry/codegraph #LLM #ClaudeCode",
@@ -8532,10 +8506,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 54,
+      "totalMentions7d": 59,
       "perSource": {
         "hackernews": {
-          "count7d": 54,
+          "count7d": 59,
           "top": [
             {
               "source": "hackernews",
@@ -8545,8 +8519,8 @@
               "text": "",
               "author": "possibilistic",
               "engagement": {
-                "score": 555,
-                "comments": 251
+                "score": 559,
+                "comments": 252
               },
               "observedAt": "2026-05-28T21:45:54.000Z"
             },
@@ -8761,10 +8735,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 67,
+      "totalMentions7d": 66,
       "perSource": {
         "hackernews": {
-          "count7d": 67,
+          "count7d": 66,
           "top": [
             {
               "source": "hackernews",
@@ -8774,7 +8748,7 @@
               "text": "",
               "author": "simonw",
               "engagement": {
-                "score": 1087,
+                "score": 1088,
                 "comments": 1240
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
@@ -8787,8 +8761,8 @@
               "text": "",
               "author": "PinkG",
               "engagement": {
-                "score": 833,
-                "comments": 565
+                "score": 835,
+                "comments": 569
               },
               "observedAt": "2026-05-29T14:40:47.000Z"
             },
@@ -8800,8 +8774,8 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 402,
-                "comments": 457
+                "score": 409,
+                "comments": 463
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
             },
@@ -9362,10 +9336,10 @@
     },
     "rohitg00/ai-engineering-from-scratch": {
       "fullName": "rohitg00/ai-engineering-from-scratch",
-      "totalMentions7d": 5,
+      "totalMentions7d": 4,
       "perSource": {
         "bluesky": {
-          "count7d": 5,
+          "count7d": 4,
           "top": [
             {
               "source": "bluesky",
@@ -9418,19 +9392,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-25T14:51:20.361Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "rohitg00/ai-engineering-from-scratch",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmm2q3bixj72",
-              "title": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. ht",
-              "text": "📈 Today's GitHub Trending: 1. https://github.com/Lum1104/Understand-Anything - TypeScript, 3987 stars today 2. https://github.com/rohitg00/ai-engineering-from-scratch - Python, 1836 stars today 3. https://github.com/anthropics/claude-plugins-official - Python, 1179 stars today 4 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 3
-              },
-              "observedAt": "2026-05-24T13:25:13.064Z"
             }
           ]
         }
@@ -10076,10 +10037,10 @@
     },
     "bannedbook/fanqiang": {
       "fullName": "bannedbook/fanqiang",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
@@ -10089,10 +10050,23 @@
               "text": "For a bit of context, I’m currently creating a team of AI agents at work to generate reports by fanning out into a large amount of subagents to process a large amount of transcript data. When the analysis fails mid-way because of some individual step like an API call returns an error or the machine is out of memory, it would create cascading errors that break the entire generation with almost no visibility. I’ve just spent the past month rewriting the individual jobs as durable execution jobs on",
               "author": "yaoke259",
               "engagement": {
-                "score": 6,
-                "comments": 0
+                "score": 8,
+                "comments": 2
               },
               "observedAt": "2026-05-31T02:07:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "bannedbook/fanqiang",
+              "url": "https://thecompoundingcuriosity.substack.com/p/drafted-not-sent-how-i-built-the",
+              "title": "Cutting LangGraph drafting time from 60s to 15s by fanning out independent nodes",
+              "text": "",
+              "author": "anandbhaskaran",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-28T22:46:54.000Z"
             }
           ]
         }

@@ -12,6 +12,12 @@ export interface SlugHealthSpec {
   blocking?: boolean;
 }
 
+export interface DisabledSlugHealthSpec {
+  slug: string;
+  fetcher: string;
+  reason: string;
+}
+
 export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // hourly + faster - these are the freshness-sensitive workhorses
   { slug: "hn-pulse", fetcher: "hn-pulse", cadenceMin: 10 },
@@ -24,8 +30,10 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "trendshift-daily", fetcher: "trendshift-daily", cadenceMin: 60, blocking: false },
   { slug: "engagement-composite", fetcher: "engagement-composite", cadenceMin: 60 },
   { slug: "consensus-trending", fetcher: "consensus-trending", cadenceMin: 60 },
-  { slug: "trustmrr-startups", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
-  { slug: "trustmrr-startups:meta", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
+  // TrustMRR catalog/meta are full daily snapshots; hourly TrustMRR ticks only
+  // refresh revenue-overlays. Keep the catalog cadence aligned to the producer.
+  { slug: "trustmrr-startups", fetcher: "trustmrr", cadenceMin: 60 * 24, blocking: false },
+  { slug: "trustmrr-startups:meta", fetcher: "trustmrr", cadenceMin: 60 * 24, blocking: false },
   { slug: "revenue-overlays", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
   { slug: "hackernews-trending", fetcher: "hackernews", cadenceMin: 60 },
   { slug: "hackernews-repo-mentions", fetcher: "hackernews", cadenceMin: 60 },
@@ -35,11 +43,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "lobsters-mentions", fetcher: "lobsters", cadenceMin: 60, blocking: false },
 
   // few-hours cadence
-  { slug: "trending-skill-sh", fetcher: "skills-sh", cadenceMin: 120, blocking: false },
-  { slug: "huggingface-trending", fetcher: "scrape-huggingface", cadenceMin: 240, blocking: false },
   { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360, blocking: false },
-  { slug: "trending-skill", fetcher: "claude-skills", cadenceMin: 360, blocking: false },
-  { slug: "trending-mcp", fetcher: "mcp-registry-official+glama+pulsemcp+smithery", cadenceMin: 360, blocking: false },
   { slug: "funding-news", fetcher: "funding-news", cadenceMin: 360 },
   { slug: "collection-rankings", fetcher: "collection-rankings", cadenceMin: 360, blocking: false },
 
@@ -54,8 +58,49 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // slow-moving snapshot until the OAuth-backed live collector is re-enabled.
   { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
 
-  // newer skill sources (cadence inherited from each fetcher's schedule)
-  { slug: "trending-skill-skillsmp", fetcher: "skillsmp", cadenceMin: 360, blocking: false },
-  { slug: "trending-skill-smithery", fetcher: "smithery-skills", cadenceMin: 360, blocking: false },
-  { slug: "trending-skill-lobehub", fetcher: "lobehub-skills", cadenceMin: 360, blocking: false },
+];
+
+export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec> = [
+  {
+    slug: "huggingface-trending",
+    fetcher: "scrape-huggingface",
+    reason:
+      "workflow-owned script output; no registered live worker producer, tracked by cron freshness",
+  },
+  {
+    slug: "trending-mcp",
+    fetcher: "mcp-registry-official+glama+pulsemcp+smithery",
+    reason:
+      "legacy MCP roster has no registered live worker producer; disabled until rollup fetcher lands",
+  },
+  {
+    slug: "trending-skill",
+    fetcher: "claude-skills",
+    reason:
+      "legacy skill roster has no registered live worker producer; disabled until source is ported",
+  },
+  {
+    slug: "trending-skill-sh",
+    fetcher: "skills-sh",
+    reason:
+      "legacy skill roster has no registered live worker producer; disabled until source is ported",
+  },
+  {
+    slug: "trending-skill-skillsmp",
+    fetcher: "skillsmp",
+    reason:
+      "legacy skill roster has no registered live worker producer; disabled until source is ported",
+  },
+  {
+    slug: "trending-skill-smithery",
+    fetcher: "smithery-skills",
+    reason:
+      "legacy skill roster has no registered live worker producer; disabled until source is ported",
+  },
+  {
+    slug: "trending-skill-lobehub",
+    fetcher: "lobehub-skills",
+    reason:
+      "legacy skill roster has no registered live worker producer; disabled until source is ported",
+  },
 ];

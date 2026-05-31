@@ -331,7 +331,7 @@ function formatError(err: unknown): string | null {
  * `/api/health/sources` endpoint reports them even before any traffic flows.
  * Add new sources here when wiring a new adapter.
  */
-export const KNOWN_SOURCES = [
+export const DEFAULT_KNOWN_SOURCES = [
   "hackernews",
   "reddit",
   "bluesky",
@@ -343,7 +343,44 @@ export const KNOWN_SOURCES = [
   "producthunt",
 ] as const;
 
-export type KnownSource = (typeof KNOWN_SOURCES)[number];
+export type KnownSource = (typeof DEFAULT_KNOWN_SOURCES)[number];
+
+const DEFAULT_DISABLED_SOURCE_IDS = [
+  // These two are per-repo live-search adapters, not the worker-backed Redis
+  // feeds. Cron ingest fans them out over the top-50 repos and reliably hits
+  // Reddit edge blocks / GitHub Search 403s. Keep them explicitly off until
+  // they have a rate-limited queue or a credentialed provider.
+  "reddit",
+  "github-search",
+] as const satisfies readonly KnownSource[];
+
+function parseDisabledSources(raw: string | undefined): Set<KnownSource> {
+  const source = raw?.trim();
+  if (source && /^(none|false|0|off)$/i.test(source)) return new Set();
+  const ids = source
+    ? source.split(/[,\s]+/).filter(Boolean)
+    : DEFAULT_DISABLED_SOURCE_IDS;
+  const allowed = new Set<string>(DEFAULT_KNOWN_SOURCES);
+  return new Set(
+    ids.filter((id): id is KnownSource => allowed.has(id)),
+  );
+}
+
+const DISABLED_SOURCE_SET = parseDisabledSources(
+  process.env.SOURCE_HEALTH_DISABLED_SOURCES,
+);
+
+export const DISABLED_SOURCES = DEFAULT_KNOWN_SOURCES.filter((id) =>
+  DISABLED_SOURCE_SET.has(id),
+);
+
+export const KNOWN_SOURCES = DEFAULT_KNOWN_SOURCES.filter(
+  (id) => !DISABLED_SOURCE_SET.has(id),
+);
+
+export function isSourceHealthDisabled(source: string): boolean {
+  return DISABLED_SOURCE_SET.has(source as KnownSource);
+}
 
 export const sourceHealthTracker = new SourceHealthTracker();
 

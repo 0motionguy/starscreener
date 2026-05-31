@@ -16,7 +16,7 @@
 // fixture in tandem.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 
 interface CollectionRef {
   id: number;
@@ -95,6 +95,9 @@ export interface CollectionRankingsPayload {
   fetchedAt: string;
   period: string;
   collections: Record<string, Record<Metric, NormalizedRankingRow[]>>;
+  status?: 'ok' | 'degraded';
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 const sleep = (ms: number): Promise<void> =>
@@ -148,7 +151,12 @@ const fetcher: Fetcher = {
     const fetchedAt = new Date().toISOString();
     const collections: Record<string, Record<Metric, NormalizedRankingRow[]>> =
       {};
+    const prior =
+      (await readDataStore<CollectionRankingsPayload>('collection-rankings').catch(
+        () => null,
+      )) ?? null;
     let totalRows = 0;
+    let preservedRows = 0;
 
     for (const collection of COLLECTIONS) {
       const metrics: Record<Metric, NormalizedRankingRow[]> = {
@@ -172,11 +180,29 @@ const fetcher: Fetcher = {
           );
         } catch (err) {
           const message = (err as Error).message;
+          const priorRows = prior?.collections?.[String(collection.id)]?.[metric] ?? [];
           ctx.log.error(
-            { collection: collection.id, metric, err: message },
-            'ranking fetch failed',
+            {
+              collection: collection.id,
+              metric,
+              err: message,
+              preservedRows: priorRows.length,
+            },
+            priorRows.length > 0
+              ? 'ranking fetch failed - preserving prior rows for collection metric'
+              : 'ranking fetch failed',
           );
-          errors.push({ stage: label, message });
+          if (priorRows.length > 0) {
+            metrics[metric] = priorRows;
+            preservedRows += priorRows.length;
+            totalRows += priorRows.length;
+            errors.push({
+              stage: label,
+              message: `${message} (preserved ${priorRows.length} cached)`,
+            });
+          } else {
+            errors.push({ stage: label, message });
+          }
         }
         await sleep(PAUSE_MS);
       }
@@ -187,6 +213,9 @@ const fetcher: Fetcher = {
       fetchedAt,
       period: PERIOD,
       collections,
+      status: errors.length > 0 ? 'degraded' : 'ok',
+      dataAsOf: errors.length > 0 ? prior?.dataAsOf ?? prior?.fetchedAt ?? null : fetchedAt,
+      ...(errors.length > 0 ? { errors } : {}),
     };
 
     // Zero-write guard (keep-last-50 rule): when api.ossinsight.io is down,
@@ -195,7 +224,12 @@ const fetcher: Fetcher = {
     // last-known-good slug instead — slightly-stale beats empty.
     let resultSource = 'preserved';
     if (totalRows > 0) {
-      const result = await writeDataStore('collection-rankings', payload);
+      const result = await writeDataStore('collection-rankings', payload, {
+        writer:
+          payload.status === 'degraded'
+            ? 'worker:collection-rankings:degraded'
+            : undefined,
+      });
       resultSource = result.source;
       ctx.log.info(
         {
@@ -208,13 +242,31 @@ const fetcher: Fetcher = {
       );
     } else {
       ctx.log.error(
-        'collection-rankings: all rankings empty (api.ossinsight.io down?) — preserving last-known-good collection-rankings slug',
+        'collection-rankings: all rankings empty (api.ossinsight.io down?) - publishing degraded collection-rankings payload',
       );
       errors.push({
         stage: 'guard',
         message:
-          'all rankings empty; preserved last-known-good collection-rankings slug',
+          'all rankings empty; published degraded collection-rankings payload',
       });
+    }
+
+    if (totalRows === 0) {
+      const result = await writeDataStore('collection-rankings', payload, {
+        writer: 'worker:collection-rankings:degraded',
+      });
+      resultSource = result.source;
+      ctx.log.info(
+        {
+          collections: COLLECTIONS.length,
+          totalRows,
+          preservedRows,
+          status: payload.status,
+          redisSource: result.source,
+          writtenAt: result.writtenAt,
+        },
+        'collection-rankings degraded payload published',
+      );
     }
 
     return done(startedAt, totalRows, resultSource === 'redis', errors);

@@ -245,10 +245,6 @@ const fetcher: Fetcher = {
     const existingTrending = await readDataStore<{ stories?: unknown[] }>(
       'lobsters-trending',
     ).catch(() => null);
-    const existingMentions = await readDataStore<{ leaderboard?: unknown[] }>(
-      'lobsters-mentions',
-    ).catch(() => null);
-
     let trendingSource = 'preserved';
     let mentionsSource = 'preserved';
     if (
@@ -264,19 +260,11 @@ const fetcher: Fetcher = {
       const r = await writeDataStore('lobsters-trending', trendingPayload);
       trendingSource = r.source;
     }
-    if (
-      shouldPreserveCache<unknown>({
-        fresh: leaderboard,
-        existing: existingMentions?.leaderboard ?? [],
-      })
-    ) {
-      ctx.log.warn(
-        'lobsters: empty mentions scan — preserving last-known-good lobsters-mentions',
-      );
-    } else {
-      const r = await writeDataStore('lobsters-mentions', mentionsPayload);
-      mentionsSource = r.source;
-    }
+    // A successful story scan with zero tracked repo mentions is a valid empty
+    // observation, not an upstream outage. Publish it so the meta sidecar
+    // proves the scan ran.
+    const r = await writeDataStore('lobsters-mentions', mentionsPayload);
+    mentionsSource = r.source;
 
     ctx.log.info(
       {

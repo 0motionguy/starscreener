@@ -18,6 +18,7 @@
 import { NextResponse } from "next/server";
 
 import {
+  DISABLED_SOURCES,
   KNOWN_SOURCES,
   sourceHealthTracker,
   type SourceHealthSnapshot,
@@ -47,8 +48,10 @@ interface HealthSourcesBody {
     closed: number;
     open: number;
     halfOpen: number;
+    disabled: number;
     openSources: string[];
     halfOpenSources: string[];
+    disabledSources: string[];
   };
   options: {
     windowSize: number;
@@ -87,8 +90,6 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
   const registerMs = performance.now() - registerStart;
 
   const getAllStart = performance.now();
-  const all = sourceHealthTracker.getAllHealth();
-  const getAllMs = performance.now() - getAllStart;
   const sources: Record<string, SourceBreakerView> = {};
   let closed = 0;
   let open = 0;
@@ -96,7 +97,12 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
   const openSources: string[] = [];
   const halfOpenSources: string[] = [];
 
-  for (const [id, snap] of Object.entries(all)) {
+  // Only enabled canonical sources participate in the health calculation.
+  // Disabled adapters can still be constructed directly by legacy callers and
+  // auto-register in the tracker via recordFailure(); those snapshots must not
+  // reopen this endpoint after the operator has intentionally switched them off.
+  for (const id of KNOWN_SOURCES) {
+    const snap = sourceHealthTracker.getHealth(id);
     sources[id] = toView(snap);
     if (snap.state === "OPEN") {
       open += 1;
@@ -111,6 +117,7 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
 
   openSources.sort();
   halfOpenSources.sort();
+  const getAllMs = performance.now() - getAllStart;
 
   const opts = sourceHealthTracker.getOptions();
   const body: HealthSourcesBody = {
@@ -120,8 +127,10 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
       closed,
       open,
       halfOpen,
+      disabled: DISABLED_SOURCES.length,
       openSources,
       halfOpenSources,
+      disabledSources: [...DISABLED_SOURCES].sort(),
     },
     options: {
       windowSize: opts.windowSize,

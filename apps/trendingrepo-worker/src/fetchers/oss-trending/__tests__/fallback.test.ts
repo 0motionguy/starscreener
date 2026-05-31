@@ -352,4 +352,28 @@ describe('oss-trending fallback', () => {
     expect(bucket(payload, 'past_week', 'All')[0]?.stars).toBe('31');
     expect(bucket(payload, 'past_month', 'TypeScript')[0]?.stars).toBe('90');
   });
+
+  it('publishes a degraded hot-collections payload when only that endpoint is down', async () => {
+    const { default: fetcher } = await import('../index.js');
+
+    await fetcher.run(makeContext());
+
+    const writes = writeDataStoreMock.mock.calls as unknown as Array<
+      [string, unknown, unknown?]
+    >;
+    const hotWrite = writes.find(([slug]) => slug === 'hot-collections');
+    expect(hotWrite).toBeDefined();
+
+    const payload = hotWrite?.[1] as {
+      status?: string;
+      rows?: unknown[];
+      dataAsOf?: string | null;
+      errors?: Array<{ stage: string; message: string }>;
+    };
+    expect(payload.status).toBe('degraded');
+    expect(payload.rows).toEqual([]);
+    expect(payload.dataAsOf).toBeNull();
+    expect(payload.errors?.[0]?.stage).toBe('hot-collections');
+    expect(hotWrite?.[2]).toEqual({ writer: 'worker:oss-trending:degraded' });
+  });
 });

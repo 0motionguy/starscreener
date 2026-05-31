@@ -75,6 +75,9 @@ export interface TrendingPayload {
 export interface HotCollectionsPayload {
   fetchedAt: string;
   rows: NormalizedHotCollectionRow[];
+  status?: 'ok' | 'degraded';
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 const sleep = (ms: number): Promise<void> =>
@@ -136,6 +139,10 @@ const fetcher: Fetcher = {
     const priorBuckets =
       (await readDataStore<TrendingPayload>('trending').catch(() => null))
         ?.buckets ?? {};
+    const priorHotCollections =
+      (await readDataStore<HotCollectionsPayload>('hot-collections').catch(
+        () => null,
+      )) ?? null;
 
     for (const period of PERIODS) {
       buckets[period] = {};
@@ -192,7 +199,26 @@ const fetcher: Fetcher = {
     }
 
     const trendsPayload: TrendingPayload = { fetchedAt, buckets };
-    const hotPayload: HotCollectionsPayload = { fetchedAt, rows: hotRows };
+    const hotErrors = errors.filter((err) => err.stage === 'hot-collections');
+    const hotPayload: HotCollectionsPayload =
+      hotRows.length > 0
+        ? { fetchedAt, rows: hotRows, status: 'ok', dataAsOf: fetchedAt }
+        : {
+            fetchedAt,
+            rows: priorHotCollections?.rows ?? [],
+            status: 'degraded',
+            dataAsOf:
+              priorHotCollections?.dataAsOf ?? priorHotCollections?.fetchedAt ?? null,
+            errors:
+              hotErrors.length > 0
+                ? hotErrors
+                : [
+                    {
+                      stage: 'hot-collections',
+                      message: 'empty hot collections response',
+                    },
+                  ],
+          };
 
     // Zero-write guard — root-cause fix for the 2026-05-28 site-wide delta wipe.
     // When api.ossinsight.io is fully down, every bucket fetch fails and comes
@@ -242,8 +268,15 @@ const fetcher: Fetcher = {
       hotSource = res.source;
     } else {
       ctx.log.warn(
-        'oss-trending: no hot collections this run — preserving last-known-good hot-collections slug',
+        'oss-trending: no hot collections this run; publishing degraded hot-collections payload',
       );
+    }
+
+    if (hotRows.length === 0) {
+      const res = await writeDataStore('hot-collections', hotPayload, {
+        writer: 'worker:oss-trending:degraded',
+      });
+      hotSource = res.source;
     }
 
     ctx.log.info(

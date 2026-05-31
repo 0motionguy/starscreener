@@ -9,7 +9,6 @@ import { getLastFetchedAt } from "@/lib/trending";
 // from getTrackedRepoCount, which under-reported once the persistent registry
 // shipped (732 vs the canonical 838+).
 import { getDerivedRepoCount } from "@/lib/derived-repos";
-import Link from "next/link";
 
 const CATEGORIES = [
   { id: "repos", label: "Repos", glyph: "R" },

@@ -7,7 +7,7 @@
 // let the idea claimer publish a build-event row attached to a claimed
 // idea. Backed by a new src/lib/build-timeline.ts JSONL store.
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { requireUser } from "@/lib/auth/server";
 
@@ -20,9 +20,7 @@ interface NotImplementedResponse {
   code: "NOT_IMPLEMENTED";
 }
 
-export async function GET(
-  _request: NextRequest,
-): Promise<NextResponse<NotImplementedResponse>> {
+export async function GET(): Promise<NextResponse<NotImplementedResponse>> {
   return NextResponse.json(
     {
       ok: false,
@@ -33,9 +31,7 @@ export async function GET(
   );
 }
 
-export async function POST(
-  _request: NextRequest,
-): Promise<NextResponse<NotImplementedResponse>> {
+export async function POST(): Promise<NextResponse<NotImplementedResponse>> {
   await requireUser();
 
   return NextResponse.json(

@@ -111,7 +111,6 @@ export function computeVerdicts(args: {
   const nowMs = Date.now();
   const lastCommitDays = daysSince(repo.lastCommitAt, nowMs);
   const lastReleaseDays = daysSince(repo.lastReleaseAt, nowMs);
-  const ageDays = daysSince(repo.createdAt, nowMs);
   const channels = repo.channelsFiring ?? 0;
   const momentum = repo.momentumScore ?? 0;
   const stars = repo.stars ?? 0;

@@ -18,7 +18,6 @@ import type {
   IdeaMvpEstimate,
   IdeaRecord,
 } from "@/lib/ideas";
-import { ideaEvidenceLabel } from "@/lib/ideas/display-data";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 
 import { IdeaClaimedBox } from "./IdeaClaimedBox";

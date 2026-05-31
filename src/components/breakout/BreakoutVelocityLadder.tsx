@@ -115,14 +115,6 @@ function langDotColor(language: string | null | undefined): string {
   return LANG_DOT[language] ?? "var(--fg-subtle)";
 }
 
-function formatStars(value: number): string {
-  if (value >= 1000) {
-    const k = value / 1000;
-    return `${k >= 10 ? k.toFixed(0) : k.toFixed(1)}k`;
-  }
-  return value.toLocaleString();
-}
-
 function formatPct(pct: number): string {
   if (!Number.isFinite(pct) || pct <= 0) return "+0%";
   return `+${pct.toFixed(0)}%`;

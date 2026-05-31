@@ -21,6 +21,8 @@ const PUBLIC_ROUTES: Array<{ path: string; sentinel: RegExp }> = [
   { path: "/market-signals", sentinel: /market|signals/i },
   { path: "/funding", sentinel: /funding/i },
   { path: "/revenue", sentinel: /revenue/i },
+  { path: "/collections", sentinel: /collections/i },
+  { path: "/collections/ai-agent-frameworks", sentinel: /AI Agent Frameworks/i },
   { path: "/agent-commerce", sentinel: /agent[- ]?commerce/i },
   { path: "/tools", sentinel: /tools/i },
   { path: "/ideas", sentinel: /ideas/i },
@@ -107,7 +109,15 @@ test("v6 unknown repo GET /repo/totally-fake/nonexistent returns 404", async ({
 // unpublished/missing id; both are valid.
 // ---------------------------------------------------------------------------
 
-const API_OK_ROUTES = ["/api/healthz", "/api/repos"];
+const API_OK_ROUTES = [
+  "/api/healthz",
+  "/api/repos",
+  "/api/collections",
+  "/api/collections/ai-agent-frameworks",
+  "/api/model-usage/overview",
+  "/api/model-usage/models",
+  "/api/model-usage/rankings",
+];
 
 for (const path of API_OK_ROUTES) {
   test(`v6 api ${path} returns 200`, async ({ request }) => {

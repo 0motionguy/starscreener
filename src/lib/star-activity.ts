@@ -152,7 +152,8 @@ export function _seedStarActivityForTests(
  * in `safeAsync()` anyway, but we double-belt this one because /tools is a
  * public ISR route that must NEVER 500 on a missing metric.
  */
-export async function countStarPlotRequests(_date: string): Promise<number> {
+export async function countStarPlotRequests(date: string): Promise<number> {
+  void date;
   try {
     // Intentionally a no-op until the instrumentation lands. Keeping the
     // body small + side-effect-free so future implementers can swap in a

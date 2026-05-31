@@ -1,7 +1,7 @@
 // /agent-commerce — Agent Commerce M2M cockpit (Phase 2C).
 //
 // Reads:
-//   - getAgentCommerceItems() + getAgentCommerceStats() — items + counts
+//   - getAgentCommerceStats() — item counts
 //   - getBaseX402Onchain() / getSolanaX402Onchain() — facilitator + tx counts
 //   - getDuneX402Volume() — historical USD volume per facilitator/day
 //   - getAgentCommerceFetchedAt() — freshness pill
@@ -12,7 +12,6 @@
 
 import {
   refreshAgentCommerceFromStore,
-  getAgentCommerceItems,
   getAgentCommerceStats,
   getAgentCommerceFetchedAt,
 } from "@/lib/agent-commerce";
@@ -149,7 +148,6 @@ export default async function AgentCommercePage({ searchParams }: Props) {
     })),
   ]);
 
-  const items = safe(() => getAgentCommerceItems(), []);
   const stats = safe(() => getAgentCommerceStats(), {
     totalItems: 0,
     byKind: {} as Record<string, number>,
@@ -204,8 +202,6 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   // degraded — show 0 degraded and let the operator see the honest signal.
   const mcpHealthy = mcpServers;
   const mcpDegraded = 0;
-  const a2aCount = stats.byProtocol["a2a"] ?? 0;
-
   // Token tables are now driven by live CoinGecko data (no SEED_TOKENS).
   const gainers = getTokenRows(agentTokens, "gainers", 5);
   const losers = getTokenRows(agentTokens, "losers", 3);

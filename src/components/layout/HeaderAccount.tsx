@@ -63,5 +63,5 @@ export function HeaderAccount({ authEnabled }: HeaderAccountProps) {
     return <SignedOutAccountLink />;
   }
 
-  return <HeaderAccountLoaded fallback={<SignedOutAccountLink />} />;
+  return <HeaderAccountLoaded />;
 }

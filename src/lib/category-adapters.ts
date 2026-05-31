@@ -11,7 +11,8 @@ import { decorateWithMentionsRollup } from "@/lib/derived-repos/decorators/menti
 import type { CategoryId } from "@/components/trending/TrendingHubHero";
 import type { Repo } from "@/lib/types";
 
-export async function refreshCategoryFromStore(_category: CategoryId): Promise<void> {
+export async function refreshCategoryFromStore(category: CategoryId): Promise<void> {
+  void category;
   // No-ops for repos / agents / llms — repos + agents derive from
   // getDerivedRepos() which is refreshed by refreshTrendingFromStore() at the
   // top of the page handler. llms gets its own AA refresh hook in Wave 4.

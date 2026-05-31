@@ -52,8 +52,25 @@ const DISABLED_SLUG_TABLE = WORKER_HEALTH_DISABLED_SPECS;
 const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
 const DATA_STORE_PAYLOAD_NAMESPACE = "ss:data:v1";
 const PAYLOAD_HEALTH_SLUGS = new Set([
+  "hn-pulse",
   "trending",
   "hot-collections",
+  "recent-repos",
+  "deltas",
+  "repo-metadata",
+  "repo-profiles",
+  "trendshift-daily",
+  "engagement-composite",
+  "consensus-trending",
+  "trustmrr-startups",
+  "revenue-overlays",
+  "hackernews-trending",
+  "hackernews-repo-mentions",
+  "bluesky-trending",
+  "bluesky-mentions",
+  "lobsters-trending",
+  "lobsters-mentions",
+  "producthunt-launches",
   "collection-rankings",
   "funding-news",
   "funding-news-crunchbase",
@@ -68,6 +85,10 @@ const PAYLOAD_HEALTH_SLUGS = new Set([
   "editorial-categories",
   "editorial-compare",
   "editorial-alternatives",
+  "manual-repos",
+  "npm-packages",
+  "reddit-baselines",
+  "revenue-benchmarks",
 ]);
 
 type SlugStatus = "green" | "amber" | "red" | "missing";

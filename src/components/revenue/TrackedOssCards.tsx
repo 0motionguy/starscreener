@@ -46,10 +46,6 @@ function fmtGrowth(pct: number | null): string {
   return pct >= 0 ? `+${pct.toFixed(0)}%` : `${pct.toFixed(0)}%`;
 }
 
-function logoLetter(name: string): string {
-  return name.trim().slice(0, 1).toUpperCase() || "?";
-}
-
 export function TrackedOssCards({ cards }: TrackedOssCardsProps) {
   return (
     <div className="panel fade-up" style={{ margin: "18px 0 14px" }}>

@@ -11,7 +11,6 @@ import { NavLink } from "./NavLink";
 import {
   TrendingUp,
   Sparkles,
-  Activity,
   CircleDollarSign,
   User,
   Download,

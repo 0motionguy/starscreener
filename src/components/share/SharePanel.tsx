@@ -25,7 +25,7 @@
 //
 // See docs/DESIGN-SYSTEM.md §7 (Component primitives), §8 (Icon system).
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { Icon, SourceLogo } from "@/lib/icons";
 import { absoluteUrl } from "@/lib/seo";

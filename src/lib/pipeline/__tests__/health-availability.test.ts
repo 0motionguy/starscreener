@@ -218,6 +218,12 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
     1,
   );
   assert.equal(
+    summarizeWorkerPayloadHealth("repo-profiles", {
+      profiles: [{ fullName: "owner/repo", websiteUrl: "https://example.com" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
     summarizeWorkerPayloadHealth("engagement-composite", {
       items: [{ fullName: "owner/repo" }],
     }).rowCount,
@@ -276,6 +282,14 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
       mentions: { "owner/repo": [{ title: "Story" }] },
     }).rowCount,
     1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("lobsters-mentions", {
+      scannedStories: 75,
+      mentions: {},
+      leaderboard: [],
+    }).rowCount,
+    75,
   );
   assert.equal(
     summarizeWorkerPayloadHealth("producthunt-launches", {

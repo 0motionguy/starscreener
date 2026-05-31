@@ -45,6 +45,16 @@ function countObjectRows(value: unknown): number | null {
     : null;
 }
 
+function countArrayOrObjectRows(value: unknown): number | null {
+  return countArrayRows(value) ?? countObjectRows(value);
+}
+
+function countPositiveNumberRows(value: unknown): number | null {
+  return typeof value === "number" && Number.isFinite(value) && value > 0
+    ? value
+    : null;
+}
+
 function countTrendingRows(payload: unknown): number | null {
   const buckets = (payload as { buckets?: unknown })?.buckets;
   if (!buckets || typeof buckets !== "object") return null;
@@ -89,7 +99,7 @@ function countRows(slug: string, payload: unknown): number | null {
     return countArrayRows((payload as { items?: unknown })?.items);
   }
   if (slug === "repo-profiles") {
-    return countObjectRows((payload as { profiles?: unknown })?.profiles);
+    return countArrayOrObjectRows((payload as { profiles?: unknown })?.profiles);
   }
   if (slug === "engagement-composite") {
     return countArrayRows((payload as { items?: unknown })?.items);
@@ -103,7 +113,13 @@ function countRows(slug: string, payload: unknown): number | null {
   if (slug === "hackernews-trending" || slug === "lobsters-trending") {
     return countArrayRows((payload as { stories?: unknown })?.stories);
   }
-  if (slug === "hackernews-repo-mentions" || slug === "bluesky-mentions" || slug === "lobsters-mentions") {
+  if (slug === "lobsters-mentions") {
+    const mentionRows = countObjectRows((payload as { mentions?: unknown })?.mentions);
+    return mentionRows && mentionRows > 0
+      ? mentionRows
+      : (countPositiveNumberRows((payload as { scannedStories?: unknown })?.scannedStories) ?? mentionRows);
+  }
+  if (slug === "hackernews-repo-mentions" || slug === "bluesky-mentions") {
     return countObjectRows((payload as { mentions?: unknown })?.mentions);
   }
   if (slug === "bluesky-trending") {

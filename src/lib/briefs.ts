@@ -1,3 +1,5 @@
+import "server-only";
+
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 

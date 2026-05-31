@@ -20,6 +20,8 @@
 // CLIENT BOUNDARY: this module uses node:fs. Client components MUST NOT
 // import from here — use the pure shapes in `./tiers` instead.
 
+import "server-only";
+
 import { statSync } from "node:fs";
 import path from "node:path";
 

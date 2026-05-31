@@ -11,6 +11,8 @@
 // skip travel, health, games, real-estate, crypto categories that dilute
 // the TrendingRepo identity.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

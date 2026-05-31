@@ -18,6 +18,8 @@
 // per-model token volume publicly), so we never render synthetic token
 // counts — only the honest rank position.
 
+import "server-only";
+
 import { resolve } from "path";
 import { readFileSync } from "fs";
 

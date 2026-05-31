@@ -20,6 +20,8 @@
 // that promise was explicitly cut from v1 (see plan: "Don't promise
 // convertibility — badges only").
 
+import "server-only";
+
 import { sql } from "drizzle-orm";
 import {
   boolean,

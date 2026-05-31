@@ -8,6 +8,8 @@
 // Shape:
 //   { "<package-name>": { "count": number | null, "fetchedAt": ISOString } }
 
+import "server-only";
+
 import { readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

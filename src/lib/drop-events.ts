@@ -14,6 +14,8 @@
 // Pattern mirrors src/lib/aiso-queue.ts: file-lock for writes, ENOENT →
 // empty list on reads, malformed lines warned + skipped.
 
+import "server-only";
+
 import { randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";

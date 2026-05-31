@@ -13,6 +13,8 @@
 // here explicitly. Slug "base-x402-onchain" is reserved for when the writer
 // wires writeDataStore().
 
+import "server-only";
+
 import { readFileSync } from "fs";
 import { resolve } from "path";
 

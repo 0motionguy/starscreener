@@ -11,6 +11,8 @@
 // Modalities, Weights/Size/Reasoning filters are deferred until the AA API
 // surfaces the underlying data.
 
+import "server-only";
+
 import { resolve } from "path";
 import { readFileSync } from "fs";
 

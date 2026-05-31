@@ -17,6 +17,8 @@
 // Folding these into the repo intake would force every existing reader of
 // listRepoSubmissions() to learn a second schema.
 
+import "server-only";
+
 import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";

@@ -14,6 +14,8 @@
 // All functions are pure or take a Drizzle handle as a parameter so they
 // can be unit-tested without a live DB.
 
+import "server-only";
+
 import { and, count, eq, gte, sql } from "drizzle-orm";
 
 import {

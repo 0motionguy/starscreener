@@ -12,6 +12,8 @@
 // cache and is rate-limited so concurrent renders don't fan out N Redis
 // calls.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import type { AisoToolsScan } from "./aiso-tools";

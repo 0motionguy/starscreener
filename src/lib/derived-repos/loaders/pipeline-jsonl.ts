@@ -17,6 +17,8 @@
 //
 // Extracted from derived-repos.ts as Sprint 4 step 2 of LIB-01.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 

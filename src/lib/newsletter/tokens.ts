@@ -19,6 +19,8 @@
 // (bad shape, bad signature, expired, missing secret) — never throw.
 // Callers redirect to `/newsletter-error?reason=expired` on null.
 
+import "server-only";
+
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 import { FatalConfigError } from "@/lib/errors";

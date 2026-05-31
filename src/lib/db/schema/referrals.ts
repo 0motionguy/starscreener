@@ -19,6 +19,8 @@
 // index guarantees one credit per referred user even if they sign up
 // twice (different sessions, same Clerk account → same profile id).
 
+import "server-only";
+
 import { sql } from "drizzle-orm";
 import {
   index,

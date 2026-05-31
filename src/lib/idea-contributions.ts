@@ -13,6 +13,8 @@
 // Client components must `import type { IdeaContribution }` so the
 // runtime module is never bundled.
 
+import "server-only";
+
 import { randomBytes } from "node:crypto";
 
 import {

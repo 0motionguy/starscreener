@@ -10,6 +10,8 @@
 // CLIENT BOUNDARY: pulls in node:crypto + file-persistence (node:fs).
 // Client components must `import type { SavedIdea }`.
 
+import "server-only";
+
 import { randomBytes } from "node:crypto";
 
 import {

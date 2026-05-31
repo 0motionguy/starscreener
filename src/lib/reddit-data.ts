@@ -1,3 +1,5 @@
+import "server-only";
+
 import { readFileSync, statSync } from "fs";
 import { resolve } from "path";
 

@@ -3,6 +3,8 @@
 // so callers can render a degraded "Auth unavailable" surface instead of
 // throwing during build or showing a development auth instance in production.
 
+import "server-only";
+
 function isVercelProduction(): boolean {
   return process.env.VERCEL_ENV === "production";
 }

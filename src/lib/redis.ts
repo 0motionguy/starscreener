@@ -1,3 +1,5 @@
+import "server-only";
+
 type RedisSetMode = "EX" | "PX" | "EXAT" | "PXAT";
 type RedisScalar = string | number;
 

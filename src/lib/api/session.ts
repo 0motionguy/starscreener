@@ -22,6 +22,8 @@
 //
 // No external deps: node:crypto only. Timing-safe HMAC compare.
 
+import "server-only";
+
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
 import { AuthFatalError } from "@/lib/errors";

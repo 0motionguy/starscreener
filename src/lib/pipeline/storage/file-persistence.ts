@@ -9,6 +9,8 @@
 // (useful for tests or ephemeral previews). Override the directory with
 // `STARSCREENER_DATA_DIR` (absolute path recommended).
 
+import "server-only";
+
 import { promises as fs } from "node:fs";
 import path from "node:path";
 

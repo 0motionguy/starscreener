@@ -9,6 +9,8 @@
 //
 // Slug "solana-x402-onchain" matches what the writer (commit 73bcbb48) writes.
 
+import "server-only";
+
 import { readFileSync } from "fs";
 import { resolve } from "path";
 

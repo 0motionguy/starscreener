@@ -9,6 +9,12 @@
 // If the worker hasn't run yet OR the registry was empty, this returns
 // `points: []` and the component renders an honest empty state. We do not
 // fabricate days from snapshot data.
+//
+// NOTE: this file deliberately omits `import "server-only"` even though it
+// touches fs/path. The client-side StarsByCategoryHero imports HERO_CATEGORIES
+// + the chart-data type from here. The actual fs read is guarded with
+// `typeof window === "undefined"` (commit 908438418) so the client bundle is
+// safe. Allow-listed in scripts/check-server-only-markers.mjs.
 
 import { resolve } from "path";
 import { readFileSync } from "fs";
@@ -120,6 +126,12 @@ export async function refreshStarsByCategoryFromStore(): Promise<void> {
 
   inflight = (async () => {
     try {
+      // Client bundle never refreshes — avoid pulling data-store (server-only)
+      // into the client chunk via Webpack's dynamic-import tracing.
+      if (typeof window !== "undefined") {
+        if (!cache) cache = loadBundled();
+        return;
+      }
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<unknown>(REDIS_SLUG);

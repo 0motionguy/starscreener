@@ -16,6 +16,8 @@
 // Token comparison uses crypto.timingSafeEqual to blunt remote timing attacks
 // on the bearer-token compare (P-108, F-SENT-001 / F-SENT-008).
 
+import "server-only";
+
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import * as Sentry from "@sentry/nextjs";

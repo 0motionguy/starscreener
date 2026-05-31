@@ -1,3 +1,5 @@
+import "server-only";
+
 import { RedditPoolExhaustedError } from "@/lib/errors";
 import {
   isUserAgentQuarantined,

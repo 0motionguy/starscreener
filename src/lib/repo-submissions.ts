@@ -1,3 +1,5 @@
+import "server-only";
+
 import { randomUUID } from "node:crypto";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";

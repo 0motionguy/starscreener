@@ -6,6 +6,8 @@
 // gray-matter parses frontmatter; the body MDX is rendered by
 // next-mdx-remote/rsc on the page.
 
+import "server-only";
+
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import matter from "gray-matter";

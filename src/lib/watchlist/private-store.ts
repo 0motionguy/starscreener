@@ -31,6 +31,8 @@
 //     caller from filling the JSONL with a 10MB watchlist. Legitimate
 //     Pro users watch dozens, not thousands.
 
+import "server-only";
+
 import { promises as fs } from "node:fs";
 import path from "node:path";
 

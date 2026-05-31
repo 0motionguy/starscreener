@@ -2,6 +2,8 @@
 // Source files are Apache 2.0 — see data/collections/NOTICE.md for
 // attribution and the resync procedure.
 
+import "server-only";
+
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { slugToId } from "./utils";

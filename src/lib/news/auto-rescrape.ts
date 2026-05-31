@@ -21,6 +21,8 @@
 //      does NOT await the child process — fire-and-forget is the whole
 //      point.
 
+import "server-only";
+
 import { spawn } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";

@@ -29,9 +29,8 @@ import type {
   RedisHandle,
   RunResult,
 } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 
-const TRENDING_KEY = 'ss:data:v1:trending';
 const TRENDING_META_KEY = 'ss:meta:v1:trending';
 const SNAPSHOT_PREFIX = 'ss:data:v1:deltas:snapshot:';
 const SNAPSHOT_INDEX_KEY = 'ss:data:v1:deltas:snapshot-index';
@@ -247,7 +246,7 @@ const fetcher: Fetcher = {
     const now = Math.floor(Date.now() / 1000);
 
     // 1) Pull current trending payload.
-    const currentJson = await readJson<TrendingPayload>(redis, TRENDING_KEY);
+    const currentJson = await readDataStore<TrendingPayload>('trending');
     if (!currentJson) {
       const message =
         'no current trending payload at ss:data:v1:trending - waiting for oss-trending';

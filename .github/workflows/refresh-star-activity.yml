@@ -5,10 +5,7 @@ name: Refresh star activity
 # The one-shot full-history backfill is a separate script that runs manually.
 
 on:
-  schedule:
-    # 03:17 UTC daily — after the metadata cron at 03:00 has populated
-    # the latest stargazers_count, before the European morning surge.
-    - cron: "17 3 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

@@ -1,4 +1,4 @@
-name: Warm Vercel routes
+name: Warm HOSTUP routes
 on:
   schedule:
     # 08:00–22:00 UTC, every 5 min — keeps the EU/US working-hours window hot.
@@ -23,7 +23,6 @@ jobs:
           - /signals
           - /compare
           - /top10
-          - /reddit/trending
           - /hackernews/trending
           - /lobsters
           - /devto
@@ -67,16 +66,8 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: warmup-probes-${{ strategy.job-index }}
-          # upload-artifact@v7 has been intermittently failing to resolve
-          # `path: .perf/probe*.json` on this self-hosted runner ("No files
-          # were found with the provided path") even when the previous step
-          # writes + cats the file successfully. Uploading the whole
-          # directory bypasses the glob expansion path entirely. Each matrix
-          # job only writes one probe file so the artifact stays single-file.
-          # `if-no-files-found: error` makes a future regression loud at
-          # upload time instead of silently breaking the summarize job.
-          path: .perf/
-          if-no-files-found: error
+          path: .perf/probe*.json
+          include-hidden-files: true
           retention-days: 14
 
   summarize:
@@ -97,7 +88,7 @@ jobs:
             jq -s '{ runAt: now | todate, results: . }' .perf/raw/probe*.json \
               > .perf/cron-warmup-summary.json
             echo "Summary:"
-            jq '.results | map({ route, status, ttfbMs, vercelCache, cacheControl }) | sort_by(.route)' \
+            jq '.results | map({ route, status, ttfbMs, edgeCache, cacheControl }) | sort_by(.route)' \
               .perf/cron-warmup-summary.json
           else
             echo "No probe outputs found." >&2
@@ -108,4 +99,5 @@ jobs:
         with:
           name: cron-warmup-summary
           path: .perf/cron-warmup-summary.json
+          include-hidden-files: true
           retention-days: 30

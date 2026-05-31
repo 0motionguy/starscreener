@@ -5,8 +5,7 @@ name: Refresh HuggingFace dataset signals
 # minute. HF's API is generous; 3h matches the trending half-life on the
 # site without burning rate budget.
 on:
-  schedule:
-    - cron: "25 */6 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

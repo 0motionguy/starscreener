@@ -1,8 +1,7 @@
 name: Refresh fast discovery
 
 on:
-  schedule:
-    - cron: "7,27,47 * * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:
@@ -51,17 +50,16 @@ jobs:
         run: node scripts/discover-recent-repos.mjs
 
       - name: Refresh Reddit mentions
+        # Reddit is intentionally paused end-to-end. Keep the step visible so
+        # re-enabling requires an explicit diff, not a silent schedule drift.
+        if: ${{ false }}
         # NOT `continue-on-error: true`. The previous setting silently
         # masked a 2-day Reddit outage (root cause: `_load-env.mjs`
         # crashed importing `@next/env` which isn't installed in this
         # job). The script is now tolerant — but if it does fail we want
         # the workflow to surface red, not green-with-stale-data.
         env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
+          REDDIT_PAUSED: "1"
           # 2026-05-17: APIFY DISABLED (operator policy — see
           # docs/POLICY-NO-APIFY.md). Reddit collector falls back to the
           # public `/r/X/new.json` path with the OAuth-app User-Agent
@@ -72,15 +70,13 @@ jobs:
           # operator sign-off on the residential-proxy budget.
           # Dual-write to TOOLBOX signal lake (trending.reddit.mentions).
           # Skipped silently when unset; never blocks the primary write.
-          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
-          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
-        run: node scripts/scrape-reddit.mjs
+        run: echo "Reddit collector paused"
 
       - name: Refresh HackerNews trending + repo mentions
         # Firebase + Algolia public endpoints — no auth needed. Writes
         # data/hackernews-trending.json + data/hackernews-repo-mentions.json.
         # Wired into the fast-refresh loop so HN mentions feed cross-signal
-        # on the same hourly cadence as Reddit (Sprint 1 finding #1).
+        # on the same fast cadence as the repo refresh.
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           # Dual-write to TOOLBOX signal lake (trending.hn.mentions).
@@ -152,22 +148,22 @@ jobs:
             data/hot-collections.json
             data/recent-repos.json
             data/repo-metadata.json
-            data/reddit-mentions.json
-            data/reddit-all-posts.json
             data/hackernews-trending.json
             data/hackernews-repo-mentions.json
-            data/_meta/reddit.json
             data/_meta/hackernews.json
             data/_meta/trending.json
             data/unknown-mentions.jsonl
             .data/trending-dual-write-trace.jsonl
 
       - name: Reddit zero-data health check
-        # Fails the workflow loudly when reddit-all-posts.json comes back
-        # with posts:[] — the silent-zero failure mode is what let a
-        # 2-day Reddit outage hide behind a green check earlier this
-        # sprint. `if: always()` so the check still runs even if the
-        # commit step skipped (no diff) or any prior step failed.
-        if: always()
-        run: |
-          node -e "const d=require('./data/reddit-all-posts.json'); const n=d.posts?.length ?? 0; console.log('reddit posts:', n); if (n < 1) { console.error('ERROR: posts:[] — check collector logs and OAuth secrets'); process.exit(2); }"
+        # Disabled with the paused Reddit collector above.
+        if: ${{ false }}
+        # Surfaces a reddit zero-data outage LOUDLY (step is marked failed in the
+        # logs) but does NOT fail the whole repo-refresh run. Reddit rides a
+        # known-degraded free provider (data-center IPs are blocked; Apify is off
+        # by cost), and the core trending/repo-metadata Redis writes + the data
+        # commit already happened above — a reddit source outage must not redden
+        # or block the repo refresh. `if: always()` runs it even when the commit
+        # step no-ops; `continue-on-error` decouples reddit from repo-data health.
+        continue-on-error: true
+        run: echo "Reddit health check paused"

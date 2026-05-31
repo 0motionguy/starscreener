@@ -1,12 +1,7 @@
 name: Sync TrustMRR revenue overlays
 
 on:
-  schedule:
-    # Every hour on :27 UTC. The "Decide mode" step below dispatches `full`
-    # (heavy, ~130 API requests) at 02:27 and `incremental` (cheap re-match
-    # against committed JSON, zero external API calls) at every other hour.
-    # Pacing well under the 20 req/min API ceiling.
-    - cron: "27 * * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
     inputs:
       mode:

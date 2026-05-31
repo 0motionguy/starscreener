@@ -1,20 +1,10 @@
-# 2026-05-17: switched from every-3h to 3x/day per operator. Free-providers-only
-# (nitter); xcancel.com removed from rotation in config/nitter-instances.json
-# because the circuit breaker stays chronically open. See docs/POLICY-NO-APIFY.md
-# for the broader "no Apify" stance. Cadence + batch sizing chosen so the
-# collector can finish each run before the 90-minute job timeout fires:
-# 50 repos × 4 queries × ~10s nitter latency ≈ 33 min wall-clock with buffer.
-# Previous every-3h × 10 repos pattern routinely timed out at 30 min (see
-# run 25983611341) which prevented `writeSourceMeta()` from running and left
-# twitter.json stale at `ts: 2026-05-04` for 13 consecutive days.
-# Follow-up: the free-provider path is now capped at 5 repos, 2 tier-1
-# queries, 1 Nitter page, and 8s per request by default. That keeps freshness
-# recoverable even when instances degrade.
+# Manual backfill for Twitter signals. Production freshness is HOSTUP worker-owned;
+# this workflow is intentionally dispatch-only to avoid GitHub runner/provider drift.
+# Historical notes about the old scheduled Nitter collector are retained in git history.
 name: Collect Twitter Signals
 
 on:
-  schedule:
-    - cron: "23 4,12,20 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
     inputs:
       limit:
@@ -34,9 +24,9 @@ on:
         required: false
         default: ""
 
-# Needed so the auto-commit step can push .data/twitter-*.jsonl back to main.
-# Vercel's serverless runtime has read-only FS, so API-mode ingest can't
-# persist — we must write locally in GH Actions and commit, same as funding.
+# Needed for manual backfills that push .data/twitter-*.jsonl back to main.
+# Production freshness is worker-owned on HOSTUP; GitHub writes are explicit
+# recovery/backfill only.
 permissions:
   contents: write
   pull-requests: write
@@ -92,10 +82,8 @@ jobs:
           # Re-enabling Apify requires reverting these commits AND operator
           # sign-off.
           TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'nitter' }}
-          # "direct" writes to .data/twitter-*.jsonl locally (so we can commit
-          # them back to main). "api" would POST to Vercel's ingest endpoint,
-          # but Vercel's filesystem is read-only / ephemeral so the writes
-          # would not persist to the /twitter page.
+          # "direct" writes to .data/twitter-*.jsonl locally for manual
+          # backfills. Production automation should use the HOSTUP worker path.
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
           TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '5' }}
           # 4 queries per repo = full tier-1 coverage. Tier 1 is the set of

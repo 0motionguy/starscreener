@@ -1,16 +1,11 @@
 name: Snapshot /consensus daily
 
-# 23:45 UTC every day — captures the live `consensus-trending` and
+# 23:55 UTC every day — captures the live `consensus-trending` and
 # `consensus-verdicts` payloads to date-keyed Redis slots so historical
 # views and the Early-Call Hall of Fame can walk back N days.
 # 90-day TTL on the destination keys.
-#
-# Staggered with snapshot-top10-sparklines (23:50) and snapshot-top10
-# (23:55) so the three daily snapshot workflows don't collide on the
-# self-hosted GH runner queue. Each gets ~5 min of dedicated runner time.
 on:
-  schedule:
-    - cron: "45 23 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

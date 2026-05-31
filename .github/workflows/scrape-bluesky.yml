@@ -1,10 +1,9 @@
 name: Refresh Bluesky signals
 
-# Bluesky is part of the fast-source /api/health budget. Keep it on an
-# hourly cadence so the 4h health threshold survives normal runner delays.
+# Bluesky is worker-owned on HOSTUP. This workflow remains manual-only for
+# emergency backfills; scheduled GitHub runs fail without production Redis and
+# create noisy data PR churn.
 on:
-  schedule:
-    - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:

@@ -57,6 +57,7 @@
     "lint:no-signin-redirect": "node scripts/check-no-direct-signin-redirect.mjs",
     "wt:health": "node scripts/check-worktree-cleanliness.mjs",
     "wt:health:strict": "node scripts/check-worktree-cleanliness.mjs --strict",
+    "verify:clerk-config": "node scripts/verify-clerk-config.mjs",
     "hooks:install": "node scripts/install-githooks.mjs",
     "verify:pool-throughput": "node scripts/verify-pool-throughput.mjs",
     "verify:sentry-wiring": "node scripts/verify-sentry-wiring.mjs",

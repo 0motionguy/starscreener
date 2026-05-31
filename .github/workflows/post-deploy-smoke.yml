@@ -58,7 +58,10 @@ jobs:
             "/drop|200"
             "/api/health?soft=1|200"
             "/api/worker/health|200"
-            "/api/health/sources|200"
+            # 207 means the health endpoint is serving but one or more
+            # upstream source breakers are open. That is source-health signal,
+            # not a failed app deploy.
+            "/api/health/sources|200,207"
           )
 
           failures=0

@@ -32,6 +32,9 @@
 
   /* Brand — Liquid Lava */
   --accent: #ff6b35;
+  /* Brand wordmark size — single token so the "make it bigger" loop
+     becomes a one-token edit, not 4 JSX commits like 2026-05-31. */
+  --brand-name-size: 22px;
   --accent-hover: #ff8458;
   --accent-dim: #c44a1f;
   --accent-soft: rgba(255, 107, 53, 0.14);
@@ -315,7 +318,7 @@ img { max-width: 100%; display: block; }
   font-weight: 800;
   box-shadow: inset 0 -1px 0 rgba(0,0,0,0.2);
 }
-.brand-name { font-size: 22px; line-height: 1; letter-spacing: -0.025em; }
+.brand-name { font-size: var(--brand-name-size); line-height: 1; letter-spacing: -0.025em; }
 .brand-name b { color: var(--accent); font-weight: 700; }
 
 .nav-group {

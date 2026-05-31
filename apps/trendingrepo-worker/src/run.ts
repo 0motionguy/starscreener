@@ -145,7 +145,7 @@ export async function runFetcher(
     recordRun();
     emitRunSummary({
       sourceId: fetcher.name,
-      status: 'ok',
+      status: result.errors.length > 0 ? 'warn' : 'ok',
       durationMs: Date.now() - t0,
       recordsIn: result.itemsSeen,
       recordsOut: result.itemsUpserted,

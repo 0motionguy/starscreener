@@ -6,7 +6,7 @@
  * a future log scraper / freshness dashboard can ingest without parsing
  * pino's full JSON envelope. The line is intentionally human-greppable:
  *
- *   [run-summary] source=<id> status=<ok|err> duration_ms=<N>
+ *   [run-summary] source=<id> status=<ok|warn|err> duration_ms=<N>
  *                 records_in=<N> records_out=<N>
  *                 contract_freshness_budget_ms=<N|missing>
  *
@@ -26,7 +26,7 @@
 
 import type { SourceContract } from './source-contract.js';
 
-export type RunSummaryStatus = 'ok' | 'err';
+export type RunSummaryStatus = 'ok' | 'warn' | 'err';
 
 export interface RunSummary {
   sourceId: string;

@@ -24,6 +24,8 @@ import {
   WINDOW_24H,
   WINDOW_30D,
 } from "./mention-windows";
+import { FAST_DATA_STALE_THRESHOLD_MS } from "./source-health-thresholds";
+import { shouldUseToolboxPayload } from "./toolbox-freshness";
 
 function slugIdFromFullName(fullName: string): string {
   return String(fullName)
@@ -254,7 +256,14 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     // Returns null on any error → fall through to the legacy data-store
     // path so a TOOLBOX outage degrades to existing behaviour.
     const toolboxFile = await tryFetchHnMentionsFromToolbox();
-    if (toolboxFile) {
+    if (
+      toolboxFile &&
+      shouldUseToolboxPayload({
+        source: "hackernews",
+        timestamp: toolboxFile.fetchedAt,
+        freshnessBudgetMs: FAST_DATA_STALE_THRESHOLD_MS,
+      })
+    ) {
       mentionsFile = toolboxFile;
       enrichHnWindowedCounts(mentionsFile);
       mentionsByLowerName = buildMentionsByLowerName(mentionsFile);

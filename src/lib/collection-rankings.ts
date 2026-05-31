@@ -44,6 +44,9 @@ export interface CollectionRankingsFile {
       issues?: CollectionRankingRow[];
     }
   >;
+  status?: "ok" | "degraded";
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 // Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
@@ -59,6 +62,18 @@ export function getCollectionRankingsFetchedAt(): string | null {
 
 export function getCollectionRankingsPeriod(): string {
   return data.period;
+}
+
+export function getCollectionRankingsStatus(): "ok" | "degraded" {
+  return data.status === "degraded" ? "degraded" : "ok";
+}
+
+export function getCollectionRankingsDataAsOf(): string | null {
+  return data.dataAsOf ?? null;
+}
+
+export function getCollectionRankingsErrorCount(): number {
+  return Array.isArray(data.errors) ? data.errors.length : 0;
 }
 
 function sortRankingRows(rows: CollectionRankingRow[]): CollectionRankingRow[] {
@@ -181,4 +196,3 @@ export function _resetCollectionRankingsCacheForTests(): void {
   lastRefreshMs = 0;
   inflight = null;
 }
-

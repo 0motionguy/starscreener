@@ -14,6 +14,8 @@ import {
   WINDOW_24H,
   WINDOW_30D,
 } from "./mention-windows";
+import { FAST_DATA_STALE_THRESHOLD_MS } from "./source-health-thresholds";
+import { shouldUseToolboxPayload } from "./toolbox-freshness";
 const REDDIT_MENTIONS_PATH = resolve(
   process.cwd(),
   "data",
@@ -263,7 +265,14 @@ export async function refreshRedditMentionsFromStore(): Promise<{
     // Phase A.2: TOOLBOX_READ_REDDIT_MENTIONS=true routes through
     // /v1/signals/leaderboard. Null return → legacy data-store path.
     const toolboxFile = await tryFetchRedditFromToolbox();
-    if (toolboxFile) {
+    if (
+      toolboxFile &&
+      shouldUseToolboxPayload({
+        source: "reddit",
+        timestamp: toolboxFile.fetchedAt,
+        freshnessBudgetMs: FAST_DATA_STALE_THRESHOLD_MS,
+      })
+    ) {
       const file = normalizeFile(toolboxFile);
       enrichWindowedCounts(file);
       const mentionsByLowerName = new Map<string, RedditRepoMention>();

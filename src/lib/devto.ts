@@ -16,6 +16,8 @@ import {
   WINDOW_24H,
   WINDOW_30D,
 } from "./mention-windows";
+import { DEVTO_STALE_THRESHOLD_MS } from "./source-health-thresholds";
+import { shouldUseToolboxPayload } from "./toolbox-freshness";
 
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
@@ -256,7 +258,14 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     // Phase A.2: TOOLBOX_READ_DEVTO_MENTIONS=true routes through
     // /v1/signals/leaderboard. Null return → legacy data-store path runs.
     const toolboxFile = await tryFetchDevtoFromToolbox();
-    if (toolboxFile) {
+    if (
+      toolboxFile &&
+      shouldUseToolboxPayload({
+        source: "devto",
+        timestamp: toolboxFile.fetchedAt,
+        freshnessBudgetMs: DEVTO_STALE_THRESHOLD_MS,
+      })
+    ) {
       mentionsFile = toolboxFile;
       enrichDevtoWindowedCounts(mentionsFile);
       mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);

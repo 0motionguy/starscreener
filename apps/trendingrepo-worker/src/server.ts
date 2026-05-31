@@ -5,6 +5,7 @@ import { getRedis } from './lib/redis.js';
 import { getLogger } from './lib/log.js';
 import { FETCHERS, SOURCE_CONTRACTS } from './registry.js';
 import { findGhostOverrides, getCachedOverrides } from './platform/overrides.js';
+import { getSchedulerRuntimeState, type SchedulerRuntimeState } from './scheduler-state.js';
 
 interface HealthState {
   ok: boolean;
@@ -20,6 +21,7 @@ interface HealthState {
    * state. Reaper job (Move 1 step 4) consumes this to archive stale rows.
    */
   ghost_overrides: string[];
+  scheduler_runtime: SchedulerRuntimeState;
 }
 
 let cached: HealthState | null = null;
@@ -102,15 +104,17 @@ async function refreshHealth(enforceScheduler = false): Promise<HealthState> {
   }
   const scheduler = schedulerHealth(enforceScheduler);
   const ghostOverrides = findGhostOverrides(FETCHERS, getCachedOverrides(), SOURCE_CONTRACTS);
+  const schedulerRuntime = getSchedulerRuntimeState();
   const state: HealthState = {
-    ok: dbOk && redisOk && scheduler.ok,
+    ok: dbOk && redisOk && scheduler.ok && schedulerRuntime.reconciliationErrors === 0,
     db: dbOk,
     redis: redisOk,
-    scheduler: scheduler.ok,
+    scheduler: scheduler.ok && schedulerRuntime.reconciliationErrors === 0,
     lastCheckAt: new Date().toISOString(),
     lastRunAt: lastRunAtMs === null ? null : new Date(lastRunAtMs).toISOString(),
     schedulerIdleSec: scheduler.idleSec,
     ghost_overrides: ghostOverrides,
+    scheduler_runtime: schedulerRuntime,
   };
   cached = state;
   cachedEnforcesScheduler = enforceScheduler;

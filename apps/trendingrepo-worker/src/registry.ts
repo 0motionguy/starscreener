@@ -44,13 +44,9 @@ import mentionsLedger from './fetchers/mentions-ledger/index.js';
 // under worker-only mode).
 import manualRepos from './fetchers/manual-repos/index.js';
 import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
-// npm / pypi side-channels — kept because they serve repo analytics
-// (package download / dependent counts referenced by the repos surface),
-// not just the now-removed MCP merger.
-import npmDownloads from './fetchers/npm-downloads/index.js';
-import pypiDownloads from './fetchers/pypi-downloads/index.js';
-import npmDependents from './fetchers/npm-dependents/index.js';
-import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
+// npm / pypi / hotness side-channels are intentionally not registered while
+// the upstream `trending-mcp` roster is retired. Leaving them scheduled only
+// republishes fresh empty payloads.
 // LLM quality signals — Artificial Analysis Intelligence Index (AA_API_KEY
 // required). The /?cat=llms surface clones the AA leaderboard.
 import lmarena from './fetchers/lmarena/index.js';
@@ -176,10 +172,6 @@ export const FETCHERS: Fetcher[] = [
   producthunt,
   twitter,
   mentionsLedger,
-  npmDownloads,
-  pypiDownloads,
-  npmDependents,
-  hotnessSnapshot,
   lmarena,
   artificialanalysis,
   openrouterModels,

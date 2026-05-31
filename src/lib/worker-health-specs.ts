@@ -128,6 +128,24 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
       "legacy MCP roster has no registered live worker producer; disabled until rollup fetcher lands",
   },
   {
+    slug: "mcp-downloads",
+    fetcher: "npm-downloads",
+    reason:
+      "MCP package downloads depend on the retired trending-mcp roster; worker fetcher is not registered until the roster is rebuilt",
+  },
+  {
+    slug: "mcp-downloads-pypi",
+    fetcher: "pypi-downloads",
+    reason:
+      "MCP package downloads depend on the retired trending-mcp roster; worker fetcher is not registered until the roster is rebuilt",
+  },
+  {
+    slug: "mcp-dependents",
+    fetcher: "npm-dependents",
+    reason:
+      "MCP dependent counts depend on the retired trending-mcp roster; worker fetcher is not registered until the roster is rebuilt",
+  },
+  {
     slug: "trending-skill",
     fetcher: "claude-skills",
     reason:

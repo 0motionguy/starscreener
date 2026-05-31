@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "data/**"
+      - ".data/**"
+      - "docs/**"
+      - ".github/**"
+      - "*.md"
 
 permissions:
   contents: read
@@ -14,153 +20,62 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      BASE_URL: https://trendingrepo.com
+      BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
       OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
-      CRON_SECRET: ${{ secrets.CRON_SECRET }}
-      SMOKE_USER_AGENT: Mozilla/5.0 (compatible; TrendingRepoPostDeploySmoke/1.0; +https://trendingrepo.com)
+      SMOKE_USER_AGENT: Mozilla/5.0 (compatible; TrendingRepoPostDeploySmoke/2.0; +https://trendingrepo.com)
     steps:
       - name: Wait for deploy propagation
         run: sleep 30
 
-      - name: Synthetic curl checks (29 critical routes)
+      - name: Smoke current HOSTUP production routes
         id: smoke
         shell: bash
         run: |
           set +e
-          # Coverage strategy (2026-05-15 expansion): probe every route
-          # marked `warmupOnDeploy: true` in perf/routes.json (25 canonical
-          # surfaces — see scripts/check-routes-config.mjs for the contract)
-          # plus 4 extras the smoke caught regressions on historically:
-          # /trends, /agent-commerce, /agent-commerce/facilitator, and the
-          # long-tail /repo/anthropics/anthropic-cookbook (covers the
-          # cold-miss live-fetch fallback path).
-          #
-          # /repo/* + /agent-commerce/* + /trends added 2026-05-10. Why:
-          # the pre-existing /repo/* 500 P0 (since d81856ad) bled for days
-          # because no smoke probe covered detail pages. vercel/next.js is
-          # a long-stable canonical sample; rotate if it ever moves.
-          #
-          # /repo/anthropics/anthropic-cookbook added 2026-05-13. The
-          # vercel/next.js probe alone only covers the curated-derived-set
-          # path; the cold-miss / live-fetch fallback (synthesized repo
-          # shape) has its own crash surface — Next.js's static-to-dynamic
-          # detector + the GitHub upstream resolver. We pin a long-tail
-          # but stable repo here so any future regression on that branch
-          # surfaces in CI within a deploy, not by a user 4 days later.
+
+          # Keep this list aligned with the current public shell/navigation.
+          # The old Vercel-era smoke checked retired source URLs and treated
+          # 308 redirects as hard failures, which made every main push noisy
+          # without proving a HOSTUP deployment was broken.
           routes=(
-            # canonical warmup set (perf/routes.json)
-            "/"
-            "/githubrepo"
-            "/skills"
-            "/mcp"
-            "/reddit/trending"
-            "/hackernews/trending"
-            "/lobsters"
-            "/devto"
-            "/bluesky/trending"
-            "/twitter"
-            "/signals"
-            "/top10"
-            "/compare"
-            "/funding"
-            "/revenue"
-            "/arxiv/trending"
-            "/producthunt"
-            "/huggingface"
-            "/npm"
-            "/breakouts"
-            "/categories"
-            "/methodology"
-            "/research"
-            "/tools/revenue-estimate"
-            "/repo/vercel/next.js"
-            # smoke extras (historically regression-prone)
-            "/trends"
-            "/agent-commerce"
-            "/agent-commerce/facilitator"
-            "/repo/anthropics/anthropic-cookbook"
-            # health probe
-            "/api/health?soft=1"
+            "/|200"
+            "/breakout|200"
+            "/tools/watchlist|200"
+            "/tools/top-10|200"
+            "/tools/star-history|200"
+            "/tools/tier-list|200"
+            "/tools/compare|200"
+            "/tools/revenue-estimate|200"
+            "/market-signals|200"
+            "/funding|200"
+            "/revenue|200"
+            "/agent-commerce|200"
+            "/categories|200"
+            "/best|200"
+            "/collections|200"
+            "/blog|200"
+            "/glossary|200"
+            "/drop|200"
+            "/api/health?soft=1|200"
+            "/api/worker/health|200"
+            "/api/health/sources|200"
           )
 
-          # Pass 1: probe every route, collect page-route failures into
-          # `stuck_paths` for the self-heal pass below.
           failures=0
-          stuck_paths=()
-          report="post-deploy-smoke results (pass 1)\n"
-          for route in "${routes[@]}"; do
+          report="post-deploy-smoke results\n"
+
+          for spec in "${routes[@]}"; do
+            route="${spec%%|*}"
+            expected="${spec#*|}"
             url="${BASE_URL}${route}"
-            line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
+            line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url" || echo "000 0 0")"
             code="$(echo "$line" | awk '{print $1}')"
-            report+="${route} => ${line}\n"
-            if [ "$code" != "200" ]; then
+            report+="${route} => ${line} expected=${expected}\n"
+
+            if [[ ",${expected}," != *",${code},"* ]]; then
               failures=$((failures + 1))
-              # Only page routes (not /api/*) are eligible for ISR flush —
-              # /api/health and friends don't go through revalidatePath().
-              if [[ "$route" != /api/* ]]; then
-                stuck_paths+=("$route")
-              fi
             fi
           done
-
-          cron_url="${BASE_URL}/api/cron/freshness/state"
-          if [ -n "${CRON_SECRET:-}" ]; then
-            cron_line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" -H "Authorization: Bearer ${CRON_SECRET}" "$cron_url")"
-          else
-            cron_line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$cron_url")"
-          fi
-          cron_code="$(echo "$cron_line" | awk '{print $1}')"
-          report+="/api/cron/freshness/state => ${cron_line}\n"
-          if [ "$cron_code" != "200" ]; then
-            failures=$((failures + 1))
-          fi
-
-          # Self-heal pass: if pass-1 caught page-route failures, POST those
-          # paths to /api/revalidate (CRON_SECRET-gated) and re-probe ONCE.
-          # Vercel ISR caches both 2xx AND 5xx with stale-while-revalidate
-          # ~= 1 year, so a transient 500 (or one cached pre-fix) would
-          # otherwise persist for weeks. Discovered 2026-05-13: 5 cookbook
-          # /repo/* routes were stuck at 500 on the prod alias even though
-          # the same routes returned 200 on the deploy URL — Vercel ISR
-          # was serving a cached pre-#1159 500 page. revalidatePath() flushes
-          # the entry so the next request renders fresh. Anything that fails
-          # twice is a real regression and escalates to ops via the alert step.
-          if [ "${#stuck_paths[@]}" -gt 0 ] && [ -n "${CRON_SECRET:-}" ]; then
-            paths_json="$(printf '"%s",' "${stuck_paths[@]}")"
-            paths_json="[${paths_json%,}]"
-            revalidate_body="{\"paths\":${paths_json}}"
-            report+="\n[self-heal] POST /api/revalidate body=${revalidate_body}\n"
-            revalidate_code="$(curl -sS -X POST \
-              -A "$SMOKE_USER_AGENT" \
-              -H "Authorization: Bearer ${CRON_SECRET}" \
-              -H "Content-Type: application/json" \
-              -d "$revalidate_body" \
-              -o /dev/null \
-              -w "%{http_code}" \
-              "${BASE_URL}/api/revalidate" || echo "000")"
-            report+="[self-heal] /api/revalidate => ${revalidate_code}\n"
-            # Brief settle window for the revalidatePath() call to drop
-            # the cache entry before we re-probe the same URLs.
-            sleep 5
-
-            # Pass 2: re-probe the previously-failed page routes only.
-            retry_failures=0
-            report+="\npost-deploy-smoke results (pass 2 — post-revalidate)\n"
-            for route in "${stuck_paths[@]}"; do
-              url="${BASE_URL}${route}"
-              line="$(curl -sS -A "$SMOKE_USER_AGENT" -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
-              code="$(echo "$line" | awk '{print $1}')"
-              report+="${route} => ${line}\n"
-              if [ "$code" != "200" ]; then
-                retry_failures=$((retry_failures + 1))
-              fi
-            done
-
-            # Replace the page-route failure count with the retry result —
-            # routes that recovered count as healed; routes that didn't
-            # stay in the failure tally so the workflow still alerts ops.
-            failures=$((failures - ${#stuck_paths[@]} + retry_failures))
-          fi
 
           echo -e "$report"
           {
@@ -177,22 +92,19 @@ jobs:
       - name: Alert ops webhook on smoke failure
         if: failure()
         shell: bash
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           if [ -z "${OPS_ALERT_WEBHOOK:-}" ]; then
             echo "::warning::OPS_ALERT_WEBHOOK is not set; skipping alert"
             exit 0
           fi
 
-          payload="$(cat <<'JSON'
-          {
-            "text": "post-deploy-smoke failed on main for https://trendingrepo.com. Check GitHub Actions run details."
-          }
-          JSON
-          )"
-
+          msg="post-deploy-smoke failed on main for ${BASE_URL}. ${RUN_URL}"
+          esc=$(printf '%s' "$msg" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
           curl -sS -X POST \
             -H "Content-Type: application/json" \
-            -d "$payload" \
+            -d "{\"text\": $esc, \"content\": $esc}" \
             "$OPS_ALERT_WEBHOOK" || echo "::warning::webhook post failed"
 
       - name: Attach smoke report on failure

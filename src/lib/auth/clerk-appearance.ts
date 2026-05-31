@@ -76,24 +76,29 @@ export const clerkAppearance: Appearance = {
       "bg-[#101418] hover:bg-[#1a2026]",
       "hover:border-[#ff6b35]",
       "!text-white",
-      "py-4 px-5",
+      "!py-5 px-6",
       "transition-colors",
-      "justify-start gap-3",
+      "justify-start gap-4",
+      "min-h-[60px]",
     ].join(" "),
     socialButtonsBlockButtonText:
-      "!text-white font-semibold text-base",
-    socialButtonsProviderIcon: "!opacity-100 w-6 h-6",
-    // Operator decree 2026-05-31: social-only Sign up modal. Hide the
-    // email/password form (first/last/email/password + CONTINUE) and the
-    // "OR" divider so the 3 OAuth providers are the only path forward.
-    // Email-password auth stays available at the /sign-up hosted page —
-    // this only affects the in-place modal.
-    dividerRow: "hidden",
-    form: "hidden",
-    formFieldRow: "hidden",
-    formButtonPrimary: "hidden",
-    formFieldLabel: "hidden",
-    formFieldInput: "hidden",
+      "!text-white !font-bold !text-[17px]",
+    socialButtonsProviderIcon:
+      "!opacity-100 !filter-none !grayscale-0 !w-7 !h-7 !brightness-100",
+    // Operator decree 2026-05-31: social-only Sign up modal. The plain
+    // "hidden" Tailwind class lost the specificity war with Clerk's
+    // own display:flex; switching to "!hidden" forces display:none!important.
+    dividerRow: "!hidden",
+    dividerLine: "!hidden",
+    dividerText: "!hidden",
+    form: "!hidden",
+    formField: "!hidden",
+    formFieldRow: "!hidden",
+    formButtonPrimary: "!hidden",
+    formFieldLabel: "!hidden",
+    formFieldInput: "!hidden",
+    formFieldAction: "!hidden",
+    formResendCodeLink: "!hidden",
     dividerLine: "bg-[#222a32]",
     dividerText: "text-[#6b7785] text-xs uppercase tracking-wider",
     formFieldLabel: "text-[#f1f5f9] text-sm font-medium mb-1.5",

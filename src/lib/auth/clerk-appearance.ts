@@ -72,9 +72,9 @@ export const clerkAppearance: Appearance = {
       "!grid-cols-1 !flex !flex-col gap-3 w-full",
     socialButtonsBlockButton: [
       "w-full",
-      "border border-[#2a323b]",
+      "!border !border-[#ff6b35]/40",
       "bg-[#101418] hover:bg-[#1a2026]",
-      "hover:border-[#ff6b35]",
+      "hover:!border-[#ff6b35]",
       "!text-white",
       "!py-5 px-6",
       "transition-colors",
@@ -84,7 +84,13 @@ export const clerkAppearance: Appearance = {
     socialButtonsBlockButtonText:
       "!text-white !font-bold !text-[17px]",
     socialButtonsProviderIcon:
-      "!opacity-100 !filter-none !grayscale-0 !w-7 !h-7 !brightness-100",
+      "!opacity-100 !w-7 !h-7 !brightness-100",
+    // Per-provider icon overrides: GitHub + X marks are monochrome
+    // BLACK silhouettes — invisible on our #101418 button bg. Invert
+    // them to white. Google stays untouched (its mark is multicolor).
+    socialButtonsProviderIcon__github: "!invert",
+    socialButtonsProviderIcon__x: "!invert",
+    socialButtonsProviderIcon__twitter: "!invert",
     // Operator decree 2026-05-31: social-only Sign up modal. The plain
     // "hidden" Tailwind class lost the specificity war with Clerk's
     // own display:flex; switching to "!hidden" forces display:none!important.

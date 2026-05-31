@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T12:57:29.882Z",
+  "generatedAt": "2026-05-31T14:28:36.519Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -898,6 +898,38 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 990,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "vercel-labs/skills",
+      "rank": 47,
+      "completenessScore": 66,
+      "breakdown": {
+        "required": 25,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 15
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "both",
+      "priority": 987,
       "lastSweptAt": null
     },
     {
@@ -1830,14 +1862,14 @@
     "byAction": {
       "enrich": 0,
       "sweep": 34,
-      "both": 25,
+      "both": 26,
       "noop": 0
     },
     "p10Score": 48,
     "p50Score": 56,
     "channelsFiringHistogram": {
       "0": 13,
-      "1": 34,
+      "1": 35,
       "2": 10,
       "3": 2,
       "4": 0,

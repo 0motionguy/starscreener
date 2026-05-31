@@ -16,6 +16,11 @@ import {
   countTrendingRows,
   readFallbackSources,
 } from './fallback.js';
+import {
+  buildGithubCollectionRankingsFallback,
+  buildHotCollectionsFromRankings,
+  readGithubCollectionFallbackSources,
+} from '../collection-rankings/fallback.js';
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
 const LANGUAGES = ['All', 'Python', 'TypeScript', 'Rust', 'Go'] as const;
@@ -78,6 +83,7 @@ export interface HotCollectionsPayload {
   status?: 'ok' | 'degraded';
   dataAsOf?: string | null;
   errors?: Array<{ stage: string; message: string }>;
+  source?: string;
 }
 
 const sleep = (ms: number): Promise<void> =>
@@ -197,8 +203,9 @@ const fetcher: Fetcher = {
 
     let hotRows: NormalizedHotCollectionRow[] = [];
     let preservedHotRows = 0;
+    let githubHotRows = 0;
     let missingHotFallback = false;
-    const hotErrors: Array<{ stage: string; message: string }> = [];
+    const hotPayloadErrors: Array<{ stage: string; message: string }> = [];
     try {
       const { data } = await ctx.http.json<OssEnvelope<HotCollectionRow>>(
         HOT_COLLECTIONS_URL,
@@ -211,7 +218,23 @@ const fetcher: Fetcher = {
     } catch (err) {
       const message = (err as Error).message;
       const priorRows = hotRowsFromPayload(priorHotCollections);
-      if (priorRows.length > 0) {
+      const githubFallback = buildGithubCollectionRankingsFallback(
+        await readGithubCollectionFallbackSources(),
+        fetchedAt,
+      );
+      const fallbackRows = buildHotCollectionsFromRankings(githubFallback);
+      if (fallbackRows.length > 0) {
+        hotRows = fallbackRows;
+        githubHotRows = hotRows.length;
+        ctx.log.warn(
+          { err: message, rows: hotRows.length },
+          'hot collections fetch failed - serving github-metadata fallback rows',
+        );
+        errors.push({
+          stage: 'hot-collections',
+          message: `${message} (served ${hotRows.length} github-metadata fallback)`,
+        });
+      } else if (priorRows.length > 0) {
         hotRows = priorRows;
         preservedHotRows = priorRows.length;
         ctx.log.warn(
@@ -223,12 +246,12 @@ const fetcher: Fetcher = {
           message: `${message} (preserved ${priorRows.length} cached)`,
         };
         errors.push(preserved);
-        hotErrors.push(preserved);
+        hotPayloadErrors.push(preserved);
       } else {
         ctx.log.error({ err: message }, 'hot collections fetch failed');
         const failed = { stage: 'hot-collections', message };
         errors.push(failed);
-        hotErrors.push(failed);
+        hotPayloadErrors.push(failed);
         missingHotFallback = true;
       }
     }
@@ -237,7 +260,7 @@ const fetcher: Fetcher = {
       error.stage.startsWith('bucket:'),
     );
     const trendStatus = trendErrors.length > 0 ? 'degraded' : 'ok';
-    const hotStatus = hotErrors.length > 0 ? 'degraded' : 'ok';
+    const hotStatus = hotPayloadErrors.length > 0 ? 'degraded' : 'ok';
     const trendsPayload: TrendingPayload = {
       fetchedAt,
       buckets,
@@ -252,13 +275,16 @@ const fetcher: Fetcher = {
       fetchedAt,
       rows: hotRows,
       status: hotStatus,
+      ...(githubHotRows > 0 && hotPayloadErrors.length === 0
+        ? { source: 'github-metadata-fallback' }
+        : {}),
       dataAsOf:
         hotStatus === 'degraded'
           ? priorHotCollections?.dataAsOf ??
             priorHotCollections?.fetchedAt ??
             null
           : fetchedAt,
-      ...(hotErrors.length > 0 ? { errors: hotErrors } : {}),
+      ...(hotPayloadErrors.length > 0 ? { errors: hotPayloadErrors } : {}),
     };
 
     let trendsSource: 'redis' | 'preserved' = 'preserved';
@@ -335,6 +361,7 @@ const fetcher: Fetcher = {
         hotCollections: hotRows.length,
         preservedTrendRows,
         preservedHotRows,
+        githubHotRows,
         trendingRedis: trendsSource,
         hotRedis: hotSource,
       },

@@ -48,7 +48,7 @@ async function refreshHealth(): Promise<HealthState> {
       await handle.set('tr:healthcheck', new Date().toISOString(), { ex: 60 });
       redisOk = true;
     } else {
-      redisOk = true; // disabled-by-config counts as healthy
+      redisOk = env.NODE_ENV !== 'production';
     }
   } catch (err) {
     log.warn(`healthcheck redis: ${(err as Error).message}`);

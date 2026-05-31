@@ -20,6 +20,8 @@
 // Client components must `import type { RepoComment }` so the runtime
 // module never bundles into the browser chunk.
 
+import "server-only";
+
 import { randomUUID } from "node:crypto";
 
 import {

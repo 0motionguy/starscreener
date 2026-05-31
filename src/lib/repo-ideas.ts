@@ -13,6 +13,8 @@
 // mtime-cached per file (ideas + reactions) — same pattern as
 // src/lib/repo-reasons.ts.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 

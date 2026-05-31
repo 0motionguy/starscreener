@@ -5,6 +5,8 @@
 // digest — no per-user rule events (those come from the weekly digest
 // cron for users who opt in). CTA invites them back to /breakouts.
 
+import "server-only";
+
 import { createHmac } from "node:crypto";
 
 const SITE = "https://trendingrepo.com";

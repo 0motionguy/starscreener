@@ -23,7 +23,7 @@ import {
   GALLERY_THEMES,
   type GalleryThemeName,
 } from "@/lib/charts/public-themes";
-import type { StarActivityPayload, StarActivityScale } from "@/lib/star-activity";
+import type { StarActivityPayload, StarActivityScale } from "@/lib/star-activity-shared";
 
 interface ThemeLabProps {
   geom: ChartGeometry;

@@ -9,9 +9,8 @@
 // Auth: CRON_SECRET bearer (verifyCronAuth) — same posture as every
 // other cron route.
 //
-// Per source we read its last `fetchedAt` from the per-source loader
-// (e.g. `getRedditFetchedAt` from src/lib/reddit-data.ts) and hand it
-// off to `triggerScanIfStale`, which itself classifies freshness and
+// Per source we read its last `fetchedAt` from the per-source loader and hand
+// it off to `triggerScanIfStale`, which itself classifies freshness and
 // throttles. This route is therefore safe to call as often as the cron
 // scheduler likes — the throttle lives downstream.
 
@@ -27,7 +26,6 @@ import { devtoFetchedAt } from "@/lib/devto";
 import { hnFetchedAt } from "@/lib/hackernews";
 import { lobstersFetchedAt } from "@/lib/lobsters";
 import { producthuntFetchedAt } from "@/lib/producthunt";
-import { getRedditFetchedAt } from "@/lib/reddit-data";
 
 export const runtime = "nodejs";
 
@@ -45,7 +43,6 @@ type SourceProbe = {
 // not a JSON file, and there's no `scripts/scrape-twitter.mjs` for the
 // auto-rescrape spawner to invoke.
 const SOURCE_PROBES: SourceProbe[] = [
-  { source: "reddit", read: () => getRedditFetchedAt() },
   { source: "hackernews", read: () => hnFetchedAt },
   { source: "bluesky", read: () => blueskyFetchedAt },
   { source: "devto", read: () => devtoFetchedAt },
@@ -58,6 +55,10 @@ const SOURCE_PROBES: SourceProbe[] = [
 // response with an explicit skip reason so an operator inspecting the
 // payload knows the cron didn't silently drop them.
 const SKIPPED_SOURCES: { source: string; reason: string }[] = [
+  {
+    source: "reddit",
+    reason: "disabled: live Reddit collection is paused until OAuth client credentials are enabled",
+  },
   {
     source: "twitter",
     reason: "no-fetchedat-helper: twitter freshness comes from scan ingestion",

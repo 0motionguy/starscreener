@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const ENV_KEYS = [
   'DATA_STORE_DISABLE',
+  'NODE_ENV',
   'REDIS_URL',
   'UPSTASH_REDIS_REST_URL',
   'UPSTASH_REDIS_REST_TOKEN',
@@ -32,5 +33,17 @@ describe('worker healthcheck', () => {
     const { oneShotHealthcheck } = await import('../src/server.js');
 
     await expect(oneShotHealthcheck()).resolves.toBe(0);
+  });
+
+  it('fails production health when Redis is disabled', async () => {
+    for (const key of ENV_KEYS) delete process.env[key];
+    process.env.NODE_ENV = 'production';
+    process.env.DATA_STORE_DISABLE = '1';
+
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    const { oneShotHealthcheck } = await import('../src/server.js');
+
+    await expect(oneShotHealthcheck()).resolves.toBe(1);
   });
 });

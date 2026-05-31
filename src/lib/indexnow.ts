@@ -26,11 +26,11 @@ export function getIndexNowKey(): string | null {
   // LITERAL "\r\n" (backslash-r-backslash-n as text, from a mis-saved env
   // file) which plain .trim() can't remove — it made getIndexNowKey() return
   // null, so the /<key>.txt verification file 404'd and IndexNow never worked.
-  // Strip literal \r\n\t escape sequences AND real control/whitespace, then
+  // Strip literal \r\n\t escape sequences and real line controls, then
   // validate. (The env var should also be cleaned at source.)
   const k = raw
     .replace(/\\[rnt]/g, "")
-    .replace(/[\r\n\t ]/g, "")
+    .replace(/[\r\n\t]/g, "")
     .trim();
   if (!k) return null;
   // Spec: 8-128 chars, [a-zA-Z0-9-]

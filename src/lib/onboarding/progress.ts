@@ -14,6 +14,8 @@
 // a schema change we don't want to land in the same PR. Revisit when
 // submissions move to a Drizzle table.
 
+import "server-only";
+
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { db } from "@/lib/db/client";

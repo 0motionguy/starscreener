@@ -11,6 +11,8 @@
 // Shorter default lifetime (7 days) than user sessions (30 days) because
 // admin is higher-privilege. Operators can re-log-in once a week.
 
+import "server-only";
+
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { AdminFatalError } from "@/lib/errors";
 

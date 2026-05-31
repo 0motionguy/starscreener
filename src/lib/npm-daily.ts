@@ -16,6 +16,8 @@
 //   - Returns [] when the file is missing, unreadable, or the package has
 //     no rows.
 
+import "server-only";
+
 import { readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

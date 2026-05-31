@@ -13,6 +13,8 @@
 // Both sources are surfaced by this module; the UI decides which one to
 // render and how.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

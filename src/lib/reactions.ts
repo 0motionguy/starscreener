@@ -19,6 +19,8 @@
 // `@/lib/reactions-shape` instead — never from here. The re-exports below
 // keep every server-side consumer on one import path.
 
+import "server-only";
+
 import { randomUUID } from "node:crypto";
 
 import {

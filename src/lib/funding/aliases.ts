@@ -16,6 +16,8 @@
 // Contract:
 //   getFundingAliasRegistry() -> Map<lowercaseRepoFullName, FundingAliasEntry>
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

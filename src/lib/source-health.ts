@@ -74,6 +74,11 @@ const DEVTO_DEGRADED_THRESHOLD_MS = 24 * 60 * 60 * 1000;
 const NPM_DEGRADED_THRESHOLD_MS = 36 * 60 * 60 * 1000;
 const MAX_FUTURE_CLOCK_SKEW_MS = 5 * 60 * 1000;
 
+// Live Reddit collection is paused on HOSTUP until OAuth client credentials are
+// intentionally provisioned. Historical Reddit readers stay available, but
+// scanner health must not fail the fleet on a disabled source.
+export const LIVE_REDDIT_SCANNER_ENABLED = false;
+
 export type ScannerSourceId =
   | "reddit"
   | "hackernews"
@@ -104,8 +109,9 @@ export interface ScannerSourceHealth {
 
 export async function refreshScannerSourceHealthFromStore(): Promise<void> {
   await Promise.allSettled([
-    refreshRedditMentionsFromStore(),
-    refreshRedditAllPostsFromStore(),
+    ...(LIVE_REDDIT_SCANNER_ENABLED
+      ? [refreshRedditMentionsFromStore(), refreshRedditAllPostsFromStore()]
+      : []),
     refreshHackernewsMentionsFromStore(),
     refreshBlueskyMentionsFromStore(),
     refreshLobstersMentionsFromStore(),
@@ -224,30 +230,60 @@ function buildSourceHealth(args: {
 }
 
 export function getScannerSourceHealth(): ScannerSourceHealth[] {
-  const redditFile = getRedditFile();
-  const redditAllPosts = getAllPostsFile();
-  const redditFetchedAt = getRedditFetchedAt();
-  const redditCold = isRedditCold(redditFile);
-  const redditScannedSubreddits = redditFile.scannedSubreddits.length;
-  const redditFailedSubreddits = redditFile.failedSubreddits ?? 0;
-  const redditSuccessfulSubreddits =
-    redditFile.successfulSubreddits ??
-    Math.max(0, redditScannedSubreddits - redditFailedSubreddits);
-  const redditLowCoverage =
-    !redditCold &&
-    redditSuccessfulSubreddits > 0 &&
-    redditFile.scannedPostsTotal < redditSuccessfulSubreddits * 25;
-  const redditNotes: string[] = [];
-  if (redditFile.fallbackUsed) {
-    redditNotes.push("OAuth degraded; scraper fell back to public JSON.");
-  }
-  if (redditFailedSubreddits > 0) {
-    redditNotes.push(
-      `${redditFailedSubreddits} subreddit fetches failed in the last run.`,
-    );
-  }
-  if (redditLowCoverage) {
-    redditNotes.push("Reddit sample size landed below the expected scan floor.");
+  let redditSource: ScannerSourceHealth | null = null;
+  if (LIVE_REDDIT_SCANNER_ENABLED) {
+    const redditFile = getRedditFile();
+    const redditAllPosts = getAllPostsFile();
+    const redditFetchedAt = getRedditFetchedAt();
+    const redditCold = isRedditCold(redditFile);
+    const redditScannedSubreddits = redditFile.scannedSubreddits.length;
+    const redditFailedSubreddits = redditFile.failedSubreddits ?? 0;
+    const redditSuccessfulSubreddits =
+      redditFile.successfulSubreddits ??
+      Math.max(0, redditScannedSubreddits - redditFailedSubreddits);
+    const redditLowCoverage =
+      !redditCold &&
+      redditSuccessfulSubreddits > 0 &&
+      redditFile.scannedPostsTotal < redditSuccessfulSubreddits * 25;
+    const redditNotes: string[] = [];
+    if (redditFile.fallbackUsed) {
+      redditNotes.push("OAuth degraded; scraper fell back to public JSON.");
+    }
+    if (redditFailedSubreddits > 0) {
+      redditNotes.push(
+        `${redditFailedSubreddits} subreddit fetches failed in the last run.`,
+      );
+    }
+    if (redditLowCoverage) {
+      redditNotes.push("Reddit sample size landed below the expected scan floor.");
+    }
+    redditSource = buildSourceHealth({
+      id: "reddit",
+      label: "Reddit",
+      provider: "Reddit Data API",
+      cadence: "20m",
+      fetchedAt: redditFetchedAt,
+      staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
+      degradedAfterMs: FAST_20M_DEGRADED_THRESHOLD_MS,
+      cold: redditCold,
+      degraded:
+        redditFile.fallbackUsed === true ||
+        redditFailedSubreddits > 0 ||
+        redditLowCoverage,
+      metrics: {
+        authMode: redditFile.authMode ?? null,
+        effectiveFetchMode: redditFile.effectiveFetchMode ?? null,
+        fallbackUsed: redditFile.fallbackUsed === true,
+        scannedSubreddits: redditScannedSubreddits,
+        successfulSubreddits: redditSuccessfulSubreddits,
+        failedSubreddits: redditFailedSubreddits,
+        scannedPostsTotal: redditFile.scannedPostsTotal,
+        reposWithMentions: Object.keys(redditFile.mentions).length,
+        leaderboardRows: redditFile.leaderboard?.length ?? 0,
+        mergedAllPosts: redditAllPosts.totalPosts,
+      },
+      notes: redditNotes,
+    });
   }
 
   const hnFile = getHnFile();
@@ -332,30 +368,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   return [
-    buildSourceHealth({
-      id: "reddit",
-      label: "Reddit",
-      provider: "Reddit Data API",
-      cadence: "20m",
-      fetchedAt: redditFetchedAt,
-      staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
-      degradedAfterMs: FAST_20M_DEGRADED_THRESHOLD_MS,
-      cold: redditCold,
-      degraded: redditFile.fallbackUsed === true || redditFailedSubreddits > 0 || redditLowCoverage,
-      metrics: {
-        authMode: redditFile.authMode ?? null,
-        effectiveFetchMode: redditFile.effectiveFetchMode ?? null,
-        fallbackUsed: redditFile.fallbackUsed === true,
-        scannedSubreddits: redditScannedSubreddits,
-        successfulSubreddits: redditSuccessfulSubreddits,
-        failedSubreddits: redditFailedSubreddits,
-        scannedPostsTotal: redditFile.scannedPostsTotal,
-        reposWithMentions: Object.keys(redditFile.mentions).length,
-        leaderboardRows: redditFile.leaderboard?.length ?? 0,
-        mergedAllPosts: redditAllPosts.totalPosts,
-      },
-      notes: redditNotes,
-    }),
+    ...(redditSource === null ? [] : [redditSource]),
     buildSourceHealth({
       id: "hackernews",
       label: "Hacker News",

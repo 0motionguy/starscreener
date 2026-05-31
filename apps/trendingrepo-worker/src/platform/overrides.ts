@@ -37,6 +37,7 @@
 import { mkdirSync, readFileSync, renameSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { getDb } from '../lib/db.js';
+import { loadEnv } from '../lib/env.js';
 import { getLogger } from '../lib/log.js';
 import type { Fetcher } from '../lib/types.js';
 import type { SourceContract } from './source-contract.js';
@@ -54,6 +55,32 @@ const REFRESH_INTERVAL_MS_DEFAULT = 60_000;
 
 let cachedOverrides: Map<string, SourceOverride> = new Map();
 let refreshTimer: NodeJS.Timeout | null = null;
+let loggedMissingDbConfig = false;
+
+export function hasOverrideDbConfig(
+  env: Pick<ReturnType<typeof loadEnv>, 'SUPABASE_URL' | 'SUPABASE_SERVICE_ROLE'>,
+): boolean {
+  return Boolean(env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE);
+}
+
+function loadCachedOrEmpty(logMessage: string): Map<string, SourceOverride> {
+  const log = getLogger();
+  const fromCache = readCache();
+  if (fromCache) {
+    cachedOverrides = new Map(fromCache.map((r) => [r.source_id, r]));
+    log.info(
+      { count: fromCache.length, source: 'cache' },
+      'source overrides loaded from cache',
+    );
+    return cachedOverrides;
+  }
+  cachedOverrides = new Map();
+  if (!loggedMissingDbConfig) {
+    log.info(logMessage);
+    loggedMissingDbConfig = true;
+  }
+  return cachedOverrides;
+}
 
 /**
  * Load overrides from Supabase with a 2-second timeout, fall back to the
@@ -62,6 +89,9 @@ let refreshTimer: NodeJS.Timeout | null = null;
  */
 export async function loadOverrides(): Promise<Map<string, SourceOverride>> {
   const log = getLogger();
+  if (!hasOverrideDbConfig(loadEnv())) {
+    return loadCachedOrEmpty('source overrides db not configured; assuming all sources active');
+  }
   const t0 = Date.now();
   try {
     const rows = await Promise.race<SourceOverride[]>([
@@ -82,18 +112,7 @@ export async function loadOverrides(): Promise<Map<string, SourceOverride>> {
       { err: (err as Error).message, durationMs: Date.now() - t0 },
       'source overrides db load failed; falling back to cache',
     );
-    const fromCache = readCache();
-    if (fromCache) {
-      cachedOverrides = new Map(fromCache.map((r) => [r.source_id, r]));
-      log.info(
-        { count: fromCache.length, source: 'cache' },
-        'source overrides loaded from cache',
-      );
-      return cachedOverrides;
-    }
-    cachedOverrides = new Map();
-    log.warn('no source overrides cache present; assuming all sources active');
-    return cachedOverrides;
+    return loadCachedOrEmpty('no source overrides cache present; assuming all sources active');
   }
 }
 

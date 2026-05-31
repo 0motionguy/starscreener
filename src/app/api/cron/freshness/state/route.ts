@@ -149,12 +149,6 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(6),
   },
   {
-    name: "reddit",
-    metaSource: "reddit",
-    redisSlugs: ["reddit-mentions", "reddit-all-posts"],
-    ...hours(6),
-  },
-  {
     name: "reddit-baselines",
     redisSlugs: ["reddit-baselines"],
     ...days(8),

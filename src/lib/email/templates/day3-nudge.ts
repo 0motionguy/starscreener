@@ -5,6 +5,8 @@
 // CTA links to /you/alerts?preset=breakout (same target as the welcome email)
 // so the activation path is consistent.
 
+import "server-only";
+
 import { createHmac } from "node:crypto";
 
 const SITE = "https://trendingrepo.com";

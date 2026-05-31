@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
 import pkg from "./package.json";
+import { renderCsp } from "./src/lib/csp/manifest";
 
 // Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
 // production build, dumping interactive HTML reports to .next/analyze/.
@@ -335,19 +336,10 @@ const nextConfig: NextConfig = {
   //   - frame-ancestors 'none' is the X-Frame-Options DENY equivalent; both
   //     are emitted because some scanners only check the legacy header.
   async headers() {
-    const csp = [
-      "default-src 'self'",
-      "img-src 'self' data: https: blob:",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev https://clerk.trendingrepo.com https://challenges.cloudflare.com https://static.cloudflareinsights.com https://*.vercel-analytics.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' data: https://fonts.gstatic.com",
-      "worker-src 'self' blob:",
-      "connect-src 'self' https: wss: data:",
-      "frame-src 'self' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev https://challenges.cloudflare.com",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self' https://*.clerk.dev https://*.clerk.com https://*.clerk.accounts.dev",
-    ].join("; ");
+    // CSP is now declared in src/lib/csp/manifest.ts so new third-party
+    // hosts get added in one place and the check-csp-completeness lint
+    // catches hard-coded HTTPS URLs that aren't allow-listed (D.6).
+    const csp = renderCsp();
 
     return [
       {

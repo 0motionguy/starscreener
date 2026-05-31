@@ -15,6 +15,8 @@
 // which is the default-safe posture for an operator who hasn't wired a
 // Slack/Discord URL yet.
 
+import "server-only";
+
 import { promises as fs, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 

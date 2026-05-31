@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# .githooks/pre-commit — parallel-agent contract guardrails (D.3).
+#
+# Why this hook exists (2026-05-31 hardening, after the cleanup branch
+# merge debacle):
+#
+#   - Another swarm session flipped the working tree from
+#     cleanup/2026-05-30-hygiene back to bot/swarm-a6-producthunt-reader
+#     mid-edit THREE times in 24h, causing changes to land on the wrong
+#     branch.
+#   - Two agents ran `git add -A` and `git add .` simultaneously, so
+#     agent A's `git add file-a` landed in agent B's `git commit` and
+#     vice versa. Staging is shared mutable state; commits are durable
+#     history (memory: feedback_no_push_without_approval).
+#   - A producthunt-deletion commit got attached to a branch named
+#     producthunt-reader, killing the active feature work.
+#
+# This hook catches two of the common failure modes BEFORE the commit
+# becomes durable history:
+#
+#   1. Cross-directory commits that look like accidental `git add -A`
+#      (> 30 files spanning > 5 top-level dirs).
+#   2. Commits on bot/swarm-* branches from the main `/c/dev/trendingrepo`
+#      checkout (swarm work belongs in `trendingrepo-wt/<slot>/`).
+#
+# Activation (one-time, per local checkout):
+#   npm run hooks:install
+#
+# Bypass (rare, only when you actually meant the wide change):
+#   git commit --no-verify
+#
+# This hook NEVER runs in CI — purely local guardrail.
+
+set -euo pipefail
+
+# Skip in CI just in case
+if [ -n "${CI:-}" ]; then exit 0; fi
+if [ -n "${GITHUB_ACTIONS:-}" ]; then exit 0; fi
+
+BRANCH="$(git symbolic-ref --short HEAD 2>/dev/null || echo "(detached)")"
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+
+# --- guard 1: swarm branch must NOT be committed from the main checkout ---
+# Heuristic: main checkout is typically `c:/dev/trendingrepo` or
+# `/c/dev/trendingrepo`. Swarm worktrees live at `trendingrepo-wt/<slot>/`.
+case "$BRANCH" in
+  bot/swarm-*)
+    case "$ROOT" in
+      *trendingrepo-wt*) ;;  # swarm worktree — allowed
+      *)
+        echo >&2 "[pre-commit] REFUSED — commits on $BRANCH should happen in a swarm worktree,"
+        echo >&2 "             not the main checkout ($ROOT)."
+        echo >&2 ""
+        echo >&2 "Move to your assigned worktree (per docs/SWARM-2x2.md):"
+        echo >&2 "  cd c:/dev/trendingrepo-wt/<your-slot>"
+        echo >&2 ""
+        echo >&2 "Bypass (only if this is intentional):"
+        echo >&2 "  git commit --no-verify"
+        exit 1
+        ;;
+    esac
+    ;;
+esac
+
+# --- guard 2: refuse commits that look like accidental `git add -A` ---
+STAGED_COUNT=$(git diff --cached --name-only | wc -l | tr -d ' ')
+if [ "$STAGED_COUNT" -gt 30 ]; then
+  TOPDIR_COUNT=$(git diff --cached --name-only | awk -F/ '{print $1}' | sort -u | wc -l | tr -d ' ')
+  if [ "$TOPDIR_COUNT" -gt 5 ]; then
+    echo >&2 "[pre-commit] REFUSED — $STAGED_COUNT staged files spanning $TOPDIR_COUNT top-level"
+    echo >&2 "             directories looks like accidental 'git add -A' / 'git add .'."
+    echo >&2 ""
+    echo >&2 "Top-level dirs in this commit:"
+    git diff --cached --name-only | awk -F/ '{print $1}' | sort -u | sed 's/^/  - /'
+    echo >&2 ""
+    echo >&2 "If this is intentional (e.g. mass rename, hardening sweep), bypass with:"
+    echo >&2 "  git commit --no-verify"
+    echo >&2 ""
+    echo >&2 "Otherwise stage specific files: git add path/to/file1 path/to/file2 ..."
+    exit 1
+  fi
+fi
+
+exit 0

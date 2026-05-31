@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * @internal
  * Per-repo Twitter signal sync reader. Consumed only by ./trending-tweets.ts

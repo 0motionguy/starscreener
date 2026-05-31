@@ -14,6 +14,8 @@
 // have to change in lockstep — they read whatever's in the cache, which
 // is updated by the refresh hook.
 
+import "server-only";
+
 import { readFileSync, statSync } from "fs";
 import { resolve } from "path";
 

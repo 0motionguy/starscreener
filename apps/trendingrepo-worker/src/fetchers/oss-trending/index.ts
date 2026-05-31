@@ -14,6 +14,11 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import {
+  buildFallbackTrendingPayload,
+  countTrendingRows,
+  readFallbackSources,
+} from './fallback.js';
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
 const LANGUAGES = ['All', 'Python', 'TypeScript', 'Rust', 'Go'] as const;
@@ -203,13 +208,34 @@ const fetcher: Fetcher = {
       const res = await writeDataStore('trending', trendsPayload);
       trendsSource = res.source;
     } else {
-      ctx.log.error(
-        'oss-trending: ALL buckets empty (api.ossinsight.io down?) — preserving last-known-good `trending` slug instead of overwriting with empty',
+      const fallbackPayload = buildFallbackTrendingPayload(
+        await readFallbackSources(),
+        fetchedAt,
       );
-      errors.push({
-        stage: 'guard-trending',
-        message: 'all buckets empty; preserved last-known-good trending slug',
-      });
+      if (fallbackPayload) {
+        const fallbackRows = countTrendingRows(fallbackPayload);
+        const res = await writeDataStore('trending', fallbackPayload, {
+          writer: 'worker:oss-trending:fallback',
+        });
+        totalRows = fallbackRows;
+        trendsSource = res.source;
+        ctx.log.warn(
+          { fallbackRows },
+          'oss-trending: ALL buckets empty; published internal fallback trending payload',
+        );
+        errors.push({
+          stage: 'fallback-trending',
+          message: `all OSSInsight buckets empty; published ${fallbackRows} internal fallback rows`,
+        });
+      } else {
+        ctx.log.error(
+          'oss-trending: ALL buckets empty (api.ossinsight.io down?) — preserving last-known-good `trending` slug instead of overwriting with empty',
+        );
+        errors.push({
+          stage: 'guard-trending',
+          message: 'all buckets empty; preserved last-known-good trending slug',
+        });
+      }
     }
     if (hotRows.length > 0) {
       const res = await writeDataStore('hot-collections', hotPayload);

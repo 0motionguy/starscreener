@@ -17,7 +17,7 @@ import Link from "next/link";
 import { AuroraChart, AURORA, compactNumber, shortDate } from "@/components/charts/AuroraChart";
 import { Icon } from "@/components/icon/Icon";
 import type { Repo } from "@/lib/types";
-import type { StarActivityPayload } from "@/lib/star-activity";
+import type { StarActivityPayload } from "@/lib/star-activity-shared";
 import type { DailyDownload } from "@/lib/npm-daily";
 
 export type ChartRange = "1m" | "3m" | "6m" | "1y" | "all";

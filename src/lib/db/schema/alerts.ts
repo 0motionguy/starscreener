@@ -18,6 +18,8 @@
 // `bucket = floor(now / cooldown_seconds)`. ON CONFLICT DO NOTHING is
 // the dedup mechanism — we never query "did this fire?" before insert.
 
+import "server-only";
+
 import { sql } from "drizzle-orm";
 import {
   boolean,

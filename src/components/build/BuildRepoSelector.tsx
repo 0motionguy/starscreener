@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 import type { Repo } from "@/lib/types";
 
 interface BuildRepoSelectorProps {
@@ -86,9 +87,13 @@ export function BuildRepoSelector({
             <span>Detect star spikes and documentation changes</span>
             <span>No write access required for review-only mode</span>
           </div>
-          <Link className="btn primary" href="/sign-in?redirect_url=/build">
+          <AuthGateButton
+            className="btn primary"
+            redirectUrl="/build"
+            authenticatedHref="/build"
+          >
             Sign in with GitHub
-          </Link>
+          </AuthGateButton>
         </div>
 
         {selectedRepo ? (

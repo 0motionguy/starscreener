@@ -1,4 +1,4 @@
-// POST /api/admin/scan  { source: "reddit" | "bluesky" | ... }
+// POST /api/admin/scan  { source: "bluesky" | "hackernews" | ... }
 //
 // Operator escape hatch for the scrape pipeline: when a scheduled scan
 // silently drops a source (Reddit anti-bot, Bluesky auth lapse, etc), the
@@ -31,7 +31,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const SCRIPTS: Record<string, string> = {
-  reddit: "scripts/scrape-reddit.mjs",
   bluesky: "scripts/scrape-bluesky.mjs",
   devto: "scripts/scrape-devto.mjs",
   hackernews: "scripts/scrape-hackernews.mjs",
@@ -73,10 +72,6 @@ const CHILD_ENV_ALLOW = [
   "DATA_STORE_DISABLE",
   // Per-source scraper credentials. Add when a new scrape:* script needs
   // a non-public token.
-  "REDDIT_CLIENT_ID",
-  "REDDIT_CLIENT_SECRET",
-  "REDDIT_USER_AGENT",
-  "REDDIT_USER_AGENTS",
   "BLUESKY_HANDLE",
   "BLUESKY_APP_PASSWORD",
   "GITHUB_TOKEN",

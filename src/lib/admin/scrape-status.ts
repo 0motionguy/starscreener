@@ -26,7 +26,6 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 export const COLLECTORS = [
-  "reddit",
   "hackernews",
   "bluesky",
   "devto",
@@ -73,7 +72,6 @@ export interface ScrapeStatus {
 // can evolve their thresholds without touching public surfaces.
 const HOUR_MS = 60 * 60 * 1_000;
 const BUDGET_MS: Record<CollectorName, number> = {
-  reddit: 4 * HOUR_MS,
   hackernews: 4 * HOUR_MS,
   bluesky: 4 * HOUR_MS,
   devto: 26 * HOUR_MS,
@@ -89,7 +87,6 @@ const BUDGET_MS: Record<CollectorName, number> = {
 // payload. Used purely for signal-count derivation; missing files are
 // treated as `signalCount = null`, not an error.
 const DATA_FILE: Record<CollectorName, string> = {
-  reddit: "data/reddit-all-posts.json",
   hackernews: "data/hackernews-trending.json",
   bluesky: "data/bluesky-trending.json",
   devto: "data/devto-trending.json",
@@ -105,7 +102,6 @@ const DATA_FILE: Record<CollectorName, string> = {
 // primary array of items. When the file is itself an array we ignore
 // this map.
 const DATA_ARRAY_KEY: Record<CollectorName, string> = {
-  reddit: "posts",
   hackernews: "stories",
   bluesky: "items",
   devto: "items",

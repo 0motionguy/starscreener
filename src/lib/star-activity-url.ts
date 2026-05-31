@@ -4,7 +4,7 @@
 // chart toggles and the /api/og/star-activity endpoint consume the same
 // shape, so a copy-pasted URL reproduces the exact chart and the exact card.
 
-import type { StarActivityMode, StarActivityScale } from "./star-activity";
+import type { StarActivityMode, StarActivityScale } from "./star-activity-shared";
 import { absoluteUrl } from "./seo";
 
 export type LegendCorner = "tr" | "tl" | "br" | "bl";

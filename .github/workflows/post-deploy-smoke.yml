@@ -179,6 +179,26 @@ jobs:
             exit 1
           fi
 
+      # D.4 — extra surfaces beyond the 29-route check.
+      # Each step is INDEPENDENT and SURFACES INDIVIDUALLY in the run UI
+      # so on failure the cause is obvious (Clerk satellite vs CSP vs
+      # sidebar mark vs route 5xx).
+
+      - name: Smoke — Clerk satellite + CORS
+        if: success() || failure()
+        run: node scripts/smoke-clerk-satellite.mjs
+        env:
+          SATELLITE: https://clerk.trendingrepo.com
+          ORIGIN: ${{ env.BASE_URL }}
+
+      - name: Smoke — CSP completeness
+        if: success() || failure()
+        run: node scripts/smoke-csp.mjs
+
+      - name: Smoke — sidebar brand mark in HTML
+        if: success() || failure()
+        run: node scripts/smoke-sidebar-mark.mjs
+
       - name: Alert ops webhook on smoke failure
         if: failure()
         shell: bash

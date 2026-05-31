@@ -16,6 +16,8 @@
 //
 // Pure server-only — uses readFileSync for the bundled-snapshot tier.
 
+import "server-only";
+
 import { readFileSync, statSync } from "fs";
 import { resolve } from "path";
 

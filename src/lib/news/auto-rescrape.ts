@@ -21,6 +21,8 @@
 //      does NOT await the child process — fire-and-forget is the whole
 //      point.
 
+import "server-only";
+
 import { spawn } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -31,7 +33,6 @@ import { classifyFreshness, type NewsSource } from "@/lib/news/freshness";
 // by hand: any new collector added there should land here too. Sources
 // not present in this map will return reason "no-script".
 const SCRIPTS: Record<string, string> = {
-  reddit: "scripts/scrape-reddit.mjs",
   bluesky: "scripts/scrape-bluesky.mjs",
   devto: "scripts/scrape-devto.mjs",
   hackernews: "scripts/scrape-hackernews.mjs",
@@ -42,6 +43,8 @@ const SCRIPTS: Record<string, string> = {
   trending: "scripts/scrape-trending.mjs",
   "funding-news": "scripts/scrape-funding-news.mjs",
 };
+
+const DISABLED_SOURCES = new Set<NewsSource>(["reddit"]);
 
 const LOG_DIR = path.join(process.cwd(), ".data", "admin-scan-runs");
 
@@ -70,6 +73,10 @@ export async function triggerScanIfStale(
   fetchedAt: string | null | undefined,
 ): Promise<{ triggered: boolean; reason: string }> {
   try {
+    if (DISABLED_SOURCES.has(source)) {
+      return { triggered: false, reason: "disabled" };
+    }
+
     const verdict = classifyFreshness(source, fetchedAt);
     if (verdict.status === "live") {
       return { triggered: false, reason: "live" };

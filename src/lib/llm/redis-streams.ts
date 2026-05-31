@@ -10,6 +10,8 @@
 // All methods return null/empty on Redis miss so the aggregator route can
 // degrade gracefully without throwing.
 
+import "server-only";
+
 export interface StreamEntry {
   id: string;
   fields: Record<string, string>;

@@ -13,6 +13,8 @@
 // upstream, the bundled seed serves as a static snapshot and the
 // freshness chrome reports the seed's age. We never invent numbers.
 
+import "server-only";
+
 import { resolve } from "path";
 import { readFileSync } from "fs";
 

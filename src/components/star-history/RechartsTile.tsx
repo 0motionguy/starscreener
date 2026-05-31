@@ -32,7 +32,7 @@ import {
   YAxis,
 } from "recharts";
 
-import type { StarActivityPayload } from "@/lib/star-activity";
+import type { StarActivityPayload } from "@/lib/star-activity-shared";
 
 export type RechartsVariant =
   | "aurora"

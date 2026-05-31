@@ -12,6 +12,8 @@
 // Cached by mtime — the file is rewritten in bulk after each pipeline
 // recompute, so a single mtime stamp is enough to invalidate.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 

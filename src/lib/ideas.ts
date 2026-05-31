@@ -20,6 +20,8 @@
 // `server-only` package is added to deps, an explicit guard belongs at
 // the top of this module.
 
+import "server-only";
+
 import { randomBytes } from "node:crypto";
 
 import { AdminRecoverableError } from "@/lib/errors";

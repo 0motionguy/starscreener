@@ -1,3 +1,5 @@
+import "server-only";
+
 import * as Sentry from "@sentry/nextjs";
 
 import { getDataStore, type RedisClientLike } from "./data-store";

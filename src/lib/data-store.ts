@@ -28,6 +28,8 @@
 // MODELED AFTER
 //   src/lib/api/rate-limit-store.ts — same Upstash-with-memory-fallback
 //   pattern, same factory shape, same one-shot warn discipline.
+//
+import "server-only";
 
 import { dirname, resolve } from "path";
 import { DataStoreFatalError } from "@/lib/errors";

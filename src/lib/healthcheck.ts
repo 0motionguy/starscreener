@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * Healthchecks.io cron wrapper for trendingrepo Vercel routes.
  * Mirrors AISO `lib/healthcheck.ts`. See that file for full doc.

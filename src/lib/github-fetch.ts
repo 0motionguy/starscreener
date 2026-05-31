@@ -25,6 +25,8 @@
 //   - Returns null on persistent network errors so callers can branch on
 //     success without try/catch noise.
 
+import "server-only";
+
 import * as Sentry from "@sentry/nextjs";
 
 import { posthogCapture } from "./analytics/posthog";

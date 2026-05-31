@@ -25,6 +25,8 @@
 // crypto module (for the content hash). It is safe to import from the
 // cron route without pulling the scanner surface.
 
+import "server-only";
+
 import { createHash } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";

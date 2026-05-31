@@ -1,6 +1,8 @@
 // Runtime loader for the bucketed revenue benchmarks produced by
 // scripts/compute-revenue-benchmarks.mjs. Consumed by /tools/revenue-estimate.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

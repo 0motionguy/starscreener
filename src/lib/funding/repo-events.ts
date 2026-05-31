@@ -8,6 +8,8 @@
 // repo-metadata source changes. A miss on either does no work and returns []
 // — this is a read-only overlay, not something the render path can rely on.
 
+import "server-only";
+
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 

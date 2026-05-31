@@ -3,7 +3,7 @@ import type { Fetcher } from './lib/types.js';
 import bluesky from './fetchers/bluesky/index.js';
 import hackernews from './fetchers/hackernews/index.js';
 import devto from './fetchers/devto/index.js';
-import reddit from './fetchers/reddit/index.js';
+import producthunt from './fetchers/producthunt/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
 // Phase B Group 1 (signals)
 import ossTrending from './fetchers/oss-trending/index.js';
@@ -19,6 +19,9 @@ import fundingNews from './fetchers/funding-news/index.js';
 import xFunding from './fetchers/x-funding/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
+// Live Reddit collection is intentionally paused until the operator provisions
+// OAuth client-credentials on HOSTUP. Keep weekly baselines registered because
+// they are a separate slow-moving snapshot.
 import redditBaselines from './fetchers/reddit-baselines/index.js';
 import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
@@ -178,7 +181,7 @@ export const FETCHERS: Fetcher[] = [
   bluesky,
   hackernews,
   devto,
-  reddit,
+  producthunt,
   twitter,
   mentionsLedger,
   npmDownloads,

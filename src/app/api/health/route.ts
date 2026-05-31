@@ -9,6 +9,10 @@ import { after, NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import type { CollectionRankingsCoverage } from "@/lib/collection-rankings";
 import {
+  getHealthHttpStatusForStatus,
+  type HealthStatus,
+} from "@/lib/health-status";
+import {
   DEVTO_STALE_THRESHOLD_MS,
   FAST_DATA_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
@@ -27,8 +31,6 @@ const SOFT_HEALTH_PUBLIC_HEADERS = {
 const SOFT_HEALTH_ERROR_HEADERS = { "Cache-Control": "no-store" } as const;
 const DETAIL_HEALTH_HEADERS = { "Cache-Control": "private, no-store" } as const;
 const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
-
-type HealthStatus = "ok" | "stale" | "error";
 
 interface HealthBody {
   status: HealthStatus;
@@ -141,7 +143,6 @@ type SoftHealthKey =
   | "recentRepos"
   | "repoMetadata"
   | "collectionRankings"
-  | "reddit"
   | "bluesky"
   | "hn"
   | "producthunt"
@@ -183,11 +184,6 @@ const SOFT_HEALTH_KEYS: Array<{
     id: "collectionRankings",
     storeKey: "collection-rankings",
     thresholdMs: RANKINGS_STALE_THRESHOLD_MS,
-  },
-  {
-    id: "reddit",
-    storeKey: "reddit-mentions",
-    thresholdMs: FAST_DATA_STALE_THRESHOLD_MS,
   },
   {
     id: "bluesky",
@@ -657,7 +653,7 @@ export async function GET(
     }
 
     return NextResponse.json(body, {
-      status: anyStale && !soft ? 503 : 200,
+      status: getHealthHttpStatusForStatus(body.status, soft),
       headers: includeDetail ? DETAIL_HEALTH_HEADERS : undefined,
     });
   } catch (err) {

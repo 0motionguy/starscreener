@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * @internal
  * In-memory + JSONL persistence for Twitter ingest. Consumed only by

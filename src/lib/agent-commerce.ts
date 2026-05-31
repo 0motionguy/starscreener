@@ -11,6 +11,8 @@
 //
 // Shape mirrors src/lib/funding-news.ts.
 
+import "server-only";
+
 import { readFileSync, statSync } from "fs";
 import { resolve } from "path";
 

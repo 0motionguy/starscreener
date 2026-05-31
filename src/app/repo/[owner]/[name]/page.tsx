@@ -297,9 +297,7 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
   const user = await getOptionalUser();
   const clerkUserId = user?.clerkUserId ?? null;
   const signedIn = user !== null;
-  const signInUrl = `/sign-in?redirect_url=${encodeURIComponent(
-    `/repo/${owner}/${name}`,
-  )}`;
+  const authRedirectUrl = `/repo/${owner}/${name}`;
 
   // Comments + reactions (loaded once on the server; the client widgets
   // hydrate with these as seed values).
@@ -381,7 +379,7 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
           unicornStatus={unicornStatus}
           commentsCount={comments.length}
           signedIn={signedIn}
-          signInUrl={signInUrl}
+          signInUrl={authRedirectUrl}
         />
 
         {/* 2. Owner / Repo snapshot — absorbs language breakdown + org card */}
@@ -432,7 +430,7 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
           comments={comments}
           initialReactions={initialReactions}
           currentUserId={clerkUserId}
-          signInUrl={signInUrl}
+          signInUrl={authRedirectUrl}
         />
 
         {/* 8. Dates — closing card with machine-readable <time> */}

@@ -207,6 +207,14 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
   const showDropdown =
     open && query.trim().length >= MIN_QUERY && (loading || results !== null);
 
+  useEffect(() => {
+    const el = dropdownRef.current;
+    if (!showDropdown || !anchorRect || !el) return;
+    el.style.setProperty("--search-dropdown-top", `${anchorRect.bottom + 6}px`);
+    el.style.setProperty("--search-dropdown-left", `${anchorRect.left}px`);
+    el.style.setProperty("--search-dropdown-width", `${anchorRect.width}px`);
+  }, [anchorRect, showDropdown]);
+
   return (
     <header className="topbar">
       <button className="hamburger" data-toggle="sidebar" aria-label="Toggle sidebar">
@@ -221,7 +229,7 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
               const sep = i > 0 ? <span className={`sep${c.sub ? " crumb-sub" : ""}`}>/</span> : null;
               const label = last ? <b>{c.label}</b> : c.href ? <Link href={c.href}>{c.label}</Link> : <span className={c.sub ? "crumb-sub" : undefined}>{c.label}</span>;
               return (
-                <span key={`${c.label}-${i}`} style={{ display: "contents" }}>
+                <span key={`${c.label}-${i}`} className="crumb-part">
                   {sep}
                   {label}
                 </span>
@@ -233,7 +241,7 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
         )}
       </div>
 
-      <div ref={wrapRef} className="searchbar" style={{ position: "relative" }}>
+      <div ref={wrapRef} className="searchbar">
         <Icon name="search" size="md" />
         <input
           ref={searchRef}
@@ -319,25 +327,10 @@ interface SearchDropdownProps {
 function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRef, onHover, onPick }: SearchDropdownProps) {
   if (typeof document === "undefined" || !anchorRect) return null;
 
-  const panelStyle: React.CSSProperties = {
-    position: "fixed",
-    top: anchorRect.bottom + 6,
-    left: anchorRect.left,
-    width: anchorRect.width,
-    background: "var(--surface)",
-    border: "1px solid var(--border)",
-    borderRadius: 6,
-    boxShadow: "0 18px 40px rgba(0,0,0,0.55)",
-    zIndex: 5000,
-    maxHeight: 480,
-    overflowY: "auto",
-    padding: 4,
-  };
-
   if (loading && !results) {
     return createPortal(
-      <div ref={panelRef} style={panelStyle} role="listbox">
-        <div style={emptyStyle}>Searching…</div>
+      <div ref={panelRef} className="search-dropdown" role="listbox">
+        <div className="search-empty">Searching…</div>
       </div>,
       document.body,
     );
@@ -345,8 +338,8 @@ function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRe
 
   if (results && results.repos.length === 0 && results.llms.length === 0) {
     return createPortal(
-      <div ref={panelRef} style={panelStyle} role="listbox">
-        <div style={emptyStyle}>
+      <div ref={panelRef} className="search-dropdown" role="listbox">
+        <div className="search-empty">
           No results for <b>{results.query}</b>
         </div>
       </div>,
@@ -358,7 +351,7 @@ function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRe
 
   let runningIdx = 0;
   return createPortal(
-    <div ref={panelRef} style={panelStyle} role="listbox">
+    <div ref={panelRef} className="search-dropdown" role="listbox">
       {results.repos.length > 0 && (
         <>
           <SectionHeader label="Repos" count={results.totals?.repos ?? results.repos.length} />
@@ -400,47 +393,13 @@ function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRe
   );
 }
 
-const emptyStyle: React.CSSProperties = {
-  padding: "16px 14px",
-  color: "var(--fg-dim)",
-  fontSize: 13,
-  fontFamily: "var(--font-sans)",
-};
-
 function SectionHeader({ label, count }: { label: string; count: number }) {
   return (
-    <div
-      style={{
-        padding: "10px 12px 6px",
-        fontSize: 10,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        color: "var(--fg-dim)",
-        fontWeight: 700,
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
+    <div className="search-section-head">
       <span>{label}</span>
       <span>{count}</span>
     </div>
   );
-}
-
-function rowStyle(active: boolean): React.CSSProperties {
-  return {
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    padding: "8px 10px",
-    borderRadius: 4,
-    cursor: "pointer",
-    background: active ? "var(--surface-hi, rgba(255,255,255,0.06))" : "transparent",
-    color: "var(--fg-bright)",
-    fontFamily: "var(--font-sans)",
-    fontSize: 13,
-    lineHeight: 1.3,
-  };
 }
 
 function RepoRow({ repo, active, onMouseEnter, onClick }: { repo: RepoHit; active: boolean; onMouseEnter: () => void; onClick: () => void }) {
@@ -449,7 +408,7 @@ function RepoRow({ repo, active, onMouseEnter, onClick }: { repo: RepoHit; activ
       type="button"
       onMouseEnter={onMouseEnter}
       onClick={onClick}
-      style={{ ...rowStyle(active), border: 0, width: "100%", textAlign: "left" }}
+      className={`search-row${active ? " is-active" : ""}`}
     >
       {repo.ownerAvatarUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -458,24 +417,24 @@ function RepoRow({ repo, active, onMouseEnter, onClick }: { repo: RepoHit; activ
           alt=""
           width={20}
           height={20}
-          style={{ borderRadius: 4, flex: "0 0 20px" }}
+          className="search-row-avatar"
           loading="lazy"
           decoding="async"
         />
       ) : (
-        <span style={{ width: 20, height: 20, borderRadius: 4, background: "var(--border)", flex: "0 0 20px" }} />
+        <span className="search-row-avatar search-row-avatar-fallback" />
       )}
-      <span style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
-        <span style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 600 }}>
+      <span className="search-row-body">
+        <span className="search-row-title">
           {repo.fullName}
         </span>
         {repo.description && (
-          <span style={{ display: "block", color: "var(--fg-dim)", fontSize: 12, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <span className="search-row-subtitle">
             {repo.description}
           </span>
         )}
       </span>
-      <span style={{ color: "var(--fg-dim)", fontSize: 12, flex: "0 0 auto" }}>
+      <span className="search-row-meta">
         {formatStars(repo.stars)}★
       </span>
     </button>
@@ -488,21 +447,21 @@ function LlmRow({ llm, active, onMouseEnter, onClick }: { llm: LlmHit; active: b
       type="button"
       onMouseEnter={onMouseEnter}
       onClick={onClick}
-      style={{ ...rowStyle(active), border: 0, width: "100%", textAlign: "left" }}
+      className={`search-row${active ? " is-active" : ""}`}
     >
-      <span style={{ width: 20, height: 20, borderRadius: 4, background: "var(--border)", color: "var(--fg-bright)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flex: "0 0 20px" }}>
+      <span className="search-row-avatar search-row-ai">
         AI
       </span>
-      <span style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
-        <span style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 600 }}>
+      <span className="search-row-body">
+        <span className="search-row-title">
           {llm.name}
         </span>
-        <span style={{ display: "block", color: "var(--fg-dim)", fontSize: 12, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <span className="search-row-subtitle">
           {llm.creator}
         </span>
       </span>
       {typeof llm.intelligenceIndex === "number" && (
-        <span style={{ color: "var(--fg-dim)", fontSize: 12, flex: "0 0 auto" }}>
+        <span className="search-row-meta">
           II {llm.intelligenceIndex}
         </span>
       )}

@@ -24,6 +24,7 @@ import {
   TIERS,
   type TierDefinition,
 } from "@/lib/pricing/tiers";
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { CheckoutLauncher } from "@/components/pricing/CheckoutLauncher";
 
 export const revalidate = 3600;
@@ -245,6 +246,7 @@ const FAQS: readonly { q: string; a: string }[] = [
 // ---------------------------------------------------------------------------
 
 export default function PricingPage() {
+  const authEnabled = Boolean(getClerkPublishableKey());
   const pro = TIERS.pro;
   const proPrice = pro.priceMonthlyUsd ?? 6.5;
   const proYearly = pro.priceYearlyUsd ?? 60;
@@ -261,7 +263,7 @@ export default function PricingPage() {
           POST /api/checkout/stripe → redirect to Stripe. Suspense-wrapped
           because it reads useSearchParams on this ISR page. */}
       <Suspense fallback={null}>
-        <CheckoutLauncher />
+        <CheckoutLauncher authEnabled={authEnabled} />
       </Suspense>
 
       {/* ─────────────────── HERO ─────────────────── */}

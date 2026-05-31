@@ -8,7 +8,7 @@
 // `"use client"`-adjacent file or import page-internal types. Pure math, no
 // React. Server-renderable.
 
-import type { StarActivityPayload, StarActivityScale } from "@/lib/star-activity";
+import type { StarActivityPayload, StarActivityScale } from "@/lib/star-activity-shared";
 
 // Canonical viewBox geometry — every SVG renderer that shares ChartGeometry
 // MUST use this same viewBox so the math lines up. Keep in sync with the

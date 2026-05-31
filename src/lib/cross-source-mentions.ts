@@ -12,6 +12,8 @@
 // src/lib/consensus-verdicts.ts). Call refreshCrossSourceMentionsFromStore()
 // in the render path — see src/lib/refresh-mentions.ts.
 
+import "server-only";
+
 import { createPayloadReader } from "./data-store-reader";
 
 import type {

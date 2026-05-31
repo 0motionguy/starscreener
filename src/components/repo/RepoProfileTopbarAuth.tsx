@@ -41,14 +41,15 @@ export function RepoProfileTopbarAuth() {
 
   if (!mounted) {
     return (
-      <Link
-        href="/sign-in"
+      <button
+        type="button"
         className={`${styles.btn} ${styles.btnPrimary}`}
         aria-busy="true"
+        disabled
       >
         <Icon name="user" />
         <span>Sign in</span>
-      </Link>
+      </button>
     );
   }
 
@@ -60,14 +61,15 @@ function ClerkState() {
 
   if (!isLoaded) {
     return (
-      <Link
-        href="/sign-in"
+      <button
+        type="button"
         className={`${styles.btn} ${styles.btnPrimary}`}
         aria-busy="true"
+        disabled
       >
         <Icon name="user" />
         <span>Sign in</span>
-      </Link>
+      </button>
     );
   }
 

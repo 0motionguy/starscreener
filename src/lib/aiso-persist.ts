@@ -22,6 +22,8 @@
 // the path via `STARSCREENER_REPO_PROFILES_PATH` serialize against that same
 // path, not against the default.
 
+import "server-only";
+
 import { promises as fs } from "node:fs";
 import path from "node:path";
 

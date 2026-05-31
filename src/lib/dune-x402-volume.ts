@@ -7,6 +7,8 @@
 // fallback. Slug "dune-x402-volume" reserved for when the writer wires
 // writeDataStore().
 
+import "server-only";
+
 import { readFileSync } from "fs";
 import { resolve } from "path";
 

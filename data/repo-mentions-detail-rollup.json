@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-31T13:48:18.545Z",
-  "scanRunId": "sweep-2026-05-31T13:48:10.895Z",
+  "computedAt": "2026-05-31T19:19:25.114Z",
+  "scanRunId": "sweep-2026-05-31T19:19:16.756Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -34,6 +34,19 @@
         "hackernews": {
           "count7d": 12,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://news.ycombinator.com/item?id=48345691",
+              "title": "Ask HN: Corporate Disconnect Between \"Tokenmaxxing\" and Token Optimization",
+              "text": "About 6 months ago I joined a new team within a top ten F500 company. My new boss strictly mandated AI use with the key principle being: &quot;You shouldn&#x27;t be manually writing any code&quot;.<p>Since then its been all agents, skills, MCP, harnesses, custom in-house frameworks, and running Opus 4.7 high non-stop.<p>Now at a company level, there are &quot;encouraged attendance&quot; workshops getting scheduled to learn how to optimize one&#x27;s token use now that API pricing is becoming the",
+              "author": "mc-0",
+              "engagement": {
+                "score": 4,
+                "comments": 4
+              },
+              "observedAt": "2026-05-31T13:53:06.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
@@ -85,19 +98,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-26T08:05:14.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
-              "url": "https://arxiv.org/abs/2605.23904",
-              "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
-              "text": "",
-              "author": "simonpure",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-25T13:38:20.000Z"
             }
           ]
         }
@@ -1013,10 +1013,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 16,
+      "totalMentions7d": 17,
       "perSource": {
         "hackernews": {
-          "count7d": 16,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -1654,8 +1654,26 @@
     },
     "Lum1104/Understand-Anything": {
       "fullName": "Lum1104/Understand-Anything",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "Lum1104/Understand-Anything",
+              "url": "https://news.ycombinator.com/item?id=48345691",
+              "title": "Ask HN: Corporate Disconnect Between \"Tokenmaxxing\" and Token Optimization",
+              "text": "About 6 months ago I joined a new team within a top ten F500 company. My new boss strictly mandated AI use with the key principle being: &quot;You shouldn&#x27;t be manually writing any code&quot;.<p>Since then its been all agents, skills, MCP, harnesses, custom in-house frameworks, and running Opus 4.7 high non-stop.<p>Now at a company level, there are &quot;encouraged attendance&quot; workshops getting scheduled to learn how to optimize one&#x27;s token use now that API pricing is becoming the",
+              "author": "mc-0",
+              "engagement": {
+                "score": 4,
+                "comments": 4
+              },
+              "observedAt": "2026-05-31T13:53:06.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 6,
           "top": [
@@ -3558,10 +3576,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 76,
+      "totalMentions7d": 57,
       "perSource": {
         "hackernews": {
-          "count7d": 76,
+          "count7d": 57,
           "top": [
             {
               "source": "hackernews",
@@ -3572,7 +3590,7 @@
               "author": "simonw",
               "engagement": {
                 "score": 1088,
-                "comments": 1240
+                "comments": 1241
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
             },
@@ -3584,23 +3602,10 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 409,
-                "comments": 463
+                "score": 412,
+                "comments": 464
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/secluso/core",
-              "title": "Show HN: Open-source private home security camera system (end-to-end encryption)",
-              "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
-              "author": "arrdalan",
-              "engagement": {
-                "score": 120,
-                "comments": 28
-              },
-              "observedAt": "2026-05-29T22:32:29.000Z"
             },
             {
               "source": "hackernews",
@@ -3610,10 +3615,23 @@
               "text": "",
               "author": "Muhammad523",
               "engagement": {
-                "score": 119,
-                "comments": 15
+                "score": 159,
+                "comments": 22
               },
               "observedAt": "2026-05-31T00:25:12.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/secluso/core",
+              "title": "Show HN: Open-source private home security camera system (end-to-end encryption)",
+              "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
+              "author": "arrdalan",
+              "engagement": {
+                "score": 123,
+                "comments": 28
+              },
+              "observedAt": "2026-05-29T22:32:29.000Z"
             },
             {
               "source": "hackernews",
@@ -5848,10 +5866,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 12,
+      "totalMentions7d": 16,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 16,
           "top": [
             {
               "source": "hackernews",
@@ -5874,7 +5892,7 @@
               "text": "",
               "author": "vrganj",
               "engagement": {
-                "score": 460,
+                "score": 461,
                 "comments": 12
               },
               "observedAt": "2026-05-30T08:00:20.000Z"
@@ -5913,7 +5931,7 @@
               "text": "",
               "author": "littlexsparkee",
               "engagement": {
-                "score": 38,
+                "score": 39,
                 "comments": 7
               },
               "observedAt": "2026-05-30T18:35:59.000Z"
@@ -7992,7 +8010,7 @@
               "text": "¡Nueva terminal para programadores! Pensada especialmente para uso con IA. ✓ Solo 7MB. Rendimiento brutal ✓ Para Windows, macOS y Linux ✓ Editor, Git, agentes y preview web ✓ Sin telemetría ni registro Gratis y de código abierto: github.com/crynta/terax-ai",
               "author": "midu.dev",
               "engagement": {
-                "score": 0,
+                "score": 2,
                 "comments": 0
               },
               "observedAt": "2026-05-31T13:01:57.574Z"
@@ -8425,7 +8443,7 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 5,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -8446,7 +8464,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -8477,19 +8495,6 @@
             {
               "source": "bluesky",
               "fullName": "colbymchenry/codegraph",
-              "url": "https://bsky.app/profile/tech-trending.bsky.social/post/3mmm6ioeavl2a",
-              "title": "GitHub - colbymchenry/codegraph: Pre-indexed code knowledge graph for Claude Code, Codex, Cursor, OpenCode, and Hermes Agent — fewer tokens, fewer tool calls, 100% local https://github.com/colbymchenr",
-              "text": "GitHub - colbymchenry/codegraph: Pre-indexed code knowledge graph for Claude Code, Codex, Cursor, OpenCode, and Hermes Agent — fewer tokens, fewer tool calls, 100% local https://github.com/colbymchenry/codegraph",
-              "author": "tech-trending.bsky.social",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-24T14:31:15.766Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "colbymchenry/codegraph",
               "url": "https://bsky.app/profile/nemu-echosphere.bsky.social/post/3mmvi52gnjd2h",
               "title": "💎 README原文：\"CodeGraph only helps when queried directly — otherwise a sub-agent reads files regardless and CodeGraph becomes overhead.\" ベンチマークは「アーキテクチャの質問1つへの回答」。探索タスク。実装・テスト・デバッグのループ全体ではない。 https://g",
               "text": "💎 README原文：\"CodeGraph only helps when queried directly — otherwise a sub-agent reads files regardless and CodeGraph becomes overhead.\" ベンチマークは「アーキテクチャの質問1つへの回答」。探索タスク。実装・テスト・デバッグのループ全体ではない。 https://github.com/colbymchenry/codegraph #LLM #ClaudeCode",
@@ -8506,10 +8511,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 59,
+      "totalMentions7d": 63,
       "perSource": {
         "hackernews": {
-          "count7d": 59,
+          "count7d": 63,
           "top": [
             {
               "source": "hackernews",
@@ -8519,23 +8524,10 @@
               "text": "",
               "author": "possibilistic",
               "engagement": {
-                "score": 559,
+                "score": 560,
                 "comments": 252
               },
               "observedAt": "2026-05-28T21:45:54.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "compozy/compozy",
-              "url": "https://epoch.ai/data-insights/ai-chip-component-cost-shares",
-              "title": "Memory has grown to nearly two-thirds of AI chip component costs",
-              "text": "",
-              "author": "intelkishan",
-              "engagement": {
-                "score": 444,
-                "comments": 498
-              },
-              "observedAt": "2026-05-24T16:31:29.000Z"
             },
             {
               "source": "hackernews",
@@ -8575,6 +8567,19 @@
                 "comments": 26
               },
               "observedAt": "2026-05-28T15:05:06.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "compozy/compozy",
+              "url": "https://news.ycombinator.com/item?id=48312716",
+              "title": "Ask HN: I found out that I'm about to be laid off. How do people find jobs?",
+              "text": "Using a throwaway account right now for obvious reasons.<p>I have a friend at my company that has access to some insider stuff who (subtley) tipped me off that I&#x27;m on the chopping block for upcoming layoffs.<p>Obviously, I&#x27;m trying to resume-spam now, but I am pretty sure that cold applying to companies doesn&#x27;t work anymore, because every job posting is immediately botted to shit (and a lot of job postings are fake anyway).<p>So...what do people actually do to find work now? Is it",
+              "author": "wwwthrowaway256",
+              "engagement": {
+                "score": 25,
+                "comments": 19
+              },
+              "observedAt": "2026-05-28T17:50:10.000Z"
             }
           ]
         }
@@ -8712,7 +8717,7 @@
               "author": "camilleroux.com",
               "engagement": {
                 "score": 12,
-                "comments": 3
+                "comments": 4
               },
               "observedAt": "2026-05-29T16:00:20.782Z"
             },
@@ -8735,10 +8740,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 66,
+      "totalMentions7d": 71,
       "perSource": {
         "hackernews": {
-          "count7d": 66,
+          "count7d": 71,
           "top": [
             {
               "source": "hackernews",
@@ -8749,7 +8754,7 @@
               "author": "simonw",
               "engagement": {
                 "score": 1088,
-                "comments": 1240
+                "comments": 1241
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
             },
@@ -8761,8 +8766,8 @@
               "text": "",
               "author": "PinkG",
               "engagement": {
-                "score": 835,
-                "comments": 569
+                "score": 837,
+                "comments": 576
               },
               "observedAt": "2026-05-29T14:40:47.000Z"
             },
@@ -8774,8 +8779,8 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 409,
-                "comments": 463
+                "score": 412,
+                "comments": 464
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
             },
@@ -8787,7 +8792,7 @@
               "text": "",
               "author": "zdw",
               "engagement": {
-                "score": 266,
+                "score": 267,
                 "comments": 126
               },
               "observedAt": "2026-05-26T16:41:58.000Z"
@@ -8800,7 +8805,7 @@
               "text": "",
               "author": "JustSkyfall",
               "engagement": {
-                "score": 18,
+                "score": 19,
                 "comments": 7
               },
               "observedAt": "2026-05-29T15:05:17.000Z"
@@ -10051,7 +10056,7 @@
               "author": "yaoke259",
               "engagement": {
                 "score": 8,
-                "comments": 2
+                "comments": 4
               },
               "observedAt": "2026-05-31T02:07:38.000Z"
             },

@@ -12,6 +12,12 @@ import {
   WORKER_HEALTH_SPECS,
   type DisabledSlugHealthSpec,
 } from "@/lib/worker-health-specs";
+import {
+  applyPayloadHealthToSlugStatus,
+  decodeWorkerPayloadFromStore,
+  summarizeWorkerPayloadHealth,
+  type WorkerPayloadHealth,
+} from "@/lib/worker-health-payload";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,6 +49,12 @@ function checkOptionalBearer(request: NextRequest): NextResponse | null {
 const SLUG_TABLE = WORKER_HEALTH_SPECS;
 const DISABLED_SLUG_TABLE = WORKER_HEALTH_DISABLED_SPECS;
 const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
+const DATA_STORE_PAYLOAD_NAMESPACE = "ss:data:v1";
+const PAYLOAD_HEALTH_SLUGS = new Set([
+  "trending",
+  "hot-collections",
+  "collection-rankings",
+]);
 
 type SlugStatus = "green" | "amber" | "red" | "missing";
 
@@ -54,6 +66,10 @@ interface SlugHealth {
   status: SlugStatus;
   writtenAt: string | null;
   ageSec: number | null;
+  payloadStatus: WorkerPayloadHealth["payloadStatus"];
+  payloadDataAsOf: string | null;
+  payloadErrorCount: number | null;
+  payloadRowCount: number | null;
 }
 
 interface HealthSummary {
@@ -66,6 +82,8 @@ interface HealthSummary {
   missing: number;
   blockingRed: number;
   blockingMissing: number;
+  degradedPayload: number;
+  emptyPayload: number;
 }
 
 interface HealthResponse {
@@ -78,6 +96,10 @@ interface HealthResponse {
 
 function dataStoreMetaKey(slug: string): string {
   return `${DATA_STORE_META_NAMESPACE}:${slug}`;
+}
+
+function dataStorePayloadKey(slug: string): string {
+  return `${DATA_STORE_PAYLOAD_NAMESPACE}:${slug}`;
 }
 
 function parseRedisWrittenAt(raw: unknown): string | null {
@@ -119,6 +141,28 @@ async function readRedisMetaWrittenAt(
   }
 }
 
+async function readRedisPayloadHealth(
+  redis: RedisClientLike | null,
+  slug: string,
+): Promise<WorkerPayloadHealth | null> {
+  if (!redis || !PAYLOAD_HEALTH_SLUGS.has(slug)) return null;
+  try {
+    const raw = await redis.get(dataStorePayloadKey(slug));
+    if (!raw) return null;
+    return summarizeWorkerPayloadHealth(
+      slug,
+      decodeWorkerPayloadFromStore(raw),
+    );
+  } catch {
+    return {
+      payloadStatus: null,
+      dataAsOf: null,
+      errorCount: null,
+      rowCount: 0,
+    };
+  }
+}
+
 function classifyAge(
   ageSec: number | null,
   cadenceMin: number,
@@ -145,12 +189,16 @@ export async function GET(
 
   const probes = await Promise.all(
     SLUG_TABLE.map(async (spec) => {
-      const writtenAt = await readRedisMetaWrittenAt(redis, spec.slug);
+      const [writtenAt, payloadHealth] = await Promise.all([
+        readRedisMetaWrittenAt(redis, spec.slug),
+        readRedisPayloadHealth(redis, spec.slug),
+      ]);
       const ageSec =
         writtenAt !== null
           ? Math.max(0, Math.floor((now - new Date(writtenAt).getTime()) / 1000))
           : null;
-      const status = classifyAge(ageSec, spec.cadenceMin, spec.slowMoving === true);
+      const ageStatus = classifyAge(ageSec, spec.cadenceMin, spec.slowMoving === true);
+      const status = applyPayloadHealthToSlugStatus(ageStatus, payloadHealth);
       return {
         slug: spec.slug,
         fetcher: spec.fetcher,
@@ -159,6 +207,10 @@ export async function GET(
         status,
         writtenAt,
         ageSec,
+        payloadStatus: payloadHealth?.payloadStatus ?? null,
+        payloadDataAsOf: payloadHealth?.dataAsOf ?? null,
+        payloadErrorCount: payloadHealth?.errorCount ?? null,
+        payloadRowCount: payloadHealth?.rowCount ?? null,
       } satisfies SlugHealth;
     }),
   );
@@ -173,6 +225,8 @@ export async function GET(
     missing: probes.filter((p) => p.status === "missing").length,
     blockingRed: probes.filter((p) => p.blocking && p.status === "red").length,
     blockingMissing: probes.filter((p) => p.blocking && p.status === "missing").length,
+    degradedPayload: probes.filter((p) => p.payloadStatus === "degraded").length,
+    emptyPayload: probes.filter((p) => p.payloadRowCount === 0).length,
   };
 
   const statusRank: Record<SlugStatus, number> = {

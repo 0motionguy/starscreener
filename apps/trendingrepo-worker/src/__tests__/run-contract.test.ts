@@ -114,8 +114,8 @@ describe('runFetcher → SourceContract binding (Move 1, Phase 3)', () => {
 
     await runFetcher(fetcher, { dryRun: true });
 
-    const lines = logSpy.mock.calls.map((c) => String(c[0] ?? ''));
-    const summary = lines.find((l) => l.startsWith('[run-summary]'));
+    const lines = logSpy.mock.calls.map((c: unknown[]) => String(c[0] ?? ''));
+    const summary = lines.find((l: string) => l.startsWith('[run-summary]'));
     expect(summary, 'run-summary line was not emitted').toBeDefined();
     expect(summary).toContain(`source=${known!.id}`);
     expect(summary).toContain('status=ok');
@@ -133,8 +133,8 @@ describe('runFetcher → SourceContract binding (Move 1, Phase 3)', () => {
 
     await runFetcher(makeWarnMock(known!.id), { dryRun: true });
 
-    const lines = logSpy.mock.calls.map((c) => String(c[0] ?? ''));
-    const summary = lines.find((l) => l.startsWith('[run-summary]'));
+    const lines = logSpy.mock.calls.map((c: unknown[]) => String(c[0] ?? ''));
+    const summary = lines.find((l: string) => l.startsWith('[run-summary]'));
     expect(summary).toBeDefined();
     expect(summary).toContain('status=warn');
   });
@@ -144,8 +144,8 @@ describe('runFetcher → SourceContract binding (Move 1, Phase 3)', () => {
 
     await runFetcher(fetcher, { dryRun: true });
 
-    const lines = logSpy.mock.calls.map((c) => String(c[0] ?? ''));
-    const summary = lines.find((l) => l.startsWith('[run-summary]'));
+    const lines = logSpy.mock.calls.map((c: unknown[]) => String(c[0] ?? ''));
+    const summary = lines.find((l: string) => l.startsWith('[run-summary]'));
     expect(summary).toBeDefined();
     expect(summary).toContain('contract_freshness_budget_ms=missing');
   });

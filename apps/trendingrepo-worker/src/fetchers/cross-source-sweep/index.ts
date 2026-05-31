@@ -365,6 +365,8 @@ interface SnapshotAdapter {
   map: (row: Record<string, unknown>, fullName: string) => Mention;
 }
 
+const REDDIT_TOPIC_ENABLED = false;
+
 const SNAPSHOT_ADAPTERS: SnapshotAdapter[] = [
   {
     key: 'devto-mentions',
@@ -456,6 +458,7 @@ const SNAPSHOT_ADAPTERS: SnapshotAdapter[] = [
 export async function foldSourceFirstSnapshots(topLower: Set<string>): Promise<Mention[]> {
   const out: Mention[] = [];
   for (const adapter of SNAPSHOT_ADAPTERS) {
+    if (adapter.source === 'reddit' && !REDDIT_TOPIC_ENABLED) continue;
     const snap = await readDataStore<{ mentions?: Record<string, unknown> }>(adapter.key).catch(
       () => null,
     );
@@ -676,7 +679,7 @@ const fetcher: Fetcher = {
         producthunt: phLaunches.length ? 'snapshot' : 'no-snapshot',
         tavily: tavilyKey ? 'live' : 'off (set TAVILY_API_KEY)',
         twitter: apifyToken ? `apify·top${TWITTER_BATCH_REPOS}` : 'off (set APIFY_API_TOKEN)',
-        foldIn: 'devto,hackernews,reddit,lobsters,bluesky (source-first snapshots)',
+        foldIn: 'devto,hackernews,lobsters,bluesky (source-first snapshots; reddit paused)',
       },
       'cross-source-sweep channel status',
     );
@@ -702,7 +705,7 @@ const fetcher: Fetcher = {
     };
     await Promise.all(Array.from({ length: Math.min(REPO_CONCURRENCY, repos.length) }, () => worker()));
 
-    // Fold the source-first snapshots (Dev.to / Reddit / Lobsters / HN /
+    // Fold the source-first snapshots (Dev.to / Lobsters / HN /
     // Bluesky) for our top repos into the stream + a gated, batched Apify
     // Twitter search, then de-dup so per-source counts aren't double-inflated.
     const topLower = new Set(repos.map((r) => r.fullName.toLowerCase()));

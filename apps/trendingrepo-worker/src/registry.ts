@@ -18,10 +18,9 @@ import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
-// Live Reddit collection is intentionally paused until the operator provisions
-// OAuth client-credentials on HOSTUP. Keep weekly baselines registered because
-// they are a separate slow-moving snapshot.
-import redditBaselines from './fetchers/reddit-baselines/index.js';
+// Reddit collection is intentionally paused end-to-end on HOSTUP. Do not keep
+// baselines scheduled either: they still hit Reddit upstreams and can make a
+// stale social source look alive.
 import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
 import consensusTrending from './fetchers/consensus-trending/index.js';
@@ -158,7 +157,6 @@ export const FETCHERS: Fetcher[] = [
   crunchbase,
   trustmrr,
   revenueBenchmarks,
-  redditBaselines,
   trendshiftDaily,
   engagementComposite,
   consensusTrending,

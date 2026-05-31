@@ -63,15 +63,20 @@ describe('worker registry', () => {
     });
   });
 
-  it('keeps the live Reddit collector paused until OAuth credentials are intentionally enabled', () => {
+  it('keeps Reddit collectors paused until the topic is intentionally enabled', () => {
     expect(listFetcherNames()).not.toContain('reddit');
     expect(getFetcher('reddit')).toBeUndefined();
-    expect(listFetcherNames()).toContain('reddit-baselines');
+    expect(listFetcherNames()).not.toContain('reddit-baselines');
+    expect(getFetcher('reddit-baselines')).toBeUndefined();
     expect(SOURCE_CONTRACTS.find((source) => source.id === 'reddit')).toMatchObject({
       state: 'paused',
       auth_required: true,
       auth_scheme: 'reddit_oauth_client_credentials',
       primary_output_keys: ['reddit-mentions', 'reddit-all-posts'],
+    });
+    expect(SOURCE_CONTRACTS.find((source) => source.id === 'reddit-baselines')).toMatchObject({
+      state: 'paused',
+      primary_output_keys: ['reddit-baselines'],
     });
   });
 

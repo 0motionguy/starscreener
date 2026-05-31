@@ -89,7 +89,6 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "editorial-alternatives",
     "manual-repos",
     "npm-packages",
-    "reddit-baselines",
     "revenue-benchmarks",
     "stars-by-category-daily",
     "lmarena-text",
@@ -105,6 +104,7 @@ test("/api/worker/health: disabled slugs stay visible but inactive", () => {
   for (const slug of [
     "reddit-mentions",
     "reddit-all-posts",
+    "reddit-baselines",
     "funding-news-x",
     "github-events:_index",
     "trending-paper",

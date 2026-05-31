@@ -151,8 +151,13 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(6),
   },
   {
+    // Reddit is paused end-to-end on HOSTUP. Baselines still call Reddit
+    // upstreams, so keep them out of active freshness until the operator
+    // explicitly re-enables the topic.
     name: "reddit-baselines",
     redisSlugs: ["reddit-baselines"],
+    blocking: false,
+    enabled: false,
     ...days(8),
   },
   {

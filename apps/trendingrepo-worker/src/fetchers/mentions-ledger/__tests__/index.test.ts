@@ -197,16 +197,15 @@ describe('extractIds', () => {
 describe('projectSnapshots', () => {
   it('produces one work item per (repo, source) bucket', () => {
     const items = projectSnapshots(snapshots);
-    // 6 sources contribute: hn(2 repos) + reddit(1) + bluesky(1) + devto(1)
+    // Active sources contribute: hn(2 repos) + bluesky(1) + devto(1)
     //   + lobsters(1) + twitter(2 repos: vercel + svelte)
-    expect(items).toHaveLength(8);
+    expect(items).toHaveLength(7);
     const bySource = items.reduce<Record<string, number>>((acc, it) => {
       acc[it.source] = (acc[it.source] ?? 0) + 1;
       return acc;
     }, {});
     expect(bySource).toEqual({
       hackernews: 2,
-      reddit: 1,
       bluesky: 1,
       devto: 1,
       lobsters: 1,
@@ -268,11 +267,11 @@ describe('applyLedger', () => {
     // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters + 2 twitter = 10
     // Sveltejs/svelte: 1 HN + 2 devto + 2 twitter = 5
     // Total = 15 (the shared tweet id t101 accrues to BOTH sets — intended)
-    expect(result.newMentions).toBe(15);
+    expect(result.newMentions).toBe(13);
 
     // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters + 2 twitter
     expect(sets.get('ss:mentions:v1:vercel/next.js:hackernews')?.size).toBe(3);
-    expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')?.size).toBe(2);
+    expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')).toBeUndefined();
     expect(sets.get('ss:mentions:v1:vercel/next.js:bluesky')?.size).toBe(1);
     expect(sets.get('ss:mentions:v1:vercel/next.js:lobsters')?.size).toBe(2);
     expect(sets.get('ss:mentions:v1:vercel/next.js:twitter')?.size).toBe(2);
@@ -289,7 +288,7 @@ describe('applyLedger', () => {
     // Index hash exactly mirrors set cardinality after a single run.
     const vercelIdx = hashes.get('ss:mentions:v1:vercel/next.js:_index');
     expect(vercelIdx?.get('hackernews')).toBe(3);
-    expect(vercelIdx?.get('reddit')).toBe(2);
+    expect(vercelIdx?.get('reddit')).toBeUndefined();
     expect(vercelIdx?.get('bluesky')).toBe(1);
     expect(vercelIdx?.get('lobsters')).toBe(2);
     expect(vercelIdx?.get('twitter')).toBe(2);
@@ -311,13 +310,13 @@ describe('applyLedger', () => {
 
     // Set sizes unchanged on the second run.
     expect(sets.get('ss:mentions:v1:vercel/next.js:hackernews')?.size).toBe(3);
-    expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')?.size).toBe(2);
+    expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')).toBeUndefined();
     expect(sets.get('ss:mentions:v1:vercel/next.js:twitter')?.size).toBe(2);
 
     // Index hash unchanged — HINCRBY skipped, so values are still the first-run totals.
     const vercelIdx = hashes.get('ss:mentions:v1:vercel/next.js:_index');
     expect(vercelIdx?.get('hackernews')).toBe(3);
-    expect(vercelIdx?.get('reddit')).toBe(2);
+    expect(vercelIdx?.get('reddit')).toBeUndefined();
     expect(vercelIdx?.get('bluesky')).toBe(1);
     expect(vercelIdx?.get('lobsters')).toBe(2);
     expect(vercelIdx?.get('twitter')).toBe(2);
@@ -349,7 +348,7 @@ describe('applyLedger', () => {
 
     // Vercel/next.js: 3 HN + 2 reddit + 1 bluesky + 2 lobsters + 2 twitter = 10
     // Sveltejs/svelte: 1 HN + 2 devto + 2 twitter = 5
-    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBe(10);
+    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBe(8);
     expect(zset.get('ss:mentions:leaderboard:v1::sveltejs/svelte')).toBe(5);
   });
 
@@ -395,10 +394,9 @@ describe('applyLedger', () => {
     const { ops } = makeMemRedis();
     const result = await applyLedger(ops, projectSnapshots(snapshots));
     const vercel = result.entries.find((e) => e.fullName === 'vercel/next.js');
-    expect(vercel?.total).toBe(10);
+    expect(vercel?.total).toBe(8);
     expect(vercel?.perSource).toEqual({
       hackernews: 3,
-      reddit: 2,
       bluesky: 1,
       lobsters: 2,
       twitter: 2,

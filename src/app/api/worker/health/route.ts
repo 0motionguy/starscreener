@@ -91,7 +91,6 @@ const PAYLOAD_HEALTH_SLUGS = new Set([
   "editorial-alternatives",
   "manual-repos",
   "npm-packages",
-  "reddit-baselines",
   "revenue-benchmarks",
   "stars-by-category-daily",
   "lmarena-text",

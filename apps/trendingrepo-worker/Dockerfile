@@ -6,6 +6,11 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
+FROM node:22-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev
+
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -15,7 +20,7 @@ RUN npm run build
 FROM node:22-alpine AS runtime
 WORKDIR /app
 RUN addgroup -S worker && adduser -S worker -G worker
-COPY --from=deps --chown=worker:worker /app/node_modules ./node_modules
+COPY --from=prod-deps --chown=worker:worker /app/node_modules ./node_modules
 COPY --from=build --chown=worker:worker /app/dist ./dist
 COPY --chown=worker:worker package.json ./
 USER worker

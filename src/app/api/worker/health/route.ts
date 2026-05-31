@@ -15,6 +15,7 @@ import {
 import {
   applyPayloadHealthToSlugStatus,
   decodeWorkerPayloadFromStore,
+  isWorkerHealthStrictlyOk,
   summarizeWorkerPayloadHealth,
   type WorkerPayloadHealth,
 } from "@/lib/worker-health-payload";
@@ -54,6 +55,19 @@ const PAYLOAD_HEALTH_SLUGS = new Set([
   "trending",
   "hot-collections",
   "collection-rankings",
+  "funding-news",
+  "funding-news-crunchbase",
+  "consensus-verdicts",
+  "devto-mentions",
+  "devto-trending",
+  "twitter-repo-signals",
+  "repo-registry",
+  "mentions-ledger",
+  "star-activity-deltas",
+  "editorial-best",
+  "editorial-categories",
+  "editorial-compare",
+  "editorial-alternatives",
 ]);
 
 type SlugStatus = "green" | "amber" | "red" | "missing";
@@ -148,7 +162,14 @@ async function readRedisPayloadHealth(
   if (!redis || !PAYLOAD_HEALTH_SLUGS.has(slug)) return null;
   try {
     const raw = await redis.get(dataStorePayloadKey(slug));
-    if (!raw) return null;
+    if (!raw) {
+      return {
+        payloadStatus: null,
+        dataAsOf: null,
+        errorCount: null,
+        rowCount: 0,
+      };
+    }
     return summarizeWorkerPayloadHealth(
       slug,
       decodeWorkerPayloadFromStore(raw),
@@ -242,7 +263,7 @@ export async function GET(
     return a.slug.localeCompare(b.slug);
   });
 
-  const ok = summary.blockingRed === 0 && summary.blockingMissing === 0;
+  const ok = isWorkerHealthStrictlyOk(summary);
 
   return NextResponse.json(
     {

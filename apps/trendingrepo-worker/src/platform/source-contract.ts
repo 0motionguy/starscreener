@@ -76,13 +76,15 @@ export type CardinalitySource = 'watchlist' | 'static' | 'enum';
  * (e.g. {pattern: 'mcp-downloads:<package>', cardinality_source: 'watchlist'}).
  * One row per slug family — concrete-slug enumeration is a Move 3 concern.
  */
-export type PrimaryOutputKeys =
-  | string[]
-  | {
-      pattern: string;
-      index_key?: string;
-      cardinality_source: CardinalitySource;
-    };
+export interface PrimaryOutputPattern {
+  pattern: string;
+  index_key?: string;
+  cardinality_source: CardinalitySource;
+}
+
+export type PrimaryOutputKey = string | PrimaryOutputPattern;
+
+export type PrimaryOutputKeys = PrimaryOutputKey[] | PrimaryOutputPattern;
 
 export type OutputRecordShape =
   | 'ranked_list'

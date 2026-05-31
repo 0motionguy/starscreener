@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-30T19:52:54.472Z",
+  "fetchedAt": "2026-05-31T05:08:34.557Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -25,8 +25,8 @@
       "id": "victor/LongCat-Video-Avatar-1.5",
       "author": "victor",
       "url": "https://huggingface.co/spaces/victor/LongCat-Video-Avatar-1.5",
-      "likes": 166,
-      "trendingScore": 156,
+      "likes": 175,
+      "trendingScore": 165,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -111,8 +111,8 @@
       "id": "webml-community/bonsai-image-webgpu",
       "author": "webml-community",
       "url": "https://huggingface.co/spaces/webml-community/bonsai-image-webgpu",
-      "likes": 126,
-      "trendingScore": 119,
+      "likes": 129,
+      "trendingScore": 122,
       "sdk": "static",
       "tags": [
         "static",
@@ -193,6 +193,23 @@
     },
     {
       "rank": 12,
+      "id": "nvidia/LocateAnything",
+      "author": "nvidia",
+      "url": "https://huggingface.co/spaces/nvidia/LocateAnything",
+      "likes": 82,
+      "trendingScore": 82,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "arxiv:2605.27365",
+        "region:us"
+      ],
+      "createdAt": "2026-03-18T08:09:56.000Z",
+      "lastModified": "2026-05-30T12:58:14.000Z",
+      "models": []
+    },
+    {
+      "rank": 13,
       "id": "prithivMLmods/FireRed-Image-Edit-1.0-Fast",
       "author": "prithivMLmods",
       "url": "https://huggingface.co/spaces/prithivMLmods/FireRed-Image-Edit-1.0-Fast",
@@ -209,29 +226,12 @@
       "models": []
     },
     {
-      "rank": 13,
-      "id": "nvidia/LocateAnything",
-      "author": "nvidia",
-      "url": "https://huggingface.co/spaces/nvidia/LocateAnything",
-      "likes": 76,
-      "trendingScore": 76,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "arxiv:2605.27365",
-        "region:us"
-      ],
-      "createdAt": "2026-03-18T08:09:56.000Z",
-      "lastModified": "2026-05-30T12:58:14.000Z",
-      "models": []
-    },
-    {
       "rank": 14,
       "id": "bytedance-research/Lance",
       "author": "bytedance-research",
       "url": "https://huggingface.co/spaces/bytedance-research/Lance",
-      "likes": 78,
-      "trendingScore": 75,
+      "likes": 79,
+      "trendingScore": 76,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -507,7 +507,7 @@
       "id": "mrfakename/Z-Image-Turbo",
       "author": "mrfakename",
       "url": "https://huggingface.co/spaces/mrfakename/Z-Image-Turbo",
-      "likes": 3263,
+      "likes": 3264,
       "trendingScore": 41,
       "sdk": "gradio",
       "tags": [
@@ -669,6 +669,22 @@
     },
     {
       "rank": 41,
+      "id": "prism-ml/Bonsai-Image-Demo",
+      "author": "prism-ml",
+      "url": "https://huggingface.co/spaces/prism-ml/Bonsai-Image-Demo",
+      "likes": 32,
+      "trendingScore": 32,
+      "sdk": "docker",
+      "tags": [
+        "docker",
+        "region:us"
+      ],
+      "createdAt": "2026-05-13T23:49:03.000Z",
+      "lastModified": "2026-05-27T09:27:24.000Z",
+      "models": []
+    },
+    {
+      "rank": 42,
       "id": "build-small-hackathon/registration",
       "author": "build-small-hackathon",
       "url": "https://huggingface.co/spaces/build-small-hackathon/registration",
@@ -684,7 +700,7 @@
       "models": []
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "multimodalart/talkie-1930",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/talkie-1930",
@@ -700,7 +716,7 @@
       "models": []
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "systms/ACTION-HF",
       "author": "systms",
       "url": "https://huggingface.co/spaces/systms/ACTION-HF",
@@ -716,7 +732,7 @@
       "models": []
     },
     {
-      "rank": 44,
+      "rank": 45,
       "id": "Lakonik/AsymFLUX.2-klein",
       "author": "Lakonik",
       "url": "https://huggingface.co/spaces/Lakonik/AsymFLUX.2-klein",
@@ -729,22 +745,6 @@
       ],
       "createdAt": "2026-05-13T16:06:55.000Z",
       "lastModified": "2026-05-19T00:50:26.000Z",
-      "models": []
-    },
-    {
-      "rank": 45,
-      "id": "prism-ml/Bonsai-Image-Demo",
-      "author": "prism-ml",
-      "url": "https://huggingface.co/spaces/prism-ml/Bonsai-Image-Demo",
-      "likes": 31,
-      "trendingScore": 31,
-      "sdk": "docker",
-      "tags": [
-        "docker",
-        "region:us"
-      ],
-      "createdAt": "2026-05-13T23:49:03.000Z",
-      "lastModified": "2026-05-27T09:27:24.000Z",
       "models": []
     },
     {
@@ -765,6 +765,22 @@
     },
     {
       "rank": 47,
+      "id": "facebook/vggt-omega",
+      "author": "facebook",
+      "url": "https://huggingface.co/spaces/facebook/vggt-omega",
+      "likes": 46,
+      "trendingScore": 30,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-16T23:39:56.000Z",
+      "lastModified": "2026-05-18T21:46:03.000Z",
+      "models": []
+    },
+    {
+      "rank": 48,
       "id": "r3gm/wan2-2-fp8da-aoti-old-backup",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-old-backup",
@@ -781,7 +797,7 @@
       "models": []
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "CohereLabs/command-a-plus-05-2026",
       "author": "CohereLabs",
       "url": "https://huggingface.co/spaces/CohereLabs/command-a-plus-05-2026",
@@ -797,7 +813,7 @@
       "models": []
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "alexander00001/Private.Test.Space.2",
       "author": "alexander00001",
       "url": "https://huggingface.co/spaces/alexander00001/Private.Test.Space.2",
@@ -810,22 +826,6 @@
       ],
       "createdAt": "2026-01-02T00:31:44.000Z",
       "lastModified": "2026-05-17T07:08:19.000Z",
-      "models": []
-    },
-    {
-      "rank": 50,
-      "id": "facebook/vggt-omega",
-      "author": "facebook",
-      "url": "https://huggingface.co/spaces/facebook/vggt-omega",
-      "likes": 45,
-      "trendingScore": 29,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-16T23:39:56.000Z",
-      "lastModified": "2026-05-18T21:46:03.000Z",
       "models": []
     }
   ]

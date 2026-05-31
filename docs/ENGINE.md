@@ -6,10 +6,12 @@ status: living
 
 # ENGINE - STARSCREENER workflow + cron + key inventory
 
-Last derived from filesystem on 2026-05-05. Direct re-derivation:
+Last full derivation from filesystem on 2026-05-05. Cron route inventory
+spot-refreshed on 2026-05-31 after deleting the orphan
+`news-auto-recover` route. Direct re-derivation:
 
 - Workflows: `Glob .github/workflows/*.yml` (count = 63)
-- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 15)
+- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 17)
 - Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — kept on disk as documentation of intent (NOT imported, NOT in `FETCHERS[]`, NOT scheduled — see banner comment at `registry.ts:23-27`). They previously emitted "not yet implemented" Sentry warnings every cron tick; PR #93 unwired them but left the directories so a future port can re-add to the array. 3 implementations exist on disk and have full code + tests but are not yet wired: `ai-blogs`, `arxiv`, `github-events` (see banner comment at the top of each `index.ts` for the promotion path). `agent-commerce/` is data-only.)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
@@ -116,30 +118,38 @@ Total cron-driven workflows: 63. Push/PR-only or dispatch-only: 10.
 
 ---
 
-## 2. Cron API routes (src/app/api/cron/*/route.ts) - 15 routes
+## 2. Cron API routes (src/app/api/cron/*/route.ts) - 17 routes
 
 Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 `grep -r "/api/cron/<path>" .github/workflows/`.
 
 | Route | Caller workflow | Auth | Purpose |
 |---|---|---|---|
+| `/api/cron/account-purge` | cron-account-purge.yml (`17 4 * * *`) | Bearer `CRON_SECRET` | Purges expired account-deletion rows; supports dry-run dispatch |
 | `/api/cron/aiso-drain` | cron-aiso-drain.yml (`3,33 * * * *`) | Bearer `CRON_SECRET` | Drains AISO scan submission queue + emits PostHog ops event |
+| `/api/cron/alerts/cleanup` | (no `.github/workflows` caller in tree) | Bearer `CRON_SECRET` | Prunes old alert dispatch rows |
+| `/api/cron/alerts/dispatch` | (no `.github/workflows` caller in tree) | Bearer `CRON_SECRET` | Dispatches pending alert notifications |
 | `/api/cron/digest/weekly` | cron-digest-weekly.yml (`0 14 * * 5`) | Bearer `CRON_SECRET` | Renders + sends weekly digest email via Resend |
 | `/api/cron/freshness/state` | cron-freshness-check.yml (`*/15 * * * *`); also smoke-tested by post-deploy-smoke.yml + release-cdn-purge | Bearer `CRON_SECRET` | Returns per-source freshness state |
 | `/api/cron/llm/aggregate` | cron-llm.yml (hourly `10 * * * *`) | Bearer `CRON_SECRET` | Aggregates LLM telemetry counters |
 | `/api/cron/llm/sync-models` | cron-llm.yml (daily `15 2 * * *`) | Bearer `CRON_SECRET` | Syncs LLM model catalog from upstream |
 | `/api/cron/mcp/rotate-usage` | cron-mcp-usage-rotate.yml (`0 3 1 * *`) | Bearer `CRON_SECRET` | Monthly rotation of MCP usage log |
-| `/api/cron/news-auto-recover` | (no scheduled workflow caller in tree as of 2026-05-05) | Bearer `CRON_SECRET` | News-feed auto-recovery (orphan; can be dispatched directly) |
+| `/api/cron/onboarding/day3-nudge` | cron-onboarding-day3.yml (`37 9 * * *`) | Bearer `CRON_SECRET` | Sends day-3 onboarding nudge emails |
+| `/api/cron/onboarding/day7-retention` | cron-onboarding-day7.yml (`13 10 * * *`) | Bearer `CRON_SECRET` | Sends day-7 retention emails |
+| `/api/cron/referrals/qualify` | (no `.github/workflows` caller in tree) | Bearer `CRON_SECRET` | Qualifies referral milestones and credits |
 | `/api/cron/twitter-daily` | cron-twitter-outbound.yml (`0 14 * * *`) | Bearer `CRON_SECRET` | Daily outbound Twitter thread |
 | `/api/cron/twitter-weekly-recap` | cron-twitter-outbound.yml (`0 16 * * 5`) | Bearer `CRON_SECRET` | Friday weekly recap thread |
-| `/api/cron/webhooks/flush` | cron-webhooks-flush.yml (`5,35 * * * *`) | Bearer `CRON_SECRET` | Drains webhook queue |
 | `/api/cron/webhooks/dead-letter-digest` | cron-webhooks-dead-letter-digest.yml (`9 9 * * *`) | Bearer `CRON_SECRET` | Summarizes recent customer webhook delivery dead letters |
+| `/api/cron/webhooks/flush` | cron-webhooks-flush.yml (`5,35 * * * *`) | Bearer `CRON_SECRET` | Drains webhook queue |
 | `/api/cron/webhooks/scan` | cron-webhooks-flush.yml (`5,35 * * * *`, runs before flush) | Bearer `CRON_SECRET` | Enqueues breakouts + funding rows |
 
 Auth pattern: every route uses `verifyCronAuth` (or equivalent) reading
 the `Authorization: Bearer <CRON_SECRET>` header. Routes marked orphan
 have a route handler in tree but no `.github/workflows/*.yml` calls
 them on a schedule today.
+
+Removed on 2026-05-31: `/api/cron/news-auto-recover`. It had no workflow
+caller in the tree and duplicated per-source freshness/rescrape machinery.
 
 ---
 

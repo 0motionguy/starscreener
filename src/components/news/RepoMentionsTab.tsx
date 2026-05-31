@@ -3,7 +3,6 @@
 // normalizes its data into RepoMentionRow[] before passing it in, so
 // this component stays source-agnostic.
 
-import Link from "next/link";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl } from "@/lib/logos";
 import { RepoLink } from "@/components/repo/RepoLink";

@@ -18,7 +18,6 @@ import lobehubSkills from './fetchers/lobehub-skills/index.js';
 import hackernews from './fetchers/hackernews/index.js';
 import producthunt from './fetchers/producthunt/index.js';
 import devto from './fetchers/devto/index.js';
-import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
 // 4 stubs (`github`, `mcp-so`, `mcp-servers-repo`, `huggingface`)
 // intentionally NOT imported here — they were registered + ticking but
@@ -44,9 +43,8 @@ import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
 import consensusTrending from './fetchers/consensus-trending/index.js';
 import consensusAnalyst from './fetchers/consensus-analyst/index.js';
-// Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
-// hackernews/producthunt/reddit replaced their stub bodies in place and so
-// their existing imports above pick up the real implementations transparently.
+// Phase B Group 2 (social) - live Reddit remains intentionally paused until
+// OAuth credentials are enabled on HOSTUP. Weekly baselines stay registered.
 import lobsters from './fetchers/lobsters/index.js';
 // Tier 2 audit fixes — operator-curated data file producers (close the
 // chicken-egg gaps that left `manual-repos` + `revenue-manual-matches`
@@ -111,7 +109,6 @@ export const FETCHERS: Fetcher[] = [
   hackernews,
   producthunt,
   devto,
-  reddit,
   npmDownloads,
   pypiDownloads,
   npmDependents,
@@ -152,4 +149,3 @@ import sourcesData from './platform/sources.json' with { type: 'json' };
 import type { SourceContract } from './platform/source-contract.js';
 export const SOURCE_CONTRACTS: readonly SourceContract[] =
   sourcesData as readonly SourceContract[];
-

@@ -9,6 +9,10 @@ import { after, NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import type { CollectionRankingsCoverage } from "@/lib/collection-rankings";
 import {
+  getHealthHttpStatusForStatus,
+  type HealthStatus,
+} from "@/lib/health-status";
+import {
   DEVTO_STALE_THRESHOLD_MS,
   FAST_DATA_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
@@ -28,8 +32,6 @@ const SOFT_HEALTH_ERROR_HEADERS = { "Cache-Control": "no-store" } as const;
 const DETAIL_HEALTH_HEADERS = { "Cache-Control": "private, no-store" } as const;
 const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
 
-type HealthStatus = "ok" | "stale" | "error";
-
 interface HealthBody {
   status: HealthStatus;
   sourceStatus?: "ok" | "degraded";
@@ -39,6 +41,9 @@ interface HealthBody {
   recentReposFetchedAt: string | null;
   repoMetadataFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
+  collectionRankingsStatus?: "ok" | "degraded";
+  collectionRankingsDataAsOf?: string | null;
+  collectionRankingsErrorCount?: number;
   redditFetchedAt: string | null;
   redditCold: boolean;
   blueskyFetchedAt: string | null;
@@ -482,9 +487,19 @@ export async function GET(
       deps.collectionRankings.getCollectionRankingsFetchedAt();
 
     const sources = deps.sourceHealth.getScannerSourceHealth();
-    const degradedSources = deps.sourceHealth
+    const scannerDegradedSources = deps.sourceHealth
       .getDegradedScannerSources()
       .map((source) => source.id);
+    const collectionRankingsStatus =
+      deps.collectionRankings.getCollectionRankingsStatus();
+    const collectionRankingsDataAsOf =
+      deps.collectionRankings.getCollectionRankingsDataAsOf();
+    const collectionRankingsErrorCount =
+      deps.collectionRankings.getCollectionRankingsErrorCount();
+    const degradedSources =
+      collectionRankingsStatus === "degraded"
+        ? [...scannerDegradedSources, "collection-rankings"]
+        : scannerDegradedSources;
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
       sources.map((source) => [source.id, source]),
     );
@@ -549,6 +564,9 @@ export async function GET(
       recentReposFetchedAt,
       repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
+      collectionRankingsStatus,
+      collectionRankingsDataAsOf,
+      collectionRankingsErrorCount,
       redditFetchedAt: reddit?.fetchedAt ?? null,
       redditCold: reddit?.cold ?? true,
       blueskyFetchedAt: bluesky?.fetchedAt ?? null,
@@ -657,7 +675,7 @@ export async function GET(
     }
 
     return NextResponse.json(body, {
-      status: anyStale && !soft ? 503 : 200,
+      status: getHealthHttpStatusForStatus(body.status, soft),
       headers: includeDetail ? DETAIL_HEALTH_HEADERS : undefined,
     });
   } catch (err) {

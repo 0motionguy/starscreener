@@ -15,6 +15,8 @@
 
 import trending from "../../data/trending.json";
 import deltasData from "../../data/deltas.json";
+import { FAST_DATA_STALE_THRESHOLD_MS } from "./source-health-thresholds";
+import { shouldUseToolboxPayload } from "./toolbox-freshness";
 import type { Repo } from "./types";
 
 export type TrendingPeriod = "past_24_hours" | "past_week" | "past_month";
@@ -52,7 +54,10 @@ export interface TrendingRow {
 
 interface TrendingFile {
   fetchedAt: string;
-  buckets: Record<TrendingPeriod, Record<TrendingLanguage, TrendingRow[]>>;
+  buckets: Partial<Record<TrendingPeriod, Partial<Record<TrendingLanguage, TrendingRow[]>>>>;
+  status?: "ok" | "degraded";
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 // Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
@@ -97,6 +102,20 @@ export function getAllFullNames(): string[] {
     }
   }
   return out;
+}
+
+export function countTrendingPayloadRows(file: TrendingFile): number {
+  let count = 0;
+  for (const langMap of Object.values(file.buckets ?? {})) {
+    for (const rows of Object.values(langMap)) {
+      if (Array.isArray(rows)) count += rows.length;
+    }
+  }
+  return count;
+}
+
+export function isUsableTrendingPayload(file: TrendingFile): boolean {
+  return countTrendingPayloadRows(file) > 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -244,7 +263,11 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
         readDeltasWithToolboxFallback(store),
       ]);
 
-      if (trendingResult.data && trendingResult.source !== "missing") {
+      if (
+        trendingResult.data &&
+        trendingResult.source !== "missing" &&
+        isUsableTrendingPayload(trendingResult.data)
+      ) {
         data = trendingResult.data;
         _fullNameToRepoId = null;
       }
@@ -302,7 +325,14 @@ async function readDeltasWithToolboxFallback(
     if (apiUrl && apiKey) {
       const { fetchDeltasFromToolbox } = await import("./toolbox-store-velocity");
       const toolboxFile = await fetchDeltasFromToolbox({ apiUrl, apiKey });
-      if (toolboxFile) {
+      if (
+        toolboxFile &&
+        shouldUseToolboxPayload({
+          source: "velocity",
+          timestamp: toolboxFile.computedAt,
+          freshnessBudgetMs: FAST_DATA_STALE_THRESHOLD_MS,
+        })
+      ) {
         return { data: toolboxFile, source: "redis", ageMs: 0, fresh: true };
       }
     }
@@ -507,4 +537,3 @@ export function assembleRepoFromTrending(repo: Repo, d: DeltasJson): Repo {
     contributorsDelta30dMissing: true,
   };
 }
-

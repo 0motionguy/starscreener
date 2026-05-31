@@ -13,7 +13,7 @@
 // HTTP client's ETag cache to keep redis namespace tidy.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
 // 2026-05-20: expanded from 5 → 10 languages alongside scripts/scrape-trending.mjs
@@ -78,11 +78,17 @@ export interface NormalizedHotCollectionRow {
 export interface TrendingPayload {
   fetchedAt: string;
   buckets: Record<string, Record<string, OssRow[]>>;
+  status?: 'ok' | 'degraded';
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 export interface HotCollectionsPayload {
   fetchedAt: string;
   rows: NormalizedHotCollectionRow[];
+  status?: 'ok' | 'degraded';
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 const sleep = (ms: number): Promise<void> =>
@@ -116,6 +122,20 @@ function normalizeHotCollectionRow(
   };
 }
 
+function trendingRows(
+  payload: TrendingPayload | null | undefined,
+  period: string,
+  language: string,
+): OssRow[] {
+  return payload?.buckets?.[period]?.[language] ?? [];
+}
+
+function hotRowsFromPayload(
+  payload: HotCollectionsPayload | null | undefined,
+): NormalizedHotCollectionRow[] {
+  return Array.isArray(payload?.rows) ? payload.rows : [];
+}
+
 const fetcher: Fetcher = {
   name: 'oss-trending',
   // Staggered to :22 (was :27 — clustered with 3 others). Runs first in
@@ -134,7 +154,16 @@ const fetcher: Fetcher = {
 
     const fetchedAt = new Date().toISOString();
     const buckets: Record<string, Record<string, OssRow[]>> = {};
+    const priorTrending =
+      (await readDataStore<TrendingPayload>('trending').catch(() => null)) ??
+      null;
+    const priorHotCollections =
+      (await readDataStore<HotCollectionsPayload>('hot-collections').catch(
+        () => null,
+      )) ?? null;
     let totalRows = 0;
+    let preservedTrendRows = 0;
+    let missingTrendFallbacks = 0;
 
     for (const period of PERIODS) {
       buckets[period] = {};
@@ -152,15 +181,39 @@ const fetcher: Fetcher = {
           ctx.log.info({ period, language, rows: rows.length }, 'bucket fetched');
         } catch (err) {
           const message = (err as Error).message;
-          ctx.log.error({ period, language, err: message }, 'bucket fetch failed');
-          errors.push({ stage: `bucket:${label}`, message });
-          buckets[period]![language] = [];
+          const priorRows = trendingRows(priorTrending, period, language);
+          if (priorRows.length > 0) {
+            buckets[period]![language] = priorRows;
+            preservedTrendRows += priorRows.length;
+            totalRows += priorRows.length;
+            ctx.log.error(
+              {
+                period,
+                language,
+                err: message,
+                preservedRows: priorRows.length,
+              },
+              'bucket fetch failed - preserving cached rows',
+            );
+            errors.push({
+              stage: `bucket:${label}`,
+              message: `${message} (preserved ${priorRows.length} cached)`,
+            });
+          } else {
+            ctx.log.error({ period, language, err: message }, 'bucket fetch failed');
+            errors.push({ stage: `bucket:${label}`, message });
+            buckets[period]![language] = [];
+            missingTrendFallbacks += 1;
+          }
         }
         await sleep(TRENDS_PAUSE_MS);
       }
     }
 
     let hotRows: NormalizedHotCollectionRow[] = [];
+    let preservedHotRows = 0;
+    let missingHotFallback = false;
+    const hotErrors: Array<{ stage: string; message: string }> = [];
     try {
       const { data } = await ctx.http.json<OssEnvelope<HotCollectionRow>>(
         HOT_COLLECTIONS_URL,
@@ -172,30 +225,114 @@ const fetcher: Fetcher = {
       ctx.log.info({ rows: hotRows.length }, 'hot collections fetched');
     } catch (err) {
       const message = (err as Error).message;
-      ctx.log.error({ err: message }, 'hot collections fetch failed');
-      errors.push({ stage: 'hot-collections', message });
+      const priorRows = hotRowsFromPayload(priorHotCollections);
+      if (priorRows.length > 0) {
+        hotRows = priorRows;
+        preservedHotRows = priorRows.length;
+        ctx.log.error(
+          { err: message, preservedRows: priorRows.length },
+          'hot collections fetch failed - preserving cached rows',
+        );
+        const preserved = {
+          stage: 'hot-collections',
+          message: `${message} (preserved ${priorRows.length} cached)`,
+        };
+        errors.push(preserved);
+        hotErrors.push(preserved);
+      } else {
+        ctx.log.error({ err: message }, 'hot collections fetch failed');
+        const failed = { stage: 'hot-collections', message };
+        errors.push(failed);
+        hotErrors.push(failed);
+        missingHotFallback = true;
+      }
     }
 
-    const trendsPayload: TrendingPayload = { fetchedAt, buckets };
-    const hotPayload: HotCollectionsPayload = { fetchedAt, rows: hotRows };
+    const trendErrors = errors.filter((error) =>
+      error.stage.startsWith('bucket:'),
+    );
+    const trendStatus = trendErrors.length > 0 ? 'degraded' : 'ok';
+    const hotStatus = hotErrors.length > 0 ? 'degraded' : 'ok';
+    const trendsPayload: TrendingPayload = {
+      fetchedAt,
+      buckets,
+      status: trendStatus,
+      dataAsOf:
+        trendStatus === 'degraded'
+          ? priorTrending?.dataAsOf ?? priorTrending?.fetchedAt ?? null
+          : fetchedAt,
+      ...(trendErrors.length > 0 ? { errors: trendErrors } : {}),
+    };
+    const hotPayload: HotCollectionsPayload = {
+      fetchedAt,
+      rows: hotRows,
+      status: hotStatus,
+      dataAsOf:
+        hotStatus === 'degraded'
+          ? priorHotCollections?.dataAsOf ??
+            priorHotCollections?.fetchedAt ??
+            null
+          : fetchedAt,
+      ...(hotErrors.length > 0 ? { errors: hotErrors } : {}),
+    };
 
-    const [trendsRes, hotRes] = await Promise.all([
-      writeDataStore('trending', trendsPayload),
-      writeDataStore('hot-collections', hotPayload),
-    ]);
+    let trendsSource: 'redis' | 'preserved' = 'preserved';
+    let hotSource: 'redis' | 'preserved' = 'preserved';
+    if (totalRows > 0 && missingTrendFallbacks === 0) {
+      const trendsRes = await writeDataStore(
+        'trending',
+        trendsPayload,
+        trendStatus === 'degraded'
+          ? { writer: 'worker:oss-trending:degraded' }
+          : {},
+      );
+      trendsSource = trendsRes.source === 'redis' ? 'redis' : 'preserved';
+    } else {
+      const message =
+        missingTrendFallbacks > 0
+          ? `missing cached rows for ${missingTrendFallbacks} failed trend bucket(s); skipped empty trending publish`
+          : 'all trend buckets empty; skipped empty trending publish';
+      errors.push({ stage: 'guard:trending', message });
+      ctx.log.error(
+        {
+          totalRows,
+          preservedTrendRows,
+          missingTrendFallbacks,
+        },
+        message,
+      );
+    }
+
+    if (hotRows.length > 0 && !missingHotFallback) {
+      const hotRes = await writeDataStore(
+        'hot-collections',
+        hotPayload,
+        hotStatus === 'degraded'
+          ? { writer: 'worker:oss-trending:degraded' }
+          : {},
+      );
+      hotSource = hotRes.source === 'redis' ? 'redis' : 'preserved';
+    } else {
+      const message = missingHotFallback
+        ? 'no cached hot collection rows after upstream failure; skipped empty hot-collections publish'
+        : 'hot collections empty; skipped empty hot-collections publish';
+      errors.push({ stage: 'guard:hot-collections', message });
+      ctx.log.error({ hotCollections: hotRows.length }, message);
+    }
 
     ctx.log.info(
       {
         totalRows,
         hotCollections: hotRows.length,
-        trendingRedis: trendsRes.source,
-        hotRedis: hotRes.source,
+        preservedTrendRows,
+        preservedHotRows,
+        trendingRedis: trendsSource,
+        hotRedis: hotSource,
       },
       'oss-trending published',
     );
 
-    const redisPublished =
-      trendsRes.source === 'redis' && hotRes.source === 'redis';
+    const redisPublished = trendsSource === 'redis' && hotSource === 'redis';
     return done(startedAt, totalRows + hotRows.length, redisPublished, errors);
   },
 };

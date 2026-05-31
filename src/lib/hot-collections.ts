@@ -30,6 +30,9 @@ interface HotCollectionRow {
 interface HotCollectionsFile {
   fetchedAt: string;
   rows: HotCollectionRow[];
+  status?: "ok" | "degraded";
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 // Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
@@ -89,6 +92,14 @@ export function getHotAiCollections(
   );
 }
 
+export function countHotCollectionRows(file: HotCollectionsFile): number {
+  return Array.isArray(file.rows) ? file.rows.length : 0;
+}
+
+export function isUsableHotCollectionsPayload(file: HotCollectionsFile): boolean {
+  return countHotCollectionRows(file) > 0;
+}
+
 // ---------------------------------------------------------------------------
 // Refresh hook — pulls fresh hot-collections from the data-store.
 // ---------------------------------------------------------------------------
@@ -118,7 +129,11 @@ export async function refreshHotCollectionsFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const result = await getDataStore().read<HotCollectionsFile>("hot-collections");
-      if (result.data && result.source !== "missing") {
+      if (
+        result.data &&
+        result.source !== "missing" &&
+        isUsableHotCollectionsPayload(result.data)
+      ) {
         data = result.data;
       }
       lastRefreshMs = Date.now();
@@ -140,4 +155,3 @@ export function _resetHotCollectionsCacheForTests(): void {
   lastRefreshMs = 0;
   inflight = null;
 }
-

@@ -3,7 +3,6 @@
 // repo. The page passes already-normalized NewsItem rows so this
 // component is source-agnostic.
 
-import Link from "next/link";
 import { RepoLink } from "@/components/repo/RepoLink";
 
 export interface NewsItem {

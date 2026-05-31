@@ -69,20 +69,31 @@ export const clerkAppearance: Appearance = {
     // truncates labels ("Goog..." "X / T..."). One per row + bigger
     // padding makes them the primary CTA pattern.
     socialButtons:
-      "!grid-cols-1 !flex !flex-col gap-2.5 w-full",
+      "!grid-cols-1 !flex !flex-col gap-3 w-full",
     socialButtonsBlockButton: [
       "w-full",
       "border border-[#2a323b]",
-      "bg-[#101418] hover:bg-[#151a20]",
-      "hover:border-[#ff6b35]/50",
-      "text-[#f1f5f9]",
-      "py-3 px-4",
+      "bg-[#101418] hover:bg-[#1a2026]",
+      "hover:border-[#ff6b35]",
+      "!text-white",
+      "py-4 px-5",
       "transition-colors",
-      "justify-start",
+      "justify-start gap-3",
     ].join(" "),
     socialButtonsBlockButtonText:
-      "text-[#f1f5f9] font-semibold text-[15px]",
-    socialButtonsProviderIcon: "w-5 h-5 mr-1",
+      "!text-white font-semibold text-base",
+    socialButtonsProviderIcon: "!opacity-100 w-6 h-6",
+    // Operator decree 2026-05-31: social-only Sign up modal. Hide the
+    // email/password form (first/last/email/password + CONTINUE) and the
+    // "OR" divider so the 3 OAuth providers are the only path forward.
+    // Email-password auth stays available at the /sign-up hosted page —
+    // this only affects the in-place modal.
+    dividerRow: "hidden",
+    form: "hidden",
+    formFieldRow: "hidden",
+    formButtonPrimary: "hidden",
+    formFieldLabel: "hidden",
+    formFieldInput: "hidden",
     dividerLine: "bg-[#222a32]",
     dividerText: "text-[#6b7785] text-xs uppercase tracking-wider",
     formFieldLabel: "text-[#f1f5f9] text-sm font-medium mb-1.5",

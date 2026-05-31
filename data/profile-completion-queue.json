@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T06:51:23.152Z",
+  "generatedAt": "2026-05-31T09:43:37.009Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -628,12 +628,12 @@
     {
       "fullName": "gi-dellav/zerostack",
       "rank": 34,
-      "completenessScore": 57,
+      "completenessScore": 62,
       "breakdown": {
         "required": 25,
         "coverage": 12,
         "deltas": 20,
-        "enrichment": 0
+        "enrichment": 5
       },
       "missingFields": [
         "topics"
@@ -653,7 +653,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 1009,
+      "priority": 1004,
       "lastSweptAt": null
     },
     {
@@ -1427,18 +1427,19 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "NVlabs/Sana",
-      "rank": 82,
-      "completenessScore": 59,
+      "fullName": "anthropics/knowledge-work-plugins",
+      "rank": 80,
+      "completenessScore": 62,
       "breakdown": {
-        "required": 30,
-        "coverage": 6,
-        "deltas": 13,
-        "enrichment": 10
+        "required": 25,
+        "coverage": 12,
+        "deltas": 20,
+        "enrichment": 5
       },
-      "missingFields": [],
+      "missingFields": [
+        "topics"
+      ],
       "underScannedSources": [
-        "twitter",
         "reddit",
         "hackernews",
         "devto",
@@ -1449,11 +1450,11 @@
         "arxiv",
         "funding"
       ],
-      "socialFiring": 1,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "sweep",
-      "priority": 959,
+      "socialFiring": 2,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 958,
       "lastSweptAt": null
     },
     {
@@ -1581,36 +1582,6 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 955,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "anthropics/knowledge-work-plugins",
-      "rank": 80,
-      "completenessScore": 68,
-      "breakdown": {
-        "required": 25,
-        "coverage": 18,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 3,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 952,
       "lastSweptAt": null
     },
     {
@@ -1858,7 +1829,7 @@
   "summary": {
     "byAction": {
       "enrich": 0,
-      "sweep": 35,
+      "sweep": 34,
       "both": 25,
       "noop": 0
     },
@@ -1866,9 +1837,9 @@
     "p50Score": 56,
     "channelsFiringHistogram": {
       "0": 13,
-      "1": 35,
-      "2": 9,
-      "3": 3,
+      "1": 34,
+      "2": 10,
+      "3": 2,
       "4": 0,
       "5": 0
     }

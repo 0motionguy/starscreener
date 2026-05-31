@@ -20,6 +20,10 @@ import {
   pickGithubToken,
   recordRateLimit,
 } from '../../lib/util/github-token-pool.js';
+import {
+  METRICS,
+  SEED_COLLECTION_RANKINGS,
+} from '../collection-rankings/fallback.js';
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
 const API_VERSION = '2022-11-28';
@@ -87,6 +91,16 @@ interface RegistryPayloadLite {
   repos?: Record<string, { fullName?: string; lastSeenAt?: string }>;
 }
 
+function addCollectionSeedRepos(out: Map<string, string>): void {
+  for (const collection of Object.values(SEED_COLLECTION_RANKINGS.collections)) {
+    for (const metric of METRICS) {
+      for (const row of collection[metric] ?? []) {
+        addFullName(out, row.repoName);
+      }
+    }
+  }
+}
+
 function collectFullNames(
   trending: TrendingPayload | null,
   recentRepos: RecentReposPayload | null,
@@ -112,6 +126,10 @@ function collectFullNames(
     (b.lastSeenAt ?? '') < (a.lastSeenAt ?? '') ? -1 : (b.lastSeenAt ?? '') > (a.lastSeenAt ?? '') ? 1 : 0,
   );
   for (const entry of registryEntries) addFullName(names, entry?.fullName);
+  // The collection-ranking fallback is now GitHub-backed during OSSInsight
+  // outages. Hydrate that curated roster here so collection health does not
+  // depend on stale OSSInsight rows being present in the trending feed.
+  addCollectionSeedRepos(names);
   return Array.from(names.values()).sort((a, b) =>
     a.toLowerCase().localeCompare(b.toLowerCase()),
   );

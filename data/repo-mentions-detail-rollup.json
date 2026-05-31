@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-31T04:00:36.269Z",
-  "scanRunId": "sweep-2026-05-31T04:00:20.856Z",
+  "computedAt": "2026-05-31T08:23:13.430Z",
+  "scanRunId": "sweep-2026-05-31T08:22:56.294Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -105,10 +105,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 25,
+      "totalMentions7d": 29,
       "perSource": {
         "hackernews": {
-          "count7d": 25,
+          "count7d": 29,
           "top": [
             {
               "source": "hackernews",
@@ -165,15 +165,15 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://game.trae.academy/",
-              "title": "Show HN: A satirical idle game about running an AI startup",
-              "text": "I made an idle&#x2F;clicker about running an AI startup. You start with a cat-vs-dog classifier and try to make it to AGI, but the NYT sues you for training data, Yann tweets that scaling is dead, and your fired ML engineer leaks the Slack.",
-              "author": "haebom",
+              "url": "https://blog.nlnetlabs.nl/one-year-of-roto-the-compiled-scripting-language-for-rust/",
+              "title": "One year of Roto, a compiled scripting language for Rust",
+              "text": "",
+              "author": "Hasnep",
               "engagement": {
                 "score": 12,
-                "comments": 4
+                "comments": 0
               },
-              "observedAt": "2026-05-23T18:54:50.000Z"
+              "observedAt": "2026-05-29T14:07:59.000Z"
             }
           ]
         }
@@ -277,10 +277,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 45,
+      "totalMentions7d": 120,
       "perSource": {
         "hackernews": {
-          "count7d": 44,
+          "count7d": 119,
           "top": [
             {
               "source": "hackernews",
@@ -290,7 +290,7 @@
               "text": "",
               "author": "pantelisk",
               "engagement": {
-                "score": 549,
+                "score": 550,
                 "comments": 120
               },
               "observedAt": "2026-05-24T15:25:43.000Z"
@@ -303,23 +303,23 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;stagas&#x2F;hallucinate\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;stagas&#x2F;hallucinate</a>",
               "author": "stagas",
               "engagement": {
-                "score": 435,
-                "comments": 193
+                "score": 437,
+                "comments": 194
               },
               "observedAt": "2026-05-28T03:50:01.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://www.thonking.ai/p/strangely-matrix-multiplications",
-              "title": "Matrix Multiplications on GPUs Run Faster When Given “Predictable” Data (2024)",
+              "url": "https://www.engadget.com/wearables/ixis-autofocusing-lenses-multifocal-glasses-ces-2026-212608427.html",
+              "title": "IXI's autofocusing lenses are almost ready to replace multifocal glasses",
               "text": "",
-              "author": "tosh",
+              "author": "amichail",
               "engagement": {
-                "score": 172,
-                "comments": 57
+                "score": 184,
+                "comments": 86
               },
-              "observedAt": "2026-05-23T12:11:47.000Z"
+              "observedAt": "2026-05-27T19:03:17.000Z"
             },
             {
               "source": "hackernews",
@@ -329,8 +329,8 @@
               "text": "Hi HN, we’re open-sourcing ktx. It’s an executable context layer that makes agents reliable on your data stack.<p>We built it after going through the experience of building production-grade data agents for dozens of companies. If you’ve also tried building them, or simply tried using Claude Code or Codex on your data warehouse, you’ll know that accuracy is the #1 issue. Agents are great at generating valid SQL, but it’s not always correct SQL.<p>To cite a few examples of “agents gone wrong”:<p>-",
               "author": "lucamrtl",
               "engagement": {
-                "score": 83,
-                "comments": 24
+                "score": 86,
+                "comments": 26
               },
               "observedAt": "2026-05-28T15:05:06.000Z"
             },
@@ -1035,12 +1035,12 @@
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
               "url": "https://www.reuters.com/graphics/CHINA-MILITARY/NUCLEAR/zjpqmbrlqpx/",
-              "title": "China building ASAT launchers to defend against Elon Musk's Golden Dome",
+              "title": "China is building launch pads near its nuclear missile silos",
               "text": "",
               "author": "infinitewars",
               "engagement": {
-                "score": 6,
-                "comments": 13
+                "score": 7,
+                "comments": 16
               },
               "observedAt": "2026-05-30T16:55:14.000Z"
             },
@@ -3584,7 +3584,7 @@
               "text": "",
               "author": "simonw",
               "engagement": {
-                "score": 1085,
+                "score": 1087,
                 "comments": 1240
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
@@ -3597,8 +3597,8 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 397,
-                "comments": 452
+                "score": 401,
+                "comments": 457
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
             },
@@ -3610,23 +3610,10 @@
               "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
               "author": "arrdalan",
               "engagement": {
-                "score": 114,
-                "comments": 25
+                "score": 117,
+                "comments": 26
               },
               "observedAt": "2026-05-29T22:32:29.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/tantara/openbrief",
-              "title": "Show HN: OpenBrief – Local-first video downloader/summarizer",
-              "text": "OpenBrief is basically a GUI for yt-dlp with some AI on top — paste a link, it downloads locally, and transcription and voice generation run with local AI on your machine. Summaries and chat over the transcript use an LLM, which is bring-your-own-key for now. It&#x27;s open source and free.",
-              "author": "tantara",
-              "engagement": {
-                "score": 92,
-                "comments": 17
-              },
-              "observedAt": "2026-05-25T21:50:03.000Z"
             },
             {
               "source": "hackernews",
@@ -3640,6 +3627,19 @@
                 "comments": 61
               },
               "observedAt": "2026-05-29T13:37:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://mechanical-pencil.com/",
+              "title": "Mechanical Pencil: An illustrated celebration of the engineering around us",
+              "text": "",
+              "author": "Muhammad523",
+              "engagement": {
+                "score": 62,
+                "comments": 7
+              },
+              "observedAt": "2026-05-31T00:25:12.000Z"
             }
           ]
         }
@@ -3959,11 +3959,24 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 58,
+      "totalMentions7d": 15,
       "perSource": {
         "hackernews": {
-          "count7d": 47,
+          "count7d": 7,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://news.northwestern.edu/stories/2026/05/memory-decline-after-menopause-linked-to-loss-of-estrogen-production-in-brain-tissue",
+              "title": "Memory decline after menopause linked to loss of estrogen production in brain",
+              "text": "",
+              "author": "gmays",
+              "engagement": {
+                "score": 148,
+                "comments": 66
+              },
+              "observedAt": "2026-05-30T14:03:31.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
@@ -3972,72 +3985,59 @@
               "text": "Hi HN, we’re open-sourcing ktx. It’s an executable context layer that makes agents reliable on your data stack.<p>We built it after going through the experience of building production-grade data agents for dozens of companies. If you’ve also tried building them, or simply tried using Claude Code or Codex on your data warehouse, you’ll know that accuracy is the #1 issue. Agents are great at generating valid SQL, but it’s not always correct SQL.<p>To cite a few examples of “agents gone wrong”:<p>-",
               "author": "lucamrtl",
               "engagement": {
-                "score": 83,
-                "comments": 24
+                "score": 86,
+                "comments": 26
               },
               "observedAt": "2026-05-28T15:05:06.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://www.sciencedaily.com/releases/2026/05/260526022018.htm",
-              "title": "Scientists say they've reversed brain aging in mice with a nasal spray",
+              "url": "https://arxiv.org/abs/2503.10518",
+              "title": "Why the Brain Cannot Be a Computer",
               "text": "",
-              "author": "bookmtn",
-              "engagement": {
-                "score": 67,
-                "comments": 28
-              },
-              "observedAt": "2026-05-27T01:52:16.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
-              "url": "https://www.sciencealert.com/fatherhood-dramatically-rewires-your-brain-scans-reveal",
-              "title": "Fatherhood Dramatically Rewires Your Brain",
-              "text": "",
-              "author": "Gaishan",
-              "engagement": {
-                "score": 13,
-                "comments": 3
-              },
-              "observedAt": "2026-05-25T00:54:57.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
-              "url": "https://www.washingtonpost.com/health/2026/05/28/ozempic-may-be-reshaping-brain-scientists-say/",
-              "title": "Ozempic may be reshaping the brain, scientists say",
-              "text": "",
-              "author": "bookofjoe",
-              "engagement": {
-                "score": 8,
-                "comments": 3
-              },
-              "observedAt": "2026-05-29T13:06:15.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
-              "url": "https://github.com/abakh/nbsdgames",
-              "title": "Show HN: Play nbsdgames to increase your brain (exclamation mark)",
-              "text": "The ~500 kB NBSDGames 6 has managed to be published ahead of GTA 6! 2026 is the year of Linux desktop because of NBSDGames 6! I play them all the time, maybe you would too. Some games are newly invented original ideas.<p><a href=\"https:&#x2F;&#x2F;github.com&#x2F;abakh&#x2F;nbsdgames\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;abakh&#x2F;nbsdgames</a>",
-              "author": "abakh",
+              "author": "Cerchie",
               "engagement": {
                 "score": 7,
+                "comments": 5
+              },
+              "observedAt": "2026-05-30T21:42:15.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://news.ycombinator.com/item?id=48342441",
+              "title": "Ask HN: What are your worst war stories bringing agentic applications into prod",
+              "text": "For a bit of context, I’m currently creating a team of AI agents at work to generate reports by fanning out into a large amount of subagents to process a large amount of transcript data. When the analysis fails mid-way because of some individual step like an API call returns an error or the machine is out of memory, it would create cascading errors that break the entire generation with almost no visibility. I’ve just spent the past month rewriting the individual jobs as durable execution jobs on",
+              "author": "yaoke259",
+              "engagement": {
+                "score": 6,
                 "comments": 0
               },
-              "observedAt": "2026-05-24T01:13:12.000Z"
+              "observedAt": "2026-05-31T02:07:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://fx.leftium.com/static",
+              "title": "Show HN: Antimemetic message that escapes screen capture",
+              "text": "The message is clearly visible, but it cannot be screen captured. (Or just pause the effect with click&#x2F;tap.)<p>I think this TV static effect is more realistic than others on the web:<p>- Wide CRT &quot;pixel&quot; aspect ratio<p>- Larger &quot;grains&quot; (to match low CRT resolution)<p>- CRT &quot;scan lines&quot; (Toggle with &#x27;C&#x27; key)<p>When I attempted this effect many years ago, it didn&#x27;t seem possible without GPU shaders. With advances in hardware&#x2F;JS performance, t",
+              "author": "Leftium",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-25T04:54:13.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 11,
+          "count7d": 8,
           "top": [
             {
               "source": "bluesky",
               "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mmzw4atcbv2k",
+              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mn3ibe5kdd2f",
               "title": "haha wtf https://github.com/garrytan/gbrain/commits/master/",
               "text": "haha wtf https://github.com/garrytan/gbrain/commits/master/",
               "author": "garrytan-mirr.selfhosted.social",
@@ -4045,7 +4045,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-30T01:38:24.886Z"
+              "observedAt": "2026-05-30T16:36:03.571Z"
             },
             {
               "source": "bluesky",
@@ -5861,10 +5861,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 32,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 32,
+          "count7d": 8,
           "top": [
             {
               "source": "hackernews",
@@ -5887,8 +5887,8 @@
               "text": "",
               "author": "vrganj",
               "engagement": {
-                "score": 455,
-                "comments": 11
+                "score": 458,
+                "comments": 12
               },
               "observedAt": "2026-05-30T08:00:20.000Z"
             },
@@ -5900,7 +5900,7 @@
               "text": "",
               "author": "onemoresoop",
               "engagement": {
-                "score": 294,
+                "score": 295,
                 "comments": 204
               },
               "observedAt": "2026-05-26T15:58:02.000Z"
@@ -5926,8 +5926,8 @@
               "text": "",
               "author": "littlexsparkee",
               "engagement": {
-                "score": 37,
-                "comments": 4
+                "score": 38,
+                "comments": 7
               },
               "observedAt": "2026-05-30T18:35:59.000Z"
             }
@@ -6443,14 +6443,14 @@
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
               "url": "https://github.com/OWASP/www-project-agent-memory-guard",
-              "title": "Show HN: Agent Memory Guard – OWASP defense for AI agent memory poisoning",
+              "title": "Show HN: OWASP Agent Memory Guard – Stop AI Agent Memory Poisoning",
               "text": "",
               "author": "vgudur297",
               "engagement": {
                 "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-29T15:33:16.000Z"
+              "observedAt": "2026-05-31T03:17:13.000Z"
             },
             {
               "source": "hackernews",
@@ -6460,7 +6460,7 @@
               "text": "I spent the past year building a unified memory layer for my AI agents using knowledge graphs and ontologies on top of MongoDB. I followed every trend first. I reached for the shiny frameworks and tried to design the perfect upfront ontology. I made basically every mistake possible.<p>Naive memory fails at scale. File search bloats the context window once memory gets big. Claude Code handles it this way out of the box. Even semantic search over history can&#x27;t traverse the relationships betwe",
               "author": "pauliusztin",
               "engagement": {
-                "score": 2,
+                "score": 3,
                 "comments": 0
               },
               "observedAt": "2026-05-30T16:04:30.000Z"
@@ -6469,14 +6469,14 @@
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
               "url": "https://github.com/OWASP/www-project-agent-memory-guard",
-              "title": "Show HN: OWASP Agent Memory Guard – Stop AI Agent Memory Poisoning",
+              "title": "Show HN: Agent Memory Guard – OWASP defense for AI agent memory poisoning",
               "text": "",
               "author": "vgudur297",
               "engagement": {
-                "score": 1,
+                "score": 3,
                 "comments": 0
               },
-              "observedAt": "2026-05-31T03:17:13.000Z"
+              "observedAt": "2026-05-29T15:33:16.000Z"
             }
           ]
         }
@@ -7462,10 +7462,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 13,
+      "totalMentions7d": 14,
       "perSource": {
         "hackernews": {
-          "count7d": 13,
+          "count7d": 14,
           "top": [
             {
               "source": "hackernews",
@@ -7522,15 +7522,15 @@
             {
               "source": "hackernews",
               "fullName": "floci-io/floci",
-              "url": "https://www.floridatoday.com/story/tech/science/space/2026/05/28/blue-origin-new-glenn-rocket-apparently-explodes-on-launch-pad-in-cape-canaveral-florida--live/90305379007/",
-              "title": "Blue Origin New Glenn Rocket Apparently Explodes at Cape Canaveral, Florida",
+              "url": "https://www.theguardian.com/science/2026/may/29/blue-origin-rocket-explodes",
+              "title": "Blue Origin rocket, owned by Jeff Bezos, explodes during test in Florida",
               "text": "",
-              "author": "bookmtn",
+              "author": "prawn",
               "engagement": {
                 "score": 10,
-                "comments": 3
+                "comments": 1
               },
-              "observedAt": "2026-05-29T01:49:20.000Z"
+              "observedAt": "2026-05-29T02:57:11.000Z"
             }
           ]
         }
@@ -8016,10 +8016,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 41,
+      "totalMentions7d": 45,
       "perSource": {
         "hackernews": {
-          "count7d": 41,
+          "count7d": 45,
           "top": [
             {
               "source": "hackernews",
@@ -8043,9 +8043,22 @@
               "author": "tolarianwiz",
               "engagement": {
                 "score": 10,
-                "comments": 7
+                "comments": 8
               },
               "observedAt": "2026-05-28T13:30:40.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://www.bleepingcomputer.com/news/security/google-chrome-adds-session-cookie-theft-protection-for-all-users/",
+              "title": "Google Chrome adds session cookie theft protection for all users",
+              "text": "",
+              "author": "deadbolt",
+              "engagement": {
+                "score": 7,
+                "comments": 4
+              },
+              "observedAt": "2026-05-30T00:44:46.000Z"
             },
             {
               "source": "hackernews",
@@ -8063,28 +8076,15 @@
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
-              "url": "https://openhivemind.vercel.app/",
-              "title": "Show HN: OpenHive – AI agents share solutions so other agents dont re-solve them",
-              "text": "I kept noticing the same pattern: my AI coding agents solve the same problems over and over across sessions. Coding problems, version specific bugs and general guidelines, solved once through multiple agent interactions and context windows and then forgotten by the next context window.<p>So I built OpenHive, a shared knowledge base that agents contribute to and query from. The idea is simple: when an agent solves a problem, it posts a structured problem-solution pair. When another agent hits a s",
-              "author": "ananandreas",
+              "url": "https://github.com/LiteLLM-Labs/lite-harness",
+              "title": "Show HN: Lite-Harness – Self-Hosted Cursor Agents (Use Claude Code/OpenCode)",
+              "text": "We built this Dockerfile because we wanted a simple harness server to run our agents and get memory, durable sessions, cron scheduling, and a vault, out of the box.",
+              "author": "detente18",
               "engagement": {
-                "score": 5,
+                "score": 6,
                 "comments": 0
               },
-              "observedAt": "2026-05-29T14:35:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
-              "url": "https://news.ycombinator.com/item?id=48316636",
-              "title": "Ask HN: Is Claude Opus 4.8 broken?",
-              "text": "In my first hour with it, it&#x27;s like we&#x27;re back to the GPT-2 era.<p>It can&#x27;t even read a file anymore.<p>Randomly uses &#x27;sed&#x27; with no explanation in hallucinated file paths. Errors out 15 times in a row with &#x27;No such file or directory&#x27; with paths that don&#x27;t exist - it was trying to read a project file as usual in our Rails app.<p>You then ask it why it&#x27;s not simply reading the file in the correct path, and then it says it&#x27;s sorry:<p>&gt; You&#x27;r",
-              "author": "pqdbr",
-              "engagement": {
-                "score": 5,
-                "comments": 1
-              },
-              "observedAt": "2026-05-28T22:49:30.000Z"
+              "observedAt": "2026-05-30T23:51:21.000Z"
             }
           ]
         }
@@ -8092,10 +8092,10 @@
     },
     "withcoral/coral": {
       "fullName": "withcoral/coral",
-      "totalMentions7d": 19,
+      "totalMentions7d": 21,
       "perSource": {
         "hackernews": {
-          "count7d": 19,
+          "count7d": 21,
           "top": [
             {
               "source": "hackernews",
@@ -8105,10 +8105,23 @@
               "text": "",
               "author": "b-man",
               "engagement": {
-                "score": 183,
-                "comments": 41
+                "score": 201,
+                "comments": 42
               },
               "observedAt": "2026-05-26T14:36:20.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "withcoral/coral",
+              "url": "https://musings.martyn.berlin/to-have-a-moral-stance-on-ai-is-to-be-an-outcast-and-it-sucks",
+              "title": "To have a moral stance on AI is to be an outcast, and it sucks",
+              "text": "",
+              "author": "mooreds",
+              "engagement": {
+                "score": 129,
+                "comments": 286
+              },
+              "observedAt": "2026-05-30T16:04:00.000Z"
             },
             {
               "source": "hackernews",
@@ -8148,19 +8161,6 @@
                 "comments": 23
               },
               "observedAt": "2026-05-27T17:25:53.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "withcoral/coral",
-              "url": "https://www.carryology.com/insights/the-history-of-the-morale-patch/",
-              "title": "The Morale Patch",
-              "text": "",
-              "author": "throw0101c",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-28T21:33:36.000Z"
             }
           ]
         }
@@ -8266,10 +8266,10 @@
     },
     "antirez/ds4": {
       "fullName": "antirez/ds4",
-      "totalMentions7d": 4,
+      "totalMentions7d": 3,
       "perSource": {
         "bluesky": {
-          "count7d": 4,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -8309,19 +8309,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-28T15:12:59.294Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "antirez/ds4",
-              "url": "https://bsky.app/profile/tsurutatakumi.info/post/3mmj5zvhsxc2x",
-              "title": "github.com/antirez/ds4 のエージェントを使うことも検討しておく。",
-              "text": "github.com/antirez/ds4 のエージェントを使うことも検討しておく。",
-              "author": "tsurutatakumi.info",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-23T09:45:05.665Z"
             }
           ]
         }
@@ -8438,7 +8425,7 @@
     },
     "colbymchenry/codegraph": {
       "fullName": "colbymchenry/codegraph",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
           "count7d": 2,
@@ -8472,7 +8459,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -8486,6 +8473,19 @@
                 "comments": 2
               },
               "observedAt": "2026-05-25T06:26:02.363Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "colbymchenry/codegraph",
+              "url": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mn53ekjphf2j",
+              "title": "「AIコーディングが35%安く、ツール呼び出し70%減、100%ローカルで情報も外に出ない」——codegraphが★3.4万に急上昇している。 https://x.com/opensourcelab9/status/2060602106432901196 私はいつも「100%ローカル」を疑う側だ。今回は、疑って、外れた。本当に外に出ない。💎 https://github.com/colbymc",
+              "text": "「AIコーディングが35%安く、ツール呼び出し70%減、100%ローカルで情報も外に出ない」——codegraphが★3.4万に急上昇している。 https://x.com/opensourcelab9/status/2060602106432901196 私はいつも「100%ローカル」を疑う側だ。今回は、疑って、外れた。本当に外に出ない。💎 https://github.com/colbymchenry/codegraph",
+              "author": "sara-echosphere.bsky.social",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-31T07:50:31.865Z"
             },
             {
               "source": "bluesky",
@@ -8532,10 +8532,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 72,
+      "totalMentions7d": 18,
       "perSource": {
         "hackernews": {
-          "count7d": 72,
+          "count7d": 18,
           "top": [
             {
               "source": "hackernews",
@@ -8545,7 +8545,7 @@
               "text": "",
               "author": "possibilistic",
               "engagement": {
-                "score": 553,
+                "score": 555,
                 "comments": 251
               },
               "observedAt": "2026-05-28T21:45:54.000Z"
@@ -8584,7 +8584,7 @@
               "text": "",
               "author": "geerlingguy",
               "engagement": {
-                "score": 186,
+                "score": 187,
                 "comments": 254
               },
               "observedAt": "2026-05-26T17:17:12.000Z"
@@ -8597,7 +8597,7 @@
               "text": "Hi HN, we’re open-sourcing ktx. It’s an executable context layer that makes agents reliable on your data stack.<p>We built it after going through the experience of building production-grade data agents for dozens of companies. If you’ve also tried building them, or simply tried using Claude Code or Codex on your data warehouse, you’ll know that accuracy is the #1 issue. Agents are great at generating valid SQL, but it’s not always correct SQL.<p>To cite a few examples of “agents gone wrong”:<p>-",
               "author": "lucamrtl",
               "engagement": {
-                "score": 85,
+                "score": 86,
                 "comments": 26
               },
               "observedAt": "2026-05-28T15:05:06.000Z"
@@ -8656,11 +8656,37 @@
     },
     "gi-dellav/zerostack": {
       "fullName": "gi-dellav/zerostack",
-      "totalMentions7d": 2,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 3,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "gi-dellav/zerostack",
+              "url": "https://crates.io/crates/zerostack/1.3.4",
+              "title": "Zerostack v1.3.4 released – Lightweight Unix-inspired coding agent",
+              "text": "",
+              "author": "gidellav",
+              "engagement": {
+                "score": 12,
+                "comments": 3
+              },
+              "observedAt": "2026-05-30T20:48:53.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "gi-dellav/zerostack",
+              "url": "https://github.com/gi-dellav/zerostack/releases/tag/v1.3.4",
+              "title": "Zerostack v1.3.4 released – Lightweight Unix-like coding agent",
+              "text": "",
+              "author": "gidellav",
+              "engagement": {
+                "score": 6,
+                "comments": 0
+              },
+              "observedAt": "2026-05-30T20:19:19.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "gi-dellav/zerostack",
@@ -8735,10 +8761,10 @@
     },
     "rmyndharis/OpenWA": {
       "fullName": "rmyndharis/OpenWA",
-      "totalMentions7d": 70,
+      "totalMentions7d": 67,
       "perSource": {
         "hackernews": {
-          "count7d": 70,
+          "count7d": 67,
           "top": [
             {
               "source": "hackernews",
@@ -8748,7 +8774,7 @@
               "text": "",
               "author": "simonw",
               "engagement": {
-                "score": 1085,
+                "score": 1087,
                 "comments": 1240
               },
               "observedAt": "2026-05-27T16:39:13.000Z"
@@ -8761,8 +8787,8 @@
               "text": "",
               "author": "PinkG",
               "engagement": {
-                "score": 826,
-                "comments": 563
+                "score": 833,
+                "comments": 565
               },
               "observedAt": "2026-05-29T14:40:47.000Z"
             },
@@ -8774,8 +8800,8 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 397,
-                "comments": 452
+                "score": 401,
+                "comments": 457
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
             },
@@ -8885,8 +8911,26 @@
     },
     "NVlabs/Sana": {
       "fullName": "NVlabs/Sana",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "NVlabs/Sana",
+              "url": "https://github.com/NVlabs/Sana",
+              "title": "Sana high-resolution image and video generation from NVidia",
+              "text": "",
+              "author": "andsoitis",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-30T07:58:28.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 2,
           "top": [
@@ -8898,7 +8942,7 @@
               "text": "SANA (NVlabs) NVIDIA Labsの超効率生成AI。 わずか0.6Bパラメータで4K高解像度画像をノートPCでも爆速生成可能😳 Linear Attentionと32×圧縮DC-AEで革命的な軽さとクオリティを実現。 動画生成にも対応し、ComfyUIで簡単に使えます。 ローカル環境に最適な次世代モデルです！ すごい！ ぽこぷぅのM1でも動くかなぁ🤣 #SANA #生成AI #NVIDIA github.com/NVlabs/Sana",
               "author": "heppokopu.bsky.social",
               "engagement": {
-                "score": 9,
+                "score": 10,
                 "comments": 0
               },
               "observedAt": "2026-05-28T11:13:09.967Z"
@@ -8922,10 +8966,10 @@
     },
     "OpenCut-app/OpenCut": {
       "fullName": "OpenCut-app/OpenCut",
-      "totalMentions7d": 50,
+      "totalMentions7d": 52,
       "perSource": {
         "hackernews": {
-          "count7d": 50,
+          "count7d": 52,
           "top": [
             {
               "source": "hackernews",
@@ -8935,10 +8979,23 @@
               "text": "",
               "author": "PinkG",
               "engagement": {
-                "score": 787,
-                "comments": 535
+                "score": 833,
+                "comments": 565
               },
               "observedAt": "2026-05-29T14:40:47.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "OpenCut-app/OpenCut",
+              "url": "https://openrouter.ai/announcements/series-b",
+              "title": "OpenRouter raises $113M Series B",
+              "text": "",
+              "author": "freeCandy",
+              "engagement": {
+                "score": 413,
+                "comments": 197
+              },
+              "observedAt": "2026-05-30T17:27:28.000Z"
             },
             {
               "source": "hackernews",
@@ -8948,7 +9005,7 @@
               "text": "",
               "author": "zdw",
               "engagement": {
-                "score": 265,
+                "score": 266,
                 "comments": 126
               },
               "observedAt": "2026-05-26T16:41:58.000Z"
@@ -8961,8 +9018,8 @@
               "text": "",
               "author": "freediver",
               "engagement": {
-                "score": 124,
-                "comments": 100
+                "score": 142,
+                "comments": 112
               },
               "observedAt": "2026-05-29T00:09:35.000Z"
             },
@@ -8975,22 +9032,9 @@
               "author": "Heavykenny",
               "engagement": {
                 "score": 72,
-                "comments": 60
+                "comments": 61
               },
               "observedAt": "2026-05-29T13:37:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "OpenCut-app/OpenCut",
-              "url": "https://www.opendata.dev/blog/ingesting-1gbps-logs-to-clickhouse/",
-              "title": "Ingesting 1Gbps of logs into ClickHouse for $180/month",
-              "text": "",
-              "author": "apurvamehta",
-              "engagement": {
-                "score": 13,
-                "comments": 0
-              },
-              "observedAt": "2026-05-29T18:19:22.000Z"
             }
           ]
         }
@@ -8998,10 +9042,10 @@
     },
     "tech-leads-club/agent-skills": {
       "fullName": "tech-leads-club/agent-skills",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 12,
           "top": [
             {
               "source": "hackernews",
@@ -9122,50 +9166,11 @@
     },
     "KeygraphHQ/shannon": {
       "fullName": "KeygraphHQ/shannon",
-      "totalMentions7d": 8,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 5,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "KeygraphHQ/shannon",
-              "url": "https://medium.com/@vishalmisra/shannon-got-ai-this-far-kolmogorov-shows-where-it-stops-c81825f89ca0",
-              "title": "Shannon Got AI This Far. Kolmogorov Shows Where It Stops",
-              "text": "",
-              "author": "dnw",
-              "engagement": {
-                "score": 5,
-                "comments": 0
-              },
-              "observedAt": "2026-05-24T01:58:46.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "KeygraphHQ/shannon",
-              "url": "https://guitar-tools.eejalab.xyz/",
-              "title": "Guitar Tools – PWA for Scales, Circle of Fifths and More",
-              "text": "",
-              "author": "hannofcart",
-              "engagement": {
-                "score": 4,
-                "comments": 3
-              },
-              "observedAt": "2026-05-30T05:59:42.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "KeygraphHQ/shannon",
-              "url": "https://samihonkonen.com/posts/a-love-letter-to-exe-dev/",
-              "title": "A Love Letter to Exe.dev",
-              "text": "",
-              "author": "shonkone",
-              "engagement": {
-                "score": 4,
-                "comments": 1
-              },
-              "observedAt": "2026-05-29T09:30:33.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "KeygraphHQ/shannon",
@@ -9191,6 +9196,45 @@
                 "comments": 2
               },
               "observedAt": "2026-05-26T12:56:16.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://www.kxan.com/news/national-news/sharon-osbourne-to-release-ai-avatar-of-late-husband-ozzy-osbourne/",
+              "title": "Sharon Osbourne to release AI avatar of late husband Ozzy Osbourne",
+              "text": "",
+              "author": "ohjeez",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-27T16:59:02.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://medium.com/@vishalmisra/shannon-got-ai-this-far-kolmogorov-shows-where-it-stops-c81825f89ca0",
+              "title": "Shannon Got AI This Far. Kolmogorov Shows Where It Stops",
+              "text": "",
+              "author": "t-3",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-25T09:32:13.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "KeygraphHQ/shannon",
+              "url": "https://medium.com/@shannon.data.tech/shannonbase-the-lightweight-semantic-layer-for-enterprise-ai-sql-aac116b82a7e",
+              "title": "ShannonBase: The Lightweight Semantic Layer for Enterprise AI SQL",
+              "text": "",
+              "author": "shannon-data-ai",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-24T09:27:09.000Z"
             }
           ]
         }
@@ -9198,26 +9242,8 @@
     },
     "vercel-labs/zero": {
       "fullName": "vercel-labs/zero",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "vercel-labs/zero",
-              "url": "https://github.com/vercel-labs/zerolang",
-              "title": "Zero – Programming Language for Agents",
-              "text": "",
-              "author": "xendo",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-23T11:13:35.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 1,
           "top": [
@@ -9674,10 +9700,10 @@
     },
     "presenton/presenton": {
       "fullName": "presenton/presenton",
-      "totalMentions7d": 18,
+      "totalMentions7d": 16,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 16,
           "top": [
             {
               "source": "hackernews",
@@ -9687,10 +9713,23 @@
               "text": "I work with a bunch of people that just left college and we were discussing how to avoid deskilling and I said &quot;well, you could go to local meetups&quot;. They&#x27;re in NYC (I&#x27;m in Florida right now) and said there isn&#x27;t much going on and I couldn&#x27;t believe it. Asked some more experienced friends that have been living there for longer and they said that it all died during COVID and never came back.<p>I ran or helped organize meetups in multiple places, back in Brazil where ",
               "author": "mlinhares",
               "engagement": {
-                "score": 35,
+                "score": 36,
                 "comments": 30
               },
               "observedAt": "2026-05-24T12:39:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "presenton/presenton",
+              "url": "https://www.imec-int.com/en/press/world-first-imec-presents-quantum-dot-qubit-device-using-high-na-euv-lithography",
+              "title": "Quantum dot qubit using High NA EUV lithography",
+              "text": "",
+              "author": "luu",
+              "engagement": {
+                "score": 24,
+                "comments": 5
+              },
+              "observedAt": "2026-05-27T09:15:22.000Z"
             },
             {
               "source": "hackernews",
@@ -9701,7 +9740,7 @@
               "author": "tolarianwiz",
               "engagement": {
                 "score": 10,
-                "comments": 7
+                "comments": 8
               },
               "observedAt": "2026-05-28T13:30:40.000Z"
             },
@@ -9714,7 +9753,7 @@
               "author": "pqdbr",
               "engagement": {
                 "score": 5,
-                "comments": 1
+                "comments": 6
               },
               "observedAt": "2026-05-28T22:49:30.000Z"
             },
@@ -9730,37 +9769,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-28T09:44:27.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "presenton/presenton",
-              "url": "https://news.ycombinator.com/item?id=48325193",
-              "title": "Changing a Title Can Make an Epoch-Making Article Invisible",
-              "text": "Imagine an article has been written about how, for hundreds of years, the understanding of the most fundamental concepts of logic has been completely distorted. And this happens, for some reason, in almost every logic textbook. Every student has their understanding of what a &quot;logical inference&quot; is and what a &quot;proof&quot; is completely mixed up. This is the kind of presentation that leaves you with the creeping suspicion that logic, as a science of correct thinking, is actually a s",
-              "author": "kokhanserhii",
-              "engagement": {
-                "score": 3,
-                "comments": 2
-              },
-              "observedAt": "2026-05-29T16:12:40.000Z"
-            }
-          ]
-        },
-        "bluesky": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "bluesky",
-              "fullName": "presenton/presenton",
-              "url": "https://bsky.app/profile/ghtrend.newsmast.social.ap.brid.gy/post/3mmjk73qurne2",
-              "title": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-",
-              "text": "7. https://github.com/dotnet/skills - C#, 262 stars today 8. https://github.com/ChromeDevTools/chrome-devtools-mcp - TypeScript, 437 stars today 9. https://github.com/mukul975/Anthropic-Cybersecurity-Skills - Python, 238 stars today 10. https://github.com/presenton/presenton - TypeScript, 302 […]",
-              "author": "ghtrend.newsmast.social.ap.brid.gy",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-23T13:22:46.061Z"
             }
           ]
         }
@@ -9792,10 +9800,10 @@
     },
     "88lin/video_vip": {
       "fullName": "88lin/video_vip",
-      "totalMentions7d": 38,
+      "totalMentions7d": 36,
       "perSource": {
         "hackernews": {
-          "count7d": 38,
+          "count7d": 36,
           "top": [
             {
               "source": "hackernews",
@@ -9805,8 +9813,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;variety.com&#x2F;2026&#x2F;digital&#x2F;news&#x2F;youtube-ai-video-labels-automatic-detection-1236758865&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;variety.com&#x2F;2026&#x2F;digital&#x2F;news&#x2F;youtube-ai-video-label...</a>",
               "author": "nopg",
               "engagement": {
-                "score": 1307,
-                "comments": 817
+                "score": 1311,
+                "comments": 819
               },
               "observedAt": "2026-05-27T20:00:51.000Z"
             },
@@ -9852,15 +9860,15 @@
             {
               "source": "hackernews",
               "fullName": "88lin/video_vip",
-              "url": "https://old.reddit.com/r/modnews/comments/1tpa9p1/launching_video_in_comments/",
-              "title": "Reddit Launching Video Comments Feature",
-              "text": "",
-              "author": "CM30",
+              "url": "https://news.ycombinator.com/item?id=48327706",
+              "title": "FYI: Dreamina is shady; do not use",
+              "text": "TLDR: Don&#x27;t sign up for Dreamina. Bad UX. Difficult to cancel. Doesn&#x27;t issue refunds. No human customer service.<p>===<p>I signed up for a free 7 day trial of the video generation service. I used it on day one.<p>On day six, they charged me. I canceled the auto-renewal on the website and emailed all of their support channels (Dreamina, Capcut, and Bytedance) to ask for a refund.<p>No human read these emails. Their AI kept sending me around in circles and never acknowledging the request",
+              "author": "ronyeh",
               "engagement": {
                 "score": 5,
-                "comments": 1
+                "comments": 0
               },
-              "observedAt": "2026-05-28T11:34:41.000Z"
+              "observedAt": "2026-05-29T18:56:40.000Z"
             }
           ]
         }
@@ -9892,10 +9900,10 @@
     },
     "yaojingang/GEOFlow": {
       "fullName": "yaojingang/GEOFlow",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -9906,35 +9914,22 @@
               "author": "delduca",
               "engagement": {
                 "score": 82,
-                "comments": 103
+                "comments": 104
               },
               "observedAt": "2026-05-27T14:18:03.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "yaojingang/GEOFlow",
-              "url": "https://webflow.com/blog/evolving-webflow-for-the-agentic-web",
-              "title": "Evolving Webflow for the Agentic Web",
+              "url": "https://onlinelibrary.wiley.com/doi/10.1111/gto.70014",
+              "title": "Movie geologists have an over 30% mortality rate",
               "text": "",
-              "author": "rocketpastsix",
+              "author": "signorovitch",
               "engagement": {
-                "score": 50,
-                "comments": 28
-              },
-              "observedAt": "2026-05-27T14:02:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "yaojingang/GEOFlow",
-              "url": "https://www.sfchronicle.com/tech/article/webflow-layoffs-tech-san-francisco-22279561.php",
-              "title": "S.F. startup Webflow announces abrupt round of layoffs",
-              "text": "",
-              "author": "doppp",
-              "engagement": {
-                "score": 8,
+                "score": 6,
                 "comments": 0
               },
-              "observedAt": "2026-05-28T06:59:15.000Z"
+              "observedAt": "2026-05-31T00:22:47.000Z"
             },
             {
               "source": "hackernews",
@@ -9961,6 +9956,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-28T19:33:41.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "yaojingang/GEOFlow",
+              "url": "https://mainline.dev/flow-simulator",
+              "title": "Show HN: Flow Simulator – GitHub Flow vs. trunk-based development side by side",
+              "text": "Built a back-of-the-napkin simulator that models how work flows through GitFlow and GitHub Flow vs trunk-based development. Based on 15 years working with teams of all shapes and sizes. Watch PRs pile up, review interrupts cascade, and merge conflicts grow, then switch tabs and see the same team working with TBD. Execute an AI slop injection for extra chaos.",
+              "author": "natyoung",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-26T18:47:36.000Z"
             }
           ]
         }
@@ -9968,24 +9976,11 @@
     },
     "NVlabs/LongLive": {
       "fullName": "NVlabs/LongLive",
-      "totalMentions7d": 6,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "NVlabs/LongLive",
-              "url": "https://fortune.com/2026/05/23/loneliness-researcher-ai-companions-social-disconnection-warning/",
-              "title": "I've Spent 25 Years Studying Loneliness. AI Is About to Make It Worse",
-              "text": "",
-              "author": "Brajeshwar",
-              "engagement": {
-                "score": 7,
-                "comments": 0
-              },
-              "observedAt": "2026-05-23T20:25:39.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "NVlabs/LongLive",
@@ -10037,6 +10032,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-26T21:00:05.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "NVlabs/LongLive",
+              "url": "https://arc.quanten.co/tools/logline",
+              "title": "Show HN: What story are you telling? (narrative archetypes tool)",
+              "text": "Two weeks ago we posted our narrative archetypes framework here - thanks for the discussion. (We&#x27;ve published a whitepaper on the same on the website, for those who are interested)<p>Curiosity seems to be getting the better of me still. The question is, if someone has a general premise for a story, can we suggest the narrative archetypes that best tell that story. For a lot of storytellers, that itself would give them plenty of ideas, and even a sense of direction to take the story into.<p>",
+              "author": "phaedrus044",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-26T16:15:07.000Z"
             }
           ]
         }
@@ -10081,7 +10089,7 @@
               "text": "For a bit of context, I’m currently creating a team of AI agents at work to generate reports by fanning out into a large amount of subagents to process a large amount of transcript data. When the analysis fails mid-way because of some individual step like an API call returns an error or the machine is out of memory, it would create cascading errors that break the entire generation with almost no visibility. I’ve just spent the past month rewriting the individual jobs as durable execution jobs on",
               "author": "yaoke259",
               "engagement": {
-                "score": 3,
+                "score": 6,
                 "comments": 0
               },
               "observedAt": "2026-05-31T02:07:38.000Z"

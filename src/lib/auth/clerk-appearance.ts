@@ -105,31 +105,10 @@ export const clerkAppearance: Appearance = {
     formFieldInput: "!hidden",
     formFieldAction: "!hidden",
     formResendCodeLink: "!hidden",
-    dividerLine: "bg-[#222a32]",
-    dividerText: "text-[#6b7785] text-xs uppercase tracking-wider",
-    formFieldLabel: "text-[#f1f5f9] text-sm font-medium mb-1.5",
-    formFieldInput: [
-      "bg-[#101418]",
-      "border border-[#222a32]",
-      "text-[#f1f5f9]",
-      "placeholder:text-[#6b7785]/60",
-      "focus:border-[#ff6b35]",
-      "focus:ring-2 focus:ring-[#ff6b35]/30",
-      "focus:outline-none",
-      "transition-colors",
-    ].join(" "),
-    formFieldInputShowPasswordButton: "text-[#6b7785] hover:text-[#f1f5f9]",
-    formFieldHintText: "text-[#6b7785] text-xs",
-    formFieldErrorText: "text-[#ff4d4d] text-xs",
-    formFieldSuccessText: "text-[#22c55e] text-xs",
-    formButtonPrimary: [
-      "bg-[#ff6b35] hover:bg-[#ff8458] active:bg-[#c44a1f]",
-      "text-[#08090a] font-semibold",
-      "shadow-none",
-      "border-0",
-      "transition-colors",
-      "uppercase tracking-wide text-sm",
-    ].join(" "),
+    // Form sub-element styling intentionally pruned — the parent
+    // `form: "!hidden"` removes the whole tree from the modal, so
+    // formFieldLabel/Input/etc. would never paint anyway. Kept the
+    // footer/identityPreview rules below since those still render.
     formButtonReset:
       "text-[#6b7785] hover:text-[#f1f5f9] transition-colors",
     footer: "bg-transparent",
@@ -144,8 +123,6 @@ export const clerkAppearance: Appearance = {
       "bg-[#101418] border border-[#222a32] rounded-lg",
     identityPreviewText: "text-[#f1f5f9]",
     identityPreviewEditButton:
-      "text-[#ff6b35] hover:text-[#ff8458] transition-colors",
-    formResendCodeLink:
       "text-[#ff6b35] hover:text-[#ff8458] transition-colors",
     otpCodeFieldInput: [
       "bg-[#101418] border border-[#222a32]",

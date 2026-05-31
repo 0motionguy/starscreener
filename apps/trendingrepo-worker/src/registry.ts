@@ -35,8 +35,8 @@ import twitter from './fetchers/twitter/index.js';
 // twitter/_scan.ts and write into the cumulative mentions ledger.
 import twitterWarm from './fetchers/twitter-warm/index.js';
 import twitterCold from './fetchers/twitter-cold/index.js';
-// Cumulative mentions ledger — reads snapshot slugs (HN, Reddit, Bluesky,
-// Dev.to, Lobsters), runs SADD + HINCRBY for new mention IDs.
+// Cumulative mentions ledger — reads active snapshot slugs (HN, Bluesky,
+// Dev.to, Lobsters, Twitter), runs SADD + HINCRBY for new mention IDs.
 import mentionsLedger from './fetchers/mentions-ledger/index.js';
 // Operator-curated data file producers (close the chicken-egg gaps that left
 // `manual-repos` + `revenue-manual-matches` consumed-but-never-produced
@@ -63,7 +63,7 @@ import openrouterModels from './fetchers/openrouter-models/index.js';
 // openrouter-models so they don't contend.
 import openrouterUsage from './fetchers/openrouter-usage/index.js';
 // DORP intake-queue consumer — drains `queue:drop-a-repo` every minute and
-// calls back to the Vercel /enrich endpoint to run the existing pipeline
+// calls back to the HOSTUP app /enrich endpoint to run the existing pipeline
 // ingest. See header for the producer/consumer contract.
 import dropIntakeDrain from './fetchers/drop-intake-drain/index.js';
 // DORP deep-enrich consumer — drains `queue:drop-deep-enrich` every minute and
@@ -78,7 +78,7 @@ import dropDeepEnrichDrain from './fetchers/drop-deep-enrich-drain/index.js';
 // count on their profile within ~1-2 min (vs ~31h via hourly rotation).
 import dropTwitterDrain from './fetchers/drop-twitter-drain/index.js';
 // Repo-first cross-source mention sweep — for the top-100 (consensus-trending),
-// searches HN/Reddit/dev.to/Bluesky/ProductHunt(+Tavily) per repo and publishes
+// searches active channels per repo and publishes
 // `repo-mentions-detail-rollup` to redis (the detail behind profile source pips).
 import crossSourceSweep from './fetchers/cross-source-sweep/index.js';
 // Persistent accumulating repo collection — unions trending/recent/metadata/

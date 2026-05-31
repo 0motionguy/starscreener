@@ -4,8 +4,7 @@ name: Refresh AI RSS signals
 # old single-source workflows were retired, so this combined producer restores
 # the data path with a staggered 6h cadence and one protected-main data PR.
 on:
-  schedule:
-    - cron: "31 */6 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

@@ -15,6 +15,7 @@ vi.mock('../../../lib/redis.js', () => ({
 }));
 
 const originalSetTimeout = globalThis.setTimeout;
+const originalOssInsightEnabled = process.env.OSSINSIGHT_ENABLED;
 
 const PERIODS = ['past_24_hours', 'past_week', 'past_month'] as const;
 const LANGUAGES = [
@@ -95,6 +96,11 @@ beforeEach(() => {
 
 afterEach(() => {
   globalThis.setTimeout = originalSetTimeout;
+  if (originalOssInsightEnabled === undefined) {
+    delete process.env.OSSINSIGHT_ENABLED;
+  } else {
+    process.env.OSSINSIGHT_ENABLED = originalOssInsightEnabled;
+  }
 });
 
 describe('oss-trending degraded writes', () => {
@@ -123,6 +129,7 @@ describe('oss-trending degraded writes', () => {
   });
 
   it('freshens degraded payloads only when every failed leaf has cached rows', async () => {
+    process.env.OSSINSIGHT_ENABLED = '1';
     readDataStoreMock
       .mockResolvedValueOnce(makePriorTrending())
       .mockResolvedValueOnce({

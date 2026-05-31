@@ -9,8 +9,7 @@ name: Scrape npm dependents (daily)
 # cron so trending.npm.dependents flows continuously.
 
 on:
-  schedule:
-    - cron: "13 */6 * * *"   # every 6h at :13 (off-peak; npm registry is rate-limited)
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

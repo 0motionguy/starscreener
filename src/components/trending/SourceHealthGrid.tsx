@@ -7,7 +7,6 @@ const SOURCES: { key: keyof Awaited<ReturnType<typeof getSidebarSourceCounts>>; 
   { key: "lobstersStories", cls: "lobsters", label: "Lobsters" },
   { key: "devtoArticles", cls: "devto", label: "Dev.to" },
   { key: "blueskyPosts", cls: "bsky", label: "Bluesky" },
-  { key: "redditPosts", cls: "reddit", label: "Reddit" },
   { key: "producthuntLaunches", cls: "ph", label: "ProductHunt" },
   { key: "npmPackages", cls: "npm", label: "NPM" },
   { key: "arxivPapers", cls: "arxiv", label: "arXiv" },

@@ -57,7 +57,9 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "repo-registry", fetcher: "repo-registry", cadenceMin: 60 },
   { slug: "mentions-ledger", fetcher: "mentions-ledger", cadenceMin: 30 },
   { slug: "repo-mentions-detail-rollup", fetcher: "cross-source-sweep", cadenceMin: 60 * 24 },
-  { slug: "star-activity-deltas", fetcher: "star-activity-deltas", cadenceMin: 180 },
+  // velocity-refresh updates this shared slug every 40 minutes; keep the
+  // health gate tight enough to catch the OSS-Insight-independent backbone.
+  { slug: "star-activity-deltas", fetcher: "velocity-refresh", cadenceMin: 60 },
   { slug: "editorial-best", fetcher: "editorial-writer", cadenceMin: 60 * 24 },
   { slug: "editorial-categories", fetcher: "editorial-categories", cadenceMin: 60 * 24 },
   { slug: "editorial-compare", fetcher: "editorial-compare", cadenceMin: 60 * 24 },

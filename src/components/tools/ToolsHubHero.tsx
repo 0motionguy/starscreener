@@ -60,7 +60,7 @@ export function ToolsHubHero({
           <p className="hero-sub">
             Pin your repos, rank them, plot the curves, freeze the daily top-10
             — then screenshot the result and post it. Every tool ships with a
-            built-in share card so your scan reads as a clean post on X, Reddit,
+            built-in share card so your scan reads as a clean post on X,
             or Discord.
           </p>
         </div>

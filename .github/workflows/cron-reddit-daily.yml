@@ -53,6 +53,9 @@ concurrency:
 
 jobs:
   scrape:
+    # Reddit is intentionally paused end-to-end. Remove this guard only after
+    # a credentialed, non-empty producer is approved and live health is wired.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     # Bumped 15→30 min 2026-05-08 for Apify residential-proxy provider:
     # 45 subs × ~25-35s per sub (actor cold-start + scroll-paginate) ≈ 22 min

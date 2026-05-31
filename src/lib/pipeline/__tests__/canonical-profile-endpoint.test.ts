@@ -181,10 +181,18 @@ test("v=2 returns canonical shape with all top-level keys", async () => {
   );
   assert.equal(typeof mentions.countsBySource, "object");
 
-  // Every seeded mention is reflected in countsBySource, keyed by platform.
-  assert.equal(mentions.countsBySource.reddit, 1);
+  // Paused Reddit rows may exist in historical stores, but the canonical API
+  // must not expose them while the source is disabled.
+  assert.equal(mentions.countsBySource.reddit, undefined);
   assert.equal(mentions.countsBySource.hackernews, 1);
   assert.equal(mentions.countsBySource.bluesky, 1);
+  assert.ok(
+    mentions.recent.every((mention) => {
+      const platform = (mention as { platform?: string }).platform;
+      return platform !== "reddit";
+    }),
+    "mentions.recent must not include paused Reddit rows",
+  );
 
   const npm = body.npm as {
     packages: unknown[];

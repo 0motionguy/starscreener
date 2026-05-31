@@ -25,7 +25,6 @@ import type { Repo, SocialPlatform } from "@/lib/types";
 const SLUG_TO_PLATFORM: Partial<Record<string, SocialPlatform>> = {
   github: "github",
   hn: "hackernews",
-  reddit: "reddit",
   x: "twitter",
   bsky: "bluesky",
   ph: "producthunt",

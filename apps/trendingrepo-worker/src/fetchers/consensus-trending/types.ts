@@ -1,5 +1,7 @@
-// Consensus v3: 1 internal source ("ours") + 8 external sources.
+// Consensus v3: 1 internal source ("ours") + 8 external source slots.
 // External weights sum to 1.0 (gh+hf+hn+x+r+pdh+dev+bs).
+// `r` is retained for payload compatibility but weighted/published as 0 while
+// Reddit collection is paused end-to-end.
 // "ours" sits outside the external weighting — used for verdict-band
 // classification (early-call detection, divergence vs external composite).
 export type ConsensusInternalSource = 'ours';

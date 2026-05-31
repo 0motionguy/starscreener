@@ -1,8 +1,7 @@
 name: Run shadow scoring
 
 on:
-  schedule:
-    - cron: "0 2 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

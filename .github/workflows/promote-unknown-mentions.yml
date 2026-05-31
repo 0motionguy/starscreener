@@ -6,8 +6,7 @@ name: Promote unknown mentions
 # caught.
 
 on:
-  schedule:
-    - cron: "30 4 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

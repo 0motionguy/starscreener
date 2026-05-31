@@ -130,6 +130,7 @@ interface GithubKeyDescriptor {
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const IDLE_KEY_MS = 12 * HOUR_MS;
+const LIVE_REDDIT_POOL_ENABLED = false;
 
 function hourBuckets(now: Date): string[] {
   const out: string[] = [];
@@ -435,6 +436,14 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
   const agents = (Array.isArray(redditUserAgents) ? redditUserAgents : [])
     .map((value) => (typeof value === "string" ? value.trim() : ""))
     .filter(Boolean);
+  if (!LIVE_REDDIT_POOL_ENABLED) {
+    return {
+      totalConfigured: agents.length,
+      health: "GREEN",
+      rows: [],
+      rateLimitedLastHour: 0,
+    };
+  }
   const rows = await Promise.all(
     agents.map(async (userAgent): Promise<RedditPoolRow> => {
       const fingerprint = redditUserAgentFingerprint(userAgent);

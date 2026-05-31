@@ -95,7 +95,7 @@ export async function generateMetadata({ params }: PageProps) {
   // Prefer the AISO/Kimi verdict summary for the meta description — it's
   // original, specific, evidence-based prose that makes a far better search
   // snippet than the generic boilerplate. Falls back when no verdict exists.
-  let description = `Trending signal profile for ${full}: stars, forks, mentions across HN, Reddit, X, Bluesky and more. Updated continuously.`;
+  let description = `Trending signal profile for ${full}: stars, forks, mentions across HN, X, Bluesky and more. Updated continuously.`;
   try {
     await refreshConsensusVerdictsFromStore();
     const verdict = getConsensusItemReport(full);

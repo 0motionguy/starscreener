@@ -24,7 +24,6 @@ const CHANNELS: Array<{
   { key: "github", cls: "github", title: "GitHub", letter: "G" },
   { key: "hackernews", cls: "hn", title: "Hacker News", letter: "H" },
   { key: "twitter", cls: "x", title: "X", letter: "X" },
-  { key: "reddit", cls: "reddit", title: "Reddit", letter: "R" },
   { key: "bluesky", cls: "bsky", title: "Bluesky", letter: "B" },
   { key: "devto", cls: "devto", title: "Dev.to", letter: "D" },
   { key: "producthunt", cls: "ph", title: "ProductHunt", letter: "P" },
@@ -57,7 +56,6 @@ function channelStatus(repo: Repo, key: SocialPlatform): boolean {
   if (key === "github") return (repo.starsDelta24h ?? 0) > 0;
   if (key === "hackernews") return repo.channelStatus?.hn ?? false;
   if (key === "twitter") return repo.channelStatus?.twitter ?? false;
-  if (key === "reddit") return repo.channelStatus?.reddit ?? false;
   if (key === "bluesky") return repo.channelStatus?.bluesky ?? false;
   if (key === "devto") return repo.channelStatus?.devto ?? false;
   return false;

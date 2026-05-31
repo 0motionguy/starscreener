@@ -2,8 +2,7 @@
 //
 // PROBLEM
 //   The original mentions architecture re-buckets a 7-day snapshot at read
-//   time. When any collector goes stale (currently happening with Reddit
-//   OAuth + Twitter Apify) every `count24h` reads zero and the UI filter
+//   time. When any collector goes stale, every `count24h` reads zero and the UI filter
 //   (`count24h > 0`) drops the source pip from the table cell. Stable
 //   per-mention IDs already exist on every signal, so the storage shape
 //   was wrong — not the data.

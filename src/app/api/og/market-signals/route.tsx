@@ -16,7 +16,6 @@ export const runtime = "nodejs";
 const SOURCES = [
   "GitHub",
   "Hacker News",
-  "Reddit",
   "X",
   "Bluesky",
   "ProductHunt",

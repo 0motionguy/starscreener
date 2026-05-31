@@ -187,8 +187,8 @@ export interface Repo {
   categoryColumns?: Array<{ label: string; value: string | number | null }>;
 
   /**
-   * Unified mention rollup across all 9 supported sources (twitter, reddit,
-   * hackernews, bluesky, devto, lobsters, npm, huggingface, arxiv). Populated
+   * Unified mention rollup across active supported sources (hackernews,
+   * bluesky, devto, lobsters, npm, huggingface, arxiv, plus optional archives). Populated
    * by `decorateWithMentionsRollup` on the derived-repos cold path. Keeps
    * `mentionCount24h` in sync as `mentions.total24h` for back-compat with
    * scoring + UI consumers that haven't migrated.
@@ -209,9 +209,8 @@ export interface Repo {
   } | null;
 
   /**
-   * Reddit mention rollup attached during derived-repos assembly. The full
-   * post list stays in data/reddit-mentions.json; rows only need the count,
-   * engagement totals, and a top-post link.
+   * Historical Reddit mention rollup. Kept for payload compatibility while
+   * live Reddit collection is paused; active assembly leaves it null.
    */
   reddit?: {
     mentions7d: number;
@@ -240,8 +239,8 @@ export interface Repo {
   collectionNames?: string[];
 
   /**
-   * Six-channel cross-signal score. Sum of github + reddit + HN + Bluesky
-   * + dev.to + Twitter/X components, each 0-1 normalized. Range: 0-6.0. Higher = repo
+   * Active-channel cross-signal score. Sum of github + HN + Bluesky
+   * + dev.to components, each 0-1 normalized. Higher = repo
    * firing across more channels with stronger signal. Computed at
    * derived-repos assembly time, after movement classification + scoring.
    */

@@ -1,4 +1,4 @@
-// GET /api/og/reddit — Branded share card for the /reddit trending surface.
+// GET /api/og/reddit — paused-source share card for the retired Reddit surface.
 //
 // Static headline composition (no data-driven rows) — the goal is a
 // consistent unfurl, not a live snapshot. Mirrors the simpler tier-list
@@ -32,7 +32,7 @@ export async function GET() {
               lineHeight: 1.05,
             }}
           >
-            Reddit trending
+            Reddit collection paused
           </div>
           <div
             style={{
@@ -41,7 +41,7 @@ export async function GET() {
               maxWidth: 920,
             }}
           >
-            Top developer + AI subreddits: r/programming, r/MachineLearning, r/LocalLLaMA, r/aiagents — ranked by engagement.
+            Reddit is disabled until a credentialed, non-empty producer is approved. Active signals continue through GitHub, HN, Bluesky, dev.to, ProductHunt, and Lobsters.
           </div>
         </div>
         <AccentStrip />

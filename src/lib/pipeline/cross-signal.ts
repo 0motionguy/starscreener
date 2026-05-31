@@ -4,10 +4,10 @@
 // mentions + dev.to tutorials/writeups + Twitter/X 24h mention burst into a
 // single score per repo. Reddit remains disabled until a fresh HOSTUP-owned
 // producer is explicitly re-enabled. The premise:
-// any one channel can be noise (a github star spike, a viral reddit post,
+// any one channel can be noise (a github star spike,
 // a Show HN flash, a trending bsky post, a tutorial pumped by one author,
 // a single influencer's tweet). Two channels lit at once = signal. Three
-// or more = a real breakout. A 6/6 firing repo is rare and indicates the
+// or more = a real breakout. A 5/5 firing repo is rare and indicates the
 // repo broke out across every social surface we track.
 //
 // Formula:
@@ -43,12 +43,8 @@
 // the same keywords. A single dev.to writeup is therefore worth more
 // signal per unit, so we cap "saturation" at 3 mentions instead of 5.
 //
-// Two-pass: the reddit normalizer needs to see every repo's raw score
-// before it can divide by the corpus max, so we compute raw scores in
-// pass 1 and emit normalized output in pass 2.
-//
-// Edge case (cold start): when no repo has any reddit signal, maxReddit
-// is 0. Don't divide by zero — emit 0 for every reddit_component instead.
+// Reddit component plumbing is kept at zero for payload compatibility while
+// the source remains paused.
 
 import type { MovementStatus, Repo } from "../types";
 import { getHnMentions } from "../hackernews";
@@ -131,11 +127,8 @@ function twitterComponent(fullName: string): number {
  * Attach `crossSignalScore`, `channelsFiring`, and the `bluesky` rollup
  * to every repo.
  *
- * Two-pass internally: first compute raw reddit scores across the corpus
- * to find `maxReddit`, then normalize and fuse. Pure function over Repo[]
- * — safe to call from server-only code paths (consumes the lib/reddit +
- * lib/hackernews + lib/bluesky mentions JSON, which are already in the
- * build artifact).
+ * Pure function over Repo[]; consumes only active HN/Bluesky/dev.to/Twitter
+ * sources while Reddit is paused.
  *
  * Exported for use by `getDerivedRepos()` and tests.
  */
@@ -148,10 +141,8 @@ export function attachCrossSignal(
 
   return repos.map((repo, i) => {
     const gh = githubComponent(repo.movementStatus);
-    // Reddit: prefer source-first trending-score sum; fall back to sweep
-    // count7d when source-first has no posts but the sweep found mentions.
-    // The fallback maps count7d to the same 0/0.4/0.7/1.0 scale as the
-    // other channels, so a sweep-only repo shows as "firing" instead of 0.
+    // Reddit is intentionally paused; keep this slot at 0 so old sweep rows
+    // or source-first snapshots cannot resurrect stale signal.
     const sweepReddit = REDDIT_SIGNAL_ENABLED ? sweepCount(repo.fullName, "reddit") : 0;
     let rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
     if (rd === 0 && sweepReddit > 0) {

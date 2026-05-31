@@ -1,6 +1,6 @@
 // StarScreener — Extended social-adapter factory.
 //
-// Composes the default HN/Reddit/GitHub adapter set with the two newer live
+// Composes the default active HN adapter set with the two newer live
 // adapters (Dev.to, Bluesky) that previously only existed as static-JSON
 // scrapers. The ingest route (src/app/api/pipeline/ingest/route.ts) uses
 // this factory so every fetched mention — regardless of source — round-trips

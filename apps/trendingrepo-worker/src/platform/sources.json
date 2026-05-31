@@ -34,17 +34,19 @@
     "state": "active",
     "freshness_budget_ms": 14400000,
     "cost_signal_metric": {
-      "type": "rate_limit_pct",
+      "type": "none",
       "scope": "hour"
-    },
-    "rate_limit": {
-      "per_hour": 600,
-      "scope": "ip"
     },
     "owner": "UNASSIGNED",
     "upstream_url": [
-      "https://api.ossinsight.io/v1/trends/repos/",
-      "https://api.ossinsight.io/v1/collections/hot/"
+      "redis:ss:data:v1:repo-registry",
+      "redis:ss:data:v1:repo-metadata",
+      "redis:ss:data:v1:consensus-trending",
+      "redis:ss:data:v1:recent-repos",
+      "redis:ss:data:v1:star-activity-deltas",
+      "redis:ss:data:v1:collection-rankings",
+      "optional:https://api.ossinsight.io/v1/trends/repos/",
+      "optional:https://api.ossinsight.io/v1/collections/hot/"
     ],
     "auth_required": false,
     "auth_scheme": "none",
@@ -58,9 +60,28 @@
       "src/lib/trending.ts",
       "src/lib/hot-collections.ts"
     ],
-    "depends_on": [],
+    "depends_on": [
+      "repo-registry",
+      "repo-metadata",
+      "consensus-trending",
+      "recent-repos",
+      "velocity-refresh",
+      "collection-rankings"
+    ],
     "supports_backfill": false,
-    "fallback_strategy": "cache",
+    "fallback_strategy": "provider-chain",
+    "providers": [
+      {
+        "id": "internal-github",
+        "role": "primary",
+        "cost_class": "none"
+      },
+      {
+        "id": "ossinsight",
+        "role": "fallback",
+        "cost_class": "rate_limit_pct"
+      }
+    ],
     "writes_canonical_entity_kind": [
       "repo"
     ]
@@ -426,7 +447,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 7200000,
+    "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
       "scope": "hour"
@@ -845,7 +866,7 @@
     "id": "npm-downloads",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 43200000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -882,7 +903,7 @@
     "id": "pypi-downloads",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 43200000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -914,7 +935,7 @@
     "id": "npm-dependents",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -945,7 +966,7 @@
     "id": "hotness-snapshot",
     "category": "ops",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none"
@@ -1042,7 +1063,7 @@
     "id": "ai-blogs",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none",
@@ -1178,7 +1199,7 @@
   },
   {
     "id": "drop-twitter-drain",
-    "category": "ops",
+    "category": "user-input",
     "kind": "collector",
     "state": "active",
     "freshness_budget_ms": 600000,
@@ -1210,7 +1231,7 @@
     "id": "trending",
     "category": "repo-derived",
     "kind": "collector",
-    "state": "active",
+    "state": "deprecated",
     "freshness_budget_ms": 14400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -1248,7 +1269,7 @@
     "id": "arxiv",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -1277,7 +1298,7 @@
     "id": "claude-rss",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none"
@@ -1304,7 +1325,7 @@
     "id": "openai-rss",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none"
@@ -1331,7 +1352,7 @@
     "id": "npm-daily",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -1661,7 +1682,6 @@
     ],
     "depends_on": [
       "hackernews",
-      "reddit",
       "bluesky",
       "devto",
       "lobsters"

@@ -159,7 +159,8 @@ function fromTwitter(p: TwitterTrendingPayload | null): ConsensusSourceInput[] {
 const fetcher: Fetcher = {
   name: 'consensus-trending',
   // Runs after engagement-composite (:45) and the late-hour fetchers, so all
-  // 8 external feeds + ours are fresh.
+  // active external feeds + ours are fresh. The historical `r` slot is kept
+  // as an empty compatibility field while Reddit is paused end-to-end.
   schedule: '50 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
@@ -183,7 +184,6 @@ const fetcher: Fetcher = {
       readDataStore<HfTrendingPayload>('huggingface-trending'),
       readDataStore<MentionsPayload>('hackernews-repo-mentions'),
       readDataStore<TwitterTrendingPayload>('twitter-trending'),
-      readDataStore<MentionsPayload>('reddit-mentions'),
       readDataStore<ProductHuntPayload>('producthunt-launches'),
       readDataStore<MentionsPayload>('devto-mentions'),
       readDataStore<MentionsPayload>('bluesky-mentions'),
@@ -194,7 +194,6 @@ const fetcher: Fetcher = {
       'huggingface-trending',
       'hackernews-repo-mentions',
       'twitter-trending',
-      'reddit-mentions',
       'producthunt-launches',
       'devto-mentions',
       'bluesky-mentions',
@@ -220,7 +219,6 @@ const fetcher: Fetcher = {
       hf,
       hnMentions,
       twitter,
-      redditMentions,
       ph,
       devtoMentions,
       blueskyMentions,
@@ -230,7 +228,6 @@ const fetcher: Fetcher = {
       HfTrendingPayload | null,
       MentionsPayload | null,
       TwitterTrendingPayload | null,
-      MentionsPayload | null,
       ProductHuntPayload | null,
       MentionsPayload | null,
       MentionsPayload | null,
@@ -242,7 +239,7 @@ const fetcher: Fetcher = {
       hf: fromHf(hf),
       hn: fromLeaderboard(hnMentions, 'scoreSum7d'),
       x: fromTwitter(twitter),
-      r: fromLeaderboard(redditMentions, 'upvotes7d'),
+      r: [],
       pdh: fromProductHunt(ph),
       dev: fromLeaderboard(devtoMentions, 'reactionsSum7d'),
       bs: fromLeaderboard(blueskyMentions, 'likesSum7d'),
@@ -256,7 +253,7 @@ const fetcher: Fetcher = {
       hf: { count: input.hf.length, rows: hf?.models?.length ?? 0 },
       hn: { count: input.hn.length, rows: hnMentions?.leaderboard?.length ?? 0 },
       x: { count: input.x.length, rows: twitter?.items?.length ?? 0 },
-      r: { count: input.r.length, rows: redditMentions?.leaderboard?.length ?? 0 },
+      r: { count: 0, rows: 0 },
       pdh: { count: input.pdh.length, rows: ph?.launches?.length ?? 0 },
       dev: { count: input.dev.length, rows: devtoMentions?.leaderboard?.length ?? 0 },
       bs: { count: input.bs.length, rows: blueskyMentions?.leaderboard?.length ?? 0 },

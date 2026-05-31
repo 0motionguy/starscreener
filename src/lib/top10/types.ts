@@ -207,7 +207,7 @@ export const METRIC_FRIENDLY_BLURB: Record<Top10Metric, string> = {
   "cross-signal":
     "Combines stars, mentions, and trending speed into one signal. Default ranking.",
   stars: "Total GitHub stars in the time range.",
-  mentions: "How often it's mentioned across HN, Reddit, Bluesky, dev.to.",
+  mentions: "How often it's mentioned across HN, Bluesky, dev.to, and active source rollups.",
   velocity: "How fast it's gaining attention right now.",
 };
 

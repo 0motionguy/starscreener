@@ -3,8 +3,7 @@ name: Refresh ProductHunt launches
 # Product Hunt moves through the day as votes/comments settle. Four daily
 # snapshots keep launch data current without burning API budget overnight.
 on:
-  schedule:
-    - cron: "8 11,15,19,23 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

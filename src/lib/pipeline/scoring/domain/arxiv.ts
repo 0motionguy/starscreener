@@ -17,7 +17,7 @@ export interface ArxivPaperItem extends DomainItem {
   citationVelocity?: number; // citations / 30d
   citationCount?: number;
   linkedRepoMomentum?: number; // 0..100
-  socialMentions?: number; // sum of HN+Reddit+Bsky+devto last 7d
+  socialMentions?: number; // sum of active social mentions over the last 7d
   hfAdoptionCount?: number;
   daysSincePublished?: number;
 }

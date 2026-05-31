@@ -1,24 +1,22 @@
 name: Uptime monitor (every 5 minutes)
 
-# Pings 4 production hosts every 5 minutes, sends one PostHog `uptime_check`
-# event per host with status_code + latency_ms. The job exits non-zero if ANY
-# host returns a non-2xx, which surfaces in GitHub Actions notifications +
-# the workflow run UI.
+# Pings HOSTUP-owned production hosts every 5 minutes, sends one PostHog
+# `uptime_check` event per host with status_code + latency_ms. The job exits
+# non-zero if ANY host returns a non-2xx, which surfaces in GitHub Actions
+# notifications + the workflow run UI.
 #
-# Why here (starscreener), not agnt: starscreener is a public repo on the
-# free GitHub plan, so Actions minutes are unlimited. The agnt repo is
-# private and currently over its 2000-min monthly Actions budget — putting
-# uptime checks there would mean they don't run when the quota resets to a
-# fresh month and immediately gets eaten by CI. Public repo = always-on.
+# This workflow belongs to the HOSTUP cutover surface only. AGNT/Railway
+# targets are deliberately excluded because they are separate production systems
+# and must not make trendingrepo uptime red.
 #
 # PostHog tile to read this from:
 #   SELECT properties.host, properties.status_code, count()
 #   FROM events WHERE event = 'uptime_check' AND timestamp >= now() - INTERVAL 24 HOUR
 #   GROUP BY 1, 2 ORDER BY 3 DESC
 #
-# To add an absence alert: in PostHog → create insight on `uptime_check`
-# event count per 5-min interval, set alert "lower bound = 3" (expect 4
-# checks per 5-min window across 4 hosts; alert if fewer than 3 land
+# To add an absence alert: in PostHog, create an insight on `uptime_check`
+# event count per 5-min interval, set alert "lower bound = 2" (expect 2
+# checks per 5-min window across 2 hosts; alert if fewer than 2 land
 # meaning the runner itself broke).
 
 on:
@@ -40,16 +38,6 @@ jobs:
         host:
           - { name: aiso, url: "https://aiso.tools/" }
           - { name: trendingrepo, url: "https://trendingrepo.com/" }
-          - { name: agntdot, url: "https://agntdot.com/" }
-          - { name: agnt-api, url: "https://api.agntdot.com/health" }
-          # Positive control: the Railway-default hostname always points at
-          # the same Railway service. If `agnt-api` (custom domain) is RED
-          # but `agnt-api-railway` is GREEN, the backend is fine and only
-          # the custom-domain cert/edge route is broken — that's a 5-min
-          # dashboard fix (Railway → api → Settings → Domains → re-add).
-          # Found on 2026-04-28: api.agntdot.com had a stale CNAME with no
-          # matching Railway custom-domain registration, hence HTTP 000.
-          - { name: agnt-api-railway, url: "https://api-production-870c.up.railway.app/health" }
     steps:
       - name: Curl + PostHog ingest
         env:

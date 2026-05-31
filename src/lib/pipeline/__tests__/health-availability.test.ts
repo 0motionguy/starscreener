@@ -7,6 +7,10 @@ import {
   WORKER_HEALTH_SPECS,
 } from "../../worker-health-specs";
 import {
+  FETCHERS,
+  SOURCE_CONTRACTS,
+} from "../../../../apps/trendingrepo-worker/src/registry";
+import {
   applyPayloadHealthToSlugStatus,
   isWorkerHealthStrictlyOk,
   summarizeWorkerPayloadHealth,
@@ -97,6 +101,37 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
   }
 });
 
+test("/api/worker/health: every active worker concrete output is tracked", () => {
+  const tracked = new Set(
+    [...WORKER_HEALTH_SPECS, ...WORKER_HEALTH_DISABLED_SPECS].map(
+      (item) => item.slug,
+    ),
+  );
+  const fetchers = new Set(FETCHERS.map((fetcher) => fetcher.name));
+  const missing: string[] = [];
+
+  for (const source of SOURCE_CONTRACTS) {
+    if (
+      source.state !== "active" ||
+      source.category === "user-input" ||
+      !fetchers.has(source.id)
+    ) {
+      continue;
+    }
+
+    const keys = Array.isArray(source.primary_output_keys)
+      ? source.primary_output_keys
+      : [source.primary_output_keys];
+    for (const output of keys) {
+      const key = typeof output === "string" ? output : output.pattern;
+      if (key.includes("<") || key.includes("*")) continue;
+      if (!tracked.has(key)) missing.push(`${source.id}:${key}`);
+    }
+  }
+
+  assert.deepEqual(missing.sort(), []);
+});
+
 test("/api/worker/health: disabled slugs stay visible but inactive", () => {
   const disabled = new Set(WORKER_HEALTH_DISABLED_SPECS.map((item) => item.slug));
   const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
@@ -126,6 +161,11 @@ test("/api/worker/health: disabled slugs stay visible but inactive", () => {
 });
 
 test("/api/worker/health: TrustMRR catalog cadence matches daily producer", () => {
+  const contract = SOURCE_CONTRACTS.find((source) => source.id === "trustmrr");
+
+  assert.ok(contract, "missing trustmrr source contract");
+  assert.equal(contract.freshness_budget_ms, 60 * 24 * 60 * 1000);
+
   for (const slug of ["trustmrr-startups", "trustmrr-startups:meta"]) {
     const spec = WORKER_HEALTH_SPECS.find((item) => item.slug === slug);
     assert.ok(spec, `missing worker health spec for ${slug}`);
@@ -135,6 +175,29 @@ test("/api/worker/health: TrustMRR catalog cadence matches daily producer", () =
   const overlays = WORKER_HEALTH_SPECS.find((item) => item.slug === "revenue-overlays");
   assert.ok(overlays, "missing worker health spec for revenue-overlays");
   assert.equal(overlays.cadenceMin, 60);
+});
+
+test("/api/worker/health: star velocity backbone uses fast refresh cadence", () => {
+  const spec = WORKER_HEALTH_SPECS.find(
+    (item) => item.slug === "star-activity-deltas",
+  );
+  const velocityRefresh = SOURCE_CONTRACTS.find(
+    (source) => source.id === "velocity-refresh",
+  );
+
+  assert.ok(spec, "missing worker health spec for star-activity-deltas");
+  assert.equal(spec.fetcher, "velocity-refresh");
+  assert.equal(spec.cadenceMin, 60);
+  assert.equal(velocityRefresh?.freshness_budget_ms, 60 * 60 * 1000);
+});
+
+test("/api/worker/health: on-demand twitter drain is not a source freshness proxy", () => {
+  const drain = SOURCE_CONTRACTS.find(
+    (source) => source.id === "drop-twitter-drain",
+  );
+
+  assert.ok(drain, "missing drop-twitter-drain source contract");
+  assert.equal(drain.category, "user-input");
 });
 
 test("/api/worker/health: degraded payloads are not reported as pure green", () => {

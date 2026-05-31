@@ -1,10 +1,7 @@
 name: Refresh arXiv signals
 
 on:
-  schedule:
-    # arXiv updates daily, but a 6h cadence keeps the 24h freshness budget
-    # green after upstream or runner blips.
-    - cron: "43 */6 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

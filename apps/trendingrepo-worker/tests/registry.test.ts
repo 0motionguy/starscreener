@@ -25,6 +25,20 @@ describe('worker registry', () => {
     expect(missing).toEqual([]);
   });
 
+  it('does not mark non-worker sources active', () => {
+    const fetchers = new Set(listFetcherNames());
+    const activeWithoutFetcher = SOURCE_CONTRACTS.filter(
+      (source) =>
+        source.state === 'active' &&
+        source.category !== 'user-input' &&
+        !fetchers.has(source.id),
+    )
+      .map((source) => source.id)
+      .sort();
+
+    expect(activeWithoutFetcher).toEqual([]);
+  });
+
   it('records dynamic output families for multi-output fetchers', () => {
     const velocityBackfill = SOURCE_CONTRACTS.find((source) => source.id === 'velocity-backfill');
     const velocityRefresh = SOURCE_CONTRACTS.find((source) => source.id === 'velocity-refresh');

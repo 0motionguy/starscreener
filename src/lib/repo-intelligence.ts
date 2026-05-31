@@ -775,8 +775,8 @@ export function suggestAlerts(args: {
       recommended: !repo.lastReleaseTag || verdicts.productionReadiness.level !== "high",
     },
     {
-      id: "hn-reddit-spike",
-      label: "HN or Reddit mentions spike",
+      id: "hn-active-social-spike",
+      label: "HN or Bluesky mentions spike",
       rationale: "external validation arriving outside GitHub",
       recommended: (repo.channelsFiring ?? 0) < 4,
     },

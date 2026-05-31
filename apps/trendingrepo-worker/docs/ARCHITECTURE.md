@@ -73,7 +73,7 @@ Most fetchers run hourly at a staggered minute; a few have specialized cadences.
 | `revenue-manual-matches` | hourly | `revenue-manual-matches` |
 | `funding-news` / `crunchbase` / `x-funding` | various | `funding-news`, `crunchbase`, `funding-news-x` |
 | `trustmrr` / `revenue-benchmarks` | daily | `trustmrr`, `revenue-benchmarks` |
-| `reddit-baselines` | weekly | `reddit-baselines` |
+| `reddit-baselines` | paused | paused with the rest of Reddit; do not schedule until the Reddit producer is re-enabled |
 | `engagement-composite` | hourly | `engagement-composite` |
 | `npm-downloads` / `pypi-downloads` / `npm-dependents` | daily | matching slugs |
 | `hotness-snapshot` | hourly | `hotness-snapshot` |
@@ -133,14 +133,14 @@ bluesky:      live (or no-creds (BLUESKY_HANDLE/APP_PASSWORD))
 producthunt:  snapshot (or no-snapshot)
 tavily:       off (set TAVILY_API_KEY)  ← flips on with the env var
 twitter:      off (set APIFY_API_TOKEN) ← flips to "apify·top40" with the env var
-foldIn:       devto,hackernews,reddit,lobsters,bluesky
+foldIn:       devto,hackernews,lobsters,bluesky
 ```
 
 Drop `TAVILY_API_KEY` and/or `APIFY_API_TOKEN` into `/opt/toolbox-trendingrepo-worker/.env` + `docker compose up -d` to activate. Twitter via Apify is bounded to ONE batched actor run for the top-40 repos per sweep (not 150 per-repo runs) to cap cost.
 
 ## Anti-patterns (do not regress)
 
-- **Live Reddit JSON / dev.to feed_content per-repo searches from this VPS are dead.** Reddit IP-blocks datacenters; dev.to's `feed_content` endpoint returns `{"result":[]}` for everything. Use the source-first snapshots + `mentions-ledger` + the registry fold-in. See memory `reference_devto_reddit_dead_from_vps.md`.
+- **Live Reddit JSON / dev.to feed_content per-repo searches from this VPS are dead.** Reddit IP-blocks datacenters and remains paused; dev.to's `feed_content` endpoint returns `{"result":[]}` for everything. Use active source-first snapshots + `mentions-ledger` + the registry fold-in. See memory `reference_devto_reddit_dead_from_vps.md`.
 - **Cookie-based Twitter scrapers are dead.** The Apify `apidojo~tweet-scraper` actor (gated behind `APIFY_API_TOKEN`) is the only viable path.
 - **Don't sequential-loop `consensus-analyst`** — Kimi K2.6 averages ~80s/call; 14 sequential blows the hourly slot. Bounded concurrency (current default = 4).
 - **Kimi For Coding endpoint requires `stream: true`** + a UA allowlist (`claude-cli`, `RooCode`, `Kilo-Code`). Non-stream calls hang. NanoGPT fallback is wired in `src/fetchers/consensus-analyst/llm.ts`.

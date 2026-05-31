@@ -1,8 +1,10 @@
 // StarScreener — Social signal adapters.
 //
-// Per-platform mention feeds, live only. HackerNews (Algolia), Reddit (public
-// JSON), GitHub issue search. Twitter/X is handled separately via the Nitter
-// adapter when a mirror is available.
+// Per-platform mention feeds. HackerNews is active by default. Reddit and
+// GitHub issue search adapter classes remain for future/manual repair work but
+// are not registered while their upstream paths are blocked or rate-limited.
+// Twitter/X is handled separately via the Nitter adapter when a mirror is
+// available.
 //
 // Contract: every adapter implements SocialAdapter and must NEVER throw from
 // fetchMentionsForRepo. On any network, parsing, or validation error we log
@@ -790,15 +792,12 @@ export class GitHubActivityAdapter implements SocialAdapter {
 // ---------------------------------------------------------------------------
 
 /**
- * Default adapter set. All live — no mock fallbacks. Twitter is registered
- * separately by the Nitter adapter in nitter-adapter.ts when a mirror is
- * reachable; otherwise the Twitter section is hidden in UI.
+ * Default active adapter set. Twitter is registered separately by the Nitter
+ * adapter in nitter-adapter.ts when a mirror is reachable; otherwise the
+ * Twitter section is hidden in UI.
  */
 export function getDefaultSocialAdapters(): SocialAdapter[] {
   const adapters: SocialAdapter[] = [new HackerNewsAdapter()];
-  if (!isSourceHealthDisabled("reddit")) {
-    adapters.push(new RedditAdapter());
-  }
   if (!isSourceHealthDisabled("github-search")) {
     adapters.push(new GitHubActivityAdapter());
   }

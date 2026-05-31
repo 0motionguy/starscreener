@@ -5,8 +5,7 @@ name: Snapshot /top10 daily
 # Runs ~5 min before midnight so the snapshot date matches the day that
 # just ended in UTC. workflow_dispatch enables manual backfill.
 on:
-  schedule:
-    - cron: "55 23 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

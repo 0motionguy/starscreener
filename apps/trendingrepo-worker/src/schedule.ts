@@ -1,4 +1,4 @@
-// In-process cron scheduler for the Railway worker.
+// In-process cron scheduler for the HOSTUP worker.
 //
 // Each Fetcher in registry.ts declares a 5-field UTC cron expression in its
 // `schedule` field. We instantiate one croner job per fetcher; jobs share
@@ -8,8 +8,8 @@
 //
 // Errors inside a job are caught + Sentry-reported + logged, but they
 // never crash the worker. A single fetcher failure should not take down
-// the other 11 — Railway restarts on process exit, and we want that
-// reserved for actual process-level failures.
+// the other jobs. Container restarts stay reserved for actual process-level
+// failures.
 
 import { Cron } from 'croner';
 import { FETCHERS } from './registry.js';

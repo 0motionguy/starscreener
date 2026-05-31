@@ -33,8 +33,7 @@ const STALENESS_HOURS = {
   // Sub-hourly / hourly cadence sources
   bluesky: 8,
   lobsters: 8,
-  // Worker-driven (~12h effective on the Railway side)
-  reddit: 12,
+  // Worker-driven (~12h effective on the HOSTUP side)
   hackernews: 12,
   // 3h-cadence cron sources
   arxiv: 12,

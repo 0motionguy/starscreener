@@ -1,13 +1,13 @@
-// OSS Insight trending + hot collections fetcher.
+// GitHub-backed trending + hot collections fetcher.
 //
-// Pulls 3 periods x 5 languages from /v1/trends/repos/, plus
-// /v1/collections/hot/, then publishes two data-store slugs:
+// Publishes two data-store slugs from worker-owned Redis inputs:
 //   - `trending`
 //   - `hot-collections`
 //
-// The producer never publishes empty upstream failures over last-known-good
-// data. Partial failures preserve cached leaf rows; total failures can publish
-// an internal degraded fallback built from other fresh worker outputs.
+// OSS Insight is kept as an explicit opt-in diagnostic source only
+// (`OSSINSIGHT_ENABLED=1`). It has repeatedly returned HTTP 500 envelopes with
+// upstream 429 bodies, so production must not spend every hourly tick waiting
+// on that dependency before serving the internal GitHub freshness backbone.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
@@ -132,6 +132,11 @@ function hotRowsFromPayload(
   return Array.isArray(payload?.rows) ? payload.rows : [];
 }
 
+function ossInsightEnabled(): boolean {
+  const value = process.env.OSSINSIGHT_ENABLED?.trim().toLowerCase();
+  return value === '1' || value === 'true' || value === 'yes' || value === 'live';
+}
+
 const fetcher: Fetcher = {
   name: 'oss-trending',
   schedule: '22 * * * *',
@@ -157,6 +162,16 @@ const fetcher: Fetcher = {
       await readFallbackSources(),
       fetchedAt,
     );
+
+    if (!ossInsightEnabled()) {
+      return publishInternalGithubFallback({
+        ctx,
+        startedAt,
+        fetchedAt,
+        internalTrendingFallback,
+      });
+    }
+
     let totalRows = 0;
     let preservedTrendRows = 0;
     let internalTrendRows = 0;
@@ -410,6 +425,86 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
+
+async function publishInternalGithubFallback(args: {
+  ctx: FetcherContext;
+  startedAt: string;
+  fetchedAt: string;
+  internalTrendingFallback: TrendingPayload | null;
+}): Promise<RunResult> {
+  const { ctx, startedAt, fetchedAt, internalTrendingFallback } = args;
+  const errors: RunResult['errors'] = [];
+  let totalRows = 0;
+  let hotRows: NormalizedHotCollectionRow[] = [];
+  let trendsSource: 'redis' | 'preserved' = 'preserved';
+  let hotSource: 'redis' | 'preserved' = 'preserved';
+
+  if (internalTrendingFallback) {
+    const fallbackRows = countTrendingRows(internalTrendingFallback);
+    totalRows = fallbackRows;
+    const trendsRes = await writeDataStore(
+      'trending',
+      {
+        ...internalTrendingFallback,
+        fetchedAt,
+        status: 'ok',
+        source: 'internal-github',
+        dataAsOf: fetchedAt,
+      } satisfies TrendingPayload,
+      { writer: 'worker:oss-trending:internal-github' },
+    );
+    trendsSource = trendsRes.source === 'redis' ? 'redis' : 'preserved';
+  } else {
+    const message =
+      'internal GitHub fallback had no joinable rows; skipped empty trending publish';
+    errors.push({ stage: 'fallback-trending', message });
+    ctx.log.error({ fallbackRows: 0 }, message);
+  }
+
+  const githubFallback = buildGithubCollectionRankingsFallback(
+    await readGithubCollectionFallbackSources(),
+    fetchedAt,
+  );
+  hotRows = buildHotCollectionsFromRankings(githubFallback);
+  if (hotRows.length > 0) {
+    const hotRes = await writeDataStore(
+      'hot-collections',
+      {
+        fetchedAt,
+        rows: hotRows,
+        status: 'ok',
+        source: 'github-metadata-fallback',
+        dataAsOf: fetchedAt,
+      } satisfies HotCollectionsPayload,
+      { writer: 'worker:oss-trending:internal-github' },
+    );
+    hotSource = hotRes.source === 'redis' ? 'redis' : 'preserved';
+  } else {
+    const message =
+      'internal GitHub collection fallback had no rows; skipped empty hot-collections publish';
+    errors.push({ stage: 'fallback-hot-collections', message });
+    ctx.log.error({ fallbackRows: 0 }, message);
+  }
+
+  ctx.log.info(
+    {
+      source: 'internal-github',
+      ossInsightEnabled: false,
+      totalRows,
+      hotCollections: hotRows.length,
+      trendingRedis: trendsSource,
+      hotRedis: hotSource,
+    },
+    'oss-trending published from internal GitHub fallback',
+  );
+
+  return done(
+    startedAt,
+    totalRows + hotRows.length,
+    trendsSource === 'redis' && hotSource === 'redis',
+    errors,
+  );
+}
 
 function done(
   startedAt: string,

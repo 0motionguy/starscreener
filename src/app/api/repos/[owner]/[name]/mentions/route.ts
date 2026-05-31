@@ -39,12 +39,12 @@ const MENTIONS_CACHE_HEADERS = {
 
 const PAGE_DEFAULT_LIMIT = 50;
 const PAGE_MAX_LIMIT = 200;
+const PAUSED_MENTION_SOURCES: readonly SocialPlatform[] = ["reddit"];
 
 // Must stay in sync with the SocialPlatform union in src/lib/types.ts.
 // Keeping it as an explicit runtime set rather than deriving from the type
 // lets us 400 with a precise list when consumers typo a platform name.
 const ALLOWED_SOURCES: ReadonlySet<SocialPlatform> = new Set<SocialPlatform>([
-  "reddit",
   "hackernews",
   "bluesky",
   "twitter",
@@ -196,7 +196,10 @@ export async function GET(
   // Defensive try/catch so internal errors never leak a stack trace via the
   // response body — map to a generic 500 with a stable shape.
   try {
-    const opts: MentionListOptions = { limit };
+    const opts: MentionListOptions = {
+      excludeSources: PAUSED_MENTION_SOURCES,
+      limit,
+    };
     if (source) opts.source = source;
     if (cursor) opts.cursor = cursor;
 

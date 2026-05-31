@@ -36,7 +36,6 @@ const SOURCE_GROUPS: SourceGroup[] = [
     entries: [
       { slug: "github", label: "GitHub", colorVar: "var(--src-github)" },
       { slug: "hn", label: "Hacker News", colorVar: "var(--src-hackernews)" },
-      { slug: "reddit", label: "Reddit", colorVar: "var(--src-reddit)" },
       { slug: "x", label: "X / Twitter", colorVar: "var(--src-x)" },
       { slug: "bsky", label: "Bluesky", colorVar: "var(--src-bluesky)" },
       { slug: "ph", label: "ProductHunt", colorVar: "var(--src-producthunt)" },
@@ -85,7 +84,6 @@ const SOURCE_TOTAL = SOURCE_GROUPS.reduce((sum, group) => sum + group.entries.le
 const SOURCE_LOGO_MAP: Partial<Record<string, SourceName>> = {
   github: "github",
   hn: "hackernews",
-  reddit: "reddit",
   x: "x-twitter",
   bsky: "bluesky",
   ph: "producthunt",

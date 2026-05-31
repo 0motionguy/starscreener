@@ -8,7 +8,7 @@ export const revalidate = 3600;
 export const metadata = {
   title: "About — TrendingRepo",
   description:
-    "TrendingRepo is a trend radar for open source. We surface breakout repositories, MCP servers, and Claude skills the moment they ship by ranking cross-source agreement across GitHub, Reddit, Hacker News, Bluesky, ProductHunt, dev.to, and arXiv.",
+    "TrendingRepo is a trend radar for open source. We surface breakout repositories, MCP servers, and Claude skills the moment they ship by ranking cross-source agreement across GitHub, Hacker News, Bluesky, ProductHunt, dev.to, and arXiv.",
 };
 
 export default function AboutPage() {
@@ -23,7 +23,7 @@ export default function AboutPage() {
           <p className="page-sub">
             Our mission is to surface breakout open-source repositories, MCP
             servers, and Claude skills the moment they ship. We track signals
-            from GitHub, Reddit, Hacker News, ProductHunt, Bluesky, dev.to, and
+            from GitHub, Hacker News, ProductHunt, Bluesky, dev.to, and
             arXiv, and we rank them by cross-source agreement so you can see
             what is moving before it trends.
           </p>
@@ -60,7 +60,7 @@ export default function AboutPage() {
             }}
           >
             TrendingRepo is the trend desk for open source. We ingest signals
-            from seven public sources every few hours, normalize them against
+            from the active public sources every few hours, normalize them against
             per-category baselines, and rank repositories by cross-source
             agreement. The result is a live momentum index that catches
             breakouts hours before they hit the front page — and a deterministic
@@ -111,7 +111,7 @@ export default function AboutPage() {
               margin: 0,
             }}
           >
-            Single-source aggregators (Hacker News, Reddit, ProductHunt) each
+            Single-source aggregators (Hacker News, ProductHunt, dev.to) each
             answer one slice of that question. We answer it across all of them
             at once, with anomaly detection that drops bot spikes and a category
             baseline that prevents &ldquo;everything in AI is trending&rdquo;
@@ -188,7 +188,7 @@ export default function AboutPage() {
             }}
           >
             {[
-              "A live momentum index across 7+ data sources, refreshed every few hours.",
+              "A live momentum index across active data sources, refreshed every few hours.",
               "A public REST API and a Portal v0.1 manifest exposing the same tools over JSON-RPC 2.0.",
               "A zero-dependency CLI (Node 18+) for terminal use, and an MCP server for Claude or any agent.",
               "An llms.txt index for AI crawlers, with a full variant covering the entire site map.",

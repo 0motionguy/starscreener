@@ -66,7 +66,7 @@ export interface ArxivRecentFile {
 /**
  * Per-paper enrichment record produced by scripts/enrich-arxiv.mjs.
  * Citation data comes from Semantic Scholar; socialMentions is the
- * count of HN + Reddit posts in the last 7d that referenced this
+ * count of active HN posts in the last 7d that referenced this
  * arxiv id (by URL or bare id token).
  */
 export interface ArxivEnrichmentRecord {
@@ -152,7 +152,7 @@ function daysSince(iso: string | null | undefined, nowMs: number): number {
 function rawToScorerItem(raw: ArxivPaperRaw, nowMs: number): ArxivPaperItem {
   // Enrichment overlay (Chunk C). When scripts/enrich-arxiv.mjs has run,
   // citationVelocity / citationCount / socialMentions are populated from
-  // Semantic Scholar + HN/Reddit mention counts. When the lookup misses
+  // Semantic Scholar + active HN mention counts. When the lookup misses
   // (paper not yet enriched, or enrichment job hasn't run), all three
   // stay 0 and the scorer falls back to the MVP behavior of weighting on
   // recency + linkedRepoMomentum (when present).

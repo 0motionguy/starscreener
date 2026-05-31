@@ -7,14 +7,14 @@
 // agent-commerce keywords; we count which entities each post mentions.
 //
 // Sources (all free, no auth):
-//   Reddit       — www.reddit.com/search.json
+//   Reddit       — paused end-to-end; not read from network or historical cache
 //   Bluesky      — public.api.bsky.app/xrpc/app.bsky.feed.searchPosts
 //   Dev.to       — dev.to/api/articles
 //   Lobsters     — lobste.rs/search.json
 //   Hugging Face — huggingface.co/api/spaces (search by tag)
 //
 // Output: .data/agent-commerce-social-enrichment.json
-//   { fetchedAt, perEntity: { slug → { reddit, bluesky, devto, lobsters, hf } } }
+//   { fetchedAt, perEntity: { slug → { bluesky, devto, lobsters, hf } } }
 //
 // Flags:
 //   --dry-run            don't write
@@ -37,6 +37,7 @@ const MAX_POSTS = parseNumberArg("--max-posts-per", 200);
 const SKIP = new Set(
   (parseStringArg("--skip", "") || "").split(",").filter(Boolean),
 );
+SKIP.add("reddit");
 
 function parseNumberArg(name, fallback) {
   const idx = process.argv.indexOf(name);
@@ -93,35 +94,6 @@ const QUERIES = [
   "agentic commerce",
   "model context protocol",
 ];
-
-async function pullReddit() {
-  if (SKIP.has("reddit")) return [];
-  // Reddit's APIs (www.reddit.com + old.reddit.com) are blocked in many
-  // build environments (Cloudflare bot challenge / network egress filter).
-  // The project ships its own Reddit collector that runs separately and
-  // writes data/reddit-all-posts.json. We piggy-back on that collected data
-  // instead of going to the wire.
-  try {
-    const path = resolve(process.cwd(), "data/reddit-all-posts.json");
-    const data = JSON.parse(readFileSync(path, "utf8"));
-    const arr = data.posts ?? [];
-    const posts = capPosts(arr.map((p) => ({
-      title: p.title ?? "",
-      body: p.selftext ?? "",
-      url: p.permalink ?? p.url ?? "",
-      external: p.url ?? "",
-      score: p.score ?? 0,
-      created: p.createdUtc ?? 0,
-      subreddit: p.subreddit ?? "",
-      query: "data/reddit-all-posts.json",
-    })));
-    process.stdout.write(`  reddit (from data/reddit-all-posts.json) → ${posts.length}\n`);
-    return posts;
-  } catch (err) {
-    console.warn(`  reddit local-read failed: ${err.message ?? err}`);
-    return [];
-  }
-}
 
 async function pullBluesky() {
   if (SKIP.has("bluesky")) return [];
@@ -388,8 +360,7 @@ async function main() {
   console.log("");
 
   console.log("[ac-social] pulling sources");
-  const [reddit, bluesky, devto, lobsters, hf] = await Promise.all([
-    pullReddit(),
+  const [bluesky, devto, lobsters, hf] = await Promise.all([
     pullBluesky(),
     pullDevto(),
     pullLobsters(),
@@ -397,14 +368,13 @@ async function main() {
   ]);
   console.log("");
   console.log(
-    `[ac-social] post counts: reddit=${reddit.length} bluesky=${bluesky.length} ` +
+    `[ac-social] post counts: reddit=paused bluesky=${bluesky.length} ` +
       `devto=${devto.length} lobsters=${lobsters.length} hf=${hf.length}`,
   );
 
   const matchers = buildMatchers(items);
 
   const matched = {
-    reddit: matchPosts(reddit, matchers, "reddit"),
     bluesky: matchPosts(bluesky, matchers, "bluesky"),
     devto: matchPosts(devto, matchers, "devto"),
     lobsters: matchPosts(lobsters, matchers, "lobsters"),

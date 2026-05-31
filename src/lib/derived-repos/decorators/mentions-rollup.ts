@@ -8,7 +8,7 @@
 //
 // Source coverage:
 //   ready (sync getter, count24h + count7d already enriched at load time):
-//     twitter, reddit, hackernews, bluesky, devto, lobsters
+//     twitter, hackernews, bluesky, devto, lobsters
 //   read-from-data-file (we walk the bundled JSON, attribute by linked-repo
 //   field, and bucket by timestamp into 24h / 7d windows):
 //     npm, huggingface, arxiv, producthunt
@@ -35,7 +35,7 @@
 //   arxiv:       count of papers whose linkedRepos[].fullName === full (+ name fallback)
 //   producthunt: count of launches with linkedRepo === full
 //   funding:     count of funding events resolved to this repo (no time gate)
-//   reddit:      0 — reddit-mentions.json is currently empty (OAuth blocker)
+//   reddit:      0 — paused end-to-end; stale historical rows are ignored
 //
 // count24h / count7d math is preserved verbatim — scoring relies on it.
 // ---------------------------------------------------------------------------
@@ -47,7 +47,6 @@ import type {
   SocialPlatform,
 } from "../../types";
 import { getTwitterSignalSync } from "../../twitter";
-import { getRedditMentions } from "../../reddit-data";
 import { getHnMentions } from "../../hackernews";
 import { getBlueskyMentions } from "../../bluesky";
 import { getDevtoMentions } from "../../devto";
@@ -393,16 +392,6 @@ export function decorateWithMentionsRollup(
       perSource.twitter = { count24h: x, count7d: x, count: x };
     }
 
-    const rd = getRedditMentions(key);
-    if (rd) {
-      // Reddit lifetime stays 0 — reddit-mentions.json `mentions: {}` is
-      // empty pending OAuth fix. Wiring it would lie about coverage.
-      perSource.reddit = {
-        count24h: rd.count24h ?? 0,
-        count7d: rd.count7d ?? 0,
-      };
-    }
-
     const hn = getHnMentions(key);
     if (hn) {
       perSource.hackernews = {
@@ -528,6 +517,7 @@ export function decorateWithMentionsRollup(
     const detail = getCrossSourceDetail(key);
     if (detail?.perSource) {
       for (const [channel, bucket] of Object.entries(detail.perSource)) {
+        if (channel === "reddit") continue;
         if (!bucket) continue;
         const c = channel as SocialPlatform;
         const cur = perSource[c] ?? { count24h: 0, count7d: 0 };
@@ -543,13 +533,14 @@ export function decorateWithMentionsRollup(
       }
     }
 
-    // Mentions ledger — authoritative LIFETIME counts for the 5 SADD-deduped
-    // source channels (hackernews/reddit/bluesky/devto/lobsters). These never
+    // Mentions ledger — authoritative LIFETIME counts for the active
+    // SADD-deduped source channels (hackernews/bluesky/devto/lobsters). These never
     // drop (unlike the 7d-windowed bundled `.length`), so they win the lifetime
     // `count`. count24h/count7d are left untouched (scoring depends on them).
     const ledger = getRepoMentionsLedger(key);
     if (ledger?.perSource) {
       for (const [src, n] of Object.entries(ledger.perSource)) {
+        if (src === "reddit") continue;
         const c = src as SocialPlatform;
         const cur = perSource[c] ?? { count24h: 0, count7d: 0 };
         perSource[c] = { ...cur, count: Math.max(cur.count ?? 0, n ?? 0) };

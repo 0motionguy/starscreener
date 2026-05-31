@@ -4,7 +4,7 @@ name: Cron - MCP usage log rotation
 # The handler applies a rolling 12-month retention policy to
 # `.data/mcp-usage.jsonl` — rows older than 365 days are dropped (no
 # archive in v1). The rotation rewrites atomically under the shared
-# per-file lock; concurrent runs (e.g. Vercel Cron + GH Actions) are
+# per-file lock; concurrent manual/scheduled runs are
 # safe but redundant.
 #
 # Required repo config:

@@ -57,14 +57,14 @@ export function scoreGithubVelocity(stars7dDelta: number): number {
 }
 
 /**
- * Social mentions: weighted log-scaled sum across HN/Reddit/Bluesky/X
+ * Social mentions: weighted log-scaled sum across active HN/Bluesky/X
  * over a 7-day window. Each source contributes its sum of signalScore,
  * then we log-normalize to compress runaway buzz.
  */
 export function scoreSocialMentions(
   sources: AgentCommerceSourceRef[],
 ): number {
-  const social = new Set<string>(["hn", "reddit", "bluesky"]);
+  const social = new Set<string>(["hn", "bluesky"]);
   let total = 0;
   for (const ref of sources) {
     if (social.has(ref.source)) total += ref.signalScore;

@@ -6,7 +6,9 @@ interface AgentCommerceTokenTapeProps {
   baseVolumeUsd24h: number;
   solanaVolumeUsd24h: number;
   x402Endpoints: number;
+  x402NewThisWeek: number;
   mcpServers: number;
+  mcpDegraded: number;
   portalReady: number;
 }
 
@@ -24,9 +26,12 @@ export function AgentCommerceTokenTape({
   baseVolumeUsd24h,
   solanaVolumeUsd24h,
   x402Endpoints,
+  x402NewThisWeek,
   mcpServers,
+  mcpDegraded,
   portalReady,
 }: AgentCommerceTokenTapeProps) {
+  const totalVolumeUsd24h = baseVolumeUsd24h + solanaVolumeUsd24h;
   const leading = [...gainers.slice(0, 5), ...losers.slice(0, 1)].map((row) => ({
     tag: row.symbol,
     label: row.name,
@@ -48,21 +53,21 @@ export function AgentCommerceTokenTape({
     },
     {
       tag: "DUNE",
-      label: "agentic_market",
-      value: "14 queries",
-      tone: "delta-up",
+      label: "x402 volume",
+      value: totalVolumeUsd24h > 0 ? `${formatUsd(totalVolumeUsd24h)}/24h` : "no volume rows",
+      tone: totalVolumeUsd24h > 0 ? "delta-up" : "delta-fl",
     },
     {
       tag: "MCP",
       label: `${mcpServers.toLocaleString()} servers live`,
-      value: "3 degraded",
-      tone: "delta-fl",
+      value: `${mcpDegraded.toLocaleString()} degraded`,
+      tone: mcpDegraded > 0 ? "delta-fl" : "delta-up",
     },
     {
       tag: "PORTAL",
       label: `${portalReady.toLocaleString()} portal-ready`,
-      value: "3 new",
-      tone: "delta-up",
+      value: `${x402NewThisWeek.toLocaleString()} new x402`,
+      tone: x402NewThisWeek > 0 ? "delta-up" : "delta-fl",
     },
     {
       tag: "X402",

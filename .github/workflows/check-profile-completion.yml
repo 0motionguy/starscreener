@@ -16,8 +16,7 @@ name: Profile completion check
 # Cost: pure CPU + JSON-read, no GitHub API calls. ~15 s wall on top mode.
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
     inputs:
       mode:

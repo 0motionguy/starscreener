@@ -499,6 +499,8 @@ export interface MentionPageCursor {
 export interface MentionListOptions {
   /** Filter down to a single platform, matching `RepoMention.platform`. */
   source?: SocialPlatform;
+  /** Exclude paused/deprecated platforms before cursoring and pagination. */
+  excludeSources?: readonly SocialPlatform[];
   /** Exclusive lower bound (newer-than-cursor excluded) on (postedAt desc, id desc). */
   cursor?: MentionPageCursor;
   /** Default 50, hard-capped at MENTION_PAGE_MAX_LIMIT. */
@@ -632,10 +634,14 @@ export class InMemoryMentionStore implements MentionStore {
       return 0;
     });
 
-    // Apply source filter.
-    const filtered = opts.source
-      ? sorted.filter((m) => m.platform === opts.source)
-      : sorted;
+    // Apply source filters before cursoring. Disabled/paused rows must not
+    // affect active-source page sizes or cursors.
+    const excludeSources = new Set(opts.excludeSources ?? []);
+    const filtered = sorted.filter((m) => {
+      if (opts.source && m.platform !== opts.source) return false;
+      if (excludeSources.has(m.platform)) return false;
+      return true;
+    });
 
     // Apply exclusive cursor: keep rows strictly less than (postedAt, id).
     const cursor = opts.cursor;

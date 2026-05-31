@@ -1,11 +1,9 @@
 name: Cron - weekly digest email
 
 # Fires POST /api/cron/digest/weekly every Monday at 08:00 UTC — start-of-
-# week inbox slot when users are most likely to triage. Mirrors the
-# vercel.json registration; if both schedulers are live they will double-
-# fire, which is safe (the route is idempotent over the 7d window) but
-# wastes quota. If you want a single primary, disable EITHER this file
-# OR the matching entry in vercel.json.
+# week inbox slot when users are most likely to triage. This GitHub workflow
+# is the only intended scheduler for the digest on HOSTUP; legacy Vercel cron
+# registrations must stay disabled with the paused/disconnected Vercel project.
 #
 # Shipped disabled-by-default: the server returns
 #   { ok: true, skipped: "disabled" }

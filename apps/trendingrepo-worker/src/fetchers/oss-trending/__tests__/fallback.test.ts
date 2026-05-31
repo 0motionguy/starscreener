@@ -353,6 +353,36 @@ describe('oss-trending fallback', () => {
     expect(bucket(payload, 'past_month', 'TypeScript')[0]?.stars).toBe('90');
   });
 
+  it('skips OSSInsight network calls by default and publishes internal GitHub rows', async () => {
+    const { default: fetcher } = await import('../index.js');
+    const json = vi.fn(async () => {
+      throw new Error('OSSInsight should be opt-in');
+    });
+    const ctx = {
+      ...makeContext(),
+      http: {
+        json,
+        async text() {
+          throw new Error('not used');
+        },
+      },
+    } satisfies FetcherContext;
+
+    await fetcher.run(ctx);
+
+    expect(json).not.toHaveBeenCalled();
+    const writes = writeDataStoreMock.mock.calls as unknown as Array<
+      [string, unknown, unknown?]
+    >;
+    const trendingWrite = writes.find(([slug]) => slug === 'trending');
+    expect((trendingWrite?.[1] as { source?: string }).source).toBe(
+      'internal-github',
+    );
+    expect(trendingWrite?.[2]).toEqual({
+      writer: 'worker:oss-trending:internal-github',
+    });
+  });
+
   it('does not publish an empty hot-collections payload when the endpoint is down without cache', async () => {
     const { default: fetcher } = await import('../index.js');
 

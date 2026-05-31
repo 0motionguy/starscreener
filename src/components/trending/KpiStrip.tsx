@@ -18,7 +18,6 @@ export async function KpiStrip() {
       counts.lobstersStories +
       counts.devtoArticles +
       counts.blueskyPosts +
-      counts.redditPosts +
       counts.producthuntLaunches
     : 0;
 
@@ -28,7 +27,6 @@ export async function KpiStrip() {
         counts.lobstersStories,
         counts.devtoArticles,
         counts.blueskyPosts,
-        counts.redditPosts,
         counts.producthuntLaunches,
         counts.fundingSignals,
         counts.npmPackages,

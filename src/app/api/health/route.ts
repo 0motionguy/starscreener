@@ -453,7 +453,7 @@ export async function GET(
 
     if (soft && !includeDetail) {
       // Public soft health is an uptime probe. Keep it metadata-only so cold
-      // Vercel functions do not import/refresh the scanner stack before TTFB.
+      // HOSTUP app workers do not import/refresh the scanner stack before TTFB.
       scheduleBackgroundRefresh();
       const body = await getPublicSoftHealthBody();
       return NextResponse.json(body, {

@@ -16,6 +16,8 @@ concurrency:
 
 jobs:
   refresh:
+    # Paused with live Reddit collection. Baselines hit Reddit upstreams too.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

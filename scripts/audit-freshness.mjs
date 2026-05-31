@@ -11,7 +11,7 @@
 // classifies each source against a per-source freshness budget, and exits
 // non-zero if ANY source is stale OR an EXPECTED source is missing entirely.
 //
-// Generic by design: sibling sources (hackernews, reddit, etc.) are checked
+// Generic by design: sibling sources (hackernews, bluesky, etc.) are checked
 // the same way. Add a new source by either dropping a meta file under
 // data/_meta/ or extending DEFAULT_BUDGETS_MS below. Per-source override:
 // include a `freshnessBudgetMs` field inside the meta file.
@@ -30,7 +30,6 @@ const DEFAULT_BUDGETS_MS = {
   // means the actor has been broken for half a day with no fallback.
   twitter: 12 * HOUR,
   hackernews: 6 * HOUR,
-  reddit: 6 * HOUR,
   bluesky: 6 * HOUR,
   devto: 24 * HOUR,
   producthunt: 12 * HOUR,
@@ -49,7 +48,6 @@ const DEFAULT_BUDGETS_MS = {
 // stops writing, the meta file ages then disappears on a fresh deploy).
 const REQUIRED_SOURCES = new Set([
   "hackernews",
-  "reddit",
   "trending",
 ]);
 

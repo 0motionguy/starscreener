@@ -23,7 +23,7 @@ test("getArxivEnrichment returns the record after _setArxivEnrichmentForTests", 
   const fixture: ArxivEnrichedFile = {
     fetchedAt: new Date().toISOString(),
     source: "test",
-    socialSources: ["hackernews", "reddit"],
+    socialSources: ["hackernews"],
     count: 1,
     papers: [
       {

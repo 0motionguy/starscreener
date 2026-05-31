@@ -3,8 +3,7 @@ name: Refresh Lobsters signals
 # Lobsters is a small public source. Hourly polling is enough to keep the
 # fast-source health budget green without hammering upstream.
 on:
-  schedule:
-    - cron: "37 * * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

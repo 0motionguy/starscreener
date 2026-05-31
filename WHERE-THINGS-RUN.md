@@ -2,7 +2,7 @@
 
 One-page topology reference. Update whenever a surface moves.
 
-**Generated**: 2026-05-16 (Sprint 4.4 of TOOLBOX unification audit). Verify against live state if older than a month.
+**Updated**: 2026-06-01 during HOSTUP production hardening. Verify against live state before deploying.
 
 > Repo name is `starscreener`; product / public domain is `trendingrepo.com`. Folder is `/c/dev/trendingrepo/`. Don't conflate the three.
 
@@ -20,16 +20,16 @@ One-page topology reference. Update whenever a surface moves.
 
 | Service | Where | Image / Build |
 |---|---|---|
-| trendingrepo-web | **Vercel** | Next.js 15. Auto-deploys on push to main. Domain: `trendingrepo.com` (Vercel A 76.76.21.21 per memory `feedback_vercel_dns_auto_revert_2026_05_14` — Vercel auto-restores its A record; Mirko removed CF tunnel takeover). |
-| trendingrepo-worker | **TOOLBOX VPS** as Docker tenant | Image at `ghcr.io/0motionguy/starscreener-worker:<tag>` (verify via verify.yml). Runs 44 in-process croner fetchers per `apps/trendingrepo-worker/src/registry.ts`. Compose path: `/opt/toolbox-trendingrepo-worker/` (Sprint 1.5 noted as subtree-duplicate candidate). |
+| trendingrepo-web | **HOSTUP / TOOLBOX VPS** behind Cloudflare Tunnel | Next.js 15 Docker tenant. Domain: `trendingrepo.com`. Verify with `curl -I https://trendingrepo.com` and expect `Server: cloudflare` with no `X-Vercel-*` headers. |
+| trendingrepo-worker | **HOSTUP / TOOLBOX VPS** as Docker tenant | Local OCI image. Runs in-process croner fetchers from `apps/trendingrepo-worker/src/registry.ts` and writes `ss:data:v1:*` to HOSTUP-internal Redis. |
 | trendingrepo-mcp | **npm package** | `npm publish` from `mcp/` subdir on tag. Distribution only; runs in user clients (Claude Desktop, etc.). |
 
 ## Cron / scheduler
 
 | What | Where | Source |
 |---|---|---|
-| 44 data fetchers (HN, Reddit, Bluesky, dev.to, ProductHunt, Lobsters, npm, pypi, etc.) | **TOOLBOX VPS** trendingrepo-worker container, in-process croner | `apps/trendingrepo-worker/src/registry.ts` FETCHERS array (45 fetchers as of 2026-05-16). |
-| App-cron (alerts, referrals, dispatch) | **Vercel Cron** | `vercel.json` — currently 3 active (`/api/cron/alerts/dispatch` every minute = ~43k inv/mo, alerts/cleanup daily, referrals/qualify hourly). Sprint 3.2 Phase B moves these to TOOLBOX. |
+| Data fetchers | **HOSTUP / TOOLBOX VPS** trendingrepo-worker container, in-process croner | `apps/trendingrepo-worker/src/registry.ts` FETCHERS array. Reddit is intentionally paused. |
+| App-cron / ops calls | **GitHub Actions or HOSTUP worker**, depending on route | Keep GitHub schedules only for live probes or explicit app-cron HTTP calls. Do not reintroduce duplicate GitHub data producers for worker-owned sources. |
 | Cleanup / health (ad-hoc) | **GH Actions ubuntu-latest** | 16 cron-driven app-cron/health/ops workflows kept on GH Actions for clean-room (per duplicate matrix). |
 | Sprint 3.2 retirements | Sprint 3.2 PR #1486 retired 13 pure-double-invocation `refresh-*` workflows. 21 more MIGRATE candidates queued in subsequent PRs. |
 
@@ -38,14 +38,14 @@ One-page topology reference. Update whenever a surface moves.
 | What | Where | Backup |
 |---|---|---|
 | Source of truth (writes) | **Supabase** project `yzhh...bytn` — SHARED with aiso (Sprint 5.1 splits this). trendingrepo writes only to `tr.*` schema. | Supabase Pro PITR. Plus weekly Redis snapshot to R2. |
-| Redis (cache + rate-limit) | Currently 2 providers (Railway `shor...t.net:16128` + Upstash REST fallback). Sprint 3.3 consolidates to `toolbox-redis-1` on TOOLBOX VPS. | Weekly snapshot to R2 (existing). |
-| Object storage | None directly. Vercel handles ISR + image assets. |
+| Redis (cache + rate-limit) | HOSTUP-internal Redis on the TOOLBOX network, with legacy Upstash only where explicitly configured. | Weekly snapshot to R2 (existing). |
+| Object storage | None directly. Next.js static assets are served by the HOSTUP web container behind Cloudflare. |
 
 ## Secrets
 
 | Surface | Location | Editor of last resort |
 |---|---|---|
-| Vercel env | `vercel env ls production` — 44 keys (per Phase 3 audit). Source of truth post-Sprint-3.1: sops-encrypted `trendingrepo.enc.env` in `0motionguy/toolbox-ops`. | Mirko |
+| Web runtime env | HOSTUP `.env.production` / toolbox ops secrets. Vercel must remain paused and Git-disconnected unless Mirko explicitly reverses the cost guard. | Mirko |
 | GH Actions secrets | `gh secret list --repo 0motionguy/starscreener` — 22 keys, all <26d old (Phase 3 audit). | Mirko |
 | trendingrepo-worker runtime env | **TOOLBOX VPS** `/opt/toolbox-trendingrepo-worker/.env` (mode 0600 root). Decrypted from `toolbox-ops/toolbox-trendingrepo-worker.enc.env` by `toolbox-secrets-decrypt.service` (Sprint 2.2). |
 | sops age master key | Local: `~/.config/sops/age/toolbox-ops.txt` · VPS: `/root/.config/sops/age/toolbox-ops.txt`. Backup: Mirko's password manager. |
@@ -56,7 +56,7 @@ One-page topology reference. Update whenever a surface moves.
 
 | Endpoint | Hostname | Tier |
 |---|---|---|
-| Web | `trendingrepo.com` (Vercel) | free |
+| Web | `trendingrepo.com` (Cloudflare Tunnel -> HOSTUP) | free |
 | MCP package | npm `trendingrepo-mcp` | free |
 
 Paid x402 surfaces are on the TOOLBOX side (`api.aiso.tools/v1/x402/*` + `mcp.aiso.tools`), not on trendingrepo.com — trendingrepo.com merely proxies the manifest (per memory `feedback_trendingrepo_x402_stub` SUPERSEDED → `project_commerce_live`).
@@ -65,7 +65,7 @@ Paid x402 surfaces are on the TOOLBOX side (`api.aiso.tools/v1/x402/*` + `mcp.ai
 
 | Surface | Rollback command |
 |---|---|
-| Vercel (web) | `vercel rollback <deployment-url>` (or via dashboard) |
+| Web container | Retag/restart the previous HOSTUP Docker image, then smoke `https://trendingrepo.com`. |
 | trendingrepo-worker container | `ssh toolbox 'cd /opt/toolbox-trendingrepo-worker && sed -i "s|image: ghcr.io/0motionguy/starscreener-worker:.*|image: ghcr.io/0motionguy/starscreener-worker:<PREV_TAG>|" docker-compose.yml && docker compose up -d'` |
 | Workflow YAML | `git revert <merge-commit>` + push |
 | Migration | `supabase migration repair` OR manual `psql` revert |

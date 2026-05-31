@@ -35,6 +35,8 @@ export function AcKpiStrip({
   solanaPctShare,
   portalReady,
 }: AcKpiStripProps) {
+  const hasOnchainVolume = onchain24hUsd > 0;
+
   return (
     <div
       className="ac-kpi fade-up"
@@ -76,8 +78,10 @@ export function AcKpiStrip({
       <div className="cell" style={cellStyle}>
         <div style={labelStyle}>On-chain 24h</div>
         <div style={{ ...valueStyle, color: "var(--accent)" }}>{formatUsd(onchain24hUsd)}</div>
-        <div style={{ ...descStyle, color: "var(--up)" }}>
-          ▲ Base {basePctShare}% · Solana {solanaPctShare}%
+        <div style={{ ...descStyle, color: hasOnchainVolume ? "var(--up)" : "var(--fg-muted)" }}>
+          {hasOnchainVolume
+            ? `Base ${basePctShare}% · Solana ${solanaPctShare}%`
+            : "volume source unavailable"}
         </div>
       </div>
       <div className="cell" style={cellStyle}>

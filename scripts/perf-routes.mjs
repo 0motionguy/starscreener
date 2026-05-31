@@ -82,7 +82,7 @@ async function probeOnce(route, attempt) {
         ttfbMs,
         transferKb: Math.round((transferBytes / 1024) * 10) / 10,
         cacheControl: headers["cache-control"] ?? null,
-        vercelCache: headers["x-vercel-cache"] ?? null,
+        edgeCache: headers["cf-cache-status"] ?? null,
         age: headers.age ?? null,
         contentEncoding: headers["content-encoding"] ?? null,
         error: errorMessage,
@@ -179,25 +179,25 @@ function evaluate(routeConfig, hits) {
   }
 
   if (routeConfig.warmupOnDeploy) {
-    const lastVc = (last.vercelCache ?? "").toUpperCase();
-    if (lastVc && lastVc !== "HIT" && lastVc !== "STALE" && lastVc !== "PRERENDER" && lastVc !== "REVALIDATED") {
+    const lastEdgeCache = (last.edgeCache ?? "").toUpperCase();
+    if (lastEdgeCache && lastEdgeCache !== "HIT" && lastEdgeCache !== "STALE" && lastEdgeCache !== "PRERENDER" && lastEdgeCache !== "REVALIDATED") {
       // MISS once is tolerated on cold deploy; tracked as warning, not failure.
       // Two consecutive non-HIT becomes a failure.
       const allMisses = hits.every((h) => {
-        const vc = (h.vercelCache ?? "").toUpperCase();
-        return vc !== "HIT" && vc !== "STALE" && vc !== "PRERENDER" && vc !== "REVALIDATED";
+        const edgeCache = (h.edgeCache ?? "").toUpperCase();
+        return edgeCache !== "HIT" && edgeCache !== "STALE" && edgeCache !== "PRERENDER" && edgeCache !== "REVALIDATED";
       });
       if (allMisses && hits.length >= 2) {
-        failures.push(`warmup_cache_miss:${lastVc || "—"}`);
+        failures.push(`warmup_cache_miss:${lastEdgeCache || "—"}`);
       } else {
-        warnings.push(`warmup_cache:${lastVc || "—"}`);
+        warnings.push(`warmup_cache:${lastEdgeCache || "—"}`);
       }
     }
   }
 
   // TTFB: cached budget for HIT, uncached for MISS (or unknown).
-  const lastVc = (last.vercelCache ?? "").toUpperCase();
-  const isCachedHit = lastVc === "HIT" || lastVc === "STALE" || lastVc === "PRERENDER";
+  const lastEdgeCache = (last.edgeCache ?? "").toUpperCase();
+  const isCachedHit = lastEdgeCache === "HIT" || lastEdgeCache === "STALE" || lastEdgeCache === "PRERENDER";
   const ttfbLimit = isCachedHit ? ttfbBudget : ttfbBudgetUncached;
   if (last.ttfbMs !== null && last.ttfbMs > ttfbLimit) {
     failures.push(`ttfb_budget:${last.ttfbMs}ms>${ttfbLimit}ms`);
@@ -245,7 +245,7 @@ async function main() {
       lastTtfbMs: last.ttfbMs,
       lastTransferKb: last.transferKb,
       lastCacheControl: last.cacheControl,
-      lastVercelCache: last.vercelCache,
+      lastEdgeCache: last.edgeCache,
     });
   }
 
@@ -272,7 +272,7 @@ async function main() {
       pad("TTFB", 8),
       pad("SIZE", 8),
       pad("CACHE", 12),
-      pad("VERCEL", 8),
+      pad("EDGE", 8),
       "STATUS",
     );
     for (const r of results) {
@@ -289,7 +289,7 @@ async function main() {
         pad(`${r.lastTtfbMs ?? "—"}ms`, 8),
         pad(`${r.lastTransferKb}kb`, 8),
         pad(cacheKind, 12),
-        pad(r.lastVercelCache ?? "—", 8),
+        pad(r.lastEdgeCache ?? "—", 8),
         status + warnSuffix,
       );
     }

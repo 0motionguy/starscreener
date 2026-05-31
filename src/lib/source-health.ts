@@ -300,15 +300,16 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
 
   const blueskyFile = getBlueskyFile();
   const blueskyCold = isBlueskyCold();
-  const blueskyAuthMissing =
-    !process.env.BLUESKY_HANDLE || !process.env.BLUESKY_APP_PASSWORD;
+  const blueskyAppCredsConfigured =
+    Boolean(process.env.BLUESKY_HANDLE) &&
+    Boolean(process.env.BLUESKY_APP_PASSWORD);
   const blueskyLowVolume =
     !blueskyCold &&
     (blueskyFile.scannedPosts < 25 || blueskyFile.pagesFetched < 1);
   const blueskyNotes: string[] = [];
-  if (blueskyAuthMissing) {
+  if (!blueskyAppCredsConfigured) {
     blueskyNotes.push(
-      "BLUESKY_HANDLE and/or BLUESKY_APP_PASSWORD is not configured, so this scraper cannot refresh locally.",
+      "App-local Bluesky credentials are not configured; worker freshness is verified through Redis payload health.",
     );
   }
   if (blueskyFile.scannedPosts < 25) {
@@ -320,12 +321,14 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
 
   const phFile = getPhFile();
   const producthuntCold = isProducthuntCold();
-  const phAuthMissing = !process.env.PRODUCTHUNT_TOKEN;
+  const producthuntAppCredsConfigured =
+    Boolean(process.env.PRODUCTHUNT_TOKENS) ||
+    Boolean(process.env.PRODUCTHUNT_TOKEN);
   const phEmpty = !producthuntCold && (phFile.launches?.length ?? 0) === 0;
   const phNotes: string[] = [];
-  if (phAuthMissing) {
+  if (!producthuntAppCredsConfigured) {
     phNotes.push(
-      "PRODUCTHUNT_TOKEN is not configured, so this scraper cannot refresh locally.",
+      "App-local Product Hunt credentials are not configured; worker freshness is verified through Redis payload health.",
     );
   }
   if (phEmpty) {
@@ -396,9 +399,9 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
       degradedAfterMs: FAST_HOURLY_DEGRADED_THRESHOLD_MS,
       cold: blueskyCold,
-      degraded: blueskyLowVolume || blueskyAuthMissing,
+      degraded: blueskyLowVolume,
       metrics: {
-        authConfigured: !blueskyAuthMissing,
+        authConfigured: blueskyAppCredsConfigured,
         scannedPosts: blueskyFile.scannedPosts,
         pagesFetched: blueskyFile.pagesFetched,
         reposWithMentions: Object.keys(blueskyFile.mentions ?? {}).length,
@@ -415,9 +418,9 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       staleAfterMs: PRODUCTHUNT_STALE_THRESHOLD_MS,
       degradedAfterMs: PRODUCTHUNT_DEGRADED_THRESHOLD_MS,
       cold: producthuntCold,
-      degraded: phEmpty || phAuthMissing,
+      degraded: phEmpty,
       metrics: {
-        authConfigured: !phAuthMissing,
+        authConfigured: producthuntAppCredsConfigured,
         launches: phFile.launches?.length ?? 0,
         windowDays: phFile.windowDays ?? null,
       },

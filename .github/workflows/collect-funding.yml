@@ -1,10 +1,6 @@
 name: Collect Funding Signals
 on:
-  schedule:
-    # 2h cadence (was 6h). 24h-fresh KPI was sparse on the old schedule
-    # because RSS sources rarely produce funding-keyword headlines on
-    # every 6h tick — 2h gives us 12 chances per day instead of 4.
-    - cron: '0 */2 * * *'
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
     inputs:
       sources:

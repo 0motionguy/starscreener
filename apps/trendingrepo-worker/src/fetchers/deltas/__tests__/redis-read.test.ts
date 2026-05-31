@@ -14,8 +14,6 @@ vi.mock('../../../lib/redis.js', () => ({
   writeDataStore: writeDataStoreMock,
 }));
 
-import fetcher from '../index.js';
-
 function makeRedis(): RedisHandle & { getCalls: string[] } {
   const values = new Map<string, string>([
     ['ss:data:v1:trending', 'gz1:not-json-without-datastore-reader'],
@@ -60,6 +58,11 @@ function makeContext(redis: RedisHandle): FetcherContext {
 
 describe('deltas current trending read path', () => {
   it('uses readDataStore for the canonical trending slug so gzipped payloads decode', async () => {
+    vi.resetModules();
+    readDataStoreMock.mockReset();
+    writeDataStoreMock.mockClear();
+    const { default: fetcher } = await import('../index.js');
+
     readDataStoreMock.mockResolvedValueOnce({
       fetchedAt: '2026-05-31T12:40:00.000Z',
       buckets: {

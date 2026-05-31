@@ -2,9 +2,8 @@
 //
 // PROBLEM
 //   The screenshot promises "scan 30 sources for cross-source signal". The
-//   pre-existing intake (`pipeline.ingestRepo`) only covers the 8 social
-//   channels (Twitter, Reddit, HN, Bluesky, dev.to, Lobsters, ProductHunt,
-//   Tavily). The remaining signal — GitHub trending presence, npm/pypi
+//   pre-existing intake (`pipeline.ingestRepo`) covers the active social
+//   channels (HN, Bluesky, dev.to). The remaining signal — GitHub trending presence, npm/pypi
 //   downloads, HF/MCP/skill registry hits, funding mentions, etc. — is
 //   already in Redis but never fanned out per-drop.
 //
@@ -297,15 +296,14 @@ export const SCAN_CHANNEL_COUNT = CHANNELS.length;
 
 /**
  * Per-drop social channels already covered by `pipeline.ingestRepo()` via the
- * Twitter / Reddit / HackerNews / Bluesky / dev.to / Lobsters / ProductHunt
- * / Tavily-web-search sweep. These don't live in `CHANNELS` (their finders
+ * active HackerNews / Bluesky / dev.to adapters. These don't live in `CHANNELS` (their finders
  * are inside the social-adapter layer, not data-store reads), but they ARE
  * scanned per drop — count them so the UI can quote an honest total.
  *
  * Update in lockstep with `getDefaultSocialAdapters()` in
  * `src/lib/pipeline/adapters/social-adapters.ts`.
  */
-export const SOCIAL_SCAN_CHANNEL_COUNT = 8;
+export const SOCIAL_SCAN_CHANNEL_COUNT = 3;
 
 /** Total per-drop signal touchpoints (data-store + social adapters). */
 export const TOTAL_SCAN_CHANNEL_COUNT =

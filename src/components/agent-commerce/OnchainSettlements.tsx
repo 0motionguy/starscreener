@@ -14,11 +14,6 @@ interface FacilitatorStats {
   x402Settlements: number;
 }
 
-const SEEDED_SOLANA_FACILITATORS: Record<string, FacilitatorStats> = {
-  "solana-x402": { addressCount: 7, totalTxs: 3012, x402Settlements: 2710 },
-  crossmint: { addressCount: 5, totalTxs: 1205, x402Settlements: 1084 },
-};
-
 function formatUsd(n: number): string {
   if (!Number.isFinite(n) || n <= 0) return "$0";
   if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`;
@@ -35,7 +30,7 @@ function topFacilitator(
     const txs = stat?.totalTxs ?? 0;
     if (!best || txs > best.txs) best = { name, txs };
   }
-  return best ?? { name: "x402.org", txs: 8124 };
+  return best ?? { name: "unavailable", txs: 0 };
 }
 
 function sumSettlements(byFacilitator: Record<string, FacilitatorStats> | undefined): number {
@@ -45,8 +40,9 @@ function sumSettlements(byFacilitator: Record<string, FacilitatorStats> | undefi
   );
 }
 
-function medianPayment(volumeUsd: number, settlements: number, fallback: number): string {
-  const value = settlements > 0 ? volumeUsd / settlements : fallback;
+function medianPayment(volumeUsd: number, settlements: number): string {
+  const value = settlements > 0 ? volumeUsd / settlements : 0;
+  if (!Number.isFinite(value) || value <= 0) return "unavailable";
   if (value >= 1) return `$${value.toFixed(2)} per call`;
   return `$${value.toFixed(2)} per call`;
 }
@@ -58,19 +54,20 @@ export function OnchainSettlements({
   solanaVolumeUsd24h,
 }: OnchainSettlementsProps) {
   const baseFacilitators = base?.byFacilitator;
-  const solanaFacilitators = solana?.byFacilitator ?? SEEDED_SOLANA_FACILITATORS;
+  const solanaFacilitators = solana?.byFacilitator;
 
   const baseSettlements =
-    (base?.totalSettlements ?? sumSettlements(baseFacilitators)) || 12_408;
+    base?.totalSettlements ?? sumSettlements(baseFacilitators);
   const solanaSettlements =
-    (solana?.totalSettlements ?? sumSettlements(solanaFacilitators)) || 4_217;
-  const baseVolume = baseVolumeUsd24h && baseVolumeUsd24h > 0 ? baseVolumeUsd24h : 2_420_000;
+    solana?.totalSettlements ?? sumSettlements(solanaFacilitators);
+  const baseVolume = baseVolumeUsd24h && baseVolumeUsd24h > 0 ? baseVolumeUsd24h : 0;
   const solanaVolume =
-    solanaVolumeUsd24h && solanaVolumeUsd24h > 0 ? solanaVolumeUsd24h : 890_000;
+    solanaVolumeUsd24h && solanaVolumeUsd24h > 0 ? solanaVolumeUsd24h : 0;
 
   const totalSettlements = baseSettlements + solanaSettlements;
-  const basePct = Math.round((baseSettlements / totalSettlements) * 100);
-  const solanaPct = 100 - basePct;
+  const basePct =
+    totalSettlements > 0 ? Math.round((baseSettlements / totalSettlements) * 100) : 0;
+  const solanaPct = totalSettlements > 0 ? 100 - basePct : 0;
   const baseTop = topFacilitator(baseFacilitators);
   const solanaTop = topFacilitator(solanaFacilitators);
 
@@ -106,7 +103,7 @@ export function OnchainSettlements({
           <div className="row between" style={rowBetweenStyle}>
             <span>median payment</span>
             <span style={{ color: "var(--fg)" }}>
-              {medianPayment(baseVolume, baseSettlements, 0.04)}
+              {medianPayment(baseVolume, baseSettlements)}
             </span>
           </div>
         </div>
@@ -133,7 +130,7 @@ export function OnchainSettlements({
           <div className="row between" style={rowBetweenStyle}>
             <span>median payment</span>
             <span style={{ color: "var(--fg)" }}>
-              {medianPayment(solanaVolume, solanaSettlements, 0.02)}
+              {medianPayment(solanaVolume, solanaSettlements)}
             </span>
           </div>
         </div>

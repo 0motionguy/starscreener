@@ -1,10 +1,7 @@
 name: Refresh agent-commerce pipeline
 
 on:
-  schedule:
-    # Daily at 04:31 UTC. Offset from scrape-trending (every :27) and
-    # other hourly crons to avoid stomping the runner pool.
-    - cron: "31 4 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:
@@ -104,11 +101,7 @@ jobs:
       - name: Enrich agent-commerce social mentions
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
-        run: node scripts/fetch-agent-commerce-social.mjs
+        run: node scripts/fetch-agent-commerce-social.mjs --skip reddit
 
       - name: Rebuild agent-commerce seed
         env:

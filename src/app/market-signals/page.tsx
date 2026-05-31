@@ -53,7 +53,7 @@ export const revalidate = 1800;
 export const metadata = {
   title: "Market Signals",
   description:
-    "Live cross-source telemetry across 30+ feeds. GitHub, X, HN, Reddit, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
+    "Live cross-source telemetry across active feeds. GitHub, X, HN, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
   openGraph: {
     images: [
       { url: "/api/og/market-signals", width: 1200, height: 630, alt: "TrendingRepo — Market Signals" },
@@ -76,7 +76,6 @@ function safe<T>(fn: () => T, fallback: T): T {
 const MARKET_SOURCE_KEYS = [
   "github",
   "hn",
-  "reddit",
   "x",
   "bsky",
   "ph",
@@ -156,7 +155,6 @@ function buildSourceTotals(
   return {
     github: Math.max(0, mentionsFor(repos, "github") || githubVelocity),
     hn: Math.max(0, mentionsFor(repos, "hackernews") || counts?.hackernewsStories || 0),
-    reddit: Math.max(0, mentionsFor(repos, "reddit") || counts?.redditPosts || 0),
     x: Math.max(0, mentionsFor(repos, "twitter") || counts?.twitterRepos || 0),
     bsky: Math.max(0, mentionsFor(repos, "bluesky") || counts?.blueskyPosts || 0),
     ph: Math.max(0, mentionsFor(repos, "producthunt") || counts?.producthuntLaunches || 0),
@@ -236,7 +234,6 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   const volumeTotals = {
     github: sourceTotals.github,
     x: sourceTotals.x,
-    reddit: sourceTotals.reddit,
     hn: sourceTotals.hn,
     bsky: sourceTotals.bsky,
     devto: sourceTotals.devto,

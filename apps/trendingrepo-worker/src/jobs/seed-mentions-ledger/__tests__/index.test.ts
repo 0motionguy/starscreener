@@ -2,7 +2,8 @@
 //
 // Three contracts under test:
 //   1. parseJsonlLine — skips non-ledger sources (tavily/twitter), malformed
-//      JSON, missing fields; extracts (repo, source, url) for the 5 known.
+//      JSON, missing fields; extracts (repo, source, url) for active ledger
+//      sources while Reddit remains paused.
 //   2. projectFromRollupData — walks repos[].perSource[src].top[] and emits
 //      one work item per (repo, source) with URL-as-stable-ID.
 //   3. mergeWorkItems — unions IDs across passes so applyLedger sees one
@@ -44,17 +45,13 @@ describe('parseJsonlLine', () => {
     });
   });
 
-  it('parses a reddit JSONL event', () => {
+  it('skips reddit JSONL events while reddit collection is paused', () => {
     const line = JSON.stringify({
       source: 'reddit',
       fullName: 'mattpocock/skills',
       url: 'https://www.reddit.com/r/ClaudeWorkflows/comments/abc/foo/',
     });
-    expect(parseJsonlLine(line)).toEqual({
-      repo: 'mattpocock/skills',
-      source: 'reddit',
-      id: 'https://www.reddit.com/r/ClaudeWorkflows/comments/abc/foo/',
-    });
+    expect(parseJsonlLine(line)).toBeNull();
   });
 
   it('parses bluesky / devto / lobsters JSONL events', () => {

@@ -23,7 +23,6 @@ jobs:
           - /signals
           - /compare
           - /top10
-          - /reddit/trending
           - /hackernews/trending
           - /lobsters
           - /devto
@@ -68,6 +67,7 @@ jobs:
         with:
           name: warmup-probes-${{ strategy.job-index }}
           path: .perf/probe*.json
+          include-hidden-files: true
           retention-days: 14
 
   summarize:
@@ -88,7 +88,7 @@ jobs:
             jq -s '{ runAt: now | todate, results: . }' .perf/raw/probe*.json \
               > .perf/cron-warmup-summary.json
             echo "Summary:"
-            jq '.results | map({ route, status, ttfbMs, vercelCache, cacheControl }) | sort_by(.route)' \
+            jq '.results | map({ route, status, ttfbMs, edgeCache, cacheControl }) | sort_by(.route)' \
               .perf/cron-warmup-summary.json
           else
             echo "No probe outputs found." >&2
@@ -99,4 +99,5 @@ jobs:
         with:
           name: cron-warmup-summary
           path: .perf/cron-warmup-summary.json
+          include-hidden-files: true
           retention-days: 30

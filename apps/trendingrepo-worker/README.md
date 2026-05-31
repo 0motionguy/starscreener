@@ -4,7 +4,7 @@ Cross-source trending leaderboard worker for trendingrepo.com. Self-contained No
 
 ## What it does
 
-- Pulls trending data from HuggingFace, GitHub, Bluesky, HN, ProductHunt, DevTo, Reddit, plus Firecrawl-backed crawls of PulseMCP / Smithery / mcp.so / claude.com/code/skills.
+- Pulls trending data from HuggingFace, GitHub, Bluesky, HN, ProductHunt, DevTo, package/model/funding feeds, and the active MCP/skills registries. Reddit collectors are paused until a credentialed, non-empty producer is approved.
 - Upserts normalized rows into Supabase Postgres (`trending_items`, `trending_metrics`, `trending_assets`) - cold tier.
 - Publishes denormalized leaderboard JSON to Redis (Railway ioredis or Upstash REST) - hot tier the frontend reads. Same `ss:data:v1:*` namespace the existing STARSCREENER `data-store.ts` uses.
 - pg_cron recomputes per-type z-score `trending_score()` nightly at 03:00 UTC.

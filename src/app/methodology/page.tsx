@@ -28,7 +28,7 @@ const SCORE_INPUTS: ReadonlyArray<{
     label: "Cross-source mentions",
     weight: "0.6× / source",
     detail:
-      "Count of distinct discussions on Hacker News, Reddit, Bluesky, Lobsters, dev.to, ProductHunt, and X / Twitter. Multiple sources stack — six platforms talking is the breakout signal.",
+      "Count of distinct discussions on Hacker News, Bluesky, Lobsters, dev.to, and ProductHunt. Multiple sources stack — three or more active platforms talking is the breakout signal.",
   },
   {
     label: "Engagement composite",
@@ -58,7 +58,6 @@ const SOURCE_SCHEDULE: ReadonlyArray<{
 }> = [
   { source: "GitHub stars / metadata", cadence: "every 20 min" },
   { source: "Hacker News", cadence: "every 6h" },
-  { source: "Reddit", cadence: "every 6h" },
   { source: "Bluesky", cadence: "every 8h" },
   { source: "Lobsters", cadence: "every 6h" },
   { source: "ProductHunt", cadence: "every 12h" },
@@ -217,7 +216,7 @@ export default function MethodologyPage() {
           >
             {[
               "The 3× threshold cuts noise. Normal day-to-day variance sits below 2×.",
-              "The 3-source rule kills single-platform amplification. One viral Reddit thread isn't a trend.",
+              "The 3-source rule kills single-platform amplification. One viral discussion isn't a trend.",
               "Both gates close on bot spikes — our per-source anomaly detector drops them before they reach the score.",
             ].map((line) => (
               <li

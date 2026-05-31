@@ -77,7 +77,7 @@ function scoreGithubVelocity(stars7dDelta) {
 }
 
 function scoreSocialMentions(sources) {
-  const social = new Set(["hn", "reddit", "bluesky"]);
+  const social = new Set(["hn", "bluesky"]);
   let total = 0;
   for (const ref of sources) {
     if (social.has(ref.source)) total += ref.signalScore;
@@ -177,13 +177,12 @@ function buildItem(entry, capturedAt, enrichmentBySlug, socialBySlug) {
     });
   }
 
-  // Append social-source mentions (reddit/bluesky/devto/lobsters) so the
+  // Append active social-source mentions (bluesky/devto/lobsters) so the
   // socialMentions sub-score picks them up. HF is appended as "manual" since
-  // socialMentions only counts hn/reddit/bluesky.
+  // socialMentions only counts hn/bluesky while Reddit is paused.
   const social = socialBySlug?.get(slug);
   if (social) {
     const map = {
-      reddit: "reddit",
       bluesky: "bluesky",
       devto: "devto",
       lobsters: "lobsters",
@@ -359,7 +358,6 @@ function buildSocialLiveBlock(social) {
   const out = {};
   const totals = [];
   const map = {
-    reddit: "redditMentions",
     bluesky: "blueskyMentions",
     devto: "devtoMentions",
     lobsters: "lobstersMentions",

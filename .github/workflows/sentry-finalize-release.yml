@@ -5,9 +5,9 @@ name: Sentry — Finalize Release + Upload Sourcemaps
 # without this, Sentry errors show minified stack traces only.
 #
 # Triggers on push to main only — release tagging is for production code.
-# Vercel handles the actual deploy in parallel; this workflow uploads the
-# matching sourcemaps and finalizes the release, so the release shows up
-# in the Sentry dashboard with the right commit + readable stack traces.
+# HOSTUP deploys are handled by the release operator; this workflow uploads
+# sourcemaps for the matching commit and finalizes the release so Sentry can
+# show readable stack traces.
 
 on:
   push:

@@ -43,7 +43,6 @@ const MENTION_CHANNELS: Array<{
   { key: "github", logo: "github", title: "GitHub" },
   { key: "hackernews", logo: "hackernews", title: "Hacker News" },
   { key: "twitter", logo: "x-twitter", title: "X / Twitter" },
-  { key: "reddit", logo: "reddit", title: "Reddit" },
   { key: "bluesky", logo: "bluesky", title: "Bluesky" },
   { key: "devto", logo: "devto", title: "Dev.to" },
   { key: "producthunt", logo: "producthunt", title: "Product Hunt" },

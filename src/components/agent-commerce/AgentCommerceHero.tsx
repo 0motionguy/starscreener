@@ -20,6 +20,7 @@ interface AgentCommerceHeroProps {
   itemCount: number;
   liveEndpoints: number;
   onchain24hUsd: number;
+  onchainVolumeAvailable: boolean;
 }
 
 function formatUsd(n: number): string {
@@ -36,7 +37,11 @@ export function AgentCommerceHero({
   itemCount,
   liveEndpoints,
   onchain24hUsd,
+  onchainVolumeAvailable,
 }: AgentCommerceHeroProps) {
+  const volumePhrase = onchainVolumeAvailable
+    ? `${formatUsd(onchain24hUsd)} settled in last 24h`
+    : "x402 volume source unavailable";
   return (
     <div className="page-head">
       <div>
@@ -54,8 +59,8 @@ export function AgentCommerceHero({
         <p className="page-sub">
           Live x402 on-chain activity (Base, Solana), MCP server health, portal-ready APIs,
           agent infrastructure ranked by composite score.{" "}
-          <b>{liveEndpoints.toLocaleString()} endpoints live</b>, {formatUsd(onchain24hUsd)} settled
-          in last 24h across {itemCount.toLocaleString()} items.
+          <b>{liveEndpoints.toLocaleString()} endpoints live</b>, {volumePhrase} across{" "}
+          {itemCount.toLocaleString()} items.
         </p>
       </div>
       <div className="segmented" role="group" aria-label="Time period">

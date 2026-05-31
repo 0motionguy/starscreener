@@ -283,7 +283,6 @@ function pct(num: number, denom: number, digits = 1): string {
 const FIRING_LABELS: Array<{ key: keyof NonNullable<Repo["channelStatus"]>; label: string }> = [
   { key: "github", label: "GitHub" },
   { key: "hn", label: "Hacker News" },
-  { key: "reddit", label: "Reddit" },
   { key: "twitter", label: "X" },
   { key: "bluesky", label: "Bluesky" },
   { key: "devto", label: "dev.to" },

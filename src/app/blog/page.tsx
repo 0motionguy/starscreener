@@ -10,7 +10,7 @@ import { Icon } from "@/components/icon/Icon";
 
 const TITLE = `Blog — Open-Source AI & Developer Trends | ${SITE_NAME}`;
 const DESCRIPTION =
-  "Trend reports, explainers and deep-dives on the open-source AI and developer ecosystem — what's breaking out across GitHub, Hacker News, Reddit and more, and why.";
+  "Trend reports, explainers and deep-dives on the open-source AI and developer ecosystem — what's breaking out across GitHub, Hacker News, Bluesky, Dev.to and more, and why.";
 
 export const metadata = {
   title: TITLE,

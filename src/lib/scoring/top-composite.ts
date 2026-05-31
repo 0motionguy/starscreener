@@ -39,7 +39,7 @@ const WEIGHT_FRESHNESS = 0.10;
 const WEIGHT_SOURCE_DIVERSITY = 0.05;
 const WEIGHT_BREAKOUT = 0.10;
 
-const MENTION_SOURCE_TARGET = 6; // HN + Bluesky + Lobsters + Reddit + X + DevTo
+const MENTION_SOURCE_TARGET = 6; // HN + Bluesky + Lobsters + X + DevTo + other active rollups
 const BREAKOUT_DELTA_MULTIPLIER = 3;
 const BREAKOUT_MIN_SOURCES = 3;
 

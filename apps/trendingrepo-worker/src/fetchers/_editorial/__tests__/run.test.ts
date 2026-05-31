@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FetcherContext } from '../../../lib/types.js';
 
-const readDataStore = vi.fn();
-const writeDataStore = vi.fn();
+const readDataStore = vi.hoisted(() => vi.fn());
+const writeDataStore = vi.hoisted(() => vi.fn());
 
 vi.mock('../../../lib/redis.js', () => ({
   readDataStore,
@@ -14,8 +14,6 @@ vi.mock('../../../lib/llm/router.js', () => ({
   getLlmProvider: () => 'template',
   isLlmConfigured: () => true,
 }));
-
-const { runEditorial } = await import('../run.js');
 
 function ctx(): FetcherContext {
   return {
@@ -34,11 +32,14 @@ function ctx(): FetcherContext {
 
 describe('runEditorial', () => {
   beforeEach(() => {
+    vi.resetModules();
     readDataStore.mockReset();
     writeDataStore.mockReset();
   });
 
   it('refreshes the data-store heartbeat when there are no new candidates', async () => {
+    const { runEditorial } = await import('../run.js');
+
     readDataStore.mockResolvedValue({
       computedAt: '2026-05-28T12:00:00.000Z',
       generator: 'template',

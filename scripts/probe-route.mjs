@@ -67,8 +67,8 @@ async function probe() {
           ? Math.round((transferBytes / 1024) * 10) / 10
           : 0,
         cacheControl: headers["cache-control"] ?? null,
-        vercelCache: headers["x-vercel-cache"] ?? null,
-        vercelId: headers["x-vercel-id"] ?? null,
+        edgeCache: headers["cf-cache-status"] ?? null,
+        edgeId: headers["cf-ray"] ?? null,
         age: headers.age ?? null,
         contentEncoding: headers["content-encoding"] ?? null,
         contentType: headers["content-type"] ?? null,
@@ -112,13 +112,13 @@ async function probe() {
   });
 
   // One-line stdout summary for log scrapers
-  const cacheLabel = result.vercelCache ?? "—";
+  const cacheLabel = result.edgeCache ?? "—";
   const ccLabel = result.cacheControl ? result.cacheControl.split(",")[0] : "—";
   const ttfbMs = result.ttfbMs;
   const errorMessage = result.error;
   console.log(
     `${result.status} ${ttfbMs ?? "—"}ms ${result.transferKb}kb ` +
-      `cc=${ccLabel} vc=${cacheLabel} ${route}` +
+      `cc=${ccLabel} edge=${cacheLabel} ${route}` +
       (errorMessage ? ` err=${errorMessage}` : ""),
   );
 

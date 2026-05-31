@@ -227,7 +227,6 @@ function sumActiveSources(counts: import("@/lib/sidebar-source-counts").SidebarS
     counts.lobstersStories,
     counts.devtoArticles,
     counts.blueskyPosts,
-    counts.redditPosts,
     counts.producthuntLaunches,
     counts.fundingSignals,
     counts.npmPackages,

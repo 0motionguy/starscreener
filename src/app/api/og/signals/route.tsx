@@ -41,7 +41,7 @@ export async function GET() {
               maxWidth: 920,
             }}
           >
-            Eight-source live signal terminal — Hacker News, X, Reddit, Bluesky, dev.to, Claude RSS, OpenAI RSS, GitHub.
+            Active-source live signal terminal — Hacker News, X, Bluesky, dev.to, Claude RSS, OpenAI RSS, GitHub.
           </div>
         </div>
         <AccentStrip />

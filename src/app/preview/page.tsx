@@ -88,7 +88,6 @@ export default async function PreviewPage() {
       counts.lobstersStories +
       counts.devtoArticles +
       counts.blueskyPosts +
-      counts.redditPosts +
       counts.producthuntLaunches
     : 0;
 
@@ -133,7 +132,7 @@ export default async function PreviewPage() {
       route: "/repo/[owner]/[name]",
       title: "Repo detail · the profile",
       desc:
-        "Hero star-history chart with release + mention markers. Mentions by source (GH · HN · Reddit · X). 30-day mention timeline. Why-trending narrative.",
+        "Hero star-history chart with release + mention markers. Mentions by source (GH · HN · X · Bluesky). 30-day mention timeline. Why-trending narrative.",
       foot: "Hero chart + 4 src + timeline",
       previewVariant: "detail",
     },

@@ -128,7 +128,7 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   //   - fetchAgentTokens — live CoinGecko quotes for AI-agent tokens
   //   - fetchVirtualAgents — live Virtuals Protocol on-Base agent registry
   //     (VIRTUAL price flows in below from the CoinGecko fetch above)
-  const [, , , , agentTokens] = await Promise.all([
+  const [, , , duneRefresh, agentTokens] = await Promise.all([
     refreshAgentCommerceFromStore().catch(() => undefined),
     refreshBaseX402OnchainFromStore().catch(() => undefined),
     refreshSolanaX402OnchainFromStore().catch(() => undefined),
@@ -167,6 +167,9 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const base = safe(() => getBaseX402Onchain(), null);
   const solana = safe(() => getSolanaX402Onchain(), null);
   const dune = safe(() => getDuneX402Volume(), null);
+  const duneRows = dune?.rows ?? [];
+  const onchainVolumeAvailable =
+    duneRefresh?.source !== "missing" && duneRows.length > 0;
 
   // Dune day-bucketed USD volume split by chain. Facilitators on Base vs
   // Solana are distinguished by name heuristics — Solana facilitators tend
@@ -178,8 +181,12 @@ export default async function AgentCommercePage({ searchParams }: Props) {
 
   // Real on-chain volumes from Dune — no synthetic floors. Empty days
   // surface as 0 so the operator can see TOOLBOX dune-x402-volume is quiet.
-  const baseVolumeUsd24h = sumDuneVolume(dune?.rows, isBaseFac);
-  const solanaVolumeUsd24h = sumDuneVolume(dune?.rows, isSolanaFac);
+  const baseVolumeUsd24h = onchainVolumeAvailable
+    ? sumDuneVolume(duneRows, isBaseFac)
+    : 0;
+  const solanaVolumeUsd24h = onchainVolumeAvailable
+    ? sumDuneVolume(duneRows, isSolanaFac)
+    : 0;
   const onchain24hUsd = baseVolumeUsd24h + solanaVolumeUsd24h;
 
   const basePctShare =
@@ -216,7 +223,9 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         baseVolumeUsd24h={baseVolumeUsd24h}
         solanaVolumeUsd24h={solanaVolumeUsd24h}
         x402Endpoints={x402Count}
+        x402NewThisWeek={newThisWeek}
         mcpServers={mcpServers}
+        mcpDegraded={mcpDegraded}
         portalReady={portalReady}
       />
       <AgentCommerceHero
@@ -225,6 +234,7 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         itemCount={itemCount}
         liveEndpoints={x402Count}
         onchain24hUsd={onchain24hUsd}
+        onchainVolumeAvailable={onchainVolumeAvailable}
       />
 
       <AcKpiStrip

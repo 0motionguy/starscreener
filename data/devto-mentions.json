@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-30T19:19:55.307Z",
+  "fetchedAt": "2026-05-31T04:01:20.123Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1464,
+  "scannedArticles": 1453,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 10,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -193,8 +193,8 @@
     "tag-llms-top-7d": 10,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 48,
-    "tag-workflow-top-7d": 34,
+    "tag-promptengineering-top-7d": 49,
+    "tag-workflow-top-7d": 31,
     "tag-workflows-top-7d": 7,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
@@ -207,16 +207,16 @@
   "mentions": {
     "rohitg00/ai-engineering-from-scratch": {
       "count7d": 1,
-      "reactionsSum7d": 28,
-      "commentsSum7d": 9,
+      "reactionsSum7d": 29,
+      "commentsSum7d": 10,
       "topArticle": {
         "id": 3740683,
         "title": "Build It, Then Use It: How I wrote 435 AI engineering lessons from scratch",
         "url": "https://dev.to/rohitg00/build-it-then-use-it-how-i-wrote-435-ai-engineering-lessons-from-scratch-5d2d",
         "author": "rohitg00",
-        "reactions": 28,
-        "comments": 9,
-        "hoursSincePosted": 149.5,
+        "reactions": 29,
+        "comments": 10,
+        "hoursSincePosted": 158.2,
         "readingTime": 6
       },
       "articles": [
@@ -230,8 +230,8 @@
             "name": "Rohit Ghumare",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F294172%2Fee75a2e0-1526-4279-aa8f-4e9ef2bd71d9.jpg"
           },
-          "reactionsCount": 28,
-          "commentsCount": 9,
+          "reactionsCount": 29,
+          "commentsCount": 10,
           "readingTime": 6,
           "publishedAt": "2026-05-24T13:50:05Z",
           "tags": [
@@ -240,7 +240,7 @@
             "agents",
             "opensource"
           ],
-          "trendingScore": 0.51,
+          "trendingScore": 0.54,
           "linkedRepos": [
             {
               "fullName": "rohitg00/ai-engineering-from-scratch",
@@ -261,7 +261,7 @@
         "author": "deraileddash",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 161.4,
         "readingTime": 8
       },
       "articles": [
@@ -285,7 +285,7 @@
             "gemini",
             "googleantigravity"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "vercel-labs/skills",
@@ -358,7 +358,7 @@
         "author": "deraileddash",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 161.4,
         "readingTime": 8
       },
       "articles": [
@@ -382,7 +382,7 @@
             "gemini",
             "googleantigravity"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "vercel-labs/skills",
@@ -455,7 +455,7 @@
         "author": "deraileddash",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 161.4,
         "readingTime": 8
       },
       "articles": [
@@ -479,7 +479,7 @@
             "gemini",
             "googleantigravity"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "vercel-labs/skills",
@@ -541,45 +541,291 @@
         }
       ]
     },
-    "aaif-goose/goose": {
-      "count7d": 1,
-      "reactionsSum7d": 6,
-      "commentsSum7d": 5,
+    "NousResearch/hermes-agent": {
+      "count7d": 10,
+      "reactionsSum7d": 39,
+      "commentsSum7d": 15,
       "topArticle": {
-        "id": 3735294,
-        "title": "Banning Agent PRs Won't Save Open Source",
-        "url": "https://dev.to/entire/why-banning-agent-prs-wont-save-open-source-4822",
-        "author": "blackgirlbytes",
-        "reactions": 6,
-        "comments": 5,
-        "hoursSincePosted": 167.5,
-        "readingTime": 4
+        "id": 3765980,
+        "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
+        "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
+        "author": "stephen_sebastian_c85ea2b",
+        "reactions": 12,
+        "comments": 11,
+        "hoursSincePosted": 82.3,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3735294,
-          "title": "Banning Agent PRs Won't Save Open Source",
-          "description": "It's an unspoken rule that large pull requests are poor etiquette. Traditionally, Agile teams break...",
-          "url": "https://dev.to/entire/why-banning-agent-prs-wont-save-open-source-4822",
+          "id": 3765980,
+          "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The...",
+          "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
           "author": {
-            "username": "blackgirlbytes",
-            "name": "Rizèl Scarlett",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F302741%2F5ed2ea8e-056a-4065-9bed-57d24a96b607.png"
+            "username": "stephen_sebastian_c85ea2b",
+            "name": "Stephen Sebastian",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
           },
-          "reactionsCount": 6,
-          "commentsCount": 5,
-          "readingTime": 4,
-          "publishedAt": "2026-05-23T19:52:52Z",
+          "reactionsCount": 12,
+          "commentsCount": 11,
+          "readingTime": 6,
+          "publishedAt": "2026-05-27T17:45:36Z",
           "tags": [
-            "ai",
+            "hermesagentchallenge",
+            "devchallenge",
             "agents",
-            "opensource",
-            "entire"
+            "ai"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.33,
           "linkedRepos": [
             {
-              "fullName": "aaif-goose/goose",
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3749895,
+          "title": "The $5 AI That Remembers Everything",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The lie we've...",
+          "url": "https://dev.to/stephen_sebastian_c85ea2b/the-5-ai-that-remembers-everything-517f",
+          "author": {
+            "username": "stephen_sebastian_c85ea2b",
+            "name": "Stephen Sebastian",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 3,
+          "readingTime": 4,
+          "publishedAt": "2026-05-25T13:11:23Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "discuss"
+          ],
+          "trendingScore": 0.03,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3753833,
+          "title": "Why Hermes Agent Compounds While LangChain Stays Flat — A Deep Architectural Breakdown",
+          "description": "This is a submission for the Hermes Agent Challenge     Every AI agent framework promises to make...",
+          "url": "https://dev.to/tejas164321/why-hermes-agent-compounds-while-langchain-stays-flat-a-deep-architectural-breakdown-pck",
+          "author": {
+            "username": "tejas164321",
+            "name": "Tejas Patil",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828498%2Ff99fdd48-f37e-48e0-abdd-ba64eb016704.jpg"
+          },
+          "reactionsCount": 4,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-26T04:49:17Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3780822,
+          "title": "title: From Zero to Hermes Agent in 3 Days — An Honest Beginner's Journey",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent              The Honest...",
+          "url": "https://dev.to/mauriziolisanti/title-from-zero-to-hermes-agent-in-3-days-an-honest-beginners-journey-13l2",
+          "author": {
+            "username": "mauriziolisanti",
+            "name": "MLisanti_Dev",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-29T22:40:59Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3780725,
+          "title": "I Shipped a Multi-Tenant Flutter SaaS Overnight — Without Writing a Single Line of App Code",
+          "description": "This is a submission for the Hermes Agent Challenge           What this post unpacks   I shipped a...",
+          "url": "https://dev.to/morsheded/i-shipped-a-multi-tenant-flutter-saas-overnight-without-writing-a-single-line-of-app-code-184g",
+          "author": {
+            "username": "morsheded",
+            "name": "Sarower Morshed",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3955077%2F132c0f07-79e4-4800-a576-d45f47a09464.jpg"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-29T22:12:27Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3777728,
+          "title": "Hermes Agent Needs a Flight Recorder - So I Built One",
+          "description": "This is a submission for the Hermes Agent Challenge  Autonomous agents can now write code, call...",
+          "url": "https://dev.to/ale007xd/hermes-agent-needs-a-flight-recorder-so-i-built-one-3gea",
+          "author": {
+            "username": "ale007xd",
+            "name": "Alex Delov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3943262%2Fead831e3-7141-4c6e-8903-282ea5a80e86.jpg"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-29T11:01:26Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.03,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3780807,
+          "title": "Repo-audit-agent — AI-powered GitHub repository auditor built with Hermes Agent",
+          "description": "This is a submission for the Hermes Agent Challenge: Build With Hermes Agent           What I...",
+          "url": "https://dev.to/mauriziolisanti/repo-audit-agent-ai-powered-github-repository-auditor-built-with-hermes-agent-469e",
+          "author": {
+            "username": "mauriziolisanti",
+            "name": "MLisanti_Dev",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-29T22:29:31Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3781183,
+          "title": "I Asked the Self-Improving Agent to Improve Itself.",
+          "description": "This is a submission for the Hermes Agent Challenge  A first encounter with Hermes Agent and the four...",
+          "url": "https://dev.to/ola-zoll/i-asked-the-self-improving-agent-to-improve-itself-5bgp",
+          "author": {
+            "username": "ola-zoll",
+            "name": "Ola Adesoye",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3518658%2F465a1b54-168b-4f1c-b19e-06252755a6f3.jpeg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-30T01:03:58Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3739989,
+          "title": "How to Build a Persistent AI Agent with Hermes in 15 Minutes",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent  Most AI integrations...",
+          "url": "https://dev.to/pulkitgovrani/how-to-build-a-persistent-ai-agent-with-hermes-in-15-minutes-49cl",
+          "author": {
+            "username": "pulkitgovrani",
+            "name": "pulkitgovrani",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F405919%2F8cab8c52-f8c7-4f58-bbe8-46cc0851e135.png"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-24T14:30:00Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3741993,
+          "title": "30 Days With Hermes Agent: The Only AI That Learned From My Mistakes",
+          "description": "Why Your AI Agent Forgets Everything — And What I Found After 30 Days With Hermes   Picture...",
+          "url": "https://dev.to/uuhi_reddy_841b6e27138dcc/30-days-with-hermes-agent-the-only-ai-that-learned-from-my-mistakes-16i3",
+          "author": {
+            "username": "uuhi_reddy_841b6e27138dcc",
+            "name": "Uuhi Reddy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3948774%2F713c3818-adb5-445d-b3fc-11f6cfd3db75.png"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-24T17:02:44Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
               "location": "body"
             }
           ]
@@ -589,15 +835,15 @@
     "github/github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 2,
-      "commentsSum7d": 0,
+      "commentsSum7d": 1,
       "topArticle": {
         "id": 3755932,
         "title": "Vibecoding Our First MCP Server",
         "url": "https://dev.to/dvddpl/vibecoding-our-first-mcp-server-jmh",
         "author": "dvddpl",
         "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 100.3,
+        "comments": 1,
+        "hoursSincePosted": 109,
         "readingTime": 16
       },
       "articles": [
@@ -612,7 +858,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F132615%2Fc7c6d1d6-2cb8-4d37-9908-3f1393e2e7ff.png"
           },
           "reactionsCount": 2,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 16,
           "publishedAt": "2026-05-26T15:00:28Z",
           "tags": [
@@ -631,6 +877,293 @@
         }
       ]
     },
+    "qdrant/qdrant": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785796,
+        "title": "Building a RAG System in Rust with Qdrant, Rig, and gRPC 🦀",
+        "url": "https://dev.to/parikalp_bhardwaj_9e9d812/understanding-rag-internals-by-building-one-in-rust-30c8",
+        "author": "parikalp_bhardwaj_9e9d812",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 7,
+        "readingTime": 21
+      },
+      "articles": [
+        {
+          "id": 3785796,
+          "title": "Building a RAG System in Rust with Qdrant, Rig, and gRPC 🦀",
+          "description": "With Qdrant, Rig, Tonic — and a healthy obsession with what's actually happening underneath.         ...",
+          "url": "https://dev.to/parikalp_bhardwaj_9e9d812/understanding-rag-internals-by-building-one-in-rust-30c8",
+          "author": {
+            "username": "parikalp_bhardwaj_9e9d812",
+            "name": "Parikalp Bhardwaj",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959021%2F99f6d7e9-a05d-4967-b0b3-aca81a0fab4a.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 21,
+          "publishedAt": "2026-05-30T21:01:01Z",
+          "tags": [
+            "rust",
+            "rag",
+            "ai",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "qdrant/qdrant",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "OpenBMB/VoxCPM": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785893,
+        "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+        "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+        "author": "soytuber",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3785893,
+          "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+          "description": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), &amp; Project NOMAD: Local AI &amp; Offline...",
+          "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+          "author": {
+            "username": "soytuber",
+            "name": "soy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812665%2F761376f9-10b8-4c2c-b6cb-af00f9fa48ab.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T21:33:54Z",
+          "tags": [
+            "ai",
+            "llm",
+            "selfhosted"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "OpenBMB/VoxCPM",
+              "location": "body"
+            },
+            {
+              "fullName": "Crosstalk-Solutions/project-nomad",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "Crosstalk-Solutions/project-nomad": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785893,
+        "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+        "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+        "author": "soytuber",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3785893,
+          "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+          "description": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), &amp; Project NOMAD: Local AI &amp; Offline...",
+          "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+          "author": {
+            "username": "soytuber",
+            "name": "soy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812665%2F761376f9-10b8-4c2c-b6cb-af00f9fa48ab.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T21:33:54Z",
+          "tags": [
+            "ai",
+            "llm",
+            "selfhosted"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "OpenBMB/VoxCPM",
+              "location": "body"
+            },
+            {
+              "fullName": "Crosstalk-Solutions/project-nomad",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "langchain-ai/deepagents": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785911,
+        "title": "The Same AI Model Can Perform 6x Better: Here's Why",
+        "url": "https://dev.to/harryfloyd/the-same-ai-model-can-perform-6x-better-heres-why-440o",
+        "author": "harryfloyd",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.4,
+        "readingTime": 2
+      },
+      "articles": [
+        {
+          "id": 3785911,
+          "title": "The Same AI Model Can Perform 6x Better: Here's Why",
+          "description": "Stanford and Tsinghua ran a controlled experiment: same model, same task, different harness. A 6x performance gap. Here is what developers need to know.",
+          "url": "https://dev.to/harryfloyd/the-same-ai-model-can-perform-6x-better-heres-why-440o",
+          "author": {
+            "username": "harryfloyd",
+            "name": "Harry Floyd",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3933548%2Fa644e757-fdc0-4213-a2d0-37774cbe6730.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-30T21:39:59Z",
+          "tags": [
+            "ai",
+            "architecture",
+            "productivity",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "langchain-ai/deepagents",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 3,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3786056,
+        "title": "Claude Code can't open my browser. Cowork can't run my tests. So I wired them together.",
+        "url": "https://dev.to/agentggrigo/claude-code-cant-open-my-browser-cowork-cant-run-my-tests-so-i-wired-them-together-576c",
+        "author": "agentggrigo",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 5.2,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3786056,
+          "title": "Claude Code can't open my browser. Cowork can't run my tests. So I wired them together.",
+          "description": "Posted by agent ggrigo — the automated maintainer agent Georgios Grigoriadis runs on a dedicated...",
+          "url": "https://dev.to/agentggrigo/claude-code-cant-open-my-browser-cowork-cant-run-my-tests-so-i-wired-them-together-576c",
+          "author": {
+            "username": "agentggrigo",
+            "name": "Agent Ggrigo",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3956597%2F16f240dd-d1c3-4b92-a69e-55591b1a727b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T22:47:35Z",
+          "tags": [
+            "claude",
+            "ai",
+            "opensource",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3764958,
+          "title": "AI Weekly: Cheaper Coding Models, Custom Chips, and a Stateless MCP",
+          "description": "The past week pushed three quiet shifts into the open. A coding model matched the frontier at a tenth...",
+          "url": "https://dev.to/alexmercedcoder/ai-weekly-cheaper-coding-models-custom-chips-and-a-stateless-mcp-963",
+          "author": {
+            "username": "alexmercedcoder",
+            "name": "Alex Merced",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F288069%2Fb20116a9-b178-4ab1-bcb0-8aa28ed732b0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 12,
+          "publishedAt": "2026-05-27T14:19:26Z",
+          "tags": [
+            "ai",
+            "coding",
+            "mcp",
+            "news"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3770786,
+          "title": "Claude Wrote the Wrong Weekday on All 5 Dates. In an Interview Email.",
+          "description": "LLMs fundamentally cannot calculate day-of-week — but a Claude Code Hook can catch errors before they leave your machine",
+          "url": "https://dev.to/minatoplanb/claude-wrote-the-wrong-weekday-on-all-5-dates-in-an-interview-email-ne7",
+          "author": {
+            "username": "minatoplanb",
+            "name": "DavidAI311",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3801330%2Fb05dd9ed-c0da-4fba-8dfc-01e64c203e4c.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-28T11:22:48Z",
+          "tags": [
+            "claudecode",
+            "hooks",
+            "llm",
+            "javascript"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "charmbracelet/bubbletea": {
       "count7d": 2,
       "reactionsSum7d": 6,
@@ -642,7 +1175,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 51.8,
+        "hoursSincePosted": 60.5,
         "readingTime": 4
       },
       "articles": [
@@ -666,7 +1199,7 @@
             "ai",
             "go"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -723,7 +1256,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 51.8,
+        "hoursSincePosted": 60.5,
         "readingTime": 4
       },
       "articles": [
@@ -747,7 +1280,7 @@
             "ai",
             "go"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -880,7 +1413,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 51.8,
+        "hoursSincePosted": 60.5,
         "readingTime": 4
       },
       "articles": [
@@ -904,7 +1437,7 @@
             "ai",
             "go"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -1006,326 +1539,6 @@
         }
       ]
     },
-    "NousResearch/hermes-agent": {
-      "count7d": 11,
-      "reactionsSum7d": 44,
-      "commentsSum7d": 14,
-      "topArticle": {
-        "id": 3765980,
-        "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
-        "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
-        "author": "stephen_sebastian_c85ea2b",
-        "reactions": 12,
-        "comments": 11,
-        "hoursSincePosted": 73.6,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3765980,
-          "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The...",
-          "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
-          "author": {
-            "username": "stephen_sebastian_c85ea2b",
-            "name": "Stephen Sebastian",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
-          },
-          "reactionsCount": 12,
-          "commentsCount": 11,
-          "readingTime": 6,
-          "publishedAt": "2026-05-27T17:45:36Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
-          ],
-          "trendingScore": 0.37,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3711818,
-          "title": "How to Deploy Hermes' Self-Improving AI Agent",
-          "description": "Key takeaways    You host Hermes on a DigitalOcean Droplet (Ubuntu 24.04, at least 2 vCPUs...",
-          "url": "https://dev.to/digitalocean/how-to-deploy-hermes-self-improving-ai-agent-4gm6",
-          "author": {
-            "username": "haimantika",
-            "name": "haimantika mitra",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F401142%2Fafaae4c7-9e8a-4d9c-9b9e-c9ef3d4b5a0d.jpg"
-          },
-          "reactionsCount": 9,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-26T16:00:00Z",
-          "tags": [
-            "hermes",
-            "ai",
-            "agents",
-            "tutorial"
-          ],
-          "trendingScore": 0.09,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3749895,
-          "title": "The $5 AI That Remembers Everything",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The lie we've...",
-          "url": "https://dev.to/stephen_sebastian_c85ea2b/the-5-ai-that-remembers-everything-517f",
-          "author": {
-            "username": "stephen_sebastian_c85ea2b",
-            "name": "Stephen Sebastian",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 3,
-          "readingTime": 4,
-          "publishedAt": "2026-05-25T13:11:23Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "discuss"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3753833,
-          "title": "Why Hermes Agent Compounds While LangChain Stays Flat — A Deep Architectural Breakdown",
-          "description": "This is a submission for the Hermes Agent Challenge     Every AI agent framework promises to make...",
-          "url": "https://dev.to/tejas164321/why-hermes-agent-compounds-while-langchain-stays-flat-a-deep-architectural-breakdown-pck",
-          "author": {
-            "username": "tejas164321",
-            "name": "Tejas Patil",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828498%2Ff99fdd48-f37e-48e0-abdd-ba64eb016704.jpg"
-          },
-          "reactionsCount": 4,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-26T04:49:17Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.02,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3780822,
-          "title": "title: From Zero to Hermes Agent in 3 Days — An Honest Beginner's Journey",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent              The Honest...",
-          "url": "https://dev.to/mauriziolisanti/title-from-zero-to-hermes-agent-in-3-days-an-honest-beginners-journey-13l2",
-          "author": {
-            "username": "mauriziolisanti",
-            "name": "MLisanti_Dev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-29T22:40:59Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.07,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3780725,
-          "title": "I Shipped a Multi-Tenant Flutter SaaS Overnight — Without Writing a Single Line of App Code",
-          "description": "This is a submission for the Hermes Agent Challenge           What this post unpacks   I shipped a...",
-          "url": "https://dev.to/morsheded/i-shipped-a-multi-tenant-flutter-saas-overnight-without-writing-a-single-line-of-app-code-184g",
-          "author": {
-            "username": "morsheded",
-            "name": "Sarower Morshed",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3955077%2F132c0f07-79e4-4800-a576-d45f47a09464.jpg"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-29T22:12:27Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.07,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3781183,
-          "title": "I Asked the Self-Improving Agent to Improve Itself.",
-          "description": "This is a submission for the Hermes Agent Challenge  A first encounter with Hermes Agent and the four...",
-          "url": "https://dev.to/ola-zoll/i-asked-the-self-improving-agent-to-improve-itself-5bgp",
-          "author": {
-            "username": "ola-zoll",
-            "name": "Ola Adesoye",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3518658%2F465a1b54-168b-4f1c-b19e-06252755a6f3.jpeg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-30T01:03:58Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
-          ],
-          "trendingScore": 0.03,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3739989,
-          "title": "How to Build a Persistent AI Agent with Hermes in 15 Minutes",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent  Most AI integrations...",
-          "url": "https://dev.to/pulkitgovrani/how-to-build-a-persistent-ai-agent-with-hermes-in-15-minutes-49cl",
-          "author": {
-            "username": "pulkitgovrani",
-            "name": "pulkitgovrani",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F405919%2F8cab8c52-f8c7-4f58-bbe8-46cc0851e135.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-24T14:30:00Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3780807,
-          "title": "Repo-audit-agent — AI-powered GitHub repository auditor built with Hermes Agent",
-          "description": "This is a submission for the Hermes Agent Challenge: Build With Hermes Agent           What I...",
-          "url": "https://dev.to/mauriziolisanti/repo-audit-agent-ai-powered-github-repository-auditor-built-with-hermes-agent-469e",
-          "author": {
-            "username": "mauriziolisanti",
-            "name": "MLisanti_Dev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-29T22:29:31Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.03,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3741993,
-          "title": "30 Days With Hermes Agent: The Only AI That Learned From My Mistakes",
-          "description": "Why Your AI Agent Forgets Everything — And What I Found After 30 Days With Hermes   Picture...",
-          "url": "https://dev.to/uuhi_reddy_841b6e27138dcc/30-days-with-hermes-agent-the-only-ai-that-learned-from-my-mistakes-16i3",
-          "author": {
-            "username": "uuhi_reddy_841b6e27138dcc",
-            "name": "Uuhi Reddy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3948774%2F713c3818-adb5-445d-b3fc-11f6cfd3db75.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-24T17:02:44Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3784301,
-          "title": "\"I Gave an AI Agent $0 and Told It to Make $10,000\"",
-          "description": "Liquid syntax error: Unknown tag 'highlight'",
-          "url": "https://dev.to/costder/i-gave-an-ai-agent-0-and-told-it-to-make-10000-2hcg",
-          "author": {
-            "username": "costder",
-            "name": "Joshua Herron",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3960047%2F9774daf0-4a11-4075-b6f2-8d711c80ae1e.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-05-30T14:03:53Z",
-          "tags": [
-            "ai",
-            "agents",
-            "mcp",
-            "automation"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "withcoral/coral": {
       "count7d": 1,
       "reactionsSum7d": 7,
@@ -1337,7 +1550,7 @@
         "author": "himanshu_748",
         "reactions": 7,
         "comments": 1,
-        "hoursSincePosted": 61.5,
+        "hoursSincePosted": 70.2,
         "readingTime": 4
       },
       "articles": [
@@ -1361,7 +1574,7 @@
             "showdev",
             "ai"
           ],
-          "trendingScore": 0.11,
+          "trendingScore": 0.09,
           "linkedRepos": [
             {
               "fullName": "withcoral/coral",
@@ -1374,15 +1587,15 @@
     "anthropics/anthropic-sdk-csharp": {
       "count7d": 1,
       "reactionsSum7d": 9,
-      "commentsSum7d": 2,
+      "commentsSum7d": 3,
       "topArticle": {
         "id": 3764750,
         "title": "An Official Claude SDK for .NET? Yes, Really.",
         "url": "https://dev.to/iamprincejkc/an-official-claude-sdk-for-net-yes-really-2bdn",
         "author": "iamprincejkc",
         "reactions": 9,
-        "comments": 2,
-        "hoursSincePosted": 77.7,
+        "comments": 3,
+        "hoursSincePosted": 86.4,
         "readingTime": 3
       },
       "articles": [
@@ -1397,7 +1610,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F820392%2Fd8052783-fad7-46ae-8c9e-61391ecff65a.jpeg"
           },
           "reactionsCount": 9,
-          "commentsCount": 2,
+          "commentsCount": 3,
           "readingTime": 3,
           "publishedAt": "2026-05-27T13:39:12Z",
           "tags": [
@@ -1427,7 +1640,7 @@
         "author": "webmaxru",
         "reactions": 27,
         "comments": 0,
-        "hoursSincePosted": 119.1,
+        "hoursSincePosted": 127.8,
         "readingTime": 12
       },
       "articles": [
@@ -1451,7 +1664,7 @@
             "github",
             "productivity"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -1536,7 +1749,7 @@
         "author": "ricardoceci",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 77.5,
+        "hoursSincePosted": 86.2,
         "readingTime": 8
       },
       "articles": [
@@ -1560,7 +1773,7 @@
             "mcp",
             "aws"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -1581,7 +1794,7 @@
         "author": "shy",
         "reactions": 1,
         "comments": 5,
-        "hoursSincePosted": 111.3,
+        "hoursSincePosted": 120,
         "readingTime": 12
       },
       "articles": [
@@ -1626,7 +1839,7 @@
         "author": "nkalra0123",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 151.4,
+        "hoursSincePosted": 160.1,
         "readingTime": 8
       },
       "articles": [
@@ -1660,197 +1873,6 @@
         }
       ]
     },
-    "anthropics/claude-code": {
-      "count7d": 3,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3764958,
-        "title": "AI Weekly: Cheaper Coding Models, Custom Chips, and a Stateless MCP",
-        "url": "https://dev.to/alexmercedcoder/ai-weekly-cheaper-coding-models-custom-chips-and-a-stateless-mcp-963",
-        "author": "alexmercedcoder",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 77,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3764958,
-          "title": "AI Weekly: Cheaper Coding Models, Custom Chips, and a Stateless MCP",
-          "description": "The past week pushed three quiet shifts into the open. A coding model matched the frontier at a tenth...",
-          "url": "https://dev.to/alexmercedcoder/ai-weekly-cheaper-coding-models-custom-chips-and-a-stateless-mcp-963",
-          "author": {
-            "username": "alexmercedcoder",
-            "name": "Alex Merced",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F288069%2Fb20116a9-b178-4ab1-bcb0-8aa28ed732b0.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-27T14:19:26Z",
-          "tags": [
-            "ai",
-            "coding",
-            "mcp",
-            "news"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3770786,
-          "title": "Claude Wrote the Wrong Weekday on All 5 Dates. In an Interview Email.",
-          "description": "LLMs fundamentally cannot calculate day-of-week — but a Claude Code Hook can catch errors before they leave your machine",
-          "url": "https://dev.to/minatoplanb/claude-wrote-the-wrong-weekday-on-all-5-dates-in-an-interview-email-ne7",
-          "author": {
-            "username": "minatoplanb",
-            "name": "DavidAI311",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3801330%2Fb05dd9ed-c0da-4fba-8dfc-01e64c203e4c.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T11:22:48Z",
-          "tags": [
-            "claudecode",
-            "hooks",
-            "llm",
-            "javascript"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3735205,
-          "title": "Why Coding Agents Are Getting More Expensive (And How To Fix It)",
-          "description": "Prompt caching makes million-token context windows affordable. Editing files, summarising history, or letting a session idle all break the cache and inflate your bill. Here's why, with sources.",
-          "url": "https://dev.to/david_moores_cbc0233b7447/why-coding-agents-are-getting-more-expensive-and-how-to-fix-it-2g5a",
-          "author": {
-            "username": "david_moores_cbc0233b7447",
-            "name": "David Moores",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3371682%2F34d40cfa-9851-4cd9-a23d-118111f00720.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-23T19:33:24Z",
-          "tags": [
-            "ai",
-            "claude",
-            "productivity",
-            "performance"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "sickn33/antigravity-awesome-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3735381,
-        "title": "How does an AI agent pick from 686 skills in a second?",
-        "url": "https://dev.to/klymentiev/how-does-an-ai-agent-pick-from-686-skills-in-a-second-57ne",
-        "author": "klymentiev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 167.1,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3735381,
-          "title": "How does an AI agent pick from 686 skills in a second?",
-          "description": "Empirical test of the skills-as-semantic-router pattern for Claude Code agents. 686 indexed skills, 62.5% strict top-1, 87.5% top-5 cluster, sub-second latency, 456x context-window saving.",
-          "url": "https://dev.to/klymentiev/how-does-an-ai-agent-pick-from-686-skills-in-a-second-57ne",
-          "author": {
-            "username": "klymentiev",
-            "name": "Dmytro Klymentiev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2203747%2Fd68e74d9-9f6b-44eb-a5d8-443795918482.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-23T20:16:46Z",
-          "tags": [
-            "ai",
-            "benchmark",
-            "embeddings",
-            "claudecode"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "sickn33/antigravity-awesome-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "BloopAI/vibe-kanban": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3783033,
-        "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
-        "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
-        "author": "zakarov",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 10.2,
-        "readingTime": 16
-      },
-      "articles": [
-        {
-          "id": 3783033,
-          "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
-          "description": "When a team starts coding with AI agents, the bottleneck moves fast. Getting agents to run is the...",
-          "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
-          "author": {
-            "username": "zakarov",
-            "name": "Basil Zakarov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959708%2Ff6f1e08e-7e79-4271-899f-e852fa3200f2.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-05-30T09:10:17Z",
-          "tags": [
-            "agents",
-            "devops",
-            "claudecode",
-            "codex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BloopAI/vibe-kanban",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "thedotmack/claude-mem": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -1862,7 +1884,7 @@
         "author": "abhi_a_c8c6d876c38861c9ee",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 41.2,
+        "hoursSincePosted": 49.9,
         "readingTime": 8
       },
       "articles": [
@@ -1924,6 +1946,128 @@
         }
       ]
     },
+    "BloopAI/vibe-kanban": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3783033,
+        "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
+        "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
+        "author": "zakarov",
+        "reactions": 1,
+        "comments": 1,
+        "hoursSincePosted": 18.9,
+        "readingTime": 16
+      },
+      "articles": [
+        {
+          "id": 3783033,
+          "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
+          "description": "When a team starts coding with AI agents, the bottleneck moves fast. Getting agents to run is the...",
+          "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
+          "author": {
+            "username": "zakarov",
+            "name": "Basil Zakarov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959708%2Ff6f1e08e-7e79-4271-899f-e852fa3200f2.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 1,
+          "readingTime": 16,
+          "publishedAt": "2026-05-30T09:10:17Z",
+          "tags": [
+            "agents",
+            "devops",
+            "claudecode",
+            "codex"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "BloopAI/vibe-kanban",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "cursor/plugins": {
+      "count7d": 2,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3773951,
+        "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
+        "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
+        "author": "emersondelatorre",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 52.9,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3773951,
+          "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
+          "description": "Se você programa profissionalmente, provavelmente já usa IA para gerar trechos de código, preencher...",
+          "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
+          "author": {
+            "username": "emersondelatorre",
+            "name": "Emerson Delatorre",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F628360%2F78ae3dad-c5be-41e3-b601-a6c45360d56c.webp"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-05-28T23:05:32Z",
+          "tags": [
+            "ai",
+            "codereview",
+            "mattpocock",
+            "cursor"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "cursor/plugins",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/sandcastle",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3786309,
+          "title": "Opus 4.8 ships Dynamic Workflows — hundreds of parallel subagents per session. Read this before you wire it into prod.",
+          "description": "Anthropic's Opus 4.8 launch slid Dynamic Workflows in as a preview feature. The blog post called it a \"hundreds of parallel subagents\" feature in one line. That line is the load-bearing one. Here's what the preview actually does, the three tasks it eats alive, the one class of wo",
+          "url": "https://dev.to/layzerzero105/opus-48-ships-dynamic-workflows-hundreds-of-parallel-subagents-per-session-read-this-before-you-4178",
+          "author": {
+            "username": "layzerzero105",
+            "name": "LayerZero",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886969%2F83917794-7873-4114-92dd-33ca3c6996d4.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-05-31T00:21:34Z",
+          "tags": [
+            "claudecode",
+            "anthropic",
+            "ai",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "cursor/plugins",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "bmad-code-org/BMAD-METHOD": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1935,7 +2079,7 @@
         "author": "bspann",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 88.8,
+        "hoursSincePosted": 97.5,
         "readingTime": 5
       },
       "articles": [
@@ -1980,7 +2124,7 @@
         "author": "shenhuang",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 158.4,
+        "hoursSincePosted": 167.1,
         "readingTime": 10
       },
       "articles": [
@@ -2105,7 +2249,7 @@
         "author": "ventureio",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.6,
+        "hoursSincePosted": 12.3,
         "readingTime": 7
       },
       "articles": [
@@ -2186,7 +2330,7 @@
         "author": "lizziepika",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 42.7,
+        "hoursSincePosted": 51.4,
         "readingTime": 2
       },
       "articles": [
@@ -2231,7 +2375,7 @@
         "author": "andrew-ooo",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 54.9,
+        "hoursSincePosted": 63.6,
         "readingTime": 10
       },
       "articles": [
@@ -2276,7 +2420,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.5,
+        "hoursSincePosted": 145.2,
         "readingTime": 6
       },
       "articles": [
@@ -2357,7 +2501,7 @@
         "author": "leolr",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 102.8,
+        "hoursSincePosted": 111.4,
         "readingTime": 9
       },
       "articles": [
@@ -2402,7 +2546,7 @@
         "author": "schoaib",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 81.7,
+        "hoursSincePosted": 90.4,
         "readingTime": 3
       },
       "articles": [
@@ -2472,6 +2616,96 @@
         }
       ]
     },
+    "EveryInc/compound-engineering-plugin": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3777767,
+        "title": "Compound Engineering: A Plugin That Makes Your AI Coding Agent Smarter Over Time",
+        "url": "https://dev.to/arshtechpro/compound-engineering-a-plugin-that-makes-your-ai-coding-agent-smarter-over-time-2pp0",
+        "author": "arshtechpro",
+        "reactions": 5,
+        "comments": 1,
+        "hoursSincePosted": 4.5,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3777767,
+          "title": "Compound Engineering: A Plugin That Makes Your AI Coding Agent Smarter Over Time",
+          "description": "Most developers using AI coding tools hit the same ceiling eventually. The agent writes code, you...",
+          "url": "https://dev.to/arshtechpro/compound-engineering-a-plugin-that-makes-your-ai-coding-agent-smarter-over-time-2pp0",
+          "author": {
+            "username": "arshtechpro",
+            "name": "ArshTechPro",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-30T23:34:00Z",
+          "tags": [
+            "ai",
+            "agentskills",
+            "claude",
+            "programming"
+          ],
+          "trendingScore": 0.86,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/knowledge-work-plugins": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3753432,
+        "title": "One Open Source Project a Day (No. 76): Knowledge Work Plugins - Anthropic's Official Role-Specialist Plugin Library",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-76-knowledge-work-plugins-anthropics-official-424g",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 120.6,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3753432,
+          "title": "One Open Source Project a Day (No. 76): Knowledge Work Plugins - Anthropic's Official Role-Specialist Plugin Library",
+          "description": "Introduction    \"The best AI tool is the one that already knows your job.\"   This is the...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-76-knowledge-work-plugins-anthropics-official-424g",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-26T03:22:32Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "claude",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai/codex": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -2483,7 +2717,7 @@
         "author": "rkttu",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 99.6,
+        "hoursSincePosted": 108.3,
         "readingTime": 8
       },
       "articles": [
@@ -2545,55 +2779,6 @@
         }
       ]
     },
-    "cursor/plugins": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3773951,
-        "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
-        "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
-        "author": "emersondelatorre",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 44.2,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3773951,
-          "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
-          "description": "Se você programa profissionalmente, provavelmente já usa IA para gerar trechos de código, preencher...",
-          "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
-          "author": {
-            "username": "emersondelatorre",
-            "name": "Emerson Delatorre",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F628360%2F78ae3dad-c5be-41e3-b601-a6c45360d56c.webp"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-28T23:05:32Z",
-          "tags": [
-            "ai",
-            "codereview",
-            "mattpocock",
-            "cursor"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "cursor/plugins",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/sandcastle",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "mattpocock/sandcastle": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -2605,7 +2790,7 @@
         "author": "emersondelatorre",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 44.2,
+        "hoursSincePosted": 52.9,
         "readingTime": 12
       },
       "articles": [
@@ -2654,7 +2839,7 @@
         "author": "shogun444",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 12.4,
+        "hoursSincePosted": 21.1,
         "readingTime": 9
       },
       "articles": [
@@ -2678,7 +2863,7 @@
             "ai",
             "productivity"
           ],
-          "trendingScore": 0.12,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "thesysdev/openui",
@@ -2689,20 +2874,48 @@
       ]
     },
     "maximhq/bifrost": {
-      "count7d": 8,
+      "count7d": 4,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3768820,
-        "title": "Continuous batching wrecked our p99 latency. Here's the trace.",
-        "url": "https://dev.to/marcuswwchen/continuous-batching-wrecked-our-p99-latency-heres-the-trace-42d1",
+        "id": 3761791,
+        "title": "LLM-as-judge variance broke our DPO training signal for 3 weeks",
+        "url": "https://dev.to/marcuswwchen/llm-as-judge-variance-broke-our-dpo-training-signal-for-3-weeks-14j3",
         "author": "marcuswwchen",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 60.8,
+        "hoursSincePosted": 93.5,
         "readingTime": 4
       },
       "articles": [
+        {
+          "id": 3761791,
+          "title": "LLM-as-judge variance broke our DPO training signal for 3 weeks",
+          "description": "TL;DR: Our DPO pipeline used a single LLM as the preference judge. Training reward climbed every run....",
+          "url": "https://dev.to/marcuswwchen/llm-as-judge-variance-broke-our-dpo-training-signal-for-3-weeks-14j3",
+          "author": {
+            "username": "marcuswwchen",
+            "name": "Marcus Chen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3859428%2F572085fe-831d-498b-854b-41102c7902ee.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-27T06:31:57Z",
+          "tags": [
+            "machinelearning",
+            "mlops",
+            "llm",
+            "pytorch"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3768820,
           "title": "Continuous batching wrecked our p99 latency. Here's the trace.",
@@ -2759,34 +2972,6 @@
           ]
         },
         {
-          "id": 3761791,
-          "title": "LLM-as-judge variance broke our DPO training signal for 3 weeks",
-          "description": "TL;DR: Our DPO pipeline used a single LLM as the preference judge. Training reward climbed every run....",
-          "url": "https://dev.to/marcuswwchen/llm-as-judge-variance-broke-our-dpo-training-signal-for-3-weeks-14j3",
-          "author": {
-            "username": "marcuswwchen",
-            "name": "Marcus Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3859428%2F572085fe-831d-498b-854b-41102c7902ee.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-27T06:31:57Z",
-          "tags": [
-            "machinelearning",
-            "mlops",
-            "llm",
-            "pytorch"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3765542,
           "title": "Virtual keys per tenant: ditching our custom LLM billing layer",
           "description": "TL;DR: We had 11,247 lines of Python middleware handling per-tenant LLM cost attribution, rate...",
@@ -2813,120 +2998,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3771542,
-          "title": "Our PR-review bot kept hitting 429s. Bifrost key pooling fixed it.",
-          "description": "TL;DR: Our internal PR-review bot was getting 429'd by Anthropic between 9am and 11am Sydney time. We...",
-          "url": "https://dev.to/claire_nguyen/our-pr-review-bot-kept-hitting-429s-bifrost-key-pooling-fixed-it-4m9f",
-          "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T13:22:11Z",
-          "tags": [
-            "devops",
-            "infrastructure",
-            "llm",
-            "sre"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3751239,
-          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
-          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
-          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
-          "author": {
-            "username": "marcorinaldi_ai",
-            "name": "Marco Rinaldi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-25T16:53:43Z",
-          "tags": [
-            "computervision",
-            "mlops",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            },
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3771997,
-          "title": "Tracing our 4-stage product photo pipeline through Bifrost",
-          "description": "TL;DR: We added OpenTelemetry tracing across the four LLM and VLM hops in our product-photo pipeline...",
-          "url": "https://dev.to/elise_moreau/tracing-our-4-stage-product-photo-pipeline-through-bifrost-3b09",
-          "author": {
-            "username": "elise_moreau",
-            "name": "Elise Moreau",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864909%2F72833c18-30db-4456-82ee-e7d2016cc38f.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T14:55:01Z",
-          "tags": [
-            "machinelearning",
-            "mlops",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3757783,
-          "title": "Per-customer budget caps on our caption pipeline: 3 weeks with virtual keys",
-          "description": "TL;DR: We were burning around €4,200/month in vision-LLM costs across roughly 80 customers, with zero...",
-          "url": "https://dev.to/elise_moreau/per-customer-budget-caps-on-our-caption-pipeline-3-weeks-with-virtual-keys-hip",
-          "author": {
-            "username": "elise_moreau",
-            "name": "Elise Moreau",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864909%2F72833c18-30db-4456-82ee-e7d2016cc38f.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-26T14:53:00Z",
-          "tags": [
-            "llm",
-            "infrastructure",
-            "mlops",
-            "machinelearning"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -2941,7 +3012,7 @@
         "author": "shayesta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 30.9,
+        "hoursSincePosted": 39.6,
         "readingTime": 9
       },
       "articles": [
@@ -2975,127 +3046,6 @@
         }
       ]
     },
-    "datawhalechina/hello-agents": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3736638,
-        "title": "Agent Series (3): Plan-and-Solve — Think First, Then Act",
-        "url": "https://dev.to/wonderlab/agent-series-3-plan-and-solve-think-first-then-act-1e14",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 162,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3736638,
-          "title": "Agent Series (3): Plan-and-Solve — Think First, Then Act",
-          "description": "Where Does ReAct Hit a Wall?   The previous article established ReAct's greedy strategy —...",
-          "url": "https://dev.to/wonderlab/agent-series-3-plan-and-solve-think-first-then-act-1e14",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-24T01:20:49Z",
-          "tags": [
-            "ai",
-            "agents",
-            "langchain",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "datawhalechina/hello-agents",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3728972,
-          "title": "Agent Series (2): ReAct — The Most Important Agent Reasoning Paradigm",
-          "description": "You Think Your Agent Is \"Thinking.\" It's Actually Just Predicting Tokens.   Here's a...",
-          "url": "https://dev.to/wonderlab/agent-series-2-react-the-most-important-agent-reasoning-paradigm-2b7k",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-23T00:40:05Z",
-          "tags": [
-            "agents",
-            "llm",
-            "langchain",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "datawhalechina/hello-agents",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "BerriAI/litellm": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3751239,
-        "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
-        "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
-        "author": "marcorinaldi_ai",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 122.4,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3751239,
-          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
-          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
-          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
-          "author": {
-            "username": "marcorinaldi_ai",
-            "name": "Marco Rinaldi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-25T16:53:43Z",
-          "tags": [
-            "computervision",
-            "mlops",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            },
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "VectifyAI/PageIndex": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -3107,7 +3057,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 95.3,
+        "hoursSincePosted": 104,
         "readingTime": 17
       },
       "articles": [
@@ -3160,7 +3110,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 95.3,
+        "hoursSincePosted": 104,
         "readingTime": 17
       },
       "articles": [
@@ -3202,6 +3152,51 @@
         }
       ]
     },
+    "andrewyng/context-hub": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3766493,
+        "title": "The Internet Is for Agents",
+        "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
+        "author": "keithjmackay",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 79.7,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3766493,
+          "title": "The Internet Is for Agents",
+          "description": "The Internet Is for Agents   For over a year now, more than half of internet traffic has not...",
+          "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
+          "author": {
+            "username": "keithjmackay",
+            "name": "Keith MacKay",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1499463%2Fdc7d3636-8482-4d6e-b619-fb4367cf4dfd.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-27T20:19:56Z",
+          "tags": [
+            "agents",
+            "infrastructure",
+            "mcp",
+            "security"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "andrewyng/context-hub",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "teng-lin/notebooklm-py": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -3213,7 +3208,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 89.8,
+        "hoursSincePosted": 98.5,
         "readingTime": 7
       },
       "articles": [
@@ -3258,7 +3253,7 @@
         "author": "venkatakrishna_s",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 134.7,
+        "hoursSincePosted": 143.4,
         "readingTime": 3
       },
       "articles": [
@@ -3303,7 +3298,7 @@
         "author": "pwd9000",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 77.3,
+        "hoursSincePosted": 86,
         "readingTime": 11
       },
       "articles": [
@@ -3352,7 +3347,7 @@
         "author": "tenglongai2026",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.5,
+        "hoursSincePosted": 76.2,
         "readingTime": 1
       },
       "articles": [
@@ -3395,7 +3390,7 @@
         "author": "grimicorn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 115.9,
+        "hoursSincePosted": 124.6,
         "readingTime": 3
       },
       "articles": [
@@ -3427,21 +3422,139 @@
           ]
         }
       ]
+    },
+    "datawhalechina/hello-agents": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3728972,
+        "title": "Agent Series (2): ReAct — The Most Important Agent Reasoning Paradigm",
+        "url": "https://dev.to/wonderlab/agent-series-2-react-the-most-important-agent-reasoning-paradigm-2b7k",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 195.4,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3728972,
+          "title": "Agent Series (2): ReAct — The Most Important Agent Reasoning Paradigm",
+          "description": "You Think Your Agent Is \"Thinking.\" It's Actually Just Predicting Tokens.   Here's a...",
+          "url": "https://dev.to/wonderlab/agent-series-2-react-the-most-important-agent-reasoning-paradigm-2b7k",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-23T00:40:05Z",
+          "tags": [
+            "agents",
+            "llm",
+            "langchain",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "datawhalechina/hello-agents",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3736638,
+          "title": "Agent Series (3): Plan-and-Solve — Think First, Then Act",
+          "description": "Where Does ReAct Hit a Wall?   The previous article established ReAct's greedy strategy —...",
+          "url": "https://dev.to/wonderlab/agent-series-3-plan-and-solve-think-first-then-act-1e14",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-24T01:20:49Z",
+          "tags": [
+            "ai",
+            "agents",
+            "langchain",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "datawhalechina/hello-agents",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "0-AI-UG/cate": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3784002,
+        "title": "10 nerdy GitHub repos I keep learning from",
+        "url": "https://dev.to/paulhorn/10-nerdy-github-repos-i-keep-learning-from-3o2p",
+        "author": "paulhorn",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 15.3,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3784002,
+          "title": "10 nerdy GitHub repos I keep learning from",
+          "description": "I spend a lot of time browsing GitHub, not only to find tools, but to understand how good software is...",
+          "url": "https://dev.to/paulhorn/10-nerdy-github-repos-i-keep-learning-from-3o2p",
+          "author": {
+            "username": "paulhorn",
+            "name": "Paul Horn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959936%2F8a53d07d-2c55-428a-b1f2-030b2d7ddcaf.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T12:41:22Z",
+          "tags": [
+            "github",
+            "opensource",
+            "programming",
+            "vibecoding"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "0-AI-UG/cate",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
     "rohitg00--ai-engineering-from-scratch": {
       "count7d": 1,
-      "reactionsSum7d": 28,
-      "commentsSum7d": 9,
+      "reactionsSum7d": 29,
+      "commentsSum7d": 10,
       "topArticle": {
         "id": 3740683,
         "title": "Build It, Then Use It: How I wrote 435 AI engineering lessons from scratch",
         "url": "https://dev.to/rohitg00/build-it-then-use-it-how-i-wrote-435-ai-engineering-lessons-from-scratch-5d2d",
         "author": "rohitg00",
-        "reactions": 28,
-        "comments": 9,
-        "hoursSincePosted": 149.5,
+        "reactions": 29,
+        "comments": 10,
+        "hoursSincePosted": 158.2,
         "readingTime": 6
       },
       "articles": [
@@ -3455,8 +3568,8 @@
             "name": "Rohit Ghumare",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F294172%2Fee75a2e0-1526-4279-aa8f-4e9ef2bd71d9.jpg"
           },
-          "reactionsCount": 28,
-          "commentsCount": 9,
+          "reactionsCount": 29,
+          "commentsCount": 10,
           "readingTime": 6,
           "publishedAt": "2026-05-24T13:50:05Z",
           "tags": [
@@ -3465,7 +3578,7 @@
             "agents",
             "opensource"
           ],
-          "trendingScore": 0.51,
+          "trendingScore": 0.54,
           "linkedRepos": [
             {
               "fullName": "rohitg00/ai-engineering-from-scratch",
@@ -3486,7 +3599,7 @@
         "author": "deraileddash",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 161.4,
         "readingTime": 8
       },
       "articles": [
@@ -3510,7 +3623,7 @@
             "gemini",
             "googleantigravity"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "vercel-labs/skills",
@@ -3583,7 +3696,7 @@
         "author": "deraileddash",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 161.4,
         "readingTime": 8
       },
       "articles": [
@@ -3607,7 +3720,7 @@
             "gemini",
             "googleantigravity"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "vercel-labs/skills",
@@ -3680,7 +3793,7 @@
         "author": "deraileddash",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 161.4,
         "readingTime": 8
       },
       "articles": [
@@ -3704,7 +3817,7 @@
             "gemini",
             "googleantigravity"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "vercel-labs/skills",
@@ -3766,45 +3879,291 @@
         }
       ]
     },
-    "aaif-goose--goose": {
-      "count7d": 1,
-      "reactionsSum7d": 6,
-      "commentsSum7d": 5,
+    "nousresearch--hermes-agent": {
+      "count7d": 10,
+      "reactionsSum7d": 39,
+      "commentsSum7d": 15,
       "topArticle": {
-        "id": 3735294,
-        "title": "Banning Agent PRs Won't Save Open Source",
-        "url": "https://dev.to/entire/why-banning-agent-prs-wont-save-open-source-4822",
-        "author": "blackgirlbytes",
-        "reactions": 6,
-        "comments": 5,
-        "hoursSincePosted": 167.5,
-        "readingTime": 4
+        "id": 3765980,
+        "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
+        "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
+        "author": "stephen_sebastian_c85ea2b",
+        "reactions": 12,
+        "comments": 11,
+        "hoursSincePosted": 82.3,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3735294,
-          "title": "Banning Agent PRs Won't Save Open Source",
-          "description": "It's an unspoken rule that large pull requests are poor etiquette. Traditionally, Agile teams break...",
-          "url": "https://dev.to/entire/why-banning-agent-prs-wont-save-open-source-4822",
+          "id": 3765980,
+          "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The...",
+          "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
           "author": {
-            "username": "blackgirlbytes",
-            "name": "Rizèl Scarlett",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F302741%2F5ed2ea8e-056a-4065-9bed-57d24a96b607.png"
+            "username": "stephen_sebastian_c85ea2b",
+            "name": "Stephen Sebastian",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
           },
-          "reactionsCount": 6,
-          "commentsCount": 5,
-          "readingTime": 4,
-          "publishedAt": "2026-05-23T19:52:52Z",
+          "reactionsCount": 12,
+          "commentsCount": 11,
+          "readingTime": 6,
+          "publishedAt": "2026-05-27T17:45:36Z",
           "tags": [
-            "ai",
+            "hermesagentchallenge",
+            "devchallenge",
             "agents",
-            "opensource",
-            "entire"
+            "ai"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.33,
           "linkedRepos": [
             {
-              "fullName": "aaif-goose/goose",
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3749895,
+          "title": "The $5 AI That Remembers Everything",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The lie we've...",
+          "url": "https://dev.to/stephen_sebastian_c85ea2b/the-5-ai-that-remembers-everything-517f",
+          "author": {
+            "username": "stephen_sebastian_c85ea2b",
+            "name": "Stephen Sebastian",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 3,
+          "readingTime": 4,
+          "publishedAt": "2026-05-25T13:11:23Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "discuss"
+          ],
+          "trendingScore": 0.03,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3753833,
+          "title": "Why Hermes Agent Compounds While LangChain Stays Flat — A Deep Architectural Breakdown",
+          "description": "This is a submission for the Hermes Agent Challenge     Every AI agent framework promises to make...",
+          "url": "https://dev.to/tejas164321/why-hermes-agent-compounds-while-langchain-stays-flat-a-deep-architectural-breakdown-pck",
+          "author": {
+            "username": "tejas164321",
+            "name": "Tejas Patil",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828498%2Ff99fdd48-f37e-48e0-abdd-ba64eb016704.jpg"
+          },
+          "reactionsCount": 4,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-26T04:49:17Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3780822,
+          "title": "title: From Zero to Hermes Agent in 3 Days — An Honest Beginner's Journey",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent              The Honest...",
+          "url": "https://dev.to/mauriziolisanti/title-from-zero-to-hermes-agent-in-3-days-an-honest-beginners-journey-13l2",
+          "author": {
+            "username": "mauriziolisanti",
+            "name": "MLisanti_Dev",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-29T22:40:59Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3780725,
+          "title": "I Shipped a Multi-Tenant Flutter SaaS Overnight — Without Writing a Single Line of App Code",
+          "description": "This is a submission for the Hermes Agent Challenge           What this post unpacks   I shipped a...",
+          "url": "https://dev.to/morsheded/i-shipped-a-multi-tenant-flutter-saas-overnight-without-writing-a-single-line-of-app-code-184g",
+          "author": {
+            "username": "morsheded",
+            "name": "Sarower Morshed",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3955077%2F132c0f07-79e4-4800-a576-d45f47a09464.jpg"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-29T22:12:27Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3777728,
+          "title": "Hermes Agent Needs a Flight Recorder - So I Built One",
+          "description": "This is a submission for the Hermes Agent Challenge  Autonomous agents can now write code, call...",
+          "url": "https://dev.to/ale007xd/hermes-agent-needs-a-flight-recorder-so-i-built-one-3gea",
+          "author": {
+            "username": "ale007xd",
+            "name": "Alex Delov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3943262%2Fead831e3-7141-4c6e-8903-282ea5a80e86.jpg"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-29T11:01:26Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.03,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3780807,
+          "title": "Repo-audit-agent — AI-powered GitHub repository auditor built with Hermes Agent",
+          "description": "This is a submission for the Hermes Agent Challenge: Build With Hermes Agent           What I...",
+          "url": "https://dev.to/mauriziolisanti/repo-audit-agent-ai-powered-github-repository-auditor-built-with-hermes-agent-469e",
+          "author": {
+            "username": "mauriziolisanti",
+            "name": "MLisanti_Dev",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-29T22:29:31Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3781183,
+          "title": "I Asked the Self-Improving Agent to Improve Itself.",
+          "description": "This is a submission for the Hermes Agent Challenge  A first encounter with Hermes Agent and the four...",
+          "url": "https://dev.to/ola-zoll/i-asked-the-self-improving-agent-to-improve-itself-5bgp",
+          "author": {
+            "username": "ola-zoll",
+            "name": "Ola Adesoye",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3518658%2F465a1b54-168b-4f1c-b19e-06252755a6f3.jpeg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-30T01:03:58Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3739989,
+          "title": "How to Build a Persistent AI Agent with Hermes in 15 Minutes",
+          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent  Most AI integrations...",
+          "url": "https://dev.to/pulkitgovrani/how-to-build-a-persistent-ai-agent-with-hermes-in-15-minutes-49cl",
+          "author": {
+            "username": "pulkitgovrani",
+            "name": "pulkitgovrani",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F405919%2F8cab8c52-f8c7-4f58-bbe8-46cc0851e135.png"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-24T14:30:00Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3741993,
+          "title": "30 Days With Hermes Agent: The Only AI That Learned From My Mistakes",
+          "description": "Why Your AI Agent Forgets Everything — And What I Found After 30 Days With Hermes   Picture...",
+          "url": "https://dev.to/uuhi_reddy_841b6e27138dcc/30-days-with-hermes-agent-the-only-ai-that-learned-from-my-mistakes-16i3",
+          "author": {
+            "username": "uuhi_reddy_841b6e27138dcc",
+            "name": "Uuhi Reddy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3948774%2F713c3818-adb5-445d-b3fc-11f6cfd3db75.png"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-24T17:02:44Z",
+          "tags": [
+            "hermesagentchallenge",
+            "devchallenge",
+            "agents",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
               "location": "body"
             }
           ]
@@ -3814,15 +4173,15 @@
     "github--github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 2,
-      "commentsSum7d": 0,
+      "commentsSum7d": 1,
       "topArticle": {
         "id": 3755932,
         "title": "Vibecoding Our First MCP Server",
         "url": "https://dev.to/dvddpl/vibecoding-our-first-mcp-server-jmh",
         "author": "dvddpl",
         "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 100.3,
+        "comments": 1,
+        "hoursSincePosted": 109,
         "readingTime": 16
       },
       "articles": [
@@ -3837,7 +4196,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F132615%2Fc7c6d1d6-2cb8-4d37-9908-3f1393e2e7ff.png"
           },
           "reactionsCount": 2,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 16,
           "publishedAt": "2026-05-26T15:00:28Z",
           "tags": [
@@ -3856,6 +4215,293 @@
         }
       ]
     },
+    "qdrant--qdrant": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785796,
+        "title": "Building a RAG System in Rust with Qdrant, Rig, and gRPC 🦀",
+        "url": "https://dev.to/parikalp_bhardwaj_9e9d812/understanding-rag-internals-by-building-one-in-rust-30c8",
+        "author": "parikalp_bhardwaj_9e9d812",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 7,
+        "readingTime": 21
+      },
+      "articles": [
+        {
+          "id": 3785796,
+          "title": "Building a RAG System in Rust with Qdrant, Rig, and gRPC 🦀",
+          "description": "With Qdrant, Rig, Tonic — and a healthy obsession with what's actually happening underneath.         ...",
+          "url": "https://dev.to/parikalp_bhardwaj_9e9d812/understanding-rag-internals-by-building-one-in-rust-30c8",
+          "author": {
+            "username": "parikalp_bhardwaj_9e9d812",
+            "name": "Parikalp Bhardwaj",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959021%2F99f6d7e9-a05d-4967-b0b3-aca81a0fab4a.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 21,
+          "publishedAt": "2026-05-30T21:01:01Z",
+          "tags": [
+            "rust",
+            "rag",
+            "ai",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "qdrant/qdrant",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "openbmb--voxcpm": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785893,
+        "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+        "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+        "author": "soytuber",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3785893,
+          "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+          "description": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), &amp; Project NOMAD: Local AI &amp; Offline...",
+          "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+          "author": {
+            "username": "soytuber",
+            "name": "soy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812665%2F761376f9-10b8-4c2c-b6cb-af00f9fa48ab.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T21:33:54Z",
+          "tags": [
+            "ai",
+            "llm",
+            "selfhosted"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "OpenBMB/VoxCPM",
+              "location": "body"
+            },
+            {
+              "fullName": "Crosstalk-Solutions/project-nomad",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "crosstalk-solutions--project-nomad": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785893,
+        "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+        "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+        "author": "soytuber",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3785893,
+          "title": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), & Project NOMAD: Local AI & Offline Deployments",
+          "description": "Rust RAG, Tokenizer-Free TTS (VoxCPM2), &amp; Project NOMAD: Local AI &amp; Offline...",
+          "url": "https://dev.to/soytuber/rust-rag-tokenizer-free-tts-voxcpm2-project-nomad-local-ai-offline-deployments-1k88",
+          "author": {
+            "username": "soytuber",
+            "name": "soy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3812665%2F761376f9-10b8-4c2c-b6cb-af00f9fa48ab.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T21:33:54Z",
+          "tags": [
+            "ai",
+            "llm",
+            "selfhosted"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "OpenBMB/VoxCPM",
+              "location": "body"
+            },
+            {
+              "fullName": "Crosstalk-Solutions/project-nomad",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "langchain-ai--deepagents": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3785911,
+        "title": "The Same AI Model Can Perform 6x Better: Here's Why",
+        "url": "https://dev.to/harryfloyd/the-same-ai-model-can-perform-6x-better-heres-why-440o",
+        "author": "harryfloyd",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.4,
+        "readingTime": 2
+      },
+      "articles": [
+        {
+          "id": 3785911,
+          "title": "The Same AI Model Can Perform 6x Better: Here's Why",
+          "description": "Stanford and Tsinghua ran a controlled experiment: same model, same task, different harness. A 6x performance gap. Here is what developers need to know.",
+          "url": "https://dev.to/harryfloyd/the-same-ai-model-can-perform-6x-better-heres-why-440o",
+          "author": {
+            "username": "harryfloyd",
+            "name": "Harry Floyd",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3933548%2Fa644e757-fdc0-4213-a2d0-37774cbe6730.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-05-30T21:39:59Z",
+          "tags": [
+            "ai",
+            "architecture",
+            "productivity",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "langchain-ai/deepagents",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--claude-code": {
+      "count7d": 3,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3786056,
+        "title": "Claude Code can't open my browser. Cowork can't run my tests. So I wired them together.",
+        "url": "https://dev.to/agentggrigo/claude-code-cant-open-my-browser-cowork-cant-run-my-tests-so-i-wired-them-together-576c",
+        "author": "agentggrigo",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 5.2,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3786056,
+          "title": "Claude Code can't open my browser. Cowork can't run my tests. So I wired them together.",
+          "description": "Posted by agent ggrigo — the automated maintainer agent Georgios Grigoriadis runs on a dedicated...",
+          "url": "https://dev.to/agentggrigo/claude-code-cant-open-my-browser-cowork-cant-run-my-tests-so-i-wired-them-together-576c",
+          "author": {
+            "username": "agentggrigo",
+            "name": "Agent Ggrigo",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3956597%2F16f240dd-d1c3-4b92-a69e-55591b1a727b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T22:47:35Z",
+          "tags": [
+            "claude",
+            "ai",
+            "opensource",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3764958,
+          "title": "AI Weekly: Cheaper Coding Models, Custom Chips, and a Stateless MCP",
+          "description": "The past week pushed three quiet shifts into the open. A coding model matched the frontier at a tenth...",
+          "url": "https://dev.to/alexmercedcoder/ai-weekly-cheaper-coding-models-custom-chips-and-a-stateless-mcp-963",
+          "author": {
+            "username": "alexmercedcoder",
+            "name": "Alex Merced",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F288069%2Fb20116a9-b178-4ab1-bcb0-8aa28ed732b0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 12,
+          "publishedAt": "2026-05-27T14:19:26Z",
+          "tags": [
+            "ai",
+            "coding",
+            "mcp",
+            "news"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3770786,
+          "title": "Claude Wrote the Wrong Weekday on All 5 Dates. In an Interview Email.",
+          "description": "LLMs fundamentally cannot calculate day-of-week — but a Claude Code Hook can catch errors before they leave your machine",
+          "url": "https://dev.to/minatoplanb/claude-wrote-the-wrong-weekday-on-all-5-dates-in-an-interview-email-ne7",
+          "author": {
+            "username": "minatoplanb",
+            "name": "DavidAI311",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3801330%2Fb05dd9ed-c0da-4fba-8dfc-01e64c203e4c.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-28T11:22:48Z",
+          "tags": [
+            "claudecode",
+            "hooks",
+            "llm",
+            "javascript"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "charmbracelet--bubbletea": {
       "count7d": 2,
       "reactionsSum7d": 6,
@@ -3867,7 +4513,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 51.8,
+        "hoursSincePosted": 60.5,
         "readingTime": 4
       },
       "articles": [
@@ -3891,7 +4537,7 @@
             "ai",
             "go"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -3948,7 +4594,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 51.8,
+        "hoursSincePosted": 60.5,
         "readingTime": 4
       },
       "articles": [
@@ -3972,7 +4618,7 @@
             "ai",
             "go"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -4105,7 +4751,7 @@
         "author": "radghost",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 51.8,
+        "hoursSincePosted": 60.5,
         "readingTime": 4
       },
       "articles": [
@@ -4129,7 +4775,7 @@
             "ai",
             "go"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -4231,326 +4877,6 @@
         }
       ]
     },
-    "nousresearch--hermes-agent": {
-      "count7d": 11,
-      "reactionsSum7d": 44,
-      "commentsSum7d": 14,
-      "topArticle": {
-        "id": 3765980,
-        "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
-        "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
-        "author": "stephen_sebastian_c85ea2b",
-        "reactions": 12,
-        "comments": 11,
-        "hoursSincePosted": 73.6,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3765980,
-          "title": "I gave Hermes Agent 30 days to learn my workflow. It didn't just remember — it got smarter",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The...",
-          "url": "https://dev.to/stephen_sebastian_c85ea2b/i-gave-hermes-agent-30-days-to-learn-my-workflow-it-didnt-just-remember-it-got-smarter-409f",
-          "author": {
-            "username": "stephen_sebastian_c85ea2b",
-            "name": "Stephen Sebastian",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
-          },
-          "reactionsCount": 12,
-          "commentsCount": 11,
-          "readingTime": 6,
-          "publishedAt": "2026-05-27T17:45:36Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
-          ],
-          "trendingScore": 0.37,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3711818,
-          "title": "How to Deploy Hermes' Self-Improving AI Agent",
-          "description": "Key takeaways    You host Hermes on a DigitalOcean Droplet (Ubuntu 24.04, at least 2 vCPUs...",
-          "url": "https://dev.to/digitalocean/how-to-deploy-hermes-self-improving-ai-agent-4gm6",
-          "author": {
-            "username": "haimantika",
-            "name": "haimantika mitra",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F401142%2Fafaae4c7-9e8a-4d9c-9b9e-c9ef3d4b5a0d.jpg"
-          },
-          "reactionsCount": 9,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-26T16:00:00Z",
-          "tags": [
-            "hermes",
-            "ai",
-            "agents",
-            "tutorial"
-          ],
-          "trendingScore": 0.09,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3749895,
-          "title": "The $5 AI That Remembers Everything",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent           The lie we've...",
-          "url": "https://dev.to/stephen_sebastian_c85ea2b/the-5-ai-that-remembers-everything-517f",
-          "author": {
-            "username": "stephen_sebastian_c85ea2b",
-            "name": "Stephen Sebastian",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3936117%2Faaa3e3a0-dba3-4fe6-8b19-b08e05277a74.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 3,
-          "readingTime": 4,
-          "publishedAt": "2026-05-25T13:11:23Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "discuss"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3753833,
-          "title": "Why Hermes Agent Compounds While LangChain Stays Flat — A Deep Architectural Breakdown",
-          "description": "This is a submission for the Hermes Agent Challenge     Every AI agent framework promises to make...",
-          "url": "https://dev.to/tejas164321/why-hermes-agent-compounds-while-langchain-stays-flat-a-deep-architectural-breakdown-pck",
-          "author": {
-            "username": "tejas164321",
-            "name": "Tejas Patil",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828498%2Ff99fdd48-f37e-48e0-abdd-ba64eb016704.jpg"
-          },
-          "reactionsCount": 4,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-26T04:49:17Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.02,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3780822,
-          "title": "title: From Zero to Hermes Agent in 3 Days — An Honest Beginner's Journey",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent              The Honest...",
-          "url": "https://dev.to/mauriziolisanti/title-from-zero-to-hermes-agent-in-3-days-an-honest-beginners-journey-13l2",
-          "author": {
-            "username": "mauriziolisanti",
-            "name": "MLisanti_Dev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-29T22:40:59Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.07,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3780725,
-          "title": "I Shipped a Multi-Tenant Flutter SaaS Overnight — Without Writing a Single Line of App Code",
-          "description": "This is a submission for the Hermes Agent Challenge           What this post unpacks   I shipped a...",
-          "url": "https://dev.to/morsheded/i-shipped-a-multi-tenant-flutter-saas-overnight-without-writing-a-single-line-of-app-code-184g",
-          "author": {
-            "username": "morsheded",
-            "name": "Sarower Morshed",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3955077%2F132c0f07-79e4-4800-a576-d45f47a09464.jpg"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-29T22:12:27Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.07,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3781183,
-          "title": "I Asked the Self-Improving Agent to Improve Itself.",
-          "description": "This is a submission for the Hermes Agent Challenge  A first encounter with Hermes Agent and the four...",
-          "url": "https://dev.to/ola-zoll/i-asked-the-self-improving-agent-to-improve-itself-5bgp",
-          "author": {
-            "username": "ola-zoll",
-            "name": "Ola Adesoye",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3518658%2F465a1b54-168b-4f1c-b19e-06252755a6f3.jpeg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-30T01:03:58Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
-          ],
-          "trendingScore": 0.03,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3739989,
-          "title": "How to Build a Persistent AI Agent with Hermes in 15 Minutes",
-          "description": "This is a submission for the Hermes Agent Challenge: Write About Hermes Agent  Most AI integrations...",
-          "url": "https://dev.to/pulkitgovrani/how-to-build-a-persistent-ai-agent-with-hermes-in-15-minutes-49cl",
-          "author": {
-            "username": "pulkitgovrani",
-            "name": "pulkitgovrani",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F405919%2F8cab8c52-f8c7-4f58-bbe8-46cc0851e135.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-24T14:30:00Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3780807,
-          "title": "Repo-audit-agent — AI-powered GitHub repository auditor built with Hermes Agent",
-          "description": "This is a submission for the Hermes Agent Challenge: Build With Hermes Agent           What I...",
-          "url": "https://dev.to/mauriziolisanti/repo-audit-agent-ai-powered-github-repository-auditor-built-with-hermes-agent-469e",
-          "author": {
-            "username": "mauriziolisanti",
-            "name": "MLisanti_Dev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3940120%2F2c538942-636b-49b8-a7d1-f7b04394a64b.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-29T22:29:31Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents"
-          ],
-          "trendingScore": 0.03,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3741993,
-          "title": "30 Days With Hermes Agent: The Only AI That Learned From My Mistakes",
-          "description": "Why Your AI Agent Forgets Everything — And What I Found After 30 Days With Hermes   Picture...",
-          "url": "https://dev.to/uuhi_reddy_841b6e27138dcc/30-days-with-hermes-agent-the-only-ai-that-learned-from-my-mistakes-16i3",
-          "author": {
-            "username": "uuhi_reddy_841b6e27138dcc",
-            "name": "Uuhi Reddy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3948774%2F713c3818-adb5-445d-b3fc-11f6cfd3db75.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-24T17:02:44Z",
-          "tags": [
-            "hermesagentchallenge",
-            "devchallenge",
-            "agents",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3784301,
-          "title": "\"I Gave an AI Agent $0 and Told It to Make $10,000\"",
-          "description": "Liquid syntax error: Unknown tag 'highlight'",
-          "url": "https://dev.to/costder/i-gave-an-ai-agent-0-and-told-it-to-make-10000-2hcg",
-          "author": {
-            "username": "costder",
-            "name": "Joshua Herron",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3960047%2F9774daf0-4a11-4075-b6f2-8d711c80ae1e.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-05-30T14:03:53Z",
-          "tags": [
-            "ai",
-            "agents",
-            "mcp",
-            "automation"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "withcoral--coral": {
       "count7d": 1,
       "reactionsSum7d": 7,
@@ -4562,7 +4888,7 @@
         "author": "himanshu_748",
         "reactions": 7,
         "comments": 1,
-        "hoursSincePosted": 61.5,
+        "hoursSincePosted": 70.2,
         "readingTime": 4
       },
       "articles": [
@@ -4586,7 +4912,7 @@
             "showdev",
             "ai"
           ],
-          "trendingScore": 0.11,
+          "trendingScore": 0.09,
           "linkedRepos": [
             {
               "fullName": "withcoral/coral",
@@ -4599,15 +4925,15 @@
     "anthropics--anthropic-sdk-csharp": {
       "count7d": 1,
       "reactionsSum7d": 9,
-      "commentsSum7d": 2,
+      "commentsSum7d": 3,
       "topArticle": {
         "id": 3764750,
         "title": "An Official Claude SDK for .NET? Yes, Really.",
         "url": "https://dev.to/iamprincejkc/an-official-claude-sdk-for-net-yes-really-2bdn",
         "author": "iamprincejkc",
         "reactions": 9,
-        "comments": 2,
-        "hoursSincePosted": 77.7,
+        "comments": 3,
+        "hoursSincePosted": 86.4,
         "readingTime": 3
       },
       "articles": [
@@ -4622,7 +4948,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F820392%2Fd8052783-fad7-46ae-8c9e-61391ecff65a.jpeg"
           },
           "reactionsCount": 9,
-          "commentsCount": 2,
+          "commentsCount": 3,
           "readingTime": 3,
           "publishedAt": "2026-05-27T13:39:12Z",
           "tags": [
@@ -4652,7 +4978,7 @@
         "author": "webmaxru",
         "reactions": 27,
         "comments": 0,
-        "hoursSincePosted": 119.1,
+        "hoursSincePosted": 127.8,
         "readingTime": 12
       },
       "articles": [
@@ -4676,7 +5002,7 @@
             "github",
             "productivity"
           ],
-          "trendingScore": 0.32,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
@@ -4761,7 +5087,7 @@
         "author": "ricardoceci",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 77.5,
+        "hoursSincePosted": 86.2,
         "readingTime": 8
       },
       "articles": [
@@ -4785,7 +5111,7 @@
             "mcp",
             "aws"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -4806,7 +5132,7 @@
         "author": "shy",
         "reactions": 1,
         "comments": 5,
-        "hoursSincePosted": 111.3,
+        "hoursSincePosted": 120,
         "readingTime": 12
       },
       "articles": [
@@ -4851,7 +5177,7 @@
         "author": "nkalra0123",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 151.4,
+        "hoursSincePosted": 160.1,
         "readingTime": 8
       },
       "articles": [
@@ -4885,197 +5211,6 @@
         }
       ]
     },
-    "anthropics--claude-code": {
-      "count7d": 3,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3764958,
-        "title": "AI Weekly: Cheaper Coding Models, Custom Chips, and a Stateless MCP",
-        "url": "https://dev.to/alexmercedcoder/ai-weekly-cheaper-coding-models-custom-chips-and-a-stateless-mcp-963",
-        "author": "alexmercedcoder",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 77,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3764958,
-          "title": "AI Weekly: Cheaper Coding Models, Custom Chips, and a Stateless MCP",
-          "description": "The past week pushed three quiet shifts into the open. A coding model matched the frontier at a tenth...",
-          "url": "https://dev.to/alexmercedcoder/ai-weekly-cheaper-coding-models-custom-chips-and-a-stateless-mcp-963",
-          "author": {
-            "username": "alexmercedcoder",
-            "name": "Alex Merced",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F288069%2Fb20116a9-b178-4ab1-bcb0-8aa28ed732b0.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-27T14:19:26Z",
-          "tags": [
-            "ai",
-            "coding",
-            "mcp",
-            "news"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3770786,
-          "title": "Claude Wrote the Wrong Weekday on All 5 Dates. In an Interview Email.",
-          "description": "LLMs fundamentally cannot calculate day-of-week — but a Claude Code Hook can catch errors before they leave your machine",
-          "url": "https://dev.to/minatoplanb/claude-wrote-the-wrong-weekday-on-all-5-dates-in-an-interview-email-ne7",
-          "author": {
-            "username": "minatoplanb",
-            "name": "DavidAI311",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3801330%2Fb05dd9ed-c0da-4fba-8dfc-01e64c203e4c.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T11:22:48Z",
-          "tags": [
-            "claudecode",
-            "hooks",
-            "llm",
-            "javascript"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3735205,
-          "title": "Why Coding Agents Are Getting More Expensive (And How To Fix It)",
-          "description": "Prompt caching makes million-token context windows affordable. Editing files, summarising history, or letting a session idle all break the cache and inflate your bill. Here's why, with sources.",
-          "url": "https://dev.to/david_moores_cbc0233b7447/why-coding-agents-are-getting-more-expensive-and-how-to-fix-it-2g5a",
-          "author": {
-            "username": "david_moores_cbc0233b7447",
-            "name": "David Moores",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3371682%2F34d40cfa-9851-4cd9-a23d-118111f00720.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-23T19:33:24Z",
-          "tags": [
-            "ai",
-            "claude",
-            "productivity",
-            "performance"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "sickn33--antigravity-awesome-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3735381,
-        "title": "How does an AI agent pick from 686 skills in a second?",
-        "url": "https://dev.to/klymentiev/how-does-an-ai-agent-pick-from-686-skills-in-a-second-57ne",
-        "author": "klymentiev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 167.1,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3735381,
-          "title": "How does an AI agent pick from 686 skills in a second?",
-          "description": "Empirical test of the skills-as-semantic-router pattern for Claude Code agents. 686 indexed skills, 62.5% strict top-1, 87.5% top-5 cluster, sub-second latency, 456x context-window saving.",
-          "url": "https://dev.to/klymentiev/how-does-an-ai-agent-pick-from-686-skills-in-a-second-57ne",
-          "author": {
-            "username": "klymentiev",
-            "name": "Dmytro Klymentiev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2203747%2Fd68e74d9-9f6b-44eb-a5d8-443795918482.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-23T20:16:46Z",
-          "tags": [
-            "ai",
-            "benchmark",
-            "embeddings",
-            "claudecode"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "sickn33/antigravity-awesome-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "bloopai--vibe-kanban": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3783033,
-        "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
-        "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
-        "author": "zakarov",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 10.2,
-        "readingTime": 16
-      },
-      "articles": [
-        {
-          "id": 3783033,
-          "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
-          "description": "When a team starts coding with AI agents, the bottleneck moves fast. Getting agents to run is the...",
-          "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
-          "author": {
-            "username": "zakarov",
-            "name": "Basil Zakarov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959708%2Ff6f1e08e-7e79-4271-899f-e852fa3200f2.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-05-30T09:10:17Z",
-          "tags": [
-            "agents",
-            "devops",
-            "claudecode",
-            "codex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BloopAI/vibe-kanban",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "thedotmack--claude-mem": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -5087,7 +5222,7 @@
         "author": "abhi_a_c8c6d876c38861c9ee",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 41.2,
+        "hoursSincePosted": 49.9,
         "readingTime": 8
       },
       "articles": [
@@ -5149,6 +5284,128 @@
         }
       ]
     },
+    "bloopai--vibe-kanban": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3783033,
+        "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
+        "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
+        "author": "zakarov",
+        "reactions": 1,
+        "comments": 1,
+        "hoursSincePosted": 18.9,
+        "readingTime": 16
+      },
+      "articles": [
+        {
+          "id": 3783033,
+          "title": "AI Coding Agents Need a Team Runtime, Not Just More tmux",
+          "description": "When a team starts coding with AI agents, the bottleneck moves fast. Getting agents to run is the...",
+          "url": "https://dev.to/zakarov/ai-coding-agents-need-a-team-runtime-not-just-more-tmux-141",
+          "author": {
+            "username": "zakarov",
+            "name": "Basil Zakarov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959708%2Ff6f1e08e-7e79-4271-899f-e852fa3200f2.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 1,
+          "readingTime": 16,
+          "publishedAt": "2026-05-30T09:10:17Z",
+          "tags": [
+            "agents",
+            "devops",
+            "claudecode",
+            "codex"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "BloopAI/vibe-kanban",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "cursor--plugins": {
+      "count7d": 2,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3773951,
+        "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
+        "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
+        "author": "emersondelatorre",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 52.9,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3773951,
+          "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
+          "description": "Se você programa profissionalmente, provavelmente já usa IA para gerar trechos de código, preencher...",
+          "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
+          "author": {
+            "username": "emersondelatorre",
+            "name": "Emerson Delatorre",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F628360%2F78ae3dad-c5be-41e3-b601-a6c45360d56c.webp"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-05-28T23:05:32Z",
+          "tags": [
+            "ai",
+            "codereview",
+            "mattpocock",
+            "cursor"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "cursor/plugins",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/sandcastle",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3786309,
+          "title": "Opus 4.8 ships Dynamic Workflows — hundreds of parallel subagents per session. Read this before you wire it into prod.",
+          "description": "Anthropic's Opus 4.8 launch slid Dynamic Workflows in as a preview feature. The blog post called it a \"hundreds of parallel subagents\" feature in one line. That line is the load-bearing one. Here's what the preview actually does, the three tasks it eats alive, the one class of wo",
+          "url": "https://dev.to/layzerzero105/opus-48-ships-dynamic-workflows-hundreds-of-parallel-subagents-per-session-read-this-before-you-4178",
+          "author": {
+            "username": "layzerzero105",
+            "name": "LayerZero",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3886969%2F83917794-7873-4114-92dd-33ca3c6996d4.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-05-31T00:21:34Z",
+          "tags": [
+            "claudecode",
+            "anthropic",
+            "ai",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "cursor/plugins",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "bmad-code-org--bmad-method": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5160,7 +5417,7 @@
         "author": "bspann",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 88.8,
+        "hoursSincePosted": 97.5,
         "readingTime": 5
       },
       "articles": [
@@ -5205,7 +5462,7 @@
         "author": "shenhuang",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 158.4,
+        "hoursSincePosted": 167.1,
         "readingTime": 10
       },
       "articles": [
@@ -5330,7 +5587,7 @@
         "author": "ventureio",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.6,
+        "hoursSincePosted": 12.3,
         "readingTime": 7
       },
       "articles": [
@@ -5411,7 +5668,7 @@
         "author": "lizziepika",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 42.7,
+        "hoursSincePosted": 51.4,
         "readingTime": 2
       },
       "articles": [
@@ -5456,7 +5713,7 @@
         "author": "andrew-ooo",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 54.9,
+        "hoursSincePosted": 63.6,
         "readingTime": 10
       },
       "articles": [
@@ -5501,7 +5758,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.5,
+        "hoursSincePosted": 145.2,
         "readingTime": 6
       },
       "articles": [
@@ -5582,7 +5839,7 @@
         "author": "leolr",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 102.8,
+        "hoursSincePosted": 111.4,
         "readingTime": 9
       },
       "articles": [
@@ -5627,7 +5884,7 @@
         "author": "schoaib",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 81.7,
+        "hoursSincePosted": 90.4,
         "readingTime": 3
       },
       "articles": [
@@ -5697,6 +5954,96 @@
         }
       ]
     },
+    "everyinc--compound-engineering-plugin": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3777767,
+        "title": "Compound Engineering: A Plugin That Makes Your AI Coding Agent Smarter Over Time",
+        "url": "https://dev.to/arshtechpro/compound-engineering-a-plugin-that-makes-your-ai-coding-agent-smarter-over-time-2pp0",
+        "author": "arshtechpro",
+        "reactions": 5,
+        "comments": 1,
+        "hoursSincePosted": 4.5,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3777767,
+          "title": "Compound Engineering: A Plugin That Makes Your AI Coding Agent Smarter Over Time",
+          "description": "Most developers using AI coding tools hit the same ceiling eventually. The agent writes code, you...",
+          "url": "https://dev.to/arshtechpro/compound-engineering-a-plugin-that-makes-your-ai-coding-agent-smarter-over-time-2pp0",
+          "author": {
+            "username": "arshtechpro",
+            "name": "ArshTechPro",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3258664%2F7a2cc61a-0b4d-4cf8-884e-52f33905cac3.png"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-30T23:34:00Z",
+          "tags": [
+            "ai",
+            "agentskills",
+            "claude",
+            "programming"
+          ],
+          "trendingScore": 0.86,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--knowledge-work-plugins": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3753432,
+        "title": "One Open Source Project a Day (No. 76): Knowledge Work Plugins - Anthropic's Official Role-Specialist Plugin Library",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-76-knowledge-work-plugins-anthropics-official-424g",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 120.6,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3753432,
+          "title": "One Open Source Project a Day (No. 76): Knowledge Work Plugins - Anthropic's Official Role-Specialist Plugin Library",
+          "description": "Introduction    \"The best AI tool is the one that already knows your job.\"   This is the...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-76-knowledge-work-plugins-anthropics-official-424g",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-26T03:22:32Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "claude",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/knowledge-work-plugins",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai--codex": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -5708,7 +6055,7 @@
         "author": "rkttu",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 99.6,
+        "hoursSincePosted": 108.3,
         "readingTime": 8
       },
       "articles": [
@@ -5770,55 +6117,6 @@
         }
       ]
     },
-    "cursor--plugins": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3773951,
-        "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
-        "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
-        "author": "emersondelatorre",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 44.2,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3773951,
-          "title": "Do \"Ok\" ao \"Termonuclear\": Elevando a Barra do Code Review com IA",
-          "description": "Se você programa profissionalmente, provavelmente já usa IA para gerar trechos de código, preencher...",
-          "url": "https://dev.to/fazedordecodigo/do-ok-ao-termonuclear-elevando-a-barra-do-code-review-com-ia-17i0",
-          "author": {
-            "username": "emersondelatorre",
-            "name": "Emerson Delatorre",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F628360%2F78ae3dad-c5be-41e3-b601-a6c45360d56c.webp"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-28T23:05:32Z",
-          "tags": [
-            "ai",
-            "codereview",
-            "mattpocock",
-            "cursor"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "cursor/plugins",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/sandcastle",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "mattpocock--sandcastle": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -5830,7 +6128,7 @@
         "author": "emersondelatorre",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 44.2,
+        "hoursSincePosted": 52.9,
         "readingTime": 12
       },
       "articles": [
@@ -5879,7 +6177,7 @@
         "author": "shogun444",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 12.4,
+        "hoursSincePosted": 21.1,
         "readingTime": 9
       },
       "articles": [
@@ -5903,7 +6201,7 @@
             "ai",
             "productivity"
           ],
-          "trendingScore": 0.12,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "thesysdev/openui",
@@ -5914,20 +6212,48 @@
       ]
     },
     "maximhq--bifrost": {
-      "count7d": 8,
+      "count7d": 4,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3768820,
-        "title": "Continuous batching wrecked our p99 latency. Here's the trace.",
-        "url": "https://dev.to/marcuswwchen/continuous-batching-wrecked-our-p99-latency-heres-the-trace-42d1",
+        "id": 3761791,
+        "title": "LLM-as-judge variance broke our DPO training signal for 3 weeks",
+        "url": "https://dev.to/marcuswwchen/llm-as-judge-variance-broke-our-dpo-training-signal-for-3-weeks-14j3",
         "author": "marcuswwchen",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 60.8,
+        "hoursSincePosted": 93.5,
         "readingTime": 4
       },
       "articles": [
+        {
+          "id": 3761791,
+          "title": "LLM-as-judge variance broke our DPO training signal for 3 weeks",
+          "description": "TL;DR: Our DPO pipeline used a single LLM as the preference judge. Training reward climbed every run....",
+          "url": "https://dev.to/marcuswwchen/llm-as-judge-variance-broke-our-dpo-training-signal-for-3-weeks-14j3",
+          "author": {
+            "username": "marcuswwchen",
+            "name": "Marcus Chen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3859428%2F572085fe-831d-498b-854b-41102c7902ee.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-05-27T06:31:57Z",
+          "tags": [
+            "machinelearning",
+            "mlops",
+            "llm",
+            "pytorch"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3768820,
           "title": "Continuous batching wrecked our p99 latency. Here's the trace.",
@@ -5984,34 +6310,6 @@
           ]
         },
         {
-          "id": 3761791,
-          "title": "LLM-as-judge variance broke our DPO training signal for 3 weeks",
-          "description": "TL;DR: Our DPO pipeline used a single LLM as the preference judge. Training reward climbed every run....",
-          "url": "https://dev.to/marcuswwchen/llm-as-judge-variance-broke-our-dpo-training-signal-for-3-weeks-14j3",
-          "author": {
-            "username": "marcuswwchen",
-            "name": "Marcus Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3859428%2F572085fe-831d-498b-854b-41102c7902ee.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-27T06:31:57Z",
-          "tags": [
-            "machinelearning",
-            "mlops",
-            "llm",
-            "pytorch"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3765542,
           "title": "Virtual keys per tenant: ditching our custom LLM billing layer",
           "description": "TL;DR: We had 11,247 lines of Python middleware handling per-tenant LLM cost attribution, rate...",
@@ -6038,120 +6336,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3771542,
-          "title": "Our PR-review bot kept hitting 429s. Bifrost key pooling fixed it.",
-          "description": "TL;DR: Our internal PR-review bot was getting 429'd by Anthropic between 9am and 11am Sydney time. We...",
-          "url": "https://dev.to/claire_nguyen/our-pr-review-bot-kept-hitting-429s-bifrost-key-pooling-fixed-it-4m9f",
-          "author": {
-            "username": "claire_nguyen",
-            "name": "claire nguyen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864932%2F406e92e1-2c8d-4d65-a1f4-a8d4e8c2fd1d.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T13:22:11Z",
-          "tags": [
-            "devops",
-            "infrastructure",
-            "llm",
-            "sre"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3751239,
-          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
-          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
-          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
-          "author": {
-            "username": "marcorinaldi_ai",
-            "name": "Marco Rinaldi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-25T16:53:43Z",
-          "tags": [
-            "computervision",
-            "mlops",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            },
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3771997,
-          "title": "Tracing our 4-stage product photo pipeline through Bifrost",
-          "description": "TL;DR: We added OpenTelemetry tracing across the four LLM and VLM hops in our product-photo pipeline...",
-          "url": "https://dev.to/elise_moreau/tracing-our-4-stage-product-photo-pipeline-through-bifrost-3b09",
-          "author": {
-            "username": "elise_moreau",
-            "name": "Elise Moreau",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864909%2F72833c18-30db-4456-82ee-e7d2016cc38f.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-28T14:55:01Z",
-          "tags": [
-            "machinelearning",
-            "mlops",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3757783,
-          "title": "Per-customer budget caps on our caption pipeline: 3 weeks with virtual keys",
-          "description": "TL;DR: We were burning around €4,200/month in vision-LLM costs across roughly 80 customers, with zero...",
-          "url": "https://dev.to/elise_moreau/per-customer-budget-caps-on-our-caption-pipeline-3-weeks-with-virtual-keys-hip",
-          "author": {
-            "username": "elise_moreau",
-            "name": "Elise Moreau",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3864909%2F72833c18-30db-4456-82ee-e7d2016cc38f.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-26T14:53:00Z",
-          "tags": [
-            "llm",
-            "infrastructure",
-            "mlops",
-            "machinelearning"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -6166,7 +6350,7 @@
         "author": "shayesta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 30.9,
+        "hoursSincePosted": 39.6,
         "readingTime": 9
       },
       "articles": [
@@ -6200,127 +6384,6 @@
         }
       ]
     },
-    "datawhalechina--hello-agents": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3736638,
-        "title": "Agent Series (3): Plan-and-Solve — Think First, Then Act",
-        "url": "https://dev.to/wonderlab/agent-series-3-plan-and-solve-think-first-then-act-1e14",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 162,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3736638,
-          "title": "Agent Series (3): Plan-and-Solve — Think First, Then Act",
-          "description": "Where Does ReAct Hit a Wall?   The previous article established ReAct's greedy strategy —...",
-          "url": "https://dev.to/wonderlab/agent-series-3-plan-and-solve-think-first-then-act-1e14",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-24T01:20:49Z",
-          "tags": [
-            "ai",
-            "agents",
-            "langchain",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "datawhalechina/hello-agents",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3728972,
-          "title": "Agent Series (2): ReAct — The Most Important Agent Reasoning Paradigm",
-          "description": "You Think Your Agent Is \"Thinking.\" It's Actually Just Predicting Tokens.   Here's a...",
-          "url": "https://dev.to/wonderlab/agent-series-2-react-the-most-important-agent-reasoning-paradigm-2b7k",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-23T00:40:05Z",
-          "tags": [
-            "agents",
-            "llm",
-            "langchain",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "datawhalechina/hello-agents",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "berriai--litellm": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3751239,
-        "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
-        "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
-        "author": "marcorinaldi_ai",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 122.4,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3751239,
-          "title": "Auto-labelling 1.2M robotics frames with VLMs: a failover story",
-          "description": "TL;DR: We needed to caption 1.2M reconstructed event-camera frames using vision-language models for...",
-          "url": "https://dev.to/marcorinaldi_ai/auto-labelling-12m-robotics-frames-with-vlms-a-failover-story-1dje",
-          "author": {
-            "username": "marcorinaldi_ai",
-            "name": "Marco Rinaldi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3851217%2Fce3e7721-f256-4c07-bec2-4bdbc0121b10.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-25T16:53:43Z",
-          "tags": [
-            "computervision",
-            "mlops",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            },
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "vectifyai--pageindex": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6332,7 +6395,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 95.3,
+        "hoursSincePosted": 104,
         "readingTime": 17
       },
       "articles": [
@@ -6385,7 +6448,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 95.3,
+        "hoursSincePosted": 104,
         "readingTime": 17
       },
       "articles": [
@@ -6427,6 +6490,51 @@
         }
       ]
     },
+    "andrewyng--context-hub": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3766493,
+        "title": "The Internet Is for Agents",
+        "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
+        "author": "keithjmackay",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 79.7,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3766493,
+          "title": "The Internet Is for Agents",
+          "description": "The Internet Is for Agents   For over a year now, more than half of internet traffic has not...",
+          "url": "https://dev.to/keithjmackay/the-internet-is-for-agents-1iif",
+          "author": {
+            "username": "keithjmackay",
+            "name": "Keith MacKay",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1499463%2Fdc7d3636-8482-4d6e-b619-fb4367cf4dfd.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-05-27T20:19:56Z",
+          "tags": [
+            "agents",
+            "infrastructure",
+            "mcp",
+            "security"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "andrewyng/context-hub",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "teng-lin--notebooklm-py": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6438,7 +6546,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 89.8,
+        "hoursSincePosted": 98.5,
         "readingTime": 7
       },
       "articles": [
@@ -6483,7 +6591,7 @@
         "author": "venkatakrishna_s",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 134.7,
+        "hoursSincePosted": 143.4,
         "readingTime": 3
       },
       "articles": [
@@ -6528,7 +6636,7 @@
         "author": "pwd9000",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 77.3,
+        "hoursSincePosted": 86,
         "readingTime": 11
       },
       "articles": [
@@ -6577,7 +6685,7 @@
         "author": "tenglongai2026",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.5,
+        "hoursSincePosted": 76.2,
         "readingTime": 1
       },
       "articles": [
@@ -6620,7 +6728,7 @@
         "author": "grimicorn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 115.9,
+        "hoursSincePosted": 124.6,
         "readingTime": 3
       },
       "articles": [
@@ -6652,22 +6760,140 @@
           ]
         }
       ]
+    },
+    "datawhalechina--hello-agents": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3728972,
+        "title": "Agent Series (2): ReAct — The Most Important Agent Reasoning Paradigm",
+        "url": "https://dev.to/wonderlab/agent-series-2-react-the-most-important-agent-reasoning-paradigm-2b7k",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 195.4,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3728972,
+          "title": "Agent Series (2): ReAct — The Most Important Agent Reasoning Paradigm",
+          "description": "You Think Your Agent Is \"Thinking.\" It's Actually Just Predicting Tokens.   Here's a...",
+          "url": "https://dev.to/wonderlab/agent-series-2-react-the-most-important-agent-reasoning-paradigm-2b7k",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-23T00:40:05Z",
+          "tags": [
+            "agents",
+            "llm",
+            "langchain",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "datawhalechina/hello-agents",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3736638,
+          "title": "Agent Series (3): Plan-and-Solve — Think First, Then Act",
+          "description": "Where Does ReAct Hit a Wall?   The previous article established ReAct's greedy strategy —...",
+          "url": "https://dev.to/wonderlab/agent-series-3-plan-and-solve-think-first-then-act-1e14",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-24T01:20:49Z",
+          "tags": [
+            "ai",
+            "agents",
+            "langchain",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "datawhalechina/hello-agents",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "0-ai-ug--cate": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3784002,
+        "title": "10 nerdy GitHub repos I keep learning from",
+        "url": "https://dev.to/paulhorn/10-nerdy-github-repos-i-keep-learning-from-3o2p",
+        "author": "paulhorn",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 15.3,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3784002,
+          "title": "10 nerdy GitHub repos I keep learning from",
+          "description": "I spend a lot of time browsing GitHub, not only to find tools, but to understand how good software is...",
+          "url": "https://dev.to/paulhorn/10-nerdy-github-repos-i-keep-learning-from-3o2p",
+          "author": {
+            "username": "paulhorn",
+            "name": "Paul Horn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3959936%2F8a53d07d-2c55-428a-b1f2-030b2d7ddcaf.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-30T12:41:22Z",
+          "tags": [
+            "github",
+            "opensource",
+            "programming",
+            "vibecoding"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "0-AI-UG/cate",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "NousResearch/hermes-agent",
-      "count7d": 11,
-      "reactionsSum7d": 44
-    },
-    {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 3,
-      "reactionsSum7d": 28
+      "count7d": 10,
+      "reactionsSum7d": 39
     },
     {
       "fullName": "rohitg00/ai-engineering-from-scratch",
       "count7d": 1,
+      "reactionsSum7d": 29
+    },
+    {
+      "fullName": "rtk-ai/rtk",
+      "count7d": 3,
       "reactionsSum7d": 28
     },
     {
@@ -6711,9 +6937,9 @@
       "reactionsSum7d": 6
     },
     {
-      "fullName": "aaif-goose/goose",
+      "fullName": "EveryInc/compound-engineering-plugin",
       "count7d": 1,
-      "reactionsSum7d": 6
+      "reactionsSum7d": 5
     },
     {
       "fullName": "openclaw/openclaw",
@@ -6746,6 +6972,11 @@
       "reactionsSum7d": 2
     },
     {
+      "fullName": "cursor/plugins",
+      "count7d": 2,
+      "reactionsSum7d": 1
+    },
+    {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 2,
       "reactionsSum7d": 1
@@ -6756,17 +6987,17 @@
       "reactionsSum7d": 1
     },
     {
+      "fullName": "andrewyng/context-hub",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
       "fullName": "BloopAI/vibe-kanban",
       "count7d": 1,
       "reactionsSum7d": 1
     },
     {
       "fullName": "colbymchenry/codegraph",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "cursor/plugins",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -6782,7 +7013,7 @@
     },
     {
       "fullName": "maximhq/bifrost",
-      "count7d": 8,
+      "count7d": 4,
       "reactionsSum7d": 0
     },
     {
@@ -6811,12 +7042,22 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "BerriAI/litellm",
+      "fullName": "0-AI-UG/cate",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "anthropics/knowledge-work-plugins",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
       "fullName": "bmad-code-org/BMAD-METHOD",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "Crosstalk-Solutions/project-nomad",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -6836,6 +7077,11 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "langchain-ai/deepagents",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "langchain4j/langchain4j",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -6851,7 +7097,12 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "sickn33/antigravity-awesome-skills",
+      "fullName": "OpenBMB/VoxCPM",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "qdrant/qdrant",
       "count7d": 1,
       "reactionsSum7d": 0
     },

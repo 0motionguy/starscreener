@@ -143,6 +143,21 @@ export function getCollectionRankingsCoverage(
   };
 }
 
+export function countCollectionRankingRows(file: CollectionRankingsFile): number {
+  let count = 0;
+  for (const ranking of Object.values(file.collections ?? {})) {
+    count += ranking.stars?.length ?? 0;
+    count += ranking.issues?.length ?? 0;
+  }
+  return count;
+}
+
+export function isUsableCollectionRankingsPayload(
+  file: CollectionRankingsFile,
+): boolean {
+  return countCollectionRankingRows(file) > 0;
+}
+
 // ---------------------------------------------------------------------------
 // Refresh hook — pulls fresh collection-rankings from the data-store.
 // ---------------------------------------------------------------------------
@@ -174,7 +189,11 @@ export async function refreshCollectionRankingsFromStore(): Promise<RefreshResul
       const result = await getDataStore().read<CollectionRankingsFile>(
         "collection-rankings",
       );
-      if (result.data && result.source !== "missing") {
+      if (
+        result.data &&
+        result.source !== "missing" &&
+        isUsableCollectionRankingsPayload(result.data)
+      ) {
         data = result.data;
       }
       lastRefreshMs = Date.now();

@@ -3,7 +3,9 @@ import { strict as assert } from "node:assert";
 
 import {
   buildCollectionRankingEntries,
+  countCollectionRankingRows,
   getCollectionRankingsCoverage,
+  isUsableCollectionRankingsPayload,
 } from "../../collection-rankings";
 
 test("buildCollectionRankingEntries maps slugs and sorts ranking rows by current rank", () => {
@@ -98,4 +100,32 @@ test("getCollectionRankingsCoverage counts collections with star and issue ranki
     withIssues: 1,
     withAnyRanking: 2,
   });
+});
+
+test("collection rankings payload quality rejects fresh empty collection shells", () => {
+  const empty = {
+    fetchedAt: "2026-06-01T00:00:00.000Z",
+    period: "past_28_days",
+    collections: {
+      "10098": {
+        stars: [],
+        issues: [],
+      },
+    },
+  };
+
+  assert.equal(countCollectionRankingRows(empty), 0);
+  assert.equal(isUsableCollectionRankingsPayload(empty), false);
+  assert.equal(
+    isUsableCollectionRankingsPayload({
+      ...empty,
+      collections: {
+        "10098": {
+          stars: [{ repoId: 1, repoName: "a/b", currentPeriodGrowth: 10, pastPeriodGrowth: 5, growthPop: 100, rankPop: 0, total: 50, currentPeriodRank: 1, pastPeriodRank: 1 }],
+          issues: [],
+        },
+      },
+    }),
+    true,
+  );
 });

@@ -101,8 +101,12 @@ async function runWithConcurrency(items, concurrency, sleepMs, task) {
 // Fetch a single model's detail and extract every github.com/<owner>/<repo>
 // URL we can find in cardData / homepage / tags. Returns sorted unique
 // fullNames, or null on fetch failure (caller leaves the field unset).
+function encodeHuggingFaceRepoPath(id) {
+  return String(id).split("/").map(encodeURIComponent).join("/");
+}
+
 async function fetchModelCardGithubRepos(modelId) {
-  const url = `https://huggingface.co/api/models/${encodeURIComponent(modelId)}`;
+  const url = `https://huggingface.co/api/models/${encodeHuggingFaceRepoPath(modelId)}`;
   const token = pickToken(HF_TOKENS, hfCursor++);
   try {
     const detail = await fetchJsonWithRetry(url, {

@@ -311,8 +311,11 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(36),
   },
   {
+    // skill-derivative-count has no current registered producer or reader in
+    // the live app; awesome-skills itself is tracked separately below.
     name: "skill-sidechannels",
     redisSlugs: ["awesome-skills", "skill-derivative-count"],
+    blocking: false,
     ...hours(36),
   },
   {

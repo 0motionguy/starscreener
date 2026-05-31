@@ -37,6 +37,7 @@ test("freshness state route exposes expanded inventory with advisory blocking fl
       "mcp-dependents",
       "mcp-smithery-rank",
       "model-usage",
+      "skill-sidechannels",
       "skill-install-snapshots",
     ]) {
       assert.equal(byName.get(source)?.blocking, false, `${source} should be advisory`);

@@ -90,8 +90,12 @@ async function runWithConcurrency(items, concurrency, sleepMs, task) {
 // Fetch a single space's detail and extract every github.com/<owner>/<repo>
 // URL we can find in cardData / homepage / tags. Returns sorted unique
 // fullNames, or null on fetch failure (caller leaves the field unset).
+function encodeHuggingFaceRepoPath(id) {
+  return String(id).split("/").map(encodeURIComponent).join("/");
+}
+
 async function fetchSpaceCardGithubRepos(spaceId) {
-  const url = `https://huggingface.co/api/spaces/${encodeURIComponent(spaceId)}`;
+  const url = `https://huggingface.co/api/spaces/${encodeHuggingFaceRepoPath(spaceId)}`;
   try {
     const detail = await fetchJsonWithRetry(url, {
       headers: { "User-Agent": USER_AGENT, Accept: "application/json" },

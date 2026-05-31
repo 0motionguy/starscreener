@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-31T08:23:13.430Z",
-  "scanRunId": "sweep-2026-05-31T08:22:56.294Z",
+  "computedAt": "2026-05-31T08:48:17.439Z",
+  "scanRunId": "sweep-2026-05-31T08:48:08.998Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -3571,10 +3571,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 100,
+      "totalMentions7d": 23,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 23,
           "top": [
             {
               "source": "hackernews",
@@ -3597,7 +3597,7 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 401,
+                "score": 402,
                 "comments": 457
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
@@ -3610,23 +3610,10 @@
               "text": "Hey everyone,<p>I previously introduced an open source private home security camera in 2024, which uses OpenMLS for end-to-end encryption: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=42284412</a>.<p>It was called Privastead then and it&#x27;s now renamed to Secluso.<p>John Kaczman found my project from here and has been working on it with me over the last year and half. We&#x27;ve made a lot of improvements to the sof",
               "author": "arrdalan",
               "engagement": {
-                "score": 117,
+                "score": 119,
                 "comments": 26
               },
               "observedAt": "2026-05-29T22:32:29.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://github.com/scanaislop/aislop",
-              "title": "Show HN: AISlop, a CLI for catching AI generated code smells",
-              "text": "Hi, I’m Kenny, I’ve been building aislop. I starting working on this after using Claude Code, codex and opencode several times and noticing some slops. They aren’t syntax and passes most tests, they are patterns like empty catch blocks, useless comments, duplicated helpers, dead code and many more. So I built a tool to scan and check for these patterns and wired it into hooks so after each tool call, the agent checks for the slops.<p>You can try it out with npx aislop scan.<p>It’s all local and ",
-              "author": "Heavykenny",
-              "engagement": {
-                "score": 72,
-                "comments": 61
-              },
-              "observedAt": "2026-05-29T13:37:38.000Z"
             },
             {
               "source": "hackernews",
@@ -3636,10 +3623,23 @@
               "text": "",
               "author": "Muhammad523",
               "engagement": {
-                "score": 62,
+                "score": 66,
                 "comments": 7
               },
               "observedAt": "2026-05-31T00:25:12.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://news.ycombinator.com/item?id=48257711",
+              "title": "Is a Claw driven Hacker News user a problem?",
+              "text": "I&#x27;m using OpenClaw and a handful of prompts to generate a set of custom HN comment pages for myself each day. One page is from nice follows, another from users I find particularly detached from reality, and another for comments matching a list of topics, with sentiment indicators.<p>As a result of this filtration my impact as a voter on the site is amplified. Previously I may have seen one mention of topic X per day where now I see twenty. My voting criteria haven&#x27;t changed but the vol",
+              "author": "delichon",
+              "engagement": {
+                "score": 8,
+                "comments": 15
+              },
+              "observedAt": "2026-05-24T14:49:55.000Z"
             }
           ]
         }
@@ -5861,10 +5861,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 8,
+      "totalMentions7d": 11,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -8532,10 +8532,10 @@
     },
     "compozy/compozy": {
       "fullName": "compozy/compozy",
-      "totalMentions7d": 18,
+      "totalMentions7d": 54,
       "perSource": {
         "hackernews": {
-          "count7d": 18,
+          "count7d": 54,
           "top": [
             {
               "source": "hackernews",
@@ -8800,7 +8800,7 @@
               "text": "",
               "author": "Bolat14",
               "engagement": {
-                "score": 401,
+                "score": 402,
                 "comments": 457
               },
               "observedAt": "2026-05-30T13:56:34.000Z"
@@ -10076,10 +10076,10 @@
     },
     "bannedbook/fanqiang": {
       "fullName": "bannedbook/fanqiang",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
             {
               "source": "hackernews",
@@ -10093,19 +10093,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-31T02:07:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "bannedbook/fanqiang",
-              "url": "https://thecompoundingcuriosity.substack.com/p/drafted-not-sent-how-i-built-the",
-              "title": "Cutting LangGraph drafting time from 60s to 15s by fanning out independent nodes",
-              "text": "",
-              "author": "anandbhaskaran",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-28T22:46:54.000Z"
             }
           ]
         }

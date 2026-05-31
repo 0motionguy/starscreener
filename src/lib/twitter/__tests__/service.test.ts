@@ -1,4 +1,4 @@
-import { test, beforeEach, afterEach } from "node:test";
+import { test, beforeEach, afterEach, mock } from "node:test";
 import assert from "node:assert/strict";
 import {
   getTwitterAdminReview,
@@ -165,10 +165,13 @@ function makeAgentRequest(
 beforeEach(() => {
   process.env.STARSCREENER_PERSIST = "false";
   delete process.env.STARSCREENER_DATA_DIR;
+  mock.method(Date, "now", () => Date.parse("2026-04-23T00:00:00.000Z"));
   __resetTwitterStoreForTests();
 });
 
 afterEach(() => {
+  mock.restoreAll();
+
   if (PRIOR_ENV.STARSCREENER_PERSIST === undefined) {
     delete process.env.STARSCREENER_PERSIST;
   } else {

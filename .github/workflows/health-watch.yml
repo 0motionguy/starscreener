@@ -1,10 +1,10 @@
 name: Source health watch
 
-# Reads data/_meta/<source>.json sidecars and fails the workflow if any
-# source is in a bad state (reason != "ok") or stale beyond its freshness
-# threshold. GitHub Actions emails workflow owners on failure — the
-# "alert" mechanism is the workflow-failure notification, not a separate
-# integration. Tune thresholds in scripts/check-source-health.mjs.
+# Live HOSTUP production health watch. Older versions read committed
+# data/_meta/*.json sidecars, but production truth now lives in Redis and the
+# worker fleet on HOSTUP. This workflow checks the live public health endpoints
+# instead, so GitHub Actions reports real production breakage instead of stale
+# repository snapshots.
 
 on:
   schedule:
@@ -25,12 +25,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Setup Node 20
+      - name: Setup Node 22
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: "20"
+          node-version: "22"
 
-      - name: Check source health
+      - name: Check live production health
         env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: node scripts/check-source-health.mjs
+          TRENDINGREPO_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+        run: node scripts/check-live-production-health.mjs

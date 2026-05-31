@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T15:49:25.702Z",
+  "generatedAt": "2026-05-31T16:57:20.479Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -776,38 +776,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "vercel-labs/skills",
-      "rank": 47,
-      "completenessScore": 61,
-      "breakdown": {
-        "required": 25,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 10
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 992,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "alchaincyf/nuwa-skill",
       "rank": 52,
       "completenessScore": 56,
@@ -930,6 +898,38 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 990,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "vercel-labs/skills",
+      "rank": 47,
+      "completenessScore": 66,
+      "breakdown": {
+        "required": 25,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 15
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "both",
+      "priority": 987,
       "lastSweptAt": null
     },
     {
@@ -1273,6 +1273,36 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
       "priority": 976,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "yizhiyanhua-ai/fireworks-tech-graph",
+      "rank": 62,
+      "completenessScore": 66,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 10
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 972,
       "lastSweptAt": null
     },
     {
@@ -1861,7 +1891,7 @@
   "summary": {
     "byAction": {
       "enrich": 0,
-      "sweep": 34,
+      "sweep": 35,
       "both": 26,
       "noop": 0
     },
@@ -1869,7 +1899,7 @@
     "p50Score": 56,
     "channelsFiringHistogram": {
       "0": 13,
-      "1": 35,
+      "1": 36,
       "2": 10,
       "3": 2,
       "4": 0,

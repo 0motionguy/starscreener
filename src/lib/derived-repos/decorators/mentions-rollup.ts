@@ -99,7 +99,6 @@ interface LifetimeIndex {
 }
 
 let _npmLifetime: { token: unknown; index: LifetimeIndex } | null = null;
-let _hfLifetime: { token: unknown; index: LifetimeIndex } | null = null;
 let _arxivLifetime: { token: unknown; index: LifetimeIndex } | null = null;
 let _phLifetime: { token: unknown; index: LifetimeIndex } | null = null;
 
@@ -287,7 +286,6 @@ function buildNameOnlyFallback(
 // ---------------------------------------------------------------------------
 
 let _npmIndex: { token: unknown; index: BucketIndex } | null = null;
-let _hfIndex: { token: unknown; index: BucketIndex } | null = null;
 let _arxivIndex: { token: unknown; index: BucketIndex } | null = null;
 let _phIndex: { token: unknown; index: BucketIndex } | null = null;
 
@@ -304,7 +302,7 @@ function npmIndex(nowMs: number): BucketIndex {
   return index;
 }
 
-function hfIndex(_nowMs: number): BucketIndex {
+function hfIndex(): BucketIndex {
   // HuggingFace data source stripped 2026-05-24 per operator refocus. Stub
   // returns an empty bucket so consumers downstream still resolve to
   // count24h=0 / count7d=0 / count=0 without a TypeError.
@@ -371,7 +369,7 @@ export function decorateWithMentionsRollup(
 ): Repo[] {
   const nowMs = Date.now();
   const npm = npmIndex(nowMs);
-  const hf = hfIndex(nowMs);
+  const hf = hfIndex();
   const arxiv = arxivIndex(nowMs);
   const ph = phIndex(nowMs);
   const npmLife = npmLifetimeIndex();
@@ -582,11 +580,9 @@ export function decorateWithMentionsRollup(
 // Test-only memo reset.
 export function __resetMentionsRollupMemoForTests(): void {
   _npmIndex = null;
-  _hfIndex = null;
   _arxivIndex = null;
   _phIndex = null;
   _npmLifetime = null;
-  _hfLifetime = null;
   _arxivLifetime = null;
   _phLifetime = null;
 }

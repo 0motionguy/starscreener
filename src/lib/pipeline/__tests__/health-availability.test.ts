@@ -54,6 +54,23 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
   const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
 
   for (const slug of [
+    "hn-pulse",
+    "recent-repos",
+    "deltas",
+    "repo-metadata",
+    "repo-profiles",
+    "trendshift-daily",
+    "engagement-composite",
+    "consensus-trending",
+    "trustmrr-startups",
+    "revenue-overlays",
+    "hackernews-trending",
+    "hackernews-repo-mentions",
+    "bluesky-trending",
+    "bluesky-mentions",
+    "lobsters-trending",
+    "lobsters-mentions",
+    "producthunt-launches",
     "funding-news-crunchbase",
     "consensus-verdicts",
     "devto-mentions",
@@ -66,6 +83,10 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "editorial-categories",
     "editorial-compare",
     "editorial-alternatives",
+    "manual-repos",
+    "npm-packages",
+    "reddit-baselines",
+    "revenue-benchmarks",
   ]) {
     assert.equal(active.has(slug), true, `${slug} must be worker-health tracked`);
   }
@@ -167,6 +188,102 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
     1,
   );
   assert.equal(
+    summarizeWorkerPayloadHealth("hn-pulse", {
+      stories: [{ id: 1 }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("recent-repos", {
+      items: [{ fullName: "owner/repo" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("deltas", {
+      repos: { "owner/repo": { d7: 1 } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("repo-metadata", {
+      items: [{ fullName: "owner/repo" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("repo-profiles", {
+      profiles: { "owner/repo": { websiteUrl: "https://example.com" } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("engagement-composite", {
+      items: [{ fullName: "owner/repo" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("consensus-trending", {
+      items: [{ slug: "owner/repo" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("trustmrr-startups", {
+      startups: [{ slug: "acme" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("revenue-overlays", {
+      overlays: { "owner/repo": { mrrCents: 1000 } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("hackernews-trending", {
+      stories: [{ title: "Story" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("hackernews-repo-mentions", {
+      mentions: { "owner/repo": [{ title: "Story" }] },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("bluesky-trending", {
+      posts: [{ text: "Post" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("bluesky-mentions", {
+      mentions: { "owner/repo": [{ text: "Post" }] },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("lobsters-trending", {
+      stories: [{ title: "Story" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("lobsters-mentions", {
+      mentions: { "owner/repo": [{ title: "Story" }] },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("producthunt-launches", {
+      launches: [{ name: "Launch" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
     summarizeWorkerPayloadHealth("funding-news-crunchbase", {
       fetchedAt: "2026-05-31T20:00:00.000Z",
       signals: [{ company: "Acme" }],
@@ -213,6 +330,30 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
   assert.equal(
     summarizeWorkerPayloadHealth("editorial-compare", {
       items: { "a__vs__b": { summary: "A vs B" } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("manual-repos", {
+      items: [{ fullName: "owner/repo" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("npm-packages", {
+      packages: [{ name: "pkg" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("reddit-baselines", {
+      baselines: { "r/opensource": { posts: 1 } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("revenue-benchmarks", {
+      buckets: [{ category: "ai" }],
     }).rowCount,
     1,
   );

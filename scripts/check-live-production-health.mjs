@@ -32,6 +32,21 @@ async function fetchJson(path, okStatuses = [200]) {
   };
 }
 
+async function fetchRoute(path, okStatuses = [200]) {
+  const url = `${BASE_URL}${path}`;
+  const res = await fetch(url, {
+    headers: { Accept: "text/html,application/json" },
+    signal: AbortSignal.timeout(30_000),
+  });
+  return {
+    path,
+    url,
+    status: res.status,
+    okStatus: okStatuses.includes(res.status),
+    contentType: res.headers.get("content-type") ?? null,
+  };
+}
+
 function fail(message, context = {}) {
   console.error(`FAIL: ${message}`);
   if (Object.keys(context).length > 0) {
@@ -77,11 +92,22 @@ async function main() {
   console.log(`# Live production health - ${new Date().toISOString()}`);
   console.log(`base=${BASE_URL}`);
 
-  const [appHealth, workerHealth, sourceHealth, adminOverview] = await Promise.all([
+  const [appHealth, workerHealth, workerPulse, sourceHealth, adminOverview] = await Promise.all([
     fetchJson("/api/health"),
     fetchJson("/api/worker/health"),
+    fetchJson("/api/worker/pulse"),
     fetchJson("/api/health/sources", [200, 207]),
     fetchJson("/api/admin/overview", [401]),
+  ]);
+  const criticalRoutes = await Promise.all([
+    fetchRoute("/collections"),
+    fetchRoute("/collections/ai-agent-frameworks"),
+    fetchRoute("/api/collections"),
+    fetchRoute("/api/collections/ai-agent-frameworks"),
+    fetchRoute("/api/model-usage/overview"),
+    fetchRoute("/api/model-usage/models"),
+    fetchRoute("/api/model-usage/rankings"),
+    fetchRoute("/api/model-usage/features", [401]),
   ]);
 
   console.log("\n/api/health");
@@ -104,6 +130,23 @@ async function main() {
   console.log("\n/api/worker/health");
   const workerSummary = summarizeWorker(workerHealth.body);
   console.log(JSON.stringify({ http: workerHealth.status, ...workerSummary }, null, 2));
+
+  console.log("\n/api/worker/pulse");
+  console.log(
+    JSON.stringify(
+      {
+        http: workerPulse.status,
+        ok: workerPulse.body?.ok,
+        source: workerPulse.body?.source,
+        fresh: workerPulse.body?.fresh,
+        writtenAt: workerPulse.body?.writtenAt,
+        ageSeconds: workerPulse.body?.ageSeconds,
+        stories: workerPulse.body?.stories,
+      },
+      null,
+      2,
+    ),
+  );
 
   console.log("\n/api/health/sources");
   console.log(
@@ -129,6 +172,19 @@ async function main() {
     ),
   );
 
+  console.log("\ncritical route coverage");
+  console.log(
+    JSON.stringify(
+      criticalRoutes.map((route) => ({
+        path: route.path,
+        http: route.status,
+        contentType: route.contentType,
+      })),
+      null,
+      2,
+    ),
+  );
+
   if (!appHealth.okStatus) {
     fail("/api/health returned non-200", {
       http: appHealth.status,
@@ -137,6 +193,9 @@ async function main() {
   }
   if (appHealth.body?.status !== "ok" || appHealth.body?.error) {
     fail("/api/health is not fresh", appHealth.body);
+  }
+  if (appHealth.body?.sourceStatus && appHealth.body.sourceStatus !== "ok") {
+    fail("/api/health reports degraded source status", appHealth.body);
   }
 
   if (
@@ -148,6 +207,20 @@ async function main() {
     fail("/api/worker/health is not zero-tolerance green", {
       http: workerHealth.status,
       ...workerSummary,
+    });
+  }
+
+  if (
+    !workerPulse.okStatus ||
+    workerPulse.body?.ok !== true ||
+    workerPulse.body?.source !== "redis" ||
+    workerPulse.body?.fresh !== true ||
+    !(workerPulse.body?.stories > 0)
+  ) {
+    fail("/api/worker/pulse is not proving Redis-backed scheduler freshness", {
+      http: workerPulse.status,
+      body: workerPulse.body,
+      expected: "200 ok with source=redis, fresh=true, stories>0",
     });
   }
 
@@ -170,6 +243,17 @@ async function main() {
       body: adminOverview.body,
       expected:
         "401 unauthorized. 503 means ADMIN_TOKEN is missing; 200 means admin is public.",
+    });
+  }
+
+  const failedCriticalRoutes = criticalRoutes.filter((route) => !route.okStatus);
+  if (failedCriticalRoutes.length > 0) {
+    fail("critical route coverage failed", {
+      routes: failedCriticalRoutes.map((route) => ({
+        path: route.path,
+        http: route.status,
+        expected: route.path === "/api/model-usage/features" ? [401] : [200],
+      })),
     });
   }
 

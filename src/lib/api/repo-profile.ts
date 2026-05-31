@@ -322,11 +322,7 @@ function synthesizeNpmMentions(
  * stripped per operator refocus. Function kept as a no-op shim so callers
  * keep compiling; always returns an empty array.
  */
-function synthesizeHuggingFaceMentions(
-  _modelIds: string[] | undefined,
-  _repoId: string,
-  _discoveredAt: string,
-): RepoMention[] {
+function synthesizeHuggingFaceMentions(): RepoMention[] {
   return [];
 }
 
@@ -524,11 +520,7 @@ export async function buildCanonicalRepoProfile(
     fetchedAtIso,
   );
   const npmSynth = synthesizeNpmMentions(npmPackages, repo.id, fetchedAtIso);
-  const hfSynth = synthesizeHuggingFaceMentions(
-    repo.linkedHfModels,
-    repo.id,
-    fetchedAtIso,
-  );
+  const hfSynth = synthesizeHuggingFaceMentions();
   const arxivPapers = getArxivRecentFile().papers ?? [];
   const arxivSynth = synthesizeArxivMentions(
     repo.linkedArxivIds,

@@ -46,14 +46,19 @@ export async function GET() {
 
   const ageSeconds = Math.round(result.ageMs / 1000);
   const stale = ageSeconds > STALE_AFTER_SECONDS;
+  const redisFresh = result.source === "redis" && result.fresh === true;
+  const hasStories =
+    result.data.windowItems > 0 && Array.isArray(result.data.stories) && result.data.stories.length > 0;
+  const ok = !stale && redisFresh && hasStories;
 
   return NextResponse.json(
     {
-      ok: !stale,
+      ok,
       source: result.source,
       fresh: result.fresh,
       writtenAt: result.writtenAt ?? null,
       ageSeconds,
+      stale,
       stories: result.data.windowItems,
       sample: result.data.stories.slice(0, 3).map((s) => ({
         id: s.id,
@@ -62,6 +67,6 @@ export async function GET() {
         score: s.score,
       })),
     },
-    { status: stale ? 503 : 200 },
+    { status: ok ? 200 : 503 },
   );
 }

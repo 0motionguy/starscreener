@@ -102,7 +102,6 @@ function buildHeroTagFacets(repo: Repo): string[] {
 
 export function RepoHeroCard({
   repo,
-  profile: _profile,
   likeCount,
   liked,
   unicornStatus,

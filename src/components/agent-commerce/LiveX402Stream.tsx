@@ -34,10 +34,10 @@ function formatCount(n: number): string {
   return Math.round(n).toLocaleString();
 }
 
-function relativeAge(iso: string): string {
+function relativeAge(iso: string, nowMs = Date.now()): string {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
-  const seconds = Math.max(0, Math.floor((Date.now() - t) / 1000));
+  const seconds = Math.max(0, Math.floor((nowMs - t) / 1000));
   if (seconds < 60) return `${seconds}s`;
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}m`;
@@ -57,7 +57,7 @@ export function LiveX402Stream({ initial }: LiveX402StreamProps) {
   const [deltaSignedAt, setDeltaSignedAt] = useState<number>(0);
   const [pollCount, setPollCount] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
-  const [tick, setTick] = useState<number>(0); // forces re-renders for relative-age labels
+  const [nowMs, setNowMs] = useState<number>(() => Date.now());
 
   const poll = useCallback(async () => {
     try {
@@ -93,13 +93,12 @@ export function LiveX402Stream({ initial }: LiveX402StreamProps) {
 
   // Tick every second to keep relative-time labels fresh
   useEffect(() => {
-    const id = window.setInterval(() => setTick((t) => t + 1), 1000);
+    const id = window.setInterval(() => setNowMs(Date.now()), 1000);
     return () => window.clearInterval(id);
   }, []);
 
   const showDelta = delta !== 0 && Date.now() - deltaSignedAt < 5000;
-  const lastUpdated = snapshot ? relativeAge(snapshot.fetchedAt) : "—";
-  const _ = tick; // referenced for stale-closure dep
+  const lastUpdated = snapshot ? relativeAge(snapshot.fetchedAt, nowMs) : "—";
 
   return (
     <section className="lx-stream card">
@@ -181,7 +180,7 @@ export function LiveX402Stream({ initial }: LiveX402StreamProps) {
                   >
                     <span className="lx-tx-hash">{shortHash(tx.hash)}</span>
                     <span className="lx-tx-fac">{tx.facilitator}</span>
-                    <span className="lx-tx-age">{relativeAge(tx.timestamp)} ago</span>
+                    <span className="lx-tx-age">{relativeAge(tx.timestamp, nowMs)} ago</span>
                   </a>
                 ))
               )}

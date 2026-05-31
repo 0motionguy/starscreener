@@ -7,7 +7,6 @@
 import Image from "next/image";
 
 import { Icon } from "@/components/icon/Icon";
-import { MentionCell } from "@/components/trending/MentionSourcePips";
 import { RepoSparkline } from "@/components/trending/RepoSparkline";
 import { formatDelta, formatStars } from "@/lib/top10/format";
 import type { Top10Bundle } from "@/lib/top10/types";

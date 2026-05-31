@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { parseHTML } from "linkedom";
 import type {
   TwitterConfidence,
@@ -439,22 +438,6 @@ export function parseNitterRss(
   }
 
   return posts;
-}
-
-function extractHtmlStat(block: string, iconName: string): number {
-  const pattern = new RegExp(
-    `icon-${iconName}[\\s\\S]{0,240}?<span[^>]*class=["'][^"']*tweet-stat[^"']*["'][^>]*>([\\s\\S]*?)<\\/span>`,
-    "i",
-  );
-  const match = block.match(pattern);
-  return parseCompactCount(stripHtml(match?.[1] ?? ""));
-}
-
-function extractTweetContent(block: string): string {
-  const match =
-    block.match(/<div[^>]*class=["'][^"']*tweet-content[^"']*["'][^>]*>([\s\S]*?)<\/div>/i) ??
-    block.match(/<p[^>]*class=["'][^"']*tweet-content[^"']*["'][^>]*>([\s\S]*?)<\/p>/i);
-  return stripHtml(match?.[1] ?? "");
 }
 
 export function parseNitterHtml(

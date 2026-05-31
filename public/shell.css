@@ -10207,12 +10207,22 @@ a.repo-avatar:hover {
 }
 
 th.sortable {
-  cursor: pointer;
   user-select: none;
   white-space: nowrap;
 }
 
-th.sortable:hover .aa-th-label,
+.aa-th-button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+th.sortable:hover .aa-th-button .aa-th-label,
 th.sortable.active .aa-th-label {
   color: var(--fg-bright);
 }

@@ -52,7 +52,6 @@ import { readDataStore } from '../../lib/redis.js';
 import {
   applyLedger,
   buildRedisOps,
-  extractIds,
   projectSnapshots,
   type LedgerSource,
   type LedgerWorkItem,
@@ -391,7 +390,6 @@ async function main(): Promise<number> {
   // --help / -h short-circuit so the operator can confirm registration
   // without touching Redis. Mirrors the worker root's usage banner style.
   if (process.argv.includes('--help') || process.argv.includes('-h')) {
-    // eslint-disable-next-line no-console
     console.log(
       [
         'Usage: node dist/jobs/seed-mentions-ledger/index.js',

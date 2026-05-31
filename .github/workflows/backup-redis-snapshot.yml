@@ -1,8 +1,9 @@
 name: Backup Redis Snapshot
 
 on:
-  schedule:
-    - cron: '0 3 * * *'
+  # Production Redis lives on HOSTUP. Automated backups must run from HOSTUP
+  # where the internal Redis/R2 credentials exist; GitHub has repeatedly failed
+  # this before reaching the backup step. Keep manual dispatch only.
   workflow_dispatch:
 
 jobs:

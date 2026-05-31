@@ -51,12 +51,8 @@ function parseStringArg(name, fallback) {
   return process.argv[idx + 1];
 }
 
-function slugify(s) {
-  return String(s)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
+function capPosts(posts) {
+  return posts.slice(0, MAX_POSTS);
 }
 
 async function fetchJson(url, opts = {}) {
@@ -109,7 +105,7 @@ async function pullReddit() {
     const path = resolve(process.cwd(), "data/reddit-all-posts.json");
     const data = JSON.parse(readFileSync(path, "utf8"));
     const arr = data.posts ?? [];
-    const posts = arr.map((p) => ({
+    const posts = capPosts(arr.map((p) => ({
       title: p.title ?? "",
       body: p.selftext ?? "",
       url: p.permalink ?? p.url ?? "",
@@ -118,7 +114,7 @@ async function pullReddit() {
       created: p.createdUtc ?? 0,
       subreddit: p.subreddit ?? "",
       query: "data/reddit-all-posts.json",
-    }));
+    })));
     process.stdout.write(`  reddit (from data/reddit-all-posts.json) → ${posts.length}\n`);
     return posts;
   } catch (err) {
@@ -140,7 +136,7 @@ async function pullBluesky() {
       console.warn(`  bluesky q="${q}" → ${r.status ?? r.error}`);
       continue;
     }
-    const posts = (r.data?.posts ?? []).map((p) => ({
+    const posts = capPosts((r.data?.posts ?? []).map((p) => ({
       title: p.record?.text ?? "",
       body: "",
       url: `https://bsky.app/profile/${p.author?.handle}/post/${(p.uri ?? "").split("/").pop() ?? ""}`,
@@ -151,7 +147,7 @@ async function pullBluesky() {
         : 0,
       handle: p.author?.handle ?? "",
       query: q,
-    }));
+    })));
     out.push(...posts);
     process.stdout.write(`  bluesky q="${q.padEnd(28)}" → ${posts.length}\n`);
   }
@@ -168,7 +164,7 @@ async function pullDevto() {
       console.warn(`  devto tag="${tag}" → ${r.status ?? r.error}`);
       continue;
     }
-    const posts = (r.data ?? []).map((a) => ({
+    const posts = capPosts((r.data ?? []).map((a) => ({
       title: a.title ?? "",
       body: a.description ?? "",
       url: a.url ?? "",
@@ -178,7 +174,7 @@ async function pullDevto() {
         ? Math.floor(new Date(a.published_at).getTime() / 1000)
         : 0,
       tag,
-    }));
+    })));
     out.push(...posts);
     process.stdout.write(`  devto tag="${tag.padEnd(28)}" → ${posts.length}\n`);
   }
@@ -198,7 +194,7 @@ async function pullLobsters() {
   }
   const arr = Array.isArray(r.data) ? r.data : [];
   const keywords = QUERIES.map((q) => q.toLowerCase());
-  const posts = arr
+  const posts = capPosts(arr
     .filter((s) => {
       const blob = `${s.title ?? ""} ${s.description ?? ""} ${(s.tags ?? []).join(" ")}`.toLowerCase();
       return keywords.some((k) => blob.includes(k));
@@ -213,7 +209,7 @@ async function pullLobsters() {
         ? Math.floor(new Date(s.created_at).getTime() / 1000)
         : 0,
       query: "filter",
-    }));
+    })));
   process.stdout.write(`  lobsters hottest filtered → ${posts.length}\n`);
   return posts;
 }
@@ -229,7 +225,7 @@ async function pullHuggingFace() {
       continue;
     }
     const arr = Array.isArray(r.data) ? r.data : [];
-    const posts = arr.map((s) => ({
+    const posts = capPosts(arr.map((s) => ({
       title: s.id ?? "",
       body: s.cardData?.short_description ?? "",
       url: `https://huggingface.co/spaces/${s.id}`,
@@ -239,7 +235,7 @@ async function pullHuggingFace() {
         ? Math.floor(new Date(s.lastModified).getTime() / 1000)
         : 0,
       search,
-    }));
+    })));
     out.push(...posts);
     process.stdout.write(`  hf search="${search.padEnd(28)}" → ${posts.length}\n`);
   }

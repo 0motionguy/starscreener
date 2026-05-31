@@ -185,7 +185,7 @@ function buildWhyNow(it, sources) {
   return `Surfaced in the current cycle via ${lead}; it entered the tracked pool at rank #${it.rank}.`;
 }
 
-function buildActionDetail(verdict, it) {
+function buildActionDetail(verdict) {
   if (verdict === "strong") {
     return `Cross-source confirmation is strong enough to evaluate for adoption or coverage now.`;
   }
@@ -212,7 +212,7 @@ function buildItem(it, seed) {
     confidence,
     whyNow: buildWhyNow(it, sources),
     whatToDo: deriveAction(verdict),
-    whatToDoDetail: buildActionDetail(verdict, it),
+    whatToDoDetail: buildActionDetail(verdict),
   };
 }
 

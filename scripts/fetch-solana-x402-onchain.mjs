@@ -257,7 +257,7 @@ async function main() {
         let tx;
         try {
           tx = await getTx(s.signature);
-        } catch (err) {
+        } catch {
           // Already retried inside rpc(); swallow and skip
           return null;
         }

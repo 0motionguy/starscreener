@@ -316,7 +316,6 @@ function buildFilingUrl(cik, adsh) {
   // dashes stripped for the path component but kept in the index.
   if (!cik || !adsh) return null;
   const cleanCik = String(cik).replace(/^0+/, "") || "0";
-  const cleanAdsh = adsh.replace(/-/g, "");
   return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${cleanCik}&type=D&dateb=&owner=include&count=40`;
 }
 

@@ -52,12 +52,8 @@ const DEFAULT_NITTER_CHAIN_CAMOFOX = [
 const DEFAULT_NITTER_CHAIN_DIRECT = [
   'https://nt.vern.cc',
 ] as const;
-const REQUEST_TIMEOUT_MS = 10_000;
-const REQUEST_PAUSE_MS = 750;
 const MAX_REPOS_PER_RUN = 50;
 const MAX_TWEETS_PER_REPO = 20;
-const USER_AGENT =
-  'Mozilla/5.0 (compatible; trendingrepo-bot/1.0; +https://trendingrepo.com)';
 // Camofox-browser (camoufox/Firefox + C++ fingerprint spoof). Default is the
 // docker-network service name on TOOLBOX (toolbox_edge). Tabs are JWT-cookie
 // gated, so one tab per run handles Anubis once and reuses the session for all
@@ -103,10 +99,6 @@ export interface TwitterRepoSignalsPayload {
   /** True when Nitter is unreachable / rate-limited — payload will be empty. */
   degraded: boolean;
   degradedReason?: string;
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -228,29 +220,6 @@ function parseNitterDate(raw: string): string | null {
   const ts = Date.parse(cleaned);
   if (!Number.isFinite(ts)) return null;
   return new Date(ts).toISOString();
-}
-
-async function fetchNitterPage(url: string): Promise<string> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-  try {
-    const res = await fetch(url, {
-      method: 'GET',
-      signal: controller.signal,
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'text/html,application/xhtml+xml',
-      },
-    });
-    if (!res.ok) {
-      const err = new Error(`nitter ${res.status} ${res.statusText} for ${url}`);
-      (err as Error & { status?: number }).status = res.status;
-      throw err;
-    }
-    return await res.text();
-  } finally {
-    clearTimeout(timeout);
-  }
 }
 
 // --- camofox-browser path -----------------------------------------------------

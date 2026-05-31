@@ -215,7 +215,11 @@ async function main() {
     // collection. Inject a composite key for dedupe; strip after merge.
     const decorate = (rows) =>
       (rows ?? []).map((r) => ({ ...r, _ck: `${r.id}:${r.repoId}` }));
-    const undecorate = ({ _ck, ...rest }) => rest;
+    const undecorate = (row) => {
+      const rest = { ...row };
+      delete rest._ck;
+      return rest;
+    };
     const existingHot = await loadExistingJson(HOT_COLLECTIONS_OUT, { rows: [] });
     const mergedHotRows = mergeAndKeepLastN(
       decorate(existingHot?.rows),

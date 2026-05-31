@@ -27,7 +27,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";

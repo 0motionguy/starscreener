@@ -76,8 +76,12 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "devto-mentions",
     "devto-trending",
     "twitter-repo-signals",
+    "aa-llms",
+    "openrouter-models",
+    "openrouter-usage",
     "repo-registry",
     "mentions-ledger",
+    "repo-mentions-detail-rollup",
     "star-activity-deltas",
     "editorial-best",
     "editorial-categories",
@@ -87,6 +91,8 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "npm-packages",
     "reddit-baselines",
     "revenue-benchmarks",
+    "stars-by-category-daily",
+    "lmarena-text",
   ]) {
     assert.equal(active.has(slug), true, `${slug} must be worker-health tracked`);
   }
@@ -101,6 +107,8 @@ test("/api/worker/health: disabled slugs stay visible but inactive", () => {
     "reddit-all-posts",
     "funding-news-x",
     "github-events:_index",
+    "trending-paper",
+    "trending-post",
     "huggingface-trending",
     "trending-mcp",
     "trending-skill",
@@ -330,8 +338,44 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
     1,
   );
   assert.equal(
+    summarizeWorkerPayloadHealth("aa-llms", {
+      models: [{ id: "claude" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("openrouter-models", {
+      models: [{ id: "openai/gpt-4o" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("openrouter-usage", {
+      weeks: [{ week: "2026-05-25" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("lmarena-text", {
+      models: [{ modelId: "anthropic/claude" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
     summarizeWorkerPayloadHealth("repo-registry", {
       repos: { "owner/repo": { stars: 1 } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("repo-mentions-detail-rollup", {
+      repos: { "owner/repo": { sources: {} } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("stars-by-category-daily", {
+      days: [{ d: "2026-05-31", byCategory: {} }],
     }).rowCount,
     1,
   );

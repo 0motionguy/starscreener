@@ -50,13 +50,13 @@ function isFresh(entry, now) {
 /**
  * Return cached Tavily results for `repo.fullName` if observed <24h ago.
  * @param {{ fullName: string }} repo
- * @param {string} _key  reserved for future per-query cache keys
+ * @param {string} key per-query cache key
  * @returns {Promise<unknown[] | null>}
  */
-export async function getCachedTavily(repo, _key) {
+export async function getCachedTavily(repo, key) {
   if (!repo?.fullName) return null;
   const cache = await loadCache();
-  const entry = cache[repo.fullName];
+  const entry = cache[cacheKeyFor(repo, key)];
   if (!isFresh(entry, Date.now())) return null;
   return Array.isArray(entry.results) ? entry.results : null;
 }
@@ -65,10 +65,10 @@ export async function getCachedTavily(repo, _key) {
  * Persist Tavily results for `repo.fullName`. Merges into the existing file
  * and trims entries older than 48h so the cache stays bounded.
  * @param {{ fullName: string }} repo
- * @param {string} _key  reserved for future per-query cache keys
+ * @param {string} key per-query cache key
  * @param {unknown[]} results  Mention[] (or compatible shape) to cache
  */
-export async function setCachedTavily(repo, _key, results) {
+export async function setCachedTavily(repo, key, results) {
   if (!repo?.fullName) return;
   const cache = await loadCache();
   const now = Date.now();
@@ -79,7 +79,7 @@ export async function setCachedTavily(repo, _key, results) {
       delete cache[k];
     }
   }
-  cache[repo.fullName] = {
+  cache[cacheKeyFor(repo, key)] = {
     ts: new Date(now).toISOString(),
     results: Array.isArray(results) ? results : [],
   };
@@ -90,4 +90,8 @@ export async function setCachedTavily(repo, _key, results) {
     // Cache write failures must never break the sweep.
     console.warn(`[xs:tavily:cache] write failed (${err.message})`);
   }
+}
+
+function cacheKeyFor(repo, key) {
+  return key ? `${repo.fullName}:${key}` : repo.fullName;
 }

@@ -78,7 +78,7 @@ function fmtMoney(n) {
   return `$${n.toFixed(2)}`;
 }
 
-function normalize(coin, capturedAt) {
+function normalize(coin) {
   const slug = slugify(coin.name);
   const change24 = coin.price_change_percentage_24h_in_currency ?? null;
   const change7 = coin.price_change_percentage_7d_in_currency ?? null;
@@ -176,7 +176,7 @@ async function main() {
       dropped++;
       continue;
     }
-    normalized.push(normalize(coin, capturedAt));
+    normalized.push(normalize(coin));
   }
   normalized.sort(
     (a, b) =>

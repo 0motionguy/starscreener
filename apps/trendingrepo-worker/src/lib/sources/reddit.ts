@@ -7,7 +7,7 @@
 // are likely blocked by Reddit just like GH Actions runners — the proxy
 // rotation is the fix.
 
-import { AuthQuarantineError, RateLimitQuarantineError, TransientHttpError } from '../errors.js';
+import { AuthQuarantineError, RateLimitQuarantineError } from '../errors.js';
 import { apifyAwareFetch, isApifyProxyEnabled } from '../util/apify-proxy.js';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';

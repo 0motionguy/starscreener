@@ -1,6 +1,6 @@
 import http from 'node:http';
 import { loadEnv } from './lib/env.js';
-import { getDb, pingDb } from './lib/db.js';
+import { pingDb } from './lib/db.js';
 import { getRedis } from './lib/redis.js';
 import { getLogger } from './lib/log.js';
 import { FETCHERS, SOURCE_CONTRACTS } from './registry.js';
@@ -84,7 +84,7 @@ async function refreshHealth(enforceScheduler = false): Promise<HealthState> {
     dbOk = true;
   } else {
     try {
-      dbOk = await pingDb(getDb());
+      dbOk = await pingDb();
     } catch (err) {
       log.warn(`healthcheck db: ${(err as Error).message}`);
     }
@@ -155,7 +155,6 @@ export async function oneShotHealthcheck(
   opts: { enforceScheduler?: boolean } = {},
 ): Promise<number> {
   const state = await refreshHealth(opts.enforceScheduler === true);
-  // eslint-disable-next-line no-console
   console.log(JSON.stringify(state, null, 2));
   return state.ok ? 0 : 1;
 }

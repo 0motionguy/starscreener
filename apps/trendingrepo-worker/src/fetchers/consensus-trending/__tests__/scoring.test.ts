@@ -7,7 +7,6 @@ import {
   scoreConsensus,
 } from '../scoring.js';
 import type {
-  ConsensusExternalSource,
   ConsensusScoreInput,
   ConsensusSourceInput,
 } from '../types.js';

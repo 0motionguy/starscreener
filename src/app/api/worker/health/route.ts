@@ -78,8 +78,12 @@ const PAYLOAD_HEALTH_SLUGS = new Set([
   "devto-mentions",
   "devto-trending",
   "twitter-repo-signals",
+  "aa-llms",
+  "openrouter-models",
+  "openrouter-usage",
   "repo-registry",
   "mentions-ledger",
+  "repo-mentions-detail-rollup",
   "star-activity-deltas",
   "editorial-best",
   "editorial-categories",
@@ -89,6 +93,8 @@ const PAYLOAD_HEALTH_SLUGS = new Set([
   "npm-packages",
   "reddit-baselines",
   "revenue-benchmarks",
+  "stars-by-category-daily",
+  "lmarena-text",
 ]);
 
 type SlugStatus = "green" | "amber" | "red" | "missing";

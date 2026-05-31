@@ -18,7 +18,7 @@
 // flagged. Adding meta wiring to a new source automatically opts it into
 // the watch.
 
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 

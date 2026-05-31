@@ -1,8 +1,9 @@
 name: Refresh Reddit baselines
 
 on:
-  schedule:
-    - cron: "17 3 * * 1"
+  # Reddit live collection is intentionally paused/off in GitHub. HOSTUP worker
+  # owns the slow baseline slug; keep this workflow manual-only for operator
+  # backfills after OAuth/proxy credentials are ready.
   workflow_dispatch:
 
 permissions:

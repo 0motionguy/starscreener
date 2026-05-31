@@ -155,8 +155,23 @@ function countRows(slug: string, payload: unknown): number | null {
   if (slug === "twitter-repo-signals") {
     return countArrayRows((payload as { posts?: unknown })?.posts);
   }
+  if (slug === "aa-llms" || slug === "openrouter-models" || slug === "lmarena-text") {
+    return countArrayRows((payload as { models?: unknown })?.models);
+  }
+  if (slug === "openrouter-usage") {
+    const weekRows = countArrayRows((payload as { weeks?: unknown })?.weeks);
+    return weekRows && weekRows > 0
+      ? weekRows
+      : countArrayRows((payload as { leaderboard?: unknown })?.leaderboard);
+  }
   if (slug === "repo-registry" || slug === "star-activity-deltas") {
     return countObjectRows((payload as { repos?: unknown })?.repos);
+  }
+  if (slug === "repo-mentions-detail-rollup") {
+    return countObjectRows((payload as { repos?: unknown })?.repos);
+  }
+  if (slug === "stars-by-category-daily") {
+    return countArrayRows((payload as { days?: unknown })?.days);
   }
   if (slug === "mentions-ledger") {
     return countArrayRows((payload as { entries?: unknown })?.entries);

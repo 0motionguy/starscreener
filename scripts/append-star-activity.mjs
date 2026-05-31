@@ -20,8 +20,6 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import "./_load-env.mjs";
 import {
-  writeDataStore,
-  readDataStore,
   readDataStoreMany,
   writeDataStoreMany,
   closeDataStore,
@@ -155,32 +153,6 @@ function assertReadBackMatches(slug, expected, actual) {
   ) {
     throw new Error(`${slug}: read-after-write payload mismatch`);
   }
-}
-
-async function writeAndVerifyStarActivity(slug, payload) {
-  const result = await writeDataStore(slug, payload, { stampPerRecord: false });
-  if (result.source !== "redis") {
-    throw new Error(`${slug}: data-store write skipped`);
-  }
-  const readBack = await readDataStore(slug);
-  assertReadBackMatches(slug, payload, readBack);
-  return result;
-}
-
-async function appendOne(fullName, token) {
-  const slug = payloadSlug(fullName);
-  const existing = await readDataStore(slug);
-  const currentStars = await fetchCurrentStars(fullName, token);
-  const next = appendToday(
-    existing && typeof existing === "object"
-      ? { ...existing, repoId: fullName }
-      : null,
-    currentStars,
-  );
-  // Ensure repoId is canonical even when bootstrapping a fresh payload.
-  next.repoId = fullName;
-  await writeAndVerifyStarActivity(slug, next);
-  return next;
 }
 
 // B.15 Arc 2 — batched append for a chunk of repos.

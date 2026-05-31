@@ -143,7 +143,7 @@ function pushVelocityProxy(stargazers, pushedAt) {
   return Math.round(stargazers * factor * 0.05);
 }
 
-async function processEntry(entry, idx) {
+async function processEntry(entry) {
   const slug = slugify(entry.name);
   const out = { slug, name: entry.name };
 
@@ -220,7 +220,7 @@ async function main() {
       const idx = cursor++;
       const entry = seed.entries[idx];
       try {
-        const out = await processEntry(entry, idx);
+        const out = await processEntry(entry);
         results[idx] = out;
         if (out.github || out.hnMentions90d != null) okCount++;
         if (out.githubError === "rate_limited") rateLimited = true;

@@ -396,7 +396,6 @@ export async function searchDevto(repo) {
 export async function searchLobsters(repo, snapshot) {
   if (isChannelDisabled("lobsters")) return emptyResult("lobsters", "disabled via env");
   if (!snapshot) return emptyResult("lobsters", "no snapshot loaded");
-  const haystack = `${repo.fullName} github.com/${repo.fullName}`.toLowerCase();
   const stories = Array.isArray(snapshot.stories) ? snapshot.stories : [];
   const matches = stories.filter((s) => {
     const blob = `${s.title ?? ""} ${s.url ?? ""} ${s.description ?? ""}`.toLowerCase();

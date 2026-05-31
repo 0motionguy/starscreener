@@ -141,7 +141,7 @@ test("parseSearchTimelineResponse returns [] on empty body", () => {
 
 test("TwitterWebProvider.search rotates on 429 and returns from second account", async () => {
   let call = 0;
-  const fetchImpl = (async (_url: string): Promise<Response> => {
+  const fetchImpl = (async (): Promise<Response> => {
     call += 1;
     if (call === 1) {
       return makeFetchResponse({

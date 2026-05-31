@@ -1,11 +1,9 @@
 name: Refresh MCP Smithery rank side-channel
 
-# Publishes the Redis-only mcp-smithery-rank aggregate consumed by the MCP
-# scorer. Smithery rank is derived from registry list order and is safe to
-# refresh every 6h.
+# Manual-only until the MCP surface is rebuilt and HOSTUP-owned. Scheduled
+# GitHub runs do not have production Redis/Smithery credentials and currently
+# only publish noisy skipped-refresh runs.
 on:
-  schedule:
-    - cron: "11 */6 * * *"
   workflow_dispatch:
 
 permissions:

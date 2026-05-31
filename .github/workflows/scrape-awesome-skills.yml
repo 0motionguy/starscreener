@@ -1,11 +1,8 @@
 name: Refresh awesome-skills index
 
-# Cadence: daily at 04:23 UTC. Awesome-lists drift on a multi-day timescale,
-# so 24h is plenty. Staggered minute to avoid colliding with other 04:xx
-# workflows.
+# Manual-only while the skill side-channel is retired from production
+# freshness. Do not let GitHub own scheduled data writes for this source.
 on:
-  schedule:
-    - cron: "23 4 * * *"
   workflow_dispatch:
 
 permissions:

@@ -51,12 +51,6 @@ import npmDownloads from './fetchers/npm-downloads/index.js';
 import pypiDownloads from './fetchers/pypi-downloads/index.js';
 import npmDependents from './fetchers/npm-dependents/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
-// Sprint 3.2 wave 3 — register fetchers whose data was previously produced by
-// GH Action workflows (scrape-arxiv.yml + enrich-arxiv.yml for arxiv;
-// scrape-claude-rss.yml + scrape-openai-rss.yml for ai-blogs, which already
-// covers 6 lab RSS sources via AI_LAB_REGISTRY).
-import arxiv from './fetchers/arxiv/index.js';
-import aiBlogs from './fetchers/ai-blogs/index.js';
 // LLM quality signals — Artificial Analysis Intelligence Index (AA_API_KEY
 // required). The /?cat=llms surface clones the AA leaderboard.
 import lmarena from './fetchers/lmarena/index.js';
@@ -186,8 +180,6 @@ export const FETCHERS: Fetcher[] = [
   pypiDownloads,
   npmDependents,
   hotnessSnapshot,
-  arxiv,
-  aiBlogs,
   lmarena,
   artificialanalysis,
   openrouterModels,

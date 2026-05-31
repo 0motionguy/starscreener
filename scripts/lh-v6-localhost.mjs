@@ -7,7 +7,7 @@
  * table to `.perf/lh-v6-summary.json` + stdout.
  */
 
-import { execSync, spawn } from "node:child_process";
+import { spawn } from "node:child_process";
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 

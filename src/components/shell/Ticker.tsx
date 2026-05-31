@@ -3,6 +3,7 @@
 
 import { getTopMoversByDelta24h } from "@/lib/trending";
 import { getRecentDrops } from "@/lib/recent-drops";
+import Image from "next/image";
 
 export interface TickerItem {
   tag: string;
@@ -29,14 +30,13 @@ export function Ticker({ items }: TickerProps) {
           <span className="tick" key={`${it.label}-${i}`}>
             <span className="tick-tag" data-new={it.tag === "NEW" ? "" : undefined}>{it.tag}</span>
             {it.imageUrl ? (
-              <img
+              <Image
                 className="tick-avatar"
                 src={it.imageUrl}
                 alt=""
-                loading="lazy"
-                decoding="async"
                 width={18}
                 height={18}
+                sizes="18px"
               />
             ) : null}
             <b>{it.label}</b>

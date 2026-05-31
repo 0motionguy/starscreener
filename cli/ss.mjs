@@ -9,7 +9,6 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve as resolvePath } from "node:path";
 
 import {
-  pad,
   fmtNum,
   fmtDelta,
   fmtMomentum,

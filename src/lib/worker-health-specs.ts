@@ -51,8 +51,12 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "devto-mentions", fetcher: "devto", cadenceMin: 720 },
   { slug: "devto-trending", fetcher: "devto", cadenceMin: 720 },
   { slug: "twitter-repo-signals", fetcher: "twitter", cadenceMin: 60 },
+  { slug: "aa-llms", fetcher: "artificialanalysis", cadenceMin: 360 },
+  { slug: "openrouter-models", fetcher: "openrouter-models", cadenceMin: 360 },
+  { slug: "openrouter-usage", fetcher: "openrouter-usage", cadenceMin: 360 },
   { slug: "repo-registry", fetcher: "repo-registry", cadenceMin: 60 },
   { slug: "mentions-ledger", fetcher: "mentions-ledger", cadenceMin: 30 },
+  { slug: "repo-mentions-detail-rollup", fetcher: "cross-source-sweep", cadenceMin: 60 * 24 },
   { slug: "star-activity-deltas", fetcher: "star-activity-deltas", cadenceMin: 180 },
   { slug: "editorial-best", fetcher: "editorial-writer", cadenceMin: 60 * 24 },
   { slug: "editorial-categories", fetcher: "editorial-categories", cadenceMin: 60 * 24 },
@@ -64,11 +68,13 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
   { slug: "revenue-benchmarks", fetcher: "revenue-benchmarks", cadenceMin: 60 * 24, blocking: false },
+  { slug: "stars-by-category-daily", fetcher: "stars-by-category", cadenceMin: 60 * 24 },
 
   // weekly - slow-moving baselines
   // Live Reddit collection is paused; baselines remain tracked as a separate
   // slow-moving snapshot until the OAuth-backed live collector is re-enabled.
   { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
+  { slug: "lmarena-text", fetcher: "lmarena", cadenceMin: 60 * 24 * 7, slowMoving: true, blocking: false },
 
 ];
 
@@ -96,6 +102,18 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     fetcher: "github-events",
     reason:
       "github-events fetcher code exists but is not registered in the live worker fleet",
+  },
+  {
+    slug: "trending-paper",
+    fetcher: "arxiv",
+    reason:
+      "retired Supabase-backed worker leaderboard; active arxiv surface is arxiv-recent, not this stale trending-paper slug",
+  },
+  {
+    slug: "trending-post",
+    fetcher: "ai-blogs",
+    reason:
+      "retired Supabase-backed worker leaderboard; active RSS/blog surfaces use their own Redis slugs, not this stale trending-post slug",
   },
   {
     slug: "huggingface-trending",

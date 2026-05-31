@@ -51,7 +51,7 @@ export async function Sidebar() {
           <img src="/brand/trendingrepo-mark-v7.svg" alt="" width={24} height={24} loading="eager" decoding="async" />
         </span>
         <span className="brand-name">
-          trending<span className="dot">.</span>repo
+          <span style={{ color: "var(--fg-muted)" }}>trending</span><b>repo</b><span className="dot">.</span>
         </span>
       </Link>
 

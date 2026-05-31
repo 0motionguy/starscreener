@@ -577,7 +577,7 @@ curl -X POST "$HOST/api/pipeline/rebuild" \
 
 Repo-profile enrichment control plane. Drives the durable “round profile” flow:
 
-- resolve repo website/docs/npm/ProductHunt surfaces
+- resolve repo website/docs/npm surfaces
 - persist per-repo profile state into `data/repo-profiles.json`
 - queue or complete AISO scans without doing that work on page load
 

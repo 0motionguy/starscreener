@@ -178,12 +178,6 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(24),
   },
   {
-    name: "producthunt",
-    metaSource: "producthunt",
-    redisSlugs: ["producthunt-launches"],
-    ...hours(12),
-  },
-  {
     name: "twitter",
     redisSlugs: ["twitter-trending"],
     ...hours(12),

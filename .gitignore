@@ -110,9 +110,6 @@ awesome-codex-skills/
 .hive-mind/
 .tmp-*.log
 
-# storybook static build output (built artifact, not source)
-/storybook-static/
-
 # operator scratch — non-dot-prefixed shapes (existing .tmp_* / .tmp-* patterns miss these)
 /tmp_*.json
 /tmp-*.log
@@ -124,9 +121,6 @@ awesome-codex-skills/
 
 # Stryker mutation HTML reports (config stays committed)
 /reports/
-
-# generated Storybook static output rendered into docs
-/docs/storybook/
 
 # local agent vector DB (per-machine runtime state, regenerated automatically)
 /ruvector.db
@@ -156,4 +150,8 @@ awesome-codex-skills/
 # Typo'd Windows-path-as-filename artifact (the path-resolver wrote literal
 # `Usersmirko...` instead of `C:\Users\mirko\...`); ignore by prefix.
 /Usersmirko*
+# Root-level screenshot scratch (UI exploration captures). Tracked design
+# references live under design/screenshots/** and public/** and are not
+# matched by this root-only glob.
+/*.png
 

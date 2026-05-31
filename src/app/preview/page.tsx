@@ -88,8 +88,7 @@ export default async function PreviewPage() {
       counts.lobstersStories +
       counts.devtoArticles +
       counts.blueskyPosts +
-      counts.redditPosts +
-      counts.producthuntLaunches
+      counts.redditPosts
     : 0;
 
   const tiles: Tile[] = [

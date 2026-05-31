@@ -17,7 +17,7 @@ stale assumptions. The audit found this is the root cause of the
 
 # STARSCREENER
 
-Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit/HN/Bluesky/ProductHunt/DevTo signals, computes scoring + classification, surfaces breakout repos before they go mainstream.
+Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit/HN/Bluesky/DevTo signals, computes scoring + classification, surfaces breakout repos before they go mainstream.
 
 ## Tech Stack
 - **Framework:** Next.js 15 (App Router, Turbopack, RSC + client islands)
@@ -57,7 +57,6 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Tests: `npm test` runs node:test + tsx + vitest in serial. Subsuites: `npm run test:hooks` / `:hooks:watch` (vitest), `npm run test:e2e` / `:e2e:ui` (Playwright)
 - Build/start: `npm run build` / `npm start` (production path)
 - Local collectors: `npm run collect:twitter` (Apify, NOT scrape:twitter), `npm run scrape:reddit` / `:hn` / `:bsky` / `:ph` / `:devto` / `:lobsters` / `:arxiv` / `:npm`
-- Intake: `npm run ingest:arxiv-cited` (intake pipeline for arXiv-cited repos)
 - Trigger workflow: `gh workflow run collect-twitter.yml`
 - Build graph: `code-review-graph build` (auto-runs via project hook on Edit/Write/Bash; pre-commit hook also runs `code-review-graph detect-changes`)
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)

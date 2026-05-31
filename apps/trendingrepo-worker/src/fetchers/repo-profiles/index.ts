@@ -57,23 +57,12 @@ interface NpmPackagesPayload {
   packages?: NpmPackage[];
 }
 
-interface PhLaunch {
-  id?: string | number;
-  votesCount?: number;
-  website?: string | null;
-  linkedRepo?: string | null;
-}
-
-interface PhLaunchesPayload {
-  launches?: PhLaunch[];
-}
-
 interface RepoProfile {
   fullName: string;
   rank: number | null;
   selectedFrom: 'manual_include' | 'trending_top_24h' | 'registry_tail';
   websiteUrl: string | null;
-  websiteSource: 'producthunt' | 'github_homepage' | 'npm_homepage' | null;
+  websiteSource: 'github_homepage' | 'npm_homepage' | null;
   status: 'no_website' | 'scan_pending';
   lastProfiledAt: string;
   nextScanAfter: string | null;
@@ -81,7 +70,6 @@ interface RepoProfile {
     githubUrl: string;
     docsUrl: string | null;
     npmPackages: string[];
-    productHuntLaunchId: string | number | null;
   };
   aisoScan: null;
   error: string | null;
@@ -161,14 +149,12 @@ const fetcher: Fetcher = {
       'trending',
       'repo-metadata',
       'npm-packages',
-      'producthunt-launches',
       'repo-registry',
     ] as const;
     const reads = await Promise.allSettled([
       readDataStore<TrendingPayload>('trending'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
       readDataStore<NpmPackagesPayload>('npm-packages'),
-      readDataStore<PhLaunchesPayload>('producthunt-launches'),
       readDataStore<RegistryPayloadLite>('repo-registry'),
     ]);
     const readFailures: Array<{ key: string; err: string }> = [];
@@ -186,11 +172,10 @@ const fetcher: Fetcher = {
         'repo-profiles: some reads failed; degrading those sources to null',
       );
     }
-    const [trending, repoMetadata, npmPackages, phLaunches, registry] = values as [
+    const [trending, repoMetadata, npmPackages, registry] = values as [
       TrendingPayload | null,
       RepoMetadataPayload | null,
       NpmPackagesPayload | null,
-      PhLaunchesPayload | null,
       RegistryPayloadLite | null,
     ];
 
@@ -208,15 +193,6 @@ const fetcher: Fetcher = {
       npmByRepo.set(key, list);
     }
 
-    const phByRepo = new Map<string, PhLaunch>();
-    for (const launch of phLaunches?.launches ?? []) {
-      if (!launch?.linkedRepo) continue;
-      const key = normalizeRepoKey(launch.linkedRepo);
-      const existing = phByRepo.get(key);
-      if (!existing || (launch.votesCount ?? 0) > (existing.votesCount ?? 0)) {
-        phByRepo.set(key, launch);
-      }
-    }
 
     // Candidate selection: trending first (ranked), then registry tail
     // (recency-ordered) to fill up to TOP_LIMIT. Trending repos keep their
@@ -260,28 +236,21 @@ const fetcher: Fetcher = {
 
     for (const candidate of candidates) {
       const meta = metadataByRepo.get(candidate.key) ?? null;
-      const phLaunch = phByRepo.get(candidate.key) ?? null;
       const npmPkgs = npmByRepo.get(candidate.key) ?? [];
 
       let websiteUrl: string | null = null;
       let websiteSource: RepoProfile['websiteSource'] = null;
-      const phWebsite = cleanUrl(phLaunch?.website);
-      if (phWebsite && !isGithubUrl(phWebsite)) {
-        websiteUrl = phWebsite;
-        websiteSource = 'producthunt';
+      const metaWebsite = cleanUrl(meta?.homepageUrl);
+      if (metaWebsite && !isGithubUrl(metaWebsite)) {
+        websiteUrl = metaWebsite;
+        websiteSource = 'github_homepage';
       } else {
-        const metaWebsite = cleanUrl(meta?.homepageUrl);
-        if (metaWebsite && !isGithubUrl(metaWebsite)) {
-          websiteUrl = metaWebsite;
-          websiteSource = 'github_homepage';
-        } else {
-          for (const pkg of npmPkgs) {
-            const npmHomepage = cleanUrl(pkg.homepage);
-            if (npmHomepage && !isGithubUrl(npmHomepage)) {
-              websiteUrl = npmHomepage;
-              websiteSource = 'npm_homepage';
-              break;
-            }
+        for (const pkg of npmPkgs) {
+          const npmHomepage = cleanUrl(pkg.homepage);
+          if (npmHomepage && !isGithubUrl(npmHomepage)) {
+            websiteUrl = npmHomepage;
+            websiteSource = 'npm_homepage';
+            break;
           }
         }
       }
@@ -304,7 +273,6 @@ const fetcher: Fetcher = {
           githubUrl,
           docsUrl,
           npmPackages: npmPkgs.map((pkg) => pkg.name),
-          productHuntLaunchId: phLaunch?.id ?? null,
         },
         aisoScan: null,
         error: null,

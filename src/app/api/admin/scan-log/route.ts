@@ -39,7 +39,6 @@ const SOURCE_WHITELIST = [
   "hackernews",
   "lobsters",
   "devto",
-  "producthunt",
   "npm",
   "npm-daily",
   "trending",

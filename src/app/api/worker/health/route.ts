@@ -120,7 +120,6 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   // few-hours cadence
   { slug: "trending-skill-sh", fetcher: "skills-sh", cadenceMin: 120 },
   { slug: "huggingface-trending", fetcher: "scrape-huggingface", cadenceMin: 240, blocking: false },
-  { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360, blocking: false },
   { slug: "trending-skill", fetcher: "claude-skills", cadenceMin: 360 },
   { slug: "trending-mcp", fetcher: "mcp-registry-official+glama+pulsemcp+smithery", cadenceMin: 360, blocking: false },
   { slug: "funding-news", fetcher: "funding-news", cadenceMin: 360 },

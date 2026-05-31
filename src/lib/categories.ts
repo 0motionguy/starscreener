@@ -60,8 +60,8 @@ export function buildCategoryIntro(meta: CategoryMeta, repos: Repo[]): string {
   const count = repos.length;
   const tracking =
     count > 0
-      ? ` We're tracking ${count} open-source ${count === 1 ? "project" : "projects"} in this category, ranked by a cross-source momentum score that blends GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`
-      : ` We rank projects in this category by a cross-source momentum score that blends GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`;
+      ? ` We're tracking ${count} open-source ${count === 1 ? "project" : "projects"} in this category, ranked by a cross-source momentum score that blends GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky and Dev.to.`
+      : ` We rank projects in this category by a cross-source momentum score that blends GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky and Dev.to.`;
   const top =
     topNames.length > 0
       ? ` The current top movers are ${formatList(topNames)}.`
@@ -107,7 +107,7 @@ export function buildCategoryFaq(meta: CategoryMeta, repos: Repo[]): FaqEntry[] 
         ? `As of ${todayLabel()}, the top-ranked open-source ${meta.name} projects on TrendingRepo are ${formatList(
             topNames,
           )} — ordered by a cross-source momentum score, not raw star count.`
-        : `TrendingRepo ranks open-source ${meta.name} projects by a cross-source momentum score that blends GitHub star velocity with mentions across Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`,
+        : `TrendingRepo ranks open-source ${meta.name} projects by a cross-source momentum score that blends GitHub star velocity with mentions across Hacker News, Reddit, X, Bluesky and Dev.to.`,
   });
 
   out.push({
@@ -129,7 +129,7 @@ export function buildCategoryFaq(meta: CategoryMeta, repos: Repo[]): FaqEntry[] 
 
   out.push({
     q: `How often is this list updated?`,
-    a: `Roughly every 20 minutes. Automated collectors re-scan GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt, Dev.to and more, then recompute the rankings — so the leaderboard reflects momentum within the last hour.`,
+    a: `Roughly every 20 minutes. Automated collectors re-scan GitHub, Hacker News, Reddit, X, Bluesky, Dev.to and more, then recompute the rankings — so the leaderboard reflects momentum within the last hour.`,
   });
 
   return out;

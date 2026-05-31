@@ -13,8 +13,8 @@
 //
 // Channels: HN (Algolia), Reddit (public JSON), dev.to (public feed), Bluesky
 // (BLUESKY_HANDLE/APP_PASSWORD session) — all key-free except Bluesky's app
-// password. ProductHunt reads the producthunt-launches snapshot. Tavily +
-// Twitter(Apify) are env-gated (TAVILY_API_KEY / APIFY_API_TOKEN) and skip
+// password. Tavily + Twitter(Apify) are env-gated (TAVILY_API_KEY /
+// APIFY_API_TOKEN) and skip
 // cleanly when unset. Each channel fails soft (errors → [] → sweep continues).
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
@@ -48,7 +48,6 @@ type Channel =
   | 'bluesky'
   | 'devto'
   | 'lobsters'
-  | 'producthunt'
   | 'tavily'
   | 'twitter';
 
@@ -200,34 +199,6 @@ async function searchBluesky(repo: RepoInput, jwt: string | null): Promise<Menti
     }
   }
   return out;
-}
-
-interface PhLaunch {
-  linkedRepo?: string; website?: string; url?: string; name?: string;
-  tagline?: string; description?: string; makers?: Array<{ username?: string }>;
-  votesCount?: number; commentsCount?: number; createdAt?: string; featuredAt?: string;
-}
-
-function searchProductHunt(repo: RepoInput, launches: PhLaunch[]): Mention[] {
-  const fullLower = repo.fullName.toLowerCase();
-  return launches
-    .filter((l) => {
-      if (l.linkedRepo && l.linkedRepo.toLowerCase() === fullLower) return true;
-      return (l.website?.toLowerCase() ?? '').includes(`github.com/${fullLower}`);
-    })
-    .map((l) => ({
-      source: 'producthunt' as const,
-      fullName: repo.fullName,
-      url: l.url ?? '',
-      title: truncate(l.name, 200),
-      text: truncate(l.tagline ?? l.description ?? ''),
-      author:
-        (Array.isArray(l.makers)
-          ? l.makers.map((m) => m.username).filter(Boolean).join(', ')
-          : '') || null,
-      engagement: { score: l.votesCount ?? 0, comments: l.commentsCount ?? 0 },
-      observedAt: l.createdAt ?? l.featuredAt ?? new Date().toISOString(),
-    }));
 }
 
 async function searchTavily(repo: RepoInput, apiKey: string | undefined): Promise<Mention[]> {
@@ -659,8 +630,6 @@ const fetcher: Fetcher = {
     }
 
     const jwt = await blueskySession();
-    const phSnapshot = await readDataStore<{ launches?: PhLaunch[] }>('producthunt-launches').catch(() => null);
-    const phLaunches = Array.isArray(phSnapshot?.launches) ? phSnapshot.launches : [];
     const tavilyKey = process.env.TAVILY_API_KEY?.trim();
     const apifyToken = process.env.APIFY_API_TOKEN?.trim();
 
@@ -673,7 +642,6 @@ const fetcher: Fetcher = {
       {
         hackernews: 'live',
         bluesky: jwt ? 'live' : 'no-creds (BLUESKY_HANDLE/APP_PASSWORD)',
-        producthunt: phLaunches.length ? 'snapshot' : 'no-snapshot',
         tavily: tavilyKey ? 'live' : 'off (set TAVILY_API_KEY)',
         twitter: apifyToken ? `apify·top${TWITTER_BATCH_REPOS}` : 'off (set APIFY_API_TOKEN)',
         foldIn: 'devto,hackernews,reddit,lobsters,bluesky (source-first snapshots)',
@@ -691,7 +659,6 @@ const fetcher: Fetcher = {
         const results = await Promise.allSettled([
           searchHackerNews(repo),
           searchBluesky(repo, jwt),
-          Promise.resolve(searchProductHunt(repo, phLaunches)),
           searchTavily(repo, tavilyKey),
         ]);
         for (const r of results) {

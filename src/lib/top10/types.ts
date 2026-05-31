@@ -175,7 +175,7 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "news",
     label: "News",
     emoji: "■",
-    blurb: "Stories trending on Hacker News, Bluesky, dev.to, Lobsters, and ProductHunt.",
+    blurb: "Stories trending on Hacker News, Bluesky, dev.to, and Lobsters.",
     defaultWindow: "24h",
     defaultMetric: "mentions",
   },

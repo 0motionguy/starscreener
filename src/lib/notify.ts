@@ -184,7 +184,6 @@ const SOURCE_EMOJI: Array<[RegExp, string]> = [
   [/^twitter\./, "🐦"],
   [/^bluesky\./, "🦋"],
   [/^hackernews\./, "📰"],
-  [/^producthunt\./, "🚀"],
   [/^huggingface\./, "🤗"],
   [/^npm\./, "📦"],
   [/^arxiv\./, "📄"],

@@ -73,7 +73,6 @@ export async function RepoProfileSidebar({
       sc.devtoArticles +
       sc.blueskyPosts +
       sc.redditPosts +
-      sc.producthuntLaunches +
       sc.twitterRepos
     );
   })();

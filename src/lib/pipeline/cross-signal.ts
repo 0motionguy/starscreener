@@ -70,7 +70,7 @@ const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
 // without losing the source-first signal where it's better.
 function sweepCount(
   fullName: string,
-  channel: "twitter" | "reddit" | "hackernews" | "bluesky" | "devto" | "lobsters" | "producthunt" | "tavily",
+  channel: "twitter" | "reddit" | "hackernews" | "bluesky" | "devto" | "lobsters" | "tavily",
 ): number {
   const detail = getCrossSourceDetail(fullName);
   return detail?.perSource?.[channel]?.count7d ?? 0;

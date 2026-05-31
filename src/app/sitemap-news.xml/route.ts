@@ -14,12 +14,11 @@
 //
 //   Why <loc> points at the hub page, not the source URL.
 //   Google News expects the publisher (us) to host the canonical URL.
-//   Linking directly to news.ycombinator.com or producthunt.com would
-//   make Google index *their* page, not ours, and we'd lose every
-//   click. Instead each entry points at our own rendered hub
-//   (/hackernews/trending or /producthunt) with a `#story-<id>`
-//   fragment so the URL is unique-per-item. The fragment is informational
-//   for crawlers; the hub page itself is the actual landing.
+//   Linking directly to news.ycombinator.com would make Google index
+//   *their* page, not ours, and we'd lose every click. Instead each
+//   entry points at our own rendered hub (/hackernews/trending) with a
+//   `#story-<id>` fragment so the URL is unique-per-item. The fragment
+//   is informational for crawlers; the hub page itself is the actual landing.
 //
 //   1000-ENTRY CAP.
 //   Google's News sitemap protocol caps each file at 1000 URLs. We
@@ -58,18 +57,6 @@ interface HnFile {
   stories?: HnStory[];
 }
 
-interface PhLaunch {
-  id: string;
-  name: string;
-  tagline?: string;
-  url?: string;
-  createdAt: string; // ISO
-}
-
-interface PhFile {
-  launches?: PhLaunch[];
-}
-
 function readJsonSafe<T>(relPath: string): T | null {
   try {
     const full = path.join(process.cwd(), relPath);
@@ -103,33 +90,6 @@ function buildHnEntries(now: number): UrlEntry[] {
   return entries;
 }
 
-function buildPhEntries(now: number): UrlEntry[] {
-  const file = readJsonSafe<PhFile>("data/producthunt-launches.json");
-  if (!file || !Array.isArray(file.launches)) return [];
-  const entries: UrlEntry[] = [];
-  for (const l of file.launches) {
-    if (!l || !l.id || !l.name) continue;
-    const createdMs = new Date(l.createdAt).getTime();
-    if (!Number.isFinite(createdMs) || createdMs <= 0) continue;
-    if (now - createdMs > FRESHNESS_MS) continue;
-    const tagline = (l.tagline ?? "").trim();
-    const title = tagline
-      ? `${l.name.trim()} — ${tagline}`
-      : l.name.trim();
-    entries.push({
-      loc: absoluteUrl(`/producthunt#story-${l.id}`),
-      lastmod: new Date(createdMs),
-      news: {
-        publicationName: PUBLICATION_NAME,
-        publicationLanguage: PUBLICATION_LANG,
-        publicationDate: new Date(createdMs),
-        title,
-      },
-    });
-  }
-  return entries;
-}
-
 export function GET(): Response {
   const now = Date.now();
 
@@ -139,12 +99,6 @@ export function GET(): Response {
   } catch {
     // missing/malformed feed — skip silently rather than 500
   }
-  try {
-    all.push(...buildPhEntries(now));
-  } catch {
-    // missing/malformed feed — skip silently rather than 500
-  }
-
   // Dedupe by <loc>. A duplicate URL inside a urlset is a hard validator error.
   const seen = new Set<string>();
   const deduped: UrlEntry[] = [];

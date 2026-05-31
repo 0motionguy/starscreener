@@ -27,11 +27,6 @@ import {
   refreshLobstersTrendingFromStore,
 } from "@/lib/lobsters-trending";
 import {
-  getRecentLaunches,
-  refreshProducthuntLaunchesFromStore,
-} from "@/lib/producthunt";
-
-import {
   buildAgentTop10,
   buildFundingTop10,
   buildMoversTop10,
@@ -64,14 +59,12 @@ export async function resolveBundle(
         refreshBlueskyTrendingFromStore(),
         refreshDevtoTrendingFromStore(),
         refreshLobstersTrendingFromStore(),
-        refreshProducthuntLaunchesFromStore(),
       ]);
       return buildNewsTop10({
         hn: getHnTopStories(40),
         bluesky: getBlueskyTopPosts(40),
         devto: getDevtoTopArticles(40),
         lobsters: getLobstersTopStories(40),
-        producthunt: getRecentLaunches(7, 40),
       });
     }
     case "funding": {

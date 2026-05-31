@@ -26,7 +26,7 @@ const AISO_AUTHOR = {
   name: AISO_NAME,
   url: AISO_URL,
   description:
-    "AI-readiness and open-source signal intelligence. Cross-source trend analysis across GitHub, Hacker News, Reddit, X, Bluesky, Dev.to, Product Hunt and Hugging Face.",
+    "AI-readiness and open-source signal intelligence. Cross-source trend analysis across GitHub, Hacker News, Reddit, X, Bluesky, Dev.to and Hugging Face.",
   knowsAbout: ["open-source software", "AI agents", "developer tools", "trend analysis"],
 } as const;
 

@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: PageProps) {
   const year = new Date().getFullYear();
   const title = `${t.title} (${year}) | ${SITE_NAME}`;
   const description = clampDescription(
-    `${t.title}: ${t.blurb}. Ranked by cross-source momentum across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to. Updated continuously.`,
+    `${t.title}: ${t.blurb}. Ranked by cross-source momentum across GitHub, Hacker News, Reddit, X, Bluesky and Dev.to. Updated continuously.`,
   );
   const canonical = absoluteUrl(`/best/${topic}`);
 

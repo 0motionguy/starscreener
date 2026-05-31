@@ -99,7 +99,7 @@ export default async function CollectionPage({ params }: PageProps) {
     })),
   );
 
-  const intro = `The ${collection.name} collection tracks ${collection.items.length} curated open-source ${collection.items.length === 1 ? "project" : "projects"}, ${liveRepos.length} of them live on TrendingRepo right now — ranked by a cross-source momentum score blending GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`;
+  const intro = `The ${collection.name} collection tracks ${collection.items.length} curated open-source ${collection.items.length === 1 ? "project" : "projects"}, ${liveRepos.length} of them live on TrendingRepo right now — ranked by a cross-source momentum score blending GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky and Dev.to.`;
 
   return (
     <div className="route-shell">

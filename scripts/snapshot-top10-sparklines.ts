@@ -29,10 +29,6 @@ import {
   refreshLobstersTrendingFromStore,
 } from "@/lib/lobsters-trending";
 import {
-  getRecentLaunches,
-  refreshProducthuntLaunchesFromStore,
-} from "@/lib/producthunt";
-import {
   getFundingSignalsThisWeek,
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
@@ -48,7 +44,6 @@ async function main(): Promise<void> {
     refreshBlueskyTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
     refreshLobstersTrendingFromStore(),
-    refreshProducthuntLaunchesFromStore(),
     refreshFundingNewsFromStore(),
   ]);
 
@@ -65,7 +60,6 @@ async function main(): Promise<void> {
     bluesky: getBlueskyTopPosts(40),
     devto: getDevtoTopArticles(40),
     lobsters: getLobstersTopStories(40),
-    producthunt: getRecentLaunches(7, 40),
   });
   for (const it of newsBundle.items) {
     await appendSparklinePoint("news", it.slug, it.score);

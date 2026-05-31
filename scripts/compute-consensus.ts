@@ -24,7 +24,6 @@ type ConsensusExternalSource =
   | "hn"
   | "x"
   | "r"
-  | "pdh"
   | "dev"
   | "bs";
 type ConsensusSource = ConsensusInternalSource | ConsensusExternalSource;
@@ -48,7 +47,6 @@ interface ConsensusScoreInput {
   hn: ConsensusSourceInput[];
   x: ConsensusSourceInput[];
   r: ConsensusSourceInput[];
-  pdh: ConsensusSourceInput[];
   dev: ConsensusSourceInput[];
   bs: ConsensusSourceInput[];
   limit?: number;
@@ -86,18 +84,17 @@ interface ConsensusTrendingPayload {
 // --- Scoring (ported verbatim from worker scoring.ts) -----------------------
 
 const CONSENSUS_WEIGHTS: Record<ConsensusExternalSource, number> = {
-  gh: 0.20,
-  hf: 0.18,
-  hn: 0.16,
+  gh: 0.22,
+  hf: 0.20,
+  hn: 0.18,
   x: 0.14,
   r: 0.10,
-  pdh: 0.08,
-  dev: 0.08,
+  dev: 0.10,
   bs: 0.06,
 };
 
 const EXTERNAL_SOURCES: readonly ConsensusExternalSource[] = [
-  "gh", "hf", "hn", "x", "r", "pdh", "dev", "bs",
+  "gh", "hf", "hn", "x", "r", "dev", "bs",
 ] as const;
 
 const ALL_SOURCES: readonly ConsensusSource[] = [
@@ -350,9 +347,6 @@ interface LeaderboardEntry {
 interface MentionsPayload {
   leaderboard?: LeaderboardEntry[];
 }
-interface ProductHuntPayload {
-  launches?: Array<{ id?: string; linkedRepo?: string | null; votesCount?: number }>;
-}
 interface TwitterTrendingPayload {
   items?: Array<{ fullName?: string; rank?: number; mentions?: number; impressions?: number }>;
 }
@@ -403,25 +397,6 @@ function fromLeaderboard(
     fullName: String(entry.row.fullName),
     rank: idx + 1,
     score: entry.sortKey,
-  }));
-}
-
-function fromProductHunt(p: ProductHuntPayload | null): ConsensusSourceInput[] {
-  const rows = Array.isArray(p?.launches) ? p.launches : [];
-  const byRepo = new Map<string, number>();
-  for (const launch of rows) {
-    const linked = launch.linkedRepo;
-    if (!linked || !linked.includes("/")) continue;
-    const lower = linked.toLowerCase();
-    byRepo.set(lower, (byRepo.get(lower) ?? 0) + (toNumber(launch.votesCount) ?? 1));
-  }
-  const sorted = Array.from(byRepo.entries())
-    .map(([fullName, votes]) => ({ fullName, votes }))
-    .sort((a, b) => b.votes - a.votes);
-  return sorted.map((entry, idx) => ({
-    fullName: entry.fullName,
-    rank: idx + 1,
-    score: entry.votes,
   }));
 }
 
@@ -555,7 +530,6 @@ async function main(): Promise<void> {
     hnMentions,
     twitter,
     redditMentions,
-    ph,
     devtoMentions,
     blueskyMentions,
   ] = await Promise.all([
@@ -565,7 +539,6 @@ async function main(): Promise<void> {
     store.read<MentionsPayload>("hackernews-repo-mentions"),
     store.read<TwitterTrendingPayload>("twitter-trending"),
     store.read<MentionsPayload>("reddit-mentions"),
-    store.read<ProductHuntPayload>("producthunt-launches"),
     store.read<MentionsPayload>("devto-mentions"),
     store.read<MentionsPayload>("bluesky-mentions"),
   ]);
@@ -580,7 +553,6 @@ async function main(): Promise<void> {
     hn: fromLeaderboard(hnMentions.data, "scoreSum7d"),
     x: fromTwitter(twitter.data),
     r: fromLeaderboard(redditMentions.data, "upvotes7d"),
-    pdh: fromProductHunt(ph.data),
     dev: fromLeaderboard(devtoMentions.data, "reactionsSum7d"),
     bs: fromLeaderboard(blueskyMentions.data, "likesSum7d"),
     limit: TOP_LIMIT,
@@ -592,7 +564,6 @@ async function main(): Promise<void> {
   console.log(tier("hn  ", hnMentions.source, hnMentions.ageMs, input.hn.length));
   console.log(tier("x   ", twitter.source, twitter.ageMs, input.x.length));
   console.log(tier("r   ", redditMentions.source, redditMentions.ageMs, input.r.length));
-  console.log(tier("pdh ", ph.source, ph.ageMs, input.pdh.length));
   console.log(tier("dev ", devtoMentions.source, devtoMentions.ageMs, input.dev.length));
   console.log(tier("bs  ", blueskyMentions.source, blueskyMentions.ageMs, input.bs.length));
 
@@ -604,7 +575,6 @@ async function main(): Promise<void> {
     hn: { count: input.hn.length, rows: hnMentions.data?.leaderboard?.length ?? 0 },
     x: { count: input.x.length, rows: twitter.data?.items?.length ?? 0 },
     r: { count: input.r.length, rows: redditMentions.data?.leaderboard?.length ?? 0 },
-    pdh: { count: input.pdh.length, rows: ph.data?.launches?.length ?? 0 },
     dev: { count: input.dev.length, rows: devtoMentions.data?.leaderboard?.length ?? 0 },
     bs: { count: input.bs.length, rows: blueskyMentions.data?.leaderboard?.length ?? 0 },
   };

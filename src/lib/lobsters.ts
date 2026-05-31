@@ -128,7 +128,7 @@ export const lobstersFetchedAt: string = mentionsFile.fetchedAt ?? "";
 // Cold = scraper has never committed a real snapshot. Missing metadata
 // (empty fetchedAt or missing mentions) means no run has landed yet; the
 // UI treats it as "warming up" rather than "stale." Mirrors the
-// producthuntCold / blueskyCold / devtoCold contract.
+// blueskyCold / devtoCold contract.
 export const lobstersCold: boolean =
   !mentionsFile.fetchedAt || !mentionsFile.mentions;
 

@@ -26,7 +26,6 @@ test("getFreshnessSnapshot: returns all eight expected source keys", () => {
     "hackernews",
     "bluesky",
     "devto",
-    "producthunt",
     "twitter",
     "npm",
     "github",

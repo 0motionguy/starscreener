@@ -105,7 +105,7 @@ const FORBIDDEN = [
   {
     name: "static-data-blob",
     pattern:
-      /data\/(arxiv-recent|hackernews-repo-mentions|bluesky-mentions|lobsters-mentions|producthunt-launches|collection-rankings|devto-recent)/,
+      /data\/(arxiv-recent|hackernews-repo-mentions|bluesky-mentions|lobsters-mentions|collection-rankings|devto-recent)/,
     allowedRoutePrefixes: [],
     description:
       "Static JSON data file leaked into a client chunk via a server-only lib import path",

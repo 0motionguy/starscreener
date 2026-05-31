@@ -1,7 +1,7 @@
 // Secret scrubber for scraped third-party text.
 //
 // Mentions adapters pull text/HTML from public sources (HN, Reddit, Bluesky,
-// Twitter, dev.to, Lobsters, ProductHunt, Tavily). Some of that content
+// Twitter, dev.to, Lobsters, Tavily). Some of that content
 // contains live API keys committed by upstream authors. We must not store
 // those keys in `data/repo-mentions-detail.jsonl` or anywhere we publish.
 //

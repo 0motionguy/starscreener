@@ -28,10 +28,6 @@ import {
   refreshLobstersTrendingFromStore,
 } from "@/lib/lobsters-trending";
 import {
-  getRecentLaunches,
-  refreshProducthuntLaunchesFromStore,
-} from "@/lib/producthunt";
-import {
   getFundingSignalsThisWeek,
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
@@ -56,7 +52,6 @@ async function main(): Promise<void> {
     refreshBlueskyTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
     refreshLobstersTrendingFromStore(),
-    refreshProducthuntLaunchesFromStore(),
     refreshFundingNewsFromStore(),
   ]);
 
@@ -65,7 +60,6 @@ async function main(): Promise<void> {
   const bsky = getBlueskyTopPosts(40);
   const devto = getDevtoTopArticles(40);
   const lobsters = getLobstersTopStories(40);
-  const ph = getRecentLaunches(7, 40);
   const funding = getFundingSignalsThisWeek();
 
   const payload: Top10Payload = {
@@ -79,7 +73,6 @@ async function main(): Promise<void> {
       bluesky: bsky,
       devto,
       lobsters,
-      producthunt: ph,
     }),
     funding: funding.length > 0 ? buildFundingTop10(funding) : emptyBundle("7d"),
   };

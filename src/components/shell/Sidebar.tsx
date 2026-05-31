@@ -48,10 +48,10 @@ export async function Sidebar() {
       <Link className="brand" href="/" aria-label="TrendingRepo home">
         <span className="brand-mark brand-mark--image">
           {/* eslint-disable-next-line @next/next/no-img-element -- SVG, no Next/Image optimization */}
-          <img src="/brand/trendingrepo.svg" alt="" width={24} height={24} loading="eager" decoding="async" />
+          <img src="/brand/trendingrepo-mark-v7.svg" alt="" width={24} height={24} loading="eager" decoding="async" />
         </span>
         <span className="brand-name">
-          trending<span className="dot">.</span>repo
+          <span style={{ color: "var(--fg-bright)" }}>trending</span><b>repo</b><span className="dot">.</span>
         </span>
       </Link>
 
@@ -229,7 +229,6 @@ function sumActiveSources(counts: import("@/lib/sidebar-source-counts").SidebarS
     counts.devtoArticles,
     counts.blueskyPosts,
     counts.redditPosts,
-    counts.producthuntLaunches,
     counts.fundingSignals,
     counts.npmPackages,
     counts.agentRepos,

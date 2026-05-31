@@ -20,7 +20,6 @@ function emptyInput(): ConsensusScoreInput {
     hn: [],
     x: [],
     r: [],
-    pdh: [],
     dev: [],
     bs: [],
   };
@@ -31,20 +30,19 @@ function source(rank: number, fullName = 'foo/bar'): ConsensusSourceInput {
 }
 
 describe('CONSENSUS_WEIGHTS', () => {
-  it('sums to 1.0 across the 8 external sources', () => {
+  it('sums to 1.0 across the 7 external sources', () => {
     const sum = EXTERNAL_SOURCES.reduce((acc, k) => acc + CONSENSUS_WEIGHTS[k], 0);
     expect(sum).toBeCloseTo(1.0, 6);
   });
 
   it('matches the design spec weights', () => {
     expect(CONSENSUS_WEIGHTS).toMatchObject({
-      gh: 0.20,
-      hf: 0.18,
-      hn: 0.16,
+      gh: 0.22,
+      hf: 0.20,
+      hn: 0.18,
       x: 0.14,
       r: 0.10,
-      pdh: 0.08,
-      dev: 0.08,
+      dev: 0.10,
       bs: 0.06,
     });
   });
@@ -67,7 +65,7 @@ describe('scoreConsensus — coverage and ranking', () => {
     expect(items[0]?.sources.hf.present).toBe(true);
   });
 
-  it('rank-1 across all 8 sources scores higher than rank-1 in only 1 source', () => {
+  it('rank-1 across all 7 sources scores higher than rank-1 in only 1 source', () => {
     const high = emptyInput();
     EXTERNAL_SOURCES.forEach((k) => {
       (high[k] as ConsensusSourceInput[]) = [source(1, 'top/top')];
@@ -78,14 +76,14 @@ describe('scoreConsensus — coverage and ranking', () => {
     const merged: ConsensusScoreInput = {
       ...emptyInput(),
       gh: [...high.gh, ...lone.gh],
-      hf: high.hf, hn: high.hn, x: high.x, r: high.r, pdh: high.pdh, dev: high.dev, bs: high.bs,
+      hf: high.hf, hn: high.hn, x: high.x, r: high.r, dev: high.dev, bs: high.bs,
     };
 
     const items = scoreConsensus(merged);
     const top = items.find((i) => i.fullName === 'top/top');
     const solo = items.find((i) => i.fullName === 'lone/lone');
     expect(top!.consensusScore).toBeGreaterThan(solo!.consensusScore);
-    expect(top!.sourceCount).toBe(8);
+    expect(top!.sourceCount).toBe(7);
     expect(solo!.sourceCount).toBe(1);
   });
 

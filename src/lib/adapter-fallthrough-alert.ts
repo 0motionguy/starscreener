@@ -17,7 +17,6 @@ type FallthroughSignal =
   | "devto"
   | "velocity"
   | "huggingface"
-  | "producthunt"
   | "openai"
   | "arxiv"
   | "claude_rss"

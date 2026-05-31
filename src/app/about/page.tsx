@@ -8,7 +8,7 @@ export const revalidate = 3600;
 export const metadata = {
   title: "About — TrendingRepo",
   description:
-    "TrendingRepo is a trend radar for open source. We surface breakout repositories, MCP servers, and Claude skills the moment they ship by ranking cross-source agreement across GitHub, Reddit, Hacker News, Bluesky, ProductHunt, dev.to, and arXiv.",
+    "TrendingRepo is a trend radar for open source. We surface breakout repositories, MCP servers, and Claude skills the moment they ship by ranking cross-source agreement across GitHub, Reddit, Hacker News, Bluesky, dev.to, and arXiv.",
 };
 
 export default function AboutPage() {
@@ -23,8 +23,8 @@ export default function AboutPage() {
           <p className="page-sub">
             Our mission is to surface breakout open-source repositories, MCP
             servers, and Claude skills the moment they ship. We track signals
-            from GitHub, Reddit, Hacker News, ProductHunt, Bluesky, dev.to, and
-            arXiv, and we rank them by cross-source agreement so you can see
+            from GitHub, Reddit, Hacker News, Bluesky, dev.to, and arXiv,
+            and we rank them by cross-source agreement so you can see
             what is moving before it trends.
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function AboutPage() {
               margin: 0,
             }}
           >
-            Single-source aggregators (Hacker News, Reddit, ProductHunt) each
+            Single-source aggregators (Hacker News, Reddit) each
             answer one slice of that question. We answer it across all of them
             at once, with anomaly detection that drops bot spikes and a category
             baseline that prevents &ldquo;everything in AI is trending&rdquo;

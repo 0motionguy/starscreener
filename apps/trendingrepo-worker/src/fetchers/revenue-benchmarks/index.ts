@@ -1,11 +1,10 @@
-// Bucket the cached TrustMRR catalog into (category, star-band, ph-launch?)
-// benchmark bands. Pure derivation — no external network. Reads:
+// Bucket the cached TrustMRR catalog into (category, star-band) benchmark
+// bands. Pure derivation — no external network. Reads:
 //   - trustmrr-startups   (catalog from trustmrr fetcher)
 //   - revenue-overlays    (slug -> repo fullName matches)
 //   - repo-metadata       (stars per repo)
-//   - producthunt-launches (which repos have a PH launch)
 // and writes:
-//   - revenue-benchmarks  ({ buckets: [{ category, starBand, phLaunched, n,
+//   - revenue-benchmarks  ({ buckets: [{ category, starBand, n,
 //                          p25, p50, p75 }, ...], starBands, ... })
 //
 // Cadence: 30 min after the trustmrr full sweep (02:27 UTC) so the catalog
@@ -62,20 +61,9 @@ interface RepoMetadataPayload {
   items?: Array<{ fullName: string; stars: number }>;
 }
 
-interface PhLaunch {
-  repoFullName?: string | null;
-  linkedRepo?: string | null;
-  githubFullName?: string | null;
-}
-
-interface PhLaunchesPayload {
-  launches?: PhLaunch[];
-}
-
 interface BenchmarkRow {
   category: string;
   starBand: string;
-  phLaunched: boolean;
   n: number;
   p25: number;
   p50: number;
@@ -110,13 +98,11 @@ const fetcher: Fetcher = {
       'trustmrr-startups',
       'revenue-overlays',
       'repo-metadata',
-      'producthunt-launches',
     ] as const;
     const reads = await Promise.allSettled([
       readDataStore<CatalogPayload>('trustmrr-startups'),
       readDataStore<OverlaysPayload>('revenue-overlays'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
-      readDataStore<PhLaunchesPayload>('producthunt-launches'),
     ]);
     const readFailures: Array<{ key: string; err: string }> = [];
     const values = reads.map((r, i) => {
@@ -133,11 +119,10 @@ const fetcher: Fetcher = {
         'revenue-benchmarks: some reads failed; degrading those sources to null',
       );
     }
-    const [catalog, overlays, metadata, ph] = values as [
+    const [catalog, overlays, metadata] = values as [
       CatalogPayload | null,
       OverlaysPayload | null,
       RepoMetadataPayload | null,
-      PhLaunchesPayload | null,
     ];
 
     if (!catalog || !Array.isArray(catalog.startups) || catalog.startups.length === 0) {
@@ -169,27 +154,18 @@ const fetcher: Fetcher = {
       }
     }
 
-    const phLaunchedFullNames = new Set<string>();
-    for (const launch of ph?.launches ?? []) {
-      const candidates = [launch?.repoFullName, launch?.linkedRepo, launch?.githubFullName].filter(
-        (v): v is string => typeof v === 'string' && v.length > 0,
-      );
-      for (const c of candidates) phLaunchedFullNames.add(c);
-    }
-
     interface BucketAccumulator {
       category: string;
       starBand: string;
-      phLaunched: boolean;
       values: number[];
     }
     const buckets = new Map<string, BucketAccumulator>();
 
-    function push(category: string, starBand: string, phLaunched: boolean, mrrCents: number): void {
-      const key = `${category}||${starBand}||${phLaunched ? 'ph' : 'noph'}`;
+    function push(category: string, starBand: string, mrrCents: number): void {
+      const key = `${category}||${starBand}`;
       let bucket = buckets.get(key);
       if (!bucket) {
-        bucket = { category, starBand, phLaunched, values: [] };
+        bucket = { category, starBand, values: [] };
         buckets.set(key, bucket);
       }
       bucket.values.push(mrrCents);
@@ -208,8 +184,7 @@ const fetcher: Fetcher = {
       const stars = fullName ? starsByFullName.get(fullName) : null;
       const band = bandFor(stars);
       const starBand = band ? band.label : 'unmatched';
-      const phLaunched = fullName ? phLaunchedFullNames.has(fullName) : false;
-      push(category, starBand, phLaunched, mrrCents);
+      push(category, starBand, mrrCents);
     }
 
     const serialized: BenchmarkRow[] = [];
@@ -219,7 +194,6 @@ const fetcher: Fetcher = {
       serialized.push({
         category: bucket.category,
         starBand: bucket.starBand,
-        phLaunched: bucket.phLaunched,
         n: bucket.values.length,
         p25: percentile(sorted, 0.25),
         p50: percentile(sorted, 0.5),
@@ -231,8 +205,7 @@ const fetcher: Fetcher = {
       if (cat !== 0) return cat;
       const ai = STAR_BANDS.findIndex((b2) => b2.label === a.starBand);
       const bi = STAR_BANDS.findIndex((b2) => b2.label === b.starBand);
-      if (ai !== bi) return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-      return Number(b.phLaunched) - Number(a.phLaunched);
+      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
     });
 
     const out: RevenueBenchmarksPayload = {

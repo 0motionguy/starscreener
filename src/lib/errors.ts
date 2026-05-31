@@ -28,7 +28,6 @@ export type EngineErrorSource =
   | "bluesky"
   | "devto"
   | "lobsters"
-  | "producthunt"
   | "huggingface"
   | "npm"
   | "arxiv"
@@ -210,21 +209,6 @@ export class LobstersQuarantineError extends EngineError {
 export class LobstersFatalError extends EngineError {
   readonly category = "fatal" as const;
   readonly source = "lobsters" as const;
-}
-
-export class ProductHuntRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "producthunt" as const;
-}
-
-export class ProductHuntQuarantineError extends EngineError {
-  readonly category = "quarantine" as const;
-  readonly source = "producthunt" as const;
-}
-
-export class ProductHuntFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "producthunt" as const;
 }
 
 export class HuggingFaceRecoverableError extends EngineError {

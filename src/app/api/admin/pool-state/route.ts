@@ -548,7 +548,6 @@ const SINGLETON_SPECS: Array<{
 }> = [
   { name: "BLUESKY", meta: "bluesky", slugs: ["bluesky-trending", "bluesky-mentions"], budgetMs: 6 * HOUR_MS },
   { name: "DEVTO", meta: "devto", slugs: ["devto-trending", "devto-mentions"], budgetMs: 24 * HOUR_MS },
-  { name: "PRODUCTHUNT", meta: "producthunt", slugs: ["producthunt-launches"], budgetMs: 12 * HOUR_MS },
   { name: "SMITHERY", slugs: ["mcp-smithery-rank"], budgetMs: 12 * HOUR_MS },
   { name: "LIBRARIES_IO", slugs: ["mcp-dependents"], budgetMs: 12 * HOUR_MS },
   { name: "TRUSTMRR", slugs: ["trustmrr-startups", "revenue-overlays"], budgetMs: 36 * HOUR_MS },

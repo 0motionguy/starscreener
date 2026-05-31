@@ -43,8 +43,6 @@ const STALENESS_HOURS = {
   "huggingface-spaces": 12,
   "funding-news": 12,
   trending: 12,
-  // Multiple-times-per-day cron
-  producthunt: 16,
   // Daily-cadence sources
   devto: 30,
   npm: 30,

@@ -27,7 +27,6 @@ const CHANNELS: Array<{
   { key: "reddit", cls: "reddit", title: "Reddit", letter: "R" },
   { key: "bluesky", cls: "bsky", title: "Bluesky", letter: "B" },
   { key: "devto", cls: "devto", title: "Dev.to", letter: "D" },
-  { key: "producthunt", cls: "ph", title: "ProductHunt", letter: "P" },
   { key: "huggingface", cls: "hf", title: "Hugging Face", letter: "F" },
   { key: "arxiv", cls: "arxiv", title: "arXiv", letter: "A" },
   { key: "npm", cls: "npm", title: "npm", letter: "N" },

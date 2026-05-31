@@ -24,7 +24,7 @@
 //       .last               → "last · 2h ago"
 //
 // Source-key normalization: derived-repos uses SocialPlatform keys
-// (twitter / reddit / hackernews / github / devto / bluesky / producthunt /
+// (twitter / reddit / hackernews / github / devto / bluesky /
 // lobsters / npm / huggingface / arxiv / funding / tavily). The standalone
 // uses `dev` as the dev.to key. SourceLogo's SourceName enum uses
 // `x-twitter`, `devto`. We map: twitter→x-twitter, dev→devto, lobsters→
@@ -63,8 +63,6 @@ function sourceLogoName(src: SocialPlatform): SourceName | null {
       return "devto";
     case "bluesky":
       return "bluesky";
-    case "producthunt":
-      return "producthunt";
     case "huggingface":
       return "huggingface";
     case "arxiv":
@@ -90,7 +88,7 @@ function collectMentions(repo: Repo | null): MentionPill[] {
   if (!perSource) return [];
   const out: MentionPill[] = [];
   // Stable display order: github → hackernews → x → reddit → bluesky →
-  // devto → producthunt → huggingface → arxiv → npm. Mirrors the standalone's
+  // devto → huggingface → arxiv → npm. Mirrors the standalone's
   // PF_SRC_LOGO ordering for visual consistency.
   const order: SocialPlatform[] = [
     "github",
@@ -99,7 +97,6 @@ function collectMentions(repo: Repo | null): MentionPill[] {
     "reddit",
     "bluesky",
     "devto",
-    "producthunt",
     "huggingface",
     "arxiv",
     "npm",

@@ -22,7 +22,7 @@ A standalone Node 22 / TypeScript worker that owns the prod data plane:
 ```
                   ┌───── upstream APIs ─────────────────────────┐
                   │  OSSInsight, GH GraphQL, HN Algolia, Bluesky│
-                  │  Reddit, dev.to, Lobsters, ProductHunt,     │
+                  │  Reddit, dev.to, Lobsters,                  │
                   │  Tavily, Apify, arXiv, Kimi, NanoGPT, …     │
                   └────────────────┬────────────────────────────┘
                                    │
@@ -130,7 +130,6 @@ The sweep logs a WARN `channel status` line every run:
 ```
 hackernews:   live
 bluesky:      live (or no-creds (BLUESKY_HANDLE/APP_PASSWORD))
-producthunt:  snapshot (or no-snapshot)
 tavily:       off (set TAVILY_API_KEY)  ← flips on with the env var
 twitter:      off (set APIFY_API_TOKEN) ← flips to "apify·top40" with the env var
 foldIn:       devto,hackernews,reddit,lobsters,bluesky

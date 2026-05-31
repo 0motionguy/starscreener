@@ -33,7 +33,7 @@
 // --- scan-writer contract (wave 6+) ---
 // The committed profile writer lives in `scripts/enrich-repo-profiles.mjs`
 // and stamps results into `data/repo-profiles.json`. That writer is a
-// standalone Node script — it re-reads trending/metadata/npm/product-hunt
+// standalone Node script — it re-reads trending/metadata/npm
 // feeds and serializes the full profile list. Calling it from a request
 // handler would pull in 600+ lines of enrichment machinery and is out of
 // scope for this worker.

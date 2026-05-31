@@ -39,10 +39,6 @@ interface MentionsPayload {
   leaderboard?: LeaderboardEntry[];
 }
 
-interface ProductHuntPayload {
-  launches?: Array<{ id?: string; linkedRepo?: string | null; votesCount?: number }>;
-}
-
 interface TwitterTrendingPayload {
   items?: Array<{ fullName?: string; rank?: number; mentions?: number; impressions?: number }>;
 }
@@ -118,31 +114,6 @@ function fromLeaderboard(
   }));
 }
 
-function fromProductHunt(p: ProductHuntPayload | null): ConsensusSourceInput[] {
-  const rows = Array.isArray(p?.launches) ? p.launches : [];
-  // ProductHunt launches with linkedRepo are GitHub-tracked products.
-  // Aggregate votes per repo.
-  const byRepo = new Map<string, number>();
-  for (const launch of rows) {
-    const linked = launch.linkedRepo;
-    if (!linked || !linked.includes('/')) continue;
-    const lower = linked.toLowerCase();
-    byRepo.set(lower, (byRepo.get(lower) ?? 0) + (toNumber(launch.votesCount) ?? 1));
-  }
-  const sorted = Array.from(byRepo.entries())
-    .map(([fullName, votes]) => ({ fullName, votes }))
-    .sort(
-      (a, b) =>
-        b.votes - a.votes ||
-        a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()),
-    );
-  return sorted.map((entry, idx) => ({
-    fullName: entry.fullName,
-    rank: idx + 1,
-    score: entry.votes,
-  }));
-}
-
 function fromTwitter(p: TwitterTrendingPayload | null): ConsensusSourceInput[] {
   // Twitter feed is not yet wired to Redis (Apify collector still file-based).
   // Defensive: read if present, otherwise empty.
@@ -184,7 +155,6 @@ const fetcher: Fetcher = {
       readDataStore<MentionsPayload>('hackernews-repo-mentions'),
       readDataStore<TwitterTrendingPayload>('twitter-trending'),
       readDataStore<MentionsPayload>('reddit-mentions'),
-      readDataStore<ProductHuntPayload>('producthunt-launches'),
       readDataStore<MentionsPayload>('devto-mentions'),
       readDataStore<MentionsPayload>('bluesky-mentions'),
     ]);
@@ -195,7 +165,6 @@ const fetcher: Fetcher = {
       'hackernews-repo-mentions',
       'twitter-trending',
       'reddit-mentions',
-      'producthunt-launches',
       'devto-mentions',
       'bluesky-mentions',
     ] as const;
@@ -221,7 +190,6 @@ const fetcher: Fetcher = {
       hnMentions,
       twitter,
       redditMentions,
-      ph,
       devtoMentions,
       blueskyMentions,
     ] = values as [
@@ -231,7 +199,6 @@ const fetcher: Fetcher = {
       MentionsPayload | null,
       TwitterTrendingPayload | null,
       MentionsPayload | null,
-      ProductHuntPayload | null,
       MentionsPayload | null,
       MentionsPayload | null,
     ];
@@ -243,7 +210,6 @@ const fetcher: Fetcher = {
       hn: fromLeaderboard(hnMentions, 'scoreSum7d'),
       x: fromTwitter(twitter),
       r: fromLeaderboard(redditMentions, 'upvotes7d'),
-      pdh: fromProductHunt(ph),
       dev: fromLeaderboard(devtoMentions, 'reactionsSum7d'),
       bs: fromLeaderboard(blueskyMentions, 'likesSum7d'),
       limit: TOP_LIMIT,
@@ -257,7 +223,6 @@ const fetcher: Fetcher = {
       hn: { count: input.hn.length, rows: hnMentions?.leaderboard?.length ?? 0 },
       x: { count: input.x.length, rows: twitter?.items?.length ?? 0 },
       r: { count: input.r.length, rows: redditMentions?.leaderboard?.length ?? 0 },
-      pdh: { count: input.pdh.length, rows: ph?.launches?.length ?? 0 },
       dev: { count: input.dev.length, rows: devtoMentions?.leaderboard?.length ?? 0 },
       bs: { count: input.bs.length, rows: blueskyMentions?.leaderboard?.length ?? 0 },
     };

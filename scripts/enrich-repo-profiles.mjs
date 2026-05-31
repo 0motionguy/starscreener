@@ -24,7 +24,6 @@ const TRENDING_FILE = resolve(DATA_DIR, "trending.json");
 const REPO_METADATA_FILE = resolve(DATA_DIR, "repo-metadata.json");
 const NPM_FILE = resolve(DATA_DIR, "npm-packages.json");
 const NPM_MANUAL_FILE = resolve(DATA_DIR, "npm-manual-packages.json");
-const PH_FILE = resolve(DATA_DIR, "producthunt-launches.json");
 const OUT_FILE = resolve(DATA_DIR, "repo-profiles.json");
 const CLI_ARGS = parseCliArgs(process.argv.slice(2));
 
@@ -218,19 +217,6 @@ function buildMetadataIndex(metadataFile) {
   return map;
 }
 
-function buildProductHuntIndex(phFile) {
-  const map = new Map();
-  for (const launch of phFile.launches ?? []) {
-    if (!launch?.linkedRepo) continue;
-    const key = normalizeRepoKey(launch.linkedRepo);
-    const existing = map.get(key);
-    if (!existing || (launch.votesCount ?? 0) > (existing.votesCount ?? 0)) {
-      map.set(key, launch);
-    }
-  }
-  return map;
-}
-
 function buildNpmIndex(...files) {
   const map = new Map();
   for (const file of files) {
@@ -415,12 +401,7 @@ async function fetchGithubHomepage(fullName) {
   }
 }
 
-async function resolveWebsite(candidate, phLaunch, npmPackages) {
-  const phWebsite = cleanUrl(phLaunch?.website);
-  if (phWebsite && !isGithubUrl(phWebsite)) {
-    return { websiteUrl: phWebsite, websiteSource: "producthunt" };
-  }
-
+async function resolveWebsite(candidate, npmPackages) {
   const metadataWebsite = cleanUrl(candidate.metadata?.homepageUrl);
   if (metadataWebsite && !isGithubUrl(metadataWebsite)) {
     return { websiteUrl: metadataWebsite, websiteSource: "github_homepage" };
@@ -680,19 +661,16 @@ async function main() {
     metadataFile,
     npmFile,
     npmManualFile,
-    phFile,
     existingFile,
   ] = await Promise.all([
     readJson(TRENDING_FILE, { buckets: {} }),
     readJson(REPO_METADATA_FILE, { items: [] }),
     readJson(NPM_FILE, { packages: [] }),
     readJson(NPM_MANUAL_FILE, { packages: [] }),
-    readJson(PH_FILE, { launches: [] }),
     readJson(OUT_FILE, { profiles: [] }),
   ]);
 
   const metadataByRepo = buildMetadataIndex(metadataFile);
-  const phByRepo = buildProductHuntIndex(phFile);
   const npmByRepo = buildNpmIndex(npmFile, npmManualFile);
   const scanOverrides = parseScanOverrides();
   const queueRepos = await parseQueueFile();
@@ -729,11 +707,9 @@ async function main() {
   for (const candidate of candidates) {
     const key = normalizeRepoKey(candidate.fullName);
     const existing = profilesByRepo.get(key) ?? null;
-    const phLaunch = phByRepo.get(key) ?? null;
     const npmPackages = npmByRepo.get(key) ?? [];
     const { websiteUrl, websiteSource } = await resolveWebsite(
       candidate,
-      phLaunch,
       npmPackages,
     );
     const now = new Date().toISOString();
@@ -752,7 +728,6 @@ async function main() {
         githubUrl,
         docsUrl: resolveDocsUrl(npmPackages),
         npmPackages: npmPackages.map((pkg) => pkg.name),
-        productHuntLaunchId: phLaunch?.id ?? null,
       },
       aisoScan: existing?.aisoScan ?? null,
       error: null,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T14:28:36.519Z",
+  "generatedAt": "2026-05-31T15:49:25.702Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -776,6 +776,38 @@
       "lastSweptAt": null
     },
     {
+      "fullName": "vercel-labs/skills",
+      "rank": 47,
+      "completenessScore": 61,
+      "breakdown": {
+        "required": 25,
+        "coverage": 6,
+        "deltas": 20,
+        "enrichment": 10
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 992,
+      "lastSweptAt": null
+    },
+    {
       "fullName": "alchaincyf/nuwa-skill",
       "rank": 52,
       "completenessScore": 56,
@@ -898,38 +930,6 @@
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
       "priority": 990,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "vercel-labs/skills",
-      "rank": 47,
-      "completenessScore": 66,
-      "breakdown": {
-        "required": 25,
-        "coverage": 6,
-        "deltas": 20,
-        "enrichment": 15
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 1,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "both",
-      "priority": 987,
       "lastSweptAt": null
     },
     {

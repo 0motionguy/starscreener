@@ -353,22 +353,12 @@ const fetcher: Fetcher = {
     const token = process.env.APIFY_API_TOKEN?.trim();
 
     if (!token) {
-      // No Apify credentials → publish an empty payload so the slug exists
-      // and downstream readers see a fresh `fetchedAt` without falling back
-      // to the "missing" tier.
-      const payload: FundingNewsXPayload = {
-        fetchedAt: discoveredAt,
-        source: 'x-funding-hashtags',
-        windowDays: WINDOW_DAYS,
-        signals: [],
-        requiresApifyToken: true,
-      };
-      const result = await writeDataStore('funding-news-x', payload);
+      // No Apify credentials: skip the collector.
+      // Do not publish a fresh empty payload; stale/missing data must stay visible.
       ctx.log.warn(
-        { redisSource: result.source },
-        'x-funding skipped: APIFY_API_TOKEN unset (slug published empty)',
+        'x-funding skipped: APIFY_API_TOKEN unset (no empty payload published)',
       );
-      return done(startedAt, 0, result.source === 'redis');
+      return done(startedAt, 0, false);
     }
 
     const allSignals: FundingSignal[] = [];

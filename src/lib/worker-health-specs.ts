@@ -5,9 +5,9 @@ export interface SlugHealthSpec {
   /** True if this slug is allowed to lag without raising an alert (e.g. weekly). */
   slowMoving?: boolean;
   /**
-   * Advisory slugs are useful diagnostics but do not make the fleet unhealthy.
-   * They are either credential-dependent catalogs, third-party mirrors, or
-   * non-critical enrichment feeds.
+   * Triage label retained in the response for operator context. The fleet
+   * health result is zero-tolerance across every active tracked slug; optional
+   * or intentionally paused producers belong in WORKER_HEALTH_DISABLED_SPECS.
    */
   blocking?: boolean;
 }
@@ -44,8 +44,20 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // few-hours cadence
   { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360, blocking: false },
-  { slug: "funding-news", fetcher: "funding-news", cadenceMin: 360 },
+  { slug: "funding-news", fetcher: "funding-news", cadenceMin: 720 },
   { slug: "collection-rankings", fetcher: "collection-rankings", cadenceMin: 360, blocking: false },
+  { slug: "funding-news-crunchbase", fetcher: "crunchbase", cadenceMin: 720 },
+  { slug: "consensus-verdicts", fetcher: "consensus-analyst", cadenceMin: 60 },
+  { slug: "devto-mentions", fetcher: "devto", cadenceMin: 720 },
+  { slug: "devto-trending", fetcher: "devto", cadenceMin: 720 },
+  { slug: "twitter-repo-signals", fetcher: "twitter", cadenceMin: 60 },
+  { slug: "repo-registry", fetcher: "repo-registry", cadenceMin: 60 },
+  { slug: "mentions-ledger", fetcher: "mentions-ledger", cadenceMin: 30 },
+  { slug: "star-activity-deltas", fetcher: "star-activity-deltas", cadenceMin: 180 },
+  { slug: "editorial-best", fetcher: "editorial-writer", cadenceMin: 60 * 24 },
+  { slug: "editorial-categories", fetcher: "editorial-categories", cadenceMin: 60 * 24 },
+  { slug: "editorial-compare", fetcher: "editorial-compare", cadenceMin: 60 * 24 },
+  { slug: "editorial-alternatives", fetcher: "editorial-alternatives", cadenceMin: 60 * 24 },
 
   // daily - operator-curated mirrors + once-a-day enrichment
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
@@ -72,6 +84,12 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     fetcher: "reddit",
     reason:
       "live Reddit collector is intentionally paused on HOSTUP; do not treat the stale historical all-posts slug as worker-owned",
+  },
+  {
+    slug: "funding-news-x",
+    fetcher: "x-funding",
+    reason:
+      "x-funding is intentionally paused on HOSTUP because the only producer path uses Apify and must not publish empty freshness payloads",
   },
   {
     slug: "github-events:_index",

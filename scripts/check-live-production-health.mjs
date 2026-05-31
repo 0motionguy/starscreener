@@ -42,28 +42,34 @@ function fail(message, context = {}) {
 
 function summarizeWorker(body) {
   const summary = body?.summary ?? {};
-  const blocking = Array.isArray(body?.slugs)
+  const nonGreen = Array.isArray(body?.slugs)
     ? body.slugs.filter(
-        (s) => s?.blocking === true && (s.status === "red" || s.status === "missing"),
+        (s) => s?.status && s.status !== "green",
       )
     : [];
-  const advisory = Array.isArray(body?.slugs)
+  const degraded = Array.isArray(body?.slugs)
     ? body.slugs.filter(
-        (s) => s?.blocking === false && (s.status === "red" || s.status === "missing"),
+        (s) => s?.payloadStatus === "degraded" || s?.payloadRowCount === 0,
       )
     : [];
   return {
     ok: body?.ok,
     summary,
-    blockingProblems: blocking.map((s) => ({
+    nonGreenSlugs: nonGreen.map((s) => ({
       slug: s.slug,
       fetcher: s.fetcher,
       status: s.status,
+      blocking: s.blocking,
       ageSec: s.ageSec,
       writtenAt: s.writtenAt,
+      payloadStatus: s.payloadStatus ?? null,
+      payloadRowCount: s.payloadRowCount ?? null,
     })),
-    advisoryRedCount: advisory.length,
-    advisoryRedSlugs: advisory.map((s) => s.slug).sort(),
+    degradedPayloadSlugs: degraded.map((s) => ({
+      slug: s.slug,
+      payloadStatus: s.payloadStatus ?? null,
+      payloadRowCount: s.payloadRowCount ?? null,
+    })),
   };
 }
 
@@ -120,8 +126,13 @@ async function main() {
     fail("/api/health is not fresh", appHealth.body);
   }
 
-  if (!workerHealth.okStatus || workerHealth.body?.ok !== true) {
-    fail("/api/worker/health is not ok", {
+  if (
+    !workerHealth.okStatus ||
+    workerHealth.body?.ok !== true ||
+    workerSummary.nonGreenSlugs.length > 0 ||
+    workerSummary.degradedPayloadSlugs.length > 0
+  ) {
+    fail("/api/worker/health is not zero-tolerance green", {
       http: workerHealth.status,
       ...workerSummary,
     });
@@ -138,7 +149,7 @@ async function main() {
   }
 
   if (process.exitCode) return;
-  console.log("\nPASS - live production health is green for blocking checks.");
+  console.log("\nPASS - live production health is zero-tolerance green.");
 }
 
 main().catch((err) => {

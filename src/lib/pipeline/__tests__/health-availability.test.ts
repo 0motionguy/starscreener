@@ -8,6 +8,7 @@ import {
 } from "../../worker-health-specs";
 import {
   applyPayloadHealthToSlugStatus,
+  isWorkerHealthStrictlyOk,
   summarizeWorkerPayloadHealth,
 } from "../../worker-health-payload";
 
@@ -18,7 +19,7 @@ test("/api/health: stale freshness remains HTTP 200 availability", () => {
   assert.equal(getHealthHttpStatusForStatus("error", true), 200);
 });
 
-test("/api/worker/health: advisory slugs do not block fleet availability", () => {
+test("/api/worker/health: advisory slugs remain labelled for triage", () => {
   const advisory = new Set([
     "hot-collections",
     "collection-rankings",
@@ -32,13 +33,52 @@ test("/api/worker/health: advisory slugs do not block fleet availability", () =>
   }
 });
 
-test("/api/worker/health: disabled legacy slugs stay visible but inactive", () => {
+test("/api/worker/health: fleet ok is zero-tolerance across active tracked slugs", () => {
+  const green = {
+    amber: 0,
+    red: 0,
+    missing: 0,
+    degradedPayload: 0,
+    emptyPayload: 0,
+  };
+
+  assert.equal(isWorkerHealthStrictlyOk(green), true);
+  assert.equal(isWorkerHealthStrictlyOk({ ...green, amber: 1 }), false);
+  assert.equal(isWorkerHealthStrictlyOk({ ...green, red: 1 }), false);
+  assert.equal(isWorkerHealthStrictlyOk({ ...green, missing: 1 }), false);
+  assert.equal(isWorkerHealthStrictlyOk({ ...green, degradedPayload: 1 }), false);
+  assert.equal(isWorkerHealthStrictlyOk({ ...green, emptyPayload: 1 }), false);
+});
+
+test("/api/worker/health: critical concrete worker outputs are tracked", () => {
+  const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
+
+  for (const slug of [
+    "funding-news-crunchbase",
+    "consensus-verdicts",
+    "devto-mentions",
+    "devto-trending",
+    "twitter-repo-signals",
+    "repo-registry",
+    "mentions-ledger",
+    "star-activity-deltas",
+    "editorial-best",
+    "editorial-categories",
+    "editorial-compare",
+    "editorial-alternatives",
+  ]) {
+    assert.equal(active.has(slug), true, `${slug} must be worker-health tracked`);
+  }
+});
+
+test("/api/worker/health: disabled slugs stay visible but inactive", () => {
   const disabled = new Set(WORKER_HEALTH_DISABLED_SPECS.map((item) => item.slug));
   const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
 
   for (const slug of [
     "reddit-mentions",
     "reddit-all-posts",
+    "funding-news-x",
     "github-events:_index",
     "huggingface-trending",
     "trending-mcp",
@@ -84,9 +124,18 @@ test("/api/worker/health: degraded payloads are not reported as pure green", () 
     }),
     "red",
   );
+  assert.equal(
+    applyPayloadHealthToSlugStatus("green", {
+      payloadStatus: "ok",
+      dataAsOf: null,
+      errorCount: null,
+      rowCount: null,
+    }),
+    "red",
+  );
 });
 
-test("/api/worker/health: payload row-quality summary covers OSSInsight slugs", () => {
+test("/api/worker/health: payload row-quality summary covers tracked slugs", () => {
   assert.deepEqual(
     summarizeWorkerPayloadHealth("trending", {
       status: "degraded",
@@ -116,5 +165,61 @@ test("/api/worker/health: payload row-quality summary covers OSSInsight slugs", 
       },
     }).rowCount,
     1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("funding-news-crunchbase", {
+      fetchedAt: "2026-05-31T20:00:00.000Z",
+      signals: [{ company: "Acme" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("consensus-verdicts", {
+      computedAt: "2026-05-31T20:00:00.000Z",
+      items: { "owner/repo": { verdict: "up" } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("devto-mentions", {
+      mentions: { "owner/repo": [{ title: "Post" }] },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("devto-trending", {
+      articles: [{ title: "Post" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("twitter-repo-signals", {
+      posts: [{ id: "1" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("repo-registry", {
+      repos: { "owner/repo": { stars: 1 } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("mentions-ledger", {
+      entries: [{ repoFullName: "owner/repo" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("editorial-compare", {
+      items: { "a__vs__b": { summary: "A vs B" } },
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("devto-trending", {
+      wrongShape: [],
+    }).rowCount,
+    null,
   );
 });

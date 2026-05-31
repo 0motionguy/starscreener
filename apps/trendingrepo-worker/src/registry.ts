@@ -16,7 +16,6 @@ import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
 import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
-import xFunding from './fetchers/x-funding/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 // Live Reddit collection is intentionally paused until the operator provisions
@@ -167,7 +166,6 @@ export const FETCHERS: Fetcher[] = [
   npmPackages,
   fundingNews,
   crunchbase,
-  xFunding,
   trustmrr,
   revenueBenchmarks,
   redditBaselines,

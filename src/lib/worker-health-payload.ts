@@ -7,6 +7,14 @@ const GZIP_MAGIC_PREFIX = "gz1:";
 export type WorkerPayloadStatus = "ok" | "degraded" | null;
 export type WorkerSlugStatus = "green" | "amber" | "red" | "missing";
 
+export interface WorkerHealthStrictSummary {
+  amber: number;
+  red: number;
+  missing: number;
+  degradedPayload: number;
+  emptyPayload: number;
+}
+
 export interface WorkerPayloadHealth {
   payloadStatus: WorkerPayloadStatus;
   dataAsOf: string | null;
@@ -29,6 +37,12 @@ export function decodeWorkerPayloadFromStore(raw: unknown): unknown {
 
 function countArrayRows(value: unknown): number | null {
   return Array.isArray(value) ? value.length : null;
+}
+
+function countObjectRows(value: unknown): number | null {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? Object.keys(value).length
+    : null;
 }
 
 function countTrendingRows(payload: unknown): number | null {
@@ -65,6 +79,35 @@ function countRows(slug: string, payload: unknown): number | null {
   if (slug === "collection-rankings") {
     return countCollectionRankingRows(payload);
   }
+  if (slug === "funding-news" || slug === "funding-news-crunchbase") {
+    return countArrayRows((payload as { signals?: unknown })?.signals);
+  }
+  if (slug === "consensus-verdicts") {
+    return countObjectRows((payload as { items?: unknown })?.items);
+  }
+  if (slug === "devto-mentions") {
+    return countObjectRows((payload as { mentions?: unknown })?.mentions);
+  }
+  if (slug === "devto-trending") {
+    return countArrayRows((payload as { articles?: unknown })?.articles);
+  }
+  if (slug === "twitter-repo-signals") {
+    return countArrayRows((payload as { posts?: unknown })?.posts);
+  }
+  if (slug === "repo-registry" || slug === "star-activity-deltas") {
+    return countObjectRows((payload as { repos?: unknown })?.repos);
+  }
+  if (slug === "mentions-ledger") {
+    return countArrayRows((payload as { entries?: unknown })?.entries);
+  }
+  if (
+    slug === "editorial-best" ||
+    slug === "editorial-categories" ||
+    slug === "editorial-compare" ||
+    slug === "editorial-alternatives"
+  ) {
+    return countObjectRows((payload as { items?: unknown })?.items);
+  }
   return null;
 }
 
@@ -82,7 +125,16 @@ export function summarizeWorkerPayloadHealth(
       envelope.status === "ok" || envelope.status === "degraded"
         ? envelope.status
         : null,
-    dataAsOf: typeof envelope.dataAsOf === "string" ? envelope.dataAsOf : null,
+    dataAsOf:
+      typeof envelope.dataAsOf === "string"
+        ? envelope.dataAsOf
+        : typeof (payload as { fetchedAt?: unknown }).fetchedAt === "string"
+          ? (payload as { fetchedAt: string }).fetchedAt
+          : typeof (payload as { computedAt?: unknown }).computedAt === "string"
+            ? (payload as { computedAt: string }).computedAt
+            : typeof (payload as { writtenAt?: unknown }).writtenAt === "string"
+              ? (payload as { writtenAt: string }).writtenAt
+              : null,
     errorCount: Array.isArray(envelope.errors) ? envelope.errors.length : null,
     rowCount: countRows(slug, payload),
   };
@@ -93,9 +145,21 @@ export function applyPayloadHealthToSlugStatus(
   payloadHealth: WorkerPayloadHealth | null,
 ): WorkerSlugStatus {
   if (!payloadHealth) return status;
-  if (payloadHealth.rowCount === 0) return "red";
+  if (payloadHealth.rowCount === null || payloadHealth.rowCount === 0) return "red";
   if (payloadHealth.payloadStatus === "degraded" && status === "green") {
     return "amber";
   }
   return status;
+}
+
+export function isWorkerHealthStrictlyOk(
+  summary: WorkerHealthStrictSummary,
+): boolean {
+  return (
+    summary.amber === 0 &&
+    summary.red === 0 &&
+    summary.missing === 0 &&
+    summary.degradedPayload === 0 &&
+    summary.emptyPayload === 0
+  );
 }

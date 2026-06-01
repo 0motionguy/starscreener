@@ -12,7 +12,14 @@
 // no network. The data dir is a per-test tmp directory so tests don't touch
 // the real data/ snapshots.
 
-import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync } from "fs";
+import {
+  mkdtempSync,
+  rmSync,
+  writeFileSync,
+  readFileSync,
+  existsSync,
+  utimesSync,
+} from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
 
@@ -142,6 +149,36 @@ test("read() falls back to memory when Redis errors AND no file", async () => {
   assert.equal(result.source, "memory");
   assert.equal(result.fresh, false);
   assert.deepEqual(result.data, { warm: true });
+});
+
+test("read() preserves fresher memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  await store.write("warm", { from: "memory" });
+  const filePath = join(tmpDir, "warm.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const result = await store.read<{ from: string }>("warm");
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "memory" });
+});
+
+test("readMany() preserves fresher memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  await store.write("warm", { from: "memory" });
+  const filePath = join(tmpDir, "warm.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const [result] = await store.readMany<{ from: string }>(["warm"]);
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "memory" });
 });
 
 test("read() prefers Redis when both Redis and file are populated", async () => {

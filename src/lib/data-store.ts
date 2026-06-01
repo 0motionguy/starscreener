@@ -20,8 +20,8 @@
 //      written only when the caller opts in (`mirrorToFile: true`) — this is
 //      mostly for collector scripts that want a local artifact.
 //   3. Memory cache holds the last-known-good value per key, per process.
-//      On a Redis brownout this is the third-tier fallback so the page
-//      keeps rendering whatever it last saw.
+//      On a Redis brownout it wins over a stale bundled file when it has
+//      a newer timestamp, so file fallback cannot rewind a warm process.
 //   4. No throw-on-boot: missing UPSTASH env vars degrade silently to
 //      file+memory only. A single warn is emitted in production.
 //
@@ -271,6 +271,28 @@ class MemoryCache {
   }
 }
 
+function memoryResult<T>(cached: MemoryEntry<T>): DataReadResult<T> {
+  const writtenAtMs = new Date(cached.writtenAt).getTime();
+  const ageMs = Number.isFinite(writtenAtMs)
+    ? Math.max(0, Date.now() - writtenAtMs)
+    : Number.MAX_SAFE_INTEGER;
+  return {
+    data: cached.data,
+    source: "memory",
+    ageMs,
+    fresh: false,
+    writtenAt: cached.writtenAt,
+  };
+}
+
+function memoryIsAtLeastAsFreshAsFile(
+  cached: MemoryEntry,
+  fileMtimeMs: number,
+): boolean {
+  const writtenAtMs = new Date(cached.writtenAt).getTime();
+  return Number.isFinite(writtenAtMs) && writtenAtMs >= fileMtimeMs;
+}
+
 // ---------------------------------------------------------------------------
 // Redis client interface (mockable for tests, no SDK dep at type level)
 //
@@ -408,6 +430,10 @@ class DefaultDataStore implements DataStore {
       const stat = safeStat(filePath);
       const writtenAt = stat ? new Date(stat.mtimeMs).toISOString() : undefined;
       const ageMs = stat ? Math.max(0, Date.now() - stat.mtimeMs) : 0;
+      const cached = this.memory.get<T>(key);
+      if (cached && stat && memoryIsAtLeastAsFreshAsFile(cached, stat.mtimeMs)) {
+        return memoryResult(cached);
+      }
       // Promote to memory so subsequent reads stay fast even if file IO is slow.
       this.memory.set(key, data, writtenAt ?? new Date().toISOString());
       return {
@@ -424,15 +450,7 @@ class DefaultDataStore implements DataStore {
     // ---- Tier 3: Memory (last-known-good) ------------------------------------
     const cached = this.memory.get<T>(key);
     if (cached) {
-      const writtenAtMs = new Date(cached.writtenAt).getTime();
-      const ageMs = Math.max(0, Date.now() - writtenAtMs);
-      return {
-        data: cached.data,
-        source: "memory",
-        ageMs,
-        fresh: false,
-        writtenAt: cached.writtenAt,
-      };
+      return memoryResult(cached);
     }
 
     // ---- Total miss ----------------------------------------------------------
@@ -513,6 +531,11 @@ class DefaultDataStore implements DataStore {
         const stat = safeStat(filePath);
         const writtenAt = stat ? new Date(stat.mtimeMs).toISOString() : undefined;
         const ageMs = stat ? Math.max(0, Date.now() - stat.mtimeMs) : 0;
+        const cached = this.memory.get<T>(slug);
+        if (cached && stat && memoryIsAtLeastAsFreshAsFile(cached, stat.mtimeMs)) {
+          out[i] = memoryResult(cached);
+          continue;
+        }
         this.memory.set(slug, data, writtenAt ?? new Date().toISOString());
         out[i] = {
           data,
@@ -529,15 +552,7 @@ class DefaultDataStore implements DataStore {
       // Tier 3: Memory (last-known-good)
       const cached = this.memory.get<T>(slug);
       if (cached) {
-        const writtenAtMs = new Date(cached.writtenAt).getTime();
-        const ageMs = Math.max(0, Date.now() - writtenAtMs);
-        out[i] = {
-          data: cached.data,
-          source: "memory",
-          ageMs,
-          fresh: false,
-          writtenAt: cached.writtenAt,
-        };
+        out[i] = memoryResult(cached);
         continue;
       }
 

@@ -210,6 +210,40 @@ interface GraphqlResponse {
   errors?: unknown[];
 }
 
+interface GraphqlErrorLike {
+  type?: unknown;
+  message?: unknown;
+}
+
+export interface GraphqlErrorSummary {
+  notFoundCount: number;
+  unexpectedCount: number;
+  unexpectedSamples: string[];
+}
+
+export function summarizeGraphqlErrors(errors: unknown[]): GraphqlErrorSummary {
+  let notFoundCount = 0;
+  const unexpectedSamples: string[] = [];
+  for (const error of errors) {
+    const entry = error as GraphqlErrorLike;
+    const type = typeof entry?.type === 'string' ? entry.type : '';
+    const message = typeof entry?.message === 'string' ? entry.message : '';
+    if (
+      type === 'NOT_FOUND' &&
+      message.includes('Could not resolve to a Repository')
+    ) {
+      notFoundCount += 1;
+      continue;
+    }
+    unexpectedSamples.push(message || JSON.stringify(error));
+  }
+  return {
+    notFoundCount,
+    unexpectedCount: unexpectedSamples.length,
+    unexpectedSamples: unexpectedSamples.slice(0, 3),
+  };
+}
+
 function normalizeRepo(
   node: GraphqlRepoNode,
   requestedFullName: string,
@@ -344,10 +378,18 @@ const fetcher: Fetcher = {
         const data = body?.data ?? {};
         const ghErrors = Array.isArray(body?.errors) ? body.errors : [];
         if (ghErrors.length > 0) {
-          ctx.log.warn(
-            { batchNo, batchTotal, errors: ghErrors.length },
-            'graphql errors in batch',
-          );
+          const errorSummary = summarizeGraphqlErrors(ghErrors);
+          if (errorSummary.unexpectedCount > 0) {
+            ctx.log.warn(
+              { batchNo, batchTotal, ...errorSummary },
+              'graphql unexpected errors in batch',
+            );
+          } else {
+            ctx.log.info(
+              { batchNo, batchTotal, notFoundCount: errorSummary.notFoundCount },
+              'graphql not-found repos in batch',
+            );
+          }
         }
         batch.forEach((fullName, i) => {
           const node = data[`r${i}`];

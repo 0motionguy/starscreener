@@ -20,6 +20,12 @@ import {
 } from "@/lib/source-health-thresholds";
 import type { ScannerSourceHealth } from "@/lib/source-health";
 import type { DeltaCoverageQuality } from "@/lib/trending";
+import {
+  readWorkerHealthSnapshot,
+  workerHealthProblemSlugs,
+  type HealthSummary as WorkerHealthSummary,
+  type WorkerHealthSnapshot,
+} from "@/lib/worker-health-snapshot";
 
 export const runtime = "nodejs";
 
@@ -35,6 +41,9 @@ const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
 interface HealthBody {
   status: HealthStatus;
   sourceStatus?: "ok" | "degraded";
+  workerStatus?: "ok" | "degraded";
+  workerSummary?: WorkerHealthSummary;
+  workerNonGreenSlugs?: string[];
   lastFetchedAt: string | null;
   computedAt: string | null;
   hotCollectionsFetchedAt: string | null;
@@ -114,6 +123,8 @@ type PublicHealthBody = Pick<
   HealthBody,
   | "status"
   | "sourceStatus"
+  | "workerStatus"
+  | "workerSummary"
   | "lastFetchedAt"
   | "computedAt"
   | "warning"
@@ -357,11 +368,34 @@ async function readSoftHealthEntries(): Promise<
   return SOFT_HEALTH_KEYS.map((item) => [item, null] as const);
 }
 
+async function readWorkerHealthForCurrentStore(): Promise<WorkerHealthSnapshot> {
+  const { getDataStore } = await import("@/lib/data-store");
+  return readWorkerHealthSnapshot(getDataStore().redisClient());
+}
+
+function appendWarning(existing: string | undefined, warning: string): string {
+  return existing ? `${existing}; ${warning}` : warning;
+}
+
+function workerHealthWarning(
+  snapshot: WorkerHealthSnapshot,
+  includeSlugs: boolean,
+): string | null {
+  if (snapshot.ok) return null;
+  const suffix = includeSlugs
+    ? ` slugs=${workerHealthProblemSlugs(snapshot).join(", ")}`
+    : "";
+  return `workerStatus=degraded amber=${snapshot.summary.amber} red=${snapshot.summary.red} missing=${snapshot.summary.missing} degradedPayload=${snapshot.summary.degradedPayload} emptyPayload=${snapshot.summary.emptyPayload}${suffix}`;
+}
+
 async function getPublicSoftHealthBody(): Promise<PublicHealthBody> {
   try {
     const timestamps = new Map<SoftHealthKey, string | null>();
     const staleIds: SoftHealthKey[] = [];
-    const entries = await readSoftHealthEntries();
+    const [entries, workerHealth] = await Promise.all([
+      readSoftHealthEntries(),
+      readWorkerHealthForCurrentStore(),
+    ]);
 
     for (const [item, writtenAt] of entries) {
       timestamps.set(item.id, writtenAt);
@@ -371,15 +405,22 @@ async function getPublicSoftHealthBody(): Promise<PublicHealthBody> {
       }
     }
 
+    const workerDegraded = !workerHealth.ok;
     const body: PublicHealthBody = {
-      status: staleIds.length > 0 ? "stale" : "ok",
-      sourceStatus: staleIds.length > 0 ? "degraded" : "ok",
+      status: staleIds.length > 0 || workerDegraded ? "stale" : "ok",
+      sourceStatus: staleIds.length > 0 || workerDegraded ? "degraded" : "ok",
+      workerStatus: workerDegraded ? "degraded" : "ok",
+      workerSummary: workerHealth.summary,
       lastFetchedAt: timestamps.get("trending") ?? null,
       computedAt: timestamps.get("deltas") ?? null,
     };
 
     if (staleIds.length > 0) {
       body.warning = `stale sources: ${staleIds.join(", ")}`;
+    }
+    const workerWarning = workerHealthWarning(workerHealth, false);
+    if (workerWarning) {
+      body.warning = appendWarning(body.warning, workerWarning);
     }
 
     return body;
@@ -388,6 +429,7 @@ async function getPublicSoftHealthBody(): Promise<PublicHealthBody> {
     return {
       status: "error",
       sourceStatus: "degraded",
+      workerStatus: "degraded",
       lastFetchedAt: null,
       computedAt: null,
       error: "health metadata unavailable",
@@ -554,6 +596,8 @@ export async function GET(
     const lobstersStale =
       (lobsters?.stale ?? false) || (lobsters?.cold ?? true);
     const npmStale = (npm?.stale ?? false) || (npm?.cold ?? true);
+    const workerHealth = await readWorkerHealthForCurrentStore();
+    const workerDegraded = !workerHealth.ok;
 
     const anyStale =
       scraperStale ||
@@ -567,7 +611,8 @@ export async function GET(
       producthuntStale ||
       devtoStale ||
       lobstersStale ||
-      npmStale;
+      npmStale ||
+      workerDegraded;
 
     const snapshotCoverage = deps.trending.deltasCoveragePct();
     const starActivityCoverage =
@@ -583,7 +628,11 @@ export async function GET(
 
     const body: HealthBody = {
       status: anyStale ? "stale" : "ok",
-      sourceStatus: degradedSources.length > 0 ? "degraded" : "ok",
+      sourceStatus:
+        degradedSources.length > 0 || workerDegraded ? "degraded" : "ok",
+      workerStatus: workerDegraded ? "degraded" : "ok",
+      workerSummary: workerHealth.summary,
+      workerNonGreenSlugs: workerHealthProblemSlugs(workerHealth),
       lastFetchedAt: lastFetchedAt ?? null,
       computedAt: deltasComputedAt ?? null,
       hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
@@ -673,6 +722,10 @@ export async function GET(
       body.warning =
         `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% - expected during 30-day cold-start window`;
     }
+    const fleetWarning = workerHealthWarning(workerHealth, includeDetail);
+    if (fleetWarning) {
+      body.warning = appendWarning(body.warning, fleetWarning);
+    }
     if (refreshFailureCount > 0) {
       const refreshWarning = `refresh degraded: ${refreshFailureCount}/${refreshResults.length} dependency refreshes failed; serving cached health snapshot`;
       body.warning = body.warning
@@ -694,6 +747,7 @@ export async function GET(
       delete minimal.thresholdSeconds;
       delete minimal.collectionCoverage;
       delete minimal.repoMetadata;
+      delete minimal.workerNonGreenSlugs;
     }
 
     return NextResponse.json(body, {
@@ -719,6 +773,7 @@ export async function GET(
         {
           status: "error",
           sourceStatus: "degraded",
+          workerStatus: "degraded",
           lastFetchedAt: fallbackLastFetchedAt,
           computedAt: fallbackComputedAt,
           error: "health check failed",
@@ -734,6 +789,7 @@ export async function GET(
       {
         status: "error",
         sourceStatus: "degraded",
+        workerStatus: "degraded",
         lastFetchedAt: fallbackLastFetchedAt,
         computedAt: fallbackComputedAt,
         hotCollectionsFetchedAt: fallbackHotCollectionsFetchedAt,

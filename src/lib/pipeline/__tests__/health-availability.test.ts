@@ -76,6 +76,17 @@ test("/api/health: coverage warning considers star-activity delta backbone", () 
   assert.equal(routeSource.includes("bestCoverageQuality"), true);
 });
 
+test("/api/health: public health folds in worker fleet status", () => {
+  const routeSource = readFileSync(
+    resolve(process.cwd(), "src", "app", "api", "health", "route.ts"),
+    "utf8",
+  );
+
+  assert.equal(routeSource.includes("readWorkerHealthSnapshot"), true);
+  assert.equal(routeSource.includes("workerStatus"), true);
+  assert.equal(routeSource.includes("workerStatus=degraded"), true);
+});
+
 test("/api/worker/health: advisory slugs remain labelled for triage", () => {
   const advisory = new Set([
     "hot-collections",

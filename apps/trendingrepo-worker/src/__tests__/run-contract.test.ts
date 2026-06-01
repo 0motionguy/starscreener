@@ -139,6 +139,23 @@ describe('runFetcher → SourceContract binding (Move 1, Phase 3)', () => {
     expect(summary).toContain('status=warn');
   });
 
+  it('emits status=warn when an active output fetcher publishes nothing in a real run', async () => {
+    const known = SOURCE_CONTRACTS.find(
+      (contract) =>
+        contract.state === 'active' &&
+        Array.isArray(contract.primary_output_keys) &&
+        contract.primary_output_keys.length > 0,
+    );
+    expect(known).toBeDefined();
+
+    await runFetcher(makeMock(known!.id).fetcher);
+
+    const lines = logSpy.mock.calls.map((c: unknown[]) => String(c[0] ?? ''));
+    const summary = lines.find((l: string) => l.startsWith('[run-summary]'));
+    expect(summary).toBeDefined();
+    expect(summary).toContain('status=warn');
+  });
+
   it('emits contract_freshness_budget_ms=missing when no contract is found', async () => {
     const { fetcher } = makeMock('__phase3-test-unknown-source-id__');
 

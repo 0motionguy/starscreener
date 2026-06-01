@@ -38,6 +38,7 @@ function makeContext(payload: unknown): FetcherContext {
 }
 
 beforeEach(() => {
+  vi.resetModules();
   vi.useFakeTimers();
   vi.setSystemTime(new Date('2026-06-01T04:07:00.000Z'));
   writeDataStoreMock.mockClear();

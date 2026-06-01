@@ -21,7 +21,7 @@
  * See:
  *   - apps/trendingrepo-worker/src/run.ts (consumer)
  *   - apps/trendingrepo-worker/src/platform/source-contract.ts
- *   - ~/.claude/plans/hidden-pondering-meadow.md (approved plan)
+ *   - apps/trendingrepo-worker/src/__tests__/run-contract.test.ts
  */
 
 import type { SourceContract } from './source-contract.js';

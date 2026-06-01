@@ -44,12 +44,6 @@ export function validateSourceHealthBody(body) {
     errors.push("summary.neverAttemptedSources is missing");
   }
 
-  if (typeof summary.neverAttempted === "number" && summary.neverAttempted > 0) {
-    errors.push(
-      `unproven source breaker(s): ${summary.neverAttemptedSources?.join(", ") || summary.neverAttempted}`,
-    );
-  }
-
   const sources = body?.sources;
   if (!sources || typeof sources !== "object" || Array.isArray(sources)) {
     errors.push("sources map is missing");
@@ -66,9 +60,6 @@ export function validateSourceHealthBody(body) {
     }
     if (typeof source.totalAttempts !== "number") {
       errors.push(`${id}: totalAttempts is missing`);
-    }
-    if (source.attempted === false || source.totalAttempts === 0) {
-      errors.push(`${id}: source breaker has no runtime attempt proof`);
     }
   }
 

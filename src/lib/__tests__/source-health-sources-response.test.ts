@@ -19,7 +19,7 @@ test("/api/health/sources ignores disabled-source breaker state", async () => {
   const response = await GET();
   const body = await response.json();
 
-  assert.equal(response.status, 207);
+  assert.equal(response.status, 200);
   assert.equal(response.headers.get("cache-control"), "private, no-store");
   assert.deepEqual(body.summary.openSources, []);
   assert.deepEqual(body.summary.halfOpenSources, []);
@@ -46,4 +46,24 @@ test("/api/health/sources ignores disabled-source breaker state", async () => {
   assert.equal(body.sources.nitter, undefined);
   assert.equal(body.sources.lobsters, undefined);
   assert.equal(body.sources.producthunt, undefined);
+});
+
+test("/api/health/sources keeps cold breaker sources visible without degrading availability", async () => {
+  sourceHealthTracker.reset();
+
+  const response = await GET();
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.summary.neverAttempted, 4);
+  assert.deepEqual(body.summary.neverAttemptedSources, [
+    "bluesky",
+    "devto",
+    "github",
+    "hackernews",
+  ]);
+  assert.equal(body.sources.hackernews.attempted, false);
+  assert.equal(body.sources.bluesky.attempted, false);
+  assert.equal(body.sources.devto.attempted, false);
+  assert.equal(body.sources.github.attempted, false);
 });

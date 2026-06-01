@@ -162,8 +162,9 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
   };
 
   // 207 Multi-Status when degraded so monitors can split "down" from
-  // "degraded but serving". Zero-attempt sources are unknown, not green.
-  const status = open + halfOpen + neverAttempted > 0 ? 207 : 200;
+  // "degraded but serving". Zero-attempt sources remain visible as unknown,
+  // but a healthy process restart must not fail production availability.
+  const status = open + halfOpen > 0 ? 207 : 200;
   if (trace) {
     const totalMs = performance.now() - startedAt;
     console.info(

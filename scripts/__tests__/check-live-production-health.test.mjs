@@ -45,7 +45,7 @@ test("operator freshness audit script uses the live production health gate", () 
   );
 });
 
-test("validateSourceHealthBody rejects legacy source-health schema without attempt proof", () => {
+test("validateSourceHealthBody rejects legacy source-health schema without attempt fields", () => {
   const errors = validateSourceHealthBody({
     summary: {
       total: 1,
@@ -64,10 +64,9 @@ test("validateSourceHealthBody rejects legacy source-health schema without attem
 
   assert.match(errors.join("\n"), /summary\.neverAttempted is missing/);
   assert.match(errors.join("\n"), /hackernews: attempted flag is missing/);
-  assert.match(errors.join("\n"), /hackernews: source breaker has no runtime attempt proof/);
 });
 
-test("validateSourceHealthBody rejects unattempted active source breakers", () => {
+test("validateSourceHealthBody accepts unattempted cold source breakers", () => {
   const errors = validateSourceHealthBody({
     summary: {
       total: 1,
@@ -87,8 +86,7 @@ test("validateSourceHealthBody rejects unattempted active source breakers", () =
     },
   });
 
-  assert.match(errors.join("\n"), /unproven source breaker/);
-  assert.match(errors.join("\n"), /bluesky: source breaker has no runtime attempt proof/);
+  assert.deepEqual(errors, []);
 });
 
 test("validateSourceHealthBody accepts proven active source breakers", () => {

@@ -6,6 +6,7 @@ import { test } from "node:test";
 import { getHealthHttpStatusForStatus } from "../../health-status";
 import {
   WORKER_HEALTH_DISABLED_SPECS,
+  WORKER_PAYLOAD_HEALTH_SLUGS,
   WORKER_HEALTH_SPECS,
 } from "../../worker-health-specs";
 import sourcesData from "../../../../apps/trendingrepo-worker/src/platform/sources.json";
@@ -179,6 +180,14 @@ test("/api/worker/health: every active worker concrete output is tracked", () =>
       if (!tracked.has(key)) missing.push(`${source.id}:${key}`);
     }
   }
+
+  assert.deepEqual(missing.sort(), []);
+});
+
+test("/api/worker/health: every active tracked slug receives payload quality checks", () => {
+  const missing = WORKER_HEALTH_SPECS.map((item) => item.slug).filter(
+    (slug) => !WORKER_PAYLOAD_HEALTH_SLUGS.has(slug),
+  );
 
   assert.deepEqual(missing.sort(), []);
 });
@@ -376,6 +385,26 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
   assert.equal(
     summarizeWorkerPayloadHealth("trustmrr-startups", {
       startups: [{ slug: "acme" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("trustmrr-startups:meta", {
+      startupCount: 412,
+      totalReported: 512,
+      totalSize: 1024,
+    }).rowCount,
+    412,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("revenue-manual-matches", {
+      _comment: "manual overrides are optional",
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("revenue-manual-matches", {
+      "owner/repo": "trustmrr-slug",
     }).rowCount,
     1,
   );

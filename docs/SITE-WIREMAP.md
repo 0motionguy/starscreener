@@ -6,7 +6,11 @@
 
 **Cache column**: each route table in §3 carries a `Cache` column with one of `ISR` / `static` / `dynamic` / `private`. Values track the canonical cache policy declared in [`perf/routes.json`](../perf/routes.json) — that file is the source of truth for cache lifetimes, revalidate windows, and per-route performance budgets. When the policy diverges between this map and `perf/routes.json`, treat `perf/routes.json` as canonical and bring this doc back into sync. (Note: `perf/routes.json` lives in main checkout; in branches that predate PR1 it may not be present, which is fine — the column values here are still authoritative for documentation purposes.)
 
-**Last refreshed**: §1 (nav) + answer-surfaces updated 2026-05-28; §2–§3 route tables still reflect pre-v6 truth (see banner).
+**Last refreshed**: 2026-06-01 operational overlay; §1 (nav) + answer-surfaces
+updated 2026-05-28; §2–§3 route tables still reflect pre-v6 truth (see
+banner). For production health/source truth, use `npm run health:prod` and
+`docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md` before relying on route-table
+collector labels.
 
 > ## ⚠️ PARTIALLY STALE — §2/§3 predate the v6 cutover
 > The route tables in §2–§3 below describe the **pre-v6 (V5) site** and have NOT

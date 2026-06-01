@@ -12,8 +12,8 @@ One-page topology reference. Update whenever a surface moves.
 
 | What | Where | Notes |
 |---|---|---|
-| Verify (typecheck + test + build) | **TOOLBOX VPS** `[self-hosted, toolbox]` runner | per Phase 4 audit, runs `cron-warmup.yml` + `uptime-monitor.yml` on self-hosted (3 jobs). Sprint 2.1 will flip more workflows. |
-| Cron-y data jobs | Until Sprint 3.2 fully lands: 74 GH Actions workflows on `ubuntu-latest` (many are `cron:`-triggered scrapers). After Sprint 3.2: 34 retired (already in flight via PR #1486 + later batches), remainder runs on TOOLBOX worker via in-process croner. |
+| Verify (typecheck + test + build) | Local worktree, GitHub Actions, and HOSTUP release builds | Before production claims, run `npm run health:prod` against Cloudflare -> HOSTUP. |
+| Cron-y data jobs | **HOSTUP worker owns production data freshness.** GitHub Actions schedules that remain enabled should be live probes or explicit app-cron calls, not duplicate producers for worker-owned sources. |
 | Action `uses:` pinning | SHA-pinned (Sprint 2.3, PR #1480 — 5 unique actions across 50+ workflows). Dependabot weekly auto-PRs. |
 
 ## Deploy
@@ -28,10 +28,10 @@ One-page topology reference. Update whenever a surface moves.
 
 | What | Where | Source |
 |---|---|---|
-| Data fetchers | **HOSTUP / TOOLBOX VPS** trendingrepo-worker container, in-process croner | `apps/trendingrepo-worker/src/registry.ts` FETCHERS array. Reddit is intentionally paused. |
+| Data fetchers | **HOSTUP / TOOLBOX VPS** trendingrepo-worker container, in-process croner | `apps/trendingrepo-worker/src/registry.ts` FETCHERS array. Production health currently expects 50 active sources green and 17 disabled. Reddit is intentionally paused. |
 | App-cron / ops calls | **GitHub Actions or HOSTUP worker**, depending on route | Keep GitHub schedules only for live probes or explicit app-cron HTTP calls. Do not reintroduce duplicate GitHub data producers for worker-owned sources. |
-| Cleanup / health (ad-hoc) | **GH Actions ubuntu-latest** | 16 cron-driven app-cron/health/ops workflows kept on GH Actions for clean-room (per duplicate matrix). |
-| Sprint 3.2 retirements | Sprint 3.2 PR #1486 retired 13 pure-double-invocation `refresh-*` workflows. 21 more MIGRATE candidates queued in subsequent PRs. |
+| Cleanup / health (ad-hoc) | **GH Actions ubuntu-latest** | Health/probe workflows are acceptable when they do not write duplicate data payloads. |
+| Retired producers | 2026-06-01 hardening removed or disabled stale duplicate cron/workflow paths, including the noisy Collect Funding Signals workflow. |
 
 ## Data
 
@@ -66,7 +66,7 @@ Paid x402 surfaces are on the TOOLBOX side (`api.aiso.tools/v1/x402/*` + `mcp.ai
 | Surface | Rollback command |
 |---|---|
 | Web container | Retag/restart the previous HOSTUP Docker image, then smoke `https://trendingrepo.com`. |
-| trendingrepo-worker container | `ssh toolbox 'cd /opt/toolbox-trendingrepo-worker && sed -i "s|image: ghcr.io/0motionguy/starscreener-worker:.*|image: ghcr.io/0motionguy/starscreener-worker:<PREV_TAG>|" docker-compose.yml && docker compose up -d'` |
+| trendingrepo-worker container | `ssh toolbox 'cd /opt/toolbox-trendingrepo-worker && sed -i "s|image: toolbox-trendingrepo-worker:.*|image: toolbox-trendingrepo-worker:<PREV_TAG>|" docker-compose.yml && docker compose up -d'` |
 | Workflow YAML | `git revert <merge-commit>` + push |
 | Migration | `supabase migration repair` OR manual `psql` revert |
 | Secrets rotation | Roll back one sops commit in toolbox-ops + restart decrypt service |
@@ -77,8 +77,8 @@ Paid x402 surfaces are on the TOOLBOX side (`api.aiso.tools/v1/x402/*` + `mcp.ai
 2. Read `WHERE-THINGS-RUN.md` (this file).
 3. Read `HANDOVER-current.md` if it exists.
 4. Run `git status --porcelain && git log -1 --oneline`.
-5. Run `npm run freshness:check` to confirm worker fetchers are producing fresh data.
-6. For VPS-touching work: `ssh toolbox 'docker ps --filter "name=trendingrepo-worker" --format "{{.Names}}|{{.Status}}"'`.
+5. Run `npm run freshness:check` for local/source checks and `npm run health:prod` for live HOSTUP Redis/worker truth.
+6. For VPS-touching work: `ssh toolbox 'docker ps --format "{{.Names}}|{{.Image}}|{{.Status}}" | grep trendingrepo'`.
 
 ## See also
 

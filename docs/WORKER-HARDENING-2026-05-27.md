@@ -4,6 +4,26 @@ Permanent reference for the work that shipped during the 2026-05-27 hardening
 session. See `~/.claude/plans/handover-2026-05-28-trendingrepo.md` for the
 operational handover format; this doc is the architectural record.
 
+## 2026-06-01 addendum - strict production health
+
+The 2026-06-01 root-cause hardening wave moved this from architecture record to
+live production contract:
+
+- `npm run health:prod` is the zero-tolerance live gate.
+- `/api/worker/health` is expected to show 50 active sources, 50 green, and no
+  amber/red/missing/degraded/empty payloads.
+- New strict worker-health marker slugs must be seeded by successful real
+  fetcher runs. Do not weaken the gate to hide cold Redis.
+- `/api/health/sources` must keep process-local cold breakers visible, but cold
+  alone is not degraded. Open or half-open breakers still fail health.
+- Reddit is intentionally disabled until a credentialed, non-empty producer is
+  approved.
+- Direct OSSInsight usage is opt-in; GitHub-backed star activity and worker
+  Redis payloads are the durable path.
+
+Current operational handoff:
+[HANDOVER-2026-06-01-PRODUCTION-HARDENING.md](HANDOVER-2026-06-01-PRODUCTION-HARDENING.md).
+
 ## Context — what was broken
 
 Production (TOOLBOX) was healthy in the gross sense (homepage 200, no smoke

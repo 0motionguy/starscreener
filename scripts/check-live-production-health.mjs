@@ -66,6 +66,21 @@ export function validateSourceHealthBody(body) {
   return errors;
 }
 
+export function validateSourceHealthSummary(summary) {
+  const errors = [];
+  if ((summary?.open ?? 0) > 0) {
+    errors.push(
+      `open source breaker(s): ${summary.openSources?.join(", ") || summary.open}`,
+    );
+  }
+  if ((summary?.halfOpen ?? 0) > 0) {
+    errors.push(
+      `half-open source breaker(s): ${summary.halfOpenSources?.join(", ") || summary.halfOpen}`,
+    );
+  }
+  return errors;
+}
+
 async function fetchJson(path, okStatuses = [200]) {
   const url = `${BASE_URL}${path}`;
   let res;
@@ -322,12 +337,14 @@ async function main() {
       errors: sourceHealthProofErrors,
       summary: sourceSummary,
     });
-  } else if (
-    (sourceSummary.open ?? 0) > 0 ||
-    (sourceSummary.halfOpen ?? 0) > 0 ||
-    sourceSummary.neverAttempted > 0
-  ) {
-    fail("/api/health/sources has degraded or unproven sources", sourceSummary);
+  } else {
+    const sourceSummaryErrors = validateSourceHealthSummary(sourceSummary);
+    if (sourceSummaryErrors.length > 0) {
+      fail("/api/health/sources has degraded sources", {
+        errors: sourceSummaryErrors,
+        summary: sourceSummary,
+      });
+    }
   }
 
   if (

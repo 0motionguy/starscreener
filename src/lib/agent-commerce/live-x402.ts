@@ -40,6 +40,12 @@ export interface LiveX402Snapshot {
   }>;
   /** Whether at least one BlockScout call succeeded. */
   healthy: boolean;
+  /** True when returned data is the last-good snapshot after a failed refresh. */
+  stale?: boolean;
+  /** Timestamp of the last healthy upstream-backed snapshot. */
+  lastGoodAt?: string;
+  /** Timestamp of the failed refresh attempt that caused a stale fallback. */
+  attemptedAt?: string;
 }
 
 // Same address list as scripts/fetch-base-x402-onchain.mjs:19-50.
@@ -82,6 +88,8 @@ const BLOCKSCOUT_UA =
   "Mozilla/5.0 (compatible; TrendingRepo/1.0; +https://trendingrepo.com)";
 const BLOCKSCOUT_TIMEOUT_MS = 3_000;
 const BLOCKSCOUT_CONCURRENCY = 5;
+
+let lastHealthySnapshot: LiveX402Snapshot | null = null;
 
 interface BsTx {
   hash?: string;
@@ -234,7 +242,7 @@ export async function fetchLiveX402(): Promise<LiveX402Snapshot> {
   // Healthy if at least one address response had any items at all.
   const healthy = responses.some((items) => items.length > 0);
 
-  return {
+  const snapshot: LiveX402Snapshot = {
     fetchedAt,
     totalLastHour: lastHour.length,
     totalLast24h: last24h.length,
@@ -244,4 +252,29 @@ export async function fetchLiveX402(): Promise<LiveX402Snapshot> {
     latestTxs,
     healthy,
   };
+
+  if (healthy) {
+    lastHealthySnapshot = {
+      ...snapshot,
+      stale: false,
+      lastGoodAt: fetchedAt,
+    };
+    return lastHealthySnapshot;
+  }
+
+  if (lastHealthySnapshot) {
+    return {
+      ...lastHealthySnapshot,
+      healthy: false,
+      stale: true,
+      lastGoodAt: lastHealthySnapshot.lastGoodAt ?? lastHealthySnapshot.fetchedAt,
+      attemptedAt: fetchedAt,
+    };
+  }
+
+  return snapshot;
+}
+
+export function _resetLiveX402LastGoodForTests(): void {
+  lastHealthySnapshot = null;
 }

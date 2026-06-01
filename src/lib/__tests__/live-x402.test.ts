@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
+  _resetLiveX402LastGoodForTests,
   fetchAddressTxs,
+  fetchLiveX402,
   mapWithConcurrency,
 } from "../agent-commerce/live-x402";
 
@@ -35,4 +37,43 @@ test("fetchAddressTxs returns empty data on timeout instead of hanging the route
   });
 
   assert.deepEqual(result, []);
+});
+
+test("fetchLiveX402 returns stale last-good data when all upstream calls later fail", async () => {
+  const originalFetch = globalThis.fetch;
+  let callCount = 0;
+  try {
+    _resetLiveX402LastGoodForTests();
+    globalThis.fetch = (async () => {
+      callCount += 1;
+      if (callCount === 1) {
+        return {
+          ok: true,
+          json: async () => ({
+            items: [
+              {
+                hash: "0xgood",
+                timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+              },
+            ],
+          }),
+        } as Response;
+      }
+      return { ok: false, json: async () => ({}) } as Response;
+    }) as typeof fetch;
+
+    const good = await fetchLiveX402();
+    assert.equal(good.healthy, true);
+    assert.equal(good.totalObserved, 1);
+
+    const stale = await fetchLiveX402();
+    assert.equal(stale.healthy, false);
+    assert.equal(stale.stale, true);
+    assert.equal(stale.totalObserved, 1);
+    assert.equal(stale.latestTxs[0]?.hash, "0xgood");
+    assert.equal(stale.lastGoodAt, good.fetchedAt);
+  } finally {
+    _resetLiveX402LastGoodForTests();
+    globalThis.fetch = originalFetch;
+  }
 });

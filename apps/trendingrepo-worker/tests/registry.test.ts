@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import { existsSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { SOURCE_CONTRACTS, getFetcher, listFetcherNames } from '../src/registry.js';
 import type { PrimaryOutputKey, SourceContract } from '../src/platform/source-contract.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function primaryOutputKeys(source: SourceContract): string[] {
   const raw = source.primary_output_keys;
@@ -103,5 +108,42 @@ describe('worker registry', () => {
       auth_scheme: 'apify_token',
       primary_output_keys: ['funding-news-x'],
     });
+  });
+
+  it('records deleted or parked GitHub producers honestly', () => {
+    expect(listFetcherNames()).not.toContain('github');
+    expect(getFetcher('github')).toBeUndefined();
+    expect(SOURCE_CONTRACTS.find((source) => source.id === 'github')).toMatchObject({
+      state: 'deprecated',
+      supports_backfill: false,
+      primary_output_keys: ['github-trending'],
+    });
+
+    expect(listFetcherNames()).not.toContain('github-events');
+    expect(getFetcher('github-events')).toBeUndefined();
+    expect(SOURCE_CONTRACTS.find((source) => source.id === 'github-events')).toMatchObject({
+      state: 'intent-only',
+      consumer_surfaces: [
+        'src/lib/github-events.ts',
+        'src/app/api/repos/[owner]/[name]/events/route.ts',
+      ],
+    });
+  });
+
+  it('does not leave decision notes pointing at missing worker fetcher paths', () => {
+    const root = resolve(__dirname, '..', '..', '..');
+    const missing = SOURCE_CONTRACTS.flatMap((source) => {
+      const note = source.decision_pending ?? '';
+      const matches = note.matchAll(
+        /apps\/trendingrepo-worker\/src\/fetchers\/[A-Za-z0-9_-]+/g,
+      );
+
+      return [...matches]
+        .map((match) => match[0])
+        .filter((relativePath) => !existsSync(resolve(root, relativePath)))
+        .map((relativePath) => `${source.id}: ${relativePath}`);
+    });
+
+    expect(missing).toEqual([]);
   });
 });

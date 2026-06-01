@@ -13,10 +13,23 @@ const BASE_URL = (
 
 async function fetchJson(path, okStatuses = [200]) {
   const url = `${BASE_URL}${path}`;
-  const res = await fetch(url, {
-    headers: { Accept: "application/json" },
-    signal: AbortSignal.timeout(30_000),
-  });
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(30_000),
+    });
+  } catch (err) {
+    return {
+      url,
+      status: 0,
+      okStatus: false,
+      body: {
+        error: "fetch_failed",
+        message: err instanceof Error ? err.message : String(err),
+      },
+    };
+  }
   const text = await res.text();
   let body = null;
   try {
@@ -34,10 +47,22 @@ async function fetchJson(path, okStatuses = [200]) {
 
 async function fetchRoute(path, okStatuses = [200]) {
   const url = `${BASE_URL}${path}`;
-  const res = await fetch(url, {
-    headers: { Accept: "text/html,application/json" },
-    signal: AbortSignal.timeout(30_000),
-  });
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: { Accept: "text/html,application/json" },
+      signal: AbortSignal.timeout(30_000),
+    });
+  } catch (err) {
+    return {
+      path,
+      url,
+      status: 0,
+      okStatus: false,
+      contentType: null,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
   return {
     path,
     url,
@@ -179,6 +204,7 @@ async function main() {
         path: route.path,
         http: route.status,
         contentType: route.contentType,
+        error: route.error ?? null,
       })),
       null,
       2,
@@ -256,6 +282,7 @@ async function main() {
       routes: failedCriticalRoutes.map((route) => ({
         path: route.path,
         http: route.status,
+        error: route.error ?? null,
         expected: route.path === "/api/model-usage/features" ? [401] : [200],
       })),
     });

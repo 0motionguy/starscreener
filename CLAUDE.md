@@ -8,8 +8,8 @@ not optional:
 3. Read docs/AUDIT-2026-05-04.md and docs/forensic/00-INDEX.md
 4. Read tasks/CURRENT-SPRINT.md to know in-flight work
 5. Read tasks/BACKLOG.md for deferred items
-6. Run: `npm run freshness:check`
-7. If any source past freshness budget: REPAIR before features.
+6. Run: `npm run freshness:check` for local/source freshness and `npm run health:prod` for live HOSTUP Redis/worker truth.
+7. If any source past freshness budget or any production worker/source slug is non-green: REPAIR before features.
 
 Sessions that propose new work without doing 1-7 are operating on
 stale assumptions. The audit found this is the root cause of the
@@ -52,6 +52,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 
 ## Common Tasks
 - Dev: `npm run dev` (Turbopack, port 3023)
+- Live production health: `npm run health:prod` (Cloudflare -> HOSTUP; checks `/api/health`, worker health, Redis pulse, source breakers, guarded admin, and critical API routes without needing `CRON_SECRET`)
 - Lint: `npm run lint` / `npm run lint:guards` (the meta-lint catches Zod-on-mutating-routes, error envelopes, runtime drift)
 - Typecheck: `npm run typecheck` (run before every commit per ICM Motion "Verification Before Done")
 - Tests: `npm test` runs node:test + tsx + vitest in serial. Subsuites: `npm run test:hooks` / `:hooks:watch` (vitest), `npm run test:e2e` / `:e2e:ui` (Playwright)

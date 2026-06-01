@@ -110,6 +110,17 @@ describe('worker registry', () => {
     });
   });
 
+  it('schedules SEC Form D as a worker-owned funding source', () => {
+    expect(listFetcherNames()).toContain('sec-form-d');
+    expect(getFetcher('sec-form-d')?.schedule).toBe('17 */2 * * *');
+    expect(SOURCE_CONTRACTS.find((source) => source.id === 'sec-form-d')).toMatchObject({
+      state: 'active',
+      auth_required: false,
+      auth_scheme: 'none',
+      primary_output_keys: ['funding-news-sec'],
+    });
+  });
+
   it('records deleted or parked GitHub producers honestly', () => {
     expect(listFetcherNames()).not.toContain('github');
     expect(getFetcher('github')).toBeUndefined();

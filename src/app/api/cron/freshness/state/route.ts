@@ -255,7 +255,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     name: "funding-news",
     metaSource: "funding-news",
     redisSlugs: ["funding-news"],
-    ...hours(24),
+    ...hours(6),
   },
   // funding-x removed 2026-05-17: Apify-only producer was disabled per
   // docs/POLICY-NO-APIFY.md (#1594). No free producer planned. Codex audit
@@ -263,7 +263,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   {
     name: "funding-crunchbase",
     redisSlugs: ["funding-news-crunchbase"],
-    ...hours(24),
+    ...hours(6),
+  },
+  {
+    name: "funding-sec-form-d",
+    redisSlugs: ["funding-news-sec"],
+    ...hours(6),
   },
   {
     name: "revenue",

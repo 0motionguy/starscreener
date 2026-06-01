@@ -345,7 +345,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 86400000,
+    "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "none"
     },
@@ -398,7 +398,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 86400000,
+    "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "none"
     },
@@ -422,6 +422,40 @@
     "depends_on": [],
     "supports_backfill": false,
     "fallback_strategy": "editorial-seed",
+    "writes_canonical_entity_kind": [
+      "company",
+      "mention"
+    ]
+  },
+  {
+    "id": "sec-form-d",
+    "category": "funding",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 21600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": [
+      "https://efts.sec.gov/LATEST/search-index",
+      "https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/primary_doc.xml"
+    ],
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "funding-news-sec"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/funding-news.ts",
+      "src/lib/funding/sec-form-d.ts",
+      "src/lib/funding/aggregate.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
     "writes_canonical_entity_kind": [
       "company",
       "mention"

@@ -16,6 +16,7 @@ import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
 import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
+import secFormD from './fetchers/sec-form-d/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 // Reddit collection is intentionally paused end-to-end on HOSTUP. Do not keep
@@ -155,6 +156,7 @@ export const FETCHERS: Fetcher[] = [
   npmPackages,
   fundingNews,
   crunchbase,
+  secFormD,
   trustmrr,
   revenueBenchmarks,
   trendshiftDaily,

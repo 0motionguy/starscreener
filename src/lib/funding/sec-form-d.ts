@@ -1,7 +1,7 @@
 // SEC Form D loader — dedicated reader for the funding-news-sec Redis slug.
 //
-// The trending /funding page merges 4 funding slugs (funding-news +
-// funding-news-crunchbase + funding-news-x + funding-news-sec) into a single
+// The trending /funding page merges active funding slugs (funding-news +
+// funding-news-crunchbase + funding-news-sec) into a single
 // view. /funding/sec wants the SEC payload on its own with filing-specific
 // metadata (confidence pills, EDGAR ground-truth framing).
 //

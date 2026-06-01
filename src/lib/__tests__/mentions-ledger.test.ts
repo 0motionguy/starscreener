@@ -6,7 +6,8 @@
 //   3. Concurrent calls dedupe via the in-flight promise.
 //   4. Total store miss leaves the cache as an empty Map (graceful
 //      degradation — A7 decorator falls back to legacy windowed counts).
-//   5. `sources` array is sorted descending by per-source count so UI
+//   5. Paused sources are stripped before the cache is exposed.
+//   6. `sources` array is sorted descending by per-source count so UI
 //      consumers can render pips in canonical order without re-sorting.
 //
 // The data-store is injected as a fake via the optional `store` parameter,
@@ -125,8 +126,9 @@ test("refresh: populates cache from a healthy data-store payload", async () => {
   assert.equal(fake.calls, 1, "store should be hit exactly once");
   const entry = getRepoMentionsLedger("vercel/next.js");
   assert.ok(entry, "vercel/next.js should be present in the cache");
-  assert.equal(entry!.total, 1794);
+  assert.equal(entry!.total, 1362);
   assert.equal(entry!.perSource.hackernews, 1284);
+  assert.equal(entry!.perSource.reddit, undefined);
 });
 
 test("refresh: subsequent calls within 30 s do NOT re-hit the store", async () => {
@@ -199,8 +201,8 @@ test("buildCache: sources array is sorted descending by per-source count", async
   assert.ok(next);
   assert.deepEqual(
     next!.sources,
-    ["hackernews", "reddit", "bluesky"],
-    "sources must be re-sorted descending by count even when input was unordered",
+    ["hackernews", "bluesky"],
+    "sources must be rebuilt from active sources only and sorted descending by count",
   );
 
   const trader = getRepoMentionsLedger("HKUDS/AI-Trader");
@@ -210,4 +212,16 @@ test("buildCache: sources array is sorted descending by per-source count", async
     ["hackernews", "lobsters", "devto"],
     "sources must be rebuilt from perSource even when the snapshot omits them",
   );
+});
+
+test("buildCache: strips paused Reddit counts and recomputes totals", async () => {
+  const fake = new FakeStore();
+  fake.next = fixtureSnapshot();
+  await refreshMentionsLedgerFromStore(fake);
+
+  const entry = getRepoMentionsLedger("vercel/next.js");
+  assert.ok(entry);
+  assert.equal(entry!.perSource.reddit, undefined);
+  assert.equal(entry!.total, 1362);
+  assert.deepEqual(entry!.sources, ["hackernews", "bluesky"]);
 });

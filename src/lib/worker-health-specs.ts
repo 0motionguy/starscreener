@@ -78,9 +78,10 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // few-hours cadence
   { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360, blocking: false },
-  { slug: "funding-news", fetcher: "funding-news", cadenceMin: 720 },
+  { slug: "funding-news", fetcher: "funding-news", cadenceMin: 180 },
   { slug: "collection-rankings", fetcher: "collection-rankings", cadenceMin: 360, blocking: false },
-  { slug: "funding-news-crunchbase", fetcher: "crunchbase", cadenceMin: 720 },
+  { slug: "funding-news-crunchbase", fetcher: "crunchbase", cadenceMin: 180 },
+  { slug: "funding-news-sec", fetcher: "sec-form-d", cadenceMin: 180 },
   { slug: "consensus-verdicts", fetcher: "consensus-analyst", cadenceMin: 60 },
   { slug: "devto-mentions", fetcher: "devto", cadenceMin: 720 },
   { slug: "devto-trending", fetcher: "devto", cadenceMin: 720 },

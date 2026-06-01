@@ -140,6 +140,7 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "lobsters-mentions",
     "producthunt-launches",
     "funding-news-crunchbase",
+    "funding-news-sec",
     "consensus-verdicts",
     "devto-mentions",
     "devto-trending",
@@ -286,6 +287,24 @@ test("paused Reddit source is not hydrated by the global mention refresher", () 
     source.includes("refreshRedditMentionsFromStore"),
     false,
     "refreshAllMentionStores must not hydrate stale reddit-mentions while Reddit is paused",
+  );
+});
+
+test("paused X funding slug is not hydrated by the funding merger", () => {
+  const source = readFileSync(
+    resolve(process.cwd(), "src", "lib", "funding-news.ts"),
+    "utf8",
+  );
+
+  assert.equal(
+    source.includes('"funding-news-x"'),
+    false,
+    "refreshFundingNewsFromStore must not hydrate stale Apify-era funding-news-x while x-funding is paused",
+  );
+  assert.equal(
+    source.includes('"funding-news-sec"'),
+    true,
+    "refreshFundingNewsFromStore must keep the live SEC Form D slug in the funding merge",
   );
 });
 
@@ -524,6 +543,13 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
     summarizeWorkerPayloadHealth("funding-news-crunchbase", {
       fetchedAt: "2026-05-31T20:00:00.000Z",
       signals: [{ company: "Acme" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("funding-news-sec", {
+      fetchedAt: "2026-05-31T20:00:00.000Z",
+      signals: [{ id: "sec-form-d-1" }],
     }).rowCount,
     1,
   );

@@ -13,6 +13,10 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 import { withRefreshTimeout } from "./agent-commerce/refresh-timeout";
+import {
+  resolveRuntimeCacheFallback,
+  type RuntimeCacheSource,
+} from "./agent-commerce/runtime-cache-fallback";
 
 const SLUG = "dune-x402-volume";
 const FILE_PATH = resolve(process.cwd(), ".data", `${SLUG}.json`);
@@ -30,6 +34,7 @@ export interface DuneX402VolumeFile {
 }
 
 let cached: DuneX402VolumeFile | null = null;
+let cachedSource: RuntimeCacheSource | null = null;
 
 function readFromFile(): DuneX402VolumeFile | null {
   try {
@@ -43,7 +48,10 @@ function readFromFile(): DuneX402VolumeFile | null {
 export function getDuneX402Volume(): DuneX402VolumeFile | null {
   if (cached) return cached;
   const file = readFromFile();
-  if (file) cached = file;
+  if (file) {
+    cached = file;
+    cachedSource = "file";
+  }
   return cached;
 }
 
@@ -155,16 +163,24 @@ export async function refreshDuneX402VolumeFromStore(): Promise<RefreshResult> {
       );
       if (result.data && result.source !== "missing") {
         cached = result.data;
+        cachedSource = result.source;
         lastRefreshMs = Date.now();
         return { source: result.source, ageMs: result.ageMs };
       }
     } catch {
       // fall through to file fallback
     }
-    const file = readFromFile();
-    if (file) cached = file;
+    const decision = resolveRuntimeCacheFallback({
+      cached,
+      cachedSource,
+      file: readFromFile(),
+    });
+    if (decision.shouldStore && decision.value) {
+      cached = decision.value;
+      cachedSource = decision.source;
+    }
     lastRefreshMs = Date.now();
-    return { source: file ? "file" : "missing", ageMs: 0 };
+    return { source: decision.source, ageMs: 0 };
   })().finally(() => {
     inflight = null;
   });
@@ -174,6 +190,7 @@ export async function refreshDuneX402VolumeFromStore(): Promise<RefreshResult> {
 
 export function _resetDuneX402VolumeCacheForTests(): void {
   cached = null;
+  cachedSource = null;
   lastRefreshMs = 0;
   inflight = null;
 }

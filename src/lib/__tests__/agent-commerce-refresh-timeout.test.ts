@@ -6,6 +6,7 @@ import {
   AGENT_COMMERCE_STORE_READ_TIMEOUT_MS,
   withRefreshTimeout,
 } from "../agent-commerce/refresh-timeout";
+import { resolveRuntimeCacheFallback } from "../agent-commerce/runtime-cache-fallback";
 
 test("withRefreshTimeout rejects a hung data-store read", async () => {
   const startedAt = Date.now();
@@ -44,6 +45,53 @@ test("agent-commerce route loaders bound Redis data-store reads", () => {
       source,
       /withRefreshTimeout\(\s*store\.read</,
       `${file} must bound store.read so Redis slowness cannot stall /agent-commerce`,
+    );
+  }
+});
+
+test("agent-commerce runtime fallback keeps warm live cache over bundled file", () => {
+  const decision = resolveRuntimeCacheFallback({
+    cached: { fetchedAt: "2026-06-01T12:00:00.000Z", rows: ["live"] },
+    cachedSource: "redis",
+    file: { fetchedAt: "2020-01-01T00:00:00.000Z", rows: ["file"] },
+  });
+
+  assert.equal(decision.source, "memory");
+  assert.equal(decision.shouldStore, false);
+  assert.deepEqual(decision.value, {
+    fetchedAt: "2026-06-01T12:00:00.000Z",
+    rows: ["live"],
+  });
+});
+
+test("agent-commerce runtime fallback still uses bundled file on cold cache", () => {
+  const decision = resolveRuntimeCacheFallback({
+    cached: null,
+    cachedSource: null,
+    file: { fetchedAt: "2026-06-01T00:00:00.000Z", rows: ["file"] },
+  });
+
+  assert.equal(decision.source, "file");
+  assert.equal(decision.shouldStore, true);
+  assert.deepEqual(decision.value, {
+    fetchedAt: "2026-06-01T00:00:00.000Z",
+    rows: ["file"],
+  });
+});
+
+test("agent-commerce on-chain loaders use the warm-cache fallback policy", () => {
+  const files = [
+    "src/lib/base-x402-onchain.ts",
+    "src/lib/solana-x402-onchain.ts",
+    "src/lib/dune-x402-volume.ts",
+  ] as const;
+
+  for (const file of files) {
+    const source = readFileSync(file, "utf8");
+    assert.match(
+      source,
+      /resolveRuntimeCacheFallback/,
+      `${file} must preserve warm live cache before using .data file fallback`,
     );
   }
 });

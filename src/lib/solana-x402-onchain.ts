@@ -15,6 +15,10 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 import { withRefreshTimeout } from "./agent-commerce/refresh-timeout";
+import {
+  resolveRuntimeCacheFallback,
+  type RuntimeCacheSource,
+} from "./agent-commerce/runtime-cache-fallback";
 
 const SLUG = "solana-x402-onchain";
 const FILE_PATH = resolve(process.cwd(), ".data", `${SLUG}.json`);
@@ -51,6 +55,7 @@ export interface SolanaX402OnchainFile {
 }
 
 let cached: SolanaX402OnchainFile | null = null;
+let cachedSource: RuntimeCacheSource | null = null;
 
 function readFromFile(): SolanaX402OnchainFile | null {
   try {
@@ -64,7 +69,10 @@ function readFromFile(): SolanaX402OnchainFile | null {
 export function getSolanaX402Onchain(): SolanaX402OnchainFile | null {
   if (cached) return cached;
   const file = readFromFile();
-  if (file) cached = file;
+  if (file) {
+    cached = file;
+    cachedSource = "file";
+  }
   return cached;
 }
 
@@ -94,16 +102,24 @@ export async function refreshSolanaX402OnchainFromStore(): Promise<RefreshResult
       );
       if (result.data && result.source !== "missing") {
         cached = result.data;
+        cachedSource = result.source;
         lastRefreshMs = Date.now();
         return { source: result.source, ageMs: result.ageMs };
       }
     } catch {
       // fall through to file fallback
     }
-    const file = readFromFile();
-    if (file) cached = file;
+    const decision = resolveRuntimeCacheFallback({
+      cached,
+      cachedSource,
+      file: readFromFile(),
+    });
+    if (decision.shouldStore && decision.value) {
+      cached = decision.value;
+      cachedSource = decision.source;
+    }
     lastRefreshMs = Date.now();
-    return { source: file ? "file" : "missing", ageMs: 0 };
+    return { source: decision.source, ageMs: 0 };
   })().finally(() => {
     inflight = null;
   });
@@ -113,6 +129,7 @@ export async function refreshSolanaX402OnchainFromStore(): Promise<RefreshResult
 
 export function _resetSolanaX402OnchainCacheForTests(): void {
   cached = null;
+  cachedSource = null;
   lastRefreshMs = 0;
   inflight = null;
 }

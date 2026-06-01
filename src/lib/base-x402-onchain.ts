@@ -19,6 +19,10 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 import { withRefreshTimeout } from "./agent-commerce/refresh-timeout";
+import {
+  resolveRuntimeCacheFallback,
+  type RuntimeCacheSource,
+} from "./agent-commerce/runtime-cache-fallback";
 
 const SLUG = "base-x402-onchain";
 const FILE_PATH = resolve(process.cwd(), ".data", `${SLUG}.json`);
@@ -55,6 +59,7 @@ export interface BaseX402OnchainFile {
 }
 
 let cached: BaseX402OnchainFile | null = null;
+let cachedSource: RuntimeCacheSource | null = null;
 
 function readFromFile(): BaseX402OnchainFile | null {
   try {
@@ -68,7 +73,10 @@ function readFromFile(): BaseX402OnchainFile | null {
 export function getBaseX402Onchain(): BaseX402OnchainFile | null {
   if (cached) return cached;
   const file = readFromFile();
-  if (file) cached = file;
+  if (file) {
+    cached = file;
+    cachedSource = "file";
+  }
   return cached;
 }
 
@@ -98,6 +106,7 @@ export async function refreshBaseX402OnchainFromStore(): Promise<RefreshResult> 
       );
       if (result.data && result.source !== "missing") {
         cached = result.data;
+        cachedSource = result.source;
         lastRefreshMs = Date.now();
         return { source: result.source, ageMs: result.ageMs };
       }
@@ -105,10 +114,17 @@ export async function refreshBaseX402OnchainFromStore(): Promise<RefreshResult> 
       // fall through to file fallback
     }
     // Redis missed (or threw) — fall back to .data/<slug>.json on disk.
-    const file = readFromFile();
-    if (file) cached = file;
+    const decision = resolveRuntimeCacheFallback({
+      cached,
+      cachedSource,
+      file: readFromFile(),
+    });
+    if (decision.shouldStore && decision.value) {
+      cached = decision.value;
+      cachedSource = decision.source;
+    }
     lastRefreshMs = Date.now();
-    return { source: file ? "file" : "missing", ageMs: 0 };
+    return { source: decision.source, ageMs: 0 };
   })().finally(() => {
     inflight = null;
   });
@@ -118,6 +134,7 @@ export async function refreshBaseX402OnchainFromStore(): Promise<RefreshResult> 
 
 export function _resetBaseX402OnchainCacheForTests(): void {
   cached = null;
+  cachedSource = null;
   lastRefreshMs = 0;
   inflight = null;
 }

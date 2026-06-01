@@ -290,7 +290,10 @@ function memoryIsAtLeastAsFreshAsFile(
   fileMtimeMs: number,
 ): boolean {
   const writtenAtMs = new Date(cached.writtenAt).getTime();
-  return Number.isFinite(writtenAtMs) && writtenAtMs >= fileMtimeMs;
+  const observedAtMs = Number.isFinite(writtenAtMs)
+    ? Math.max(writtenAtMs, cached.cachedAtMs)
+    : cached.cachedAtMs;
+  return Number.isFinite(observedAtMs) && observedAtMs >= fileMtimeMs;
 }
 
 // ---------------------------------------------------------------------------

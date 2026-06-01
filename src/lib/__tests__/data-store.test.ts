@@ -216,6 +216,44 @@ test("readMany() treats Redis payload without meta as not fresh", async () => {
   assert.deepEqual(result.data, { from: "redis" });
 });
 
+test("read() preserves metadata-poor Redis memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  const filePath = join(tmpDir, "orphaned.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const redisResult = await store.read<{ from: string }>("orphaned");
+  assert.equal(redisResult.source, "redis");
+  assert.equal(redisResult.fresh, false);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const result = await store.read<{ from: string }>("orphaned");
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "redis" });
+});
+
+test("readMany() preserves metadata-poor Redis memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  const filePath = join(tmpDir, "orphaned.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const [redisResult] = await store.readMany<{ from: string }>(["orphaned"]);
+  assert.equal(redisResult.source, "redis");
+  assert.equal(redisResult.fresh, false);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const [result] = await store.readMany<{ from: string }>(["orphaned"]);
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "redis" });
+});
+
 test("write({mirrorToFile:true}) snapshots to disk", async () => {
   const store = buildStore();
   await store.write("snap", { v: 1 }, { mirrorToFile: true });

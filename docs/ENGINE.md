@@ -1,10 +1,18 @@
 ---
-last-verified: 2026-05-27
-verified-by: claude
+last-verified: 2026-06-01
+verified-by: codex
 status: living
 ---
 
 # ENGINE - STARSCREENER workflow + cron + key inventory
+
+2026-06-01 live overlay: production data freshness is HOSTUP-worker-owned and
+validated by `npm run health:prod`; the live health gate currently expects 50
+active worker sources green and 17 disabled. Reddit is intentionally disabled.
+GitHub schedules should be probes or app-cron calls, not duplicate data
+producers for worker-owned sources. The generated workflow table below still
+contains historical entries and should be re-derived before being used as a
+source of operational truth.
 
 Worker section (§3) re-derived 2026-05-27 after the registry-aware
 enrichment hardening; GH Actions + cron-route sections last derived

@@ -17,6 +17,9 @@ and expect `Server: cloudflare` with no `X-Vercel-*` headers.
 
 - `docs/INDEX.md` -- canonical map of every doc in the repo, classified by trust
 - `docs/OPERATOR.md` -- operator situational awareness (start here)
+- `docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md` -- current HOSTUP image
+  tags, zero-tolerance health proof, worker/source root causes, Reddit-off
+  decision, and remaining operator token-rotation action
 - `docs/ENGINE.md` -- workflow + cron + key inventory (rewritten from current code 2026-05-05; 88 workflows + 44 active worker fetchers in FETCHERS[], 47 with index.ts on disk)
 - `docs/SITE-WIREMAP.md` -- route -> data -> collector trace
 
@@ -84,6 +87,9 @@ and expect `Server: cloudflare` with no `X-Vercel-*` headers.
 - **Home page (`/`) is ISR-cached at 30 min** (`revalidate=1800`). Bundled
   JSON seeds the cold start; client refresh hooks repopulate the in-memory
   cache on navigation. Don't expect fresh data on first paint.
+- **Reddit is intentionally disabled in production.** Do not re-enable Reddit
+  jobs, breakers, or workflow producers unless there is an approved
+  credentialed producer that cannot write empty payloads.
 
 ## Anti-patterns already burned
 
@@ -127,6 +133,9 @@ the conventions in these:
 (quoted from CLAUDE.md "Common Tasks")
 
 - Dev: `npm run dev` (Turbopack, port 3023)
+- Live production health: `npm run health:prod` (Cloudflare -> HOSTUP; checks
+  app health, worker health, Redis pulse, source breakers, guarded admin, and
+  critical route coverage)
 - Lint: `npm run lint` / `npm run lint:guards`
 - Typecheck: `npm run typecheck` (run before every commit)
 - Tests: `npm test` runs node:test + tsx + vitest in serial

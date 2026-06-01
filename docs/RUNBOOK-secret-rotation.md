@@ -2,11 +2,50 @@
 
 **Owner**: operator (Kermit457)
 **Cadence**: quarterly (Jan / Apr / Jul / Oct, first week)
-**Scope**: production secrets used by the Vercel app (`trendingrepo.com`), the Railway worker (`apps/trendingrepo-worker`), and the GitHub Actions cron fleet (62 workflows, see [`ENGINE.md`](./ENGINE.md)).
+**Scope**: production secrets used by the HOSTUP app (`trendingrepo.com`), the
+HOSTUP worker (`apps/trendingrepo-worker`), and the GitHub Actions cron/probe
+fleet (see [`ENGINE.md`](./ENGINE.md)). Vercel `starscreener` is not the
+production path and must remain paused/disconnected unless Mirko explicitly
+approves a reversal.
 
 This runbook is the **only** source of truth for "how do I rotate X without taking the engine down". When a secret is added, expanded into a pool, or moved between providers, update this file in the same PR.
 
 For where secrets are *consumed* in code, cross-reference [`ENGINE.md` §3](./ENGINE.md#3-external-integrations-registry).
+
+---
+
+## 2026-06-01 emergency rotation addendum
+
+Current P0 manual action: rotate leaked Clerk `sk_live_*` and Cloudflare
+`cfat_*` tokens. Do this at the provider dashboard/password-manager layer; do
+not paste secrets into chat, commits, screenshots, or logs.
+
+High-level sequence:
+
+1. Create replacement token in Clerk or Cloudflare.
+2. Store it in the password manager.
+3. Update HOSTUP runtime env files (`/opt/trendingrepo/.env.production` and any
+   toolbox-ops/sops source of truth that feeds it).
+4. Update local `.env.local` only if the local checkout needs the value.
+5. Restart the affected app/worker container if the secret is consumed at
+   runtime.
+6. Re-run `npm run health:prod` and verify Cloudflare routing has no
+   `X-Vercel-*` headers.
+7. Revoke the old provider token after the new value is verified.
+
+Provider-specific notes:
+
+- Clerk: rotate secret keys from the Clerk Dashboard for the live TrendingRepo
+  app. Public publishable keys may also need rebuild/redeploy if changed.
+- Cloudflare: rotate API tokens from the Cloudflare user/profile token page.
+  Use least privilege for DNS/tunnel/API scope; do not replace with a global key.
+
+Record the completed rotation in the quarterly rotation log below.
+
+Provider-name drift warning: older per-secret sections below still say Vercel
+or Railway in places. Translate Vercel app to HOSTUP app runtime and Railway
+worker to HOSTUP worker unless the operator explicitly approves bringing those
+providers back.
 
 ---
 

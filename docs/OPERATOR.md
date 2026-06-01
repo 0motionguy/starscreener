@@ -1,13 +1,51 @@
 ﻿---
-last-verified: 2026-05-19
-verified-by: claude
+last-verified: 2026-06-01
+verified-by: codex
 status: living
 ---
 
-## What just shipped (2026-05-28) — GEO answer-surfaces, Wave 1 + 2
+## Current verified production state (2026-06-01)
+
+The operational source of truth is HOSTUP behind Cloudflare. Vercel
+`starscreener` must remain paused and Git-disconnected unless Mirko explicitly
+approves a reversal.
+
+Fresh verification at 2026-06-01T13:40:54Z:
+
+- `https://trendingrepo.com/` returns HTTP 200 with `Server: cloudflare` and no
+  `X-Vercel-*` headers.
+- App container: `toolbox-trendingrepo-1` on
+  `trendingrepo-app:vps-20260601101104-7e4af7b83`, healthy.
+- Worker container: `toolbox-trendingrepo-worker-1` on
+  `toolbox-trendingrepo-worker:vps-20260601091052-decd793c5`, healthy.
+- `npm run health:prod` is PASS.
+- `/api/worker/health`: 50 active, 50 green, 0 amber, 0 red, 0 missing,
+  0 degraded payloads, 0 empty payloads.
+- `/api/worker/pulse`: Redis source, fresh, 30 stories.
+- `/api/health/sources`: all active breakers closed; `github-search`,
+  `nitter`, and `reddit` are intentionally disabled.
+
+Read [HANDOVER-2026-06-01-PRODUCTION-HARDENING.md](HANDOVER-2026-06-01-PRODUCTION-HARDENING.md)
+before acting on any older workflow table in this file.
+
+## What shipped live (2026-06-01) - root-cause worker/source hardening
+
+Merged and deployed on `bot/swarm-a6-producthunt-reader`:
+
+- PR #3151: strict worker-health gates, `/api/health` worker integration,
+  production health audit command, digest/webhook gates, Reddit paused, direct
+  OSSInsight path made opt-in, stale cron/workflow cleanup.
+- PR #3153: source-health endpoint treats process-local cold breakers as
+  visible-but-not-degraded after app restarts.
+- PR #3154: `npm run health:prod` enforces the same source-health contract.
+- Manual bootstrap: real one-shot worker runs seeded new Redis marker slugs; the
+  strict health gate was not weakened.
+
+## What shipped live (2026-05-28) — GEO answer-surfaces, Wave 1 + 2
 
 On `bot/swarm-a6-producthunt-reader` (13 commits `f2c10ab03→777c76a67`, pushed,
-local prod build EXIT=0). **NOT yet in prod** — TOOLBOX deploy is gated.
+local prod build EXIT=0). Deployed live during the 2026-06-01 HOSTUP hardening
+wave.
 
 - **Root cause fixed:** the v6 cutover demolished the answer-surfaces `llms.txt`
   told AI engines to cite (`/categories/*` 302→home, `/mcp` 308→`/agent-commerce`
@@ -21,10 +59,10 @@ local prod build EXIT=0). **NOT yet in prod** — TOOLBOX deploy is gated.
   Sidebar links all new surfaces. Caught + fixed a latent Satori OG 500.
 - **Docs/skill:** `docs/GEO-ANSWER-SURFACES.md` + `geo-answer-surfaces` skill +
   `scripts/geo-citation-probe.mjs`.
-- **OPEN:** prod deploy (gated), G5 editorial-writer worker (LLM prose), real
-  citation tracking, polish. Full handover: `~/.claude/plans/handover-2026-05-28-geo-wave3.md`.
+- **OPEN:** G5 editorial-writer worker (LLM prose), real citation tracking,
+  polish. Full handover: `~/.claude/plans/handover-2026-05-28-geo-wave3.md`.
 
-## What shipped (2026-05-19)
+## Historical note (2026-05-19)
 
 - UI v6 rebuild Phase A landed on `fix/csp-clerk-cname-fonts`: 14 routes
   shipped across 13 commits since the shell foundation (`8fdc0af7f`).
@@ -34,8 +72,8 @@ local prod build EXIT=0). **NOT yet in prod** — TOOLBOX deploy is gated.
   `/ideas/[id]`, `/preview`.
 - Compare (4 routes) and Tier-List (3 routes) APIs are **restored**;
   13 admin + 9 OG routes remain 410-stubbed and continue the 48h HOSTUP
-  access-log soak. None of this has shipped to `main` yet — production
-  on HOSTUP is still the pre-rebuild UI.
+  access-log soak. This note is historical; the 2026-06-01 sections above
+  supersede its production-state claims.
 - Shell design system source-of-truth: `public/shell.css` +
   `public/shell.js`; quick reference at [UI-V6-SHELL.md](UI-V6-SHELL.md);
   rebuild handoff summary at
@@ -49,9 +87,11 @@ local prod build EXIT=0). **NOT yet in prod** — TOOLBOX deploy is gated.
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
+Last refreshed: 2026-06-01 for live production state. Large tables below still
+contain older workflow-history detail and should be verified against code/live
+health before operational use.
 
-> **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure" section below.
+> **Historical 2026-05-05 state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For current live state, use the 2026-06-01 sections above.
 
 ---
 

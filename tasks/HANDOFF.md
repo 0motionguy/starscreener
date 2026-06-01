@@ -18,3 +18,4 @@ Most recent entries at the bottom.
 2026-05-05T05:47:05.269Z | branch=bot/marco/AGN-803 | files=4 | last-sha=48a5e1c3
 2026-05-05T05:50:39.406Z | branch=bot/marco/AGN-803 | files=10 | last-sha=e4030e21
 2026-05-05T06:09:08.418Z | branch=bot/marco/AGN-803 | files=22 | last-sha=d0876c51
+2026-06-01T13:40:54.558Z | branch=bot/swarm-a6-producthunt-reader | prod=HOSTUP/cloudflare green | app=vps-20260601101104-7e4af7b83 | worker=vps-20260601091052-decd793c5 | health:prod=PASS | handoff=docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md

@@ -3,7 +3,14 @@
 // queries fire), and owner/name parsing. The network adapters are integration-
 // only (live HTTP) and not exercised here.
 
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+const runTweetScraperMock = vi.hoisted(() => vi.fn());
+
+vi.mock('../x-funding/index.js', () => ({
+  runTweetScraper: runTweetScraperMock,
+}));
+
 import {
   buildRollupRepos,
   dedupeMentions,
@@ -13,6 +20,19 @@ import {
   toRepoInput,
   type Mention,
 } from '../index.js';
+import { isApifyProxyEnabled } from '../../../lib/util/apify-proxy.js';
+
+const ORIGINAL_APIFY_TOKEN = process.env.APIFY_API_TOKEN;
+const ORIGINAL_APIFY_APPROVAL = process.env.TRENDINGREPO_ENABLE_APIFY;
+
+afterEach(() => {
+  if (ORIGINAL_APIFY_TOKEN === undefined) delete process.env.APIFY_API_TOKEN;
+  else process.env.APIFY_API_TOKEN = ORIGINAL_APIFY_TOKEN;
+  if (ORIGINAL_APIFY_APPROVAL === undefined) delete process.env.TRENDINGREPO_ENABLE_APIFY;
+  else process.env.TRENDINGREPO_ENABLE_APIFY = ORIGINAL_APIFY_APPROVAL;
+  vi.restoreAllMocks();
+  runTweetScraperMock.mockReset();
+});
 
 function mention(over: Partial<Mention> = {}): Mention {
   return {
@@ -141,6 +161,25 @@ describe('searchTwitterApify', () => {
     const repo = toRepoInput('vercel/next.js');
     await expect(searchTwitterApify(repo ? [repo] : [], undefined)).resolves.toEqual([]);
     await expect(searchTwitterApify(repo ? [repo] : [], '')).resolves.toEqual([]);
+  });
+
+  it('does not activate from APIFY_API_TOKEN alone', async () => {
+    process.env.APIFY_API_TOKEN = 'token-present';
+    delete process.env.TRENDINGREPO_ENABLE_APIFY;
+    const repo = toRepoInput('vercel/next.js');
+
+    await expect(searchTwitterApify(repo ? [repo] : [], process.env.APIFY_API_TOKEN)).resolves.toEqual([]);
+
+    expect(runTweetScraperMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('Apify proxy policy', () => {
+  it('does not enable proxy routing from APIFY_API_TOKEN alone', () => {
+    process.env.APIFY_API_TOKEN = 'token-present';
+    delete process.env.TRENDINGREPO_ENABLE_APIFY;
+
+    expect(isApifyProxyEnabled()).toBe(false);
   });
 });
 

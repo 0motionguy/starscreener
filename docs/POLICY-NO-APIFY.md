@@ -6,7 +6,7 @@
 
 ## TL;DR
 
-Apify is permanently disabled across every scheduled GitHub Actions workflow in this repo. Free providers only. Re-enabling Apify in any cron requires:
+Apify is permanently disabled across every scheduled GitHub Actions workflow in this repo. In the HOSTUP worker, `APIFY_API_TOKEN` alone must not activate Apify either; temporary use requires `TRENDINGREPO_ENABLE_APIFY=operator-approved`. Free providers only. Re-enabling Apify in any cron requires:
 
 1. A reverting PR that restores the `APIFY_API_TOKEN` env var and / or `REDDIT_COLLECTOR_PROVIDER=apify` flag
 2. Explicit operator sign-off on the recurring spend
@@ -31,8 +31,8 @@ The aggregate burn was making Apify the single largest line item without produci
 | Reddit | `trudax/reddit-scraper-lite` residential proxy | Public `/r/X/new.json` with OAuth-app User-Agent rotation in `scripts/scrape-reddit.mjs`. Last-good cache invariant prevents 0-row writes from erasing engaged baselines. |
 | Twitter | `apidojo/tweet-scraper` actor | Nitter primary (`TWITTER_COLLECTOR_PROVIDER=nitter`) → cookies-backed `TwitterWebProvider` fallback when nitter 503s |
 | AI / news blogs | n/a (was always RSS) | RSS feeds remain the source for `scrape-funding`, the AI sub-collectors, and the cookbook AI sources |
-| X funding side-channel | `apps/trendingrepo-worker` fetcher `x-funding` (Apify-only) | Step `if: false` in `collect-funding.yml`. Operator must restore manually if needed. |
-| Cross-source sweep — Twitter channel | Apify per-query bundle | Auto-disabled when `APIFY_API_TOKEN` env var is absent (sweep logs a warn, keeps the other 7 channels running) |
+| X funding side-channel | `apps/trendingrepo-worker` fetcher `x-funding` (Apify-only) | Paused in the worker source registry and not registered in `FETCHERS[]`. |
+| Cross-source sweep — Twitter channel | Apify per-query bundle | Disabled unless both `APIFY_API_TOKEN` and `TRENDINGREPO_ENABLE_APIFY=operator-approved` are set. |
 
 The data-store contract is unchanged: every collector still dual-writes file + Redis. Read paths still go through `refreshXxxFromStore()`. The only difference is the provider behind the scrape.
 
@@ -52,7 +52,7 @@ The data-store contract is unchanged: every collector still dual-writes file + R
 These files still contain Apify-aware code paths. They are NOT removed because:
 
 - The codepaths are well-tested and serve as documentation of the historical integration
-- The kill switch is workflow-level (no env var → no Apify call), not codepath-level
+- The kill switch is workflow/env-level plus worker approval-gate, not codepath-level
 - A future operator can opt in for a one-shot manual run by setting the env var locally + dispatching the workflow manually
 
 | File | Why left intact |
@@ -67,9 +67,9 @@ These files still contain Apify-aware code paths. They are NOT removed because:
 | `src/lib/pool/apify-twitter.ts` | Pool implementation; surfaced via `twitter-fallback.ts` only when the workflow sets the env |
 | `scripts/__tests__/apify-twitter-provider.test.ts` | Unit test exercising the Apify provider — no live network calls |
 
-## `apps/trendingrepo-worker/` — out of scope
+## `apps/trendingrepo-worker/`
 
-`apps/trendingrepo-worker/` is a sister Railway service (per `CLAUDE.md`) and is on the project's no-touch list. It still contains Apify-aware fetchers (notably `x-funding`). The kill switch for that path is `if: false` on the `collect-funding.yml` step that invokes it. If the Railway service has its own cron that runs the Apify-dependent fetchers directly (outside GitHub Actions), that is an operator concern outside this repo's scope.
+The worker is now in scope for the no-Apify policy. Apify-aware code remains for historical/manual diagnostics, but token presence is not enough to route traffic or wake Twitter sweep. The worker requires `TRENDINGREPO_ENABLE_APIFY=operator-approved` in addition to `APIFY_API_TOKEN`; remove that approval flag immediately after any budget-approved one-shot use.
 
 ## Future operator: what to do if you need Apify back
 

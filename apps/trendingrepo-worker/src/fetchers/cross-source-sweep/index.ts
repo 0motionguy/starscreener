@@ -13,22 +13,24 @@
 //
 // Channels: HN (Algolia), Reddit (public JSON), dev.to (public feed), Bluesky
 // (BLUESKY_HANDLE/APP_PASSWORD session) — all key-free except Bluesky's app
-// password. ProductHunt reads the producthunt-launches snapshot. Tavily +
-// Twitter(Apify) are env-gated (TAVILY_API_KEY / APIFY_API_TOKEN) and skip
-// cleanly when unset. Each channel fails soft (errors → [] → sweep continues).
+// password. ProductHunt reads the producthunt-launches snapshot. Tavily is
+// key-gated. Twitter(Apify) is token + operator-approval gated and skips
+// cleanly unless both are present. Each channel fails soft (errors → [] →
+// sweep continues).
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { describeApifyGate, isApifyTokenApproved } from '../../lib/apify-policy.js';
 // Reuse the proven Apify `apidojo~tweet-scraper` caller (run-sync-get-dataset-
 // items + field-name normalization) rather than re-implementing it. Gated on
-// APIFY_API_TOKEN — see searchTwitterApify.
+// APIFY_API_TOKEN plus TRENDINGREPO_ENABLE_APIFY — see searchTwitterApify.
 import { runTweetScraper } from '../x-funding/index.js';
 
 // Bumped 150 → 250 (2026-05-27) to push the registry-only tail into the
 // rollup so dropped repos get cross-source mention markers. Per-repo
 // channel fan-out (~3 key-free channels × ~500ms / concurrency 4) ≈ 95s
 // wall-clock for 250 repos at daily 06:00 UTC — safe. Twitter (Apify) is
-// still batched-top-40 + gated on APIFY_API_TOKEN, so no Apify cost change.
+// still batched-top-40 + approval-gated, so no accidental Apify cost change.
 const TOP_N = 250;
 const REPO_CONCURRENCY = 4;
 const FETCH_TIMEOUT_MS = 15_000;
@@ -36,8 +38,8 @@ const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
 const TEXT_TRUNCATE = 500;
 // Twitter via Apify is cost-bearing (the operator deliberately keeps Apify
 // spend low — see the reddit-Apify decision). Cap it: ONE batched actor run
-// (not one-per-repo) covering only the top slice, gated on APIFY_API_TOKEN so
-// it stays off — and free — until a key is dropped in.
+// (not one-per-repo) covering only the top slice, gated on explicit operator
+// approval so a leftover token cannot wake it up.
 const TWITTER_BATCH_REPOS = 40;
 const TWITTER_MAX_ITEMS = 200;
 const UA = 'TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; cross-source-sweep)';
@@ -261,9 +263,10 @@ async function searchTavily(repo: RepoInput, apiKey: string | undefined): Promis
   }
 }
 
-// Twitter via Apify — gated on APIFY_API_TOKEN (off + free without it). One
-// batched actor run for the top slice; attribute each tweet to whichever batch
-// repo its text references (github URL → owner/repo → distinctive name).
+// Twitter via Apify — gated on APIFY_API_TOKEN plus
+// TRENDINGREPO_ENABLE_APIFY=operator-approved. One batched actor run for the
+// top slice; attribute each tweet to whichever batch repo its text references
+// (github URL → owner/repo → distinctive name).
 interface TweetRow {
   text?: string; full_text?: string; url?: string; twitterUrl?: string;
   id?: string | number; createdAt?: string; created_at?: string;
@@ -275,7 +278,7 @@ export async function searchTwitterApify(
   repos: RepoInput[],
   token: string | undefined,
 ): Promise<Mention[]> {
-  if (!token) return [];
+  if (!isApifyTokenApproved(token)) return [];
   const batch = repos.slice(0, TWITTER_BATCH_REPOS);
   if (batch.length === 0) return [];
   let tweets: TweetRow[];
@@ -669,16 +672,19 @@ const fetcher: Fetcher = {
 
     // Key-presence check — reports which optional keys are present and which
     // channels they gate, so the operator can see the activation state at a
-    // glance. Tavily + Twitter(Apify) light up automatically on the next run
-    // once their key lands in the worker env (no code deploy needed). Logged
-    // at WARN so it's visible under the worker's LOG_LEVEL=warn (once/day).
+    // glance. Tavily can light up from its key alone; Apify is two-step gated
+    // so a token landing in env is reported but does not activate spend.
+    // Logged at WARN so it's visible under the worker's LOG_LEVEL=warn
+    // (once/day).
     ctx.log.warn(
       {
         hackernews: 'live',
         bluesky: jwt ? 'live' : 'no-creds (BLUESKY_HANDLE/APP_PASSWORD)',
         producthunt: phLaunches.length ? 'snapshot' : 'no-snapshot',
         tavily: tavilyKey ? 'live' : 'off (set TAVILY_API_KEY)',
-        twitter: apifyToken ? `apify·top${TWITTER_BATCH_REPOS}` : 'off (set APIFY_API_TOKEN)',
+        twitter: isApifyTokenApproved(apifyToken)
+          ? `apify·top${TWITTER_BATCH_REPOS}`
+          : describeApifyGate(apifyToken),
         foldIn: 'devto,hackernews,lobsters,bluesky (source-first snapshots; reddit paused)',
       },
       'cross-source-sweep channel status',

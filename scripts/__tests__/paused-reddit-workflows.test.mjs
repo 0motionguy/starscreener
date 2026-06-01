@@ -24,3 +24,27 @@ test("paused Reddit workflows cannot run Reddit collectors or probes", () => {
     );
   }
 });
+
+test("package scripts cannot manually run paused Reddit collectors", () => {
+  const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+  const scripts = pkg.scripts ?? {};
+  for (const name of [
+    "scrape:reddit",
+    "scrape:reddit:verbose",
+    "compute:reddit-baselines",
+  ]) {
+    assert.equal(
+      scripts[name],
+      `node scripts/paused-source.mjs reddit ${name}`,
+      `${name} must be an explicit paused-source no-op`,
+    );
+  }
+  for (const [name, command] of Object.entries(scripts)) {
+    if (!name.includes("reddit")) continue;
+    assert.doesNotMatch(
+      command,
+      /scripts\/(?:scrape-reddit|compute-reddit-baselines|probe-reddit-endpoints)\.mjs/,
+      `${name} must not call paused Reddit collectors directly`,
+    );
+  }
+});

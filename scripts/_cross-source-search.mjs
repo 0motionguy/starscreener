@@ -28,6 +28,8 @@ import { scrub as scrubSecrets } from "./_secret-scrubber.mjs";
 
 const FETCH_TIMEOUT_MS = 15_000;
 const TEXT_TRUNCATE = 500;
+const APIFY_APPROVAL_ENV = "TRENDINGREPO_ENABLE_APIFY";
+const APIFY_APPROVAL_VALUE = "operator-approved";
 
 const UA =
   "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; cross-source-sweep)";
@@ -525,8 +527,14 @@ export async function searchTavily(repo, apiKey) {
 
 export async function searchTwitter(repo, queryStrings, opts = {}) {
   if (isChannelDisabled("twitter")) return emptyResult("twitter", "disabled via env");
-  const token = opts.token ?? process.env.APIFY_API_TOKEN;
+  const token = String(opts.token ?? process.env.APIFY_API_TOKEN ?? "").trim();
   if (!token) return emptyResult("twitter", "APIFY_API_TOKEN not set");
+  if (!hasApifyOperatorApproval(opts)) {
+    return emptyResult(
+      "twitter",
+      `${APIFY_APPROVAL_ENV}=${APIFY_APPROVAL_VALUE} required`,
+    );
+  }
   if (!Array.isArray(queryStrings) || queryStrings.length === 0) return [];
 
   // Actor handle is configurable so we can swap implementations without
@@ -612,6 +620,13 @@ export async function searchTwitter(repo, queryStrings, opts = {}) {
     logFailure("twitter", repo, err);
     return [];
   }
+}
+
+function hasApifyOperatorApproval(opts = {}) {
+  return (
+    String(opts.apifyApproval ?? process.env[APIFY_APPROVAL_ENV] ?? "").trim() ===
+    APIFY_APPROVAL_VALUE
+  );
 }
 
 // ---------------------------------------------------------------------------

@@ -569,6 +569,22 @@ test("searchTwitter: missing APIFY_API_TOKEN returns [] without fetch", async (t
   assert.equal(calls.length, 0);
 });
 
+test("searchTwitter: APIFY_API_TOKEN alone returns [] without fetch", async (t) => {
+  const calls = stubFetch(t, () => {
+    throw new Error("fetch should not be called");
+  });
+  const prev = process.env.TRENDINGREPO_ENABLE_APIFY;
+  delete process.env.TRENDINGREPO_ENABLE_APIFY;
+  t.after(() => {
+    if (prev === undefined) delete process.env.TRENDINGREPO_ENABLE_APIFY;
+    else process.env.TRENDINGREPO_ENABLE_APIFY = prev;
+  });
+
+  const result = await searchTwitter(makeRepo(), ["query"], { token: "TOK" });
+  assert.deepEqual(result, []);
+  assert.equal(calls.length, 0);
+});
+
 test("searchTwitter: empty query strings returns [] (no fetch)", async (t) => {
   const calls = stubFetch(t, () => {
     throw new Error("fetch should not be called");
@@ -590,6 +606,7 @@ test("searchTwitter: actorId honors APIFY_TWITTER_ACTOR via opts", async (t) => 
   const customActor = "my-org~custom-tweet-actor";
   await searchTwitter(makeRepo(), ["q1"], {
     token: "TOK",
+    apifyApproval: "operator-approved",
     actorId: customActor,
   });
   // Apify URL-encodes "~" as %7E.
@@ -605,7 +622,10 @@ test("searchTwitter: default actorId is apidojo~tweet-scraper", async (t) => {
     capturedUrl = url;
     return jsonResponse([]);
   });
-  await searchTwitter(makeRepo(), ["q1"], { token: "TOK" });
+  await searchTwitter(makeRepo(), ["q1"], {
+    token: "TOK",
+    apifyApproval: "operator-approved",
+  });
   assert.ok(
     capturedUrl.includes(encodeURIComponent("apidojo~tweet-scraper")),
     `expected default actor in URL, got ${capturedUrl}`,
@@ -625,7 +645,10 @@ test("searchTwitter: happy path returns Mention[] with twitter shape", async (t)
     createdAt: "2026-04-20T12:00:00.000Z",
   };
   stubFetch(t, () => jsonResponse([tweet]));
-  const result = await searchTwitter(repo, ["next.js"], { token: "TOK" });
+  const result = await searchTwitter(repo, ["next.js"], {
+    token: "TOK",
+    apifyApproval: "operator-approved",
+  });
   assert.equal(result.length, 1);
   const m = result[0];
   assertMentionShape(m, "twitter");
@@ -637,7 +660,10 @@ test("searchTwitter: happy path returns Mention[] with twitter shape", async (t)
 
 test("searchTwitter: empty array response returns []", async (t) => {
   stubFetch(t, () => jsonResponse([]));
-  const result = await searchTwitter(makeRepo(), ["q"], { token: "TOK" });
+  const result = await searchTwitter(makeRepo(), ["q"], {
+    token: "TOK",
+    apifyApproval: "operator-approved",
+  });
   assert.deepEqual(result, []);
 });
 
@@ -645,13 +671,19 @@ test("searchTwitter: non-array response returns []", async (t) => {
   // Apify run-sync occasionally returns an error object instead of an
   // array — adapter must defend.
   stubFetch(t, () => jsonResponse({ error: "actor failed" }));
-  const result = await searchTwitter(makeRepo(), ["q"], { token: "TOK" });
+  const result = await searchTwitter(makeRepo(), ["q"], {
+    token: "TOK",
+    apifyApproval: "operator-approved",
+  });
   assert.deepEqual(result, []);
 });
 
 test("searchTwitter: HTTP 500 returns [] (fail-soft)", async (t) => {
   stubFetch(t, () => errorResponse(500));
-  const result = await searchTwitter(makeRepo(), ["q"], { token: "TOK" });
+  const result = await searchTwitter(makeRepo(), ["q"], {
+    token: "TOK",
+    apifyApproval: "operator-approved",
+  });
   assert.deepEqual(result, []);
 });
 
@@ -659,6 +691,9 @@ test("searchTwitter: AbortError returns []", async (t) => {
   stubFetch(t, () => {
     throw abortError();
   });
-  const result = await searchTwitter(makeRepo(), ["q"], { token: "TOK" });
+  const result = await searchTwitter(makeRepo(), ["q"], {
+    token: "TOK",
+    apifyApproval: "operator-approved",
+  });
   assert.deepEqual(result, []);
 });

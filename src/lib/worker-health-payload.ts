@@ -107,6 +107,22 @@ function countRows(slug: string, payload: unknown): number | null {
   if (slug === "trustmrr-startups") {
     return countArrayRows((payload as { startups?: unknown })?.startups);
   }
+  if (slug === "trustmrr-startups:meta") {
+    return (
+      countPositiveNumberRows((payload as { startupCount?: unknown })?.startupCount) ??
+      countPositiveNumberRows((payload as { totalReported?: unknown })?.totalReported) ??
+      countPositiveNumberRows((payload as { totalSize?: unknown })?.totalSize)
+    );
+  }
+  if (slug === "revenue-manual-matches") {
+    const mappings = Object.entries(
+      payload && typeof payload === "object" && !Array.isArray(payload)
+        ? (payload as Record<string, unknown>)
+        : {},
+    ).filter(([key, value]) => !key.startsWith("_") && typeof value === "string").length;
+    if (mappings > 0) return mappings;
+    return typeof (payload as { _comment?: unknown })._comment === "string" ? 1 : 0;
+  }
   if (slug === "revenue-overlays") {
     return countObjectRows((payload as { overlays?: unknown })?.overlays);
   }

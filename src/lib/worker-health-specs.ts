@@ -77,6 +77,10 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
 ];
 
+export const WORKER_PAYLOAD_HEALTH_SLUGS: ReadonlySet<string> = new Set(
+  WORKER_HEALTH_SPECS.map((spec) => spec.slug),
+);
+
 export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec> = [
   {
     slug: "reddit-mentions",

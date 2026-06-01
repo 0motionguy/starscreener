@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDataStore, type RedisClientLike } from "@/lib/data-store";
 import {
   WORKER_HEALTH_DISABLED_SPECS,
+  WORKER_PAYLOAD_HEALTH_SLUGS,
   WORKER_HEALTH_SPECS,
   type DisabledSlugHealthSpec,
 } from "@/lib/worker-health-specs";
@@ -51,50 +52,6 @@ const SLUG_TABLE = WORKER_HEALTH_SPECS;
 const DISABLED_SLUG_TABLE = WORKER_HEALTH_DISABLED_SPECS;
 const DATA_STORE_META_NAMESPACE = "ss:meta:v1";
 const DATA_STORE_PAYLOAD_NAMESPACE = "ss:data:v1";
-const PAYLOAD_HEALTH_SLUGS = new Set([
-  "hn-pulse",
-  "trending",
-  "hot-collections",
-  "recent-repos",
-  "deltas",
-  "repo-metadata",
-  "repo-profiles",
-  "trendshift-daily",
-  "engagement-composite",
-  "consensus-trending",
-  "trustmrr-startups",
-  "revenue-overlays",
-  "hackernews-trending",
-  "hackernews-repo-mentions",
-  "bluesky-trending",
-  "bluesky-mentions",
-  "lobsters-trending",
-  "lobsters-mentions",
-  "producthunt-launches",
-  "collection-rankings",
-  "funding-news",
-  "funding-news-crunchbase",
-  "consensus-verdicts",
-  "devto-mentions",
-  "devto-trending",
-  "twitter-repo-signals",
-  "aa-llms",
-  "openrouter-models",
-  "openrouter-usage",
-  "repo-registry",
-  "mentions-ledger",
-  "repo-mentions-detail-rollup",
-  "star-activity-deltas",
-  "editorial-best",
-  "editorial-categories",
-  "editorial-compare",
-  "editorial-alternatives",
-  "manual-repos",
-  "npm-packages",
-  "revenue-benchmarks",
-  "stars-by-category-daily",
-  "lmarena-text",
-]);
 
 type SlugStatus = "green" | "amber" | "red" | "missing";
 
@@ -185,7 +142,7 @@ async function readRedisPayloadHealth(
   redis: RedisClientLike | null,
   slug: string,
 ): Promise<WorkerPayloadHealth | null> {
-  if (!redis || !PAYLOAD_HEALTH_SLUGS.has(slug)) return null;
+  if (!redis || !WORKER_PAYLOAD_HEALTH_SLUGS.has(slug)) return null;
   try {
     const raw = await redis.get(dataStorePayloadKey(slug));
     if (!raw) {

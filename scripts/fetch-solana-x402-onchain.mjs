@@ -34,6 +34,7 @@ const BACKOFF_CAP_MS = 30_000;
 const TIMEOUT_MS = 30_000;
 const MAX_PAGES = parseNumberArg("--max-pages-per-addr", 3);
 const DRY_RUN = process.argv.includes("--dry-run");
+const ALLOW_EMPTY = process.argv.includes("--allow-empty");
 const ADDR_FILTER = parseStringArg("--addr", null);
 
 const FACILITATORS = {
@@ -124,6 +125,7 @@ async function rpc(method, params, attempt = 0) {
 async function getAllSignatures(addr, maxPages) {
   const all = [];
   let before;
+  let succeeded = false;
   for (let p = 0; p < maxPages; p++) {
     const cfg = { limit: PAGE_SIZE, ...(before ? { before } : {}) };
     let sigs;
@@ -133,13 +135,14 @@ async function getAllSignatures(addr, maxPages) {
       console.warn(`[x402-sol] getSignaturesForAddress(${addr}) failed:`, err.message);
       break;
     }
+    succeeded = true;
     await sleep(RPC_DELAY_MS);
     if (!sigs?.length) break;
     all.push(...sigs);
     if (sigs.length < PAGE_SIZE) break;
     before = sigs[sigs.length - 1].signature;
   }
-  return all;
+  return { signatures: all, succeeded };
 }
 
 async function getTx(sig) {
@@ -224,6 +227,10 @@ function selectFacilitators() {
   return filtered;
 }
 
+function shouldWriteSolanaX402Payload({ successfulAddressCalls, allowEmpty }) {
+  return allowEmpty || successfulAddressCalls > 0;
+}
+
 async function main() {
   const targets = selectFacilitators();
   const targetAddrCount = Object.values(targets).flat().length;
@@ -244,12 +251,15 @@ async function main() {
   const samples = [];
   let totalTxs = 0;
   let totalSettlements = 0;
+  let successfulAddressCalls = 0;
 
   for (const [name, addresses] of Object.entries(targets)) {
     let facTxs = 0;
     let facSettlements = 0;
     for (const addr of addresses) {
-      const sigs = await getAllSignatures(addr, MAX_PAGES);
+      const signatureResult = await getAllSignatures(addr, MAX_PAGES);
+      const sigs = signatureResult.signatures;
+      if (signatureResult.succeeded) successfulAddressCalls += 1;
       facTxs += sigs.length;
       let usdcCount = 0;
 
@@ -317,6 +327,13 @@ async function main() {
 
   if (DRY_RUN) {
     console.log("[x402-sol] --dry-run");
+    return;
+  }
+  if (!shouldWriteSolanaX402Payload({ successfulAddressCalls, allowEmpty: ALLOW_EMPTY })) {
+    console.warn(
+      "[x402-sol] no successful upstream calls; preserving last-good payload (pass --allow-empty to force write)",
+    );
+    process.exitCode = 1;
     return;
   }
   const payload = {

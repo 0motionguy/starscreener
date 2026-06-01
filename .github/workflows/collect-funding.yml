@@ -37,10 +37,10 @@ jobs:
           # when unset; never blocks the primary write.
           TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
           TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
-      # SEC Form D filings — every US private round files within 15 days,
-      # EDGAR full-text search filters to AI-mentioning filings only.
-      # Continues on error so a flaky EDGAR doesn't blank the funding-news
-      # commit step.
+      # Manual SEC Form D backfill only; production freshness is worker-owned.
+      # HOSTUP worker fetcher `sec-form-d` writes `funding-news-sec` every 2h.
+      # Continues on error so flaky EDGAR doesn't blank a manual funding
+      # backfill commit.
       - run: npm run scrape:sec-form-d ${{ github.event.inputs.dry_run == 'true' && '-- --output=.tmp/sec-form-d-preview.json' || '' }}
         timeout-minutes: 8
         env:

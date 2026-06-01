@@ -69,9 +69,10 @@ Most fetchers run hourly at a staggered minute; a few have specialized cadences.
 | `arxiv` | hourly | `arxiv-recent` |
 | `ai-blogs` | hourly | `ai-blogs` |
 | `lmarena` / `artificialanalysis` | daily | `aa-llms` |
-| `manual-repos` | hourly | `manual-repos` |
-| `revenue-manual-matches` | hourly | `revenue-manual-matches` |
-| `funding-news` / `crunchbase` / `x-funding` | various | `funding-news`, `crunchbase`, `funding-news-x` |
+| `manual-repos` | daily 04:07 UTC | `manual-repos` |
+| `revenue-manual-matches` | daily 04:09 UTC | `revenue-manual-matches` |
+| `funding-news` / `crunchbase` / `sec-form-d` | every 2h | `funding-news`, `funding-news-crunchbase`, `funding-news-sec` |
+| `x-funding` | paused | `funding-news-x` disabled while Apify-only |
 | `trustmrr` / `revenue-benchmarks` | daily | `trustmrr`, `revenue-benchmarks` |
 | `reddit-baselines` | paused | paused with the rest of Reddit; do not schedule until the Reddit producer is re-enabled |
 | `engagement-composite` | hourly | `engagement-composite` |

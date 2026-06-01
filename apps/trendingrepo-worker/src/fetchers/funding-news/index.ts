@@ -5,7 +5,7 @@
 // regex-based extractor (company name, $ amount, round type, tags) and
 // writes the consolidated payload to ss:data:v1:funding-news.
 //
-// Slug: `funding-news`. Cadence: every 6h (matches collect-funding.yml).
+// Slug: `funding-news`. Cadence: every 2h on HOSTUP.
 //
 // Reliability: each RSS feed is fetched with one retry on network/5xx
 // failure. The original script seeded a static SEED_SIGNALS list of

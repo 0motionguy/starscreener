@@ -4,14 +4,12 @@
 // `funding-news` fetcher to widen Phase 3.4 source coverage. Output mirrors
 // the FundingSignal shape produced by `funding-news/index.ts` so the consumer
 // (`src/lib/funding-news.ts` + `src/lib/funding/repo-events.ts`) can merge
-// the three slugs (funding-news / funding-news-crunchbase / funding-news-x)
+// the active slugs (funding-news / funding-news-crunchbase / funding-news-sec)
 // trivially — same fields, same id derivation, same date filtering rules.
 //
-// Slug: `funding-news-crunchbase`. Cadence: every 6h, offset to :00 to avoid
-// clustering with the main funding-news fetcher (which runs at `0 */6 * * *`
-// too) AND with reddit (:30) / trustmrr (:27) on the same hour. Both 6h
-// fetchers running simultaneously is fine — Redis writes are < 1s and the
-// upstream RSS hosts are independent.
+// Slug: `funding-news-crunchbase`. Cadence: every 2h at :00, aligned with the
+// main funding-news fetcher. Redis writes are < 1s and upstream RSS hosts are
+// independent; SEC Form D runs offset at :17.
 //
 // Reliability: per-feed one retry on network/5xx (4xx skipped — permanent),
 // per-feed failures logged but don't blank the slug. Window matches main

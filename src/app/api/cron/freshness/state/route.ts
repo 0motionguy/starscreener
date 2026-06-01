@@ -460,21 +460,16 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(36),
   },
   {
-    // engagement-composite, trendshift-daily, scoring-shadow:
-    // No clear producer workflows in .github/workflows/. Likely emitted by
-    // the Railway worker (apps/trendingrepo-worker) or were never implemented.
-    // Codex audit P1 flagged as blocking. Demoted to advisory pending
-    // producer-side investigation.
+    // Worker-owned active output. Keep aligned with sources.json so the
+    // session-opening gate catches a stalled composite scorer.
     name: "engagement-composite",
     redisSlugs: ["engagement-composite"],
-    blocking: false,
-    ...hours(24),
+    ...hours(2),
   },
   {
     name: "trendshift-daily",
     redisSlugs: ["trendshift-daily"],
-    blocking: false,
-    ...hours(36),
+    ...hours(24),
   },
   {
     name: "scoring-shadow",

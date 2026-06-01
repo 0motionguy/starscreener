@@ -124,7 +124,7 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     slug: "huggingface-trending",
     fetcher: "scrape-huggingface",
     reason:
-      "workflow-owned script output; no registered live worker producer, tracked by cron freshness",
+      "workflow-owned script output; no registered live worker producer, disabled from live worker and cron freshness until ported to HOSTUP",
   },
   {
     slug: "trending-mcp",

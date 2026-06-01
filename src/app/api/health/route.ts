@@ -44,8 +44,6 @@ interface HealthBody {
   collectionRankingsStatus?: "ok" | "degraded";
   collectionRankingsDataAsOf?: string | null;
   collectionRankingsErrorCount?: number;
-  redditFetchedAt: string | null;
-  redditCold: boolean;
   blueskyFetchedAt: string | null;
   blueskyCold: boolean;
   hnFetchedAt: string | null;
@@ -65,7 +63,6 @@ interface HealthBody {
     recentRepos: number | null;
     repoMetadata: number | null;
     collectionRankings: number | null;
-    reddit: number | null;
     bluesky: number | null;
     hn: number | null;
     producthunt: number | null;
@@ -87,7 +84,6 @@ interface HealthBody {
     recentRepos: boolean;
     repoMetadata: boolean;
     collectionRankings: boolean;
-    reddit: boolean;
     bluesky: boolean;
     hn: boolean;
     producthunt: boolean;
@@ -497,7 +493,6 @@ export async function GET(
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
       sources.map((source) => [source.id, source]),
     );
-    const reddit = sourceById.get("reddit");
     const bluesky = sourceById.get("bluesky");
     const hn = sourceById.get("hackernews");
     const producthunt = sourceById.get("producthunt");
@@ -535,7 +530,6 @@ export async function GET(
       recentReposStale ||
       repoMetadataStale ||
       collectionRankingsStale ||
-      (reddit?.stale ?? false) ||
       (bluesky?.stale ?? false) ||
       (hn?.stale ?? false) ||
       (producthunt?.stale ?? false) ||
@@ -561,8 +555,6 @@ export async function GET(
       collectionRankingsStatus,
       collectionRankingsDataAsOf,
       collectionRankingsErrorCount,
-      redditFetchedAt: reddit?.fetchedAt ?? null,
-      redditCold: reddit?.cold ?? true,
       blueskyFetchedAt: bluesky?.fetchedAt ?? null,
       blueskyCold: bluesky?.cold ?? true,
       hnFetchedAt: hn?.fetchedAt ?? null,
@@ -590,7 +582,6 @@ export async function GET(
           collectionRankingsAge === null
             ? null
             : Math.floor(collectionRankingsAge / 1000),
-        reddit: reddit?.ageSeconds ?? null,
         bluesky: bluesky?.ageSeconds ?? null,
         hn: hn?.ageSeconds ?? null,
         producthunt: producthunt?.ageSeconds ?? null,
@@ -612,7 +603,6 @@ export async function GET(
         recentRepos: recentReposStale,
         repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
-        reddit: reddit?.stale ?? false,
         bluesky: bluesky?.stale ?? false,
         hn: hn?.stale ?? false,
         producthunt: producthunt?.stale ?? false,
@@ -712,8 +702,6 @@ export async function GET(
         recentReposFetchedAt: fallbackRecentReposFetchedAt,
         repoMetadataFetchedAt: fallbackRepoMetadataFetchedAt,
         collectionRankingsFetchedAt: fallbackCollectionRankingsFetchedAt,
-        redditFetchedAt: null,
-        redditCold: true,
         blueskyFetchedAt: null,
         blueskyCold: true,
         hnFetchedAt: null,
@@ -733,7 +721,6 @@ export async function GET(
           recentRepos: null,
           repoMetadata: null,
           collectionRankings: null,
-          reddit: null,
           bluesky: null,
           hn: null,
           producthunt: null,
@@ -755,7 +742,6 @@ export async function GET(
           recentRepos: true,
           repoMetadata: true,
           collectionRankings: true,
-          reddit: false,
           bluesky: false,
           hn: false,
           producthunt: false,

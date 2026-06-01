@@ -206,9 +206,14 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(24),
   },
   {
+    // Workflow/file-owned script output. Keep disabled until HuggingFace is
+    // ported to a HOSTUP worker producer; otherwise stale legacy Redis writes
+    // can make freshness look owned by the live worker fleet.
     name: "huggingface",
     metaSource: "huggingface",
     redisSlugs: ["huggingface-trending"],
+    blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {

@@ -1,10 +1,9 @@
-// OSS Insight per-collection ranking fetcher.
+// Per-collection ranking fetcher.
 //
-// Ports the `--only-collection-rankings` path of
-// `scripts/scrape-trending.mjs`. For each curated collection (~28 of
-// them, hardcoded below), pull /v1/collections/{id}/ranking_by_stars and
-// /v1/collections/{id}/ranking_by_issues for the past 28 days, normalize
-// rows, and publish the aggregate to `ss:data:v1:collection-rankings`.
+// Production defaults to the HOSTUP-owned GitHub metadata/star-activity
+// fallback because api.ossinsight.io frequently returns 500s from the VPS.
+// The older OSS Insight path is still available for explicit diagnostics via
+// OSSINSIGHT_COLLECTION_RANKINGS_ENABLED=1.
 //
 // Cadence: every 6 hours at :17 (matches
 // `.github/workflows/refresh-collection-rankings.yml`).
@@ -32,6 +31,10 @@ import {
 
 const PERIOD = 'past_28_days';
 const PAUSE_MS = 400;
+
+function isOssInsightCollectionRankingsEnabled(): boolean {
+  return process.env.OSSINSIGHT_COLLECTION_RANKINGS_ENABLED === '1';
+}
 
 interface RankingRow {
   repo_id?: string | number;
@@ -108,6 +111,58 @@ const fetcher: Fetcher = {
       await readGithubCollectionFallbackSources(),
       fetchedAt,
     );
+    const rowfulPrior = countRankingRows(prior) > 0 ? prior : null;
+    const rowfulSeed =
+      countRankingRows(SEED_COLLECTION_RANKINGS) > 0
+        ? SEED_COLLECTION_RANKINGS
+        : null;
+
+    if (!isOssInsightCollectionRankingsEnabled()) {
+      const payload = githubFallback ?? rowfulPrior ?? rowfulSeed;
+      const totalRows = countRankingRows(payload);
+      if (!payload || totalRows === 0) {
+        const message =
+          'internal github metadata fallback produced no rows; skipped collection-rankings publish';
+        ctx.log.error(message);
+        return done(startedAt, 0, false, [{ stage: 'internal-fallback', message }]);
+      }
+
+      const usingLiveGithubFallback = payload === githubFallback;
+      const result = await writeDataStore(
+        'collection-rankings',
+        usingLiveGithubFallback
+          ? payload
+          : {
+              ...payload,
+              fetchedAt,
+              status: 'degraded',
+              dataAsOf: payload.dataAsOf ?? payload.fetchedAt ?? null,
+              errors: [
+                {
+                  stage: 'internal-fallback',
+                  message:
+                    'github metadata fallback unavailable; preserved previous or seed collection rankings',
+                },
+              ],
+            },
+        {
+          writer: usingLiveGithubFallback
+            ? 'worker:collection-rankings:github-metadata'
+            : 'worker:collection-rankings:degraded',
+        },
+      );
+      ctx.log.info(
+        {
+          totalRows,
+          source: usingLiveGithubFallback ? 'github-metadata-fallback' : 'preserved',
+          redisSource: result.source,
+          writtenAt: result.writtenAt,
+        },
+        'collection-rankings published from internal fallback',
+      );
+      return done(startedAt, totalRows, result.source === 'redis', []);
+    }
+
     let totalRows = 0;
     let preservedRows = 0;
     let githubFallbackRows = 0;
@@ -197,11 +252,6 @@ const fetcher: Fetcher = {
       collections[String(collection.id)] = metrics;
     }
 
-    const rowfulPrior = countRankingRows(prior) > 0 ? prior : null;
-    const rowfulSeed =
-      countRankingRows(SEED_COLLECTION_RANKINGS) > 0
-        ? SEED_COLLECTION_RANKINGS
-        : null;
     const payload: CollectionRankingsPayload = {
       fetchedAt,
       period: PERIOD,

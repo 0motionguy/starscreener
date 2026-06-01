@@ -179,6 +179,20 @@ test("400 on paused reddit source value", async () => {
   assert.equal(body.code, "invalid_source");
 });
 
+test("400 on disabled legacy research source values", async () => {
+  for (const source of ["huggingface", "arxiv"]) {
+    const res = await invokeRoute(
+      FIXTURE_OWNER,
+      FIXTURE_NAME,
+      `?source=${source}`,
+    );
+    assert.equal(res.status, 400);
+    const body = (await res.json()) as { ok: boolean; code?: string };
+    assert.equal(body.ok, false);
+    assert.equal(body.code, "invalid_source");
+  }
+});
+
 test("400 on limit > 200", async () => {
   const res = await invokeRoute(
     FIXTURE_OWNER,

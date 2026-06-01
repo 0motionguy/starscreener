@@ -76,7 +76,11 @@ import type { RepoMention, RepoScore } from "@/lib/pipeline/types";
 
 /** Upper bound on mentions returned inline with the canonical profile. */
 const PROFILE_MENTIONS_LIMIT = 50;
-const PAUSED_MENTION_SOURCES: readonly SocialPlatform[] = ["reddit"];
+const PAUSED_MENTION_SOURCES: readonly SocialPlatform[] = [
+  "reddit",
+  "huggingface",
+  "arxiv",
+];
 
 export interface CanonicalRepoProfileMentions {
   /**

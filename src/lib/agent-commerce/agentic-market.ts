@@ -14,6 +14,8 @@
 //
 // Server-side, 5-minute revalidate. Failure → empty state. No fabrication.
 
+import { fetchWithTimeout } from "./fetch-timeout";
+
 export interface X402Endpoint {
   url: string;
   method: string;
@@ -103,6 +105,7 @@ interface ApiResponse {
 
 const AGENTIC_UA =
   "Mozilla/5.0 (compatible; TrendingRepo/1.0; +https://trendingrepo.com)";
+const AGENTIC_TIMEOUT_MS = 4_000;
 
 /** Normalize CAIP-2 network strings ("eip155:8453") to chain display labels. */
 function normalizeNetwork(net: string): string {
@@ -183,7 +186,8 @@ export async function fetchX402Market(limit = 200): Promise<X402Market> {
   const url = `https://api.agentic.market/v1/services?limit=${limit}&offset=0`;
 
   try {
-    const res = await fetch(url, {
+    const res = await fetchWithTimeout(url, {
+      timeoutMs: AGENTIC_TIMEOUT_MS,
       headers: { "User-Agent": AGENTIC_UA, Accept: "application/json" },
       next: { revalidate: 300 },
     });

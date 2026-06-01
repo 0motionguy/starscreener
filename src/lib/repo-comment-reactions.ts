@@ -191,6 +191,47 @@ export async function getReactionsForComment(
 }
 
 /**
+ * Compute reaction aggregates for multiple comments from a single JSONL
+ * replay. Repo detail renders every comment at once; using this avoids an
+ * O(commentCount * logRows) read/parse loop on that hot page.
+ */
+export async function getReactionsForComments(
+  commentIds: readonly string[],
+  clerkUserId: string | null,
+): Promise<Record<string, ReactionAggregate>> {
+  const uniqueIds = [...new Set(commentIds)];
+  const wanted = new Set(uniqueIds);
+  const activeByComment = new Map<string, Map<string, Reaction>>();
+  for (const id of uniqueIds) {
+    activeByComment.set(id, new Map());
+  }
+
+  const rows = await readJsonlFile<unknown>(REPO_COMMENT_REACTIONS_FILE);
+  for (const raw of rows) {
+    const row = normalizeRow(raw);
+    if (!row || !wanted.has(row.commentId)) continue;
+    const activeByUser = activeByComment.get(row.commentId);
+    if (!activeByUser) continue;
+    if (row.removedAt) {
+      if (activeByUser.get(row.clerkUserId) === row.reaction) {
+        activeByUser.delete(row.clerkUserId);
+      }
+      continue;
+    }
+    activeByUser.set(row.clerkUserId, row.reaction);
+  }
+
+  const out: Record<string, ReactionAggregate> = {};
+  for (const id of uniqueIds) {
+    out[id] = aggregateFromActiveMap(
+      activeByComment.get(id) ?? new Map<string, Reaction>(),
+      clerkUserId,
+    );
+  }
+  return out;
+}
+
+/**
  * Build a zero-filled aggregate. Useful as a fallback when the underlying
  * JSONL read fails — callers can hand this to the client widgets so they
  * still render the (empty) reaction row instead of nothing.

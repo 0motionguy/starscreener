@@ -129,17 +129,13 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   //   - fetchAgentTokens — live CoinGecko quotes for AI-agent tokens
   //   - fetchVirtualAgents — live Virtuals Protocol on-Base agent registry
   //     (VIRTUAL price flows in below from the CoinGecko fetch above)
-  const [, , , duneRefresh, agentTokens] = await Promise.all([
+  const [, , , duneRefresh, agentTokens, virtualAgentsNoPrice, x402Market] = await Promise.all([
     refreshAgentCommerceFromStore().catch(() => undefined),
     refreshBaseX402OnchainFromStore().catch(() => undefined),
     refreshSolanaX402OnchainFromStore().catch(() => undefined),
     refreshDuneX402VolumeFromStore().catch(() => undefined),
     fetchAgentTokens().catch(() => []),
-  ]);
-  const virtualPriceUsd =
-    agentTokens.find((t) => t.id === "virtual-protocol")?.priceUsd ?? 0;
-  const [virtualAgents, x402Market] = await Promise.all([
-    fetchVirtualAgents(virtualPriceUsd, 10).catch(() => []),
+    fetchVirtualAgents(0, 10).catch(() => []),
     fetchX402Market(200).catch(() => ({
       services: [],
       totalServices: 0,
@@ -148,6 +144,15 @@ export default async function AgentCommercePage({ searchParams }: Props) {
       fetchedAt: new Date().toISOString(),
     })),
   ]);
+  const virtualPriceUsd =
+    agentTokens.find((t) => t.id === "virtual-protocol")?.priceUsd ?? 0;
+  const virtualAgents =
+    virtualPriceUsd > 0
+      ? virtualAgentsNoPrice.map((agent) => ({
+          ...agent,
+          mcapUsd: agent.mcapInVirtual * virtualPriceUsd,
+        }))
+      : virtualAgentsNoPrice;
 
   const stats = safe(() => getAgentCommerceStats(), {
     totalItems: 0,

@@ -39,7 +39,7 @@ import {
 } from "@/lib/repo-editorial-store";
 import { listCommentsForRepo } from "@/lib/repo-comments";
 import {
-  getReactionsForComment,
+  getReactionsForComments,
   emptyReactionAggregate,
 } from "@/lib/repo-comment-reactions";
 import { getLikeStatus } from "@/lib/repo-likes";
@@ -302,17 +302,14 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
   // Comments + reactions (loaded once on the server; the client widgets
   // hydrate with these as seed values).
   const comments = await listCommentsForRepo(fullName).catch(() => []);
-  const reactionEntries = await Promise.all(
-    comments.map(async (comment) => {
-      try {
-        const reactions = await getReactionsForComment(comment.id, clerkUserId);
-        return [comment.id, reactions] as const;
-      } catch {
-        return [comment.id, emptyReactionAggregate()] as const;
-      }
-    }),
+  const initialReactions = await getReactionsForComments(
+    comments.map((comment) => comment.id),
+    clerkUserId,
+  ).catch(() =>
+    Object.fromEntries(
+      comments.map((comment) => [comment.id, emptyReactionAggregate()] as const),
+    ),
   );
-  const initialReactions = Object.fromEntries(reactionEntries);
 
   // Like + unicorn status (server-side seed for the hero's reaction row).
   // Parallelize — both are independent JSONL reads.

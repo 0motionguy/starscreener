@@ -9,6 +9,7 @@ import { resolve, dirname } from "path";
 const OUT_PATH = resolve(process.cwd(), ".data/base-x402-onchain.json");
 const MAX_PAGES = parseNumberArg("--max-pages-per-addr", 4);
 const DRY_RUN = process.argv.includes("--dry-run");
+const ALLOW_EMPTY = process.argv.includes("--allow-empty");
 const TIMEOUT_MS = 30_000;
 const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
 
@@ -78,6 +79,7 @@ function dayKey(iso) {
 async function fetchAddressTxsFrom(addr, maxPages = MAX_PAGES) {
   const all = [];
   let pageParams = null;
+  let succeeded = false;
   for (let page = 0; page < maxPages; page++) {
     let url = `https://base.blockscout.com/api/v2/addresses/${addr}/transactions?filter=from`;
     if (pageParams) url += "&" + new URLSearchParams(pageParams).toString();
@@ -87,12 +89,13 @@ async function fetchAddressTxsFrom(addr, maxPages = MAX_PAGES) {
     } catch {
       break;
     }
+    succeeded = true;
     const items = data.items ?? [];
     all.push(...items);
     if (!data.next_page_params || items.length === 0) break;
     pageParams = data.next_page_params;
   }
-  return all;
+  return { items: all, succeeded };
 }
 
 function isUsdcSettlement(tx) {
@@ -101,6 +104,42 @@ function isUsdcSettlement(tx) {
     tx.to.hash.toLowerCase() === USDC_BASE &&
     tx.status !== "error"
   );
+}
+
+function formatUsdcMicros(micros) {
+  const sign = micros < 0n ? "-" : "";
+  const abs = micros < 0n ? -micros : micros;
+  const whole = abs / 1_000_000n;
+  const fraction = String(abs % 1_000_000n).padStart(6, "0").replace(/0+$/, "");
+  return `${sign}${whole}${fraction ? `.${fraction}` : ""}`;
+}
+
+function parseUsdcStringToMicros(value) {
+  const [wholeRaw, fractionRaw = ""] = String(value ?? "0").split(".");
+  const whole = BigInt(wholeRaw || "0") * 1_000_000n;
+  const fraction = BigInt((fractionRaw.replace(/\D/g, "").slice(0, 6).padEnd(6, "0")) || "0");
+  return whole + fraction;
+}
+
+function addUsdcMicrosString(current, micros) {
+  return formatUsdcMicros(parseUsdcStringToMicros(current) + micros);
+}
+
+function extractUsdcMicros(tx) {
+  const params = tx?.decoded_input?.parameters;
+  if (!Array.isArray(params)) return 0n;
+  const valueParam = params.find(
+    (param) => param?.name === "value" && String(param?.type ?? "").startsWith("uint"),
+  );
+  try {
+    return BigInt(String(valueParam?.value ?? "0"));
+  } catch {
+    return 0n;
+  }
+}
+
+function shouldWriteBaseX402Payload({ successfulAddressCalls, allowEmpty }) {
+  return allowEmpty || successfulAddressCalls > 0;
 }
 
 async function main() {
@@ -113,27 +152,45 @@ async function main() {
   const samples = [];
   let totalTxs = 0;
   let totalSettlements = 0;
+  let totalVolumeMicros = 0n;
+  let successfulAddressCalls = 0;
 
   for (const [name, addresses] of Object.entries(FACILITATORS)) {
     let facTxs = 0;
     let facSettlements = 0;
+    let facVolumeMicros = 0n;
     for (const addr of addresses) {
-      const txs = await fetchAddressTxsFrom(addr, MAX_PAGES);
+      const result = await fetchAddressTxsFrom(addr, MAX_PAGES);
+      const txs = result.items;
+      if (result.succeeded) successfulAddressCalls += 1;
       facTxs += txs.length;
       const settlements = txs.filter(isUsdcSettlement);
       facSettlements += settlements.length;
       for (const tx of settlements) {
+        const amountMicros = extractUsdcMicros(tx);
         const day = dayKey(tx.timestamp);
-        if (!byDay[day]) byDay[day] = { txs: 0, byFacilitator: {} };
+        if (!byDay[day]) byDay[day] = { txs: 0, volumeUsdc: "0", byFacilitator: {} };
         byDay[day].txs++;
-        byDay[day].byFacilitator[name] =
-          (byDay[day].byFacilitator[name] ?? 0) + 1;
+        byDay[day].volumeUsdc = addUsdcMicrosString(byDay[day].volumeUsdc, amountMicros);
+        const dayFacilitator = byDay[day].byFacilitator[name] ?? {
+          txs: 0,
+          volumeUsdc: "0",
+        };
+        dayFacilitator.txs++;
+        dayFacilitator.volumeUsdc = addUsdcMicrosString(
+          dayFacilitator.volumeUsdc,
+          amountMicros,
+        );
+        byDay[day].byFacilitator[name] = dayFacilitator;
+        facVolumeMicros += amountMicros;
+        totalVolumeMicros += amountMicros;
         if (samples.length < 10) {
           samples.push({
             facilitator: name,
             txHash: tx.hash,
             from: tx.from?.hash,
             to: tx.to?.hash,
+            amountUi: formatUsdcMicros(amountMicros),
             timestamp: tx.timestamp,
             blockNumber: tx.block_number,
           });
@@ -143,7 +200,12 @@ async function main() {
         `  ${name.padEnd(10)} ${addr.slice(0, 10)}…  txs=${txs.length} usdc=${settlements.length}\n`,
       );
     }
-    byFacilitator[name] = { addressCount: addresses.length, totalTxs: facTxs, x402Settlements: facSettlements };
+    byFacilitator[name] = {
+      addressCount: addresses.length,
+      totalTxs: facTxs,
+      x402Settlements: facSettlements,
+      volumeUsdc: formatUsdcMicros(facVolumeMicros),
+    };
     totalTxs += facTxs;
     totalSettlements += facSettlements;
   }
@@ -158,11 +220,19 @@ async function main() {
     console.log("[x402] --dry-run");
     return;
   }
+  if (!shouldWriteBaseX402Payload({ successfulAddressCalls, allowEmpty: ALLOW_EMPTY })) {
+    console.warn(
+      "[x402] no successful upstream calls; preserving last-good payload (pass --allow-empty to force write)",
+    );
+    process.exitCode = 1;
+    return;
+  }
   const payload = {
     fetchedAt,
     source: "base.blockscout.com/api/v2",
     totalTxs,
     totalSettlements,
+    totalVolumeUsdc: formatUsdcMicros(totalVolumeMicros),
     byFacilitator,
     byDay,
     samples,

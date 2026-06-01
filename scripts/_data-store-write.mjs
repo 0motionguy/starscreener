@@ -52,6 +52,30 @@ async function getClient() {
   const redisUrl = process.env.REDIS_URL?.trim();
   const upstashUrl = process.env.UPSTASH_REDIS_REST_URL?.trim();
   const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
+  const requireRedis =
+    process.env.DATA_STORE_REQUIRE_REDIS === "1" ||
+    process.env.DATA_STORE_REQUIRE_REDIS?.toLowerCase() === "true";
+
+  if (redisUrl && (upstashUrl || upstashToken)) {
+    throw new Error(
+      "[data-store-write] Set REDIS_URL OR UPSTASH_REDIS_REST_URL+TOKEN, never both.",
+    );
+  }
+  if (upstashUrl && !upstashToken) {
+    throw new Error(
+      "[data-store-write] UPSTASH_REDIS_REST_URL requires UPSTASH_REDIS_REST_TOKEN.",
+    );
+  }
+  if (!upstashUrl && upstashToken) {
+    throw new Error(
+      "[data-store-write] UPSTASH_REDIS_REST_TOKEN was set without UPSTASH_REDIS_REST_URL.",
+    );
+  }
+  if (!redisUrl && !upstashUrl && requireRedis) {
+    throw new Error(
+      "[data-store-write] Redis is required but no REDIS_URL or Upstash REST env was configured.",
+    );
+  }
 
   // Path 1: Railway-style ioredis (TCP). Preferred.
   if (redisUrl) {

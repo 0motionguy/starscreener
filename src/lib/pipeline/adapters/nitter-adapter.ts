@@ -136,21 +136,18 @@ async function ensureProbed(): Promise<void> {
   await probePromise;
 }
 
-// LIB-03: Nitter is deprecated — cookie-based access has been killed by
-// 2026 anti-bot waves and CLAUDE.md explicitly lists cookie scrapers as
-// dead. The supported path is the Apify-backed twitter collector. We
-// keep this adapter compiled (a few tests + dev tools still reference
-// the type surface) but the probe — and thus actual network requests —
-// only runs when ENABLE_NITTER_ADAPTER=1 is set explicitly. Default in
-// every env is "off"; prod stays clean of the rate-limited probe traffic.
+// LIB-03: this legacy in-app Nitter adapter stays opt-in. Production Twitter
+// freshness is worker/manual-collector owned, and Apify must remain explicit
+// operator-cost opt-in per docs/POLICY-NO-APIFY.md. Keep the probe off by
+// default so prod stays clean of rate-limited mirror traffic.
 if (process.env.ENABLE_NITTER_ADAPTER === "1") {
   void ensureProbed();
 } else if (process.env.NODE_ENV !== "test") {
   // One-time stale notice so a dev poking at adapters knows the path is
   // off by default. Test env stays quiet to avoid log noise.
   console.warn(
-    "[social:nitter] adapter disabled (LIB-03) — Apify provider is the supported Twitter path. " +
-      "Set ENABLE_NITTER_ADAPTER=1 to re-enable for offline replay.",
+    "[social:nitter] legacy in-app adapter disabled (LIB-03). " +
+      "Production Twitter freshness is worker/manual-collector owned; set ENABLE_NITTER_ADAPTER=1 only for offline replay.",
   );
 }
 

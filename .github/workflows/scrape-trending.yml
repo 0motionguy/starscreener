@@ -3,6 +3,12 @@ name: Refresh fast discovery
 on:
   # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
+    inputs:
+      use_ossinsight:
+        description: "Explicitly run the direct OSS Insight diagnostic/backfill path"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -34,9 +40,10 @@ jobs:
         # PR #9 / 89273868, 2026-04-28T12:00Z added the import.)
         run: npm ci
 
-      - name: Refresh OSSInsight trending + hot collections
+      - name: Refresh OSSInsight trending + hot collections (operator-approved only)
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          TRENDINGREPO_ENABLE_OSSINSIGHT: ${{ inputs.use_ossinsight == true && 'operator-approved' || '' }}
           # Dual-write to TOOLBOX signal lake (trending.github.repos).
           # Skipped silently when unset; never blocks the primary write.
           TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}

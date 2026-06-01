@@ -87,6 +87,7 @@ const ACTIVE_LEDGER_SOURCES: readonly LedgerSource[] = [
   'lobsters',
   'twitter',
 ];
+const ACTIVE_LEDGER_SOURCE_SET = new Set<LedgerSource>(ACTIVE_LEDGER_SOURCES);
 
 const SLUG_BY_SOURCE: Record<LedgerSource, string> = {
   hackernews: 'hackernews-repo-mentions',
@@ -392,6 +393,7 @@ export async function applyLedger(
   let newMentions = 0;
 
   for (const item of items) {
+    if (!ACTIVE_LEDGER_SOURCE_SET.has(item.source)) continue;
     const setKey = `${KEY_PREFIX}:${item.repo}:${item.source}`;
     const indexKey = `${KEY_PREFIX}:${item.repo}:_index`;
     const added = await ops.sadd(setKey, item.ids);
@@ -413,6 +415,7 @@ export async function applyLedger(
     let total = 0;
     const perSource: Record<string, number> = {};
     for (const [field, value] of Object.entries(hash)) {
+      if (!ACTIVE_LEDGER_SOURCE_SET.has(field as LedgerSource)) continue;
       const n = Number.parseInt(String(value), 10);
       if (Number.isFinite(n) && n > 0) {
         perSource[field] = n;
@@ -464,10 +467,39 @@ export function mergeLedgerSnapshot(
 ): LedgerSnapshot {
   const byRepo = new Map<string, LedgerSnapshotEntry>();
   for (const e of existing?.entries ?? []) {
-    if (e && typeof e.fullName === 'string') byRepo.set(e.fullName.toLowerCase(), e);
+    const sanitized = sanitizeLedgerSnapshotEntry(e);
+    if (sanitized) byRepo.set(sanitized.fullName.toLowerCase(), sanitized);
   }
-  for (const e of fresh) byRepo.set(e.fullName.toLowerCase(), e);
+  for (const e of fresh) {
+    const sanitized = sanitizeLedgerSnapshotEntry(e);
+    if (sanitized) byRepo.set(sanitized.fullName.toLowerCase(), sanitized);
+  }
   return { entries: Array.from(byRepo.values()), writtenAt: now };
+}
+
+function sanitizeLedgerSnapshotEntry(
+  entry: LedgerSnapshotEntry | null | undefined,
+): LedgerSnapshotEntry | null {
+  if (!entry || typeof entry.fullName !== 'string' || entry.fullName.length === 0) {
+    return null;
+  }
+  const perSource: Record<string, number> = {};
+  let total = 0;
+  for (const [source, value] of Object.entries(entry.perSource ?? {})) {
+    if (!ACTIVE_LEDGER_SOURCE_SET.has(source as LedgerSource)) continue;
+    const count = Number(value);
+    if (!Number.isFinite(count) || count <= 0) continue;
+    perSource[source] = count;
+    total += count;
+  }
+  if (total <= 0) return null;
+  const sources = Object.keys(perSource).sort((a, b) => (perSource[b] ?? 0) - (perSource[a] ?? 0));
+  return {
+    fullName: entry.fullName,
+    perSource,
+    total,
+    sources,
+  };
 }
 
 // --------------------------------------------------------------------------

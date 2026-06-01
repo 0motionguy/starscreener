@@ -1,9 +1,9 @@
 // LabsAnnouncementsFeed — combined OpenAI + Anthropic announcement stream.
 //
 // Reads the in-memory RSS caches populated by refreshClaudeRssFromStore() +
-// refreshOpenaiRssFromStore() on the calling page. The caller MUST await
-// those refresh hooks before rendering — same pattern as ArxivPapersTable
-// being preceded by refreshArxivFromStore() in /market-signals.
+// refreshOpenaiRssFromStore() when the caller explicitly enables this feed.
+// Production market-signals passes disabled because these producers are
+// archived from active freshness.
 //
 // Both feeds are merged + sorted by publishedAt desc. When both feeds are
 // empty (flags off, no Redis seed) the card surfaces a FreshnessPill in
@@ -19,6 +19,7 @@ import {
 
 interface LabsAnnouncementsFeedProps {
   limit?: number;
+  disabled?: boolean;
 }
 
 function relAge(iso: string): string {
@@ -48,7 +49,30 @@ function dotClassFor(source: RssItem["source"]): string {
   return source === "openai" ? "src-dot src-openai" : "src-dot src-anthropic";
 }
 
-export function LabsAnnouncementsFeed({ limit = 8 }: LabsAnnouncementsFeedProps) {
+export function LabsAnnouncementsFeed({
+  limit = 8,
+  disabled = false,
+}: LabsAnnouncementsFeedProps) {
+  if (disabled) {
+    return (
+      <div className="card lab-feed">
+        <div className="card-head">
+          <h2 className="card-title">
+            <b>Lab announcements</b> - OpenAI + Anthropic
+          </h2>
+          <span className="grow" />
+          <span className="fresh fresh-cold">
+            <span className="pip" /> ARCHIVED
+          </span>
+        </div>
+        <div className="muted" style={{ padding: "18px 16px", fontSize: 12 }}>
+          Lab RSS producers are disabled for production freshness. This card is
+          archived and is not counted as a live market signal.
+        </div>
+      </div>
+    );
+  }
+
   const merged: RssItem[] = [...getOpenaiRssTop(50), ...getClaudeRssTop(50)];
   merged.sort((a, b) => {
     const ta = Date.parse(a.publishedAt);

@@ -213,6 +213,19 @@ describe('projectSnapshots', () => {
     });
   });
 
+  it('does not project paused Reddit buckets even when historical snapshots exist', () => {
+    const items = projectSnapshots({
+      reddit: {
+        mentions: {
+          'owner/repo': {
+            posts: [{ id: 'r1' }, { id: 'r2' }],
+          },
+        },
+      },
+    });
+    expect(items).toEqual([]);
+  });
+
   it('skips entries without a `/` in the repo key (defensive)', () => {
     const items = projectSnapshots({
       hackernews: { mentions: { 'not-a-repo': { stories: [{ id: 1 }] } } },
@@ -352,23 +365,17 @@ describe('applyLedger', () => {
     expect(zset.get('ss:mentions:leaderboard:v1::sveltejs/svelte')).toBe(5);
   });
 
-  it('leaderboard updates with the new total after a partial follow-up run', async () => {
-    const { ops, zset } = makeMemRedis();
+  it('ignores paused-source work items even if a caller passes them directly', async () => {
+    const { ops, sets, hashes, zset } = makeMemRedis();
 
-    // First run: vercel has 3 HN mentions only.
-    await applyLedger(ops, [
-      { repo: 'vercel/next.js', source: 'hackernews', ids: ['100', '101', '102'] },
-    ]);
-    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBe(3);
-
-    // Second run: same 3 HN ids (no-op) + 2 new reddit ids.
-    await applyLedger(ops, [
-      { repo: 'vercel/next.js', source: 'hackernews', ids: ['100', '101', '102'] },
+    const result = await applyLedger(ops, [
       { repo: 'vercel/next.js', source: 'reddit', ids: ['r1', 'r2'] },
     ]);
 
-    // Leaderboard score must reflect the recomputed total — 3 HN + 2 reddit = 5.
-    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBe(5);
+    expect(result).toEqual({ reposTouched: 0, newMentions: 0, leaderboardSize: 0, entries: [] });
+    expect(sets.get('ss:mentions:v1:vercel/next.js:reddit')).toBeUndefined();
+    expect(hashes.get('ss:mentions:v1:vercel/next.js:_index')).toBeUndefined();
+    expect(zset.get('ss:mentions:leaderboard:v1::vercel/next.js')).toBeUndefined();
   });
 
   it('handles empty work-item list without touching Redis', async () => {
@@ -491,5 +498,43 @@ describe('mergeLedgerSnapshot', () => {
   it('handles a null existing snapshot (first run)', () => {
     const out = mergeLedgerSnapshot(null, [entry('a/b', 3)], 't1');
     expect(out.entries).toHaveLength(1);
+  });
+
+  it('strips paused Reddit fields from existing and fresh entries', () => {
+    const existing = {
+      entries: [
+        {
+          fullName: 'old/repo',
+          perSource: { hackernews: 2, reddit: 5 },
+          total: 7,
+          sources: ['reddit', 'hackernews'],
+        },
+      ],
+      writtenAt: 't0',
+    };
+    const fresh = [
+      {
+        fullName: 'new/repo',
+        perSource: { reddit: 10, bluesky: 3 },
+        total: 13,
+        sources: ['reddit', 'bluesky'],
+      },
+    ];
+
+    const out = mergeLedgerSnapshot(existing, fresh, 't1');
+    const byName = Object.fromEntries(out.entries.map((e) => [e.fullName, e]));
+
+    expect(byName['old/repo']).toEqual({
+      fullName: 'old/repo',
+      perSource: { hackernews: 2 },
+      total: 2,
+      sources: ['hackernews'],
+    });
+    expect(byName['new/repo']).toEqual({
+      fullName: 'new/repo',
+      perSource: { bluesky: 3 },
+      total: 3,
+      sources: ['bluesky'],
+    });
   });
 });

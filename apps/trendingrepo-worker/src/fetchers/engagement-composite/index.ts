@@ -142,10 +142,11 @@ const fetcher: Fetcher = {
   schedule: '45 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
+    const errors: RunResult['errors'] = [];
 
     if (ctx.dryRun) {
       ctx.log.info('engagement-composite dry-run');
-      return done(startedAt, 0, false);
+      return done(startedAt, 0, false, errors);
     }
 
     // AUDIT-2026-05-04: same Promise.all-rejects-everything anti-pattern
@@ -182,10 +183,31 @@ const fetcher: Fetcher = {
       return null;
     });
     if (readFailures.length > 0) {
+      for (const failure of readFailures) {
+        errors.push({
+          stage: 'upstream-read',
+          message: `${failure.key}: ${failure.err}`,
+        });
+      }
       ctx.log.warn(
         { failures: readFailures },
-        'engagement-composite: some reads failed; degrading those sources to null',
+        'engagement-composite: upstream reads failed; preserving prior slug',
       );
+      return done(startedAt, 0, false, errors);
+    }
+    const missingKeys = values
+      .map((value, index) => (value === null ? READ_KEYS[index] : null))
+      .filter((key): key is (typeof READ_KEYS)[number] => key !== null);
+    if (missingKeys.length > 0) {
+      errors.push({
+        stage: 'upstream-missing',
+        message: `missing upstream payloads: ${missingKeys.join(', ')}`,
+      });
+      ctx.log.warn(
+        { missing: missingKeys },
+        'engagement-composite: upstream payloads missing; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
     }
     const [
       hnMentions,
@@ -323,6 +345,17 @@ const fetcher: Fetcher = {
 
     const cohort = Array.from(accum.rows.values());
     const items = scoreCohort(cohort, TOP_LIMIT);
+    if (items.length === 0) {
+      errors.push({
+        stage: 'empty-compute',
+        message: 'engagement-composite computed 0 rows; skipped empty publish',
+      });
+      ctx.log.warn(
+        { cohortSize: cohort.length },
+        'engagement-composite: empty compute; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
 
     const payload: EngagementCompositePayload = {
       computedAt: new Date().toISOString(),
@@ -353,13 +386,18 @@ const fetcher: Fetcher = {
       'engagement-composite published',
     );
 
-    return done(startedAt, items.length, result.source === 'redis');
+    return done(startedAt, items.length, result.source === 'redis', errors);
   },
 };
 
 export default fetcher;
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'],
+): RunResult {
   return {
     fetcher: 'engagement-composite',
     startedAt,
@@ -368,6 +406,6 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }

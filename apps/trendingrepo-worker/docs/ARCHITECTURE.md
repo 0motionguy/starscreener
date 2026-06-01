@@ -61,7 +61,7 @@ Most fetchers run hourly at a staggered minute; a few have specialized cadences.
 | `devto` | every 6h | `devto-mentions`, `devto-trending` |
 | `reddit` | paused | live OAuth collector disabled until HOSTUP has Reddit client credentials |
 | `lobsters` | hourly | `lobsters-mentions` |
-| `twitter` | hourly | `twitter-signals` (Nitter; needs APIFY_API_TOKEN for the Apify actor path) |
+| `twitter` | hourly | `twitter-signals` (Nitter/camofox; Apify actor path is off by policy) |
 | `mentions-ledger` | `7,22,37,52 * * * *` | `mentions-ledger` snapshot (flattened from SADD/HINCRBY backing sets) |
 | `cross-source-sweep` | `0 6 * * *` | `repo-mentions-detail-rollup` (countLifetime + top mentions) |
 | **`repo-registry`** | `47 * * * *` | **`repo-registry`** (persistent accumulator, cap 2000 LRU) |
@@ -69,9 +69,10 @@ Most fetchers run hourly at a staggered minute; a few have specialized cadences.
 | `arxiv` | hourly | `arxiv-recent` |
 | `ai-blogs` | hourly | `ai-blogs` |
 | `lmarena` / `artificialanalysis` | daily | `aa-llms` |
-| `manual-repos` | hourly | `manual-repos` |
-| `revenue-manual-matches` | hourly | `revenue-manual-matches` |
-| `funding-news` / `crunchbase` / `x-funding` | various | `funding-news`, `crunchbase`, `funding-news-x` |
+| `manual-repos` | daily 04:07 UTC | `manual-repos` |
+| `revenue-manual-matches` | daily 04:09 UTC | `revenue-manual-matches` |
+| `funding-news` / `crunchbase` / `sec-form-d` | every 2h | `funding-news`, `funding-news-crunchbase`, `funding-news-sec` |
+| `x-funding` | paused | `funding-news-x` disabled while Apify-only |
 | `trustmrr` / `revenue-benchmarks` | daily | `trustmrr`, `revenue-benchmarks` |
 | `reddit-baselines` | paused | paused with the rest of Reddit; do not schedule until the Reddit producer is re-enabled |
 | `engagement-composite` | hourly | `engagement-composite` |
@@ -123,7 +124,7 @@ Never empty the cache: if the fetch yielded zero rows due to upstream failure, k
 
 The persistent `repo-registry` is the canonical example of this pattern at the largest scale (cap 2000, never-drop until LRU pressure). See `src/fetchers/repo-registry/index.ts`.
 
-## Auto-activated channels in `cross-source-sweep`
+## Optional channels in `cross-source-sweep`
 
 The sweep logs a WARN `channel status` line every run:
 
@@ -131,17 +132,17 @@ The sweep logs a WARN `channel status` line every run:
 hackernews:   live
 bluesky:      live (or no-creds (BLUESKY_HANDLE/APP_PASSWORD))
 producthunt:  snapshot (or no-snapshot)
-tavily:       off (set TAVILY_API_KEY)  ← flips on with the env var
-twitter:      off (set APIFY_API_TOKEN) ← flips to "apify·top40" with the env var
+tavily:       off (set TAVILY_API_KEY) -> flips on with the env var
+twitter:      off (APIFY_API_TOKEN unset)
 foldIn:       devto,hackernews,lobsters,bluesky
 ```
 
-Drop `TAVILY_API_KEY` and/or `APIFY_API_TOKEN` into `/opt/toolbox-trendingrepo-worker/.env` + `docker compose up -d` to activate. Twitter via Apify is bounded to ONE batched actor run for the top-40 repos per sweep (not 150 per-repo runs) to cap cost.
+Drop `TAVILY_API_KEY` into `/opt/toolbox-trendingrepo-worker/.env` + `docker compose up -d` to activate Tavily. Apify is stricter: `APIFY_API_TOKEN` alone must not activate any worker channel. It also requires `TRENDINGREPO_ENABLE_APIFY=operator-approved`, and should only be used for a temporary, budget-approved diagnostic/backfill.
 
 ## Anti-patterns (do not regress)
 
 - **Live Reddit JSON / dev.to feed_content per-repo searches from this VPS are dead.** Reddit IP-blocks datacenters and remains paused; dev.to's `feed_content` endpoint returns `{"result":[]}` for everything. Use active source-first snapshots + `mentions-ledger` + the registry fold-in. See memory `reference_devto_reddit_dead_from_vps.md`.
-- **Cookie-based Twitter scrapers are dead.** The Apify `apidojo~tweet-scraper` actor (gated behind `APIFY_API_TOKEN`) is the only viable path.
+- **Do not auto-activate Apify.** A leftover `APIFY_API_TOKEN` must not wake Twitter sweep or Reddit proxying. Require `TRENDINGREPO_ENABLE_APIFY=operator-approved` for any temporary Apify use, then remove it again.
 - **Don't sequential-loop `consensus-analyst`** — Kimi K2.6 averages ~80s/call; 14 sequential blows the hourly slot. Bounded concurrency (current default = 4).
 - **Kimi For Coding endpoint requires `stream: true`** + a UA allowlist (`claude-cli`, `RooCode`, `Kilo-Code`). Non-stream calls hang. NanoGPT fallback is wired in `src/fetchers/consensus-analyst/llm.ts`.
 - **Don't write fewer than `min(50, existing.length)` rows** to any slug — empties the cache. Always read-then-merge.

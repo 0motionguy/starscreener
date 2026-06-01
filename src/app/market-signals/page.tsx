@@ -5,7 +5,6 @@
 //   - getSidebarSourceCounts() for source rail + KPI strip
 //   - getDerivedRepos() for cross-source mentions feed + tag momentum
 //   - getNpmPackages() + getDailyDownloadsForPackage() for npm table
-//   - getArxivPapersTrending() + getArxivEnrichment() for arXiv table
 //   - getLastFetchedAt() for freshness pill
 //
 // Refresh strategy: trigger refresh hooks in parallel at top of page
@@ -17,17 +16,6 @@ import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { refreshNpmFromStore, getNpmPackages } from "@/lib/npm";
-import {
-  refreshArxivEnrichmentFromStore,
-  refreshArxivFromStore,
-  getArxivPapersTrending,
-} from "@/lib/arxiv";
-import {
-  getClaudeRssFile,
-  getOpenaiRssFile,
-  refreshClaudeRssFromStore,
-  refreshOpenaiRssFromStore,
-} from "@/lib/rss-feeds";
 import { filterReposBySources } from "@/lib/filter/by-sources";
 import type { Repo, SocialPlatform } from "@/lib/types";
 
@@ -38,6 +26,7 @@ import {
 } from "@/components/market-signals/SignalsHero";
 import { SignalsKpiStrip } from "@/components/market-signals/SignalsKpiStrip";
 import {
+  LIVE_MARKET_SOURCE_SLUGS,
   SourceFilterRail,
   type MarketSourceTotals,
 } from "@/components/market-signals/SourceFilterRail";
@@ -53,7 +42,7 @@ export const revalidate = 1800;
 export const metadata = {
   title: "Market Signals",
   description:
-    "Live cross-source telemetry across active feeds. GitHub, X, HN, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
+    "Live cross-source telemetry across active feeds. GitHub, X, HN, Bluesky, npm, ProductHunt, Dev.to, Lobsters, funding, revenue, and model signals - one cockpit.",
   openGraph: {
     images: [
       { url: "/api/og/market-signals", width: 1200, height: 630, alt: "TrendingRepo — Market Signals" },
@@ -73,37 +62,19 @@ function safe<T>(fn: () => T, fallback: T): T {
   }
 }
 
-const MARKET_SOURCE_KEYS = [
+const LIVE_MARKET_SOURCE_KEYS = LIVE_MARKET_SOURCE_SLUGS;
+
+const ACTIVE_MENTION_SOURCES: SocialPlatform[] = [
   "github",
-  "hn",
-  "x",
-  "bsky",
-  "ph",
+  "hackernews",
+  "twitter",
+  "bluesky",
+  "producthunt",
   "devto",
   "lobsters",
-  "arxiv",
+  "huggingface",
   "npm",
-  "hf-models",
-  "hf-datasets",
-  "hf-spaces",
-  "skills",
-  "mcp",
-  "agent-repos",
-  "funding",
-  "revenue",
-  "pypi",
-  "openrouter",
-  "openai",
-  "anthropic",
-  "google",
-  "meta",
-  "mistral",
-  "cohere",
-  "deepseek",
-  "xai",
-  "perplexity",
-  "qwen",
-] as const;
+];
 
 function mentionsFor(repos: Repo[], source: SocialPlatform): number {
   return repos.reduce((sum, repo) => {
@@ -138,9 +109,9 @@ function repoMatches(repos: Repo[], terms: string[]): number {
 //  - mentions/* sources read from the mentions-ledger rollup (Redis-backed).
 //  - github falls back to aggregate 24h star velocity when ledger is sparse —
 //    star momentum IS a real signal, not a fabricated number.
-//  - openai/anthropic come from real RSS files; other LLM-vendor columns
-//    (google/meta/mistral/etc) come from repo-tag matches in the spine.
-//    These are honest content-side signals, not pretend "source" counts.
+//  - LLM-vendor columns (google/meta/mistral/etc) come from repo-tag matches
+//    in the spine. Retired arXiv/lab RSS producers render as archived cards,
+//    not live source-rail inputs.
 function buildSourceTotals(
   repos: Repo[],
   counts: Awaited<ReturnType<typeof getSidebarSourceCounts>> | null,
@@ -149,9 +120,6 @@ function buildSourceTotals(
     (sum, repo) => sum + Math.max(0, repo.starsDelta24h ?? 0),
     0,
   );
-  const openaiRss = safe(() => getOpenaiRssFile().items.length, 0);
-  const claudeRss = safe(() => getClaudeRssFile().items.length, 0);
-
   return {
     github: Math.max(0, mentionsFor(repos, "github") || githubVelocity),
     hn: Math.max(0, mentionsFor(repos, "hackernews") || counts?.hackernewsStories || 0),
@@ -160,15 +128,12 @@ function buildSourceTotals(
     ph: Math.max(0, mentionsFor(repos, "producthunt") || counts?.producthuntLaunches || 0),
     devto: Math.max(0, mentionsFor(repos, "devto") || counts?.devtoArticles || 0),
     lobsters: Math.max(0, mentionsFor(repos, "lobsters") || counts?.lobstersStories || 0),
-    arxiv: Math.max(0, counts?.arxivPapers ?? 0),
     npm: Math.max(0, counts?.npmPackages ?? 0),
     "agent-repos": Math.max(0, counts?.agentRepos ?? 0),
     funding: Math.max(0, counts?.fundingSignals ?? 0),
     revenue: Math.max(0, counts?.revenueOverlays ?? 0),
     pypi: Math.max(0, repoMatches(repos, ["python", "pydantic", "langgraph", "llamaindex"])),
     openrouter: Math.max(0, repoMatches(repos, ["openrouter", "llm", "model"])),
-    openai: Math.max(0, openaiRss),
-    anthropic: Math.max(0, claudeRss),
     google: Math.max(0, repoMatches(repos, ["google", "gemini", "deepmind"])),
     meta: Math.max(0, repoMatches(repos, ["meta", "llama"])),
     mistral: Math.max(0, repoMatches(repos, ["mistral"])),
@@ -183,13 +148,18 @@ function buildSourceTotals(
 function activeSourceCount(repo: Repo): number {
   const perSource = repo.mentions?.perSource;
   if (perSource) {
-    return Object.values(perSource).filter((entry) => (entry?.count24h ?? 0) > 0).length;
+    return ACTIVE_MENTION_SOURCES.filter(
+      (source) => (perSource[source]?.count24h ?? 0) > 0,
+    ).length;
   }
   return Math.max(0, repo.channelsFiring ?? 0);
 }
 
 function sumMarketSignals(sourceTotals: MarketSourceTotals): number {
-  return MARKET_SOURCE_KEYS.reduce((sum, key) => sum + (sourceTotals[key] ?? 0), 0);
+  return LIVE_MARKET_SOURCE_KEYS.reduce(
+    (sum, key) => sum + (sourceTotals[key] ?? 0),
+    0,
+  );
 }
 
 export default async function MarketSignalsPage({ searchParams }: Props) {
@@ -209,10 +179,6 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   await Promise.allSettled([
     refreshTrendingFromStore(),
     refreshNpmFromStore(),
-    refreshArxivFromStore(),
-    refreshArxivEnrichmentFromStore(),
-    refreshClaudeRssFromStore(),
-    refreshOpenaiRssFromStore(),
   ]);
 
   const counts = await getSidebarSourceCounts().catch(() => null);
@@ -224,11 +190,12 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   // after the rest of the cockpit narrows).
   const filteredRepos = filterReposBySources(repos, selected);
   const npmPackages = safe(() => getNpmPackages(), []);
-  const arxivPapers = safe(() => getArxivPapersTrending(20), []);
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
   const sourceTotals = buildSourceTotals(repos, counts);
-  const totalSources = MARKET_SOURCE_KEYS.length;
-  const liveSources = MARKET_SOURCE_KEYS.filter((key) => (sourceTotals[key] ?? 0) > 0).length;
+  const totalSources = LIVE_MARKET_SOURCE_KEYS.length;
+  const liveSources = LIVE_MARKET_SOURCE_KEYS.filter(
+    (key) => (sourceTotals[key] ?? 0) > 0,
+  ).length;
   const totalMentions = sumMarketSignals(sourceTotals);
 
   const volumeTotals = {
@@ -243,10 +210,7 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   // reads as honestly degraded rather than laundering quiet upstreams.
   const crossSourceCount = repos.filter((repo) => activeSourceCount(repo) >= 4).length;
   const npmAccelerating = npmPackages.filter((p) => (p.deltaPct7d ?? 0) > 0).length;
-  const arxivCount = counts?.arxivPapers ?? arxivPapers.length;
-  const citedRepos =
-    counts?.citedRepos ??
-    arxivPapers.filter((paper) => paper.linkedRepos.length > 0).length;
+  const pausedSourceCount = 5;
 
   return (
     <div className="market-signals-page">
@@ -267,8 +231,7 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
         liveSources={liveSources}
         crossSourceCount={crossSourceCount}
         npmAccelerating={npmAccelerating}
-        arxivPapers={arxivCount}
-        citedRepos={citedRepos}
+        pausedSources={pausedSourceCount}
       />
 
       <div className="signals-grid">
@@ -288,11 +251,11 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
 
           <div className="cockpit">
             <NpmAcceleratingTable packages={npmPackages} limit={7} />
-            <ArxivPapersTable papers={arxivPapers} limit={6} />
+            <ArxivPapersTable papers={[]} limit={6} disabled />
           </div>
 
           <div className="cockpit">
-            <LabsAnnouncementsFeed limit={8} />
+            <LabsAnnouncementsFeed limit={8} disabled />
           </div>
         </div>
       </div>

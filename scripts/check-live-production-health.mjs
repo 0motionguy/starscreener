@@ -5,18 +5,95 @@
 // monitoring. Production truth now lives in Redis/worker health on HOSTUP, so
 // failing a workflow because committed JSON snapshots are stale is noise.
 
+import { pathToFileURL } from "node:url";
+
 const BASE_URL = (
   process.env.TRENDINGREPO_URL ||
   process.env.STARSCREENER_URL ||
   "https://trendingrepo.com"
 ).replace(/\/+$/, "");
 
+export function validateAppHealthBody(body) {
+  const errors = [];
+  if (body?.status !== "ok") {
+    errors.push(`status must be ok (got ${body?.status ?? "missing"})`);
+  }
+  if (body?.error) {
+    errors.push(`error must be absent (got ${body.error})`);
+  }
+  if (body?.sourceStatus !== "ok") {
+    errors.push(`sourceStatus must be ok (got ${body?.sourceStatus ?? "missing"})`);
+  }
+  if (body?.workerStatus !== "ok") {
+    errors.push(`workerStatus must be ok (got ${body?.workerStatus ?? "missing"})`);
+  }
+  return errors;
+}
+
+export function validateSourceHealthBody(body) {
+  const errors = [];
+  const summary = body?.summary;
+  if (!summary || typeof summary !== "object") {
+    return ["missing source health summary"];
+  }
+
+  if (typeof summary.neverAttempted !== "number") {
+    errors.push("summary.neverAttempted is missing");
+  }
+  if (!Array.isArray(summary.neverAttemptedSources)) {
+    errors.push("summary.neverAttemptedSources is missing");
+  }
+
+  if (typeof summary.neverAttempted === "number" && summary.neverAttempted > 0) {
+    errors.push(
+      `unproven source breaker(s): ${summary.neverAttemptedSources?.join(", ") || summary.neverAttempted}`,
+    );
+  }
+
+  const sources = body?.sources;
+  if (!sources || typeof sources !== "object" || Array.isArray(sources)) {
+    errors.push("sources map is missing");
+    return errors;
+  }
+
+  for (const [id, source] of Object.entries(sources)) {
+    if (!source || typeof source !== "object") {
+      errors.push(`${id}: source view is invalid`);
+      continue;
+    }
+    if (typeof source.attempted !== "boolean") {
+      errors.push(`${id}: attempted flag is missing`);
+    }
+    if (typeof source.totalAttempts !== "number") {
+      errors.push(`${id}: totalAttempts is missing`);
+    }
+    if (source.attempted === false || source.totalAttempts === 0) {
+      errors.push(`${id}: source breaker has no runtime attempt proof`);
+    }
+  }
+
+  return errors;
+}
+
 async function fetchJson(path, okStatuses = [200]) {
   const url = `${BASE_URL}${path}`;
-  const res = await fetch(url, {
-    headers: { Accept: "application/json" },
-    signal: AbortSignal.timeout(30_000),
-  });
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(30_000),
+    });
+  } catch (err) {
+    return {
+      url,
+      status: 0,
+      okStatus: false,
+      body: {
+        error: "fetch_failed",
+        message: err instanceof Error ? err.message : String(err),
+      },
+    };
+  }
   const text = await res.text();
   let body = null;
   try {
@@ -34,10 +111,22 @@ async function fetchJson(path, okStatuses = [200]) {
 
 async function fetchRoute(path, okStatuses = [200]) {
   const url = `${BASE_URL}${path}`;
-  const res = await fetch(url, {
-    headers: { Accept: "text/html,application/json" },
-    signal: AbortSignal.timeout(30_000),
-  });
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: { Accept: "text/html,application/json" },
+      signal: AbortSignal.timeout(30_000),
+    });
+  } catch (err) {
+    return {
+      path,
+      url,
+      status: 0,
+      okStatus: false,
+      contentType: null,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
   return {
     path,
     url,
@@ -117,6 +206,8 @@ async function main() {
         http: appHealth.status,
         status: appHealth.body?.status,
         sourceStatus: appHealth.body?.sourceStatus,
+        workerStatus: appHealth.body?.workerStatus,
+        workerSummary: appHealth.body?.workerSummary ?? null,
         lastFetchedAt: appHealth.body?.lastFetchedAt,
         computedAt: appHealth.body?.computedAt,
         warning: appHealth.body?.warning ?? null,
@@ -179,6 +270,7 @@ async function main() {
         path: route.path,
         http: route.status,
         contentType: route.contentType,
+        error: route.error ?? null,
       })),
       null,
       2,
@@ -191,11 +283,13 @@ async function main() {
       body: appHealth.body,
     });
   }
-  if (appHealth.body?.status !== "ok" || appHealth.body?.error) {
-    fail("/api/health is not fresh", appHealth.body);
-  }
-  if (appHealth.body?.sourceStatus && appHealth.body.sourceStatus !== "ok") {
-    fail("/api/health reports degraded source status", appHealth.body);
+  const appHealthErrors = validateAppHealthBody(appHealth.body);
+  if (appHealthErrors.length > 0) {
+    fail("/api/health is not strict green", {
+      http: appHealth.status,
+      errors: appHealthErrors,
+      body: appHealth.body,
+    });
   }
 
   if (
@@ -225,13 +319,24 @@ async function main() {
   }
 
   const sourceSummary = sourceHealth.body?.summary;
+  const sourceHealthProofErrors = validateSourceHealthBody(sourceHealth.body);
   if (!sourceHealth.okStatus || !sourceSummary) {
     fail("/api/health/sources returned invalid response", {
       http: sourceHealth.status,
       body: sourceHealth.body,
     });
-  } else if ((sourceSummary.open ?? 0) > 0 || (sourceSummary.halfOpen ?? 0) > 0) {
-    fail("/api/health/sources has open circuit breakers", sourceSummary);
+  } else if (sourceHealthProofErrors.length > 0) {
+    fail("/api/health/sources lacks source attempt proof", {
+      http: sourceHealth.status,
+      errors: sourceHealthProofErrors,
+      summary: sourceSummary,
+    });
+  } else if (
+    (sourceSummary.open ?? 0) > 0 ||
+    (sourceSummary.halfOpen ?? 0) > 0 ||
+    sourceSummary.neverAttempted > 0
+  ) {
+    fail("/api/health/sources has degraded or unproven sources", sourceSummary);
   }
 
   if (
@@ -252,6 +357,7 @@ async function main() {
       routes: failedCriticalRoutes.map((route) => ({
         path: route.path,
         http: route.status,
+        error: route.error ?? null,
         expected: route.path === "/api/model-usage/features" ? [401] : [200],
       })),
     });
@@ -261,9 +367,11 @@ async function main() {
   console.log("\nPASS - live production health is zero-tolerance green.");
 }
 
-main().catch((err) => {
-  fail("live health check threw", {
-    message: err instanceof Error ? err.message : String(err),
-    stack: err instanceof Error ? err.stack : undefined,
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    fail("live health check threw", {
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+    });
   });
-});
+}

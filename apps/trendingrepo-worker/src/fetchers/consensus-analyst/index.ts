@@ -37,6 +37,8 @@ interface VerdictsItemPayload extends ItemReport {
 
 interface VerdictsPayload {
   computedAt: string;
+  status?: 'ok' | 'degraded';
+  errors?: RunResult['errors'];
   generator: LlmProvider | 'template';
   model?: string;
   ribbon: Ribbon;
@@ -74,14 +76,14 @@ const fetcher: Fetcher = {
       // `items: {}` here wipes every repo we ever analysed (backfill + prior
       // runs) the moment the LLM is unconfigured or out of quota. Only the
       // ribbon is regenerated from template; items carry forward untouched.
-      const fallback = buildTemplatePayload(consensusPayload);
-      fallback.items = await loadExistingItems();
-      const result = await writeDataStore('consensus-verdicts', fallback);
+      const retainedItems = await loadExistingItems();
       ctx.log.warn(
-        { redis: result.source, retainedItems: Object.keys(fallback.items).length },
+        { retainedItems: Object.keys(retainedItems).length },
         'consensus-analyst: LLM unconfigured — kept existing verdicts, refreshed ribbon only',
       );
-      return done(startedAt, Object.keys(fallback.items).length, result.source === 'redis');
+      return done(startedAt, Object.keys(retainedItems).length, false, [
+        { stage: 'llm-unconfigured', message: 'LLM provider is not configured; skipped consensus-verdicts write' },
+      ]);
     }
 
     const ctxMsg: AnalystUserMessageContext = {
@@ -100,6 +102,7 @@ const fetcher: Fetcher = {
     // result meta so a NanoGPT-fallback run reports honestly (not 'kimi').
     let usedProvider: LlmProvider | undefined;
     let usedModel: string | undefined;
+    const errors: RunResult['errors'] = [];
 
     // Bounded-concurrency sweep — N workers pulling from a shared queue.
     // Preserves per-call retry semantics (each item swallows its own errors)
@@ -135,14 +138,25 @@ const fetcher: Fetcher = {
               { fullName: item.fullName, issues: validated.error.issues.slice(0, 3) },
               'consensus-analyst: item report failed schema validation',
             );
+            errors.push({
+              stage: 'item-schema',
+              itemSourceId: item.fullName,
+              message:
+                validated.error.issues
+                  .slice(0, 3)
+                  .map((issue) => issue.message)
+                  .join('; ') || 'item report failed schema validation',
+            });
             continue;
           }
           items[item.fullName] = { fullName: item.fullName, ...validated.data };
         } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
           ctx.log.warn(
-            { fullName: item.fullName, err: err instanceof Error ? err.message : String(err) },
+            { fullName: item.fullName, err: message },
             'consensus-analyst: item call failed',
           );
+          errors.push({ stage: 'item-call', itemSourceId: item.fullName, message });
         }
       }
     };
@@ -173,12 +187,22 @@ const fetcher: Fetcher = {
         ribbon = validated.data;
       } else {
         ctx.log.warn({ issues: validated.error.issues.slice(0, 3) }, 'consensus-analyst: ribbon schema invalid');
+        errors.push({
+          stage: 'ribbon-schema',
+          message:
+            validated.error.issues
+              .slice(0, 3)
+              .map((issue) => issue.message)
+              .join('; ') || 'ribbon schema invalid',
+        });
       }
     } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
       ctx.log.warn(
-        { err: err instanceof Error ? err.message : String(err) },
+        { err: message },
         'consensus-analyst: ribbon call failed — using template',
       );
+      errors.push({ stage: 'ribbon-call', message });
     }
 
     // Read-then-merge: preserve prior verdicts (backfill + older sweeps) and
@@ -186,9 +210,21 @@ const fetcher: Fetcher = {
     // wipe every repo not in today's top-14 sweep — fatal for the backfill.
     const existingItems = await loadExistingItems();
     const freshCount = Object.keys(items).length;
+    if (topItems.length > 0 && freshCount === 0) {
+      ctx.log.warn(
+        { retainedItems: Object.keys(existingItems).length, errors: errors.length },
+        'consensus-analyst: no fresh item verdicts produced - preserving existing payload',
+      );
+      return done(startedAt, Object.keys(existingItems).length, false, [
+        ...errors,
+        { stage: 'empty-verdicts', message: 'no fresh item verdicts produced; skipped consensus-verdicts write' },
+      ]);
+    }
     const mergedItems = { ...existingItems, ...items };
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
+      status: errors.length > 0 ? 'degraded' : 'ok',
+      ...(errors.length > 0 ? { errors } : {}),
       // Honestly report which provider actually produced this run (e.g.
       // 'nanogpt' while Kimi-for-coding billing is restored). Falls back to the
       // configured primary when no call succeeded this run.
@@ -218,7 +254,7 @@ const fetcher: Fetcher = {
       },
       'consensus-analyst published',
     );
-    return done(startedAt, freshCount, result.source === 'redis');
+    return done(startedAt, freshCount, result.source === 'redis', errors);
   },
 };
 
@@ -241,20 +277,6 @@ async function loadExistingItems(): Promise<Record<string, VerdictsItemPayload>>
   return {};
 }
 
-function buildTemplatePayload(p: ConsensusTrendingPayload): VerdictsPayload {
-  return {
-    computedAt: new Date().toISOString(),
-    generator: 'template',
-    ribbon: templateRibbon(p),
-    items: {},
-    usage: {
-      totalInputTokens: 0,
-      totalOutputTokens: 0,
-      totalCachedInputTokens: 0,
-    },
-  };
-}
-
 function templateRibbon(p: ConsensusTrendingPayload): Ribbon {
   const top = p.items[0];
   const earlies = p.items.filter((i: ConsensusItem) => i.verdict === 'early_call').slice(0, 3);
@@ -274,7 +296,12 @@ function templateRibbon(p: ConsensusTrendingPayload): Ribbon {
   return { headline, bullets };
 }
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'] = [],
+): RunResult {
   return {
     fetcher: 'consensus-analyst',
     startedAt,
@@ -283,6 +310,6 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }

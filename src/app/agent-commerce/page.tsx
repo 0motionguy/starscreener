@@ -7,8 +7,8 @@
 //   - getAgentCommerceFetchedAt() — freshness pill
 //
 // Refresh: fire every refresh hook in parallel at the top (each is internally
-// rate-limited to 30s + in-flight-deduped). revalidate=1800 caps per-edge
-// cache at 30 min.
+// rate-limited to 30s + in-flight-deduped). revalidate=60 caps per-edge
+// cache at 1 min.
 
 import {
   refreshAgentCommerceFromStore,
@@ -26,6 +26,7 @@ import {
 import {
   refreshDuneX402VolumeFromStore,
   getDuneX402Volume,
+  classifyDuneX402VolumeStatus,
 } from "@/lib/dune-x402-volume";
 
 import {
@@ -62,18 +63,18 @@ export const revalidate = 60;
 export const metadata = {
   title: "Agent Commerce",
   description:
-    "Live x402 on-chain activity (Base, Solana), MCP server health, portal-ready APIs, agent infrastructure ranked by composite score.",
+    "Live x402 on-chain activity (Base, Solana), portal-ready APIs, token markets, and agent infrastructure ranked by composite score.",
   openGraph: {
     title: "Agent Commerce — x402 / MCP / a2a cockpit",
     description:
-      "Live x402 on-chain settlements, MCP server health, portal-ready endpoints, agent commerce composite scoring across Base + Solana.",
+      "Live x402 on-chain settlements, portal-ready endpoints, MCP inventory, and agent commerce composite scoring across Base + Solana.",
     type: "website",
     images: [
       {
         url: "/api/og/agent-commerce",
         width: 1200,
         height: 630,
-        alt: "Agent Commerce — x402 settlements, MCP servers, portal-ready endpoints",
+        alt: "Agent Commerce — x402 settlements, MCP inventory, portal-ready endpoints",
       },
     ],
   },
@@ -81,7 +82,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Agent Commerce — x402 / MCP / a2a cockpit",
     description:
-      "Live x402 on-chain settlements, MCP server health, portal-ready endpoints, agent commerce composite scoring across Base + Solana.",
+      "Live x402 on-chain settlements, portal-ready endpoints, MCP inventory, and agent commerce composite scoring across Base + Solana.",
   },
 };
 
@@ -99,8 +100,8 @@ function safe<T>(fn: () => T, fallback: T): T {
 
 /** Sum USDC volume for "last 24h" from the Dune day-keyed rows. */
 function sumDuneVolume(
-  rows: { day: string; facilitator: string; volumeUsdc: string }[] | undefined,
-  chainFilter: (facilitator: string) => boolean,
+  rows: { day: string; chain?: string; facilitator: string; volumeUsdc: string }[] | undefined,
+  rowFilter: (row: { chain?: string; facilitator: string }) => boolean,
 ): number {
   if (!rows || rows.length === 0) return 0;
   // Pick the most recent calendar day represented in the rows.
@@ -108,7 +109,7 @@ function sumDuneVolume(
   const latestDay = days[days.length - 1];
   if (!latestDay) return 0;
   return rows
-    .filter((r) => r.day === latestDay && chainFilter(r.facilitator))
+    .filter((r) => r.day === latestDay && rowFilter(r))
     .reduce((acc, r) => {
       const v = Number(r.volumeUsdc);
       return acc + (Number.isFinite(v) ? v : 0);
@@ -128,17 +129,13 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   //   - fetchAgentTokens — live CoinGecko quotes for AI-agent tokens
   //   - fetchVirtualAgents — live Virtuals Protocol on-Base agent registry
   //     (VIRTUAL price flows in below from the CoinGecko fetch above)
-  const [, , , duneRefresh, agentTokens] = await Promise.all([
+  const [, , , duneRefresh, agentTokens, virtualAgentsNoPrice, x402Market] = await Promise.all([
     refreshAgentCommerceFromStore().catch(() => undefined),
     refreshBaseX402OnchainFromStore().catch(() => undefined),
     refreshSolanaX402OnchainFromStore().catch(() => undefined),
     refreshDuneX402VolumeFromStore().catch(() => undefined),
     fetchAgentTokens().catch(() => []),
-  ]);
-  const virtualPriceUsd =
-    agentTokens.find((t) => t.id === "virtual-protocol")?.priceUsd ?? 0;
-  const [virtualAgents, x402Market] = await Promise.all([
-    fetchVirtualAgents(virtualPriceUsd, 10).catch(() => []),
+    fetchVirtualAgents(0, 10).catch(() => []),
     fetchX402Market(200).catch(() => ({
       services: [],
       totalServices: 0,
@@ -147,6 +144,15 @@ export default async function AgentCommercePage({ searchParams }: Props) {
       fetchedAt: new Date().toISOString(),
     })),
   ]);
+  const virtualPriceUsd =
+    agentTokens.find((t) => t.id === "virtual-protocol")?.priceUsd ?? 0;
+  const virtualAgents =
+    virtualPriceUsd > 0
+      ? virtualAgentsNoPrice.map((agent) => ({
+          ...agent,
+          mcapUsd: agent.mcapInVirtual * virtualPriceUsd,
+        }))
+      : virtualAgentsNoPrice;
 
   const stats = safe(() => getAgentCommerceStats(), {
     totalItems: 0,
@@ -168,8 +174,8 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const solana = safe(() => getSolanaX402Onchain(), null);
   const dune = safe(() => getDuneX402Volume(), null);
   const duneRows = dune?.rows ?? [];
-  const onchainVolumeAvailable =
-    duneRefresh?.source !== "missing" && duneRows.length > 0;
+  const duneVolumeStatus = classifyDuneX402VolumeStatus(dune, duneRefresh);
+  const onchainVolumeAvailable = duneVolumeStatus.status === "fresh";
 
   // Dune day-bucketed USD volume split by chain. Facilitators on Base vs
   // Solana are distinguished by name heuristics — Solana facilitators tend
@@ -178,14 +184,19 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const isSolanaFac = (name: string): boolean =>
     /solana|sol-/i.test(name) || name.toLowerCase().includes("crossmint");
   const isBaseFac = (name: string): boolean => !isSolanaFac(name);
+  const isSolanaVolumeRow = (row: { chain?: string; facilitator: string }): boolean =>
+    row.chain ? row.chain === "solana" : isSolanaFac(row.facilitator);
+  const isBaseVolumeRow = (row: { chain?: string; facilitator: string }): boolean =>
+    row.chain ? row.chain === "base" : isBaseFac(row.facilitator);
 
   // Real on-chain volumes from Dune — no synthetic floors. Empty days
   // surface as 0 so the operator can see TOOLBOX dune-x402-volume is quiet.
+  // Missing or stale Dune must stay unavailable instead of becoming "$0".
   const baseVolumeUsd24h = onchainVolumeAvailable
-    ? sumDuneVolume(duneRows, isBaseFac)
+    ? sumDuneVolume(duneRows, isBaseVolumeRow)
     : 0;
   const solanaVolumeUsd24h = onchainVolumeAvailable
-    ? sumDuneVolume(duneRows, isSolanaFac)
+    ? sumDuneVolume(duneRows, isSolanaVolumeRow)
     : 0;
   const onchain24hUsd = baseVolumeUsd24h + solanaVolumeUsd24h;
 
@@ -205,9 +216,8 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const mcpServers = stats.mcpServerCount;
   const portalReady = stats.portalReadyCount;
   const newThisWeek = stats.thisWeekCount;
-  // Until live MCP health probes ship, we don't know which servers are
-  // degraded — show 0 degraded and let the operator see the honest signal.
-  const mcpHealthy = mcpServers;
+  // Until live MCP health probes ship, tracked count is known but health is not.
+  const mcpHealthKnown = false;
   const mcpDegraded = 0;
   // Token tables are now driven by live CoinGecko data (no SEED_TOKENS).
   const gainers = getTokenRows(agentTokens, "gainers", 5);
@@ -226,7 +236,9 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         x402NewThisWeek={newThisWeek}
         mcpServers={mcpServers}
         mcpDegraded={mcpDegraded}
+        mcpHealthKnown={mcpHealthKnown}
         portalReady={portalReady}
+        duneVolumeStatus={duneVolumeStatus.status}
       />
       <AgentCommerceHero
         period={period}
@@ -242,11 +254,12 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         x402Enabled={x402Count}
         x402NewThisWeek={newThisWeek}
         mcpServers={mcpServers}
-        mcpHealthy={mcpHealthy}
         mcpDegraded={mcpDegraded}
+        mcpHealthKnown={mcpHealthKnown}
         onchain24hUsd={onchain24hUsd}
         basePctShare={basePctShare}
         solanaPctShare={solanaPctShare}
+        duneVolumeStatus={duneVolumeStatus.status}
         portalReady={portalReady}
       />
 
@@ -259,6 +272,7 @@ export default async function AgentCommercePage({ searchParams }: Props) {
             solana={solana}
             baseVolumeUsd24h={baseVolumeUsd24h}
             solanaVolumeUsd24h={solanaVolumeUsd24h}
+            duneVolumeStatus={duneVolumeStatus.status}
           />
 
           <X402ServicesPanel market={x402Market} limit={12} />
@@ -268,7 +282,13 @@ export default async function AgentCommercePage({ searchParams }: Props) {
 
         <div className="ac-rail">
           <AgentTokensPanel tokens={agentTokens} />
-          <TopFacilitatorsTable base={base} solana={solana} dune={dune} limit={5} />
+          <TopFacilitatorsTable
+            base={base}
+            solana={solana}
+            dune={dune}
+            duneVolumeStatus={duneVolumeStatus.status}
+            limit={5}
+          />
         </div>
       </div>
 

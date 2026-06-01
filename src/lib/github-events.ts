@@ -53,6 +53,10 @@ export interface GithubEventsIndexPayload {
 
 export const GITHUB_EVENTS_INDEX_SLUG = "github-events:_index";
 
+export function isGithubEventsProducerEnabled(): boolean {
+  return process.env.GITHUB_EVENTS_PRODUCER_ENABLED === "1";
+}
+
 export function githubEventsRepoSlug(repoId: number): string {
   return `github-events:${repoId}`;
 }
@@ -128,6 +132,10 @@ export interface RefreshResult {
  * keeps returning whatever it last saw.
  */
 export async function refreshGithubEventsIndexFromStore(): Promise<RefreshResult> {
+  if (!isGithubEventsProducerEnabled()) {
+    indexCache = EMPTY_CACHE;
+    return { source: "missing", ageMs: Number.MAX_SAFE_INTEGER, watchlistSize: 0 };
+  }
   if (inflight) return inflight;
   const sinceLast = Date.now() - lastRefreshMs;
   if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
@@ -187,6 +195,14 @@ export function getGithubEventsRepoByRepoId(repoId: number): GithubEventsIndexEn
 export async function readGithubEventsForRepo(
   repoId: number,
 ): Promise<DataReadResult<GithubEventsPayload>> {
+  if (!isGithubEventsProducerEnabled()) {
+    return {
+      data: null,
+      source: "missing",
+      ageMs: Number.MAX_SAFE_INTEGER,
+      fresh: false,
+    };
+  }
   const store = getDataStore();
   return store.read<GithubEventsPayload>(githubEventsRepoSlug(repoId));
 }

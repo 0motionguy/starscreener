@@ -422,6 +422,13 @@ Flush all stores to disk manually.
 curl -X POST "$HOST/api/pipeline/persist"
 ```
 
+Local operator helper for authenticated pipeline POST routes:
+
+```bash
+npm run recompute
+npm run ingest:sample
+```
+
 ### `POST /api/pipeline/backfill-history`
 
 On-demand stargazer backfill for a single repo. Walks `/repos/{owner}/{name}/stargazers` with the `application/vnd.github.star+json` Accept header, buckets the real `starred_at` timestamps into daily counts, and writes up to 30 backdated `RepoSnapshots` so the delta engine has actual history to work with for that repo.
@@ -440,6 +447,12 @@ curl -X POST "$HOST/api/pipeline/backfill-history" \
   -H "Authorization: Bearer $CRON_SECRET" \
   -H 'Content-Type: application/json' \
   -d '{"fullName":"vercel/next.js","maxPages":50}'
+```
+
+Local operator helper:
+
+```bash
+npm run backfill:history -- vercel/next.js --max-pages 50
 ```
 
 **Response 200**

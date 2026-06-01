@@ -86,6 +86,22 @@ const fetcher: Fetcher = {
       ctx.log.error({ err: message }, 'trendshift fetch failed');
     }
 
+    if (errors.length > 0) {
+      ctx.log.warn(
+        { errors: errors.length },
+        'trendshift-daily failed; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
+    if (items.length === 0) {
+      errors.push({
+        stage: 'empty-items',
+        message: 'trendshift-daily parsed 0 rows; skipped empty publish',
+      });
+      ctx.log.warn('trendshift-daily empty run; preserving prior slug');
+      return done(startedAt, 0, false, errors);
+    }
+
     const payload: TrendshiftDailyPayload = {
       fetchedAt: new Date().toISOString(),
       sourceUrl: TRENSHIFT_URL,

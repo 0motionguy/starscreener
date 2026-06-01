@@ -20,8 +20,8 @@
 //      written only when the caller opts in (`mirrorToFile: true`) — this is
 //      mostly for collector scripts that want a local artifact.
 //   3. Memory cache holds the last-known-good value per key, per process.
-//      On a Redis brownout this is the third-tier fallback so the page
-//      keeps rendering whatever it last saw.
+//      On a Redis brownout it wins over a stale bundled file when it has
+//      a newer timestamp, so file fallback cannot rewind a warm process.
 //   4. No throw-on-boot: missing UPSTASH env vars degrade silently to
 //      file+memory only. A single warn is emitted in production.
 //
@@ -271,6 +271,31 @@ class MemoryCache {
   }
 }
 
+function memoryResult<T>(cached: MemoryEntry<T>): DataReadResult<T> {
+  const writtenAtMs = new Date(cached.writtenAt).getTime();
+  const ageMs = Number.isFinite(writtenAtMs)
+    ? Math.max(0, Date.now() - writtenAtMs)
+    : Number.MAX_SAFE_INTEGER;
+  return {
+    data: cached.data,
+    source: "memory",
+    ageMs,
+    fresh: false,
+    writtenAt: cached.writtenAt,
+  };
+}
+
+function memoryIsAtLeastAsFreshAsFile(
+  cached: MemoryEntry,
+  fileMtimeMs: number,
+): boolean {
+  const writtenAtMs = new Date(cached.writtenAt).getTime();
+  const observedAtMs = Number.isFinite(writtenAtMs)
+    ? Math.max(writtenAtMs, cached.cachedAtMs)
+    : cached.cachedAtMs;
+  return Number.isFinite(observedAtMs) && observedAtMs >= fileMtimeMs;
+}
+
 // ---------------------------------------------------------------------------
 // Redis client interface (mockable for tests, no SDK dep at type level)
 //
@@ -383,14 +408,14 @@ class DefaultDataStore implements DataStore {
             const writtenAt = parseWrittenAt(rawMeta);
             const ageMs = writtenAt
               ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
-              : 0;
+              : Number.MAX_SAFE_INTEGER;
             // Update memory cache as last-known-good for any future Redis brownout.
-            this.memory.set(key, data, writtenAt ?? new Date().toISOString());
+            this.memory.set(key, data, writtenAt ?? new Date(0).toISOString());
             return {
               data,
               source: "redis",
               ageMs,
-              fresh: true,
+              fresh: writtenAt !== null,
               writtenAt: writtenAt ?? undefined,
             };
           }
@@ -408,6 +433,10 @@ class DefaultDataStore implements DataStore {
       const stat = safeStat(filePath);
       const writtenAt = stat ? new Date(stat.mtimeMs).toISOString() : undefined;
       const ageMs = stat ? Math.max(0, Date.now() - stat.mtimeMs) : 0;
+      const cached = this.memory.get<T>(key);
+      if (cached && stat && memoryIsAtLeastAsFreshAsFile(cached, stat.mtimeMs)) {
+        return memoryResult(cached);
+      }
       // Promote to memory so subsequent reads stay fast even if file IO is slow.
       this.memory.set(key, data, writtenAt ?? new Date().toISOString());
       return {
@@ -424,15 +453,7 @@ class DefaultDataStore implements DataStore {
     // ---- Tier 3: Memory (last-known-good) ------------------------------------
     const cached = this.memory.get<T>(key);
     if (cached) {
-      const writtenAtMs = new Date(cached.writtenAt).getTime();
-      const ageMs = Math.max(0, Date.now() - writtenAtMs);
-      return {
-        data: cached.data,
-        source: "memory",
-        ageMs,
-        fresh: false,
-        writtenAt: cached.writtenAt,
-      };
+      return memoryResult(cached);
     }
 
     // ---- Total miss ----------------------------------------------------------
@@ -493,13 +514,13 @@ class DefaultDataStore implements DataStore {
         const writtenAt = hit.writtenAt;
         const ageMs = writtenAt
           ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
-          : 0;
-        this.memory.set(slug, hit.data, writtenAt ?? new Date().toISOString());
+          : Number.MAX_SAFE_INTEGER;
+        this.memory.set(slug, hit.data, writtenAt ?? new Date(0).toISOString());
         out[i] = {
           data: hit.data,
           source: "redis",
           ageMs,
-          fresh: true,
+          fresh: writtenAt !== null,
           writtenAt: writtenAt ?? undefined,
         };
         continue;
@@ -513,6 +534,11 @@ class DefaultDataStore implements DataStore {
         const stat = safeStat(filePath);
         const writtenAt = stat ? new Date(stat.mtimeMs).toISOString() : undefined;
         const ageMs = stat ? Math.max(0, Date.now() - stat.mtimeMs) : 0;
+        const cached = this.memory.get<T>(slug);
+        if (cached && stat && memoryIsAtLeastAsFreshAsFile(cached, stat.mtimeMs)) {
+          out[i] = memoryResult(cached);
+          continue;
+        }
         this.memory.set(slug, data, writtenAt ?? new Date().toISOString());
         out[i] = {
           data,
@@ -529,15 +555,7 @@ class DefaultDataStore implements DataStore {
       // Tier 3: Memory (last-known-good)
       const cached = this.memory.get<T>(slug);
       if (cached) {
-        const writtenAtMs = new Date(cached.writtenAt).getTime();
-        const ageMs = Math.max(0, Date.now() - writtenAtMs);
-        out[i] = {
-          data: cached.data,
-          source: "memory",
-          ageMs,
-          fresh: false,
-          writtenAt: cached.writtenAt,
-        };
+        out[i] = memoryResult(cached);
         continue;
       }
 
@@ -783,6 +801,10 @@ function objectToFreshnessMeta(
 
 let warnedAboutFileFallback = false;
 
+function isEnabledFlag(value: string | undefined): boolean {
+  return value === "1" || value?.toLowerCase() === "true";
+}
+
 export function createDataStore(
   options: CreateDataStoreOptions = {},
 ): DataStore {
@@ -791,9 +813,32 @@ export function createDataStore(
   //   REDIS_URL                   — Railway / standard ioredis (TCP)
   //   UPSTASH_REDIS_REST_URL      — legacy, kept for fallback compatibility
   // Token is only used for Upstash REST; ioredis encodes auth in the URL.
-  const url =
-    env.REDIS_URL?.trim() || env.UPSTASH_REDIS_REST_URL?.trim() || "";
-  const token = env.UPSTASH_REDIS_REST_TOKEN?.trim();
+  const redisUrl = env.REDIS_URL?.trim() || "";
+  const upstashUrl = env.UPSTASH_REDIS_REST_URL?.trim() || "";
+  const token = env.UPSTASH_REDIS_REST_TOKEN?.trim() || "";
+  if (redisUrl && (upstashUrl || token)) {
+    throw new DataStoreFatalError(
+      "[data-store] Set REDIS_URL OR UPSTASH_REDIS_REST_URL+TOKEN, never both.",
+      {
+        hasRedisUrl: true,
+        hasUpstashUrl: Boolean(upstashUrl),
+        hasToken: Boolean(token),
+      },
+    );
+  }
+  if (upstashUrl && !token) {
+    throw new DataStoreFatalError(
+      "[data-store] UPSTASH_REDIS_REST_URL requires UPSTASH_REDIS_REST_TOKEN.",
+      { hasUpstashUrl: true, hasToken: false },
+    );
+  }
+  if (!upstashUrl && token) {
+    throw new DataStoreFatalError(
+      "[data-store] UPSTASH_REDIS_REST_TOKEN was set without UPSTASH_REDIS_REST_URL.",
+      { hasUpstashUrl: false, hasToken: true },
+    );
+  }
+  const url = redisUrl || upstashUrl;
   const dataDir =
     options.dataDir ?? resolve(process.cwd(), "data");
   const disableFileMirror = options.disableFileMirror === true;
@@ -817,6 +862,12 @@ export function createDataStore(
     });
 
   if (!url) {
+    if (isEnabledFlag(env.DATA_STORE_REQUIRE_REDIS)) {
+      throw new DataStoreFatalError(
+        "[data-store] Redis is required but no REDIS_URL or Upstash REST env was configured.",
+        { requireRedis: true },
+      );
+    }
     onFallback("env-missing");
     return new DefaultDataStore({
       redis: null,

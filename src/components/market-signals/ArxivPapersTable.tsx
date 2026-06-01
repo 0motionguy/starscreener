@@ -11,6 +11,7 @@ import { getArxivEnrichment } from "@/lib/arxiv";
 interface ArxivPapersTableProps {
   papers: ArxivPaperTrending[];
   limit?: number;
+  disabled?: boolean;
 }
 
 interface ArxivDisplayRow {
@@ -69,7 +70,11 @@ function buildRows(papers: ArxivPaperTrending[], limit: number): ArxivDisplayRow
   return rows;
 }
 
-export function ArxivPapersTable({ papers, limit = 6 }: ArxivPapersTableProps) {
+export function ArxivPapersTable({
+  papers,
+  limit = 6,
+  disabled = false,
+}: ArxivPapersTableProps) {
   const rows = buildRows(papers, limit);
   // Honest count: real cited papers, no floor.
   const citedCount = papers.filter((paper) => paper.linkedRepos.length > 0).length;
@@ -81,10 +86,17 @@ export function ArxivPapersTable({ papers, limit = 6 }: ArxivPapersTableProps) {
           <b>Papers - cited repos</b> - 7d - arXiv ingest
         </h2>
         <span className="grow" />
-        <span className="chip info">{citedCount.toLocaleString()} cite OSS</span>
+        <span className={disabled ? "chip warn" : "chip info"}>
+          {disabled ? "archived" : `${citedCount.toLocaleString()} cite OSS`}
+        </span>
       </div>
 
-      {rows.length === 0 ? (
+      {disabled ? (
+        <div style={{ padding: "20px 14px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-faint)" }}>
+          arXiv is archived on this surface. No active production producer is
+          wired, so it is not counted as a live market signal.
+        </div>
+      ) : rows.length === 0 ? (
         <div style={{ padding: "20px 14px", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-faint)" }}>
           No arXiv papers citing tracked repos right now — feed is quiet.
         </div>

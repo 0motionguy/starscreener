@@ -211,7 +211,6 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 | cron-webhooks-flush | every 30 min | webhook delivery | (server-side only) |
 | cron-webhooks-dead-letter-digest | daily `9 9 * * *` | webhook dead-letter digest | Slack ops notification only |
 | cron-aiso-drain | every 30 min | alert events delivery | `/alerts` events |
-| cron-mcp-usage-rotate | monthly day 1 | mcp-usage rolling window rotate | `/model-usage` |
 | ping-mcp-liveness | every 6h | mcp-liveness | `/mcp` liveness pill |
 | sentry-fix-bot | manual | Sentry-driven fix PR | dev workflow only |
 | trendingrepo-worker | manual | (typecheck) | n/a |

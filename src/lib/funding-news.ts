@@ -167,26 +167,24 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
-      // Fan out to the four funding slugs the publishing pipeline produces:
+      // Fan out to the active funding slugs the publishing pipeline produces:
       //   funding-news            — TechCrunch / VentureBeat / Sifted / Tech.eu / Pymnts / Wired / BBC / Ars
       //                             + AI-tagged feeds (TC-AI / VB-AI / AI News / AI Business / The Decoder /
       //                                Marktechpost / Unite.AI / Analytics India / MIT TR AI / Synced)
       //                             + niche outlets (GeekWire / EU-Startups / Silicon Canals / TechStartups)
       //   funding-news-crunchbase — Crunchbase News + AlleyWatch + FinSMEs + TechFundingNews + TC Venture
-      //   funding-news-x          — Apify Twitter funding-hashtag scraper
       //   funding-news-sec        — SEC EDGAR Form D filings, AI-keyword filtered
       //                             (every US private round, 15-day filing window — ground truth)
       // Pre-fix the page only read the first slug. Merge with sourceUrl-keyed
       // dedupe so cross-published articles collapse.
       //
-      // readMany() collapses the four reads into a single Redis MGET round
+      // readMany() collapses the reads into a single Redis MGET round
       // trip (4 × ~30ms → 1 × ~30ms on a cold Lambda). Each slug still
       // cascades Redis → file → memory independently, so partial Redis
       // misses don't poison the merge.
-      const [main, crunch, x, sec] = await store.readMany<unknown>([
+      const [main, crunch, sec] = await store.readMany<unknown>([
         "funding-news",
         "funding-news-crunchbase",
-        "funding-news-x",
         "funding-news-sec",
       ]);
 
@@ -219,7 +217,6 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
 
       ingest(main);
       ingest(crunch);
-      ingest(x);
       ingest(sec);
 
       if (byKey.size > 0) {

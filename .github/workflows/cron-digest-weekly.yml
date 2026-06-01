@@ -71,9 +71,24 @@ jobs:
             echo "::error::digest/weekly call failed ($code)"
             exit 1
           fi
-          # Only fail the run when the endpoint explicitly returned ok=false —
-          # `{ ok: true, skipped: "disabled" }` is a legitimate no-op response
-          # until the operator flips DIGEST_ENABLED=true.
           if command -v jq >/dev/null 2>&1; then
-            jq -e '.ok == true' /tmp/out > /dev/null
+            if ! jq -e '.ok == true' /tmp/out > /dev/null; then
+              echo "::error::digest/weekly returned ok=false"
+              exit 1
+            fi
+            skipped="$(jq -r '.skipped // ""' /tmp/out)"
+            user_errors="$(jq -r '(.errors // []) | length' /tmp/out)"
+            newsletter_errors="$(jq -r '(.newsletter.errors // []) | length' /tmp/out)"
+            if [ "$DRY_RUN" != "true" ] && [ "$skipped" = "disabled" ]; then
+              echo "::error::digest/weekly returned skipped=disabled"
+              exit 1
+            fi
+            if [ "$user_errors" -gt 0 ]; then
+              echo "::error::digest/weekly returned user errors ($user_errors)"
+              exit 1
+            fi
+            if [ "$newsletter_errors" -gt 0 ]; then
+              echo "::error::digest/weekly returned newsletter errors ($newsletter_errors)"
+              exit 1
+            fi
           fi

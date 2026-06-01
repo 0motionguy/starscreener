@@ -12,6 +12,8 @@
 // (e.g. CoinGecko Pro WS or DEX-level sources like cookies.fun) and flip
 // the consumers to a client island. Shapes below stay stable.
 
+import { fetchWithTimeout } from "./fetch-timeout";
+
 export interface AgentToken {
   /** CoinGecko id (e.g. "bittensor"). */
   id: string;
@@ -88,6 +90,7 @@ interface CoinGeckoMarketRow {
 
 const COINGECKO_UA =
   "Mozilla/5.0 (compatible; TrendingRepo/1.0; +https://trendingrepo.com)";
+const COINGECKO_TIMEOUT_MS = 4_000;
 
 /**
  * Fetch live quotes for the curated AI-agent token universe. Single
@@ -104,7 +107,8 @@ export async function fetchAgentTokens(): Promise<AgentToken[]> {
   const fetchedAt = new Date().toISOString();
 
   try {
-    const res = await fetch(url, {
+    const res = await fetchWithTimeout(url, {
+      timeoutMs: COINGECKO_TIMEOUT_MS,
       headers: { "User-Agent": COINGECKO_UA, Accept: "application/json" },
       // 5 minutes — CoinGecko's free tier rate-limits aggressively if hit too
       // often. Prices on this surface don't need sub-minute freshness.

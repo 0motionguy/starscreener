@@ -30,7 +30,6 @@
  *   are NOT ghosts — they're the 17 standalone scripts and 3 user-input flows.
  *
  * See:
- *   - docs/SOURCE-REGISTRY-PROPOSAL.md §4 (loader pseudocode)
  *   - supabase/migrations/0002_source_overrides.sql (schema)
  *   - apps/trendingrepo-worker/src/schedule.ts (consumer)
  *   - apps/trendingrepo-worker/src/server.ts (/healthz consumer)

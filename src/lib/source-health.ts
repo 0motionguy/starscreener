@@ -150,7 +150,10 @@ export function evaluateSourceFreshness(args: {
   const futureSkew =
     age !== null && age < -MAX_FUTURE_CLOCK_SKEW_MS;
   const normalizedAge = age === null ? null : Math.max(0, age);
-  const stale = normalizedAge === null || normalizedAge > args.staleAfterMs;
+  const stale =
+    normalizedAge === null ||
+    futureSkew ||
+    normalizedAge > args.staleAfterMs;
   const cadenceMissed =
     normalizedAge !== null && normalizedAge > args.degradedAfterMs;
 
@@ -488,6 +491,19 @@ export function getDegradedScannerSources(): ScannerSourceHealth[] {
 
 export function getStaleScannerSources(): ScannerSourceHealth[] {
   return getScannerSourceHealth().filter((source) => source.status === "stale");
+}
+
+export function isScannerSourceUnproven(source: ScannerSourceHealth): boolean {
+  return source.cold === true || source.status === "cold";
+}
+
+export function scannerSourcesBlockPipelineFreshness(
+  sources: readonly ScannerSourceHealth[],
+): boolean {
+  return (
+    sources.length === 0 ||
+    sources.some((source) => source.stale || isScannerSourceUnproven(source))
+  );
 }
 
 // ---------------------------------------------------------------------------

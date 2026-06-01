@@ -41,9 +41,10 @@ import {
 } from "@/lib/repo-metadata";
 import {
   FAST_DATA_STALE_THRESHOLD_MS,
-  getDegradedScannerSources,
   getScannerSourceHealth,
+  isScannerSourceUnproven,
   refreshScannerSourceHealthFromStore,
+  scannerSourcesBlockPipelineFreshness,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
@@ -78,6 +79,7 @@ export interface PipelineStatusResponse {
     recentRepos: boolean;
     repoMetadata: boolean;
     collectionRankings: boolean;
+    sources: boolean;
   };
   collectionCoverage: CollectionRankingsCoverage;
   repoMetadata: {
@@ -87,6 +89,7 @@ export interface PipelineStatusResponse {
     failureCount: number;
   };
   degradedSources?: string[];
+  unprovenSources?: string[];
   sources?: ScannerSourceHealth[];
   rateLimitRemaining: number | null;
   stats: {
@@ -134,8 +137,13 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     const repos = repoStore.getAll();
     const snapshotCount = snapshotStore.totalCount();
     const sources = getScannerSourceHealth();
-    const degradedSources = getDegradedScannerSources().map((source) => source.id);
-    const sourceStale = sources.some((source) => source.stale);
+    const degradedSources = sources
+      .filter((source) => source.status === "degraded")
+      .map((source) => source.id);
+    const unprovenSources = sources
+      .filter(isScannerSourceUnproven)
+      .map((source) => source.id);
+    const sourceStale = scannerSourcesBlockPipelineFreshness(sources);
 
     let rateLimitRemaining: number | null = null;
     try {
@@ -204,7 +212,9 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       healthy,
       healthStatus,
       sourceStatus:
-        degradedSources.length > 0 || collectionRankingsStatus === "degraded"
+        degradedSources.length > 0 ||
+        unprovenSources.length > 0 ||
+        collectionRankingsStatus === "degraded"
           ? "degraded"
           : "ok",
       ageSeconds: worstAgeMs === null ? null : Math.floor(worstAgeMs / 1000),
@@ -228,6 +238,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         recentRepos: recentReposStale,
         repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
+        sources: sourceStale,
       },
       collectionCoverage: getCollectionRankingsCoverage(),
       repoMetadata: {
@@ -240,6 +251,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         collectionRankingsStatus === "degraded"
           ? [...degradedSources, "collection-rankings"]
           : degradedSources,
+      unprovenSources,
       sources,
       rateLimitRemaining,
       stats: {

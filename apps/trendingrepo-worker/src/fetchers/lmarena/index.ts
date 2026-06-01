@@ -66,6 +66,8 @@ interface LmarenaModel {
 
 interface LmarenaPayload {
   fetchedAt: string;
+  status?: 'ok' | 'degraded';
+  errors?: RunResult['errors'];
   source: string;
   snapshotDate: string;
   count: number;
@@ -97,6 +99,7 @@ const fetcher: Fetcher = {
     const raw: LmarenaModelRaw[] = [];
     let total: number | null = null;
     let lastUrl = '';
+    let paginationComplete = true;
 
     for (let page = 0; page < MAX_PAGES; page += 1) {
       const offset = page * PAGE_SIZE;
@@ -111,6 +114,11 @@ const fetcher: Fetcher = {
         if (total === null && typeof data.num_rows_total === 'number') {
           total = data.num_rows_total;
         }
+        if (data.partial) {
+          paginationComplete = false;
+          errors.push({ stage: 'fetch', message: `page ${page} returned partial=true` });
+          break;
+        }
         const rows = Array.isArray(data.rows) ? data.rows : [];
         if (rows.length === 0) break;
         for (const r of rows) {
@@ -122,13 +130,27 @@ const fetcher: Fetcher = {
         const message = (err as Error).message;
         ctx.log.warn({ page, offset, err: message }, 'lmarena: page fetch failed, stopping');
         errors.push({ stage: 'fetch', message: `page ${page} (offset ${offset}): ${message}` });
+        paginationComplete = false;
         break;
       }
+    }
+
+    if (total !== null && raw.length < total) {
+      paginationComplete = false;
     }
 
     if (raw.length === 0) {
       ctx.log.warn({ lastUrl }, 'lmarena: HF datasets-server returned no rows');
       return done(startedAt, 0, false, errors);
+    }
+
+    if (!paginationComplete) {
+      const message = `incomplete pagination: fetched ${raw.length}${total === null ? '' : `/${total}`} rows`;
+      ctx.log.warn({ lastUrl, rawCount: raw.length, total }, `lmarena: ${message}`);
+      return done(startedAt, raw.length, false, [
+        ...errors,
+        { stage: 'pagination-incomplete', message },
+      ]);
     }
 
     const models: LmarenaModel[] = [];
@@ -150,6 +172,8 @@ const fetcher: Fetcher = {
 
     const payload: LmarenaPayload = {
       fetchedAt: new Date().toISOString(),
+      status: errors.length > 0 ? 'degraded' : 'ok',
+      ...(errors.length > 0 ? { errors } : {}),
       source: SOURCE_LABEL,
       snapshotDate: latestSnapshotDate,
       count: models.length,

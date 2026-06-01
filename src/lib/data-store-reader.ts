@@ -25,7 +25,7 @@
 // per-module convention: catch, set lastRefreshMs to now (so retries respect
 // the rate-limit), return the cached entry's metadata or a `missing` sentinel.
 
-import { getDataStore } from "./data-store";
+import { getDataStore, type DataReadResult } from "./data-store";
 
 export type DataSource = "redis" | "file" | "memory" | "missing";
 
@@ -54,6 +54,15 @@ export interface CreatePayloadReaderOpts<T> {
    * thrown errors (existing memory tier preserved).
    */
   normalize?: (raw: unknown) => T;
+  /**
+   * Render wait budget for this reader. The underlying store read may keep
+   * settling in the background, but callers stop waiting and reuse cache.
+   */
+  refreshTimeoutMs?: number;
+  /** Override for tests or unusually fast/slow sources. */
+  minRefreshIntervalMs?: number;
+  /** Test seam; defaults to getDataStore().read. */
+  readFromStore?: <Raw = unknown>(key: string) => Promise<DataReadResult<Raw>>;
 }
 
 export interface PayloadReader<T> {
@@ -81,6 +90,7 @@ export interface PayloadReader<T> {
 }
 
 const MIN_REFRESH_INTERVAL_MS = 30_000;
+const PAYLOAD_READER_REFRESH_TIMEOUT_MS = 1200;
 
 /**
  * Build a single-payload reader bound to a data-store key. Handles cache,
@@ -91,33 +101,48 @@ export function createPayloadReader<T>(
   opts: CreatePayloadReaderOpts<T>,
 ): PayloadReader<T> {
   const normalize = opts.normalize ?? ((raw: unknown) => raw as T);
+  const minRefreshIntervalMs =
+    opts.minRefreshIntervalMs ?? MIN_REFRESH_INTERVAL_MS;
+  const refreshTimeoutMs =
+    opts.refreshTimeoutMs ?? PAYLOAD_READER_REFRESH_TIMEOUT_MS;
+  const readFromStore =
+    opts.readFromStore ??
+    (<Raw = unknown>(key: string) => getDataStore().read<Raw>(key));
 
   let cache: CacheEntry<T> | null = null;
   let inflight: Promise<RefreshResult> | null = null;
   let lastRefreshMs = 0;
+  let refreshGeneration = 0;
+  let latestAppliedGeneration = 0;
+
+  const cachedRefreshResult = (): RefreshResult => ({
+    source: cache?.source ?? "missing",
+    ageMs: cache?.ageMs ?? 0,
+    writtenAt: cache?.writtenAt ?? null,
+  });
 
   const refresh = (): Promise<RefreshResult> => {
     if (inflight) return inflight;
     const sinceLast = Date.now() - lastRefreshMs;
-    if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
-      return Promise.resolve({
-        source: cache?.source ?? "memory",
-        ageMs: cache?.ageMs ?? 0,
-        writtenAt: cache?.writtenAt ?? null,
-      });
+    if (sinceLast < minRefreshIntervalMs && lastRefreshMs > 0) {
+      return Promise.resolve(cachedRefreshResult());
     }
 
-    inflight = (async (): Promise<RefreshResult> => {
+    const generation = (refreshGeneration += 1);
+    const background = (async (): Promise<RefreshResult> => {
       try {
-        const store = getDataStore();
-        const result = await store.read<unknown>(opts.key);
+        const result = await readFromStore<unknown>(opts.key);
         if (result.data && result.source !== "missing") {
-          cache = {
+          const nextCache = {
             payload: normalize(result.data),
             source: result.source,
             writtenAt: result.writtenAt ?? null,
             ageMs: result.ageMs,
           };
+          if (generation >= latestAppliedGeneration) {
+            cache = nextCache;
+            latestAppliedGeneration = generation;
+          }
         }
         lastRefreshMs = Date.now();
         return {
@@ -127,13 +152,21 @@ export function createPayloadReader<T>(
         };
       } catch {
         lastRefreshMs = Date.now();
-        return {
-          source: cache?.source ?? "missing",
-          ageMs: cache?.ageMs ?? 0,
-          writtenAt: cache?.writtenAt ?? null,
-        };
+        return cachedRefreshResult();
       }
-    })().finally(() => {
+    })();
+
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    inflight = Promise.race([
+      background,
+      new Promise<RefreshResult>((resolve) => {
+        timeoutId = setTimeout(() => {
+          lastRefreshMs = Date.now();
+          resolve(cachedRefreshResult());
+        }, refreshTimeoutMs);
+      }),
+    ]).finally(() => {
+      if (timeoutId) clearTimeout(timeoutId);
       inflight = null;
     });
 

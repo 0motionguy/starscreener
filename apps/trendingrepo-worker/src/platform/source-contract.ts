@@ -16,8 +16,8 @@
  *   is recorded individually in the providers[] sub-array for routing.
  *
  * See:
- *   - ~/.claude/plans/hidden-pondering-meadow.md (approved Phase 1 plan)
- *   - docs/SOURCE-REGISTRY-PROPOSAL.md (Move 1 implementation proposal — pending)
+ *   - apps/trendingrepo-worker/tests/registry.test.ts (registry drift tests)
+ *   - src/lib/pipeline/__tests__/health-availability.test.ts (health coverage tests)
  *   - apps/trendingrepo-worker/src/lib/types.ts (runtime Fetcher + RunResult)
  */
 

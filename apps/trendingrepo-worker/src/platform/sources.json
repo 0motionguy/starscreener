@@ -345,7 +345,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 86400000,
+    "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "none"
     },
@@ -398,7 +398,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 86400000,
+    "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "none"
     },
@@ -422,6 +422,40 @@
     "depends_on": [],
     "supports_backfill": false,
     "fallback_strategy": "editorial-seed",
+    "writes_canonical_entity_kind": [
+      "company",
+      "mention"
+    ]
+  },
+  {
+    "id": "sec-form-d",
+    "category": "funding",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 21600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": [
+      "https://efts.sec.gov/LATEST/search-index",
+      "https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/primary_doc.xml"
+    ],
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "funding-news-sec"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/funding-news.ts",
+      "src/lib/funding/sec-form-d.ts",
+      "src/lib/funding/aggregate.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
     "writes_canonical_entity_kind": [
       "company",
       "mention"
@@ -1034,7 +1068,8 @@
     "output_record_shape": "event_stream",
     "consensus_role": "event-stream",
     "consumer_surfaces": [
-      "src/lib/github-events.ts"
+      "src/lib/github-events.ts",
+      "src/app/api/repos/[owner]/[name]/events/route.ts"
     ],
     "depends_on": [
       "engagement-composite",
@@ -1045,13 +1080,13 @@
     "writes_canonical_entity_kind": [
       "event"
     ],
-    "decision_pending": "github-events fetcher exists in apps/trendingrepo-worker/src/fetchers/github-events but is NOT imported in registry.ts FETCHERS — confirm whether to wire it (it's a producer for the watchlist real-time pane) or delete; current state is code-complete-but-unwired."
+    "decision_pending": "Producer code remains parked in apps/trendingrepo-worker/src/fetchers/github-events but is NOT imported in registry.ts FETCHERS. The app route is gated by GITHUB_EVENTS_PRODUCER_ENABLED=1 and returns 503 while disabled. Future decision: wire FETCHERS and enable the producer gate, or delete the parked producer code."
   },
   {
     "id": "github",
     "category": "repo-derived",
     "kind": "collector",
-    "state": "intent-only",
+    "state": "deprecated",
     "freshness_budget_ms": 3600000,
     "cost_signal_metric": {
       "type": "pat_quota_pct",
@@ -1067,12 +1102,12 @@
     "output_record_shape": "ranked_list",
     "consumer_surfaces": [],
     "depends_on": [],
-    "supports_backfill": true,
+    "supports_backfill": false,
     "fallback_strategy": "skip",
     "writes_canonical_entity_kind": [
       "repo"
     ],
-    "decision_pending": "Stub fetcher only emits 'not yet implemented' warnings; oss-trending + recent-repos + repo-metadata already cover GitHub. Ship the planned port (Phase B) OR delete the stub file?"
+    "decision_pending": "Worker stub was deleted because it only emitted 'not yet implemented' warnings. GitHub coverage is owned by oss-trending, recent-repos, repo-metadata, and star-activity fetchers; restore this row only with a concrete registered fetcher."
   },
   {
     "id": "ai-blogs",

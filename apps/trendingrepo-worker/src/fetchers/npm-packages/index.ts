@@ -128,10 +128,11 @@ const fetcher: Fetcher = {
   schedule: '17 9 * * *', // matches scrape-npm.yml
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
+    const errors: RunResult['errors'] = [];
 
     if (ctx.dryRun) {
       ctx.log.info('npm-packages dry-run');
-      return done(startedAt, 0, false);
+      return done(startedAt, 0, false, errors);
     }
 
     const queries = parseDiscoveryQueries(process.env.NPM_DISCOVERY_QUERIES);
@@ -160,6 +161,7 @@ const fetcher: Fetcher = {
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         failures.push({ query, error: message });
+        errors.push({ stage: 'search', message: `${query}: ${message}` });
         ctx.log.warn({ query, message }, 'npm search failed');
       }
       if (SEARCH_DELAY_MS > 0) await sleep(SEARCH_DELAY_MS);
@@ -192,6 +194,7 @@ const fetcher: Fetcher = {
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         failures.push({ package: candidate.name, error: message });
+        errors.push({ stage: 'download-range', message: `${candidate.name}: ${message}` });
         matrix.set(key, {
           downloads: [],
           stats: computeDownloadStats([]),
@@ -228,6 +231,28 @@ const fetcher: Fetcher = {
       hydrated.filter((row) => topNameSet.has(row.name.toLowerCase())),
       '24h',
     );
+    if (rows.length === 0) {
+      errors.push({
+        stage: 'empty-packages',
+        message: 'npm-packages produced 0 rows; skipped empty publish',
+      });
+      ctx.log.warn(
+        { candidates: candidates.length, failures: failures.length },
+        'npm-packages empty run; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
+    if (errors.some((error) => error.stage === 'search' || error.stage === 'download-range')) {
+      errors.push({
+        stage: 'partial-packages',
+        message: 'one or more npm upstream calls failed; skipped partial publish',
+      });
+      ctx.log.warn(
+        { rows: rows.length, failures: failures.length },
+        'npm-packages partial run; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
     const top: Record<string, string[]> = {};
     for (const window of WINDOWS) {
       top[window] = sortByWindow(rows, window)
@@ -272,13 +297,18 @@ const fetcher: Fetcher = {
       { rows: rows.length, queries: queries.length, redisSource: result.source },
       'npm-packages published',
     );
-    return done(startedAt, rows.length, result.source === 'redis');
+    return done(startedAt, rows.length, result.source === 'redis', errors);
   },
 };
 
 export default fetcher;
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'],
+): RunResult {
   return {
     fetcher: 'npm-packages',
     startedAt,
@@ -287,6 +317,6 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }

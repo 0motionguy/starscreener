@@ -16,6 +16,7 @@ import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
 import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
+import secFormD from './fetchers/sec-form-d/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 // Reddit collection is intentionally paused end-to-end on HOSTUP. Do not keep
@@ -155,6 +156,7 @@ export const FETCHERS: Fetcher[] = [
   npmPackages,
   fundingNews,
   crunchbase,
+  secFormD,
   trustmrr,
   revenueBenchmarks,
   trendshiftDaily,
@@ -201,21 +203,19 @@ export function listFetcherNames(): string[] {
   return FETCHERS.map((f) => f.name);
 }
 
-// Move 1, Phase 1 — SOURCE_CONTRACTS array.
+// Source registry contract array.
 //
 // `sources.json` is the source registry. Each row is asserted to satisfy the
 // SourceContract type via the `as` cast through the unknown bridge, then
 // re-typed as readonly so callers cannot mutate. JSON imports widen string
 // literals (e.g. `"active"` → `string`), so a direct `satisfies` clause
-// cannot narrow the unions — Phase 1 deliverable C
-// (`scripts/verify-source-contract.mjs`) is the runtime gate that catches
-// shape drift, paired with `npm run render:source-audit` which fails loudly
-// on missing fields. Move 1 implementation step 4 wires
-// `npm run registry-check` into CI so PRs that delete a row without prior
-// `state: 'deprecated'` are blocked. See:
+// cannot narrow the unions.
+// Registry drift is enforced by:
+//   - apps/trendingrepo-worker/tests/registry.test.ts
+//   - src/lib/pipeline/__tests__/health-availability.test.ts
+// See:
 //   - apps/trendingrepo-worker/src/platform/source-contract.ts (the type)
 //   - apps/trendingrepo-worker/src/platform/sources.json     (the data)
-//   - docs/SOURCE-REGISTRY-PROPOSAL.md (Move 1 implementation proposal)
 import sourcesData from './platform/sources.json' with { type: 'json' };
 import type { SourceContract } from './platform/source-contract.js';
 export const SOURCE_CONTRACTS: readonly SourceContract[] =

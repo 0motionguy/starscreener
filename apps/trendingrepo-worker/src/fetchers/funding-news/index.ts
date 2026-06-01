@@ -5,7 +5,7 @@
 // regex-based extractor (company name, $ amount, round type, tags) and
 // writes the consolidated payload to ss:data:v1:funding-news.
 //
-// Slug: `funding-news`. Cadence: every 6h (matches collect-funding.yml).
+// Slug: `funding-news`. Cadence: every 2h on HOSTUP.
 //
 // Reliability: each RSS feed is fetched with one retry on network/5xx
 // failure. The original script seeded a static SEED_SIGNALS list of
@@ -143,6 +143,8 @@ interface FundingSignal {
 
 interface FundingNewsPayload {
   fetchedAt: string;
+  status?: 'ok' | 'degraded';
+  errors?: RunResult['errors'];
   source: 'funding-news-scraper';
   windowDays: number;
   signals: FundingSignal[];
@@ -171,6 +173,9 @@ const fetcher: Fetcher = {
     const discoveredAt = new Date().toISOString();
     const allSignals: FundingSignal[] = [];
     const seenIds = new Set<string>();
+    const errors: RunResult['errors'] = [];
+    let successfulFeeds = 0;
+    let liveSignals = 0;
 
     // Editorial floor: seed first so any matching RSS hit can dedupe by
     // sourceUrl + headline rather than overwrite. Real RSS hits sort to
@@ -206,6 +211,7 @@ const fetcher: Fetcher = {
           const xml = await res.text();
           items = parseRssItems(xml);
           lastError = null;
+          successfulFeeds += 1;
           break;
         } catch (err) {
           lastError = (err as Error).message;
@@ -215,6 +221,11 @@ const fetcher: Fetcher = {
       }
       if (lastError) {
         ctx.log.warn({ source: sourceName, error: lastError }, 'rss feed failed after retry');
+        errors.push({
+          stage: 'feed',
+          itemSourceId: sourceName,
+          message: lastError,
+        });
       }
 
       await sleep(500);
@@ -250,7 +261,22 @@ const fetcher: Fetcher = {
           extracted,
           tags,
         });
+        liveSignals += 1;
       }
+    }
+
+    if (successfulFeeds === 0 || liveSignals === 0) {
+      ctx.log.warn(
+        { successfulFeeds, liveSignals, errors: errors.length, seedSignals: SEED_SIGNALS.length },
+        'funding-news: no live RSS funding signals produced - preserving existing payload',
+      );
+      return done(startedAt, allSignals.length, false, [
+        ...errors,
+        {
+          stage: 'empty-live-signals',
+          message: `no live RSS funding signals produced (successfulFeeds=${successfulFeeds}, liveSignals=${liveSignals})`,
+        },
+      ]);
     }
 
     allSignals.sort((a, b) => {
@@ -261,6 +287,8 @@ const fetcher: Fetcher = {
 
     const payload: FundingNewsPayload = {
       fetchedAt: discoveredAt,
+      status: errors.length > 0 ? 'degraded' : 'ok',
+      ...(errors.length > 0 ? { errors } : {}),
       source: 'funding-news-scraper',
       windowDays: WINDOW_DAYS,
       signals: allSignals,
@@ -270,13 +298,18 @@ const fetcher: Fetcher = {
       { signals: allSignals.length, redisSource: result.source },
       'funding-news published',
     );
-    return done(startedAt, allSignals.length, result.source === 'redis');
+    return done(startedAt, allSignals.length, result.source === 'redis', errors);
   },
 };
 
 export default fetcher;
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'] = [],
+): RunResult {
   return {
     fetcher: 'funding-news',
     startedAt,
@@ -285,6 +318,6 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }

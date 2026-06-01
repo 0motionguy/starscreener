@@ -19,6 +19,10 @@ import type { Fetcher, FetcherContext, RedisHandle, RunResult } from './lib/type
 import { recordRun } from './server.js';
 import { getContract } from './platform/contracts.js';
 import { emitRunSummary } from './platform/run-summary.js';
+import type {
+  PrimaryOutputKeys,
+  SourceContract,
+} from './platform/source-contract.js';
 
 export interface RunOptions {
   dryRun?: boolean;
@@ -106,8 +110,10 @@ export async function runFetcher(
       log: log.child({ fetcher: fetcher.name }),
       dryRun,
       since: sinceDate,
-      signalRunComplete: async () => {
-        recordRun();
+      signalRunComplete: async (counts) => {
+        recordRun(new Date(), {
+          redisPublished: counts?.redisPublished === true,
+        });
       },
       contract,
     };
@@ -142,10 +148,12 @@ export async function runFetcher(
         'requiresDb fetcher wrote zero rows — check trending_items.last_seen_at',
       );
     }
-    recordRun();
+    recordRun(new Date(), { redisPublished: result.redisPublished === true });
+    const publishFailed =
+      !dryRun && expectsRedisPublish(contract) && result.redisPublished !== true;
     emitRunSummary({
       sourceId: fetcher.name,
-      status: result.errors.length > 0 ? 'warn' : 'ok',
+      status: result.errors.length > 0 || publishFailed ? 'warn' : 'ok',
       durationMs: Date.now() - t0,
       recordsIn: result.itemsSeen,
       recordsOut: result.itemsUpserted,
@@ -167,6 +175,15 @@ export async function runFetcher(
   } finally {
     setCurrentFetcherName(null);
   }
+}
+
+function expectsRedisPublish(contract: SourceContract | undefined): boolean {
+  return contract?.state === 'active' && hasPrimaryOutputKeys(contract.primary_output_keys);
+}
+
+function hasPrimaryOutputKeys(keys: PrimaryOutputKeys): boolean {
+  if (Array.isArray(keys)) return keys.length > 0;
+  return typeof keys.pattern === 'string' && keys.pattern.length > 0;
 }
 
 function emptyResult(name: string, startedAt: string): RunResult {

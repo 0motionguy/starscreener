@@ -5,6 +5,7 @@ import { test } from "node:test";
 
 import { getHealthHttpStatusForStatus } from "../../health-status";
 import {
+  WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS,
   WORKER_HEALTH_DISABLED_SPECS,
   WORKER_PAYLOAD_HEALTH_SLUGS,
   WORKER_HEALTH_SPECS,
@@ -75,6 +76,17 @@ test("/api/health: coverage warning considers star-activity delta backbone", () 
   assert.equal(routeSource.includes("bestCoverageQuality"), true);
 });
 
+test("/api/health: public health folds in worker fleet status", () => {
+  const routeSource = readFileSync(
+    resolve(process.cwd(), "src", "app", "api", "health", "route.ts"),
+    "utf8",
+  );
+
+  assert.equal(routeSource.includes("readWorkerHealthSnapshot"), true);
+  assert.equal(routeSource.includes("workerStatus"), true);
+  assert.equal(routeSource.includes("workerStatus=degraded"), true);
+});
+
 test("/api/worker/health: advisory slugs remain labelled for triage", () => {
   const advisory = new Set([
     "hot-collections",
@@ -128,6 +140,7 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "lobsters-mentions",
     "producthunt-launches",
     "funding-news-crunchbase",
+    "funding-news-sec",
     "consensus-verdicts",
     "devto-mentions",
     "devto-trending",
@@ -184,6 +197,50 @@ test("/api/worker/health: every active worker concrete output is tracked", () =>
   assert.deepEqual(missing.sort(), []);
 });
 
+test("/api/worker/health: every active worker dynamic output family has a marker slug", () => {
+  const fetchers = new Set(registeredWorkerFetcherNames());
+  const markers = new Set(
+    WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS.map(
+      (item) => `${item.fetcher}:${item.outputPattern}`,
+    ),
+  );
+  const activeHealthSlugs = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
+  const missing: string[] = [];
+
+  for (const source of SOURCE_CONTRACTS) {
+    if (
+      source.state !== "active" ||
+      source.category === "user-input" ||
+      !fetchers.has(source.id)
+    ) {
+      continue;
+    }
+
+    const keys = Array.isArray(source.primary_output_keys)
+      ? source.primary_output_keys
+      : [source.primary_output_keys];
+    for (const output of keys) {
+      if (typeof output === "string") continue;
+      const marker = WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS.find(
+        (item) =>
+          item.fetcher === source.id && item.outputPattern === output.pattern,
+      );
+      if (!marker) {
+        missing.push(`${source.id}:${output.pattern}`);
+        continue;
+      }
+      if (!markers.has(`${source.id}:${output.pattern}`)) {
+        missing.push(`${source.id}:${output.pattern}`);
+      }
+      if (!activeHealthSlugs.has(marker.markerSlug)) {
+        missing.push(`${source.id}:${marker.markerSlug}`);
+      }
+    }
+  }
+
+  assert.deepEqual(missing.sort(), []);
+});
+
 test("/api/worker/health: every active tracked slug receives payload quality checks", () => {
   const missing = WORKER_HEALTH_SPECS.map((item) => item.slug).filter(
     (slug) => !WORKER_PAYLOAD_HEALTH_SLUGS.has(slug),
@@ -230,6 +287,24 @@ test("paused Reddit source is not hydrated by the global mention refresher", () 
     source.includes("refreshRedditMentionsFromStore"),
     false,
     "refreshAllMentionStores must not hydrate stale reddit-mentions while Reddit is paused",
+  );
+});
+
+test("paused X funding slug is not hydrated by the funding merger", () => {
+  const source = readFileSync(
+    resolve(process.cwd(), "src", "lib", "funding-news.ts"),
+    "utf8",
+  );
+
+  assert.equal(
+    source.includes('"funding-news-x"'),
+    false,
+    "refreshFundingNewsFromStore must not hydrate stale Apify-era funding-news-x while x-funding is paused",
+  );
+  assert.equal(
+    source.includes('"funding-news-sec"'),
+    true,
+    "refreshFundingNewsFromStore must keep the live SEC Form D slug in the funding merge",
   );
 });
 
@@ -468,6 +543,13 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
     summarizeWorkerPayloadHealth("funding-news-crunchbase", {
       fetchedAt: "2026-05-31T20:00:00.000Z",
       signals: [{ company: "Acme" }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("funding-news-sec", {
+      fetchedAt: "2026-05-31T20:00:00.000Z",
+      signals: [{ id: "sec-form-d-1" }],
     }).rowCount,
     1,
   );

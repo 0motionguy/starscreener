@@ -490,6 +490,7 @@ interface SweepContext {
   productHuntSnapshot: unknown | null;
   tavilyKey: string | null;
   apifyToken: string | null;
+  apifyApproved: boolean;
   sourceOnly: string | null;
 }
 
@@ -497,11 +498,12 @@ async function runRepo(repo: RepoInput, ctx: SweepContext): Promise<Mention[]> {
   const should = (ch: string) => !ctx.sourceOnly || ctx.sourceOnly === ch;
   const tasks: Array<Promise<Mention[]>> = [];
 
-  if (should("twitter") && ctx.apifyToken) {
+  if (should("twitter") && ctx.apifyToken && ctx.apifyApproved) {
     const queries = buildTwitterQueriesForRepo(repo);
     tasks.push(
       searchTwitter(repo, queries, {
         token: ctx.apifyToken,
+        apifyApproval: "operator-approved",
         tweetsPerQuery: tweetsPerQueryForRank(repo.rank),
       }),
     );
@@ -826,6 +828,7 @@ async function main(): Promise<void> {
     productHuntSnapshot: phFile,
     tavilyKey: process.env.TAVILY_API_KEY ?? null,
     apifyToken: process.env.APIFY_API_TOKEN ?? null,
+    apifyApproved: process.env.TRENDINGREPO_ENABLE_APIFY === "operator-approved",
     sourceOnly: opts.sourceOnly,
   };
 
@@ -835,6 +838,10 @@ async function main(): Promise<void> {
   );
   if (!ctx.apifyToken && (!opts.sourceOnly || opts.sourceOnly === "twitter")) {
     console.warn("[sweep] APIFY_API_TOKEN missing — Twitter channel disabled");
+  } else if (!ctx.apifyApproved && (!opts.sourceOnly || opts.sourceOnly === "twitter")) {
+    console.warn(
+      "[sweep] TRENDINGREPO_ENABLE_APIFY=operator-approved missing — Twitter Apify channel disabled",
+    );
   }
   if (!ctx.tavilyKey && (!opts.sourceOnly || opts.sourceOnly === "tavily")) {
     console.warn("[sweep] TAVILY_API_KEY missing — Tavily channel disabled");

@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-// audit-freshness.mjs — fail-loud freshness gate (audit I2).
+// audit-freshness.mjs — legacy committed-file freshness audit.
+//
+// Production freshness lives on HOSTUP/Redis now. Use
+// `npm run audit:freshness` (scripts/check-live-production-health.mjs) for the
+// live zero-tolerance gate. Keep this script only for explicit file-meta
+// forensic checks against data/_meta snapshots.
 //
 // Background: scripts/collect-twitter-signals.ts depends on Apify actor
 // `apidojo~tweet-scraper`. Cookie-based providers are dead post-2026, so the

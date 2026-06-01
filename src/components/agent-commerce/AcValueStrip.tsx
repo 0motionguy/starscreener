@@ -26,8 +26,8 @@ export function AcValueStrip() {
         </div>
         <div className="v-title">Endpoint health monitor</div>
         <div className="v-desc">
-          Live status on every x402, MCP, portal endpoint. Get pinged when
-          one degrades.
+          Live status for x402 and portal endpoints. MCP health joins once
+          probes are wired.
         </div>
         <span className="v-tag">PRO</span>
       </div>

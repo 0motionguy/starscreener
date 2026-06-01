@@ -12,9 +12,12 @@ interface HealthState {
   db: boolean;
   redis: boolean;
   scheduler: boolean;
+  publisher: boolean;
   lastCheckAt: string;
   lastRunAt: string | null;
+  lastRedisPublishAt: string | null;
   schedulerIdleSec: number | null;
+  publisherIdleSec: number | null;
   /**
    * Override source_ids that no longer correspond to any registered fetcher
    * AND no longer correspond to a static contract row. Empty in the green
@@ -30,17 +33,28 @@ let inFlight: Promise<HealthState> | null = null;
 const TTL_MS = 30_000;
 const PROCESS_STARTED_AT_MS = Date.now();
 let lastRunAtMs: number | null = null;
+let lastRedisPublishAtMs: number | null = null;
 
 function envNumber(name: string, fallback: number): number {
   const parsed = Number.parseInt(process.env[name] ?? '', 10);
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
 }
 
-export function recordRun(at: Date = new Date()): void {
+export function recordRun(
+  at: Date = new Date(),
+  opts: { redisPublished?: boolean } = {},
+): void {
   lastRunAtMs = at.getTime();
+  if (opts.redisPublished === true) {
+    lastRedisPublishAtMs = at.getTime();
+  }
   if (cached) {
     cached.lastRunAt = at.toISOString();
     cached.schedulerIdleSec = 0;
+    if (opts.redisPublished === true) {
+      cached.lastRedisPublishAt = at.toISOString();
+      cached.publisherIdleSec = 0;
+    }
   }
 }
 
@@ -77,6 +91,44 @@ function schedulerHealth(enforceScheduler: boolean): {
   };
 }
 
+function publisherHealth(enforcePublisher: boolean): {
+  ok: boolean;
+  idleSec: number | null;
+} {
+  const forcePublisher =
+    process.env.WORKER_HEALTH_FORCE_PUBLISH === '1' ||
+    process.env.WORKER_HEALTH_FORCE_SCHEDULER === '1';
+  if (
+    !enforcePublisher ||
+    (process.env.NODE_ENV !== 'production' && !forcePublisher)
+  ) {
+    return { ok: true, idleSec: null };
+  }
+
+  const nowMs = Date.now();
+  const startupGraceMs = envNumber(
+    'WORKER_HEALTH_STARTUP_GRACE_MS',
+    10 * 60 * 1000,
+  );
+  if (nowMs - PROCESS_STARTED_AT_MS < startupGraceMs) {
+    return { ok: true, idleSec: null };
+  }
+
+  if (lastRedisPublishAtMs === null) {
+    return { ok: false, idleSec: null };
+  }
+
+  const idleMs = Math.max(0, nowMs - lastRedisPublishAtMs);
+  const maxIdleMs = envNumber(
+    'WORKER_HEALTH_MAX_PUBLISH_IDLE_MS',
+    envNumber('WORKER_HEALTH_MAX_IDLE_MS', 15 * 60 * 1000),
+  );
+  return {
+    ok: idleMs <= maxIdleMs,
+    idleSec: Math.floor(idleMs / 1000),
+  };
+}
+
 async function refreshHealth(enforceScheduler = false): Promise<HealthState> {
   const log = getLogger();
   const env = loadEnv();
@@ -103,16 +155,28 @@ async function refreshHealth(enforceScheduler = false): Promise<HealthState> {
     log.warn(`healthcheck redis: ${(err as Error).message}`);
   }
   const scheduler = schedulerHealth(enforceScheduler);
+  const publisher = publisherHealth(enforceScheduler);
   const ghostOverrides = findGhostOverrides(FETCHERS, getCachedOverrides(), SOURCE_CONTRACTS);
   const schedulerRuntime = getSchedulerRuntimeState();
   const state: HealthState = {
-    ok: dbOk && redisOk && scheduler.ok && schedulerRuntime.reconciliationErrors === 0,
+    ok:
+      dbOk &&
+      redisOk &&
+      scheduler.ok &&
+      publisher.ok &&
+      schedulerRuntime.reconciliationErrors === 0,
     db: dbOk,
     redis: redisOk,
     scheduler: scheduler.ok && schedulerRuntime.reconciliationErrors === 0,
+    publisher: publisher.ok,
     lastCheckAt: new Date().toISOString(),
     lastRunAt: lastRunAtMs === null ? null : new Date(lastRunAtMs).toISOString(),
+    lastRedisPublishAt:
+      lastRedisPublishAtMs === null
+        ? null
+        : new Date(lastRedisPublishAtMs).toISOString(),
     schedulerIdleSec: scheduler.idleSec,
+    publisherIdleSec: publisher.idleSec,
     ghost_overrides: ghostOverrides,
     scheduler_runtime: schedulerRuntime,
   };

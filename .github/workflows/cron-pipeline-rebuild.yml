@@ -56,3 +56,11 @@ jobs:
             echo "::error::pipeline/rebuild call failed ($code)"
             exit 1
           fi
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "::error::jq missing; cannot verify producer-level rebuild result"
+            exit 1
+          fi
+          if ! jq -e '.ok == true and (.processed // 0) > 0 and (.failed // 0) == 0 and (.aborted // false) == false and (.hasMore // false) == false' /tmp/out >/dev/null; then
+            echo "::error::pipeline/rebuild incomplete, failed, aborted, or produced zero rows"
+            exit 1
+          fi

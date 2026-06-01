@@ -4,14 +4,12 @@
 // `funding-news` fetcher to widen Phase 3.4 source coverage. Output mirrors
 // the FundingSignal shape produced by `funding-news/index.ts` so the consumer
 // (`src/lib/funding-news.ts` + `src/lib/funding/repo-events.ts`) can merge
-// the three slugs (funding-news / funding-news-crunchbase / funding-news-x)
+// the active slugs (funding-news / funding-news-crunchbase / funding-news-sec)
 // trivially — same fields, same id derivation, same date filtering rules.
 //
-// Slug: `funding-news-crunchbase`. Cadence: every 6h, offset to :00 to avoid
-// clustering with the main funding-news fetcher (which runs at `0 */6 * * *`
-// too) AND with reddit (:30) / trustmrr (:27) on the same hour. Both 6h
-// fetchers running simultaneously is fine — Redis writes are < 1s and the
-// upstream RSS hosts are independent.
+// Slug: `funding-news-crunchbase`. Cadence: every 2h at :00, aligned with the
+// main funding-news fetcher. Redis writes are < 1s and upstream RSS hosts are
+// independent; SEC Form D runs offset at :17.
 //
 // Reliability: per-feed one retry on network/5xx (4xx skipped — permanent),
 // per-feed failures logged but don't blank the slug. Window matches main
@@ -115,13 +113,14 @@ const fetcher: Fetcher = {
   schedule: '0 */2 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
+    const errors: RunResult['errors'] = [];
 
     if (ctx.dryRun) {
       ctx.log.info(
         { feeds: Object.keys(CRUNCHBASE_FEEDS).length },
         'crunchbase dry-run',
       );
-      return done(startedAt, 0, false);
+      return done(startedAt, 0, false, errors);
     }
 
     const discoveredAt = new Date().toISOString();
@@ -163,6 +162,7 @@ const fetcher: Fetcher = {
         }
       }
       if (lastError) {
+        errors.push({ stage: 'feed', message: `${sourceName}: ${lastError}` });
         ctx.log.warn(
           { source: sourceName, error: lastError },
           'crunchbase rss feed failed after retry',
@@ -186,6 +186,29 @@ const fetcher: Fetcher = {
       return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
     });
 
+    if (allSignals.length === 0) {
+      errors.push({
+        stage: 'empty-signals',
+        message: 'crunchbase produced 0 funding signals; skipped empty publish',
+      });
+      ctx.log.warn(
+        { failedFeeds: errors.filter((error) => error.stage === 'feed').length },
+        'funding-news-crunchbase empty run; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
+    if (errors.some((error) => error.stage === 'feed')) {
+      errors.push({
+        stage: 'partial-feeds',
+        message: 'one or more crunchbase RSS feeds failed; skipped partial publish',
+      });
+      ctx.log.warn(
+        { signals: allSignals.length },
+        'funding-news-crunchbase partial run; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
+
     const payload: FundingNewsCrunchbasePayload = {
       fetchedAt: discoveredAt,
       source: 'crunchbase-rss',
@@ -197,13 +220,18 @@ const fetcher: Fetcher = {
       { signals: allSignals.length, redisSource: result.source },
       'funding-news-crunchbase published',
     );
-    return done(startedAt, allSignals.length, result.source === 'redis');
+    return done(startedAt, allSignals.length, result.source === 'redis', errors);
   },
 };
 
 export default fetcher;
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'],
+): RunResult {
   return {
     fetcher: 'crunchbase',
     startedAt,
@@ -212,6 +240,6 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }

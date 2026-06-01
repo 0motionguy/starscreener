@@ -16,7 +16,7 @@
  *   - apps/trendingrepo-worker/src/platform/sources.json (the data)
  *   - apps/trendingrepo-worker/src/registry.ts (SOURCE_CONTRACTS export)
  *   - apps/trendingrepo-worker/src/run.ts (consumer)
- *   - ~/.claude/plans/hidden-pondering-meadow.md (approved plan)
+ *   - apps/trendingrepo-worker/tests/registry.test.ts (coverage)
  */
 
 import { SOURCE_CONTRACTS } from '../registry.js';

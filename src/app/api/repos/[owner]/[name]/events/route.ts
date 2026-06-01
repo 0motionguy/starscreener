@@ -20,6 +20,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import {
   getGithubEventsRepoByFullName,
+  isGithubEventsProducerEnabled,
   readGithubEventsForRepo,
   refreshGithubEventsIndexFromStore,
   type NormalizedGithubEvent,
@@ -58,6 +59,18 @@ export async function GET(
 
   const fullName = `${owner}/${name}`;
   const limit = parseLimit(request.nextUrl.searchParams.get("limit"));
+
+  if (!isGithubEventsProducerEnabled()) {
+    return NextResponse.json(
+      {
+        ok: false,
+        fullName,
+        error: "github-events producer disabled",
+        code: "GITHUB_EVENTS_DISABLED",
+      },
+      { status: 503, headers: CACHE_HEADERS },
+    );
+  }
 
   // Refresh the watchlist roster so a freshly-promoted repo becomes
   // queryable on the next tick boundary instead of after a Lambda cold-

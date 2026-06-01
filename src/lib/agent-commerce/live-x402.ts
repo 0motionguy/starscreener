@@ -80,6 +80,8 @@ const FACILITATORS: Record<string, string[]> = {
 const BLOCKSCOUT_BASE = "https://base.blockscout.com/api/v2";
 const BLOCKSCOUT_UA =
   "Mozilla/5.0 (compatible; TrendingRepo/1.0; +https://trendingrepo.com)";
+const BLOCKSCOUT_TIMEOUT_MS = 3_000;
+const BLOCKSCOUT_CONCURRENCY = 5;
 
 interface BsTx {
   hash?: string;
@@ -94,11 +96,45 @@ interface BsResponse {
   items?: BsTx[];
 }
 
+export async function mapWithConcurrency<T, R>(
+  items: readonly T[],
+  concurrency: number,
+  fn: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+  const limit = Math.max(1, Math.floor(concurrency));
+  const results = new Array<R>(items.length);
+  let nextIndex = 0;
+
+  async function worker(): Promise<void> {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await fn(items[index] as T, index);
+    }
+  }
+
+  const workers = Array.from(
+    { length: Math.min(limit, items.length) },
+    () => worker(),
+  );
+  await Promise.all(workers);
+  return results;
+}
+
 /** Fetch up to ~50 most recent inbound transactions for one address. */
-async function fetchAddressTxs(addr: string): Promise<BsTx[]> {
+export async function fetchAddressTxs(
+  addr: string,
+  options: { fetcher?: typeof fetch; timeoutMs?: number } = {},
+): Promise<BsTx[]> {
   const url = `${BLOCKSCOUT_BASE}/addresses/${addr}/transactions?filter=to`;
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort(),
+    options.timeoutMs ?? BLOCKSCOUT_TIMEOUT_MS,
+  );
   try {
-    const res = await fetch(url, {
+    const res = await (options.fetcher ?? fetch)(url, {
+      signal: controller.signal,
       headers: { "User-Agent": BLOCKSCOUT_UA, Accept: "application/json" },
       // 15s server-side cache so the API route can poll without hammering
       // BlockScout. Client polls our route, our route polls BlockScout.
@@ -109,6 +145,8 @@ async function fetchAddressTxs(addr: string): Promise<BsTx[]> {
     return data.items ?? [];
   } catch {
     return [];
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -128,7 +166,11 @@ export async function fetchLiveX402(): Promise<LiveX402Snapshot> {
     for (const addr of addrs) all.push({ name, addr });
   }
 
-  const responses = await Promise.all(all.map(({ addr }) => fetchAddressTxs(addr)));
+  const responses = await mapWithConcurrency(
+    all,
+    BLOCKSCOUT_CONCURRENCY,
+    ({ addr }) => fetchAddressTxs(addr),
+  );
 
   interface Norm {
     hash: string;

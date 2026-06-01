@@ -51,7 +51,7 @@ test("evaluateSourceFreshness: cold sources do not produce stale/degraded ages",
   assert.equal(result.ageSeconds, null);
 });
 
-test("evaluateSourceFreshness: future timestamps beyond clock skew are degraded", () => {
+test("evaluateSourceFreshness: future timestamps beyond clock skew are stale", () => {
   const result = evaluateSourceFreshness({
     fetchedAt: "2026-04-22T12:10:01.000Z",
     cold: false,
@@ -61,8 +61,8 @@ test("evaluateSourceFreshness: future timestamps beyond clock skew are degraded"
   });
 
   assert.equal(result.futureSkew, true);
-  assert.equal(result.stale, false);
-  assert.equal(result.degraded, true);
+  assert.equal(result.stale, true);
+  assert.equal(result.degraded, false);
   assert.equal(result.ageSeconds, 0);
 });
 

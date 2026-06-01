@@ -6,7 +6,7 @@ import "./_server-only-shim";
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import pLimit from "p-limit";
 import { loadEnvConfig } from "@next/env";
 import {
@@ -145,13 +145,11 @@ function takeFlagValue(args: string[], index: number): string {
   return value;
 }
 
-function parseArgs(argv: string[]): CliOptions {
+export function parseArgs(argv: string[]): CliOptions {
   const out: CliOptions = {
-    // Defaults reflect the only working production path per CLAUDE.md.
-    // Nitter is dead post-2026 anti-bot; Apify is the supported provider.
-    // `api` mode silently fails on Vercel's ephemeral filesystem; `direct`
-    // is the GH-Actions-tested write path. Local invocations now match.
-    provider: (process.env.TWITTER_COLLECTOR_PROVIDER as CollectorProvider) || "apify",
+    // Defaults match the enforced no-Apify policy and the manual GH workflow.
+    // Apify remains a historical provider only when explicitly requested.
+    provider: (process.env.TWITTER_COLLECTOR_PROVIDER as CollectorProvider) || "nitter",
     mode: (process.env.TWITTER_COLLECTOR_MODE as CollectorMode) || "direct",
     baseUrl:
       process.env.TWITTER_COLLECTOR_BASE_URL ||
@@ -325,9 +323,9 @@ function printHelp(): void {
   console.log(`Usage: npm run collect:twitter -- [options]
 
 Options:
-  --provider apify|fixture        Source provider. Default: apify (the only
-                                  working production path; nitter + web are
-                                  retained for offline replay only).
+  --provider nitter|web|fixture|apify
+                                  Source provider. Default: nitter. Apify is
+                                  historical/manual-only per POLICY-NO-APIFY.
   --mode direct|api               Direct writes JSONL via service; api posts
                                   to running app. Default: direct (api silently
                                   fails on Vercel's ephemeral filesystem).
@@ -1061,12 +1059,14 @@ async function cleanupForCliExit(): Promise<void> {
   }
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await cleanupForCliExit();
-    process.exit(process.exitCode ?? 0);
-  });
+if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await cleanupForCliExit();
+      process.exit(process.exitCode ?? 0);
+    });
+}

@@ -46,7 +46,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Data reads MUST go through the data-store.** Server components / route handlers call the per-source `refreshXxxFromStore()` (async) once at the top, then sync getters in the rest of the file return whatever's in the in-memory cache. Each refresh hook has internal 30s rate-limit + in-flight dedupe so calling it on every render is cheap. Pattern reference: [src/lib/trending.ts:refreshTrendingFromStore](src/lib/trending.ts) and [src/app/page.tsx](src/app/page.tsx). Plan + provisioning: [tasks/data-api.md](tasks/data-api.md).
 - **Collectors dual-write file + Redis** during transition via [scripts/_data-store-write.mjs](scripts/_data-store-write.mjs). When `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` are missing, the Redis write is skipped silently and the file write stays — graceful degradation by design.
 - **Collectors run in `direct` mode**, NOT `api` mode. Serverless route filesystems are ephemeral — API-mode writes vanish. GitHub Actions writes locally to `.data/*.jsonl` and `git push` from the workflow. See `.github/workflows/collect-twitter.yml` (committed fix `edf99d2`).
-- **Twitter** uses Apify `apidojo~tweet-scraper` actor. Cookie-based providers are dead post-2026 anti-bot. Apify actor runs 4 query templates per tracked repo per scan.
+- **Twitter** uses Nitter as the free/manual collector path, with cookies-web fallback only when explicitly configured. Apify is historical/manual-only and must not be re-enabled without operator cost approval.
 - **Append-only JSONL.** Each scan adds new lines, never replaces. Aggregator dedupes downstream.
 - **Home page (`/`) is ISR-cached at 30 min** (`revalidate=1800`). Bundled JSON seeds the cold start; client refresh hooks repopulate the in-memory cache on navigation. Don't expect fresh data on first paint.
 
@@ -57,7 +57,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Typecheck: `npm run typecheck` (run before every commit per ICM Motion "Verification Before Done")
 - Tests: `npm test` runs node:test + tsx + vitest in serial. Subsuites: `npm run test:hooks` / `:hooks:watch` (vitest), `npm run test:e2e` / `:e2e:ui` (Playwright)
 - Build/start: `npm run build` / `npm start` (production path)
-- Local collectors: `npm run collect:twitter` (Apify, NOT scrape:twitter), `npm run scrape:reddit` / `:hn` / `:bsky` / `:ph` / `:devto` / `:lobsters` / `:arxiv` / `:npm`
+- Local collectors: `npm run collect:twitter` (Nitter/manual backfill, NOT scrape:twitter), `npm run scrape:reddit` / `:hn` / `:bsky` / `:ph` / `:devto` / `:lobsters` / `:arxiv` / `:npm`
 - Trigger workflow: `gh workflow run collect-twitter.yml`
 - Build graph: `code-review-graph build` (auto-runs via project hook on Edit/Write/Bash; pre-commit hook also runs `code-review-graph detect-changes`)
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for HOSTUP Redis, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)

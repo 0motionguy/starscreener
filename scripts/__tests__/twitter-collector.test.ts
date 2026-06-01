@@ -10,6 +10,7 @@ import {
   parseNitterHtml,
   parseNitterRss,
 } from "../_twitter-collector";
+import { parseArgs as parseTwitterCollectorArgs } from "../collect-twitter-signals";
 import type {
   TwitterQuery,
   TwitterScanCandidate,
@@ -51,6 +52,20 @@ const phraseQuery: TwitterQuery = {
   enabled: true,
   rationale: "Quoted project name",
 };
+
+test("collect-twitter CLI defaults to nitter provider unless env overrides", () => {
+  const previous = process.env.TWITTER_COLLECTOR_PROVIDER;
+  try {
+    delete process.env.TWITTER_COLLECTOR_PROVIDER;
+    assert.equal(parseTwitterCollectorArgs([]).provider, "nitter");
+  } finally {
+    if (previous === undefined) {
+      delete process.env.TWITTER_COLLECTOR_PROVIDER;
+    } else {
+      process.env.TWITTER_COLLECTOR_PROVIDER = previous;
+    }
+  }
+});
 
 test("decodeHtmlEntities handles named and numeric entities", () => {
   assert.equal(

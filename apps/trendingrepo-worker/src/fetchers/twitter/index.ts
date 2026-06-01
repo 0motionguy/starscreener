@@ -335,7 +335,12 @@ export async function closeCamofoxTab(tabId: string): Promise<void> {
   }
 }
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'] = [],
+): RunResult {
   return {
     fetcher: 'twitter',
     startedAt,
@@ -344,7 +349,7 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }
 
@@ -383,21 +388,13 @@ const fetcher: Fetcher = {
     // empty (cold-start protection).
     const picked = await pickHotRepos({ limit: MAX_REPOS_PER_RUN, log: ctx.log });
     if (picked.repos.length === 0) {
-      ctx.log.warn('twitter: hot picker returned 0 repos — writing empty payload');
-      const payload: TwitterRepoSignalsPayload = {
-        fetchedAt: startedAt,
-        source: 'nitter',
-        instance: headInstance,
-        windowDays: 7,
-        scannedRepos: 0,
-        failedRepos: 0,
-        totalPosts: 0,
-        posts: [],
-        degraded: true,
-        degradedReason: 'no-tracked-repos',
-      };
-      const result = await writeDataStore('twitter-repo-signals', payload);
-      return done(startedAt, 0, result.source === 'redis');
+      ctx.log.warn('twitter: hot picker returned 0 repos — preserving prior twitter-repo-signals');
+      return done(startedAt, 0, false, [
+        {
+          stage: 'pick-hot-repos',
+          message: 'hot picker returned 0 repos; skipped empty twitter-repo-signals write',
+        },
+      ]);
     }
     ctx.log.info(
       { headInstance, useCamofox, repos: picked.repos.length, pickerSource: picked.source },

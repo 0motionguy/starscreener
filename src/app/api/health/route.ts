@@ -127,6 +127,7 @@ type HealthDeps = {
   recentRepos: typeof import("@/lib/recent-repos");
   sourceHealth: typeof import("@/lib/source-health");
   sourceHealthTracker: typeof import("@/lib/source-health-tracker");
+  starActivityDeltas: typeof import("@/lib/star-activity-deltas");
   trending: typeof import("@/lib/trending");
 };
 
@@ -222,6 +223,7 @@ async function loadHealthDeps(): Promise<HealthDeps> {
     recentRepos,
     sourceHealth,
     sourceHealthTracker,
+    starActivityDeltas,
     trending,
   ] = await Promise.all([
     import("@/lib/collection-rankings"),
@@ -230,6 +232,7 @@ async function loadHealthDeps(): Promise<HealthDeps> {
     import("@/lib/recent-repos"),
     import("@/lib/source-health"),
     import("@/lib/source-health-tracker"),
+    import("@/lib/star-activity-deltas"),
     import("@/lib/trending"),
   ]);
 
@@ -240,8 +243,18 @@ async function loadHealthDeps(): Promise<HealthDeps> {
     recentRepos,
     sourceHealth,
     sourceHealthTracker,
+    starActivityDeltas,
     trending,
   };
+}
+
+function bestCoverageQuality(
+  primary: DeltaCoverageQuality,
+  secondary: DeltaCoverageQuality,
+): DeltaCoverageQuality {
+  if (primary === "full" || secondary === "full") return "full";
+  if (primary === "partial" || secondary === "partial") return "partial";
+  return "cold";
 }
 
 async function canViewDetail(request: NextRequest): Promise<boolean> {
@@ -395,6 +408,10 @@ function createRefreshTasks(deps: HealthDeps): RefreshTask[] {
       label: "scannerSourceHealth",
       run: deps.sourceHealth.refreshScannerSourceHealthFromStore,
     },
+    {
+      label: "starActivityDeltas",
+      run: deps.starActivityDeltas.refreshStarActivityDeltasFromStore,
+    },
   ];
 }
 
@@ -537,9 +554,15 @@ export async function GET(
       (lobsters?.stale ?? false) ||
       (npm?.stale ?? false);
 
-    const coverage = deps.trending.deltasCoveragePct();
+    const snapshotCoverage = deps.trending.deltasCoveragePct();
+    const starActivityCoverage =
+      deps.starActivityDeltas.getStarActivityDeltasCoveragePct();
+    const coverage = Math.max(snapshotCoverage, starActivityCoverage);
     const coverageLow = coverage < COVERAGE_WARN_PCT;
-    const quality = deps.trending.deltasCoverageQuality();
+    const quality = bestCoverageQuality(
+      deps.trending.deltasCoverageQuality(),
+      deps.starActivityDeltas.getStarActivityDeltasCoverageQuality(),
+    );
     const collectionCoverage =
       deps.collectionRankings.getCollectionRankingsCoverage();
 

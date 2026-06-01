@@ -43,6 +43,8 @@ export interface StarActivityDeltasFile {
   repos: Record<string, SADeltaEntry>;
 }
 
+export type StarActivityDeltasCoverageQuality = "full" | "partial" | "cold";
+
 const EMPTY: StarActivityDeltasFile = { computedAt: "", repos: {} };
 const SLUG = "star-activity-deltas";
 const MIN_REFRESH_INTERVAL_MS = 30_000;
@@ -79,12 +81,60 @@ export function getStarActivityDeltasDataVersion(): string {
   return cache.computedAt || "empty";
 }
 
+export function getStarActivityDeltasCoveragePct(): number {
+  const coverage = getCoverageSummary();
+  const total =
+    coverage.exact +
+    coverage.nearest +
+    coverage["cold-start"] +
+    coverage["no-history"];
+  if (total === 0) return 0;
+  return ((coverage.exact + coverage.nearest) * 100) / total;
+}
+
+export function getStarActivityDeltasCoverageQuality(): StarActivityDeltasCoverageQuality {
+  const coverage = getCoverageSummary();
+  const total =
+    coverage.exact +
+    coverage.nearest +
+    coverage["cold-start"] +
+    coverage["no-history"];
+  if (total === 0) return "cold";
+  const good = coverage.exact + coverage.nearest;
+  if (good / total > 0.5) return "full";
+  if (coverage["cold-start"] > 0) return "partial";
+  return "cold";
+}
+
 /**
  * Convenience lookup of one repo's delta entry by fullName (case-insensitive).
  * Returns null when the repo has no GitHub-direct delta yet.
  */
 export function getStarActivityDelta(fullName: string): SADeltaEntry | null {
   return cache.repos[fullName.toLowerCase()] ?? null;
+}
+
+function getCoverageSummary(): Record<SADeltaBasis, number> {
+  const empty: Record<SADeltaBasis, number> = {
+    exact: 0,
+    nearest: 0,
+    "cold-start": 0,
+    "no-history": 0,
+  };
+  if (cache.coverage) {
+    return {
+      exact: cache.coverage.exact ?? 0,
+      nearest: cache.coverage.nearest ?? 0,
+      "cold-start": cache.coverage["cold-start"] ?? 0,
+      "no-history": cache.coverage["no-history"] ?? 0,
+    };
+  }
+  for (const entry of Object.values(cache.repos)) {
+    empty[entry.delta_24h.basis] += 1;
+    empty[entry.delta_7d.basis] += 1;
+    empty[entry.delta_30d.basis] += 1;
+  }
+  return empty;
 }
 
 /**

@@ -56,6 +56,24 @@ test("/api/health: paused reddit is not exposed as a cold active source", () => 
   assert.equal(routeSource.includes("reddit: reddit"), false);
 });
 
+test("/api/health: coverage warning considers star-activity delta backbone", () => {
+  const routeSource = readFileSync(
+    resolve(process.cwd(), "src", "app", "api", "health", "route.ts"),
+    "utf8",
+  );
+
+  assert.equal(routeSource.includes("starActivityDeltas"), true);
+  assert.equal(
+    routeSource.includes("getStarActivityDeltasCoveragePct"),
+    true,
+  );
+  assert.equal(
+    routeSource.includes("getStarActivityDeltasCoverageQuality"),
+    true,
+  );
+  assert.equal(routeSource.includes("bestCoverageQuality"), true);
+});
+
 test("/api/worker/health: advisory slugs remain labelled for triage", () => {
   const advisory = new Set([
     "hot-collections",

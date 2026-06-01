@@ -59,6 +59,12 @@ jobs:
             echo "::error::cron/webhooks/scan call failed ($code)"
             exit 1
           fi
+          if command -v jq >/dev/null 2>&1; then
+            if ! jq -e '.ok == true' /tmp/scan-out > /dev/null; then
+              echo "::error::cron/webhooks/scan returned ok=false"
+              exit 1
+            fi
+          fi
       - name: Wait 30s (let scan commit settle)
         run: sleep 30
       - name: POST /api/cron/webhooks/flush
@@ -80,4 +86,17 @@ jobs:
           if [ "$code" != "200" ]; then
             echo "::error::cron/webhooks/flush call failed ($code)"
             exit 1
+          fi
+          if command -v jq >/dev/null 2>&1; then
+            if ! jq -e '.ok == true' /tmp/flush-out > /dev/null; then
+              echo "::error::cron/webhooks/flush returned ok=false"
+              exit 1
+            fi
+            failed="$(jq -r '.failed // 0' /tmp/flush-out)"
+            dead_letter="$(jq -r '.deadLetter // 0' /tmp/flush-out)"
+            remaining="$(jq -r '.remaining // 0' /tmp/flush-out)"
+            if [ "$failed" -gt 0 ] || [ "$dead_letter" -gt 0 ] || [ "$remaining" -gt 0 ]; then
+              echo "::error::webhook delivery not drained (failed=$failed deadLetter=$dead_letter remaining=$remaining)"
+              exit 1
+            fi
           fi

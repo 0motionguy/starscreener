@@ -383,14 +383,14 @@ class DefaultDataStore implements DataStore {
             const writtenAt = parseWrittenAt(rawMeta);
             const ageMs = writtenAt
               ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
-              : 0;
+              : Number.MAX_SAFE_INTEGER;
             // Update memory cache as last-known-good for any future Redis brownout.
-            this.memory.set(key, data, writtenAt ?? new Date().toISOString());
+            this.memory.set(key, data, writtenAt ?? new Date(0).toISOString());
             return {
               data,
               source: "redis",
               ageMs,
-              fresh: true,
+              fresh: writtenAt !== null,
               writtenAt: writtenAt ?? undefined,
             };
           }
@@ -783,6 +783,10 @@ function objectToFreshnessMeta(
 
 let warnedAboutFileFallback = false;
 
+function isEnabledFlag(value: string | undefined): boolean {
+  return value === "1" || value?.toLowerCase() === "true";
+}
+
 export function createDataStore(
   options: CreateDataStoreOptions = {},
 ): DataStore {
@@ -791,9 +795,32 @@ export function createDataStore(
   //   REDIS_URL                   — Railway / standard ioredis (TCP)
   //   UPSTASH_REDIS_REST_URL      — legacy, kept for fallback compatibility
   // Token is only used for Upstash REST; ioredis encodes auth in the URL.
-  const url =
-    env.REDIS_URL?.trim() || env.UPSTASH_REDIS_REST_URL?.trim() || "";
-  const token = env.UPSTASH_REDIS_REST_TOKEN?.trim();
+  const redisUrl = env.REDIS_URL?.trim() || "";
+  const upstashUrl = env.UPSTASH_REDIS_REST_URL?.trim() || "";
+  const token = env.UPSTASH_REDIS_REST_TOKEN?.trim() || "";
+  if (redisUrl && (upstashUrl || token)) {
+    throw new DataStoreFatalError(
+      "[data-store] Set REDIS_URL OR UPSTASH_REDIS_REST_URL+TOKEN, never both.",
+      {
+        hasRedisUrl: true,
+        hasUpstashUrl: Boolean(upstashUrl),
+        hasToken: Boolean(token),
+      },
+    );
+  }
+  if (upstashUrl && !token) {
+    throw new DataStoreFatalError(
+      "[data-store] UPSTASH_REDIS_REST_URL requires UPSTASH_REDIS_REST_TOKEN.",
+      { hasUpstashUrl: true, hasToken: false },
+    );
+  }
+  if (!upstashUrl && token) {
+    throw new DataStoreFatalError(
+      "[data-store] UPSTASH_REDIS_REST_TOKEN was set without UPSTASH_REDIS_REST_URL.",
+      { hasUpstashUrl: false, hasToken: true },
+    );
+  }
+  const url = redisUrl || upstashUrl;
   const dataDir =
     options.dataDir ?? resolve(process.cwd(), "data");
   const disableFileMirror = options.disableFileMirror === true;
@@ -817,6 +844,12 @@ export function createDataStore(
     });
 
   if (!url) {
+    if (isEnabledFlag(env.DATA_STORE_REQUIRE_REDIS)) {
+      throw new DataStoreFatalError(
+        "[data-store] Redis is required but no REDIS_URL or Upstash REST env was configured.",
+        { requireRedis: true },
+      );
+    }
     onFallback("env-missing");
     return new DefaultDataStore({
       redis: null,

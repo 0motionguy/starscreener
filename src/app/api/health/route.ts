@@ -274,6 +274,7 @@ function getCircuitBreakerSummary(deps: HealthDeps): {
   const open: string[] = [];
   const halfOpen: string[] = [];
   for (const [id, snap] of Object.entries(all)) {
+    if (deps.sourceHealthTracker.isSourceHealthDisabled(id)) continue;
     if (snap.state === "OPEN") open.push(id);
     else if (snap.state === "HALF_OPEN") halfOpen.push(id);
   }
@@ -334,20 +335,26 @@ async function readSoftHealthEntries(): Promise<
         (item, index) => [item, parseSoftWrittenAt(raw[index])] as const,
       );
     } catch {
-      // Fall back to the public data-store API. That preserves file/memory
-      // fallback when Redis has a transient miss or the raw batched read fails.
+      // Redis meta is the only freshness proof for the public health gate.
+      // File/memory compatibility fallbacks can render the app, but must not
+      // make worker publication look healthy.
     }
   }
 
-  return Promise.all(
-    SOFT_HEALTH_KEYS.map(async (item) => {
-      try {
-        return [item, await store.writtenAt(item.storeKey)] as const;
-      } catch {
-        return [item, null] as const;
-      }
-    }),
-  );
+  if (redis) {
+    return Promise.all(
+      SOFT_HEALTH_KEYS.map(async (item) => {
+        try {
+          const raw = await redis.get(dataStoreMetaKey(item.storeKey));
+          return [item, parseSoftWrittenAt(raw)] as const;
+        } catch {
+          return [item, null] as const;
+        }
+      }),
+    );
+  }
+
+  return SOFT_HEALTH_KEYS.map((item) => [item, null] as const);
 }
 
 async function getPublicSoftHealthBody(): Promise<PublicHealthBody> {
@@ -539,6 +546,14 @@ export async function GET(
     const collectionRankingsStale =
       collectionRankingsAge === null ||
       collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
+    const blueskyStale = (bluesky?.stale ?? false) || (bluesky?.cold ?? true);
+    const hnStale = (hn?.stale ?? false) || (hn?.cold ?? true);
+    const producthuntStale =
+      (producthunt?.stale ?? false) || (producthunt?.cold ?? true);
+    const devtoStale = (devto?.stale ?? false) || (devto?.cold ?? true);
+    const lobstersStale =
+      (lobsters?.stale ?? false) || (lobsters?.cold ?? true);
+    const npmStale = (npm?.stale ?? false) || (npm?.cold ?? true);
 
     const anyStale =
       scraperStale ||
@@ -547,12 +562,12 @@ export async function GET(
       recentReposStale ||
       repoMetadataStale ||
       collectionRankingsStale ||
-      (bluesky?.stale ?? false) ||
-      (hn?.stale ?? false) ||
-      (producthunt?.stale ?? false) ||
-      (devto?.stale ?? false) ||
-      (lobsters?.stale ?? false) ||
-      (npm?.stale ?? false);
+      blueskyStale ||
+      hnStale ||
+      producthuntStale ||
+      devtoStale ||
+      lobstersStale ||
+      npmStale;
 
     const snapshotCoverage = deps.trending.deltasCoveragePct();
     const starActivityCoverage =
@@ -626,12 +641,12 @@ export async function GET(
         recentRepos: recentReposStale,
         repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
-        bluesky: bluesky?.stale ?? false,
-        hn: hn?.stale ?? false,
-        producthunt: producthunt?.stale ?? false,
-        devto: devto?.stale ?? false,
-        lobsters: lobsters?.stale ?? false,
-        npm: npm?.stale ?? false,
+        bluesky: blueskyStale,
+        hn: hnStale,
+        producthunt: producthuntStale,
+        devto: devtoStale,
+        lobsters: lobstersStale,
+        npm: npmStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,

@@ -8,8 +8,7 @@ interface SignalsKpiStripProps {
   liveSources: number;
   crossSourceCount: number;
   npmAccelerating: number;
-  arxivPapers: number;
-  citedRepos: number;
+  pausedSources: number;
 }
 
 export function SignalsKpiStrip({
@@ -18,8 +17,7 @@ export function SignalsKpiStrip({
   liveSources,
   crossSourceCount,
   npmAccelerating,
-  arxivPapers,
-  citedRepos,
+  pausedSources,
 }: SignalsKpiStripProps) {
   return (
     <div className="kpi-strip" style={{ marginBottom: 16 }}>
@@ -38,11 +36,11 @@ export function SignalsKpiStrip({
         <span className="kpi-delta">same repo on 4+ sources</span>
       </div>
       <div className="kpi">
-        <span className="kpi-label">arXiv papers ingested</span>
-        <span className="kpi-value" data-counter data-target={arxivPapers}>
-          {arxivPapers.toLocaleString()}
+        <span className="kpi-label">Archived feeds</span>
+        <span className="kpi-value" data-counter data-target={pausedSources}>
+          {pausedSources.toLocaleString()}
         </span>
-        <span className="kpi-delta">{citedRepos.toLocaleString()} cite OSS</span>
+        <span className="kpi-delta">producers disabled, not counted live</span>
       </div>
       <div className="kpi">
         <span className="kpi-label">NPM accelerating</span>

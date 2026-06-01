@@ -346,12 +346,14 @@ export const DEFAULT_KNOWN_SOURCES = [
 export type KnownSource = (typeof DEFAULT_KNOWN_SOURCES)[number];
 
 const DEFAULT_DISABLED_SOURCE_IDS = [
-  // These two are per-repo live-search adapters, not the worker-backed Redis
-  // feeds. Cron ingest fans them out over the top-50 repos and reliably hits
-  // Reddit edge blocks / GitHub Search 403s. Keep them explicitly off until
-  // they have a rate-limited queue or a credentialed provider.
+  // These are per-repo live-search adapters, not the worker-backed Redis feeds.
+  // Cron ingest fans Reddit/GitHub Search out over the top-50 repos and
+  // reliably hits Reddit edge blocks / GitHub Search 403s. Nitter's public
+  // instances are no longer a dependable production source. Keep them off
+  // until they have a rate-limited queue or a credentialed provider.
   "reddit",
   "github-search",
+  "nitter",
 ] as const satisfies readonly KnownSource[];
 
 function parseDisabledSources(raw: string | undefined): Set<KnownSource> {

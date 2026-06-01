@@ -46,7 +46,6 @@ const SOURCE_GROUPS: SourceGroup[] = [
   {
     title: "Data sources",
     entries: [
-      { slug: "arxiv", label: "arXiv", colorVar: "var(--src-arxiv)" },
       { slug: "npm", label: "NPM downloads", colorVar: "var(--src-npm)" },
       { slug: "hf-models", label: "HF models", colorVar: "var(--src-huggingface)" },
       { slug: "hf-datasets", label: "HF datasets", colorVar: "var(--src-huggingface)" },
@@ -63,8 +62,6 @@ const SOURCE_GROUPS: SourceGroup[] = [
   {
     title: "AI labs",
     entries: [
-      { slug: "openai", label: "OpenAI RSS", colorVar: "var(--src-openai)" },
-      { slug: "anthropic", label: "Anthropic RSS", colorVar: "var(--src-claude)" },
       { slug: "google", label: "Google AI", colorVar: "var(--info)" },
       { slug: "meta", label: "Meta AI", colorVar: "var(--cyan)" },
       { slug: "mistral", label: "Mistral", colorVar: "var(--warning)" },
@@ -88,13 +85,10 @@ const SOURCE_LOGO_MAP: Partial<Record<string, SourceName>> = {
   bsky: "bluesky",
   ph: "producthunt",
   devto: "devto",
-  arxiv: "arxiv",
   npm: "npm",
   "hf-models": "huggingface",
   "hf-datasets": "huggingface",
   "hf-spaces": "huggingface",
-  openai: "openai",
-  anthropic: "anthropic",
   deepseek: "deepseek",
   mcp: "modelcontextprotocol",
 };

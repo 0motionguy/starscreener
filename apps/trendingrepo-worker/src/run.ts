@@ -106,8 +106,10 @@ export async function runFetcher(
       log: log.child({ fetcher: fetcher.name }),
       dryRun,
       since: sinceDate,
-      signalRunComplete: async () => {
-        recordRun();
+      signalRunComplete: async (counts) => {
+        recordRun(new Date(), {
+          redisPublished: counts?.redisPublished === true,
+        });
       },
       contract,
     };
@@ -142,10 +144,12 @@ export async function runFetcher(
         'requiresDb fetcher wrote zero rows — check trending_items.last_seen_at',
       );
     }
-    recordRun();
+    recordRun(new Date(), { redisPublished: result.redisPublished === true });
+    const publishFailed =
+      !dryRun && result.itemsSeen > 0 && result.redisPublished !== true;
     emitRunSummary({
       sourceId: fetcher.name,
-      status: result.errors.length > 0 ? 'warn' : 'ok',
+      status: result.errors.length > 0 || publishFailed ? 'warn' : 'ok',
       durationMs: Date.now() - t0,
       recordsIn: result.itemsSeen,
       recordsOut: result.itemsUpserted,

@@ -12,6 +12,8 @@ test("default social adapters exclude intentionally disabled live-search sources
   assert.deepEqual(ids, ["hackernews-algolia"]);
   assert.ok(DISABLED_SOURCES.includes("reddit"));
   assert.ok(DISABLED_SOURCES.includes("github-search"));
+  assert.ok(DISABLED_SOURCES.includes("nitter"));
   assert.ok(!KNOWN_SOURCES.includes("reddit"));
   assert.ok(!KNOWN_SOURCES.includes("github-search"));
+  assert.ok(!KNOWN_SOURCES.includes("nitter"));
 });

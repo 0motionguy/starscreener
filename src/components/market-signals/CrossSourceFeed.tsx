@@ -28,7 +28,6 @@ const CHANNELS: Array<{
   { key: "devto", cls: "devto", title: "Dev.to", letter: "D" },
   { key: "producthunt", cls: "ph", title: "ProductHunt", letter: "P" },
   { key: "huggingface", cls: "hf", title: "Hugging Face", letter: "F" },
-  { key: "arxiv", cls: "arxiv", title: "arXiv", letter: "A" },
   { key: "npm", cls: "npm", title: "npm", letter: "N" },
   { key: "lobsters", cls: "lobsters", title: "Lobsters", letter: "L" },
 ];
@@ -134,7 +133,7 @@ export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSour
     const perSource = repo.mentions?.perSource;
     if (!perSource) return (repo.channelsFiring ?? 0) >= minChannels;
     return (
-      Object.values(perSource).filter((entry) => (entry?.count24h ?? 0) > 0)
+      CHANNELS.filter((channel) => (perSource[channel.key]?.count24h ?? 0) > 0)
         .length >= minChannels
     );
   }).length;

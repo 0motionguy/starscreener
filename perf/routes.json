@@ -76,7 +76,7 @@
     {
       "route": "/agent-commerce",
       "policy": "isr",
-      "revalidateSeconds": 1800,
+      "revalidateSeconds": 60,
       "ttfbBudgetMs": { "cached": 800, "uncached": 1600 },
       "transferBudgetKb": 140,
       "firstLoadJsBudgetKb": 600,

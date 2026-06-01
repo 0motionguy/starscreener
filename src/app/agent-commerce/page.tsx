@@ -7,8 +7,8 @@
 //   - getAgentCommerceFetchedAt() — freshness pill
 //
 // Refresh: fire every refresh hook in parallel at the top (each is internally
-// rate-limited to 30s + in-flight-deduped). revalidate=1800 caps per-edge
-// cache at 30 min.
+// rate-limited to 30s + in-flight-deduped). revalidate=60 caps per-edge
+// cache at 1 min.
 
 import {
   refreshAgentCommerceFromStore,
@@ -26,6 +26,7 @@ import {
 import {
   refreshDuneX402VolumeFromStore,
   getDuneX402Volume,
+  classifyDuneX402VolumeStatus,
 } from "@/lib/dune-x402-volume";
 
 import {
@@ -168,8 +169,8 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const solana = safe(() => getSolanaX402Onchain(), null);
   const dune = safe(() => getDuneX402Volume(), null);
   const duneRows = dune?.rows ?? [];
-  const onchainVolumeAvailable =
-    duneRefresh?.source !== "missing" && duneRows.length > 0;
+  const duneVolumeStatus = classifyDuneX402VolumeStatus(dune, duneRefresh);
+  const onchainVolumeAvailable = duneVolumeStatus.status === "fresh";
 
   // Dune day-bucketed USD volume split by chain. Facilitators on Base vs
   // Solana are distinguished by name heuristics — Solana facilitators tend
@@ -181,6 +182,7 @@ export default async function AgentCommercePage({ searchParams }: Props) {
 
   // Real on-chain volumes from Dune — no synthetic floors. Empty days
   // surface as 0 so the operator can see TOOLBOX dune-x402-volume is quiet.
+  // Missing or stale Dune must stay unavailable instead of becoming "$0".
   const baseVolumeUsd24h = onchainVolumeAvailable
     ? sumDuneVolume(duneRows, isBaseFac)
     : 0;
@@ -205,9 +207,8 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const mcpServers = stats.mcpServerCount;
   const portalReady = stats.portalReadyCount;
   const newThisWeek = stats.thisWeekCount;
-  // Until live MCP health probes ship, we don't know which servers are
-  // degraded — show 0 degraded and let the operator see the honest signal.
-  const mcpHealthy = mcpServers;
+  // Until live MCP health probes ship, tracked count is known but health is not.
+  const mcpHealthKnown = false;
   const mcpDegraded = 0;
   // Token tables are now driven by live CoinGecko data (no SEED_TOKENS).
   const gainers = getTokenRows(agentTokens, "gainers", 5);
@@ -226,7 +227,9 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         x402NewThisWeek={newThisWeek}
         mcpServers={mcpServers}
         mcpDegraded={mcpDegraded}
+        mcpHealthKnown={mcpHealthKnown}
         portalReady={portalReady}
+        duneVolumeStatus={duneVolumeStatus.status}
       />
       <AgentCommerceHero
         period={period}
@@ -242,11 +245,12 @@ export default async function AgentCommercePage({ searchParams }: Props) {
         x402Enabled={x402Count}
         x402NewThisWeek={newThisWeek}
         mcpServers={mcpServers}
-        mcpHealthy={mcpHealthy}
         mcpDegraded={mcpDegraded}
+        mcpHealthKnown={mcpHealthKnown}
         onchain24hUsd={onchain24hUsd}
         basePctShare={basePctShare}
         solanaPctShare={solanaPctShare}
+        duneVolumeStatus={duneVolumeStatus.status}
         portalReady={portalReady}
       />
 
@@ -259,6 +263,7 @@ export default async function AgentCommercePage({ searchParams }: Props) {
             solana={solana}
             baseVolumeUsd24h={baseVolumeUsd24h}
             solanaVolumeUsd24h={solanaVolumeUsd24h}
+            duneVolumeStatus={duneVolumeStatus.status}
           />
 
           <X402ServicesPanel market={x402Market} limit={12} />
@@ -268,7 +273,13 @@ export default async function AgentCommercePage({ searchParams }: Props) {
 
         <div className="ac-rail">
           <AgentTokensPanel tokens={agentTokens} />
-          <TopFacilitatorsTable base={base} solana={solana} dune={dune} limit={5} />
+          <TopFacilitatorsTable
+            base={base}
+            solana={solana}
+            dune={dune}
+            duneVolumeStatus={duneVolumeStatus.status}
+            limit={5}
+          />
         </div>
       </div>
 

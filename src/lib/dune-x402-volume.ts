@@ -49,6 +49,88 @@ interface RefreshResult {
   ageMs: number;
 }
 
+export type DuneX402VolumeSourceStatus =
+  | "fresh"
+  | "stale"
+  | "missing"
+  | "unknown";
+
+export interface DuneX402VolumeStatusInfo {
+  status: DuneX402VolumeSourceStatus;
+  source: RefreshResult["source"] | "unknown";
+  rowCount: number;
+  label: string;
+}
+
+const DUNE_X402_VOLUME_STALE_AFTER_MS = 36 * 60 * 60 * 1000;
+
+function parseLastDayEndMs(day: string | null | undefined): number | null {
+  if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  const parsed = Date.parse(`${day}T23:59:59.999Z`);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function parseIsoMs(value: string | null | undefined): number | null {
+  if (!value) return null;
+  const parsed = Date.parse(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function statusLabel(status: DuneX402VolumeSourceStatus): string {
+  switch (status) {
+    case "fresh":
+      return "volume source fresh";
+    case "stale":
+      return "volume source stale";
+    case "missing":
+      return "volume source unavailable";
+    case "unknown":
+      return "volume source unknown";
+  }
+}
+
+export function classifyDuneX402VolumeStatus(
+  file: DuneX402VolumeFile | null,
+  refresh?: RefreshResult,
+  nowMs = Date.now(),
+): DuneX402VolumeStatusInfo {
+  const rowCount = Array.isArray(file?.rows) ? file.rows.length : 0;
+  const source = refresh?.source ?? "unknown";
+
+  if (!file) {
+    return {
+      status: "missing",
+      source,
+      rowCount,
+      label: statusLabel("missing"),
+    };
+  }
+
+  const fetchedAtMs = parseIsoMs(file.fetchedAt);
+  const lastDayMs = parseLastDayEndMs(file.lastDay);
+  const freshestPayloadMs = Math.max(fetchedAtMs ?? 0, lastDayMs ?? 0);
+
+  let status: DuneX402VolumeSourceStatus;
+  if (source === "missing") {
+    status = rowCount > 0 ? "stale" : "missing";
+  } else if (source === "file") {
+    status = "stale";
+  } else if (freshestPayloadMs <= 0) {
+    status = rowCount > 0 ? "unknown" : "missing";
+  } else if (nowMs - freshestPayloadMs > DUNE_X402_VOLUME_STALE_AFTER_MS) {
+    status = "stale";
+  } else {
+    status = "fresh";
+  }
+
+  return {
+    status,
+    source,
+    rowCount,
+    label: statusLabel(status),
+  };
+}
+
 let inflight: Promise<RefreshResult> | null = null;
 let lastRefreshMs = 0;
 const MIN_REFRESH_INTERVAL_MS = 30_000;

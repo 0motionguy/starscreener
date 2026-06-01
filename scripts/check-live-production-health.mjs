@@ -230,8 +230,12 @@ async function main() {
       http: sourceHealth.status,
       body: sourceHealth.body,
     });
-  } else if ((sourceSummary.open ?? 0) > 0 || (sourceSummary.halfOpen ?? 0) > 0) {
-    fail("/api/health/sources has open circuit breakers", sourceSummary);
+  } else if (
+    (sourceSummary.open ?? 0) > 0 ||
+    (sourceSummary.halfOpen ?? 0) > 0 ||
+    (sourceSummary.neverAttempted ?? 0) > 0
+  ) {
+    fail("/api/health/sources has degraded or unproven sources", sourceSummary);
   }
 
   if (

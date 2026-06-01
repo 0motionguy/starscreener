@@ -204,8 +204,10 @@ const fetcher: Fetcher = {
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const env = loadEnv();
-    const baseUrl = env.TRENDINGREPO_BASE_URL;
-    const cronSecret = env.CRON_SECRET;
+    const baseUrl =
+      process.env.TRENDINGREPO_BASE_URL?.trim() ||
+      env.TRENDINGREPO_BASE_URL;
+    const cronSecret = process.env.CRON_SECRET?.trim() || env.CRON_SECRET;
     const errors: RunResult['errors'] = [];
 
     if (ctx.dryRun) {

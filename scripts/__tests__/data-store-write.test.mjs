@@ -23,11 +23,13 @@ function withClearedEnv(fn) {
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     DATA_STORE_DISABLE: process.env.DATA_STORE_DISABLE,
+    DATA_STORE_REQUIRE_REDIS: process.env.DATA_STORE_REQUIRE_REDIS,
   };
   delete process.env.REDIS_URL;
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
   delete process.env.DATA_STORE_DISABLE;
+  delete process.env.DATA_STORE_REQUIRE_REDIS;
   return Promise.resolve(fn()).finally(() => {
     for (const [k, v] of Object.entries(prior)) {
       if (v === undefined) delete process.env[k];
@@ -65,6 +67,41 @@ test("writeDataStore: DATA_STORE_DISABLE accepts 'true' as well", async () => {
     process.env.DATA_STORE_DISABLE = "true";
     const result = await writeDataStore("scr11-disabled-true", []);
     assert.equal(result.source, "skipped");
+  });
+});
+
+test("writeDataStore: DATA_STORE_REQUIRE_REDIS fails when Redis env is missing", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.DATA_STORE_REQUIRE_REDIS = "1";
+    await assert.rejects(
+      () => writeDataStore("scr11-required", { x: 1 }),
+      /Redis is required/i,
+    );
+  });
+});
+
+test("writeDataStore: rejects mixed Redis backends", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.REDIS_URL = "redis://localhost:6379";
+    process.env.UPSTASH_REDIS_REST_URL = "https://fake.upstash.test";
+    process.env.UPSTASH_REDIS_REST_TOKEN = "fake-token";
+    await assert.rejects(
+      () => writeDataStore("scr11-mixed", { x: 1 }),
+      /never both/i,
+    );
+  });
+});
+
+test("writeDataStore: rejects Upstash URL without token", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.UPSTASH_REDIS_REST_URL = "https://fake.upstash.test";
+    await assert.rejects(
+      () => writeDataStore("scr11-half-upstash", { x: 1 }),
+      /requires UPSTASH_REDIS_REST_TOKEN/i,
+    );
   });
 });
 

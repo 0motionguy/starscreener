@@ -56,3 +56,11 @@ jobs:
             echo "::error::pipeline/ingest call failed ($code)"
             exit 1
           fi
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "::error::jq missing; cannot verify producer-level ingest result"
+            exit 1
+          fi
+          if ! jq -e '.ok == true and (.batch.ok // 0) > 0 and (.batch.failed // 0) == 0' /tmp/out >/dev/null; then
+            echo "::error::pipeline/ingest produced failed or zero successful rows"
+            exit 1
+          fi

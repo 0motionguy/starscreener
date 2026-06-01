@@ -397,8 +397,8 @@ function exitCodeFor(state: FreshnessState): number {
 
 function healthExitCodeFor(health: HealthState): number {
   if (health.status !== "ok") return 1;
-  if (health.sourceStatus !== undefined && health.sourceStatus !== "ok") return 1;
-  if (health.workerStatus !== undefined && health.workerStatus !== "ok") return 1;
+  if (health.sourceStatus !== "ok") return 1;
+  if (health.workerStatus !== "ok") return 1;
   return 0;
 }
 

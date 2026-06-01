@@ -33,7 +33,7 @@ only; cleanup runs as a separate sprint once the rebuild is stable.
 
 - [ ] Delete `_archive/ui-v4/**` (830 files, 5.4MB). TS already excludes it; no `src/` imports reference it. Verify with `grep -r "_archive/ui-v4" src/` returning empty, then `git rm -r _archive/ui-v4/`. Owner: CTO. Done when the archive directory is gone and the next `npm run build` succeeds.
 - [ ] Delete 4 PARKED `src/lib/` subdirectories: `src/lib/charts/`, `src/lib/compare/`, `src/lib/onboarding/`, `src/lib/skills/`. Each has a `_PARKED.md` marker and zero external consumers per the 2026-05-19 audit. Verify per-directory with `grep -r "from \"@/lib/<dir>" src/` before removal. Owner: CTO. Done when no `_PARKED.md` files remain under `src/lib/` and typecheck stays green.
-- [ ] Delete 4 dead scripts: `scripts/scrape-sec-form-d.mjs`, `scripts/purge-twitter-synthetic-data.ts`, `scripts/reconcile-repo-stores.mjs`, `scripts/reset-data.mjs`. Verify with `grep -r "<script-name>" .github/workflows/ package.json` returning empty. Owner: platform engineer. Done when each script's path is gone and CI still passes.
+- [x] Delete dead local-only maintenance scripts `scripts/purge-twitter-synthetic-data.ts` and `scripts/reset-data.mjs` — DELETED 2026-06-01. `scripts/scrape-sec-form-d.mjs` and `scripts/reconcile-repo-stores.mjs` remain live: collect-funding workflow, funding matcher docs, and reconciliation tests reference them.
 - [ ] Flip `TOOLBOX_READ_*` feature flags ON per source (8 readers: HN, Reddit, Bluesky, DevTo, Lobsters, NPM, RSS, ArXiv). Currently all OFF in production despite the dual-write workflows landing the data in the Toolbox spine. Phase B migration; out of scope for the rebuild. Owner: CTO. Done when each flag is ON in prod env, soak passes 7-day reliability check, and the legacy JSONL writes can be retired.
 
 ## Pre-existing TypeScript errors blocking strict typecheck (2026-05-20)
@@ -705,6 +705,5 @@ flagged here so Wave B agents fix them as part of their route work.
 
 ### ADR reconciliation
 - [ ] ADR 0001 reality reconciliation - wire phase 1a OR amend ADR (see `docs/archive/ADR-0001-status-2026-05-05.md`). Phases 1a/1b/1c are NOT wired in main app: `@supabase/supabase-js` absent from root `package.json`, `src/lib/supabase-store.ts` does not exist, no `appendCronPayload` callers anywhere. Worker uses Supabase but for `trending_items` (different schema). Recommendation: amend ADR to "Deferred" (~30 min) unless a replay/history requirement materialises.
-
 
 

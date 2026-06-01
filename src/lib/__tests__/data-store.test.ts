@@ -166,6 +166,19 @@ test("read() treats Redis payload without meta as not fresh", async () => {
   assert.deepEqual(result.data, { from: "redis" });
 });
 
+test("readMany() treats Redis payload without meta as not fresh", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const [result] = await store.readMany<{ from: string }>(["orphaned"]);
+
+  assert.equal(result.source, "redis");
+  assert.equal(result.fresh, false);
+  assert.equal(result.writtenAt, undefined);
+  assert.equal(result.ageMs, Number.MAX_SAFE_INTEGER);
+  assert.deepEqual(result.data, { from: "redis" });
+});
+
 test("write({mirrorToFile:true}) snapshots to disk", async () => {
   const store = buildStore();
   await store.write("snap", { v: 1 }, { mirrorToFile: true });

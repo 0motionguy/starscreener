@@ -52,12 +52,12 @@ export function AgentCommerceHero({
             prefix="AGENT COMMERCE"
           />
           <span style={{ color: "var(--fg-faint)" }}>
-            · /agent-commerce · the M2M economy · x402 + MCP + a2a + wallets + APIs
+            · /agent-commerce · the M2M economy · x402 + MCP inventory + wallets + APIs
           </span>
         </div>
         <h1 className="page-title">When agents trade with agents.</h1>
         <p className="page-sub">
-          Live x402 on-chain activity (Base, Solana), MCP server health, portal-ready APIs,
+          Live x402 on-chain activity (Base, Solana), MCP inventory, portal-ready APIs,
           agent infrastructure ranked by composite score.{" "}
           <b>{liveEndpoints.toLocaleString()} endpoints live</b>, {volumePhrase} across{" "}
           {itemCount.toLocaleString()} items.

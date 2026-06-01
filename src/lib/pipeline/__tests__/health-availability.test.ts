@@ -5,6 +5,7 @@ import { test } from "node:test";
 
 import { getHealthHttpStatusForStatus } from "../../health-status";
 import {
+  WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS,
   WORKER_HEALTH_DISABLED_SPECS,
   WORKER_PAYLOAD_HEALTH_SLUGS,
   WORKER_HEALTH_SPECS,
@@ -178,6 +179,50 @@ test("/api/worker/health: every active worker concrete output is tracked", () =>
       const key = typeof output === "string" ? output : output.pattern;
       if (key.includes("<") || key.includes("*")) continue;
       if (!tracked.has(key)) missing.push(`${source.id}:${key}`);
+    }
+  }
+
+  assert.deepEqual(missing.sort(), []);
+});
+
+test("/api/worker/health: every active worker dynamic output family has a marker slug", () => {
+  const fetchers = new Set(registeredWorkerFetcherNames());
+  const markers = new Set(
+    WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS.map(
+      (item) => `${item.fetcher}:${item.outputPattern}`,
+    ),
+  );
+  const activeHealthSlugs = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
+  const missing: string[] = [];
+
+  for (const source of SOURCE_CONTRACTS) {
+    if (
+      source.state !== "active" ||
+      source.category === "user-input" ||
+      !fetchers.has(source.id)
+    ) {
+      continue;
+    }
+
+    const keys = Array.isArray(source.primary_output_keys)
+      ? source.primary_output_keys
+      : [source.primary_output_keys];
+    for (const output of keys) {
+      if (typeof output === "string") continue;
+      const marker = WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS.find(
+        (item) =>
+          item.fetcher === source.id && item.outputPattern === output.pattern,
+      );
+      if (!marker) {
+        missing.push(`${source.id}:${output.pattern}`);
+        continue;
+      }
+      if (!markers.has(`${source.id}:${output.pattern}`)) {
+        missing.push(`${source.id}:${output.pattern}`);
+      }
+      if (!activeHealthSlugs.has(marker.markerSlug)) {
+        missing.push(`${source.id}:${marker.markerSlug}`);
+      }
     }
   }
 

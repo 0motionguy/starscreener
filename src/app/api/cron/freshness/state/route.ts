@@ -46,6 +46,13 @@ interface SourceState {
   blocking: boolean;
 }
 
+interface DisabledSourceState {
+  name: string;
+  reason: string;
+  freshnessBudget: string;
+  blocking: boolean;
+}
+
 // `health` derivation lives in @/lib/freshness-health (route.ts cannot
 // export non-handler symbols — Next 15 forbids it). FreshnessHealth and
 // SourceStatus types are imported above.
@@ -59,7 +66,9 @@ interface FreshnessStateResponse {
     yellow: number;
     red: number;
     dead: number;
+    disabled: number;
   };
+  disabledSources: DisabledSourceState[];
 }
 
 interface SourceMeta {
@@ -672,12 +681,26 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
   };
 }
 
-function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
+function disabledSourceState(spec: SourceSpec): DisabledSourceState {
+  return {
+    name: spec.name,
+    reason:
+      "disabled from active freshness until a verified HOSTUP Redis producer owns this source",
+    freshnessBudget: spec.budgetLabel,
+    blocking: spec.blocking !== false,
+  };
+}
+
+function summarize(
+  sources: SourceState[],
+  disabledSources: DisabledSourceState[],
+): FreshnessStateResponse["summary"] {
   return {
     green: sources.filter((source) => source.status === "GREEN").length,
     yellow: sources.filter((source) => source.status === "YELLOW").length,
     red: sources.filter((source) => source.status === "RED").length,
     dead: sources.filter((source) => source.status === "DEAD").length,
+    disabled: disabledSources.length,
   };
 }
 
@@ -707,12 +730,18 @@ async function handle(
       ),
     );
     sources.sort((a, b) => a.name.localeCompare(b.name));
+    const disabledSources = SOURCE_SPECS.filter(
+      (spec) => spec.enabled === false,
+    )
+      .map(disabledSourceState)
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     return NextResponse.json({
       checkedAt: new Date(nowMs).toISOString(),
       health: deriveHealth(sources),
       sources,
-      summary: summarize(sources),
+      summary: summarize(sources, disabledSources),
+      disabledSources,
     });
   } catch (error) {
     console.error("[freshness-state] failed to inspect sources", error);

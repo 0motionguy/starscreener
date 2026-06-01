@@ -63,18 +63,18 @@ export const revalidate = 60;
 export const metadata = {
   title: "Agent Commerce",
   description:
-    "Live x402 on-chain activity (Base, Solana), MCP server health, portal-ready APIs, agent infrastructure ranked by composite score.",
+    "Live x402 on-chain activity (Base, Solana), portal-ready APIs, token markets, and agent infrastructure ranked by composite score.",
   openGraph: {
     title: "Agent Commerce — x402 / MCP / a2a cockpit",
     description:
-      "Live x402 on-chain settlements, MCP server health, portal-ready endpoints, agent commerce composite scoring across Base + Solana.",
+      "Live x402 on-chain settlements, portal-ready endpoints, MCP inventory, and agent commerce composite scoring across Base + Solana.",
     type: "website",
     images: [
       {
         url: "/api/og/agent-commerce",
         width: 1200,
         height: 630,
-        alt: "Agent Commerce — x402 settlements, MCP servers, portal-ready endpoints",
+        alt: "Agent Commerce — x402 settlements, MCP inventory, portal-ready endpoints",
       },
     ],
   },
@@ -82,7 +82,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Agent Commerce — x402 / MCP / a2a cockpit",
     description:
-      "Live x402 on-chain settlements, MCP server health, portal-ready endpoints, agent commerce composite scoring across Base + Solana.",
+      "Live x402 on-chain settlements, portal-ready endpoints, MCP inventory, and agent commerce composite scoring across Base + Solana.",
   },
 };
 

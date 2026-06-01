@@ -27,6 +27,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { writeDynamicOutputMarker } from '../../lib/dynamic-output-marker.js';
 import { pickGithubToken } from '../../lib/util/github-token-pool.js';
 import {
   rankedRegistryFullNames,
@@ -236,7 +237,23 @@ const fetcher: Fetcher = {
       'star-activity published',
     );
 
-    return done(startedAt, updated, updated > 0, errors);
+    const markerPublished = await writeDynamicOutputMarker({
+      fetcher: 'star-activity',
+      outputPattern: 'star-activity:<owner>__<name>',
+      startedAt,
+      candidates: candidates.length,
+      updated,
+      skipped,
+      failed: errors.length,
+    }).catch((err) => {
+      errors.push({
+        stage: 'write:worker-health:star-activity',
+        message: (err as Error).message ?? String(err),
+      });
+      return false;
+    });
+
+    return done(startedAt, updated, markerPublished, errors);
   },
 };
 

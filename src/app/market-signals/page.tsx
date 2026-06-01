@@ -26,6 +26,7 @@ import {
 } from "@/components/market-signals/SignalsHero";
 import { SignalsKpiStrip } from "@/components/market-signals/SignalsKpiStrip";
 import {
+  LIVE_MARKET_SOURCE_SLUGS,
   SourceFilterRail,
   type MarketSourceTotals,
 } from "@/components/market-signals/SourceFilterRail";
@@ -41,7 +42,7 @@ export const revalidate = 1800;
 export const metadata = {
   title: "Market Signals",
   description:
-    "Live cross-source telemetry across active feeds. GitHub, X, HN, Bluesky, npm, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
+    "Live cross-source telemetry across active feeds. GitHub, X, HN, Bluesky, npm, ProductHunt, Dev.to, Lobsters, funding, revenue, and model signals - one cockpit.",
   openGraph: {
     images: [
       { url: "/api/og/market-signals", width: 1200, height: 630, alt: "TrendingRepo — Market Signals" },
@@ -61,34 +62,7 @@ function safe<T>(fn: () => T, fallback: T): T {
   }
 }
 
-const MARKET_SOURCE_KEYS = [
-  "github",
-  "hn",
-  "x",
-  "bsky",
-  "ph",
-  "devto",
-  "lobsters",
-  "npm",
-  "hf-models",
-  "hf-datasets",
-  "hf-spaces",
-  "skills",
-  "mcp",
-  "agent-repos",
-  "funding",
-  "revenue",
-  "pypi",
-  "openrouter",
-  "google",
-  "meta",
-  "mistral",
-  "cohere",
-  "deepseek",
-  "xai",
-  "perplexity",
-  "qwen",
-] as const;
+const LIVE_MARKET_SOURCE_KEYS = LIVE_MARKET_SOURCE_SLUGS;
 
 const ACTIVE_MENTION_SOURCES: SocialPlatform[] = [
   "github",
@@ -182,7 +156,10 @@ function activeSourceCount(repo: Repo): number {
 }
 
 function sumMarketSignals(sourceTotals: MarketSourceTotals): number {
-  return MARKET_SOURCE_KEYS.reduce((sum, key) => sum + (sourceTotals[key] ?? 0), 0);
+  return LIVE_MARKET_SOURCE_KEYS.reduce(
+    (sum, key) => sum + (sourceTotals[key] ?? 0),
+    0,
+  );
 }
 
 export default async function MarketSignalsPage({ searchParams }: Props) {
@@ -215,8 +192,10 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   const npmPackages = safe(() => getNpmPackages(), []);
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
   const sourceTotals = buildSourceTotals(repos, counts);
-  const totalSources = MARKET_SOURCE_KEYS.length;
-  const liveSources = MARKET_SOURCE_KEYS.filter((key) => (sourceTotals[key] ?? 0) > 0).length;
+  const totalSources = LIVE_MARKET_SOURCE_KEYS.length;
+  const liveSources = LIVE_MARKET_SOURCE_KEYS.filter(
+    (key) => (sourceTotals[key] ?? 0) > 0,
+  ).length;
   const totalMentions = sumMarketSignals(sourceTotals);
 
   const volumeTotals = {
@@ -231,7 +210,7 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   // reads as honestly degraded rather than laundering quiet upstreams.
   const crossSourceCount = repos.filter((repo) => activeSourceCount(repo) >= 4).length;
   const npmAccelerating = npmPackages.filter((p) => (p.deltaPct7d ?? 0) > 0).length;
-  const pausedSourceCount = 3;
+  const pausedSourceCount = 5;
 
   return (
     <div className="market-signals-page">

@@ -5,11 +5,58 @@
 // monitoring. Production truth now lives in Redis/worker health on HOSTUP, so
 // failing a workflow because committed JSON snapshots are stale is noise.
 
+import { pathToFileURL } from "node:url";
+
 const BASE_URL = (
   process.env.TRENDINGREPO_URL ||
   process.env.STARSCREENER_URL ||
   "https://trendingrepo.com"
 ).replace(/\/+$/, "");
+
+export function validateSourceHealthBody(body) {
+  const errors = [];
+  const summary = body?.summary;
+  if (!summary || typeof summary !== "object") {
+    return ["missing source health summary"];
+  }
+
+  if (typeof summary.neverAttempted !== "number") {
+    errors.push("summary.neverAttempted is missing");
+  }
+  if (!Array.isArray(summary.neverAttemptedSources)) {
+    errors.push("summary.neverAttemptedSources is missing");
+  }
+
+  if (typeof summary.neverAttempted === "number" && summary.neverAttempted > 0) {
+    errors.push(
+      `unproven source breaker(s): ${summary.neverAttemptedSources?.join(", ") || summary.neverAttempted}`,
+    );
+  }
+
+  const sources = body?.sources;
+  if (!sources || typeof sources !== "object" || Array.isArray(sources)) {
+    errors.push("sources map is missing");
+    return errors;
+  }
+
+  for (const [id, source] of Object.entries(sources)) {
+    if (!source || typeof source !== "object") {
+      errors.push(`${id}: source view is invalid`);
+      continue;
+    }
+    if (typeof source.attempted !== "boolean") {
+      errors.push(`${id}: attempted flag is missing`);
+    }
+    if (typeof source.totalAttempts !== "number") {
+      errors.push(`${id}: totalAttempts is missing`);
+    }
+    if (source.attempted === false || source.totalAttempts === 0) {
+      errors.push(`${id}: source breaker has no runtime attempt proof`);
+    }
+  }
+
+  return errors;
+}
 
 async function fetchJson(path, okStatuses = [200]) {
   const url = `${BASE_URL}${path}`;
@@ -251,15 +298,22 @@ async function main() {
   }
 
   const sourceSummary = sourceHealth.body?.summary;
+  const sourceHealthProofErrors = validateSourceHealthBody(sourceHealth.body);
   if (!sourceHealth.okStatus || !sourceSummary) {
     fail("/api/health/sources returned invalid response", {
       http: sourceHealth.status,
       body: sourceHealth.body,
     });
+  } else if (sourceHealthProofErrors.length > 0) {
+    fail("/api/health/sources lacks source attempt proof", {
+      http: sourceHealth.status,
+      errors: sourceHealthProofErrors,
+      summary: sourceSummary,
+    });
   } else if (
     (sourceSummary.open ?? 0) > 0 ||
     (sourceSummary.halfOpen ?? 0) > 0 ||
-    (sourceSummary.neverAttempted ?? 0) > 0
+    sourceSummary.neverAttempted > 0
   ) {
     fail("/api/health/sources has degraded or unproven sources", sourceSummary);
   }
@@ -292,9 +346,11 @@ async function main() {
   console.log("\nPASS - live production health is zero-tolerance green.");
 }
 
-main().catch((err) => {
-  fail("live health check threw", {
-    message: err instanceof Error ? err.message : String(err),
-    stack: err instanceof Error ? err.stack : undefined,
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    fail("live health check threw", {
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+    });
   });
-});
+}

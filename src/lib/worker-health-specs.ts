@@ -18,6 +18,40 @@ export interface DisabledSlugHealthSpec {
   reason: string;
 }
 
+export interface DynamicOutputHealthSpec {
+  fetcher: string;
+  outputPattern: string;
+  markerSlug: string;
+}
+
+export const WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS: ReadonlyArray<DynamicOutputHealthSpec> = [
+  {
+    fetcher: "star-activity",
+    outputPattern: "star-activity:<owner>__<name>",
+    markerSlug: "worker-health:star-activity",
+  },
+  {
+    fetcher: "velocity-backfill",
+    outputPattern: "star-activity:<owner>__<name>",
+    markerSlug: "worker-health:velocity-backfill",
+  },
+  {
+    fetcher: "repo-community-profile",
+    outputPattern: "repo-community:<owner>__<name>",
+    markerSlug: "worker-health:repo-community-profile",
+  },
+  {
+    fetcher: "velocity-refresh",
+    outputPattern: "star-activity:<owner>__<name>",
+    markerSlug: "worker-health:velocity-refresh",
+  },
+  {
+    fetcher: "velocity-seed",
+    outputPattern: "star-activity:<owner>__<name>",
+    markerSlug: "worker-health:velocity-seed",
+  },
+];
+
 export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // hourly + faster - these are the freshness-sensitive workhorses
   { slug: "hn-pulse", fetcher: "hn-pulse", cadenceMin: 10 },
@@ -60,6 +94,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // velocity-refresh updates this shared slug every 40 minutes; keep the
   // health gate tight enough to catch the OSS-Insight-independent backbone.
   { slug: "star-activity-deltas", fetcher: "velocity-refresh", cadenceMin: 60 },
+  { slug: "worker-health:velocity-refresh", fetcher: "velocity-refresh", cadenceMin: 60 },
   { slug: "editorial-best", fetcher: "editorial-writer", cadenceMin: 60 * 24 },
   { slug: "editorial-categories", fetcher: "editorial-categories", cadenceMin: 60 * 24 },
   { slug: "editorial-compare", fetcher: "editorial-compare", cadenceMin: 60 * 24 },
@@ -67,6 +102,10 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // daily - operator-curated mirrors + once-a-day enrichment
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
+  { slug: "worker-health:star-activity", fetcher: "star-activity", cadenceMin: 60 * 24 },
+  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 60 * 24 },
+  { slug: "worker-health:velocity-seed", fetcher: "velocity-seed", cadenceMin: 60 * 24 },
+  { slug: "worker-health:repo-community-profile", fetcher: "repo-community-profile", cadenceMin: 60 },
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
   { slug: "revenue-benchmarks", fetcher: "revenue-benchmarks", cadenceMin: 60 * 24, blocking: false },

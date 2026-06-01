@@ -3,9 +3,10 @@ import type { NextRequest } from "next/server";
 
 import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 import {
-  getDegradedScannerSources,
   getScannerSourceHealth,
+  isScannerSourceUnproven,
   refreshScannerSourceHealthFromStore,
+  scannerSourcesBlockPipelineFreshness,
 } from "@/lib/source-health";
 
 export const runtime = "nodejs";
@@ -25,8 +26,9 @@ function canViewDetail(request: NextRequest): boolean {
 export async function GET(request: NextRequest) {
   await refreshScannerSourceHealthFromStore();
   const sources = getScannerSourceHealth();
-  const degradedSources = getDegradedScannerSources();
-  const status = sources.length === 0 || sources.some((source) => source.stale)
+  const degradedSources = sources.filter((source) => source.status === "degraded");
+  const unprovenSources = sources.filter(isScannerSourceUnproven);
+  const status = scannerSourcesBlockPipelineFreshness(sources)
     ? "stale"
     : degradedSources.length > 0
       ? "degraded"
@@ -40,8 +42,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         status,
-        sourceStatus: degradedSources.length > 0 ? "degraded" : "ok",
+        sourceStatus:
+          degradedSources.length > 0 || unprovenSources.length > 0
+            ? "degraded"
+            : "ok",
         degradedSourceCount: degradedSources.length,
+        unprovenSourceCount: unprovenSources.length,
       },
       { status: responseStatus, headers: NO_STORE_HEADERS },
     );
@@ -51,6 +57,7 @@ export async function GET(request: NextRequest) {
     {
       status,
       degradedSources: degradedSources.map((source) => source.id),
+      unprovenSources: unprovenSources.map((source) => source.id),
       sources,
     },
     { status: responseStatus, headers: NO_STORE_HEADERS },

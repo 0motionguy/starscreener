@@ -183,6 +183,9 @@ function countRows(slug: string, payload: unknown): number | null {
   if (slug === "repo-registry" || slug === "star-activity-deltas") {
     return countObjectRows((payload as { repos?: unknown })?.repos);
   }
+  if (slug.startsWith("worker-health:")) {
+    return countPositiveNumberRows((payload as { updated?: unknown })?.updated);
+  }
   if (slug === "repo-mentions-detail-rollup") {
     return countObjectRows((payload as { repos?: unknown })?.repos);
   }

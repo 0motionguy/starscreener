@@ -490,6 +490,19 @@ export function getStaleScannerSources(): ScannerSourceHealth[] {
   return getScannerSourceHealth().filter((source) => source.status === "stale");
 }
 
+export function isScannerSourceUnproven(source: ScannerSourceHealth): boolean {
+  return source.cold === true || source.status === "cold";
+}
+
+export function scannerSourcesBlockPipelineFreshness(
+  sources: readonly ScannerSourceHealth[],
+): boolean {
+  return (
+    sources.length === 0 ||
+    sources.some((source) => source.stale || isScannerSourceUnproven(source))
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Per-repo freshness snapshot
 //

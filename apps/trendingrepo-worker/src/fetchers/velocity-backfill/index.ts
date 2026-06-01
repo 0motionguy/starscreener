@@ -40,6 +40,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { writeDynamicOutputMarker } from '../../lib/dynamic-output-marker.js';
 import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import {
   pickGithubToken,
@@ -609,7 +610,22 @@ const fetcher: Fetcher = {
         },
         'velocity-backfill published',
       );
-      return done(startedAt, ok, result.source === 'redis', errors);
+      const markerPublished = await writeDynamicOutputMarker({
+        fetcher: 'velocity-backfill',
+        outputPattern: 'star-activity:<owner>__<name>',
+        startedAt,
+        candidates: candidates.length,
+        updated: ok,
+        skipped: skip,
+        failed: errors.length,
+      }).catch((markerErr) => {
+        errors.push({
+          stage: 'write:worker-health:velocity-backfill',
+          message: (markerErr as Error).message ?? String(markerErr),
+        });
+        return false;
+      });
+      return done(startedAt, ok, result.source === 'redis' && markerPublished, errors);
     } catch (err) {
       errors.push({
         stage: 'write:star-activity-deltas',

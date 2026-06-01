@@ -31,6 +31,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { writeDynamicOutputMarker } from '../../lib/dynamic-output-marker.js';
 import {
   pickGithubToken,
   parseRateLimitHeaders,
@@ -358,7 +359,23 @@ const fetcher: Fetcher = {
       'velocity-seed published',
     );
 
-    return done(startedAt, ok, ok > 0, errors);
+    const markerPublished = await writeDynamicOutputMarker({
+      fetcher: 'velocity-seed',
+      outputPattern: 'star-activity:<owner>__<name>',
+      startedAt,
+      candidates: candidates.length,
+      updated: ok,
+      skipped: thin + skip,
+      failed: errors.length,
+    }).catch((err) => {
+      errors.push({
+        stage: 'write:worker-health:velocity-seed',
+        message: (err as Error).message ?? String(err),
+      });
+      return false;
+    });
+
+    return done(startedAt, ok, markerPublished, errors);
   },
 };
 

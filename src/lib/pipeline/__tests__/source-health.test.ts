@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { evaluateSourceFreshness } from "../../source-health";
+import {
+  evaluateSourceFreshness,
+  isScannerSourceUnproven,
+  scannerSourcesBlockPipelineFreshness,
+  type ScannerSourceHealth,
+} from "../../source-health";
 
 const NOW = Date.parse("2026-04-22T12:00:00.000Z");
 
@@ -59,4 +64,34 @@ test("evaluateSourceFreshness: future timestamps beyond clock skew are degraded"
   assert.equal(result.stale, false);
   assert.equal(result.degraded, true);
   assert.equal(result.ageSeconds, 0);
+});
+
+function source(status: ScannerSourceHealth["status"]): ScannerSourceHealth {
+  return {
+    id: "hackernews",
+    label: "Hacker News",
+    provider: "hackernews",
+    cadence: "hourly",
+    fetchedAt: status === "cold" ? null : "2026-04-22T11:30:00.000Z",
+    cold: status === "cold",
+    stale: status === "stale",
+    degraded: status === "degraded",
+    status,
+    ageSeconds: status === "cold" ? null : 1800,
+    staleAfterSeconds: 21_600,
+    degradedAfterSeconds: 3600,
+    metrics: {},
+    notes: [],
+  };
+}
+
+test("scannerSourcesBlockPipelineFreshness: cold sources are unproven and block freshness", () => {
+  const cold = source("cold");
+  const ok = source("ok");
+
+  assert.equal(isScannerSourceUnproven(cold), true);
+  assert.equal(isScannerSourceUnproven(ok), false);
+  assert.equal(scannerSourcesBlockPipelineFreshness([ok]), false);
+  assert.equal(scannerSourcesBlockPipelineFreshness([cold]), true);
+  assert.equal(scannerSourcesBlockPipelineFreshness([]), true);
 });

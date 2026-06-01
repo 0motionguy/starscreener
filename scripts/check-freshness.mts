@@ -17,11 +17,18 @@ interface FreshnessSource {
 interface FreshnessState {
   checkedAt: string;
   sources: FreshnessSource[];
+  disabledSources?: Array<{
+    name: string;
+    reason: string;
+    freshnessBudget: string;
+    blocking: boolean;
+  }>;
   summary: {
     green: number;
     yellow: number;
     red: number;
     dead: number;
+    disabled: number;
   };
 }
 
@@ -317,6 +324,12 @@ function validateFreshnessState(value: FreshnessState): void {
   if (!value.summary || typeof value.summary !== "object") {
     throw new Error("freshness state missing summary");
   }
+  if (typeof value.summary.disabled !== "number") {
+    throw new Error("freshness state summary missing disabled count");
+  }
+  if (!Array.isArray(value.disabledSources)) {
+    throw new Error("freshness state missing disabledSources[]");
+  }
   for (const source of value.sources) {
     if (typeof source.name !== "string") throw new Error("source missing name");
     if (source.lastUpdate !== null && typeof source.lastUpdate !== "string") {
@@ -406,7 +419,7 @@ function printReport(
     (source) => source.blocking !== false && source.status !== "GREEN",
   ).length;
   console.log(
-    `summary: green=${state.summary.green} yellow=${state.summary.yellow} red=${state.summary.red} dead=${state.summary.dead} blocking_non_green=${blockingNonGreen} advisory_non_green=${advisoryNonGreen}`,
+    `summary: green=${state.summary.green} yellow=${state.summary.yellow} red=${state.summary.red} dead=${state.summary.dead} disabled=${state.summary.disabled} blocking_non_green=${blockingNonGreen} advisory_non_green=${advisoryNonGreen}`,
   );
   console.log(
     `Sentry: ${sentry.status}${sentry.eventId ? ` eventId=${sentry.eventId}` : ""}`,

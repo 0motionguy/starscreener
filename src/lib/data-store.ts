@@ -493,13 +493,13 @@ class DefaultDataStore implements DataStore {
         const writtenAt = hit.writtenAt;
         const ageMs = writtenAt
           ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
-          : 0;
-        this.memory.set(slug, hit.data, writtenAt ?? new Date().toISOString());
+          : Number.MAX_SAFE_INTEGER;
+        this.memory.set(slug, hit.data, writtenAt ?? new Date(0).toISOString());
         out[i] = {
           data: hit.data,
           source: "redis",
           ageMs,
-          fresh: true,
+          fresh: writtenAt !== null,
           writtenAt: writtenAt ?? undefined,
         };
         continue;

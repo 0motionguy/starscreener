@@ -182,6 +182,19 @@ test("/api/worker/health: disabled slugs stay visible but inactive", () => {
   }
 });
 
+test("paused Reddit source is not hydrated by the global mention refresher", () => {
+  const source = readFileSync(
+    resolve(process.cwd(), "src", "lib", "refresh-mentions.ts"),
+    "utf8",
+  );
+
+  assert.equal(
+    source.includes("refreshRedditMentionsFromStore"),
+    false,
+    "refreshAllMentionStores must not hydrate stale reddit-mentions while Reddit is paused",
+  );
+});
+
 test("/api/worker/health: TrustMRR catalog cadence matches daily producer", () => {
   const contract = SOURCE_CONTRACTS.find((source) => source.id === "trustmrr");
 

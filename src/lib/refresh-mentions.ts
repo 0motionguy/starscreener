@@ -15,7 +15,6 @@ import { refreshHackernewsMentionsFromStore } from "./hackernews";
 import { refreshBlueskyMentionsFromStore } from "./bluesky";
 import { refreshDevtoMentionsFromStore } from "./devto";
 import { refreshLobstersMentionsFromStore } from "./lobsters";
-import { refreshRedditMentionsFromStore } from "./reddit-data";
 import { refreshNpmFromStore } from "./npm";
 import { refreshProducthuntLaunchesFromStore } from "./producthunt";
 import { refreshArxivFromStore } from "./arxiv";
@@ -25,8 +24,9 @@ import { refreshMentionsLedgerFromStore } from "./mentions-ledger";
 /**
  * Refresh all mention/cross-source stores in parallel. Never throws — each
  * refresh swallows its own error (the data-store reader already preserves the
- * last-known cache on a miss). Twitter is intentionally absent: it reads its
- * bundled signal file synchronously and needs no async refresh.
+ * last-known cache on a miss). Reddit is intentionally absent while paused:
+ * the stale historical redis slug must not hydrate active request caches.
+ * Twitter reads its bundled signal file synchronously and needs no async refresh.
  */
 export async function refreshAllMentionStores(): Promise<void> {
   await Promise.all([
@@ -34,7 +34,6 @@ export async function refreshAllMentionStores(): Promise<void> {
     refreshBlueskyMentionsFromStore().catch(() => undefined),
     refreshDevtoMentionsFromStore().catch(() => undefined),
     refreshLobstersMentionsFromStore().catch(() => undefined),
-    refreshRedditMentionsFromStore().catch(() => undefined),
     refreshNpmFromStore().catch(() => undefined),
     refreshProducthuntLaunchesFromStore().catch(() => undefined),
     refreshArxivFromStore().catch(() => undefined),

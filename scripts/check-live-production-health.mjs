@@ -13,6 +13,23 @@ const BASE_URL = (
   "https://trendingrepo.com"
 ).replace(/\/+$/, "");
 
+export function validateAppHealthBody(body) {
+  const errors = [];
+  if (body?.status !== "ok") {
+    errors.push(`status must be ok (got ${body?.status ?? "missing"})`);
+  }
+  if (body?.error) {
+    errors.push(`error must be absent (got ${body.error})`);
+  }
+  if (body?.sourceStatus !== "ok") {
+    errors.push(`sourceStatus must be ok (got ${body?.sourceStatus ?? "missing"})`);
+  }
+  if (body?.workerStatus !== "ok") {
+    errors.push(`workerStatus must be ok (got ${body?.workerStatus ?? "missing"})`);
+  }
+  return errors;
+}
+
 export function validateSourceHealthBody(body) {
   const errors = [];
   const summary = body?.summary;
@@ -189,6 +206,8 @@ async function main() {
         http: appHealth.status,
         status: appHealth.body?.status,
         sourceStatus: appHealth.body?.sourceStatus,
+        workerStatus: appHealth.body?.workerStatus,
+        workerSummary: appHealth.body?.workerSummary ?? null,
         lastFetchedAt: appHealth.body?.lastFetchedAt,
         computedAt: appHealth.body?.computedAt,
         warning: appHealth.body?.warning ?? null,
@@ -264,11 +283,13 @@ async function main() {
       body: appHealth.body,
     });
   }
-  if (appHealth.body?.status !== "ok" || appHealth.body?.error) {
-    fail("/api/health is not fresh", appHealth.body);
-  }
-  if (appHealth.body?.sourceStatus && appHealth.body.sourceStatus !== "ok") {
-    fail("/api/health reports degraded source status", appHealth.body);
+  const appHealthErrors = validateAppHealthBody(appHealth.body);
+  if (appHealthErrors.length > 0) {
+    fail("/api/health is not strict green", {
+      http: appHealth.status,
+      errors: appHealthErrors,
+      body: appHealth.body,
+    });
   }
 
   if (

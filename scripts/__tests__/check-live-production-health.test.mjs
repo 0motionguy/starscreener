@@ -1,7 +1,40 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { validateSourceHealthBody } from "../check-live-production-health.mjs";
+import {
+  validateAppHealthBody,
+  validateSourceHealthBody,
+} from "../check-live-production-health.mjs";
+
+test("validateAppHealthBody rejects legacy app health without workerStatus", () => {
+  const errors = validateAppHealthBody({
+    status: "ok",
+    sourceStatus: "ok",
+  });
+
+  assert.match(errors.join("\n"), /workerStatus must be ok/);
+});
+
+test("validateAppHealthBody rejects degraded workerStatus", () => {
+  const errors = validateAppHealthBody({
+    status: "ok",
+    sourceStatus: "ok",
+    workerStatus: "degraded",
+  });
+
+  assert.match(errors.join("\n"), /workerStatus must be ok/);
+});
+
+test("validateAppHealthBody accepts strict green app health", () => {
+  assert.deepEqual(
+    validateAppHealthBody({
+      status: "ok",
+      sourceStatus: "ok",
+      workerStatus: "ok",
+    }),
+    [],
+  );
+});
 
 test("validateSourceHealthBody rejects legacy source-health schema without attempt proof", () => {
   const errors = validateSourceHealthBody({

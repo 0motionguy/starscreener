@@ -30,6 +30,7 @@ import { Dot, StarMark, truncate } from "@/lib/og-primitives";
 import { buildCustomBundleFromSlugs } from "@/lib/top10/build-custom-bundle";
 import { formatDelta, formatStars } from "@/lib/top10/format";
 import { resolveBundle } from "@/lib/top10/resolve-bundle";
+import { SITE_URL } from "@/lib/seo";
 
 // Mirror of CHANNELS in MentionSourcePips.tsx — drives which source logos
 // render as pips on the right of each OG row. Order is intentional (matches
@@ -997,7 +998,7 @@ export async function GET(request: NextRequest) {
 
     // Origin for absolute <img> URLs inside satori — brand SVGs at
     // /brand/sources/*.svg need to resolve to a fully-qualified URL.
-    const origin = new URL(request.url).origin;
+    const origin = SITE_URL;
 
     return new ImageResponse(
       (

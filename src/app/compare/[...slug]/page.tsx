@@ -13,6 +13,7 @@ import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { fetchGitHubRepoLiveWithinBudget } from "@/lib/github-live";
 import {
   refreshConsensusVerdictsFromStore,
   getConsensusItemReport,
@@ -50,6 +51,24 @@ function fmtDate(iso: string | null | undefined): string {
 }
 function mentions(r: Repo): number {
   return r.mentions?.total24h ?? r.mentionCount24h ?? 0;
+}
+
+async function resolveCompareRepo(fullName: string): Promise<Repo | null> {
+  const derived = (() => {
+    try {
+      return getDerivedRepoByFullName(fullName);
+    } catch {
+      return null;
+    }
+  })();
+  if (derived) return derived;
+
+  const slash = fullName.indexOf("/");
+  if (slash <= 0 || slash === fullName.length - 1) return null;
+
+  const owner = fullName.slice(0, slash);
+  const name = fullName.slice(slash + 1);
+  return fetchGitHubRepoLiveWithinBudget(owner, name).catch(() => null);
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -112,20 +131,10 @@ export default async function ComparePage({ params }: PageProps) {
     refreshEditorialCompareFromStore().catch(() => undefined),
   ]);
 
-  const repoA = (() => {
-    try {
-      return getDerivedRepoByFullName(pair.a);
-    } catch {
-      return null;
-    }
-  })();
-  const repoB = (() => {
-    try {
-      return getDerivedRepoByFullName(pair.b);
-    } catch {
-      return null;
-    }
-  })();
+  const [repoA, repoB] = await Promise.all([
+    resolveCompareRepo(pair.a),
+    resolveCompareRepo(pair.b),
+  ]);
   if (!repoA || !repoB) notFound();
 
   const verdictA = (() => {

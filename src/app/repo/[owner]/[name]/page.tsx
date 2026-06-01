@@ -13,6 +13,7 @@ import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { fetchGitHubRepoLiveWithinBudget } from "@/lib/github-live";
 import {
   refreshRepoProfilesFromStore,
   getRepoProfile,
@@ -212,13 +213,17 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     refreshRepoRegistryFromStore().catch(() => undefined),
   ]);
 
-  const repo = (() => {
+  let repo = (() => {
     try {
       return getDerivedRepoByFullName(fullName);
     } catch {
       return null;
     }
   })();
+
+  if (!repo) {
+    repo = await fetchGitHubRepoLiveWithinBudget(owner, name).catch(() => null);
+  }
 
   if (!repo) {
     notFound();

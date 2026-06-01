@@ -24,19 +24,30 @@ const FILE_PATH = resolve(process.cwd(), ".data", `${SLUG}.json`);
 export interface BaseX402OnchainFile {
   fetchedAt?: string;
   totalSettlements?: number;
+  totalVolumeUsdc?: string;
   byFacilitator?: Record<
     string,
-    { addressCount: number; totalTxs: number; x402Settlements: number }
+    {
+      addressCount: number;
+      totalTxs: number;
+      x402Settlements: number;
+      volumeUsdc?: string;
+    }
   >;
   byDay?: Record<
     string,
-    { txs: number; byFacilitator: Record<string, number> }
+    {
+      txs: number;
+      volumeUsdc?: string;
+      byFacilitator: Record<string, number | { txs: number; volumeUsdc?: string }>;
+    }
   >;
   samples?: Array<{
     facilitator: string;
     txHash: string;
     from?: string;
     timestamp: string;
+    amountUi?: string;
     blockNumber?: number;
   }>;
 }

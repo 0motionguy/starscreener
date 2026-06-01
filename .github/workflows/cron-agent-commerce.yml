@@ -92,6 +92,11 @@ jobs:
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
         run: node scripts/fetch-solana-x402-onchain.mjs --max-pages-per-addr 1
 
+      - name: Build x402 USD volume rollup
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/build-x402-volume-from-onchain.mjs
+
       - name: Enrich agent-commerce live signals
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -133,6 +138,7 @@ jobs:
             data/agent-commerce.json
             .data/base-x402-onchain.json
             .data/solana-x402-onchain.json
+            .data/dune-x402-volume.json
             .data/agentic-market.json
             .data/openrouter-models.json
             .data/coingecko-agents.json

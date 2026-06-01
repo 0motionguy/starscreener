@@ -106,6 +106,38 @@ function isUsdcSettlement(tx) {
   );
 }
 
+function formatUsdcMicros(micros) {
+  const sign = micros < 0n ? "-" : "";
+  const abs = micros < 0n ? -micros : micros;
+  const whole = abs / 1_000_000n;
+  const fraction = String(abs % 1_000_000n).padStart(6, "0").replace(/0+$/, "");
+  return `${sign}${whole}${fraction ? `.${fraction}` : ""}`;
+}
+
+function parseUsdcStringToMicros(value) {
+  const [wholeRaw, fractionRaw = ""] = String(value ?? "0").split(".");
+  const whole = BigInt(wholeRaw || "0") * 1_000_000n;
+  const fraction = BigInt((fractionRaw.replace(/\D/g, "").slice(0, 6).padEnd(6, "0")) || "0");
+  return whole + fraction;
+}
+
+function addUsdcMicrosString(current, micros) {
+  return formatUsdcMicros(parseUsdcStringToMicros(current) + micros);
+}
+
+function extractUsdcMicros(tx) {
+  const params = tx?.decoded_input?.parameters;
+  if (!Array.isArray(params)) return 0n;
+  const valueParam = params.find(
+    (param) => param?.name === "value" && String(param?.type ?? "").startsWith("uint"),
+  );
+  try {
+    return BigInt(String(valueParam?.value ?? "0"));
+  } catch {
+    return 0n;
+  }
+}
+
 function shouldWriteBaseX402Payload({ successfulAddressCalls, allowEmpty }) {
   return allowEmpty || successfulAddressCalls > 0;
 }
@@ -120,11 +152,13 @@ async function main() {
   const samples = [];
   let totalTxs = 0;
   let totalSettlements = 0;
+  let totalVolumeMicros = 0n;
   let successfulAddressCalls = 0;
 
   for (const [name, addresses] of Object.entries(FACILITATORS)) {
     let facTxs = 0;
     let facSettlements = 0;
+    let facVolumeMicros = 0n;
     for (const addr of addresses) {
       const result = await fetchAddressTxsFrom(addr, MAX_PAGES);
       const txs = result.items;
@@ -133,17 +167,30 @@ async function main() {
       const settlements = txs.filter(isUsdcSettlement);
       facSettlements += settlements.length;
       for (const tx of settlements) {
+        const amountMicros = extractUsdcMicros(tx);
         const day = dayKey(tx.timestamp);
-        if (!byDay[day]) byDay[day] = { txs: 0, byFacilitator: {} };
+        if (!byDay[day]) byDay[day] = { txs: 0, volumeUsdc: "0", byFacilitator: {} };
         byDay[day].txs++;
-        byDay[day].byFacilitator[name] =
-          (byDay[day].byFacilitator[name] ?? 0) + 1;
+        byDay[day].volumeUsdc = addUsdcMicrosString(byDay[day].volumeUsdc, amountMicros);
+        const dayFacilitator = byDay[day].byFacilitator[name] ?? {
+          txs: 0,
+          volumeUsdc: "0",
+        };
+        dayFacilitator.txs++;
+        dayFacilitator.volumeUsdc = addUsdcMicrosString(
+          dayFacilitator.volumeUsdc,
+          amountMicros,
+        );
+        byDay[day].byFacilitator[name] = dayFacilitator;
+        facVolumeMicros += amountMicros;
+        totalVolumeMicros += amountMicros;
         if (samples.length < 10) {
           samples.push({
             facilitator: name,
             txHash: tx.hash,
             from: tx.from?.hash,
             to: tx.to?.hash,
+            amountUi: formatUsdcMicros(amountMicros),
             timestamp: tx.timestamp,
             blockNumber: tx.block_number,
           });
@@ -153,7 +200,12 @@ async function main() {
         `  ${name.padEnd(10)} ${addr.slice(0, 10)}…  txs=${txs.length} usdc=${settlements.length}\n`,
       );
     }
-    byFacilitator[name] = { addressCount: addresses.length, totalTxs: facTxs, x402Settlements: facSettlements };
+    byFacilitator[name] = {
+      addressCount: addresses.length,
+      totalTxs: facTxs,
+      x402Settlements: facSettlements,
+      volumeUsdc: formatUsdcMicros(facVolumeMicros),
+    };
     totalTxs += facTxs;
     totalSettlements += facSettlements;
   }
@@ -180,6 +232,7 @@ async function main() {
     source: "base.blockscout.com/api/v2",
     totalTxs,
     totalSettlements,
+    totalVolumeUsdc: formatUsdcMicros(totalVolumeMicros),
     byFacilitator,
     byDay,
     samples,

@@ -100,8 +100,8 @@ function safe<T>(fn: () => T, fallback: T): T {
 
 /** Sum USDC volume for "last 24h" from the Dune day-keyed rows. */
 function sumDuneVolume(
-  rows: { day: string; facilitator: string; volumeUsdc: string }[] | undefined,
-  chainFilter: (facilitator: string) => boolean,
+  rows: { day: string; chain?: string; facilitator: string; volumeUsdc: string }[] | undefined,
+  rowFilter: (row: { chain?: string; facilitator: string }) => boolean,
 ): number {
   if (!rows || rows.length === 0) return 0;
   // Pick the most recent calendar day represented in the rows.
@@ -109,7 +109,7 @@ function sumDuneVolume(
   const latestDay = days[days.length - 1];
   if (!latestDay) return 0;
   return rows
-    .filter((r) => r.day === latestDay && chainFilter(r.facilitator))
+    .filter((r) => r.day === latestDay && rowFilter(r))
     .reduce((acc, r) => {
       const v = Number(r.volumeUsdc);
       return acc + (Number.isFinite(v) ? v : 0);
@@ -184,15 +184,19 @@ export default async function AgentCommercePage({ searchParams }: Props) {
   const isSolanaFac = (name: string): boolean =>
     /solana|sol-/i.test(name) || name.toLowerCase().includes("crossmint");
   const isBaseFac = (name: string): boolean => !isSolanaFac(name);
+  const isSolanaVolumeRow = (row: { chain?: string; facilitator: string }): boolean =>
+    row.chain ? row.chain === "solana" : isSolanaFac(row.facilitator);
+  const isBaseVolumeRow = (row: { chain?: string; facilitator: string }): boolean =>
+    row.chain ? row.chain === "base" : isBaseFac(row.facilitator);
 
   // Real on-chain volumes from Dune — no synthetic floors. Empty days
   // surface as 0 so the operator can see TOOLBOX dune-x402-volume is quiet.
   // Missing or stale Dune must stay unavailable instead of becoming "$0".
   const baseVolumeUsd24h = onchainVolumeAvailable
-    ? sumDuneVolume(duneRows, isBaseFac)
+    ? sumDuneVolume(duneRows, isBaseVolumeRow)
     : 0;
   const solanaVolumeUsd24h = onchainVolumeAvailable
-    ? sumDuneVolume(duneRows, isSolanaFac)
+    ? sumDuneVolume(duneRows, isSolanaVolumeRow)
     : 0;
   const onchain24hUsd = baseVolumeUsd24h + solanaVolumeUsd24h;
 

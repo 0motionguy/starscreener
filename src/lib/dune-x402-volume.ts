@@ -20,6 +20,7 @@ export interface DuneX402VolumeFile {
   lastDay?: string | null;
   rows?: Array<{
     day: string;
+    chain?: string;
     facilitator: string;
     txCount: number;
     volumeUsdc: string;

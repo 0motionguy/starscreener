@@ -28,7 +28,8 @@ function reduceVolume(rows: DuneX402VolumeFile["rows"] | undefined): Map<string,
   for (const row of rows) {
     const value = Number(row.volumeUsdc);
     if (!Number.isFinite(value)) continue;
-    out.set(row.facilitator, (out.get(row.facilitator) ?? 0) + value);
+    const key = row.chain ? `${row.chain}:${row.facilitator}` : row.facilitator;
+    out.set(key, (out.get(key) ?? 0) + value);
   }
   return out;
 }
@@ -67,7 +68,10 @@ export function TopFacilitatorsTable({
         name,
         chain: "Base",
         txs: stat?.totalTxs ?? 0,
-        volumeUsd: volumeByFacilitator.get(name) ?? 0,
+        volumeUsd:
+          volumeByFacilitator.get(`base:${name}`) ??
+          volumeByFacilitator.get(name) ??
+          0,
       });
     }
   }
@@ -77,7 +81,10 @@ export function TopFacilitatorsTable({
         name,
         chain: "Solana",
         txs: stat?.totalTxs ?? 0,
-        volumeUsd: volumeByFacilitator.get(name) ?? 0,
+        volumeUsd:
+          volumeByFacilitator.get(`solana:${name}`) ??
+          volumeByFacilitator.get(name) ??
+          0,
       });
     }
   }

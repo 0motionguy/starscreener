@@ -14,6 +14,8 @@ import "server-only";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 
+import { withRefreshTimeout } from "./agent-commerce/refresh-timeout";
+
 const SLUG = "solana-x402-onchain";
 const FILE_PATH = resolve(process.cwd(), ".data", `${SLUG}.json`);
 
@@ -86,7 +88,10 @@ export async function refreshSolanaX402OnchainFromStore(): Promise<RefreshResult
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
-      const result = await store.read<SolanaX402OnchainFile>(SLUG);
+      const result = await withRefreshTimeout(
+        store.read<SolanaX402OnchainFile>(SLUG),
+        SLUG,
+      );
       if (result.data && result.source !== "missing") {
         cached = result.data;
         lastRefreshMs = Date.now();

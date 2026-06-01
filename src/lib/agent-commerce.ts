@@ -17,6 +17,7 @@ import { readFileSync, statSync } from "fs";
 import { resolve } from "path";
 
 import { buildAgentCommerceStats } from "./agent-commerce/extract";
+import { withRefreshTimeout } from "./agent-commerce/refresh-timeout";
 import type {
   AgentCommerceFile,
   AgentCommerceItem,
@@ -141,7 +142,10 @@ export async function refreshAgentCommerceFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
-      const result = await store.read<unknown>("agent-commerce");
+      const result = await withRefreshTimeout(
+        store.read<unknown>("agent-commerce"),
+        "agent-commerce",
+      );
       if (result.data && result.source !== "missing") {
         const next = normalizeFile(result.data);
         cache = {

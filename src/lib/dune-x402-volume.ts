@@ -12,6 +12,8 @@ import "server-only";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 
+import { withRefreshTimeout } from "./agent-commerce/refresh-timeout";
+
 const SLUG = "dune-x402-volume";
 const FILE_PATH = resolve(process.cwd(), ".data", `${SLUG}.json`);
 
@@ -147,7 +149,10 @@ export async function refreshDuneX402VolumeFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
-      const result = await store.read<DuneX402VolumeFile>(SLUG);
+      const result = await withRefreshTimeout(
+        store.read<DuneX402VolumeFile>(SLUG),
+        SLUG,
+      );
       if (result.data && result.source !== "missing") {
         cached = result.data;
         lastRefreshMs = Date.now();

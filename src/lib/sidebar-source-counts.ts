@@ -31,6 +31,7 @@ import { getArxivRecentFile, refreshArxivFromStore } from "./arxiv";
 import { selectAgentRepos } from "./agent-repos";
 import { getDerivedRepos } from "./derived-repos";
 import { getTwitterOverviewStats } from "./twitter";
+import { waitForNonCriticalRefreshes } from "./noncritical-refresh-deadline";
 
 export interface SidebarSourceCounts {
   // Feed deltas — rendered as `+N` accent chip.
@@ -87,7 +88,7 @@ async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
 export const getSidebarSourceCounts = cache(async function getSidebarSourceCountsImpl(): Promise<SidebarSourceCounts> {
   // Fire all refresh hooks in parallel. Each one is rate-limited to 30s
   // internally and will return { source: "memory", ... } when fresh.
-  await Promise.allSettled([
+  await waitForNonCriticalRefreshes([
     refreshHackernewsTrendingFromStore(),
     refreshLobstersTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
@@ -97,7 +98,7 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     refreshRevenueOverlaysFromStore(),
     refreshNpmFromStore(),
     refreshArxivFromStore(),
-  ]);
+  ], "sidebar source-count refreshes");
 
   const npmFile = safe(() => getNpmPackagesFile(), null);
   const npmCount =

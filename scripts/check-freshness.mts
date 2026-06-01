@@ -35,6 +35,7 @@ interface FreshnessState {
 interface HealthState {
   status?: string;
   sourceStatus?: string;
+  workerStatus?: string;
   lastFetchedAt?: string | null;
   computedAt?: string | null;
 }
@@ -394,6 +395,13 @@ function exitCodeFor(state: FreshnessState): number {
   return 0;
 }
 
+function healthExitCodeFor(health: HealthState): number {
+  if (health.status !== "ok") return 1;
+  if (health.sourceStatus !== undefined && health.sourceStatus !== "ok") return 1;
+  if (health.workerStatus !== undefined && health.workerStatus !== "ok") return 1;
+  return 0;
+}
+
 function printReport(
   opts: Options,
   health: HealthState,
@@ -401,7 +409,7 @@ function printReport(
   sentry: SentryState,
 ): void {
   console.log(
-    `freshness-check target=${opts.baseUrl} health=${health.status ?? "unknown"} sourceStatus=${health.sourceStatus ?? "unknown"} checkedAt=${state.checkedAt}`,
+    `freshness-check target=${opts.baseUrl} health=${health.status ?? "unknown"} sourceStatus=${health.sourceStatus ?? "unknown"} workerStatus=${health.workerStatus ?? "unknown"} checkedAt=${state.checkedAt}`,
   );
   console.log("");
   console.log("| source | blocking | status | last_update | age | budget |");
@@ -438,13 +446,17 @@ async function main(): Promise<void> {
   ]);
 
   validateFreshnessState(state);
-  const code = exitCodeFor(state);
+  const freshnessCode = exitCodeFor(state);
+  const healthCode = healthExitCodeFor(health);
+  const code = Math.max(freshnessCode, healthCode);
 
   if (opts.json) {
     console.log(JSON.stringify({ target: opts.baseUrl, health, freshness: state, sentry, exitCode: code }, null, 2));
   } else {
     printReport(opts, health, state, sentry);
-    if (code === 0) {
+    if (healthCode !== 0) {
+      console.log("FAIL health endpoint reports degraded status");
+    } else if (code === 0) {
       const advisoryNonGreen = state.sources.filter(
         (source) => source.blocking === false && source.status !== "GREEN",
       ).length;

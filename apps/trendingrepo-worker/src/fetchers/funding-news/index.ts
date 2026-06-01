@@ -31,7 +31,7 @@ const MAX_AGE_MS = WINDOW_DAYS * 24 * 60 * 60 * 1000;
 const USER_AGENT =
   'Mozilla/5.0 (compatible; TrendingRepoBot/1.0; +https://trendingrepo.com)';
 
-const RSS_FEEDS: Record<string, string> = {
+export const FUNDING_RSS_FEEDS: Record<string, string> = {
   techcrunch: 'https://techcrunch.com/category/startups/feed/',
   venturebeat: 'https://venturebeat.com/feed/',
   sifted: 'https://sifted.eu/feed',
@@ -40,28 +40,24 @@ const RSS_FEEDS: Record<string, string> = {
   pymnts: 'https://www.pymnts.com/feed/',
   bbc: 'https://feeds.bbci.co.uk/news/technology/rss.xml',
   wired: 'https://www.wired.com/feed/',
-  geekwire: 'https://www.geekwire.com/category/topic/funding/feed/',
   'eu-startups': 'https://www.eu-startups.com/feed/',
   siliconcanals: 'https://siliconcanals.com/feed/',
   techstartups: 'https://techstartups.com/feed/',
   // AI-tagged category feeds — every item is already classified as AI
   // by the publisher, so the AI_KEYWORDS gate below is bypassed for these
-  // (see AI_TAGGED_SOURCES). Combined with the existing FUNDING_KEYWORDS
+  // (see FUNDING_AI_TAGGED_SOURCES). Combined with the existing FUNDING_KEYWORDS
   // filter, these feeds emit pure AI-funding signals with near-zero
   // false-positive rate.
   'techcrunch-ai': 'https://techcrunch.com/category/artificial-intelligence/feed/',
   'venturebeat-ai': 'https://venturebeat.com/category/ai/feed/',
-  'ai-news': 'https://www.artificialintelligence-news.com/feed/',
   'ai-business': 'https://aibusiness.com/rss.xml',
   // Wave-2 AI-tagged additions (2026-05-07): high-frequency, funding-dense
   // outlets that fill geographic + editorial gaps in the pool above.
+  // HOSTUP-blocked feeds are intentionally not listed here; permanent 403s
+  // are disabled at inventory level instead of logged forever by the worker.
   //
   //   the-decoder    pure AI news, daily, German+English editorial team —
   //                  catches European AI rounds the US-centric outlets miss
-  //   marktechpost   daily AI research+industry, frequent funding posts;
-  //                  one of the most prolific AI funding posters
-  //   unite-ai       AI products + funding, US-tilted; covers consumer AI
-  //                  rounds the others skip
   //   analytics-india India / APAC AI scene — biggest current geographic
   //                  gap; daily posts, ~30% funding-related
   //   mit-tech-review-ai  premium AI editorial; lower volume but high
@@ -69,15 +65,13 @@ const RSS_FEEDS: Record<string, string> = {
   //   synced         Asia-Pacific AI research+industry; complements
   //                  analytics-india with a research/lab-tilt
   'the-decoder': 'https://the-decoder.com/feed/',
-  marktechpost: 'https://www.marktechpost.com/feed/',
-  'unite-ai': 'https://www.unite.ai/feed/',
   'analytics-india': 'https://analyticsindiamag.com/feed/',
   'mit-tech-review-ai': 'https://www.technologyreview.com/topic/artificial-intelligence/feed',
   synced: 'https://syncedreview.com/feed/',
   // Wave-3 (2026-05-07): press-release wire + 4 VC/AI substacks. PR wire
   // catches official rounds *before* journalists pick them up. The four
   // substacks are publisher-classified AI editorial — they bypass the
-  // AI_KEYWORDS gate via AI_TAGGED_SOURCES below.
+  // AI_KEYWORDS gate via FUNDING_AI_TAGGED_SOURCES below.
   //
   //   prnewswire-vc      PR Newswire venture-capital category — official
   //                       rounds hit the wire 6-24h before press coverage.
@@ -101,14 +95,11 @@ const RSS_FEEDS: Record<string, string> = {
  * FUNDING_KEYWORDS filter. These are the highest-precision feeds in the
  * pool because the publisher has already done the AI classification.
  */
-const AI_TAGGED_SOURCES = new Set<string>([
+export const FUNDING_AI_TAGGED_SOURCES = new Set<string>([
   'techcrunch-ai',
   'venturebeat-ai',
-  'ai-news',
   'ai-business',
   'the-decoder',
-  'marktechpost',
-  'unite-ai',
   'analytics-india',
   'mit-tech-review-ai',
   'synced',
@@ -190,7 +181,7 @@ const fetcher: Fetcher = {
       allSignals.push({ ...seed, discoveredAt });
     }
 
-    for (const [sourceName, url] of Object.entries(RSS_FEEDS)) {
+    for (const [sourceName, url] of Object.entries(FUNDING_RSS_FEEDS)) {
       ctx.log.info({ source: sourceName, url }, 'funding rss fetch');
       let items: ReturnType<typeof parseRssItems> = [];
       let lastError: string | null = null;
@@ -236,7 +227,7 @@ const fetcher: Fetcher = {
         // feeds) must additionally show an AI marker in the headline OR
         // description. AI-tagged feeds (techcrunch-ai etc.) bypass since
         // the publisher already classified them.
-        if (!AI_TAGGED_SOURCES.has(sourceName)) {
+        if (!FUNDING_AI_TAGGED_SOURCES.has(sourceName)) {
           const haystack = `${item.headline} ${item.description ?? ''}`;
           if (!AI_KEYWORDS.test(haystack)) continue;
         }

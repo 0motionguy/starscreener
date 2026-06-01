@@ -4,6 +4,7 @@ import { test } from "node:test";
 import { GET } from "../../app/api/health/sources/route";
 import {
   DISABLED_SOURCES,
+  KNOWN_SOURCES,
   sourceHealthTracker,
 } from "../source-health-tracker";
 
@@ -19,10 +20,21 @@ test("/api/health/sources ignores disabled-source breaker state", async () => {
   const body = await response.json();
 
   assert.equal(response.status, 207);
+  assert.equal(response.headers.get("cache-control"), "private, no-store");
   assert.deepEqual(body.summary.openSources, []);
   assert.deepEqual(body.summary.halfOpenSources, []);
-  assert.ok(body.summary.neverAttempted > 0);
-  assert.ok(body.summary.neverAttemptedSources.length > 0);
+  assert.deepEqual(body.summary.neverAttemptedSources, [
+    "bluesky",
+    "devto",
+    "github",
+    "hackernews",
+  ]);
+  assert.deepEqual([...KNOWN_SOURCES].sort(), [
+    "bluesky",
+    "devto",
+    "github",
+    "hackernews",
+  ]);
   assert.ok(body.summary.disabledSources.includes("reddit"));
   assert.ok(body.summary.disabledSources.includes("github-search"));
   assert.ok(body.summary.disabledSources.includes("nitter"));
@@ -32,4 +44,6 @@ test("/api/health/sources ignores disabled-source breaker state", async () => {
   assert.equal(body.sources.reddit, undefined);
   assert.equal(body.sources["github-search"], undefined);
   assert.equal(body.sources.nitter, undefined);
+  assert.equal(body.sources.lobsters, undefined);
+  assert.equal(body.sources.producthunt, undefined);
 });

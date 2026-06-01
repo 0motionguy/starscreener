@@ -25,6 +25,7 @@ import {
 } from "@/lib/source-health-tracker";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 interface SourceBreakerView {
   state: SourceHealthSnapshot["state"];
@@ -169,5 +170,10 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
       `[perf][route:/api/health/sources] totalMs=${totalMs.toFixed(1)} registerMs=${registerMs.toFixed(1)} getAllMs=${getAllMs.toFixed(1)} totalSources=${Object.keys(sources).length} open=${open} halfOpen=${halfOpen} neverAttempted=${neverAttempted}`,
     );
   }
-  return NextResponse.json(body, { status });
+  return NextResponse.json(body, {
+    status,
+    headers: {
+      "Cache-Control": "private, no-store",
+    },
+  });
 }

@@ -327,9 +327,10 @@ function formatError(err: unknown): string | null {
 // ---------------------------------------------------------------------------
 
 /**
- * Canonical source ids tracked by the breaker. Registered up-front so the
- * `/api/health/sources` endpoint reports them even before any traffic flows.
- * Add new sources here when wiring a new adapter.
+ * Canonical source ids tracked by the web-process breaker. Registered up-front
+ * so `/api/health/sources` reports owned adapters even before traffic flows.
+ * Worker-backed snapshot sources belong to `/api/health`, not this breaker.
+ * Add new sources here only when wiring a sourceHealthTracker adapter.
  */
 export const DEFAULT_KNOWN_SOURCES = [
   "hackernews",
@@ -339,8 +340,6 @@ export const DEFAULT_KNOWN_SOURCES = [
   "github",
   "github-search",
   "nitter",
-  "lobsters",
-  "producthunt",
 ] as const;
 
 export type KnownSource = (typeof DEFAULT_KNOWN_SOURCES)[number];

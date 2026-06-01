@@ -200,7 +200,6 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 ### Monthly
 | Cron | Workflow |
 |---|---|
-| `0 3 1 * *` | cron-mcp-usage-rotate |
 | `17 3 1 * *` | aiso-self-scan |
 
 ### Sunday-only
@@ -460,4 +459,3 @@ Run this check every Monday (UTC) and attach evidence in a release-validation no
    - PASS if `stddev/mean <= 0.7` and all tokens are within ±15%
    - FAIL otherwise, and open/refresh a P1 follow-up for rotation-bias investigation.
 5. Record the result with timestamp, probe output summary, and verdict in `docs/release-validation/`.
-

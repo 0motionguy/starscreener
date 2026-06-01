@@ -41,6 +41,12 @@ constant near the top of the file.
 
 ## Ingestion
 
+Current production freshness is owned by the HOSTUP worker. The worker
+publishes `trending` and `hot-collections` from the internal GitHub-backed
+fallback by default, while OSS Insight remains an explicit diagnostic/backfill
+source only. Per-window star deltas are backed by GitHub-direct
+`star-activity-deltas` so 7d/30d user surfaces survive OSS Insight outages.
+
 TrendingRepo pulls a trending-repo universe from OSS Insight and computes
 per-window star deltas from the git history of that universe. Both outputs
 are committed JSON files and ship with the build.
@@ -87,6 +93,13 @@ collector inventory lists which sources have been ported to dual-write.
 
 ## Scraper (`scripts/scrape-trending.mjs`)
 
+Current behavior: the direct OSS Insight script path is disabled by default.
+Running `node scripts/scrape-trending.mjs` exits successfully without touching
+the network because production uses the HOSTUP worker fallback. To run the
+legacy OSS Insight diagnostic/backfill path, pass `--use-ossinsight` or set
+`TRENDINGREPO_ENABLE_OSSINSIGHT=operator-approved`. The legacy details below
+apply only to that approved path.
+
 Fetches the cartesian of periods × languages from OSS Insight and writes
 `data/trending.json`. No auth required. OSS Insight rate-limits at 600
 requests/hour/IP; the script throttles 1.5s between calls (~10 req/min).
@@ -107,11 +120,10 @@ commit lands inside the window buffer — expected during ramp, not a bug.
 
 ## Cadence (`.github/workflows/scrape-trending.yml`)
 
-Hourly at `:07` UTC. `workflow_dispatch` available for manual triggers.
-`fetch-depth: 0` on the checkout step is non-negotiable — `compute-deltas`
-needs full history to resolve 30-day-old commits. Observed schedule drift
-under GitHub's hourly queue runs ~40 min in the worst case, well within
-the delta buffers.
+Current behavior: the GitHub workflow is manual-only. Its `use_ossinsight`
+input defaults to false, preserving the direct-OSS no-op behavior so manual
+refreshes do not fail just because OSS Insight returns 500. Set
+`use_ossinsight=true` only for an explicit diagnostic/backfill run.
 
 ## Storage
 
@@ -129,8 +141,13 @@ No database, no pipeline state, no `.data/` directory on prod.
 
 ## Operator runbook
 
-- **Force a refresh** — Actions tab → "Scrape OSS Insight trending" → Run
-  workflow. Commits land on `main` and trigger a Vercel rebuild.
+- **Force a worker refresh** - use the HOSTUP worker/runtime path. Production
+  is not Vercel-backed.
+
+- **Run a direct OSS Insight diagnostic/backfill** - Actions tab -> "Refresh
+  fast discovery" -> Run workflow -> set `use_ossinsight=true`, or locally run
+  `npm run scrape:ossinsight`. Use this only when you intentionally want to
+  exercise the upstream OSS Insight API.
 
 - **Read `/api/health`** — returns `status`, `lastFetchedAt` (scraper),
   `computedAt` (deltas), `ageSeconds.{scraper,deltas}`, `thresholdSeconds`,
@@ -152,10 +169,14 @@ No database, no pipeline state, no `.data/` directory on prod.
 ## Local dev
 
 ```bash
+npm run scrape:ossinsight
 node scripts/scrape-trending.mjs
 node scripts/compute-deltas.mjs
 PRODUCTHUNT_TOKEN=... node scripts/scrape-producthunt.mjs
 ```
+
+Plain `node scripts/scrape-trending.mjs` is a safe no-op unless the operator
+approval env/flag is present.
 
 Idempotent and safe to run anytime. `GITHUB_TOKEN` only matters for the
 ad-hoc `POST /api/pipeline/ingest` path; it is not used by either script.

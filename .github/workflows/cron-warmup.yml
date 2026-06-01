@@ -3,7 +3,7 @@ on:
   schedule:
     # 08:00–22:00 UTC, every 5 min — keeps the EU/US working-hours window hot.
     # Outside this window traffic is sparse enough that a cold-on-first-hit is acceptable.
-    - cron: '*/5 8-21 * * *'
+    - cron: "*/5 8-21 * * *"
   workflow_dispatch:
 
 permissions:
@@ -17,32 +17,25 @@ jobs:
       fail-fast: false
       matrix:
         route:
-          # Original 12 (kept)
           - /
-          - /githubrepo
-          - /signals
-          - /compare
-          - /top10
-          - /hackernews/trending
-          - /lobsters
-          - /devto
-          - /bluesky
-          - /twitter
-          - /skills
-          # Added 2026-05-08 — public routes that should be cache-friendly post-PR3
-          - /mcp
+          - /market-signals
+          - /tools
+          - /tools/compare
+          - /tools/top-10
+          - /tools/tier-list
+          - /tools/star-history
+          - /tools/digest
+          - /tools/treemap
+          - /tools/watchlist
           - /funding
           - /revenue
-          - /arxiv/trending
-          - /producthunt
-          - /huggingface
-          - /npm
-          - /breakouts
+          - /breakout
           - /categories
+          - /categories/mcp
+          - /collections
+          - /collections/ai-agent-frameworks
           - /methodology
-          - /research
           - /tools/revenue-estimate
-          # Canonical hot repo-detail probe (PR3f exit criterion)
           - /repo/0motionguy/starscreener
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -90,6 +83,13 @@ jobs:
             echo "Summary:"
             jq '.results | map({ route, status, ttfbMs, edgeCache, cacheControl }) | sort_by(.route)' \
               .perf/cron-warmup-summary.json
+            bad_count="$(jq '[.results[] | select((.error != null) or (.status < 200) or (.status >= 400))] | length' .perf/cron-warmup-summary.json)"
+            if [ "$bad_count" -gt 0 ]; then
+              echo "Warmup found ${bad_count} failing route(s):" >&2
+              jq -r '.results[] | select((.error != null) or (.status < 200) or (.status >= 400)) | "\(.route) status=\(.status) error=\(.error)"' \
+                .perf/cron-warmup-summary.json >&2
+              exit 1
+            fi
           else
             echo "No probe outputs found." >&2
             exit 1

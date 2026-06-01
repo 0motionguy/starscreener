@@ -141,8 +141,8 @@ export function _seedStarActivityForTests(
  *
  * Honest stub: there is NO `star_plot_requests` table in the Drizzle schema
  * today and no instrumentation in the /tools/star-history route writes one.
- * Until the metric is wired (planned next sprint), this reader returns 0 so
- * `ToolsKpiStrip` can render a real number ("0") instead of an em-dash.
+ * Until the metric is wired, this reader returns 0 so callers can render a
+ * real number instead of an em-dash.
  *
  * Signature mirrors `countArchivedTop10Snapshots` over in the tools page —
  * a `date` string parameter, async, returns a `Promise<number>`. When the

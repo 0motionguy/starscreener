@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 import {
@@ -33,6 +34,14 @@ test("validateAppHealthBody accepts strict green app health", () => {
       workerStatus: "ok",
     }),
     [],
+  );
+});
+
+test("operator freshness audit script uses the live production health gate", () => {
+  const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+  assert.equal(
+    pkg.scripts["audit:freshness"],
+    "node scripts/check-live-production-health.mjs",
   );
 });
 

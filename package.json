@@ -113,7 +113,7 @@
     "scrape:sec-form-d": "node scripts/scrape-sec-form-d.mjs",
     "build:x402-volume": "node scripts/build-x402-volume-from-onchain.mjs",
     "collect:twitter:dry": "tsx scripts/collect-twitter-signals.ts --dry-run --output .tmp/twitter-collector-preview.json",
-    "audit:freshness": "node scripts/audit-freshness.mjs",
+    "audit:freshness": "node scripts/check-live-production-health.mjs",
     "audit:freshness:report": "tsx scripts/audit-source-freshness.ts",
     "freshness:check": "tsx scripts/check-freshness.mts",
     "health:prod": "node scripts/check-live-production-health.mjs",

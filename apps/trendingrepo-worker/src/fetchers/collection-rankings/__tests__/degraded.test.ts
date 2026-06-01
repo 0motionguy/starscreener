@@ -15,8 +15,10 @@ vi.mock('../../../lib/redis.js', () => ({
 }));
 
 const originalSetTimeout = globalThis.setTimeout;
+const originalOssInsightCollectionRankingsEnabled =
+  process.env.OSSINSIGHT_COLLECTION_RANKINGS_ENABLED;
 
-function makeContext(): FetcherContext {
+function makeContext(jsonMock?: FetcherContext['http']['json']): FetcherContext {
   const log = {
     info: vi.fn(),
     warn: vi.fn(),
@@ -27,9 +29,9 @@ function makeContext(): FetcherContext {
     db: null as unknown as FetcherContext['db'],
     redis: null as unknown as FetcherContext['redis'],
     http: {
-      async json() {
+      json: jsonMock ?? (async () => {
         throw new Error('OSSInsight 500');
-      },
+      }),
       async text() {
         throw new Error('OSSInsight 500');
       },
@@ -43,6 +45,7 @@ function makeContext(): FetcherContext {
 
 beforeEach(() => {
   vi.resetModules();
+  process.env.OSSINSIGHT_COLLECTION_RANKINGS_ENABLED = '1';
   readDataStoreMock.mockReset();
   writeDataStoreMock.mockClear();
   globalThis.setTimeout = ((cb: () => void) => {
@@ -53,9 +56,61 @@ beforeEach(() => {
 
 afterEach(() => {
   globalThis.setTimeout = originalSetTimeout;
+  if (originalOssInsightCollectionRankingsEnabled === undefined) {
+    delete process.env.OSSINSIGHT_COLLECTION_RANKINGS_ENABLED;
+  } else {
+    process.env.OSSINSIGHT_COLLECTION_RANKINGS_ENABLED =
+      originalOssInsightCollectionRankingsEnabled;
+  }
 });
 
 describe('collection-rankings degraded writes', () => {
+  it('uses the internal github fallback by default without calling OSSInsight', async () => {
+    delete process.env.OSSINSIGHT_COLLECTION_RANKINGS_ENABLED;
+    vi.resetModules();
+    const httpJson: FetcherContext['http']['json'] = vi.fn(async () => {
+      throw new Error('should not call OSSInsight by default');
+    });
+    readDataStoreMock
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce({
+        fetchedAt: '2026-06-01T00:00:00.000Z',
+        items: [
+          {
+            githubId: 155220641,
+            fullName: 'huggingface/transformers',
+            stars: 152000,
+            openIssues: 950,
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        computedAt: '2026-06-01T00:00:00.000Z',
+        repos: {
+          'huggingface/transformers': {
+            stars_now: 152000,
+            delta_30d: { value: 321, basis: 'exact' },
+          },
+        },
+      });
+    const { default: fetcher } = await import('../index.js');
+
+    const result = await fetcher.run(makeContext(httpJson));
+
+    expect(httpJson).not.toHaveBeenCalled();
+    expect(result.redisPublished).toBe(true);
+    const write = (writeDataStoreMock.mock.calls as unknown as Array<
+      [string, unknown, unknown?]
+    >).find(([slug]) => slug === 'collection-rankings');
+    expect(write).toBeDefined();
+    const payload = write?.[1] as { status?: string; source?: string };
+    expect(payload.status).toBe('ok');
+    expect(payload.source).toBe('github-metadata-fallback');
+    expect(write?.[2]).toEqual({
+      writer: 'worker:collection-rankings:github-metadata',
+    });
+  });
+
   it('freshens the slug with cached per-metric rows when OSSInsight fails', async () => {
     readDataStoreMock.mockResolvedValueOnce({
       fetchedAt: '2026-05-30T10:00:00.000Z',

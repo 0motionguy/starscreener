@@ -45,6 +45,17 @@ test("/api/health: stale freshness remains HTTP 200 availability", () => {
   assert.equal(getHealthHttpStatusForStatus("error", true), 200);
 });
 
+test("/api/health: paused reddit is not exposed as a cold active source", () => {
+  const routeSource = readFileSync(
+    resolve(process.cwd(), "src", "app", "api", "health", "route.ts"),
+    "utf8",
+  );
+
+  assert.equal(routeSource.includes("redditFetchedAt"), false);
+  assert.equal(routeSource.includes("redditCold"), false);
+  assert.equal(routeSource.includes("reddit: reddit"), false);
+});
+
 test("/api/worker/health: advisory slugs remain labelled for triage", () => {
   const advisory = new Set([
     "hot-collections",

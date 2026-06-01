@@ -39,7 +39,11 @@ const MENTIONS_CACHE_HEADERS = {
 
 const PAGE_DEFAULT_LIMIT = 50;
 const PAGE_MAX_LIMIT = 200;
-const PAUSED_MENTION_SOURCES: readonly SocialPlatform[] = ["reddit"];
+const PAUSED_MENTION_SOURCES: readonly SocialPlatform[] = [
+  "reddit",
+  "huggingface",
+  "arxiv",
+];
 
 // Must stay in sync with the SocialPlatform union in src/lib/types.ts.
 // Keeping it as an explicit runtime set rather than deriving from the type
@@ -53,8 +57,6 @@ const ALLOWED_SOURCES: ReadonlySet<SocialPlatform> = new Set<SocialPlatform>([
   "producthunt",
   "lobsters",
   "npm",
-  "huggingface",
-  "arxiv",
 ]);
 
 interface ErrorEnvelope {

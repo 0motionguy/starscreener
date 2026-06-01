@@ -163,7 +163,7 @@
       "scope": "ip"
     },
     "owner": "UNASSIGNED",
-    "upstream_url": "https://api.ossinsight.io/v1/collections/{id}/ranking_by_{metric}/",
+    "upstream_url": "internal:data-store:repo-metadata+star-activity-deltas; optional:https://api.ossinsight.io/v1/collections/{id}/ranking_by_{metric}/",
     "auth_required": false,
     "auth_scheme": "none",
     "primary_output_keys": [
@@ -174,10 +174,11 @@
       "src/lib/collection-rankings.ts"
     ],
     "depends_on": [
-      "oss-trending"
+      "repo-metadata",
+      "star-activity-deltas"
     ],
     "supports_backfill": false,
-    "fallback_strategy": "cache",
+    "fallback_strategy": "internal-github-metadata",
     "writes_canonical_entity_kind": [
       "repo"
     ]

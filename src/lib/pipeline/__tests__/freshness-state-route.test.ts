@@ -28,7 +28,7 @@ test("freshness state route exposes expanded inventory with advisory blocking fl
     };
     const byName = new Map(body.sources.map((source) => [source.name, source]));
 
-    assert.ok(body.sources.length >= 28, `expected active inventory, got ${body.sources.length}`);
+    assert.ok(body.sources.length >= 27, `expected active inventory, got ${body.sources.length}`);
     assert.equal(byName.get("trending-repos")?.blocking, true);
     assert.ok(byName.has("twitter"), "worker-owned twitter-repo-signals should remain tracked");
     assert.equal(byName.has("reddit"), false, "live reddit collector should be disabled");
@@ -38,6 +38,7 @@ test("freshness state route exposes expanded inventory with advisory blocking fl
       "arxiv",
       "awesome-skills",
       "claude-rss",
+      "huggingface",
       "huggingface-datasets",
       "huggingface-spaces",
       "hotness-snapshots",

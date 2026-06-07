@@ -173,9 +173,16 @@ function check(args, target, result) {
   }
 
   if (target.kind === "fake") {
-    // [I4] Either 404 OR (200 + exactly one robots tag saying noindex).
+    // [I4] Either 404 OR (200 + ALL robots tags agree on noindex).
+    //
+    // Next 15's app-router not-found path auto-injects its own
+    // <meta name="robots" content="noindex"> on top of whatever the
+    // page's generateMetadata returns. As long as EVERY robots tag says
+    // noindex, Google interprets the page correctly (no ambiguity). The
+    // only failure mode is when one tag says noindex and another says
+    // index/follow — that's the soft-404 dual-robots regression that
+    // sank impressions in the 2026-05-30/31 incident.
     if (status === 404) {
-      // perfect — hard 404 is clean.
       return failures;
     }
     if (status !== 200) {
@@ -187,15 +194,15 @@ function check(args, target, result) {
       failures.push(
         `[I4] fake URL with HTTP 200 has NO robots tag — should be 404 or have noindex`,
       );
-    } else if (robots.length > 1) {
+    } else if (robots.some((r) => isIndexable(r))) {
       failures.push(
-        `[I4] fake URL emits ${robots.length} robots tags: [${robots.join(", ")}] — soft 404 + dual robots is the May 30-31 outage bug`,
-      );
-    } else if (isIndexable(robots[0])) {
-      failures.push(
-        `[I4] fake URL says \`${robots[0]}\` — must be noindex`,
+        `[I4] fake URL emits a robots tag that is indexable: [${robots.join(", ")}] — ` +
+          `dual robots where one says index/follow is the May 30-31 outage bug`,
       );
     }
+    // robots.length > 1 with ALL noindex is now accepted: Next's
+    // auto-noindex on not-found + our explicit noindex agree, Google
+    // honors noindex unambiguously.
     return failures;
   }
 

@@ -60,7 +60,15 @@ function clampDescription(text: string, max = 155): string {
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const meta = getCategoryMeta(slug);
-  if (!meta) return { title: `Category — ${SITE_NAME}` };
+  if (!meta) {
+    // Unknown slug → noindex. Prevents dual robots tags on the not-found
+    // render. See /repo/[owner]/[name]/page.tsx for the same pattern.
+    return {
+      title: `Category — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
 
   const title = `Best ${meta.name} — Trending Open-Source Projects | ${SITE_NAME}`;
   const description = clampDescription(

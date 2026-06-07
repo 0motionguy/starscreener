@@ -75,7 +75,17 @@ function entryBlurb(repo: Repo): string {
 export async function generateMetadata({ params }: PageProps) {
   const { topic } = await params;
   const t = getBestTopic(topic);
-  if (!t) return { title: `Best of — ${SITE_NAME}` };
+  if (!t) {
+    // Unknown slug → noindex everything. Without this, the layout's
+    // `robots: { index: true, follow: true }` bleeds into the rendered
+    // not-found page AND Next auto-injects another noindex → dual robots
+    // tags. Match /repo/[owner]/[name]/page.tsx's pattern.
+    return {
+      title: `Best of — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
 
   const year = new Date().getFullYear();
   const title = `${t.title} (${year}) | ${SITE_NAME}`;

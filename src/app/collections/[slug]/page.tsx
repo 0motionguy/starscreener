@@ -41,7 +41,13 @@ function clamp(text: string, max = 155): string {
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const collection = loadCollection(slug);
-  if (!collection) return { title: `Collection — ${SITE_NAME}` };
+  if (!collection) {
+    return {
+      title: `Collection — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
   const title = `${collection.name} — Curated Open-Source Collection | ${SITE_NAME}`;
   const description = clamp(
     `${collection.name}: ${collection.items.length} curated open-source projects, ranked by cross-source momentum on TrendingRepo. Updated continuously.`,

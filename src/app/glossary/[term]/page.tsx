@@ -41,7 +41,13 @@ function clamp(text: string, max = 155): string {
 export async function generateMetadata({ params }: PageProps) {
   const { term: slug } = await params;
   const t = getGlossaryTerm(slug);
-  if (!t) return { title: `Glossary — ${SITE_NAME}` };
+  if (!t) {
+    return {
+      title: `Glossary — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
   const title = `What is ${t.term}? Definition + trending projects | ${SITE_NAME}`;
   const description = clamp(t.short);
   const canonical = absoluteUrl(`/glossary/${slug}`);

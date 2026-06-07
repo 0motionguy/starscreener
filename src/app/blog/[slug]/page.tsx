@@ -29,7 +29,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) return { title: `Blog — ${SITE_NAME}` };
+  if (!post) {
+    return {
+      title: `Blog — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
   const canonical = absoluteUrl(`/blog/${slug}`);
   return {
     title: `${post.title} | ${SITE_NAME}`,

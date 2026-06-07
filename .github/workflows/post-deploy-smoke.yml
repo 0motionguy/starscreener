@@ -199,6 +199,17 @@ jobs:
         if: success() || failure()
         run: node scripts/smoke-sidebar-mark.mjs
 
+      - name: Smoke — SEO invariants (single robots tag, self-canonical, no soft 404 dual robots)
+        if: success() || failure()
+        # Catches the May 30-31 incident-class bug: a soft 404 emitting two
+        # conflicting <meta name="robots"> tags (index/follow from layout + auto
+        # noindex from not-found) cost ~95% impressions over 4 days. Also catches
+        # the broader canonical-to-/ class (every /repo/* + 14 static pages
+        # inheriting the layout's alternates:{canonical:"/"}). Probes 23 URLs.
+        # Fails the workflow if any invariant breaks. See scripts/check-seo-
+        # invariants.mjs + tasks/gsc-incident-2026-06-07.md for the rule set.
+        run: node scripts/check-seo-invariants.mjs --base "$BASE_URL"
+
       - name: Alert ops webhook on smoke failure
         if: failure()
         shell: bash

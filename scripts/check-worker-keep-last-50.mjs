@@ -30,7 +30,7 @@
 
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve, relative } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -78,9 +78,9 @@ const ALLOW = new Map([
   ['npm-packages', 'Daily snapshot.'],
   ['glama', 'Daily snapshot.'],
   ['producthunt', '4x/day snapshot of upstream API.'],
-  ['x-funding', '2x/day snapshot of upstream funding feed.'],
-  ['funding-news', '6h snapshot of upstream funding feeds.'],
-  ['crunchbase', '6h snapshot of upstream feed.'],
+  ['x-funding', 'Paused Apify-only fetcher; kept unregistered until a non-Apify producer exists.'],
+  ['funding-news', '2h snapshot of upstream funding feeds.'],
+  ['crunchbase', '2h snapshot of upstream feed.'],
   ['claude-skills', '6h snapshot.'],
   ['skills-sh', '6h snapshot.'],
   ['skillsmp', '6h snapshot.'],

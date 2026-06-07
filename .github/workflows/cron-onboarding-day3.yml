@@ -5,10 +5,9 @@ name: Cron - onboarding day-3 nudge
 # convention. 09:37 UTC ≈ mid-morning Europe / late-morning US-East —
 # decent open-rate window.
 #
-# Pre-activation operator step (one-time):
-#   vercel env add DAY3_NUDGE_NOT_BEFORE production
-#   # paste the deploy timestamp (e.g. 2026-05-18T07:00:00Z) so the
-#   # first run skips every user older than the welcome-email rollout
+# Pre-activation operator step (one-time): set DAY3_NUDGE_NOT_BEFORE in the
+# HOSTUP production environment to the rollout timestamp (for example
+# 2026-05-18T07:00:00Z) so the first run skips older users.
 #
 # Required repo config:
 #   secrets.CRON_SECRET     — must match server CRON_SECRET env

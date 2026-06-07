@@ -5,7 +5,9 @@
  * `sources.json` (PR #326); runtime state (paused / deprecated / paused_until)
  * lives in the Supabase `source_overrides` table (migration 0002). This module
  * loads the overrides at boot, refreshes them every 60s in the background, and
- * exposes pure helpers for `schedule.ts` and `/healthz` to consume.
+ * exposes pure helpers for `schedule.ts` and `/healthz` to consume. The
+ * scheduler subscribes to refresh results so pause/unpause changes reconcile
+ * live instead of waiting for a container restart.
  *
  * Boot-path contract — never refuses to start:
  *   1. Try Supabase with a 2-second timeout.
@@ -28,7 +30,6 @@
  *   are NOT ghosts — they're the 17 standalone scripts and 3 user-input flows.
  *
  * See:
- *   - docs/SOURCE-REGISTRY-PROPOSAL.md §4 (loader pseudocode)
  *   - supabase/migrations/0002_source_overrides.sql (schema)
  *   - apps/trendingrepo-worker/src/schedule.ts (consumer)
  *   - apps/trendingrepo-worker/src/server.ts (/healthz consumer)
@@ -224,13 +225,21 @@ export function getCachedOverrides(): Map<string, SourceOverride> {
  */
 export function startOverrideRefresh(
   intervalMs: number = REFRESH_INTERVAL_MS_DEFAULT,
+  onRefresh?: (overrides: Map<string, SourceOverride>) => void | Promise<void>,
 ): () => void {
   if (refreshTimer) {
     clearInterval(refreshTimer);
     refreshTimer = null;
   }
   refreshTimer = setInterval(() => {
-    void loadOverrides();
+    void loadOverrides()
+      .then((overrides) => onRefresh?.(overrides))
+      .catch((err) => {
+        getLogger().warn(
+          { err: (err as Error).message },
+          'source overrides refresh callback failed',
+        );
+      });
   }, intervalMs);
   // Don't keep the event loop alive on this timer alone — the cron scheduler
   // keeps it alive, and a stuck refresh shouldn't prevent shutdown.

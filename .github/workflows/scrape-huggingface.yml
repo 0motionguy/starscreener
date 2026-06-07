@@ -1,12 +1,11 @@
 name: Refresh HuggingFace signals
 
-# Every 3h at :13. Staggered from arxiv (:43), lobsters (:37), reddit (:27),
+# Every 3h at :13. Staggered from arxiv (:43), lobsters (:37),
 # bluesky (:17), and fast-discovery (:07/:27/:47) so we don't all hit
 # upstream + git push at the same minute. HF's API is generous; 3h matches
 # the trending half-life on the site without burning rate budget.
 on:
-  schedule:
-    - cron: "13 */6 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

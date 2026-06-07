@@ -31,6 +31,15 @@ export interface DevtoTrendingFile {
 // refreshDevtoTrendingFromStore().
 let trendingFile: DevtoTrendingFile = devtoTrendingData as unknown as DevtoTrendingFile;
 
+export function isUsableDevtoTrendingPayload(file: DevtoTrendingFile): boolean {
+  return (
+    !!file.fetchedAt &&
+    !file.fetchedAt.startsWith("1970-") &&
+    file.scannedArticles > 0 &&
+    (file.articles?.length ?? 0) > 0
+  );
+}
+
 export function getDevtoTrendingFile(): DevtoTrendingFile {
   return trendingFile;
 }
@@ -65,7 +74,11 @@ export async function refreshDevtoTrendingFromStore(): Promise<{
     const result = await getDataStore().read<DevtoTrendingFile>(
       "devto-trending",
     );
-    if (result.data && result.source !== "missing") {
+    if (
+      result.data &&
+      result.source !== "missing" &&
+      isUsableDevtoTrendingPayload(result.data)
+    ) {
       trendingFile = result.data;
     }
     lastRefreshMs = Date.now();

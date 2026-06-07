@@ -55,7 +55,6 @@ const DISPLAY_SOURCE_ORDER: SocialPlatform[] = [
   "github",
   "hackernews",
   "twitter",
-  "reddit",
   "bluesky",
   "devto",
   "producthunt",
@@ -79,7 +78,6 @@ function activeSourcesForRepo(repo: Repo): SocialPlatform[] {
   }
   if ((repo.starsDelta24h ?? 0) > 0) active.add("github");
   if ((repo.twitter?.mentionCount24h ?? 0) > 0) active.add("twitter");
-  if ((repo.reddit?.mentions7d ?? 0) > 0) active.add("reddit");
   if ((repo.bluesky?.mentions7d ?? 0) > 0) active.add("bluesky");
   if ((repo.devto?.mentions7d ?? 0) > 0) active.add("devto");
   if (repo.producthunt?.launchedOnPH) active.add("producthunt");
@@ -88,7 +86,6 @@ function activeSourcesForRepo(repo: Repo): SocialPlatform[] {
   if (repo.channelStatus?.github) active.add("github");
   if (repo.channelStatus?.hn) active.add("hackernews");
   if (repo.channelStatus?.twitter) active.add("twitter");
-  if (repo.channelStatus?.reddit) active.add("reddit");
   if (repo.channelStatus?.bluesky) active.add("bluesky");
   if (repo.channelStatus?.devto) active.add("devto");
   return DISPLAY_SOURCE_ORDER.filter((source) => active.has(source));
@@ -100,7 +97,6 @@ function mentionVolumeForRepo(repo: Repo): number {
     repo.mentions?.total24h ??
     repo.mentionCount24h ??
     (repo.twitter?.mentionCount24h ?? 0) +
-      Math.round((repo.reddit?.mentions7d ?? 0) / 3) +
       Math.round((repo.bluesky?.mentions7d ?? 0) / 3) +
       Math.round((repo.devto?.mentions7d ?? 0) / 3)
   );

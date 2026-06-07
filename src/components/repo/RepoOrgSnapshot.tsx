@@ -16,6 +16,7 @@
 // repo metadata) are missing — i.e. when there is genuinely nothing to render.
 import { ageLabel as _ageLabel } from "@/lib/format-age";
 import { Icon } from "@/lib/icons";
+import Image from "next/image";
 
 import type { RepoCommunityProfile } from "@/lib/repo-community-profile";
 import type { StarActivityPayload } from "@/lib/star-activity-shared";
@@ -121,11 +122,13 @@ export function RepoOrgSnapshot({
   return (
     <section className="pf-card pf-combo">
       <div className="pf-combo-top">
-        <img
+        <Image
           className="pf-combo-logo"
           src={avatarUrl}
           alt={`${repo.owner} avatar`}
-          loading="lazy"
+          width={44}
+          height={44}
+          sizes="44px"
         />
         <div className="pf-combo-id">
           <h2 className="pf-combo-name">{displayName}</h2>

@@ -1,16 +1,18 @@
 // Apify Proxy adapter for fetchers that need to bypass per-IP blocks
 // (Reddit's anti-bot rejects GitHub Actions IPs and likely Railway IPs too).
 //
-// Mirrors scripts/_apify-proxy.mjs. With APIFY_API_TOKEN unset, native fetch
-// is used. With it set, requests are routed through Apify's residential
-// proxy via undici's ProxyAgent.
+// Mirrors scripts/_apify-proxy.mjs. Native fetch is used unless both
+// APIFY_API_TOKEN and TRENDINGREPO_ENABLE_APIFY=operator-approved are set.
 //
 // Tunables (env):
-//   APIFY_API_TOKEN     - required to enable proxy routing
+//   APIFY_API_TOKEN     - token for approved temporary proxy routing
+//   TRENDINGREPO_ENABLE_APIFY=operator-approved - required approval gate
 //   APIFY_PROXY_GROUPS  - default 'RESIDENTIAL'
 //   APIFY_PROXY_COUNTRY - optional ISO-2 country code (e.g. 'US')
 
 import { ProxyAgent, fetch as undiciFetch, type Dispatcher } from 'undici';
+
+import { isApifyTokenApproved } from '../apify-policy.js';
 
 const PROXY_URL = 'http://proxy.apify.com:8000';
 
@@ -19,14 +21,15 @@ let cachedAgentKey: string | null = null;
 
 function agentCacheKey(): string {
   const token = process.env.APIFY_API_TOKEN ?? '';
+  const approval = process.env.TRENDINGREPO_ENABLE_APIFY ?? '';
   const groups = process.env.APIFY_PROXY_GROUPS ?? 'RESIDENTIAL';
   const country = process.env.APIFY_PROXY_COUNTRY ?? '';
-  return `${token}::${groups}::${country}`;
+  return `${token}::${approval}::${groups}::${country}`;
 }
 
 function buildProxyAgent(): ProxyAgent | null {
-  const token = process.env.APIFY_API_TOKEN;
-  if (!token) return null;
+  const token = process.env.APIFY_API_TOKEN?.trim();
+  if (!isApifyTokenApproved(token)) return null;
 
   const groups = process.env.APIFY_PROXY_GROUPS ?? 'RESIDENTIAL';
   const country = process.env.APIFY_PROXY_COUNTRY ?? '';
@@ -51,7 +54,7 @@ function getAgent(): ProxyAgent | null {
 }
 
 export function isApifyProxyEnabled(): boolean {
-  return Boolean(process.env.APIFY_API_TOKEN?.trim());
+  return isApifyTokenApproved(process.env.APIFY_API_TOKEN);
 }
 
 export interface ApifyFetchOptions {

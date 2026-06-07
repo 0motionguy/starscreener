@@ -1,5 +1,11 @@
 # STARSCREENER — Operator Runbook
 
+Current production handoff is
+[HANDOVER-2026-06-01-PRODUCTION-HARDENING.md](HANDOVER-2026-06-01-PRODUCTION-HARDENING.md).
+This file keeps older operator learnings and should not override the HOSTUP
+health/deploy truth in `CLAUDE.md`, `AGENTS.md`, `WHERE-THINGS-RUN.md`, or
+`docs/DEPLOY-TOOLBOX.md`.
+
 Consolidates the operational learnings from the tech-debt audit cleanup
 sessions (2026-04-26 → 2026-04-27). When a workflow surprised someone,
 it lands here so the next session doesn't re-hit the trap.

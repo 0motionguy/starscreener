@@ -16,8 +16,8 @@
  *   is recorded individually in the providers[] sub-array for routing.
  *
  * See:
- *   - ~/.claude/plans/hidden-pondering-meadow.md (approved Phase 1 plan)
- *   - docs/SOURCE-REGISTRY-PROPOSAL.md (Move 1 implementation proposal — pending)
+ *   - apps/trendingrepo-worker/tests/registry.test.ts (registry drift tests)
+ *   - src/lib/pipeline/__tests__/health-availability.test.ts (health coverage tests)
  *   - apps/trendingrepo-worker/src/lib/types.ts (runtime Fetcher + RunResult)
  */
 
@@ -76,13 +76,15 @@ export type CardinalitySource = 'watchlist' | 'static' | 'enum';
  * (e.g. {pattern: 'mcp-downloads:<package>', cardinality_source: 'watchlist'}).
  * One row per slug family — concrete-slug enumeration is a Move 3 concern.
  */
-export type PrimaryOutputKeys =
-  | string[]
-  | {
-      pattern: string;
-      index_key?: string;
-      cardinality_source: CardinalitySource;
-    };
+export interface PrimaryOutputPattern {
+  pattern: string;
+  index_key?: string;
+  cardinality_source: CardinalitySource;
+}
+
+export type PrimaryOutputKey = string | PrimaryOutputPattern;
+
+export type PrimaryOutputKeys = PrimaryOutputKey[] | PrimaryOutputPattern;
 
 export type OutputRecordShape =
   | 'ranked_list'

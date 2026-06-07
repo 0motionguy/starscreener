@@ -29,7 +29,7 @@ const STRATEGY = process.env.LH_STRATEGY || "mobile"; // "mobile" or "desktop"
 
 const ROUTES = [
   "/", "/githubrepo", "/skills", "/mcp",
-  "/reddit/trending", "/hackernews/trending", "/lobsters", "/devto", "/bluesky/trending",
+  "/hackernews/trending", "/lobsters", "/devto", "/bluesky/trending",
   "/twitter", "/signals", "/top10", "/compare",
   "/funding", "/revenue",
   "/arxiv/trending", "/producthunt", "/huggingface", "/npm",

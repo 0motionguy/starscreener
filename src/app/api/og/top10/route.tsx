@@ -30,6 +30,7 @@ import { Dot, StarMark, truncate } from "@/lib/og-primitives";
 import { buildCustomBundleFromSlugs } from "@/lib/top10/build-custom-bundle";
 import { formatDelta, formatStars } from "@/lib/top10/format";
 import { resolveBundle } from "@/lib/top10/resolve-bundle";
+import { SITE_URL } from "@/lib/seo";
 
 // Mirror of CHANNELS in MentionSourcePips.tsx — drives which source logos
 // render as pips on the right of each OG row. Order is intentional (matches
@@ -43,7 +44,6 @@ const MENTION_CHANNELS: Array<{
   { key: "github", logo: "github", title: "GitHub" },
   { key: "hackernews", logo: "hackernews", title: "Hacker News" },
   { key: "twitter", logo: "x-twitter", title: "X / Twitter" },
-  { key: "reddit", logo: "reddit", title: "Reddit" },
   { key: "bluesky", logo: "bluesky", title: "Bluesky" },
   { key: "devto", logo: "devto", title: "Dev.to" },
   { key: "producthunt", logo: "producthunt", title: "Product Hunt" },
@@ -121,24 +121,6 @@ function hexToRgba(hex: string, alpha: number): string {
 // formatStars + formatDelta now live in @/lib/top10/format so the page row
 // and the OG card share one source of truth (round 1 ate a "49k vs 49.5k"
 // regression because they had drifted inline copies).
-
-// SVG card returned when no snapshot exists for the requested past date.
-// Renders as the same dimensions as the live PNG so the X unfurl crop is
-// consistent; tells the receiver honestly that history isn't filled yet.
-function buildEmptySvg(
-  width: number,
-  height: number,
-  theme: Theme,
-  date: string,
-): string {
-  const c = THEMES[theme];
-  const padX = Math.round(width * 0.06);
-  const titleSize = Math.round(height * 0.06);
-  const bodySize = Math.round(height * 0.025);
-  const eyebrowSize = Math.round(height * 0.020);
-  const titleY = height * 0.4;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="${c.bg}"/><text x="${padX}" y="${height * 0.18}" font-family="ui-monospace,monospace" font-size="${eyebrowSize}" fill="${c.textTertiary}" letter-spacing="2">// TRENDINGREPO · TOP 10 · NO SNAPSHOT</text><text x="${padX}" y="${titleY}" font-family="ui-sans-serif,system-ui,sans-serif" font-size="${titleSize}" fill="${c.textPrimary}" font-weight="700">No top 10 for ${escapeXml(date)}</text><text x="${padX}" y="${titleY + titleSize * 1.5}" font-family="ui-monospace,monospace" font-size="${bodySize}" fill="${c.textTertiary}">The daily snapshot cron starts baking at 23:55 UTC.</text><text x="${padX}" y="${titleY + titleSize * 1.5 + bodySize * 1.6}" font-family="ui-monospace,monospace" font-size="${bodySize}" fill="${c.textTertiary}">Pick a more recent date — or today's live top 10.</text><rect x="0" y="${height - 6}" width="${width}" height="6" fill="${c.accentStrip}"/></svg>`;
-}
 
 // Build a normalized polyline points string for an inline sparkline SVG.
 // Returns "" for series < 2 points so the caller can skip rendering.
@@ -1016,7 +998,7 @@ export async function GET(request: NextRequest) {
 
     // Origin for absolute <img> URLs inside satori — brand SVGs at
     // /brand/sources/*.svg need to resolve to a fully-qualified URL.
-    const origin = new URL(request.url).origin;
+    const origin = SITE_URL;
 
     return new ImageResponse(
       (

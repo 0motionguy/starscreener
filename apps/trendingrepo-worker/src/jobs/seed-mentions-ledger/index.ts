@@ -11,8 +11,8 @@
 //     lockstep with SCARD, ZADD leaderboard recompute, etc.).
 //
 // Input sources, in apply order:
-//   1. The 5 current snapshot slugs (hackernews-repo-mentions,
-//      reddit-mentions, bluesky-mentions, devto-mentions, lobsters-mentions).
+//   1. The active current snapshot slugs (hackernews-repo-mentions,
+//      bluesky-mentions, devto-mentions, lobsters-mentions).
 //      IDs come out in the SAME shape the live fetcher produces, so SADD
 //      perfectly dedupes against future fetcher runs.
 //   2. data/repo-mentions-detail.jsonl — the 27k-line append-only event log.
@@ -23,8 +23,8 @@
 //   3. data/repo-mentions-detail-rollup.json — the 7d top-N rollup file.
 //      Same URL-as-ID strategy. Catches URLs the JSONL missed.
 //
-// Sources outside SEED_SOURCES (tavily today; twitter intentionally too —
-// see below) are skipped. SEED_SOURCES is the original 5 named sources that
+// Sources outside SEED_SOURCES (tavily today; reddit while paused; twitter intentionally too —
+// see below) are skipped. SEED_SOURCES is the active named sources that
 // shared a stable URL-as-id contract across the JSONL/rollup history files.
 // Twitter joined the live ledger in 2026-05-30 with tweet NUMERIC IDs as the
 // SADD member; backfilling from this job would inject URL-shaped IDs that
@@ -52,7 +52,6 @@ import { readDataStore } from '../../lib/redis.js';
 import {
   applyLedger,
   buildRedisOps,
-  extractIds,
   projectSnapshots,
   type LedgerSource,
   type LedgerWorkItem,
@@ -107,9 +106,8 @@ async function readSnapshot(slug: string): Promise<SnapshotShape | null> {
 }
 
 async function projectFromSnapshots(): Promise<LedgerWorkItem[]> {
-  const [hn, reddit, bluesky, devto, lobsters] = await Promise.all([
+  const [hn, bluesky, devto, lobsters] = await Promise.all([
     readSnapshot(SNAPSHOT_SLUGS.hackernews),
-    readSnapshot(SNAPSHOT_SLUGS.reddit),
     readSnapshot(SNAPSHOT_SLUGS.bluesky),
     readSnapshot(SNAPSHOT_SLUGS.devto),
     readSnapshot(SNAPSHOT_SLUGS.lobsters),
@@ -118,7 +116,6 @@ async function projectFromSnapshots(): Promise<LedgerWorkItem[]> {
   // projectSnapshots inspects the same `.mentions` field on each.
   return projectSnapshots({
     hackernews: hn,
-    reddit,
     bluesky,
     devto,
     lobsters,
@@ -134,7 +131,7 @@ async function projectFromSnapshots(): Promise<LedgerWorkItem[]> {
 // Seed-time source set. Deliberately a subset of LEDGER_SOURCES — twitter is
 // EXCLUDED here (URL-shaped seed IDs would not dedupe against tweet-id-shaped
 // live IDs; see file header).
-const SEED_SOURCES = ['hackernews', 'reddit', 'bluesky', 'devto', 'lobsters'] as const satisfies readonly LedgerSource[];
+const SEED_SOURCES = ['hackernews', 'bluesky', 'devto', 'lobsters'] as const satisfies readonly LedgerSource[];
 const KNOWN_SOURCES = new Set<LedgerSource>(SEED_SOURCES);
 
 function isLedgerSource(value: unknown): value is LedgerSource {
@@ -391,7 +388,6 @@ async function main(): Promise<number> {
   // --help / -h short-circuit so the operator can confirm registration
   // without touching Redis. Mirrors the worker root's usage banner style.
   if (process.argv.includes('--help') || process.argv.includes('-h')) {
-    // eslint-disable-next-line no-console
     console.log(
       [
         'Usage: node dist/jobs/seed-mentions-ledger/index.js',

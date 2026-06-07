@@ -67,7 +67,7 @@ export default function BestIndexPage() {
         <p>
           Curated top-N rankings across the AI and developer ecosystem — editorial picks backed by
           live data. Each list ranks open-source projects by a cross-source momentum score blending
-          GitHub star velocity with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and
+          GitHub star velocity with mentions on Hacker News, X, Bluesky, Product Hunt and
           Dev.to, refreshed continuously.
         </p>
       </header>

@@ -49,7 +49,7 @@ export async function GET() {
               lineHeight: 1.35,
             }}
           >
-            Real-time discovery across GitHub, Hacker News, Reddit, X,
+            Real-time discovery across GitHub, Hacker News, X,
             Bluesky, ProductHunt, Dev.to and 23 more — one live terminal
             for every signal.
           </div>

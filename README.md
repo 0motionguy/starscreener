@@ -38,7 +38,14 @@ Every image below is served live from the deployed app — click through to the 
 
 ---
 
-TrendingRepo ingests GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to signals every 20 min, scores momentum + breakout velocity across the stack, and surfaces the movers through four parallel surfaces: a **web terminal** with a bubble map, a **zero-dependency CLI**, an **MCP server** for Claude / any agent, and a **Portal v0.1** endpoint so any LLM can query trending repos with a single manifest fetch.
+TrendingRepo ingests GitHub, Hacker News, ProductHunt, Bluesky, dev.to, package,
+funding, and model/ecosystem signals from the HOSTUP worker fleet, scores
+momentum + breakout velocity across the stack, and surfaces the movers through
+four parallel surfaces: a **web terminal** with a bubble map, a
+**zero-dependency CLI**, an **MCP server** for Claude / any agent, and a
+**Portal v0.1** endpoint so any LLM can query trending repos with a single
+manifest fetch. Reddit is intentionally paused until a credentialed, non-empty
+producer is approved.
 
 One data pipeline. Four consumers. No mocks — every number is anchored in a live source or a committed snapshot, so the numbers you see are the numbers your agent queries.
 
@@ -48,7 +55,8 @@ One data pipeline. Four consumers. No mocks — every number is anchored in a li
 - 📈 **Momentum score (0–100)** — composite of 24 h / 7 d / 30 d star velocity + fork growth + contributor churn + commit / release freshness + anti-spam dampening.
 - 🔥 **Breakout + hot + quiet-killer classifier** — tier-aware rules run against rolling baselines, not static cutoffs.
 - 🎯 **15 categories** × 15 distinct hues — DevTools, AI Agents, MCP, Databases, Infra, Rust, Crypto, Web Frameworks, and more.
-- ⚡ **ISR-cached homepage** — `revalidate = 1800`. Static edge hit, fresh data every 30 min via GHA scrape.
+- ⚡ **ISR-cached homepage** — `revalidate = 1800`. Static edge hit, fresh data
+  from HOSTUP-worker-owned Redis payloads.
 - 🧩 **Portal v0.1 + MCP server** — same three tools (`top_gainers`, `search_repos`, `maintainer_profile`) exposed over both protocols from a single registry. No drift between the CLI, the browser, and the agent.
 - 📊 **Side-by-side compare** — pick up to 4 repos, see star-history, contributor grids, commit heatmaps, language breakdown, and a winner scoreboard.
 - 🔖 **Watchlist + bookmarks** — local-first, synced via Zustand + `localStorage`. No auth required.
@@ -333,13 +341,30 @@ npm run portal:conformance
 
 ## Deploy
 
-Vercel. Root-level `next.config.ts` is prod-safe (no turbopack, no experimental flags). The homepage, categories, and collections pages build as static (`○`) with `revalidate = 1800` — so every edge request hits cache and the pipeline only recomputes when data changes on main.
+Production is HOSTUP behind Cloudflare Tunnel, not Vercel. Do not deploy,
+promote, unpause, or reconnect the Vercel `starscreener` project unless Mirko
+explicitly approves a reversal. See [docs/DEPLOY-TOOLBOX.md](docs/DEPLOY-TOOLBOX.md)
+and [docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md](docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md).
+
+Verify live production with:
+
+```bash
+npm run health:prod
+curl -sI https://trendingrepo.com/ | grep -iE "^HTTP|^server:|^x-vercel"
+```
+
+Expected: HTTP 200, `Server: cloudflare`, and no `X-Vercel-*` headers.
 
 Required env: `GITHUB_TOKEN` (for scraping + compare API), `CRON_SECRET` (guards `/api/pipeline/*` admin routes). ProductHunt refreshes also require a GitHub Actions secret named `PRODUCTHUNT_TOKEN` for `.github/workflows/scrape-producthunt.yml`, or the same variable in `.env.local` for `npm run scrape:ph`. See [`.env.example`](./.env.example).
 
 ## Scheduled jobs
 
-The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, AISO drain, freshness probe) is wired to two schedulers in parallel for redundancy — pick one as primary, or keep both if you accept double-fires (the per-file locks and in-process cooldowns tolerate overlap).
+Production data freshness is owned by the HOSTUP worker. GitHub Actions
+schedules that remain enabled should be live probes or explicit app-cron calls,
+not duplicate data producers for worker-owned sources.
+
+The table below is historical and should be rechecked against `docs/ENGINE.md`,
+workflow YAML, and `npm run health:prod` before use.
 
 | Schedule (UTC)   | Endpoint                         | Purpose                                     |
 | ---------------- | -------------------------------- | ------------------------------------------- |
@@ -361,11 +386,19 @@ The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, A
 - `secrets.CRON_SECRET` — must match the server's `CRON_SECRET` env
 - `vars.TRENDINGREPO_URL` (legacy alias `STARSCREENER_URL` still accepted) — optional; defaults to the hard-coded prod URL in each workflow
 
-### Fallback: Vercel Cron
+### Historical fallback: Vercel Cron
+
+Vercel Cron is not the production path. Vercel `starscreener` should remain
+paused and Git-disconnected under the cost guard. Keep this section only as
+historical fallback documentation.
 
 `vercel.json` -> top-level `crons` field — native to Vercel Deployments, auto-adds `Authorization: Bearer <CRON_SECRET>` when you set `CRON_SECRET` as a project env var, no extra wiring required. Vercel Cron fires **GET** (not POST), so every cron endpoint either already exports GET or has a GET alias that delegates to POST. `/api/pipeline/ingest` keeps its existing GET usage-docs response and only switches to ingest behavior when called with `?cron=1` (as registered in `vercel.json`).
 
-### Picking one
+### Historical scheduler choice
+
+The Vercel/GitHub double-fire guidance below is historical. In current
+production, HOSTUP worker freshness is primary and duplicate GitHub data
+producers should stay disabled.
 
 If you deploy on Vercel AND have GitHub Actions enabled, both will fire on roughly the same cadence. The in-process ingest cooldown, per-file locks (AISO queue, predictions JSONL), and idempotent persistence make duplicate runs safe — but you will pay for two runs per cycle.
 
@@ -375,7 +408,10 @@ If you deploy on Vercel AND have GitHub Actions enabled, both will fire on rough
 
 If you deploy outside Vercel (e.g. self-hosted), only the GitHub Actions path fires.
 
-### Operator checklist before a Vercel deploy
+### Historical operator checklist before a Vercel deploy
+
+Do not run this checklist unless Mirko explicitly approves reversing the HOSTUP
+cost guard.
 
 1. Set `CRON_SECRET` in the Vercel project's env (Production + Preview), distinct from `ADMIN_TOKEN`.
 2. Redeploy so the new env reaches the cron handlers.

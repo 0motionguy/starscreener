@@ -24,12 +24,10 @@ const CHANNELS: Array<{
   { key: "github", cls: "github", title: "GitHub", letter: "G" },
   { key: "hackernews", cls: "hn", title: "Hacker News", letter: "H" },
   { key: "twitter", cls: "x", title: "X", letter: "X" },
-  { key: "reddit", cls: "reddit", title: "Reddit", letter: "R" },
   { key: "bluesky", cls: "bsky", title: "Bluesky", letter: "B" },
   { key: "devto", cls: "devto", title: "Dev.to", letter: "D" },
   { key: "producthunt", cls: "ph", title: "ProductHunt", letter: "P" },
   { key: "huggingface", cls: "hf", title: "Hugging Face", letter: "F" },
-  { key: "arxiv", cls: "arxiv", title: "arXiv", letter: "A" },
   { key: "npm", cls: "npm", title: "npm", letter: "N" },
   { key: "lobsters", cls: "lobsters", title: "Lobsters", letter: "L" },
 ];
@@ -57,7 +55,6 @@ function channelStatus(repo: Repo, key: SocialPlatform): boolean {
   if (key === "github") return (repo.starsDelta24h ?? 0) > 0;
   if (key === "hackernews") return repo.channelStatus?.hn ?? false;
   if (key === "twitter") return repo.channelStatus?.twitter ?? false;
-  if (key === "reddit") return repo.channelStatus?.reddit ?? false;
   if (key === "bluesky") return repo.channelStatus?.bluesky ?? false;
   if (key === "devto") return repo.channelStatus?.devto ?? false;
   return false;
@@ -136,7 +133,7 @@ export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSour
     const perSource = repo.mentions?.perSource;
     if (!perSource) return (repo.channelsFiring ?? 0) >= minChannels;
     return (
-      Object.values(perSource).filter((entry) => (entry?.count24h ?? 0) > 0)
+      CHANNELS.filter((channel) => (perSource[channel.key]?.count24h ?? 0) > 0)
         .length >= minChannels
     );
   }).length;

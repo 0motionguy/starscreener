@@ -49,7 +49,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: GET /api/health
+      - name: GET live health endpoints
         id: probe
         # Probe outputs:
         #   status: "ok" | "stale" | "error"
@@ -65,7 +65,7 @@ jobs:
             "$BASE_URL/api/health?soft=1")
           curl_rc=$?
           set -e
-          echo "HTTP $code (curl_rc=$curl_rc)"
+          echo "app health HTTP $code (curl_rc=$curl_rc)"
           if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
             jq . /tmp/out | head -c 2000
           else
@@ -82,19 +82,68 @@ jobs:
           if command -v jq >/dev/null 2>&1; then
             body_status=$(jq -r '.status // "missing"' /tmp/out)
             echo "body_status=$body_status"
-            if [ "$body_status" = "ok" ]; then
-              echo "status=ok" >> "$GITHUB_OUTPUT"
-              echo "message=health ok" >> "$GITHUB_OUTPUT"
-            else
+            if [ "$body_status" != "ok" ]; then
               echo "status=stale" >> "$GITHUB_OUTPUT"
               echo "message=health status='$body_status' (expected 'ok')" >> "$GITHUB_OUTPUT"
+              exit 0
             fi
           else
-            # No jq available — assume ok if HTTP 200, since the body parse
-            # would also have failed and we don't want to spam on infra blips.
-            echo "status=ok" >> "$GITHUB_OUTPUT"
-            echo "message=health ok (jq unavailable, HTTP 200 only)" >> "$GITHUB_OUTPUT"
+            echo "jq unavailable; app health accepted by HTTP 200 only"
           fi
+
+          set +e
+          worker_code=$(curl -sS -o /tmp/worker-health -w "%{http_code}" \
+            "$BASE_URL/api/worker/health")
+          worker_rc=$?
+          pulse_code=$(curl -sS -o /tmp/worker-pulse -w "%{http_code}" \
+            "$BASE_URL/api/worker/pulse")
+          pulse_rc=$?
+          set -e
+          echo "worker health HTTP $worker_code (curl_rc=$worker_rc)"
+          head -c 2000 /tmp/worker-health || true
+          echo
+          echo "worker pulse HTTP $pulse_code (curl_rc=$pulse_rc)"
+          head -c 2000 /tmp/worker-pulse || true
+          echo
+
+          if [ "$worker_rc" != "0" ] || [ "$worker_code" != "200" ]; then
+            echo "status=error" >> "$GITHUB_OUTPUT"
+            echo "message=worker health failed (HTTP $worker_code, curl_rc=$worker_rc)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$pulse_rc" != "0" ] || [ "$pulse_code" != "200" ]; then
+            echo "status=error" >> "$GITHUB_OUTPUT"
+            echo "message=worker pulse failed (HTTP $pulse_code, curl_rc=$pulse_rc)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if command -v jq >/dev/null 2>&1; then
+            worker_ok=$(jq -r '.ok // false' /tmp/worker-health)
+            worker_red=$(jq -r '.summary.red // 0' /tmp/worker-health)
+            worker_missing=$(jq -r '.summary.missing // 0' /tmp/worker-health)
+            worker_amber=$(jq -r '.summary.amber // 0' /tmp/worker-health)
+            worker_degraded=$(jq -r '.summary.degradedPayload // 0' /tmp/worker-health)
+            worker_empty=$(jq -r '.summary.emptyPayload // 0' /tmp/worker-health)
+            pulse_ok=$(jq -r '.ok // false' /tmp/worker-pulse)
+            pulse_source=$(jq -r '.source // "missing"' /tmp/worker-pulse)
+            pulse_fresh=$(jq -r '.fresh // false' /tmp/worker-pulse)
+            pulse_stories=$(jq -r '.stories // 0' /tmp/worker-pulse)
+            if [ "$worker_ok" != "true" ] || [ "$worker_red" != "0" ] || [ "$worker_missing" != "0" ] || [ "$worker_amber" != "0" ] || [ "$worker_degraded" != "0" ] || [ "$worker_empty" != "0" ]; then
+              echo "status=stale" >> "$GITHUB_OUTPUT"
+              echo "message=worker health non-green (ok=$worker_ok red=$worker_red missing=$worker_missing amber=$worker_amber degraded=$worker_degraded empty=$worker_empty)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [ "$pulse_ok" != "true" ] || [ "$pulse_source" != "redis" ] || [ "$pulse_fresh" != "true" ] || [ "$pulse_stories" -le 0 ]; then
+              echo "status=stale" >> "$GITHUB_OUTPUT"
+              echo "message=worker pulse not redis-fresh (ok=$pulse_ok source=$pulse_source fresh=$pulse_fresh stories=$pulse_stories)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          else
+            echo "::warning::jq unavailable; worker JSON was not inspected"
+          fi
+
+          echo "status=ok" >> "$GITHUB_OUTPUT"
+          echo "message=app health, worker health, and Redis-backed worker pulse ok" >> "$GITHUB_OUTPUT"
 
       - name: Read previous status
         id: previous

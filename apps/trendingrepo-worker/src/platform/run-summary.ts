@@ -6,7 +6,7 @@
  * a future log scraper / freshness dashboard can ingest without parsing
  * pino's full JSON envelope. The line is intentionally human-greppable:
  *
- *   [run-summary] source=<id> status=<ok|err> duration_ms=<N>
+ *   [run-summary] source=<id> status=<ok|warn|err> duration_ms=<N>
  *                 records_in=<N> records_out=<N>
  *                 contract_freshness_budget_ms=<N|missing>
  *
@@ -21,12 +21,12 @@
  * See:
  *   - apps/trendingrepo-worker/src/run.ts (consumer)
  *   - apps/trendingrepo-worker/src/platform/source-contract.ts
- *   - ~/.claude/plans/hidden-pondering-meadow.md (approved plan)
+ *   - apps/trendingrepo-worker/src/__tests__/run-contract.test.ts
  */
 
 import type { SourceContract } from './source-contract.js';
 
-export type RunSummaryStatus = 'ok' | 'err';
+export type RunSummaryStatus = 'ok' | 'warn' | 'err';
 
 export interface RunSummary {
   sourceId: string;
@@ -58,7 +58,6 @@ export function emitRunSummary(summary: RunSummary): void {
       ` records_in=${summary.recordsIn}` +
       ` records_out=${summary.recordsOut}` +
       ` contract_freshness_budget_ms=${budget}`;
-    // eslint-disable-next-line no-console
     console.log(line);
   } catch {
     // Swallow: emitting a summary line is observability, not correctness.

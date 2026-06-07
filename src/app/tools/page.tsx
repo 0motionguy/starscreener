@@ -6,15 +6,9 @@
 // worthy. Operator's launch list: 01 Watchlist · 02 Compare · 03 Tier-list ·
 // 04 Star-history · 05 Top-10 · 06 PRO upsell.
 //
-// Sections demoted in this refactor (kept on disk, un-imported here):
-//   - ToolsKpiStrip — synthetic counts replaced by per-card meta labels
-//   - ToolsLiveSignalsSection — backend health-style, wrong audience
-//   - ToolsChartsSection — too generic
-//   - ToolsWorkspaceSection — replaced by per-tool preview cards
-//   - ToolsEstimatorsSection — replaced
-//
-// All five component files remain on disk and can be re-mounted elsewhere
-// (e.g. /admin/health) without rewriting them.
+// Sections demoted in this refactor were removed from the bundle: synthetic KPI
+// strips, backend health panels, generic chart/workspace sections, and estimator
+// panels. The public /tools route is the card-grid utility hub.
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { readTop10Snapshot, todayUtcDate } from "@/lib/top10/snapshots";

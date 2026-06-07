@@ -45,7 +45,6 @@ import { decorateWithCrossSignal } from "./derived-repos/decorators/cross-signal
 import { decorateWithMentionsRollup } from "./derived-repos/decorators/mentions-rollup";
 import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt";
 import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
-import { getRedditDataVersion } from "./reddit-data";
 import { getTwitterSignalsDataVersion } from "./twitter";
 import { getCrossSourceMentionsDataVersion } from "./cross-source-mentions";
 import { getMentionsLedgerDataVersion } from "./mentions-ledger";
@@ -106,7 +105,6 @@ function computeCacheKey(): string {
     return _cacheKeyComputed;
   }
   _cacheKeyComputed = [
-    getRedditDataVersion(),
     getManualReposDataVersion(),
     getTwitterSignalsDataVersion(),
     getPipelineReposDataVersion(),
@@ -469,9 +467,8 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
     movementStatus: scores[i].movementStatus,
   }));
 
-  // 3.5 Four-channel cross-signal fusion (GitHub + Reddit + HN + Bluesky).
-  // Two-pass internally so the reddit component is min-max normalized
-  // across the full corpus. Must run after scoreBatch — the github
+  // 3.5 Active-channel cross-signal fusion (GitHub + HN + Bluesky + dev.to + X).
+  // Must run after scoreBatch — the github
   // component reads movementStatus.
   repos = decorateWithCrossSignal(repos);
 
@@ -479,7 +476,7 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
   repos = decorateWithTwitter(repos);
 
   // 3.65 Unified all-source mentions rollup. Reads per-source sync getters
-  // (twitter / reddit / hn / bluesky / devto / lobsters) plus walks the
+  // (twitter / hn / bluesky / devto / lobsters) plus walks the
   // bundled npm / huggingface / arxiv data files to attribute by linked
   // repo. Sets `repo.mentions` (typed rollup) and overrides
   // `repo.mentionCount24h` with the all-source 24h sum so existing

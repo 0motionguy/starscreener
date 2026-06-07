@@ -34,6 +34,7 @@ const BACKOFF_CAP_MS = 30_000;
 const TIMEOUT_MS = 30_000;
 const MAX_PAGES = parseNumberArg("--max-pages-per-addr", 3);
 const DRY_RUN = process.argv.includes("--dry-run");
+const ALLOW_EMPTY = process.argv.includes("--allow-empty");
 const ADDR_FILTER = parseStringArg("--addr", null);
 
 const FACILITATORS = {
@@ -124,6 +125,7 @@ async function rpc(method, params, attempt = 0) {
 async function getAllSignatures(addr, maxPages) {
   const all = [];
   let before;
+  let succeeded = false;
   for (let p = 0; p < maxPages; p++) {
     const cfg = { limit: PAGE_SIZE, ...(before ? { before } : {}) };
     let sigs;
@@ -133,13 +135,14 @@ async function getAllSignatures(addr, maxPages) {
       console.warn(`[x402-sol] getSignaturesForAddress(${addr}) failed:`, err.message);
       break;
     }
+    succeeded = true;
     await sleep(RPC_DELAY_MS);
     if (!sigs?.length) break;
     all.push(...sigs);
     if (sigs.length < PAGE_SIZE) break;
     before = sigs[sigs.length - 1].signature;
   }
-  return all;
+  return { signatures: all, succeeded };
 }
 
 async function getTx(sig) {
@@ -198,6 +201,37 @@ function dayKey(unixSeconds) {
   return new Date(unixSeconds * 1000).toISOString().slice(0, 10);
 }
 
+function formatUsdcMicros(micros) {
+  const sign = micros < 0n ? "-" : "";
+  const abs = micros < 0n ? -micros : micros;
+  const whole = abs / 1_000_000n;
+  const fraction = String(abs % 1_000_000n).padStart(6, "0").replace(/0+$/, "");
+  return `${sign}${whole}${fraction ? `.${fraction}` : ""}`;
+}
+
+function parseUsdcStringToMicros(value) {
+  const [wholeRaw, fractionRaw = ""] = String(value ?? "0").split(".");
+  const whole = BigInt(wholeRaw || "0") * 1_000_000n;
+  const fraction = BigInt((fractionRaw.replace(/\D/g, "").slice(0, 6).padEnd(6, "0")) || "0");
+  return whole + fraction;
+}
+
+function addUsdcMicrosString(current, micros) {
+  return formatUsdcMicros(parseUsdcStringToMicros(current) + micros);
+}
+
+function settlementUsdcMicros(settle) {
+  if (!settle) return 0n;
+  if (settle.decimals === 6) {
+    try {
+      return BigInt(settle.amountRaw ?? "0");
+    } catch {
+      return 0n;
+    }
+  }
+  return parseUsdcStringToMicros(settle.amountUi);
+}
+
 // Bounded-concurrency map: process inputs through fn with at most `limit` in-flight.
 async function pMapBounded(items, limit, fn) {
   const out = new Array(items.length);
@@ -224,6 +258,10 @@ function selectFacilitators() {
   return filtered;
 }
 
+function shouldWriteSolanaX402Payload({ successfulAddressCalls, allowEmpty }) {
+  return allowEmpty || successfulAddressCalls > 0;
+}
+
 async function main() {
   const targets = selectFacilitators();
   const targetAddrCount = Object.values(targets).flat().length;
@@ -244,12 +282,17 @@ async function main() {
   const samples = [];
   let totalTxs = 0;
   let totalSettlements = 0;
+  let totalVolumeMicros = 0n;
+  let successfulAddressCalls = 0;
 
   for (const [name, addresses] of Object.entries(targets)) {
     let facTxs = 0;
     let facSettlements = 0;
+    let facVolumeMicros = 0n;
     for (const addr of addresses) {
-      const sigs = await getAllSignatures(addr, MAX_PAGES);
+      const signatureResult = await getAllSignatures(addr, MAX_PAGES);
+      const sigs = signatureResult.signatures;
+      if (signatureResult.succeeded) successfulAddressCalls += 1;
       facTxs += sigs.length;
       let usdcCount = 0;
 
@@ -257,7 +300,7 @@ async function main() {
         let tx;
         try {
           tx = await getTx(s.signature);
-        } catch (err) {
+        } catch {
           // Already retried inside rpc(); swallow and skip
           return null;
         }
@@ -270,11 +313,24 @@ async function main() {
       for (const r of txResults) {
         if (!r) continue;
         usdcCount++;
+        const amountMicros = settlementUsdcMicros(r.settle);
         const blockTimeSec = r.tx.blockTime ?? r.sig.blockTime ?? null;
         const day = dayKey(blockTimeSec);
-        if (!byDay[day]) byDay[day] = { txs: 0, byFacilitator: {} };
+        if (!byDay[day]) byDay[day] = { txs: 0, volumeUsdc: "0", byFacilitator: {} };
         byDay[day].txs++;
-        byDay[day].byFacilitator[name] = (byDay[day].byFacilitator[name] ?? 0) + 1;
+        byDay[day].volumeUsdc = addUsdcMicrosString(byDay[day].volumeUsdc, amountMicros);
+        const dayFacilitator = byDay[day].byFacilitator[name] ?? {
+          txs: 0,
+          volumeUsdc: "0",
+        };
+        dayFacilitator.txs++;
+        dayFacilitator.volumeUsdc = addUsdcMicrosString(
+          dayFacilitator.volumeUsdc,
+          amountMicros,
+        );
+        byDay[day].byFacilitator[name] = dayFacilitator;
+        facVolumeMicros += amountMicros;
+        totalVolumeMicros += amountMicros;
         if (samples.length < 10) {
           samples.push({
             facilitator: name,
@@ -300,6 +356,7 @@ async function main() {
       addressCount: addresses.length,
       totalTxs: facTxs,
       x402Settlements: facSettlements,
+      volumeUsdc: formatUsdcMicros(facVolumeMicros),
     };
     totalTxs += facTxs;
     totalSettlements += facSettlements;
@@ -319,12 +376,20 @@ async function main() {
     console.log("[x402-sol] --dry-run");
     return;
   }
+  if (!shouldWriteSolanaX402Payload({ successfulAddressCalls, allowEmpty: ALLOW_EMPTY })) {
+    console.warn(
+      "[x402-sol] no successful upstream calls; preserving last-good payload (pass --allow-empty to force write)",
+    );
+    process.exitCode = 1;
+    return;
+  }
   const payload = {
     fetchedAt,
     source: RPC_ENDPOINTS[0],
     chain: "solana",
     totalTxs,
     totalSettlements,
+    totalVolumeUsdc: formatUsdcMicros(totalVolumeMicros),
     byFacilitator,
     byDay,
     samples,

@@ -6,7 +6,7 @@
 //
 // Two semantic groups:
 //   feedDeltas — rolling-window feeds. The count is "items in window"
-//     (HN: 72h, Lobsters: 72h, Bluesky/Reddit/Devto: per-source window,
+//     (HN: 72h, Lobsters: 72h, Bluesky/Devto: per-source window,
 //     PH/arXiv/Funding: as collected). Rendered as `+N` accent chip.
 //   collections — cumulative inventories. Rendered as `N` neutral chip.
 //
@@ -20,10 +20,6 @@ import { getHnTrendingFile, refreshHackernewsTrendingFromStore } from "./hackern
 import { getLobstersTrendingFile, refreshLobstersTrendingFromStore } from "./lobsters-trending";
 import { getDevtoTrendingFile, refreshDevtoTrendingFromStore } from "./devto-trending";
 import { getBlueskyTrendingFile, refreshBlueskyTrendingFromStore } from "./bluesky-trending";
-import {
-  getAllPostsFile,
-  refreshRedditAllPostsFromStore,
-} from "./reddit-all-data";
 import { getPhFile, refreshProducthuntLaunchesFromStore } from "./producthunt";
 import { getFundingSignals, refreshFundingNewsFromStore } from "./funding-news";
 import {
@@ -35,6 +31,7 @@ import { getArxivRecentFile, refreshArxivFromStore } from "./arxiv";
 import { selectAgentRepos } from "./agent-repos";
 import { getDerivedRepos } from "./derived-repos";
 import { getTwitterOverviewStats } from "./twitter";
+import { waitForNonCriticalRefreshes } from "./noncritical-refresh-deadline";
 
 export interface SidebarSourceCounts {
   // Feed deltas — rendered as `+N` accent chip.
@@ -91,18 +88,17 @@ async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
 export const getSidebarSourceCounts = cache(async function getSidebarSourceCountsImpl(): Promise<SidebarSourceCounts> {
   // Fire all refresh hooks in parallel. Each one is rate-limited to 30s
   // internally and will return { source: "memory", ... } when fresh.
-  await Promise.allSettled([
+  await waitForNonCriticalRefreshes([
     refreshHackernewsTrendingFromStore(),
     refreshLobstersTrendingFromStore(),
     refreshDevtoTrendingFromStore(),
     refreshBlueskyTrendingFromStore(),
-    refreshRedditAllPostsFromStore(),
     refreshProducthuntLaunchesFromStore(),
     refreshFundingNewsFromStore(),
     refreshRevenueOverlaysFromStore(),
     refreshNpmFromStore(),
     refreshArxivFromStore(),
-  ]);
+  ], "sidebar source-count refreshes");
 
   const npmFile = safe(() => getNpmPackagesFile(), null);
   const npmCount =
@@ -139,7 +135,7 @@ export const getSidebarSourceCounts = cache(async function getSidebarSourceCount
     lobstersStories: safe(() => getLobstersTrendingFile().stories.length, 0),
     devtoArticles: safe(() => getDevtoTrendingFile().articles.length, 0),
     blueskyPosts: safe(() => getBlueskyTrendingFile().posts.length, 0),
-    redditPosts: safe(() => getAllPostsFile().posts.length, 0),
+    redditPosts: 0,
     producthuntLaunches: safe(() => getPhFile().launches.length, 0),
     fundingSignals: safe(() => getFundingSignals().length, 0),
     revenueOverlays: overlaysCount,

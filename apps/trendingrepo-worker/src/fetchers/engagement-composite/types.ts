@@ -32,7 +32,7 @@ export const COMPONENT_KEYS: readonly ComponentKey[] = [
 export interface NormalizedRepoSignals {
   fullName: string;
   hn: number;        // sum of HN post scores in 72h window
-  reddit: number;    // sum of reddit post scores in 7d window
+  reddit: number;    // retained for payload compatibility; always 0 while Reddit is paused
   bluesky: number;   // repost+like sum in 7d window
   devto: number;     // article reaction count in 7d window
   npm: number;       // npm weekly download count for any matched package

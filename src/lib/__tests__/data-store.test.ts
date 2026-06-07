@@ -12,7 +12,14 @@
 // no network. The data dir is a per-test tmp directory so tests don't touch
 // the real data/ snapshots.
 
-import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync } from "fs";
+import {
+  mkdtempSync,
+  rmSync,
+  writeFileSync,
+  readFileSync,
+  existsSync,
+  utimesSync,
+} from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
 
@@ -144,6 +151,36 @@ test("read() falls back to memory when Redis errors AND no file", async () => {
   assert.deepEqual(result.data, { warm: true });
 });
 
+test("read() preserves fresher memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  await store.write("warm", { from: "memory" });
+  const filePath = join(tmpDir, "warm.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const result = await store.read<{ from: string }>("warm");
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "memory" });
+});
+
+test("readMany() preserves fresher memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  await store.write("warm", { from: "memory" });
+  const filePath = join(tmpDir, "warm.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const [result] = await store.readMany<{ from: string }>(["warm"]);
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "memory" });
+});
+
 test("read() prefers Redis when both Redis and file are populated", async () => {
   const store = buildStore();
   writeFileSync(join(tmpDir, "trending.json"), JSON.stringify({ from: "stale-file" }));
@@ -151,6 +188,70 @@ test("read() prefers Redis when both Redis and file are populated", async () => 
   const result = await store.read<{ from: string }>("trending");
   assert.equal(result.source, "redis");
   assert.deepEqual(result.data, { from: "fresh-redis" });
+});
+
+test("read() treats Redis payload without meta as not fresh", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const result = await store.read<{ from: string }>("orphaned");
+
+  assert.equal(result.source, "redis");
+  assert.equal(result.fresh, false);
+  assert.equal(result.writtenAt, undefined);
+  assert.equal(result.ageMs, Number.MAX_SAFE_INTEGER);
+  assert.deepEqual(result.data, { from: "redis" });
+});
+
+test("readMany() treats Redis payload without meta as not fresh", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const [result] = await store.readMany<{ from: string }>(["orphaned"]);
+
+  assert.equal(result.source, "redis");
+  assert.equal(result.fresh, false);
+  assert.equal(result.writtenAt, undefined);
+  assert.equal(result.ageMs, Number.MAX_SAFE_INTEGER);
+  assert.deepEqual(result.data, { from: "redis" });
+});
+
+test("read() preserves metadata-poor Redis memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  const filePath = join(tmpDir, "orphaned.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const redisResult = await store.read<{ from: string }>("orphaned");
+  assert.equal(redisResult.source, "redis");
+  assert.equal(redisResult.fresh, false);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const result = await store.read<{ from: string }>("orphaned");
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "redis" });
+});
+
+test("readMany() preserves metadata-poor Redis memory over a stale file when Redis errors", async () => {
+  const store = buildStore();
+  const filePath = join(tmpDir, "orphaned.json");
+  writeFileSync(filePath, JSON.stringify({ from: "stale-file" }));
+  const staleTime = new Date("2020-01-01T00:00:00.000Z");
+  utimesSync(filePath, staleTime, staleTime);
+  fake.store.set("ss:data:v1:orphaned", JSON.stringify({ from: "redis" }));
+
+  const [redisResult] = await store.readMany<{ from: string }>(["orphaned"]);
+  assert.equal(redisResult.source, "redis");
+  assert.equal(redisResult.fresh, false);
+
+  fake.failNextWith = new Error("simulated redis outage");
+  const [result] = await store.readMany<{ from: string }>(["orphaned"]);
+
+  assert.equal(result.source, "memory");
+  assert.deepEqual(result.data, { from: "redis" });
 });
 
 test("write({mirrorToFile:true}) snapshots to disk", async () => {
@@ -167,6 +268,46 @@ test("write() with no Redis and no mirrorToFile throws", async () => {
   await assert.rejects(
     () => store.write("doomed", { x: 1 }),
     /no destination/i,
+  );
+});
+
+test("createDataStore() fails when Redis is required but env is missing", () => {
+  assert.throws(
+    () =>
+      createDataStore({
+        env: { DATA_STORE_REQUIRE_REDIS: "1" },
+        dataDir: tmpDir,
+        onFallback: () => {},
+      }),
+    /Redis is required/i,
+  );
+});
+
+test("createDataStore() rejects mixed Redis backends", () => {
+  assert.throws(
+    () =>
+      createDataStore({
+        env: {
+          REDIS_URL: "redis://localhost:6379",
+          UPSTASH_REDIS_REST_URL: "https://fake",
+          UPSTASH_REDIS_REST_TOKEN: "fake-token",
+        },
+        dataDir: tmpDir,
+        onFallback: () => {},
+      }),
+    /never both/i,
+  );
+});
+
+test("createDataStore() rejects Upstash URL without token", () => {
+  assert.throws(
+    () =>
+      createDataStore({
+        env: { UPSTASH_REDIS_REST_URL: "https://fake" },
+        dataDir: tmpDir,
+        onFallback: () => {},
+      }),
+    /requires UPSTASH_REDIS_REST_TOKEN/i,
   );
 });
 

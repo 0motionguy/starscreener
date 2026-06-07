@@ -1,6 +1,6 @@
 ---
-last-verified: 2026-05-05
-verified-by: claude
+last-verified: 2026-06-01
+verified-by: codex
 status: living
 ---
 
@@ -8,7 +8,8 @@ status: living
 
 This is the canonical map of every markdown document in the repository,
 classified by trust level. Built 2026-05-05 as part of the Phase 1 docs
-restructure (see `docs/archive/drift-report-2026-05-05.md`).
+restructure (see `docs/archive/drift-report-2026-05-05.md`) and updated
+2026-06-01 with the current HOSTUP production-hardening handoff.
 
 Inventory scope: 862 markdown files across the working tree, excluding
 `node_modules/`, `.next/`, `.git/`, `.stryker-tmp/`, `awesome-codex-skills/`
@@ -17,6 +18,21 @@ checkouts), and `.claude/worktrees/` (separate branches). The index links
 in-repo docs only; secondary archives are summarized as counts.
 
 ## Status — 2026-05-05 (end-of-day)
+
+2026-06-01 operational overlay:
+
+Current production truth is captured in:
+
+- `docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md`
+- `docs/OPERATOR.md`
+- `WHERE-THINGS-RUN.md`
+- `docs/DEPLOY-TOOLBOX.md`
+- `CLAUDE.md` / `AGENTS.md`
+
+Older docs can still contain Vercel, Railway, Apify, or Reddit-active language.
+Treat that as historical unless the files above agree with it. The full
+inventory counts below are from the 2026-05-05 restructure and were not
+re-derived during the 2026-06-01 handoff patch.
 
 After 4 commits today (`8b845df6`, `e4737757`, `4ae6b74f`, `48a5e1c3`) the
 restructure is complete. Live counts via guard scripts:
@@ -31,7 +47,7 @@ restructure is complete. Live counts via guard scripts:
 - **0 inline Redis-key violations** across `src/`, `apps/trendingrepo-worker/src/`, `scripts/`
 - **4 broken internal doc-links** (all in `docs/review/*` — intentional `status: archive` skips)
 
-Refresh this section by running:
+Historical refresh commands from the 2026-05-05 docs pass were:
 ```
 node scripts/derive-engine-inventory.mjs
 node scripts/check-docs-freshness.mjs
@@ -39,6 +55,10 @@ node scripts/check-living-docs-have-frontmatter.mjs
 node scripts/check-redis-keys.mjs
 node scripts/check-internal-doc-links.mjs
 ```
+
+2026-06-01 note: those scripts are no longer present on the deployed branch.
+Use `git diff --check`, `npm run health:prod`, and targeted source/test guards
+until the docs-tooling scripts are restored or replaced.
 
 Next-wave plan: see `tasks/NEXT-WAVE-2026-05-06.md`.
 
@@ -120,11 +140,12 @@ Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 | `docs/API.md` | Public API surface | 2026-05-05 |
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
 | `docs/DEPLOY-TOOLBOX.md` | **CURRENT** prod deploy runbook (TOOLBOX build → tag → compose-up sequence) + hardening TODO | 2026-05-27 |
+| `docs/HANDOVER-2026-06-01-PRODUCTION-HARDENING.md` | Current HOSTUP image tags, zero-tolerance health proof, worker/source root causes, Reddit-off decision, and token-rotation handoff | 2026-06-01 |
 | `docs/REGISTRY-AND-LIFETIME-MENTIONS.md` | The persistent repo-registry + lifetime mentions ledger architecture; what `getDerivedRepoCount()` actually counts | 2026-05-27 |
 | `docs/DEPLOY.md` | (legacy) Vercel + Railway deploy paths — **superseded by `DEPLOY-TOOLBOX.md` 2026-05-27**; prod moved off Vercel | 2026-05-05 |
 | `docs/ENGINE.md` | 88 workflows + 14 cron routes + 44 active worker fetchers (47 dirs on disk) + 55 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
-| `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |
+| `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-06-01 |
 | `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation | 2026-05-05 |
 | `docs/SITE-WIREMAP.md` | Every route -> data -> collector -> external API | 2026-05-05 |
 | `docs/SOURCE_DISCOVERY.md` | Query families and discovery slices for new sources | 2026-05-05 |
@@ -179,7 +200,6 @@ until labeled. Phase 1.5 will classify or rewrite.
 | Path | Topic | Reason / known drift |
 |---|---|---|
 | `docs/REPO-OVERVIEW.md` | One-page repo overview | Pre-restructure; verify before citing |
-| `docs/STORYBOOK_COMPONENT_LIBRARY.md` | Storybook setup and components | -- |
 | `docs/DESIGN_SYSTEM_V3.md` | Design system V3 reference | Superseded by `design/v4/DESIGN_SYSTEM.md` (living) |
 | `docs/BUNDLE.md` | Bundle size baseline + heavy modules | -- |
 | `docs/CORS-POLICY.md` | CORS policy | -- |
@@ -259,7 +279,7 @@ matching subtree. They are scoped operator notes, not human onboarding docs.
 | `src/app/api/cron/CLAUDE.md` | Cron route conventions |
 | `src/lib/CLAUDE.md` | Data-store + token pool |
 | `src/lib/redis/CLAUDE.md` | Redis keys + backends |
-| `apps/trendingrepo-worker/CLAUDE.md` | Sister Railway worker service |
+| `apps/trendingrepo-worker/CLAUDE.md` | HOSTUP worker service |
 | `.github/workflows/CLAUDE.md` | GH Actions workflow conventions |
 
 ---
@@ -451,7 +471,7 @@ Project-local subagents under `.claude/agents/project/`:
 
 | Path | Subject |
 |---|---|
-| `apps/trendingrepo-worker/README.md` | Sister Railway worker readme |
+| `apps/trendingrepo-worker/README.md` | HOSTUP worker readme |
 | `apps/trendingrepo-worker/docs/outreach-vercel-labs.md` | Outreach Vercel Labs |
 | `apps/trendingrepo-worker/src/fetchers/_template/README.md` | Fetcher template |
 | `cli/README.md` | CLI readme |
@@ -518,10 +538,10 @@ below distill its critical gaps so they can be tracked here.
 
 ## Workflow inventory
 
-Current ground truth at 2026-05-05: 85 `.github/workflows/*.yml` files (per
+Historical ground truth at 2026-05-05: 85 `.github/workflows/*.yml` files (per
 `docs/_generated/engine.json`, derived from filesystem), 16 cron API routes
 under `src/app/api/cron/`, 44 active worker fetchers (47 with `index.ts` on
-disk; 3 unwired) in the sister Railway worker
+disk; 3 unwired) in the sister worker
 (`apps/trendingrepo-worker/`), and ~85 env vars. Re-derive with
 `npm run engine:derive`. See `docs/ENGINE.md` (now `status: living`) for the
 human-readable narrative; `docs/_generated/engine.md` for the auto-derived

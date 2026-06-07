@@ -14,13 +14,9 @@
 
 import { useUser } from "@clerk/nextjs";
 import { SignInButton, UserButton } from "@clerk/nextjs";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
-interface HeaderAccountLoadedProps {
-  fallback: ReactNode;
-}
-
-export function HeaderAccountLoaded({ fallback }: HeaderAccountLoadedProps) {
+export function HeaderAccountLoaded() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -31,7 +27,7 @@ export function HeaderAccountLoaded({ fallback }: HeaderAccountLoadedProps) {
     return <HeaderAccountLoading />;
   }
 
-  return <HeaderAccountClerkState fallback={fallback} />;
+  return <HeaderAccountClerkState />;
 }
 
 function HeaderAccountLoading() {
@@ -46,7 +42,7 @@ function HeaderAccountLoading() {
   );
 }
 
-function HeaderAccountClerkState({ fallback: _fallback }: HeaderAccountLoadedProps) {
+function HeaderAccountClerkState() {
   const { isLoaded, isSignedIn, user } = useUser();
 
   if (!isLoaded) {

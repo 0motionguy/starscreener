@@ -8,25 +8,6 @@ import type { FundingRoundType, FundingSignal } from "@/lib/funding/types";
 // reads live RSS (TechCrunch / VentureBeat / Sifted) + committed
 // funding-news.json only — no fabricated rounds.
 //
-// DEFAULT_INVESTORS was kept for InvestorChips.tsx, which is now an
-// orphan file; if you delete it, drop DEFAULT_INVESTORS too.
-
-
-export const DEFAULT_INVESTORS = [
-  { name: "a16z", count: 7 },
-  { name: "Sequoia", count: 6 },
-  { name: "Lightspeed", count: 5 },
-  { name: "General Catalyst", count: 5 },
-  { name: "Benchmark", count: 4 },
-  { name: "Founders Fund", count: 4 },
-  { name: "Khosla", count: 3 },
-  { name: "NEA", count: 3 },
-  { name: "Accel", count: 3 },
-  { name: "GV", count: 3 },
-  { name: "Y Combinator", count: 2 },
-  { name: "Tiger Global", count: 2 },
-] as const;
-
 // Real-data-only signal preparer. The `minimum` parameter is preserved
 // for API compatibility but no longer triggers SEED_ROUNDS padding —
 // previous behavior fabricated Anthropic $3.5B / Cursor $900M / Mistral
@@ -51,16 +32,6 @@ export function ensureFundingSignals(
     if (amountDelta !== 0) return amountDelta;
     return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
   });
-}
-
-// Real SEC-filtered signals only. No SEED_SEC_COMPANIES padding.
-export function ensureSecFundingSignals(
-  signals: FundingSignal[],
-  minimum = 6,
-): FundingSignal[] {
-  return signals
-    .filter((signal) => signal.extracted?.amount)
-    .slice(0, minimum);
 }
 
 export function compactCurrency(amount: number | null | undefined): string {
@@ -107,10 +78,7 @@ export function slugify(value: string): string {
 /**
  * Publisher slug → list of substring tokens that should match against the
  * concatenated `headline + sourceUrl + sourcePlatform` haystack (lowercased)
- * to decide whether a signal belongs to that publisher. Stays in sync with
- * `FundingSourcePills.PUBLISHERS` so the pill UI and the body filter agree.
- *
- * Exported so tests can pin the contract.
+ * to decide whether a signal belongs to that publisher.
  */
 export const PUBLISHER_SLUG_MATCH: Record<string, readonly string[]> = {
   techcrunch: ["techcrunch.com", "tc-", "techcrunch"],
@@ -130,8 +98,8 @@ export const PUBLISHER_SLUG_MATCH: Record<string, readonly string[]> = {
 };
 
 /**
- * Filter funding signals to the rows belonging to a single publisher slug
- * (as emitted by `FundingSourcePills`). Returns the input array unchanged
+ * Filter funding signals to the rows belonging to a single publisher slug.
+ * Returns the input array unchanged
  * when `activeSource` is undefined / empty / unknown — matching the
  * "no filter applied" no-op semantics of `filterReposBySources` so the
  * caller can pass the raw URL-derived value without first checking
@@ -139,9 +107,8 @@ export const PUBLISHER_SLUG_MATCH: Record<string, readonly string[]> = {
  *
  * Contract:
  * - Single-source filter, driven by `?source=<slug>` on the funding URL.
- *   The funding pills emit one source per click; this helper narrows
- *   downstream consumers (FundingTape, TopRoundsTable, SectorHeatmap,
- *   InvestorChips, CapitalFlowChart) to that publisher's slice.
+ *   This helper narrows downstream consumers (FundingTape, TopRoundsTable,
+ *   SectorHeatmap, CapitalFlowChart) to that publisher's slice.
  * - Match is substring-based against the signal's concatenated
  *   `headline + sourceUrl + sourcePlatform` (lowercased) so a TechCrunch
  *   article still matches when the upstream sourcePlatform is normalized

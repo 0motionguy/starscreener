@@ -100,7 +100,7 @@ export async function GET(): Promise<Response> {
     title: `${SITE_NAME} — Cross-Signal Breakouts`,
     link: feedLink,
     description:
-      "Top open-source repos firing across multiple signals (GitHub momentum + Reddit + Hacker News).",
+      "Top open-source repos firing across multiple active signals (GitHub momentum + Hacker News).",
     lastBuildDate: new Date().toISOString(),
     items,
   });

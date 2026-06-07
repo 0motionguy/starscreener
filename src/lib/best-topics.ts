@@ -260,7 +260,7 @@ export function buildBestIntro(topic: BestTopic, repos: Repo[]): string {
   // Priority 3: deterministic floor — always available so a page never ships
   // empty even if Redis is unreachable.
   const lead = `This is our ranked list of the best ${topic.blurb}.`;
-  const method = ` Every project is open source and ranked by TrendingRepo's cross-source momentum score — GitHub star velocity weighted with live mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to — not by raw star count, so newer breakouts surface alongside the established leaders.`;
+  const method = ` Every project is open source and ranked by TrendingRepo's cross-source momentum score — GitHub star velocity weighted with live mentions on Hacker News, X, Bluesky, Product Hunt and Dev.to — not by raw star count, so newer breakouts surface alongside the established leaders.`;
   return `${lead}${method}${count}`;
 }
 
@@ -278,8 +278,8 @@ export function buildBestFaq(topic: BestTopic, repos: Repo[]): FaqEntry[] {
     q: `What are the best ${topic.title.replace(/^Best /, "").toLowerCase()}?`,
     a:
       list.length > 0
-        ? `As of ${todayLabel()}, the top-ranked are ${list} — ordered by TrendingRepo's cross-source momentum score across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`
-        : `TrendingRepo ranks these by a cross-source momentum score across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`,
+        ? `As of ${todayLabel()}, the top-ranked are ${list} — ordered by TrendingRepo's cross-source momentum score across GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to.`
+        : `TrendingRepo ranks these by a cross-source momentum score across GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to.`,
   });
   out.push({
     q: `How does TrendingRepo choose this list?`,

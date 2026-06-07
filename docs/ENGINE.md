@@ -1,10 +1,18 @@
 ---
-last-verified: 2026-05-27
-verified-by: claude
+last-verified: 2026-06-01
+verified-by: codex
 status: living
 ---
 
 # ENGINE - STARSCREENER workflow + cron + key inventory
+
+2026-06-01 live overlay: production data freshness is HOSTUP-worker-owned and
+validated by `npm run health:prod`; the live health gate currently expects 50
+active worker sources green and 17 disabled. Reddit is intentionally disabled.
+GitHub schedules should be probes or app-cron calls, not duplicate data
+producers for worker-owned sources. The generated workflow table below still
+contains historical entries and should be re-derived before being used as a
+source of operational truth.
 
 Worker section (§3) re-derived 2026-05-27 after the registry-aware
 enrichment hardening; GH Actions + cron-route sections last derived
@@ -44,7 +52,6 @@ Workflows with multiple cron entries list each.
 | cron-digest-weekly.yml | Cron - weekly digest email | `0 14 * * 5` (Fri 14:00) | POST `/api/cron/digest/weekly` |
 | cron-freshness-check.yml | Cron - freshness check | `*/15 * * * *` | GET `/api/cron/freshness/state` |
 | cron-llm.yml | Cron - LLM telemetry | `10 * * * *` and `15 2 * * *` | GET `/api/cron/llm/aggregate` (hourly) + `/api/cron/llm/sync-models` (daily) |
-| cron-mcp-usage-rotate.yml | Cron - MCP usage log rotation | `0 3 1 * *` (monthly 1st 03:00) | POST `/api/cron/mcp/rotate-usage` |
 | cron-pipeline-cleanup.yml | Cron - pipeline cleanup | `12 4 * * *` | mention pruning (hits cron route) |
 | cron-pipeline-ingest.yml | Cron - pipeline ingest | `15 */2 * * *` | mention store hydrate |
 | cron-pipeline-persist.yml | Cron - pipeline persist | `30 */6 * * *` | mention store persist |
@@ -130,8 +137,6 @@ Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 | `/api/cron/freshness/state` | cron-freshness-check.yml (`*/15 * * * *`); also smoke-tested by post-deploy-smoke.yml + release-cdn-purge | Bearer `CRON_SECRET` | Returns per-source freshness state |
 | `/api/cron/llm/aggregate` | cron-llm.yml (hourly `10 * * * *`) | Bearer `CRON_SECRET` | Aggregates LLM telemetry counters |
 | `/api/cron/llm/sync-models` | cron-llm.yml (daily `15 2 * * *`) | Bearer `CRON_SECRET` | Syncs LLM model catalog from upstream |
-| `/api/cron/mcp/rotate-usage` | cron-mcp-usage-rotate.yml (`0 3 1 * *`) | Bearer `CRON_SECRET` | Monthly rotation of MCP usage log |
-| `/api/cron/news-auto-recover` | (no scheduled workflow caller in tree as of 2026-05-05) | Bearer `CRON_SECRET` | News-feed auto-recovery (orphan; can be dispatched directly) |
 | `/api/cron/twitter-daily` | cron-twitter-outbound.yml (`0 14 * * *`) | Bearer `CRON_SECRET` | Daily outbound Twitter thread |
 | `/api/cron/twitter-weekly-recap` | cron-twitter-outbound.yml (`0 16 * * 5`) | Bearer `CRON_SECRET` | Friday weekly recap thread |
 | `/api/cron/webhooks/flush` | cron-webhooks-flush.yml (`5,35 * * * *`) | Bearer `CRON_SECRET` | Drains webhook queue |
@@ -139,9 +144,8 @@ Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 | `/api/cron/webhooks/scan` | cron-webhooks-flush.yml (`5,35 * * * *`, runs before flush) | Bearer `CRON_SECRET` | Enqueues breakouts + funding rows |
 
 Auth pattern: every route uses `verifyCronAuth` (or equivalent) reading
-the `Authorization: Bearer <CRON_SECRET>` header. Routes marked orphan
-have a route handler in tree but no `.github/workflows/*.yml` calls
-them on a schedule today.
+the `Authorization: Bearer <CRON_SECRET>` header. Scheduled workflow
+targets are guarded by `npm run lint:workflow-routes`.
 
 ---
 

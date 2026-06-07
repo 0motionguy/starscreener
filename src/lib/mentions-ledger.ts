@@ -2,8 +2,7 @@
 //
 // PROBLEM
 //   The original mentions architecture re-buckets a 7-day snapshot at read
-//   time. When any collector goes stale (currently happening with Reddit
-//   OAuth + Twitter Apify) every `count24h` reads zero and the UI filter
+//   time. When any collector goes stale, every `count24h` reads zero and the UI filter
 //   (`count24h > 0`) drops the source pip from the table cell. Stable
 //   per-mention IDs already exist on every signal, so the storage shape
 //   was wrong — not the data.
@@ -65,6 +64,8 @@ export interface MentionsLedgerSnapshot {
 
 const STORE_KEY = "mentions-ledger";
 const MIN_REFRESH_INTERVAL_MS = 30_000;
+const PAUSED_LEDGER_SOURCES: ReadonlySet<SocialPlatform> =
+  new Set<SocialPlatform>(["reddit"]);
 
 // Mutable in-memory cache, keyed by lower-cased fullName for case-insensitive
 // lookup. Empty by default; populated by refreshMentionsLedgerFromStore() when
@@ -132,7 +133,21 @@ function buildCache(
   const next = new Map<string, MentionsLedgerEntry>();
   for (const entry of entries) {
     if (!entry?.fullName) continue;
-    const perSource = entry.perSource ?? {};
+    const perSource: Partial<Record<SocialPlatform, number>> = {};
+    for (const [rawSource, rawCount] of Object.entries(entry.perSource ?? {})) {
+      const source = rawSource as SocialPlatform;
+      if (PAUSED_LEDGER_SOURCES.has(source)) continue;
+      const count = Number(rawCount);
+      if (!Number.isFinite(count) || count <= 0) continue;
+      perSource[source] = count;
+    }
+
+    const total = Object.values(perSource).reduce(
+      (sum, count) => sum + (count ?? 0),
+      0,
+    );
+    if (total <= 0) continue;
+
     // Re-sort sources descending by count so UI consumers can render pips in
     // the canonical "most-mentioned first" order without re-sorting on each
     // render. Falls through to natural map insertion order on ties, which
@@ -143,7 +158,7 @@ function buildCache(
     next.set(entry.fullName.toLowerCase(), {
       fullName: entry.fullName,
       perSource,
-      total: entry.total ?? 0,
+      total,
       sources,
     });
   }

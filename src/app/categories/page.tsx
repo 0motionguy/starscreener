@@ -94,7 +94,7 @@ export default async function CategoriesIndexPage() {
           Fifteen curated categories spanning the AI and developer ecosystem — from agent frameworks
           and MCP servers to local LLM runtimes, databases and security tooling. Every category is
           ranked by a cross-source momentum score that blends GitHub star velocity with mentions on
-          Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.
+          Hacker News, X, Bluesky, Product Hunt and Dev.to.
         </p>
       </header>
 

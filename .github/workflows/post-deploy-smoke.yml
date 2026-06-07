@@ -2,9 +2,6 @@ name: Post-deploy smoke
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -22,7 +19,7 @@ jobs:
       - name: Wait for deploy propagation
         run: sleep 30
 
-      - name: Synthetic curl checks (29 critical routes)
+      - name: Synthetic curl checks (critical routes)
         id: smoke
         shell: bash
         run: |
@@ -37,11 +34,11 @@ jobs:
           #
           # /repo/* + /agent-commerce/* + /trends added 2026-05-10. Why:
           # the pre-existing /repo/* 500 P0 (since d81856ad) bled for days
-          # because no smoke probe covered detail pages. vercel/next.js is
+          # because no smoke probe covered detail pages. The Next.js repo is
           # a long-stable canonical sample; rotate if it ever moves.
           #
           # /repo/anthropics/anthropic-cookbook added 2026-05-13. The
-          # vercel/next.js probe alone only covers the curated-derived-set
+          # Next.js repo probe alone only covers the curated-derived-set
           # path; the cold-miss / live-fetch fallback (synthesized repo
           # shape) has its own crash surface — Next.js's static-to-dynamic
           # detector + the GitHub upstream resolver. We pin a long-tail
@@ -53,7 +50,6 @@ jobs:
             "/githubrepo"
             "/skills"
             "/mcp"
-            "/reddit/trending"
             "/hackernews/trending"
             "/lobsters"
             "/devto"
@@ -75,6 +71,8 @@ jobs:
             "/npm"
             "/breakouts"
             "/categories"
+            "/collections"
+            "/collections/ai-agent-frameworks"
             "/methodology"
             "/research"
             "/tools/revenue-estimate"
@@ -86,6 +84,12 @@ jobs:
             "/repo/anthropics/anthropic-cookbook"
             # health probe
             "/api/health?soft=1"
+            # API surfaces that have historically lacked page-route coverage
+            "/api/collections"
+            "/api/collections/ai-agent-frameworks"
+            "/api/model-usage/overview"
+            "/api/model-usage/models"
+            "/api/model-usage/rankings"
           )
 
           # Pass 1: probe every route, collect page-route failures into
@@ -122,14 +126,10 @@ jobs:
 
           # Self-heal pass: if pass-1 caught page-route failures, POST those
           # paths to /api/revalidate (CRON_SECRET-gated) and re-probe ONCE.
-          # Vercel ISR caches both 2xx AND 5xx with stale-while-revalidate
-          # ~= 1 year, so a transient 500 (or one cached pre-fix) would
-          # otherwise persist for weeks. Discovered 2026-05-13: 5 cookbook
-          # /repo/* routes were stuck at 500 on the prod alias even though
-          # the same routes returned 200 on the deploy URL — Vercel ISR
-          # was serving a cached pre-#1159 500 page. revalidatePath() flushes
-          # the entry so the next request renders fresh. Anything that fails
-          # twice is a real regression and escalates to ops via the alert step.
+          # Next/edge caches can retain a transient 500. revalidatePath()
+          # flushes the entry so the next request renders fresh. Anything
+          # that fails twice is a real regression and escalates to ops via
+          # the alert step.
           if [ "${#stuck_paths[@]}" -gt 0 ] && [ -n "${CRON_SECRET:-}" ]; then
             paths_json="$(printf '"%s",' "${stuck_paths[@]}")"
             paths_json="[${paths_json%,}]"

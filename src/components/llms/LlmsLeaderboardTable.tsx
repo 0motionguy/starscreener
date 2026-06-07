@@ -10,6 +10,7 @@
 // expose those.
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 
 import type { AaLlmsRow } from "@/lib/aa-llms";
 
@@ -544,11 +545,12 @@ function CreatorAvatar({
     // paint. onError trips the monogram fallback if a redirect ever 404s.
     return (
       <span className={klass} aria-label={creator}>
-        <img
+        <Image
           src={url}
           alt={creator}
-          loading="lazy"
-          decoding="async"
+          width={28}
+          height={28}
+          sizes="28px"
           onError={() => setErrored(true)}
         />
       </span>
@@ -614,15 +616,15 @@ function SortableTh({ label, sub, active, dir, onClick }: SortableThProps) {
   return (
     <th
       className={`num col-velocity sortable${active ? " active" : ""}`}
-      onClick={onClick}
-      role="button"
       aria-sort={active ? (dir === "desc" ? "descending" : "ascending") : "none"}
     >
-      <span className="aa-th-label">{label}</span>
-      {sub && <span className="aa-th-sub">{sub}</span>}
-      <span className="aa-th-arrow" aria-hidden>
-        {active ? (dir === "desc" ? "↓" : "↑") : "⇅"}
-      </span>
+      <button type="button" className="aa-th-button" onClick={onClick}>
+        <span className="aa-th-label">{label}</span>
+        {sub && <span className="aa-th-sub">{sub}</span>}
+        <span className="aa-th-arrow" aria-hidden>
+          {active ? (dir === "desc" ? "↓" : "↑") : "⇅"}
+        </span>
+      </button>
     </th>
   );
 }

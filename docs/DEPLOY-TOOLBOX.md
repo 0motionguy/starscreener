@@ -1,6 +1,6 @@
 ---
-last-verified: 2026-05-27
-verified-by: claude
+last-verified: 2026-06-01
+verified-by: codex
 status: living
 ---
 
@@ -15,7 +15,7 @@ Production runs on **TOOLBOX (193.53.40.118)**, fronted by Cloudflare. This doc 
 | Container | Compose file | Image | Role |
 |---|---|---|---|
 | `toolbox-trendingrepo-1` | `/opt/trendingrepo/docker-compose.trendingrepo.yml` | `trendingrepo-app:vps-<ts>-<sha>` | Next.js standalone app, port 3023 |
-| `toolbox-trendingrepo-worker-1` | `/opt/toolbox-trendingrepo-worker/docker-compose.yml` | `toolbox-trendingrepo-worker:vps-<ts>-<sha>` | 37+ fetchers, croner schedules |
+| `toolbox-trendingrepo-worker-1` | `/opt/toolbox-trendingrepo-worker/docker-compose.yml` | `toolbox-trendingrepo-worker:vps-<ts>-<sha>` | in-process croner fetchers; 50 active sources green on 2026-06-01 |
 | `redis` (internal) | toolbox stack | — | `ss:data:v1:*` namespace, only durable plane |
 | `cloudflared` | toolbox stack | — | tunnel → `toolbox-trendingrepo-1:3023` |
 
@@ -108,11 +108,17 @@ After a worker change, re-run the affected fetcher once to seed prod redis with 
 docker exec toolbox-trendingrepo-worker-1 node /app/dist/index.js <fetcher>
 ```
 
-Common targets after recent changes: `repo-registry`, `mentions-ledger`, `cross-source-sweep`, `repo-metadata`.
+Common targets after recent changes: `sec-form-d`, `repo-community-profile`,
+`velocity-refresh`, `star-activity`, `velocity-seed`, and `velocity-backfill`
+when a new strict health marker has no Redis payload yet. Keep these bounded;
+do not use one-shots to mask a recurring scheduled failure.
 
 ## Post-deploy verification
 
 ```bash
+# Zero-tolerance live production gate
+npm run health:prod
+
 # Routing (must be Cloudflare, no X-Vercel)
 curl -sI https://trendingrepo.com/ | grep -iE "^server:|^HTTP|x-vercel"
 
@@ -135,15 +141,55 @@ const {readDataStore}=require(\"/app/dist/lib/redis.js\");
 curl -sI https://trendingrepo.com/repo/brendanhogan/hermitclaw   # → 200
 ```
 
+Expected 2026-06-01 health summary: `/api/worker/health` reports 50 active,
+50 green, 0 amber, 0 red, 0 missing, 0 degraded payloads, and 0 empty payloads.
+`/api/health/sources` should have all active breakers closed; `reddit` is
+intentionally disabled.
+
 ## Compose-tag gotcha (operational hazard)
 
 `/opt/trendingrepo/docker-compose.trendingrepo.yml` is **git-tracked at repo root** but its `image:` tag is sed'd at every deploy. A subsequent full `git checkout <commit>` resets the file to the committed value (`vps-v1`, a tag that doesn't exist on the box). The running container is unaffected at that moment, but the next `docker compose up -d` after the checkout fails ("image not found").
 
-**Always use selective checkouts**: `git checkout <commit> -- apps/trendingrepo-worker/src/ src/`. A durable fix is on the TODO (P0-D below): replace the tracked `vps-v1` with a stable `:latest` alias + tag every build as both.
+**Always use selective checkouts**: `git checkout <commit> -- apps/trendingrepo-worker/src/ src/`. The app compose file now points at a stable production tag pattern, but a full checkout can still clobber the host's currently pinned image line.
 
-## The hardening TODO (post-2026-05-27)
+## Current hardening state (post-2026-06-01)
 
-Three priority bands. P0 = visible breakage / consistency. P1 = enrichment gap for registry-only repos. P2 = ops + cost. P3 = polish.
+The original 2026-05-27 checklist below is historical; do not execute those P0
+items without re-verifying because most were closed by the 2026-06-01
+root-cause hardening wave. Current production evidence lives in
+[HANDOVER-2026-06-01-PRODUCTION-HARDENING.md](HANDOVER-2026-06-01-PRODUCTION-HARDENING.md).
+
+Closed / verified:
+
+- App and worker containers are healthy on HOSTUP.
+- `recent-repos`, `repo-community-profile`, `star-activity`, and velocity
+  worker markers have Redis payloads and are covered by strict health.
+- `/api/health` includes worker status.
+- `npm run health:prod` is the zero-tolerance production gate.
+- Process-local source breakers no longer create false degraded production
+  health after app restarts.
+- Reddit is paused/off instead of flapping.
+- Direct OSSInsight dependence is opt-in; GitHub-backed star activity is the
+  durable delta path.
+- The noisy Collect Funding Signals workflow is disabled because GitHub-hosted
+  runners cannot reach the HOSTUP-internal Redis plane.
+
+Still open:
+
+- P0 operator action: rotate leaked Clerk `sk_live_*` and Cloudflare `cfat_*`
+  tokens, then update HOSTUP/local env files.
+- P1 observation: let scheduled worker runs proceed naturally overnight and
+  rerun `npm run health:prod`; do not count manual one-shot bootstrap as the
+  long-term proof.
+- P2 hygiene: migrate deprecated `STARSCREENER_*` env names to
+  `TRENDINGREPO_*` where still present.
+- P2 branch hygiene: decide the deferred cleanup branch fate separately; do not
+  mix it with production health fixes.
+
+### Historical 2026-05-27 checklist
+
+P0 = visible breakage / consistency. P1 = enrichment gap for registry-only
+repos. P2 = ops + cost. P3 = polish.
 
 ### P0 — Visible bugs / consistency
 
@@ -186,7 +232,9 @@ Costs are summarized in the handover plan at `~/.claude/plans/handover-2026-05-2
 - `git checkout <commit>` (full) on the box — resets the sed'd compose tag.
 - `git add -A` / `.` — corrupts parallel-agent staging.
 - Bump `oss-trending` languages for raw count — dilutes "everything AI" focus.
-- Cookie-based Twitter scrapers — dead. Apify `apidojo~tweet-scraper` is the path.
+- Cookie-based Twitter scrapers are dead. Nitter/manual collection is the
+  current low-cost path; Apify is historical/manual-only and must not be
+  re-enabled without operator cost approval.
 - Sequential `consensus-analyst` sweep — blows the hourly slot. Bounded concurrency (current).
 
 ## See also

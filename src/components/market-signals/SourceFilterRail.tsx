@@ -2,10 +2,9 @@
 // URL ?src= carries comma-separated enabled source slugs; missing or empty
 // means all enabled.
 //
-// 2026-05-23: swapped colored dots for real /brand/sources/*.svg logos where
-// available. Sources without a brand SVG (lobsters, google, meta, mistral,
-// cohere, xai, perplexity, qwen, skills, mcp custom, agent-repos, funding,
-// revenue, pypi, openrouter) keep the colored dot.
+// 2026-06-01: retired/unwired families (MCP, skills, Hugging Face side
+// sources) are intentionally not shown here. This rail may include derived
+// topic lenses, but the header count is live sources only.
 
 import Link from "next/link";
 
@@ -23,6 +22,7 @@ interface SourceEntry {
   slug: string;
   label: string;
   colorVar: string;
+  live?: boolean;
 }
 
 interface SourceGroup {
@@ -34,38 +34,34 @@ const SOURCE_GROUPS: SourceGroup[] = [
   {
     title: "Social feeds",
     entries: [
-      { slug: "github", label: "GitHub", colorVar: "var(--src-github)" },
-      { slug: "hn", label: "Hacker News", colorVar: "var(--src-hackernews)" },
-      { slug: "reddit", label: "Reddit", colorVar: "var(--src-reddit)" },
-      { slug: "x", label: "X / Twitter", colorVar: "var(--src-x)" },
-      { slug: "bsky", label: "Bluesky", colorVar: "var(--src-bluesky)" },
-      { slug: "ph", label: "ProductHunt", colorVar: "var(--src-producthunt)" },
-      { slug: "devto", label: "Dev.to", colorVar: "var(--src-dev)" },
-      { slug: "lobsters", label: "Lobsters", colorVar: "var(--src-lobsters)" },
+      { slug: "github", label: "GitHub", colorVar: "var(--src-github)", live: true },
+      { slug: "hn", label: "Hacker News", colorVar: "var(--src-hackernews)", live: true },
+      { slug: "x", label: "X / Twitter", colorVar: "var(--src-x)", live: true },
+      { slug: "bsky", label: "Bluesky", colorVar: "var(--src-bluesky)", live: true },
+      { slug: "ph", label: "ProductHunt", colorVar: "var(--src-producthunt)", live: true },
+      { slug: "devto", label: "Dev.to", colorVar: "var(--src-dev)", live: true },
+      { slug: "lobsters", label: "Lobsters", colorVar: "var(--src-lobsters)", live: true },
     ],
   },
   {
-    title: "Data sources",
+    title: "Worker data",
     entries: [
-      { slug: "arxiv", label: "arXiv", colorVar: "var(--src-arxiv)" },
-      { slug: "npm", label: "NPM downloads", colorVar: "var(--src-npm)" },
-      { slug: "hf-models", label: "HF models", colorVar: "var(--src-huggingface)" },
-      { slug: "hf-datasets", label: "HF datasets", colorVar: "var(--src-huggingface)" },
-      { slug: "hf-spaces", label: "HF spaces", colorVar: "var(--src-huggingface)" },
-      { slug: "skills", label: "Skills", colorVar: "var(--violet)" },
-      { slug: "mcp", label: "MCP registries", colorVar: "var(--cyan)" },
+      { slug: "npm", label: "NPM packages", colorVar: "var(--src-npm)", live: true },
+      { slug: "funding", label: "Funding news", colorVar: "var(--warning)", live: true },
+      { slug: "revenue", label: "Revenue overlays", colorVar: "var(--gold)", live: true },
+      { slug: "openrouter", label: "OpenRouter", colorVar: "var(--info)", live: true },
+    ],
+  },
+  {
+    title: "Derived lenses",
+    entries: [
       { slug: "agent-repos", label: "Agent repos", colorVar: "var(--up)" },
-      { slug: "funding", label: "Funding news", colorVar: "var(--warning)" },
-      { slug: "revenue", label: "Revenue overlays", colorVar: "var(--gold)" },
       { slug: "pypi", label: "PyPI", colorVar: "var(--violet)" },
-      { slug: "openrouter", label: "OpenRouter", colorVar: "var(--info)" },
     ],
   },
   {
-    title: "AI labs",
+    title: "Topic lenses",
     entries: [
-      { slug: "openai", label: "OpenAI RSS", colorVar: "var(--src-openai)" },
-      { slug: "anthropic", label: "Anthropic RSS", colorVar: "var(--src-claude)" },
       { slug: "google", label: "Google AI", colorVar: "var(--info)" },
       { slug: "meta", label: "Meta AI", colorVar: "var(--cyan)" },
       { slug: "mistral", label: "Mistral", colorVar: "var(--warning)" },
@@ -78,27 +74,23 @@ const SOURCE_GROUPS: SourceGroup[] = [
   },
 ];
 
-const SOURCE_TOTAL = SOURCE_GROUPS.reduce((sum, group) => sum + group.entries.length, 0);
+export const LIVE_MARKET_SOURCE_SLUGS = SOURCE_GROUPS.flatMap((group) =>
+  group.entries.filter((entry) => entry.live === true).map((entry) => entry.slug),
+);
+
+const SOURCE_TOTAL = LIVE_MARKET_SOURCE_SLUGS.length;
 
 // slug → brand logo file under /brand/sources/. Slugs not mapped here fall
 // back to the colored dot indicator.
 const SOURCE_LOGO_MAP: Partial<Record<string, SourceName>> = {
   github: "github",
   hn: "hackernews",
-  reddit: "reddit",
   x: "x-twitter",
   bsky: "bluesky",
   ph: "producthunt",
   devto: "devto",
-  arxiv: "arxiv",
   npm: "npm",
-  "hf-models": "huggingface",
-  "hf-datasets": "huggingface",
-  "hf-spaces": "huggingface",
-  openai: "openai",
-  anthropic: "anthropic",
   deepseek: "deepseek",
-  mcp: "modelcontextprotocol",
 };
 
 function toggleHref(slug: string, selected: Set<string>, window: string): string {
@@ -125,7 +117,7 @@ export function SourceFilterRail({ selected, sourceTotals, window }: SourceFilte
   return (
     <aside className="card src-rail">
       <div className="card-title" style={{ paddingBottom: 10 }}>
-        <b>Mention sources</b> - {SOURCE_TOTAL}
+        <b>Live sources</b> - {SOURCE_TOTAL}
       </div>
 
       {SOURCE_GROUPS.map((group, groupIndex) => (

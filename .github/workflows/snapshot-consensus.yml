@@ -5,8 +5,7 @@ name: Snapshot /consensus daily
 # views and the Early-Call Hall of Fame can walk back N days.
 # 90-day TTL on the destination keys.
 on:
-  schedule:
-    - cron: "55 23 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

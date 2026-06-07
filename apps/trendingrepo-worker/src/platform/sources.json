@@ -34,17 +34,19 @@
     "state": "active",
     "freshness_budget_ms": 14400000,
     "cost_signal_metric": {
-      "type": "rate_limit_pct",
+      "type": "none",
       "scope": "hour"
-    },
-    "rate_limit": {
-      "per_hour": 600,
-      "scope": "ip"
     },
     "owner": "UNASSIGNED",
     "upstream_url": [
-      "https://api.ossinsight.io/v1/trends/repos/",
-      "https://api.ossinsight.io/v1/collections/hot/"
+      "redis:ss:data:v1:repo-registry",
+      "redis:ss:data:v1:repo-metadata",
+      "redis:ss:data:v1:consensus-trending",
+      "redis:ss:data:v1:recent-repos",
+      "redis:ss:data:v1:star-activity-deltas",
+      "redis:ss:data:v1:collection-rankings",
+      "optional:https://api.ossinsight.io/v1/trends/repos/",
+      "optional:https://api.ossinsight.io/v1/collections/hot/"
     ],
     "auth_required": false,
     "auth_scheme": "none",
@@ -58,9 +60,28 @@
       "src/lib/trending.ts",
       "src/lib/hot-collections.ts"
     ],
-    "depends_on": [],
+    "depends_on": [
+      "repo-registry",
+      "repo-metadata",
+      "consensus-trending",
+      "recent-repos",
+      "velocity-refresh",
+      "collection-rankings"
+    ],
     "supports_backfill": false,
-    "fallback_strategy": "cache",
+    "fallback_strategy": "provider-chain",
+    "providers": [
+      {
+        "id": "internal-github",
+        "role": "primary",
+        "cost_class": "none"
+      },
+      {
+        "id": "ossinsight",
+        "role": "fallback",
+        "cost_class": "rate_limit_pct"
+      }
+    ],
     "writes_canonical_entity_kind": [
       "repo"
     ]
@@ -142,7 +163,7 @@
       "scope": "ip"
     },
     "owner": "UNASSIGNED",
-    "upstream_url": "https://api.ossinsight.io/v1/collections/{id}/ranking_by_{metric}/",
+    "upstream_url": "internal:data-store:repo-metadata+star-activity-deltas; optional:https://api.ossinsight.io/v1/collections/{id}/ranking_by_{metric}/",
     "auth_required": false,
     "auth_scheme": "none",
     "primary_output_keys": [
@@ -153,10 +174,11 @@
       "src/lib/collection-rankings.ts"
     ],
     "depends_on": [
-      "oss-trending"
+      "repo-metadata",
+      "star-activity-deltas"
     ],
     "supports_backfill": false,
-    "fallback_strategy": "cache",
+    "fallback_strategy": "internal-github-metadata",
     "writes_canonical_entity_kind": [
       "repo"
     ]
@@ -323,7 +345,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 86400000,
+    "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "none"
     },
@@ -336,7 +358,22 @@
       "https://tech.eu/feed/",
       "https://www.pymnts.com/feed/",
       "https://feeds.bbci.co.uk/news/technology/rss.xml",
-      "https://www.wired.com/feed/"
+      "https://www.wired.com/feed/",
+      "https://www.eu-startups.com/feed/",
+      "https://siliconcanals.com/feed/",
+      "https://techstartups.com/feed/",
+      "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "https://venturebeat.com/category/ai/feed/",
+      "https://aibusiness.com/rss.xml",
+      "https://the-decoder.com/feed/",
+      "https://analyticsindiamag.com/feed/",
+      "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+      "https://syncedreview.com/feed/",
+      "https://www.prnewswire.com/rss/financial-services-latest-news/venture-capital-funding-list.rss",
+      "https://www.newcomer.co/feed",
+      "https://www.normaltech.ai/feed",
+      "https://www.generativevalue.com/feed",
+      "https://importai.substack.com/feed"
     ],
     "auth_required": false,
     "auth_scheme": "none",
@@ -361,7 +398,7 @@
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 86400000,
+    "freshness_budget_ms": 21600000,
     "cost_signal_metric": {
       "type": "none"
     },
@@ -371,7 +408,6 @@
       "https://news.crunchbase.com/sections/venture/feed/",
       "https://techfundingnews.com/feed/",
       "https://www.alleywatch.com/feed/",
-      "https://www.finsmes.com/feed",
       "https://news.crunchbase.com/sections/startups/feed/"
     ],
     "auth_required": false,
@@ -392,10 +428,44 @@
     ]
   },
   {
-    "id": "x-funding",
+    "id": "sec-form-d",
     "category": "funding",
     "kind": "collector",
     "state": "active",
+    "freshness_budget_ms": 21600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": [
+      "https://efts.sec.gov/LATEST/search-index",
+      "https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/primary_doc.xml"
+    ],
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "funding-news-sec"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/funding-news.ts",
+      "src/lib/funding/sec-form-d.ts",
+      "src/lib/funding/aggregate.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "company",
+      "mention"
+    ]
+  },
+  {
+    "id": "x-funding",
+    "category": "funding",
+    "kind": "collector",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "apify_units",
@@ -418,14 +488,15 @@
     "writes_canonical_entity_kind": [
       "company",
       "mention"
-    ]
+    ],
+    "decision_pending": "Paused on HOSTUP because the only producer path uses Apify, which is disabled by policy. Re-enable only with an approved non-empty producer and APIFY_API_TOKEN budget."
   },
   {
     "id": "trustmrr",
     "category": "funding",
     "kind": "collector",
     "state": "active",
-    "freshness_budget_ms": 7200000,
+    "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
       "scope": "hour"
@@ -488,7 +559,7 @@
     "id": "reddit-baselines",
     "category": "social",
     "kind": "enrichment",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 1209600000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -844,7 +915,7 @@
     "id": "npm-downloads",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 43200000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -881,7 +952,7 @@
     "id": "pypi-downloads",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 43200000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -913,7 +984,7 @@
     "id": "npm-dependents",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -944,7 +1015,7 @@
     "id": "hotness-snapshot",
     "category": "ops",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none"
@@ -997,7 +1068,8 @@
     "output_record_shape": "event_stream",
     "consensus_role": "event-stream",
     "consumer_surfaces": [
-      "src/lib/github-events.ts"
+      "src/lib/github-events.ts",
+      "src/app/api/repos/[owner]/[name]/events/route.ts"
     ],
     "depends_on": [
       "engagement-composite",
@@ -1008,13 +1080,13 @@
     "writes_canonical_entity_kind": [
       "event"
     ],
-    "decision_pending": "github-events fetcher exists in apps/trendingrepo-worker/src/fetchers/github-events but is NOT imported in registry.ts FETCHERS — confirm whether to wire it (it's a producer for the watchlist real-time pane) or delete; current state is code-complete-but-unwired."
+    "decision_pending": "Producer code remains parked in apps/trendingrepo-worker/src/fetchers/github-events but is NOT imported in registry.ts FETCHERS. The app route is gated by GITHUB_EVENTS_PRODUCER_ENABLED=1 and returns 503 while disabled. Future decision: wire FETCHERS and enable the producer gate, or delete the parked producer code."
   },
   {
     "id": "github",
     "category": "repo-derived",
     "kind": "collector",
-    "state": "intent-only",
+    "state": "deprecated",
     "freshness_budget_ms": 3600000,
     "cost_signal_metric": {
       "type": "pat_quota_pct",
@@ -1030,18 +1102,18 @@
     "output_record_shape": "ranked_list",
     "consumer_surfaces": [],
     "depends_on": [],
-    "supports_backfill": true,
+    "supports_backfill": false,
     "fallback_strategy": "skip",
     "writes_canonical_entity_kind": [
       "repo"
     ],
-    "decision_pending": "Stub fetcher only emits 'not yet implemented' warnings; oss-trending + recent-repos + repo-metadata already cover GitHub. Ship the planned port (Phase B) OR delete the stub file?"
+    "decision_pending": "Worker stub was deleted because it only emitted 'not yet implemented' warnings. GitHub coverage is owned by oss-trending, recent-repos, repo-metadata, and star-activity fetchers; restore this row only with a concrete registered fetcher."
   },
   {
     "id": "ai-blogs",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none",
@@ -1177,7 +1249,7 @@
   },
   {
     "id": "drop-twitter-drain",
-    "category": "ops",
+    "category": "user-input",
     "kind": "collector",
     "state": "active",
     "freshness_budget_ms": 600000,
@@ -1209,7 +1281,7 @@
     "id": "trending",
     "category": "repo-derived",
     "kind": "collector",
-    "state": "active",
+    "state": "deprecated",
     "freshness_budget_ms": 14400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -1247,7 +1319,7 @@
     "id": "arxiv",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -1276,7 +1348,7 @@
     "id": "claude-rss",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none"
@@ -1303,7 +1375,7 @@
     "id": "openai-rss",
     "category": "research",
     "kind": "collector",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "none"
@@ -1330,7 +1402,7 @@
     "id": "npm-daily",
     "category": "package",
     "kind": "snapshot",
-    "state": "active",
+    "state": "paused",
     "freshness_budget_ms": 86400000,
     "cost_signal_metric": {
       "type": "rate_limit_pct",
@@ -1660,7 +1732,6 @@
     ],
     "depends_on": [
       "hackernews",
-      "reddit",
       "bluesky",
       "devto",
       "lobsters"
@@ -1726,6 +1797,10 @@
     "auth_required": true,
     "auth_scheme": "github_pat_pool",
     "primary_output_keys": [
+      {
+        "pattern": "star-activity:<owner>__<name>",
+        "cardinality_source": "watchlist"
+      },
       "star-activity-deltas"
     ],
     "output_record_shape": "metric_snapshot",
@@ -1777,6 +1852,366 @@
     "fallback_strategy": "cache",
     "writes_canonical_entity_kind": [
       "repo"
+    ]
+  },
+  {
+    "id": "star-activity-deltas",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "pat_quota_pct",
+      "scope": "hour"
+    },
+    "rate_limit": {
+      "per_hour": 5000,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": true,
+    "auth_scheme": "github_pat_pool",
+    "primary_output_keys": [
+      "star-activity-deltas"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/star-activity-deltas.ts",
+      "src/app/page.tsx"
+    ],
+    "depends_on": [
+      "repo-registry",
+      "star-activity"
+    ],
+    "supports_backfill": true,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
+    "id": "velocity-refresh",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 3600000,
+    "cost_signal_metric": {
+      "type": "pat_quota_pct",
+      "scope": "hour"
+    },
+    "rate_limit": {
+      "per_hour": 5000,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://api.github.com/repos/{owner}/{repo}",
+    "auth_required": true,
+    "auth_scheme": "github_pat_pool",
+    "primary_output_keys": [
+      {
+        "pattern": "star-activity:<owner>__<name>",
+        "cardinality_source": "watchlist"
+      },
+      "star-activity-deltas"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/star-activity-deltas.ts",
+      "src/app/page.tsx"
+    ],
+    "depends_on": [
+      "repo-registry",
+      "star-activity-deltas"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
+    "id": "velocity-seed",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "pat_quota_pct",
+      "scope": "day"
+    },
+    "rate_limit": {
+      "per_hour": 5000,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://api.github.com/graphql",
+    "auth_required": true,
+    "auth_scheme": "github_pat_pool",
+    "primary_output_keys": {
+      "pattern": "star-activity:<owner>__<name>",
+      "cardinality_source": "watchlist"
+    },
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/star-activity.ts",
+      "src/components/repo/RepoStarChart.tsx"
+    ],
+    "depends_on": [
+      "repo-registry"
+    ],
+    "supports_backfill": true,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
+    "id": "stars-by-category",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "none"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "stars-by-category-daily"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/stars-by-category.ts",
+      "src/app/page.tsx"
+    ],
+    "depends_on": [
+      "repo-registry",
+      "star-activity"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
+    "id": "consensus-analyst-tail",
+    "category": "repo-derived",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "usd",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "consensus-verdicts"
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "src/lib/consensus-verdicts.ts"
+    ],
+    "depends_on": [
+      "consensus-trending",
+      "repo-metadata",
+      "consensus-analyst"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
+    "id": "cross-source-sweep",
+    "category": "social",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 86400000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "multiple",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "repo-mentions-detail-rollup"
+    ],
+    "output_record_shape": "mention_feed",
+    "consumer_surfaces": [
+      "src/lib/derived-repos/decorators/mentions-rollup.ts",
+      "src/lib/mentions-ledger.ts"
+    ],
+    "depends_on": [
+      "consensus-trending",
+      "repo-registry",
+      "mentions-ledger"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "mention"
+    ]
+  },
+  {
+    "id": "drop-deep-enrich-drain",
+    "category": "user-input",
+    "kind": "enrichment",
+    "state": "active",
+    "freshness_budget_ms": 600000,
+    "cost_signal_metric": {
+      "type": "none"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://trendingrepo.com/api/repo-submissions/[id]/enrich",
+    "auth_required": true,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      {
+        "pattern": "repo-community:<owner>__<name>",
+        "cardinality_source": "watchlist"
+      },
+      {
+        "pattern": "repo-editorial:<owner>__<name>",
+        "cardinality_source": "watchlist"
+      }
+    ],
+    "output_record_shape": "extracted_signal",
+    "consumer_surfaces": [
+      "apps/trendingrepo-worker/src/fetchers/drop-deep-enrich-drain/index.ts",
+      "src/app/api/repo-submissions/[id]/enrich/route.ts"
+    ],
+    "depends_on": [
+      "drop-intake-drain"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "none",
+    "writes_canonical_entity_kind": [
+      "repo",
+      "mention"
+    ]
+  },
+  {
+    "id": "artificialanalysis",
+    "category": "model",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 21600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://artificialanalysis.ai",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "aa-llms"
+    ],
+    "output_record_shape": "ranked_list",
+    "consumer_surfaces": [
+      "src/lib/aa-llms.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "model"
+    ]
+  },
+  {
+    "id": "lmarena",
+    "category": "model",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 604800000,
+    "cost_signal_metric": {
+      "type": "none",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://lmarena.ai",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "lmarena-text"
+    ],
+    "output_record_shape": "ranked_list",
+    "consumer_surfaces": [
+      "src/lib/aa-llms.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "model"
+    ]
+  },
+  {
+    "id": "openrouter-models",
+    "category": "model",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 21600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://openrouter.ai/api/v1/models",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "openrouter-models"
+    ],
+    "output_record_shape": "ranked_list",
+    "consumer_surfaces": [
+      "src/lib/openrouter-models.ts"
+    ],
+    "depends_on": [],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "model"
+    ]
+  },
+  {
+    "id": "openrouter-usage",
+    "category": "model",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 21600000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "hour"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://openrouter.ai/rankings",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "openrouter-usage"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/openrouter-usage.ts"
+    ],
+    "depends_on": [
+      "openrouter-models"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "model"
     ]
   },
   {

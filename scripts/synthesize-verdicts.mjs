@@ -125,7 +125,7 @@ function buildSummary(rec, sig, name) {
   return `${what}${adoption}${signalLine}`.replace(/\s+/g, " ").trim();
 }
 
-function buildWhyNow(rec, sig, name) {
+function buildWhyNow(rec, sig) {
   const web = rec.web || [];
   const recent = web[0];
   const sources = namedSources(sig?.sources);
@@ -239,7 +239,7 @@ function synthOne(rec, sig) {
       contrarian: o.considerations || buildConsiderations(rec, sig, seed),
       verdict,
       confidence: o.confidence || clamp(sig?.confidence || 60),
-      whyNow: o.whyNow || buildWhyNow(rec, sig, name),
+      whyNow: o.whyNow || buildWhyNow(rec, sig),
       whatToDo: o.whatToDo || deriveAction(verdict),
       whatToDoDetail: o.whatToDoDetail || buildActionDetail(verdict, rec, sig),
       citations: buildCitations(rec),
@@ -255,7 +255,7 @@ function synthOne(rec, sig) {
     contrarian: buildConsiderations(rec, sig, seed),
     verdict,
     confidence: deriveConfidence(sig, rec.gh),
-    whyNow: buildWhyNow(rec, sig, name),
+    whyNow: buildWhyNow(rec, sig),
     whatToDo: deriveAction(verdict),
     whatToDoDetail: buildActionDetail(verdict, rec, sig),
     citations: buildCitations(rec),

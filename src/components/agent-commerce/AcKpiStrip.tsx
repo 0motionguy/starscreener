@@ -1,17 +1,20 @@
-// AcKpiStrip — 5-cell KPI band for /agent-commerce.
-// Cells: items tracked · x402 enabled · MCP servers · on-chain 24h · portal-ready.
+// AcKpiStrip - 5-cell KPI band for /agent-commerce.
+// Cells: items tracked, x402 enabled, MCP servers, on-chain 24h, portal-ready.
 // Static markup uses .ac-kpi from the v6 HTML reference; classes target shell.css tokens.
+
+type SourceStatus = "fresh" | "stale" | "missing" | "unknown";
 
 interface AcKpiStripProps {
   itemsTracked: number;
   x402Enabled: number;
   x402NewThisWeek: number;
   mcpServers: number;
-  mcpHealthy: number;
   mcpDegraded: number;
+  mcpHealthKnown: boolean;
   onchain24hUsd: number;
   basePctShare: number;
   solanaPctShare: number;
+  duneVolumeStatus: SourceStatus;
   portalReady: number;
 }
 
@@ -23,18 +26,28 @@ function formatUsd(n: number): string {
   return `$${Math.round(n)}`;
 }
 
+function volumeStatusText(status: SourceStatus): string {
+  if (status === "fresh") return "volume source fresh";
+  if (status === "stale") return "volume source stale";
+  if (status === "unknown") return "volume source unknown";
+  return "volume source unavailable";
+}
+
 export function AcKpiStrip({
   itemsTracked,
   x402Enabled,
   x402NewThisWeek,
   mcpServers,
-  mcpHealthy,
   mcpDegraded,
+  mcpHealthKnown,
   onchain24hUsd,
   basePctShare,
   solanaPctShare,
+  duneVolumeStatus,
   portalReady,
 }: AcKpiStripProps) {
+  const onchainSourceFresh = duneVolumeStatus === "fresh";
+
   return (
     <div
       className="ac-kpi fade-up"
@@ -55,34 +68,69 @@ export function AcKpiStrip({
             {itemsTracked.toLocaleString()}
           </span>
         </div>
-        <div style={descStyle}>apis · marketplaces · wallets · protocols</div>
+        <div style={descStyle}>apis / marketplaces / wallets / protocols</div>
       </div>
       <div className="cell" style={cellStyle}>
         <div style={labelStyle}>x402 enabled</div>
-        <div style={{ ...valueStyle, color: "var(--accent)" }}>{x402Enabled.toLocaleString()}</div>
-        <div style={{ ...descStyle, color: x402NewThisWeek > 0 ? "var(--up)" : "var(--fg-muted)" }}>
+        <div style={{ ...valueStyle, color: "var(--accent)" }}>
+          {x402Enabled.toLocaleString()}
+        </div>
+        <div
+          style={{
+            ...descStyle,
+            color: x402NewThisWeek > 0 ? "var(--up)" : "var(--fg-muted)",
+          }}
+        >
           {x402NewThisWeek > 0
-            ? `▲ ${x402NewThisWeek} new this week`
+            ? `${x402NewThisWeek} new this week`
             : "no new endpoints this week"}
         </div>
       </div>
       <div className="cell" style={cellStyle}>
         <div style={labelStyle}>MCP servers</div>
-        <div style={{ ...valueStyle, color: "var(--cyan)" }}>{mcpServers.toLocaleString()}</div>
+        <div
+          style={{
+            ...valueStyle,
+            color: mcpHealthKnown ? "var(--cyan)" : "var(--warning)",
+          }}
+        >
+          {mcpServers.toLocaleString()}
+        </div>
         <div style={descStyle}>
-          {mcpHealthy} healthy · {mcpDegraded} degraded
+          {mcpHealthKnown
+            ? `${mcpServers - mcpDegraded} healthy / ${mcpDegraded} degraded`
+            : "health unknown; probes not wired"}
         </div>
       </div>
       <div className="cell" style={cellStyle}>
         <div style={labelStyle}>On-chain 24h</div>
-        <div style={{ ...valueStyle, color: "var(--accent)" }}>{formatUsd(onchain24hUsd)}</div>
-        <div style={{ ...descStyle, color: "var(--up)" }}>
-          ▲ Base {basePctShare}% · Solana {solanaPctShare}%
+        <div
+          style={{
+            ...valueStyle,
+            color: onchainSourceFresh ? "var(--accent)" : "var(--warning)",
+          }}
+        >
+          {onchainSourceFresh ? formatUsd(onchain24hUsd) : "N/A"}
+        </div>
+        <div
+          style={{
+            ...descStyle,
+            color:
+              onchainSourceFresh && onchain24hUsd > 0
+                ? "var(--up)"
+                : "var(--fg-muted)",
+          }}
+        >
+          {onchainSourceFresh
+            ? `Base ${basePctShare}% / Solana ${solanaPctShare}%`
+            : volumeStatusText(duneVolumeStatus)}
         </div>
       </div>
       <div className="cell" style={cellStyle}>
         <div style={labelStyle}>Portal-ready</div>
-        <div style={{ ...valueStyle, color: "var(--up)" }}>{portalReady.toLocaleString()}</div>
+        <div style={{ ...valueStyle, color: "var(--up)" }}>
+          {portalReady.toLocaleString()}
+        </div>
         <div style={descStyle}>agent-actionable APIs</div>
       </div>
     </div>

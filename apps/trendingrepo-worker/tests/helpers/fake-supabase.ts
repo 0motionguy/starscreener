@@ -137,7 +137,7 @@ export function createFakeSupabase(): { db: SupabaseClient; store: FakeStore } {
 
   function trendingAssetsBuilder() {
     const builder: Record<string, unknown> = {
-      upsert(_row: unknown, _opts?: unknown) {
+      upsert() {
         // Track count if needed; for merger tests we don't read assets.
         return builder;
       },
@@ -150,7 +150,7 @@ export function createFakeSupabase(): { db: SupabaseClient; store: FakeStore } {
 
   function trendingMetricsBuilder() {
     const builder: Record<string, unknown> = {
-      upsert(_row: unknown, _opts?: unknown) {
+      upsert() {
         return builder;
       },
       then(resolve: (v: { data: null; error: null }) => void) {

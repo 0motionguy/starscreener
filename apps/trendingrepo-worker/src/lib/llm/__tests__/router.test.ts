@@ -55,9 +55,12 @@ vi.mock('../usage-recorder.js', () => ({
   hashUserId: () => null,
 }));
 
-import { callLlm } from '../router.js';
-
 const telemetry = { feature: 'ai_analyst', task_type: 'item', request_id: 'test-req' } as const;
+
+async function loadCallLlm() {
+  const mod = await import('../router.js');
+  return mod.callLlm;
+}
 
 function fakeResult(provider: 'kimi' | 'nanogpt' | 'openrouter'): LlmCallResult {
   return {
@@ -79,12 +82,14 @@ function apiError(status: number): Error {
 }
 
 beforeEach(() => {
+  vi.resetModules();
   vi.clearAllMocks();
   env.current = {};
 });
 
 describe('callLlm provider fallback', () => {
   it('serves the primary and never touches the fallback on success', async () => {
+    const callLlm = await loadCallLlm();
     env.current = { LLM_PROVIDER: 'kimi', LLM_FALLBACK_PROVIDER: 'nanogpt', KIMI_API_KEY: 'k', NANOGPT_API_KEY: 'n' };
     callKimiMock.mockResolvedValueOnce(fakeResult('kimi'));
 
@@ -98,6 +103,7 @@ describe('callLlm provider fallback', () => {
   });
 
   it('falls back to NanoGPT on a Kimi 403 quota error and records both attempts', async () => {
+    const callLlm = await loadCallLlm();
     env.current = { LLM_PROVIDER: 'kimi', LLM_FALLBACK_PROVIDER: 'nanogpt', KIMI_API_KEY: 'k', NANOGPT_API_KEY: 'n' };
     callKimiMock.mockRejectedValueOnce(apiError(403));
     callNanoGptMock.mockResolvedValueOnce(fakeResult('nanogpt'));
@@ -113,6 +119,7 @@ describe('callLlm provider fallback', () => {
   });
 
   it('rethrows when no fallback is configured', async () => {
+    const callLlm = await loadCallLlm();
     env.current = { LLM_PROVIDER: 'kimi', KIMI_API_KEY: 'k' };
     callKimiMock.mockRejectedValueOnce(apiError(403));
 
@@ -123,6 +130,7 @@ describe('callLlm provider fallback', () => {
   });
 
   it('does NOT fall back on a non-retryable client error (400)', async () => {
+    const callLlm = await loadCallLlm();
     env.current = { LLM_PROVIDER: 'kimi', LLM_FALLBACK_PROVIDER: 'nanogpt', KIMI_API_KEY: 'k', NANOGPT_API_KEY: 'n' };
     callKimiMock.mockRejectedValueOnce(apiError(400));
 
@@ -132,6 +140,7 @@ describe('callLlm provider fallback', () => {
   });
 
   it('rethrows when the fallback provider is named but its key is missing', async () => {
+    const callLlm = await loadCallLlm();
     env.current = { LLM_PROVIDER: 'kimi', LLM_FALLBACK_PROVIDER: 'nanogpt', KIMI_API_KEY: 'k' };
     callKimiMock.mockRejectedValueOnce(apiError(429));
 

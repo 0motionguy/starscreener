@@ -77,7 +77,7 @@ function scoreGithubVelocity(stars7dDelta) {
 }
 
 function scoreSocialMentions(sources) {
-  const social = new Set(["hn", "reddit", "bluesky"]);
+  const social = new Set(["hn", "bluesky"]);
   let total = 0;
   for (const ref of sources) {
     if (social.has(ref.source)) total += ref.signalScore;
@@ -177,13 +177,12 @@ function buildItem(entry, capturedAt, enrichmentBySlug, socialBySlug) {
     });
   }
 
-  // Append social-source mentions (reddit/bluesky/devto/lobsters) so the
+  // Append active social-source mentions (bluesky/devto/lobsters) so the
   // socialMentions sub-score picks them up. HF is appended as "manual" since
-  // socialMentions only counts hn/reddit/bluesky.
+  // socialMentions only counts hn/bluesky while Reddit is paused.
   const social = socialBySlug?.get(slug);
   if (social) {
     const map = {
-      reddit: "reddit",
       bluesky: "bluesky",
       devto: "devto",
       lobsters: "lobsters",
@@ -359,7 +358,6 @@ function buildSocialLiveBlock(social) {
   const out = {};
   const totals = [];
   const map = {
-    reddit: "redditMentions",
     bluesky: "blueskyMentions",
     devto: "devtoMentions",
     lobsters: "lobstersMentions",
@@ -448,54 +446,6 @@ function loadSocialEnrichment() {
     return { fetchedAt: data.fetchedAt, bySlug: map };
   } catch {
     return null;
-  }
-}
-
-function applySocialToItem(item, social) {
-  if (!social) return;
-  const totals = [];
-  const map = {
-    reddit: "redditMentions",
-    bluesky: "blueskyMentions",
-    devto: "devtoMentions",
-    lobsters: "lobstersMentions",
-    hf: "huggingfaceSpaces",
-  };
-  item.live = item.live ?? {};
-  for (const [src, key] of Object.entries(map)) {
-    const entry = social[src];
-    if (!entry || !entry.count) continue;
-    const top = entry.topPosts?.[0];
-    item.live[key] = {
-      count: entry.count,
-      ...(top?.url ? { topUrl: top.url } : {}),
-      ...(top?.title ? { topTitle: top.title } : {}),
-    };
-    totals.push(entry.count);
-    // Also push as a source ref so socialMentions sub-score sees it.
-    const signalScore = Math.min(
-      90,
-      Math.round(28 + Math.log10(entry.count + 1) * 26),
-    );
-    const sourceKey =
-      src === "reddit"
-        ? "reddit"
-        : src === "bluesky"
-          ? "bluesky"
-          : src === "devto"
-            ? "devto"
-            : src === "lobsters"
-              ? "lobsters"
-              : "manual";
-    item.sources.push({
-      source: sourceKey,
-      url: top?.url ?? "",
-      signalScore,
-      capturedAt: item.lastUpdatedAt,
-    });
-  }
-  if (totals.length > 0) {
-    item.live.socialTotal = totals.reduce((a, b) => a + b, 0);
   }
 }
 

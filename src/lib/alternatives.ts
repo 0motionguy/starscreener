@@ -59,7 +59,7 @@ export function buildAlternativesIntro(target: Repo, alts: Repo[], categoryName:
   if (editorial?.overview) {
     return `${editorial.overview}${ctx}`;
   }
-  const lead = `Looking for alternatives to ${target.fullName}? These are the top open-source ${cat} projects on TrendingRepo, ranked by cross-source momentum — GitHub star velocity weighted with mentions on Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`;
+  const lead = `Looking for alternatives to ${target.fullName}? These are the top open-source ${cat} projects on TrendingRepo, ranked by cross-source momentum — GitHub star velocity weighted with mentions on Hacker News, X, Bluesky, Product Hunt and Dev.to.`;
   return `${lead}${ctx}`;
 }
 
@@ -79,7 +79,7 @@ export function buildAlternativesFaq(target: Repo, alts: Repo[], categoryName: s
     a:
       list.length > 0
         ? `As of ${todayLabel()}, the top open-source alternatives to ${target.fullName} are ${list} — same-category projects ranked by TrendingRepo's cross-source momentum score.`
-        : `TrendingRepo ranks same-category alternatives by a cross-source momentum score across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to.`,
+        : `TrendingRepo ranks same-category alternatives by a cross-source momentum score across GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to.`,
   });
 
   const topAlt = alts[0];

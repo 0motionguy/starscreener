@@ -52,3 +52,11 @@ jobs:
             echo "::error::pipeline/persist call failed ($code)"
             exit 1
           fi
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "::error::jq missing; cannot verify producer-level persist result"
+            exit 1
+          fi
+          if ! jq -e '.ok == true and .enabled == true and (([.files[]] | map(select(. > 0)) | length) > 0)' /tmp/out >/dev/null; then
+            echo "::error::pipeline/persist disabled or wrote no non-empty files"
+            exit 1
+          fi

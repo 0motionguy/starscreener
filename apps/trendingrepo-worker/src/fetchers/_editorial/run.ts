@@ -89,7 +89,8 @@ export async function runEditorial(
     return done(opts.fetcherName, startedAt, 0, false);
   }
 
-  const existing = await loadExistingItems(opts.slug);
+  const existingPayload = await loadExistingPayload(opts.slug);
+  const existing = existingPayload.items;
 
   if (!isLlmConfigured()) {
     const retained = Object.keys(existing).length;
@@ -110,8 +111,22 @@ export async function runEditorial(
 
   if (candidates.length === 0) {
     const retained = Object.keys(existing).length;
-    ctx.log.info({ retainedItems: retained }, `${opts.fetcherName}: no new candidates this run`);
-    return done(opts.fetcherName, startedAt, retained, false);
+    if (retained === 0) {
+      ctx.log.info({ retainedItems: retained }, `${opts.fetcherName}: no new candidates this run`);
+      return done(opts.fetcherName, startedAt, retained, false);
+    }
+    const heartbeat: EditorialPayload = {
+      computedAt: new Date().toISOString(),
+      generator: existingPayload.generator,
+      ...(existingPayload.model ? { model: existingPayload.model } : {}),
+      items: existing,
+    };
+    const result = await writeDataStore(opts.slug, heartbeat);
+    ctx.log.info(
+      { retainedItems: retained, slug: opts.slug, redis: result.source },
+      `${opts.fetcherName}: no new candidates this run - heartbeat refreshed`,
+    );
+    return done(opts.fetcherName, startedAt, retained, result.source === 'redis');
   }
 
   const fresh: Record<string, EditorialItem> = {};
@@ -210,16 +225,20 @@ async function safeBuild(
   }
 }
 
-async function loadExistingItems(slug: string): Promise<Record<string, EditorialItem>> {
+async function loadExistingPayload(slug: string): Promise<EditorialPayload> {
   try {
     const existing = await readDataStore<EditorialPayload>(slug);
     if (existing && existing.items && typeof existing.items === 'object') {
-      return existing.items;
+      return existing;
     }
   } catch {
     /* fall through to empty */
   }
-  return {};
+  return {
+    computedAt: new Date(0).toISOString(),
+    generator: 'template',
+    items: {},
+  };
 }
 
 /** Strip a single pair of wrapping straight/smart quotes the model sometimes adds. */

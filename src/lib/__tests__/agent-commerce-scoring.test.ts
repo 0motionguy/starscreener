@@ -80,14 +80,15 @@ test("scoreSocialMentions empty → 0", () => {
   assert.equal(scoreSocialMentions([]), 0);
 });
 
-test("scoreSocialMentions only counts hn/reddit/bluesky", () => {
+test("scoreSocialMentions only counts active social sources", () => {
   const onlyGithub = scoreSocialMentions([ref("github", 100), ref("npm", 100)]);
   assert.equal(onlyGithub, 0);
+  assert.equal(scoreSocialMentions([ref("reddit", 100)]), 0);
 });
 
 test("scoreSocialMentions sums signal scores from social sources", () => {
   const a = scoreSocialMentions([ref("hn", 50)]);
-  const b = scoreSocialMentions([ref("hn", 50), ref("reddit", 50)]);
+  const b = scoreSocialMentions([ref("hn", 50), ref("bluesky", 50)]);
   assert.ok(b > a);
 });
 

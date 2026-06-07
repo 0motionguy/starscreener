@@ -1,6 +1,6 @@
 name: Sweep cross-source mentions
 
-# Per-repo mentions sweep across all 8 channels (Twitter, Reddit, HN,
+# Per-repo mentions sweep across active channels (Twitter when enabled, HN,
 # Bluesky, dev.to, Lobsters, ProductHunt, Tavily web search). Closes the
 # source-first blind spot — the existing 88 collectors scan one source for
 # whatever mentions appear, but never iterate the top-trending list and
@@ -16,9 +16,7 @@ name: Sweep cross-source mentions
 #   dry_run "true" → run adapters but skip JSONL append + Redis write
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"
-    - cron: "15 5 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
     inputs:
       top:
@@ -32,7 +30,7 @@ on:
         default: ""
         type: string
       source_only:
-        description: "restrict to one channel (twitter|reddit|hackernews|bluesky|devto|lobsters|producthunt|tavily)"
+        description: "restrict to one channel (twitter|hackernews|bluesky|devto|lobsters|producthunt|tavily)"
         required: false
         default: ""
         type: string
@@ -106,12 +104,10 @@ jobs:
           # 2026-05-17: APIFY_API_TOKEN intentionally NOT passed (operator
           # policy off — see docs/POLICY-NO-APIFY.md). The sweep auto-disables
           # the Apify-Twitter channel when the token is absent; other channels
-          # (Reddit/HN/Bluesky/dev.to/Lobsters/ProductHunt/Tavily) keep running.
+          # (HN/Bluesky/dev.to/Lobsters/ProductHunt/Tavily) keep running.
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
           PRODUCTHUNT_API_TOKEN: ${{ secrets.PRODUCTHUNT_API_TOKEN }}
         run: |

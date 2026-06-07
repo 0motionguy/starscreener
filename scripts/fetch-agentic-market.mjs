@@ -98,7 +98,7 @@ function summarizePricing(endpoints) {
   };
 }
 
-function normalize(svc, capturedAt) {
+function normalize(svc) {
   const slug = slugify(svc.id || svc.name);
   const category = mapCategory(svc.category);
   const endpoints = svc.endpoints ?? [];
@@ -229,7 +229,7 @@ async function main() {
   );
 
   const capturedAt = new Date().toISOString();
-  let normalized = fresh.map((s) => normalize(s, capturedAt));
+  let normalized = fresh.map((s) => normalize(s));
   if (LIMIT > 0 && normalized.length > LIMIT) {
     normalized = normalized.slice(0, LIMIT);
     console.log(`[ac-am] capped to --limit ${LIMIT}`);

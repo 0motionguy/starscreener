@@ -5,7 +5,7 @@
 // Edit values here; source-health.ts re-exports them so server callers
 // see the same numbers without further changes.
 
-/** Fast-cron data sources (Reddit/HN/Bluesky/Lobsters): 4h budget. */
+/** Fast-cron data sources (HN/Bluesky/Lobsters): 4h budget. */
 export const FAST_DATA_STALE_THRESHOLD_MS = 4 * 60 * 60 * 1000;
 
 /** ProductHunt: 16h budget (slower cadence). */

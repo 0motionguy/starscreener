@@ -23,6 +23,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { writeDynamicOutputMarker } from '../../lib/dynamic-output-marker.js';
 import { pickGithubToken } from '../../lib/util/github-token-pool.js';
 
 // --- env-tunable knobs -----------------------------------------------------
@@ -557,7 +558,23 @@ const fetcher: Fetcher = {
       'repo-community-profile published',
     );
 
-    return done(startedAt, successCount, successCount > 0, errors);
+    const markerPublished = await writeDynamicOutputMarker({
+      fetcher: 'repo-community-profile',
+      outputPattern: 'repo-community:<owner>__<name>',
+      startedAt,
+      candidates: candidates.length,
+      updated: successCount,
+      skipped: failureCount,
+      failed: errors.length,
+    }).catch((err) => {
+      errors.push({
+        stage: 'write:worker-health:repo-community-profile',
+        message: (err as Error).message ?? String(err),
+      });
+      return false;
+    });
+
+    return done(startedAt, successCount, markerPublished, errors);
   },
 };
 

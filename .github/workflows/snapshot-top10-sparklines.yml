@@ -6,8 +6,7 @@ name: Snapshot /top10 sparklines daily
 # so today's points are already persisted when /top10 reads them. After
 # ~7 days of runs, sparklines start showing up in the UI on those columns.
 on:
-  schedule:
-    - cron: "50 23 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

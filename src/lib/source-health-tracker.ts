@@ -327,11 +327,12 @@ function formatError(err: unknown): string | null {
 // ---------------------------------------------------------------------------
 
 /**
- * Canonical source ids tracked by the breaker. Registered up-front so the
- * `/api/health/sources` endpoint reports them even before any traffic flows.
- * Add new sources here when wiring a new adapter.
+ * Canonical source ids tracked by the web-process breaker. Registered up-front
+ * so `/api/health/sources` reports owned adapters even before traffic flows.
+ * Worker-backed snapshot sources belong to `/api/health`, not this breaker.
+ * Add new sources here only when wiring a sourceHealthTracker adapter.
  */
-export const KNOWN_SOURCES = [
+export const DEFAULT_KNOWN_SOURCES = [
   "hackernews",
   "reddit",
   "bluesky",
@@ -339,11 +340,48 @@ export const KNOWN_SOURCES = [
   "github",
   "github-search",
   "nitter",
-  "lobsters",
-  "producthunt",
 ] as const;
 
-export type KnownSource = (typeof KNOWN_SOURCES)[number];
+export type KnownSource = (typeof DEFAULT_KNOWN_SOURCES)[number];
+
+const DEFAULT_DISABLED_SOURCE_IDS = [
+  // These are per-repo live-search adapters, not the worker-backed Redis feeds.
+  // Cron ingest fans Reddit/GitHub Search out over the top-50 repos and
+  // reliably hits Reddit edge blocks / GitHub Search 403s. Nitter's public
+  // instances are no longer a dependable production source. Keep them off
+  // until they have a rate-limited queue or a credentialed provider.
+  "reddit",
+  "github-search",
+  "nitter",
+] as const satisfies readonly KnownSource[];
+
+function parseDisabledSources(raw: string | undefined): Set<KnownSource> {
+  const source = raw?.trim();
+  if (source && /^(none|false|0|off)$/i.test(source)) return new Set();
+  const ids = source
+    ? source.split(/[,\s]+/).filter(Boolean)
+    : DEFAULT_DISABLED_SOURCE_IDS;
+  const allowed = new Set<string>(DEFAULT_KNOWN_SOURCES);
+  return new Set(
+    ids.filter((id): id is KnownSource => allowed.has(id)),
+  );
+}
+
+const DISABLED_SOURCE_SET = parseDisabledSources(
+  process.env.SOURCE_HEALTH_DISABLED_SOURCES,
+);
+
+export const DISABLED_SOURCES = DEFAULT_KNOWN_SOURCES.filter((id) =>
+  DISABLED_SOURCE_SET.has(id),
+);
+
+export const KNOWN_SOURCES = DEFAULT_KNOWN_SOURCES.filter(
+  (id) => !DISABLED_SOURCE_SET.has(id),
+);
+
+export function isSourceHealthDisabled(source: string): boolean {
+  return DISABLED_SOURCE_SET.has(source as KnownSource);
+}
 
 export const sourceHealthTracker = new SourceHealthTracker();
 

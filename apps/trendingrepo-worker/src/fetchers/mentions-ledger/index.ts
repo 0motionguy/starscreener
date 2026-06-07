@@ -1,6 +1,6 @@
 // Mentions-ledger fetcher — cumulative all-time mention counter per (repo, source).
 //
-// Motivation: the 5 upstream collectors (hackernews, reddit, bluesky, devto,
+// Motivation: the active upstream collectors (hackernews, bluesky, devto,
 // lobsters) overwrite a 7-day-windowed snapshot every run. The trending hub's
 // Mentions cell needs a cumulative count that grows forever; this fetcher
 // projects the snapshot into a Redis-SET ledger keyed by stable mention IDs,
@@ -16,8 +16,8 @@
 // Leaderboard ZADD is best-effort — recomputes top-200 repos by total each run.
 //
 // Cadence: cron `7,22,37,52 * * * *` — 4x/hour, offset from the upstream
-// collector windows (hackernews :10, bluesky :17, devto :30 (6h), lobsters :37,
-// reddit n/a) so we sweep after most of them have published.
+// collector windows (hackernews :10, bluesky :17, devto :30 (6h), lobsters :37)
+// so we sweep after most of them have published.
 //
 // Out of scope here: seed of historical snapshots (Phase D worker job
 // `seed-mentions-ledger`). This fetcher only ingests what the upstream
@@ -65,8 +65,9 @@ interface TwitterAdaptedSnapshot {
 }
 
 // --------------------------------------------------------------------------
-// Source registry — the 6 snapshot slugs we project into the ledger. Order
-// matters only for logging consistency.
+// Source registry. Reddit remains a known bucket shape for historical data and
+// tests, but it is not an active projection source while the Reddit topic is
+// paused end-to-end on HOSTUP.
 // --------------------------------------------------------------------------
 
 export const LEDGER_SOURCES = [
@@ -78,6 +79,15 @@ export const LEDGER_SOURCES = [
   'twitter',
 ] as const;
 export type LedgerSource = (typeof LEDGER_SOURCES)[number];
+
+const ACTIVE_LEDGER_SOURCES: readonly LedgerSource[] = [
+  'hackernews',
+  'bluesky',
+  'devto',
+  'lobsters',
+  'twitter',
+];
+const ACTIVE_LEDGER_SOURCE_SET = new Set<LedgerSource>(ACTIVE_LEDGER_SOURCES);
 
 const SLUG_BY_SOURCE: Record<LedgerSource, string> = {
   hackernews: 'hackernews-repo-mentions',
@@ -334,7 +344,7 @@ export interface UpstreamSnapshots {
 
 export function projectSnapshots(snapshots: UpstreamSnapshots): LedgerWorkItem[] {
   const items: LedgerWorkItem[] = [];
-  for (const source of LEDGER_SOURCES) {
+  for (const source of ACTIVE_LEDGER_SOURCES) {
     const snap = snapshots[source];
     if (!snap || typeof snap !== 'object') continue;
     const mentions = (snap as { mentions?: Record<string, unknown> }).mentions;
@@ -383,6 +393,7 @@ export async function applyLedger(
   let newMentions = 0;
 
   for (const item of items) {
+    if (!ACTIVE_LEDGER_SOURCE_SET.has(item.source)) continue;
     const setKey = `${KEY_PREFIX}:${item.repo}:${item.source}`;
     const indexKey = `${KEY_PREFIX}:${item.repo}:_index`;
     const added = await ops.sadd(setKey, item.ids);
@@ -404,6 +415,7 @@ export async function applyLedger(
     let total = 0;
     const perSource: Record<string, number> = {};
     for (const [field, value] of Object.entries(hash)) {
+      if (!ACTIVE_LEDGER_SOURCE_SET.has(field as LedgerSource)) continue;
       const n = Number.parseInt(String(value), 10);
       if (Number.isFinite(n) && n > 0) {
         perSource[field] = n;
@@ -455,10 +467,39 @@ export function mergeLedgerSnapshot(
 ): LedgerSnapshot {
   const byRepo = new Map<string, LedgerSnapshotEntry>();
   for (const e of existing?.entries ?? []) {
-    if (e && typeof e.fullName === 'string') byRepo.set(e.fullName.toLowerCase(), e);
+    const sanitized = sanitizeLedgerSnapshotEntry(e);
+    if (sanitized) byRepo.set(sanitized.fullName.toLowerCase(), sanitized);
   }
-  for (const e of fresh) byRepo.set(e.fullName.toLowerCase(), e);
+  for (const e of fresh) {
+    const sanitized = sanitizeLedgerSnapshotEntry(e);
+    if (sanitized) byRepo.set(sanitized.fullName.toLowerCase(), sanitized);
+  }
   return { entries: Array.from(byRepo.values()), writtenAt: now };
+}
+
+function sanitizeLedgerSnapshotEntry(
+  entry: LedgerSnapshotEntry | null | undefined,
+): LedgerSnapshotEntry | null {
+  if (!entry || typeof entry.fullName !== 'string' || entry.fullName.length === 0) {
+    return null;
+  }
+  const perSource: Record<string, number> = {};
+  let total = 0;
+  for (const [source, value] of Object.entries(entry.perSource ?? {})) {
+    if (!ACTIVE_LEDGER_SOURCE_SET.has(source as LedgerSource)) continue;
+    const count = Number(value);
+    if (!Number.isFinite(count) || count <= 0) continue;
+    perSource[source] = count;
+    total += count;
+  }
+  if (total <= 0) return null;
+  const sources = Object.keys(perSource).sort((a, b) => (perSource[b] ?? 0) - (perSource[a] ?? 0));
+  return {
+    fullName: entry.fullName,
+    perSource,
+    total,
+    sources,
+  };
 }
 
 // --------------------------------------------------------------------------
@@ -467,8 +508,8 @@ export function mergeLedgerSnapshot(
 
 const fetcher: Fetcher = {
   name: 'mentions-ledger',
-  // 4x/hour, offset from hackernews(:10) bluesky(:17) lobsters(:37). Reddit
-  // and devto have their own cadences; we re-sweep often enough to catch
+  // 4x/hour, offset from hackernews(:10) bluesky(:17) lobsters(:37). Dev.to
+  // has its own cadence; we re-sweep often enough to catch
   // anything they publish without piling up cron-tick collisions.
   schedule: '7,22,37,52 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
@@ -480,15 +521,11 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, errors);
     }
 
-    // Read all 6 upstream snapshots in parallel. Each can be null if its
+    // Read active upstream snapshots in parallel. Each can be null if its
     // collector hasn't published yet; the projector tolerates nulls.
-    const [hn, reddit, bluesky, devto, lobsters, twitterRaw] = await Promise.all([
+    const [hn, bluesky, devto, lobsters, twitterRaw] = await Promise.all([
       readDataStore<HnSnapshot>(SLUG_BY_SOURCE.hackernews).catch((err) => {
         errors.push({ stage: 'read:hackernews', message: (err as Error).message });
-        return null;
-      }),
-      readDataStore<RedditSnapshot>(SLUG_BY_SOURCE.reddit).catch((err) => {
-        errors.push({ stage: 'read:reddit', message: (err as Error).message });
         return null;
       }),
       readDataStore<BlueskySnapshot>(SLUG_BY_SOURCE.bluesky).catch((err) => {
@@ -514,7 +551,6 @@ const fetcher: Fetcher = {
     const twitter = groupTwitterByRepo(twitterRaw);
     const items = projectSnapshots({
       hackernews: hn,
-      reddit,
       bluesky,
       devto,
       lobsters,
@@ -526,7 +562,7 @@ const fetcher: Fetcher = {
         workItems: items.length,
         totalIds,
         hn: hn ? Object.keys(hn.mentions ?? {}).length : 0,
-        reddit: reddit ? Object.keys(reddit.mentions ?? {}).length : 0,
+        reddit: 'paused',
         bluesky: bluesky ? Object.keys(bluesky.mentions ?? {}).length : 0,
         devto: devto ? Object.keys(devto.mentions ?? {}).length : 0,
         lobsters: lobsters ? Object.keys(lobsters.mentions ?? {}).length : 0,

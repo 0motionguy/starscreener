@@ -111,7 +111,6 @@ export function computeVerdicts(args: {
   const nowMs = Date.now();
   const lastCommitDays = daysSince(repo.lastCommitAt, nowMs);
   const lastReleaseDays = daysSince(repo.lastReleaseAt, nowMs);
-  const ageDays = daysSince(repo.createdAt, nowMs);
   const channels = repo.channelsFiring ?? 0;
   const momentum = repo.momentumScore ?? 0;
   const stars = repo.stars ?? 0;
@@ -776,8 +775,8 @@ export function suggestAlerts(args: {
       recommended: !repo.lastReleaseTag || verdicts.productionReadiness.level !== "high",
     },
     {
-      id: "hn-reddit-spike",
-      label: "HN or Reddit mentions spike",
+      id: "hn-active-social-spike",
+      label: "HN or Bluesky mentions spike",
       rationale: "external validation arriving outside GitHub",
       recommended: (repo.channelsFiring ?? 0) < 4,
     },

@@ -4,9 +4,12 @@ Cross-source trending leaderboard worker for trendingrepo.com. Self-contained No
 
 ## What it does
 
-- Pulls trending data from HuggingFace, GitHub, Bluesky, HN, ProductHunt, DevTo, Reddit, plus Firecrawl-backed crawls of PulseMCP / Smithery / mcp.so / claude.com/code/skills.
+- Pulls trending data from HuggingFace, GitHub, Bluesky, HN, ProductHunt, DevTo, package/model/funding feeds, and the active MCP/skills registries. Reddit collectors are paused until a credentialed, non-empty producer is approved.
 - Upserts normalized rows into Supabase Postgres (`trending_items`, `trending_metrics`, `trending_assets`) - cold tier.
-- Publishes denormalized leaderboard JSON to Redis (Railway ioredis or Upstash REST) - hot tier the frontend reads. Same `ss:data:v1:*` namespace the existing STARSCREENER `data-store.ts` uses.
+- Publishes denormalized leaderboard JSON to HOSTUP-internal Redis (with
+  legacy Upstash only where explicitly configured) - hot tier the frontend
+  reads. Same `ss:data:v1:*` namespace the existing STARSCREENER
+  `data-store.ts` uses.
 - pg_cron recomputes per-type z-score `trending_score()` nightly at 03:00 UTC.
 
 ## Local dev
@@ -38,6 +41,17 @@ npm run fetcher -- github -- --dry-run
 npx tsx src/index.ts --healthcheck     # one-shot, exits 0/1
 curl http://localhost:8080/healthz     # while running in --cron mode
 ```
+
+Production health is checked from the app repo root:
+
+```bash
+npm run health:prod
+curl -s https://trendingrepo.com/api/worker/health
+```
+
+Expected 2026-06-01 state: 50 active sources, 50 green, 0 amber/red/missing,
+0 degraded payloads, and 0 empty payloads. Reddit is intentionally disabled
+until a credentialed non-empty producer is approved.
 
 ## Sentry
 

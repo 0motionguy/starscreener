@@ -1,10 +1,11 @@
 // GET /api/cron/freshness/state
 //
 // Operator-facing freshness inventory for the session-opening gate. Reads the
-// per-source sidecars in data/_meta plus data-store last-write timestamps
-// (Redis primary, bundled file fallback) and returns one stable JSON envelope.
+// per-source sidecars in data/_meta plus Redis last-write timestamps and
+// returns one stable JSON envelope. Bundled data/*.json file mtimes are not
+// live producer proof and must not make HOSTUP freshness green.
 
-import { readFile, stat } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -31,6 +32,7 @@ interface SourceSpec {
     slugs: (nowMs: number) => string[];
   }>;
   blocking?: boolean;
+  enabled?: boolean;
   budgetMs: number;
   budgetLabel: string;
 }
@@ -41,6 +43,13 @@ interface SourceState {
   freshnessBudget: string;
   ageMs: number | null;
   status: SourceStatus;
+  blocking: boolean;
+}
+
+interface DisabledSourceState {
+  name: string;
+  reason: string;
+  freshnessBudget: string;
   blocking: boolean;
 }
 
@@ -57,7 +66,9 @@ interface FreshnessStateResponse {
     yellow: number;
     red: number;
     dead: number;
+    disabled: number;
   };
+  disabledSources: DisabledSourceState[];
 }
 
 interface SourceMeta {
@@ -104,7 +115,10 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   {
     name: "trending-repos",
     metaSource: "trending",
-    redisSlugs: ["trending", "trending-lite"],
+    // HOSTUP worker-owned output. `trending-lite` is emitted only by the
+    // legacy script path and is not a live worker payload, so it must not make
+    // production freshness look dead.
+    redisSlugs: ["trending"],
     ...hours(6),
   },
   {
@@ -149,8 +163,13 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(6),
   },
   {
+    // Reddit is paused end-to-end on HOSTUP. Baselines still call Reddit
+    // upstreams, so keep them out of active freshness until the operator
+    // explicitly re-enables the topic.
     name: "reddit-baselines",
     redisSlugs: ["reddit-baselines"],
+    blocking: false,
+    enabled: false,
     ...days(8),
   },
   {
@@ -179,31 +198,51 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   },
   {
     name: "twitter",
-    redisSlugs: ["twitter-trending"],
+    // The live worker writes the cumulative per-repo signal slug. The older
+    // `twitter-trending` aggregate was produced by GitHub automation and is
+    // not a HOSTUP-owned freshness signal.
+    redisSlugs: ["twitter-repo-signals"],
     ...hours(12),
   },
   {
+    // File/GitHub-owned arXiv refresh is intentionally removed from active
+    // freshness until it is ported to a HOSTUP worker or Redis writer.
     name: "arxiv",
     metaSource: "arxiv",
     redisSlugs: ["arxiv-recent", "arxiv-enriched"],
+    blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {
+    // Workflow/file-owned script output. Keep disabled until HuggingFace is
+    // ported to a HOSTUP worker producer; otherwise stale legacy Redis writes
+    // can make freshness look owned by the live worker fleet.
     name: "huggingface",
     metaSource: "huggingface",
     redisSlugs: ["huggingface-trending"],
+    blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {
+    // File/GitHub-owned side source; do not let bundled file mtimes claim live
+    // freshness on HOSTUP.
     name: "huggingface-datasets",
     metaSource: "huggingface-datasets",
     redisSlugs: ["huggingface-datasets"],
+    blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {
+    // File/GitHub-owned side source; do not let bundled file mtimes claim live
+    // freshness on HOSTUP.
     name: "huggingface-spaces",
     metaSource: "huggingface-spaces",
     redisSlugs: ["huggingface-spaces"],
+    blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {
@@ -216,7 +255,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     name: "funding-news",
     metaSource: "funding-news",
     redisSlugs: ["funding-news"],
-    ...hours(24),
+    ...hours(6),
   },
   // funding-x removed 2026-05-17: Apify-only producer was disabled per
   // docs/POLICY-NO-APIFY.md (#1594). No free producer planned. Codex audit
@@ -224,7 +263,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   {
     name: "funding-crunchbase",
     redisSlugs: ["funding-news-crunchbase"],
-    ...hours(24),
+    ...hours(6),
+  },
+  {
+    name: "funding-sec-form-d",
+    redisSlugs: ["funding-news-sec"],
+    ...hours(6),
   },
   {
     name: "revenue",
@@ -248,18 +292,20 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   },
   {
     // trending-mcp: no producer in registry (Codex audit P1 2026-05-17).
-    // Demoted to advisory pending implementation of an MCP rollup fetcher.
+    // Disabled from live freshness until an MCP rollup fetcher lands.
     name: "trending-mcp",
     redisSlugs: ["trending-mcp"],
     blocking: false,
+    enabled: false,
     ...hours(24),
   },
   {
     // mcp-liveness: workflow exists but Redis write not verified.
-    // Demoted to advisory pending direct Redis check.
+    // Disabled from active freshness until it has a verified HOSTUP writer.
     name: "mcp-liveness",
     redisSlugs: ["mcp-liveness"],
     blocking: false,
+    enabled: false,
     ...hours(12),
   },
   {
@@ -268,23 +314,26 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     name: "mcp-downloads",
     redisSlugs: ["mcp-downloads", "mcp-downloads-pypi"],
     blocking: false,
+    enabled: false,
     ...hours(12),
   },
   {
     name: "mcp-dependents",
     redisSlugs: ["mcp-dependents"],
     blocking: false,
+    enabled: false,
     ...hours(12),
   },
   {
     name: "mcp-smithery-rank",
     redisSlugs: ["mcp-smithery-rank"],
     blocking: false,
+    enabled: false,
     ...hours(12),
   },
   {
     // mcp-usage-snapshot: depends on trending-mcp which has no producer.
-    // Demoted to advisory until upstream lands.
+    // Disabled until upstream lands.
     name: "mcp-usage-snapshot",
     redisSlugGroups: [
       {
@@ -293,12 +342,12 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       },
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
-    // trending-skills: workflows exist (refresh-skill-*.yml) but
-    // Redis writes unverified vs the multi-slug list below.
-    // Demoted to advisory pending registry verification.
+    // trending-skills: workflows exist (refresh-skill-*.yml) but there is no
+    // current live app route or worker-owned producer. Disabled until rebuilt.
     name: "trending-skills",
     redisSlugs: [
       "trending-skill",
@@ -308,11 +357,16 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "trending-skill-lobehub",
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
+    // skill-derivative-count has no current registered producer or reader in
+    // the live app; awesome-skills itself is tracked separately below.
     name: "skill-sidechannels",
     redisSlugs: ["awesome-skills", "skill-derivative-count"],
+    blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
@@ -323,6 +377,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       "skill-install-snapshot:prev:30d",
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
@@ -342,6 +397,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
       },
     ],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
@@ -395,59 +451,75 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(36),
   },
   {
+    // GitHub/file-built seed. Disabled from live freshness until a HOSTUP
+    // Redis writer owns the slug.
     name: "agent-commerce",
     redisSlugs: ["agent-commerce"],
+    blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
-    // engagement-composite, trendshift-daily, scoring-shadow:
-    // No clear producer workflows in .github/workflows/. Likely emitted by
-    // the Railway worker (apps/trendingrepo-worker) or were never implemented.
-    // Codex audit P1 flagged as blocking. Demoted to advisory pending
-    // producer-side investigation.
+    // Worker-owned active output. Keep aligned with sources.json so the
+    // session-opening gate catches a stalled composite scorer.
     name: "engagement-composite",
     redisSlugs: ["engagement-composite"],
-    blocking: false,
-    ...hours(24),
+    ...hours(2),
   },
   {
     name: "trendshift-daily",
     redisSlugs: ["trendshift-daily"],
-    blocking: false,
-    ...hours(36),
+    ...hours(24),
   },
   {
     name: "scoring-shadow",
     redisSlugs: ["scoring-shadow-report"],
     blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
     name: "staleness-report",
     redisSlugs: ["staleness-report"],
+    blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
     name: "unknown-mentions",
     redisSlugs: ["unknown-mentions-promoted"],
+    blocking: false,
+    enabled: false,
     ...hours(36),
   },
   {
+    // File/GitHub-owned RSS scrape; keep out of live freshness until Redis is
+    // written from HOSTUP.
     name: "claude-rss",
     metaSource: "claude-rss",
     redisSlugs: ["claude-rss"],
+    blocking: false,
+    enabled: false,
     ...hours(30),
   },
   {
+    // File/GitHub-owned RSS scrape; keep out of live freshness until Redis is
+    // written from HOSTUP.
     name: "openai-rss",
     metaSource: "openai-rss",
     redisSlugs: ["openai-rss"],
+    blocking: false,
+    enabled: false,
     ...hours(30),
   },
   {
+    // File/GitHub-owned skills scrape; skill side-channels are retired from
+    // active freshness until rebuilt.
     name: "awesome-skills",
     metaSource: "awesome-skills",
     redisSlugs: ["awesome-skills"],
+    blocking: false,
+    enabled: false,
     ...hours(30),
   },
 ];
@@ -482,25 +554,20 @@ async function readMetaProbe(source: string): Promise<TimestampProbe> {
 }
 
 async function readStoreProbe(slug: string): Promise<TimestampProbe> {
+  const redis = getDataStore().redisClient();
+  if (!redis) {
+    return { timestamp: null, status: "DEAD" };
+  }
   try {
-    const timestamp = parseIso(await getDataStore().writtenAt(slug));
-    if (!timestamp) {
-      const fallbackTimestamp = await readPayloadFileTimestamp(slug);
-      return {
-        timestamp: fallbackTimestamp,
-        status: fallbackTimestamp ? "GREEN" : "DEAD",
-      };
-    }
+    const timestamp = parseIso(
+      parseStoreWrittenAt(await redis.get(`ss:meta:v1:${slug}`)),
+    );
     return {
       timestamp,
-      status: "GREEN",
+      status: timestamp ? "GREEN" : "DEAD",
     };
   } catch {
-    const fallbackTimestamp = await readPayloadFileTimestamp(slug);
-    return {
-      timestamp: fallbackTimestamp,
-      status: fallbackTimestamp ? "GREEN" : "DEAD",
-    };
+    return { timestamp: null, status: "DEAD" };
   }
 }
 
@@ -518,15 +585,6 @@ async function readBestStoreProbe(slugs: string[]): Promise<TimestampProbe> {
   return best ?? { timestamp: null, status: "DEAD" };
 }
 
-async function readPayloadFileTimestamp(slug: string): Promise<string | null> {
-  try {
-    const snapshot = await stat(resolve(process.cwd(), "data", `${slug}.json`));
-    return new Date(snapshot.mtimeMs).toISOString();
-  } catch {
-    return null;
-  }
-}
-
 function oldestIso(candidates: Array<string | null>): string | null {
   let oldest: string | null = null;
   let oldestMs = Infinity;
@@ -538,6 +596,30 @@ function oldestIso(candidates: Array<string | null>): string | null {
     }
   }
   return oldest;
+}
+
+function parseStoreWrittenAt(raw: unknown): string | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "string" && raw.length > 0) {
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw) as { writtenAt?: unknown };
+        return typeof parsed.writtenAt === "string"
+          ? parseIso(parsed.writtenAt)
+          : null;
+      } catch {
+        return null;
+      }
+    }
+    return parseIso(raw);
+  }
+  if (typeof raw === "object") {
+    const parsed = raw as { writtenAt?: unknown };
+    return typeof parsed.writtenAt === "string"
+      ? parseIso(parsed.writtenAt)
+      : null;
+  }
+  return null;
 }
 
 function classify(ageMs: number | null, budgetMs: number): SourceStatus {
@@ -599,12 +681,26 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
   };
 }
 
-function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
+function disabledSourceState(spec: SourceSpec): DisabledSourceState {
+  return {
+    name: spec.name,
+    reason:
+      "disabled from active freshness until a verified HOSTUP Redis producer owns this source",
+    freshnessBudget: spec.budgetLabel,
+    blocking: spec.blocking !== false,
+  };
+}
+
+function summarize(
+  sources: SourceState[],
+  disabledSources: DisabledSourceState[],
+): FreshnessStateResponse["summary"] {
   return {
     green: sources.filter((source) => source.status === "GREEN").length,
     yellow: sources.filter((source) => source.status === "YELLOW").length,
     red: sources.filter((source) => source.status === "RED").length,
     dead: sources.filter((source) => source.status === "DEAD").length,
+    disabled: disabledSources.length,
   };
 }
 
@@ -629,15 +725,23 @@ async function handle(
   try {
     const inspect = resolveInspectSource(inspectSource);
     const sources = await Promise.all(
-      SOURCE_SPECS.map((spec) => inspect(spec, nowMs)),
+      SOURCE_SPECS.filter((spec) => spec.enabled !== false).map((spec) =>
+        inspect(spec, nowMs),
+      ),
     );
     sources.sort((a, b) => a.name.localeCompare(b.name));
+    const disabledSources = SOURCE_SPECS.filter(
+      (spec) => spec.enabled === false,
+    )
+      .map(disabledSourceState)
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     return NextResponse.json({
       checkedAt: new Date(nowMs).toISOString(),
       health: deriveHealth(sources),
       sources,
-      summary: summarize(sources),
+      summary: summarize(sources, disabledSources),
+      disabledSources,
     });
   } catch (error) {
     console.error("[freshness-state] failed to inspect sources", error);

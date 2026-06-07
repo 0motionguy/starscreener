@@ -12,11 +12,8 @@ export default defineConfig({
     environment: 'node',
     include: ['tests/**/*.test.ts', 'src/**/__tests__/**/*.test.ts'],
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    maxWorkers: 1,
+    isolate: false,
     testTimeout: 30_000,
     css: false,
   },

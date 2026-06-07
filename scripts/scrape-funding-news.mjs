@@ -151,7 +151,7 @@ function extractTag(block, tag) {
   return decodeHtmlEntities(cdata?.[1] ?? raw).trim();
 }
 
-function parseRssItems(xml, sourceUrl) {
+function parseRssItems(xml) {
   const items = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
   const posts = [];
 
@@ -562,7 +562,7 @@ async function fetchRssFeed(url, sourceName) {
       return [];
     }
     const xml = await res.text();
-    const items = parseRssItems(xml, url);
+    const items = parseRssItems(xml);
     console.log(`[funding] ${sourceName}: ${items.length} items`);
     return items;
   } catch (err) {

@@ -138,10 +138,6 @@ test("only known callers may import Clerk hooks (useUser / useAuth)", () => {
     // server-resolved prop and short-circuits before invoking useUser()
     // when ClerkProvider isn't mounted.
     join("src", "components", "onboarding", "WelcomeModalGate.tsx"),
-    // Route-scoped repo topbar sign-in slot. Same dynamic-import + mounted
-    // gate pattern as HeaderAccountLoaded; its own file header asserts this
-    // allow-list membership.
-    join("src", "components", "repo", "RepoProfileTopbarAuth.tsx"),
     // Pricing checkout is dynamically mounted only after the pricing page
     // passes the server-resolved authEnabled gate through CheckoutLauncher.
     join("src", "components", "pricing", "CheckoutLauncherLoaded.tsx"),

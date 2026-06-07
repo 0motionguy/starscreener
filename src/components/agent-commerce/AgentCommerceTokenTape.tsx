@@ -1,13 +1,19 @@
 import type { TokenMarketRow } from "./displayData";
 
+type SourceStatus = "fresh" | "stale" | "missing" | "unknown";
+
 interface AgentCommerceTokenTapeProps {
   gainers: TokenMarketRow[];
   losers: TokenMarketRow[];
   baseVolumeUsd24h: number;
   solanaVolumeUsd24h: number;
   x402Endpoints: number;
+  x402NewThisWeek: number;
   mcpServers: number;
+  mcpDegraded: number;
+  mcpHealthKnown: boolean;
   portalReady: number;
+  duneVolumeStatus: SourceStatus;
 }
 
 function formatUsd(n: number): string {
@@ -18,15 +24,31 @@ function formatUsd(n: number): string {
   return `$${Math.round(n)}`;
 }
 
+function volumeValue(status: SourceStatus, value: number): string {
+  if (status === "fresh") return `${formatUsd(value)}/24h`;
+  if (status === "stale") return "source stale";
+  if (status === "unknown") return "source unknown";
+  return "source unavailable";
+}
+
+function volumeTone(status: SourceStatus, value: number): "delta-up" | "delta-fl" {
+  return status === "fresh" && value > 0 ? "delta-up" : "delta-fl";
+}
+
 export function AgentCommerceTokenTape({
   gainers,
   losers,
   baseVolumeUsd24h,
   solanaVolumeUsd24h,
   x402Endpoints,
+  x402NewThisWeek,
   mcpServers,
+  mcpDegraded,
+  mcpHealthKnown,
   portalReady,
+  duneVolumeStatus,
 }: AgentCommerceTokenTapeProps) {
+  const totalVolumeUsd24h = baseVolumeUsd24h + solanaVolumeUsd24h;
   const leading = [...gainers.slice(0, 5), ...losers.slice(0, 1)].map((row) => ({
     tag: row.symbol,
     label: row.name,
@@ -37,32 +59,37 @@ export function AgentCommerceTokenTape({
     {
       tag: "USDC",
       label: "Base - x402 volume",
-      value: `${formatUsd(baseVolumeUsd24h)}/24h`,
-      tone: "delta-up",
+      value: volumeValue(duneVolumeStatus, baseVolumeUsd24h),
+      tone: volumeTone(duneVolumeStatus, baseVolumeUsd24h),
     },
     {
       tag: "USDC",
       label: "Solana - x402 volume",
-      value: `${formatUsd(solanaVolumeUsd24h)}/24h`,
-      tone: "delta-up",
+      value: volumeValue(duneVolumeStatus, solanaVolumeUsd24h),
+      tone: volumeTone(duneVolumeStatus, solanaVolumeUsd24h),
     },
     {
       tag: "DUNE",
-      label: "agentic_market",
-      value: "14 queries",
-      tone: "delta-up",
+      label: "x402 volume",
+      value:
+        duneVolumeStatus === "fresh" && totalVolumeUsd24h === 0
+          ? "no volume rows"
+          : volumeValue(duneVolumeStatus, totalVolumeUsd24h),
+      tone: volumeTone(duneVolumeStatus, totalVolumeUsd24h),
     },
     {
       tag: "MCP",
-      label: `${mcpServers.toLocaleString()} servers live`,
-      value: "3 degraded",
-      tone: "delta-fl",
+      label: `${mcpServers.toLocaleString()} servers tracked`,
+      value: mcpHealthKnown
+        ? `${mcpDegraded.toLocaleString()} degraded`
+        : "health unknown",
+      tone: mcpHealthKnown && mcpDegraded === 0 ? "delta-up" : "delta-fl",
     },
     {
       tag: "PORTAL",
       label: `${portalReady.toLocaleString()} portal-ready`,
-      value: "3 new",
-      tone: "delta-up",
+      value: `${x402NewThisWeek.toLocaleString()} new x402`,
+      tone: x402NewThisWeek > 0 ? "delta-up" : "delta-fl",
     },
     {
       tag: "X402",

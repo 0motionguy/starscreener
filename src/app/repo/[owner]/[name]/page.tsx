@@ -13,6 +13,7 @@ import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { fetchGitHubRepoLiveWithinBudget } from "@/lib/github-live";
 import {
   refreshRepoProfilesFromStore,
   getRepoProfile,
@@ -39,7 +40,7 @@ import {
 } from "@/lib/repo-editorial-store";
 import { listCommentsForRepo } from "@/lib/repo-comments";
 import {
-  getReactionsForComment,
+  getReactionsForComments,
   emptyReactionAggregate,
 } from "@/lib/repo-comment-reactions";
 import { getLikeStatus } from "@/lib/repo-likes";
@@ -129,7 +130,7 @@ export async function generateMetadata({ params }: PageProps) {
   // Prefer the AISO/Kimi verdict summary for the meta description — it's
   // original, specific, evidence-based prose that makes a far better search
   // snippet than the generic boilerplate. Falls back when no verdict exists.
-  let description = `Trending signal profile for ${full}: stars, forks, mentions across HN, Reddit, X, Bluesky and more. Updated continuously.`;
+  let description = `Trending signal profile for ${full}: stars, forks, mentions across HN, X, Bluesky and more. Updated continuously.`;
   try {
     await refreshConsensusVerdictsFromStore();
     const verdict = getConsensusItemReport(full);
@@ -260,13 +261,17 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     refreshRepoRegistryFromStore().catch(() => undefined),
   ]);
 
-  const repo = (() => {
+  let repo = (() => {
     try {
       return getDerivedRepoByFullName(fullName);
     } catch {
       return null;
     }
   })();
+
+  if (!repo) {
+    repo = await fetchGitHubRepoLiveWithinBudget(owner, name).catch(() => null);
+  }
 
   if (!repo) {
     notFound();
@@ -350,17 +355,14 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
   // Comments + reactions (loaded once on the server; the client widgets
   // hydrate with these as seed values).
   const comments = await listCommentsForRepo(fullName).catch(() => []);
-  const reactionEntries = await Promise.all(
-    comments.map(async (comment) => {
-      try {
-        const reactions = await getReactionsForComment(comment.id, clerkUserId);
-        return [comment.id, reactions] as const;
-      } catch {
-        return [comment.id, emptyReactionAggregate()] as const;
-      }
-    }),
+  const initialReactions = await getReactionsForComments(
+    comments.map((comment) => comment.id),
+    clerkUserId,
+  ).catch(() =>
+    Object.fromEntries(
+      comments.map((comment) => [comment.id, emptyReactionAggregate()] as const),
+    ),
   );
-  const initialReactions = Object.fromEntries(reactionEntries);
 
   // Like + unicorn status (server-side seed for the hero's reaction row).
   // Parallelize — both are independent JSONL reads.

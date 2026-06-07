@@ -17,6 +17,8 @@
 //
 // Server-side only, 5-minute revalidate. Failure → []. Never fabricates.
 
+import { fetchWithTimeout } from "./fetch-timeout";
+
 export interface VirtualAgent {
   id: number;
   name: string;
@@ -74,6 +76,7 @@ interface VirtualsApiResponse {
 
 const VIRTUALS_UA =
   "Mozilla/5.0 (compatible; TrendingRepo/1.0; +https://trendingrepo.com)";
+const VIRTUALS_TIMEOUT_MS = 4_000;
 
 /**
  * Fetch top N Virtuals Protocol agents by market cap descending.
@@ -95,7 +98,8 @@ export async function fetchVirtualAgents(
   const fetchedAt = new Date().toISOString();
 
   try {
-    const res = await fetch(url, {
+    const res = await fetchWithTimeout(url, {
+      timeoutMs: VIRTUALS_TIMEOUT_MS,
       headers: { "User-Agent": VIRTUALS_UA, Accept: "application/json" },
       next: { revalidate: 300 },
     });

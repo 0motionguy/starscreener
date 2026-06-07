@@ -43,6 +43,18 @@ const DUAL_WRITE_TRACE_OUT = resolve(
 );
 
 const args = new Set(process.argv.slice(2));
+const ossInsightApproval = process.env.TRENDINGREPO_ENABLE_OSSINSIGHT?.trim().toLowerCase();
+const directOssInsightApproved =
+  args.has("--use-ossinsight") || ossInsightApproval === "operator-approved";
+
+if (!directOssInsightApproved) {
+  console.warn(
+    "[scrape-trending] OSS Insight direct scrape disabled by default; HOSTUP worker oss-trending owns production freshness. " +
+      "Set TRENDINGREPO_ENABLE_OSSINSIGHT=operator-approved or pass --use-ossinsight for an explicit diagnostic/backfill run.",
+  );
+  process.exit(0);
+}
+
 const fetchTrendBuckets = !args.has("--only-collection-rankings");
 const fetchCollectionRankings = !args.has("--skip-collection-rankings");
 
@@ -215,7 +227,11 @@ async function main() {
     // collection. Inject a composite key for dedupe; strip after merge.
     const decorate = (rows) =>
       (rows ?? []).map((r) => ({ ...r, _ck: `${r.id}:${r.repoId}` }));
-    const undecorate = ({ _ck, ...rest }) => rest;
+    const undecorate = (row) => {
+      const rest = { ...row };
+      delete rest._ck;
+      return rest;
+    };
     const existingHot = await loadExistingJson(HOT_COLLECTIONS_OUT, { rows: [] });
     const mergedHotRows = mergeAndKeepLastN(
       decorate(existingHot?.rows),

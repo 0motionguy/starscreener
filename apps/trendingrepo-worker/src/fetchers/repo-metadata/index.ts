@@ -20,6 +20,10 @@ import {
   pickGithubToken,
   recordRateLimit,
 } from '../../lib/util/github-token-pool.js';
+import {
+  METRICS,
+  SEED_COLLECTION_RANKINGS,
+} from '../collection-rankings/fallback.js';
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
 const API_VERSION = '2022-11-28';
@@ -87,6 +91,16 @@ interface RegistryPayloadLite {
   repos?: Record<string, { fullName?: string; lastSeenAt?: string }>;
 }
 
+function addCollectionSeedRepos(out: Map<string, string>): void {
+  for (const collection of Object.values(SEED_COLLECTION_RANKINGS.collections)) {
+    for (const metric of METRICS) {
+      for (const row of collection[metric] ?? []) {
+        addFullName(out, row.repoName);
+      }
+    }
+  }
+}
+
 function collectFullNames(
   trending: TrendingPayload | null,
   recentRepos: RecentReposPayload | null,
@@ -112,6 +126,10 @@ function collectFullNames(
     (b.lastSeenAt ?? '') < (a.lastSeenAt ?? '') ? -1 : (b.lastSeenAt ?? '') > (a.lastSeenAt ?? '') ? 1 : 0,
   );
   for (const entry of registryEntries) addFullName(names, entry?.fullName);
+  // The collection-ranking fallback is now GitHub-backed during OSSInsight
+  // outages. Hydrate that curated roster here so collection health does not
+  // depend on stale OSSInsight rows being present in the trending feed.
+  addCollectionSeedRepos(names);
   return Array.from(names.values()).sort((a, b) =>
     a.toLowerCase().localeCompare(b.toLowerCase()),
   );
@@ -190,6 +208,40 @@ interface GraphqlRepoNode {
 interface GraphqlResponse {
   data?: Record<string, GraphqlRepoNode | null>;
   errors?: unknown[];
+}
+
+interface GraphqlErrorLike {
+  type?: unknown;
+  message?: unknown;
+}
+
+export interface GraphqlErrorSummary {
+  notFoundCount: number;
+  unexpectedCount: number;
+  unexpectedSamples: string[];
+}
+
+export function summarizeGraphqlErrors(errors: unknown[]): GraphqlErrorSummary {
+  let notFoundCount = 0;
+  const unexpectedSamples: string[] = [];
+  for (const error of errors) {
+    const entry = error as GraphqlErrorLike;
+    const type = typeof entry?.type === 'string' ? entry.type : '';
+    const message = typeof entry?.message === 'string' ? entry.message : '';
+    if (
+      type === 'NOT_FOUND' &&
+      message.includes('Could not resolve to a Repository')
+    ) {
+      notFoundCount += 1;
+      continue;
+    }
+    unexpectedSamples.push(message || JSON.stringify(error));
+  }
+  return {
+    notFoundCount,
+    unexpectedCount: unexpectedSamples.length,
+    unexpectedSamples: unexpectedSamples.slice(0, 3),
+  };
 }
 
 function normalizeRepo(
@@ -326,10 +378,18 @@ const fetcher: Fetcher = {
         const data = body?.data ?? {};
         const ghErrors = Array.isArray(body?.errors) ? body.errors : [];
         if (ghErrors.length > 0) {
-          ctx.log.warn(
-            { batchNo, batchTotal, errors: ghErrors.length },
-            'graphql errors in batch',
-          );
+          const errorSummary = summarizeGraphqlErrors(ghErrors);
+          if (errorSummary.unexpectedCount > 0) {
+            ctx.log.warn(
+              { batchNo, batchTotal, ...errorSummary },
+              'graphql unexpected errors in batch',
+            );
+          } else {
+            ctx.log.info(
+              { batchNo, batchTotal, notFoundCount: errorSummary.notFoundCount },
+              'graphql not-found repos in batch',
+            );
+          }
         }
         batch.forEach((fullName, i) => {
           const node = data[`r${i}`];

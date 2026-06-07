@@ -1,12 +1,11 @@
 // filterReposBySources - URL-driven source filter for cockpit-style pages.
 //
-// Bridges the 30-slug filter rail UI (used by /market-signals, /tools and
+// Bridges the source filter rail UI (used by /market-signals, /tools and
 // any future cockpit) with the 8-value SocialPlatform mention spine on
 // derived Repo records. Slugs that map cleanly to SocialPlatform filter
 // by `repo.mentions.perSource[platform].count24h > 0`; the rest fall back
 // to topic / tag / collection / fullName / description substring matching
-// so AI-lab and data-source filters stay useful even though the underlying
-// Repo type has no per-lab mention bucket.
+// so topic lenses stay useful without being advertised as live sources.
 //
 // Contract:
 // - Empty `selected` set OR a set containing every known slug behaves as
@@ -25,7 +24,6 @@ import type { Repo, SocialPlatform } from "@/lib/types";
 const SLUG_TO_PLATFORM: Partial<Record<string, SocialPlatform>> = {
   github: "github",
   hn: "hackernews",
-  reddit: "reddit",
   x: "twitter",
   bsky: "bluesky",
   ph: "producthunt",
@@ -42,22 +40,14 @@ const SLUG_TO_PLATFORM: Partial<Record<string, SocialPlatform>> = {
  * Keep needles short and high-precision — "ai" alone would match too much.
  */
 const SLUG_TOPIC_NEEDLES: Partial<Record<string, string[]>> = {
-  // Data feeds
-  arxiv: ["arxiv", "paper", "research", "survey"],
+  // Worker data + derived lenses
   npm: ["npm", "node", "javascript", "typescript"],
-  "hf-models": ["huggingface", "hf-models", "transformers", "model"],
-  "hf-datasets": ["huggingface", "dataset", "datasets"],
-  "hf-spaces": ["huggingface", "space", "spaces", "gradio"],
-  skills: ["skill", "agent-skill", "claude-skill"],
-  mcp: ["mcp", "model-context-protocol"],
   "agent-repos": ["agent", "autonomous", "agentic"],
   funding: ["funding", "yc", "ycombinator", "seed", "series-a"],
   revenue: ["mrr", "saas", "revenue", "stripe"],
   pypi: ["pypi", "python", "pydantic", "langgraph", "llamaindex"],
   openrouter: ["openrouter", "llm", "router"],
-  // AI labs (publishing-side; matches repos that name-drop these in topics/desc)
-  openai: ["openai", "gpt", "chatgpt"],
-  anthropic: ["anthropic", "claude"],
+  // Topic lenses: matches repos that name-drop these in topics/description.
   google: ["google", "gemini", "deepmind"],
   meta: ["meta", "llama", "facebook"],
   mistral: ["mistral", "mixtral"],

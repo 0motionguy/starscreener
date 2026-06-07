@@ -63,7 +63,7 @@ const fetcher: Fetcher = {
     const items = Array.isArray(payload.items) ? payload.items : [];
     const normalized: ManualReposPayload = {
       ...payload,
-      fetchedAt: payload.fetchedAt ?? new Date().toISOString(),
+      fetchedAt: startedAt,
       items,
     };
 

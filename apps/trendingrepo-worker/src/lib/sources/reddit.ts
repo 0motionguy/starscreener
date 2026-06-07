@@ -1,13 +1,10 @@
-// Reddit fetch helpers — OAuth primary, public-JSON fallback (via Apify
-// residential proxy if APIFY_API_TOKEN is set), with RSS-Atom degradation
-// when Reddit's edge IP-blocks the JSON listing endpoints.
+// Reddit fetch helpers: OAuth primary, public-JSON fallback, with RSS-Atom
+// degradation when Reddit's edge IP-blocks the JSON listing endpoints.
 //
-// Mirrors scripts/_reddit-shared.mjs. Uses apifyAwareFetch instead of
-// ctx.http for the public-JSON path because Railway IPs (datacenter range)
-// are likely blocked by Reddit just like GH Actions runners — the proxy
-// rotation is the fix.
+// Mirrors scripts/_reddit-shared.mjs. apifyAwareFetch now requires explicit
+// operator approval before proxy routing; APIFY_API_TOKEN alone stays native.
 
-import { AuthQuarantineError, RateLimitQuarantineError, TransientHttpError } from '../errors.js';
+import { AuthQuarantineError, RateLimitQuarantineError } from '../errors.js';
 import { apifyAwareFetch, isApifyProxyEnabled } from '../util/apify-proxy.js';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';

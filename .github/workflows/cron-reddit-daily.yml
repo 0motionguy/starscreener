@@ -1,142 +1,20 @@
-name: Cron - Reddit daily redundancy
+name: Cron - Reddit daily redundancy (paused)
 
-# Daily 06:13 UTC redundancy run for the Reddit scraper, separate from the
-# 20-min fast-discovery loop in `scrape-trending.yml`. Two reasons for the
-# extra job:
-#   1. If the fast loop's Reddit step has been silently 0-ing for hours
-#      (OAuth token expired, secrets unset, upstream 429), this guarantees
-#      a fresh top-of-day pull from a clean job context.
-#   2. The morning-warm-up flow (see docs/DEV-PERF-PLAYBOOK.md) lets
-#      operators land warm data on their laptops; this is the server-side
-#      mirror so production isn't dependent on a human running the script.
-#
-# Cadence: 06:13 UTC daily. Off the :00-mark per global cron-jitter
-# guidance (avoids the GitHub Actions :00 stampede).
-#
-# 2026-05-08: this redundancy run is the canonical path for "engaged" Reddit
-# data. Reddit blocks data-center IPs on /r/X/new.json, so the fast loop's
-# unauth path falls through to RSS-Atom which hardcodes score=0/comments=0.
-# This run uses the Apify residential-proxy provider (REDDIT_COLLECTOR_PROVIDER=apify),
-# which costs ~$6.75 per scrape but returns real engagement. The fast loop in
-# scrape-trending.yml keeps the public-JSON path as a "is the surface alive
-# at all" probe; this run is the source of truth for trending-score data.
-#
-# Secrets used:
-#   APIFY_API_TOKEN     — required for Apify provider; reused from Twitter collector
-#   REDIS_URL           — dual-write target alongside the bundled JSON files
-#   DATA_BOT_TOKEN      — composite action's commit/PR auth
-# Optional (legacy public-JSON path, only used if REDDIT_COLLECTOR_PROVIDER unset):
-#   REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USER_AGENT, REDDIT_USER_AGENTS
+# Reddit collection is paused end-to-end on HOSTUP.
+# Keep this workflow dispatchable only as an operator-visible no-op so nobody
+# can accidentally run a stale Reddit scraper path while the topic is closed.
 
 on:
-  # 2026-05-09: schedule disabled — operator can't budget Apify-residential
-  # at any meaningful cadence (single run = ~$6.75; even daily = ~$200/mo,
-  # against a $29 Apify plan ceiling that's already covering Twitter
-  # collector). Workflow stays available for manual `gh workflow run`
-  # invocations when a fresh engaged baseline is needed; until then the
-  # data from the 2026-05-08 manual run + last-good invariant in
-  # scripts/scrape-reddit.mjs holds the cache. Re-enable this schedule
-  # ONLY after either Reddit API access or a Reddit-friendly proxy budget
-  # lands — the current ASN block on Vultr/GH-Actions egress is final.
   workflow_dispatch: {}
 
 permissions:
-  contents: write
-  pull-requests: write
-
-concurrency:
-  # Share the data-refresh group so this never races the fast-discovery
-  # loop on a commit. cancel-in-progress: false — we'd rather skip than
-  # cancel the in-flight commit.
-  group: data-refresh
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  scrape:
+  paused:
     runs-on: ubuntu-latest
-    # Bumped 15→30 min 2026-05-08 for Apify residential-proxy provider:
-    # 45 subs × ~25-35s per sub (actor cold-start + scroll-paginate) ≈ 22 min
-    # at steady state; 30 min gives headroom for Apify queue spikes.
-    timeout-minutes: 30
     steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node 22
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        # `--prefer-offline --no-audit --no-fund` matches the lean install
-        # used elsewhere in cron jobs. `_data-store-write.mjs` dynamically
-        # imports `ioredis` when REDIS_URL is set, so node_modules must be
-        # present.
-        run: npm ci --prefer-offline --no-audit --no-fund
-
-      - name: Refresh Reddit mentions
-        # NOT `continue-on-error: true`. If the script fails, we want red,
-        # not green-with-stale-data. The script itself is tolerant: missing
-        # provider secrets → public-JSON fallback path, not a hard error.
-        # 2026-05-09: APIFY env stripped — operator-budget call. The Apify
-        # residential-proxy path costs ~$6.75/run and would blow the $29/mo
-        # Apify ceiling on its own. To opt back in for a manual one-shot
-        # refresh, run with the env override:
-        #   gh workflow run cron-reddit-daily.yml \
-        #     -f reddit_provider=apify \
-        #     --ref main
-        # (would need a workflow_dispatch input added — not wired here yet;
-        # easier path is to set REDDIT_COLLECTOR_PROVIDER=apify temporarily
-        # in this step and re-trigger). The last-good invariant in
-        # scripts/scrape-reddit.mjs prevents the public-JSON/RSS run from
-        # erasing the engaged baseline that the 2026-05-08 Apify run
-        # established.
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
-          # 2026-05-17: APIFY DISABLED (operator policy — see
-          # docs/POLICY-NO-APIFY.md). This redundancy run now uses the
-          # public Reddit JSON path; the last-good invariant in
-          # scripts/scrape-reddit.mjs preserves the engaged baseline when
-          # the public path returns 0 rows.
-        run: npm run scrape:reddit
-
-      - name: Compute commit timestamp
-        id: ts
-        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
-
-      - name: Commit if changed
-        # Reuses the same composite action as scrape-trending.yml so the
-        # commit-and-PR dance (data-bot branch + auto-merge against main)
-        # respects branch protection — direct push to main returns GH006.
-        # Step-level timeout — git-commit-data invokes `gh pr merge --auto`
-        # which can block indefinitely waiting for required checks. Cap at
-        # 5 min so the rest of the job (which may run other workloads) isn't
-        # starved. Pattern source: #1529 (collect-twitter.yml).
-        timeout-minutes: 5
-        uses: ./.github/actions/git-commit-data
-        with:
-          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
-          message: "chore(data): reddit daily redundancy ${{ steps.ts.outputs.value }}"
-          paths: |
-            data/reddit-all-posts.json
-            data/reddit-mentions.json
-            data/_meta/reddit.json
-          # ignore-missing: some cron-prep states don't write _meta yet —
-          # don't fail the job over a missing optional sidecar file.
-          ignore-missing: "true"
-
-      - name: Reddit zero-data health check
-        # Fails the workflow loudly when posts:[] comes back empty, which
-        # is how a silently-broken collector slips past the green check.
-        # Runs even when the commit step short-circuits (no diff) — the
-        # zero-data symptom is independent of whether the file changed.
-        if: always()
+      - name: Reddit collection paused
         run: |
-          node -e "const d=require('./data/reddit-all-posts.json'); const n=d.posts?.length ?? 0; console.log('reddit posts:', n); if (n < 1) { console.error('ERROR: posts:[] — check collector logs and OAuth secrets'); process.exit(2); }"
+          echo "Reddit collection is paused end-to-end on HOSTUP."
+          echo "No scraper, probe, baseline refresh, secrets, Redis writes, or data commits run from this workflow."

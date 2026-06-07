@@ -20,7 +20,10 @@ import {
 } from "@/lib/hot-collections";
 import {
   getCollectionRankingsCoverage,
+  getCollectionRankingsDataAsOf,
+  getCollectionRankingsErrorCount,
   getCollectionRankingsFetchedAt,
+  getCollectionRankingsStatus,
   refreshCollectionRankingsFromStore,
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
@@ -38,9 +41,10 @@ import {
 } from "@/lib/repo-metadata";
 import {
   FAST_DATA_STALE_THRESHOLD_MS,
-  getDegradedScannerSources,
   getScannerSourceHealth,
+  isScannerSourceUnproven,
   refreshScannerSourceHealthFromStore,
+  scannerSourcesBlockPipelineFreshness,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
@@ -64,6 +68,9 @@ export interface PipelineStatusResponse {
   recentReposFetchedAt: string | null;
   repoMetadataFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
+  collectionRankingsStatus?: "ok" | "degraded";
+  collectionRankingsDataAsOf?: string | null;
+  collectionRankingsErrorCount?: number;
   coveragePct: number;
   stale: {
     scraper: boolean;
@@ -72,6 +79,7 @@ export interface PipelineStatusResponse {
     recentRepos: boolean;
     repoMetadata: boolean;
     collectionRankings: boolean;
+    sources: boolean;
   };
   collectionCoverage: CollectionRankingsCoverage;
   repoMetadata: {
@@ -81,6 +89,7 @@ export interface PipelineStatusResponse {
     failureCount: number;
   };
   degradedSources?: string[];
+  unprovenSources?: string[];
   sources?: ScannerSourceHealth[];
   rateLimitRemaining: number | null;
   stats: {
@@ -121,12 +130,20 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     const recentReposFetchedAt = getRecentReposFetchedAt();
     const repoMetadataFetchedAt = getRepoMetadataFetchedAt();
     const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
+    const collectionRankingsStatus = getCollectionRankingsStatus();
+    const collectionRankingsDataAsOf = getCollectionRankingsDataAsOf();
+    const collectionRankingsErrorCount = getCollectionRankingsErrorCount();
 
     const repos = repoStore.getAll();
     const snapshotCount = snapshotStore.totalCount();
     const sources = getScannerSourceHealth();
-    const degradedSources = getDegradedScannerSources().map((source) => source.id);
-    const sourceStale = sources.some((source) => source.stale);
+    const degradedSources = sources
+      .filter((source) => source.status === "degraded")
+      .map((source) => source.id);
+    const unprovenSources = sources
+      .filter(isScannerSourceUnproven)
+      .map((source) => source.id);
+    const sourceStale = scannerSourcesBlockPipelineFreshness(sources);
 
     let rateLimitRemaining: number | null = null;
     try {
@@ -194,7 +211,12 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       seeded: repos.length > 0,
       healthy,
       healthStatus,
-      sourceStatus: degradedSources.length > 0 ? "degraded" : "ok",
+      sourceStatus:
+        degradedSources.length > 0 ||
+        unprovenSources.length > 0 ||
+        collectionRankingsStatus === "degraded"
+          ? "degraded"
+          : "ok",
       ageSeconds: worstAgeMs === null ? null : Math.floor(worstAgeMs / 1000),
       repoCount: repos.length,
       snapshotCount,
@@ -205,6 +227,9 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       recentReposFetchedAt,
       repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
+      collectionRankingsStatus,
+      collectionRankingsDataAsOf,
+      collectionRankingsErrorCount,
       coveragePct: Math.round(deltasCoveragePct() * 10) / 10,
       stale: {
         scraper: scraperStale,
@@ -213,6 +238,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         recentRepos: recentReposStale,
         repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
+        sources: sourceStale,
       },
       collectionCoverage: getCollectionRankingsCoverage(),
       repoMetadata: {
@@ -221,7 +247,11 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         coveragePct: Math.round(getRepoMetadataCoveragePct() * 10) / 10,
         failureCount: getRepoMetadataFailures().length,
       },
-      degradedSources,
+      degradedSources:
+        collectionRankingsStatus === "degraded"
+          ? [...degradedSources, "collection-rankings"]
+          : degradedSources,
+      unprovenSources,
       sources,
       rateLimitRemaining,
       stats: {

@@ -28,7 +28,7 @@ export function getDb(): SupabaseClient {
   return cached;
 }
 
-export async function pingDb(_db: SupabaseClient = getDb()): Promise<boolean> {
+export async function pingDb(): Promise<boolean> {
   // Previously did `count: 'exact', head: true` over trending_items
   // (15K rows). Every health probe forced a full count(*), 46K total
   // calls in the last cycle. With writes disabled the worker has no

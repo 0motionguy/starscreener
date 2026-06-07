@@ -9,7 +9,6 @@
 import Link from "next/link";
 
 import type { IdeaRecord } from "@/lib/ideas";
-import { ideaEvidenceLabel } from "@/lib/ideas/display-data";
 import type {
   ReactionCounts,
   UserReactionState,

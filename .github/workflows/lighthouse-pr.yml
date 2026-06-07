@@ -1,15 +1,15 @@
 name: Lighthouse - PSI baseline
 
-# Runs scripts/lighthouse-routes.mjs against prod after each push to main
-# and on manual dispatch. Produces a JSON artifact at
+# Runs scripts/lighthouse-routes.mjs against prod on manual dispatch after a
+# HOSTUP release. Produces a JSON artifact at
 # .perf/lighthouse-<strategy>-prod.json with per-route Lighthouse
 # scores (performance / a11y / best-practices / SEO) + Core Web Vitals
 # (LCP, FCP, CLS, TBT, TTI).
 #
 # Self-skips when PAGESPEED_API_KEY is unset — emits a ::notice:: and
 # exits 0 (never fails CI for a missing operator secret). Operator
-# follow-up: `vercel env add PAGESPEED_API_KEY production` + repo secret
-# at Settings → Secrets and variables → Actions.
+# follow-up: add PAGESPEED_API_KEY as a repo secret at Settings ->
+# Secrets and variables -> Actions.
 #
 # Threshold surfacing (non-blocking for v1): emits ::warning:: when a
 # route regresses below the targets in the matrix below. Enforcement
@@ -23,8 +23,6 @@ name: Lighthouse - PSI baseline
 #   - TBT < 200 ms        (PSI proxy for INP)
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       strategy:
@@ -118,5 +116,4 @@ jobs:
 
 # TODO(post-baseline, ~2 weeks after PAGESPEED_API_KEY is provisioned):
 #   Convert threshold-surfacing step's exit to non-zero when regressions > 0.
-#   Add a separate workflow for PR runs that targets the Vercel preview URL
-#   (resolve via GitHub deployment_status webhook → set LH_BASE_URL).
+#   Add a separate workflow for PR runs only after a supported preview target exists.

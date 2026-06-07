@@ -72,6 +72,7 @@ import { Statusbar } from "@/components/shell/Statusbar";
 // registry-inclusive count.
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { refreshRecentDropsFromStore } from "@/lib/recent-drops";
+import { waitForNonCriticalRefreshes } from "@/lib/noncritical-refresh-deadline";
 
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
@@ -112,10 +113,15 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Keep the Statusbar count fresh across every route (A5).
-  await refreshRepoRegistryFromStore().catch(() => undefined);
   // Warm the recent-drops cache so the global Ticker can surface freshly-listed
   // /drop repos as NEW. 30s-rate-limited + deduped inside, so it's near-free.
-  await refreshRecentDropsFromStore().catch(() => undefined);
+  await waitForNonCriticalRefreshes(
+    [
+      refreshRepoRegistryFromStore(),
+      refreshRecentDropsFromStore(),
+    ],
+    "root layout warmups",
+  );
 
   const clerkPublishableKey = getClerkPublishableKey();
 

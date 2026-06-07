@@ -17,8 +17,6 @@ import {
   refreshRevenueStartupsFromStore,
   getLeaderboard,
   LEADERBOARD_CATEGORIES,
-  getTrustMrrMeta,
-  type VerifiedStartup,
 } from "@/lib/revenue-startups";
 import { listRevenueSubmissions } from "@/lib/revenue-submissions";
 import { getDerivedRepos } from "@/lib/derived-repos";
@@ -220,38 +218,6 @@ const LEADERBOARD_PILL_IDS = [
 
 /** Categories surfaced in the hero segmented control. */
 const HERO_FILTER_IDS = CATEGORY_FILTERS.map((c) => c.id);
-const MIN_VISIBLE_STARTUPS = 6323;
-
-const CATEGORY_LABELS: Record<string, string> = {
-  all: "All",
-  "dev-tools": "Dev Tools",
-  ai: "AI",
-  saas: "SaaS",
-  "e-commerce": "E-commerce",
-  content: "Content Creation",
-  analytics: "Analytics",
-  fintech: "Fintech",
-  education: "Education",
-};
-
-const SEEDED_TRACKED_CARDS: Array<{
-  displayName: string;
-  fullName: string;
-  mrrCents: number;
-  growthMrr30d: number;
-  paymentProvider: string;
-  category: string;
-  trustmrrSlug: string;
-}> = [
-  { displayName: "Cursor", fullName: "getcursor/cursor", mrrCents: 240_000_000, growthMrr30d: 18, paymentProvider: "stripe", category: "Developer Tools", trustmrrSlug: "cursor" },
-  { displayName: "Lovable", fullName: "lovable-dev/lovable", mrrCents: 120_000_000, growthMrr30d: 412, paymentProvider: "stripe", category: "Artificial Intelligence", trustmrrSlug: "lovable" },
-  { displayName: "Vercel", fullName: "vercel/next.js", mrrCents: 1_480_000_000, growthMrr30d: 12, paymentProvider: "stripe", category: "Developer Tools", trustmrrSlug: "vercel" },
-  { displayName: "Replicate", fullName: "replicate/cog", mrrCents: 84_000_000, growthMrr30d: 24, paymentProvider: "stripe", category: "Artificial Intelligence", trustmrrSlug: "replicate" },
-  { displayName: "Mintlify", fullName: "mintlify/writer", mrrCents: 62_000_000, growthMrr30d: 34, paymentProvider: "stripe", category: "Developer Tools", trustmrrSlug: "mintlify" },
-  { displayName: "Plausible", fullName: "plausible/analytics", mrrCents: 48_500_000, growthMrr30d: 5.2, paymentProvider: "paddle", category: "Analytics", trustmrrSlug: "plausible" },
-  { displayName: "Pieces", fullName: "pieces-app/pieces", mrrCents: 31_200_000, growthMrr30d: 62, paymentProvider: "lemonsqueezy", category: "Developer Tools", trustmrrSlug: "pieces" },
-  { displayName: "Mercury", fullName: "mercury/mercury-sdk", mrrCents: 180_000_000, growthMrr30d: 8, paymentProvider: "stripe", category: "Fintech", trustmrrSlug: "mercury" },
-];
 
 function inferProviderFromOverlay(overlay: RevenueOverlay): string | null {
   return overlay.paymentProvider;

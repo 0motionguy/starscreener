@@ -125,21 +125,6 @@ function isGithubUrl(url: string | null): boolean {
   }
 }
 
-function buildTrendingRankMap(trending: TrendingPayload | null): Map<string, number> {
-  const map = new Map<string, number>();
-  const rows = trending?.buckets?.past_24_hours?.All ?? [];
-  let rank = 0;
-  for (const row of rows) {
-    const fullName = row?.repo_name;
-    if (!fullName || !fullName.includes('/')) continue;
-    const key = normalizeRepoKey(fullName);
-    if (map.has(key)) continue;
-    rank += 1;
-    map.set(key, rank);
-  }
-  return map;
-}
-
 const fetcher: Fetcher = {
   name: 'repo-profiles',
   schedule: '41 * * * *', // matches enrich-repo-profiles.yml

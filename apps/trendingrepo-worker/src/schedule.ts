@@ -1,4 +1,4 @@
-// In-process cron scheduler for the Railway worker.
+// In-process cron scheduler for the HOSTUP worker.
 //
 // Each Fetcher in registry.ts declares a 5-field UTC cron expression in its
 // `schedule` field. We instantiate one croner job per fetcher; jobs share
@@ -8,8 +8,8 @@
 //
 // Errors inside a job are caught + Sentry-reported + logged, but they
 // never crash the worker. A single fetcher failure should not take down
-// the other 11 — Railway restarts on process exit, and we want that
-// reserved for actual process-level failures.
+// the other jobs. Container restarts stay reserved for actual process-level
+// failures.
 
 import { Cron } from 'croner';
 import { FETCHERS } from './registry.js';
@@ -21,7 +21,11 @@ import {
   loadOverrides,
   startOverrideRefresh,
   summarizeOverrides,
+  type SourceOverride,
 } from './platform/overrides.js';
+import type { Fetcher } from './lib/types.js';
+import { diffScheduledFetchers } from './scheduler-reconcile.js';
+import { publishSchedulerRuntimeState } from './scheduler-state.js';
 
 export interface ScheduledJobStatus {
   name: string;
@@ -39,30 +43,25 @@ export interface Scheduler {
 
 export async function startScheduler(): Promise<Scheduler> {
   const log = getLogger();
-  const jobs: Array<{ name: string; schedule: string; cron: Cron }> = [];
+  const jobs = new Map<string, { name: string; schedule: string; cron: Cron }>();
+  let stopped = false;
+  let reconciliationErrors = 0;
 
-  // Move 1, Phase 2 — apply runtime source overrides at boot. Loader is
-  // tolerant: DB outage falls back to .cache/source-overrides.json, missing
-  // cache falls back to "all sources active". Never refuses to start. After
-  // boot, refresh every 60s in the background so a paused fetcher stops
-  // ticking within ~1 minute of the DB row landing.
-  const overrides = await loadOverrides();
-  const filtered = applyOverrides(FETCHERS, overrides);
-  const skipped = FETCHERS.filter((f) => !filtered.includes(f));
-  const summary = summarizeOverrides(overrides);
-  log.info(
-    {
-      registered: FETCHERS.length,
-      activated: filtered.length,
-      skipped: skipped.length,
-      skippedNames: skipped.map((f) => f.name),
-      overrides: summary,
-    },
-    'source overrides applied to fetcher registry',
-  );
-  startOverrideRefresh();
+  function refreshRuntimeState(overrides: Map<string, SourceOverride>): void {
+    const active = new Set(jobs.keys());
+    publishSchedulerRuntimeState({
+      activeJobs: active,
+      skippedJobs: FETCHERS.filter((fetcher) => !active.has(fetcher.name)).map(
+        (fetcher) => fetcher.name,
+      ),
+      overrides: summarizeOverrides(overrides),
+      lastReconciledAt: new Date().toISOString(),
+      reconciliationErrors,
+    });
+  }
 
-  for (const fetcher of filtered) {
+  function createJob(fetcher: Fetcher): void {
+    if (jobs.has(fetcher.name)) return;
     const cron = new Cron(
       fetcher.schedule,
       {
@@ -101,7 +100,7 @@ export async function startScheduler(): Promise<Scheduler> {
         }
       },
     );
-    jobs.push({ name: fetcher.name, schedule: fetcher.schedule, cron });
+    jobs.set(fetcher.name, { name: fetcher.name, schedule: fetcher.schedule, cron });
     log.info(
       {
         fetcher: fetcher.name,
@@ -112,12 +111,77 @@ export async function startScheduler(): Promise<Scheduler> {
     );
   }
 
+  function stopJob(name: string, reason: string): void {
+    const job = jobs.get(name);
+    if (!job) return;
+    job.cron.stop();
+    jobs.delete(name);
+    log.info({ fetcher: name, reason }, 'fetcher unscheduled');
+  }
+
+  function reconcile(overrides: Map<string, SourceOverride>, reason: string): void {
+    if (stopped) return;
+    try {
+      const desired = applyOverrides(FETCHERS, overrides);
+      const diff = diffScheduledFetchers(jobs.keys(), desired);
+      for (const name of diff.toStop) stopJob(name, reason);
+      for (const fetcher of diff.toStart) createJob(fetcher);
+      reconciliationErrors = 0;
+      refreshRuntimeState(overrides);
+      if (diff.toStart.length > 0 || diff.toStop.length > 0) {
+        log.info(
+          {
+            reason,
+            started: diff.toStart.map((fetcher) => fetcher.name),
+            stopped: diff.toStop,
+            active: jobs.size,
+          },
+          'source overrides reconciled scheduler jobs',
+        );
+      }
+    } catch (err) {
+      reconciliationErrors += 1;
+      log.error(
+        { err: (err as Error).message, reason },
+        'source overrides scheduler reconciliation failed',
+      );
+      refreshRuntimeState(overrides);
+    }
+  }
+
+  // Move 1, Phase 2 — apply runtime source overrides at boot. Loader is
+  // tolerant: DB outage falls back to .cache/source-overrides.json, missing
+  // cache falls back to "all sources active". Never refuses to start. Refresh
+  // every 60s and reconcile live so a paused source stops without a restart.
+  const overrides = await loadOverrides();
+  const filtered = applyOverrides(FETCHERS, overrides);
+  const skipped = FETCHERS.filter((f) => !filtered.includes(f));
+  const summary = summarizeOverrides(overrides);
+  log.info(
+    {
+      registered: FETCHERS.length,
+      activated: filtered.length,
+      skipped: skipped.length,
+      skippedNames: skipped.map((f) => f.name),
+      overrides: summary,
+    },
+    'source overrides applied to fetcher registry',
+  );
+  reconcile(overrides, 'boot');
+  const stopOverrideRefresh = startOverrideRefresh(60_000, (nextOverrides) =>
+    reconcile(nextOverrides, 'refresh'),
+  );
+
   return {
     stop() {
-      for (const j of jobs) j.cron.stop();
+      stopped = true;
+      stopOverrideRefresh();
+      for (const j of jobs.values()) j.cron.stop();
+      jobs.clear();
+      refreshRuntimeState(overrides);
     },
     status() {
-      return jobs.map((j) => ({
+      return [...jobs.values()].map((j) => ({
         name: j.name,
         schedule: j.schedule,
         nextRun: j.cron.nextRun()?.toISOString() ?? null,

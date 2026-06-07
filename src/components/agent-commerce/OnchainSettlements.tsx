@@ -1,11 +1,14 @@
 import type { BaseX402OnchainFile } from "@/lib/base-x402-onchain";
 import type { SolanaX402OnchainFile } from "@/lib/solana-x402-onchain";
 
+type SourceStatus = "fresh" | "stale" | "missing" | "unknown";
+
 interface OnchainSettlementsProps {
   base: BaseX402OnchainFile | null;
   solana: SolanaX402OnchainFile | null;
   baseVolumeUsd24h: number | null;
   solanaVolumeUsd24h: number | null;
+  duneVolumeStatus: SourceStatus;
 }
 
 interface FacilitatorStats {
@@ -13,11 +16,6 @@ interface FacilitatorStats {
   totalTxs: number;
   x402Settlements: number;
 }
-
-const SEEDED_SOLANA_FACILITATORS: Record<string, FacilitatorStats> = {
-  "solana-x402": { addressCount: 7, totalTxs: 3012, x402Settlements: 2710 },
-  crossmint: { addressCount: 5, totalTxs: 1205, x402Settlements: 1084 },
-};
 
 function formatUsd(n: number): string {
   if (!Number.isFinite(n) || n <= 0) return "$0";
@@ -35,7 +33,7 @@ function topFacilitator(
     const txs = stat?.totalTxs ?? 0;
     if (!best || txs > best.txs) best = { name, txs };
   }
-  return best ?? { name: "x402.org", txs: 8124 };
+  return best ?? { name: "unavailable", txs: 0 };
 }
 
 function sumSettlements(byFacilitator: Record<string, FacilitatorStats> | undefined): number {
@@ -45,10 +43,30 @@ function sumSettlements(byFacilitator: Record<string, FacilitatorStats> | undefi
   );
 }
 
-function medianPayment(volumeUsd: number, settlements: number, fallback: number): string {
-  const value = settlements > 0 ? volumeUsd / settlements : fallback;
+function medianPayment(volumeUsd: number, settlements: number): string {
+  const value = settlements > 0 ? volumeUsd / settlements : 0;
+  if (!Number.isFinite(value) || value <= 0) return "unavailable";
   if (value >= 1) return `$${value.toFixed(2)} per call`;
   return `$${value.toFixed(2)} per call`;
+}
+
+function sourceStatusText(status: SourceStatus): string {
+  if (status === "fresh") return "Dune volume source fresh";
+  if (status === "stale") return "Dune volume source stale";
+  if (status === "unknown") return "Dune volume source unknown";
+  return "Dune volume source unavailable";
+}
+
+function formatVolumeValue(status: SourceStatus, volumeUsd: number): string {
+  return status === "fresh" ? formatUsd(volumeUsd) : "N/A";
+}
+
+function medianPaymentLabel(
+  status: SourceStatus,
+  volumeUsd: number,
+  settlements: number,
+): string {
+  return status === "fresh" ? medianPayment(volumeUsd, settlements) : "volume unavailable";
 }
 
 export function OnchainSettlements({
@@ -56,21 +74,25 @@ export function OnchainSettlements({
   solana,
   baseVolumeUsd24h,
   solanaVolumeUsd24h,
+  duneVolumeStatus,
 }: OnchainSettlementsProps) {
   const baseFacilitators = base?.byFacilitator;
-  const solanaFacilitators = solana?.byFacilitator ?? SEEDED_SOLANA_FACILITATORS;
+  const solanaFacilitators = solana?.byFacilitator;
 
   const baseSettlements =
-    (base?.totalSettlements ?? sumSettlements(baseFacilitators)) || 12_408;
+    base?.totalSettlements ?? sumSettlements(baseFacilitators);
   const solanaSettlements =
-    (solana?.totalSettlements ?? sumSettlements(solanaFacilitators)) || 4_217;
-  const baseVolume = baseVolumeUsd24h && baseVolumeUsd24h > 0 ? baseVolumeUsd24h : 2_420_000;
+    solana?.totalSettlements ?? sumSettlements(solanaFacilitators);
+  const baseVolume = baseVolumeUsd24h && baseVolumeUsd24h > 0 ? baseVolumeUsd24h : 0;
   const solanaVolume =
-    solanaVolumeUsd24h && solanaVolumeUsd24h > 0 ? solanaVolumeUsd24h : 890_000;
+    solanaVolumeUsd24h && solanaVolumeUsd24h > 0 ? solanaVolumeUsd24h : 0;
+  const volumeSourceFresh = duneVolumeStatus === "fresh";
+  const volumeStatus = sourceStatusText(duneVolumeStatus);
 
   const totalSettlements = baseSettlements + solanaSettlements;
-  const basePct = Math.round((baseSettlements / totalSettlements) * 100);
-  const solanaPct = 100 - basePct;
+  const basePct =
+    totalSettlements > 0 ? Math.round((baseSettlements / totalSettlements) * 100) : 0;
+  const solanaPct = totalSettlements > 0 ? 100 - basePct : 0;
   const baseTop = topFacilitator(baseFacilitators);
   const solanaTop = topFacilitator(solanaFacilitators);
 
@@ -89,10 +111,12 @@ export function OnchainSettlements({
             BASE - CHAIN-ID 8453
           </span>
           <span className="ch-val" style={chValStyle}>
-            {formatUsd(baseVolume)}
+            {formatVolumeValue(duneVolumeStatus, baseVolume)}
           </span>
           <span className="ch-sub" style={chSubStyle}>
-            {baseSettlements.toLocaleString()} settlements - {basePct}% of total - USDC native
+            {volumeSourceFresh
+              ? `${baseSettlements.toLocaleString()} settlements - ${basePct}% of total - USDC native`
+              : `${baseSettlements.toLocaleString()} settlements - ${volumeStatus}`}
           </span>
           <span className="ch-bar" style={chBarStyle}>
             <span className="fill" style={{ ...chBarFillStyle, width: `${basePct}%` }} />
@@ -106,7 +130,7 @@ export function OnchainSettlements({
           <div className="row between" style={rowBetweenStyle}>
             <span>median payment</span>
             <span style={{ color: "var(--fg)" }}>
-              {medianPayment(baseVolume, baseSettlements, 0.04)}
+              {medianPaymentLabel(duneVolumeStatus, baseVolume, baseSettlements)}
             </span>
           </div>
         </div>
@@ -116,10 +140,12 @@ export function OnchainSettlements({
             SOLANA - MAINNET
           </span>
           <span className="ch-val" style={chValStyle}>
-            {formatUsd(solanaVolume)}
+            {formatVolumeValue(duneVolumeStatus, solanaVolume)}
           </span>
           <span className="ch-sub" style={chSubStyle}>
-            {solanaSettlements.toLocaleString()} settlements - {solanaPct}% of total - USDC native
+            {volumeSourceFresh
+              ? `${solanaSettlements.toLocaleString()} settlements - ${solanaPct}% of total - USDC native`
+              : `${solanaSettlements.toLocaleString()} settlements - ${volumeStatus}`}
           </span>
           <span className="ch-bar" style={chBarStyle}>
             <span className="fill" style={{ ...chBarFillStyle, width: `${solanaPct}%` }} />
@@ -133,7 +159,7 @@ export function OnchainSettlements({
           <div className="row between" style={rowBetweenStyle}>
             <span>median payment</span>
             <span style={{ color: "var(--fg)" }}>
-              {medianPayment(solanaVolume, solanaSettlements, 0.02)}
+              {medianPaymentLabel(duneVolumeStatus, solanaVolume, solanaSettlements)}
             </span>
           </div>
         </div>

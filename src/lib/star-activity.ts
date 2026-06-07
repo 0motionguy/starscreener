@@ -141,8 +141,8 @@ export function _seedStarActivityForTests(
  *
  * Honest stub: there is NO `star_plot_requests` table in the Drizzle schema
  * today and no instrumentation in the /tools/star-history route writes one.
- * Until the metric is wired (planned next sprint), this reader returns 0 so
- * `ToolsKpiStrip` can render a real number ("0") instead of an em-dash.
+ * Until the metric is wired, this reader returns 0 so callers can render a
+ * real number instead of an em-dash.
  *
  * Signature mirrors `countArchivedTop10Snapshots` over in the tools page —
  * a `date` string parameter, async, returns a `Promise<number>`. When the
@@ -152,7 +152,8 @@ export function _seedStarActivityForTests(
  * in `safeAsync()` anyway, but we double-belt this one because /tools is a
  * public ISR route that must NEVER 500 on a missing metric.
  */
-export async function countStarPlotRequests(_date: string): Promise<number> {
+export async function countStarPlotRequests(date: string): Promise<number> {
+  void date;
   try {
     // Intentionally a no-op until the instrumentation lands. Keeping the
     // body small + side-effect-free so future implementers can swap in a

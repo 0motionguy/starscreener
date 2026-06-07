@@ -46,7 +46,6 @@ export async function Statusbar() {
       counts.lobstersStories +
       counts.devtoArticles +
       counts.blueskyPosts +
-      counts.redditPosts +
       counts.producthuntLaunches
     : 0;
 

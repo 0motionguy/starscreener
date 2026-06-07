@@ -1,11 +1,9 @@
 name: Refresh MCP dependents side-channel
 
-# Publishes the Redis-only mcp-dependents aggregate consumed by the MCP
-# scorer. The fetcher caches package-level results for 7d, so a 6h workflow
-# mostly refreshes the aggregate timestamp and picks up new MCP package names.
+# Manual-only until the MCP surface is rebuilt and HOSTUP-owned. Scheduled
+# GitHub runs do not have production Redis credentials and should not own
+# runtime side-channel freshness.
 on:
-  schedule:
-    - cron: "53 */6 * * *"
   workflow_dispatch:
 
 permissions:

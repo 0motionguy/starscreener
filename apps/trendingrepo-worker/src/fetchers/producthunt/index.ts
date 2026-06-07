@@ -276,7 +276,7 @@ async function fetchBroadPosts(
 
 const fetcher: Fetcher = {
   name: 'producthunt',
-  schedule: '8 11,15,19,23 * * *',
+  schedule: '8 */4 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const errors: RunResult['errors'] = [];

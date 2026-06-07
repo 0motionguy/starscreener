@@ -154,6 +154,9 @@ jobs:
 
       - name: Build (production)
         if: needs.classify.outputs.data_only != 'true'
+        timeout-minutes: 12
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
         run: npm run build
 
       - name: Bundle size check (T3.3 — warn at >300 KB per client chunk)

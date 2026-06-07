@@ -11,10 +11,10 @@
 // (`0 */6 * * *`) and the crunchbase fetcher (`0 */6 * * *`).
 //
 // Reliability:
-//   - APIFY_API_TOKEN gates the whole fetcher. With it unset we publish an
-//     empty payload (so the slug exists in Redis and the consumer doesn't
-//     fall back to "missing") and log a clear skip reason. This matches
-//     funding-news's "graceful degradation" stance — we never blank the slug.
+//   - APIFY_API_TOKEN plus TRENDINGREPO_ENABLE_APIFY=operator-approved gates
+//     the whole fetcher. Without both, skip without publishing a fresh empty
+//     payload; stale/missing x-funding must remain visible while policy keeps
+//     Apify off.
 //   - Per-actor-run timeout = 5 min. The actor has its own internal max
 //     items cap; we only need ~7 days of activity per run.
 //   - Network errors during the actor run propagate up — the worker scheduler
@@ -34,6 +34,7 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { TransientHttpError } from '../../lib/errors.js';
 import { writeDataStore } from '../../lib/redis.js';
+import { describeApifyGate, isApifyTokenApproved } from '../../lib/apify-policy.js';
 import { fetchWithTimeout } from '../../lib/util/http-helpers.js';
 import {
   extractFunding,
@@ -73,7 +74,7 @@ export interface FundingNewsXPayload {
   source: 'x-funding-hashtags';
   windowDays: number;
   signals: FundingSignal[];
-  /** True when APIFY_API_TOKEN is missing — payload will be empty. */
+  /** True when Apify credentials/approval are missing. Historical payload flag. */
   requiresApifyToken: boolean;
 }
 
@@ -352,23 +353,13 @@ const fetcher: Fetcher = {
     const discoveredAt = new Date().toISOString();
     const token = process.env.APIFY_API_TOKEN?.trim();
 
-    if (!token) {
-      // No Apify credentials → publish an empty payload so the slug exists
-      // and downstream readers see a fresh `fetchedAt` without falling back
-      // to the "missing" tier.
-      const payload: FundingNewsXPayload = {
-        fetchedAt: discoveredAt,
-        source: 'x-funding-hashtags',
-        windowDays: WINDOW_DAYS,
-        signals: [],
-        requiresApifyToken: true,
-      };
-      const result = await writeDataStore('funding-news-x', payload);
+    if (!isApifyTokenApproved(token)) {
+      // No approved Apify credentials: skip the collector.
+      // Do not publish a fresh empty payload; stale/missing data must stay visible.
       ctx.log.warn(
-        { redisSource: result.source },
-        'x-funding skipped: APIFY_API_TOKEN unset (slug published empty)',
+        `x-funding skipped: ${describeApifyGate(token)} (no empty payload published)`,
       );
-      return done(startedAt, 0, result.source === 'redis');
+      return done(startedAt, 0, false);
     }
 
     const allSignals: FundingSignal[] = [];

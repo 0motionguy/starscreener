@@ -103,6 +103,7 @@ const envSchema = z
     PORT: z.coerce.number().int().positive().default(8080),
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
     DATA_STORE_DISABLE: z.string().optional(),
+    DATA_STORE_REQUIRE_REDIS: z.string().optional(),
 
     // DORP intake-drain fetcher needs to call back to the web app to
     // run the existing pipeline ingest. Both are optional — when unset the
@@ -114,10 +115,30 @@ const envSchema = z
   .refine(
     (env) => {
       const hasIoRedis = Boolean(env.REDIS_URL);
-      const hasUpstash = Boolean(env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN);
+      const hasUpstash = Boolean(env.UPSTASH_REDIS_REST_URL || env.UPSTASH_REDIS_REST_TOKEN);
       return !(hasIoRedis && hasUpstash);
     },
     { message: 'Set REDIS_URL OR UPSTASH_REDIS_REST_URL+TOKEN, never both.' },
+  )
+  .refine(
+    (env) => !env.UPSTASH_REDIS_REST_URL || Boolean(env.UPSTASH_REDIS_REST_TOKEN),
+    { message: 'UPSTASH_REDIS_REST_URL requires UPSTASH_REDIS_REST_TOKEN.' },
+  )
+  .refine(
+    (env) => env.UPSTASH_REDIS_REST_URL || !env.UPSTASH_REDIS_REST_TOKEN,
+    { message: 'UPSTASH_REDIS_REST_TOKEN was set without UPSTASH_REDIS_REST_URL.' },
+  )
+  .refine(
+    (env) => {
+      const requireRedis =
+        env.DATA_STORE_REQUIRE_REDIS === '1' ||
+        env.DATA_STORE_REQUIRE_REDIS?.toLowerCase() === 'true';
+      const hasRedis =
+        Boolean(env.REDIS_URL) ||
+        Boolean(env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN);
+      return !requireRedis || hasRedis || env.DATA_STORE_DISABLE === '1' || env.DATA_STORE_DISABLE === 'true';
+    },
+    { message: 'DATA_STORE_REQUIRE_REDIS=1 requires REDIS_URL or UPSTASH_REDIS_REST_URL+TOKEN.' },
   );
 
 export type WorkerEnv = z.infer<typeof envSchema>;

@@ -7,14 +7,14 @@
 // agent-commerce keywords; we count which entities each post mentions.
 //
 // Sources (all free, no auth):
-//   Reddit       — www.reddit.com/search.json
+//   Reddit       — paused end-to-end; not read from network or historical cache
 //   Bluesky      — public.api.bsky.app/xrpc/app.bsky.feed.searchPosts
 //   Dev.to       — dev.to/api/articles
 //   Lobsters     — lobste.rs/search.json
 //   Hugging Face — huggingface.co/api/spaces (search by tag)
 //
 // Output: .data/agent-commerce-social-enrichment.json
-//   { fetchedAt, perEntity: { slug → { reddit, bluesky, devto, lobsters, hf } } }
+//   { fetchedAt, perEntity: { slug → { bluesky, devto, lobsters, hf } } }
 //
 // Flags:
 //   --dry-run            don't write
@@ -37,6 +37,7 @@ const MAX_POSTS = parseNumberArg("--max-posts-per", 200);
 const SKIP = new Set(
   (parseStringArg("--skip", "") || "").split(",").filter(Boolean),
 );
+SKIP.add("reddit");
 
 function parseNumberArg(name, fallback) {
   const idx = process.argv.indexOf(name);
@@ -51,12 +52,8 @@ function parseStringArg(name, fallback) {
   return process.argv[idx + 1];
 }
 
-function slugify(s) {
-  return String(s)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
+function capPosts(posts) {
+  return posts.slice(0, MAX_POSTS);
 }
 
 async function fetchJson(url, opts = {}) {
@@ -98,35 +95,6 @@ const QUERIES = [
   "model context protocol",
 ];
 
-async function pullReddit() {
-  if (SKIP.has("reddit")) return [];
-  // Reddit's APIs (www.reddit.com + old.reddit.com) are blocked in many
-  // build environments (Cloudflare bot challenge / network egress filter).
-  // The project ships its own Reddit collector that runs separately and
-  // writes data/reddit-all-posts.json. We piggy-back on that collected data
-  // instead of going to the wire.
-  try {
-    const path = resolve(process.cwd(), "data/reddit-all-posts.json");
-    const data = JSON.parse(readFileSync(path, "utf8"));
-    const arr = data.posts ?? [];
-    const posts = arr.map((p) => ({
-      title: p.title ?? "",
-      body: p.selftext ?? "",
-      url: p.permalink ?? p.url ?? "",
-      external: p.url ?? "",
-      score: p.score ?? 0,
-      created: p.createdUtc ?? 0,
-      subreddit: p.subreddit ?? "",
-      query: "data/reddit-all-posts.json",
-    }));
-    process.stdout.write(`  reddit (from data/reddit-all-posts.json) → ${posts.length}\n`);
-    return posts;
-  } catch (err) {
-    console.warn(`  reddit local-read failed: ${err.message ?? err}`);
-    return [];
-  }
-}
-
 async function pullBluesky() {
   if (SKIP.has("bluesky")) return [];
   const out = [];
@@ -140,7 +108,7 @@ async function pullBluesky() {
       console.warn(`  bluesky q="${q}" → ${r.status ?? r.error}`);
       continue;
     }
-    const posts = (r.data?.posts ?? []).map((p) => ({
+    const posts = capPosts((r.data?.posts ?? []).map((p) => ({
       title: p.record?.text ?? "",
       body: "",
       url: `https://bsky.app/profile/${p.author?.handle}/post/${(p.uri ?? "").split("/").pop() ?? ""}`,
@@ -151,7 +119,7 @@ async function pullBluesky() {
         : 0,
       handle: p.author?.handle ?? "",
       query: q,
-    }));
+    })));
     out.push(...posts);
     process.stdout.write(`  bluesky q="${q.padEnd(28)}" → ${posts.length}\n`);
   }
@@ -168,7 +136,7 @@ async function pullDevto() {
       console.warn(`  devto tag="${tag}" → ${r.status ?? r.error}`);
       continue;
     }
-    const posts = (r.data ?? []).map((a) => ({
+    const posts = capPosts((r.data ?? []).map((a) => ({
       title: a.title ?? "",
       body: a.description ?? "",
       url: a.url ?? "",
@@ -178,7 +146,7 @@ async function pullDevto() {
         ? Math.floor(new Date(a.published_at).getTime() / 1000)
         : 0,
       tag,
-    }));
+    })));
     out.push(...posts);
     process.stdout.write(`  devto tag="${tag.padEnd(28)}" → ${posts.length}\n`);
   }
@@ -198,7 +166,7 @@ async function pullLobsters() {
   }
   const arr = Array.isArray(r.data) ? r.data : [];
   const keywords = QUERIES.map((q) => q.toLowerCase());
-  const posts = arr
+  const posts = capPosts(arr
     .filter((s) => {
       const blob = `${s.title ?? ""} ${s.description ?? ""} ${(s.tags ?? []).join(" ")}`.toLowerCase();
       return keywords.some((k) => blob.includes(k));
@@ -213,7 +181,7 @@ async function pullLobsters() {
         ? Math.floor(new Date(s.created_at).getTime() / 1000)
         : 0,
       query: "filter",
-    }));
+    })));
   process.stdout.write(`  lobsters hottest filtered → ${posts.length}\n`);
   return posts;
 }
@@ -229,7 +197,7 @@ async function pullHuggingFace() {
       continue;
     }
     const arr = Array.isArray(r.data) ? r.data : [];
-    const posts = arr.map((s) => ({
+    const posts = capPosts(arr.map((s) => ({
       title: s.id ?? "",
       body: s.cardData?.short_description ?? "",
       url: `https://huggingface.co/spaces/${s.id}`,
@@ -239,7 +207,7 @@ async function pullHuggingFace() {
         ? Math.floor(new Date(s.lastModified).getTime() / 1000)
         : 0,
       search,
-    }));
+    })));
     out.push(...posts);
     process.stdout.write(`  hf search="${search.padEnd(28)}" → ${posts.length}\n`);
   }
@@ -392,8 +360,7 @@ async function main() {
   console.log("");
 
   console.log("[ac-social] pulling sources");
-  const [reddit, bluesky, devto, lobsters, hf] = await Promise.all([
-    pullReddit(),
+  const [bluesky, devto, lobsters, hf] = await Promise.all([
     pullBluesky(),
     pullDevto(),
     pullLobsters(),
@@ -401,14 +368,13 @@ async function main() {
   ]);
   console.log("");
   console.log(
-    `[ac-social] post counts: reddit=${reddit.length} bluesky=${bluesky.length} ` +
+    `[ac-social] post counts: reddit=paused bluesky=${bluesky.length} ` +
       `devto=${devto.length} lobsters=${lobsters.length} hf=${hf.length}`,
   );
 
   const matchers = buildMatchers(items);
 
   const matched = {
-    reddit: matchPosts(reddit, matchers, "reddit"),
     bluesky: matchPosts(bluesky, matchers, "bluesky"),
     devto: matchPosts(devto, matchers, "devto"),
     lobsters: matchPosts(lobsters, matchers, "lobsters"),

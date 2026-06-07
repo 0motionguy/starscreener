@@ -22,7 +22,6 @@ const CHANNELS: {
   { key: "github", cls: "github", logo: "github", title: "GitHub" },
   { key: "hackernews", cls: "hn", logo: "hackernews", title: "Hacker News" },
   { key: "twitter", cls: "x", logo: "x-twitter", title: "X / Twitter" },
-  { key: "reddit", cls: "reddit", logo: "reddit", title: "Reddit" },
   { key: "bluesky", cls: "bsky", logo: "bluesky", title: "Bluesky" },
   { key: "devto", cls: "devto", logo: "devto", title: "Dev.to" },
   { key: "producthunt", cls: "ph", logo: "producthunt", title: "Product Hunt" },
@@ -80,7 +79,7 @@ function sourceCount(
 export function MentionSourcePips({ repo }: MentionSourcePipsProps) {
   const rollup = repo.mentions?.perSource;
   // Canonical left-to-right order: CHANNELS declaration order is the fixed
-  // platform sequence (GitHub → HN → X → Reddit → Bluesky → Dev.to → PH →
+  // platform sequence (GitHub → HN → X → Bluesky → Dev.to → PH →
   // HF → arXiv → npm → Lobsters). `.filter` preserves that order so the same
   // platform always sits in the same relative slot across rows.
   const active = CHANNELS

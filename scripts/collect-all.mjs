@@ -4,7 +4,7 @@
 //
 // Usage:
 //   node scripts/collect-all.mjs
-//   node scripts/collect-all.mjs --only=reddit,twitter
+//   node scripts/collect-all.mjs --only=hn,twitter
 //   node scripts/collect-all.mjs --no-twitter
 //   node scripts/collect-all.mjs --push                  // git add+commit data files when done
 //   node scripts/collect-all.mjs --concurrency=2
@@ -24,11 +24,6 @@ const LOG_DIR = join(REPO_ROOT, ".data", "admin-scan-runs");
 // countPaths is the list of files to sum line counts from for the pre/post delta.
 // Whichever exists at run time gets counted; missing files silently skipped.
 const SOURCES = [
-  {
-    name: "reddit",
-    script: "scrape:reddit",
-    countPaths: ["data/reddit-mentions.json"],
-  },
   {
     name: "hn",
     script: "scrape:hn",

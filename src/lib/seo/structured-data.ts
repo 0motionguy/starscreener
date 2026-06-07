@@ -140,7 +140,7 @@ export function buildOrganizationJsonLd() {
     url: SITE_URL,
     logo: absoluteUrl("/brand/trendingrepo.svg"),
     description:
-      "Real-time trend-discovery scanner for open source. Aggregates GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to signals to surface breakout AI and developer repos before they go mainstream.",
+      "Real-time trend-discovery scanner for open source. Aggregates GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to signals to surface breakout AI and developer repos before they go mainstream.",
     knowsAbout: [
       "open-source software",
       "GitHub repositories",

@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: PageProps) {
   const { owner, name } = await params;
   const full = `${owner}/${name}`;
   const title = `${full} Alternatives — Top Open-Source Options | ${SITE_NAME}`;
-  const description = `The best open-source alternatives to ${full}, ranked by cross-source momentum across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt and Dev.to. Updated continuously.`;
+  const description = `The best open-source alternatives to ${full}, ranked by cross-source momentum across GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to. Updated continuously.`;
   const canonical = absoluteUrl(`/alternatives/${owner}/${name}`);
   // OG supplied by colocated opengraph-image.tsx (auto-injected).
   return {

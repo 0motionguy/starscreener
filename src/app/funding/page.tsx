@@ -480,11 +480,8 @@ export default async function FundingPage({ searchParams }: Props) {
   // Apply selected period window to the body signals. Fill from realistic
   // seeded rows only when the live accessor exposes fewer rows than the mockup.
   const rawWindowed = filterByPeriod(allSignals, period);
-  // URL-driven source filter — narrows tape, top-rounds, sector heatmap,
-  // capital flow chart, investor chips, SEC mini-feed, confidence chips
-  // when a `FundingSourcePills` slug is active. Pills themselves still
-  // render against the unfiltered counts so the user sees full publisher
-  // totals while their drilldown is active.
+  // URL-driven source filter narrows tape, top-rounds, sector heatmap,
+  // capital flow chart, and confidence chips when a publisher slug is active.
   const sourceFilteredRaw = filterFundingBySources(rawWindowed, activeSource);
   const windowed = ensureFundingSignals(sourceFilteredRaw, 18);
   // Honest total — the largest count actually observed across the window

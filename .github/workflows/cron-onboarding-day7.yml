@@ -5,9 +5,9 @@ name: Cron - onboarding day-7 retention
 # minutes after the day-3 nudge so each cron's outbound traffic doesn't
 # contend with the other's Resend quota.
 #
-# Pre-activation operator step (one-time):
-#   vercel env add DAY7_RETENTION_NOT_BEFORE production
-#   # paste the deploy timestamp so the first run skips pre-rollout users
+# Pre-activation operator step (one-time): set DAY7_RETENTION_NOT_BEFORE in the
+# HOSTUP production environment to the rollout timestamp so the first run skips
+# older users.
 #
 # Required repo config:
 #   secrets.CRON_SECRET     — must match server CRON_SECRET env

@@ -3,16 +3,16 @@
 // Cross-source mentions sweep.
 //
 // For each top-N trending repo (or each repo from a profile-completion queue),
-// actively probes 8 channels — Twitter, Reddit, HackerNews, Bluesky, dev.to,
-// Lobsters, ProductHunt, and Tavily web search — and writes:
+// actively probes active channels — Twitter when enabled, HackerNews, Bluesky,
+// dev.to, Lobsters, ProductHunt, and Tavily web search — and writes:
 //   - data/repo-mentions-detail.jsonl   (append-only event log)
 //   - data/repo-mentions-detail-rollup.json + Redis
 //                                       (top 5 per source, last 7d)
 //
 // Closes the source-first blind spot in the existing 88 collectors: those
 // scan one source for whatever mentions appear; this script flips the loop
-// and asks every channel "show me mentions of repo X". Twitter is the only
-// existing repo-first collector; this generalizes that pattern to all 8.
+// and asks every active channel "show me mentions of repo X". Twitter is the
+// only existing repo-first collector; this generalizes that pattern.
 //
 // Usage:
 //   npm run sweep:mentions:dry           — top 5, no writes
@@ -58,7 +58,6 @@ import {
   searchHackerNews,
   searchLobsters,
   searchProductHunt,
-  searchReddit,
   searchTavily,
   searchTwitter,
   ALL_CHANNELS,
@@ -79,7 +78,9 @@ const LOBSTERS_FILE = resolve(DATA_DIR, "lobsters-trending.json");
 const DETAIL_JSONL = resolve(DATA_DIR, "repo-mentions-detail.jsonl");
 const ROLLUP_FILE = resolve(DATA_DIR, "repo-mentions-detail-rollup.json");
 
-const SUPPORTED_SOURCES = ALL_CHANNELS;
+const SUPPORTED_SOURCES = (ALL_CHANNELS as string[]).filter(
+  (source) => source !== "reddit",
+);
 
 // ---------------------------------------------------------------------------
 // Types
@@ -489,6 +490,7 @@ interface SweepContext {
   productHuntSnapshot: unknown | null;
   tavilyKey: string | null;
   apifyToken: string | null;
+  apifyApproved: boolean;
   sourceOnly: string | null;
 }
 
@@ -496,16 +498,16 @@ async function runRepo(repo: RepoInput, ctx: SweepContext): Promise<Mention[]> {
   const should = (ch: string) => !ctx.sourceOnly || ctx.sourceOnly === ch;
   const tasks: Array<Promise<Mention[]>> = [];
 
-  if (should("twitter") && ctx.apifyToken) {
+  if (should("twitter") && ctx.apifyToken && ctx.apifyApproved) {
     const queries = buildTwitterQueriesForRepo(repo);
     tasks.push(
       searchTwitter(repo, queries, {
         token: ctx.apifyToken,
+        apifyApproval: "operator-approved",
         tweetsPerQuery: tweetsPerQueryForRank(repo.rank),
       }),
     );
   }
-  if (should("reddit")) tasks.push(searchReddit(repo));
   if (should("hackernews")) tasks.push(searchHackerNews(repo));
   if (should("bluesky")) tasks.push(searchBluesky(repo, ctx.blueskySession));
   if (should("devto")) tasks.push(searchDevto(repo));
@@ -826,6 +828,7 @@ async function main(): Promise<void> {
     productHuntSnapshot: phFile,
     tavilyKey: process.env.TAVILY_API_KEY ?? null,
     apifyToken: process.env.APIFY_API_TOKEN ?? null,
+    apifyApproved: process.env.TRENDINGREPO_ENABLE_APIFY === "operator-approved",
     sourceOnly: opts.sourceOnly,
   };
 
@@ -835,6 +838,10 @@ async function main(): Promise<void> {
   );
   if (!ctx.apifyToken && (!opts.sourceOnly || opts.sourceOnly === "twitter")) {
     console.warn("[sweep] APIFY_API_TOKEN missing — Twitter channel disabled");
+  } else if (!ctx.apifyApproved && (!opts.sourceOnly || opts.sourceOnly === "twitter")) {
+    console.warn(
+      "[sweep] TRENDINGREPO_ENABLE_APIFY=operator-approved missing — Twitter Apify channel disabled",
+    );
   }
   if (!ctx.tavilyKey && (!opts.sourceOnly || opts.sourceOnly === "tavily")) {
     console.warn("[sweep] TAVILY_API_KEY missing — Tavily channel disabled");

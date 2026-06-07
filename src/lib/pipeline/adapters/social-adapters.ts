@@ -1,8 +1,10 @@
 // StarScreener — Social signal adapters.
 //
-// Per-platform mention feeds, live only. HackerNews (Algolia), Reddit (public
-// JSON), GitHub issue search. Twitter/X is handled separately via the Nitter
-// adapter when a mirror is available.
+// Per-platform mention feeds. HackerNews is active by default. Reddit and
+// GitHub issue search adapter classes remain for future/manual repair work but
+// are not registered while their upstream paths are blocked or rate-limited.
+// Twitter/X is handled separately via the Nitter adapter when a mirror is
+// available.
 //
 // Contract: every adapter implements SocialAdapter and must NEVER throw from
 // fetchMentionsForRepo. On any network, parsing, or validation error we log
@@ -39,7 +41,10 @@ import {
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.
-import { sourceHealthTracker } from "@/lib/source-health-tracker";
+import {
+  isSourceHealthDisabled,
+  sourceHealthTracker,
+} from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -356,6 +361,9 @@ export class RedditAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (isSourceHealthDisabled("reddit")) {
+      return [];
+    }
     if (sourceHealthTracker.isOpen("reddit")) {
       return [];
     }
@@ -612,6 +620,9 @@ export class GitHubActivityAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (isSourceHealthDisabled("github-search")) {
+      return [];
+    }
     if (sourceHealthTracker.isOpen("github-search")) {
       return [];
     }
@@ -781,14 +792,14 @@ export class GitHubActivityAdapter implements SocialAdapter {
 // ---------------------------------------------------------------------------
 
 /**
- * Default adapter set. All live — no mock fallbacks. Twitter is registered
- * separately by the Nitter adapter in nitter-adapter.ts when a mirror is
- * reachable; otherwise the Twitter section is hidden in UI.
+ * Default active adapter set. Twitter is registered separately by the Nitter
+ * adapter in nitter-adapter.ts when a mirror is reachable; otherwise the
+ * Twitter section is hidden in UI.
  */
 export function getDefaultSocialAdapters(): SocialAdapter[] {
-  return [
-    new HackerNewsAdapter(),
-    new RedditAdapter(),
-    new GitHubActivityAdapter(),
-  ];
+  const adapters: SocialAdapter[] = [new HackerNewsAdapter()];
+  if (!isSourceHealthDisabled("github-search")) {
+    adapters.push(new GitHubActivityAdapter());
+  }
+  return adapters;
 }

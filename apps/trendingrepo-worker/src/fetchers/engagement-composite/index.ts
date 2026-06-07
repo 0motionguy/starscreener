@@ -1,7 +1,7 @@
 // Engagement composite scoring fetcher.
 //
 // Hourly @ :45 — runs after every upstream signal slug has had time to
-// flush. Pulls 7 upstream payloads, aggregates per-repo signals, runs
+// flush. Pulls active upstream payloads, aggregates per-repo signals, runs
 // the pure scoring kernel from scoring.ts, and publishes a ranked
 // leaderboard (top 200) to ss:data:v1:engagement-composite.
 //
@@ -34,14 +34,6 @@ interface HnMentionsBucket {
 }
 interface HnMentionsPayload {
   mentions?: Record<string, HnMentionsBucket>;
-}
-
-interface RedditMentionsBucket {
-  count7d?: number;
-  upvotes7d?: number;
-}
-interface RedditMentionsPayload {
-  mentions?: Record<string, RedditMentionsBucket>;
 }
 
 interface BlueskyMentionsBucket {
@@ -150,21 +142,21 @@ const fetcher: Fetcher = {
   schedule: '45 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
+    const errors: RunResult['errors'] = [];
 
     if (ctx.dryRun) {
       ctx.log.info('engagement-composite dry-run');
-      return done(startedAt, 0, false);
+      return done(startedAt, 0, false, errors);
     }
 
     // AUDIT-2026-05-04: same Promise.all-rejects-everything anti-pattern
     // that bricked consensus-trending (see f39cd09d). engagement-composite
     // is the upstream of consensus-trending, so a flake here cascades.
-    // tracked is required (no repos = no work); the 8 readDataStore calls
+    // tracked is required (no repos = no work); the readDataStore calls
     // each degrade to null on per-source flakes.
     const tracked = await loadTrackedRepos({ log: ctx.log });
     const reads = await Promise.allSettled([
       readDataStore<HnMentionsPayload>('hackernews-repo-mentions'),
-      readDataStore<RedditMentionsPayload>('reddit-mentions'),
       readDataStore<BlueskyMentionsPayload>('bluesky-mentions'),
       readDataStore<DevtoMentionsPayload>('devto-mentions'),
       readDataStore<NpmPackagesPayload>('npm-packages'),
@@ -174,7 +166,6 @@ const fetcher: Fetcher = {
     ]);
     const READ_KEYS = [
       'hackernews-repo-mentions',
-      'reddit-mentions',
       'bluesky-mentions',
       'devto-mentions',
       'npm-packages',
@@ -192,14 +183,34 @@ const fetcher: Fetcher = {
       return null;
     });
     if (readFailures.length > 0) {
+      for (const failure of readFailures) {
+        errors.push({
+          stage: 'upstream-read',
+          message: `${failure.key}: ${failure.err}`,
+        });
+      }
       ctx.log.warn(
         { failures: readFailures },
-        'engagement-composite: some reads failed; degrading those sources to null',
+        'engagement-composite: upstream reads failed; preserving prior slug',
       );
+      return done(startedAt, 0, false, errors);
+    }
+    const missingKeys = values
+      .map((value, index) => (value === null ? READ_KEYS[index] : null))
+      .filter((key): key is (typeof READ_KEYS)[number] => key !== null);
+    if (missingKeys.length > 0) {
+      errors.push({
+        stage: 'upstream-missing',
+        message: `missing upstream payloads: ${missingKeys.join(', ')}`,
+      });
+      ctx.log.warn(
+        { missing: missingKeys },
+        'engagement-composite: upstream payloads missing; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
     }
     const [
       hnMentions,
-      redditMentions,
       blueskyMentions,
       devtoMentions,
       npmPackages,
@@ -208,7 +219,6 @@ const fetcher: Fetcher = {
       phLaunches,
     ] = values as [
       HnMentionsPayload | null,
-      RedditMentionsPayload | null,
       BlueskyMentionsPayload | null,
       DevtoMentionsPayload | null,
       NpmPackagesPayload | null,
@@ -233,15 +243,6 @@ const fetcher: Fetcher = {
       const row = ensureRow(accum, fullName);
       row.hn = nonNegative(safeNumber(bucket?.scoreSum7d));
       hnRepoCount += 1;
-    }
-
-    // ---- Reddit -------------------------------------------------------------
-    let redditRepoCount = 0;
-    for (const [fullName, bucket] of Object.entries(redditMentions?.mentions ?? {})) {
-      if (!fullName.includes('/')) continue;
-      const row = ensureRow(accum, fullName);
-      row.reddit = nonNegative(safeNumber(bucket?.upvotes7d));
-      redditRepoCount += 1;
     }
 
     // ---- Bluesky ------------------------------------------------------------
@@ -344,6 +345,17 @@ const fetcher: Fetcher = {
 
     const cohort = Array.from(accum.rows.values());
     const items = scoreCohort(cohort, TOP_LIMIT);
+    if (items.length === 0) {
+      errors.push({
+        stage: 'empty-compute',
+        message: 'engagement-composite computed 0 rows; skipped empty publish',
+      });
+      ctx.log.warn(
+        { cohortSize: cohort.length },
+        'engagement-composite: empty compute; preserving prior slug',
+      );
+      return done(startedAt, 0, false, errors);
+    }
 
     const payload: EngagementCompositePayload = {
       computedAt: new Date().toISOString(),
@@ -360,7 +372,7 @@ const fetcher: Fetcher = {
         itemCount: items.length,
         coverage: {
           hn: hnRepoCount,
-          reddit: redditRepoCount,
+          reddit: 0,
           bluesky: blueskyRepoCount,
           devto: devtoRepoCount,
           npmPackages: npmPackageMatches,
@@ -374,13 +386,18 @@ const fetcher: Fetcher = {
       'engagement-composite published',
     );
 
-    return done(startedAt, items.length, result.source === 'redis');
+    return done(startedAt, items.length, result.source === 'redis', errors);
   },
 };
 
 export default fetcher;
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'],
+): RunResult {
   return {
     fetcher: 'engagement-composite',
     startedAt,
@@ -389,6 +406,6 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }

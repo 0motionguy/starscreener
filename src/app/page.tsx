@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { refreshRecentDropsFromStore, getNewFullNameSet } from "@/lib/recent-drops";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
@@ -57,7 +55,7 @@ export const revalidate = 1800;
 export const metadata = {
   title: "TrendingRepo - the radar for everything AI",
   description:
-    "Real-time trend discovery across GitHub, HN, Reddit, X, Bluesky, ProductHunt, Dev.to and 23 more. Updated every 30 min.",
+    "Real-time trend discovery across GitHub, HN, Bluesky, ProductHunt, Dev.to, Lobsters, model, package, and funding feeds. Updated every 30 min.",
   openGraph: {
     images: [
       { url: "/api/og/default", width: 1200, height: 630, alt: "TrendingRepo — the trend map for open source" },
@@ -430,69 +428,4 @@ function orModelDesc(m: {
   if (m.priceInPerM === 0) parts.push("free");
   else if (m.priceInPerM !== null) parts.push(`$${m.priceInPerM}/1M input`);
   return parts.join(" · ");
-}
-
-function cleanQueryPage(input: Record<string, string>): Record<string, string> {
-  return Object.fromEntries(
-    Object.entries(input).filter(
-      ([key, v]) =>
-        v !== "" &&
-        v !== "all" &&
-        !(key === "rank" && v === "top") &&
-        !(key === "sort" && v === "momentum") &&
-        !(key === "window" && v === "24h") &&
-        !(key === "cat" && v === "repos"),
-    ),
-  );
-}
-
-interface UnifiedTab {
-  id: string;
-  label: string;
-  cat: CategoryId;
-  rank: RankerId;
-  active: boolean;
-  count: number | null;
-}
-
-function buildUnifiedTabs(
-  category: CategoryId,
-  ranker: RankerId,
-  counts: Partial<Record<CategoryId, number>>,
-): UnifiedTab[] {
-  const repoCount = counts.repos ?? null;
-  return [
-    {
-      id: "repos-top",
-      label: "Top",
-      cat: "repos",
-      rank: "top",
-      active: category === "repos" && ranker === "top",
-      count: repoCount,
-    },
-    {
-      id: "repos-gainer",
-      label: "Gainer",
-      cat: "repos",
-      rank: "gainer",
-      active: category === "repos" && ranker === "gainer",
-      count: repoCount,
-    },
-    {
-      id: "repos-trend",
-      label: "Trend",
-      cat: "repos",
-      rank: "trend",
-      active: category === "repos" && ranker === "trend",
-      count: repoCount,
-    },
-    ...CATEGORIES.filter((c) => c.id !== "repos").map((c) => ({
-      id: c.id,
-      label: c.label,
-      cat: c.id as CategoryId,
-      rank: "top" as RankerId,
-      active: category === c.id,
-      count: counts[c.id] ?? null,
-    })),
-  ];
 }

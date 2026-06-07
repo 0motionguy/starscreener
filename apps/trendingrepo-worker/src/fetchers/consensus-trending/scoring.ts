@@ -9,12 +9,12 @@ import type {
 } from './types.js';
 
 export const CONSENSUS_WEIGHTS: Record<ConsensusExternalSource, number> = {
-  gh: 0.20,
+  gh: 0.25,
   hf: 0.18,
-  hn: 0.16,
+  hn: 0.19,
   x: 0.14,
-  r: 0.10,
-  pdh: 0.08,
+  r: 0,
+  pdh: 0.10,
   dev: 0.08,
   bs: 0.06,
 };

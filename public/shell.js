@@ -282,7 +282,6 @@
       $$('tbody tr', table).forEach(row => {
         const cells = $$('td', row);
         const srcCell = cells[srcIdx];
-        const adjMentIdx = mentIdx > srcIdx ? mentIdx - 1 + 1 : mentIdx + 1; // before src removal, mentIdx is still original
         const mentCell = cells[mentIdx];
         if (!srcCell || !mentCell) return;
         const pipsHTML = srcCell.querySelector('.source-pips')?.outerHTML || '';

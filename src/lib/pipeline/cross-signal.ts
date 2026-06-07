@@ -1,19 +1,18 @@
-// Six-channel cross-signal fusion.
+// Cross-signal fusion.
 //
-// Combines GitHub momentum classification + Reddit 48h trending velocity +
-// HN front-page presence + Bluesky mentions + dev.to tutorials/writeups
-// + Twitter/X 24h mention burst into a single score per repo. The premise:
-// any one channel can be noise (a github star spike, a viral reddit post,
+// Combines GitHub momentum classification + HN front-page presence + Bluesky
+// mentions + dev.to tutorials/writeups + Twitter/X 24h mention burst into a
+// single score per repo. Reddit remains disabled until a fresh HOSTUP-owned
+// producer is explicitly re-enabled. The premise:
+// any one channel can be noise (a github star spike,
 // a Show HN flash, a trending bsky post, a tutorial pumped by one author,
 // a single influencer's tweet). Two channels lit at once = signal. Three
-// or more = a real breakout. A 6/6 firing repo is rare and indicates the
+// or more = a real breakout. A 5/5 firing repo is rare and indicates the
 // repo broke out across every social surface we track.
 //
 // Formula:
 //   github  = movementStatus ∈ {breakout: 1.0, hot: 0.7, rising: 0.4, *: 0}
-//   reddit  = min-max normalized sum of post.trendingScore over last 48h,
-//             across the full repo corpus (so the top-velocity repo gets
-//             1.0 and quiet repos get a fraction)
+//   reddit  = disabled (0) while the Reddit topic is paused end-to-end
 //   hn      = HN.everHitFrontPage ? 1.0
 //             : HN.count7d >= 3   ? 0.7
 //             : HN.count7d >= 1   ? 0.4
@@ -30,8 +29,8 @@
 //             : TW.mentionCount24h >= 3 ? 0.7
 //             : TW.mentionCount24h >= 1 ? 0.4
 //             : 0
-//   crossSignalScore = github + reddit + hn + bluesky + devto + twitter (range 0..6)
-//   channelsFiring   = count of components > 0                          (range 0..6)
+//   crossSignalScore = github + hn + bluesky + devto + twitter (range 0..5)
+//   channelsFiring   = count of components > 0                      (range 0..5)
 //
 // Why Twitter thresholds are higher than Bluesky's: Twitter publishes
 // orders of magnitude more posts on the same keywords, so one tweet
@@ -44,26 +43,21 @@
 // the same keywords. A single dev.to writeup is therefore worth more
 // signal per unit, so we cap "saturation" at 3 mentions instead of 5.
 //
-// Two-pass: the reddit normalizer needs to see every repo's raw score
-// before it can divide by the corpus max, so we compute raw scores in
-// pass 1 and emit normalized output in pass 2.
-//
-// Edge case (cold start): when no repo has any reddit signal, maxReddit
-// is 0. Don't divide by zero — emit 0 for every reddit_component instead.
+// Reddit component plumbing is kept at zero for payload compatibility while
+// the source remains paused.
 
 import type { MovementStatus, Repo } from "../types";
-import { getRedditMentions } from "../reddit-data";
 import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
 import { getDevtoMentions } from "../devto";
 import { getTwitterSignalSync } from "../twitter";
 import { getCrossSourceDetail } from "../cross-source-mentions";
 
-const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
+const REDDIT_SIGNAL_ENABLED = false;
 
 // Read the per-channel 7d count from the cross-source sweep rollup, when
 // it's present. The sweep runs per-repo (Apify Tier-1 query bundle, HN
-// Algolia loose search, Reddit fulltext, Bluesky AT proto, Tavily web)
+// Algolia loose search, Bluesky AT proto, Tavily web)
 // and typically finds 5-10× more hits than the source-first feed-scan
 // loaders. Cross-signal components below take max(sourceFirst, sweep) so
 // the channelsFiring indicator + crossSignalScore reflect both pipelines
@@ -84,15 +78,10 @@ function githubComponent(status: MovementStatus | undefined): number {
 }
 
 function redditRawScore(fullName: string, nowMs: number): number {
-  const m = getRedditMentions(fullName);
-  if (!m) return 0;
-  const cutoffSec = (nowMs - REDDIT_WINDOW_MS) / 1000;
-  let sum = 0;
-  for (const post of m.posts) {
-    if (post.createdUtc < cutoffSec) continue;
-    sum += post.trendingScore ?? 0;
-  }
-  return sum;
+  void fullName;
+  void nowMs;
+  if (!REDDIT_SIGNAL_ENABLED) return 0;
+  return 0;
 }
 
 function hnComponent(fullName: string): number {
@@ -138,11 +127,8 @@ function twitterComponent(fullName: string): number {
  * Attach `crossSignalScore`, `channelsFiring`, and the `bluesky` rollup
  * to every repo.
  *
- * Two-pass internally: first compute raw reddit scores across the corpus
- * to find `maxReddit`, then normalize and fuse. Pure function over Repo[]
- * — safe to call from server-only code paths (consumes the lib/reddit +
- * lib/hackernews + lib/bluesky mentions JSON, which are already in the
- * build artifact).
+ * Pure function over Repo[]; consumes only active HN/Bluesky/dev.to/Twitter
+ * sources while Reddit is paused.
  *
  * Exported for use by `getDerivedRepos()` and tests.
  */
@@ -154,13 +140,10 @@ export function attachCrossSignal(
   const maxReddit = Math.max(0, ...redditRaw);
 
   return repos.map((repo, i) => {
-    const redditMention = getRedditMentions(repo.fullName);
     const gh = githubComponent(repo.movementStatus);
-    // Reddit: prefer source-first trending-score sum; fall back to sweep
-    // count7d when source-first has no posts but the sweep found mentions.
-    // The fallback maps count7d to the same 0/0.4/0.7/1.0 scale as the
-    // other channels, so a sweep-only repo shows as "firing" instead of 0.
-    const sweepReddit = sweepCount(repo.fullName, "reddit");
+    // Reddit is intentionally paused; keep this slot at 0 so old sweep rows
+    // or source-first snapshots cannot resurrect stale signal.
+    const sweepReddit = REDDIT_SIGNAL_ENABLED ? sweepCount(repo.fullName, "reddit") : 0;
     let rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
     if (rd === 0 && sweepReddit > 0) {
       rd = sweepReddit >= 5 ? 1.0 : sweepReddit >= 2 ? 0.7 : 0.4;
@@ -217,34 +200,7 @@ export function attachCrossSignal(
         }
       : null;
 
-    const redditTopPost = redditMention?.posts
-      .slice()
-      .sort((a, b) => {
-        const scoreDelta = (b.trendingScore ?? 0) - (a.trendingScore ?? 0);
-        if (scoreDelta !== 0) return scoreDelta;
-        return b.score - a.score;
-      })[0];
-    const redditRollup = redditMention
-      ? {
-          mentions7d: redditMention.count7d,
-          upvotes7d: redditMention.upvotes7d,
-          comments7d: redditMention.posts.reduce(
-            (sum, post) => sum + Math.max(0, post.numComments ?? 0),
-            0,
-          ),
-          topPost: redditTopPost
-            ? {
-                id: redditTopPost.id,
-                title: redditTopPost.title,
-                subreddit: redditTopPost.subreddit,
-                permalink: redditTopPost.permalink,
-                url: redditTopPost.url,
-                score: redditTopPost.score,
-                comments: redditTopPost.numComments,
-              }
-            : undefined,
-        }
-      : null;
+    const redditRollup = null;
 
     return {
       ...repo,

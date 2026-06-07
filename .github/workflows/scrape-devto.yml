@@ -3,8 +3,7 @@ name: Refresh dev.to signals
 # dev.to is lower cadence than the fast social sources, but it still feeds
 # consensus/news surfaces and should not depend on page-triggered recovery.
 on:
-  schedule:
-    - cron: "3 */6 * * *"
+  # Manual-only: HOSTUP worker/runtime owns production freshness; GitHub is kept for explicit backfills.
   workflow_dispatch:
 
 permissions:

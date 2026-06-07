@@ -66,7 +66,9 @@ function mkMention(
 /**
  * Seed set:
  *   - 12 mentions total
- *   - 3 platforms (reddit, hackernews, bluesky)
+ *   - 3 platforms in the store (reddit, hackernews, bluesky)
+ *   - reddit rows are historical/stale fixtures and must be filtered out
+ *     while the source is paused
  *   - spread across 3 days (2026-04-20, 2026-04-21, 2026-04-22)
  *   - some ties on postedAt so the id-tiebreak path is exercised
  */
@@ -165,6 +167,32 @@ test("400 on invalid source value", async () => {
   assert.equal(body.code, "invalid_source");
 });
 
+test("400 on paused reddit source value", async () => {
+  const res = await invokeRoute(
+    FIXTURE_OWNER,
+    FIXTURE_NAME,
+    "?source=reddit",
+  );
+  assert.equal(res.status, 400);
+  const body = (await res.json()) as { ok: boolean; code?: string };
+  assert.equal(body.ok, false);
+  assert.equal(body.code, "invalid_source");
+});
+
+test("400 on disabled legacy research source values", async () => {
+  for (const source of ["huggingface", "arxiv"]) {
+    const res = await invokeRoute(
+      FIXTURE_OWNER,
+      FIXTURE_NAME,
+      `?source=${source}`,
+    );
+    assert.equal(res.status, 400);
+    const body = (await res.json()) as { ok: boolean; code?: string };
+    assert.equal(body.ok, false);
+    assert.equal(body.code, "invalid_source");
+  }
+});
+
 test("400 on limit > 200", async () => {
   const res = await invokeRoute(
     FIXTURE_OWNER,
@@ -235,7 +263,7 @@ test("404 on unknown repo slug (valid shape but not registered)", async () => {
   assert.equal(body.code, "repo_not_found");
 });
 
-test("200 default returns all 12 seeded mentions sorted newest-first", async () => {
+test("200 default returns active seeded mentions sorted newest-first", async () => {
   const res = await invokeRoute(FIXTURE_OWNER, FIXTURE_NAME);
   assert.equal(res.status, 200);
   const body = (await res.json()) as {
@@ -248,9 +276,13 @@ test("200 default returns all 12 seeded mentions sorted newest-first", async () 
   };
   assert.equal(body.ok, true);
   assert.equal(body.repo, FIXTURE_FULL_NAME);
-  assert.equal(body.count, 12, "all seeded mentions fit under default 50 cap");
-  assert.equal(body.items.length, 12);
+  assert.equal(body.count, 8, "paused reddit rows must be hidden");
+  assert.equal(body.items.length, 8);
   assert.equal(body.nextCursor, null, "less than limit → no next cursor");
+  assert.ok(
+    body.items.every((item) => item.platform !== "reddit"),
+    "default response must not include paused reddit rows",
+  );
   // Sort stability: items must be non-increasing on postedAt; ties break by id desc.
   for (let i = 1; i < body.items.length; i++) {
     const prev = body.items[i - 1];
@@ -269,7 +301,7 @@ test("200 with source filter restricts results to that platform", async () => {
   const res = await invokeRoute(
     FIXTURE_OWNER,
     FIXTURE_NAME,
-    "?source=reddit",
+    "?source=hackernews",
   );
   assert.equal(res.status, 200);
   const body = (await res.json()) as {
@@ -278,7 +310,7 @@ test("200 with source filter restricts results to that platform", async () => {
   };
   assert.equal(body.count, 4);
   for (const item of body.items) {
-    assert.equal(item.platform, "reddit");
+    assert.equal(item.platform, "hackernews");
   }
 });
 
@@ -303,8 +335,9 @@ test("200 with limit=5 returns a non-null nextCursor", async () => {
   assert.equal(typeof decoded.id, "string");
 });
 
-test("cursor walk covers every seeded mention exactly once across 3 pages", async () => {
-  // Pick a limit that forces 3 pages for the 12-row fixture.
+test("cursor walk covers every active seeded mention exactly once across pages", async () => {
+  // Pick a limit that forces 2 pages for the 8 active rows. The 4 seeded
+  // reddit rows must not affect active-source cursors.
   const LIMIT = 5;
   const seen: RepoMention[] = [];
   let cursor: string | null = null;
@@ -326,8 +359,8 @@ test("cursor walk covers every seeded mention exactly once across 3 pages", asyn
     cursor = body.nextCursor;
   }
 
-  // Expect exactly 3 pages for 12 rows with limit=5: 5 + 5 + 2.
-  assert.deepEqual(pagesVisited, [5, 5, 2], "page sizes");
+  // Expect exactly 2 pages for 8 active rows with limit=5: 5 + 3.
+  assert.deepEqual(pagesVisited, [5, 3], "page sizes");
   // No duplicates.
   const ids = seen.map((m) => m.id);
   assert.equal(
@@ -355,8 +388,8 @@ test("cursor walk respects source filter on every page", async () => {
   let cursor: string | null = null;
   for (let i = 0; i < 10; i++) {
     const q = cursor
-      ? `?source=reddit&limit=${LIMIT}&cursor=${encodeURIComponent(cursor)}`
-      : `?source=reddit&limit=${LIMIT}`;
+      ? `?source=hackernews&limit=${LIMIT}&cursor=${encodeURIComponent(cursor)}`
+      : `?source=hackernews&limit=${LIMIT}`;
     const res = await invokeRoute(FIXTURE_OWNER, FIXTURE_NAME, q);
     assert.equal(res.status, 200);
     const body = (await res.json()) as {
@@ -368,7 +401,7 @@ test("cursor walk respects source filter on every page", async () => {
     cursor = body.nextCursor;
   }
   assert.equal(seen.length, 4);
-  for (const m of seen) assert.equal(m.platform, "reddit");
+  for (const m of seen) assert.equal(m.platform, "hackernews");
   const ids = seen.map((m) => m.id);
   assert.equal(new Set(ids).size, ids.length, "no duplicates with source filter");
 });

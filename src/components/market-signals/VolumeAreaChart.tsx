@@ -27,7 +27,6 @@ interface VolumeAreaChartProps {
   totals: {
     github: number;
     x: number;
-    reddit: number;
     hn: number;
     bsky: number;
     devto: number;
@@ -47,7 +46,6 @@ const LAYERS: Array<{
   { key: "hn",     label: "HN",      color: "#ff6600" },
   { key: "devto",  label: "Dev.to",  color: "#fff5b1" },
   { key: "bsky",   label: "Bluesky", color: "#1185fe" },
-  { key: "reddit", label: "Reddit",  color: "#ff4500" },
   { key: "x",      label: "X",       color: "#ffffff" },
   { key: "github", label: "GitHub",  color: "#8b5cf6" },
 ];

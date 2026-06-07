@@ -130,6 +130,7 @@ interface GithubKeyDescriptor {
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const IDLE_KEY_MS = 12 * HOUR_MS;
+const LIVE_REDDIT_POOL_ENABLED = false;
 
 function hourBuckets(now: Date): string[] {
   const out: string[] = [];
@@ -435,6 +436,14 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
   const agents = (Array.isArray(redditUserAgents) ? redditUserAgents : [])
     .map((value) => (typeof value === "string" ? value.trim() : ""))
     .filter(Boolean);
+  if (!LIVE_REDDIT_POOL_ENABLED) {
+    return {
+      totalConfigured: agents.length,
+      health: "GREEN",
+      rows: [],
+      rateLimitedLastHour: 0,
+    };
+  }
   const rows = await Promise.all(
     agents.map(async (userAgent): Promise<RedditPoolRow> => {
       const fingerprint = redditUserAgentFingerprint(userAgent);
@@ -535,9 +544,42 @@ async function readMeta(source: string): Promise<MetaFile | null> {
 }
 
 async function readStoreLatest(slugs: string[]): Promise<string | null> {
-  const store = getDataStore();
-  const values = await Promise.all(slugs.map((slug) => store.writtenAt(slug)));
-  return latestIso(values.map(parseIso));
+  const redisClient = getDataStore().redisClient();
+  if (!redisClient) return null;
+  const values = await Promise.all(
+    slugs.map(async (slug) => {
+      try {
+        return parseStoreWrittenAt(await redisClient.get(`ss:meta:v1:${slug}`));
+      } catch {
+        return null;
+      }
+    }),
+  );
+  return latestIso(values);
+}
+
+function parseStoreWrittenAt(raw: unknown): string | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "string" && raw.length > 0) {
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw) as { writtenAt?: unknown };
+        return typeof parsed.writtenAt === "string"
+          ? parseIso(parsed.writtenAt)
+          : null;
+      } catch {
+        return null;
+      }
+    }
+    return parseIso(raw);
+  }
+  if (typeof raw === "object") {
+    const parsed = raw as { writtenAt?: unknown };
+    return typeof parsed.writtenAt === "string"
+      ? parseIso(parsed.writtenAt)
+      : null;
+  }
+  return null;
 }
 
 const SINGLETON_SPECS: Array<{
@@ -549,14 +591,10 @@ const SINGLETON_SPECS: Array<{
   { name: "BLUESKY", meta: "bluesky", slugs: ["bluesky-trending", "bluesky-mentions"], budgetMs: 6 * HOUR_MS },
   { name: "DEVTO", meta: "devto", slugs: ["devto-trending", "devto-mentions"], budgetMs: 24 * HOUR_MS },
   { name: "PRODUCTHUNT", meta: "producthunt", slugs: ["producthunt-launches"], budgetMs: 12 * HOUR_MS },
-  { name: "SMITHERY", slugs: ["mcp-smithery-rank"], budgetMs: 12 * HOUR_MS },
-  { name: "LIBRARIES_IO", slugs: ["mcp-dependents"], budgetMs: 12 * HOUR_MS },
   { name: "TRUSTMRR", slugs: ["trustmrr-startups", "revenue-overlays"], budgetMs: 36 * HOUR_MS },
-  { name: "AA", slugs: ["agent-commerce"], budgetMs: 36 * HOUR_MS },
   { name: "RESEND", slugs: ["weekly-digest"], budgetMs: 7 * DAY_MS },
   { name: "KIMI", slugs: ["consensus-verdicts", "llm-aggregate-heartbeat"], budgetMs: 36 * HOUR_MS },
-  { name: "ANTHROPIC", meta: "claude-rss", slugs: ["claude-rss"], budgetMs: 30 * HOUR_MS },
-  { name: "HF", meta: "huggingface", slugs: ["huggingface-trending", "huggingface-datasets", "huggingface-spaces"], budgetMs: 24 * HOUR_MS },
+  { name: "HF", meta: "huggingface", slugs: ["huggingface-trending"], budgetMs: 24 * HOUR_MS },
   { name: "FIRECRAWL", slugs: ["funding-news", "funding-news-crunchbase"], budgetMs: 24 * HOUR_MS },
 ];
 
@@ -568,18 +606,20 @@ async function singletonRows(): Promise<SingletonRow[]> {
         readStoreLatest(spec.slugs),
       ]);
       const metaTs = parseIso(meta?.ts ?? meta?.writtenAt);
-      const lastSuccess =
-        meta && meta.reason && !["ok", "empty_results"].includes(meta.reason)
-          ? storeLatest
-          : latestIso([metaTs, storeLatest]);
-      const lastFailure =
+      const metaFailureTs =
         meta && meta.reason && !["ok", "empty_results"].includes(meta.reason)
           ? metaTs
           : null;
+      const lastSuccess =
+        spec.slugs.length > 0
+          ? storeLatest
+          : meta && !metaFailureTs
+            ? metaTs
+            : null;
       return {
         name: spec.name,
         lastSuccess,
-        lastFailure,
+        lastFailure: metaFailureTs,
         status: classifyByAge(lastSuccess, spec.budgetMs),
       };
     }),

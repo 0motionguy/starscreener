@@ -2,8 +2,7 @@
 // Enrich the latest arxiv-recent payload with citation + social-mention
 // signals. Reads the raw papers (Redis preferred, file mirror fallback),
 // pulls citation counts from Semantic Scholar, counts arxiv-id mentions
-// across HN + Reddit (the two reliably-shaped mention readers we already
-// commit), and writes a small enrichment payload back to the data-store
+// across active HN rows, and writes a small enrichment payload back to the data-store
 // under `arxiv-enriched`.
 //
 // The trending-side reader (src/lib/arxiv.ts) overlays this enrichment
@@ -31,17 +30,14 @@
 //     "no input — skipping" and exit 0.
 //
 // SOCIAL MENTIONS
-//   Plan asked for HN + Reddit + Bluesky + dev.to. MVP implements HN +
-//   Reddit only — those two have the cleanest committed shapes and
-//   together cover the bulk of arxiv-id chatter we'd see for tracked
-//   repos. Bluesky and dev.to are deferred to a follow-up; their
-//   readers are documented in the references below if a future agent
-//   wants to wire them in (the contract here is just `socialMentions:
-//   number`).
+//   HN remains active here. Reddit is intentionally paused end-to-end, so
+//   historical reddit-all-posts.json is not read while the topic is off.
+//   Bluesky and dev.to are deferred to a follow-up; their readers are
+//   documented in the references below if a future agent wants to wire them in
+//   (the contract here is just `socialMentions: number`).
 //
 // REFERENCES
 //   src/lib/hackernews-trending.ts, data/hackernews-trending.json
-//   src/lib/reddit-data.ts, data/reddit-all-posts.json + reddit-mentions.json
 //   src/lib/arxiv.ts (the consumer of this script's output)
 
 import { readFileSync } from "node:fs";
@@ -60,7 +56,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
 const ARXIV_RECENT_PATH = resolve(DATA_DIR, "arxiv-recent.json");
 const HN_TRENDING_PATH = resolve(DATA_DIR, "hackernews-trending.json");
-const REDDIT_ALL_POSTS_PATH = resolve(DATA_DIR, "reddit-all-posts.json");
 const ENRICHED_PATH = resolve(DATA_DIR, "arxiv-enriched.json");
 
 // Top-N cap on per-run enrichment fan-out. arxiv-recent ships 100 papers,
@@ -226,7 +221,7 @@ async function fetchSemanticScholar(arxivId, attempts = 3) {
 }
 
 // ---------------------------------------------------------------------------
-// Social mention counters — HN + Reddit only (MVP scope cut).
+// Social mention counters: active HN rows only while Reddit is paused.
 // ---------------------------------------------------------------------------
 
 const ARXIV_URL_RE = /arxiv\.org\/(?:abs|pdf)\/([0-9]{4}\.[0-9]{4,6}(?:v[0-9]+)?)/gi;
@@ -269,37 +264,6 @@ function buildHnMentions(stories, nowMs) {
     }
   }
   return counts;
-}
-
-/**
- * Same shape for Reddit — reddit-all-posts.json holds posts under
- * `topPosts`/`allPosts` (keyed differently per scraper version). We
- * accept both shapes plus a flat array.
- */
-function buildRedditMentions(redditFile, nowMs) {
-  const counts = new Map();
-  const posts = pickRedditPosts(redditFile);
-  const cutoffSec = (nowMs - MENTION_WINDOW_MS) / 1000;
-  for (const p of posts) {
-    if (typeof p?.createdUtc === "number" && p.createdUtc < cutoffSec) continue;
-    const blob = `${p?.title ?? ""}\n${p?.url ?? ""}\n${p?.permalink ?? ""}`;
-    for (const id of extractArxivIds(blob)) {
-      counts.set(id, (counts.get(id) ?? 0) + 1);
-    }
-  }
-  return counts;
-}
-
-function pickRedditPosts(file) {
-  if (!file) return [];
-  if (Array.isArray(file)) return file;
-  if (Array.isArray(file.allPosts)) return file.allPosts;
-  if (Array.isArray(file.topPosts)) return file.topPosts;
-  if (Array.isArray(file.posts)) return file.posts;
-  // reddit-mentions.json shape: mentions is keyed by repo, each value
-  // has stories[]. We don't recurse there — we use reddit-all-posts.json
-  // as the primary mention surface (covers the broad scrape).
-  return [];
 }
 
 // ---------------------------------------------------------------------------
@@ -358,14 +322,9 @@ async function main() {
     "hackernews-trending",
     HN_TRENDING_PATH,
   );
-  const reddit = await readDataStoreOrFile(
-    "reddit-all-posts",
-    REDDIT_ALL_POSTS_PATH,
-  );
   const hnMentions = buildHnMentions(hn.data?.stories ?? [], nowMs);
-  const redditMentions = buildRedditMentions(reddit.data, nowMs);
   log(
-    `social mentions indexed: hn=${hnMentions.size} reddit=${redditMentions.size}`,
+    `social mentions indexed: hn=${hnMentions.size} reddit=paused`,
   );
 
   // ---- Decide which papers need a fresh Semantic Scholar fetch ------------
@@ -390,8 +349,7 @@ async function main() {
   // Re-emit cached papers first (their citation data is still valid).
   for (const { paper, cached } of skipFresh) {
     const arxivId = paper.arxivId;
-    const social =
-      (hnMentions.get(arxivId) ?? 0) + (redditMentions.get(arxivId) ?? 0);
+    const social = hnMentions.get(arxivId) ?? 0;
     enriched.push({
       arxivId,
       citationCount: cached.citationCount ?? 0,
@@ -426,9 +384,7 @@ async function main() {
         citationVelocity = cached.citationVelocity ?? 0;
       }
     }
-    const social =
-      (hnMentions.get(paper.arxivId) ?? 0) +
-      (redditMentions.get(paper.arxivId) ?? 0);
+    const social = hnMentions.get(paper.arxivId) ?? 0;
     enriched.push({
       arxivId: paper.arxivId,
       citationCount,
@@ -440,8 +396,8 @@ async function main() {
 
   const payload = {
     fetchedAt,
-    source: "api.semanticscholar.org/graph/v1/paper/arXiv:* + HN + Reddit",
-    socialSources: ["hackernews", "reddit"],
+    source: "api.semanticscholar.org/graph/v1/paper/arXiv:* + HN",
+    socialSources: ["hackernews"],
     count: enriched.length,
     papers: enriched,
   };
@@ -478,6 +434,5 @@ if (isDirectRun) {
 export {
   extractArxivIds,
   buildHnMentions,
-  buildRedditMentions,
   computeCitationVelocity,
 };

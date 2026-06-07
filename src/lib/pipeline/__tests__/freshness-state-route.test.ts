@@ -1,6 +1,25 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
+import sourcesData from "../../../../apps/trendingrepo-worker/src/platform/sources.json";
+
+const HOUR_MS = 60 * 60 * 1000;
+const SOURCE_CONTRACTS = sourcesData as Array<{
+  id: string;
+  freshness_budget_ms: number;
+}>;
+
+function contractBudgetLabel(id: string): string {
+  const contract = SOURCE_CONTRACTS.find((source) => source.id === id);
+  assert.ok(contract, `missing source contract for ${id}`);
+  assert.equal(
+    contract.freshness_budget_ms % HOUR_MS,
+    0,
+    `${id} budget must be whole hours for this route assertion`,
+  );
+  return `${contract.freshness_budget_ms / HOUR_MS}h`;
+}
+
 test("freshness state route exposes expanded inventory with advisory blocking flags", async () => {
   const env = process.env as Record<string, string | undefined>;
   const previous = {
@@ -24,20 +43,67 @@ test("freshness state route exposes expanded inventory with advisory blocking fl
     const response = await GET(new Request("http://localhost/api/cron/freshness/state") as never);
     assert.equal(response.status, 200);
     const body = (await response.json()) as {
-      sources: Array<{ name: string; blocking?: boolean }>;
+      sources: Array<{ name: string; blocking?: boolean; freshnessBudget: string }>;
+      disabledSources?: Array<{ name: string; reason: string }>;
+      summary: { disabled: number };
     };
     const byName = new Map(body.sources.map((source) => [source.name, source]));
+    const disabledByName = new Map(
+      (body.disabledSources ?? []).map((source) => [source.name, source]),
+    );
 
-    assert.ok(body.sources.length >= 44, `expected expanded inventory, got ${body.sources.length}`);
+    assert.ok(body.sources.length >= 27, `expected active inventory, got ${body.sources.length}`);
     assert.equal(byName.get("trending-repos")?.blocking, true);
+    assert.ok(byName.has("twitter"), "worker-owned twitter-repo-signals should remain tracked");
+    for (const source of ["engagement-composite", "trendshift-daily"]) {
+      assert.equal(byName.get(source)?.blocking, true, `${source} should be blocking active freshness`);
+      assert.equal(
+        byName.get(source)?.freshnessBudget,
+        contractBudgetLabel(source),
+        `${source} should use its active worker source contract budget`,
+      );
+    }
     assert.equal(byName.has("reddit"), false, "live reddit collector should be disabled");
-    assert.ok(byName.has("reddit-baselines"), "reddit baselines should remain tracked");
+    assert.equal(byName.has("reddit-baselines"), false, "reddit baselines should be disabled with reddit");
+    assert.ok(
+      disabledByName.has("reddit-baselines"),
+      "disabled reddit baselines should remain visible in disabledSources",
+    );
+    assert.ok(
+      disabledByName.has("agent-commerce"),
+      "disabled agent-commerce should remain visible in disabledSources",
+    );
+    assert.ok(
+      body.summary.disabled > 0,
+      "freshness summary should count disabled sources explicitly",
+    );
     for (const source of [
+      "agent-commerce",
+      "arxiv",
+      "awesome-skills",
+      "claude-rss",
+      "huggingface",
+      "huggingface-datasets",
+      "huggingface-spaces",
       "hotness-snapshots",
       "mcp-dependents",
+      "mcp-downloads",
+      "mcp-liveness",
       "mcp-smithery-rank",
-      "model-usage",
+      "mcp-usage-snapshot",
+      "openai-rss",
+      "scoring-shadow",
       "skill-install-snapshots",
+      "skill-sidechannels",
+      "staleness-report",
+      "trending-mcp",
+      "trending-skills",
+      "unknown-mentions",
+    ]) {
+      assert.equal(byName.has(source), false, `${source} should be retired from active freshness`);
+    }
+    for (const source of [
+      "model-usage",
     ]) {
       assert.equal(byName.get(source)?.blocking, false, `${source} should be advisory`);
     }

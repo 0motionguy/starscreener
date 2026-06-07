@@ -97,7 +97,6 @@ function tempId(): string {
 export function RepoCommentsComposer({
   repoFullName,
   signedIn,
-  signInUrl,
   repoNameShort,
   parentId,
   isGlobalListener,
@@ -232,7 +231,6 @@ export function RepoCommentsComposer({
     onPosted,
     parentId,
     repoFullName,
-    signInUrl,
     signedIn,
     trimmed,
   ]);

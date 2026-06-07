@@ -80,10 +80,6 @@ const DEFAULT_THRESHOLD = 70;
 // that a per-repo probe might surface mentions we haven't found yet.
 const UNDER_SCANNED_TRIGGER = 6;
 
-// Anti-oscillation window: the sweep + enrich consumers honor this when
-// reading the queue. Repos with `lastSweptAt` within 6h are skipped.
-const ANTI_OSC_HOURS = 6;
-
 // ---------------------------------------------------------------------------
 // CLI parsing
 // ---------------------------------------------------------------------------

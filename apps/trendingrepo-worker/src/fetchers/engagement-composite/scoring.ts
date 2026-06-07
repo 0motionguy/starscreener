@@ -32,22 +32,22 @@ import { COMPONENT_KEYS } from './types.js';
  * Component weights. Sum MUST equal 1.00 — asserted in unit tests so a
  * future tweak that breaks the invariant fails CI immediately.
  *
- *   ghStars (.25)  — strongest leading indicator of mainstream traction
+ *   ghStars (.30)  — strongest leading indicator of mainstream traction
  *   hn      (.20)  — best engagement signal pre-mainstream
- *   npm     (.20)  — actual usage, not just attention
- *   reddit  (.15)  — broader-but-noisier developer attention
- *   ph      (.10)  — launch moment, mostly orthogonal to other signals
+ *   npm     (.25)  — actual usage, not just attention
+ *   reddit  (.00)  — intentionally paused; component retained for payload compatibility
+ *   ph      (.15)  — launch moment, mostly orthogonal to other signals
  *   bluesky (.05)  — early-mover signal, low volume so capped low
  *   devto   (.05)  — slow-burn long-tail content signal
  */
 export const WEIGHTS: Record<ComponentKey, number> = {
   hn: 0.20,
-  reddit: 0.15,
+  reddit: 0,
   bluesky: 0.05,
   devto: 0.05,
-  npm: 0.20,
-  ghStars: 0.25,
-  ph: 0.10,
+  npm: 0.25,
+  ghStars: 0.30,
+  ph: 0.15,
 };
 
 /** Components that use percentile-rank normalization. */

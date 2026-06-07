@@ -44,6 +44,9 @@ export interface CollectionRankingsFile {
       issues?: CollectionRankingRow[];
     }
   >;
+  status?: "ok" | "degraded";
+  dataAsOf?: string | null;
+  errors?: Array<{ stage: string; message: string }>;
 }
 
 // Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
@@ -59,6 +62,18 @@ export function getCollectionRankingsFetchedAt(): string | null {
 
 export function getCollectionRankingsPeriod(): string {
   return data.period;
+}
+
+export function getCollectionRankingsStatus(): "ok" | "degraded" {
+  return data.status === "degraded" ? "degraded" : "ok";
+}
+
+export function getCollectionRankingsDataAsOf(): string | null {
+  return data.dataAsOf ?? null;
+}
+
+export function getCollectionRankingsErrorCount(): number {
+  return Array.isArray(data.errors) ? data.errors.length : 0;
 }
 
 function sortRankingRows(rows: CollectionRankingRow[]): CollectionRankingRow[] {
@@ -128,6 +143,21 @@ export function getCollectionRankingsCoverage(
   };
 }
 
+export function countCollectionRankingRows(file: CollectionRankingsFile): number {
+  let count = 0;
+  for (const ranking of Object.values(file.collections ?? {})) {
+    count += ranking.stars?.length ?? 0;
+    count += ranking.issues?.length ?? 0;
+  }
+  return count;
+}
+
+export function isUsableCollectionRankingsPayload(
+  file: CollectionRankingsFile,
+): boolean {
+  return countCollectionRankingRows(file) > 0;
+}
+
 // ---------------------------------------------------------------------------
 // Refresh hook — pulls fresh collection-rankings from the data-store.
 // ---------------------------------------------------------------------------
@@ -159,7 +189,11 @@ export async function refreshCollectionRankingsFromStore(): Promise<RefreshResul
       const result = await getDataStore().read<CollectionRankingsFile>(
         "collection-rankings",
       );
-      if (result.data && result.source !== "missing") {
+      if (
+        result.data &&
+        result.source !== "missing" &&
+        isUsableCollectionRankingsPayload(result.data)
+      ) {
         data = result.data;
       }
       lastRefreshMs = Date.now();
@@ -181,4 +215,3 @@ export function _resetCollectionRankingsCacheForTests(): void {
   lastRefreshMs = 0;
   inflight = null;
 }
-

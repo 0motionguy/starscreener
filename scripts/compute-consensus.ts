@@ -554,7 +554,6 @@ async function main(): Promise<void> {
     hf,
     hnMentions,
     twitter,
-    redditMentions,
     ph,
     devtoMentions,
     blueskyMentions,
@@ -564,7 +563,6 @@ async function main(): Promise<void> {
     store.read<HfTrendingPayload>("huggingface-trending"),
     store.read<MentionsPayload>("hackernews-repo-mentions"),
     store.read<TwitterTrendingPayload>("twitter-trending"),
-    store.read<MentionsPayload>("reddit-mentions"),
     store.read<ProductHuntPayload>("producthunt-launches"),
     store.read<MentionsPayload>("devto-mentions"),
     store.read<MentionsPayload>("bluesky-mentions"),
@@ -579,7 +577,7 @@ async function main(): Promise<void> {
     hf: fromHf(hf.data),
     hn: fromLeaderboard(hnMentions.data, "scoreSum7d"),
     x: fromTwitter(twitter.data),
-    r: fromLeaderboard(redditMentions.data, "upvotes7d"),
+    r: [],
     pdh: fromProductHunt(ph.data),
     dev: fromLeaderboard(devtoMentions.data, "reactionsSum7d"),
     bs: fromLeaderboard(blueskyMentions.data, "likesSum7d"),
@@ -591,7 +589,7 @@ async function main(): Promise<void> {
   console.log(tier("hf  ", hf.source, hf.ageMs, input.hf.length));
   console.log(tier("hn  ", hnMentions.source, hnMentions.ageMs, input.hn.length));
   console.log(tier("x   ", twitter.source, twitter.ageMs, input.x.length));
-  console.log(tier("r   ", redditMentions.source, redditMentions.ageMs, input.r.length));
+  console.log("[r   ] source=reddit paused items=0");
   console.log(tier("pdh ", ph.source, ph.ageMs, input.pdh.length));
   console.log(tier("dev ", devtoMentions.source, devtoMentions.ageMs, input.dev.length));
   console.log(tier("bs  ", blueskyMentions.source, blueskyMentions.ageMs, input.bs.length));
@@ -603,7 +601,7 @@ async function main(): Promise<void> {
     hf: { count: input.hf.length, rows: hf.data?.models?.length ?? 0 },
     hn: { count: input.hn.length, rows: hnMentions.data?.leaderboard?.length ?? 0 },
     x: { count: input.x.length, rows: twitter.data?.items?.length ?? 0 },
-    r: { count: input.r.length, rows: redditMentions.data?.leaderboard?.length ?? 0 },
+    r: { count: 0, rows: 0 },
     pdh: { count: input.pdh.length, rows: ph.data?.launches?.length ?? 0 },
     dev: { count: input.dev.length, rows: devtoMentions.data?.leaderboard?.length ?? 0 },
     bs: { count: input.bs.length, rows: blueskyMentions.data?.leaderboard?.length ?? 0 },

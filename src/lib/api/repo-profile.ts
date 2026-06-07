@@ -76,6 +76,11 @@ import type { RepoMention, RepoScore } from "@/lib/pipeline/types";
 
 /** Upper bound on mentions returned inline with the canonical profile. */
 const PROFILE_MENTIONS_LIMIT = 50;
+const PAUSED_MENTION_SOURCES: readonly SocialPlatform[] = [
+  "reddit",
+  "huggingface",
+  "arxiv",
+];
 
 export interface CanonicalRepoProfileMentions {
   /**
@@ -150,6 +155,7 @@ function countMentionsByPlatform(
 ): Partial<Record<SocialPlatform, number>> {
   const out: Partial<Record<SocialPlatform, number>> = {};
   for (const m of all) {
+    if (m.platform === "reddit") continue;
     out[m.platform] = (out[m.platform] ?? 0) + 1;
   }
   return out;
@@ -162,7 +168,7 @@ function countMentionsByPlatform(
  * and bypass the general mentionStore. Until the Twitter pipeline writes
  * directly into mentionStore, we project the panel's topPosts into RepoMention
  * shape at profile-assembly time so the recent-mentions feed and the
- * countsBySource breakdown surface Twitter activity alongside HN/Reddit/etc.
+ * countsBySource breakdown surface Twitter activity alongside active sources.
  *
  * IDs are namespaced (`twitter-<postId>`) so they never collide with native
  * mentionStore rows. Confidence is mapped from the Apify scorer's tiering:
@@ -322,11 +328,7 @@ function synthesizeNpmMentions(
  * stripped per operator refocus. Function kept as a no-op shim so callers
  * keep compiling; always returns an empty array.
  */
-function synthesizeHuggingFaceMentions(
-  _modelIds: string[] | undefined,
-  _repoId: string,
-  _discoveredAt: string,
-): RepoMention[] {
+function synthesizeHuggingFaceMentions(): RepoMention[] {
   return [];
 }
 
@@ -461,10 +463,14 @@ export async function buildCanonicalRepoProfile(
   // listForRepoPaginated returns items in (postedAt desc, id desc); pass the
   // profile cap so the slice matches what the page feed renders. Full count
   // is taken from listForRepo() to avoid a second sort pass.
-  const allMentions = mentionStore.listForRepo(repo.id);
+  const allMentions = mentionStore
+    .listForRepo(repo.id)
+    .filter((mention) => mention.platform !== "reddit");
   const page = mentionStore.listForRepoPaginated(repo.id, {
+    excludeSources: PAUSED_MENTION_SOURCES,
     limit: PROFILE_MENTIONS_LIMIT,
   });
+  const pageItems = page.items;
 
   // --- Score --------------------------------------------------------------
   // scoreStore is in-memory — cold Lambdas won't have a score until the
@@ -512,7 +518,7 @@ export async function buildCanonicalRepoProfile(
   // mentions (these signals live outside the general mentionStore — see
   // synthesizeTwitterMentions docstring) and mix them into the recent slice +
   // countsBySource. Sort newest-first by postedAt and re-cap to
-  // PROFILE_MENTIONS_LIMIT so a viral repo doesn't push HN/Reddit out of the
+  // PROFILE_MENTIONS_LIMIT so a viral repo doesn't push active sources out of the
   // slice.
   const fetchedAtIso = new Date().toISOString();
   const twitterSynth = synthesizeTwitterMentions(twitter, repo.id, fetchedAtIso);
@@ -524,11 +530,7 @@ export async function buildCanonicalRepoProfile(
     fetchedAtIso,
   );
   const npmSynth = synthesizeNpmMentions(npmPackages, repo.id, fetchedAtIso);
-  const hfSynth = synthesizeHuggingFaceMentions(
-    repo.linkedHfModels,
-    repo.id,
-    fetchedAtIso,
-  );
+  const hfSynth = synthesizeHuggingFaceMentions();
   const arxivPapers = getArxivRecentFile().papers ?? [];
   const arxivSynth = synthesizeArxivMentions(
     repo.linkedArxivIds,
@@ -548,10 +550,10 @@ export async function buildCanonicalRepoProfile(
 
   const mergedRecent =
     synthMentions.length > 0
-      ? [...page.items, ...synthMentions]
+      ? [...pageItems, ...synthMentions]
           .sort((a, b) => (a.postedAt < b.postedAt ? 1 : -1))
           .slice(0, PROFILE_MENTIONS_LIMIT)
-      : page.items;
+      : pageItems;
   const mergedAll =
     synthMentions.length > 0 ? [...allMentions, ...synthMentions] : allMentions;
 

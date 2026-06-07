@@ -34,18 +34,6 @@ import { ingestHuggingfaceDatasetsToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
-import {
-  loadHuggingfaceTokens,
-  pickToken,
-  authHeader,
-} from "./_huggingface-shared.mjs";
-
-// Token pool — HF_TOKENS (CSV) + HF_TOKEN (single fallback). Same
-// rotation strategy as scrape-huggingface.mjs: cursor advances per
-// outer call so token use spreads evenly across the workflow.
-const HF_TOKENS = loadHuggingfaceTokens();
-let hfCursor = 0;
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
 const OUT_PATH = resolve(DATA_DIR, "huggingface-datasets.json");
@@ -129,9 +117,17 @@ async function main() {
   // before merging, then re-rank the merged result.
   const existingEnvelope = await loadExistingJson(OUT_PATH, { datasets: [] });
   const existingDatasets = Array.isArray(existingEnvelope?.datasets)
-    ? existingEnvelope.datasets.map(({ rank: _r, ...rest }) => rest)
+    ? existingEnvelope.datasets.map((entry) => {
+        const rest = { ...entry };
+        delete rest.rank;
+        return rest;
+      })
     : [];
-  const thisRunDatasets = ranked.map(({ rank: _r, ...rest }) => rest);
+  const thisRunDatasets = ranked.map((entry) => {
+    const rest = { ...entry };
+    delete rest.rank;
+    return rest;
+  });
   const merged = mergeAndKeepLastN(existingDatasets, thisRunDatasets, {
     idKey: "id",
     scoreKey: "trendingScore",

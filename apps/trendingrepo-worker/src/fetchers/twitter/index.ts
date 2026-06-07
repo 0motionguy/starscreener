@@ -52,12 +52,8 @@ const DEFAULT_NITTER_CHAIN_CAMOFOX = [
 const DEFAULT_NITTER_CHAIN_DIRECT = [
   'https://nt.vern.cc',
 ] as const;
-const REQUEST_TIMEOUT_MS = 10_000;
-const REQUEST_PAUSE_MS = 750;
 const MAX_REPOS_PER_RUN = 50;
 const MAX_TWEETS_PER_REPO = 20;
-const USER_AGENT =
-  'Mozilla/5.0 (compatible; trendingrepo-bot/1.0; +https://trendingrepo.com)';
 // Camofox-browser (camoufox/Firefox + C++ fingerprint spoof). Default is the
 // docker-network service name on TOOLBOX (toolbox_edge). Tabs are JWT-cookie
 // gated, so one tab per run handles Anubis once and reuses the session for all
@@ -103,10 +99,6 @@ export interface TwitterRepoSignalsPayload {
   /** True when Nitter is unreachable / rate-limited — payload will be empty. */
   degraded: boolean;
   degradedReason?: string;
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -230,29 +222,6 @@ function parseNitterDate(raw: string): string | null {
   return new Date(ts).toISOString();
 }
 
-async function fetchNitterPage(url: string): Promise<string> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-  try {
-    const res = await fetch(url, {
-      method: 'GET',
-      signal: controller.signal,
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'text/html,application/xhtml+xml',
-      },
-    });
-    if (!res.ok) {
-      const err = new Error(`nitter ${res.status} ${res.statusText} for ${url}`);
-      (err as Error & { status?: number }).status = res.status;
-      throw err;
-    }
-    return await res.text();
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
 // --- camofox-browser path -----------------------------------------------------
 //
 // Public Nitter instances are now uniformly behind Anubis (SHA-256 PoW
@@ -366,7 +335,12 @@ export async function closeCamofoxTab(tabId: string): Promise<void> {
   }
 }
 
-function done(startedAt: string, items: number, redisPublished: boolean): RunResult {
+function done(
+  startedAt: string,
+  items: number,
+  redisPublished: boolean,
+  errors: RunResult['errors'] = [],
+): RunResult {
   return {
     fetcher: 'twitter',
     startedAt,
@@ -375,7 +349,7 @@ function done(startedAt: string, items: number, redisPublished: boolean): RunRes
     itemsUpserted: 0,
     metricsWritten: 0,
     redisPublished,
-    errors: [],
+    errors,
   };
 }
 
@@ -414,21 +388,13 @@ const fetcher: Fetcher = {
     // empty (cold-start protection).
     const picked = await pickHotRepos({ limit: MAX_REPOS_PER_RUN, log: ctx.log });
     if (picked.repos.length === 0) {
-      ctx.log.warn('twitter: hot picker returned 0 repos — writing empty payload');
-      const payload: TwitterRepoSignalsPayload = {
-        fetchedAt: startedAt,
-        source: 'nitter',
-        instance: headInstance,
-        windowDays: 7,
-        scannedRepos: 0,
-        failedRepos: 0,
-        totalPosts: 0,
-        posts: [],
-        degraded: true,
-        degradedReason: 'no-tracked-repos',
-      };
-      const result = await writeDataStore('twitter-repo-signals', payload);
-      return done(startedAt, 0, result.source === 'redis');
+      ctx.log.warn('twitter: hot picker returned 0 repos — preserving prior twitter-repo-signals');
+      return done(startedAt, 0, false, [
+        {
+          stage: 'pick-hot-repos',
+          message: 'hot picker returned 0 repos; skipped empty twitter-repo-signals write',
+        },
+      ]);
     }
     ctx.log.info(
       { headInstance, useCamofox, repos: picked.repos.length, pickerSource: picked.source },

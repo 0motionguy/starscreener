@@ -16,13 +16,12 @@ import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
 import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
-import xFunding from './fetchers/x-funding/index.js';
+import secFormD from './fetchers/sec-form-d/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
-// Live Reddit collection is intentionally paused until the operator provisions
-// OAuth client-credentials on HOSTUP. Keep weekly baselines registered because
-// they are a separate slow-moving snapshot.
-import redditBaselines from './fetchers/reddit-baselines/index.js';
+// Reddit collection is intentionally paused end-to-end on HOSTUP. Do not keep
+// baselines scheduled either: they still hit Reddit upstreams and can make a
+// stale social source look alive.
 import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
 import consensusTrending from './fetchers/consensus-trending/index.js';
@@ -37,27 +36,17 @@ import twitter from './fetchers/twitter/index.js';
 // twitter/_scan.ts and write into the cumulative mentions ledger.
 import twitterWarm from './fetchers/twitter-warm/index.js';
 import twitterCold from './fetchers/twitter-cold/index.js';
-// Cumulative mentions ledger — reads snapshot slugs (HN, Reddit, Bluesky,
-// Dev.to, Lobsters), runs SADD + HINCRBY for new mention IDs.
+// Cumulative mentions ledger — reads active snapshot slugs (HN, Bluesky,
+// Dev.to, Lobsters, Twitter), runs SADD + HINCRBY for new mention IDs.
 import mentionsLedger from './fetchers/mentions-ledger/index.js';
 // Operator-curated data file producers (close the chicken-egg gaps that left
 // `manual-repos` + `revenue-manual-matches` consumed-but-never-produced
 // under worker-only mode).
 import manualRepos from './fetchers/manual-repos/index.js';
 import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
-// npm / pypi side-channels — kept because they serve repo analytics
-// (package download / dependent counts referenced by the repos surface),
-// not just the now-removed MCP merger.
-import npmDownloads from './fetchers/npm-downloads/index.js';
-import pypiDownloads from './fetchers/pypi-downloads/index.js';
-import npmDependents from './fetchers/npm-dependents/index.js';
-import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
-// Sprint 3.2 wave 3 — register fetchers whose data was previously produced by
-// GH Action workflows (scrape-arxiv.yml + enrich-arxiv.yml for arxiv;
-// scrape-claude-rss.yml + scrape-openai-rss.yml for ai-blogs, which already
-// covers 6 lab RSS sources via AI_LAB_REGISTRY).
-import arxiv from './fetchers/arxiv/index.js';
-import aiBlogs from './fetchers/ai-blogs/index.js';
+// npm / pypi / hotness side-channels are intentionally not registered while
+// the upstream `trending-mcp` roster is retired. Leaving them scheduled only
+// republishes fresh empty payloads.
 // LLM quality signals — Artificial Analysis Intelligence Index (AA_API_KEY
 // required). The /?cat=llms surface clones the AA leaderboard.
 import lmarena from './fetchers/lmarena/index.js';
@@ -75,7 +64,7 @@ import openrouterModels from './fetchers/openrouter-models/index.js';
 // openrouter-models so they don't contend.
 import openrouterUsage from './fetchers/openrouter-usage/index.js';
 // DORP intake-queue consumer — drains `queue:drop-a-repo` every minute and
-// calls back to the Vercel /enrich endpoint to run the existing pipeline
+// calls back to the HOSTUP app /enrich endpoint to run the existing pipeline
 // ingest. See header for the producer/consumer contract.
 import dropIntakeDrain from './fetchers/drop-intake-drain/index.js';
 // DORP deep-enrich consumer — drains `queue:drop-deep-enrich` every minute and
@@ -90,7 +79,7 @@ import dropDeepEnrichDrain from './fetchers/drop-deep-enrich-drain/index.js';
 // count on their profile within ~1-2 min (vs ~31h via hourly rotation).
 import dropTwitterDrain from './fetchers/drop-twitter-drain/index.js';
 // Repo-first cross-source mention sweep — for the top-100 (consensus-trending),
-// searches HN/Reddit/dev.to/Bluesky/ProductHunt(+Tavily) per repo and publishes
+// searches active channels per repo and publishes
 // `repo-mentions-detail-rollup` to redis (the detail behind profile source pips).
 import crossSourceSweep from './fetchers/cross-source-sweep/index.js';
 // Persistent accumulating repo collection — unions trending/recent/metadata/
@@ -167,10 +156,9 @@ export const FETCHERS: Fetcher[] = [
   npmPackages,
   fundingNews,
   crunchbase,
-  xFunding,
+  secFormD,
   trustmrr,
   revenueBenchmarks,
-  redditBaselines,
   trendshiftDaily,
   engagementComposite,
   consensusTrending,
@@ -184,12 +172,6 @@ export const FETCHERS: Fetcher[] = [
   producthunt,
   twitter,
   mentionsLedger,
-  npmDownloads,
-  pypiDownloads,
-  npmDependents,
-  hotnessSnapshot,
-  arxiv,
-  aiBlogs,
   lmarena,
   artificialanalysis,
   openrouterModels,
@@ -221,21 +203,19 @@ export function listFetcherNames(): string[] {
   return FETCHERS.map((f) => f.name);
 }
 
-// Move 1, Phase 1 — SOURCE_CONTRACTS array.
+// Source registry contract array.
 //
 // `sources.json` is the source registry. Each row is asserted to satisfy the
 // SourceContract type via the `as` cast through the unknown bridge, then
 // re-typed as readonly so callers cannot mutate. JSON imports widen string
 // literals (e.g. `"active"` → `string`), so a direct `satisfies` clause
-// cannot narrow the unions — Phase 1 deliverable C
-// (`scripts/verify-source-contract.mjs`) is the runtime gate that catches
-// shape drift, paired with `npm run render:source-audit` which fails loudly
-// on missing fields. Move 1 implementation step 4 wires
-// `npm run registry-check` into CI so PRs that delete a row without prior
-// `state: 'deprecated'` are blocked. See:
+// cannot narrow the unions.
+// Registry drift is enforced by:
+//   - apps/trendingrepo-worker/tests/registry.test.ts
+//   - src/lib/pipeline/__tests__/health-availability.test.ts
+// See:
 //   - apps/trendingrepo-worker/src/platform/source-contract.ts (the type)
 //   - apps/trendingrepo-worker/src/platform/sources.json     (the data)
-//   - docs/SOURCE-REGISTRY-PROPOSAL.md (Move 1 implementation proposal)
 import sourcesData from './platform/sources.json' with { type: 'json' };
 import type { SourceContract } from './platform/source-contract.js';
 export const SOURCE_CONTRACTS: readonly SourceContract[] =

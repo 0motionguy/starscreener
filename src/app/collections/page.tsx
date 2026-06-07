@@ -83,7 +83,7 @@ export default async function CollectionsIndexPage() {
         <h1>Curated open-source collections</h1>
         <p>
           Themed collections of open-source projects, each rendered as a live momentum leaderboard —
-          ranked by cross-source signal across GitHub, Hacker News, Reddit, X, Bluesky, Product Hunt
+          ranked by cross-source signal across GitHub, Hacker News, X, Bluesky, Product Hunt
           and Dev.to, refreshed continuously.
         </p>
       </header>

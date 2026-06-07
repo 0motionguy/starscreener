@@ -255,8 +255,10 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
           onKeyDown={onInputKeyDown}
           placeholder="Search repos, mentions, owners, models…"
           autoComplete="off"
+          role="combobox"
           aria-label="Search"
           aria-autocomplete="list"
+          aria-controls="global-search-dropdown"
           aria-expanded={showDropdown}
         />
         <kbd>⌘K</kbd>
@@ -270,7 +272,6 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
             panelRef={dropdownRef}
             onHover={setActiveIdx}
             onPick={navigateToHit}
-            hits={hits}
           />
         )}
       </div>
@@ -316,7 +317,6 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
 interface SearchDropdownProps {
   loading: boolean;
   results: SearchResponse | null;
-  hits: Hit[];
   activeIdx: number;
   anchorRect: DOMRect | null;
   panelRef: React.RefObject<HTMLDivElement | null>;
@@ -324,12 +324,12 @@ interface SearchDropdownProps {
   onPick: (hit: Hit) => void;
 }
 
-function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRef, onHover, onPick }: SearchDropdownProps) {
+function SearchDropdown({ loading, results, activeIdx, anchorRect, panelRef, onHover, onPick }: SearchDropdownProps) {
   if (typeof document === "undefined" || !anchorRect) return null;
 
   if (loading && !results) {
     return createPortal(
-      <div ref={panelRef} className="search-dropdown" role="listbox">
+      <div id="global-search-dropdown" ref={panelRef} className="search-dropdown" role="listbox">
         <div className="search-empty">Searching…</div>
       </div>,
       document.body,
@@ -338,7 +338,7 @@ function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRe
 
   if (results && results.repos.length === 0 && results.llms.length === 0) {
     return createPortal(
-      <div ref={panelRef} className="search-dropdown" role="listbox">
+      <div id="global-search-dropdown" ref={panelRef} className="search-dropdown" role="listbox">
         <div className="search-empty">
           No results for <b>{results.query}</b>
         </div>
@@ -351,7 +351,7 @@ function SearchDropdown({ loading, results, hits, activeIdx, anchorRect, panelRe
 
   let runningIdx = 0;
   return createPortal(
-    <div ref={panelRef} className="search-dropdown" role="listbox">
+    <div id="global-search-dropdown" ref={panelRef} className="search-dropdown" role="listbox">
       {results.repos.length > 0 && (
         <>
           <SectionHeader label="Repos" count={results.totals?.repos ?? results.repos.length} />

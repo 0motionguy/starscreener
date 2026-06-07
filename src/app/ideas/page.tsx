@@ -39,6 +39,7 @@ export const metadata = {
   title: "Ideas Board",
   description:
     "Where contribution meets opportunity. Builders post unmet needs from trending repos. The community scores demand with Would Build / Use / Buy / Invest. The best ideas get claimed and shipped.",
+  alternates: { canonical: "/ideas" },
   openGraph: {
     title: "Ideas Board — TrendingRepo",
     description:

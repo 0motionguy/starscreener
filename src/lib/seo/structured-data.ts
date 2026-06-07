@@ -104,6 +104,29 @@ export function buildFaqJsonLd(entries: FaqEntry[]) {
 }
 
 /**
+ * WebSite — emits the canonical site identity Google uses to assemble the
+ * "Site name" feature (the bolded brand string in SERP titles) and the
+ * sitelinks hierarchy. Pairs alongside the Organization graph in the root
+ * layout. Deliberately omits SearchAction: the site has no user-facing
+ * /search?q= results page, so emitting it would mislead the sitelinks
+ * searchbox into pointing at a route that doesn't exist.
+ *
+ * Reference: https://developers.google.com/search/docs/appearance/site-names
+ */
+export function buildWebsiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}#website`,
+    url: SITE_URL,
+    name: SITE_NAME,
+    alternateName: ["TrendingRepo", "Trending Repo", "Starscreener"],
+    inLanguage: "en",
+    publisher: { "@id": `${SITE_URL}#organization` },
+  } as const;
+}
+
+/**
  * Organization — site identity for E-E-A-T. Emitted once at the root layout
  * so every page inherits a described publisher. `knowsAbout` states the
  * domain expertise answer engines weigh for authoritativeness.
@@ -128,5 +151,110 @@ export function buildOrganizationJsonLd() {
       "software trend analysis",
     ],
     sameAs: ["https://github.com/0motionguy/starscreener"],
+  } as const;
+}
+
+// ---------------------------------------------------------------------------
+// Author primitives (E-E-A-T)
+//
+// Google's helpful-content + "Reviews" guidance both lean on author identity.
+// A named Person attached to curated answer-surfaces (e.g. /best/<topic>)
+// signals first-party human curation, separating us from algorithmic
+// directories that get downranked. The Organization variant is appropriate
+// for data-driven leaderboards (/categories/<id>) where the ranking itself
+// is editorial but the prose is computed.
+
+export interface PersonAuthor {
+  /** Display name, e.g. "Mirko Basil". */
+  name: string;
+  /**
+   * Canonical identity URL. Stable cross-link Google can use to disambiguate
+   * the person from same-name authors. Common picks: personal site, LinkedIn,
+   * the operator's primary brand URL. Optional but strongly recommended.
+   */
+  url?: string;
+  /** Optional one-line description, e.g. "Founder, AISO.tools". */
+  jobTitle?: string;
+}
+
+/**
+ * Person — JSON-LD author node. Use as the `author` field on Article /
+ * BlogPosting graph entries when a single named human curated the content.
+ *
+ * Honesty rule: do NOT attribute content to a person who didn't actually
+ * write it. Auto-generated text should stay attributed to the Organization.
+ */
+export function buildPersonJsonLd(author: PersonAuthor) {
+  return {
+    "@type": "Person",
+    name: author.name,
+    ...(author.url ? { url: author.url } : {}),
+    ...(author.jobTitle ? { jobTitle: author.jobTitle } : {}),
+  } as const;
+}
+
+/**
+ * Organization-as-author — same shape as Person but with @type=Organization,
+ * linked to the site's root Organization node. Use when the ranking/copy is
+ * data-driven and we don't want to attribute it to a specific human.
+ */
+export function buildOrganizationAuthorJsonLd() {
+  return {
+    "@type": "Organization",
+    "@id": `${SITE_URL}#organization`,
+    name: SITE_NAME,
+    url: SITE_URL,
+  } as const;
+}
+
+// ---------------------------------------------------------------------------
+// Article — wraps the editorial intro on an answer-surface page
+//
+// Pairs alongside ItemList: the ItemList answers "what's ranked" and the
+// Article answers "who says so and when". Both fields show up in answer
+// engines (Google AI Overview, Perplexity) as separately citable units.
+
+export interface ArticleInput {
+  /** Page H1 / display headline. */
+  headline: string;
+  /** Site-relative path or absolute URL for the page. */
+  url: string;
+  /** ISO 8601 datestamp the article first published. */
+  datePublished: string;
+  /** ISO 8601 datestamp of the most recent revision (>= datePublished). */
+  dateModified: string;
+  /** Article author — Person for curated work, Organization for data-driven. */
+  author: ReturnType<typeof buildPersonJsonLd> | ReturnType<typeof buildOrganizationAuthorJsonLd>;
+  /** ≤300 char article description. Reuse the page's meta description. */
+  description?: string;
+  /** Optional canonical image URL — defaults to the page's OG image. */
+  image?: string;
+}
+
+/**
+ * Article — minimal but valid Article node. The publisher is the site's
+ * Organization (linked by @id to the root buildOrganizationJsonLd node).
+ *
+ * Pair with buildItemListJsonLd in the same page: emit both <JsonLd>
+ * elements (or compose into a `@graph` if you prefer one script tag).
+ */
+export function buildArticleJsonLd(input: ArticleInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.headline,
+    mainEntityOfPage: absoluteUrl(input.url),
+    datePublished: input.datePublished,
+    dateModified: input.dateModified,
+    author: input.author,
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/brand/trendingrepo.svg") },
+    },
+    ...(input.description ? { description: input.description } : {}),
+    ...(input.image ? { image: input.image } : {}),
   } as const;
 }

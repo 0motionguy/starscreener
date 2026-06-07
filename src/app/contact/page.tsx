@@ -8,6 +8,7 @@ export const metadata = {
   title: "Contact — TrendingRepo",
   description:
     "Get in touch with the TrendingRepo trend desk. Email hello@trendingrepo.com, file issues on GitHub, reach us on X / Twitter, or submit a repo for review.",
+  alternates: { canonical: "/contact" },
 };
 
 // Contact methods — each renders as a row in the contact grid below.

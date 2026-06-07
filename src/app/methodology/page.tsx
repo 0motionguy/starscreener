@@ -8,6 +8,7 @@ export const metadata = {
   title: "Methodology — TrendingRepo",
   description:
     "How TrendingRepo ranks repos. Deterministic, inspectable trend score: star delta, cross-source mentions, engagement composite, momentum decay, category baseline. Every weight and constant lives here.",
+  alternates: { canonical: "/methodology" },
 };
 
 // Inputs feeding the 24h trend score. Weights are the live constants used by

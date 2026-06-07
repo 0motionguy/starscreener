@@ -50,6 +50,7 @@ export async function generateMetadata({ searchParams }: Props) {
     title: "Top 10 — TrendingRepo",
     description:
       "Today's 10 trending GitHub repos, ranked by absolute 7-day star gain. Build your own list and share it on X.",
+    alternates: { canonical: "/tools/top-10" },
     openGraph: {
       images: [{ url: ogUrl, width: 1200, height: 675 }],
     },

@@ -107,6 +107,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: "/tools/star-history" },
     openGraph: {
       title,
       description,

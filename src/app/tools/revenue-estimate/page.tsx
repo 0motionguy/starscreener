@@ -44,6 +44,7 @@ export const metadata: Metadata = {
   title: "Revenue Estimate — TrendingRepo",
   description:
     "Estimate annual revenue for an open-source / SaaS repo. Stage, pricing model, and team-size inputs feed a momentum-weighted ARR band. Verified TrustMRR comps surface alongside the estimate.",
+  alternates: { canonical: "/tools/revenue-estimate" },
   openGraph: {
     images: [
       { url: "/api/og/tools/revenue-estimate", width: 1200, height: 630 },

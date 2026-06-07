@@ -9,6 +9,7 @@ export const metadata = {
   title: "About — TrendingRepo",
   description:
     "TrendingRepo is a trend radar for open source. We surface breakout repositories, MCP servers, and Claude skills the moment they ship by ranking cross-source agreement across GitHub, Reddit, Hacker News, Bluesky, ProductHunt, dev.to, and arXiv.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

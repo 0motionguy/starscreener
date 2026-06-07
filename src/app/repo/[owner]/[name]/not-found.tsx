@@ -2,6 +2,22 @@
 
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Repo not indexed — TrendingRepo",
+  description: "We haven't scanned that owner/name yet. It may be private, archived, or below our discovery threshold.",
+  // CRITICAL: must noindex EXPLICITLY. The repo template's generateMetadata
+  // runs before notFound() throws (Next runs generateMetadata up-front to
+  // decide HTTP head), so it returns robots:{index:true,follow:true} even
+  // for URLs that will 404. Without this override, the head ends up with
+  // TWO conflicting robots tags. Worker outage 2026-05-30/31 caused
+  // transient 404s on real repo URLs → Googlebot crawled them → top-traffic
+  // URLs got "Excluded by noindex tag" → ~95% impressions drop.
+  robots: { index: false, follow: false },
+  alternates: { canonical: undefined },
+};
+
 export default function RepoNotFound() {
   return (
     <div style={{ padding: "60px 22px", maxWidth: 720, margin: "0 auto" }}>

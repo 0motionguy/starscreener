@@ -26,11 +26,15 @@
 //   sort newest-first and slice — anything beyond 1000 within the 48h
 //   window is dropped silently rather than failing validation.
 //
+//   DATA SOURCE — 2026-06-01: migrated off `fs.readFileSync(process.cwd(), ...)`
+//   to the data-store. The CLAUDE.md anti-pattern rule applies — server
+//   code must read through `getDataStore().read(...)`. The 3-tier reader
+//   (Redis → bundled file → memory) preserves the previous file fallback
+//   while also picking up live Redis writes from the collectors, which is
+//   why this sitemap was empty in prod (data was in Redis only).
+//
 // Refs:
 //   - https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap
-
-import fs from "node:fs";
-import path from "node:path";
 
 import { absoluteUrl } from "@/lib/seo";
 import {
@@ -70,18 +74,20 @@ interface PhFile {
   launches?: PhLaunch[];
 }
 
-function readJsonSafe<T>(relPath: string): T | null {
+async function readFromStore<T>(slug: string): Promise<T | null> {
   try {
-    const full = path.join(process.cwd(), relPath);
-    const raw = fs.readFileSync(full, "utf8");
-    return JSON.parse(raw) as T;
+    const { getDataStore } = await import("@/lib/data-store");
+    const result = await getDataStore().read<T>(slug);
+    if (result.source === "missing" || !result.data) return null;
+    return result.data;
   } catch {
+    // Silent: a missing data-store backend is graceful — caller treats null
+    // as "no entries" and emits the empty <urlset> rather than 500ing.
     return null;
   }
 }
 
-function buildHnEntries(now: number): UrlEntry[] {
-  const file = readJsonSafe<HnFile>("data/hackernews-trending.json");
+function buildHnEntries(file: HnFile | null, now: number): UrlEntry[] {
   if (!file || !Array.isArray(file.stories)) return [];
   const entries: UrlEntry[] = [];
   for (const s of file.stories) {
@@ -103,8 +109,7 @@ function buildHnEntries(now: number): UrlEntry[] {
   return entries;
 }
 
-function buildPhEntries(now: number): UrlEntry[] {
-  const file = readJsonSafe<PhFile>("data/producthunt-launches.json");
+function buildPhEntries(file: PhFile | null, now: number): UrlEntry[] {
   if (!file || !Array.isArray(file.launches)) return [];
   const entries: UrlEntry[] = [];
   for (const l of file.launches) {
@@ -130,19 +135,25 @@ function buildPhEntries(now: number): UrlEntry[] {
   return entries;
 }
 
-export function GET(): Response {
+export async function GET(): Promise<Response> {
   const now = Date.now();
+
+  // Both reads in parallel — independent slugs, both safe to fail individually.
+  const [hnFile, phFile] = await Promise.all([
+    readFromStore<HnFile>("hackernews-trending"),
+    readFromStore<PhFile>("producthunt-launches"),
+  ]);
 
   const all: UrlEntry[] = [];
   try {
-    all.push(...buildHnEntries(now));
+    all.push(...buildHnEntries(hnFile, now));
   } catch {
-    // missing/malformed feed — skip silently rather than 500
+    // malformed feed — skip silently rather than 500
   }
   try {
-    all.push(...buildPhEntries(now));
+    all.push(...buildPhEntries(phFile, now));
   } catch {
-    // missing/malformed feed — skip silently rather than 500
+    // malformed feed — skip silently rather than 500
   }
 
   // Dedupe by <loc>. A duplicate URL inside a urlset is a hard validator error.

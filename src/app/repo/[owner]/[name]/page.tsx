@@ -53,6 +53,8 @@ import { buildRepoJsonLd } from "@/lib/seo/repo-jsonld";
 import { buildBreadcrumbJsonLd, buildFaqJsonLd } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getCategoryMeta } from "@/lib/categories";
+import { getMatchingBestTopics } from "@/lib/best-topics";
+import Link from "next/link";
 import { getOptionalUser } from "@/lib/auth/server";
 import type { CrossSourceChannel, Repo } from "@/lib/types";
 
@@ -92,6 +94,38 @@ export async function generateMetadata({ params }: PageProps) {
   const full = `${owner}/${name}`;
   const ogPath = `/api/og/repo/${owner}/${name}`;
 
+  // CRITICAL: probe the registry FIRST. Worker outage 2026-05-30/31 →
+  // transient not-found state on real repo URLs → metadata returned
+  // index:true while the page render returned not-found → dual <meta robots>
+  // tags AND a fake title impersonating a real page → Googlebot noindexed
+  // ~95% of impressions over 4 days. If the repo is missing we now return
+  // a clean noindex/no-canonical/no-fake-title metadata; the not-found.tsx
+  // sibling adds belt-and-braces on top.
+  let repoIsKnown = false;
+  try {
+    await Promise.all([
+      refreshTrendingFromStore().catch(() => undefined),
+      refreshRepoRegistryFromStore().catch(() => undefined),
+    ]);
+    repoIsKnown = getDerivedRepoByFullName(full) !== null;
+  } catch {
+    // Registry probe failed — fall through to the indexable metadata path.
+    // Better to keep a working URL indexable than to noindex on a transient
+    // store outage; the operator-side worker freshness gate (#cf1f16a91)
+    // already blocks deploys on cold worker state.
+    repoIsKnown = true;
+  }
+
+  if (!repoIsKnown) {
+    return {
+      title: { absolute: "Repo not indexed — TrendingRepo" },
+      description:
+        "We haven't scanned that owner/name yet. It may be private, archived, or below our discovery threshold.",
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
+
   // Prefer the AISO/Kimi verdict summary for the meta description — it's
   // original, specific, evidence-based prose that makes a far better search
   // snippet than the generic boilerplate. Falls back when no verdict exists.
@@ -106,15 +140,29 @@ export async function generateMetadata({ params }: PageProps) {
     /* keep boilerplate */
   }
 
+  const canonical = `/repo/${owner}/${name}`;
+
   return {
     // Value-forward title (CTR): bare repo-name titles lose to GitHub itself
     // on name queries. `absolute` bypasses the layout's "%s — TrendingRepo"
     // template so the keywords aren't pushed past Google's ~60-char cutoff.
     title: { absolute: `${full} — stars, momentum & trend analysis · TrendingRepo` },
     description,
+    // CRITICAL: self-canonical. Without this override, every /repo/* page
+    // inherits the layout's `alternates: { canonical: "/" }` and tells
+    // Google the homepage is the canonical version of itself. Audit on
+    // 2026-06-01 found this was the root cause of ~78% of /repo/* URLs
+    // sitting in "Unknown to Google" — Google treated them as homepage
+    // duplicates and refused to index them as standalone pages.
+    alternates: { canonical },
+    // Explicit index:true belt-and-braces — clears any historical noindex
+    // verdict Google may have cached from a prior notFound() state when a
+    // repo wasn't yet in the registry.
+    robots: { index: true, follow: true },
     openGraph: {
       title: `${full} — TrendingRepo`,
       description,
+      url: canonical,
       images: [{ url: ogPath, width: 1200, height: 630, alt: `${full} on TrendingRepo` }],
     },
     twitter: {
@@ -359,6 +407,19 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
     { name: repo.fullName, path: `/repo/${repo.owner}/${repo.name}` },
   ]);
 
+  // Reverse back-links from this repo to the topical hub pages it belongs
+  // on. Closes the internal-link gap that left /best/* and /categories/*
+  // surfaces in "Discovered, currently not indexed" — every repo page now
+  // points at its category + the best-of lists it qualifies for, so Google
+  // sees a real link graph instead of orphan answer-surfaces.
+  const matchingBestTopics = (() => {
+    try {
+      return getMatchingBestTopics(repo);
+    } catch {
+      return [];
+    }
+  })();
+
   return (
     <>
       <script
@@ -368,6 +429,30 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
       <JsonLd data={breadcrumbLd} />
       <JsonLd data={faqLd} />
       <div className="pf-main-inner">
+        {/* Visible breadcrumb — pairs with the BreadcrumbList JSON-LD so
+            both crawlers and humans can navigate up. The intermediate
+            category link is an additional discoverable internal-link
+            signal to the (often-unindexed) /categories/<id> leaf. */}
+        <nav
+          className="crumbs"
+          aria-label="Breadcrumb"
+          style={{ padding: "0.5rem 0", fontSize: "0.85rem" }}
+        >
+          <Link href="/">Home</Link>
+          <span aria-hidden="true"> / </span>
+          <Link href="/categories">Categories</Link>
+          {categoryMeta ? (
+            <>
+              <span aria-hidden="true"> / </span>
+              <Link href={`/categories/${categoryMeta.id}`}>
+                {categoryMeta.name}
+              </Link>
+            </>
+          ) : null}
+          <span aria-hidden="true"> / </span>
+          <span aria-current="page">{repo.fullName}</span>
+        </nav>
+
         {/* 1. Hero — full width. Pulse card removed: constellation/firing
             data is sparse for most repos and the empty state read as
             broken. Bring it back when per-source 24h counts are wired. */}
@@ -381,6 +466,47 @@ export default async function RepoDetailPage({ params, searchParams }: PageProps
           signedIn={signedIn}
           signInUrl={authRedirectUrl}
         />
+
+        {(categoryMeta || matchingBestTopics.length > 0) ? (
+          <nav
+            className="repo-backlinks"
+            aria-label="Browse this kind of repo"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+              alignItems: "center",
+              padding: "0.75rem 0",
+              fontSize: "0.85rem",
+              color: "var(--muted, #888)",
+            }}
+          >
+            {categoryMeta ? (
+              <>
+                <span>More like this:</span>
+                <Link href={`/categories/${categoryMeta.id}`} className="chip" prefetch={false}>
+                  Trending {categoryMeta.name}
+                </Link>
+              </>
+            ) : null}
+            {matchingBestTopics.length > 0 ? (
+              <>
+                {categoryMeta ? <span style={{ opacity: 0.5 }}>·</span> : null}
+                <span>Ranked in:</span>
+                {matchingBestTopics.slice(0, 4).map((t) => (
+                  <Link
+                    key={t.slug}
+                    href={`/best/${t.slug}`}
+                    className="chip"
+                    prefetch={false}
+                  >
+                    {t.title.replace(/^Best /, "")}
+                  </Link>
+                ))}
+              </>
+            ) : null}
+          </nav>
+        ) : null}
 
         {/* 2. Owner / Repo snapshot — absorbs language breakdown + org card */}
         <section className="pf-section">

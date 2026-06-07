@@ -14,6 +14,7 @@ export const revalidate = 0;
 export const metadata = {
   title: "Drop a repo · TrendingRepo",
   description: `Paste a GitHub URL. We pull every byte of metadata, scan ${TOTAL_SCAN_CHANNEL_COUNT} sources for cross-source signal, and build the profile page so you don't have to.`,
+  alternates: { canonical: "/drop" },
 };
 
 async function fetchInitialState() {

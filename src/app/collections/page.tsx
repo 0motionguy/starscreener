@@ -14,6 +14,8 @@ import {
   indexReposByFullName,
   summarizeCollection,
 } from "@/lib/collections";
+import { BEST_TOPICS } from "@/lib/best-topics";
+import { CATEGORIES } from "@/lib/constants";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -105,6 +107,69 @@ export default async function CollectionsIndexPage() {
           );
         })}
       </div>
+
+      {/* Cross-hub link cards — push PageRank from this indexed hub to the
+          /best/* and /categories/* leaves that GSC's deep audit flagged as
+          link-graph orphans. */}
+      <nav
+        className="card"
+        aria-label="Curated best-of rankings"
+        style={{ marginTop: "1.5rem" }}
+      >
+        <div className="card-head">
+          <h2 className="card-title">
+            {"▌"} <b>Or pick a curated best-of list</b>
+            <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.85em" }}>
+              · Editorial top-N rankings for the highest-intent queries
+            </span>
+          </h2>
+        </div>
+        <div
+          className="card-body"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+        >
+          {BEST_TOPICS.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/best/${t.slug}`}
+              className="chip"
+              prefetch={false}
+            >
+              {t.title.replace(/^Best /, "Best ")}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <nav
+        className="card"
+        aria-label="Browse by category"
+        style={{ marginTop: "1rem" }}
+      >
+        <div className="card-head">
+          <h2 className="card-title">
+            {"▌"} <b>Browse the full category leaderboards</b>
+            <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.85em" }}>
+              · Every classification bucket, ranked by live momentum
+            </span>
+          </h2>
+        </div>
+        <div
+          className="card-body"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+        >
+          {CATEGORIES.map((c) => (
+            <Link
+              key={c.id}
+              href={`/categories/${c.id}`}
+              className="chip"
+              prefetch={false}
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

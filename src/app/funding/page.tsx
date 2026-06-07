@@ -47,6 +47,7 @@ export const metadata = {
   title: "Funding Radar",
   description:
     "Capital flows for AI + tech. Funding signals from 35+ sources: TechCrunch, VentureBeat, Sifted, Crunchbase, SEC Form D, Newcomer, The Information and more. Structured rounds with company / amount / investors / confidence scoring.",
+  alternates: { canonical: "/funding" },
   openGraph: {
     images: [
       { url: "/api/og/funding", width: 1200, height: 630, alt: "TrendingRepo — Funding Radar" },

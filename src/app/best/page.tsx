@@ -3,6 +3,8 @@
 import Link from "next/link";
 
 import { BEST_TOPICS } from "@/lib/best-topics";
+import { CATEGORIES } from "@/lib/constants";
+import { GLOSSARY } from "@/lib/glossary";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import {
   buildBreadcrumbJsonLd,
@@ -82,6 +84,69 @@ export default function BestIndexPage() {
           </Link>
         ))}
       </div>
+
+      {/* Cross-hub link cards — push PageRank from this indexed hub to the
+          /categories/* and /glossary/* leaves that GSC's deep audit on
+          2026-06-01 flagged as link-graph orphans. */}
+      <nav
+        className="card"
+        aria-label="Browse by category"
+        style={{ marginTop: "1.5rem" }}
+      >
+        <div className="card-head">
+          <h2 className="card-title">
+            {"▌"} <b>Browse by category instead</b>
+            <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.85em" }}>
+              · Full leaderboards for every classification bucket
+            </span>
+          </h2>
+        </div>
+        <div
+          className="card-body"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+        >
+          {CATEGORIES.map((c) => (
+            <Link
+              key={c.id}
+              href={`/categories/${c.id}`}
+              className="chip"
+              prefetch={false}
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <nav
+        className="card"
+        aria-label="Glossary"
+        style={{ marginTop: "1rem" }}
+      >
+        <div className="card-head">
+          <h2 className="card-title">
+            {"▌"} <b>Read the definitions</b>
+            <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.85em" }}>
+              · Plain-English definitions paired with the trending projects behind them
+            </span>
+          </h2>
+        </div>
+        <div
+          className="card-body"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+        >
+          {GLOSSARY.slice(0, 12).map((t) => (
+            <Link
+              key={t.slug}
+              href={`/glossary/${t.slug}`}
+              className="chip"
+              prefetch={false}
+            >
+              {`What is ${t.term}?`}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

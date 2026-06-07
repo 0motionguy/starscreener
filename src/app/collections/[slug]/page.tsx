@@ -50,6 +50,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title,
     description,
+    // Explicit index:true belt-and-braces — clears any historical noindex
+    // Google may have cached from a prior notFound() state on this slug.
+    robots: { index: true, follow: true },
     alternates: { canonical },
     openGraph: { title, description, url: canonical },
     twitter: { card: "summary_large_image" as const, title, description },

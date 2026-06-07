@@ -28,6 +28,8 @@ import {
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
   buildFaqJsonLd,
+  buildArticleJsonLd,
+  buildPersonJsonLd,
 } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SeoFaq } from "@/components/seo/SeoFaq";
@@ -85,6 +87,10 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title,
     description,
+    // Explicit index:true — these high-intent listicles are the primary GEO
+    // ranking targets. Belt-and-braces against any historical noindex Google
+    // may have cached from prior ISR misses.
+    robots: { index: true, follow: true },
     alternates: { canonical },
     openGraph: { title, description, url: canonical },
     twitter: { card: "summary_large_image" as const, title, description },
@@ -148,9 +154,27 @@ export default async function BestTopicPage({ params }: PageProps) {
     day: "numeric",
   });
 
+  // Person-attributed Article wraps the curated intro. Best-of lists are a
+  // human curation surface, so the byline carries the E-E-A-T weight that
+  // template-only schema can't. dateModified mirrors the live updatedIso so
+  // freshness signals stay aligned with the visible "Updated" line.
+  const articleAuthor = buildPersonJsonLd({
+    name: "Mirko Basil",
+    url: "https://aiso.tools",
+  });
+  const article = buildArticleJsonLd({
+    headline: t.title,
+    url: `/best/${topic}`,
+    datePublished: "2026-05-23T00:00:00.000Z",
+    dateModified: updatedIso,
+    author: articleAuthor,
+    description: `${t.title}: ${t.blurb}. Curated, ranked open-source projects with editorial commentary.`,
+  });
+
   return (
     <div className="route-shell">
       <JsonLd data={breadcrumb} />
+      <JsonLd data={article} />
       {entries.length > 0 ? <JsonLd data={itemList} /> : null}
       <JsonLd data={faqLd} />
 
@@ -170,7 +194,13 @@ export default async function BestTopicPage({ params }: PageProps) {
         <p>{intro}</p>
         <div className="hero-meta">
           <span>
-            Updated <time dateTime={updatedIso}>{updatedLabel}</time>
+            Curated by{" "}
+            <a href="https://aiso.tools" rel="author">
+              Mirko Basil
+            </a>
+          </span>
+          <span>
+            {" · "}Updated <time dateTime={updatedIso}>{updatedLabel}</time>
           </span>
           {repos.length > 0 ? (
             <span>

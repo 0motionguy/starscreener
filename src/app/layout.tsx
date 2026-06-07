@@ -77,7 +77,10 @@ import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
-import { buildOrganizationJsonLd } from "@/lib/seo/structured-data";
+import {
+  buildOrganizationJsonLd,
+  buildWebsiteJsonLd,
+} from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 import "./globals.css";
@@ -147,6 +150,10 @@ export default async function RootLayout({
         {/* Sitewide Organization graph — publisher identity + E-E-A-T signal
             inherited by every page for search + answer engines. */}
         <JsonLd data={buildOrganizationJsonLd()} />
+        {/* Sitewide WebSite graph — drives Google's "Site name" SERP feature
+            and the sitelinks hierarchy. No SearchAction because the site has
+            no user-facing /search?q= results page. */}
+        <JsonLd data={buildWebsiteJsonLd()} />
         {/* Silence noisy wallet-extension promise rejections so the Next dev
             overlay doesn't flag them as app errors. */}
         <script

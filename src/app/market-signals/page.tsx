@@ -54,6 +54,7 @@ export const metadata = {
   title: "Market Signals",
   description:
     "Live cross-source telemetry across 30+ feeds. GitHub, X, HN, Reddit, Bluesky, npm, arXiv, ProductHunt, Dev.to, Lobsters, Hugging Face - one cockpit.",
+  alternates: { canonical: "/market-signals" },
   openGraph: {
     images: [
       { url: "/api/og/market-signals", width: 1200, height: 630, alt: "TrendingRepo — Market Signals" },

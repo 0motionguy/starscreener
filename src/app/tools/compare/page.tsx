@@ -40,6 +40,7 @@ export const metadata: Metadata = {
   title: "Compare — TrendingRepo",
   description:
     "Side-by-side comparison of up to 6 tracked open-source repos: stars, velocity, mentions, mention matrix, normalized star-activity overlay, and a Why X over Y narrative.",
+  alternates: { canonical: "/tools/compare" },
   openGraph: {
     images: [
       { url: "/api/og/tools/compare", width: 1200, height: 630 },

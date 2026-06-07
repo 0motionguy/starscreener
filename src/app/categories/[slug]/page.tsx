@@ -30,6 +30,8 @@ import {
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
   buildFaqJsonLd,
+  buildArticleJsonLd,
+  buildOrganizationAuthorJsonLd,
 } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SeoFaq } from "@/components/seo/SeoFaq";
@@ -72,6 +74,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title,
     description,
+    // Explicit index:true belt-and-braces — category leaderboards are the
+    // primary topical landing pages, must never inherit a noindex verdict.
+    robots: { index: true, follow: true },
     alternates: { canonical },
     openGraph: {
       title,
@@ -135,6 +140,22 @@ export default async function CategoryHubPage({ params }: PageProps) {
   );
   const faqLd = buildFaqJsonLd(faq);
 
+  // Organization-attributed Article wraps the editorial intro. Category
+  // pages are data-driven leaderboards (not human curation), so the byline
+  // is the org rather than a Person. The Article emission still gives Google
+  // a citable "who said this, when" node alongside the ItemList.
+  const articleDateModified = fetchedAt ?? new Date().toISOString();
+  const article = buildArticleJsonLd({
+    headline: `Trending ${meta.name} repositories`,
+    url: `/categories/${slug}`,
+    datePublished: "2026-05-23T00:00:00.000Z",
+    dateModified: articleDateModified,
+    author: buildOrganizationAuthorJsonLd(),
+    description: clampDescription(
+      `${meta.description}. The top trending open-source ${meta.name} repos right now, ranked by cross-source momentum.`,
+    ),
+  });
+
   const updatedIso = fetchedAt ?? null;
   const updatedLabel = updatedIso
     ? new Date(updatedIso).toLocaleDateString("en-US", {
@@ -160,6 +181,7 @@ export default async function CategoryHubPage({ params }: PageProps) {
   return (
     <div className="route-shell">
       <JsonLd data={breadcrumb} />
+      <JsonLd data={article} />
       {repos.length > 0 ? <JsonLd data={itemList} /> : null}
       <JsonLd data={faqLd} />
 
@@ -178,13 +200,14 @@ export default async function CategoryHubPage({ params }: PageProps) {
         <h1>Trending {meta.name} repositories</h1>
         <p>{intro}</p>
         <div className="hero-meta">
+          <span>By TrendingRepo Editorial</span>
           {updatedIso ? (
             <span>
-              Updated <time dateTime={updatedIso}>{updatedLabel}</time>
+              {" · "}Updated <time dateTime={updatedIso}>{updatedLabel}</time>
             </span>
           ) : (
             <span>
-              Rankings as of <time dateTime={todayIso}>{todayLabel}</time>
+              {" · "}Rankings as of <time dateTime={todayIso}>{todayLabel}</time>
             </span>
           )}
           {repos.length > 0 ? (

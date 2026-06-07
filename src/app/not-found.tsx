@@ -8,6 +8,16 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Not found — TrendingRepo",
   description: "We couldn't find that page. Head back to the live trending feed.",
+  // CRITICAL: every not-found render MUST emit noindex explicitly and
+  // override the layout's `robots: { index: true, follow: true }`. Without
+  // this, the rendered HTML carries TWO conflicting <meta name="robots">
+  // tags — the layout's index/follow PLUS Next's auto-injected noindex on
+  // not-found renders. Worker outage 2026-05-30/31 → repos transiently
+  // returned not-found → Googlebot crawled URLs with that dual-tag state
+  // (noindex wins) → ~95% drop in impressions across 4 days. Belt-and-
+  // braces against any future recurrence. See tasks/gsc-deep-audit-2026-06-01.md.
+  robots: { index: false, follow: false },
+  alternates: { canonical: undefined },
 };
 
 export default function NotFoundPage() {

@@ -41,6 +41,7 @@ export const metadata = {
   title: "Tools - TrendingRepo",
   description:
     "Watchlist, compare, tier-list, star-history, top-10 - share-worthy GitHub scanning tools. Every output ships with a share card.",
+  alternates: { canonical: "/tools" },
   openGraph: {
     title: "Tools - TrendingRepo",
     description:

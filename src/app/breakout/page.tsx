@@ -42,6 +42,7 @@ export const metadata = {
   title: "Breakout",
   description:
     "Repos accelerating disproportionately to their star base. Velocity, consensus, and mention diversity before the move becomes obvious.",
+  alternates: { canonical: "/breakout" },
 };
 
 interface Props {

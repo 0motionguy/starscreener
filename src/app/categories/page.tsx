@@ -11,6 +11,8 @@ import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";
 import { CATEGORIES } from "@/lib/constants";
+import { BEST_TOPICS } from "@/lib/best-topics";
+import { GLOSSARY } from "@/lib/glossary";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import {
   buildBreadcrumbJsonLd,
@@ -113,6 +115,69 @@ export default async function CategoriesIndexPage() {
           );
         })}
       </div>
+
+      {/* Cross-hub link cards — push PageRank from this indexed hub to the
+          /best/* and /glossary/* leaves so Google sees a fully-connected
+          answer-surface graph instead of orphan leaves. */}
+      <nav
+        className="card"
+        aria-label="Curated best-of rankings"
+        style={{ marginTop: "1.5rem" }}
+      >
+        <div className="card-head">
+          <h2 className="card-title">
+            {"▌"} <b>Or pick a curated best-of list</b>
+            <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.85em" }}>
+              · Editorial top-N rankings for the highest-intent queries
+            </span>
+          </h2>
+        </div>
+        <div
+          className="card-body"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+        >
+          {BEST_TOPICS.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/best/${t.slug}`}
+              className="chip"
+              prefetch={false}
+            >
+              {t.title.replace(/^Best /, "Best ")}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <nav
+        className="card"
+        aria-label="Glossary"
+        style={{ marginTop: "1rem" }}
+      >
+        <div className="card-head">
+          <h2 className="card-title">
+            {"▌"} <b>What does each term mean?</b>
+            <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.85em" }}>
+              · Plain-English definitions for the AI &amp; open-source vocabulary behind these categories
+            </span>
+          </h2>
+        </div>
+        <div
+          className="card-body"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+        >
+          {GLOSSARY.slice(0, 12).map((t) => (
+            <Link
+              key={t.slug}
+              href={`/glossary/${t.slug}`}
+              className="chip"
+              prefetch={false}
+            >
+              {`What is ${t.term}?`}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

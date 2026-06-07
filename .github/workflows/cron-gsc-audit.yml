@@ -1,0 +1,131 @@
+name: Cron - GSC audit
+
+# Weekly read-only audit of Google Search Console state. Commits the JSON
+# baseline + indexing + sitemap snapshots to data/_geo/ so we can track
+# week-over-week indexing coverage of the GEO answer-surfaces (/best/*,
+# /categories/*, /collections/*, /glossary/*, /blog/*).
+#
+# Required repo config:
+#   secrets.GSC_SERVICE_ACCOUNT_JSON
+#     Raw JSON content of a service-account key. The SA must be granted
+#     read access to the property in GSC:
+#       sc-domain:trendingrepo.com → Settings → Users and permissions →
+#       Add user → <SA email> → role: Restricted
+#
+#   vars.GSC_QUOTA_PROJECT (optional, defaults to "theta-yen-494902-d2")
+#     The GCP project whose searchconsole.googleapis.com quota the API
+#     calls bill to. Must have Search Console API enabled.
+#
+# Why Mondays 06:00 UTC: GSC backfills the last 2-3 days of search analytics
+# asynchronously, so weekly cadence is plenty — daily runs would mostly
+# re-pull the same lagged window.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # UTC, Mondays 06:00
+  workflow_dispatch:
+    inputs:
+      include_repos:
+        description: "Sample N URLs from sitemap-repos.xml in addition to sitemap-pages.xml"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write  # commits data/_geo/gsc-*.json
+
+concurrency:
+  group: cron-gsc-audit
+  cancel-in-progress: false
+
+env:
+  GSC_QUOTA_PROJECT: ${{ vars.GSC_QUOTA_PROJECT || 'theta-yen-494902-d2' }}
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v6.0.0
+        with:
+          node-version: 22
+
+      - name: Sanity check — service-account secret present
+        env:
+          SA_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "${SA_JSON:-}" ]; then
+            echo "::error::GSC_SERVICE_ACCOUNT_JSON secret is not set"
+            echo "::error::See docs in tasks/gsc-baseline-2026-06-01.md for setup steps"
+            exit 1
+          fi
+          # Minimal JSON validity check without echoing the secret.
+          echo "$SA_JSON" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const j=JSON.parse(s);if(!j.client_email||!j.private_key){throw new Error('missing client_email or private_key');}console.log('SA OK ('+j.client_email.replace(/(^.{4}).*(@.*$)/,'\$1...\$2')+')');});"
+
+      - name: Run GSC baseline + sitemap + indexing audit
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          INCLUDE_REPOS: ${{ github.event.inputs.include_repos || '0' }}
+        run: |
+          set -e
+          node scripts/gsc-baseline.mjs
+          node scripts/gsc-sitemap-status.mjs
+          if [ "$INCLUDE_REPOS" != "0" ]; then
+            node scripts/gsc-indexing-audit.mjs --include-repos "$INCLUDE_REPOS" --base-url "$BASE_URL"
+          else
+            node scripts/gsc-indexing-audit.mjs --base-url "$BASE_URL"
+          fi
+
+      - name: Commit JSON snapshots
+        uses: ./.github/actions/git-commit-data
+        with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(gsc): weekly audit snapshot"
+          paths: |
+            data/_geo/gsc-baseline-*.json
+            data/_geo/gsc-indexing-*.json
+            data/_geo/gsc-sitemap-*.json
+
+      - name: Indexing-coverage regression alert
+        # If the indexed rate dropped >5pp w/w, fail loud so ops notice. The
+        # snapshot already committed, so even on red-X failure the audit data
+        # is preserved.
+        if: always()
+        run: |
+          node - <<'EOF'
+          const fs = require('node:fs');
+          let latest, prev;
+          try {
+            latest = JSON.parse(fs.readFileSync('data/_geo/gsc-indexing-latest.json', 'utf8'));
+          } catch {
+            console.log('No latest indexing snapshot — skipping regression check.');
+            process.exit(0);
+          }
+          // Find the second-newest dated snapshot.
+          const dir = 'data/_geo';
+          const candidates = fs.readdirSync(dir)
+            .filter(f => f.startsWith('gsc-indexing-') && f.endsWith('.json') && f !== 'gsc-indexing-latest.json')
+            .sort();
+          if (candidates.length < 2) {
+            console.log('Not enough history for w/w delta yet.');
+            process.exit(0);
+          }
+          try {
+            prev = JSON.parse(fs.readFileSync(`${dir}/${candidates[candidates.length - 2]}`, 'utf8'));
+          } catch {
+            process.exit(0);
+          }
+          const dPp = (latest.indexedRate - prev.indexedRate) * 100;
+          console.log(`indexed-rate Δ: ${dPp.toFixed(1)}pp (${(prev.indexedRate * 100).toFixed(1)}% → ${(latest.indexedRate * 100).toFixed(1)}%)`);
+          if (dPp < -5) {
+            console.error(`::error::Indexed rate dropped ${dPp.toFixed(1)}pp w/w — investigate`);
+            process.exit(1);
+          }
+          EOF

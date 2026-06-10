@@ -147,7 +147,6 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "twitter-repo-signals",
     "aa-llms",
     "openrouter-models",
-    "openrouter-usage",
     "repo-registry",
     "mentions-ledger",
     "repo-mentions-detail-rollup",

@@ -88,7 +88,6 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "twitter-repo-signals", fetcher: "twitter", cadenceMin: 60 },
   { slug: "aa-llms", fetcher: "artificialanalysis", cadenceMin: 360 },
   { slug: "openrouter-models", fetcher: "openrouter-models", cadenceMin: 360 },
-  { slug: "openrouter-usage", fetcher: "openrouter-usage", cadenceMin: 360 },
   { slug: "repo-registry", fetcher: "repo-registry", cadenceMin: 60 },
   { slug: "mentions-ledger", fetcher: "mentions-ledger", cadenceMin: 30 },
   { slug: "repo-mentions-detail-rollup", fetcher: "cross-source-sweep", cadenceMin: 60 * 24 },
@@ -122,6 +121,12 @@ export const WORKER_PAYLOAD_HEALTH_SLUGS: ReadonlySet<string> = new Set(
 );
 
 export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec> = [
+  {
+    slug: "openrouter-usage",
+    fetcher: "openrouter-usage",
+    reason:
+      "OpenRouter removed the keyless /api/frontend RSC routes this fetcher relied on (verified 404 on 2026-06-10; the slug had no OPENROUTER_API_KEY for the official datasets endpoint). The cache-preserve guard keeps the last-known-good weekly chart visible, but the producer cannot refresh — pause it from the blocking gate until either an OpenRouter data key is provisioned or the official datasets aggregation is implemented (see fetcher TODO).",
+  },
   {
     slug: "reddit-mentions",
     fetcher: "reddit",

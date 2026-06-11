@@ -11,6 +11,14 @@ interface FeaturedReposProps {
   fetchedAt: string | null;
   /** Lowercased fullNames listed in the last 24h — pins a NEW card to the front. */
   newSet?: Set<string>;
+  /**
+   * Optional discovery pick (the next-gem candidate). When present, replaces
+   * the BREAKOUT slot — both signals occupy the "novel mover" niche, but
+   * DISCOVERY is a stricter version (small base + multi-source first mention)
+   * computed by `lib/scoring/discovery.ts`. Undefined → BREAKOUT shows as
+   * before, no card-grid layout change.
+   */
+  discoveryRepo?: Repo;
 }
 
 type Variant = {
@@ -24,21 +32,32 @@ type Slot = { repo: Repo; variant: Variant; deltaWindow: DeltaWindow };
 
 const TOP: Variant = { className: "hot", label: "TOP", rankClass: "rank-top", stat: "24h velocity" };
 const BREAKOUT: Variant = { className: "trend", label: "BREAKOUT", rankClass: "rank-breakout", stat: "7d consensus" };
+const DISCOVERY: Variant = { className: "trend", label: "DISCOVERY", rankClass: "rank-discovery", stat: "small base · accelerating" };
 const TREND: Variant = { className: "cool", label: "TREND", rankClass: "rank-trend", stat: "30d lift" };
 const NEW: Variant = { className: "new", label: "NEW", rankClass: "rank-new", stat: "just listed" };
 
-export function FeaturedRepos({ repos, fetchedAt, newSet }: FeaturedReposProps) {
+export function FeaturedRepos({ repos, fetchedAt, newSet, discoveryRepo }: FeaturedReposProps) {
   const top = [...repos].sort((a, b) => (b.momentumScore ?? 0) - (a.momentumScore ?? 0))[0];
   const breakout = [...repos].sort((a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0))[0];
   const trend = [...repos].sort((a, b) => (b.trendScore30d ?? 0) - (a.trendScore30d ?? 0))[0];
 
+  // Discovery wins the middle slot when a candidate exists; otherwise fall
+  // back to the cross-signal breakout pick. We deliberately keep 3 slots so
+  // the existing .featured-row CSS grid (and responsive collapse) stays
+  // untouched.
+  const middleSlot: Slot | null = discoveryRepo
+    ? { repo: discoveryRepo, variant: DISCOVERY, deltaWindow: "24h" }
+    : breakout
+    ? { repo: breakout, variant: BREAKOUT, deltaWindow: "7d" }
+    : null;
+
   const base: Slot[] = (
     [
       { repo: top, variant: TOP, deltaWindow: "24h" },
-      { repo: breakout, variant: BREAKOUT, deltaWindow: "7d" },
+      middleSlot,
       { repo: trend, variant: TREND, deltaWindow: "30d" },
-    ] as Slot[]
-  ).filter((s) => s.repo);
+    ].filter((s): s is Slot => s !== null && !!s.repo) as Slot[]
+  );
 
   // Pin a freshly-dropped repo (present in the visible set) to the front as
   // NEW. A brand-new drop not yet folded into the derived set still surfaces

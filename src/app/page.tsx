@@ -40,6 +40,10 @@ import { buildItemListJsonLd } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
 import {
+  computeDiscoveryScore,
+  pickTopDiscoveryRepo,
+} from "@/lib/scoring/discovery";
+import {
   refreshTrendshiftFromStore,
   getTrendshiftRankMap,
 } from "@/lib/trendshift";
@@ -68,7 +72,7 @@ interface Props {
 }
 
 type SortId = "momentum" | "mentions" | "stars" | "consensus";
-type RankerId = "top" | "gainer" | "trend";
+type RankerId = "top" | "gainer" | "trend" | "discovery";
 
 export default async function TrendingHubPage({ searchParams }: Props) {
   const params = (await searchParams) ?? {};
@@ -132,6 +136,12 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // Each velocity tab filters on ITS window: top→active selector, gainer→24h,
   // trend→30d. The graceful floor below still prevents an empty radar when the
   // filter wipes everything. Agents stays exempt (curated AGENT_REPO_SET).
+  // Discovery is the gem-hunter — explicitly EXCLUDED from the active-window
+  // delta floor. The whole point of this ranker is small-base repos that are
+  // accelerating on the 7d/30d axis but may not yet show 24h movement. The
+  // discovery scoring module already enforces its own eligibility (alive,
+  // stars < 1500, velocity ≥ 10% OR ≥ 2 sources), so the page-level filter
+  // would only re-bury the rows we just surfaced.
   const requireWindowDelta =
     sort === "momentum" &&
     category === "repos" &&
@@ -178,6 +188,14 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   // NEW set drives the featured pin + trending float/badge for repos that
   // dropped in the last 24h. Empty set when nothing recent / store cold.
   const newSet = safe(() => getNewFullNameSet(), new Set<string>());
+  // Discovery pick for the hero — picked from the FULL repos list (pre-filter)
+  // so the gem isn't dropped by the window-delta floor that gates the rest of
+  // the table. Returns undefined when no eligible candidate exists, in which
+  // case FeaturedRepos falls back to its BREAKOUT slot.
+  const discoveryRepo =
+    category === "repos"
+      ? safe(() => pickTopDiscoveryRepo(repos), undefined)
+      : undefined;
 
   const aaRows =
     category === "llms" ? safe(() => getAaLlmsRanked(200), []) : [];
@@ -264,7 +282,12 @@ export default async function TrendingHubPage({ searchParams }: Props) {
       ) : (
         <>
           {starsByCatData ? <StarsByCategoryHero data={starsByCatData} /> : null}
-          <FeaturedRepos repos={sorted} fetchedAt={fetchedAt} newSet={newSet} />
+          <FeaturedRepos
+            repos={sorted}
+            fetchedAt={fetchedAt}
+            newSet={newSet}
+            discoveryRepo={discoveryRepo}
+          />
         </>
       )}
 
@@ -323,6 +346,13 @@ function sortRepos(
     sort === "momentum" && ranker === "top" && !useSourceNative
       ? computeTopComposite(repos, timeWindow)
       : null;
+  // DISCOVERY scores against the eligible small-base cohort. Ineligible repos
+  // (established, dead, or zero-signal) get score 0 and fall through to the
+  // delta tiebreak — keeps the table populated past the discovery cohort.
+  const discoveryScores =
+    sort === "momentum" && ranker === "discovery" && category === "repos"
+      ? computeDiscoveryScore(repos)
+      : null;
   // TREND tab consults the TrendShift rank map; ties (incl. repos not in the
   // map) fall back to OSSInsight 30d so the table still has a stable order.
   const trendRanks =
@@ -335,6 +365,17 @@ function sortRepos(
     if (sort === "consensus") return consensusScore(b) - consensusScore(a);
     // sort === "momentum" — but ranker overrides which momentum
     if (ranker === "gainer") return (b.trendScore24h ?? 0) - (a.trendScore24h ?? 0);
+    if (ranker === "discovery" && discoveryScores) {
+      const diff =
+        (discoveryScores.get(b.id) ?? 0) - (discoveryScores.get(a.id) ?? 0);
+      if (diff !== 0) return diff;
+      // Tiebreak: velocity rate desc, then stars asc (favor smaller base when
+      // velocity rate ties — the spirit of the ranker is "the next gem").
+      const aRate = (a.starsDelta24h ?? 0) / Math.max(a.stars ?? 0, 1);
+      const bRate = (b.starsDelta24h ?? 0) / Math.max(b.stars ?? 0, 1);
+      if (aRate !== bRate) return bRate - aRate;
+      return (a.stars ?? 0) - (b.stars ?? 0);
+    }
     if (ranker === "trend") {
       if (trendRanks && trendRanks.size > 0) {
         const aRank = trendRanks.get(a.fullName.toLowerCase()) ?? 9999;
@@ -388,7 +429,9 @@ function normalizeSort(value: string): SortId {
 }
 
 function normalizeRanker(value: string): RankerId {
-  return value === "gainer" || value === "trend" ? value : "top";
+  return value === "gainer" || value === "trend" || value === "discovery"
+    ? value
+    : "top";
 }
 
 function safe<T>(fn: () => T, fallback: T): T {

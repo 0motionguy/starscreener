@@ -8,7 +8,7 @@ import Link from "next/link";
 import type { CategoryId, WindowId } from "./TrendingHubHero";
 
 type SortId = "momentum" | "mentions" | "stars" | "consensus";
-type RankerId = "top" | "gainer" | "trend";
+type RankerId = "top" | "gainer" | "trend" | "discovery";
 
 interface ModeTab {
   id: string;
@@ -21,12 +21,13 @@ interface ModeTab {
 function buildModeTabs(counts: Partial<Record<CategoryId, number>>): ModeTab[] {
   const repoCount = counts.repos ?? null;
   return [
-    { id: "repos-top",    label: "Top",         cat: "repos",  rank: "top",    count: repoCount },
-    { id: "repos-gainer", label: "Gainer",      cat: "repos",  rank: "gainer", count: repoCount },
-    { id: "repos-trend",  label: "Trend",       cat: "repos",  rank: "trend",  count: repoCount },
-    { id: "agents",       label: "Agents",      cat: "agents", rank: "top",    count: counts.agents ?? null },
-    { id: "llms",         label: "LLMs",        cat: "llms",   rank: "top",    count: counts.llms ?? null },
-    { id: "models",       label: "Models",      cat: "models", rank: "top",    count: counts.models ?? null },
+    { id: "repos-top",       label: "Top",       cat: "repos",  rank: "top",       count: repoCount },
+    { id: "repos-discovery", label: "Discovery", cat: "repos",  rank: "discovery", count: repoCount },
+    { id: "repos-gainer",    label: "Gainer",    cat: "repos",  rank: "gainer",    count: repoCount },
+    { id: "repos-trend",     label: "Trend",     cat: "repos",  rank: "trend",     count: repoCount },
+    { id: "agents",          label: "Agents",    cat: "agents", rank: "top",       count: counts.agents ?? null },
+    { id: "llms",            label: "LLMs",      cat: "llms",   rank: "top",       count: counts.llms ?? null },
+    { id: "models",          label: "Models",    cat: "models", rank: "top",       count: counts.models ?? null },
   ];
 }
 

@@ -43,6 +43,17 @@ const MENTION_SOURCE_TARGET = 6; // HN + Bluesky + Lobsters + X + DevTo + other 
 const BREAKOUT_DELTA_MULTIPLIER = 3;
 const BREAKOUT_MIN_SOURCES = 3;
 
+// 2026-06-11 cohort-aware breakout (Wave B). The original gate
+// (delta24h > d24Median × 3 AND sourceCount ≥ 3) was tuned for the
+// established cohort and silently buried small-base gems: a 50-star
+// repo gaining 25/day has 50% daily velocity but a raw delta below
+// the cohort median. Small-base repos now compete on velocity RATE
+// (delta / max(stars, 1)) with a lighter source requirement; the
+// existing established-cohort gate stays unchanged.
+const SMALL_BASE_STAR_THRESHOLD = 1000;
+const SMALL_BASE_VELOCITY_RATE_THRESHOLD = 0.20;
+const SMALL_BASE_MIN_SOURCES = 1;
+
 // Per-window star-velocity weights. The active window gets ~75%, the other
 // two share the rest. An item with NO data in the active window can only
 // score up to 0.25 of full star-velocity — which is enough to break ties
@@ -132,6 +143,7 @@ export function computeTopCompositeBreakdown(
 
   const items = repos.map((repo) => ({
     id: repo.id,
+    stars: repo.stars ?? 0,
     starsRaw: starVelocityRaw(repo, window),
     mentionsRaw: mentionVelocityRaw(repo),
     fresh: freshnessScore(repo, nowMs),
@@ -150,9 +162,14 @@ export function computeTopCompositeBreakdown(
     const mentionVelocity = clamp01(item.mentionsRaw / mentionMedian);
     const fresh = clamp01(item.fresh);
     const diversity = clamp01(item.sources / MENTION_SOURCE_TARGET);
-    const isBreakout =
-      item.delta24h > d24Median * BREAKOUT_DELTA_MULTIPLIER &&
-      item.sources >= BREAKOUT_MIN_SOURCES;
+
+    const isSmallBase = item.stars < SMALL_BASE_STAR_THRESHOLD;
+    const velocityRate = item.delta24h / Math.max(item.stars, 1);
+    const isBreakout = isSmallBase
+      ? velocityRate > SMALL_BASE_VELOCITY_RATE_THRESHOLD &&
+        item.sources >= SMALL_BASE_MIN_SOURCES
+      : item.delta24h > d24Median * BREAKOUT_DELTA_MULTIPLIER &&
+        item.sources >= BREAKOUT_MIN_SOURCES;
     const breakout = isBreakout ? 1 : 0;
 
     const topScore =

@@ -6321,6 +6321,16 @@ a.repo-avatar:hover {
   color: #06231f;
   border-color: var(--teal, #14b8a6);
 }
+/* DISCOVERY — gem-hunter ranker (Wave B). Replaces the BREAKOUT slot in
+   FeaturedRepos when the lib/scoring/discovery.ts picker returns a candidate.
+   Cyan token (the canonical "fresh signal" color per DESIGN-SYSTEM §2.5) so
+   the chip reads distinct from BREAKOUT's teal even though they share the
+   same card chrome via the `trend` variant className. */
+.feat-rank-chip.rank-discovery {
+  background: var(--cyan, #3ad6c5);
+  color: #042b27;
+  border-color: var(--cyan, #3ad6c5);
+}
 .feat-rank-chip.rank-trend {
   background: var(--violet, #8b5cf6);
   color: #1a0a2e;

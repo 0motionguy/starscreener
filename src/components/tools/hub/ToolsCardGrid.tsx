@@ -15,8 +15,7 @@
 // /tools/digest, /tools/revenue-estimate, /tools/treemap are NOT part of
 // the launch grid — they live as routes but stay out of the hub surface.
 
-import { Icon } from "@/lib/icons";
-import { Trophy } from "lucide-react";
+import { Icon, Trophy } from "@/lib/icons";
 import type { Repo } from "@/lib/types";
 import type { Top10Item } from "@/lib/top10/types";
 

@@ -15,8 +15,6 @@ import {
   User,
   Download,
   Zap,
-} from "@/lib/icons";
-import {
   Store,
   Bookmark,
   ListOrdered,
@@ -29,7 +27,7 @@ import {
   Library,
   Newspaper,
   BookOpen,
-} from "lucide-react";
+} from "@/lib/icons";
 
 export async function Sidebar() {
   const counts = await getSidebarSourceCounts().catch(() => null);

@@ -66,4 +66,22 @@ export {
   Hammer,
   // Misc shared
   X,
+  // 2026-06-11 (Wave C ship 2) — added so Sidebar / TrackedOssCards /
+  // ToolsCardGrid stop importing lucide-react directly. The DS §8.3
+  // contract: lucide-react stays in package.json until every callsite
+  // migrates, but direct imports from "lucide-react" are forbidden in
+  // new code. Routing the dep through this shim contains the surface
+  // (only one file imports lucide-react) and is the prerequisite for
+  // the eventual canonical migration to <Icon name="..."> per §8.1.
+  Store,
+  ListOrdered,
+  LineChart,
+  GitCompare,
+  AtSign,
+  LayoutGrid,
+  Trophy,
+  Library,
+  Newspaper,
+  BookOpen,
+  ShieldCheck,
 } from "lucide-react";

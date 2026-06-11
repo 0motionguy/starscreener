@@ -3,7 +3,7 @@
 // Cards link to /repo/<owner>/<name>.
 
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "@/lib/icons";
 
 import type { Repo, RevenueOverlay } from "@/lib/types";
 

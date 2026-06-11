@@ -31,6 +31,33 @@ const CRAWLER_UA_PATTERN =
   /(bot|crawler|spider|slurp|facebookexternalhit|preview|googlebot|bingbot|yandex|duckduckbot|baiduspider|applebot|whatsapp|telegrambot|discordbot|twitterbot|linkedinbot)/i;
 const EXPENSIVE_CRAWL_UA_PATTERN =
   /(bot|crawler|spider|slurp|preview|googlebot|bingbot|googleother|google-extended|facebookbot|facebookexternalhit|meta-external|applebot|duckduckbot|yandex|bytespider|ccbot|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexity|amazonbot|diffbot|headless|httpclient|python-requests|curl|wget)/i;
+
+// 2026-06-11 (Wave D — D3, GEO observability). AI-engine UA patterns,
+// indexed for citation tracking. Subset of EXPENSIVE_CRAWL focused on the
+// AI engines that actually CITE trendingrepo in their answers (GPT, Claude,
+// Perplexity, Google's AI Overview crawler, the Common Crawl corpus that
+// feeds most LLMs, ByteDance/DeepSeek). Each entry maps a UA-substring
+// (case-insensitive) to a canonical short label so the citation probe
+// can aggregate without re-parsing free-form UA strings.
+//
+// Match order matters: more specific labels first so chatgpt-user wins over
+// the generic openai-bot fallback if a UA carries both substrings.
+const AI_ENGINE_UA_LABELS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/oai-searchbot/i, "openai-search"],
+  [/chatgpt-user/i, "chatgpt-user"],
+  [/gptbot/i, "openai-gptbot"],
+  [/claudebot/i, "anthropic-claudebot"],
+  [/claude-web/i, "anthropic-claude-web"],
+  [/perplexitybot/i, "perplexity-bot"],
+  [/perplexity-?user/i, "perplexity-user"],
+  [/google-extended/i, "google-extended"],
+  [/googleother/i, "google-other"],
+  [/ccbot/i, "common-crawl"],
+  [/bytespider/i, "bytedance"],
+  [/deepseek/i, "deepseek"],
+  [/amazonbot/i, "amazon"],
+  [/applebot-extended/i, "apple-extended"],
+];
 const AGENT_COMMERCE_COST_GUARD_IPS = new Set([
   "74.7.227.19",
   "66.249.64.234",
@@ -128,6 +155,33 @@ function crawlerCostGuardResponse(): NextResponse {
   });
 }
 
+// Emits one structured stdout line per AI-engine request so the citation
+// probe (scripts/check-ai-engine-citations.mjs) can aggregate hits over
+// time from docker logs without a Redis side-channel. Skipped on bypassed
+// paths (api/cron, api/admin, api/webhooks, api/auth/session) and on the
+// cost-guard 429 path so we don't double-count cost-guarded crawl
+// attempts. Cheap — one regex sweep over a short list of patterns;
+// returns null when no AI-engine label matches.
+function matchAiEngineLabel(ua: string): string | null {
+  for (const [pattern, label] of AI_ENGINE_UA_LABELS) {
+    if (pattern.test(ua)) return label;
+  }
+  return null;
+}
+
+function logAiEngineHitIfAny(req: NextRequest): void {
+  const ua = req.headers.get("user-agent");
+  if (!ua) return;
+  const label = matchAiEngineLabel(ua);
+  if (!label) return;
+  // Keep the line shape stable — the probe script greps on the
+  // [ai-engine-hit] tag + parses key=value fields. Path is the resolved
+  // pathname only (no query string, no UA suffix, no PII).
+  console.log(
+    `[ai-engine-hit] ua=${label} path=${req.nextUrl.pathname} ts=${new Date().toISOString()}`,
+  );
+}
+
 async function setRefCookieIfNeeded(req: NextRequest, res: NextResponse) {
   const ref = req.nextUrl.searchParams.get("ref");
   if (!ref || !REF_CODE_PATTERN.test(ref)) return;
@@ -183,6 +237,7 @@ async function middlewareWithoutClerk(
   if (isAgentCommerceCostGuardPath(url.pathname) && isCostGuardCrawler(req)) {
     return crawlerCostGuardResponse();
   }
+  logAiEngineHitIfAny(req);
 
   const res =
     isProtectedRoute(req) && !isPreviewRequest(req)
@@ -200,6 +255,7 @@ async function middlewareForPublicRoutes(
   if (isAgentCommerceCostGuardPath(url.pathname) && isCostGuardCrawler(req)) {
     return crawlerCostGuardResponse();
   }
+  logAiEngineHitIfAny(req);
 
   const res = NextResponse.next();
   await setRefCookieIfNeeded(req, res);
@@ -216,6 +272,7 @@ const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   if (isAgentCommerceCostGuardPath(url.pathname) && isCostGuardCrawler(req)) {
     return crawlerCostGuardResponse();
   }
+  logAiEngineHitIfAny(req);
 
   // 2. Build a base response now so the cookie helper can attach to it.
   const res = NextResponse.next();

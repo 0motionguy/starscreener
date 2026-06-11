@@ -83,6 +83,8 @@
     "gsc:sitemap:submit": "node scripts/gsc-sitemap-manage.mjs submit",
     "gsc:sitemap:delete": "node scripts/gsc-sitemap-manage.mjs delete",
     "check:seo": "node scripts/check-seo-invariants.mjs",
+    "check:citations": "node scripts/check-ai-engine-citations.mjs",
+    "citations": "node scripts/check-ai-engine-citations.mjs",
     "check:seo:local": "node scripts/check-seo-invariants.mjs --base http://localhost:3023",
     "check:seo:verbose": "node scripts/check-seo-invariants.mjs --verbose",
     "update:badges": "node scripts/update-readme-badges.mjs",

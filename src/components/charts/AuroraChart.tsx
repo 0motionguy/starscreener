@@ -37,19 +37,37 @@ import {
 
 // ---------------------------------------------------------------------------
 // Aurora design tokens — one source of truth so every chart looks identical.
+//
+// **Kept in sync MANUALLY with public/shell.css §2 + docs/DESIGN-SYSTEM.md §2.**
+// Recharts hands these values straight to SVG presentation attributes
+// (`<line stroke="...">`, `<path fill="...">`), and SVG attrs don't resolve
+// `var(--token)` at the browser level — we'd need a getComputedStyle bridge
+// + a useState/useEffect cascade to translate runtime CSS-var values into
+// literal colors. The 5-value sync below closes the same gap with one edit.
+//
+// Prior to 2026-06-11 (Wave C ship 2b), AURORA drifted from shell.css on
+// 5 values:
+//   - down       #ef4444  → now #ff4d4d  (the brand "lava red" — was muted)
+//   - ink        #e6e6e6  → now #f1f5f9  (matches --fg, slate text ramp)
+//   - inkMuted   #909caa  → now #98a2b3  (matches --fg-muted)
+//   - inkFaint   #5a6470  → now #6b7785  (matches --fg-subtle)
+//   - void       #0c0d10  → now #08090a  (matches --bg canvas)
+// All other values were already correct.
+//
+// **When you bump a shell.css token in §2, bump the matching value here.**
 // ---------------------------------------------------------------------------
 
 export const AURORA = {
-  lead: "#ff6b35",          // lava orange — primary line + endpoint dot
-  leadSoft: "#ffa17a",      // washed orange — area top stop
-  secondary: "#3ad6c5",     // cyan — second series / dual-axis line
-  up: "#22c55e",            // green — up-trend accents
-  down: "#ef4444",          // red — down-trend accents
-  ink: "#e6e6e6",           // primary readable text on dark
-  inkMuted: "#909caa",      // axis labels / sublines
-  inkFaint: "#5a6470",      // grid (very subtle)
-  void: "#0c0d10",          // tooltip backdrop
-  grid: "rgba(255,255,255,0.07)",
+  lead: "#ff6b35",          // --accent (lava orange) — primary line + endpoint dot
+  leadSoft: "#ffa17a",      // washed orange — area top stop (no shell.css equivalent; bespoke)
+  secondary: "#3ad6c5",     // --cyan — second series / dual-axis line
+  up: "#22c55e",            // --up — up-trend accents
+  down: "#ff4d4d",          // --down — down-trend accents
+  ink: "#f1f5f9",           // --fg — primary readable text on dark
+  inkMuted: "#98a2b3",      // --fg-muted — axis labels / sublines
+  inkFaint: "#6b7785",      // --fg-subtle — grid (very subtle)
+  void: "#08090a",          // --bg — tooltip backdrop
+  grid: "rgba(255,255,255,0.07)", // bespoke — no shell.css equivalent
 } as const;
 
 const AXIS_TICK = {

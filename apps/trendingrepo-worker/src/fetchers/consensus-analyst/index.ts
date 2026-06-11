@@ -20,12 +20,22 @@ import type {
   ConsensusTrendingPayload,
 } from '../consensus-trending/types.js';
 
-// Bumped 14 → 30 (2026-05-27) to widen LLM verdict coverage to the
-// registry-only tail without blowing the hourly slot. Wall-clock budget:
-// Kimi K2.6 is ~80s/call at concurrency 4, so 30/4 × 80s ≈ 10 min. Cron is
-// `0 * * * *`; next consensus-trending tick is :50, so no overlap. Template
+// Bumped 14 → 30 (2026-05-27) → 75 (2026-06-11, Wave B). Each bump widens
+// LLM verdict coverage further into the consensus-trending tail; the limit
+// is the hourly slot between cron triggers. Wall-clock budget at TOP_N=75:
+// Kimi K2.6 is ~80s/call at concurrency 4 → 75 / 4 × 80s ≈ 25 min, well
+// under the 50-min gap between this fetcher (`0 * * * *`) and the next
+// consensus-trending tick (:50). NanoGPT fallback is slightly slower
+// (~100s/call) → 75 / 4 × 100s ≈ 31 min, still inside the window. Template
 // fallback below preserves existing items if Kimi + NanoGPT are both out.
-const TOP_N = 30;
+//
+// Higher TOP_N also shifts the cohort: top-30 was strict consensus-only;
+// top-75 reaches into the registry's "established-but-quieter" mid-tail
+// where the FeaturedRepos DISCOVERY slot draws its small-base candidates.
+// The schema in ./prompt.ts was made lenient (evidence/contrarian default)
+// in the same wave so the wider, weaker-signal cohort doesn't silently
+// drop verdicts for missing optional fields.
+const TOP_N = 75;
 // Kimi K2.6 reasoning model is ~80s per call. Concurrency 4 keeps the sweep
 // to ~10min wall while staying conservative on the subscription's likely
 // concurrency cap.

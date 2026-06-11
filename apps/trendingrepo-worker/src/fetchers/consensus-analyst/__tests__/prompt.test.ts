@@ -140,6 +140,36 @@ describe('ItemReportSchema (rolling-deploy compat)', () => {
         .success,
     ).toBe(false);
   });
+
+  // 2026-06-11 (Wave B): with TOP_N expanded to 75, the long-tail cohort
+  // sometimes elicits LLM responses that omit `evidence` or `contrarian`.
+  // The schema now defaults these so the verdict survives instead of being
+  // dropped entirely. Verdict + scores stay strict — those must be present
+  // for the ranking to be honest.
+  it('defaults evidence to [] when omitted (Wave B lenience)', () => {
+    const { evidence: _omit, ...minusEvidence } = baseValid;
+    const r = ItemReportSchema.safeParse(minusEvidence);
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data.evidence).toEqual([]);
+  });
+
+  it('defaults contrarian to "" when omitted (Wave B lenience)', () => {
+    const { contrarian: _omit, ...minusContrarian } = baseValid;
+    const r = ItemReportSchema.safeParse(minusContrarian);
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data.contrarian).toBe('');
+  });
+
+  it('still rejects when verdict is missing — verdict integrity is load-bearing for ranking', () => {
+    const { verdict: _omit, ...minusVerdict } = baseValid;
+    expect(ItemReportSchema.safeParse(minusVerdict).success).toBe(false);
+  });
+
+  it('still rejects when verdict is an invalid enum value', () => {
+    expect(
+      ItemReportSchema.safeParse({ ...baseValid, verdict: 'maybe' }).success,
+    ).toBe(false);
+  });
 });
 
 describe('buildCitationCandidates', () => {

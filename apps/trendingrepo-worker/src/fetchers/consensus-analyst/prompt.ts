@@ -132,8 +132,17 @@ export const ItemReportSchema = z.object({
   tagline: z.string().min(1).max(160).optional(),
   summary: z.string().min(1),
   scores: SignalScoresSchema,
-  evidence: z.array(z.string()).min(1).max(8),
-  contrarian: z.string().min(1),
+  // 2026-06-11 (Wave B): evidence + contrarian are now tolerant of partial
+  // LLM responses. Kimi K2.6 and NanoGPT both occasionally return objects
+  // with these fields missing or null (~0.3% rate on top-30, expected to be
+  // higher on the expanded TOP_N=75 cohort where long-tail repos have weaker
+  // signals → harder reasoning). Dropping the entire verdict for a missing
+  // contrarian or empty evidence array is wasteful — we still have a usable
+  // tagline + summary + scores + verdict for the FeaturedRepos slot. Verdict
+  // and scores stay strict because an invalid verdict would label the repo
+  // incorrectly in rankings.
+  evidence: z.array(z.string()).max(8).default([]),
+  contrarian: z.string().default(''),
   verdict: z.enum(['strong', 'early', 'weak', 'noise']),
   confidence: z.number().min(0).max(100),
   whyNow: z.string().min(1),

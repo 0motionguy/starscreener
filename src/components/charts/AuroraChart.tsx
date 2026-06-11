@@ -19,7 +19,7 @@
 // defaults paint themselves; per-series colour overrides only kick in if the
 // caller really needs to deviate.
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import {
   Area,
   AreaChart,
@@ -229,7 +229,7 @@ function AuroraTooltip({
 // Root dispatcher
 // ---------------------------------------------------------------------------
 
-export function AuroraChart<T extends object>({
+function AuroraChartImpl<T extends object>({
   data,
   series,
   xKey,
@@ -659,3 +659,11 @@ function SparklineBody<T extends object>({
     </div>
   );
 }
+
+// 2026-06-11 (Wave C, perceived speed) — memoize the chart so it doesn't
+// re-mount on parent re-renders (tab switches, table sort, filter changes).
+// Recharts' AreaChart / BarChart / ComposedChart pay ~150-200ms each mount
+// on a modern device; without memo every category-tab click on /?cat=…
+// re-mounted all of them. Cast preserves the generic signature React.memo
+// would otherwise erase.
+export const AuroraChart = memo(AuroraChartImpl) as typeof AuroraChartImpl;

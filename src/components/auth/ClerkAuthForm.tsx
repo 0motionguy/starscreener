@@ -51,19 +51,24 @@ function useReferralUnsafeMetadata(): ReferralMetadataState {
 }
 
 function ClerkAuthSkeleton() {
+  // 2026-06-11 (Wave C, unification) — every color resolved through the
+  // design token table (docs/DESIGN-SYSTEM §2). Previously this skeleton
+  // ran on 5 inline hex values, so a global token bump never reached it.
+  // The orange "submit-bar" slot uses color-mix() so the brand token can
+  // carry the loading-opacity (~35%) without introducing a new alpha token.
   return (
     <div
       role="status"
       aria-busy="true"
       aria-label="Loading account form"
-      className="w-full max-w-md rounded border border-[#222a32] bg-[#0b0d0f] p-8"
+      className="w-full max-w-md rounded border border-[var(--border)] bg-[var(--shell)] p-8"
     >
       <span className="sr-only">Loading account form</span>
-      <div className="mx-auto mb-6 h-6 w-40 rounded bg-[#151a20]" />
+      <div className="mx-auto mb-6 h-6 w-40 rounded bg-[var(--surface-2)]" />
       <div className="space-y-3">
-        <div className="h-11 rounded border border-[#222a32] bg-[#101418]" />
-        <div className="h-11 rounded border border-[#222a32] bg-[#101418]" />
-        <div className="h-11 rounded bg-[#ff6b35]/35" />
+        <div className="h-11 rounded border border-[var(--border)] bg-[var(--surface)]" />
+        <div className="h-11 rounded border border-[var(--border)] bg-[var(--surface)]" />
+        <div className="h-11 rounded bg-[color-mix(in_srgb,_var(--accent)_35%,_transparent)]" />
       </div>
     </div>
   );

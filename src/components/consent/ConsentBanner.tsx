@@ -74,12 +74,18 @@ export function ConsentBanner() {
         zIndex: 999,
         maxWidth: 560,
         margin: "0 auto",
-        background: "var(--surface-3, var(--v4-bg-050, #0f1115))",
-        border: "1px solid var(--border, var(--v4-line-200, #2b2f36))",
+        // 2026-06-11 (Wave C, unification) — design system v6 token migration
+        // complete (per docs/DESIGN-SYSTEM); the v4 fallback chains were
+        // broadcasting that the token table wasn't trusted. Now read v6
+        // tokens directly. Mapping: v4-bg-050→surface-3, v4-line-200→border,
+        // v4-ink-100→fg, v4-ink-200→fg-muted, v4-ink-300→fg-subtle,
+        // v4-bg-075→surface, v4-acc→info.
+        background: "var(--surface-3)",
+        border: "1px solid var(--border)",
         borderRadius: 6,
         padding: 16,
         // shell.css DESIGN.md anti-pattern: no card drop-shadows. Surface elevation via luminance.
-        color: "var(--fg, var(--v4-ink-100, #e5e7eb))",
+        color: "var(--fg)",
         display: "flex",
         flexDirection: "column",
         gap: 12,
@@ -90,7 +96,7 @@ export function ConsentBanner() {
         <span
           style={{
             fontSize: 10,
-            color: "var(--v4-ink-300, #9aa0a6)",
+            color: "var(--fg-subtle)",
             textTransform: "uppercase",
             letterSpacing: "0.16em",
           }}
@@ -178,8 +184,8 @@ export function ConsentBanner() {
             style={{
               fontFamily: "inherit",
               background: "transparent",
-              border: "1px solid var(--v4-line-200, #2b2f36)",
-              color: "var(--v4-ink-200, #c9cdd2)",
+              border: "1px solid var(--border)",
+              color: "var(--fg-muted)",
               padding: "6px 12px",
               borderRadius: 4,
               fontSize: 11,
@@ -197,8 +203,8 @@ export function ConsentBanner() {
           style={{
             fontFamily: "inherit",
             background: "transparent",
-            border: "1px solid var(--v4-line-200, #2b2f36)",
-            color: "var(--v4-ink-200, #c9cdd2)",
+            border: "1px solid var(--border)",
+            color: "var(--fg-muted)",
             padding: "6px 12px",
             borderRadius: 4,
             fontSize: 11,
@@ -215,9 +221,9 @@ export function ConsentBanner() {
             onClick={handleSaveCustom}
             style={{
               fontFamily: "inherit",
-              background: "var(--v4-bg-075, #14171c)",
-              border: "1px solid var(--v4-acc, #4cc6ff)",
-              color: "var(--v4-acc, #4cc6ff)",
+              background: "var(--surface)",
+              border: "1px solid var(--info)",
+              color: "var(--info)",
               padding: "6px 12px",
               borderRadius: 4,
               fontSize: 11,
@@ -235,9 +241,9 @@ export function ConsentBanner() {
             onClick={handleAcceptAll}
             style={{
               fontFamily: "inherit",
-              background: "var(--v4-bg-075, #14171c)",
-              border: "1px solid var(--v4-acc, #4cc6ff)",
-              color: "var(--v4-acc, #4cc6ff)",
+              background: "var(--surface)",
+              border: "1px solid var(--info)",
+              color: "var(--info)",
               padding: "6px 12px",
               borderRadius: 4,
               fontSize: 11,

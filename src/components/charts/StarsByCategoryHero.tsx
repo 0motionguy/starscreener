@@ -14,7 +14,7 @@
 //   - Freshness pip is "live" only when the slug is < 36h old (the worker
 //     runs daily at 06:00 UTC, so > 36h means we missed a tick).
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 import { AuroraChart, type AuroraSeries, shortDate } from "@/components/charts/AuroraChart";
 import {
@@ -28,7 +28,7 @@ interface Props {
 
 const FRESH_BUDGET_MS = 36 * 3_600_000;
 
-export function StarsByCategoryHero({ data }: Props) {
+function StarsByCategoryHeroImpl({ data }: Props) {
   const series: AuroraSeries[] = useMemo(
     () =>
       HERO_CATEGORIES.map((cat) => ({
@@ -149,3 +149,10 @@ function formatStars(n: number): string {
   if (abs >= 1_000) return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}k`;
   return Math.round(n).toLocaleString();
 }
+
+// 2026-06-11 (Wave C, perceived speed) — memoize the hero so a parent
+// re-render (sidebar filter toggle, hover state on a row, store update)
+// doesn't re-mount the underlying AuroraChart stacked-bars. `data` is a
+// stable reference per server render, so shallow equality is the right
+// memo predicate.
+export const StarsByCategoryHero = memo(StarsByCategoryHeroImpl);

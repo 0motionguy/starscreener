@@ -52,18 +52,25 @@ export const clerkAppearance: Appearance = {
     borderRadius: "0.125rem",
     spacingUnit: "1rem",
   },
+  // 2026-06-11 (Wave C, unification) — every className string now reads
+  // from the v6 token table. The TOKENS const above stays literal because
+  // Clerk's `variables` API needs concrete colors (CSS vars don't resolve
+  // through Clerk's internal style computation), but every
+  // Tailwind-arbitrary value below uses var(--*). Accent-with-opacity
+  // resolves via color-mix() so the brand token still owns the hue and
+  // a future token bump propagates without code change.
   elements: {
     rootBox: "w-full max-w-md mx-auto",
     card: [
-      "bg-[#0b0d0f]",
-      "border border-[#222a32]",
+      "bg-[var(--shell)]",
+      "border border-[var(--border)]",
       "shadow-none",
       "rounded",
     ].join(" "),
     cardBox: "bg-transparent",
     headerTitle:
-      "text-[#f1f5f9] text-2xl font-semibold tracking-tight font-[var(--font-space-grotesk)]",
-    headerSubtitle: "text-[#6b7785] text-sm",
+      "text-[var(--fg)] text-2xl font-semibold tracking-tight font-[var(--font-space-grotesk)]",
+    headerSubtitle: "text-[var(--fg-subtle)] text-sm",
     // Force a vertical stack of social buttons — Clerk's modal default
     // packs them into a 3-column grid when there are 2-3 providers, which
     // truncates labels ("Goog..." "X / T..."). One per row + bigger
@@ -72,9 +79,9 @@ export const clerkAppearance: Appearance = {
       "!grid-cols-1 !flex !flex-col gap-3 w-full",
     socialButtonsBlockButton: [
       "w-full",
-      "!border !border-[#ff6b35]/40",
-      "bg-[#101418] hover:bg-[#1a2026]",
-      "hover:!border-[#ff6b35]",
+      "!border !border-[color-mix(in_srgb,_var(--accent)_40%,_transparent)]",
+      "bg-[var(--surface)] hover:bg-[var(--border-subtle)]",
+      "hover:!border-[var(--accent)]",
       "!text-white",
       "!py-5 px-6",
       "transition-colors",
@@ -110,44 +117,44 @@ export const clerkAppearance: Appearance = {
     // formFieldLabel/Input/etc. would never paint anyway. Kept the
     // footer/identityPreview rules below since those still render.
     formButtonReset:
-      "text-[#6b7785] hover:text-[#f1f5f9] transition-colors",
+      "text-[var(--fg-subtle)] hover:text-[var(--fg)] transition-colors",
     footer: "bg-transparent",
-    footerAction: "text-[#6b7785]",
-    footerActionText: "text-[#6b7785] text-sm",
+    footerAction: "text-[var(--fg-subtle)]",
+    footerActionText: "text-[var(--fg-subtle)] text-sm",
     footerActionLink: [
-      "text-[#ff6b35] hover:text-[#ff8458]",
+      "text-[var(--accent)] hover:text-[var(--accent-hover)]",
       "font-medium",
       "transition-colors",
     ].join(" "),
     identityPreview:
-      "bg-[#101418] border border-[#222a32] rounded-lg",
-    identityPreviewText: "text-[#f1f5f9]",
+      "bg-[var(--surface)] border border-[var(--border)] rounded-lg",
+    identityPreviewText: "text-[var(--fg)]",
     identityPreviewEditButton:
-      "text-[#ff6b35] hover:text-[#ff8458] transition-colors",
+      "text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors",
     otpCodeFieldInput: [
-      "bg-[#101418] border border-[#222a32]",
-      "text-[#f1f5f9]",
-      "focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/30",
+      "bg-[var(--surface)] border border-[var(--border)]",
+      "text-[var(--fg)]",
+      "focus:border-[var(--accent)] focus:ring-2 focus:ring-[color-mix(in_srgb,_var(--accent)_30%,_transparent)]",
     ].join(" "),
-    alert: "bg-[#1d242b] border border-[#222a32] text-[#f1f5f9]",
-    alertText: "text-[#f1f5f9]",
-    badge: "bg-[#101418] text-[#f1f5f9] border border-[#222a32]",
-    avatarBox: "border border-[#222a32]",
-    userButtonAvatarBox: "w-8 h-8 border border-[#222a32]",
+    alert: "bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg)]",
+    alertText: "text-[var(--fg)]",
+    badge: "bg-[var(--surface)] text-[var(--fg)] border border-[var(--border)]",
+    avatarBox: "border border-[var(--border)]",
+    userButtonAvatarBox: "w-8 h-8 border border-[var(--border)]",
     userButtonTrigger: [
       "rounded focus:outline-none",
-      "focus:ring-2 focus:ring-[#ff6b35]/40",
+      "focus:ring-2 focus:ring-[color-mix(in_srgb,_var(--accent)_40%,_transparent)]",
     ].join(" "),
     userButtonPopoverCard: [
-      "bg-[#0b0d0f]",
-      "border border-[#222a32]",
+      "bg-[var(--shell)]",
+      "border border-[var(--border)]",
       "shadow-2xl shadow-black/60",
     ].join(" "),
     userButtonPopoverActionButton:
-      "text-[#f1f5f9] hover:bg-[#151a20] transition-colors",
-    userButtonPopoverActionButtonText: "text-[#f1f5f9]",
-    userButtonPopoverActionButtonIcon: "text-[#6b7785]",
-    userButtonPopoverFooter: "bg-[#08090a] border-t border-[#222a32]",
+      "text-[var(--fg)] hover:bg-[var(--surface-2)] transition-colors",
+    userButtonPopoverActionButtonText: "text-[var(--fg)]",
+    userButtonPopoverActionButtonIcon: "text-[var(--fg-subtle)]",
+    userButtonPopoverFooter: "bg-[var(--bg)] border-t border-[var(--border)]",
   },
   layout: {
     socialButtonsPlacement: "top",

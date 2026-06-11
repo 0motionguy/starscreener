@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 import { Icon } from "@/lib/icons";
 import { HeartIcon, FilledBellIcon } from "@/components/icons-animated";
-import { useCompareStore } from "@/lib/store";
+import { useCompareHydrated, useCompareStore } from "@/lib/store";
 
 declare global {
   interface Window {
@@ -37,23 +37,29 @@ function deriveId(fullName: string): string {
 }
 
 export function TrendingRowActions({ repo, repoId }: TrendingRowActionsProps) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // 2026-06-11 (Wave C ship 3) — previously every row mounted its own
+  // useState(false) + useEffect(() => setMounted(true), []) to gate Zustand
+  // selectors against the SSR/hydration mismatch. On a 50-row trending table
+  // that cascaded 50 state updates + 50 effect-cleanup registrations through
+  // React's scheduler during initial paint. Now all rows subscribe to one
+  // shared useSyncExternalStore signal sourced from Zustand's persist
+  // onFinishHydration — single global notification, single global snapshot.
+  const hydrated = useCompareHydrated();
 
   const id = repoId ?? deriveId(repo);
 
   const [watched, setWatched] = useState(false);
   const [alerted, setAlerted] = useState(false);
 
-  const isComparing = useCompareStore((s) => (mounted ? s.isComparing(id) : false));
-  const isFull = useCompareStore((s) => (mounted ? s.isFull() : false));
+  const isComparing = useCompareStore((s) => (hydrated ? s.isComparing(id) : false));
+  const isFull = useCompareStore((s) => (hydrated ? s.isFull() : false));
   const addCompare = useCompareStore((s) => s.addRepo);
   const removeCompare = useCompareStore((s) => s.removeRepo);
   const compareList = useCompareStore((s) =>
-    mounted ? s.repos : EMPTY_COMPARE_REPOS,
+    hydrated ? s.repos : EMPTY_COMPARE_REPOS,
   );
   const fullNamesById = useCompareStore((s) =>
-    mounted ? s.fullNamesById : EMPTY_FULL_NAMES_BY_ID,
+    hydrated ? s.fullNamesById : EMPTY_FULL_NAMES_BY_ID,
   );
 
   function toast(text: string) {

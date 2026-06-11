@@ -1,5 +1,6 @@
 // StarScreener — Zustand stores
 
+import { useSyncExternalStore } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
@@ -95,6 +96,44 @@ const COMPARE_CAP = 5;
 
 function isUsableCompareFullName(value: string | undefined): value is string {
   return typeof value === "string" && value.includes("/");
+}
+
+// Server-side snapshot is always "not hydrated" — matches the SSR / first
+// client paint before persist's localStorage rehydration completes. Browser
+// snapshot reads Zustand's persist flag directly. subscribe wires straight
+// into Zustand's onFinishHydration so React knows when to re-render.
+//
+// 2026-06-11 (Wave C ship 3) — replaces the per-row useState/useEffect
+// hydration gate in TrendingRowActions (50 rows × 1 cascading effect = 50
+// scheduling cycles during hydration). All consumers now share one
+// global signal via this useSyncExternalStore subscription.
+function subscribeCompareHydration(onChange: () => void): () => void {
+  // onFinishHydration fires exactly once after persist rehydration completes
+  // (idempotent on subsequent calls). Returning its unsubscribe satisfies
+  // React's expected subscribe shape.
+  return useCompareStore.persist.onFinishHydration(onChange);
+}
+
+function getCompareHydrationSnapshot(): boolean {
+  return useCompareStore.persist.hasHydrated();
+}
+
+function getServerHydrationSnapshot(): boolean {
+  return false;
+}
+
+/**
+ * Subscribe to the compare-store persist-hydration signal. Returns `false`
+ * during SSR and the first client paint; flips to `true` after Zustand's
+ * persist rehydration completes. All callers share one global subscription
+ * — no per-component useState/useEffect cascade.
+ */
+export function useCompareHydrated(): boolean {
+  return useSyncExternalStore(
+    subscribeCompareHydration,
+    getCompareHydrationSnapshot,
+    getServerHydrationSnapshot,
+  );
 }
 
 export const useCompareStore = create<CompareState>()(

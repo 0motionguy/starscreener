@@ -57,6 +57,36 @@ function entryBlurb(repo: Repo): string {
 export async function generateMetadata({ params }: PageProps) {
   const { owner, name } = await params;
   const full = `${owner}/${name}`;
+
+  // CRITICAL: probe the registry FIRST. The page render below calls
+  // notFound() when the target is missing or has fewer than MIN_ALTERNATIVES
+  // peers. If metadata returns index:true while the render returns 404, Next
+  // emits dual <meta robots> tags AND a fake title impersonating a real page
+  // — the exact pattern that cost /repo/* ~95% of impressions in late May.
+  // On any transient store outage, fall through to indexable (better to keep
+  // a working URL indexable than to noindex on flake; worker freshness gate
+  // already blocks deploys on cold worker state).
+  let canShow = false;
+  try {
+    await Promise.all([
+      refreshTrendingFromStore().catch(() => undefined),
+      refreshRepoRegistryFromStore().catch(() => undefined),
+      refreshAllMentionStores().catch(() => undefined),
+    ]);
+    const { target, alternatives } = getAlternatives(full, 12);
+    canShow = !!target && alternatives.length >= MIN_ALTERNATIVES;
+  } catch {
+    canShow = true;
+  }
+
+  if (!canShow) {
+    return {
+      title: `Alternatives — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
+
   const title = `${full} Alternatives — Top Open-Source Options | ${SITE_NAME}`;
   const description = `The best open-source alternatives to ${full}, ranked by cross-source momentum across GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to. Updated continuously.`;
   const canonical = absoluteUrl(`/alternatives/${owner}/${name}`);
@@ -64,6 +94,7 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title,
     description,
+    robots: { index: true, follow: true },
     alternates: { canonical },
     openGraph: { title, description, url: canonical },
     twitter: { card: "summary_large_image" as const, title, description },

@@ -187,6 +187,8 @@ export default async function RootLayout({
                 appearance={clerkAppearance}
                 signInUrl={buildAuthHref("/sign-in", "/account")}
                 signUpUrl={buildAuthHref("/sign-up", "/account")}
+                signInFallbackRedirectUrl="/account"
+                signUpFallbackRedirectUrl="/account"
                 afterSignOutUrl="/"
               >
                 {appChrome}

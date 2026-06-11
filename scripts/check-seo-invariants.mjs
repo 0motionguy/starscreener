@@ -94,6 +94,19 @@ const TARGETS = [
     kind: "fake",
     expectIndexable: false,
   },
+  // /alternatives + /compare — the soft-404 vectors closed in the 2026-06-11
+  // hardening wave. Both routes 404 when the target is missing or has too
+  // few peers; metadata must match the runtime contract.
+  {
+    path: "/alternatives/this-owner-78239/and-this-name-78239",
+    kind: "fake",
+    expectIndexable: false,
+  },
+  {
+    path: "/compare/this-owner-78239/repoA/vs/this-owner-78239/repoB",
+    kind: "fake",
+    expectIndexable: false,
+  },
 
   // Sitemaps.
   { path: "/sitemap.xml", kind: "sitemap" },

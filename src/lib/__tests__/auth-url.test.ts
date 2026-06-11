@@ -17,10 +17,23 @@ test("auth redirects preserve local path, query, and hash", () => {
   );
 });
 
+test("auth redirects canonicalize same-origin absolute URLs", () => {
+  assert.equal(
+    normalizeAuthRedirectUrl("https://trendingrepo.com/account?tab=settings"),
+    "/account?tab=settings",
+  );
+  assert.equal(
+    normalizeAuthRedirectUrl("https://www.trendingrepo.com/account#billing"),
+    "/account#billing",
+  );
+});
+
 test("auth redirects reject external, auth, api, and malformed targets", () => {
   for (const value of [
     "https://evil.example/repo",
     "//evil.example/repo",
+    "https://trendingrepo.com.evil.example/account",
+    "https://trendingrepo.com/api/me/profile",
     "/sign-in?redirect_url=/repo/vercel/next.js",
     "/sign-up",
     "/api/me/profile",
@@ -44,6 +57,30 @@ test("auth search params use the first redirect value", () => {
       redirect_url: ["/repo/openai/codex", "https://evil.example"],
     }),
     "/repo/openai/codex",
+  );
+});
+
+test("auth search params fall back to Clerk redirect params", () => {
+  assert.equal(
+    getAuthRedirectFromSearchParams({
+      sign_in_fallback_redirect_url: "https://trendingrepo.com/account",
+    }),
+    "/account",
+  );
+  assert.equal(
+    getAuthRedirectFromSearchParams({
+      redirect_url: "https://evil.example",
+      sign_in_fallback_redirect_url:
+        "https://www.trendingrepo.com/account?from=clerk",
+    }),
+    "/account?from=clerk",
+  );
+  assert.equal(
+    getAuthRedirectFromSearchParams({
+      sign_in_fallback_redirect_url: "https://evil.example",
+      sign_up_fallback_redirect_url: "/account",
+    }),
+    "/account",
   );
 });
 

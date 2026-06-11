@@ -40,11 +40,11 @@ export interface AccountContext {
 export const loadAccountContext = cache(async (): Promise<AccountContext> => {
   // The gate lives in middleware: src/middleware.ts redirects anonymous
   // traffic on /account(.*) to /sign-in BEFORE this runs, and lets
-  // `?preview=1` through for anonymous design review. So this loader only
-  // ever runs for a signed-in user or a preview request — it never needs to
-  // redirect. When there's no Clerk session (preview, or no publishable key),
-  // auth() throws or returns null; we degrade to a safe "preview-anonymous"
-  // shell rather than 500ing.
+  // `?preview=1` through for anonymous design review. When there's no Clerk
+  // session (preview, or no publishable key), auth() throws or returns null;
+  // only those anonymous/no-Clerk cases may degrade to a safe preview shell.
+  // If Clerk reports a real userId, profile loading must succeed so signed-in
+  // users never see a fake account identity.
   let userId: string | null = null;
   try {
     userId = (await auth()).userId;
@@ -53,8 +53,10 @@ export const loadAccountContext = cache(async (): Promise<AccountContext> => {
   }
   const uid: string = userId ?? "preview-anonymous";
 
-  // Profile JOIN can fail without DATABASE_URL — degrade to a minimal context.
-  const loaded = await safe(() => getUser(), null);
+  const loaded = userId ? await getUser() : await safe(() => getUser(), null);
+  if (userId && !loaded) {
+    throw new Error("[account/load] signed-in profile unavailable");
+  }
 
   const handle = loaded?.profile.handle ?? `user-${uid.slice(-8)}`;
   const displayName =

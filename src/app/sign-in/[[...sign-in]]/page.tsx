@@ -64,7 +64,11 @@ export default async function Page({ searchParams }: SignInPageProps) {
         padding: 48,
       }}
     >
-      <SignIn signUpUrl={signUpUrl} fallbackRedirectUrl={redirectUrl} />
+      <SignIn
+        signUpUrl={signUpUrl}
+        fallbackRedirectUrl={redirectUrl}
+        signUpFallbackRedirectUrl={redirectUrl}
+      />
     </div>
   );
 }

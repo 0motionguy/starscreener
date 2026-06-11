@@ -72,6 +72,7 @@ export default async function Page({ searchParams }: SignUpPageProps) {
       <SignUpWithReferral
         signInUrl={signInUrl}
         fallbackRedirectUrl={redirectUrl}
+        signInFallbackRedirectUrl={redirectUrl}
       />
     </div>
   );

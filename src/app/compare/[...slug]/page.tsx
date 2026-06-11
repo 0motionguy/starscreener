@@ -74,7 +74,42 @@ async function resolveCompareRepo(fullName: string): Promise<Repo | null> {
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const pair = parseComparePath(slug);
-  if (!pair) return { title: `Compare repos — ${SITE_NAME}` };
+  // Malformed pair → page calls notFound(). Match the runtime contract or
+  // we ship a soft-404 (200 HTML + index:true metadata + canonical) — the
+  // same defect that cost /repo/* ~95% of impressions in late May.
+  if (!pair) {
+    return {
+      title: `Compare repos — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
+
+  // Indexable surface is bound to derived-store canonical pairs (the same
+  // pool sitemap-compare.xml advertises). User-typed URLs still render via
+  // the live-GitHub fallback in the page below, but they stay out of the
+  // search index — the live-fetch path exists for UX, not for crawl.
+  let bothIndexed = false;
+  try {
+    await Promise.all([
+      refreshTrendingFromStore().catch(() => undefined),
+      refreshRepoRegistryFromStore().catch(() => undefined),
+    ]);
+    const a = getDerivedRepoByFullName(pair.a);
+    const b = getDerivedRepoByFullName(pair.b);
+    bothIndexed = !!a && !!b;
+  } catch {
+    bothIndexed = true;
+  }
+
+  if (!bothIndexed) {
+    return {
+      title: `Compare repos — ${SITE_NAME}`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: undefined },
+    };
+  }
+
   const aName = pair.a.split("/")[1] ?? pair.a;
   const bName = pair.b.split("/")[1] ?? pair.b;
   const title = `${pair.a} vs ${pair.b}: momentum, stars & trend comparison | ${SITE_NAME}`;
@@ -85,6 +120,7 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${aName} vs ${bName}: stars, momentum & trends | ${SITE_NAME}`,
     description,
+    robots: { index: true, follow: true },
     alternates: { canonical },
     openGraph: {
       title,

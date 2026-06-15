@@ -20,7 +20,7 @@ import {
   loadCategoryMetricsPrev7d,
   loadCategoryMetricsPrev30d,
 } from "@/lib/ecosystem-leaderboards";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, SITE_URL, safeJsonLd } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
@@ -189,8 +189,130 @@ export default async function CategoryDetailPage({
     .sort((a, b) => b.repoCount - a.repoCount)
     .slice(0, 6);
 
+  // ---------------------------------------------------------------------------
+  // JSON-LD — answer-engine + rich-result schema graph.
+  //
+  // Three nodes, mirroring the pattern in src/app/page.tsx (inline because
+  // there is no shared structured-data helper on main yet):
+  //   1. BreadcrumbList — Home > Categories > {Category}. Anchors the page
+  //      in the site IA so Google can attach the breadcrumb rich result and
+  //      so answer engines understand the hub→spoke hierarchy.
+  //   2. CollectionPage — the canonical schema.org type for "a page that
+  //      organises other pages around a single topic". Carries the topical
+  //      identity (name, description), references the WebSite + Organization
+  //      anchors, and (when the grid has at least one entry) embeds an
+  //      ItemList under `mainEntity` so the ranking is part of the same
+  //      semantic node instead of a separate floating list.
+  //   3. ItemList (top 24, when present) — already nested under
+  //      CollectionPage.mainEntity above; emitted as a standalone @id node
+  //      for engines that look for the bare ItemList type.
+  //
+  // Honesty rule: skip ItemList entirely when the category has no repos. A
+  // CollectionPage with `numberOfItems: 0` is a worse signal than a clean
+  // CollectionPage without an ItemList — the latter is read as "topic exists,
+  // ranked items pending" rather than "topic with zero members".
+  // ---------------------------------------------------------------------------
+  const trimmedSiteUrl = SITE_URL.replace(/\/+$/, "");
+  const pageUrl = absoluteUrl(`/categories/${slug}`);
+  const ogUrl = absoluteUrl(`/categories/${slug}/opengraph-image`);
+  const collectionDescription =
+    `${category.description}. The trending ${category.shortName} open-source repos on ${SITE_NAME}, ranked by cross-source momentum across GitHub, Hacker News, X, Bluesky, Product Hunt and Dev.to.`;
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: absoluteUrl("/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Categories",
+        item: absoluteUrl("/categories"),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: category.name,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  const itemListJsonLd =
+    gridRepos.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "@id": `${pageUrl}#repos`,
+          name: `Trending ${category.name} repositories`,
+          url: pageUrl,
+          numberOfItems: gridRepos.length,
+          itemListOrder: "https://schema.org/ItemListOrderDescending",
+          itemListElement: gridRepos.map((repo, index) => {
+            const [owner, name] = repo.fullName.split("/");
+            const repoUrl =
+              owner && name ? absoluteUrl(`/repo/${owner}/${name}`) : pageUrl;
+            const item: Record<string, unknown> = {
+              "@type": "ListItem",
+              position: index + 1,
+              url: repoUrl,
+              name: repo.fullName,
+            };
+            const desc = repo.description?.trim();
+            if (desc) item.description = desc;
+            return item;
+          }),
+        }
+      : null;
+
+  const collectionPageJsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${pageUrl}#collection`,
+    name: `${category.name} — trending repositories`,
+    description: collectionDescription,
+    url: pageUrl,
+    inLanguage: "en",
+    isPartOf: { "@id": `${trimmedSiteUrl}/#website` },
+    publisher: { "@id": `${trimmedSiteUrl}/#organization` },
+    primaryImageOfPage: { "@type": "ImageObject", url: ogUrl },
+    about: {
+      "@type": "Thing",
+      name: category.name,
+      description: category.description,
+    },
+    breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+  };
+  if (itemListJsonLd) {
+    collectionPageJsonLd.mainEntity = { "@id": `${pageUrl}#repos` };
+  }
+
   return (
     <main className="home-surface category-detail-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            ...breadcrumbJsonLd,
+            "@id": `${pageUrl}#breadcrumb`,
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(collectionPageJsonLd) }}
+      />
+      {itemListJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListJsonLd) }}
+        />
+      ) : null}
       <ProfileTemplate
         crumb={
           <>
@@ -392,16 +514,49 @@ export default async function CategoryDetailPage({
                 })}
               </div>
             ) : (
-              <p
+              // Empty-state copy is deliberately SEO-aware: it states why the
+              // grid is empty (classifier hasn't populated the bucket yet) so
+              // search engines indexing a cold-start surface still get a
+              // coherent answer to "what is this page about" instead of
+              // assuming a dead category. The methodology link gives crawlers
+              // an outbound internal link to the page that explains the
+              // ranking criteria — both for E-E-A-T and for sitelinks.
+              <div
                 style={{
                   fontFamily: "var(--font-geist-mono), monospace",
                   fontSize: 12,
                   color: "var(--v4-ink-300)",
                   padding: "12px 0",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
                 }}
               >
-                No repos in this category yet — pool is warming.
-              </p>
+                <p style={{ margin: 0 }}>
+                  <span style={{ color: "var(--v4-amber)" }}>
+                    Indexing in progress
+                  </span>{" "}
+                  — repos in <b>{category.name}</b> will appear here as the
+                  daily classifier populates the catalog.
+                </p>
+                <p style={{ margin: 0 }}>
+                  See{" "}
+                  <Link
+                    href="/methodology"
+                    style={{ color: "var(--v4-acc)" }}
+                  >
+                    methodology
+                  </Link>{" "}
+                  for ranking criteria, or{" "}
+                  <Link
+                    href="/categories"
+                    style={{ color: "var(--v4-acc)" }}
+                  >
+                    browse all categories
+                  </Link>
+                  .
+                </p>
+              </div>
             )}
           </>
         }

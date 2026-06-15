@@ -35,9 +35,11 @@ export interface ConsensusRibbonReport {
   poolNote?: string;
 }
 
+export type ConsensusGenerator = "kimi" | "nanogpt" | "template";
+
 export interface ConsensusVerdictsPayload {
   computedAt: string;
-  generator: "kimi" | "template";
+  generator: ConsensusGenerator;
   model?: string;
   ribbon: ConsensusRibbonReport;
   items: Record<string, ConsensusItemReport>;
@@ -49,6 +51,28 @@ const EMPTY: ConsensusVerdictsPayload = {
   ribbon: { headline: "", bullets: [] },
   items: {},
 };
+
+// No publicly stale batches. Verdicts older than this fall through to null
+// (callers render an empty/degraded UI instead of a stale row). Override via
+// `CONSENSUS_MAX_AGE_HOURS` if needed.
+const DEFAULT_MAX_AGE_HOURS = 48;
+
+function consensusMaxAgeHours(): number {
+  const raw = process.env.CONSENSUS_MAX_AGE_HOURS;
+  if (!raw) return DEFAULT_MAX_AGE_HOURS;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_MAX_AGE_HOURS;
+  return parsed;
+}
+
+export function isConsensusPayloadFresh(payload: ConsensusVerdictsPayload): boolean {
+  if (!payload.computedAt) return false;
+  const ts = Date.parse(payload.computedAt);
+  if (!Number.isFinite(ts)) return false;
+  const ageMs = Date.now() - ts;
+  const maxMs = consensusMaxAgeHours() * 60 * 60 * 1000;
+  return ageMs >= 0 && ageMs <= maxMs;
+}
 
 export interface RefreshResult {
   source: "redis" | "file" | "memory" | "missing";
@@ -122,9 +146,11 @@ function normalizePayload(input: unknown): ConsensusVerdictsPayload {
       : [],
     poolNote: typeof p.ribbon?.poolNote === "string" ? p.ribbon.poolNote : undefined,
   };
+  const generator: ConsensusGenerator =
+    p.generator === "kimi" ? "kimi" : p.generator === "nanogpt" ? "nanogpt" : "template";
   return {
     computedAt: typeof p.computedAt === "string" ? p.computedAt : "",
-    generator: p.generator === "kimi" ? "kimi" : "template",
+    generator,
     model: typeof p.model === "string" ? p.model : undefined,
     ribbon,
     items,
@@ -143,7 +169,16 @@ export const getConsensusVerdictsPayload = reader.getPayload;
 
 export function getConsensusItemReport(fullName: string): ConsensusItemReport | null {
   const payload = reader.getPayload();
+  if (!isConsensusPayloadFresh(payload)) return null;
   return payload.items[fullName] ?? payload.items[fullName.toLowerCase()] ?? null;
+}
+
+// Fresh-only accessor — returns EMPTY when the cached payload is past
+// `CONSENSUS_MAX_AGE_HOURS`. Use on publicly-rendered surfaces (homepage,
+// per-repo detail, daily-verdict panel) so stale batches never reach users.
+export function getFreshConsensusVerdictsPayload(): ConsensusVerdictsPayload {
+  const payload = reader.getPayload();
+  return isConsensusPayloadFresh(payload) ? payload : EMPTY;
 }
 
 export const _resetConsensusVerdictsCacheForTests = reader.reset;

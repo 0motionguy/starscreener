@@ -63,14 +63,16 @@ const envSchema = z
     KIMI_BASE_URL: z.string().url().optional(),
     KIMI_MODEL: z.string().optional(),
 
-    // OpenRouter / LLM-router config consumed by `lib/llm/*`. All optional;
-    // the LLM modules short-circuit when OPENROUTER_API_KEY is missing.
-    // Pre-2026-05-07 these were referenced via `env.X` but never declared
-    // in the schema, which left tsc red on every `npm run typecheck` run.
+    NANOGPT_API_KEY: z.string().optional(),
+    NANOGPT_BASE_URL: z.string().url().optional(),
+    NANOGPT_MODEL: z.string().optional(),
+
     OPENROUTER_API_KEY: z.string().optional(),
     OPENROUTER_REFERER: z.string().optional(),
-    LLM_PROVIDER: z.enum(['kimi', 'openrouter']).optional(),
+    LLM_PROVIDER: z.enum(['kimi', 'openrouter', 'nanogpt']).optional(),
     LLM_USER_HASH_SALT: z.string().optional(),
+
+    CONSENSUS_MAX_AGE_HOURS: z.coerce.number().int().positive().optional(),
 
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     PORT: z.coerce.number().int().positive().default(8080),

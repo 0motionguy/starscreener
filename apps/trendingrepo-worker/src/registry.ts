@@ -73,6 +73,9 @@ import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
 // covers 6 lab RSS sources via AI_LAB_REGISTRY).
 import arxiv from './fetchers/arxiv/index.js';
 import aiBlogs from './fetchers/ai-blogs/index.js';
+// 2026-06-15 — C-CAT classifier. Maps each consensus-trending repo to one of
+// the 32 categories (post-C-CAT taxonomy) via NanoGPT (Kimi-K2-Instruct).
+import categoryClassify from './fetchers/category-classify/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -95,6 +98,7 @@ export const FETCHERS: Fetcher[] = [
   engagementComposite,
   consensusTrending,
   consensusAnalyst,
+  categoryClassify,
   lobsters,
   bluesky,
   mcpRegistryOfficial,

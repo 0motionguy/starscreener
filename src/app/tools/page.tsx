@@ -69,6 +69,13 @@ const CHART_TOOLS: ToolEntry[] = [
     href: "/tools/treemap",
     status: "live",
   },
+  {
+    num: "// 03",
+    title: "Category Badges",
+    desc: "Embed a live 'Trending in <category>' SVG badge in your repo's README, blog header, or pitch deck.",
+    href: "/tools/category-badges",
+    status: "live",
+  },
 ];
 
 const ESTIMATOR_TOOLS: ToolEntry[] = [
@@ -93,6 +100,20 @@ const CONTRIBUTE_TOOLS: ToolEntry[] = [
 
 // Tiny inline previews — pure decoration, mockup-canonical 60×34. Tokens
 // only; no hardcoded hex.
+function BadgeIcon() {
+  // Mini badge silhouette — color chip on the left, two text bars on the
+  // right. Mirrors the actual /api/og/category-badge layout in 60×34.
+  return (
+    <svg width={60} height={34} viewBox="0 0 60 34" fill="none" aria-hidden="true">
+      <rect x={2} y={4} width={56} height={26} rx={2} fill="var(--v4-bg-100)" />
+      <rect x={2} y={4} width={18} height={26} rx={2} fill="var(--v4-acc)" />
+      <rect x={24} y={10} width={32} height={3} rx={1} fill="var(--v4-ink-200)" />
+      <rect x={24} y={17} width={24} height={2} rx={1} fill="var(--v4-cyan)" />
+      <rect x={24} y={22} width={28} height={2} rx={1} fill="var(--v4-ink-400)" />
+    </svg>
+  );
+}
+
 function ChartIcon({ kind }: { kind: "star-history" | "treemap" }) {
   if (kind === "star-history") {
     return (
@@ -177,6 +198,8 @@ function previewFor(title: string) {
       return <ChartIcon kind="star-history" />;
     case "Treemap":
       return <ChartIcon kind="treemap" />;
+    case "Category Badges":
+      return <BadgeIcon />;
     case "Revenue Estimate":
       return <EstimatorIcon />;
     case "Submit Revenue":

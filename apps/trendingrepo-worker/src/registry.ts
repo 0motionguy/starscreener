@@ -142,6 +142,17 @@ import editorialWriter from './fetchers/editorial-writer/index.js';
 import editorialCategories from './fetchers/editorial-categories/index.js';
 import editorialCompare from './fetchers/editorial-compare/index.js';
 import editorialAlternatives from './fetchers/editorial-alternatives/index.js';
+// 2026-06-15 — GH events 7d rolling aggregator feeds the new `ghEvents`
+// component in engagement-composite. Closes the OSSInsight "10B+ GitHub
+// events tracked since 2011" depth gap (impact 4.0 in the v3 deltas audit
+// — see https://ossinsight.io). Distinct from the existing per-repo
+// `github-events` firehose: that one keeps a normalized event buffer for
+// the live activity wall; this one only emits aggregate counts for scoring.
+// Cohort = top-200 from engagement-composite (fallback: repo-metadata by
+// stars desc). Cadence: '15,45 * * * *' — offset from velocity-refresh and
+// the engagement-composite :45 read so we publish before composite reads.
+// Rate-limit math: 200 calls × 2 ticks/hr = 400/hr against 50K/hr pool.
+import ghEventsStream from './fetchers/gh-events-stream/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -160,6 +171,7 @@ export const FETCHERS: Fetcher[] = [
   trustmrr,
   revenueBenchmarks,
   trendshiftDaily,
+  ghEventsStream,
   engagementComposite,
   consensusTrending,
   consensusAnalyst,

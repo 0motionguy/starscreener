@@ -639,6 +639,41 @@
     ]
   },
   {
+    "id": "gh-events-stream",
+    "category": "repo-derived",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 5400000,
+    "cost_signal_metric": {
+      "type": "pat_quota_pct",
+      "scope": "hour"
+    },
+    "rate_limit": {
+      "per_hour": 5000,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://api.github.com/repos/{owner}/{name}/events",
+    "auth_required": true,
+    "auth_scheme": "github_pat_pool",
+    "primary_output_keys": [
+      "gh-events-stream"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "apps/trendingrepo-worker/src/fetchers/engagement-composite/index.ts"
+    ],
+    "depends_on": [
+      "engagement-composite",
+      "repo-metadata"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "mark-degraded",
+    "writes_canonical_entity_kind": [
+      "repo"
+    ]
+  },
+  {
     "id": "consensus-trending",
     "category": "repo-derived",
     "kind": "enrichment",

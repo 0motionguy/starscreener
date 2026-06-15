@@ -89,6 +89,7 @@ import {
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
 import { WhyTrending } from "@/components/repo-detail/WhyTrending";
+import { WhyTrendingExpander } from "@/components/repo-detail/WhyTrendingExpander";
 import { WhyBadge } from "@/components/repo/WhyBadge";
 import { getWhyNarrative } from "@/lib/why-narrative";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
@@ -438,6 +439,12 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <CompletenessStrip repo={repo} />
           <WhyBadge narrative={whyNarrative} variant="full" />
           <WhyTrendingNarrative repo={repo} profile={profile} />
+          {/* AI verdict expander — collapsed by default. Sources the per-repo
+              ConsensusItemReport (whyNow + 6-axis scores + evidence + what-to-do)
+              that's also rendered on /consensus/[owner]/[name]. Renders nothing
+              when the analyst hasn't covered this repo or when the payload is
+              past the stale-hide gate, so no stale verdict ever leaks here. */}
+          <WhyTrendingExpander fullName={repo.fullName} />
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}

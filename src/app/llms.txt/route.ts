@@ -153,7 +153,7 @@ Plausible LLM/agent queries paired with the canonical TrendingRepo URL that reso
 - Classification: 15 first-party categories (AI Agents, MCP, DevTools, Browser Automation, Local LLM, Security, Infrastructure, Design Engineering, AI & ML, Web Frameworks, Databases, Mobile & Desktop, Data & Analytics, Crypto & Web3, Rust Ecosystem) plus 28 curated OSS Insight collections
 - Cross-signal breakout = a repo firing on >= 3 of {GitHub, HN, Reddit, ProductHunt, Bluesky, Twitter, dev.to} within the same trending window
 - Operated by Mirko Basil Dolger; source repo at https://github.com/0motionguy/starscreener (MIT-licensed)
-- Production hosting: Vercel; signal collectors run on GitHub Actions; data-store backed by Redis (Railway / Upstash)
+- Production hosting: HOSTUP Docker tenant behind Cloudflare (Cloudflare Tunnel for ingress; no public ports). The HOSTUP worker fleet owns source freshness; data-store backed by Redis + Postgres.
 
 ## License
 

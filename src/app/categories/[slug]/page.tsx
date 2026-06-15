@@ -79,7 +79,20 @@ export async function generateMetadata({
       "open source",
       "repo momentum",
     ],
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      // Per-category RSS feed auto-discovery — mirrors the layout-wide
+      // breakouts/funding entries and lets feed readers, browser extensions,
+      // and AI agents find this category's RSS surface without scraping.
+      types: {
+        "application/rss+xml": [
+          {
+            url: `/feeds/${slug}.xml`,
+            title: `${SITE_NAME} — ${category.name} (RSS)`,
+          },
+        ],
+      },
+    },
     openGraph: {
       type: "website",
       url: canonical,

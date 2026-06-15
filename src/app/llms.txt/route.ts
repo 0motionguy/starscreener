@@ -19,7 +19,15 @@
 //
 // Cache: 24h. The list of surfaces moves on the order of weeks,
 // not minutes — no point revalidating more often.
+//
+// 2026-06-15: per-category RSS feeds added. The feed list is generated from
+// CATEGORIES so the file scales automatically when the taxonomy expands
+// (e.g. the 15→32 axis bump in PR #3174). Surfaced under
+// `## Per-category RSS feeds` between Primary surfaces and Per-source feeds
+// so agents that follow llms.txt can subscribe to the right category axis
+// without scraping `<link rel="alternate">` tags off each page.
 
+import { CATEGORIES } from "@/lib/constants";
 import { SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -27,6 +35,9 @@ export const revalidate = 86400;
 
 export function GET(): Response {
   const base = SITE_URL.replace(/\/+$/, "");
+  const categoryFeeds = CATEGORIES.map(
+    (c) => `- [${c.name}](${base}/feeds/${c.id}.xml)`,
+  ).join("\n");
   const body = `# TrendingRepo
 
 > The trend map for open source. Real-time scanner that aggregates GitHub stars, Twitter buzz, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to signals to surface breakout repos before they go mainstream.
@@ -57,6 +68,14 @@ export function GET(): Response {
 - [Categories](${base}/categories) - 15 curated buckets (AI Agents, MCP, DevTools, Local LLM, Security, etc.)
 - [Collections](${base}/collections) - 28 curated OSS Insight collections
 
+## Per-category RSS feeds
+
+${CATEGORIES.length} RSS 2.0 feeds, one per category axis. Each feed updates every 15 minutes with up to 25 items ranked by sector momentum. Discover all feeds programmatically at ${base}/feeds (JSON index).
+
+${categoryFeeds}
+
+Cross-cut RSS feeds (not per-category): ${base}/feeds/breakouts.xml, ${base}/feeds/funding.xml, ${base}/feeds/agent-commerce.xml
+
 ## Per-source feeds
 
 - [Hacker News](${base}/hackernews/trending)
@@ -73,6 +92,7 @@ export function GET(): Response {
 - [MCP server](${base}/docs) - for Claude / agentic clients
 - [CLI](${base}/docs) - zero-dependency Node 18+
 - [Sitemap](${base}/sitemap.xml) - full URL index
+- [Feed index](${base}/feeds) - JSON catalog of every RSS feed (curated cross-cuts + per-category)
 - [llms-full.txt](${base}/llms-full.txt) - top 100 repos as markdown blocks
 
 ## Optional

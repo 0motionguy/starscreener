@@ -16,7 +16,8 @@ export type ComponentKey =
   | 'devto'
   | 'npm'
   | 'ghStars'
-  | 'ph';
+  | 'ph'
+  | 'ghEvents';
 
 export const COMPONENT_KEYS: readonly ComponentKey[] = [
   'hn',
@@ -26,6 +27,7 @@ export const COMPONENT_KEYS: readonly ComponentKey[] = [
   'npm',
   'ghStars',
   'ph',
+  'ghEvents',
 ] as const;
 
 /** Per-repo raw aggregated signal values prior to normalization. */
@@ -38,6 +40,12 @@ export interface NormalizedRepoSignals {
   npm: number;       // npm weekly download count for any matched package
   ghStars: number;   // weekly star velocity (delta_7d, falling back to delta_24h * 7)
   ph: number;        // PH vote count for matching launch
+  /**
+   * 7-day rolling count of substantive GH events (PR + Issues + Push + Release)
+   * from the gh-events-stream fetcher. Zero when the snapshot is missing or
+   * has been dropped by the no-publicly-stale-batches rule (staleness > 90min).
+   */
+  ghEvents: number;
 }
 
 export interface ComponentScore {

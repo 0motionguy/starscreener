@@ -25,7 +25,12 @@ export type EngagementComponentKey =
   | "devto"
   | "npm"
   | "ghStars"
-  | "ph";
+  | "ph"
+  // 7d rolling count of substantive GH events (PR+Issues+Push+Release).
+  // Sourced from gh-events-stream and only present in payloads written
+  // on/after 2026-06-15. Older cached payloads degrade to weight=0 via
+  // EMPTY_PAYLOAD below.
+  | "ghEvents";
 
 export interface EngagementComponentScore {
   raw: number;
@@ -52,7 +57,7 @@ const EMPTY_PAYLOAD: EngagementCompositePayload = {
   cohortSize: 0,
   itemCount: 0,
   weights: {
-    hn: 0, reddit: 0, bluesky: 0, devto: 0, npm: 0, ghStars: 0, ph: 0,
+    hn: 0, reddit: 0, bluesky: 0, devto: 0, npm: 0, ghStars: 0, ph: 0, ghEvents: 0,
   },
   items: [],
 };

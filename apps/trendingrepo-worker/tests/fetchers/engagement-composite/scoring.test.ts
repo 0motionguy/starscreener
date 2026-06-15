@@ -31,6 +31,7 @@ function makeRow(fullName: string, overrides: Partial<NormalizedRepoSignals> = {
     npm: 0,
     ghStars: 0,
     ph: 0,
+    ghEvents: 0,
     ...overrides,
   };
 }
@@ -111,11 +112,13 @@ describe('normalizeOne', () => {
     expect(v).toBeLessThanOrEqual(1);
   });
 
-  it('uses log normalization for npm and ghStars', () => {
+  it('uses log normalization for npm, ghStars, and ghEvents', () => {
     const npm = normalizeOne('npm', 50, { sortedValues: [], max: 50 });
     expect(npm).toBeCloseTo(1, 6);
     const ghStars = normalizeOne('ghStars', 50, { sortedValues: [], max: 50 });
     expect(ghStars).toBeCloseTo(1, 6);
+    const ghEvents = normalizeOne('ghEvents', 50, { sortedValues: [], max: 50 });
+    expect(ghEvents).toBeCloseTo(1, 6);
   });
 
   it('uses percentile normalization for hn/reddit/bluesky/devto/ph', () => {
@@ -164,8 +167,8 @@ describe('composeScore', () => {
   it('clamps and rounds to 1 decimal', () => {
     const comps = emptyComponents();
     comps.hn = { raw: 100, normalized: 0.5 };
-    // Only hn contributes (weight 0.20 * 0.5 = 0.10) → 10.0
-    expect(composeScore(comps)).toBe(10);
+    // Only hn contributes (weight 0.18 * 0.5 = 0.09) → 9.0
+    expect(composeScore(comps)).toBe(9);
   });
 });
 
@@ -216,7 +219,10 @@ describe('scoreCohort', () => {
 
   it('emits the full component breakdown per item', () => {
     const rows: NormalizedRepoSignals[] = [
-      makeRow('a/a', { hn: 10, reddit: 20, bluesky: 5, devto: 3, npm: 1000, ghStars: 50, ph: 7 }),
+      makeRow('a/a', {
+        hn: 10, reddit: 20, bluesky: 5, devto: 3,
+        npm: 1000, ghStars: 50, ph: 7, ghEvents: 42,
+      }),
     ];
     const items = scoreCohort(rows);
     expect(items[0]!.components.hn.raw).toBe(10);
@@ -226,6 +232,7 @@ describe('scoreCohort', () => {
     expect(items[0]!.components.npm.raw).toBe(1000);
     expect(items[0]!.components.ghStars.raw).toBe(50);
     expect(items[0]!.components.ph.raw).toBe(7);
+    expect(items[0]!.components.ghEvents.raw).toBe(42);
     for (const key of COMPONENT_KEYS) {
       expect(items[0]!.components[key].normalized).toBeGreaterThanOrEqual(0);
       expect(items[0]!.components[key].normalized).toBeLessThanOrEqual(1);
@@ -236,11 +243,11 @@ describe('scoreCohort', () => {
     const rows: NormalizedRepoSignals[] = [
       makeRow('vercel/next.js', {
         hn: 250, reddit: 800, bluesky: 50, devto: 40,
-        npm: 5_000_000, ghStars: 1200, ph: 800,
+        npm: 5_000_000, ghStars: 1200, ph: 800, ghEvents: 4500,
       }),
       makeRow('foo/bar', {
         hn: 5, reddit: 20, bluesky: 0, devto: 0,
-        npm: 100, ghStars: 5, ph: 0,
+        npm: 100, ghStars: 5, ph: 0, ghEvents: 12,
       }),
       makeRow('cold/repo'),
     ];

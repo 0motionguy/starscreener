@@ -89,6 +89,21 @@ interface PhLaunchesPayload {
   launches?: PhLaunch[];
 }
 
+interface GhEventsStreamRepoEntry {
+  events7d?: number;
+}
+interface GhEventsStreamPayload {
+  computedAt?: string;
+  repos?: Record<string, GhEventsStreamRepoEntry>;
+}
+
+/**
+ * Drop ghEvents data older than 90 minutes per the no-publicly-stale-batches
+ * rule. gh-events-stream runs at :15 + :45 so a healthy snapshot is at most
+ * 30 minutes old; 90min gives a 3x grace for transient cron misses.
+ */
+const GH_EVENTS_STALENESS_BUDGET_MS = 90 * 60 * 1000;
+
 // ---------------------------------------------------------------------------
 // Aggregation helpers
 // ---------------------------------------------------------------------------
@@ -123,6 +138,7 @@ function ensureRow(accum: SignalAccum, fullName: string): NormalizedRepoSignals 
       npm: 0,
       ghStars: 0,
       ph: 0,
+      ghEvents: 0,
     };
     accum.rows.set(lower, row);
   }
@@ -226,6 +242,20 @@ const fetcher: Fetcher = {
       RepoMetadataPayload | null,
       PhLaunchesPayload | null,
     ];
+
+    // Soft read — gh-events-stream's absence MUST NOT block the composite
+    // (it's a new component as of 2026-06-15 and may not have written yet
+    // on cold start). We try once, log on failure, and treat null as
+    // "ghEvents contributes 0 for every repo this tick".
+    let ghEventsStream: GhEventsStreamPayload | null = null;
+    try {
+      ghEventsStream = await readDataStore<GhEventsStreamPayload>('gh-events-stream');
+    } catch (err) {
+      ctx.log.warn(
+        { err: err instanceof Error ? err.message : String(err) },
+        'engagement-composite: gh-events-stream read failed; treating as missing',
+      );
+    }
 
     const accum = emptyAccum();
 
@@ -334,6 +364,40 @@ const fetcher: Fetcher = {
       row.ph = total;
     }
 
+    // ---- ghEvents (7d rolling event count from gh-events-stream) -----------
+    // no-publicly-stale-batches rule: drop the entire ghEvents block if the
+    // snapshot is older than 90 minutes (3x the :15/:45 cadence). Drop is
+    // all-or-nothing because the snapshot is a single computedAt anchor —
+    // there's no per-repo timestamp to selectively keep "fresh" ones.
+    let ghEventsRepoCount = 0;
+    let ghEventsStale = false;
+    if (ghEventsStream && typeof ghEventsStream.computedAt === 'string') {
+      const computedMs = Date.parse(ghEventsStream.computedAt);
+      if (Number.isFinite(computedMs)) {
+        const ageMs = Date.now() - computedMs;
+        if (ageMs <= GH_EVENTS_STALENESS_BUDGET_MS) {
+          for (const [fullName, entry] of Object.entries(ghEventsStream.repos ?? {})) {
+            if (!fullName.includes('/')) continue;
+            const events = nonNegative(safeNumber(entry?.events7d));
+            if (events <= 0) continue;
+            const row = ensureRow(accum, fullName);
+            row.ghEvents = events;
+            ghEventsRepoCount += 1;
+          }
+        } else {
+          ghEventsStale = true;
+          ctx.log.warn(
+            {
+              ageMs,
+              budgetMs: GH_EVENTS_STALENESS_BUDGET_MS,
+              computedAt: ghEventsStream.computedAt,
+            },
+            'engagement-composite: gh-events-stream stale > 90min; dropping ghEvents component this tick',
+          );
+        }
+      }
+    }
+
     // Resolve canonical fullName casing on every row (in case the row was
     // created from a lowercase mention key but a canonical exists).
     for (const [lower, row] of accum.rows.entries()) {
@@ -379,6 +443,8 @@ const fetcher: Fetcher = {
           npmRepos: npmByRepo.size,
           ghStars: ghStarsRepoCount,
           ph: phRepoCount,
+          ghEvents: ghEventsRepoCount,
+          ghEventsStale,
         },
         redisSource: result.source,
         writtenAt: result.writtenAt,

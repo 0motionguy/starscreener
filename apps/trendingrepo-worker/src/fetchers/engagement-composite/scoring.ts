@@ -32,22 +32,37 @@ import { COMPONENT_KEYS } from './types.js';
  * Component weights. Sum MUST equal 1.00 — asserted in unit tests so a
  * future tweak that breaks the invariant fails CI immediately.
  *
- *   ghStars (.30)  — strongest leading indicator of mainstream traction
- *   hn      (.20)  — best engagement signal pre-mainstream
- *   npm     (.25)  — actual usage, not just attention
- *   reddit  (.00)  — intentionally paused; component retained for payload compatibility
- *   ph      (.15)  — launch moment, mostly orthogonal to other signals
- *   bluesky (.05)  — early-mover signal, low volume so capped low
- *   devto   (.05)  — slow-burn long-tail content signal
+ *   ghStars  (.27)  — strongest leading indicator of mainstream traction
+ *   npm      (.25)  — actual usage, not just attention
+ *   hn       (.18)  — best engagement signal pre-mainstream
+ *   ph       (.15)  — launch moment, mostly orthogonal to other signals
+ *   ghEvents (.05)  — substantive contributor activity (PR+Issues+Push+Release)
+ *   bluesky  (.05)  — early-mover signal, low volume so capped low
+ *   devto    (.05)  — slow-burn long-tail content signal
+ *   reddit   (.00)  — intentionally paused; component retained for payload compatibility
+ *
+ * v3 deltas rebalance (2026-06-15):
+ *   - Added ghEvents (0.05) as a new dimension closing the OSSInsight "10B+
+ *     GitHub events" depth gap (impact 4.0 in the v3 deltas audit — see
+ *     https://ossinsight.io). Sourced from the gh-events-stream fetcher's
+ *     7d rolling PullRequest+Issues+Push+Release count, dropped per-tick
+ *     when staleness > 90min.
+ *   - Reduced ghStars (.30 → .27, -.03) and hn (.20 → .18, -.02). Pulled
+ *     the 0.05 from the two highest-weight components rather than zeroing
+ *     bluesky/devto — ghEvents is most-correlated with the GH-side velocity
+ *     signal (ghStars) so reducing there avoids double-counting growth
+ *     pressure; the small trim from hn keeps the social-attention mix
+ *     intact.
  */
 export const WEIGHTS: Record<ComponentKey, number> = {
-  hn: 0.20,
+  hn: 0.18,
   reddit: 0,
   bluesky: 0.05,
   devto: 0.05,
   npm: 0.25,
-  ghStars: 0.30,
+  ghStars: 0.27,
   ph: 0.15,
+  ghEvents: 0.05,
 };
 
 /** Components that use percentile-rank normalization. */
@@ -63,6 +78,10 @@ const PERCENTILE_COMPONENTS: ReadonlySet<ComponentKey> = new Set<ComponentKey>([
 const LOG_COMPONENTS: ReadonlySet<ComponentKey> = new Set<ComponentKey>([
   'npm',
   'ghStars',
+  // ghEvents is a count distribution: a handful of meta-repos (cloud-native
+  // monorepos, framework cores) push thousands of events/week while the long
+  // tail sits at 0-50. Log normalization keeps the tail readable.
+  'ghEvents',
 ]);
 
 /**

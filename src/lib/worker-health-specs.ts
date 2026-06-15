@@ -114,6 +114,11 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // weekly - slow-moving baselines
   { slug: "lmarena-text", fetcher: "lmarena", cadenceMin: 60 * 24 * 7, slowMoving: true, blocking: false },
 
+  // Tier B.3 — YouTube video-mention counter for the top-200 consensus repos.
+  // Hourly, 100 repos per run, full top-200 swept every 2h. Advisory until the
+  // UI integration ships and we have real operator-experience with quota; until
+  // then a missing or stale slug shouldn't gate the fleet ok state.
+  { slug: "video-mentions", fetcher: "video-mentions", cadenceMin: 120, blocking: false },
 ];
 
 export const WORKER_PAYLOAD_HEALTH_SLUGS: ReadonlySet<string> = new Set(

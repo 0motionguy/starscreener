@@ -2317,5 +2317,37 @@
     ],
     "supports_backfill": false,
     "fallback_strategy": "cache"
+  },
+  {
+    "id": "video-mentions",
+    "category": "social",
+    "kind": "collector",
+    "state": "active",
+    "freshness_budget_ms": 7200000,
+    "cost_signal_metric": {
+      "type": "rate_limit_pct",
+      "scope": "day"
+    },
+    "rate_limit": {
+      "per_hour": 100,
+      "scope": "token"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "https://www.googleapis.com/youtube/v3/search",
+    "auth_required": true,
+    "auth_scheme": "youtube_api_key",
+    "primary_output_keys": [
+      "video-mentions"
+    ],
+    "output_record_shape": "mention_feed",
+    "consumer_surfaces": [],
+    "depends_on": [
+      "consensus-trending"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "skip",
+    "writes_canonical_entity_kind": [
+      "mention"
+    ]
   }
 ]

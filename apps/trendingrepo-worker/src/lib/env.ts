@@ -34,6 +34,12 @@ const envSchema = z
     // The artificialanalysis fetcher gracefully short-circuits when this is
     // unset — see apps/trendingrepo-worker/src/fetchers/artificialanalysis/.
     AA_API_KEY: z.string().optional(),
+    // YouTube Data API v3 key (https://developers.google.com/youtube/v3/getting-started).
+    // Free tier ships 10,000 quota units/day; Search:list costs 100 units per
+    // call → ~100 search calls/day on the default quota. The video-mentions
+    // fetcher gracefully short-circuits when this is unset, and stops the run
+    // on a `quotaExceeded` 403 to avoid burning the rest of the budget.
+    YOUTUBE_API_KEY: z.string().optional(),
     APIFY_API_TOKEN: z.string().optional(),
     APIFY_PROXY_GROUPS: z.string().optional(),
     APIFY_PROXY_COUNTRY: z.string().optional(),

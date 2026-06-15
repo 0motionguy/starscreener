@@ -47,7 +47,10 @@ import {
   type LiveRow,
   type CategoryFacet,
 } from "@/components/home/LiveTopTable";
+import { TierCMonetizationBand } from "@/components/home/TierCMonetizationBand";
 import { CATEGORIES } from "@/lib/constants";
+import { getRevenueOverlaysMeta } from "@/lib/revenue-overlays";
+import { getFundingFetchedAt } from "@/lib/funding-news";
 import { NewsletterCaptureForm } from "@/components/newsletter/NewsletterCaptureForm";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
@@ -864,6 +867,32 @@ export default async function HomePage() {
       .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
   })).sort((a, b) => b.delta - a.delta)[0];
 
+  // Tier C monetization band freshness — pulled once from the synchronous
+  // accessors and handed to the band component. Both reads are wrapped in
+  // try/catch so a cold cache renders the band with an honest "updating"
+  // pill rather than throwing the (ISR-cached) home render. The strategic
+  // wedge here is monetization (revenue calculator + funding/MRR radar +
+  // embed-ready SVGs) — defensible vs OSSInsight + TrendShift per the
+  // combined deep-crawl deltas.
+  let revenueOverlaysGeneratedAt: string | null = null;
+  try {
+    revenueOverlaysGeneratedAt = getRevenueOverlaysMeta().generatedAt;
+  } catch (err) {
+    console.error(
+      "[home] revenue-overlays meta read failed",
+      err instanceof Error ? err.message : err,
+    );
+  }
+  let fundingFetchedAt: string | null = null;
+  try {
+    fundingFetchedAt = getFundingFetchedAt();
+  } catch (err) {
+    console.error(
+      "[home] funding fetchedAt read failed",
+      err instanceof Error ? err.message : err,
+    );
+  }
+
   return (
     <>
       <FunnelMount step="home_view" flow="discover-repo" />
@@ -986,6 +1015,17 @@ export default async function HomePage() {
             <FeaturedCard key={`${entity.kind}-${entity.id}`} entity={entity} index={index} />
           ))}
         </div>
+
+        {/* Tier C monetization band — positions TrendingRepo's defensible
+            differentiation (revenue estimates, funding/MRR radar, embed-ready
+            star-history + treemap SVGs) directly above the live ranking table.
+            Rankings remain the entry point; this band names the angle no other
+            tracker ships (combined deep-crawl deltas — toolbox PR #241, L1
+            #3172, F4 #3173, C-CAT #3174). */}
+        <TierCMonetizationBand
+          revenueOverlaysGeneratedAt={revenueOverlaysGeneratedAt}
+          fundingFetchedAt={fundingFetchedAt}
+        />
 
         <SectionHead
           num="// 05"

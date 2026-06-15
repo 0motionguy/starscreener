@@ -142,6 +142,13 @@ import editorialWriter from './fetchers/editorial-writer/index.js';
 import editorialCategories from './fetchers/editorial-categories/index.js';
 import editorialCompare from './fetchers/editorial-compare/index.js';
 import editorialAlternatives from './fetchers/editorial-alternatives/index.js';
+// Tier B.3 — YouTube-v1 video-mention counter for the top-200 consensus repos.
+// Hourly, rotates through the full top-200 every 2h via a Redis cursor. Closes
+// part of the TrendShift /live-mentions multi-platform gap (X is already
+// covered via twitter-*, HN via hackernews; Bilibili + XiaoHongShu are v2).
+// New-fetcher TTL gate: payload includes `staleness_seconds` (24h). UI
+// integration is a follow-up PR.
+import videoMentions from './fetchers/video-mentions/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -193,6 +200,7 @@ export const FETCHERS: Fetcher[] = [
   editorialCategories,
   editorialCompare,
   editorialAlternatives,
+  videoMentions,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

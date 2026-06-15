@@ -67,6 +67,7 @@ export type AuthScheme =
   | 'twitter_web_cookies'
   | 'firecrawl'
   | 'supabase_service'
+  | 'youtube_api_key'
   | 'none';
 
 export type CardinalitySource = 'watchlist' | 'static' | 'enum';

@@ -107,6 +107,15 @@ export interface SADeltaEntry {
 
 export interface StarActivityDeltasPayload {
   computedAt: string;
+  /**
+   * Age of the payload at publish time in seconds (≈0 at write). Emitted by
+   * the velocity engine (refresh/backfill/this fetcher) so downstream consumers
+   * carry the freshness contract on-wire alongside `computedAt` — they can drop
+   * a slug whose `(now - computedAt)` exceeds their tolerance without a side
+   * channel. Optional for back-compat: pre-2026-06-15 payloads omit it.
+   * F1+F2+F3 cron-tightening PR.
+   */
+  staleness_seconds?: number;
   coverage: Record<SADeltaBasis, number>;
   repos: Record<string, SADeltaEntry>;
 }
@@ -230,7 +239,14 @@ function payloadSlug(fullName: string): string {
 
 const fetcher: Fetcher = {
   name: 'star-activity-deltas',
-  schedule: '30 5 * * *',
+  // Every 10 min on the :03,:13,:23,:33,:43,:53 marks — interleaved with
+  // velocity-refresh (*/10 from :00) and velocity-backfill (5,15,25,... from
+  // :05) so the three writers of `star-activity-deltas` don't pile up on the
+  // same minute. This fetcher is Redis-only (no GitHub calls — just reads each
+  // repo's existing `star-activity:*` series) so 6 ticks/hr × ~5000 reads is
+  // cheap. F3 cron-tightening PR (2026-06-15) — matches TrendShift's
+  // live-mentions cadence per deltas evidence.
+  schedule: '3,13,23,33,43,53 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const errors: RunResult['errors'] = [];
@@ -299,8 +315,13 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, errors);
     }
 
+    const computedAt = new Date().toISOString();
     const payload: StarActivityDeltasPayload = {
-      computedAt: new Date().toISOString(),
+      computedAt,
+      // Self-reported age at publish time (≈0). Downstream readers can recompute
+      // (now - computedAt) themselves; we emit it so the wire shape carries the
+      // freshness contract explicitly — F3 cron-tightening PR (2026-06-15).
+      staleness_seconds: Math.round((Date.now() - Date.parse(computedAt)) / 1000),
       coverage,
       repos,
     };

@@ -186,8 +186,12 @@ export function computeCoverage(
 
 const fetcher: Fetcher = {
   name: 'velocity-refresh',
-  // Every 40 min, off the :00/:30 slots (jittered away from the bursty marks).
-  schedule: '*/40 * * * *',
+  // Every 10 min on the :00,:10,:20,:30,:40,:50 marks — matches TrendShift's
+  // live-mentions refresh cadence (deltas evidence 2026-06-15) so slugs surfaced
+  // to the homepage velocity board never trail third-party leaderboards by more
+  // than one tick. 300 cheap GitHub calls / tick × 6 ticks/hr × 24h = ~43.2k
+  // calls/day — comfortably under the 20-token pool's 100k/hr ceiling.
+  schedule: '*/10 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const errors: RunResult['errors'] = [];
@@ -279,8 +283,13 @@ const fetcher: Fetcher = {
     }
 
     const mergedRepos = mergeDeltaRepos(priorRepos, fresh);
+    const computedAt = new Date().toISOString();
     const payload: StarActivityDeltasPayload = {
-      computedAt: new Date().toISOString(),
+      computedAt,
+      // Self-reported age at publish time (≈0). Downstream readers can recompute
+      // (now - computedAt) themselves; we emit it so the wire shape carries the
+      // freshness contract explicitly — F1 cron-tightening PR (2026-06-15).
+      staleness_seconds: Math.round((Date.now() - Date.parse(computedAt)) / 1000),
       coverage: computeCoverage(mergedRepos),
       repos: mergedRepos,
     };

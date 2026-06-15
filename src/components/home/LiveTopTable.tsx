@@ -42,6 +42,7 @@ import type { NewsSource } from "@/lib/news/freshness";
 import { repoLogoUrl } from "@/lib/logos";
 import { useViewportPrefetch } from "@/hooks/useViewportPrefetch";
 import { MAX_COMPARE_REPOS } from "@/lib/constants";
+import { classifyPublicStaleness } from "@/lib/public-staleness";
 
 type SortKey = "rank" | "stars" | "d24" | "d7" | "d30" | "forks" | "mentions";
 type SortDir = "asc" | "desc";
@@ -366,6 +367,41 @@ export function LiveTopTable({
     );
     return sorted;
   }, [rows, sortKey, sortDir, activeCat]);
+
+  // "No publicly stale batches" gate — drop rows entirely when the data is
+  // past `MAX_PUBLIC_STALENESS_MIN`. Render a "data refreshing" banner
+  // instead of a stale ranking table so readers can't act on cold rows.
+  const stalenessVerdict = classifyPublicStaleness(lastUpdatedAt, freshnessNowMs);
+
+  if (!stalenessVerdict.isFresh && rows.length > 0) {
+    return (
+      <div className="live-top">
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            padding: "16px 20px",
+            border: "1px solid var(--v4-amber, #f59e0b)",
+            background: "var(--v4-bg-050)",
+            borderRadius: "var(--v4-radius-md, 8px)",
+            color: "var(--v4-amber, #f59e0b)",
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 13,
+            lineHeight: 1.6,
+          }}
+        >
+          <strong>Data refreshing.</strong> The latest batch is older than the
+          public freshness window ({Math.round(stalenessVerdict.thresholdMs / 60000)}min).
+          Rankings will reappear once the next worker tick lands.
+          <FreshnessBadge
+            source={freshnessSource}
+            lastUpdatedAt={lastUpdatedAt}
+            nowMs={freshnessNowMs}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="live-top">

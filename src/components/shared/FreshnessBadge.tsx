@@ -11,13 +11,13 @@
 
 import { classifyFreshness, type NewsSource } from "@/lib/news/freshness";
 
-// Operator decision (2026-05-15): cold/stale chrome reads as honesty
-// theatre, not as useful signal. Hide the indicators by default but
-// keep the classifier intact so a future flip via env can bring them
-// back without touching call sites. Set
-// `NEXT_PUBLIC_HIDE_FRESHNESS_BADGES=false` to render.
+// Operator decision (2026-06-15, ULTRA plan §F4): visible recency stamp
+// is part of the "no publicly stale batches" rule. Show by default so
+// readers can tell a fresh batch from a 4h-old one without opening the
+// route. The hide flag stays available — set
+// `NEXT_PUBLIC_HIDE_FRESHNESS_BADGES=true` to opt out.
 function isFreshnessBadgeHidden(): boolean {
-  return process.env.NEXT_PUBLIC_HIDE_FRESHNESS_BADGES !== "false";
+  return process.env.NEXT_PUBLIC_HIDE_FRESHNESS_BADGES === "true";
 }
 
 interface FreshnessBadgeProps {

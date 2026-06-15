@@ -591,6 +591,44 @@
 }
 
 /* ---------------------------------------------------------------------------
+ * 08b. TimeWindowTabs — Daily/Weekly/Monthly above the Live top-50 card.
+ *      Wraps the v4 TabBar with a tight hint line that honestly surfaces
+ *      the 30-day data cap (Yearly is rendered disabled inside the TabBar).
+ * --------------------------------------------------------------------------- */
+.time-window-tabs {
+  margin: 0 0 8px;
+}
+.time-window-tabs__hint {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 0;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+}
+.time-window-tabs__cap {
+  margin-left: auto;
+  color: var(--v4-ink-500);
+  cursor: help;
+  text-decoration: underline dotted currentColor;
+  text-underline-offset: 3px;
+}
+@media (max-width: 640px) {
+  .time-window-tabs__hint {
+    font-size: var(--v4-text-9-5);
+    gap: 6px;
+  }
+  .time-window-tabs__cap {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------------------------
  * 09. SourcePip — 2-letter source channel badge
  * --------------------------------------------------------------------------- */
 .v4-source-pip {

@@ -150,6 +150,15 @@ interface LiveTopTableProps {
    * through keeps the first client render identical to ISR HTML.
    */
   freshnessNowMs?: number;
+  /**
+   * U2-time-window-tabs: initial sort column driven by `?window=24h|7d|30d`
+   * on the home surface. When the user clicks a column header the in-table
+   * sort still wins client-side; this only seeds the first render so a
+   * deep-link to `?window=7d` opens with the 7d column already active.
+   */
+  initialSortKey?: SortKey;
+  /** Pair-with-initialSortKey to seed the first-render sort direction. */
+  initialSortDir?: SortDir;
 }
 
 const compactNumber = new Intl.NumberFormat("en-US", {
@@ -339,9 +348,11 @@ export function LiveTopTable({
   freshnessSource = "repos",
   lastUpdatedAt = null,
   freshnessNowMs,
+  initialSortKey = "rank",
+  initialSortDir = "desc",
 }: LiveTopTableProps) {
-  const [sortKey, setSortKey] = useState<SortKey>("rank");
-  const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [sortKey, setSortKey] = useState<SortKey>(initialSortKey);
+  const [sortDir, setSortDir] = useState<SortDir>(initialSortDir);
   const [activeCat, setActiveCat] = useState<string | null>(null);
   // AGN-1782: viewport-triggered prefetch for /repo/{owner}/{name} routes.
   // Each row anchor uses the ref to opt into the IntersectionObserver. The

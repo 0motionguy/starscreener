@@ -47,6 +47,11 @@ import {
   type LiveRow,
   type CategoryFacet,
 } from "@/components/home/LiveTopTable";
+import {
+  TimeWindowTabs,
+  parseTimeWindow,
+  sortKeyForWindow,
+} from "@/components/home/TimeWindowTabs";
 import { CATEGORIES } from "@/lib/constants";
 import { NewsletterCaptureForm } from "@/components/newsletter/NewsletterCaptureForm";
 import { repoLogoUrl } from "@/lib/logos";
@@ -680,7 +685,16 @@ function FeaturedCard({
   );
 }
 
-export default async function HomePage() {
+interface HomePageProps {
+  // U2-time-window-tabs: ?window=24h|7d|30d. 24h is default and elided from
+  // canonical URL. Yearly (365d) is intentionally absent — surfaced as a
+  // disabled tab with a "30-day cap" tooltip in <TimeWindowTabs>.
+  searchParams?: Promise<{ window?: string | string[] }>;
+}
+
+export default async function HomePage({ searchParams }: HomePageProps = {}) {
+  const sp = (await searchParams) ?? {};
+  const timeWindow = parseTimeWindow(sp.window);
   const repos = getDerivedRepos();
   // Pull skills + mcp ecosystem signals so the front page can surface
   // their respective top movers alongside repo gainers. Both
@@ -992,6 +1006,12 @@ export default async function HomePage() {
           title="Live / top 50"
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
+        {/* U2 — TrendShift-style Daily/Weekly/Monthly nav above the rankings
+            card. ?window=24h|7d|30d drives both the visible active tab AND
+            LiveTopTable's initial sort column. Yearly is rendered disabled
+            with a tooltip — TrendingRepo only keeps 30 days of star history,
+            so faking a 365d delta would violate the no-publicly-stale rule. */}
+        <TimeWindowTabs active={timeWindow} />
         <Card>
           <LiveTopTable
             rows={liveTableRows}
@@ -999,6 +1019,8 @@ export default async function HomePage() {
             freshnessSource="repos"
             lastUpdatedAt={lastFetchedAt}
             freshnessNowMs={freshnessNowMs}
+            initialSortKey={sortKeyForWindow(timeWindow)}
+            initialSortDir="desc"
           />
         </Card>
 

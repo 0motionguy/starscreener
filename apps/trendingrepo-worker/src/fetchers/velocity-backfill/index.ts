@@ -496,7 +496,14 @@ async function processRepo(
 
 const fetcher: Fetcher = {
   name: 'velocity-backfill',
-  schedule: '17 2 * * *',
+  // Every 10 min on the :05,:15,:25,:35,:45,:55 marks — interleaved with
+  // velocity-refresh (*/10 from :00) so the two never collide on the shared
+  // `star-activity-deltas` slug. F1+F2+F3 cron-tightening PR (2026-06-15) — see
+  // also the existingCoversWindows skip-guard which keeps the deep-walk budget
+  // (PAGE_BUDGET=30k GraphQL points) honest at this cadence: once a repo's 7d/30d
+  // windows resolve from prior runs, this fetcher only refreshes the cheap recent
+  // tier on subsequent ticks instead of re-paging the full history.
+  schedule: '5,15,25,35,45,55 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const now = new Date();
@@ -590,8 +597,13 @@ const fetcher: Fetcher = {
     }
 
     const mergedRepos = mergeDeltaRepos(priorRepos, fresh);
+    const computedAt = now.toISOString();
     const payload: StarActivityDeltasPayload = {
-      computedAt: now.toISOString(),
+      computedAt,
+      // Self-reported age at publish time (≈0). Downstream readers can recompute
+      // (now - computedAt) themselves; we emit it so the wire shape carries the
+      // freshness contract explicitly — F2 cron-tightening PR (2026-06-15).
+      staleness_seconds: Math.round((Date.now() - Date.parse(computedAt)) / 1000),
       coverage: computeCoverage(mergedRepos),
       repos: mergedRepos,
     };

@@ -7,7 +7,7 @@
 // untouched.
 //
 // Why: Reddit's anti-bot blocks data-center IPs (GH Actions runners, Vercel
-// build IPs, Vultr DCs all 403 on /r/X/new.json and the web UI). The unauth
+// build IPs, Hostup DCs all 403 on /r/X/new.json and the web UI). The unauth
 // path falls through to RSS-Atom which doesn't expose `score` or
 // `num_comments` — so 4,500 posts arrive with zero engagement and the
 // trending sort collapses. Apify's residential-proxy fleet bypasses the IP

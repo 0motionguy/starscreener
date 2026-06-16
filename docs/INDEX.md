@@ -410,7 +410,6 @@ Highlights:
 | `tasks/HANDOFF.md` | Session handoff log (auto-appended on Stop) |
 | `tasks/data-api.md` | Data terminal API plan + provisioning roadmap |
 | `tasks/lessons.md` | Lessons learned |
-| `tasks/sprint-6-vultr-migration-plan.md` | Sprint 6 -- Vultr migration plan |
 | `tasks/sprint-7-auth-profiles-plan.md` | Sprint 7 -- auth + profiles plan |
 | `tasks/workflow-strip-rollout.md` | Workflow strip rollout plan |
 | `tasks/brand-cutover-followups.md` | Brand cutover followups |

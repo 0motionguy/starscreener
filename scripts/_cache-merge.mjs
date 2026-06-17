@@ -37,6 +37,33 @@ import { readFile } from "node:fs/promises";
 export const KEEP_LAST_N_DEFAULT = 50;
 
 /**
+ * Coerce a score field to a number. Numbers pass through. Strings parse as
+ * numeric first (so "123" → 123), then as ISO-8601 dates (so a publishedAt
+ * field is usable as a primary sort key). Anything that doesn't yield a
+ * finite number falls back to 0 — matching the prior contract for missing
+ * values. Used for both scoreKey and recencyKey.
+ *
+ * Historical bug this fixes: `Number("2026-05-30T05:42Z")` is NaN, which made
+ * the funding-news merge a no-op (every entry tied at NaN, insertion order
+ * won, fresh signals were dropped). After this change, ISO-string scoreKeys
+ * rank by chronology DESC as intended. Backward-compat: existing numeric
+ * scoreKeys are unchanged.
+ */
+function coerceNumeric(value) {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : 0;
+  }
+  if (value == null) return 0;
+  const n = Number(value);
+  if (Number.isFinite(n)) return n;
+  if (typeof value === "string") {
+    const t = Date.parse(value);
+    if (Number.isFinite(t)) return t;
+  }
+  return 0;
+}
+
+/**
  * Read + parse a JSON file. Returns `fallback` on ENOENT. Logs and returns
  * `fallback` on any other read/parse error so a corrupt file never blocks a
  * collector run.
@@ -95,17 +122,17 @@ export function mergeAndKeepLastN(existing, thisRun, opts = {}) {
       byId.set(id, item);
       continue;
     }
-    const newScore = Number(item?.[scoreKey] ?? 0);
-    const prevScore = Number(prev?.[scoreKey] ?? 0);
+    const newScore = coerceNumeric(item?.[scoreKey]);
+    const prevScore = coerceNumeric(prev?.[scoreKey]);
     // Keep the higher-scored version; on tie, prefer newer (item).
     byId.set(id, newScore >= prevScore ? item : prev);
   }
 
   const sorted = Array.from(byId.values()).sort((a, b) => {
-    const scoreCmp = Number(b?.[scoreKey] ?? 0) - Number(a?.[scoreKey] ?? 0);
+    const scoreCmp = coerceNumeric(b?.[scoreKey]) - coerceNumeric(a?.[scoreKey]);
     if (scoreCmp !== 0) return scoreCmp;
     if (recencyKey) {
-      return Number(b?.[recencyKey] ?? 0) - Number(a?.[recencyKey] ?? 0);
+      return coerceNumeric(b?.[recencyKey]) - coerceNumeric(a?.[recencyKey]);
     }
     return 0;
   });

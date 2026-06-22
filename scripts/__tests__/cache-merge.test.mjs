@@ -159,3 +159,51 @@ test("loadExistingJson: corrupt JSON → fallback (does not throw)", async () =>
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+// Regression: ISO-string scoreKey must sort by chronology, not collapse to
+// NaN. Before this fix, scrape-funding-news.mjs passed `scoreKey:
+// "publishedAt"` and `Number("2026-05-30T...")` returned NaN — every entry
+// tied at NaN, insertion order won, fresh signals were dropped from the
+// keep-last-50. The page froze at 1 round in 7d on 2026-05-30.
+test("ISO-string scoreKey sorts by chronology (date-parse fallback)", () => {
+  const existing = [
+    { id: "old-1", publishedAt: "2026-04-01T00:00:00Z" },
+    { id: "old-2", publishedAt: "2026-04-15T00:00:00Z" },
+    { id: "old-3", publishedAt: "2026-05-01T00:00:00Z" },
+  ];
+  const fresh = [
+    { id: "new-1", publishedAt: "2026-05-29T12:00:00Z" },
+    { id: "new-2", publishedAt: "2026-05-30T08:00:00Z" },
+  ];
+  const out = mergeAndKeepLastN(existing, fresh, {
+    idKey: "id",
+    scoreKey: "publishedAt",
+    keepN: 3,
+  });
+  // Top-3 by chronology DESC: new-2, new-1, old-3.
+  assert.equal(out.length, 3);
+  assert.equal(out[0].id, "new-2");
+  assert.equal(out[1].id, "new-1");
+  assert.equal(out[2].id, "old-3");
+});
+
+// Regression: ISO-string recencyKey tiebreaks chronologically even when
+// scoreKey is numeric. Same date-parse fallback path. Validates that
+// collectors using `recencyKey: "createdUtc"` get a deterministic tie-break
+// instead of NaN-no-op.
+test("ISO-string recencyKey tiebreaks chronologically", () => {
+  const all = [
+    { id: "a", trendingScore: 100, createdUtc: "2026-05-01T00:00:00Z" },
+    { id: "b", trendingScore: 100, createdUtc: "2026-05-30T00:00:00Z" },
+    { id: "c", trendingScore: 100, createdUtc: "2026-05-15T00:00:00Z" },
+  ];
+  const out = mergeAndKeepLastN([], all, {
+    idKey: "id",
+    scoreKey: "trendingScore",
+    recencyKey: "createdUtc",
+    keepN: 3,
+  });
+  assert.equal(out[0].id, "b", "newest on tied score wins");
+  assert.equal(out[1].id, "c");
+  assert.equal(out[2].id, "a");
+});

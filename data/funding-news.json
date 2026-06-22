@@ -1,8 +1,2434 @@
 {
-  "fetchedAt": "2026-05-18T03:54:20.061Z",
+  "fetchedAt": "2026-05-30T06:18:38.793Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
+    {
+      "id": "news.crunchbase.com-cf2c7d65",
+      "headline": "The Week’s 10 Biggest Funding Rounds: Anthropic Dominates In An Otherwise Slower Week For Megarounds",
+      "description": "Venture funding has always been a world of haves and have nots. And these days, the haves are having more than ever. Case in point this week was generative AI giant Anthropic's $65 billion Series H funding, followed by a billion-dollar funding for an AI software developer.",
+      "sourceUrl": "https://news.crunchbase.com/ai/biggest-funding-rounds-ai-anthropic-65b-dominates/",
+      "sourcePlatform": "crunchbase-news",
+      "publishedAt": "2026-05-29T19:15:09.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Week",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 65,
+        "amountDisplay": "$65",
+        "currency": "USD",
+        "roundType": "series-d-plus",
+        "investors": [
+          "TCV",
+          "US Innovative Technology",
+          "Index Ventures",
+          "Lux Capital to scale manufacturing",
+          "Lightspeed Venture Partners",
+          "Greenoaks",
+          "Sequoia Capital",
+          "Iconiq Capital",
+          "XN",
+          "8VC 1",
+          "million in Series B funding. CapitalG",
+          "million in Series D financing. Founding investor Mattias Westman"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "TCV",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "US Innovative Technology",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Index Ventures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/indexventures.com"
+          },
+          {
+            "name": "Lux Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/luxcapital.com"
+          },
+          {
+            "name": "Lightspeed Venture Partners",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/lsvp.com"
+          },
+          {
+            "name": "Greenoaks",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/greenoaks.com"
+          },
+          {
+            "name": "Sequoia Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/sequoiacap.com"
+          },
+          {
+            "name": "Iconiq Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/iconiqcapital.com"
+          },
+          {
+            "name": "XN",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "8VC",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/8vc.com"
+          },
+          {
+            "name": "million in Series B funding. CapitalG",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "million in Series D financing. Founding investor Mattias Westman",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "the-decoder.com-d87ad936",
+      "headline": "One company reportedly spent $500 million on Claude in one month after failing to cap AI usage",
+      "description": "An unnamed company allegedly blew half a billion dollars on Claude licenses in a single month because nobody set usage limits. Cases like this show that without real AI expertise in model selection and context engineering, productivity promises just turn into runaway costs. The article One company reportedly spent $500 million on Claude in one month after failing to cap AI usage appeared first on The Decoder .",
+      "sourceUrl": "https://the-decoder.com/one-company-reportedly-spent-500-million-on-claude-in-one-month-after-failing-to-cap-ai-usage/",
+      "sourcePlatform": "the-decoder",
+      "publishedAt": "2026-05-29T17:35:26.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "One",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 500,
+        "amountDisplay": "$500",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-4412e7f2",
+      "headline": "The AlleyWatch Startup Daily Funding Report: 5/29/2026",
+      "description": "The latest venture capital, seed, pre-seed, and angel deals for NYC startups for 5/29/2026 featuring funding details for H1 and much more.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/the-alleywatch-startup-daily-funding-report-5-29-2026/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-29T16:27:26.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "AlleyWatch Startup",
+        "companyWebsite": "https://alleywatch.com",
+        "companyLogoUrl": "https://logo.clearbit.com/alleywatch.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "CVS Health Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "CVS Health Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techfundingnews.com-45b9c6c9",
+      "headline": "German defence unicorn Stark seeks €300M raise as Peter Thiel doubles down on Europe’s drone arms race",
+      "description": "Europe’s defence technology boom is creating a new generation of unicorns and German drone maker Stark is rapidly…",
+      "sourceUrl": "https://techfundingnews.com/german-defence-unicorn-stark-seeks-e300m-raise-as-peter-thiel-doubles-down-on-europes-drone-arms-race/",
+      "sourcePlatform": "tech-funding-news",
+      "publishedAt": "2026-05-29T14:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "German",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 300000000,
+        "amountDisplay": "$300M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Peter Thiel"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Founders Fund",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/foundersfund.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-63b3daf7",
+      "headline": "Aizy acquires Dutch performance marketing software company Uptmz following €2 million raise",
+      "description": "AI marketing software company Aizy has acquired fellow Dutch industry player Uptmz, with plans to create an integrated advertising platform for Google, Microsoft, and Meta bringing together software, AI-powered optimisation, and strategic support within a single ecosystem. Today’s news follows their €2 million raise back in February and their €22 million valuation. “This acquisition is […] The post Aizy acquires Dutch performance marketing software company Uptmz following €2 million raise appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/aizy-acquires-dutch-performance-marketing-software-company-uptmz-following-e2-million-raise/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-29T13:53:56.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Aizy",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2000000,
+        "amountDisplay": "$2M",
+        "currency": "USD",
+        "roundType": "acquisition",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-d3d5998f",
+      "headline": "Oslo-based Cloudgeni raises €858k to build reliable AI agents for secure cloud infrastructure",
+      "description": "Cloudgeni, an Oslo-based startup developing specialised AI agents that build and operate cloud infrastructure in a safe way, has raised €858k ($1 million) in fresh funding to scale further across the Nordics and the US. The funding was secured from a group of Nordic investors, including the byFounders Angel Collective, an angel investor network affiliated […] The post Oslo-based Cloudgeni raises €858k to build reliable AI agents for secure cloud infrastructure appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/oslo-based-cloudgeni-raises-e858k-to-build-reliable-ai-agents-for-secure-cloud-infrastructure/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-29T12:45:26.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Oslo-based Cloudgeni",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 1,
+        "amountDisplay": "$1",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techfundingnews.com-7e43d431",
+      "headline": "YC unicorn Corgi doubles valuation to $2.6B in three weeks with $106M raise to modernise commercial insurance",
+      "description": "Commercial insurance remains one of the largest yet most technologically outdated sectors in financial services. Despite decades of…",
+      "sourceUrl": "https://techfundingnews.com/yc-unicorn-corgi-doubles-valuation-to-2-6b-in-three-weeks-with-106m-raise-to-modernise-commercial-insurance/",
+      "sourcePlatform": "tech-funding-news",
+      "publishedAt": "2026-05-29T12:30:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "YC",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2600000000,
+        "amountDisplay": "$2.6B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "TCV"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "TCV",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-69af2755",
+      "headline": "This chip startup just raised $135M on a bet that AI’s biggest bottleneck isn’t compute — it’s memory",
+      "description": "South Korean chip startup XCENA is betting that AI's real bottleneck is not compute, but memory.",
+      "sourceUrl": "https://techcrunch.com/2026/05/29/xcena-secures-135m-at-570m-valuation-betting-on-memory-as-ais-real-bottleneck/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-29T12:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "This",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 135000000,
+        "amountDisplay": "$135M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "news.crunchbase.com-2f4c06a2",
+      "headline": "Navigating The DPI Crunch And Startup Funding",
+      "description": "Founders should evaluate investors’ financial health as carefully as their market thesis, writes guest author Marc Schröder, who emphasizes they should also prepare for acquisition-focused exits since venture-backed M&A far outweighs IPO activity in the current market.",
+      "sourceUrl": "https://news.crunchbase.com/venture/dpi-crunch-startup-funding-schroder-mgv/",
+      "sourcePlatform": "crunchbase-news",
+      "publishedAt": "2026-05-29T11:00:53.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Navigating The DPI",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "ipo",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "healthcare"
+      ]
+    },
+    {
+      "id": "techfundingnews.com-98a2aedb",
+      "headline": "Anthropic raises $65B at $965B valuation, overtaking OpenAI for the first time",
+      "description": "Three months after taking in $30 billion at a $380 billion valuation, Anthropic has already made that number…",
+      "sourceUrl": "https://techfundingnews.com/anthropic-raises-65b-at-965b-valuation-overtaking-openai-for-the-first-time/",
+      "sourcePlatform": "tech-funding-news",
+      "publishedAt": "2026-05-29T07:15:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Anthropic",
+        "companyWebsite": "https://anthropic.com",
+        "companyLogoUrl": "https://logo.clearbit.com/anthropic.com",
+        "amount": 65000000000,
+        "amountDisplay": "$65B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Altimeter",
+          "Brad Gerstner of Altimeter Capital alongside Dragoneer",
+          "Capital Group",
+          "AMP PBC",
+          "hyperscalers"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Altimeter",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Dragoneer",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/dragoneer.com"
+          },
+          {
+            "name": "Capital Group",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "AMP PBC",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "hyperscalers",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "tech.eu-48d53242",
+      "headline": "Geordie raises $30M to bring security and governance to agentic AI",
+      "description": "Geordie AI, a security and governance platform for AIagents, has raised $30 million in a Series A funding round led by Balderton Capital. The round also included participation from Crosspoint Capital,...",
+      "sourceUrl": "https://tech.eu/2026/05/29/geordie-raises-30m-to-bring-security-and-governance-to-agentic-ai/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-29T05:44:39.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Geordie",
+        "companyWebsite": "https://geordie.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/geordie.ai",
+        "amount": 30000000,
+        "amountDisplay": "$30M",
+        "currency": "USD",
+        "roundType": "series-a",
+        "investors": [
+          "Balderton Capital",
+          "Crosspoint Capital",
+          "existing backers General Catalyst"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Balderton Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/balderton.com"
+          },
+          {
+            "name": "Crosspoint Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "General Catalyst",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/generalcatalyst.com"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "sifted.eu-8458b3a",
+      "headline": "Ex-DeepMind researchers raise $50m for AI science startup Inherent",
+      "description": "",
+      "sourceUrl": "https://sifted.eu/articles/inherent-ai-funding-round-index-matt-clifford/",
+      "sourcePlatform": "sifted",
+      "publishedAt": "2026-05-29T05:00:30.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "DeepMind researchers",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 50000000,
+        "amountDisplay": "$50M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "venture  Index Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Index Ventures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/indexventures.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-aa52ea6f",
+      "headline": "Venture Capital & Startup Funding Roundup, May 28, 2026",
+      "description": "The money is still going to AI, but today’s funding tells a more specific story than “AI is hot.” In the past 12 hours, the strongest signal was capital flowing toward companies that sit inside expensive, regulated, or operationally painful […] The post Venture Capital & Startup Funding Roundup, May 28, 2026 first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/28/venture-capital-startup-funding-roundup-may-28-2026/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-28T22:16:29.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Venture Capital",
+        "companyWebsite": "https://triomics.com",
+        "companyLogoUrl": "https://logo.clearbit.com/triomics.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Upfront Ventures",
+          "Battery Ventures",
+          "underwriting risk",
+          "treating Corgi less like an insurtech distributor",
+          "chasing two things here",
+          "not only backing a concept",
+          "Lightspeed",
+          "paying for that mix of clinical credibility",
+          "telling founders that the best way to defend an AI business is to own the operating context around models"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Upfront Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Battery Ventures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/battery.com"
+          },
+          {
+            "name": "underwriting risk",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "treating Corgi less like an insurtech distributor",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "chasing two things here",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "not only backing a concept",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Lightspeed Venture Partners",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/lsvp.com"
+          },
+          {
+            "name": "paying for that mix of clinical credibility",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Founders Fund",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/foundersfund.com"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "the-decoder.com-7f7f0e03",
+      "headline": "Claude company Anthropic nears a trillion-dollar valuation after raising $65 billion in Series H",
+      "description": "Anthropic raises $65 billion in a Series H round at a $965 billion valuation. Annualized revenue tops $47 billion, according to CFO Krishna Rao. The company plans to invest in safety research, computing capacity, and expanding its Claude product lineup. The article Claude company Anthropic nears a trillion-dollar valuation after raising $65 billion in Series H appeared first on The Decoder .",
+      "sourceUrl": "https://the-decoder.com/claude-company-anthropic-nears-a-trillion-dollar-valuation-after-raising-65-billion-in-series-h/",
+      "sourcePlatform": "the-decoder",
+      "publishedAt": "2026-05-28T21:30:58.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Claude",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 965,
+        "amountDisplay": "$965",
+        "currency": "USD",
+        "roundType": "series-d-plus",
+        "investors": [
+          "Sequoia Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Sequoia Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/sequoiacap.com"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "aibusiness.com-dfe9dcd5",
+      "headline": "IBM and Red Hat Invest $5B to Make Open Source More Secure",
+      "description": "The project follows Anthropic’s still-unreleased Mythos AI cybersecurity model, which uncovered serious security holes in software systems.",
+      "sourceUrl": "https://aibusiness.com/generative-ai/ibm-red-hat-invest-5-billion-make-open-source-more-secure",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-05-28T19:49:48.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "IBM",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 5000000000,
+        "amountDisplay": "$5B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "news.crunchbase.com-423962ac",
+      "headline": "Anthropic Nears $1T Valuation And Leapfrogs OpenAI On Unicorn Board With $65B Funding Round",
+      "description": "Generative AI company Anthropic announced on Thursday that it has raised $65 billion in a Series H funding round, more than doubling its post-money valuation to a staggering $965 billion.",
+      "sourceUrl": "https://news.crunchbase.com/ai/anthropic-nears-1t-valuation-65b-seriesh/",
+      "sourcePlatform": "crunchbase-news",
+      "publishedAt": "2026-05-28T19:11:47.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Anthropic Nears",
+        "companyWebsite": "https://crunchbase.com",
+        "companyLogoUrl": "https://logo.clearbit.com/crunchbase.com",
+        "amount": 65000000000,
+        "amountDisplay": "$65B",
+        "currency": "USD",
+        "roundType": "series-d-plus",
+        "investors": [
+          "Iconiq Capital",
+          "XN"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Iconiq Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/iconiqcapital.com"
+          },
+          {
+            "name": "XN",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-df6ecbde",
+      "headline": "Anthropic raises $65 billion, nears $1T valuation ahead of IPO",
+      "description": "Anthropic has closed a $65 billion Series H round at a $965 billion post-money valuation, marking what could be the AI startup's final private fundraise before a highly anticipated IPO.",
+      "sourceUrl": "https://techcrunch.com/2026/05/28/anthropic-raises-65-billion-nears-1t-valuation-ahead-of-ipo/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-28T18:52:51.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Anthropic",
+        "companyWebsite": "https://anthropic.com",
+        "companyLogoUrl": "https://logo.clearbit.com/anthropic.com",
+        "amount": 965,
+        "amountDisplay": "$965",
+        "currency": "USD",
+        "roundType": "series-d-plus",
+        "investors": [
+          "Altimeter Capital",
+          "round",
+          "Fidelity Management & Research"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Altimeter Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "First Round Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/firstround.com"
+          },
+          {
+            "name": "Fidelity",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/fidelity.com"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "aibusiness.com-d877bdfe",
+      "headline": "AI Coding Startup Now Valued at $26 billion",
+      "description": "The new funding is the latest milestone for the fast-growing vendor and underscores the strength of the AI coding market.",
+      "sourceUrl": "https://aibusiness.com/generative-ai/ai-coding-startup-valued-at-26-billion",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-05-28T18:50:05.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Coding Startup",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 26,
+        "amountDisplay": "$26",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-8df1a01",
+      "headline": "H1 secures $40M from CVS, proving SaaS startups can still attract investment",
+      "description": "CEO Ariel Katz argues that while AI can replicate workflow SaaS, it can't copy H1’s unique doctor data.",
+      "sourceUrl": "https://techcrunch.com/2026/05/28/h1-secures-40m-from-cvs-proving-saas-startups-can-still-attract-investment/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-28T18:08:37.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "H1",
+        "companyWebsite": "https://h1.co",
+        "companyLogoUrl": "https://logo.clearbit.com/h1.co",
+        "amount": 40000000,
+        "amountDisplay": "$40M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "CVS"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "CVS",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "saas"
+      ]
+    },
+    {
+      "id": "techstartups.com-4e9ebf9f",
+      "headline": "Company accidentally spent $500 million on Claude AI in one month after forgetting usage limits",
+      "description": "One enterprise company reportedly learned the hard way that AI doesn’t just write code and answer prompts. It can torch a budget at a pace most CFOs have never seen before. According to a report from Axios, an AI consultant […] The post Company accidentally spent $500 million on Claude AI in one month after forgetting usage limits first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/28/company-accidentally-spent-500-million-on-claude-ai-in-one-month-after-forgetting-usage-limits/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-28T18:08:10.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Unknown",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 500,
+        "amountDisplay": "$500",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Axios",
+          "excitement"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Axios",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "excitement",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "saas"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-425e0f53",
+      "headline": "The AlleyWatch Startup Daily Funding Report: 5/28/2026",
+      "description": "The latest venture capital, seed, pre-seed, and angel deals for NYC startups for 5/28/2026 featuring funding details for Garner Health, Daloopa, and much more.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/the-alleywatch-startup-daily-funding-report-5-28-2026/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-28T17:27:07.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "AlleyWatch Startup",
+        "companyWebsite": "https://alleywatch.com",
+        "companyLogoUrl": "https://logo.clearbit.com/alleywatch.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "Index Ventures",
+          "Brighton Park Capital",
+          "Upfront Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Index Ventures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/indexventures.com"
+          },
+          {
+            "name": "Brighton Park Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Upfront Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "healthcare"
+      ]
+    },
+    {
+      "id": "techcrunch.com-84f7490e",
+      "headline": "Corgi announces $106M raise at $2.6B valuation — double what it was worth 3 weeks ago",
+      "description": "While startups raising back-to-back rounds at steep step-ups have become almost routine, a company whose valuation doubles in three weeks is unusual enough to raise questions, particularly given the investor set in both rounds is the same.",
+      "sourceUrl": "https://techcrunch.com/2026/05/28/corgi-announces-106m-raise-at-2-6b-valuation-three-weeks-after-160m-series-b/",
+      "sourcePlatform": "tc-venture",
+      "publishedAt": "2026-05-28T17:15:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Corgi",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 106000000,
+        "amountDisplay": "$106M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Y Combinator",
+          "its investors"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Y Combinator",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/ycombinator.com"
+          },
+          {
+            "name": "its investors",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-f9236c2c",
+      "headline": "Saris raises $28.8M Series A to bring agentic AI workflows to banks and credit unions",
+      "description": "Banks have spent years talking about digital transformation. Many still rely on employees to manually review documents, verify data, and move paperwork across disconnected systems. That bottleneck is now turning into a real business problem as financial institutions face rising […] The post Saris raises $28.8M Series A to bring agentic AI workflows to banks and credit unions first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/28/saris-raises-28-8m-series-a-to-bring-agentic-ai-workflows-to-banks-and-credit-unions/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-28T15:25:19.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Saris",
+        "companyWebsite": "https://saris.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/saris.ai",
+        "amount": 28800000,
+        "amountDisplay": "$28.8M",
+        "currency": "USD",
+        "roundType": "series-a",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techfundingnews.com-ba1d01c8",
+      "headline": "The climate VC that lost an investment in carbon removal just raised $150M to back AI infrastructure instead",
+      "description": "When Running Tide, an ocean-based carbon removal company in which Transition held a stake, collapsed in June 2024…",
+      "sourceUrl": "https://techfundingnews.com/the-climate-vc-that-lost-an-investment-in-carbon-removal-just-raised-150m-to-back-ai-infrastructure-instead/",
+      "sourcePlatform": "tech-funding-news",
+      "publishedAt": "2026-05-28T12:50:04.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Unknown",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 150000000,
+        "amountDisplay": "$150M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Hummingbird Ventures",
+          "Caffeinated Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Hummingbird Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Caffeinated Capital",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "climate"
+      ]
+    },
+    {
+      "id": "aibusiness.com-a6306e2a",
+      "headline": "AI Aggregation Platform Valued at $1.3 Billion",
+      "description": "The vendor’s growth parallels the explosive emergence of agents in enterprise AI.",
+      "sourceUrl": "https://aibusiness.com/generative-ai/ai-aggregation-platform-valued-1-3-billion",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-05-28T11:31:53.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Aggregation Platform",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 1.3,
+        "amountDisplay": "$1.3",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "saas"
+      ]
+    },
+    {
+      "id": "sifted.eu-b5539419",
+      "headline": "Inside Mistral’s billion-dollar bet on building Europe’s AI cloud",
+      "description": "",
+      "sourceUrl": "https://sifted.eu/articles/inside-mistral-billion-dollar-bet-europe-ai-cloud/",
+      "sourcePlatform": "sifted",
+      "publishedAt": "2026-05-28T11:12:32.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Inside Mistral",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "europe"
+      ]
+    },
+    {
+      "id": "news.crunchbase.com-97a87d33",
+      "headline": "Crunchbase Data: Venture Dollars For Black Startup Founders Stay Scarce Despite AI Funding Boom",
+      "description": "The share of U.S. startup funding going to companies with Black founders in 2025 remained low, even as overall funding ticked slightly higher, Crunchbase data shows.",
+      "sourceUrl": "https://news.crunchbase.com/diversity/black-startup-founder-venture-funding-data-q1-2026/",
+      "sourcePlatform": "crunchbase-news",
+      "publishedAt": "2026-05-28T11:00:07.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Crunchbase Data",
+        "companyWebsite": "https://crunchbase.com",
+        "companyLogoUrl": "https://logo.clearbit.com/crunchbase.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Emergence Capital",
+          "FirstMark",
+          "BCI",
+          "that accelerator in 2025"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Emergence Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "FirstMark",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "BCI",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "that accelerator in 2025",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "tech.eu-c46c242b",
+      "headline": "Atheni secures £350K to help teams use AI more effectively",
+      "description": "Atheni, an AIadoption company, has raised £350,000 to further develop its platform designedto help organisations use AI more effectively across their workforce. Thecompany is backed by angel investors...",
+      "sourceUrl": "https://tech.eu/2026/05/28/atheni-secures-ps350k-to-help-teams-use-ai-more-effectively/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-28T09:31:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Atheni",
+        "companyWebsite": "https://atheni.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/atheni.ai",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "angel investors",
+          "Innovate UK"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "angel investors",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Innovate UK",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "tech.eu-9931b499",
+      "headline": "Kopa.ai raises €2M to build AI agents for end-to-end e-commerce operations",
+      "description": "Kopa.ai,an agentic AI platform for e-commerce teams, has raised €2 million in seedfunding in a round co-led by XTX Ventures and Practica Capital, withparticipation from Inovia Capital and angel invest...",
+      "sourceUrl": "https://tech.eu/2026/05/28/kopaai-raises-eur2m-to-build-ai-agents-for-end-to-end-e-commerce-operations/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-28T08:57:57.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Kopa.ai",
+        "companyWebsite": "https://kopa.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/kopa.ai",
+        "amount": 2000000,
+        "amountDisplay": "$2M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "XTX Ventures",
+          "Inovia Capital",
+          "angel invest"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "XTX Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Inovia Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "angel invest",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "consumer"
+      ]
+    },
+    {
+      "id": "tech.eu-725be3fc",
+      "headline": "Orbital Industries secures $50M to scale data centre infrastructure systems",
+      "description": "Orbital Industries, a London-basedcompany developing industrial hardware and infrastructure using AI-drivenengineering and materials discovery systems, has raised $50 million in a SeriesB funding roun...",
+      "sourceUrl": "https://tech.eu/2026/05/28/orbital-industries-secures-50m-to-scale-data-centre-infrastructure-systems/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-28T08:57:49.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Orbital Industries",
+        "companyWebsite": "https://orbitalindustries.com",
+        "companyLogoUrl": "https://logo.clearbit.com/orbitalindustries.com",
+        "amount": 50000000,
+        "amountDisplay": "$50M",
+        "currency": "USD",
+        "roundType": "series-b",
+        "investors": [
+          "Plural"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Plural",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-40a936b4",
+      "headline": "The AlleyWatch Startup Daily Funding Report: 5/27/2026",
+      "description": "The latest venture capital, seed, pre-seed, and angel deals for NYC startups for 5/27/2026 featuring funding details for OpenRouter, Pace, and much more.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/the-alleywatch-startup-daily-funding-report-5-27-2026/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-27T17:27:59.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "AlleyWatch Startup",
+        "companyWebsite": "https://alleywatch.com",
+        "companyLogoUrl": "https://logo.clearbit.com/alleywatch.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "CapitalG",
+          "Thrive Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "CapitalG",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Thrive Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/thrivecap.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-e4fb8904",
+      "headline": "Tensormesh raises $20M from NVIDIA, AMD, and CoreWeave to slash AI inference costs by up to 10x",
+      "description": "Enterprises are pouring billions into AI infrastructure, yet a surprising amount of that money is being burned on the same computation over and over again. That inefficiency sits at the center of Tensormesh’s pitch. The AI infrastructure startup announced Wednesday […] The post Tensormesh raises $20M from NVIDIA, AMD, and CoreWeave to slash AI inference costs by up to 10x first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/27/tensormesh-raises-20m-from-nvidia-amd-and-coreweave-to-slash-ai-inference-costs-by-up-to-10x/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-27T16:35:27.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Tensormesh",
+        "companyWebsite": "https://tensormesh.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/tensormesh.ai",
+        "amount": 20000000,
+        "amountDisplay": "$20M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "NVIDIA",
+          "AMD Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "NVentures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/nvidia.com"
+          },
+          {
+            "name": "AMD Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "saas"
+      ]
+    },
+    {
+      "id": "tech.eu-5aa76dd2",
+      "headline": "RevEng.AI raises $15M to secure AI-generated software",
+      "description": "RevEng.AI, a cybersecurity companyfocused on software supply chain verification, has raised $15 million in aSeries A funding round led by NATO Innovation Fund, with participation fromSands Capital, In...",
+      "sourceUrl": "https://tech.eu/2026/05/27/revengai-raises-15m-to-secure-ai-generated-software/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-27T11:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "RevEng.AI",
+        "companyWebsite": "https://reveng.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/reveng.ai",
+        "amount": 15000000,
+        "amountDisplay": "$15M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "NATO Innovation Fund",
+          "NATO Innovation"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "NATO Innovation Fund",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "NATO Innovation",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-3ef45e15",
+      "headline": "The AlleyWatch Startup Daily Funding Report: 5/26/2026",
+      "description": "The latest venture capital, seed, pre-seed, and angel deals for NYC startups for 5/26/2026 featuring funding details for Modal Labs, Texture, and much more.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/the-alleywatch-startup-daily-funding-report-5-26-2026/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-26T17:27:13.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "AlleyWatch Startup",
+        "companyWebsite": "https://alleywatch.com",
+        "companyLogoUrl": "https://logo.clearbit.com/alleywatch.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "General Catalyst",
+          "VoLo Earth",
+          "Laidlaw &",
+          "Betaworks"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "General Catalyst",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/generalcatalyst.com"
+          },
+          {
+            "name": "VoLo Earth",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Laidlaw &",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Betaworks",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-2b644566",
+      "headline": "Amazon fulfillment competitor Stord raises $250M at $3B valuation",
+      "description": "Stord offers a network of physical warehouses and inventory management software for e-commerce. It bills itself as a sort of anti-Amazon, giving brands \"the speed to compete\" while still owning their customer relationships.",
+      "sourceUrl": "https://techcrunch.com/2026/05/26/amazon-fulfillment-competitor-stord-raises-250m-at-3b-valuation/",
+      "sourcePlatform": "tc-venture",
+      "publishedAt": "2026-05-26T12:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Amazon fulfillment competitor Stord",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 250000000,
+        "amountDisplay": "$250M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Strike Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Strike Capital",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "consumer"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-be13a413",
+      "headline": "The Weekly Notable Startup Funding Report: 5/25/26",
+      "description": "The notable startup funding rounds for the week ending 5/23/26 featuring funding details for Decart, Mercury, Benefitbay, and thirty-one other deals representing $2.53B in new funding that you need to know about.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/the-weekly-notable-startup-funding-report-5-25-26/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-25T17:31:33.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Weekly Notable",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2530000000,
+        "amountDisplay": "$2.5B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Andreessen Horowitz",
+          "Ten Coves Capital",
+          "at",
+          "Define Ventures",
+          "Tata Steel",
+          "Gather Ventures",
+          "Astoria Health Investors",
+          "Plural",
+          "General Catalyst",
+          "Abhijeet Dwivedi",
+          "Adobe Ventures",
+          "Cowboy Ventures",
+          "General Atlantic",
+          "Unbundled Capital",
+          "Arche Capital",
+          "Alex Cohen",
+          "Alumni Ventures",
+          "Atomico",
+          "Align Ventures",
+          "National Bank of Canada",
+          "John Collison",
+          "Altimeter Capital",
+          "Abstract",
+          "Apolo Ohno",
+          "HarbourVest Partners",
+          "Bessemer Venture Partners"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Andreessen Horowitz",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/a16z.com"
+          },
+          {
+            "name": "Ten Coves Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "at",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Define Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Tata Steel",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Gather Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Astoria Health Investors",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Plural",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "General Catalyst",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/generalcatalyst.com"
+          },
+          {
+            "name": "Abhijeet Dwivedi",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Adobe Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Cowboy Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "General Atlantic",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Unbundled Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Arche Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Alex Cohen",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Alumni Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Atomico",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/atomico.com"
+          },
+          {
+            "name": "Align Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "National Bank of Canada",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "John Collison",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Altimeter Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Abstract",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Apolo Ohno",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "HarbourVest Partners",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Bessemer Venture Partners",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/bvp.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-fa3f4c53",
+      "headline": "The pitch trick that helped an esports startup raise $20M when VCs only wanted AI",
+      "description": "Earlier this year, Lucra Sports founder and CEO Dylan Robbins did something that no one else has ever done. And he shared several secrets on how he did it.",
+      "sourceUrl": "https://techcrunch.com/2026/05/25/the-pitch-trick-that-helped-an-esports-startup-raise-20m-when-vcs-only-wanted-ai/",
+      "sourcePlatform": "tc-venture",
+      "publishedAt": "2026-05-25T15:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "pitch trick that helped an esports startup",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 20000000,
+        "amountDisplay": "$20M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "ARK"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "ARK",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-d85e6405",
+      "headline": "Convective Capital raises an $85 million fund to build disaster resilience",
+      "description": "After launching to invest in fire tech, Convective is broadening its mandate to disaster resilience.",
+      "sourceUrl": "https://techcrunch.com/2026/05/21/convective-capital-raises-an-85-million-fund-to-build-disaster-resilience/",
+      "sourcePlatform": "tc-venture",
+      "publishedAt": "2026-05-21T17:41:20.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Convective Capital",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 85,
+        "amountDisplay": "$85",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Bill Clerico",
+          "institutions"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Bill Clerico",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "institutions",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-34b74a5b",
+      "headline": "The AlleyWatch Startup Daily Funding Report: 5/20/2026",
+      "description": "The latest venture capital, seed, pre-seed, and angel deals for NYC startups for 5/21/2026 featuring funding details for Farther, Transient.AI, and much more.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/the-alleywatch-startup-daily-funding-report-5-20-2026-2/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-21T17:27:12.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "AlleyWatch Startup",
+        "companyWebsite": "https://alleywatch.com",
+        "companyLogoUrl": "https://logo.clearbit.com/alleywatch.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "who",
+          "investors that include General Atlantic",
+          "investors that include NEXT Investors"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "who",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "investors that include General Atlantic",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "investors that include NEXT Investors",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-ae43cad9",
+      "headline": "Hark raises $700M Series A for its secretive ‘universal’ AI interface",
+      "description": "Hark expects to release its first multimodal models this summer, which it says will power a personal AI platform that works with existing products and services. The company expects to follow that with hardware devices built specifically for those systems.",
+      "sourceUrl": "https://techcrunch.com/2026/05/21/hark-raises-700m-series-a-for-its-secretive-universal-ai-interface/",
+      "sourcePlatform": "tc-fundraising",
+      "publishedAt": "2026-05-21T14:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Hark",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 700000000,
+        "amountDisplay": "$700M",
+        "currency": "USD",
+        "roundType": "series-a",
+        "investors": [
+          "Parkway Venture Capital",
+          "impressed by a series of demos from his team"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Parkway Venture Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "impressed by a series of demos from his team",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-8cb098c1",
+      "headline": "Chromie Health Raises $2M to Cut Last-Minute Nursing Gap Response Times from Hours to Minutes",
+      "description": "What happens when a Harvard-trained quantum computing researcher nearly dies in a hospital ICU and realizes the staff couldn't fill the shift fast enough? For Douglas Ford, that answer became Chromie Health - and 750 hospitals are already on a waitlist to find out what comes next. The New York startup's AI agent fills last-minute nursing gaps in under five minutes using nothing more than a text message, no IT integration required. The founders are Forbes 30 Under 30 honorees, the lead investor is AIX Ventures, and the company has already filled more than 35,000 shifts. Read the full story to find out what a YES or NO reply from a nurse has to do with the future of hospital operations.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/chromie-health-healthcare-workforce-platform-hospital-staffing-ai-nursing-shift-automation-douglas-ford/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-21T13:27:22.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Chromie Health",
+        "companyWebsite": "https://alleywatch.com",
+        "companyLogoUrl": "https://logo.clearbit.com/alleywatch.com",
+        "amount": 2000000,
+        "amountDisplay": "$2M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Hours"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Hours",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "healthcare"
+      ]
+    },
+    {
+      "id": "www.artificialintelligence-news.com-64d86e7",
+      "headline": "Nvidia’s Vera chip is the US$200 billion bet Jensen Huang doesn’t want you to overlook",
+      "description": "The Nvidia Vera chip is rarely the headline when earnings beat estimates, but it should be. When Nvidia reported Q1 revenue of US$81.62 billion on Wednesday, beating analyst estimates of US$78.86 billion, and guided Q2 at US$91 billion–well above Wall Street’s US$86.84 billion forecast–the numbers did what Nvidia numbers always do: dominate the room. But […] The post Nvidia’s Vera chip is the US$200 billion bet Jensen Huang doesn’t want you to overlook appeared first on AI News .",
+      "sourceUrl": "https://www.artificialintelligence-news.com/news/nvidia-vera-chip-200-billion-market/",
+      "sourcePlatform": "ai-news",
+      "publishedAt": "2026-05-21T08:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Nvidia",
+        "companyWebsite": "https://artificialintelligence-news.com",
+        "companyLogoUrl": "https://logo.clearbit.com/artificialintelligence-news.com",
+        "amount": 200,
+        "amountDisplay": "$200",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "askingDespite the beats"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "askingDespite the beats",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.alleywatch.com-91adbf1e",
+      "headline": "The 17 Largest Global Startup Funding Rounds of April 2026",
+      "description": "Looking at the largest global startup funding rounds from April 2026, leveraging data from CrunchBase, we've identified the most significant venture capital deals of the month — a cohort headlined by a single $10B round that signals a new era of physical-world AI, alongside a robotics wave out of China that is reshaping the global automation landscape. Beyond the raw funding numbers, this month's analysis includes detailed information about each company's industry focus, founding team, investors, and total funding history to provide deeper context about where the world's capital is flowing at unprecedented scale.",
+      "sourceUrl": "https://www.alleywatch.com/2026/05/global-startup-funding-top-largest-april-2026-vc/",
+      "sourcePlatform": "alleywatch",
+      "publishedAt": "2026-05-20T13:27:09.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Unknown",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 10000000000,
+        "amountDisplay": "$10B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "CrunchBase",
+          "Andreessen Horowitz",
+          "Khosla Ventures",
+          "HSG",
+          "Fortune Venture Capital",
+          "Advent International",
+          "Baidu Ventures",
+          "Qiming Venture Partners",
+          "Alumni Ventures",
+          "Engine Ventures",
+          "NVIDIA",
+          "TelevisaUnivision",
+          "Norwest",
+          "Accel",
+          "General Catalyst",
+          "British Business Bank",
+          "BlackRock"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "CrunchBase",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Andreessen Horowitz",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/a16z.com"
+          },
+          {
+            "name": "Khosla Ventures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/khoslaventures.com"
+          },
+          {
+            "name": "HSG",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Fortune Venture Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Advent International",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Baidu Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Qiming Venture Partners",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Alumni Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Engine Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "NVentures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/nvidia.com"
+          },
+          {
+            "name": "TelevisaUnivision",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Norwest Venture Partners",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/nvp.com"
+          },
+          {
+            "name": "Accel",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/accel.com"
+          },
+          {
+            "name": "General Catalyst",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/generalcatalyst.com"
+          },
+          {
+            "name": "British Business Bank",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "BlackRock",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/blackrock.com"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "techcrunch.com-bba7993f",
+      "headline": "This startup raised $43M to build a hive mind for ships",
+      "description": "The Arlington, Virginia-based startup has raised $42 million to equip ships with sensors that blow the current AIS tech out of the water.",
+      "sourceUrl": "https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/",
+      "sourcePlatform": "tc-fundraising",
+      "publishedAt": "2026-05-20T13:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "a hive mind",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 43000000,
+        "amountDisplay": "$43M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "First Round Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "First Round Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/firstround.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "venturebeat.com-e2921547",
+      "headline": "Google says Gemini 3.5 Flash can slash enterprise AI costs by more than $1 billion a year",
+      "description": "Google unveiled Gemini 3.5 Flash at its annual I/O developer conference on Tuesday, a new artificial intelligence model that the company says shatters what had become a seemingly iron law of the AI industry: that the smartest models must also be the slowest and most expensive to run. The model sits at the center of a sweeping set of announcements — from a video-generating \"world model\" called Gemini Omni to a 24/7 personal AI agent called Gemini Spark — but 3.5 Flash carries perhaps the most immediate consequence for the enterprises pouring billions of dollars into AI infrastructure. Sundar Pichai, Google's chief executive, told reporters during a press briefing Monday that companies running roughly one trillion tokens per day on Google Cloud could save more than $1 billion annually by shifting 80 percent of their workloads to a mix of Flash and other frontier models. \"You've probably heard anecdotes from other CIOs that companies are already blowing through their annual token budgets, and it's only May,\" Pichai said, framing the model not just as a technical achievement but as a financial lifeline for organizations struggling with the runaway costs of deploying AI at scale. The claim, if it holds, would be one of the most significant shifts in the economics of enterprise AI since large language models entered corporate computing. Why enterprises have been forced to choose between AI quality and AI speed For the past three years, organizations adopting generative AI have faced a painful trade-off. The most capable models — the ones that can reason through complex multistep problems, write reliable code, and parse dense financial documents — tend to be large, slow, and expensive to query. Faster, cheaper models sacrifice accuracy. Chief information officers have been forced into a kind of AI portfolio management: routing simple queries to lightweight models and reserving the heavy-duty reasoning engines for high-stakes tasks. It is a complex, brittle system that adds engineering overhead and often delivers inconsistent user experiences. Gemini 3.5 Flash attacks that trade-off directly. According to Google's internal benchmarks and a third-party analysis from Artificial Analysis , the model outperforms Google's own Gemini 3.1 Pro — a model the company positioned as its top-tier flagship just four to five months ago — on nearly every major benchmark. It scores 76.2 percent on Terminal-Bench 2.1 , reaches 1656 Elo on GDPval-AA , hits 83.6 percent on MCP Atlas , and leads in multimodal understanding with 84.2 percent on CharXiv Reasoning . Yet it does all of this while generating output tokens at four times the speed of comparable frontier models from competitors. Koray Kavukcuoglu, chief technology officer of Google DeepMind and chief AI architect for Google, told reporters the team has pushed even further: \"We have developed an even more optimized version of Flash, not just four times, but actually 12 times faster with the same quality.\" That turbo variant is available starting Tuesday inside Antigravity , Google's agentic development platform. Pichai put the performance gap in blunt terms: \"3.5 Flash is better than 3.1 Pro, which was just four months ago, and it's at the almost, I would say, 90% of the performance of frontier models, 4x faster, much faster in Antigravity, maybe 12x, and about 1/3 to one half the cost.\" Landing in what Artificial Analysis calls the \"top-right quadrant\" of its intelligence-versus-speed index — the only model to do so — Flash occupies a position no competitor currently holds. The trillion-token math behind Google's $1 billion savings claim To understand why Flash matters so much to enterprise buyers, you need to understand the economics of tokens — the fundamental units of data that AI models process. Every query a customer service chatbot answers, every legal document an AI summarizes, every line of code an agent writes, consumes tokens. And at frontier-model pricing, those tokens add up fast. Google says its model APIs now process around 19 billion tokens per minute. Across all of Google's own surfaces — Search, the Gemini app, Workspace, and more — the company processes over 3.2 quadrillion tokens per month, a figure that has jumped seven-fold in the past year alone. Two years ago, at I/O 2024, the number was 9.7 trillion per month. The explosion in token consumption is not unique to Google. Enterprises across industries are discovering that the more capable their AI deployments become, the more tokens they burn. Agentic workflows — where AI systems autonomously execute multistep tasks, call tools, write and run code, and iterate on their own output — are particularly token-hungry. A single agentic coding session can consume orders of magnitude more tokens than a simple question-and-answer exchange. This is where Flash's cost advantage becomes transformative. The model delivers what Google describes as frontier-level capabilities at less than half the price, in some cases almost a third the price, of comparable frontier models. For a hypothetical enterprise processing one trillion tokens per day on Google Cloud — a scale Pichai said top customers are already reaching — the savings from shifting 80 percent of workloads to a Flash-and-frontier blend would exceed $1 billion per year. That is not a rounding error. It is the kind of number that reshapes procurement decisions, accelerates deployment timelines, and fundamentally alters the return-on-investment calculus for AI initiatives that many boards of directors have been scrutinizing with increasing impatience. How Google's own engineers created a data flywheel that rivals cannot easily copy Perhaps the most strategically significant detail Google shared Tuesday was not a benchmark score or a price point. It was a chart showing the company's own internal token consumption on Antigravity 2.0 , its reimagined agentic development platform. In March 2026, Google's developers were processing roughly half a trillion tokens per day inside Antigravity . By the time of the I/O press briefing in mid-May, that figure had surged past three trillion — a six-fold increase in approximately ten weeks, with usage doubling \"literally every few weeks,\" according to Pichai. This internal usage creates what AI researchers call a data flywheel: the more Google's own engineers use 3.5 Flash to build products, the more real-world signal the model team collects on where the model excels and where it stumbles. That signal feeds back into model improvement, which makes the model more useful, which drives more usage, which generates more signal. It is a virtuous cycle — and it is one that competing AI labs, which rely primarily on external developer usage and synthetic benchmarks, cannot easily replicate at the same speed or fidelity. \"That scale creates a powerful feedback loop, and that is what has allowed us to keep improving the 3.5 series of models,\" Pichai said. When pressed during the Q&A about the competitive frontier — particularly in light of recent advances from rival labs — Pichai acknowledged the landscape is \"very dynamic\" and \"moving fast\" but expressed confidence in Google's breadth. He added that the company's focus with the 3.5 series has been on \"taking the model intelligence, making sure tool use, instruction following, long horizon use cases, agent decoding all work well.\" Kavukcuoglu reinforced the agentic emphasis, noting that 3.5 Flash \"can now handle multi-hour autonomous sessions\" and \"can independently execute complex coding pipelines or manage iterative research projects entirely by itself.\" The team, he said, even tested the model by having agents build a working operating system entirely from scratch. Antigravity 2.0 transforms Google's code editor into an agent command center The arrival of 3.5 Flash is tightly coupled with the launch of Antigravity 2.0 , a significant expansion of the agentic development platform Google first introduced six months ago. What began as a coding environment has evolved into what Google describes as a full platform for developing and managing teams of autonomous AI agents, and the company says millions of developers are already building with it. Antigravity 2.0 ships as a new standalone desktop application that serves as a central hub for orchestrating multiple agents simultaneously. Google offered the example of running one agent to code a website, a second to generate brand assets, and a third to plan product architecture — all in parallel, all managed from a single interface. For developers who prefer command-line workflows, there is Antigravity CLI. And for those building programmatic integrations, the new Antigravity SDK provides direct access to the same agent harness powering Google's own first-party products. The co-development of 3.5 Flash and Antigravity 2.0 is no accident. \"We have co-developed 3.5 Flash together with Google Antigravity, our agentic development platform,\" Kavukcuoglu said. This tight integration means Flash's strengths — speed, tool use, long-context reasoning, and code generation — are specifically tuned for the kinds of workloads developers execute inside the platform. Google is also launching Managed Agents in the Gemini API , allowing developers to spin up an agent with a single API call that reasons, uses tools, and executes code in an isolated Linux environment. And it introduced CodeMender, an AI security agent that uses Gemini's advanced reasoning to automatically find and fix critical code vulnerabilities — a capability Kavukcuoglu described as essential as agentic systems write an increasing share of the world's code. Google's $190 billion infrastructure bet and the custom silicon powering cheaper AI The models and platforms sit atop a staggering infrastructure investment that Pichai revealed during the briefing: Google expects capital expenditures of approximately $180 billion to $190 billion in 2026 — roughly six times the $31 billion the company spent in 2022, just four years ago. A key component of that spending is custom silicon. The company recently unveiled its eighth generation of Tensor Processing Units , adopting for the first time a dual-chip architecture with specialized designs for training (TPU 8o) and inference (TPU 8i). Google says it can now distribute model training across multiple data center sites using a system called Pathways, scaling beyond one million TPUs globally — a setup the company claims constitutes the largest training cluster in the world. \"This means training larger, more capable models in weeks, rather than months,\" Pichai said. The infrastructure advantage matters enormously for Flash's economics. Custom silicon optimized for inference means Google can run Flash at lower cost per token than competitors relying on general-purpose GPUs, and the savings get passed along — at least partially — to customers. The capex figure also signals something strategic about Google's long-term posture. While some investors have grown nervous about the astronomical sums cloud providers are spending on AI infrastructure, Google is framing the spending as a competitive moat. The more infrastructure it builds, the cheaper it can run inference, the more attractive its models become, and the more usage it captures to improve the next generation. It is the flywheel logic again, extended from software all the way down to silicon. Gemini Omni, Spark, and the consumer products Flash now powers at massive scale While the enterprise cost story dominates the Flash narrative, Google also made sweeping moves on the consumer side that put the model to work across products reaching billions of people. Flash is now the default model powering the Gemini app — which has surpassed 900 million monthly active users, more than doubling from 400 million a year ago — and AI Mode in Google Search, which has crossed one billion monthly users in its first year. Google introduced Gemini Spark , a 24/7 personal AI agent that runs on dedicated virtual machines in Google Cloud and operates in the background even when a user's device is off. Powered by 3.5 Flash with the full Antigravity harness, Spark integrates with Gmail, Docs, Sheets, and Slides. Josh Woodward, who leads Google Labs and the Gemini app, described the experience vividly: \"When you use it, it almost feels like you're tossing things over your shoulder, Spark's catching them and gets the job done.\" On the safety front, Spark requires explicit user approval before high-stakes actions. Google also announced the Agent Payments Protocol, which lets users set strict guardrails — approved brands, spending caps, specific merchants — before an agent can spend money on their behalf. Woodward compared the design to \"giving a teenager their first debit card — there's sort of limits and sort of constraints around it.\" Alongside Flash, Google unveiled Gemini Omni , a model capable of generating any output from any input, starting with video. Kavukcuoglu drew a sharp distinction from Google's existing Veo model: \"Veo is a text-to-video model. Omni is a true and true multi-model input, multi-model output model.\" All Omni-generated content carries Google's SynthID watermark , and the company announced that OpenAI, Kakao, and ElevenLabs are adopting SynthID as well. The company also reimagined its search box for the first time in over 25 years, introduced information agents that monitor the web around the clock for user-defined conditions, and launched the Universal Cart — an AI-powered cross-merchant shopping cart built on Google Wallet. Liz Reid, who leads Google Search, called the new search box \"the biggest upgrade to our iconic search box since its debut.\" What Google's six-month model cadence means for the enterprise AI cost curve Google signaled that 3.5 Flash is just the opening act of the 3.5 series. Gemini 3.5 Pro is currently in internal testing and will roll out to everyone next month. Kavukcuoglu indicated the company has been operating on roughly a six-month cadence for major model updates — Gemini 3 in November, 3.5 in May — and expects that rhythm to continue. When a reporter from The New York Times asked how Google determines whether a release warrants a full numerical jump or a half-step increment, Kavukcuoglu said the numbering reflects the magnitude of research progress: \"What defines the numbering update is really the progress that we see in our research and how it is reflected in the models and the impact that they have.\" For enterprise buyers, that cadence carries an important implication: the cost-performance curve is not just improving — it is improving on a predictable schedule. A model that outperforms the previous flagship at a third the cost every six months fundamentally changes the planning horizon for AI investments. It means the token budgets that companies are blowing through today may look quaint by the end of the year. Google's announcements arrive at a moment of intense competition. OpenAI , Anthropic , Meta , and a constellation of smaller labs are all racing to deliver models that balance capability with cost. Microsoft has been aggressively integrating OpenAI's models into Azure and Copilot. But Google benefits from a structural advantage that is easy to overlook: distribution. With 13 products serving more than a billion users each — five of which exceed three billion — Google can deploy Flash to an audience no pure-play AI lab can match. Every improvement immediately benefits Search, Gmail, Docs, Maps, and YouTube. And the usage data flowing back from those billions of interactions feeds the very flywheel that makes the next model better. The question now is whether the $1 billion savings figure — an eye-catching projection based on a specific workload mix — will survive contact with the messy reality of corporate AI deployments, where legacy systems, compliance requirements, and organizational inertia have a way of blunting even the most compelling cost curves. But if Google's own internal usage is any guide — three trillion tokens a day and climbing, doubling every few weeks, with no sign of slowing — the company is not just selling the bet. It is making the bet itself, with its own engineers, on its own infrastructure, at a scale no customer has yet attempted. In the AI cost wars, the most persuasive pitch may simply be: we did it first.",
+      "sourceUrl": "https://venturebeat.com/technology/google-says-gemini-3-5-flash-can-slash-enterprise-ai-costs-by-more-than-1-billion-a-year",
+      "sourcePlatform": "vb-business",
+      "publishedAt": "2026-05-19T17:45:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Google",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 19000000000,
+        "amountDisplay": "$19B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Artificial Analysis",
+          "competitors. Koray Kavukcuoglu",
+          "scratch",
+          "The New York Times"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Artificial Analysis",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "competitors. Koray Kavukcuoglu",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "scratch",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "The New York Times",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "fintech",
+        "europe",
+        "hardware",
+        "saas",
+        "consumer",
+        "defense"
+      ]
+    },
+    {
+      "id": "techcrunch.com-91593da3",
+      "headline": "Indian Uber rival Rapido raises $240M at $3B valuation",
+      "description": "Rapido has driven its growth by enabling ride-hailing for lower-cost and more flexible modes of transport such as motorbikes and auto-rickshaws.",
+      "sourceUrl": "https://techcrunch.com/2026/05/15/indian-uber-rival-rapido-raises-240m-at-3b-valuation/",
+      "sourcePlatform": "tc-fundraising",
+      "publishedAt": "2026-05-15T11:24:12.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Indian Uber rival Rapido",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 240000000,
+        "amountDisplay": "$240M",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [
+          "Prosus"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Prosus",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "india"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-84d40105",
+      "headline": "Valencia-based Fresh People raises €2.6 million to scale Booster, its AI leadership copilot",
+      "description": "Fresh People, a Valencia-based technology company specialised in leadership and team management, has closed a €2.6 million round to accelerate the launch of Booster, a new AI-powered leadership system and prepare its international expansion. The round was led by Inveready, with participation from Archipiélago Next, Successful Fund, Paloma Tejada, a former BBVA executive, among others. […] The post Valencia-based Fresh People raises €2.6 million to scale Booster, its AI leadership copilot appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/valencia-based-fresh-people-raises-e2-6-million-to-scale-booster-its-ai-leadership-copilot/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-15T07:31:06.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Valencia-based Fresh People",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2600000,
+        "amountDisplay": "$2.6M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Inveready",
+          "entrepreneurs from Spain"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Inveready",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "entrepreneurs from Spain",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.pymnts.com-48e5c321",
+      "headline": "Thrive Capital Bets $100 Million on Shopify’s AI Future",
+      "description": "Joshua Kushner’s Thrive Capital has invested about $100 million in Shopify, betting that artificial intelligence could enhance commerce, Bloomberg reported Thursday (May 14), citing unnamed sources. Neither Shopify nor Thrive Capital immediately replied to PYMNTS’ request for comment. Thrive Capital announced in February that it raised more than $10 billion for a fund called […] The post Thrive Capital Bets $100 Million on Shopify’s AI Future appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/news/ecommerce/2026/thrive-capital-bets-100-million-on-shopifys-ai-future/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-05-15T00:58:09.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Thrive Capital Bets",
+        "companyWebsite": "https://thrivecap.com",
+        "companyLogoUrl": "https://logo.clearbit.com/thrivecap.com",
+        "amount": 100,
+        "amountDisplay": "$100",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "venturebeat.com-ad05be20",
+      "headline": "Cerebras stock nearly doubles on day one as AI chipmaker hits $100 billion — what it means for AI infrastructure",
+      "description": "Cerebras Systems , the Silicon Valley chipmaker that built the world's largest commercial AI processor, erupted onto the Nasdaq on Wednesday, opening at $350 per share — nearly double its $185 IPO price — and rocketing past a $100 billion market capitalization in its first hours of trading. The debut instantly crowned Cerebras as one of the most valuable semiconductor companies on Earth and validated a decade-long bet that the AI industry would eventually demand a fundamentally different kind of chip. The company sold 30 million shares at $185 apiece, raising $5.55 billion in what Bloomberg reported as the largest U.S. tech IPO since Uber went public in 2019 . The final pricing shattered expectations: Cerebras initially marketed shares at $115 to $125, then raised the range to $150 to $160 as investor demand surged, before ultimately pricing above even that elevated band. \"This is a new beginning,\" Julie Choi, Senior Vice President and Chief Marketing Officer at Cerebras, told VentureBeat in an exclusive interview on the morning of the IPO. The company, she said, plans to pour its fresh capital into expanding the cloud infrastructure that has become the centerpiece of its growth strategy. \"With this new capital, we're going to fill more data halls with Cerebras systems to power the world's fastest inference.\" The IPO caps one of the most dramatic corporate turnarounds in recent tech history. Cerebras first filed to go public in September 2024 but withdrew the effort more than a year later amid intense scrutiny over its near-total revenue dependence on a single customer in the United Arab Emirates. The company refiled in April 2026 with a radically different business profile: new partnerships with OpenAI and Amazon Web Services , a fast-growing cloud inference service , and a revenue base that had climbed 76% to $510 million in 2025 . How a dinner-plate-sized chip became the foundation of a $100 billion company To understand the frenzy, you have to understand the silicon. Cerebras builds something called the Wafer-Scale Engine , or WSE — a single processor that occupies an entire silicon wafer, the dinner-plate-sized disc from which ordinary chips are cut. The third-generation WSE-3 contains 4 trillion transistors, 900,000 compute cores, and 44 gigabytes of on-chip memory. It is 58 times larger than Nvidia's B200 \"Blackwell\" chip and delivers 2,625 times more memory bandwidth than the B200 package, according to the company's S-1 filing with the Securities and Exchange Commission. That bandwidth advantage matters enormously for AI inference — the process of running a trained model to generate answers. When a large language model produces text, it predicts one token at a time, and each token requires the model's entire set of weights to move from memory to compute. This work is inherently sequential and cannot be parallelized, making memory bandwidth the binding constraint on speed. Cerebras claims its architecture delivers inference responses up to 15 times faster than leading GPU-based solutions on open-source models, a figure corroborated by third-party benchmarker Artificial Analysis . \"One of the architectural principles when we built the wafer was: let's keep compute closer together, so that compute elements can talk to each other at lower latency,\" Andy Hock, VP of Product at Cerebras, told VentureBeat. \"Low latency is important to AI compute. It's a cornerstone of fast inference.\" The founding insight was contrarian and, for most of the company's life, commercially premature. Cerebras's founders recognized in 2015 that AI workloads were communication-bound problems — speed depended on how fast data could move between memory and compute — and that the best way to accelerate that movement was to keep everything on a single massive chip. Wafer-scale integration had been attempted and abandoned repeatedly over the semiconductor industry's 75-year history. Every previous effort had failed. Cerebras solved the problem through two key innovations detailed in its S-1 : a proprietary multi-die interconnect that stitches otherwise independent die together at the wafer level during fabrication, and a fault-tolerant architecture that routes around manufacturing defects using redundant building blocks, similar to how hyperscale data centers handle server failures. Why Cerebras is betting its future on cloud inference instead of hardware sales For most of its life, Cerebras sold hardware — massive, water-cooled AI supercomputers installed on-premises at customer facilities. That model generated $358 million in hardware revenue in 2025. But the IPO prospectus reveals a strategic pivot that will define the company's next chapter: the transition to cloud-based inference services . Cerebras launched its inference cloud in August 2024. In less than two years, cloud and other services revenue reached $151.6 million in 2025 , up 94% from $78.3 million in 2024. The company now expects this segment to comprise a significantly larger percentage of total revenue going forward, driven primarily by its enormous deal with OpenAI. \"Cloud and model APIs are the preferred and natural consumption method for inference services and application developers,\" Hock told VentureBeat. \"So that was the natural packaging and go-to-market strategy for the inference capability.\" Choi framed the cloud as a democratization play. \"Whether that be an entrepreneurial developer, a startup, or a massive organization like OpenAI — the cloud has really made it easy for people to deploy and feel the fast inference, the value of it,\" she said. The economics of the transition are capital-intensive. Cerebras must lease data center space, manufacture and deploy its systems, and build software to manage capacity — all before recognizing recurring revenue. The S-1 warns bluntly that gross margins will decline in the near term as the company absorbs startup costs for cloud infrastructure. The company's gross margin already dipped to 39% in 2025 from 42.3% in 2024, driven by higher data center costs. But the demand picture appears formidable. \"Every cloud system that we've deployed so far, each one gets gobbled up in capacity,\" Hock said. \"We've been thrilled to see the demand for fast inference from Cerebras. We want to go faster to service that market.\" Inside the $20 billion OpenAI deal that transformed Cerebras overnight The single most consequential business relationship for Cerebras is its December 2025 agreement with OpenAI, under which OpenAI committed to purchase 750 megawatts of Cerebras inference compute capacity over the next several years. The deal is valued at more than $20 billion and includes provisions for OpenAI to purchase an additional 1.25 gigawatts of capacity, potentially bringing total deployment to 2 gigawatts. The arrangement goes far beyond a standard vendor-customer relationship. OpenAI and Cerebras are co-designing future models for future Cerebras hardware — a tight feedback loop that gives Cerebras visibility into frontier model architectures before they ship and gives OpenAI inference systems optimized for its specific workloads. The partnership moved from contract to production with remarkable speed. \"After we announced the partnership, we had the first model running in like 35 days,\" Choi told VentureBeat. \"That was Codex Spark, and the engineers over at OpenAI just were like, mind blown.\" Codex Spark , OpenAI's model designed for real-time coding, allows developers to turn natural-language instructions into working software in seconds using Cerebras infrastructure. Choi described a deep cultural alignment between the two companies. \"Our teams truly vibe as engineers. We're on the same wavelength,\" she said. \"There's just no amount of speed that is enough for those guys.\" To fund the infrastructure buildout, OpenAI advanced Cerebras a $1 billion working capital loan in January 2026, secured by a promissory note maturing no later than December 31, 2032, bearing 6% annual interest . The loan can be repaid in cash or through delivery of compute capacity. However, the S-1 discloses significant risk: if the MRA is terminated for any reason other than OpenAI's material uncured breach, OpenAI can seize control of the loan funds and demand immediate repayment. OpenAI also holds a warrant to purchase up to 33.4 million shares of Cerebras Class N common stock at an exercise price of $0.00001 per share — essentially free shares that vest as Cerebras delivers committed capacity. At the IPO opening price, the fully vested warrant would be worth approximately $11.7 billion. How the Amazon Web Services partnership could bring Cerebras chips to millions of developers In March 2026, Cerebras signed a binding term sheet with Amazon Web Services to become the first hyperscaler to deploy Cerebras systems inside its own data centers. The partnership introduces a novel architectural concept called disaggregated inference, which splits the two stages of AI inference — prefill (processing the user's prompt) and decode (generating the response) — across different hardware optimized for each task. Under this arrangement, AWS Trainium chips handle prefill , while Cerebras CS-3 systems handle decode , connected via Amazon's Elastic Fabric Adapter networking. According to the AWS press announcement in March, the approach aims to deliver an order of magnitude faster inference than what is currently available. Hock provided technical detail on why this works. \"The interconnect requirements between prefill and decode systems actually aren't that high, so we can use a traditional interconnect between, say, Trainium and the wafer-scale engine and still deliver that fast time to first token and that ultra-low latency token generation,\" he explained. \"What the Trainium wafer-scale engine combination really gives us in that disaggregated or heterogeneous inference setup is all the speed and vastly more efficiency, so we can effectively serve more tokens per unit rack space or kilowatt.\" The partnership provides Cerebras something it has long lacked: massive distribution. AWS serves millions of enterprise customers worldwide, and Cerebras systems deployed through Amazon Bedrock will become accessible to any developer within their existing AWS environment. \"AWS has incredible reach,\" Hock said. \"The partnership is really about bringing that fast inference capability — that sort of best-in-industry, fast inference capability delivered by wafer-scale engine and Trainium — to that broader market.\" The term sheet also grants AWS a warrant to purchase up to approximately 2.7 million shares of Cerebras Class N common stock at a $100 exercise price, with vesting tied to product purchases beyond the initial lease. The UAE customer concentration problem that nearly derailed the IPO — and whether it's really solved For all the excitement, Cerebras carries a risk that has haunted it since its first IPO attempt: customer concentration. In 2024, G42 — an Abu Dhabi–based technology conglomerate — accounted for 85% of Cerebras's total revenue . The company's September 2024 S-1 filing drew heavy scrutiny over this dependence, compounded by questions about export controls for advanced AI chips shipped to the UAE. Cerebras withdrew that filing . The 2025 numbers show progress but not resolution. G42's share of revenue declined to 24% , but Mohamed bin Zayed University of Artificial Intelligence ( MBZUAI ), an Abu Dhabi institution that is a related party to G42, accounted for 62% of total revenue . Together, the two UAE-linked entities still represented 86% of Cerebras's 2025 sales. The S-1 is candid about this risk , noting that MBZUAI accounted for 77.9% of accounts receivable as of December 31, 2025, and that U.S. export licenses for Cerebras systems shipped to G42 and MBZUAI require \"rigorous security and compliance obligations to prevent diversion and abuse of our technology.\" Choi addressed the issue directly, pointing to the OpenAI and AWS deals as evidence of a broadening customer base. \"Now with OpenAI and Amazon, those are the same type of deep partnerships,\" she told VentureBeat. \"We're a deep technology company. Our technology has taken a decade to build. We go deep in how we build, and now we're going deep with two of the biggest players — the biggest AI lab, OpenAI, and the biggest cloud, AWS.\" Hock framed the customer evolution as a progression in market perception. \"G42 caused the market to be intrigued and inspired,\" he said. \"Nobody in the business is smarter, more credible, or has greater reach than OpenAI and AWS. And so I think OpenAI and AWS caused the market to shift from intrigued and inspired to — I'll call it curious and convinced.\" Still, the S-1 warns that the OpenAI MRA itself \"represents a substantial portion of our projected revenues over the next several years.\" Cerebras's business will remain dependent on a small number of very large customers for the foreseeable future — a structural feature of the AI infrastructure market where buildouts are measured in hundreds of megawatts and billions of dollars. Can Cerebras build data centers fast enough to keep up with runaway demand? With OpenAI consuming 750 megawatts of committed capacity and AWS preparing to deploy Cerebras systems in its data centers, the question is whether Cerebras can scale its physical infrastructure quickly enough to serve everyone else. Hock acknowledged the tension. \"It's a good problem to have when demand starts to outstrip supply. It doesn't mean it's an easy problem to address,\" he told VentureBeat. \"We've got to build these extraordinary systems. We've got to procure data center space. We've got to deploy systems there. Got to stand up software to meet our customers where they are.\" The company is being deliberate about capacity allocation. \"We're trying to be really deliberate about how we allocate capacity as it's built,\" Hock said. \"We're working in deep partnership to service the highest-priority customers and highest-priority markets.\" Choi argued that the constraint actually sharpens focus. \"Sometimes when you have less of something, it forces you to be very deliberate,\" she said. Beyond OpenAI, she named Cognition — the AI coding startup — and Block , led by Jack Dorsey, as significant customers. \"Jack participated in our roadshow as well,\" Choi noted. \"We're speeding up that entire money-bot AI experience within Cash App.\" The S-1 discloses that Cerebras currently operates data centers in California, Oklahoma, and Canada , with plans to expand internationally. The company executed non-cancelable data center leases in late 2025 with aggregate undiscounted future minimum payments of approximately $344 million , and in March 2026 signed a Canadian data center lease with expected minimum payments of approximately $2.2 billion over a 10-year term. The IPO proceeds — combined with $1 billion from a January 2026 Series H preferred stock round and the $1 billion OpenAI loan — give Cerebras a war chest exceeding $8 billion to fund the buildout. Whether that is enough to satisfy a market where major customers are ordering capacity measured in gigawatts remains an open question. The Nvidia shadow: what Cerebras is really up against in the AI chip wars Cerebras enters public markets into the teeth of the most competitive semiconductor environment in decades. Nvidia remains the dominant force in AI compute, controlling the vast majority of the training and inference infrastructure market. Its GPU architecture benefits from a deeply entrenched software ecosystem built around CUDA, the programming framework that has become the de facto standard for AI development. Cerebras's S-1 explicitly acknowledges this , noting that \"many of our competitors benefit from competitive advantages over us, such as prominent and cutting-edge technology and software stacks designed to keep out new market entrants.\" But Cerebras argues the inference market is structurally different from training — and that its architecture has a fundamental advantage in the workload that matters most going forward. As AI models have shifted toward reasoning, where models perform multi-step computation during inference to think through problems, the number of tokens generated per request has exploded . Each token requires moving full model weights from memory to compute, making memory bandwidth the bottleneck. The S-1 cites Bloomberg Intelligence data projecting that Cerebras's addressable portion of the AI inference market will grow from approximately $66 billion in 2025 to $292 billion by 2029 , a 45% compound annual growth rate — significantly outpacing the 20% CAGR projected for AI training infrastructure. Nvidia has clearly taken notice of the fast-inference threat. In December 2025, Nvidia acquired Groq — a startup whose tensor streaming processor architecture more closely resembles Cerebras's approach — for $20 billion. Months later, Nvidia announced plans for Groq-based products , signaling that even the industry's dominant player recognizes the limitations of GPU architecture for latency-sensitive inference. Cerebras also competes with custom silicon developed by hyperscalers — including Google's TPUs and Amazon's Trainium chips — and a growing roster of AI cloud providers. Asked about Nvidia and Groq, Choi declined to engage. \"We're feeling pretty good right now,\" she told VentureBeat with a smile. Revenue is surging, but the financial fine print reveals a more complicated picture The financial picture that emerges from the S-1 is one of rapid scaling with significant underlying complexity. Revenue surged from $78.7 million in 2023 to $290.3 million in 2024 to $510 million in 2025 — a more than tenfold increase over three years. The company reported GAAP net income of $237.8 million in 2025, but this figure is heavily influenced by a $363.3 million one-time gain from the extinguishment of a forward contract liability related to a preferred stock arrangement. Stripping out that gain and stock-based compensation, Cerebras's non-GAAP net loss was $75.7 million in 2025, widening from a $21.8 million non-GAAP loss in 2024. Operating losses deepened as well. Cerebras lost $145.9 million from operations in 2025, up from $101.4 million the prior year, as the company invested heavily in research and development ($243.3 million, up 54%) and sales and marketing ($70.6 million, up 237%). The company burned $10 million in operating cash flow in 2025, a sharp reversal from the $452 million of cash generated in 2024 — a year boosted by $640 million in customer deposit inflows, primarily from G42 and MBZUAI . The S-1 warns that gross margins will face near-term pressure from startup costs for cloud infrastructure, customer warrant amortization, and pass-through data center expenses. The path to this moment was anything but smooth. Cerebras shipped its first systems in 2020 and 2021 — before the market was ready. As the founders wrote in the prospectus: the company \"had built something extraordinary, but the market wasn't ready.\" The ChatGPT moment in late 2022 changed everything. By early 2025, Cerebras's speed advantage — long a solution in search of a problem — became urgently relevant as AI coding agents, deep research tools, and real-time voice applications demanded the kind of low-latency inference that GPU clusters struggled to deliver. The S-1 describes a market where AI coding agents \"barely existed in 2023\" but collectively generated \"billions in ARR in 2025,\" and where 42% of professional code is now AI-generated or assisted. What Cerebras must prove to justify a $100 billion valuation — and what happens if it can't Looking forward, Hock signaled that the current generation of hardware is just the beginning. \"Wafer-scale engine three and CS-3 is not the end of the story. It's just the beginning,\" he told VentureBeat. \"We have a multi-year technology roadmap that continues building on wafer-scale technology, accelerating performance, increasing efficiency, supporting larger scale.\" The S-1 confirms that Cerebras intends to expand on-chip memory and bandwidth , improve interconnect density, and leverage future process node advances — and discloses that the company has already obtained export licenses for future CS-4 systems destined for the UAE. The company also faces a web of operational risks that would test any organization, let alone one that has never operated as a public company. It depends entirely on TSMC for wafer fabrication, with no long-term supply commitment. Its data center leases stretch for years, while its inference customer contracts are often shorter-term or consumption-based, creating a mismatch between fixed costs and variable revenue. It has identified material weaknesses in its internal controls over financial reporting. And its most important customer relationship — with OpenAI — includes exclusivity provisions that restrict Cerebras from working with certain named OpenAI competitors, potentially limiting future diversification. Whether Cerebras can sustain a $100 billion-plus valuation will depend on its ability to execute against all of these challenges simultaneously: building data centers at unprecedented speed, manufacturing wafer-scale chips at scale through a single foundry, navigating export controls on its most lucrative international relationships, and competing against an Nvidia that has shown it will not cede the inference market without a fight. But Cerebras has always been built on a willingness to attempt what others said was impossible. Wafer-scale integration had stumped the semiconductor industry for its entire existence. Now a chip the size of a dinner plate — once dismissed as an engineering curiosity — powers the fastest AI inference on the planet, serves the world's leading AI lab, and just debuted on the Nasdaq to a valuation that dwarfs companies many times its age. The world, it turns out, was ready. As Hock put it to VentureBeat, recalling the journey from the lab to the trading floor: \"The IPO isn't the end of the story. It's the beginning.\"",
+      "sourceUrl": "https://venturebeat.com/technology/cerebras-stock-nearly-doubles-on-day-one-as-ai-chipmaker-hits-100-billion-what-it-means-for-ai-infrastructure",
+      "sourcePlatform": "venturebeat",
+      "publishedAt": "2026-05-14T21:38:02.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Cerebras",
+        "companyWebsite": "https://cerebras.net",
+        "companyLogoUrl": "https://logo.clearbit.com/cerebras.net",
+        "amount": 33400000,
+        "amountDisplay": "$33.4M",
+        "currency": "USD",
+        "roundType": "series-d-plus",
+        "investors": [
+          "Jack Dorsey",
+          "our roadshow as well",
+          "memory",
+          "42",
+          "Cerebras",
+          "contract"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Jack Dorsey",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "our roadshow as well",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "memory",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "42",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Cerebras",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "contract",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "fintech",
+        "hardware",
+        "saas",
+        "defense"
+      ]
+    },
+    {
+      "id": "techcrunch.com-97c16be9",
+      "headline": "Cerebras raises $5.5B, then stock pops $108%, in the first huge tech IPO of 2026",
+      "description": "A year ago, it looked like this day would never happen for Cerebras.",
+      "sourceUrl": "https://techcrunch.com/2026/05/14/cerebras-raises-5-5b-kicking-off-2026s-ipo-season-with-a-bang/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-14T16:30:02.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Cerebras",
+        "companyWebsite": "https://cerebras.net",
+        "companyLogoUrl": "https://logo.clearbit.com/cerebras.net",
+        "amount": 5500000000,
+        "amountDisplay": "$5.5B",
+        "currency": "USD",
+        "roundType": "ipo",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "aibusiness.com-3a5b3e99",
+      "headline": "Rivian Spinoff Raises $400M for Industrial Robots",
+      "description": "The vendor will use the funds to scale deployment of Mind’s AI-powered robots in live manufacturing environments.",
+      "sourceUrl": "https://aibusiness.com/robotics/rivian-spinoff-raises-400m-industrial-robots",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-05-14T14:44:03.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Rivian Spinoff",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 400000000,
+        "amountDisplay": "$400M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-f052b57a",
+      "headline": "Wirestock raises $23M to supply creative multimodal data to AI labs",
+      "description": "The company pivoted to being a data provider in 2023 and now supplies datasets of images, videos, design assets, and gaming and 3D content to AI labs.",
+      "sourceUrl": "https://techcrunch.com/2026/05/14/wirestock-raises-23m-to-supply-multi-modal-data-to-ai-labs/",
+      "sourcePlatform": "tc-fundraising",
+      "publishedAt": "2026-05-14T14:00:00.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Wirestock",
+        "companyWebsite": "https://wirestock.io",
+        "companyLogoUrl": "https://logo.clearbit.com/wirestock.io",
+        "amount": 23000000,
+        "amountDisplay": "$23M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Nava Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Nava Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-dad9be1e",
+      "headline": "Saile raises $2.2M to use AI agents to fix healthcare staffing and cut physician credentialing from months to days",
+      "description": "Hospitals across the U.S. are spending heavily to recruit temporary physicians, flying doctors across state lines to fill staffing gaps. At the same time, thousands of qualified physicians remain in limbo for months, unable to work due to credentialing paperwork, […] The post Saile raises $2.2M to use AI agents to fix healthcare staffing and cut physician credentialing from months to days first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/14/saile-raises-2-2m-to-use-ai-agents-to-fix-healthcare-staffing-and-cut-physician-credentialing-from-months-to-days/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-14T13:57:24.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Saile",
+        "companyWebsite": "https://saileapp.com",
+        "companyLogoUrl": "https://logo.clearbit.com/saileapp.com",
+        "amount": 2200000,
+        "amountDisplay": "$2.2M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "months",
+          "Matchstick Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "months",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Matchstick Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "healthcare"
+      ]
+    },
+    {
+      "id": "tech.eu-51d465ba",
+      "headline": "Iceotope raises $26M to advance cooling for next-generation AI infrastructure",
+      "description": "Iceotope Group, a provider of precision liquidcooling solutions for data centres and edge infrastructure, has raised $26million in a Series B funding round led by Two Seas Capital and Barclays Climate...",
+      "sourceUrl": "https://tech.eu/2026/05/14/iceotope-raises-26m-to-advance-cooling-for-next-generation-ai-infrastructure/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-14T13:00:00.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Iceotope",
+        "companyWebsite": "https://iceotope.com",
+        "companyLogoUrl": "https://logo.clearbit.com/iceotope.com",
+        "amount": 26000000,
+        "amountDisplay": "$26M",
+        "currency": "USD",
+        "roundType": "series-b",
+        "investors": [
+          "Two Seas Capital",
+          "generation AI infrastructure Two Seas Capital",
+          "Barclays Climate Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Two Seas Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "generation AI infrastructure Two Seas Capital",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Barclays Climate Ventures",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "climate"
+      ]
+    },
+    {
+      "id": "tech.eu-dd4b314f",
+      "headline": "Zerops raises $2M seed to rebuild cloud infrastructure for the AI development era",
+      "description": "Zerops, a Platform-as-a-Service startup redesigning cloud architecture, has raised a $2 million seed round led by Gi21 Capital. Zerops removes the separation between development and production environ...",
+      "sourceUrl": "https://tech.eu/2026/05/14/zerops-raises-2m-seed-to-rebuild-cloud-infrastructure-for-the-ai-development-era/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-14T08:00:00.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Zerops",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2000000,
+        "amountDisplay": "$2M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [
+          "Gi21 Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Gi21 Capital",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-ca29e0a6",
+      "headline": "Origin Lab raises $8M to help video game companies sell data to world-model builders",
+      "description": "Origin Lab will serve as a marketplace where AI labs can buy high-quality licensed data, and video-game companies can sell it.",
+      "sourceUrl": "https://techcrunch.com/2026/05/13/origin-lab-raises-8m-to-help-video-game-companies-sell-data-to-world-model-builders/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-13T16:22:01.000Z",
+      "discoveredAt": "2026-05-15T08:07:00.574Z",
+      "extracted": {
+        "companyName": "Origin Lab",
+        "companyWebsite": "https://originlab.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/originlab.ai",
+        "amount": 8000000,
+        "amountDisplay": "$8M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Lightspeed Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Lightspeed Venture Partners",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/lsvp.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "consumer"
+      ]
+    },
+    {
+      "id": "techcrunch.com-fc1302f6",
+      "headline": "Anduril raises $5B, doubles valuation to $61B",
+      "description": "After achieving $2.2 billion in revenue in 2025, the defense tech startup has raised another massive round, led by Thrive and a16z, it says.",
+      "sourceUrl": "https://techcrunch.com/2026/05/13/anduril-raises-5b-doubles-valuation-to-61b/",
+      "sourcePlatform": "tc-fundraising",
+      "publishedAt": "2026-05-13T14:44:25.000Z",
+      "discoveredAt": "2026-05-30T06:18:38.793Z",
+      "extracted": {
+        "companyName": "Anduril",
+        "companyWebsite": "https://anduril.com",
+        "companyLogoUrl": "https://logo.clearbit.com/anduril.com",
+        "amount": 61000000000,
+        "amountDisplay": "$61B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Thrive",
+          "returning investors Thrive Capital",
+          "Founders",
+          "Khosla Ventures",
+          "Dragoneer"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Thrive Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/thrivecap.com"
+          },
+          {
+            "name": "Founders Fund",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/foundersfund.com"
+          },
+          {
+            "name": "Khosla Ventures",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/khoslaventures.com"
+          },
+          {
+            "name": "Dragoneer",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/dragoneer.com"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "defense"
+      ]
+    },
     {
       "id": "www.prnewswire.com-ecce9fc3",
       "headline": "Light Field Technology Market to Reach US$ 440.3 Million by 2032 Expands Amid Rising Demand for Immersive Imaging and AI-Driven Visualization - Persistence Market Research",
@@ -817,7 +3243,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -863,7 +3289,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -902,7 +3328,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -947,7 +3373,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -992,7 +3418,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -1031,7 +3457,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -1070,7 +3496,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -1109,7 +3535,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -1148,7 +3574,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1187,7 +3613,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1226,7 +3652,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1271,7 +3697,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1310,7 +3736,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1354,7 +3780,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1399,7 +3825,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1444,366 +3870,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T14:10:05.313Z"
-    },
-    {
-      "id": "www.eu-startups.com-84d40105",
-      "headline": "Valencia-based Fresh People raises €2.6 million to scale Booster, its AI leadership copilot",
-      "description": "Fresh People, a Valencia-based technology company specialised in leadership and team management, has closed a €2.6 million round to accelerate the launch of Booster, a new AI-powered leadership system and prepare its international expansion. The round was led by Inveready, with participation from Archipiélago Next, Successful Fund, Paloma Tejada, a former BBVA executive, among others. […] The post Valencia-based Fresh People raises €2.6 million to scale Booster, its AI leadership copilot appeared first on EU-Startups .",
-      "sourceUrl": "https://www.eu-startups.com/2026/05/valencia-based-fresh-people-raises-e2-6-million-to-scale-booster-its-ai-leadership-copilot/",
-      "sourcePlatform": "eu-startups",
-      "publishedAt": "2026-05-15T07:31:06.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Valencia-based Fresh People",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 2600000,
-        "amountDisplay": "$2.6M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Inveready",
-          "entrepreneurs from Spain"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Inveready",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "entrepreneurs from Spain",
-            "isKnown": false,
-            "confidence": "low"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "hardware"
-      ]
-    },
-    {
-      "id": "www.pymnts.com-48e5c321",
-      "headline": "Thrive Capital Bets $100 Million on Shopify’s AI Future",
-      "description": "Joshua Kushner’s Thrive Capital has invested about $100 million in Shopify, betting that artificial intelligence could enhance commerce, Bloomberg reported Thursday (May 14), citing unnamed sources. Neither Shopify nor Thrive Capital immediately replied to PYMNTS’ request for comment. Thrive Capital announced in February that it raised more than $10 billion for a fund called […] The post Thrive Capital Bets $100 Million on Shopify’s AI Future appeared first on PYMNTS.com .",
-      "sourceUrl": "https://www.pymnts.com/news/ecommerce/2026/thrive-capital-bets-100-million-on-shopifys-ai-future/",
-      "sourcePlatform": "pymnts",
-      "publishedAt": "2026-05-15T00:58:09.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Thrive Capital Bets",
-        "companyWebsite": "https://thrivecap.com",
-        "companyLogoUrl": "https://logo.clearbit.com/thrivecap.com",
-        "amount": 100,
-        "amountDisplay": "$100",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "venturebeat.com-ad05be20",
-      "headline": "Cerebras stock nearly doubles on day one as AI chipmaker hits $100 billion — what it means for AI infrastructure",
-      "description": "Cerebras Systems , the Silicon Valley chipmaker that built the world's largest commercial AI processor, erupted onto the Nasdaq on Wednesday, opening at $350 per share — nearly double its $185 IPO price — and rocketing past a $100 billion market capitalization in its first hours of trading. The debut instantly crowned Cerebras as one of the most valuable semiconductor companies on Earth and validated a decade-long bet that the AI industry would eventually demand a fundamentally different kind of chip. The company sold 30 million shares at $185 apiece, raising $5.55 billion in what Bloomberg reported as the largest U.S. tech IPO since Uber went public in 2019 . The final pricing shattered expectations: Cerebras initially marketed shares at $115 to $125, then raised the range to $150 to $160 as investor demand surged, before ultimately pricing above even that elevated band. \"This is a new beginning,\" Julie Choi, Senior Vice President and Chief Marketing Officer at Cerebras, told VentureBeat in an exclusive interview on the morning of the IPO. The company, she said, plans to pour its fresh capital into expanding the cloud infrastructure that has become the centerpiece of its growth strategy. \"With this new capital, we're going to fill more data halls with Cerebras systems to power the world's fastest inference.\" The IPO caps one of the most dramatic corporate turnarounds in recent tech history. Cerebras first filed to go public in September 2024 but withdrew the effort more than a year later amid intense scrutiny over its near-total revenue dependence on a single customer in the United Arab Emirates. The company refiled in April 2026 with a radically different business profile: new partnerships with OpenAI and Amazon Web Services , a fast-growing cloud inference service , and a revenue base that had climbed 76% to $510 million in 2025 . How a dinner-plate-sized chip became the foundation of a $100 billion company To understand the frenzy, you have to understand the silicon. Cerebras builds something called the Wafer-Scale Engine , or WSE — a single processor that occupies an entire silicon wafer, the dinner-plate-sized disc from which ordinary chips are cut. The third-generation WSE-3 contains 4 trillion transistors, 900,000 compute cores, and 44 gigabytes of on-chip memory. It is 58 times larger than Nvidia's B200 \"Blackwell\" chip and delivers 2,625 times more memory bandwidth than the B200 package, according to the company's S-1 filing with the Securities and Exchange Commission. That bandwidth advantage matters enormously for AI inference — the process of running a trained model to generate answers. When a large language model produces text, it predicts one token at a time, and each token requires the model's entire set of weights to move from memory to compute. This work is inherently sequential and cannot be parallelized, making memory bandwidth the binding constraint on speed. Cerebras claims its architecture delivers inference responses up to 15 times faster than leading GPU-based solutions on open-source models, a figure corroborated by third-party benchmarker Artificial Analysis . \"One of the architectural principles when we built the wafer was: let's keep compute closer together, so that compute elements can talk to each other at lower latency,\" Andy Hock, VP of Product at Cerebras, told VentureBeat. \"Low latency is important to AI compute. It's a cornerstone of fast inference.\" The founding insight was contrarian and, for most of the company's life, commercially premature. Cerebras's founders recognized in 2015 that AI workloads were communication-bound problems — speed depended on how fast data could move between memory and compute — and that the best way to accelerate that movement was to keep everything on a single massive chip. Wafer-scale integration had been attempted and abandoned repeatedly over the semiconductor industry's 75-year history. Every previous effort had failed. Cerebras solved the problem through two key innovations detailed in its S-1 : a proprietary multi-die interconnect that stitches otherwise independent die together at the wafer level during fabrication, and a fault-tolerant architecture that routes around manufacturing defects using redundant building blocks, similar to how hyperscale data centers handle server failures. Why Cerebras is betting its future on cloud inference instead of hardware sales For most of its life, Cerebras sold hardware — massive, water-cooled AI supercomputers installed on-premises at customer facilities. That model generated $358 million in hardware revenue in 2025. But the IPO prospectus reveals a strategic pivot that will define the company's next chapter: the transition to cloud-based inference services . Cerebras launched its inference cloud in August 2024. In less than two years, cloud and other services revenue reached $151.6 million in 2025 , up 94% from $78.3 million in 2024. The company now expects this segment to comprise a significantly larger percentage of total revenue going forward, driven primarily by its enormous deal with OpenAI. \"Cloud and model APIs are the preferred and natural consumption method for inference services and application developers,\" Hock told VentureBeat. \"So that was the natural packaging and go-to-market strategy for the inference capability.\" Choi framed the cloud as a democratization play. \"Whether that be an entrepreneurial developer, a startup, or a massive organization like OpenAI — the cloud has really made it easy for people to deploy and feel the fast inference, the value of it,\" she said. The economics of the transition are capital-intensive. Cerebras must lease data center space, manufacture and deploy its systems, and build software to manage capacity — all before recognizing recurring revenue. The S-1 warns bluntly that gross margins will decline in the near term as the company absorbs startup costs for cloud infrastructure. The company's gross margin already dipped to 39% in 2025 from 42.3% in 2024, driven by higher data center costs. But the demand picture appears formidable. \"Every cloud system that we've deployed so far, each one gets gobbled up in capacity,\" Hock said. \"We've been thrilled to see the demand for fast inference from Cerebras. We want to go faster to service that market.\" Inside the $20 billion OpenAI deal that transformed Cerebras overnight The single most consequential business relationship for Cerebras is its December 2025 agreement with OpenAI, under which OpenAI committed to purchase 750 megawatts of Cerebras inference compute capacity over the next several years. The deal is valued at more than $20 billion and includes provisions for OpenAI to purchase an additional 1.25 gigawatts of capacity, potentially bringing total deployment to 2 gigawatts. The arrangement goes far beyond a standard vendor-customer relationship. OpenAI and Cerebras are co-designing future models for future Cerebras hardware — a tight feedback loop that gives Cerebras visibility into frontier model architectures before they ship and gives OpenAI inference systems optimized for its specific workloads. The partnership moved from contract to production with remarkable speed. \"After we announced the partnership, we had the first model running in like 35 days,\" Choi told VentureBeat. \"That was Codex Spark, and the engineers over at OpenAI just were like, mind blown.\" Codex Spark , OpenAI's model designed for real-time coding, allows developers to turn natural-language instructions into working software in seconds using Cerebras infrastructure. Choi described a deep cultural alignment between the two companies. \"Our teams truly vibe as engineers. We're on the same wavelength,\" she said. \"There's just no amount of speed that is enough for those guys.\" To fund the infrastructure buildout, OpenAI advanced Cerebras a $1 billion working capital loan in January 2026, secured by a promissory note maturing no later than December 31, 2032, bearing 6% annual interest . The loan can be repaid in cash or through delivery of compute capacity. However, the S-1 discloses significant risk: if the MRA is terminated for any reason other than OpenAI's material uncured breach, OpenAI can seize control of the loan funds and demand immediate repayment. OpenAI also holds a warrant to purchase up to 33.4 million shares of Cerebras Class N common stock at an exercise price of $0.00001 per share — essentially free shares that vest as Cerebras delivers committed capacity. At the IPO opening price, the fully vested warrant would be worth approximately $11.7 billion. How the Amazon Web Services partnership could bring Cerebras chips to millions of developers In March 2026, Cerebras signed a binding term sheet with Amazon Web Services to become the first hyperscaler to deploy Cerebras systems inside its own data centers. The partnership introduces a novel architectural concept called disaggregated inference, which splits the two stages of AI inference — prefill (processing the user's prompt) and decode (generating the response) — across different hardware optimized for each task. Under this arrangement, AWS Trainium chips handle prefill , while Cerebras CS-3 systems handle decode , connected via Amazon's Elastic Fabric Adapter networking. According to the AWS press announcement in March, the approach aims to deliver an order of magnitude faster inference than what is currently available. Hock provided technical detail on why this works. \"The interconnect requirements between prefill and decode systems actually aren't that high, so we can use a traditional interconnect between, say, Trainium and the wafer-scale engine and still deliver that fast time to first token and that ultra-low latency token generation,\" he explained. \"What the Trainium wafer-scale engine combination really gives us in that disaggregated or heterogeneous inference setup is all the speed and vastly more efficiency, so we can effectively serve more tokens per unit rack space or kilowatt.\" The partnership provides Cerebras something it has long lacked: massive distribution. AWS serves millions of enterprise customers worldwide, and Cerebras systems deployed through Amazon Bedrock will become accessible to any developer within their existing AWS environment. \"AWS has incredible reach,\" Hock said. \"The partnership is really about bringing that fast inference capability — that sort of best-in-industry, fast inference capability delivered by wafer-scale engine and Trainium — to that broader market.\" The term sheet also grants AWS a warrant to purchase up to approximately 2.7 million shares of Cerebras Class N common stock at a $100 exercise price, with vesting tied to product purchases beyond the initial lease. The UAE customer concentration problem that nearly derailed the IPO — and whether it's really solved For all the excitement, Cerebras carries a risk that has haunted it since its first IPO attempt: customer concentration. In 2024, G42 — an Abu Dhabi–based technology conglomerate — accounted for 85% of Cerebras's total revenue . The company's September 2024 S-1 filing drew heavy scrutiny over this dependence, compounded by questions about export controls for advanced AI chips shipped to the UAE. Cerebras withdrew that filing . The 2025 numbers show progress but not resolution. G42's share of revenue declined to 24% , but Mohamed bin Zayed University of Artificial Intelligence ( MBZUAI ), an Abu Dhabi institution that is a related party to G42, accounted for 62% of total revenue . Together, the two UAE-linked entities still represented 86% of Cerebras's 2025 sales. The S-1 is candid about this risk , noting that MBZUAI accounted for 77.9% of accounts receivable as of December 31, 2025, and that U.S. export licenses for Cerebras systems shipped to G42 and MBZUAI require \"rigorous security and compliance obligations to prevent diversion and abuse of our technology.\" Choi addressed the issue directly, pointing to the OpenAI and AWS deals as evidence of a broadening customer base. \"Now with OpenAI and Amazon, those are the same type of deep partnerships,\" she told VentureBeat. \"We're a deep technology company. Our technology has taken a decade to build. We go deep in how we build, and now we're going deep with two of the biggest players — the biggest AI lab, OpenAI, and the biggest cloud, AWS.\" Hock framed the customer evolution as a progression in market perception. \"G42 caused the market to be intrigued and inspired,\" he said. \"Nobody in the business is smarter, more credible, or has greater reach than OpenAI and AWS. And so I think OpenAI and AWS caused the market to shift from intrigued and inspired to — I'll call it curious and convinced.\" Still, the S-1 warns that the OpenAI MRA itself \"represents a substantial portion of our projected revenues over the next several years.\" Cerebras's business will remain dependent on a small number of very large customers for the foreseeable future — a structural feature of the AI infrastructure market where buildouts are measured in hundreds of megawatts and billions of dollars. Can Cerebras build data centers fast enough to keep up with runaway demand? With OpenAI consuming 750 megawatts of committed capacity and AWS preparing to deploy Cerebras systems in its data centers, the question is whether Cerebras can scale its physical infrastructure quickly enough to serve everyone else. Hock acknowledged the tension. \"It's a good problem to have when demand starts to outstrip supply. It doesn't mean it's an easy problem to address,\" he told VentureBeat. \"We've got to build these extraordinary systems. We've got to procure data center space. We've got to deploy systems there. Got to stand up software to meet our customers where they are.\" The company is being deliberate about capacity allocation. \"We're trying to be really deliberate about how we allocate capacity as it's built,\" Hock said. \"We're working in deep partnership to service the highest-priority customers and highest-priority markets.\" Choi argued that the constraint actually sharpens focus. \"Sometimes when you have less of something, it forces you to be very deliberate,\" she said. Beyond OpenAI, she named Cognition — the AI coding startup — and Block , led by Jack Dorsey, as significant customers. \"Jack participated in our roadshow as well,\" Choi noted. \"We're speeding up that entire money-bot AI experience within Cash App.\" The S-1 discloses that Cerebras currently operates data centers in California, Oklahoma, and Canada , with plans to expand internationally. The company executed non-cancelable data center leases in late 2025 with aggregate undiscounted future minimum payments of approximately $344 million , and in March 2026 signed a Canadian data center lease with expected minimum payments of approximately $2.2 billion over a 10-year term. The IPO proceeds — combined with $1 billion from a January 2026 Series H preferred stock round and the $1 billion OpenAI loan — give Cerebras a war chest exceeding $8 billion to fund the buildout. Whether that is enough to satisfy a market where major customers are ordering capacity measured in gigawatts remains an open question. The Nvidia shadow: what Cerebras is really up against in the AI chip wars Cerebras enters public markets into the teeth of the most competitive semiconductor environment in decades. Nvidia remains the dominant force in AI compute, controlling the vast majority of the training and inference infrastructure market. Its GPU architecture benefits from a deeply entrenched software ecosystem built around CUDA, the programming framework that has become the de facto standard for AI development. Cerebras's S-1 explicitly acknowledges this , noting that \"many of our competitors benefit from competitive advantages over us, such as prominent and cutting-edge technology and software stacks designed to keep out new market entrants.\" But Cerebras argues the inference market is structurally different from training — and that its architecture has a fundamental advantage in the workload that matters most going forward. As AI models have shifted toward reasoning, where models perform multi-step computation during inference to think through problems, the number of tokens generated per request has exploded . Each token requires moving full model weights from memory to compute, making memory bandwidth the bottleneck. The S-1 cites Bloomberg Intelligence data projecting that Cerebras's addressable portion of the AI inference market will grow from approximately $66 billion in 2025 to $292 billion by 2029 , a 45% compound annual growth rate — significantly outpacing the 20% CAGR projected for AI training infrastructure. Nvidia has clearly taken notice of the fast-inference threat. In December 2025, Nvidia acquired Groq — a startup whose tensor streaming processor architecture more closely resembles Cerebras's approach — for $20 billion. Months later, Nvidia announced plans for Groq-based products , signaling that even the industry's dominant player recognizes the limitations of GPU architecture for latency-sensitive inference. Cerebras also competes with custom silicon developed by hyperscalers — including Google's TPUs and Amazon's Trainium chips — and a growing roster of AI cloud providers. Asked about Nvidia and Groq, Choi declined to engage. \"We're feeling pretty good right now,\" she told VentureBeat with a smile. Revenue is surging, but the financial fine print reveals a more complicated picture The financial picture that emerges from the S-1 is one of rapid scaling with significant underlying complexity. Revenue surged from $78.7 million in 2023 to $290.3 million in 2024 to $510 million in 2025 — a more than tenfold increase over three years. The company reported GAAP net income of $237.8 million in 2025, but this figure is heavily influenced by a $363.3 million one-time gain from the extinguishment of a forward contract liability related to a preferred stock arrangement. Stripping out that gain and stock-based compensation, Cerebras's non-GAAP net loss was $75.7 million in 2025, widening from a $21.8 million non-GAAP loss in 2024. Operating losses deepened as well. Cerebras lost $145.9 million from operations in 2025, up from $101.4 million the prior year, as the company invested heavily in research and development ($243.3 million, up 54%) and sales and marketing ($70.6 million, up 237%). The company burned $10 million in operating cash flow in 2025, a sharp reversal from the $452 million of cash generated in 2024 — a year boosted by $640 million in customer deposit inflows, primarily from G42 and MBZUAI . The S-1 warns that gross margins will face near-term pressure from startup costs for cloud infrastructure, customer warrant amortization, and pass-through data center expenses. The path to this moment was anything but smooth. Cerebras shipped its first systems in 2020 and 2021 — before the market was ready. As the founders wrote in the prospectus: the company \"had built something extraordinary, but the market wasn't ready.\" The ChatGPT moment in late 2022 changed everything. By early 2025, Cerebras's speed advantage — long a solution in search of a problem — became urgently relevant as AI coding agents, deep research tools, and real-time voice applications demanded the kind of low-latency inference that GPU clusters struggled to deliver. The S-1 describes a market where AI coding agents \"barely existed in 2023\" but collectively generated \"billions in ARR in 2025,\" and where 42% of professional code is now AI-generated or assisted. What Cerebras must prove to justify a $100 billion valuation — and what happens if it can't Looking forward, Hock signaled that the current generation of hardware is just the beginning. \"Wafer-scale engine three and CS-3 is not the end of the story. It's just the beginning,\" he told VentureBeat. \"We have a multi-year technology roadmap that continues building on wafer-scale technology, accelerating performance, increasing efficiency, supporting larger scale.\" The S-1 confirms that Cerebras intends to expand on-chip memory and bandwidth , improve interconnect density, and leverage future process node advances — and discloses that the company has already obtained export licenses for future CS-4 systems destined for the UAE. The company also faces a web of operational risks that would test any organization, let alone one that has never operated as a public company. It depends entirely on TSMC for wafer fabrication, with no long-term supply commitment. Its data center leases stretch for years, while its inference customer contracts are often shorter-term or consumption-based, creating a mismatch between fixed costs and variable revenue. It has identified material weaknesses in its internal controls over financial reporting. And its most important customer relationship — with OpenAI — includes exclusivity provisions that restrict Cerebras from working with certain named OpenAI competitors, potentially limiting future diversification. Whether Cerebras can sustain a $100 billion-plus valuation will depend on its ability to execute against all of these challenges simultaneously: building data centers at unprecedented speed, manufacturing wafer-scale chips at scale through a single foundry, navigating export controls on its most lucrative international relationships, and competing against an Nvidia that has shown it will not cede the inference market without a fight. But Cerebras has always been built on a willingness to attempt what others said was impossible. Wafer-scale integration had stumped the semiconductor industry for its entire existence. Now a chip the size of a dinner plate — once dismissed as an engineering curiosity — powers the fastest AI inference on the planet, serves the world's leading AI lab, and just debuted on the Nasdaq to a valuation that dwarfs companies many times its age. The world, it turns out, was ready. As Hock put it to VentureBeat, recalling the journey from the lab to the trading floor: \"The IPO isn't the end of the story. It's the beginning.\"",
-      "sourceUrl": "https://venturebeat.com/technology/cerebras-stock-nearly-doubles-on-day-one-as-ai-chipmaker-hits-100-billion-what-it-means-for-ai-infrastructure",
-      "sourcePlatform": "venturebeat",
-      "publishedAt": "2026-05-14T21:38:02.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Cerebras",
-        "companyWebsite": "https://cerebras.net",
-        "companyLogoUrl": "https://logo.clearbit.com/cerebras.net",
-        "amount": 33400000,
-        "amountDisplay": "$33.4M",
-        "currency": "USD",
-        "roundType": "series-d-plus",
-        "investors": [
-          "Jack Dorsey",
-          "our roadshow as well",
-          "memory",
-          "42",
-          "Cerebras",
-          "contract"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Jack Dorsey",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "our roadshow as well",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "memory",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "42",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "Cerebras",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "contract",
-            "isKnown": false,
-            "confidence": "low"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "fintech",
-        "hardware",
-        "saas",
-        "defense"
-      ]
-    },
-    {
-      "id": "techcrunch.com-97c16be9",
-      "headline": "Cerebras raises $5.5B, then stock pops $108%, in the first huge tech IPO of 2026",
-      "description": "A year ago, it looked like this day would never happen for Cerebras.",
-      "sourceUrl": "https://techcrunch.com/2026/05/14/cerebras-raises-5-5b-kicking-off-2026s-ipo-season-with-a-bang/",
-      "sourcePlatform": "techcrunch-ai",
-      "publishedAt": "2026-05-14T16:30:02.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Cerebras",
-        "companyWebsite": "https://cerebras.net",
-        "companyLogoUrl": "https://logo.clearbit.com/cerebras.net",
-        "amount": 5500000000,
-        "amountDisplay": "$5.5B",
-        "currency": "USD",
-        "roundType": "ipo",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "aibusiness.com-3a5b3e99",
-      "headline": "Rivian Spinoff Raises $400M for Industrial Robots",
-      "description": "The vendor will use the funds to scale deployment of Mind’s AI-powered robots in live manufacturing environments.",
-      "sourceUrl": "https://aibusiness.com/robotics/rivian-spinoff-raises-400m-industrial-robots",
-      "sourcePlatform": "ai-business",
-      "publishedAt": "2026-05-14T14:44:03.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Rivian Spinoff",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 400000000,
-        "amountDisplay": "$400M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "techcrunch.com-f052b57a",
-      "headline": "Wirestock raises $23M to supply creative multimodal data to AI labs",
-      "description": "The company pivoted to being a data provider in 2023 and now supplies datasets of images, videos, design assets, and gaming and 3D content to AI labs.",
-      "sourceUrl": "https://techcrunch.com/2026/05/14/wirestock-raises-23m-to-supply-multi-modal-data-to-ai-labs/",
-      "sourcePlatform": "techcrunch-ai",
-      "publishedAt": "2026-05-14T14:00:00.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Wirestock",
-        "companyWebsite": "https://wirestock.io",
-        "companyLogoUrl": "https://logo.clearbit.com/wirestock.io",
-        "amount": 23000000,
-        "amountDisplay": "$23M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Nava Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Nava Ventures",
-            "isKnown": false,
-            "confidence": "low"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "techstartups.com-dad9be1e",
-      "headline": "Saile raises $2.2M to use AI agents to fix healthcare staffing and cut physician credentialing from months to days",
-      "description": "Hospitals across the U.S. are spending heavily to recruit temporary physicians, flying doctors across state lines to fill staffing gaps. At the same time, thousands of qualified physicians remain in limbo for months, unable to work due to credentialing paperwork, […] The post Saile raises $2.2M to use AI agents to fix healthcare staffing and cut physician credentialing from months to days first appeared on Tech Startups .",
-      "sourceUrl": "https://techstartups.com/2026/05/14/saile-raises-2-2m-to-use-ai-agents-to-fix-healthcare-staffing-and-cut-physician-credentialing-from-months-to-days/",
-      "sourcePlatform": "techstartups",
-      "publishedAt": "2026-05-14T13:57:24.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Saile",
-        "companyWebsite": "https://saileapp.com",
-        "companyLogoUrl": "https://logo.clearbit.com/saileapp.com",
-        "amount": 2200000,
-        "amountDisplay": "$2.2M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "months",
-          "Matchstick Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "months",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "Matchstick Ventures",
-            "isKnown": false,
-            "confidence": "low"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "healthcare"
-      ]
-    },
-    {
-      "id": "tech.eu-51d465ba",
-      "headline": "Iceotope raises $26M to advance cooling for next-generation AI infrastructure",
-      "description": "Iceotope Group, a provider of precision liquidcooling solutions for data centres and edge infrastructure, has raised $26million in a Series B funding round led by Two Seas Capital and Barclays Climate...",
-      "sourceUrl": "https://tech.eu/2026/05/14/iceotope-raises-26m-to-advance-cooling-for-next-generation-ai-infrastructure/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-05-14T13:00:00.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Iceotope",
-        "companyWebsite": "https://iceotope.com",
-        "companyLogoUrl": "https://logo.clearbit.com/iceotope.com",
-        "amount": 26000000,
-        "amountDisplay": "$26M",
-        "currency": "USD",
-        "roundType": "series-b",
-        "investors": [
-          "Two Seas Capital",
-          "generation AI infrastructure Two Seas Capital",
-          "Barclays Climate Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Two Seas Capital",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "generation AI infrastructure Two Seas Capital",
-            "isKnown": false,
-            "confidence": "low"
-          },
-          {
-            "name": "Barclays Climate Ventures",
-            "isKnown": false,
-            "confidence": "low"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "climate"
-      ]
-    },
-    {
-      "id": "tech.eu-dd4b314f",
-      "headline": "Zerops raises $2M seed to rebuild cloud infrastructure for the AI development era",
-      "description": "Zerops, a Platform-as-a-Service startup redesigning cloud architecture, has raised a $2 million seed round led by Gi21 Capital. Zerops removes the separation between development and production environ...",
-      "sourceUrl": "https://tech.eu/2026/05/14/zerops-raises-2m-seed-to-rebuild-cloud-infrastructure-for-the-ai-development-era/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-05-14T08:00:00.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Zerops",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 2000000,
-        "amountDisplay": "$2M",
-        "currency": "USD",
-        "roundType": "seed",
-        "investors": [
-          "Gi21 Capital"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Gi21 Capital",
-            "isKnown": false,
-            "confidence": "low"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "techcrunch.com-ca29e0a6",
-      "headline": "Origin Lab raises $8M to help video game companies sell data to world-model builders",
-      "description": "Origin Lab will serve as a marketplace where AI labs can buy high-quality licensed data, and video-game companies can sell it.",
-      "sourceUrl": "https://techcrunch.com/2026/05/13/origin-lab-raises-8m-to-help-video-game-companies-sell-data-to-world-model-builders/",
-      "sourcePlatform": "techcrunch-ai",
-      "publishedAt": "2026-05-13T16:22:01.000Z",
-      "discoveredAt": "2026-05-15T08:07:00.574Z",
-      "extracted": {
-        "companyName": "Origin Lab",
-        "companyWebsite": "https://originlab.ai",
-        "companyLogoUrl": "https://logo.clearbit.com/originlab.ai",
-        "amount": 8000000,
-        "amountDisplay": "$8M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Lightspeed Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Lightspeed Venture Partners",
-            "isKnown": true,
-            "confidence": "high",
-            "logoUrl": "https://logo.clearbit.com/lsvp.com"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "consumer"
-      ]
+      "discoveredAt": "2026-05-30T06:18:38.793Z"
     }
   ]
 }

@@ -548,8 +548,11 @@ async function main() {
   const mentionsRedis = await writeDataStore("bluesky-mentions", mergedMentionsPayload);
   const trendingRedis = await writeDataStore("bluesky-trending", mergedTrendingPayload);
   if (mentionsRedis.source !== "redis" || trendingRedis.source !== "redis") {
-    throw new Error(
-      "bluesky data-store write skipped; set REDIS_URL or Upstash env",
+    // Soft-skip: both file mirrors (MENTIONS_OUT, TRENDING_OUT) already
+    // landed. Same contract as scrape-funding-news.mjs — genuine transport
+    // errors throw from inside writeDataStore and never reach this branch.
+    console.warn(
+      `[bluesky] data-store write skipped (Redis env unset); file mirrors at ${MENTIONS_OUT} + ${TRENDING_OUT} are the source of truth this run.`,
     );
   }
 

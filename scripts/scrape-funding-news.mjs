@@ -821,8 +821,14 @@ async function main() {
   if (outputPath === OUT_PATH) {
     const redisResult = await writeDataStore("funding-news", payload);
     if (redisResult.source !== "redis") {
-      throw new Error(
-        "funding-news data-store write skipped; set REDIS_URL or Upstash env",
+      // Soft-skip: writeDataStore returned "skipped" because the Redis env is
+      // unset (or DATA_STORE_DISABLE=1). The file write at outputPath already
+      // landed and the GH workflow's auto-commit step ships it downstream, so
+      // /funding stays fed from the bundled spine. Real Redis transport
+      // errors propagate from ioredis client.set and would bypass this
+      // branch entirely — we only ever land here on the documented soft path.
+      console.warn(
+        `[funding] data-store write skipped (Redis env unset); file mirror at ${outputPath} is the source of truth this run.`,
       );
     }
     redisInfo = ` [redis: ${redisResult.source}]`;

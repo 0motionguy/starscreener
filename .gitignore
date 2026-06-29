@@ -51,8 +51,11 @@ next-env.d.ts
 !/.data/aiso-rescan-queue.jsonl
 !/.data/mcp-usage.jsonl
 
-# local Claude Code workspace (agent prompts, skills, settings)
-/.claude/
+# local Claude Code workspace (allowlist project knowledge to match AISO precedent)
+/.claude/*
+!/.claude/knowledge/
+!/.claude/rules/
+!/.claude/agents/
 
 # impeccable skill bundle (installed via `npx impeccable skills install`)
 /.agents/

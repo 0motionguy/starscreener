@@ -97,37 +97,65 @@ export function AskDock() {
     if (expanded) inputRef.current?.focus();
   }, [expanded]);
 
-  const flashStatus = useCallback((s: Status) => {
+  const flashStatus = useCallback((s: Status, sticky = false) => {
     if (statusTimer.current) clearTimeout(statusTimer.current);
     setStatusLeaving(false);
     setStatus(s);
+    if (sticky) return;
     statusTimer.current = setTimeout(() => {
       setStatusLeaving(true);
       statusTimer.current = setTimeout(() => setStatus(null), 280);
     }, 1500);
   }, []);
 
+  const go = useCallback(
+    (href: string, lead: string, em: string | undefined, arrow: boolean, tier: string) => {
+      flashStatus({ lead, em, arrow });
+      track("ask_navigate", { tier });
+      window.setTimeout(() => router.push(href), 460);
+    },
+    [router, flashStatus],
+  );
+
   const resolve = useCallback(
-    (raw: string) => {
+    async (raw: string) => {
       const text = raw.trim();
       if (!text) return;
       track("ask_submit", { len: text.length });
+
+      // Tier 1 — deterministic, instant.
       const matches = matchNavCommands(text, 1);
       if (matches.length > 0) {
         const top = matches[0]!;
-        flashStatus({
-          lead: top.group === "View" ? "Showing" : "Opening",
-          em: top.label,
-          arrow: true,
-        });
         setInput("");
-        track("ask_navigate", { id: top.id });
-        window.setTimeout(() => router.push(top.href), 460);
+        go(top.href, top.group === "View" ? "Showing" : "Opening", top.label, true, "deterministic");
         return;
       }
-      flashStatus({ lead: "No match. Try funding, agents, compare, revenue.", arrow: false });
+
+      // Tier 2 — LLM router (/api/navigator). No key configured -> graceful miss.
+      setInput("");
+      flashStatus({ lead: "Thinking…", arrow: false }, true);
+      try {
+        const res = await fetch("/api/navigator", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ q: text }),
+        });
+        const data = (await res.json()) as {
+          ok?: boolean;
+          reply?: string;
+          action?: { kind?: string; href?: string };
+        };
+        if (data?.ok && data.action?.kind === "navigate" && typeof data.action.href === "string") {
+          go(data.action.href, data.reply || "Opening", undefined, true, "llm");
+          return;
+        }
+        flashStatus({ lead: data?.reply || "No match. Try funding, agents, compare, revenue.", arrow: false });
+      } catch {
+        flashStatus({ lead: "No match. Try funding, agents, compare, revenue.", arrow: false });
+      }
     },
-    [router, flashStatus],
+    [flashStatus, go],
   );
 
   // --- drag (pointer events on the grip / node) ----------------------------

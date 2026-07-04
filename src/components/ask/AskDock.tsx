@@ -22,6 +22,11 @@ const GREETING =
   "Hey. Tell me what you're looking for and I'll take you right there. A repo, funding, trending agents, or just ask.";
 const HELP =
   "I can jump you anywhere (try 'funding' or 'agents'), open any repo by name, and answer questions about trending repos, AI models, funding, and agent commerce. Talk to me in plain English.";
+const CHITCHAT =
+  "Doing great, thanks. Tell me what you're after and I'll take you there: a repo, funding, trending agents, or ask me what's hot.";
+const THANKS = "Anytime. Where to next?";
+const MISS =
+  "I couldn't map that to a page yet, but I can take you anywhere: try 'funding', 'agents', a repo name, or ask me what's trending.";
 
 interface Pos {
   left: number;
@@ -177,15 +182,26 @@ export function AskDock() {
         return;
       }
 
-      // Conversational shortcuts — the agent talks back with no LLM key needed.
-      if (/^(help|what can you|who are you|hi|hey|hello|what is this)\b/i.test(text)) {
+      // Conversational shortcuts — warm replies that work with no LLM key.
+      if (/^(hi|hey|hello|yo|sup|how are you|how'?s it going|what'?s up|whats up|good (morning|afternoon|evening))\b/i.test(text)) {
+        setInput("");
+        setAnswer({ text: CHITCHAT });
+        return;
+      }
+      if (/^(help|what can you|who are you|what is this|what do you do)\b/i.test(text)) {
         setInput("");
         setAnswer({ text: HELP });
         return;
       }
+      if (/^(thanks|thank you|thx|ty|cheers|nice|cool|great)\b/i.test(text)) {
+        setInput("");
+        setAnswer({ text: THANKS });
+        return;
+      }
 
       // Tier 2 — LLM assistant (/api/navigator): answers and/or navigates.
-      // Graceful when no key is configured — falls back to a status line.
+      // Any miss (or no key configured) lands as a PERSISTENT typed answer —
+      // never a status that vanishes, so the user always gets a response.
       setInput("");
       setAnswer(null);
       flashStatus({ lead: "Thinking…", arrow: false }, true);
@@ -194,6 +210,8 @@ export function AskDock() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ q: text }),
+          // Never let "Thinking…" stick forever if the route hangs.
+          signal: AbortSignal.timeout(12_000),
         });
         const data = (await res.json()) as {
           ok?: boolean;
@@ -216,9 +234,11 @@ export function AskDock() {
             return;
           }
         }
-        flashStatus({ lead: data?.reply || "No match. Try funding, agents, compare, revenue.", arrow: false });
+        setStatus(null);
+        setAnswer({ text: data?.answer || data?.reply || MISS });
       } catch {
-        flashStatus({ lead: "No match. Try funding, agents, compare, revenue.", arrow: false });
+        setStatus(null);
+        setAnswer({ text: MISS });
       }
     },
     [flashStatus, go],

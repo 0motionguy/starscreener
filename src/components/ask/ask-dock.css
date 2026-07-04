@@ -1,218 +1,202 @@
-/* Ask dock — the conversational agent surface. Terminal aesthetic, docked
-   bottom-right, Dark Void + Liquid Lava. Uses shell.css design vars so it
-   reads as part of the product, not a bolted-on widget. */
+/* Ask HUD — a draggable liquid-glass command bar. Floats over live content;
+   you type/speak, the agent navigates. No chat log. Glass is PURPOSEFUL here:
+   a HUD over a changing data-scape, frosted so context shows through — not a
+   decorative card. Restrained color: the frost is neutral, accent only touches
+   the caret + focus. DNA: HyperLiquid precision × Meteora liquid unfurl. */
 
-.ask-launcher {
+.ask-hud {
   position: fixed;
+  z-index: 70;
+  /* Default anchor: bottom-right. JS overrides via inline left/top when the
+     user drags. transform keeps it off the very edge before first drag. */
   right: 20px;
-  bottom: 20px;
-  z-index: 60;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px 10px 14px;
+  bottom: 22px;
+  touch-action: none;
   font-family: var(--mono, ui-monospace, monospace);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ink-000, #fff);
-  background: var(--bg-raised, #101418);
-  border: 1px solid var(--accent-line, #ff6b3555);
-  border-radius: 4px;
-  cursor: pointer;
-  box-shadow:
-    0 0 0 1px var(--bg-canvas, #08090a),
-    0 8px 30px -8px var(--accent-glow, #ff6b3540);
-  transition: border-color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
-}
-.ask-launcher:hover {
-  border-color: var(--accent, #ff6b35);
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 1px var(--bg-canvas, #08090a),
-    0 10px 36px -6px var(--accent-glow-wide, #ff6b3555);
-}
-.ask-launcher .ask-spark {
-  color: var(--accent, #ff6b35);
-  font-size: 13px;
-  line-height: 1;
-}
-.ask-launcher .ask-kbd {
-  margin-left: 2px;
-  padding: 1px 5px;
-  font-size: 9px;
-  color: var(--ink-300, #8b97a3);
-  background: var(--bg-fill, #1d242b);
-  border: 1px solid var(--line-300, #2f3942);
-  border-radius: 3px;
 }
 
-.ask-panel {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 61;
-  display: flex;
-  flex-direction: column;
-  width: min(400px, calc(100vw - 32px));
-  height: min(540px, calc(100vh - 120px));
-  background: var(--bg-shell, #0b0d0f);
-  border: 1px solid var(--line-300, #2f3942);
-  border-radius: 6px;
+/* --- the glass surface, shared by node + bar ------------------------------ */
+.ask-glass {
+  position: relative;
+  background: rgba(12, 14, 17, 0.55);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.30),
+    0 10px 44px -14px rgba(0, 0, 0, 0.6);
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px var(--bg-canvas, #08090a),
-    0 24px 70px -16px rgba(0, 0, 0, 0.7),
-    0 0 40px -18px var(--accent-glow, #ff6b3540);
-  animation: ask-rise 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    border-color 200ms ease,
+    box-shadow 240ms ease,
+    width 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes ask-rise {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ask-panel { animation: none; }
+/* Top-edge light refraction — the liquid-glass sheen catching light. */
+.ask-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 45%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
 }
 
-.ask-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 12px;
-  border-bottom: 1px solid var(--line-200, #222a32);
-  background: var(--bg-raised, #101418);
-}
-.ask-head .ask-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent, #ff6b35);
-  box-shadow: 0 0 8px var(--accent, #ff6b35);
-}
-.ask-head .ask-title {
-  font-family: var(--mono, ui-monospace, monospace);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ink-100, #d7dee6);
-}
-.ask-head .ask-title b { color: var(--accent, #ff6b35); font-weight: 600; }
-.ask-head .ask-close {
-  margin-left: auto;
-  display: inline-flex;
-  padding: 4px;
-  color: var(--ink-300, #8b97a3);
-  background: none;
-  border: 0;
-  cursor: pointer;
-  border-radius: 3px;
-}
-.ask-head .ask-close:hover { color: var(--ink-000, #fff); background: var(--bg-fill, #1d242b); }
-
-.ask-stream {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.ask-msg { display: flex; flex-direction: column; gap: 3px; max-width: 90%; }
-.ask-msg.user { align-self: flex-end; align-items: flex-end; }
-.ask-msg.agent { align-self: flex-start; }
-.ask-msg .ask-bubble {
-  padding: 8px 11px;
-  font-size: 13px;
-  line-height: 1.45;
-  border-radius: 6px;
-}
-.ask-msg.user .ask-bubble {
-  color: var(--ink-000, #fff);
-  background: var(--accent-wash, #ff6b3518);
-  border: 1px solid var(--accent-line, #ff6b3555);
-}
-.ask-msg.agent .ask-bubble {
-  color: var(--ink-100, #d7dee6);
-  background: var(--bg-raised, #101418);
-  border: 1px solid var(--line-200, #222a32);
-}
-.ask-msg .ask-action {
+/* --- collapsed node ------------------------------------------------------- */
+.ask-node {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 2px;
-  padding: 6px 10px;
-  font-family: var(--mono, ui-monospace, monospace);
-  font-size: 11px;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  cursor: grab;
+  color: var(--ink-100, #d7dee6);
+}
+.ask-node:active { cursor: grabbing; }
+.ask-node .ask-mark {
+  font-size: 15px;
+  line-height: 1;
   color: var(--accent, #ff6b35);
-  background: var(--bg-fill, #1d242b);
-  border: 1px solid var(--accent-line, #ff6b3555);
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 120ms ease;
+  opacity: 0.9;
 }
-.ask-msg .ask-action:hover { background: var(--accent-wash, #ff6b3518); }
+.ask-node:hover { border-color: rgba(255, 255, 255, 0.14); }
 
-.ask-hint {
-  padding: 0 12px 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.ask-hint button {
-  padding: 5px 9px;
-  font-size: 11px;
-  color: var(--ink-200, #aeb8c2);
-  background: var(--bg-raised, #101418);
-  border: 1px solid var(--line-200, #222a32);
-  border-radius: 99px;
-  cursor: pointer;
-  transition: border-color 120ms ease, color 120ms ease;
-}
-.ask-hint button:hover { color: var(--ink-000, #fff); border-color: var(--accent-line, #ff6b3555); }
-
-.ask-input-row {
+/* --- expanded bar --------------------------------------------------------- */
+.ask-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 12px;
-  border-top: 1px solid var(--line-200, #222a32);
-  background: var(--bg-raised, #101418);
+  width: min(420px, calc(100vw - 40px));
+  height: 46px;
+  padding: 0 8px 0 4px;
+  border-radius: 14px;
+  animation: ask-unfurl 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.ask-input-row .ask-prompt { color: var(--accent, #ff6b35); font-family: var(--mono, monospace); font-size: 13px; }
-.ask-input-row input {
-  flex: 1;
+@keyframes ask-unfurl {
+  from { width: 46px; border-radius: 999px; opacity: 0.6; }
+  to { width: min(420px, calc(100vw - 40px)); border-radius: 14px; opacity: 1; }
+}
+
+.ask-bar.focused {
+  border-color: rgba(255, 107, 53, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.30),
+    0 0 0 1px rgba(255, 107, 53, 0.12),
+    0 12px 48px -14px rgba(255, 107, 53, 0.22);
+}
+
+/* drag handle: the grip is the only always-draggable zone, so text selection
+   in the input still works. Left edge, subtle dot-grip. */
+.ask-grip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 100%;
+  cursor: grab;
+  color: var(--ink-400, #5f6b78);
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+.ask-grip:active { cursor: grabbing; }
+.ask-grip:hover { color: var(--ink-200, #aeb8c2); }
+
+.ask-caret {
+  flex: 0 0 auto;
+  color: var(--accent, #ff6b35);
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.ask-bar input {
+  flex: 1 1 auto;
   min-width: 0;
+  height: 100%;
   background: transparent;
   border: 0;
   outline: none;
   color: var(--ink-000, #fff);
+  font-family: inherit;
   font-size: 13px;
+  letter-spacing: 0.01em;
+  caret-color: var(--accent, #ff6b35);
 }
-.ask-input-row input::placeholder { color: var(--ink-400, #5f6b78); }
-.ask-input-row .ask-mic,
-.ask-input-row .ask-send {
+.ask-bar input::placeholder { color: var(--ink-400, #5f6b78); }
+
+.ask-btn {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 30px;
   height: 30px;
-  color: var(--ink-200, #aeb8c2);
-  background: var(--bg-fill, #1d242b);
-  border: 1px solid var(--line-300, #2f3942);
-  border-radius: 4px;
+  border-radius: 8px;
+  color: var(--ink-300, #8b97a3);
+  background: transparent;
+  border: 1px solid transparent;
   cursor: pointer;
-  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+  transition: color 140ms ease, background 140ms ease, border-color 140ms ease;
 }
-.ask-input-row .ask-mic:hover,
-.ask-input-row .ask-send:hover { color: var(--ink-000, #fff); border-color: var(--accent-line, #ff6b3555); }
-.ask-input-row .ask-mic.listening {
+.ask-btn:hover {
+  color: var(--ink-000, #fff);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.ask-btn.listening {
   color: var(--accent, #ff6b35);
-  border-color: var(--accent, #ff6b35);
-  animation: ask-pulse 1.1s ease-in-out infinite;
+  border-color: rgba(255, 107, 53, 0.35);
+  animation: ask-mic 1.2s ease-in-out infinite;
 }
-@keyframes ask-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow, #ff6b3540); }
-  50% { box-shadow: 0 0 0 4px transparent; }
+@keyframes ask-mic {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.28); }
+  50% { box-shadow: 0 0 0 5px rgba(255, 107, 53, 0); }
+}
+
+/* --- ephemeral status (no chat log) --------------------------------------
+   A single thin line that surfaces the agent's action, holds, then fades.
+   Anchored above the bar so it never shifts layout. */
+.ask-status {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  font-size: 12px;
+  color: var(--ink-100, #d7dee6);
+  background: rgba(12, 14, 17, 0.62);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.6);
+  animation: ask-status-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ask-status.leaving { animation: ask-status-out 260ms ease forwards; }
+.ask-status .ask-status-arrow { color: var(--accent, #ff6b35); font-size: 12px; }
+.ask-status .ask-status-em { color: var(--ink-000, #fff); }
+@keyframes ask-status-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ask-status-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-glass,
+  .ask-bar,
+  .ask-status,
+  .ask-btn { animation: none !important; transition: none !important; }
 }

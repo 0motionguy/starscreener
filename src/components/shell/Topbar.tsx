@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "@/components/icon/Icon";
+import { ArrowUpRight } from "@/lib/icons";
+import { matchNavCommands, type NavCommand } from "@/lib/nav-commands";
 
 export interface Crumb {
   label: string;
@@ -65,7 +67,10 @@ interface SearchResponse {
   totals?: { repos: number; llms: number };
 }
 
-type Hit = { kind: "repo"; item: RepoHit } | { kind: "llm"; item: LlmHit };
+type Hit =
+  | { kind: "page"; item: NavCommand }
+  | { kind: "repo"; item: RepoHit }
+  | { kind: "llm"; item: LlmHit };
 
 const DEBOUNCE_MS = 180;
 const MIN_QUERY = 1;
@@ -165,20 +170,31 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
     };
   }, [query]);
 
-  // Flat ordered hit list for keyboard navigation.
+  // Instant, client-side page matches — the "Pages" tier. No fetch, so
+  // ⌘K + "funding" jumps to the page even before repo results land.
+  const pageHits = useMemo(() => matchNavCommands(query), [query]);
+
+  // Flat ordered hit list for keyboard navigation: pages first (instant,
+  // deterministic), then repos, then LLMs. This order MUST match the render
+  // order in SearchDropdown so activeIdx lines up across sections.
   const hits = useMemo<Hit[]>(() => {
-    if (!results) return [];
-    return [
-      ...results.repos.map((item) => ({ kind: "repo" as const, item })),
-      ...results.llms.map((item) => ({ kind: "llm" as const, item })),
-    ];
-  }, [results]);
+    const pages: Hit[] = pageHits.map((item) => ({ kind: "page" as const, item }));
+    const repos: Hit[] = results
+      ? results.repos.map((item) => ({ kind: "repo" as const, item }))
+      : [];
+    const llms: Hit[] = results
+      ? results.llms.map((item) => ({ kind: "llm" as const, item }))
+      : [];
+    return [...pages, ...repos, ...llms];
+  }, [pageHits, results]);
 
   const navigateToHit = useCallback(
     (hit: Hit) => {
       setOpen(false);
       setQuery("");
-      if (hit.kind === "repo") {
+      if (hit.kind === "page") {
+        router.push(hit.item.href);
+      } else if (hit.kind === "repo") {
         router.push(`/repo/${hit.item.fullName}`);
       } else {
         router.push(`/?cat=llms#${encodeURIComponent(hit.item.slug)}`);
@@ -205,7 +221,9 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
   }
 
   const showDropdown =
-    open && query.trim().length >= MIN_QUERY && (loading || results !== null);
+    open &&
+    query.trim().length >= MIN_QUERY &&
+    (loading || results !== null || pageHits.length > 0);
 
   useEffect(() => {
     const el = dropdownRef.current;
@@ -267,6 +285,7 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
           <SearchDropdown
             loading={loading}
             results={results}
+            pageHits={pageHits}
             activeIdx={activeIdx}
             anchorRect={anchorRect}
             panelRef={dropdownRef}
@@ -317,6 +336,7 @@ export function Topbar({ crumbs, authEnabled = false }: TopbarProps) {
 interface SearchDropdownProps {
   loading: boolean;
   results: SearchResponse | null;
+  pageHits: NavCommand[];
   activeIdx: number;
   anchorRect: DOMRect | null;
   panelRef: React.RefObject<HTMLDivElement | null>;
@@ -324,45 +344,69 @@ interface SearchDropdownProps {
   onPick: (hit: Hit) => void;
 }
 
-function SearchDropdown({ loading, results, activeIdx, anchorRect, panelRef, onHover, onPick }: SearchDropdownProps) {
+function SearchDropdown({ loading, results, pageHits, activeIdx, anchorRect, panelRef, onHover, onPick }: SearchDropdownProps) {
   if (typeof document === "undefined" || !anchorRect) return null;
 
-  if (loading && !results) {
-    return createPortal(
+  const hasPages = pageHits.length > 0;
+  const repos = results?.repos ?? [];
+  const llms = results?.llms ?? [];
+  const hasResults = repos.length > 0 || llms.length > 0;
+
+  const wrap = (children: React.ReactNode) =>
+    createPortal(
       <div id="global-search-dropdown" ref={panelRef} className="search-dropdown" role="listbox">
-        <div className="search-empty">Searching…</div>
+        {children}
       </div>,
       document.body,
     );
-  }
 
-  if (results && results.repos.length === 0 && results.llms.length === 0) {
-    return createPortal(
-      <div id="global-search-dropdown" ref={panelRef} className="search-dropdown" role="listbox">
-        <div className="search-empty">
-          No results for <b>{results.query}</b>
-        </div>
+  // Repo/LLM fetch in flight and nothing instant to show yet.
+  if (loading && !results && !hasPages) {
+    return wrap(<div className="search-empty">Searching…</div>);
+  }
+  // Fetch returned empty AND no page matches.
+  if (!hasPages && results && !hasResults) {
+    return wrap(
+      <div className="search-empty">
+        No results for <b>{results.query}</b>
       </div>,
-      document.body,
     );
   }
+  // Nothing to render at all.
+  if (!hasPages && !hasResults) return null;
 
-  if (!results) return null;
-
+  // runningIdx MUST advance in the same order as the `hits` array in Topbar
+  // (pages, repos, llms) so keyboard activeIdx maps to the right row.
   let runningIdx = 0;
-  return createPortal(
-    <div id="global-search-dropdown" ref={panelRef} className="search-dropdown" role="listbox">
-      {results.repos.length > 0 && (
+  return wrap(
+    <>
+      {hasPages && (
         <>
-          <SectionHeader label="Repos" count={results.totals?.repos ?? results.repos.length} />
-          {results.repos.map((repo) => {
+          <SectionHeader label="Pages" count={pageHits.length} />
+          {pageHits.map((cmd) => {
             const idx = runningIdx++;
-            const active = idx === activeIdx;
+            return (
+              <PageRow
+                key={cmd.id}
+                cmd={cmd}
+                active={idx === activeIdx}
+                onMouseEnter={() => onHover(idx)}
+                onClick={() => onPick({ kind: "page", item: cmd })}
+              />
+            );
+          })}
+        </>
+      )}
+      {repos.length > 0 && (
+        <>
+          <SectionHeader label="Repos" count={results?.totals?.repos ?? repos.length} />
+          {repos.map((repo) => {
+            const idx = runningIdx++;
             return (
               <RepoRow
                 key={repo.fullName}
                 repo={repo}
-                active={active}
+                active={idx === activeIdx}
                 onMouseEnter={() => onHover(idx)}
                 onClick={() => onPick({ kind: "repo", item: repo })}
               />
@@ -370,17 +414,16 @@ function SearchDropdown({ loading, results, activeIdx, anchorRect, panelRef, onH
           })}
         </>
       )}
-      {results.llms.length > 0 && (
+      {llms.length > 0 && (
         <>
-          <SectionHeader label="LLMs" count={results.totals?.llms ?? results.llms.length} />
-          {results.llms.map((llm) => {
+          <SectionHeader label="LLMs" count={results?.totals?.llms ?? llms.length} />
+          {llms.map((llm) => {
             const idx = runningIdx++;
-            const active = idx === activeIdx;
             return (
               <LlmRow
                 key={llm.slug}
                 llm={llm}
-                active={active}
+                active={idx === activeIdx}
                 onMouseEnter={() => onHover(idx)}
                 onClick={() => onPick({ kind: "llm", item: llm })}
               />
@@ -388,8 +431,27 @@ function SearchDropdown({ loading, results, activeIdx, anchorRect, panelRef, onH
           })}
         </>
       )}
-    </div>,
-    document.body,
+    </>,
+  );
+}
+
+function PageRow({ cmd, active, onMouseEnter, onClick }: { cmd: NavCommand; active: boolean; onMouseEnter: () => void; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onMouseEnter={onMouseEnter}
+      onClick={onClick}
+      className={`search-row${active ? " is-active" : ""}`}
+    >
+      <span className="search-row-avatar search-row-avatar-fallback">
+        <ArrowUpRight size={13} strokeWidth={1.8} aria-hidden="true" />
+      </span>
+      <span className="search-row-body">
+        <span className="search-row-title">{cmd.label}</span>
+        <span className="search-row-subtitle">Jump to page</span>
+      </span>
+      <span className="search-row-meta">{cmd.group}</span>
+    </button>
   );
 }
 

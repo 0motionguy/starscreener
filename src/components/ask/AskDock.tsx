@@ -19,7 +19,7 @@ import "./ask-dock.css";
 const POS_KEY = "ask-hud-pos";
 
 const GREETING =
-  "Hey, I'm your trendingrepo agent. Ask me what's trending, what x402 is, or just tell me where to go.";
+  "Hey. Tell me what you're looking for and I'll take you right there. A repo, funding, trending agents, or just ask.";
 const HELP =
   "I can jump you anywhere (try 'funding' or 'agents'), open any repo by name, and answer questions about trending repos, AI models, funding, and agent commerce. Talk to me in plain English.";
 
@@ -60,6 +60,45 @@ function track(event: string, props?: Record<string, unknown>): void {
 }
 
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
+
+/**
+ * Types `text` out char-by-char with a blinking caret so the user sees the
+ * agent "typing". Instant under prefers-reduced-motion. Restarts when `text`
+ * changes (so the next message types itself out).
+ */
+function Typewriter({ text }: { text: string }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setN(text.length);
+      return;
+    }
+    setN(0);
+    if (!text) return;
+    let i = 0;
+    const step = text.length > 90 ? 10 : 15; // faster for longer messages
+    const id = window.setInterval(() => {
+      i += 1;
+      setN(i);
+      if (i >= text.length) window.clearInterval(id);
+    }, step);
+    return () => window.clearInterval(id);
+  }, [text]);
+  const done = n >= text.length;
+  return (
+    <>
+      {text.slice(0, n)}
+      {!done && (
+        <span className="ask-type-caret" aria-hidden="true">
+          ▋
+        </span>
+      )}
+    </>
+  );
+}
 
 export function AskDock() {
   const router = useRouter();
@@ -347,7 +386,7 @@ export function AskDock() {
                 <div className="ask-msg">
                   <span className="ask-dot" aria-hidden="true" />
                   <div className="ask-text">
-                    {answer.text}
+                    <Typewriter text={answer.text} />
                     {answer.href && (
                       <div>
                         <a className="ask-act" href={answer.href}>

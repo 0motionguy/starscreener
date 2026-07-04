@@ -208,6 +208,18 @@
   color: var(--ink-100, #d7dee6);
 }
 .ask-msg .ask-text b { color: var(--ink-000, #fff); font-weight: 600; }
+/* typewriter caret — blinks while the agent is "typing" a message */
+.ask-type-caret {
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--accent, #ff6b35);
+  font-weight: 400;
+  animation: ask-blink 1s step-end infinite;
+}
+@keyframes ask-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 .ask-act {
   display: inline-flex;
   align-items: center;

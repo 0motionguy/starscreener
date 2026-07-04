@@ -68,7 +68,6 @@ export function AskDock() {
   const [focused, setFocused] = useState(false);
   const [listening, setListening] = useState(false);
   const [status, setStatus] = useState<Status | null>(null);
-  const [statusLeaving, setStatusLeaving] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [answer, setAnswer] = useState<{ text: string; href?: string } | null>(null);
   const [pos, setPos] = useState<Pos | null>(null);
@@ -109,13 +108,9 @@ export function AskDock() {
 
   const flashStatus = useCallback((s: Status, sticky = false) => {
     if (statusTimer.current) clearTimeout(statusTimer.current);
-    setStatusLeaving(false);
     setStatus(s);
     if (sticky) return;
-    statusTimer.current = setTimeout(() => {
-      setStatusLeaving(true);
-      statusTimer.current = setTimeout(() => setStatus(null), 280);
-    }, 1500);
+    statusTimer.current = setTimeout(() => setStatus(null), 1800);
   }, []);
 
   const go = useCallback(
@@ -282,40 +277,6 @@ export function AskDock() {
 
   return (
     <div ref={hudRef} className="ask-hud" style={style}>
-      {status && (
-        <div className={`ask-status${statusLeaving ? " leaving" : ""}`} role="status">
-          {status.arrow && <span className="ask-status-arrow" aria-hidden="true">→</span>}
-          <span>
-            {status.lead}
-            {status.em && <span className="ask-status-em"> {status.em}</span>}
-          </span>
-        </div>
-      )}
-
-      {expanded && answer && (
-        <div className="ask-answer" role="status">
-          <span className="ask-answer-dot" aria-hidden="true" />
-          <div className="ask-answer-text">
-            {answer.text}
-            {answer.href && (
-              <div>
-                <a className="ask-answer-act" href={answer.href}>
-                  → open
-                </a>
-              </div>
-            )}
-          </div>
-          <button
-            type="button"
-            className="ask-answer-x"
-            onClick={() => setAnswer(null)}
-            aria-label="Dismiss"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
       {!expanded ? (
         <button
           type="button"
@@ -329,50 +290,95 @@ export function AskDock() {
           <span className="ask-mark" aria-hidden="true">▸</span>
         </button>
       ) : (
-        <form
-          className={`ask-glass ask-bar${focused ? " focused" : ""}${dragging ? " dragging" : ""}`}
+        <div
+          className={`ask-glass ask-box${focused ? " focused" : ""}${dragging ? " dragging" : ""}${
+            answer || status ? " has-body" : ""
+          }`}
           onPointerDown={(e) => {
-            // The whole bar is the drag surface — except when the pointer lands
-            // on the input or a button, so typing and clicks still work.
-            if ((e.target as HTMLElement).closest("input, button")) return;
+            // The whole box is the drag surface — except the input, buttons, and
+            // links, so typing, clicks, and the "open" link still work.
+            if ((e.target as HTMLElement).closest("input, button, a")) return;
             onDragStart(e);
           }}
           onPointerMove={onDragMove}
           onPointerUp={(e) => onDragEnd(e, false)}
-          onSubmit={(e) => {
-            e.preventDefault();
-            resolve(input);
-          }}
         >
-          <span className="ask-caret" aria-hidden="true">▸</span>
-          <input
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") setExpanded(false);
+          <form
+            className="ask-row"
+            onSubmit={(e) => {
+              e.preventDefault();
+              resolve(input);
             }}
-            placeholder={listening ? "Listening…" : "Ask to go anywhere…"}
-            aria-label="Ask trendingrepo"
-            autoComplete="off"
-            spellCheck={false}
-          />
-          {voiceOk && (
-            <button
-              type="button"
-              className={`ask-btn${listening ? " listening" : ""}`}
-              onClick={toggleVoice}
-              aria-label={listening ? "Stop listening" : "Speak"}
-            >
-              <Radio size={15} strokeWidth={2} aria-hidden="true" />
+          >
+            <span className="ask-caret" aria-hidden="true">▸</span>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setExpanded(false);
+              }}
+              placeholder={listening ? "Listening…" : "Ask to go anywhere…"}
+              aria-label="Ask trendingrepo"
+              autoComplete="off"
+              spellCheck={false}
+            />
+            {voiceOk && (
+              <button
+                type="button"
+                className={`ask-btn${listening ? " listening" : ""}`}
+                onClick={toggleVoice}
+                aria-label={listening ? "Stop listening" : "Speak"}
+              >
+                <Radio size={15} strokeWidth={2} aria-hidden="true" />
+              </button>
+            )}
+            <button type="submit" className="ask-btn ask-send" aria-label="Send">
+              <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
             </button>
+          </form>
+
+          {/* Conversation opens downward INSIDE the box (capped ~5 rows). */}
+          {(answer || status) && (
+            <div className="ask-body">
+              {answer ? (
+                <div className="ask-msg">
+                  <span className="ask-dot" aria-hidden="true" />
+                  <div className="ask-text">
+                    {answer.text}
+                    {answer.href && (
+                      <div>
+                        <a className="ask-act" href={answer.href}>
+                          → open
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className="ask-x"
+                    onClick={() => setAnswer(null)}
+                    aria-label="Dismiss"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : status ? (
+                <div className="ask-status-line" role="status">
+                  {status.arrow && (
+                    <span className="ask-arrow" aria-hidden="true">
+                      →{" "}
+                    </span>
+                  )}
+                  {status.lead}
+                  {status.em && <b> {status.em}</b>}
+                </div>
+              ) : null}
+            </div>
           )}
-          <button type="submit" className="ask-btn ask-send" aria-label="Send">
-            <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
-          </button>
-        </form>
+        </div>
       )}
     </div>
   );

@@ -1,27 +1,30 @@
-/* Ask HUD — a draggable liquid-glass command bar. Floats over live content;
-   you type/speak, the agent navigates. No chat log. Glass is PURPOSEFUL here:
-   a HUD over a changing data-scape, frosted so context shows through — not a
-   decorative card. Restrained color: the frost is neutral, accent only touches
-   the caret + focus. DNA: HyperLiquid precision × Meteora liquid unfurl. */
+/* Ask HUD — a draggable liquid-glass command box. You type/speak; the agent
+   navigates AND talks back INSIDE the box, which expands downward to hold the
+   conversation (capped ~15 rows, then scroll) with a flowing orange border.
+   Glass is purposeful: a HUD over live content, frosted so context shows
+   through. DNA: HyperLiquid precision × Meteora liquid. */
+
+@property --ask-spin {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
 
 .ask-hud {
   position: fixed;
   z-index: 70;
-  /* Default anchor: bottom-right. JS overrides via inline left/top when the
-     user drags. transform keeps it off the very edge before first drag. */
   right: 20px;
   bottom: 22px;
   touch-action: none;
   font-family: var(--mono, ui-monospace, monospace);
 }
 
-/* --- the glass surface, shared by node + bar ------------------------------ */
+/* --- shared glass --------------------------------------------------------- */
 .ask-glass {
   position: relative;
   background: rgba(17, 20, 25, 0.74);
   backdrop-filter: blur(22px) saturate(155%);
   -webkit-backdrop-filter: blur(22px) saturate(155%);
-  /* Orange-glow border is the accent signature — the one place color lives. */
   border: 1px solid rgba(255, 107, 53, 0.34);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
@@ -29,24 +32,18 @@
     0 0 24px -4px rgba(255, 107, 53, 0.32),
     0 14px 48px -14px rgba(0, 0, 0, 0.62);
   overflow: hidden;
-  transition:
-    border-color 200ms ease,
-    box-shadow 240ms ease,
-    width 280ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-radius 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 200ms ease, box-shadow 240ms ease;
 }
-/* Top-edge light refraction — the liquid-glass sheen catching light. */
+/* Top-edge light refraction — a fixed sheen so it stays on the top edge as the
+   box grows. */
 .ask-glass::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
-  height: 45%;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.11),
-    rgba(255, 255, 255, 0) 100%
-  );
+  height: 30px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
+  z-index: 1;
 }
 
 /* --- collapsed node ------------------------------------------------------- */
@@ -69,25 +66,21 @@
 }
 .ask-node:hover { border-color: rgba(255, 107, 53, 0.5); }
 
-/* --- expanded bar — whole body is the drag surface (cursor: grab) --------- */
-.ask-bar {
+/* --- expanded box (column: input row on top, body opens downward) --------- */
+.ask-box {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
   width: min(500px, calc(100vw - 36px));
-  height: 56px;
-  padding: 0 10px 0 16px;
   border-radius: 16px;
   cursor: grab;
+  animation: ask-unfurl 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.ask-bar.dragging { cursor: grabbing; }
+.ask-box.dragging { cursor: grabbing; animation: none; }
 @keyframes ask-unfurl {
   from { width: 48px; border-radius: 999px; opacity: 0.6; }
   to { width: min(500px, calc(100vw - 36px)); border-radius: 16px; opacity: 1; }
 }
-.ask-bar:not(.dragging) { animation: ask-unfurl 300ms cubic-bezier(0.16, 1, 0.3, 1); }
-
-.ask-bar.focused {
+.ask-box.focused {
   border-color: rgba(255, 107, 53, 0.55);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.16),
@@ -97,31 +90,47 @@
     0 14px 50px -14px rgba(0, 0, 0, 0.62);
 }
 
-/* drag handle: the grip is the only always-draggable zone, so text selection
-   in the input still works. Left edge, subtle dot-grip. */
-.ask-grip {
-  flex: 0 0 auto;
+/* Flowing orange border — a bright arc travels the edge while the box holds
+   a conversation. Masked to the 1.5px border ring. */
+.ask-box.has-body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--ask-spin),
+    transparent 0deg 240deg,
+    rgba(255, 107, 53, 0.9) 312deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: ask-spin 3.4s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+@keyframes ask-spin {
+  to { --ask-spin: 360deg; }
+}
+
+/* input row */
+.ask-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 100%;
-  cursor: grab;
-  color: var(--ink-400, #5f6b78);
-  letter-spacing: 1px;
-  font-size: 10px;
+  gap: 10px;
+  flex: 0 0 auto;
+  height: 54px;
+  padding: 0 10px 0 16px;
 }
-.ask-grip:active { cursor: grabbing; }
-.ask-grip:hover { color: var(--ink-200, #aeb8c2); }
-
 .ask-caret {
   flex: 0 0 auto;
   color: var(--accent, #ff6b35);
   font-size: 12px;
   opacity: 0.85;
 }
-
-.ask-bar input {
+.ask-row input {
   flex: 1 1 auto;
   min-width: 0;
   height: 100%;
@@ -135,7 +144,7 @@
   cursor: text;
   caret-color: var(--accent, #ff6b35);
 }
-.ask-bar input::placeholder { color: var(--ink-300, #8b97a3); }
+.ask-row input::placeholder { color: var(--ink-300, #8b97a3); }
 
 .ask-btn {
   flex: 0 0 auto;
@@ -166,64 +175,24 @@
   50% { box-shadow: 0 0 0 5px rgba(255, 107, 53, 0); }
 }
 
-/* --- ephemeral status (no chat log) --------------------------------------
-   A single thin line that surfaces the agent's action, holds, then fades.
-   Anchored above the bar so it never shifts layout. */
-.ask-status {
-  position: absolute;
-  left: 6px;
-  right: 6px;
-  bottom: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 11px;
-  font-size: 12px;
-  color: var(--ink-100, #d7dee6);
-  background: rgba(12, 14, 17, 0.62);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.6);
-  animation: ask-status-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+/* --- body: the conversation, opens downward inside the box ---------------- */
+.ask-body {
+  flex: 1 1 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  max-height: 240px; /* capped at ~5 rows, then scroll */
+  overflow-y: auto;
+  padding: 12px 13px;
+  animation: ask-body-open 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.ask-status.leaving { animation: ask-status-out 260ms ease forwards; }
-.ask-status .ask-status-arrow { color: var(--accent, #ff6b35); font-size: 12px; }
-.ask-status .ask-status-em { color: var(--ink-000, #fff); }
-@keyframes ask-status-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes ask-body-open {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-@keyframes ask-status-out {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(2px); }
-}
-
-/* --- conversational answer panel -----------------------------------------
-   When you ASK (not just navigate), the agent talks back here: a readable
-   glass card above the bar. One message at a time (the latest) — a reply, not
-   a transcript. Dismissable; persists so you can read it. */
-.ask-answer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(100% + 10px);
+.ask-msg {
   display: flex;
   gap: 9px;
-  padding: 12px 13px;
-  background: rgba(17, 20, 25, 0.78);
-  backdrop-filter: blur(22px) saturate(155%);
-  -webkit-backdrop-filter: blur(22px) saturate(155%);
-  border: 1px solid rgba(255, 107, 53, 0.28);
-  border-radius: 14px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 0 26px -8px rgba(255, 107, 53, 0.26),
-    0 16px 50px -16px rgba(0, 0, 0, 0.62);
-  animation: ask-answer-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.ask-answer .ask-answer-dot {
+.ask-msg .ask-dot {
   flex: 0 0 auto;
   width: 7px;
   height: 7px;
@@ -232,26 +201,25 @@
   background: var(--accent, #ff6b35);
   box-shadow: 0 0 8px var(--accent, #ff6b35);
 }
-.ask-answer .ask-answer-text {
+.ask-msg .ask-text {
   flex: 1 1 auto;
   font-size: 13px;
   line-height: 1.5;
   color: var(--ink-100, #d7dee6);
 }
-.ask-answer .ask-answer-text b { color: var(--ink-000, #fff); font-weight: 600; }
-.ask-answer .ask-answer-act {
+.ask-msg .ask-text b { color: var(--ink-000, #fff); font-weight: 600; }
+.ask-act {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  margin-top: 7px;
+  margin-top: 8px;
   font-size: 12px;
   color: var(--accent, #ff6b35);
   text-decoration: none;
 }
-.ask-answer .ask-answer-act:hover { text-decoration: underline; }
-.ask-answer .ask-answer-x {
+.ask-act:hover { text-decoration: underline; }
+.ask-msg .ask-x {
   flex: 0 0 auto;
-  display: inline-flex;
   align-self: flex-start;
   padding: 2px;
   color: var(--ink-400, #5f6b78);
@@ -259,16 +227,18 @@
   border: 0;
   cursor: pointer;
 }
-.ask-answer .ask-answer-x:hover { color: var(--ink-100, #d7dee6); }
-@keyframes ask-answer-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+.ask-msg .ask-x:hover { color: var(--ink-100, #d7dee6); }
+.ask-status-line {
+  font-size: 13px;
+  color: var(--ink-100, #d7dee6);
 }
+.ask-status-line .ask-arrow { color: var(--accent, #ff6b35); }
+.ask-status-line b { color: var(--ink-000, #fff); font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
   .ask-glass,
-  .ask-bar,
-  .ask-status,
-  .ask-answer,
+  .ask-box,
+  .ask-body,
   .ask-btn { animation: none !important; transition: none !important; }
+  .ask-box.has-body::after { animation: none; }
 }

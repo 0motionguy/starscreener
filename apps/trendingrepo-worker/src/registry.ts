@@ -19,6 +19,7 @@ import fundingNews from './fetchers/funding-news/index.js';
 import secFormD from './fetchers/sec-form-d/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
+import agentCommerce from './fetchers/agent-commerce/index.js';
 // Reddit collection is intentionally paused end-to-end on HOSTUP. Do not keep
 // baselines scheduled either: they still hit Reddit upstreams and can make a
 // stale social source look alive.
@@ -154,6 +155,7 @@ export const FETCHERS: Fetcher[] = [
   repoProfiles,
   repoMetadata,
   npmPackages,
+  agentCommerce,
   fundingNews,
   crunchbase,
   secFormD,

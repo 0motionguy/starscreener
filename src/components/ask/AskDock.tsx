@@ -18,6 +18,11 @@ import "./ask-dock.css";
 
 const POS_KEY = "ask-hud-pos";
 
+const GREETING =
+  "Hey, I'm your trendingrepo agent. Ask me what's trending, what x402 is, or just tell me where to go.";
+const HELP =
+  "I can jump you anywhere (try 'funding' or 'agents'), open any repo by name, and answer questions about trending repos, AI models, funding, and agent commerce. Talk to me in plain English.";
+
 interface Pos {
   left: number;
   top: number;
@@ -65,6 +70,7 @@ export function AskDock() {
   const [status, setStatus] = useState<Status | null>(null);
   const [statusLeaving, setStatusLeaving] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [answer, setAnswer] = useState<{ text: string; href?: string } | null>(null);
   const [pos, setPos] = useState<Pos | null>(null);
   const [voiceOk, setVoiceOk] = useState(false);
 
@@ -94,7 +100,11 @@ export function AskDock() {
   }, []);
 
   useEffect(() => {
-    if (expanded) inputRef.current?.focus();
+    if (expanded) {
+      inputRef.current?.focus();
+      // Welcome the user on open — the agent talks first.
+      setAnswer((a) => a ?? { text: GREETING });
+    }
   }, [expanded]);
 
   const flashStatus = useCallback((s: Status, sticky = false) => {
@@ -123,17 +133,27 @@ export function AskDock() {
       if (!text) return;
       track("ask_submit", { len: text.length });
 
-      // Tier 1 — deterministic, instant.
+      // Tier 1 — deterministic navigation, instant.
       const matches = matchNavCommands(text, 1);
       if (matches.length > 0) {
         const top = matches[0]!;
         setInput("");
+        setAnswer(null);
         go(top.href, top.group === "View" ? "Showing" : "Opening", top.label, true, "deterministic");
         return;
       }
 
-      // Tier 2 — LLM router (/api/navigator). No key configured -> graceful miss.
+      // Conversational shortcuts — the agent talks back with no LLM key needed.
+      if (/^(help|what can you|who are you|hi|hey|hello|what is this)\b/i.test(text)) {
+        setInput("");
+        setAnswer({ text: HELP });
+        return;
+      }
+
+      // Tier 2 — LLM assistant (/api/navigator): answers and/or navigates.
+      // Graceful when no key is configured — falls back to a status line.
       setInput("");
+      setAnswer(null);
       flashStatus({ lead: "Thinking…", arrow: false }, true);
       try {
         const res = await fetch("/api/navigator", {
@@ -144,11 +164,23 @@ export function AskDock() {
         const data = (await res.json()) as {
           ok?: boolean;
           reply?: string;
+          answer?: string;
           action?: { kind?: string; href?: string };
         };
-        if (data?.ok && data.action?.kind === "navigate" && typeof data.action.href === "string") {
-          go(data.action.href, data.reply || "Opening", undefined, true, "llm");
-          return;
+        if (data?.ok) {
+          const href =
+            data.action?.kind === "navigate" && typeof data.action.href === "string"
+              ? data.action.href
+              : undefined;
+          if (data.answer) {
+            setStatus(null);
+            setAnswer({ text: data.answer, href });
+            return;
+          }
+          if (href) {
+            go(href, data.reply || "Opening", undefined, true, "llm");
+            return;
+          }
         }
         flashStatus({ lead: data?.reply || "No match. Try funding, agents, compare, revenue.", arrow: false });
       } catch {
@@ -257,6 +289,30 @@ export function AskDock() {
             {status.lead}
             {status.em && <span className="ask-status-em"> {status.em}</span>}
           </span>
+        </div>
+      )}
+
+      {expanded && answer && (
+        <div className="ask-answer" role="status">
+          <span className="ask-answer-dot" aria-hidden="true" />
+          <div className="ask-answer-text">
+            {answer.text}
+            {answer.href && (
+              <div>
+                <a className="ask-answer-act" href={answer.href}>
+                  → open
+                </a>
+              </div>
+            )}
+          </div>
+          <button
+            type="button"
+            className="ask-answer-x"
+            onClick={() => setAnswer(null)}
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
         </div>
       )}
 

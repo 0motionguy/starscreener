@@ -200,9 +200,75 @@
   to { opacity: 0; transform: translateY(2px); }
 }
 
+/* --- conversational answer panel -----------------------------------------
+   When you ASK (not just navigate), the agent talks back here: a readable
+   glass card above the bar. One message at a time (the latest) — a reply, not
+   a transcript. Dismissable; persists so you can read it. */
+.ask-answer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 10px);
+  display: flex;
+  gap: 9px;
+  padding: 12px 13px;
+  background: rgba(17, 20, 25, 0.78);
+  backdrop-filter: blur(22px) saturate(155%);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+  border: 1px solid rgba(255, 107, 53, 0.28);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 26px -8px rgba(255, 107, 53, 0.26),
+    0 16px 50px -16px rgba(0, 0, 0, 0.62);
+  animation: ask-answer-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ask-answer .ask-answer-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--accent, #ff6b35);
+  box-shadow: 0 0 8px var(--accent, #ff6b35);
+}
+.ask-answer .ask-answer-text {
+  flex: 1 1 auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-100, #d7dee6);
+}
+.ask-answer .ask-answer-text b { color: var(--ink-000, #fff); font-weight: 600; }
+.ask-answer .ask-answer-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 7px;
+  font-size: 12px;
+  color: var(--accent, #ff6b35);
+  text-decoration: none;
+}
+.ask-answer .ask-answer-act:hover { text-decoration: underline; }
+.ask-answer .ask-answer-x {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px;
+  color: var(--ink-400, #5f6b78);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.ask-answer .ask-answer-x:hover { color: var(--ink-100, #d7dee6); }
+@keyframes ask-answer-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ask-glass,
   .ask-bar,
   .ask-status,
+  .ask-answer,
   .ask-btn { animation: none !important; transition: none !important; }
 }

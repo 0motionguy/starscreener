@@ -42,6 +42,8 @@ interface NavAction {
 interface NavOk {
   ok: true;
   reply: string;
+  /** A conversational answer when the user asked a question (not just navigated). */
+  answer?: string;
   action: NavAction;
 }
 
@@ -91,20 +93,25 @@ function safeInternalHref(raw: unknown): string | null {
 function buildSystemPrompt(): string {
   const pages = NAV_COMMANDS.map((c) => `- ${c.label} (${c.group}): ${c.href}`).join("\n");
   return [
-    "You are the navigation router for trendingrepo, a dashboard that tracks trending open-source repos, AI models, funding and agent commerce.",
-    "Map the user's request to exactly ONE destination and reply with STRICT JSON, no prose, no code fence:",
-    '{"reply": "<=8 word confirmation", "action": {"kind":"navigate","href":"/path"}}',
-    'or {"reply":"...","action":{"kind":"none"}} when nothing fits.',
+    "You are the trendingrepo assistant — a friendly, sharp guide to a dashboard that tracks trending open-source repos, AI models, funding, and agent commerce (x402).",
+    "You do TWO things: ANSWER the user's question, and/or NAVIGATE them to a page. Reply with STRICT JSON, no prose, no code fence:",
+    '{"reply":"<=8 word status", "answer":"<=3 sentence helpful answer, omit if pure navigation", "action":{"kind":"navigate","href":"/path"}}',
+    'Use {"action":{"kind":"none"}} when no page fits. Always include a warm, specific `answer` when the user asks a question rather than just naming a destination.',
     "",
     "Rules:",
     "- href MUST be an internal path starting with /. Never an external URL.",
     "- To open a specific GitHub repo the user names, use /repo/{owner}/{name}.",
-    "- Otherwise pick from these pages:",
+    "- Be concrete and useful; no marketing fluff. If you don't know a live number, say what page shows it and navigate there.",
+    "- Pages you can navigate to:",
     pages,
   ].join("\n");
 }
 
-function extractJson(text: string): { reply?: unknown; action?: { kind?: unknown; href?: unknown } } | null {
+function extractJson(text: string): {
+  reply?: unknown;
+  answer?: unknown;
+  action?: { kind?: unknown; href?: unknown };
+} | null {
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
   if (start === -1 || end <= start) return null;
@@ -175,10 +182,14 @@ export async function POST(
     const content = data.choices?.[0]?.message?.content ?? "";
     const obj = extractJson(content);
     const reply = typeof obj?.reply === "string" ? obj.reply.slice(0, 80) : "On it.";
+    const answer = typeof obj?.answer === "string" && obj.answer.trim() ? obj.answer.trim().slice(0, 600) : undefined;
     const href = obj?.action?.kind === "navigate" ? safeInternalHref(obj.action.href) : null;
 
     const action: NavAction = href ? { kind: "navigate", href } : { kind: "none" };
-    return NextResponse.json({ ok: true, reply, action } satisfies NavOk, { headers: NO_STORE });
+    return NextResponse.json(
+      { ok: true, reply, ...(answer ? { answer } : {}), action } satisfies NavOk,
+      { headers: NO_STORE },
+    );
   } catch (err) {
     return serverError<NavOk | { ok: false; error: string; code?: string }>(err, {
       scope: "[api:navigator]",

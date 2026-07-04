@@ -16,15 +16,13 @@ import { test } from "node:test";
 import { NextRequest } from "next/server";
 import { GET as breakoutsGET } from "../../../app/feeds/breakouts.xml/route";
 import { GET as fundingGET } from "../../../app/feeds/funding.xml/route";
-import { GET as categoryFeedGET } from "../../../app/feeds/[slug].xml/route";
+import { GET as categoryFeedGET } from "../../../app/feeds/[slug]/route";
 import { GET as feedsIndexGET } from "../../../app/feeds/route";
 import { CATEGORIES } from "../../../lib/constants";
 
 async function callCategoryFeed(slug: string): Promise<Response> {
   const req = new NextRequest(`https://trendingrepo.com/feeds/${slug}.xml`);
-  const res = await categoryFeedGET(req, {
-    params: Promise.resolve({ slug }),
-  });
+  const res = await categoryFeedGET(req);
   // The route's GET always resolves to a Response, but the Next.js
   // RouteHandlerConfig signature widens to `Response | void`. Coerce here so
   // the test assertions can keep treating it as a Response.

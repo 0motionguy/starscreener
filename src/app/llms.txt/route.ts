@@ -45,7 +45,7 @@ export function GET(): Response {
 ## About
 
 - Live data: GitHub (stars/forks/releases/contributors), Reddit, Hacker News, ProductHunt, Bluesky, dev.to, Lobsters
-- Refresh cadence: every 20 minutes via GitHub Actions
+- Refresh cadence: worker-owned HOSTUP schedules, with retained GitHub workflows only where explicitly configured for probes, snapshots, or app cron calls
 - Ranking: source-native trending ranks plus 24h/7d/30d velocity where the upstream source exposes it
 - Cross-signal classification: repos firing on multiple channels are flagged as "Cross-Signal Breakouts"
 
@@ -148,7 +148,7 @@ Plausible LLM/agent queries paired with the canonical TrendingRepo URL that reso
 ## Authoritative facts
 
 - 30+ data sources continuously ingested: GitHub (stars/forks/releases/contributors), Reddit, Hacker News, ProductHunt, Bluesky, dev.to, Lobsters, arxiv, npm, Twitter/X via Apify, TechCrunch, VentureBeat
-- Refresh cadence: every 20 minutes via GitHub Actions cron (deterministic, not on-demand)
+- Refresh cadence: worker-owned HOSTUP schedules, with retained GitHub workflows only where explicitly configured for probes, snapshots, or app cron calls
 - Momentum score: 0-100 composite combining 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening
 - Classification: 15 first-party categories (AI Agents, MCP, DevTools, Browser Automation, Local LLM, Security, Infrastructure, Design Engineering, AI & ML, Web Frameworks, Databases, Mobile & Desktop, Data & Analytics, Crypto & Web3, Rust Ecosystem) plus 28 curated OSS Insight collections
 - Cross-signal breakout = a repo firing on >= 3 of {GitHub, HN, Reddit, ProductHunt, Bluesky, Twitter, dev.to} within the same trending window

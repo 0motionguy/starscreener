@@ -73,6 +73,7 @@ const forbidden = [
     phrases: [
       "Production hosting: Vercel",
       "signal collectors run on GitHub Actions",
+      "every 20 minutes via GitHub Actions",
     ],
   },
 ];

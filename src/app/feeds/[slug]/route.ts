@@ -40,8 +40,9 @@ export const revalidate = 900; // 15 minutes — matches Cache-Control
 const MAX_ITEMS = 25;
 const STALE_THRESHOLD_MS = 4 * 60 * 60 * 1000; // 4h
 
-interface RouteParams {
-  params: Promise<{ slug: string }>;
+function parseCategorySlug(pathname: string): string | null {
+  const match = pathname.match(/^\/feeds\/([^/]+)\.xml$/);
+  return match?.[1] ?? null;
 }
 
 function pickPubDate(lastCommitAt: string, lastReleaseAt: string | null): string {
@@ -108,11 +109,8 @@ function buildStalePlaceholder(
   };
 }
 
-export async function GET(
-  _req: NextRequest,
-  { params }: RouteParams,
-): Promise<Response> {
-  const { slug } = await params;
+export async function GET(req: NextRequest): Promise<Response> {
+  const slug = parseCategorySlug(req.nextUrl.pathname);
   const category = CATEGORIES.find((c) => c.id === slug);
 
   if (!category) {

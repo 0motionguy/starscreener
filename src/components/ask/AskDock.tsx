@@ -116,7 +116,7 @@ async function searchResultRepos(): Promise<string[]> {
 
 function searchPhrase(raw: string): string {
   if (/pageagent|browser agent|browser automation|dom automation/i.test(raw)) {
-    return "browser agent DOM automation";
+    return "browser-use";
   }
   if (/mcp/i.test(raw)) return "MCP agent repos";
   if (/x402/i.test(raw)) return "x402 agent commerce";
@@ -136,6 +136,25 @@ function repoNameFromHref(href: string): string | null {
 
 function uniqueRepos(repos: string[]): string[] {
   return Array.from(new Set(repos.map((repo) => repo.trim()).filter(Boolean))).slice(0, 3);
+}
+
+async function searchApiRepos(query: string): Promise<string[]> {
+  try {
+    const params = new URLSearchParams({
+      q: query,
+      repoLimit: "3",
+      llmLimit: "0",
+    });
+    const res = await fetch(`/api/search/global?${params.toString()}`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as { repos?: Array<{ fullName?: string }> };
+    return uniqueRepos((data.repos ?? []).map((repo) => repo.fullName ?? ""));
+  } catch {
+    return [];
+  }
 }
 
 async function toolboxSearch(query: string): Promise<string> {
@@ -283,7 +302,10 @@ export function AskDock() {
 
       const searchedRepos = await searchResultRepos();
       let visibleRepos = uniqueRepos(searchedRepos);
-      if (searchedRepos.length === 0) {
+      if (visibleRepos.length === 0) {
+        visibleRepos = await searchApiRepos(q);
+      }
+      if (visibleRepos.length === 0) {
         const seen = new Set<string>();
         const repoLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="/repo/"]')).filter((link) => {
           const repo = repoNameFromHref(link.href);

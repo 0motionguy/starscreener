@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { Radio, ArrowRight } from "@/lib/icons";
 import { matchNavCommands } from "@/lib/nav-commands";
 import "./ask-dock.css";
+import "./ask-agent.css";
 
 const POS_KEY = "ask-hud-pos";
 
@@ -27,6 +28,7 @@ const CHITCHAT =
 const THANKS = "Anytime. Where to next?";
 const MISS =
   "I couldn't map that to a page yet, but I can take you anywhere: try 'funding', 'agents', a repo name, or ask me what's trending.";
+const AGENTIC_MODE = process.env.NEXT_PUBLIC_TRENDINGREPO_AGENTIC_MODE === "1";
 
 interface Pos {
   left: number;
@@ -65,6 +67,98 @@ function track(event: string, props?: Record<string, unknown>): void {
 }
 
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
+const wait = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+function setNativeValue(el: HTMLInputElement | HTMLTextAreaElement, value: string): void {
+  const proto = Object.getPrototypeOf(el) as { value?: string };
+  const setter = Object.getOwnPropertyDescriptor(proto, "value")?.set;
+  setter?.call(el, value);
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+  el.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function clearAgentMarks(): void {
+  document.querySelectorAll(".ask-agent-mark").forEach((el) => el.remove());
+  document.querySelectorAll(".ask-agent-hot").forEach((el) => el.classList.remove("ask-agent-hot"));
+}
+
+function mark(el: Element | null, label: string): void {
+  if (!(el instanceof HTMLElement)) return;
+  el.scrollIntoView({ block: "center", behavior: "smooth" });
+  el.classList.add("ask-agent-hot");
+  const tag = document.createElement("span");
+  tag.className = "ask-agent-mark";
+  tag.textContent = label;
+  const rect = el.getBoundingClientRect();
+  tag.style.left = `${Math.max(8, rect.left + window.scrollX)}px`;
+  tag.style.top = `${Math.max(8, rect.top + window.scrollY - 28)}px`;
+  document.body.appendChild(tag);
+}
+
+async function searchResultRepos(): Promise<string[]> {
+  for (let i = 0; i < 20; i += 1) {
+    const rows = Array.from(document.querySelectorAll<HTMLElement>(".search-row"));
+    const repos = rows
+      .map((row) => ({
+        row,
+        name: row.querySelector<HTMLElement>(".search-row-title")?.textContent?.trim() ?? "",
+      }))
+      .filter((hit) => /^[^/\s]+\/[^/\s]+$/.test(hit.name))
+      .slice(0, 3);
+    if (repos.length > 0) {
+      repos.forEach((hit, idx) => mark(hit.row, `${idx + 2} repo`));
+      return repos.map((hit) => hit.name);
+    }
+    await wait(180);
+  }
+  return [];
+}
+
+function searchPhrase(raw: string): string {
+  if (/pageagent|browser agent|browser automation|dom automation/i.test(raw)) {
+    return "browser agent DOM automation";
+  }
+  if (/mcp/i.test(raw)) return "MCP agent repos";
+  if (/x402/i.test(raw)) return "x402 agent commerce";
+  return raw.replace(/^(find|show|search|compare|open)\s+/i, "").slice(0, 80);
+}
+
+function repoNameFromHref(href: string): string | null {
+  try {
+    const url = new URL(href, window.location.origin);
+    const parts = url.pathname.split("/").filter(Boolean);
+    if (parts[0] !== "repo" || !parts[1] || !parts[2]) return null;
+    return `${decodeURIComponent(parts[1])}/${decodeURIComponent(parts[2])}`;
+  } catch {
+    return null;
+  }
+}
+
+function uniqueRepos(repos: string[]): string[] {
+  return Array.from(new Set(repos.map((repo) => repo.trim()).filter(Boolean))).slice(0, 3);
+}
+
+async function toolboxSearch(query: string): Promise<string> {
+  const res = await fetch("/api/internal/page-operator/toolbox", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "web_search", query, limit: 3 }),
+    signal: AbortSignal.timeout(20_000),
+  });
+  const data = (await res.json()) as {
+    ok?: boolean;
+    code?: string;
+    results?: Array<{ title?: string; url?: string; snippet?: string }>;
+  };
+  if (!data.ok) {
+    return data.code === "NOT_CONFIGURED"
+      ? "Toolbox search is wired, but the server key is missing."
+      : "Toolbox search did not return a result.";
+  }
+  const rows = (data.results ?? []).slice(0, 3);
+  if (rows.length === 0) return "Toolbox search ran, but returned no public results.";
+  return rows.map((r, i) => `${i + 1}. ${r.title || r.url || "result"}${r.snippet ? ` - ${r.snippet}` : ""}`).join("\n");
+}
 
 /**
  * Types `text` out char-by-char with a blinking caret so the user sees the
@@ -166,11 +260,80 @@ export function AskDock() {
     [router, flashStatus],
   );
 
+  const runPageOperator = useCallback(
+    async (raw: string): Promise<boolean> => {
+      if (!AGENTIC_MODE) return false;
+      const wantsOperator = /browser agent|pageagent|dom automation|toolbox|web search|research|x402|mcp|compare/i.test(raw);
+      if (!wantsOperator) return false;
+
+      const q = searchPhrase(raw);
+      setInput("");
+      clearAgentMarks();
+      setAnswer({ text: `Operating the page: ${q}` });
+      flashStatus({ lead: "Scanning controls", arrow: false }, true);
+
+      const search = document.querySelector<HTMLInputElement>('input[aria-label="Search"], input[role="combobox"]');
+      if (search) {
+        mark(search, "1 search");
+        search.focus();
+        await wait(260);
+        setNativeValue(search, q);
+        await wait(420);
+      }
+
+      const searchedRepos = await searchResultRepos();
+      let visibleRepos = uniqueRepos(searchedRepos);
+      if (searchedRepos.length === 0) {
+        const seen = new Set<string>();
+        const repoLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="/repo/"]')).filter((link) => {
+          const repo = repoNameFromHref(link.href);
+          if (!repo || seen.has(repo)) return false;
+          seen.add(repo);
+          return true;
+        });
+        repoLinks.slice(0, 3).forEach((link, i) => mark(link, `${i + 2} repo`));
+        visibleRepos = uniqueRepos(Array.from(seen));
+      }
+
+      if (/toolbox|web search|research|x402|mcp/i.test(raw)) {
+        flashStatus({ lead: "Asking Toolbox", arrow: false }, true);
+        const summary = await toolboxSearch(q);
+        setStatus(null);
+        setAnswer({ text: `Toolbox search: ${q}\n${summary}` });
+        window.setTimeout(clearAgentMarks, 3200);
+        return true;
+      }
+
+      if (/compare/i.test(raw)) {
+        await wait(900);
+        const href =
+          visibleRepos.length >= 2
+            ? `/tools/compare?repos=${visibleRepos.map((repo) => encodeURIComponent(repo)).join(",")}`
+            : "/tools/compare";
+        mark(document.querySelector('a[href="/tools/compare"]'), "compare");
+        flashStatus({ lead: "Opening", em: "Compare", arrow: true });
+        track("ask_navigate", { tier: "page-operator" });
+        window.setTimeout(() => {
+          window.location.href = href;
+        }, 460);
+        return true;
+      }
+
+      setStatus(null);
+      setAnswer({ text: `I searched the current page for "${q}" and highlighted the top repo controls.` });
+      window.setTimeout(clearAgentMarks, 3200);
+      return true;
+    },
+    [flashStatus],
+  );
+
   const resolve = useCallback(
     async (raw: string) => {
       const text = raw.trim();
       if (!text) return;
       track("ask_submit", { len: text.length });
+
+      if (await runPageOperator(text)) return;
 
       // Tier 1 — deterministic navigation, instant.
       const matches = matchNavCommands(text, 1);
@@ -241,7 +404,7 @@ export function AskDock() {
         setAnswer({ text: MISS });
       }
     },
-    [flashStatus, go],
+    [flashStatus, go, runPageOperator],
   );
 
   // --- drag (pointer events on the grip / node) ----------------------------

@@ -16,7 +16,8 @@
 // fetchers to the worker so this fold-in has live inputs.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
+import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import seedData from './seed-data.json' with { type: 'json' };
 
 // --- scoring (mirrors build-agent-commerce-seed.mjs; keep in lockstep) -------
@@ -269,6 +270,12 @@ const fetcher: Fetcher = {
       windowDays: 30,
       items,
     };
+
+    const existing = await readDataStore<AgentCommercePayload>('agent-commerce').catch(() => null);
+    if (shouldPreserveCache({ fresh: payload.items, existing: existing?.items ?? [] })) {
+      ctx.log.warn({ existingItems: existing?.items.length ?? 0 }, 'agent-commerce skipped empty publish');
+      return done(startedAt, 0, false, errors);
+    }
 
     const res = await writeDataStore('agent-commerce', payload, {
       writer: 'worker:agent-commerce:seed',

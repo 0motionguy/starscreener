@@ -12,7 +12,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { X, Radio } from "@/lib/icons";
+import { Radio, ArrowRight } from "@/lib/icons";
 import { matchNavCommands } from "@/lib/nav-commands";
 import "./ask-dock.css";
 
@@ -64,6 +64,7 @@ export function AskDock() {
   const [listening, setListening] = useState(false);
   const [status, setStatus] = useState<Status | null>(null);
   const [statusLeaving, setStatusLeaving] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const [pos, setPos] = useState<Pos | null>(null);
   const [voiceOk, setVoiceOk] = useState(false);
 
@@ -152,7 +153,10 @@ export function AskDock() {
     if (!d?.active) return;
     const dx = e.clientX - d.startX;
     const dy = e.clientY - d.startY;
-    if (!d.moved && Math.hypot(dx, dy) > 3) d.moved = true;
+    if (!d.moved && Math.hypot(dx, dy) > 3) {
+      d.moved = true;
+      setDragging(true);
+    }
     if (!d.moved) return;
     setPos({
       left: clamp(d.baseLeft + dx, 6, window.innerWidth - d.w - 6),
@@ -164,6 +168,7 @@ export function AskDock() {
     (e: React.PointerEvent, wasCollapsed: boolean) => {
       const d = drag.current;
       drag.current = null;
+      setDragging(false);
       try {
         (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
       } catch {
@@ -241,22 +246,20 @@ export function AskDock() {
         </button>
       ) : (
         <form
-          className={`ask-glass ask-bar${focused ? " focused" : ""}`}
+          className={`ask-glass ask-bar${focused ? " focused" : ""}${dragging ? " dragging" : ""}`}
+          onPointerDown={(e) => {
+            // The whole bar is the drag surface — except when the pointer lands
+            // on the input or a button, so typing and clicks still work.
+            if ((e.target as HTMLElement).closest("input, button")) return;
+            onDragStart(e);
+          }}
+          onPointerMove={onDragMove}
+          onPointerUp={(e) => onDragEnd(e, false)}
           onSubmit={(e) => {
             e.preventDefault();
             resolve(input);
           }}
         >
-          <span
-            className="ask-grip"
-            onPointerDown={onDragStart}
-            onPointerMove={onDragMove}
-            onPointerUp={(e) => onDragEnd(e, false)}
-            aria-hidden="true"
-            title="Drag to move"
-          >
-            ⠿
-          </span>
           <span className="ask-caret" aria-hidden="true">▸</span>
           <input
             ref={inputRef}
@@ -279,16 +282,11 @@ export function AskDock() {
               onClick={toggleVoice}
               aria-label={listening ? "Stop listening" : "Speak"}
             >
-              <Radio size={14} strokeWidth={2} aria-hidden="true" />
+              <Radio size={15} strokeWidth={2} aria-hidden="true" />
             </button>
           )}
-          <button
-            type="button"
-            className="ask-btn"
-            onClick={() => setExpanded(false)}
-            aria-label="Collapse"
-          >
-            <X size={14} strokeWidth={2} aria-hidden="true" />
+          <button type="submit" className="ask-btn ask-send" aria-label="Send">
+            <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
           </button>
         </form>
       )}

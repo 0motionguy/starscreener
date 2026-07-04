@@ -25,6 +25,12 @@ export const NAV_COMMANDS: NavCommand[] = [
   { id: "trending", label: "Trending", group: "Discover", href: "/", keywords: ["home", "repos", "hot", "dashboard"] },
   { id: "breakout", label: "Breakout", group: "Discover", href: "/breakout", keywords: ["breakouts", "surging", "accelerating"] },
   { id: "drop", label: "Drop a repo", group: "Discover", href: "/drop", keywords: ["submit", "add", "track", "surface"] },
+  // Homepage category views (?cat=) — NL like "show me agents" lands here.
+  { id: "cat-agents", label: "Agents", group: "View", href: "/?cat=agents", keywords: ["agent repos", "agentic", "ai agents", "autonomous"] },
+  { id: "cat-llms", label: "LLMs", group: "View", href: "/?cat=llms", keywords: ["language models", "openrouter", "providers"] },
+  { id: "cat-models", label: "Models", group: "View", href: "/?cat=models", keywords: ["ai models", "model adoption", "intelligence"] },
+  { id: "cat-gainer", label: "Gainers", group: "View", href: "/?cat=gainer", keywords: ["top gainers", "rising", "movers"] },
+  { id: "cat-discovery", label: "Discovery", group: "View", href: "/?cat=discovery", keywords: ["hidden gems", "emerging", "early", "undiscovered"] },
   // Tools
   { id: "watchlist", label: "Watchlist", group: "Tools", href: "/tools/watchlist", keywords: ["saved", "watching", "starred", "bookmarks"] },
   { id: "top-10", label: "Top 10", group: "Tools", href: "/tools/top-10", keywords: ["top10", "ranking", "leaderboard"] },
@@ -71,13 +77,30 @@ function scoreCommand(cmd: NavCommand, q: string): number {
   return 0;
 }
 
+// N1 — natural-language filler. Strip leading intent verbs ("show me the
+// funding page" → "funding") and trailing nouns ("page"/"tab"/"view"/"section")
+// so plain-English queries resolve deterministically, no LLM call needed.
+const LEADING_FILLER =
+  /^(?:please\s+)?(?:go\s+to|goto|take\s+me\s+to|navigate\s+to|jump\s+to|bring\s+up|show\s+me|show|open|view|see|find|search\s+for|get\s+me|where\s+(?:is|are)|i\s+want\s+(?:to\s+see\s+)?)\s+/i;
+const TRAILING_FILLER = /\s+(?:page|tab|view|section|screen)$/i;
+const ARTICLES = /^(?:the|a|an|my)\s+/i;
+
+function normalizeQuery(raw: string): string {
+  let q = raw.trim().toLowerCase();
+  q = q.replace(LEADING_FILLER, "");
+  q = q.replace(ARTICLES, "");
+  q = q.replace(TRAILING_FILLER, "");
+  return q.trim();
+}
+
 /**
- * Rank pages for a query. Returns at most `limit` matches, best first, with
- * the registry's natural order as a stable tiebreaker. Empty/short query
+ * Rank pages for a query. Strips natural-language filler first (N1), then
+ * scores against the registry. Returns at most `limit` matches, best first,
+ * with the registry's natural order as a stable tiebreaker. Empty query
  * returns [] — the Pages tier only appears once the user starts typing.
  */
 export function matchNavCommands(rawQuery: string, limit = 5): NavCommand[] {
-  const q = rawQuery.trim().toLowerCase();
+  const q = normalizeQuery(rawQuery);
   if (!q) return [];
   return NAV_COMMANDS.map((cmd, idx) => ({ cmd, idx, score: scoreCommand(cmd, q) }))
     .filter((s) => s.score > 0)

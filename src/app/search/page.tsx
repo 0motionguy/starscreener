@@ -199,6 +199,10 @@ function SearchPageInner() {
                   className={`search-category-chip${active ? " is-active" : ""}`}
                   aria-pressed={active}
                   onClick={() => handleCategoryClick(value)}
+                  data-agent-id={`repo.filter.category.${value}`}
+                  data-agent-label={`Filter ${value} repositories`}
+                  data-agent-action="repo.filter.category"
+                  data-agent-risk="safe"
                 >
                   {value}
                 </button>

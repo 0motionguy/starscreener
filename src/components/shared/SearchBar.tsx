@@ -281,6 +281,10 @@ export function SearchBar({
         // focus instead — querySelector returns the first match in DOM
         // order which lines up with that expectation.
         data-global-search="true"
+        data-agent-id="repo.search.input"
+        data-agent-label="Search repositories"
+        data-agent-action="repo.search"
+        data-agent-risk="safe"
         aria-label={placeholder}
         role={showPreview ? "combobox" : undefined}
         aria-expanded={showPreview ? previewOpen : undefined}

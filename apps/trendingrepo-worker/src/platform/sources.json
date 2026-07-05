@@ -2317,5 +2317,36 @@
     ],
     "supports_backfill": false,
     "fallback_strategy": "cache"
+  },
+  {
+    "id": "mentions-daily",
+    "category": "social",
+    "kind": "snapshot",
+    "state": "active",
+    "freshness_budget_ms": 172800000,
+    "cost_signal_metric": {
+      "type": "none",
+      "scope": "day"
+    },
+    "owner": "UNASSIGNED",
+    "upstream_url": "redis:ss:data:v1:mentions-ledger",
+    "auth_required": false,
+    "auth_scheme": "none",
+    "primary_output_keys": [
+      "mentions-daily"
+    ],
+    "output_record_shape": "metric_snapshot",
+    "consumer_surfaces": [
+      "src/lib/mentions-daily.ts",
+      "src/app/market-signals/page.tsx"
+    ],
+    "depends_on": [
+      "mentions-ledger"
+    ],
+    "supports_backfill": false,
+    "fallback_strategy": "cache",
+    "writes_canonical_entity_kind": [
+      "mention"
+    ]
   }
 ]

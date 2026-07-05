@@ -40,6 +40,9 @@ import twitterCold from './fetchers/twitter-cold/index.js';
 // Cumulative mentions ledger — reads active snapshot slugs (HN, Bluesky,
 // Dev.to, Lobsters, Twitter), runs SADD + HINCRBY for new mention IDs.
 import mentionsLedger from './fetchers/mentions-ledger/index.js';
+// Daily per-source cumulative mention snapshot for the market-signals volume
+// chart + tag momentum (real per-day series; app diffs consecutive days).
+import mentionsDaily from './fetchers/mentions-daily/index.js';
 // Operator-curated data file producers (close the chicken-egg gaps that left
 // `manual-repos` + `revenue-manual-matches` consumed-but-never-produced
 // under worker-only mode).
@@ -174,6 +177,7 @@ export const FETCHERS: Fetcher[] = [
   producthunt,
   twitter,
   mentionsLedger,
+  mentionsDaily,
   lmarena,
   artificialanalysis,
   openrouterModels,

@@ -17,6 +17,7 @@ import type { PublicIdea } from "../ideas";
 import {
   composeDailyBreakouts,
   composeIdeaPublishedPost,
+  composeTrendingSingle,
   composeWeeklyRecap,
   effectiveLength,
   isoWeekLabel,
@@ -252,6 +253,68 @@ test("composeIdeaPublishedPost leaves short pitches verbatim", () => {
   const post = composeIdeaPublishedPost(idea);
   assert.ok(post.text.includes("Short pitch"));
   assert.equal(post.text.endsWith("…"), false);
+});
+
+// ---------------------------------------------------------------------------
+// composeTrendingSingle — the 3x/day autopilot post
+// ---------------------------------------------------------------------------
+
+test("composeTrendingSingle is ASCII-only and within the 270-char budget", () => {
+  const repo: Repo = {
+    ...makeRepo({ fullName: "vercel/next.js", starsDelta24h: 2341 }),
+    language: "TypeScript",
+    description:
+      "⚡ The React Framework — café-grade DX in a description that runs on and on well past any reasonable tweet length so the composer has to truncate it hard while staying ASCII and under budget the whole time no matter what emoji or accents appear",
+  };
+  const post = composeTrendingSingle(repo);
+  assert.equal(post.kind, "trending_single");
+  assert.match(post.text, /^[\x20-\x7E\n]*$/, `non-ASCII in: ${post.text}`);
+  assert.ok(
+    effectiveLength(post) <= 270,
+    `trending_single is ${effectiveLength(post)} chars`,
+  );
+});
+
+test("composeTrendingSingle leads with the +delta hook on positive 24h movement", () => {
+  const repo: Repo = {
+    ...makeRepo({ fullName: "vercel/next.js", starsDelta24h: 2341, stars: 130000 }),
+    language: "TypeScript",
+  };
+  const post = composeTrendingSingle(repo);
+  assert.match(post.text, /vercel\/next\.js/);
+  assert.match(post.text, /\+2,341 stars today/);
+  assert.match(post.text, /TypeScript/);
+});
+
+test("composeTrendingSingle falls back to total stars when there's no positive delta", () => {
+  const post = composeTrendingSingle(
+    makeRepo({ fullName: "acme/cold", starsDelta24h: 0, stars: 5000 }),
+  );
+  assert.match(post.text, /5,000 stars/);
+  assert.equal(/stars today/.test(post.text), false);
+});
+
+test("composeTrendingSingle links to the canonical /repo/<fullName> page", () => {
+  const post = composeTrendingSingle(makeRepo({ fullName: "vercel/next.js" }));
+  assert.ok(post.url?.endsWith("/repo/vercel/next.js"), `got: ${post.url}`);
+});
+
+test("composeTrendingSingle truncates a long description with an ASCII ellipsis", () => {
+  const repo: Repo = {
+    ...makeRepo({ fullName: "acme/repo", starsDelta24h: 100 }),
+    description: "x".repeat(400),
+  };
+  const post = composeTrendingSingle(repo);
+  assert.ok(post.text.includes("..."), "expected ASCII ellipsis");
+  assert.equal(post.text.includes("…"), false, "no non-ASCII ellipsis");
+  assert.ok(effectiveLength(post) <= 270);
+});
+
+test("composeTrendingSingle omits the description block when the repo has none", () => {
+  const post = composeTrendingSingle(
+    makeRepo({ fullName: "acme/nodesc", starsDelta24h: 100 }),
+  );
+  assert.equal(post.text.includes("\n\n"), false);
 });
 
 // ---------------------------------------------------------------------------

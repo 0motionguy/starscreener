@@ -221,3 +221,85 @@ export function composeIdeaPublishedPost(idea: PublicIdea): ComposedPost {
     url: absoluteUrl(`/ideas/${idea.id}`),
   };
 }
+
+// ---------------------------------------------------------------------------
+// Trending single — the 3x/day autopilot post
+// ---------------------------------------------------------------------------
+
+// Kept to <=270 effective chars (a safety margin under Twitter's 280 hard
+// cap) and ASCII-only: the text pipes through the box `twitter` CLI as a
+// shell argument, and ASCII guarantees every char counts as 1 under
+// Twitter's weighted length. Visual richness comes from the OG card that
+// unfurls from the trendingrepo.com link — not from emoji in the body.
+const SINGLE_TWEET_MAX = 270;
+
+/**
+ * Reduce a string to printable ASCII: NFKD-fold accents (café -> cafe),
+ * drop emoji / smart punctuation / any other non-ASCII, then collapse the
+ * whitespace those removals leave behind.
+ */
+function toAscii(text: string): string {
+  // NFKD splits accents into base + combining mark (café -> "cafe" + U+0301);
+  // the ASCII filter then drops the combining mark and every emoji / smart
+  // quote in one pass, leaving folded ASCII.
+  return text
+    .normalize("NFKD")
+    .replace(/[^\x20-\x7E]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * "1234567" -> "1,234,567" with an ASCII comma. Used instead of
+ * toLocaleString so the grouping separator is never a locale space/dot.
+ */
+function withCommas(n: number): string {
+  return Math.round(n)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+/** ASCII-safe truncation — "..." rather than the "…" that truncate() uses. */
+function truncateAscii(text: string, maxChars: number): string {
+  if (text.length <= maxChars) return text;
+  if (maxChars <= 3) return text.slice(0, Math.max(0, maxChars));
+  return text.slice(0, maxChars - 3).trimEnd() + "...";
+}
+
+/**
+ * Compose the single tweet the autopilot fires 3x/day for the top trending
+ * repo. Shape (ASCII-only, <=270 effective chars incl. the 23-char t.co link):
+ *
+ *   owner/name
+ *   +1,234 stars today | TypeScript
+ *
+ *   One-line repo description.
+ *
+ *   https://trendingrepo.com/repo/owner/name
+ *
+ * Falls back to the absolute star count when there's no positive 24h delta
+ * (cold-start / missing-movement repos) so a picked repo never tweets
+ * "+0 stars today". The description block is dropped entirely when the repo
+ * has none or there's no room left after the headline.
+ */
+export function composeTrendingSingle(repo: Repo): ComposedPost {
+  const url = absoluteUrl(`/repo/${repo.fullName}`);
+  const textBudget = SINGLE_TWEET_MAX - URL_BUDGET;
+
+  const delta = repo.starsDelta24h ?? 0;
+  const momentum =
+    delta > 0 ? `+${withCommas(delta)} stars today` : `${withCommas(repo.stars)} stars`;
+  const lang = repo.language ? ` | ${toAscii(repo.language)}` : "";
+  const headline = `${repo.fullName}\n${momentum}${lang}`;
+
+  const desc = toAscii(repo.description ?? "");
+  const descBudget = textBudget - headline.length - 2; // 2 = the blank-line gap
+  const descLine =
+    desc.length > 0 && descBudget >= 12 ? `\n\n${truncateAscii(desc, descBudget)}` : "";
+
+  return {
+    kind: "trending_single",
+    text: truncateAscii(`${headline}${descLine}`, textBudget),
+    url,
+  };
+}

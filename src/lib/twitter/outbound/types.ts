@@ -36,7 +36,8 @@ export type OutboundPostKind =
   | "daily_breakouts_idea_spotlight"
   | "weekly_recap_intro"
   | "weekly_recap_item"
-  | "idea_published";
+  | "idea_published"
+  | "trending_single";
 
 export interface AdapterPostResult {
   /** Provider tweet id, when the adapter actually published. */

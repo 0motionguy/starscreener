@@ -39,6 +39,7 @@ import { ModelsSection } from "@/components/models/ModelsSection";
 import { buildItemListJsonLd } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
+import { sustainedTrendScore } from "@/lib/ranking/trend-score";
 import {
   computeDiscoveryScore,
   pickTopDiscoveryRepo,
@@ -382,6 +383,12 @@ function sortRepos(
         const bRank = trendRanks.get(b.fullName.toLowerCase()) ?? 9999;
         if (aRank !== bRank) return aRank - bRank;
       }
+      // Tail (repos not on the curated TrendShift map): order by SUSTAINED
+      // multi-week climb, not the bare 30d score — the latter correlates with
+      // 24h and re-sorted the tail into GAINER's exact list (prod 2026-07-05).
+      const aS = sustainedTrendScore(a);
+      const bS = sustainedTrendScore(b);
+      if (aS !== bS) return bS - aS;
       return (b.trendScore30d ?? 0) - (a.trendScore30d ?? 0);
     }
     if (useSourceNative) {

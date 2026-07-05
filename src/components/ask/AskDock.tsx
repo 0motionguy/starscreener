@@ -14,6 +14,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Radio, ArrowRight } from "@/lib/icons";
 import { matchNavCommands } from "@/lib/nav-commands";
+import { AutopilotStage, type SpotRect } from "./AutopilotStage";
+import { runAutopilot, type AutopilotCtx } from "@/lib/autopilot/executor";
+import type { AutopilotPlan } from "@/lib/autopilot/types";
 import "./ask-dock.css";
 import "./ask-agent.css";
 
@@ -123,6 +126,59 @@ function searchPhrase(raw: string): string {
   return raw.replace(/^(find|show|search|compare|open)\s+/i, "").slice(0, 80);
 }
 
+/**
+ * Deterministic Autopilot plans for the highest-value intents — a reliable
+ * "wow" that works with no LLM key. Returns null when the phrasing isn't a
+ * recognised autopilot trigger (resolve() then falls through to nav / LLM).
+ */
+function buildAutopilotPlan(raw: string): AutopilotPlan | null {
+  const t = raw.toLowerCase();
+  const goal = raw.trim().slice(0, 80);
+
+  // Research + route: search the web live, then drive the page to matches.
+  const wantsResearch =
+    /\b(research|is there|are there|find me|search the web|look up|any good|what'?s the best|best|recommend)\b/.test(t) ||
+    /\bbrowser (agent|use|automation)\b/.test(t) ||
+    /\bpage ?agent\b/.test(t);
+  if (wantsResearch) {
+    const q = searchPhrase(raw);
+    const agentic = /\bagent|mcp|browser|autonom|crew|swarm|orchestrat/.test(t);
+    return {
+      goal,
+      steps: [
+        { kind: "narrate", text: `On it — let me research "${q}" and show you what's trending here.` },
+        { kind: "webSearch", query: q },
+        { kind: "narrate", text: "Now cross-referencing our live trending data…" },
+        { kind: "switchTab", cat: agentic ? "agents" : "repos", label: agentic ? "Agents" : "Top" },
+        { kind: "fillSearch", query: q },
+        { kind: "highlight", selector: ".search-row, tr.stagger-row", label: "top match" },
+        { kind: "narrate", text: "These are the strongest matches on trendingrepo right now — want me to open one or compare them?" },
+      ],
+    };
+  }
+
+  // Take me to a board (top / gainer / trend / discovery).
+  const tab =
+    /\bgainer/.test(t) ? "gainer" :
+    /\btrend/.test(t) ? "trend" :
+    /\bdiscover|new gem|hidden/.test(t) ? "discovery" :
+    /\btop\b/.test(t) ? "top" : null;
+  if (tab && /\b(show|take me|go to|what'?s|biggest|hottest|today|surging|climbing)\b/.test(t)) {
+    const verb = tab === "gainer" ? "gaining the most stars" : tab === "trend" ? "on a sustained multi-week climb" : tab === "discovery" ? "just emerging" : "leading overall";
+    return {
+      goal,
+      steps: [
+        { kind: "narrate", text: `Sure — pulling up the ${tab} board.` },
+        { kind: "switchTab", rank: tab as "top" | "gainer" | "trend" | "discovery", label: tab },
+        { kind: "highlight", selector: "tr.stagger-row", label: `#1 ${tab}` },
+        { kind: "narrate", text: `That's what's ${verb} today.` },
+      ],
+    };
+  }
+
+  return null;
+}
+
 function repoNameFromHref(href: string): string | null {
   try {
     const url = new URL(href, window.location.origin);
@@ -230,6 +286,15 @@ export function AskDock() {
   const [pos, setPos] = useState<Pos | null>(null);
   const [voiceOk, setVoiceOk] = useState(false);
 
+  // Autopilot cinematic overlay state (owned here, pushed into <AutopilotStage>).
+  const [apActive, setApActive] = useState(false);
+  const [apGoal, setApGoal] = useState("");
+  const [apNarration, setApNarration] = useState("");
+  const [apStatus, setApStatus] = useState<string | null>(null);
+  const [apCursor, setApCursor] = useState<{ x: number; y: number } | null>(null);
+  const [apSpot, setApSpot] = useState<SpotRect | null>(null);
+  const apAbort = useRef<AbortController | null>(null);
+
   const hudRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
@@ -277,6 +342,58 @@ export function AskDock() {
       window.setTimeout(() => router.push(href), 460);
     },
     [router, flashStatus],
+  );
+
+  const abortAutopilot = useCallback(() => {
+    apAbort.current?.abort();
+    setApActive(false);
+    setApCursor(null);
+    setApSpot(null);
+    setApStatus(null);
+  }, []);
+
+  const startAutopilot = useCallback(
+    async (plan: AutopilotPlan) => {
+      apAbort.current?.abort();
+      const controller = new AbortController();
+      apAbort.current = controller;
+      setInput("");
+      setAnswer(null);
+      setStatus(null);
+      setExpanded(true);
+      setApGoal(plan.goal);
+      setApNarration("");
+      setApStatus(null);
+      setApCursor(null);
+      setApSpot(null);
+      setApActive(true);
+      track("autopilot_start", { steps: plan.steps.length });
+
+      const ctx: AutopilotCtx = {
+        push: (href) => router.push(href),
+        onNarrate: (text) => {
+          setApNarration(text);
+          track("autopilot_step", { kind: "narrate" });
+        },
+        onStatus: setApStatus,
+        onCursorTo: (rect) =>
+          setApCursor(rect ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 } : null),
+        onSpotlight: (rect) =>
+          setApSpot(rect ? { top: rect.top, left: rect.left, width: rect.width, height: rect.height } : null),
+        webSearch: (q) => toolboxSearch(q),
+        signal: controller.signal,
+      };
+
+      await runAutopilot(plan, ctx);
+      if (!controller.signal.aborted) {
+        track("autopilot_complete", {});
+        // Leave the final narration up briefly, then fade the overlay.
+        window.setTimeout(() => {
+          if (apAbort.current === controller) setApActive(false);
+        }, 4600);
+      }
+    },
+    [router],
   );
 
   const runPageOperator = useCallback(
@@ -355,6 +472,15 @@ export function AskDock() {
       if (!text) return;
       track("ask_submit", { len: text.length });
 
+      // Tier 0 — Autopilot: cinematic page-takeover for recognised goals.
+      if (AGENTIC_MODE) {
+        const plan = buildAutopilotPlan(text);
+        if (plan) {
+          void startAutopilot(plan);
+          return;
+        }
+      }
+
       if (await runPageOperator(text)) return;
 
       // Tier 1 — deterministic navigation, instant.
@@ -426,7 +552,7 @@ export function AskDock() {
         setAnswer({ text: MISS });
       }
     },
-    [flashStatus, go, runPageOperator],
+    [flashStatus, go, runPageOperator, startAutopilot],
   );
 
   // --- drag (pointer events on the grip / node) ----------------------------
@@ -520,6 +646,16 @@ export function AskDock() {
     : {};
 
   return (
+    <>
+    <AutopilotStage
+      active={apActive}
+      goal={apGoal}
+      narration={apNarration}
+      status={apStatus}
+      cursor={apCursor}
+      spotlight={apSpot}
+      onAbort={abortAutopilot}
+    />
     <div ref={hudRef} className="ask-hud" style={style}>
       {!expanded ? (
         <button
@@ -625,5 +761,6 @@ export function AskDock() {
         </div>
       )}
     </div>
+    </>
   );
 }

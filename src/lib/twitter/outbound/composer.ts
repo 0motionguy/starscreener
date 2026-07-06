@@ -15,6 +15,7 @@
 import type { Repo } from "@/lib/types";
 import type { PublicIdea } from "@/lib/ideas";
 import { absoluteUrl } from "@/lib/seo";
+import { synthesizeWhy } from "@/lib/why-narrative";
 
 import type { ComposedPost } from "./types";
 
@@ -292,14 +293,85 @@ export function composeTrendingSingle(repo: Repo): ComposedPost {
   const lang = repo.language ? ` | ${toAscii(repo.language)}` : "";
   const headline = `${repo.fullName}\n${momentum}${lang}`;
 
-  const desc = toAscii(repo.description ?? "");
+  // Criteria line (CE-1): say WHY the ranking picked this repo — release /
+  // star spike / cross-signal breadth / 7d climb / contributor surge / social
+  // buzz, from the same fields the composite score reads. The organic
+  // fallback carries no criteria, so it keeps the raw description instead.
+  const why = synthesizeWhy(repo);
+  const body =
+    why.signal === "organic" ? toAscii(repo.description ?? "") : tightenForX(why.text);
   const descBudget = textBudget - headline.length - 2; // 2 = the blank-line gap
   const descLine =
-    desc.length > 0 && descBudget >= 12 ? `\n\n${truncateAscii(desc, descBudget)}` : "";
+    body.length > 0 && descBudget >= 12 ? `\n\n${truncateAscii(body, descBudget)}` : "";
 
   return {
     kind: "trending_single",
     text: truncateAscii(`${headline}${descLine}`, textBudget),
     url,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Content engine v2 — Twitter-register compression + themed pack composer
+// ---------------------------------------------------------------------------
+
+/**
+ * Compress a why-narrative sentence into X register: ASCII punctuation,
+ * abbreviated time windows, no filler words. Deterministic — the optional
+ * LLM copywriter may rephrase this output, never the numbers inside it.
+ */
+export function tightenForX(text: string): string {
+  const t = text
+    .replace(/[—–]/g, "-")
+    .replace(/…/g, "...")
+    .replace(/\bin the last 24 hours\b/gi, "in 24h")
+    .replace(/\bin the last week\b/gi, "this week")
+    .replace(/\bover the past week\b/gi, "this week")
+    .replace(/\bin recent windows\b/gi, "recently")
+    .replace(/\bGitHub stars\b/g, "stars")
+    .replace(/\bacross tracked communities\b/gi, "across communities")
+    .replace(/\bwith a cross-signal score of\b/gi, "- cross-signal")
+    .replace(/\s+/g, " ")
+    .trim();
+  return toAscii(t);
+}
+
+/** Minimal pack shape the composer needs — the full spec lives in packs.ts. */
+export interface PackComposeSpec {
+  id: string;
+  /** Hook line; composer upper-cases + ASCII-folds it. */
+  hook: string;
+}
+
+const PACK_CTA = "Bookmark it.";
+const PACK_TEXT_LINES = 5; // text lists at most 5 — the card carries the rest
+
+/**
+ * Themed listicle, one tweet (<=270 effective chars, ASCII, no emojis):
+ *
+ *   TOP 5 RAG REPOS THIS WEEK
+ *
+ *   1. owner/name
+ *   ... (up to 5 lines)
+ *
+ *   Bookmark it.
+ *   <link to /tools/top-10?my=...>
+ *
+ * Visual detail (avatars, star deltas, one-liners) lives on the attached
+ * OG card; the text stays lean so it never busts the non-Premium 280 cap.
+ */
+export function composeTrendingPack(repos: Repo[], pack: PackComposeSpec): ComposedPost {
+  const slugs = repos.map((r) => r.fullName);
+  const url = absoluteUrl(`/tools/top-10?my=${slugs.join(",")}`);
+  const textBudget = SINGLE_TWEET_MAX - URL_BUDGET;
+
+  const hook = toAscii(pack.hook).toUpperCase();
+  const lines = repos.slice(0, PACK_TEXT_LINES).map((r, i) => `${i + 1}. ${r.fullName}`);
+
+  let text = `${hook}\n\n${lines.join("\n")}\n\n${PACK_CTA}`;
+  if (text.length > textBudget) {
+    // Drop the CTA first, then hard-truncate list lines — the hook survives.
+    text = truncateAscii(`${hook}\n\n${lines.join("\n")}`, textBudget);
+  }
+  return { kind: "trending_pack", text, url };
 }

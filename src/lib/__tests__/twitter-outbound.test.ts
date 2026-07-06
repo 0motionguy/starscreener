@@ -17,10 +17,12 @@ import type { PublicIdea } from "../ideas";
 import {
   composeDailyBreakouts,
   composeIdeaPublishedPost,
+  composeTrendingPack,
   composeTrendingSingle,
   composeWeeklyRecap,
   effectiveLength,
   isoWeekLabel,
+  tightenForX,
   truncate,
 } from "../twitter/outbound/composer";
 import { buildShareToXUrl } from "../twitter/outbound/share";
@@ -299,9 +301,10 @@ test("composeTrendingSingle links to the canonical /repo/<fullName> page", () =>
   assert.ok(post.url?.endsWith("/repo/vercel/next.js"), `got: ${post.url}`);
 });
 
-test("composeTrendingSingle truncates a long description with an ASCII ellipsis", () => {
+test("composeTrendingSingle truncates a long organic description with an ASCII ellipsis", () => {
+  // starsDelta24h 0 -> no why-signal fires -> body falls back to description.
   const repo: Repo = {
-    ...makeRepo({ fullName: "acme/repo", starsDelta24h: 100 }),
+    ...makeRepo({ fullName: "acme/repo", starsDelta24h: 0 }),
     description: "x".repeat(400),
   };
   const post = composeTrendingSingle(repo);
@@ -310,11 +313,96 @@ test("composeTrendingSingle truncates a long description with an ASCII ellipsis"
   assert.ok(effectiveLength(post) <= 270);
 });
 
-test("composeTrendingSingle omits the description block when the repo has none", () => {
+test("composeTrendingSingle omits the body block when organic and description-less", () => {
   const post = composeTrendingSingle(
-    makeRepo({ fullName: "acme/nodesc", starsDelta24h: 100 }),
+    makeRepo({ fullName: "acme/nodesc", starsDelta24h: 0 }),
   );
   assert.equal(post.text.includes("\n\n"), false);
+});
+
+// ---------------------------------------------------------------------------
+// CE-1: criteria copy — the body says WHY the ranking fired
+// ---------------------------------------------------------------------------
+
+test("composeTrendingSingle swaps the description for WHY criteria when a signal fires", () => {
+  const repo: Repo = {
+    ...makeRepo({ fullName: "acme/hot", starsDelta24h: 2341 }),
+    description: "A generic description that should NOT appear in the tweet",
+  };
+  const post = composeTrendingSingle(repo);
+  // stars-velocity signal (>=100 delta) -> compressed criteria line.
+  assert.match(post.text, /Picked up 2,341 stars in 24h/);
+  assert.match(post.text, /acute breakout in progress/);
+  assert.match(post.text, /momentum 50\/100/);
+  assert.equal(post.text.includes("generic description"), false);
+  assert.match(post.text, /^[\x20-\x7E\n]*$/, `non-ASCII in: ${post.text}`);
+  assert.ok(effectiveLength(post) <= 270);
+});
+
+test("tightenForX compresses time windows and folds punctuation to ASCII", () => {
+  const out = tightenForX(
+    "Mentioned 41 times in the last 24 hours across tracked communities — social buzz outpacing GitHub stars.",
+  );
+  assert.equal(
+    out,
+    "Mentioned 41 times in 24h across communities - social buzz outpacing stars.",
+  );
+});
+
+// ---------------------------------------------------------------------------
+// CE-3: composeTrendingPack — themed listicle
+// ---------------------------------------------------------------------------
+
+function packRepos(n: number): Repo[] {
+  return Array.from({ length: n }, (_, i) =>
+    makeRepo({ fullName: `owner${i}/repo${i}`, starsDelta24h: 100 + i }),
+  );
+}
+
+test("composeTrendingPack leads with the CAPS hook and numbers the members", () => {
+  const post = composeTrendingPack(packRepos(5), {
+    id: "rag",
+    hook: "Top 5 RAG repos this week",
+  });
+  assert.equal(post.kind, "trending_pack");
+  assert.equal(post.text.split("\n")[0], "TOP 5 RAG REPOS THIS WEEK");
+  assert.match(post.text, /1\. owner0\/repo0/);
+  assert.match(post.text, /5\. owner4\/repo4/);
+  assert.match(post.text, /Bookmark it\./);
+});
+
+test("composeTrendingPack lists at most 5 lines even for a 10-repo card", () => {
+  const post = composeTrendingPack(packRepos(10), {
+    id: "weekly-top10",
+    hook: "TOP 10 GITHUB REPOS THIS WEEK",
+  });
+  assert.match(post.text, /5\. owner4\/repo4/);
+  assert.equal(post.text.includes("6. owner5/repo5"), false);
+  // ...but the link carries all ten for the card + tools page.
+  assert.ok(post.url?.includes("owner9/repo9"), `got: ${post.url}`);
+});
+
+test("composeTrendingPack stays inside the 270 budget with long names", () => {
+  const repos = Array.from({ length: 5 }, (_, i) =>
+    makeRepo({
+      fullName: `extremely-long-organization-name-${i}/an-equally-long-repository-name-${i}`,
+      starsDelta24h: 500,
+    }),
+  );
+  const post = composeTrendingPack(repos, {
+    id: "devtools",
+    hook: "TOP 5 DEV TOOL REPOS THIS WEEK",
+  });
+  assert.ok(effectiveLength(post) <= 270, `pack is ${effectiveLength(post)} chars`);
+  assert.match(post.text, /^[\x20-\x7E\n]*$/, `non-ASCII in: ${post.text}`);
+});
+
+test("composeTrendingPack links to /tools/top-10?my=<all members>", () => {
+  const post = composeTrendingPack(packRepos(5), { id: "rag", hook: "h" });
+  assert.ok(
+    post.url?.includes("/tools/top-10?my=owner0/repo0,owner1/repo1"),
+    `got: ${post.url}`,
+  );
 });
 
 // ---------------------------------------------------------------------------

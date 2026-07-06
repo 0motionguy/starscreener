@@ -937,8 +937,13 @@ export async function GET(request: NextRequest) {
   Sentry.setTag("og.aspect", aspect);
   Sentry.setTag("og.format", format);
 
-  // All aspects render all 10 rows (2026-05-24 parity pass — was 5/10 split).
-  const rowCount = 10;
+  // All aspects render all 10 rows by default (2026-05-24 parity pass — was a
+  // 5/10 split). `?rows=3..10` overrides for the X pack cards (CE-2): a 5-row
+  // listicle card renders taller rows + bigger type from the same layout math.
+  const rowsRaw = Number.parseInt(searchParams.get("rows") ?? "", 10);
+  const rowCount = Number.isFinite(rowsRaw)
+    ? Math.min(10, Math.max(3, rowsRaw))
+    : 10;
 
   // 2026-05-25: date archive dropped — OG always renders today's live
   // ranking (or a user-composed `?my=` list). The `?date=` param is still

@@ -15,8 +15,15 @@ import {
 const NOW = Date.parse("2026-07-05T18:00:00.000Z");
 const DAY = 24 * 60 * 60 * 1000;
 
-function post(fullName: string, ms: number): TrendingLedgerPost {
-  return { date: utcDate(ms), ts: new Date(ms).toISOString(), fullName, tweetId: "t", text: "x" };
+function post(fullName: string, ms: number, tweetId?: string): TrendingLedgerPost {
+  return {
+    date: utcDate(ms),
+    ts: new Date(ms).toISOString(),
+    fullName,
+    // Unique per row by default — real posts always carry distinct tweet ids.
+    tweetId: tweetId ?? `t-${fullName}-${ms}`,
+    text: "x",
+  };
 }
 
 test("computeLedgerState puts repos posted within 14 days in cooldown", () => {
@@ -40,6 +47,20 @@ test("computeLedgerState counts only today's (UTC) posts for the cap", () => {
     ],
   };
   assert.equal(computeLedgerState(ledger, NOW).postedTodayCount, 2);
+});
+
+test("computeLedgerState counts a pack (N rows, one tweetId) as ONE post toward the cap", () => {
+  // v2: a 5-repo themed pack writes five ledger rows sharing a tweetId so
+  // every member cools down — but it only burns one daily-cap slot.
+  const members = ["p/1", "p/2", "p/3", "p/4", "p/5"];
+  const ledger: TrendingLedger = {
+    posts: members.map((m) => post(m, NOW - 60 * 60 * 1000, "tweet-pack-1")),
+  };
+  const state = computeLedgerState(ledger, NOW);
+  assert.equal(state.postedTodayCount, 1);
+  for (const m of members) {
+    assert.ok(state.cooldownFullNames.has(m), `${m} should be cooling down`);
+  }
 });
 
 test("computeLedgerState on an empty ledger is zero cooldown + zero count", () => {

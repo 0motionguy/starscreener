@@ -23,14 +23,25 @@ import {
 
 export const runtime = "nodejs";
 
-// `confirm` present -> commit phase; absent (no-body cron POST) -> propose.
+// `confirm` present -> commit phase; absent -> propose (optionally slotted).
+// v2 additive contract: propose takes {slot}, confirm takes fullNames[] +
+// format/packId so pack members each enter cooldown. A v1 runner sending
+// bare {confirm:{fullName,...}} still works.
+const SlotSchema = z.enum(["A", "B", "C"]);
 const TrendingRequestSchema = z
   .object({
+    slot: SlotSchema.optional(),
     confirm: z
       .object({
-        fullName: z.string().min(1),
+        fullName: z.string().min(1).optional(),
+        fullNames: z.array(z.string().min(1)).min(1).optional(),
         tweetId: z.string().min(1),
         text: z.string().optional(),
+        format: z
+          .enum(["trending_single", "discovery_single", "trending_pack"])
+          .optional(),
+        packId: z.string().min(1).optional(),
+        source: z.enum(["llm", "deterministic"]).optional(),
       })
       .optional(),
   })
@@ -50,11 +61,34 @@ async function handle(request: NextRequest): Promise<NextResponse> {
 
   const c = parsed.data.confirm;
   if (c) {
-    await confirmTrendingPost(c.fullName, c.tweetId, c.text ?? "");
-    return NextResponse.json({ ok: true, confirmed: c.fullName });
+    const fullNames =
+      c.fullNames && c.fullNames.length > 0
+        ? c.fullNames
+        : c.fullName
+          ? [c.fullName]
+          : [];
+    if (fullNames.length === 0) {
+      return NextResponse.json(
+        { ok: false, error: "confirm requires fullName or fullNames" },
+        { status: 400 },
+      );
+    }
+    await confirmTrendingPost({
+      fullNames,
+      tweetId: c.tweetId,
+      text: c.text ?? "",
+      format: c.format,
+      packId: c.packId,
+      source: c.source,
+    });
+    return NextResponse.json({ ok: true, confirmed: fullNames });
   }
 
-  const plan = await proposeTrendingPost();
+  // Slot comes from the body ({slot:"B"}) or ?slot= for curl-friendliness.
+  const q = request.nextUrl.searchParams.get("slot");
+  const slot =
+    parsed.data.slot ?? (q === "A" || q === "B" || q === "C" ? q : undefined);
+  const plan = await proposeTrendingPost(Date.now(), slot);
   return NextResponse.json({ ok: true, ...plan });
 }
 

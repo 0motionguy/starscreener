@@ -46,6 +46,15 @@ export function isNanoGptConfigured(): boolean {
   return Boolean(loadEnv().NANOGPT_API_KEY);
 }
 
+// `400 invalid temperature: only 1 is allowed for this model` — thrown by
+// NanoGPT when the routed model (gpt-5/o-series style) forbids sampling
+// overrides. Matched loosely (status 400 + "temperature") so wording drift
+// on the proxy side keeps matching.
+function isTemperatureRestrictionError(err: unknown): boolean {
+  const e = err as { status?: number; message?: string } | null;
+  return e?.status === 400 && /temperature/i.test(e?.message ?? '');
+}
+
 export async function callNanoGpt(opts: LlmCallOptions): Promise<LlmCallResult> {
   const env = loadEnv();
   const model = opts.model ?? env.NANOGPT_MODEL ?? DEFAULT_MODEL;
@@ -64,21 +73,37 @@ export async function callNanoGpt(opts: LlmCallOptions): Promise<LlmCallResult> 
   try {
     // Stream like the Kimi/OpenRouter paths — reasoning-class models (kimi-k2.6,
     // glm-*) can stall non-stream requests, and streaming gives us TTFT.
-    const stream = await client.chat.completions.create(
-      {
+    const makeParams = (includeTemperature: boolean) =>
+      ({
         model,
         max_tokens: opts.maxTokens ?? 2048,
-        temperature: opts.temperature ?? 0.4,
-        stream: true,
+        ...(includeTemperature ? { temperature: opts.temperature ?? 0.4 } : {}),
+        stream: true as const,
         stream_options: { include_usage: true },
         messages: [
-          { role: 'system', content: opts.systemPrompt },
-          { role: 'user', content: opts.userMessage },
+          { role: 'system' as const, content: opts.systemPrompt },
+          { role: 'user' as const, content: opts.userMessage },
         ],
         ...(opts.jsonMode ? { response_format: { type: 'json_object' as const } } : {}),
-      },
-      { signal: idle.signal },
-    );
+      });
+    const createStream = (includeTemperature: boolean) =>
+      client.chat.completions.create(makeParams(includeTemperature), { signal: idle.signal });
+
+    let stream: Awaited<ReturnType<typeof createStream>>;
+    try {
+      stream = await createStream(true);
+    } catch (err) {
+      // Some proxied models (gpt-5/o-series style) hard-reject any custom
+      // temperature with `400 invalid temperature: only 1 is allowed`.
+      // Retry once WITHOUT temperature so the server default (1) applies —
+      // models that accept tuning keep the fetcher-specified value.
+      if (!isTemperatureRestrictionError(err)) throw err;
+      console.warn(
+        `[nanogpt] model ${model} rejects custom temperature — retrying with provider default`,
+      );
+      idle.reset();
+      stream = await createStream(false);
+    }
 
     for await (const chunk of stream) {
       idle.reset();

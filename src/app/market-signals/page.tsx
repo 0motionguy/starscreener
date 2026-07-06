@@ -16,6 +16,7 @@ import { refreshTrendingFromStore, getLastFetchedAt } from "@/lib/trending";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { refreshNpmFromStore, getNpmPackages } from "@/lib/npm";
+import { refreshMentionsDailyFromStore, getMentionsDailySeries } from "@/lib/mentions-daily";
 import { filterReposBySources } from "@/lib/filter/by-sources";
 import type { Repo, SocialPlatform } from "@/lib/types";
 
@@ -31,7 +32,11 @@ import {
   type MarketSourceTotals,
 } from "@/components/market-signals/SourceFilterRail";
 import { VolumeAreaChart } from "@/components/market-signals/VolumeAreaChart";
-import { CrossSourceFeed } from "@/components/market-signals/CrossSourceFeed";
+import {
+  CrossSourceFeed,
+  countCrossSourceRepos,
+  CROSS_SOURCE_MIN_CHANNELS,
+} from "@/components/market-signals/CrossSourceFeed";
 import { TagMomentumHeatmap } from "@/components/market-signals/TagMomentumHeatmap";
 import { NpmAcceleratingTable } from "@/components/market-signals/NpmAcceleratingTable";
 import { ArxivPapersTable } from "@/components/market-signals/ArxivPapersTable";
@@ -64,18 +69,6 @@ function safe<T>(fn: () => T, fallback: T): T {
 }
 
 const LIVE_MARKET_SOURCE_KEYS = LIVE_MARKET_SOURCE_SLUGS;
-
-const ACTIVE_MENTION_SOURCES: SocialPlatform[] = [
-  "github",
-  "hackernews",
-  "twitter",
-  "bluesky",
-  "producthunt",
-  "devto",
-  "lobsters",
-  "huggingface",
-  "npm",
-];
 
 function mentionsFor(repos: Repo[], source: SocialPlatform): number {
   return repos.reduce((sum, repo) => {
@@ -146,16 +139,6 @@ function buildSourceTotals(
   };
 }
 
-function activeSourceCount(repo: Repo): number {
-  const perSource = repo.mentions?.perSource;
-  if (perSource) {
-    return ACTIVE_MENTION_SOURCES.filter(
-      (source) => (perSource[source]?.count24h ?? 0) > 0,
-    ).length;
-  }
-  return Math.max(0, repo.channelsFiring ?? 0);
-}
-
 function sumMarketSignals(sourceTotals: MarketSourceTotals): number {
   return LIVE_MARKET_SOURCE_KEYS.reduce(
     (sum, key) => sum + (sourceTotals[key] ?? 0),
@@ -180,6 +163,7 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   await Promise.allSettled([
     refreshTrendingFromStore(),
     refreshNpmFromStore(),
+    refreshMentionsDailyFromStore(),
   ]);
 
   const counts = await getSidebarSourceCounts().catch(() => null);
@@ -191,6 +175,10 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
   // after the rest of the cockpit narrows).
   const filteredRepos = filterReposBySources(repos, selected);
   const npmPackages = safe(() => getNpmPackages(), []);
+  const mentionsDaily = safe(() => getMentionsDailySeries(), {
+    points: [],
+    hasHistory: false,
+  });
   const fetchedAt = safe(() => getLastFetchedAt() || null, null);
   const sourceTotals = buildSourceTotals(repos, counts);
   const totalSources = LIVE_MARKET_SOURCE_KEYS.length;
@@ -209,7 +197,9 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
 
   // No synthetic floors — empty feeds must surface as 0 so the source rail
   // reads as honestly degraded rather than laundering quiet upstreams.
-  const crossSourceCount = repos.filter((repo) => activeSourceCount(repo) >= 4).length;
+  // Same channelStatus() basis + threshold the CrossSourceFeed rows use — one
+  // source of truth, so the KPI can never say 0 while the feed shows rows.
+  const crossSourceCount = countCrossSourceRepos(repos, CROSS_SOURCE_MIN_CHANNELS);
   const npmAccelerating = npmPackages.filter((p) => (p.deltaPct7d ?? 0) > 0).length;
   const pausedSourceCount = 5;
 
@@ -227,6 +217,7 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
       />
 
       <SignalsKpiStrip
+        crossSourceMin={CROSS_SOURCE_MIN_CHANNELS}
         totalMentions={totalMentions}
         totalSources={totalSources}
         liveSources={liveSources}
@@ -243,10 +234,14 @@ export default async function MarketSignalsPage({ searchParams }: Props) {
         />
 
         <div className="col gap-4">
-          <VolumeAreaChart totals={volumeTotals} />
+          <VolumeAreaChart totals={volumeTotals} daily={mentionsDaily.points} />
 
           <div className="cockpit">
-            <CrossSourceFeed repos={filteredRepos} minChannels={5} limit={7} />
+            <CrossSourceFeed
+              repos={filteredRepos}
+              minChannels={CROSS_SOURCE_MIN_CHANNELS}
+              limit={7}
+            />
             <TagMomentumHeatmap repos={filteredRepos} limit={21} />
           </div>
 

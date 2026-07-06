@@ -4,6 +4,8 @@
 
 interface SignalsKpiStripProps {
   totalMentions: number;
+  /** Cross-source threshold — pass CROSS_SOURCE_MIN_CHANNELS so KPI + feed agree. */
+  crossSourceMin?: number;
   totalSources: number;
   liveSources: number;
   crossSourceCount: number;
@@ -13,6 +15,7 @@ interface SignalsKpiStripProps {
 
 export function SignalsKpiStrip({
   totalMentions,
+  crossSourceMin = 5,
   totalSources,
   liveSources,
   crossSourceCount,
@@ -33,7 +36,7 @@ export function SignalsKpiStrip({
         <span className="kpi-value" data-counter data-target={crossSourceCount}>
           {crossSourceCount.toLocaleString()}
         </span>
-        <span className="kpi-delta">same repo on 4+ sources</span>
+        <span className="kpi-delta">same repo on {crossSourceMin}+ sources</span>
       </div>
       <div className="kpi">
         <span className="kpi-label">Archived feeds</span>

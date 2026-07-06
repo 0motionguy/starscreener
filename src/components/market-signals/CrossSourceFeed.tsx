@@ -9,6 +9,9 @@ import Link from "next/link";
 
 import type { Repo, SocialPlatform } from "@/lib/types";
 
+/** Single threshold shared by the feed rows, the header chip, and the page KPI. */
+export const CROSS_SOURCE_MIN_CHANNELS = 5;
+
 interface CrossSourceFeedProps {
   repos: Repo[];
   minChannels?: number;
@@ -58,6 +61,24 @@ function channelStatus(repo: Repo, key: SocialPlatform): boolean {
   if (key === "bluesky") return repo.channelStatus?.bluesky ?? false;
   if (key === "devto") return repo.channelStatus?.devto ?? false;
   return false;
+}
+
+/**
+ * Repos whose ACTIVE channel set — the same channelStatus() logic that lights
+ * the feed rows' source marks — meets the threshold. Exported so the page KPI
+ * counts exactly what this feed renders. (Previously the KPI used a stricter
+ * perSource-only rule at a different threshold and could read 0 while the
+ * feed below it showed 7 rows.)
+ */
+export function countCrossSourceRepos(
+  repos: Repo[],
+  minChannels: number = CROSS_SOURCE_MIN_CHANNELS,
+): number {
+  return repos.filter(
+    (repo) =>
+      CHANNELS.filter((channel) => channelStatus(repo, channel.key)).length >=
+      minChannels,
+  ).length;
 }
 
 function scoreFor(repo: Repo): number {
@@ -126,17 +147,15 @@ function formatCount(n: number): string {
   return Math.round(n).toLocaleString();
 }
 
-export function CrossSourceFeed({ repos, minChannels = 5, limit = 7 }: CrossSourceFeedProps) {
+export function CrossSourceFeed({
+  repos,
+  minChannels = CROSS_SOURCE_MIN_CHANNELS,
+  limit = 7,
+}: CrossSourceFeedProps) {
   const rows = buildRows(repos, minChannels, limit);
-  // Honest total: real repos hitting the threshold today, no synthetic floor.
-  const totalHits = repos.filter((repo) => {
-    const perSource = repo.mentions?.perSource;
-    if (!perSource) return (repo.channelsFiring ?? 0) >= minChannels;
-    return (
-      CHANNELS.filter((channel) => (perSource[channel.key]?.count24h ?? 0) > 0)
-        .length >= minChannels
-    );
-  }).length;
+  // Honest total on the same channelStatus() basis as the rows themselves —
+  // no synthetic floor, no second definition drifting from what's rendered.
+  const totalHits = countCrossSourceRepos(repos, minChannels);
 
   return (
     <div className="card">

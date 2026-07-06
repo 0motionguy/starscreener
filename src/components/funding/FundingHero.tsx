@@ -16,6 +16,8 @@ export type FundingPeriod = (typeof FUNDING_PERIODS)[number]["id"];
 
 interface FundingHeroProps {
   period: FundingPeriod;
+  /** Window actually rendered when a quiet selection was auto-widened; defaults to `period`. */
+  effectivePeriod?: FundingPeriod;
   totalRounds: number;
   liveSources: number;
   totalSources: number;
@@ -24,13 +26,17 @@ interface FundingHeroProps {
 
 export function FundingHero({
   period,
+  effectivePeriod = period,
   totalRounds,
   liveSources,
   totalSources,
   fetchedAt,
 }: FundingHeroProps) {
+  // Eyebrow describes the window the numbers actually cover; the segmented
+  // switcher below stays on the user's SELECTED period.
   const periodLabel =
-    FUNDING_PERIODS.find((p) => p.id === period)?.label.toLowerCase() ?? "7d";
+    FUNDING_PERIODS.find((p) => p.id === effectivePeriod)?.label.toLowerCase() ?? "7d";
+  const widened = effectivePeriod !== period;
 
   return (
     <div className="fund-head">
@@ -38,7 +44,8 @@ export function FundingHero({
         <div className="page-eyebrow funding-eyebrow">
           <FreshnessPill source="funding" fetchedAt={fetchedAt} prefix="FUNDING RADAR" />
           <span>
-            /funding - {totalRounds.toLocaleString()} rounds - {periodLabel} window -{" "}
+            /funding - {totalRounds.toLocaleString()} rounds - {periodLabel} window
+            {widened ? " (auto-widened)" : ""} -{" "}
             {liveSources} of {totalSources} sources up
           </span>
         </div>

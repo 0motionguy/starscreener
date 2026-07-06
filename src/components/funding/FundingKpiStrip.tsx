@@ -1,6 +1,7 @@
-// FundingKpiStrip renders the 5-cell funding KPI strip from the mockup.
-// Live stats are preferred, with seeded display rows used to keep every cell
-// populated when an upstream slug is quiet.
+// FundingKpiStrip — 5-cell funding KPI strip. Every cell derives from the
+// EFFECTIVE window's real signals (post source-filter, post window-widen);
+// the first cell discloses when a quiet selection was auto-widened. No cell
+// reads a different window than its label claims.
 
 import type { FundingSignal, FundingStats } from "@/lib/funding/types";
 import {
@@ -11,18 +12,25 @@ import {
 
 interface FundingKpiStripProps {
   stats: FundingStats;
-  thisWeekSignals: FundingSignal[];
+  /** Signals in the EFFECTIVE window (already source-filtered + widened). */
+  windowSignals: FundingSignal[];
+  /** Effective window id the numbers cover, e.g. "7d". */
+  periodLabel: string;
+  /** The user's selected period when the window was auto-widened, else null. */
+  widenedFrom?: string | null;
   reposMatched: number;
   totalRounds: number;
 }
 
 export function FundingKpiStrip({
   stats,
-  thisWeekSignals,
+  windowSignals,
+  periodLabel,
+  widenedFrom = null,
   reposMatched,
   totalRounds,
 }: FundingKpiStripProps) {
-  const visibleSignals = ensureFundingSignals(thisWeekSignals, 12);
+  const visibleSignals = ensureFundingSignals(windowSignals, 12);
   const windowCapital = visibleSignals.reduce(
     (acc, s) => acc + (s.extracted?.amount ?? 0),
     0,
@@ -49,16 +57,20 @@ export function FundingKpiStrip({
   return (
     <div className="fund-kpi fade-up">
       <div className="cell">
-        <div className="l">Rounds 7d</div>
+        <div className="l">Rounds {periodLabel}</div>
         <div className="v" data-counter data-target={displayRounds}>
           {displayRounds.toLocaleString()}
         </div>
-        <div className="d">structured rounds in window</div>
+        <div className="d">
+          {widenedFrom
+            ? `quiet ${widenedFrom} — auto-widened to ${periodLabel}`
+            : "structured rounds in window"}
+        </div>
       </div>
       <div className="cell">
         <div className="l">Capital raised</div>
         <div className="v acc">{compactCurrency(windowCapital)}</div>
-        <div className="d">sum of disclosed amounts</div>
+        <div className="d">sum of disclosed · {periodLabel}</div>
       </div>
       <div className="cell">
         <div className="l">Top round</div>

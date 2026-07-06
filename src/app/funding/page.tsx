@@ -13,7 +13,6 @@ import {
   refreshFundingNewsFromStore,
   getFundingSignals,
   getFundingStats,
-  getFundingSignalsThisWeek,
   getFundingFetchedAt,
 } from "@/lib/funding-news";
 import { refreshSecFormDFromStore } from "@/lib/funding/sec-form-d";
@@ -474,23 +473,35 @@ export default async function FundingPage({ searchParams }: Props) {
     thisWeekCount: 0,
     sourcesBreakdown: {},
   });
-  const thisWeek = safe(() => getFundingSignalsThisWeek(), []);
   const fetchedAt = safe(() => getFundingFetchedAt(), null);
 
-  // Apply selected period window to the body signals. Fill from realistic
-  // seeded rows only when the live accessor exposes fewer rows than the mockup.
-  const rawWindowed = filterByPeriod(allSignals, period);
-  // URL-driven source filter narrows tape, top-rounds, sector heatmap,
-  // capital flow chart, and confidence chips when a publisher slug is active.
-  const sourceFilteredRaw = filterFundingBySources(rawWindowed, activeSource);
-  const windowed = ensureFundingSignals(sourceFilteredRaw, 18);
-  // Honest total — the largest count actually observed across the window
-  // and the stats accessor. No synthetic 142 floor so an empty feed shows 0.
-  const displayTotalRounds = Math.max(
-    sourceFilteredRaw.length,
-    stats.thisWeekCount,
-    thisWeek.length,
-  );
+  // Apply selected period window + URL-driven source filter to the body
+  // signals (tape, top-rounds, sector heatmap, capital flow, confidence).
+  const windowSignalsFor = (p: FundingPeriod): FundingSignal[] =>
+    filterFundingBySources(filterByPeriod(allSignals, p), activeSource);
+  const sourceFilteredRaw = windowSignalsFor(period);
+
+  // Window-widen fallback: a quiet 24h must not render a dead $0 cockpit
+  // while 7d/30d hold real rounds. Widen to the next period up until rows
+  // exist — ALWAYS disclosed (hero "(auto-widened)" + KPI note), never silent.
+  const WIDEN_ORDER: FundingPeriod[] = ["24h", "7d", "30d", "90d", "ytd"];
+  let effectivePeriod: FundingPeriod = period;
+  let effectiveRaw = sourceFilteredRaw;
+  if (effectiveRaw.length === 0) {
+    for (const wider of WIDEN_ORDER.slice(WIDEN_ORDER.indexOf(period) + 1)) {
+      const widened = windowSignalsFor(wider);
+      if (widened.length > 0) {
+        effectivePeriod = wider;
+        effectiveRaw = widened;
+        break;
+      }
+    }
+  }
+  const windowed = ensureFundingSignals(effectiveRaw, 18);
+  // Honest total: rows actually in the effective window. The previous
+  // Math.max(windowed, stats.thisWeekCount, thisWeek.length) folded 7d stats
+  // into every window, so a 24h view claimed 7d counts under a 24h label.
+  const displayTotalRounds = effectiveRaw.length;
 
   // Top rounds by amount (use period-windowed signals so the segmented
   // switcher actually changes the table).
@@ -555,6 +566,7 @@ export default async function FundingPage({ searchParams }: Props) {
       <div className="funding-main">
         <FundingHero
           period={period}
+          effectivePeriod={effectivePeriod}
           totalRounds={displayTotalRounds}
           liveSources={liveSources}
           totalSources={totalSources}
@@ -563,7 +575,9 @@ export default async function FundingPage({ searchParams }: Props) {
 
         <FundingKpiStrip
           stats={stats}
-          thisWeekSignals={ensureFundingSignals(thisWeek.length > 0 ? thisWeek : windowed, 12)}
+          windowSignals={windowed}
+          periodLabel={effectivePeriod}
+          widenedFrom={effectivePeriod === period ? null : period}
           reposMatched={reposMatched}
           totalRounds={displayTotalRounds}
         />

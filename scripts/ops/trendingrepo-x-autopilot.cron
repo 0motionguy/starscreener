@@ -1,0 +1,5 @@
+# TrendingRepo 3x/day X autopilot slots (local box time) — dormant until
+# trendingrepo-refresh-x-cookies.sh arms TWITTER_OUTBOUND_MODE=live.
+# Deployed from repo scripts/ops/trendingrepo-x-autopilot.cron -> /etc/cron.d/trendingrepo-x-autopilot.
+# Wrapper logs internally to /var/log/trendingrepo-x-autopilot.log (matches preflight RUN_LOG).
+47 8,12,17 * * * root /usr/local/bin/trendingrepo-x-autopilot.sh

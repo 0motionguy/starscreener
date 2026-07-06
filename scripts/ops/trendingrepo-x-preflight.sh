@@ -17,8 +17,9 @@
 #         after the aiso check so Slack pings don't interleave).
 set -uo pipefail
 
-ENV_FILE=/opt/trendingrepo/.env.production
-RUN_LOG=/var/log/trendingrepo-x-autopilot.log # posting cron redirects here (Phase C)
+ENV_FILE=/opt/trendingrepo/.env.production        # mode + app config
+COOKIE_FILE=/opt/trendingrepo-twitter/.env        # canonical @BreakSroom store (trending-twitter-login / refresh script)
+RUN_LOG=/var/log/trendingrepo-x-autopilot.log # posting wrapper logs here (Phase C)
 OUTCOME_WINDOW_H=26
 . /opt/toolbox/.env 2>/dev/null || true
 
@@ -49,8 +50,8 @@ echo "$(ts) mode: $MODE"
 fail=0
 
 # --- 1) cookie session check (read-only) ---------------------------------
-AUTH=$(grep -E '^TWITTER_AUTH_TOKEN=' "$ENV_FILE" 2>/dev/null | cut -d= -f2-)
-CT0=$(grep -E '^TWITTER_CT0=' "$ENV_FILE" 2>/dev/null | cut -d= -f2-)
+AUTH=$(grep -E '^TWITTER_AUTH_TOKEN=' "$COOKIE_FILE" 2>/dev/null | cut -d= -f2-)
+CT0=$(grep -E '^TWITTER_CT0=' "$COOKIE_FILE" 2>/dev/null | cut -d= -f2-)
 if [ -n "$AUTH" ] && [ -n "$CT0" ]; then
   export TWITTER_AUTH_TOKEN="$AUTH" TWITTER_CT0="$CT0"
   if twitter-cli feed --json 2>/dev/null | grep -qE '"ok": ?true'; then
@@ -65,7 +66,7 @@ if [ -n "$AUTH" ] && [ -n "$CT0" ]; then
   fi
 else
   if [ "$LIVE" = 1 ]; then
-    alert "cookies missing in $ENV_FILE while mode=live - posts will silently no-op"
+    alert "cookies missing in $COOKIE_FILE while mode=live - posts will silently no-op"
     fail=1
   else
     echo "$(ts) cookies: not provisioned yet (Phase C pending) - session check SKIP"

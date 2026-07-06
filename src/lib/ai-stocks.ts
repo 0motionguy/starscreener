@@ -132,6 +132,18 @@ export interface PublicStock {
   blurb: string;
   /** ISO timestamp the quote was fetched. */
   fetchedAt: string;
+  /** Daily OHLC candles (~3 months) parsed from the same chart response.
+   *  Empty when Yahoo omits/null-pads the arrays — never fabricated. */
+  candles: StockCandle[];
+}
+
+export interface StockCandle {
+  /** ISO day (UTC). */
+  day: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
 }
 
 interface TrackedTicker {
@@ -179,9 +191,22 @@ interface YahooChartMeta {
   exchangeName?: string;
 }
 
+interface YahooChartQuoteArrays {
+  open?: Array<number | null>;
+  high?: Array<number | null>;
+  low?: Array<number | null>;
+  close?: Array<number | null>;
+}
+
+interface YahooChartResult {
+  meta?: YahooChartMeta;
+  timestamp?: number[];
+  indicators?: { quote?: YahooChartQuoteArrays[] };
+}
+
 interface YahooChartResponse {
   chart?: {
-    result?: Array<{ meta?: YahooChartMeta }>;
+    result?: YahooChartResult[];
     error?: { code: string; description: string } | null;
   };
 }
@@ -189,10 +214,56 @@ interface YahooChartResponse {
 const YAHOO_UA =
   "Mozilla/5.0 (compatible; TrendingRepo/1.0; +https://trendingrepo.com)";
 
+/**
+ * Parse Yahoo's parallel OHLC arrays into candles. Arrays are null-padded
+ * on halted/partial sessions — incomplete rows are skipped, never coerced
+ * to zero. Keeps the most recent `maxCandles` rows.
+ */
+export function parseYahooCandles(
+  timestamps: readonly number[] | undefined,
+  quote: YahooChartQuoteArrays | undefined,
+  maxCandles = 66,
+): StockCandle[] {
+  if (!timestamps || timestamps.length === 0 || !quote) return [];
+  const { open, high, low, close } = quote;
+  if (!open || !high || !low || !close) return [];
+  const out: StockCandle[] = [];
+  for (let i = 0; i < timestamps.length; i++) {
+    const ts = timestamps[i];
+    const o = open[i];
+    const h = high[i];
+    const l = low[i];
+    const c = close[i];
+    if (
+      typeof ts !== "number" || !Number.isFinite(ts) ||
+      typeof o !== "number" || !Number.isFinite(o) ||
+      typeof h !== "number" || !Number.isFinite(h) ||
+      typeof l !== "number" || !Number.isFinite(l) ||
+      typeof c !== "number" || !Number.isFinite(c)
+    ) {
+      continue;
+    }
+    out.push({
+      day: new Date(ts * 1000).toISOString().slice(0, 10),
+      open: o,
+      high: h,
+      low: l,
+      close: c,
+    });
+  }
+  return out.length > maxCandles ? out.slice(-maxCandles) : out;
+}
+
+interface QuoteWithCandles {
+  meta: YahooChartMeta;
+  candles: StockCandle[];
+}
+
 /** Per-symbol fetch. Yahoo's v7 quote endpoint now 401s, but the v8 chart
- *  endpoint stays open. Returns null on any failure — never invents data. */
-async function fetchOneQuote(ticker: string): Promise<YahooChartMeta | null> {
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=5d`;
+ *  endpoint stays open — one call yields the live quote meta AND ~3 months
+ *  of daily OHLC. Returns null on any failure — never invents data. */
+async function fetchOneQuote(ticker: string): Promise<QuoteWithCandles | null> {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=3mo`;
   try {
     const res = await fetch(url, {
       headers: { "User-Agent": YAHOO_UA, Accept: "application/json" },
@@ -200,7 +271,13 @@ async function fetchOneQuote(ticker: string): Promise<YahooChartMeta | null> {
     });
     if (!res.ok) return null;
     const data = (await res.json()) as YahooChartResponse;
-    return data.chart?.result?.[0]?.meta ?? null;
+    const result = data.chart?.result?.[0];
+    const meta = result?.meta;
+    if (!meta) return null;
+    return {
+      meta,
+      candles: parseYahooCandles(result.timestamp, result.indicators?.quote?.[0]),
+    };
   } catch {
     return null;
   }
@@ -216,14 +293,15 @@ async function fetchOneQuote(ticker: string): Promise<YahooChartMeta | null> {
  */
 export async function fetchPublicAiStocks(): Promise<PublicStock[]> {
   const fetchedAt = new Date().toISOString();
-  const metas = await Promise.all(
+  const quotes = await Promise.all(
     AI_PUBLIC_TICKERS.map((t) => fetchOneQuote(t.ticker)),
   );
 
   const out: PublicStock[] = [];
   AI_PUBLIC_TICKERS.forEach((tracked, i) => {
-    const m = metas[i];
-    if (!m || typeof m.regularMarketPrice !== "number" || m.regularMarketPrice <= 0) {
+    const q = quotes[i];
+    const m = q?.meta;
+    if (!q || !m || typeof m.regularMarketPrice !== "number" || m.regularMarketPrice <= 0) {
       return;
     }
     const prevClose = m.chartPreviousClose ?? m.previousClose ?? 0;
@@ -242,6 +320,7 @@ export async function fetchPublicAiStocks(): Promise<PublicStock[]> {
       exchange: m.exchangeName ?? "",
       blurb: tracked.blurb,
       fetchedAt,
+      candles: q.candles,
     });
   });
   return out;

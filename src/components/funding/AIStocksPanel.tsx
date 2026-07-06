@@ -1,5 +1,6 @@
 // AIStocksPanel — right-rail card on /funding showing live AI public-stock
-// quotes (the actual "live chart").
+// quotes plus a real OHLC candlestick for the lead ticker (the actual
+// "live chart" — AURORA-themed bklit candles, honest Yahoo daily data).
 //
 // 2026-05-23: pre-IPO content moved out of this panel into the new
 // PreIPOSection (lives under SectorHeatmap in the main column). This panel
@@ -11,6 +12,7 @@
 // Future websocket upgrade: turn this into a thin server shell + a
 // client island that subscribes to /api/stocks/stream for live ticks.
 
+import { CandlestickChart } from "@/components/charts/CandlestickChart";
 import {
   fetchPublicAiStocks,
   formatChangePct,
@@ -38,6 +40,9 @@ export async function AIStocksPanel({ loader }: AIStocksPanelProps = {}) {
   const stocks = await (loader ?? fetchPublicAiStocks)();
   const fetchedAt = stocks[0]?.fetchedAt ?? null;
   const feedHealthy = stocks.length > 0;
+  // Lead candlestick — first curated ticker with enough real OHLC history
+  // (curated order puts NVDA first). No candles → no chart, no fabrication.
+  const lead = stocks.find((s) => (s.candles?.length ?? 0) >= 10) ?? null;
 
   return (
     <div className="ai-stocks-panel">
@@ -56,6 +61,21 @@ export async function AIStocksPanel({ loader }: AIStocksPanelProps = {}) {
           {feedHealthy ? `live · ${freshnessLabel(fetchedAt)}` : "feed down"}
         </span>
       </div>
+
+      {lead ? (
+        <div className="ai-stocks-chart">
+          <div className="ai-stocks-chart-label">
+            <span className="tk">{lead.ticker}</span>
+            <span className="mode">daily candles · 3mo · Yahoo OHLC</span>
+          </div>
+          <CandlestickChart
+            data={lead.candles}
+            height={150}
+            yPrefix={lead.currency === "USD" ? "$" : ""}
+            ariaLabel={`${lead.ticker} daily OHLC candles, last 3 months`}
+          />
+        </div>
+      ) : null}
 
       <div className="ai-stocks-section-label">
         Public · {stocks.length} tickers
@@ -173,6 +193,31 @@ function AIStocksPanelStyles() {
   animation: pulse-live 1.6s ease-in-out infinite;
 }
 .ai-stocks-status.cold .dot { background: var(--down); }
+
+.ai-stocks-chart {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  padding: 8px 6px 2px;
+}
+.ai-stocks-chart-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 4px 4px;
+  font-family: var(--font-mono);
+}
+.ai-stocks-chart-label .tk {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--fg-bright);
+}
+.ai-stocks-chart-label .mode {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
 
 .ai-stocks-section-label {
   font-family: var(--font-mono);

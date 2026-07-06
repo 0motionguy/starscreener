@@ -18,7 +18,7 @@
 set -uo pipefail
 
 ENV_FILE=/opt/trendingrepo/.env.production        # mode + app config
-COOKIE_FILE=/opt/trendingrepo-twitter/.env        # canonical @BreakSroom store (trending-twitter-login / refresh script)
+COOKIE_FILE=/opt/trendingrepo-twitter/.env        # canonical @trendingrepo store (trending-twitter-login / refresh script)
 RUN_LOG=/var/log/trendingrepo-x-autopilot.log # posting wrapper logs here (Phase C)
 OUTCOME_WINDOW_H=26
 . /opt/toolbox/.env 2>/dev/null || true
@@ -75,7 +75,9 @@ fi
 
 # --- 2) outcome check (any post in the last ${OUTCOME_WINDOW_H}h) --------
 if [ "$LIVE" = 1 ]; then
-  last=$(grep -aE "posted|confirm|tweet" "$RUN_LOG" 2>/dev/null | tail -1 | awk '{print $1}')
+  # Only a real success line counts (runner logs `posted <19-digit id>`);
+  # matching "tweet"/"confirm" loosely let DRY-RUN lines fake a green outcome.
+  last=$(grep -aE "posted [0-9]{15,}" "$RUN_LOG" 2>/dev/null | tail -1 | awk '{print $1}')
   if [ -n "$last" ]; then
     last_s=$(date -u -d "$last" +%s 2>/dev/null || echo 0)
     age_h=$(( ( $(date -u +%s) - last_s ) / 3600 ))

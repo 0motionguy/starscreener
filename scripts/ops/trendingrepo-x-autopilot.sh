@@ -6,7 +6,7 @@
 # Cron: /etc/cron.d/trendingrepo-x-autopilot -> 47 8,12,17 * * * root <this>
 # Gate: TWITTER_OUTBOUND_MODE=live in /opt/trendingrepo/.env.production —
 #       auto-armed by trendingrepo-refresh-x-cookies.sh after a VERIFIED
-#       @BreakSroom session. Until then every slot logs a dormant skip, exit 0.
+#       @trendingrepo session. Until then every slot logs a dormant skip, exit 0.
 #       `--dry-run` bypasses the gate (runner skips auth guard + post).
 # Post path: node /opt/trendingrepo-cron/scripts/twitter-trending-run.mjs
 #       (self-contained: node built-ins + global fetch; cap + 14d cooldown in

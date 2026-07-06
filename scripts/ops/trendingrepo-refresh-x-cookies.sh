@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Non-interactive X cookie refresh for the trendingrepo 3x/day autopilot
-# (@BreakSroom). Sibling of `trending-twitter-login` (interactive paste) —
+# (@trendingrepo). Sibling of `trending-twitter-login` (interactive paste) —
 # same canonical store /opt/trendingrepo-twitter/.env (0600) — plus two
 # guards the login helper lacks:
-#   1) identity: the session must actually be @BreakSroom. A valid session
+#   1) identity: the session must actually be @trendingrepo. A valid session
 #      for a DIFFERENT account (e.g. the aiso relay's @ontapemarkets in
 #      /opt/clawpulse/.env) is REFUSED and the cookie file removed.
 #   2) auto-arm: on VERIFIED success, flips TWITTER_OUTBOUND_MODE=live in
@@ -16,7 +16,7 @@ set -euo pipefail
 DIR=/opt/trendingrepo-twitter
 ENV=$DIR/.env
 APPENV=/opt/trendingrepo/.env.production
-WANT=breaksroom
+WANT=trendingrepo
 
 if [ "${1:-}" = "--stdin" ]; then
   json="$(cat)"

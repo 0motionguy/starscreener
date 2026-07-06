@@ -33,18 +33,25 @@ async function main() {
 
   // 1. Auth guard (skipped in dry-run — the endpoint needs no cookies).
   if (!DRY) {
-    let status;
+    let raw;
     try {
-      status = JSON.parse(twitter(["--compact", "status"]));
+      raw = twitter(["--compact", "status"]);
     } catch (e) {
       log("twitter status failed:", e.message, "— skip");
       process.exit(0);
     }
-    if (!status?.ok) {
+    // `--compact status` emits YAML, not JSON — parse loosely.
+    const ok = /^ok:\s*true\b/m.test(raw);
+    const user = (raw.match(/^\s*username:\s*['"]?([A-Za-z0-9_]+)/m) || [])[1] || "";
+    if (!ok) {
       log("not authenticated — skip (run `trending-twitter-login` on the box)");
       process.exit(0);
     }
-    log("authed as @" + (status?.data?.user?.username || "?"));
+    if (user.toLowerCase() !== "trendingrepo") {
+      log(`session is @${user || "?"}, expected @trendingrepo — REFUSING to post`);
+      process.exit(1);
+    }
+    log("authed as @" + user);
   }
 
   // 2. Propose — the endpoint ranks (spam-filtered), checks cooldown/cap, composes.
@@ -82,8 +89,9 @@ async function main() {
     const j = JSON.parse(out);
     tweetId = j?.data?.id || j?.id || j?.data?.tweetId;
   } catch {
-    /* fall through to the id check */
+    /* CLI may emit YAML instead of JSON — loose-match the id below */
   }
+  if (!tweetId) tweetId = (out.match(/\b(\d{15,20})\b/) || [])[1];
   if (!tweetId) {
     log("no tweet id in CLI response:", out.slice(0, 200));
     process.exit(1);
@@ -97,7 +105,7 @@ async function main() {
     body: JSON.stringify({ confirm: { fullName: plan.fullName, tweetId, text: plan.text } }),
   });
   log("confirm:", cres.status, "->", plan.fullName);
-  log("tweet: https://x.com/BreakSroom/status/" + tweetId);
+  log("tweet: https://x.com/trendingrepo/status/" + tweetId);
 }
 
 main().catch((e) => {

@@ -40,6 +40,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { gunzipSync } from "node:zlib";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -51,6 +52,18 @@ const PING_TIMEOUT_MS = 5_000;
 const ROLLING_WINDOW_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const NAMESPACE = "ss:data:v1";
 const USER_AGENT = "TrendingRepo-MCP-Liveness/1.0 (+https://trendingrepo.com)";
+
+// B.15 Arc 1 — the worker's encodePayloadForStore() gzips payloads >50KB and
+// tags them with a `gz1:` magic prefix (apps/trendingrepo-worker/src/lib/redis.ts).
+// Mirror of src/lib/data-store.ts decodePayloadFromStore(): detect the prefix
+// and ungzip; legacy plaintext payloads pass through unchanged.
+const GZIP_MAGIC_PREFIX = "gz1:";
+
+function decodePayloadFromStore(raw) {
+  if (typeof raw !== "string" || !raw.startsWith(GZIP_MAGIC_PREFIX)) return raw;
+  const b64 = raw.slice(GZIP_MAGIC_PREFIX.length);
+  return gunzipSync(Buffer.from(b64, "base64")).toString("utf8");
+}
 
 function log(msg) {
   console.log(`[mcp-liveness] ${msg}`);
@@ -326,7 +339,7 @@ async function main() {
     await redis.quit();
     process.exit(0);
   }
-  const parsed = typeof payloadRaw === "string" ? safeJsonParse(payloadRaw) : payloadRaw;
+  const parsed = typeof payloadRaw === "string" ? safeJsonParse(decodePayloadFromStore(payloadRaw)) : payloadRaw;
   const items = parsed && Array.isArray(parsed.items) ? parsed.items : [];
   log(`loaded ${items.length} MCPs from roster`);
 
@@ -373,7 +386,7 @@ async function main() {
     try {
       const existing = await redis.get(bufKey);
       if (existing) {
-        const parsedBuf = typeof existing === "string" ? safeJsonParse(existing) : existing;
+        const parsedBuf = typeof existing === "string" ? safeJsonParse(decodePayloadFromStore(existing)) : existing;
         if (parsedBuf && Array.isArray(parsedBuf.pings)) {
           prevPings = parsedBuf.pings;
         }

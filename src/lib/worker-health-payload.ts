@@ -193,7 +193,7 @@ function countRows(slug: string, payload: unknown): number | null {
   if (slug === "repo-mentions-detail-rollup") {
     return countObjectRows((payload as { repos?: unknown })?.repos);
   }
-  if (slug === "stars-by-category-daily") {
+  if (slug === "stars-by-category-daily" || slug === "mentions-daily") {
     return countArrayRows((payload as { days?: unknown })?.days);
   }
   if (slug === "mentions-ledger") {

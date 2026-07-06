@@ -149,6 +149,7 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "openrouter-models",
     "repo-registry",
     "mentions-ledger",
+    "mentions-daily",
     "repo-mentions-detail-rollup",
     "star-activity-deltas",
     "editorial-best",
@@ -616,6 +617,12 @@ test("/api/worker/health: payload row-quality summary covers tracked slugs", () 
   assert.equal(
     summarizeWorkerPayloadHealth("stars-by-category-daily", {
       days: [{ d: "2026-05-31", byCategory: {} }],
+    }).rowCount,
+    1,
+  );
+  assert.equal(
+    summarizeWorkerPayloadHealth("mentions-daily", {
+      days: [{ date: "2026-05-31", perSource: { hackernews: 4 }, total: 4 }],
     }).rowCount,
     1,
   );

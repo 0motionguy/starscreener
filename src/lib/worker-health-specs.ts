@@ -110,6 +110,9 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
   { slug: "revenue-benchmarks", fetcher: "revenue-benchmarks", cadenceMin: 60 * 24, blocking: false },
   { slug: "stars-by-category-daily", fetcher: "stars-by-category", cadenceMin: 60 * 24 },
+  // daily rollup derived from the 30-min mentions-ledger sweep (06:17 UTC);
+  // the 48h contract budget deliberately tolerates one missed daily run.
+  { slug: "mentions-daily", fetcher: "mentions-daily", cadenceMin: 60 * 24 },
 
   // weekly - slow-moving baselines
   { slug: "lmarena-text", fetcher: "lmarena", cadenceMin: 60 * 24 * 7, slowMoving: true, blocking: false },

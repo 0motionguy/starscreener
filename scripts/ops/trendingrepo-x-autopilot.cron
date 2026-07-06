@@ -2,4 +2,13 @@
 # trendingrepo-refresh-x-cookies.sh arms TWITTER_OUTBOUND_MODE=live.
 # Deployed from repo scripts/ops/trendingrepo-x-autopilot.cron -> /etc/cron.d/trendingrepo-x-autopilot.
 # Wrapper logs internally to /var/log/trendingrepo-x-autopilot.log (matches preflight RUN_LOG).
-47 8,12,17 * * * root /usr/local/bin/trendingrepo-x-autopilot.sh
+#
+# Content-calendar slots (resolveSlotFormat in content-calendar.ts):
+#   A 08:47 — criteria-copy trending single, daily
+#   B 12:47 — rotating themed pack (Mon agents / Tue rag / Wed mcp / Thu
+#             self-hosted / Fri fresh-finds / Sat devtools / Sun weekly-top10)
+#   C 17:47 — alternating discovery-single / trending-single
+# Each posts one tweet; cap (TRENDING_POST_MAX_PER_DAY=3) + 14d cooldown dedupe.
+47 8  * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --slot A
+47 12 * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --slot B
+47 17 * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --slot C

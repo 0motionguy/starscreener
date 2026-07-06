@@ -24,7 +24,11 @@
 import OpenAI from 'openai';
 import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
-import type { LlmCallOptions, LlmCallResult } from './shared.js';
+import {
+  isTemperatureRestrictionError,
+  type LlmCallOptions,
+  type LlmCallResult,
+} from './shared.js';
 import {
   createStreamIdleTimeout,
   toIdleTimeoutError,
@@ -75,21 +79,36 @@ export async function callKimi(opts: LlmCallOptions): Promise<LlmCallResult> {
   try {
     // Kimi For Coding endpoint requires stream:true for the K2.6 reasoning
     // model — non-stream requests hang silently for any non-trivial payload.
-    const stream = await client.chat.completions.create(
-      {
+    const makeParams = (includeTemperature: boolean) =>
+      ({
         model,
         max_tokens: opts.maxTokens ?? 2048,
-        temperature: opts.temperature ?? 0.4,
-        stream: true,
+        ...(includeTemperature ? { temperature: opts.temperature ?? 0.4 } : {}),
+        stream: true as const,
         stream_options: { include_usage: true },
         messages: [
-          { role: 'system', content: opts.systemPrompt },
-          { role: 'user', content: opts.userMessage },
+          { role: 'system' as const, content: opts.systemPrompt },
+          { role: 'user' as const, content: opts.userMessage },
         ],
         ...(opts.jsonMode ? { response_format: { type: 'json_object' as const } } : {}),
-      },
-      { signal: idle.signal },
-    );
+      });
+    const createStream = (includeTemperature: boolean) =>
+      client.chat.completions.create(makeParams(includeTemperature), { signal: idle.signal });
+
+    let stream: Awaited<ReturnType<typeof createStream>>;
+    try {
+      stream = await createStream(true);
+    } catch (err) {
+      // Proxied models that forbid sampling overrides hard-reject with
+      // `400 invalid temperature: only 1 is allowed` — retry once WITHOUT
+      // temperature so the server default applies (see shared.ts helper).
+      if (!isTemperatureRestrictionError(err)) throw err;
+      console.warn(
+        `[kimi] model ${model} rejects custom temperature — retrying with provider default`,
+      );
+      idle.reset();
+      stream = await createStream(false);
+    }
 
     for await (const chunk of stream) {
       idle.reset();

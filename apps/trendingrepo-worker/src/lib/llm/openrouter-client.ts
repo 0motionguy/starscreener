@@ -53,9 +53,8 @@ export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResul
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(), DEFAULT_TIMEOUT_MS);
 
-  let res: Response;
-  try {
-    res = await fetch(ENDPOINT, {
+  const doFetch = (includeTemperature: boolean) =>
+    fetch(ENDPOINT, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
@@ -67,7 +66,7 @@ export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResul
       body: JSON.stringify({
         model,
         max_tokens: opts.maxTokens ?? 2048,
-        temperature: opts.temperature ?? 0.4,
+        ...(includeTemperature ? { temperature: opts.temperature ?? 0.4 } : {}),
         stream: true,
         stream_options: { include_usage: true },
         messages: [
@@ -78,6 +77,10 @@ export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResul
       }),
       signal: ac.signal,
     });
+
+  let res: Response;
+  try {
+    res = await doFetch(true);
   } catch (err) {
     clearTimeout(timer);
     const isAbort = err instanceof Error && err.name === 'AbortError';
@@ -85,15 +88,40 @@ export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResul
   }
 
   if (!res.ok || !res.body) {
-    clearTimeout(timer);
-    const code = classifyHttp(res.status);
     let body = '';
     try {
       body = await res.text();
     } catch {
       /* ignore */
     }
-    throw makeError(code, `OpenRouter ${res.status}: ${body.slice(0, 500)}`);
+    if (res.status === 400 && /temperature/i.test(body)) {
+      // Sampling-override restriction (`invalid temperature: only 1 is
+      // allowed`) — retry once WITHOUT temperature, mirroring the SDK-based
+      // kimi/nanogpt clients (raw-fetch flavor: inspect the body, not an
+      // SDK error object).
+      console.warn(
+        `[openrouter] model ${model} rejects custom temperature — retrying with provider default`,
+      );
+      try {
+        res = await doFetch(false);
+      } catch (err) {
+        clearTimeout(timer);
+        const isAbort = err instanceof Error && err.name === 'AbortError';
+        throw makeError(isAbort ? 'timeout' : 'unknown', isAbort ? 'OpenRouter request timed out' : `OpenRouter fetch failed: ${stringify(err)}`);
+      }
+      if (!res.ok || !res.body) {
+        clearTimeout(timer);
+        try {
+          body = await res.text();
+        } catch {
+          body = '';
+        }
+        throw makeError(classifyHttp(res.status), `OpenRouter ${res.status}: ${body.slice(0, 500)}`);
+      }
+    } else {
+      clearTimeout(timer);
+      throw makeError(classifyHttp(res.status), `OpenRouter ${res.status}: ${body.slice(0, 500)}`);
+    }
   }
 
   try {

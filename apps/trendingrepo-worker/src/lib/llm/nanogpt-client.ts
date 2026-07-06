@@ -17,7 +17,11 @@
 import OpenAI from 'openai';
 import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
-import type { LlmCallOptions, LlmCallResult } from './shared.js';
+import {
+  isTemperatureRestrictionError,
+  type LlmCallOptions,
+  type LlmCallResult,
+} from './shared.js';
 import {
   createStreamIdleTimeout,
   toIdleTimeoutError,
@@ -44,15 +48,6 @@ function getClient(): OpenAI {
 
 export function isNanoGptConfigured(): boolean {
   return Boolean(loadEnv().NANOGPT_API_KEY);
-}
-
-// `400 invalid temperature: only 1 is allowed for this model` — thrown by
-// NanoGPT when the routed model (gpt-5/o-series style) forbids sampling
-// overrides. Matched loosely (status 400 + "temperature") so wording drift
-// on the proxy side keeps matching.
-function isTemperatureRestrictionError(err: unknown): boolean {
-  const e = err as { status?: number; message?: string } | null;
-  return e?.status === 400 && /temperature/i.test(e?.message ?? '');
 }
 
 export async function callNanoGpt(opts: LlmCallOptions): Promise<LlmCallResult> {

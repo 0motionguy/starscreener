@@ -42,3 +42,16 @@ export interface LlmCallMeta {
   /** Time to first content delta. Null when not measured. */
   ttftMs: number | null;
 }
+
+/**
+ * `400 invalid temperature: only 1 is allowed for this model` — thrown by
+ * OpenAI-compatible proxies when the routed model (gpt-5/o-series style)
+ * forbids sampling overrides. Every provider client retries ONCE without
+ * `temperature` when this matches, so the server default (1) applies while
+ * models that accept tuning keep the fetcher-specified value. Matched
+ * loosely (status 400 + "temperature") so wording drift keeps matching.
+ */
+export function isTemperatureRestrictionError(err: unknown): boolean {
+  const e = err as { status?: number; message?: string } | null;
+  return e?.status === 400 && /temperature/i.test(e?.message ?? '');
+}

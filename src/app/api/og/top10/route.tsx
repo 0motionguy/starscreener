@@ -180,7 +180,7 @@ function buildSvg(
 
   const headerSize = Math.round(height * 0.020);
   const dateStr = new Date().toISOString().slice(0, 10);
-  const headerLeft = `// TRENDINGREPO · TOP 10 · ${category.toUpperCase()} · ${window.toUpperCase()} · ${dateStr}`;
+  const headerLeft = `// TRENDINGREPO · TOP ${rowCount} · ${category.toUpperCase()} · ${window.toUpperCase()} · ${dateStr}`;
 
   const header = `
     <g>
@@ -310,7 +310,7 @@ function CardJSX({
             TRENDINGREPO
           </span>
           <span style={{ display: "flex" }}>·</span>
-          <span style={{ display: "flex" }}>{`TOP 10`}</span>
+          <span style={{ display: "flex" }}>{`TOP ${rowCount}`}</span>
           <span style={{ display: "flex" }}>·</span>
           <span style={{ display: "flex" }}>{category.toUpperCase()}</span>
           <span style={{ display: "flex" }}>·</span>

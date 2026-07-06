@@ -19,6 +19,8 @@ import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
 import {
   isTemperatureRestrictionError,
+  markTemperatureRejected,
+  modelRejectsTemperature,
   type LlmCallOptions,
   type LlmCallResult,
 } from './shared.js';
@@ -86,13 +88,15 @@ export async function callNanoGpt(opts: LlmCallOptions): Promise<LlmCallResult> 
 
     let stream: Awaited<ReturnType<typeof createStream>>;
     try {
-      stream = await createStream(true);
+      // Models memoized as override-rejecting skip the doomed first attempt.
+      stream = await createStream(!modelRejectsTemperature(model));
     } catch (err) {
       // Some proxied models (gpt-5/o-series style) hard-reject any custom
       // temperature with `400 invalid temperature: only 1 is allowed`.
       // Retry once WITHOUT temperature so the server default (1) applies —
       // models that accept tuning keep the fetcher-specified value.
       if (!isTemperatureRestrictionError(err)) throw err;
+      markTemperatureRejected(model);
       console.warn(
         `[nanogpt] model ${model} rejects custom temperature — retrying with provider default`,
       );

@@ -55,3 +55,20 @@ export function isTemperatureRestrictionError(err: unknown): boolean {
   const e = err as { status?: number; message?: string } | null;
   return e?.status === 400 && /temperature/i.test(e?.message ?? '');
 }
+
+/**
+ * Models observed rejecting sampling overrides, memoized for the process
+ * lifetime. The first call per model pays one doomed request + retry; every
+ * subsequent call skips `temperature` outright. consensus-analyst fires
+ * dozens of Kimi calls per run — without the memo each one wasted a full
+ * round-trip, doubling run latency and blowing the one-shot budget.
+ */
+const temperatureRejectingModels = new Set<string>();
+
+export function modelRejectsTemperature(model: string): boolean {
+  return temperatureRejectingModels.has(model);
+}
+
+export function markTemperatureRejected(model: string): void {
+  temperatureRejectingModels.add(model);
+}

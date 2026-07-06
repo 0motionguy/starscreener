@@ -7,7 +7,13 @@
 
 import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
-import type { LlmCallOptions, LlmCallResult, LlmCallMeta } from './shared.js';
+import {
+  markTemperatureRejected,
+  modelRejectsTemperature,
+  type LlmCallOptions,
+  type LlmCallResult,
+  type LlmCallMeta,
+} from './shared.js';
 import type { LlmErrorCode } from './types.js';
 import { scheduleGenMetaReconcile } from './gen-meta-fetcher.js';
 
@@ -80,7 +86,8 @@ export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResul
 
   let res: Response;
   try {
-    res = await doFetch(true);
+    // Models memoized as override-rejecting skip the doomed first attempt.
+    res = await doFetch(!modelRejectsTemperature(model));
   } catch (err) {
     clearTimeout(timer);
     const isAbort = err instanceof Error && err.name === 'AbortError';
@@ -99,6 +106,7 @@ export async function callOpenRouter(opts: LlmCallOptions): Promise<LlmCallResul
       // allowed`) — retry once WITHOUT temperature, mirroring the SDK-based
       // kimi/nanogpt clients (raw-fetch flavor: inspect the body, not an
       // SDK error object).
+      markTemperatureRejected(model);
       console.warn(
         `[openrouter] model ${model} rejects custom temperature — retrying with provider default`,
       );

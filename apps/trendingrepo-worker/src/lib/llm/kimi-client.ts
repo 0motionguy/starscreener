@@ -26,6 +26,8 @@ import { FatalConfigError } from '../errors.js';
 import { loadEnv } from '../env.js';
 import {
   isTemperatureRestrictionError,
+  markTemperatureRejected,
+  modelRejectsTemperature,
   type LlmCallOptions,
   type LlmCallResult,
 } from './shared.js';
@@ -97,12 +99,14 @@ export async function callKimi(opts: LlmCallOptions): Promise<LlmCallResult> {
 
     let stream: Awaited<ReturnType<typeof createStream>>;
     try {
-      stream = await createStream(true);
+      // Models memoized as override-rejecting skip the doomed first attempt.
+      stream = await createStream(!modelRejectsTemperature(model));
     } catch (err) {
       // Proxied models that forbid sampling overrides hard-reject with
       // `400 invalid temperature: only 1 is allowed` — retry once WITHOUT
       // temperature so the server default applies (see shared.ts helper).
       if (!isTemperatureRestrictionError(err)) throw err;
+      markTemperatureRejected(model);
       console.warn(
         `[kimi] model ${model} rejects custom temperature — retrying with provider default`,
       );

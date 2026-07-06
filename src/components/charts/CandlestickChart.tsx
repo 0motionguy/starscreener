@@ -14,6 +14,10 @@
 //
 // Server-component friendly: every prop is serializable (no function props
 // required), so async RSC panels can embed it directly.
+//
+// Role note (operator steer 2026-07-06): *stock* surfaces render via
+// TradingViewCandles (lightweight-charts) instead — keep this recharts
+// primitive for static/OG output and non-stock OHLC series.
 
 import { memo, useMemo } from "react";
 import {

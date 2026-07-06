@@ -12,7 +12,7 @@
 // Future websocket upgrade: turn this into a thin server shell + a
 // client island that subscribes to /api/stocks/stream for live ticks.
 
-import { CandlestickChart } from "@/components/charts/CandlestickChart";
+import { TradingViewCandles } from "@/components/charts/TradingViewCandles";
 import {
   fetchPublicAiStocks,
   formatChangePct,
@@ -68,10 +68,10 @@ export async function AIStocksPanel({ loader }: AIStocksPanelProps = {}) {
             <span className="tk">{lead.ticker}</span>
             <span className="mode">daily candles · 3mo · Yahoo OHLC</span>
           </div>
-          <CandlestickChart
+          <TradingViewCandles
             data={lead.candles}
             height={150}
-            yPrefix={lead.currency === "USD" ? "$" : ""}
+            currency={lead.currency}
             ariaLabel={`${lead.ticker} daily OHLC candles, last 3 months`}
           />
         </div>

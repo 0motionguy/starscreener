@@ -139,6 +139,13 @@ function clearSessionCookie(response: NextResponse): void {
  * Self-healing: when the cookie carries a Clerk-derived id but the Clerk
  * session is gone or belongs to a different account, report `ok:false`
  * AND expire the cookie so the stale identity can't linger.
+ *
+ * Fresh tier for Clerk sessions: the cookie's embedded tier is a hint
+ * minted at issue time — right after checkout the Stripe webhook updates
+ * the STORE, not the cookie, so the probe reads the store fresh (30s
+ * TTL-cached) and, when the tier changed, re-mints the cookie in the
+ * same response. This is what lets CheckoutSuccess confirm an upgrade by
+ * polling this endpoint.
  */
 export async function GET(
   request: NextRequest,
@@ -165,6 +172,48 @@ export async function GET(
       const response = sessionJson<SessionProbeMiss>({ ok: false });
       clearSessionCookie(response);
       return response;
+    }
+
+    // Fresh store read — best-effort; on failure fall through to the
+    // cookie hint below.
+    try {
+      const record = await getUserTierRecord(payload.userId);
+      const freshTier = record?.tier;
+      const freshExpiresAt = record?.expiresAt ?? null;
+      const changed =
+        freshTier !== payload.tier ||
+        (freshTier !== undefined && freshExpiresAt !== (payload.tierExpiresAt ?? null));
+      const response = sessionJson<SessionProbeOk>({
+        ok: true,
+        userId: payload.userId,
+        issuedAt: payload.issuedAt,
+        ...(freshTier !== undefined
+          ? { tier: freshTier, tierExpiresAt: freshExpiresAt }
+          : {}),
+      });
+      if (changed) {
+        // Re-mint so subsequent requests (rate-limiter, UI gates) carry
+        // the updated hint without another store hit.
+        const reminted: SessionPayload = {
+          userId: payload.userId,
+          issuedAt: Date.now(),
+          ...(freshTier !== undefined
+            ? { tier: freshTier, tierExpiresAt: freshExpiresAt }
+            : {}),
+        };
+        response.cookies.set({
+          name: SESSION_COOKIE_NAME,
+          value: signSession(reminted),
+          httpOnly: true,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+          maxAge: SESSION_MAX_AGE_SECONDS,
+        });
+      }
+      return response;
+    } catch {
+      // Store unavailable — cookie hint below still serves.
     }
   }
 

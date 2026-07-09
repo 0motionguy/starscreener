@@ -18,7 +18,29 @@ import {
   readJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 
-import type { OutboundRunRecord } from "./types";
+import type {
+  AdapterThreadResult,
+  ComposedPost,
+  OutboundRunPost,
+  OutboundRunRecord,
+} from "./types";
+
+/**
+ * Zip the composed thread with the adapter's per-post outcome into the
+ * audit shape. Adapters return one result per post in order; a missing
+ * result (thread aborted mid-way) records as "skipped".
+ */
+export function zipRunPosts(
+  thread: ComposedPost[],
+  result: AdapterThreadResult,
+): OutboundRunPost[] {
+  return thread.map((post, i) => ({
+    kind: post.kind,
+    text: post.text,
+    url: post.url ?? null,
+    status: result.posts[i]?.status ?? "skipped",
+  }));
+}
 
 export const OUTBOUND_RUNS_FILE = "twitter-outbound-runs.jsonl";
 
@@ -31,6 +53,7 @@ export interface RecordRunInput {
   startedAt: string;
   errorMessage?: string | null;
   featuredRepos?: string[];
+  posts?: OutboundRunPost[];
 }
 
 /**
@@ -52,6 +75,7 @@ export async function recordOutboundRun(
     finishedAt: new Date().toISOString(),
     errorMessage: input.errorMessage ?? null,
     ...(input.featuredRepos ? { featuredRepos: input.featuredRepos } : {}),
+    ...(input.posts ? { posts: input.posts } : {}),
   };
   await appendJsonlFile(OUTBOUND_RUNS_FILE, record);
   return record;

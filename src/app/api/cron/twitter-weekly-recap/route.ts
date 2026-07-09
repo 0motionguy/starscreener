@@ -18,12 +18,21 @@ import {
   countReactions,
   listReactionsForObject,
 } from "@/lib/reactions";
+import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 
-import { recordOutboundRun } from "@/lib/twitter/outbound/audit";
+import { recordOutboundRun, zipRunPosts } from "@/lib/twitter/outbound/audit";
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
-import { composeWeeklyRecap } from "@/lib/twitter/outbound/composer";
+import {
+  composeWeeklyRecap,
+  MAX_WEEKLY_ITEMS,
+} from "@/lib/twitter/outbound/composer";
+import { pickDailyBreakouts } from "@/lib/twitter/outbound/select";
 
 export const runtime = "nodejs";
+
+/** Same stale-data threshold as the daily route: skip visibly rather
+ * than compose a recap from a frozen payload. */
+const MAX_DATA_AGE_MS = 12 * 60 * 60 * 1000;
 
 interface WeeklyResponse {
   ok: true;
@@ -32,6 +41,8 @@ interface WeeklyResponse {
   postCount: number;
   threadUrl: string | null;
   runId: string;
+  /** Set when status=skipped for a reason other than a null adapter. */
+  skippedReason?: string;
 }
 
 interface ErrorResponse {
@@ -55,19 +66,57 @@ async function handle(
     const now = new Date();
     const weekAgoMs = now.getTime() - 7 * 24 * 60 * 60 * 1000;
 
-    // Top breakout of the week = highest crossSignalScore among repos
-    // with any meaningful 7d star delta. Ties broken by absolute delta.
-    const repos = getDerivedRepos();
-    const weeklyBreakouts = repos
-      .filter((r) => (r.starsDelta7d ?? 0) > 0)
-      .sort((a, b) => {
-        const aCSS = a.crossSignalScore ?? 0;
-        const bCSS = b.crossSignalScore ?? 0;
-        if (bCSS !== aCSS) return bCSS - aCSS;
-        return (b.starsDelta7d ?? 0) - (a.starsDelta7d ?? 0);
+    // Pull the freshest worker-owned payload from Redis before reading
+    // anything — a cold container otherwise composes from the bundled
+    // (build-time) JSON. Failure degrades to whatever is cached.
+    await refreshTrendingFromStore().catch((err) => {
+      console.warn(
+        "[api:cron:twitter-weekly-recap] refreshTrendingFromStore failed",
+        err,
+      );
+    });
+
+    // Freshness gate: skip the recap rather than post from stale data.
+    const fetchedAtMs = Date.parse(getLastFetchedAt());
+    const dataAgeMs = Number.isFinite(fetchedAtMs)
+      ? Date.now() - fetchedAtMs
+      : Number.POSITIVE_INFINITY;
+    if (dataAgeMs > MAX_DATA_AGE_MS) {
+      const ageHours = Number.isFinite(dataAgeMs)
+        ? `${(dataAgeMs / 3_600_000).toFixed(1)}h`
+        : "unknown";
+      const reason = `stale-data (trending payload age ${ageHours} > 12h)`;
+      const run = await recordOutboundRun({
+        kind: "weekly_recap",
+        adapterName: adapter.name,
+        status: "skipped",
+        threadUrl: null,
+        postCount: 0,
+        startedAt,
+        errorMessage: reason,
       });
-    const topBreakout = weeklyBreakouts[0] ?? null;
-    const breakoutsThisWeek = weeklyBreakouts.filter(
+      return NextResponse.json({
+        ok: true,
+        adapter: adapter.name,
+        status: "skipped",
+        postCount: 0,
+        threadUrl: null,
+        runId: run.id,
+        skippedReason: reason,
+      });
+    }
+
+    // Top breakouts of the week via the shared tiered selector in its
+    // 7d window (multi-signal first, then flagged movers, then raw 7d
+    // star velocity). No cooldown exclusion: the recap runs once a
+    // week and the week's #1 belongs in it even if a daily already
+    // featured it.
+    const repos = getDerivedRepos();
+    const topBreakouts = pickDailyBreakouts(repos, {
+      count: MAX_WEEKLY_ITEMS,
+      window: "7d",
+    });
+    const breakoutsThisWeek = repos.filter(
       (r) => (r.channelsFiring ?? 0) >= 2,
     ).length;
 
@@ -98,7 +147,7 @@ async function handle(
     }
 
     const thread = composeWeeklyRecap({
-      topBreakout,
+      topBreakouts,
       topIdea,
       ideasPublishedThisWeek: publishedThisWeek.length,
       breakoutsThisWeek,
@@ -120,6 +169,11 @@ async function handle(
       threadUrl: result.threadUrl,
       postCount: thread.length,
       startedAt,
+      featuredRepos:
+        status === "published"
+          ? topBreakouts.map((r) => r.fullName)
+          : undefined,
+      posts: zipRunPosts(thread, result),
     });
 
     return NextResponse.json({

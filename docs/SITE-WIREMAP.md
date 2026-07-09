@@ -154,6 +154,7 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 | `/admin/pool-aggregate` | private | Redis-aggregate fleet view (POOL-REDIS) | every `recordRateLimit` writes to Redis | live | n/a |
 | `/admin/staleness` | private | per-source freshness | reads `data/_meta/*.json` | live | n/a |
 | `/admin/scoring-shadow` | private | shadow-scoring run results | run-shadow-scoring | daily `0 2 * * *` | n/a |
+| `GET /api/admin/twitter-outbound` | private (ADMIN_TOKEN) | outbound X run audit incl. full composed threads (`twitter-outbound-runs.jsonl`) | written by `/api/cron/twitter-daily` + `/api/cron/twitter-weekly-recap` (cron-twitter-outbound.yml: daily `0 14 * * *`, Fri `0 16 * * 5`) | per cron run | n/a |
 
 ---
 

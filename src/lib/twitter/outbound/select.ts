@@ -34,21 +34,41 @@ export interface PickDailyBreakoutsOptions {
   count?: number;
   /** Lowercased fullNames to skip (e.g. featured in the last 7 days). */
   exclude?: ReadonlySet<string>;
+  /**
+   * Which star-delta window drives the floor, Tier C, and tie-breaks.
+   * "24h" (default) for the daily thread; "7d" for the weekly recap.
+   */
+  window?: "24h" | "7d";
+}
+
+export interface RecentlyFeaturedOptions {
+  /** Cooldown window in days. Defaults to FEATURED_COOLDOWN_DAYS. */
+  days?: number;
+  /** Clock override for tests. */
+  now?: Date;
+  /** Restrict to these run kinds; omit to count every run. */
+  kinds?: ReadonlyArray<OutboundRunRecord["kind"]>;
 }
 
 /**
  * Repos featured in recent runs, as a lowercased fullName set. Runs
  * older than `days` (or without a featuredRepos list — pre-upgrade
- * audit rows) are ignored.
+ * audit rows) are ignored. Pass `kinds` to scope the cooldown to
+ * specific run kinds — the daily thread only excludes repos its OWN
+ * past runs featured, so a Friday-recap appearance doesn't knock a
+ * repo out of the next week of dailies.
  */
 export function recentlyFeaturedRepos(
   runs: OutboundRunRecord[],
-  days: number = FEATURED_COOLDOWN_DAYS,
-  now: Date = new Date(),
+  options: RecentlyFeaturedOptions = {},
 ): Set<string> {
+  const days = options.days ?? FEATURED_COOLDOWN_DAYS;
+  const now = options.now ?? new Date();
+  const kinds = options.kinds;
   const cutoff = now.getTime() - days * 24 * 60 * 60 * 1000;
   const featured = new Set<string>();
   for (const run of runs) {
+    if (kinds && !kinds.includes(run.kind)) continue;
     const startedAt = Date.parse(run.startedAt);
     if (!Number.isFinite(startedAt) || startedAt < cutoff) continue;
     for (const fullName of run.featuredRepos ?? []) {
@@ -56,6 +76,18 @@ export function recentlyFeaturedRepos(
     }
   }
   return featured;
+}
+
+type DeltaWindow = NonNullable<PickDailyBreakoutsOptions["window"]>;
+
+function windowDelta(repo: Repo, window: DeltaWindow): number {
+  return (window === "7d" ? repo.starsDelta7d : repo.starsDelta24h) ?? 0;
+}
+
+function windowDeltaMissing(repo: Repo, window: DeltaWindow): boolean {
+  // Only the 24h delta carries a backfill marker today; the 7d delta
+  // comes straight from the deltas snapshot ring.
+  return window === "24h" && repo.starsDelta24hMissing === true;
 }
 
 /**
@@ -70,23 +102,29 @@ function hasPositiveMovement(repo: Repo): boolean {
   return false;
 }
 
-function byCrossSignal(a: Repo, b: Repo): number {
-  const css = (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0);
-  if (css !== 0) return css;
-  return byMomentum(a, b);
+function byCrossSignal(window: DeltaWindow) {
+  return (a: Repo, b: Repo): number => {
+    const css = (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0);
+    if (css !== 0) return css;
+    return byMomentum(window)(a, b);
+  };
 }
 
-function byMomentum(a: Repo, b: Repo): number {
-  const momentum = (b.momentumScore ?? 0) - (a.momentumScore ?? 0);
-  if (momentum !== 0) return momentum;
-  return byStarDelta(a, b);
+function byMomentum(window: DeltaWindow) {
+  return (a: Repo, b: Repo): number => {
+    const momentum = (b.momentumScore ?? 0) - (a.momentumScore ?? 0);
+    if (momentum !== 0) return momentum;
+    return byStarDelta(window)(a, b);
+  };
 }
 
-function byStarDelta(a: Repo, b: Repo): number {
-  const delta = (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0);
-  if (delta !== 0) return delta;
-  // Final stable tiebreak so runs are reproducible for identical data.
-  return a.fullName.localeCompare(b.fullName);
+function byStarDelta(window: DeltaWindow) {
+  return (a: Repo, b: Repo): number => {
+    const delta = windowDelta(b, window) - windowDelta(a, window);
+    if (delta !== 0) return delta;
+    // Final stable tiebreak so runs are reproducible for identical data.
+    return a.fullName.localeCompare(b.fullName);
+  };
 }
 
 const TIER_B_STATUSES: ReadonlySet<Repo["movementStatus"]> = new Set([
@@ -105,6 +143,7 @@ export function pickDailyBreakouts(
 ): Repo[] {
   const count = options.count ?? DAILY_BREAKOUT_COUNT;
   const exclude = options.exclude ?? new Set<string>();
+  const window = options.window ?? "24h";
 
   const seen = new Set<string>();
   const candidates: Repo[] = [];
@@ -119,22 +158,22 @@ export function pickDailyBreakouts(
 
   const tierA = candidates
     .filter((r) => (r.channelsFiring ?? 0) >= 2)
-    .sort(byCrossSignal);
+    .sort(byCrossSignal(window));
   const tierB = candidates
     .filter(
       (r) =>
         (r.channelsFiring ?? 0) < 2 && TIER_B_STATUSES.has(r.movementStatus),
     )
-    .sort(byMomentum);
+    .sort(byMomentum(window));
   const tierC = candidates
     .filter(
       (r) =>
         (r.channelsFiring ?? 0) < 2 &&
         !TIER_B_STATUSES.has(r.movementStatus) &&
-        !r.starsDelta24hMissing &&
-        (r.starsDelta24h ?? 0) > 0,
+        !windowDeltaMissing(r, window) &&
+        windowDelta(r, window) > 0,
     )
-    .sort(byStarDelta);
+    .sort(byStarDelta(window));
 
   return [...tierA, ...tierB, ...tierC].slice(0, count);
 }

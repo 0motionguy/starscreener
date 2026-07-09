@@ -28,6 +28,7 @@ import {
   ApiV2OutboundAdapter,
   ConsoleOutboundAdapter,
   NullOutboundAdapter,
+  ToolboxOutboundAdapter,
 } from "../twitter/outbound/adapters";
 import { _resetSharedTwitterOAuthManagerForTests } from "../twitter/outbound/oauth";
 import type { OutboundTokenProvider } from "../twitter/outbound/types";
@@ -239,7 +240,7 @@ test("composeDailyBreakouts formats a breakout line with k-style delta and signa
 
 test("composeWeeklyRecap always returns an intro; optional top items follow", () => {
   const empty = composeWeeklyRecap({
-    topBreakout: null,
+    topBreakouts: [],
     topIdea: null,
     ideasPublishedThisWeek: 0,
     breakoutsThisWeek: 0,
@@ -248,12 +249,35 @@ test("composeWeeklyRecap always returns an intro; optional top items follow", ()
   assert.equal(empty[0]!.kind, "weekly_recap_intro");
 
   const populated = composeWeeklyRecap({
-    topBreakout: makeRepo({ fullName: "vercel/next.js", starsDelta7d: 800 }),
+    topBreakouts: [makeRepo({ fullName: "vercel/next.js", starsDelta7d: 800 })],
     topIdea: makeIdea({ id: "y" }),
     ideasPublishedThisWeek: 12,
     breakoutsThisWeek: 3,
   });
   assert.equal(populated.length, 3);
+});
+
+test("composeWeeklyRecap emits up to 3 breakout items, each linked and in budget", () => {
+  const breakouts = Array.from({ length: 5 }, (_, i) =>
+    makeRepo({ fullName: `acme/weekly${i}`, starsDelta7d: 1000 - i }),
+  );
+  const thread = composeWeeklyRecap({
+    topBreakouts: breakouts,
+    topIdea: null,
+    ideasPublishedThisWeek: 4,
+    breakoutsThisWeek: 9,
+  });
+  const items = thread.filter((p) => p.kind === "weekly_recap_item");
+  assert.equal(items.length, 3);
+  for (let i = 0; i < items.length; i++) {
+    assert.ok(
+      items[i]!.url?.endsWith(`/repo/acme/weekly${i}`),
+      `item ${i} url is ${items[i]!.url}`,
+    );
+    assert.ok(effectiveLength(items[i]!) <= 280);
+  }
+  assert.match(items[0]!.text, /🥇/);
+  assert.match(items[0]!.text, /\+1\.0K stars this week/);
 });
 
 test("isoWeekLabel returns YYYY-Wnn format", () => {
@@ -335,6 +359,8 @@ const ENV_KEYS = [
   "TWITTER_OAUTH2_CLIENT_SECRET",
   "TWITTER_OAUTH2_REFRESH_TOKEN",
   "TWITTER_USERNAME",
+  "TOOLBOX_REACH_URL",
+  "TOOLBOX_REACH_API_KEY",
   "NODE_ENV",
 ] as const;
 const savedEnv: Record<string, string | undefined> = {};
@@ -383,6 +409,32 @@ test("selectOutboundAdapter returns ApiV2OutboundAdapter when token is set", () 
   assert.equal(adapter.publishes, true);
 });
 
+test("selectOutboundAdapter prefers the toolbox engine over every direct X credential", () => {
+  (process.env as MutableEnv).TOOLBOX_REACH_URL = "https://api.aiso.tools/v1/reach/publish";
+  (process.env as MutableEnv).TOOLBOX_REACH_API_KEY = "tbk";
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_SECRET = "csecret";
+  (process.env as MutableEnv).TWITTER_OAUTH2_REFRESH_TOKEN = "rt";
+  (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "static-token";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof ToolboxOutboundAdapter);
+  assert.equal(adapter.name, "toolbox_reach");
+  assert.equal(adapter.publishes, true);
+});
+
+test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=toolbox throws loudly without the env pair", () => {
+  (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "toolbox";
+  assert.throws(() => selectOutboundAdapter(), /TOOLBOX_REACH_URL/);
+});
+
+test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=null still wins over toolbox env", () => {
+  (process.env as MutableEnv).TOOLBOX_REACH_URL = "https://api.aiso.tools/v1/reach/publish";
+  (process.env as MutableEnv).TOOLBOX_REACH_API_KEY = "tbk";
+  (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "null";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof NullOutboundAdapter);
+});
+
 test("selectOutboundAdapter prefers the OAuth2 rotation trio over a static token", () => {
   (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
   (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_SECRET = "csecret";
@@ -413,6 +465,105 @@ test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=console overrides token", () =
   (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "console";
   const adapter = selectOutboundAdapter();
   assert.ok(adapter instanceof ConsoleOutboundAdapter);
+});
+
+// ---------------------------------------------------------------------------
+// ToolboxOutboundAdapter — fetch mocking
+// ---------------------------------------------------------------------------
+
+test("ToolboxOutboundAdapter POSTs the whole thread once with bearer auth", async () => {
+  const calls: Array<{ url: string; auth: string; body: string }> = [];
+  const fetchImpl: typeof fetch = async (input, init) => {
+    calls.push({
+      url: input.toString(),
+      auth:
+        (init?.headers as Record<string, string> | undefined)?.Authorization ??
+        "",
+      body: (init?.body as string) ?? "",
+    });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        threadUrl: "https://twitter.com/trendingrepo/status/1",
+        posts: [
+          { remoteId: "1", url: "https://twitter.com/trendingrepo/status/1", status: "published" },
+          { remoteId: "2", url: "https://twitter.com/trendingrepo/status/2", status: "published" },
+        ],
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+
+  const adapter = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro", url: "https://trendingrepo.com/breakouts" },
+    { kind: "daily_breakouts_item", text: "item" },
+  ]);
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0]!.auth, "Bearer tbk_test");
+  const body = JSON.parse(calls[0]!.body) as {
+    kind: string;
+    posts: Array<{ kind: string; text: string; url: string | null }>;
+  };
+  assert.equal(body.kind, "thread");
+  assert.equal(body.posts.length, 2);
+  assert.equal(body.posts[0]!.url, "https://trendingrepo.com/breakouts");
+  assert.equal(body.posts[1]!.url, null);
+  assert.equal(result.threadUrl, "https://twitter.com/trendingrepo/status/1");
+  assert.equal(result.posts[1]!.remoteId, "2");
+});
+
+test("ToolboxOutboundAdapter tolerates a bare {ok:true} response", async () => {
+  const fetchImpl: typeof fetch = async () =>
+    new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  const adapter = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro" },
+    { kind: "daily_breakouts_item", text: "item" },
+  ]);
+  assert.equal(result.posts.length, 2);
+  assert.ok(result.posts.every((p) => p.status === "published"));
+  assert.equal(result.threadUrl, null);
+});
+
+test("ToolboxOutboundAdapter surfaces non-2xx and ok:false responses", async () => {
+  const adapter503 = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl: async () => new Response("upstream down", { status: 503 }),
+  });
+  await assert.rejects(
+    () =>
+      adapter503.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
+    /Toolbox reach endpoint 503/,
+  );
+
+  const adapterNotOk = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl: async () =>
+      new Response(JSON.stringify({ ok: false, error: "rate budget spent" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+  });
+  await assert.rejects(
+    () =>
+      adapterNotOk.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
+    /rate budget spent/,
+  );
 });
 
 // ---------------------------------------------------------------------------

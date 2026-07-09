@@ -35,9 +35,12 @@ export interface DailyBreakoutsInput {
   topIdea: PublicIdea | null;
 }
 
+/** Item cap for the weekly recap thread — short and skimmable. */
+export const MAX_WEEKLY_ITEMS = 3;
+
 export interface WeeklyRecapInput {
-  /** Top breakout of the week (highest cross-signal score). */
-  topBreakout: Repo | null;
+  /** Top breakouts of the week. Composer takes up to MAX_WEEKLY_ITEMS. */
+  topBreakouts: Repo[];
   /** Top idea of the week (highest hot-score). */
   topIdea: PublicIdea | null;
   /** Number of new ideas published this week, for the "ideas posted" line. */
@@ -178,16 +181,21 @@ export function composeWeeklyRecap(
     url: absoluteUrl("/breakouts"),
   });
 
-  if (input.topBreakout) {
+  const medals = ["🥇", "🥈", "🥉"];
+  input.topBreakouts.slice(0, MAX_WEEKLY_ITEMS).forEach((repo, idx) => {
+    const delta = repo.starsDelta7d ?? 0;
+    const deltaStr =
+      delta >= 1000 ? `+${(delta / 1000).toFixed(1)}K` : `+${delta}`;
+    const deltaHint = delta > 0 ? ` (${deltaStr} stars this week)` : "";
+    const prefix = `${medals[idx] ?? `${idx + 1}.`} ${repo.fullName}${deltaHint}`;
+    const description = repo.description?.trim() ?? "";
+    const body = description ? `${prefix} — ${description}` : prefix;
     posts.push({
       kind: "weekly_recap_item",
-      text: truncate(
-        `🥇 Top breakout: ${input.topBreakout.fullName} (+${input.topBreakout.starsDelta7d} stars this week)`,
-        TWEET_MAX - URL_BUDGET,
-      ),
-      url: absoluteUrl(`/repo/${input.topBreakout.fullName}`),
+      text: truncate(body, TWEET_MAX - URL_BUDGET),
+      url: absoluteUrl(`/repo/${repo.fullName}`),
     });
-  }
+  });
 
   if (input.topIdea) {
     posts.push({

@@ -84,6 +84,22 @@ export interface OutboundRunRecord {
    * keep a repo from headlining two days in a row.
    */
   featuredRepos?: string[];
+  /**
+   * The composed thread as it went to the adapter, zipped with the
+   * adapter's per-post outcome. Optional — rows written before the
+   * field existed lack it. This is what makes console/null-mode runs
+   * reviewable: an operator can read exactly what WOULD have been
+   * posted from the audit trail (surfaced via
+   * GET /api/admin/twitter-outbound).
+   */
+  posts?: OutboundRunPost[];
+}
+
+export interface OutboundRunPost {
+  kind: OutboundPostKind;
+  text: string;
+  url: string | null;
+  status: AdapterPostResult["status"];
 }
 
 /**

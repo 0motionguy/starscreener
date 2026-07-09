@@ -26,6 +26,7 @@ import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import {
   listOutboundRuns,
   recordOutboundRun,
+  zipRunPosts,
 } from "@/lib/twitter/outbound/audit";
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import { composeDailyBreakouts } from "@/lib/twitter/outbound/composer";
@@ -147,7 +148,11 @@ async function handle(
     const previousRuns = await listOutboundRuns().catch(() => []);
     const breakouts = pickDailyBreakouts(getDerivedRepos(), {
       count: DAILY_BREAKOUT_COUNT,
-      exclude: recentlyFeaturedRepos(previousRuns),
+      // Cooldown only counts prior DAILY threads — a Friday-recap
+      // appearance shouldn't knock a repo out of a week of dailies.
+      exclude: recentlyFeaturedRepos(previousRuns, {
+        kinds: ["daily_breakouts"],
+      }),
     });
     const topIdeaRaw = await pickTopIdeaOfWeek();
     const thread = composeDailyBreakouts({
@@ -180,6 +185,7 @@ async function handle(
         status === "published"
           ? breakouts.map((r) => r.fullName)
           : undefined,
+      posts: zipRunPosts(thread, result),
     });
 
     return NextResponse.json({

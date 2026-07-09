@@ -24,6 +24,11 @@ import {
   TwitterOAuthTokenManager,
   readTwitterOAuthConfigFromEnv,
 } from "../twitter/outbound/oauth";
+import {
+  listOutboundRuns,
+  recordOutboundRun,
+  zipRunPosts,
+} from "../twitter/outbound/audit";
 import type { OutboundRunRecord } from "../twitter/outbound/types";
 
 function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
@@ -211,6 +216,51 @@ test("pickDailyBreakouts skips Tier C repos whose 24h delta is missing", () => {
   );
 });
 
+test('window "7d" ranks Tier C by weekly delta and floors on it', () => {
+  const repos = [
+    makeRepo({
+      fullName: "a/daily-spike",
+      starsDelta24h: 300,
+      starsDelta7d: 320,
+    }),
+    makeRepo({
+      fullName: "b/weekly-grinder",
+      starsDelta24h: 5,
+      starsDelta7d: 900,
+    }),
+    makeRepo({
+      fullName: "c/no-weekly-movement",
+      starsDelta24h: 50,
+      starsDelta7d: 0,
+    }),
+  ];
+  const weekly = pickDailyBreakouts(repos, { count: 3, window: "7d" });
+  assert.deepEqual(
+    weekly.map((r) => r.fullName),
+    // Tier C sorted by 7d delta; c/no-weekly-movement has starsDelta7d=0
+    // so it fails the 7d Tier C filter (still passes the global floor via
+    // its 24h delta but lands in no tier).
+    ["b/weekly-grinder", "a/daily-spike"],
+  );
+
+  const daily = pickDailyBreakouts(repos, { count: 3 });
+  assert.equal(daily[0]!.fullName, "a/daily-spike");
+  assert.equal(daily.length, 3);
+});
+
+test('window "7d" ignores the 24h backfill marker', () => {
+  const repos = [
+    makeRepo({
+      fullName: "a/weekly-only",
+      starsDelta24h: 0,
+      starsDelta7d: 400,
+      starsDelta24hMissing: true,
+    }),
+  ];
+  assert.equal(pickDailyBreakouts(repos, { window: "7d" }).length, 1);
+  assert.equal(pickDailyBreakouts(repos, { window: "24h" }).length, 0);
+});
+
 // ---------------------------------------------------------------------------
 // recentlyFeaturedRepos
 // ---------------------------------------------------------------------------
@@ -227,8 +277,31 @@ test("recentlyFeaturedRepos returns lowercased names inside the window only", ()
       featuredRepos: ["acme/ancient"],
     }),
   ];
-  const featured = recentlyFeaturedRepos(runs, 7, now);
+  const featured = recentlyFeaturedRepos(runs, { days: 7, now });
   assert.deepEqual([...featured], ["acme/yesterday"]);
+});
+
+test("recentlyFeaturedRepos kinds filter scopes the cooldown per thread type", () => {
+  const now = new Date("2026-07-09T14:00:00Z");
+  const runs = [
+    makeRun({
+      startedAt: "2026-07-08T14:00:00Z",
+      kind: "daily_breakouts",
+      featuredRepos: ["acme/from-daily"],
+    }),
+    makeRun({
+      startedAt: "2026-07-04T16:00:00Z",
+      kind: "weekly_recap",
+      featuredRepos: ["acme/from-weekly"],
+    }),
+  ];
+  const dailyOnly = recentlyFeaturedRepos(runs, {
+    now,
+    kinds: ["daily_breakouts"],
+  });
+  assert.deepEqual([...dailyOnly], ["acme/from-daily"]);
+  const all = recentlyFeaturedRepos(runs, { now });
+  assert.equal(all.size, 2);
 });
 
 test("recentlyFeaturedRepos tolerates pre-upgrade rows without featuredRepos", () => {
@@ -398,6 +471,58 @@ test("invalidateAndRefresh forces a new exchange even before expiry", async () =
   const refreshed = await manager.invalidateAndRefresh();
   assert.equal(refreshed, "at-2");
   assert.equal(exchanges, 2);
+});
+
+test("audit rows round-trip the composed posts for dry-run review", async () => {
+  const thread = [
+    {
+      kind: "daily_breakouts_intro" as const,
+      text: "🔥 Top 2 trending repos",
+      url: "https://trendingrepo.com/breakouts",
+    },
+    { kind: "daily_breakouts_item" as const, text: "1/ acme/repo" },
+  ];
+  const posts = zipRunPosts(thread, {
+    posts: [
+      { remoteId: null, url: null, status: "logged" },
+      { remoteId: null, url: null, status: "logged" },
+    ],
+    threadUrl: null,
+  });
+  await recordOutboundRun({
+    kind: "daily_breakouts",
+    adapterName: "console",
+    status: "logged",
+    threadUrl: null,
+    postCount: thread.length,
+    startedAt: new Date().toISOString(),
+    featuredRepos: ["acme/repo"],
+    posts,
+  });
+
+  const runs = await listOutboundRuns();
+  assert.equal(runs.length, 1);
+  assert.equal(runs[0]!.posts?.length, 2);
+  assert.equal(runs[0]!.posts?.[0]?.text, "🔥 Top 2 trending repos");
+  assert.equal(runs[0]!.posts?.[0]?.url, "https://trendingrepo.com/breakouts");
+  assert.equal(runs[0]!.posts?.[1]?.url, null);
+  assert.equal(runs[0]!.posts?.[1]?.status, "logged");
+  assert.deepEqual(runs[0]!.featuredRepos, ["acme/repo"]);
+});
+
+test("zipRunPosts marks unattempted posts as skipped when a thread aborts mid-way", () => {
+  const posts = zipRunPosts(
+    [
+      { kind: "daily_breakouts_intro", text: "intro" },
+      { kind: "daily_breakouts_item", text: "item" },
+    ],
+    {
+      posts: [{ remoteId: "1", url: null, status: "published" }],
+      threadUrl: null,
+    },
+  );
+  assert.equal(posts[0]!.status, "published");
+  assert.equal(posts[1]!.status, "skipped");
 });
 
 test("TwitterOAuthTokenManager surfaces token-endpoint failures", async () => {

@@ -152,8 +152,10 @@ test("GET self-heals a c_ cookie whose Clerk session is gone", async () => {
 
 test("GET reports a live c_ session when the Clerk probe matches", async () => {
   _setClerkAuthProbeForTests(async () => "user_alive");
+  const canonicalId = clerkDerivedUserId("user_alive");
+  await setUserTier(canonicalId, "team", null);
   const cookie = signSession({
-    userId: clerkDerivedUserId("user_alive"),
+    userId: canonicalId,
     issuedAt: Date.now(),
     tier: "team",
     tierExpiresAt: null,
@@ -162,8 +164,31 @@ test("GET reports a live c_ session when the Clerk probe matches", async () => {
   const response = await GET(makeGet(cookie));
   const body = await response.json();
   assert.equal(body.ok, true);
-  assert.equal(body.userId, clerkDerivedUserId("user_alive"));
+  assert.equal(body.userId, canonicalId);
   assert.equal(body.tier, "team");
+});
+
+test("GET returns the FRESH store tier after checkout and re-mints the cookie (CheckoutSuccess contract)", async () => {
+  _setClerkAuthProbeForTests(async () => "user_buyer");
+  const canonicalId = clerkDerivedUserId("user_buyer");
+  // Cookie minted pre-checkout: no tier hint.
+  const preCheckoutCookie = signSession({
+    userId: canonicalId,
+    issuedAt: Date.now(),
+  });
+  // Stripe webhook lands the entitlement in the STORE only.
+  await setUserTier(canonicalId, "pro", null, { stripeCustomerId: "cus_x" });
+
+  const response = await GET(makeGet(preCheckoutCookie));
+  const body = await response.json();
+  assert.equal(body.ok, true);
+  assert.equal(body.tier, "pro", "probe must read the store, not the stale cookie hint");
+
+  // And the response re-minted the cookie with the fresh tier embedded.
+  const reminted = verifySession(cookieValue(response));
+  assert.ok(reminted, "expected a re-minted cookie");
+  assert.equal(reminted.userId, canonicalId);
+  assert.equal(reminted.tier, "pro");
 });
 
 test("GET leaves anonymous cookies alone (no Clerk probe involved)", async () => {

@@ -3,14 +3,17 @@
 // <PricingCtaButton /> — S3.C client wrapper for the PricingCard footer.
 //
 // For paid tiers (`pro`, `team`) the CTA opens `<CheckoutWalkthrough />`
-// instead of navigating to the placeholder `/pricing#pro` anchor that
-// existed before this PR. For all other tiers (`free` link to home,
-// `enterprise` mailto) the original anchor is preserved so the page
-// behaviour for those tiers is unchanged.
+// which POSTs /api/checkout/stripe. This is ON BY DEFAULT: the old
+// build-time `NEXT_PUBLIC_CHECKOUT_WALKTHROUGH === "1"` opt-in was set in
+// no build config anywhere, which silently shipped dead `/pricing#pro`
+// anchors on the paid CTAs in every default build. The explicit
+// kill-switch is now the inverse — set
+// `NEXT_PUBLIC_CHECKOUT_WALKTHROUGH=0` to fall back to the legacy
+// anchors (e.g. while Stripe envs are being rotated). The flag is inlined
+// at build time per the NEXT_PUBLIC_ contract.
 //
-// Operator kill-switch: set `NEXT_PUBLIC_CHECKOUT_WALKTHROUGH=0` (or
-// unset) and paid tiers fall back to the legacy anchor. The flag is
-// inlined at build time per the NEXT_PUBLIC_ contract.
+// For all other tiers (`free` link to home, `enterprise` mailto) the
+// original anchor is preserved.
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
@@ -25,8 +28,8 @@ interface PricingCtaButtonProps {
   children: ReactNode;
 }
 
-const WALKTHROUGH_FLAG_ON =
-  process.env.NEXT_PUBLIC_CHECKOUT_WALKTHROUGH === "1";
+const WALKTHROUGH_DISABLED =
+  process.env.NEXT_PUBLIC_CHECKOUT_WALKTHROUGH === "0";
 
 function isPaidTier(tier: TierDefinition): boolean {
   return tier.key === "pro" || tier.key === "team";
@@ -40,7 +43,7 @@ export function PricingCtaButton({
 }: PricingCtaButtonProps) {
   const [open, setOpen] = useState(false);
 
-  if (!WALKTHROUGH_FLAG_ON || !isPaidTier(tier)) {
+  if (WALKTHROUGH_DISABLED || !isPaidTier(tier)) {
     // Legacy passthrough — internal vs external decides Link vs anchor,
     // mirroring the original PricingCard footer logic.
     if (tier.ctaHref.startsWith("/")) {

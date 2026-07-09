@@ -35,6 +35,7 @@ import {
   collectAlertsByUser,
   loadUserEmailMapFromEnv,
   mergeProfileEmailsIntoUserEmailMap,
+  pickTopBreakouts,
 } from "../alerts/weekly-digest";
 import { ConsoleProvider } from "../../email/providers/console";
 import { ResendProvider } from "../../email/providers/resend";
@@ -306,6 +307,54 @@ test("buildWeeklyDigests: breakouts sort above non-breakouts", () => {
   assert.equal(top[0]!.fullName, "c/c");
   assert.equal(top[1]!.fullName, "b/b");
   assert.equal(top[2]!.fullName, "a/a");
+});
+
+// ---------------------------------------------------------------------------
+// pickTopBreakouts — hardening: determinism, dedupe, malformed drop
+// ---------------------------------------------------------------------------
+
+test("pickTopBreakouts: equal-score repos sort deterministically by fullName", () => {
+  const repos = [
+    mockRepo({ fullName: "z/z", momentumScore: 80, movementStatus: "rising" }),
+    mockRepo({ fullName: "a/a", momentumScore: 80, movementStatus: "rising" }),
+    mockRepo({ fullName: "m/m", momentumScore: 80, movementStatus: "rising" }),
+  ];
+  const forward = pickTopBreakouts(repos, 3).map((r) => r.fullName);
+  const reversed = pickTopBreakouts([...repos].reverse(), 3).map((r) => r.fullName);
+  assert.deepEqual(forward, ["a/a", "m/m", "z/z"]);
+  // Order is independent of input order — the top-5 is a stable prefix of top-10.
+  assert.deepEqual(forward, reversed);
+});
+
+test("pickTopBreakouts: top-5 is a strict prefix of top-10", () => {
+  const repos = Array.from({ length: 12 }, (_, i) =>
+    mockRepo({ fullName: `acme/repo${String(i).padStart(2, "0")}`, momentumScore: 100 - i }),
+  );
+  const top5 = pickTopBreakouts(repos, 5).map((r) => r.fullName);
+  const top10 = pickTopBreakouts(repos, 10).map((r) => r.fullName);
+  assert.deepEqual(top10.slice(0, 5), top5);
+});
+
+test("pickTopBreakouts: dedupes repeated fullNames", () => {
+  const repos = [
+    mockRepo({ fullName: "acme/dup", momentumScore: 90 }),
+    mockRepo({ fullName: "acme/dup", momentumScore: 50 }),
+    mockRepo({ fullName: "acme/other", momentumScore: 60 }),
+  ];
+  const picked = pickTopBreakouts(repos, 10).map((r) => r.fullName);
+  assert.deepEqual(picked, ["acme/dup", "acme/other"]);
+});
+
+test("pickTopBreakouts: drops repos with a malformed fullName (no /repo// links)", () => {
+  const repos = [
+    mockRepo({ fullName: "acme/good", momentumScore: 90 }),
+    { ...mockRepo({ fullName: "x/y", momentumScore: 95 }), fullName: "" },
+    { ...mockRepo({ fullName: "x/y", momentumScore: 94 }), fullName: "noslash" },
+    { ...mockRepo({ fullName: "x/y", momentumScore: 93 }), fullName: "owner/" },
+    { ...mockRepo({ fullName: "x/y", momentumScore: 92 }), fullName: "/name" },
+  ];
+  const picked = pickTopBreakouts(repos, 10).map((r) => r.fullName);
+  assert.deepEqual(picked, ["acme/good"]);
 });
 
 // ---------------------------------------------------------------------------

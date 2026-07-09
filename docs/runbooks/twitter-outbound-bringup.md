@@ -21,7 +21,11 @@ container. Never run Vercel commands for starscreener.
 picks, highest first:
 
 1. `TWITTER_OUTBOUND_MODE=null` → no-op. `=console` → log only. `=toolbox` →
-   force the VPS engine (fails loudly if its env pair is missing).
+   force the VPS engine. `=bluesky` → post the same thread to Bluesky via the
+   AT Protocol (needs `BLUESKY_IDENTIFIER` + `BLUESKY_APP_PASSWORD`; create an
+   app password in Bluesky Settings → App Passwords). Each mode fails loudly
+   if its creds are missing. Note: the cron posts through ONE adapter per run
+   — simultaneous X + Bluesky fan-out is a follow-up.
 2. `TOOLBOX_REACH_URL` + `TOOLBOX_REACH_API_KEY` → **VPS Twitter engine**
    (end-state transport; wins over direct X creds).
 3. `TWITTER_OAUTH2_CLIENT_ID` + `_SECRET` + `_REFRESH_TOKEN` → **OAuth2

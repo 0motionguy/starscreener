@@ -19,6 +19,7 @@ import {
 } from "@/lib/pipeline/storage/file-persistence";
 
 import type {
+  AdapterPostResult,
   AdapterThreadResult,
   ComposedPost,
   OutboundRunPost,
@@ -40,6 +41,37 @@ export function zipRunPosts(
     url: post.url ?? null,
     status: result.posts[i]?.status ?? "skipped",
   }));
+}
+
+/**
+ * Which featured repos actually got posted before a thread threw
+ * mid-way. Adapters attach the posts published so far as
+ * `metadata.partialPosts` on the thrown error; the thread layout is
+ * [intro, item0..itemN-1, (idea)], so a published result at index j
+ * (1..N) maps to `breakouts[j-1]`. Returning these lets the cron route
+ * still cool-down the repos that DID post — otherwise a mid-thread
+ * failure re-features them the next day (near-duplicate thread).
+ *
+ * Best-effort and defensive: unknown error shape → empty list.
+ */
+export function partialPublishedRepos(
+  err: unknown,
+  breakouts: ReadonlyArray<{ fullName: string }>,
+): string[] {
+  const meta =
+    err && typeof err === "object" && "metadata" in err
+      ? (err as { metadata?: Record<string, unknown> }).metadata
+      : undefined;
+  const partial = meta?.partialPosts;
+  if (!Array.isArray(partial)) return [];
+  const posts = partial as AdapterPostResult[];
+  const featured: string[] = [];
+  for (let j = 1; j <= breakouts.length; j++) {
+    if (posts[j]?.status === "published") {
+      featured.push(breakouts[j - 1]!.fullName);
+    }
+  }
+  return featured;
 }
 
 export const OUTBOUND_RUNS_FILE = "twitter-outbound-runs.jsonl";

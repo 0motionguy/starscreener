@@ -31,6 +31,7 @@ import {
   ToolboxOutboundAdapter,
 } from "../twitter/outbound/adapters";
 import { _resetSharedTwitterOAuthManagerForTests } from "../twitter/outbound/oauth";
+import { partialPublishedRepos } from "../twitter/outbound/audit";
 import type { OutboundTokenProvider } from "../twitter/outbound/types";
 
 function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
@@ -625,6 +626,53 @@ test("ApiV2OutboundAdapter surfaces API errors", async () => {
       ]),
     /Twitter API 429/,
   );
+});
+
+test("ApiV2OutboundAdapter attaches partialPosts, and partialPublishedRepos maps them to picks", async () => {
+  // Publish intro + item0 + item1, then 429 on item2. The error must carry
+  // the 3 published posts so the cron route can still cool-down the 2 repos
+  // that actually posted (thread: [intro, item0, item1, item2] → items map
+  // to breakouts[0..]).
+  let n = 0;
+  const fetchImpl: typeof fetch = async () => {
+    n += 1;
+    if (n <= 3) {
+      return new Response(
+        JSON.stringify({ data: { id: `id-${n}`, text: "ok" } }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    return new Response("rate limited", { status: 429 });
+  };
+  const adapter = new ApiV2OutboundAdapter({ bearerToken: "t", fetchImpl });
+  const thread = [
+    { kind: "daily_breakouts_intro" as const, text: "intro" },
+    { kind: "daily_breakouts_item" as const, text: "1/ acme/one" },
+    { kind: "daily_breakouts_item" as const, text: "2/ acme/two" },
+    { kind: "daily_breakouts_item" as const, text: "3/ acme/three" },
+  ];
+  const breakouts = [
+    { fullName: "acme/one" },
+    { fullName: "acme/two" },
+    { fullName: "acme/three" },
+  ];
+
+  let caught: unknown;
+  try {
+    await adapter.postThread(thread);
+  } catch (err) {
+    caught = err;
+  }
+  assert.ok(caught, "expected postThread to throw");
+  // intro published (index 0) + item0 (index 1) + item1 (index 2) → the two
+  // items map to breakouts[0] and breakouts[1]; item2/breakouts[2] never
+  // posted.
+  const featured = partialPublishedRepos(caught, breakouts);
+  assert.deepEqual(featured, ["acme/one", "acme/two"]);
+});
+
+test("partialPublishedRepos returns empty for a non-partial error", () => {
+  assert.deepEqual(partialPublishedRepos(new Error("boom"), [{ fullName: "a/b" }]), []);
 });
 
 test("ApiV2OutboundAdapter retries once with a refreshed token on 401", async () => {

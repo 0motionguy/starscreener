@@ -8,13 +8,14 @@
 
 import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { appendFile, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
 import type { Repo } from "../types";
 
 import {
+  countWeeklyBreakouts,
   DAILY_BREAKOUT_COUNT,
   pickDailyBreakouts,
   recentlyFeaturedRepos,
@@ -29,6 +30,7 @@ import {
   recordOutboundRun,
   zipRunPosts,
 } from "../twitter/outbound/audit";
+import { FatalConfigError, TransientHttpError } from "../errors";
 import type { OutboundRunRecord } from "../twitter/outbound/types";
 
 function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
@@ -262,6 +264,29 @@ test('window "7d" ignores the 24h backfill marker', () => {
 });
 
 // ---------------------------------------------------------------------------
+// countWeeklyBreakouts
+// ---------------------------------------------------------------------------
+
+test("countWeeklyBreakouts counts only 7d-movers that are multi-signal", () => {
+  const repos = [
+    // Qualifies: moved this week AND multi-signal.
+    makeRepo({ fullName: "a/real", starsDelta7d: 200, channelsFiring: 3 }),
+    // No 7d movement — excluded even though multi-signal (this is the bug
+    // the helper fixes: it used to count the whole corpus).
+    makeRepo({ fullName: "b/flat", starsDelta7d: 0, channelsFiring: 4 }),
+    // Moved but single-signal — excluded.
+    makeRepo({ fullName: "c/single", starsDelta7d: 500, channelsFiring: 1 }),
+    // Negative 7d — excluded.
+    makeRepo({ fullName: "d/decline", starsDelta7d: -10, channelsFiring: 2 }),
+  ];
+  assert.equal(countWeeklyBreakouts(repos), 1);
+});
+
+test("countWeeklyBreakouts is 0 for an empty corpus", () => {
+  assert.equal(countWeeklyBreakouts([]), 0);
+});
+
+// ---------------------------------------------------------------------------
 // recentlyFeaturedRepos
 // ---------------------------------------------------------------------------
 
@@ -337,6 +362,19 @@ function tokenResponse(body: Record<string, unknown>): Response {
     status: 200,
     headers: { "Content-Type": "application/json" },
   });
+}
+
+async function recordPersistedOAuthState(row: {
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: string;
+  rotatedAt: string;
+}): Promise<void> {
+  await appendFile(
+    path.join(dataDir!, OAUTH_STATE_FILE),
+    JSON.stringify(row) + "\n",
+    "utf8",
+  );
 }
 
 test("readTwitterOAuthConfigFromEnv requires the full trio", () => {
@@ -525,7 +563,7 @@ test("zipRunPosts marks unattempted posts as skipped when a thread aborts mid-wa
   assert.equal(posts[1]!.status, "skipped");
 });
 
-test("TwitterOAuthTokenManager surfaces token-endpoint failures", async () => {
+test("TwitterOAuthTokenManager classifies a 400 refresh failure as FATAL (not retryable)", async () => {
   const fetchImpl: typeof fetch = async () =>
     new Response("invalid_request", { status: 400 });
   const manager = new TwitterOAuthTokenManager({
@@ -534,8 +572,64 @@ test("TwitterOAuthTokenManager surfaces token-endpoint failures", async () => {
     seedRefreshToken: "rt-dead",
     fetchImpl,
   });
-  await assert.rejects(
-    () => manager.getAccessToken(),
-    /token refresh failed with 400/,
-  );
+  await assert.rejects(() => manager.getAccessToken(), (err: unknown) => {
+    assert.ok(err instanceof FatalConfigError, "expected FatalConfigError");
+    assert.match((err as Error).message, /token refresh failed with 400/);
+    return true;
+  });
+});
+
+test("TwitterOAuthTokenManager keeps a 503 refresh failure TRANSIENT (retryable)", async () => {
+  const fetchImpl: typeof fetch = async () =>
+    new Response("upstream down", { status: 503 });
+  const manager = new TwitterOAuthTokenManager({
+    clientId: "cid",
+    clientSecret: "csecret",
+    seedRefreshToken: "rt",
+    fetchImpl,
+  });
+  await assert.rejects(() => manager.getAccessToken(), (err: unknown) => {
+    assert.ok(err instanceof TransientHttpError, "expected TransientHttpError");
+    return true;
+  });
+});
+
+test("concurrent getAccessToken uses the persisted rotated token, never the stale seed (load race)", async () => {
+  // Seed a persisted rotated token on disk. A cold manager must load it
+  // before exchanging — two concurrent callers must both wait for that
+  // load, not short-circuit with state=null and fall back to the seed.
+  await recordPersistedOAuthState({
+    accessToken: "at-expired",
+    refreshToken: "rt-persisted",
+    // Already expired so getAccessToken triggers a refresh.
+    expiresAt: new Date(0).toISOString(),
+    rotatedAt: "2026-07-01T00:00:00Z",
+  });
+
+  const seenRefreshTokens: string[] = [];
+  const fetchImpl: typeof fetch = async (_input, init) => {
+    const params = new URLSearchParams((init?.body as string) ?? "");
+    seenRefreshTokens.push(params.get("refresh_token") ?? "");
+    return tokenResponse({
+      access_token: "at-new",
+      refresh_token: "rt-next",
+      expires_in: 7200,
+    });
+  };
+  const manager = new TwitterOAuthTokenManager({
+    clientId: "cid",
+    clientSecret: "csecret",
+    seedRefreshToken: "rt-SEED-must-not-be-used",
+    fetchImpl,
+  });
+
+  const [a, b] = await Promise.all([
+    manager.getAccessToken(),
+    manager.getAccessToken(),
+  ]);
+  assert.equal(a, "at-new");
+  assert.equal(b, "at-new");
+  // The single-flight refresh means exactly one exchange, and it used the
+  // PERSISTED token — never the seed.
+  assert.deepEqual(seenRefreshTokens, ["rt-persisted"]);
 });

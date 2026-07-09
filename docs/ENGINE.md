@@ -37,7 +37,7 @@ Workflows with multiple cron entries list each.
 | ci.yml | CI | `push`, `pull_request`, `workflow_dispatch` | `npm run typecheck`, `lint:guards`, `check-v3-token-budget`, `test:hooks` |
 | cleanup-stale-previews.yml | Cleanup Stale Vercel Previews | `23 2 * * 1` (Mon 02:23) | Deletes stale Vercel preview deployments via Vercel API |
 | collect-funding.yml | Collect Funding Signals | `0 */6 * * *` | `npm run scrape:funding` (techcrunch, venturebeat, sifted) + `scrape:funding:crunchbase` |
-| collect-twitter.yml | Collect Twitter Signals | `0 */3 * * *` | `npm run collect:twitter` (Apify `apidojo~tweet-scraper`) |
+| collect-twitter.yml | Collect Twitter Signals | `workflow_dispatch` only (manual backfill) | `timeout 280 npm run collect:twitter` (nitter primary + cookies-web fallback; Apify off per docs/POLICY-NO-APIFY.md). Production freshness is HOSTUP worker-owned. |
 | conventional-commits.yml | Conventional Commits | `pull_request`, `workflow_dispatch` | Lints PR titles |
 | cron-agent-commerce.yml | Refresh agent-commerce pipeline | `31 4 * * *` | `fetch-agentic-market.mjs` + `fetch-openrouter-models.mjs` + `fetch-coingecko-agents.mjs` + `fetch-artificial-analysis.mjs` + `fetch-base-x402-onchain.mjs` |
 | cron-aiso-drain.yml | Cron - AISO drain | `3,33 * * * *` | POST `/api/cron/aiso-drain` |

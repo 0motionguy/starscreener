@@ -25,6 +25,7 @@ import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 
 import {
   listOutboundRuns,
+  partialPublishedRepos,
   recordOutboundRun,
   zipRunPosts,
 } from "@/lib/twitter/outbound/audit";
@@ -103,6 +104,9 @@ async function handle(
 
   const startedAt = new Date().toISOString();
   const adapter = selectOutboundAdapter();
+  // Hoisted so the catch can still cool-down repos that posted before a
+  // mid-thread failure.
+  let breakouts: ReturnType<typeof pickDailyBreakouts> = [];
 
   try {
     // Pull the freshest worker-owned payload from Redis before reading
@@ -146,7 +150,7 @@ async function handle(
     // repeat itself. Best-effort — an empty/fresh audit file means no
     // exclusions.
     const previousRuns = await listOutboundRuns().catch(() => []);
-    const breakouts = pickDailyBreakouts(getDerivedRepos(), {
+    breakouts = pickDailyBreakouts(getDerivedRepos(), {
       count: DAILY_BREAKOUT_COUNT,
       // Cooldown only counts prior DAILY threads — a Friday-recap
       // appearance shouldn't knock a repo out of a week of dailies.
@@ -198,6 +202,9 @@ async function handle(
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    // A thread that published some posts then threw must still cool-down
+    // the repos that DID post, or they re-feature tomorrow.
+    const partiallyFeatured = partialPublishedRepos(err, breakouts);
     await recordOutboundRun({
       kind: "daily_breakouts",
       adapterName: adapter.name,
@@ -206,6 +213,8 @@ async function handle(
       postCount: 0,
       startedAt,
       errorMessage: message,
+      featuredRepos:
+        partiallyFeatured.length > 0 ? partiallyFeatured : undefined,
     }).catch(() => undefined);
     return NextResponse.json(
       { ok: false, error: message },

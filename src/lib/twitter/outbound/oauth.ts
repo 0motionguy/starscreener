@@ -69,7 +69,8 @@ interface TokenEndpointResponse {
 
 export class TwitterOAuthTokenManager implements OutboundTokenProvider {
   private state: TwitterOAuthState | null = null;
-  private stateLoaded = false;
+  private loadInflight: Promise<void> | null = null;
+  private loaded = false;
   private inflight: Promise<string> | null = null;
   private readonly fetchImpl: typeof fetch;
 
@@ -104,18 +105,33 @@ export class TwitterOAuthTokenManager implements OutboundTokenProvider {
     return this.refresh();
   }
 
-  private async loadPersistedState(): Promise<void> {
-    if (this.stateLoaded) return;
-    this.stateLoaded = true;
-    try {
-      const rows = await readJsonlFile<TwitterOAuthState>(OAUTH_STATE_FILE);
-      const latest = rows
-        .filter((r) => r.accessToken && r.refreshToken && r.rotatedAt)
-        .sort((a, b) => Date.parse(b.rotatedAt) - Date.parse(a.rotatedAt))[0];
-      if (latest) this.state = latest;
-    } catch {
-      // Fresh container / missing file — the env seed covers first run.
+  private loadPersistedState(): Promise<void> {
+    if (this.loaded) return Promise.resolve();
+    // Single-flight the read: concurrent callers must await the SAME load,
+    // not short-circuit on a flag while the read is still in flight — else
+    // a second caller sees state=null and exchanges the stale env seed
+    // instead of the persisted rotated token (dead-token 400, posting dies
+    // with a valid token on disk).
+    if (!this.loadInflight) {
+      this.loadInflight = (async () => {
+        try {
+          const rows =
+            await readJsonlFile<TwitterOAuthState>(OAUTH_STATE_FILE);
+          const latest = rows
+            .filter((r) => r.accessToken && r.refreshToken && r.rotatedAt)
+            .sort(
+              (a, b) => Date.parse(b.rotatedAt) - Date.parse(a.rotatedAt),
+            )[0];
+          if (latest) this.state = latest;
+        } catch {
+          // Fresh container / missing file — the env seed covers first run.
+        } finally {
+          this.loaded = true;
+          this.loadInflight = null;
+        }
+      })();
     }
+    return this.loadInflight;
   }
 
   /** Single-flight: concurrent callers share one token exchange, since a
@@ -150,14 +166,18 @@ export class TwitterOAuthTokenManager implements OutboundTokenProvider {
 
     if (!res.ok) {
       const text = await res.text();
-      // 400 invalid_request here almost always means the refresh token
-      // was consumed elsewhere (or the seed is stale after a container
-      // rebuild that lost the state file) — the operator must re-run
-      // the authorize flow and update TWITTER_OAUTH2_REFRESH_TOKEN.
-      throw new TransientHttpError(
-        `Twitter OAuth2 token refresh failed with ${res.status}: ${text.slice(0, 200)}`,
-        res.status,
-      );
+      // A 4xx (other than 429) means the refresh token itself is bad —
+      // consumed elsewhere, or a stale seed after a container rebuild that
+      // lost the state file. That is NOT transient: retrying re-hammers the
+      // endpoint with the same dead credential. Surface it as a fatal
+      // config error so retry wrappers back off and the operator knows to
+      // re-run the authorize flow + update TWITTER_OAUTH2_REFRESH_TOKEN.
+      // 429/5xx/network stay transient (worth a retry).
+      const isPermanent = res.status >= 400 && res.status < 500 && res.status !== 429;
+      const message = `Twitter OAuth2 token refresh failed with ${res.status}: ${text.slice(0, 200)}`;
+      throw isPermanent
+        ? new FatalConfigError(message, { status: res.status })
+        : new TransientHttpError(message, res.status);
     }
 
     const payload = (await res.json()) as TokenEndpointResponse;

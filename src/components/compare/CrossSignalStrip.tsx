@@ -2,8 +2,10 @@
 
 // Compact cross-signal strip. Translates `countsBySource` (per-platform
 // mention totals from the canonical profile) into ChannelDots props so a
-// platform with >=1 mention counts as "firing". Keeps the same 6-dot
-// vocabulary the rest of the product uses.
+// platform with >=1 mention counts as "firing". Uses the same 7-channel
+// vocabulary as the rest of the product; arXiv (research citations) has no
+// per-platform mention count on this social-profile surface, so it's
+// always off here — the /7 denominator stays consistent with ChannelDots.
 
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import type { SocialPlatform } from "@/lib/types";
@@ -47,7 +49,7 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
           Cross-Signal
         </span>
         <span className="text-xs font-mono text-text-tertiary tabular-nums">
-          {firing}/6
+          {firing}/7
         </span>
       </div>
       <ChannelDots

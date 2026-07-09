@@ -20,13 +20,20 @@ import {
 } from "@/lib/reactions";
 import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 
-import { recordOutboundRun, zipRunPosts } from "@/lib/twitter/outbound/audit";
+import {
+  partialPublishedRepos,
+  recordOutboundRun,
+  zipRunPosts,
+} from "@/lib/twitter/outbound/audit";
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import {
   composeWeeklyRecap,
   MAX_WEEKLY_ITEMS,
 } from "@/lib/twitter/outbound/composer";
-import { pickDailyBreakouts } from "@/lib/twitter/outbound/select";
+import {
+  countWeeklyBreakouts,
+  pickDailyBreakouts,
+} from "@/lib/twitter/outbound/select";
 
 export const runtime = "nodejs";
 
@@ -61,6 +68,9 @@ async function handle(
 
   const startedAt = new Date().toISOString();
   const adapter = selectOutboundAdapter();
+  // Hoisted so the catch can still cool-down repos that posted before a
+  // mid-thread failure.
+  let topBreakouts: ReturnType<typeof pickDailyBreakouts> = [];
 
   try {
     const now = new Date();
@@ -112,13 +122,11 @@ async function handle(
     // week and the week's #1 belongs in it even if a daily already
     // featured it.
     const repos = getDerivedRepos();
-    const topBreakouts = pickDailyBreakouts(repos, {
+    topBreakouts = pickDailyBreakouts(repos, {
       count: MAX_WEEKLY_ITEMS,
       window: "7d",
     });
-    const breakoutsThisWeek = repos.filter(
-      (r) => (r.channelsFiring ?? 0) >= 2,
-    ).length;
+    const breakoutsThisWeek = countWeeklyBreakouts(repos);
 
     const allIdeas = await listIdeas();
     const publishedThisWeek = allIdeas.filter((r) => {
@@ -186,6 +194,9 @@ async function handle(
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    // A thread that published some posts then threw must still cool-down
+    // the repos that DID post, or they re-feature next week.
+    const partiallyFeatured = partialPublishedRepos(err, topBreakouts);
     await recordOutboundRun({
       kind: "weekly_recap",
       adapterName: adapter.name,
@@ -194,6 +205,8 @@ async function handle(
       postCount: 0,
       startedAt,
       errorMessage: message,
+      featuredRepos:
+        partiallyFeatured.length > 0 ? partiallyFeatured : undefined,
     }).catch(() => undefined);
     return NextResponse.json(
       { ok: false, error: message },

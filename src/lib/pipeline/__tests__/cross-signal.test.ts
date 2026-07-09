@@ -291,16 +291,33 @@ test("arxivComponent: one recent linking paper → 0.7, two → 1.0", () => {
   _resetArxivRecentForTests();
 });
 
-test("arxivComponent: only an old (>30d) linking paper → 0.4 floor", () => {
+test("arxivComponent: a semi-recent (30-90d) linking paper → 0.4 floor", () => {
   const now = Date.parse("2026-07-09T00:00:00Z");
   setArxivRecent([
     arxivPaper({
-      arxivId: "old",
+      arxivId: "semi",
+      linked: ["acme/semi"],
+      // ~60 days before now — inside the 90d stale window, past the 30d
+      // recent window.
+      publishedAt: "2026-05-10T00:00:00Z",
+    }),
+  ]);
+  assert.equal(arxivComponent("acme/semi", now), 0.4);
+  _resetArxivRecentForTests();
+});
+
+test("arxivComponent: an ancient (>90d) linking paper decays off entirely → 0", () => {
+  const now = Date.parse("2026-07-09T00:00:00Z");
+  setArxivRecent([
+    arxivPaper({
+      arxivId: "ancient",
       linked: ["acme/legacy"],
+      // ~189 days before now — an old citation must NOT keep the channel
+      // lit forever (the P2 fix).
       publishedAt: "2026-01-01T00:00:00Z",
     }),
   ]);
-  assert.equal(arxivComponent("acme/legacy", now), 0.4);
+  assert.equal(arxivComponent("acme/legacy", now), 0);
   _resetArxivRecentForTests();
 });
 

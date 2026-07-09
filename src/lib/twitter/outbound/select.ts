@@ -29,6 +29,20 @@ export const DAILY_BREAKOUT_COUNT = 10;
 /** Days a featured repo sits out before it can headline again. */
 export const FEATURED_COOLDOWN_DAYS = 7;
 
+/**
+ * Count repos that actually broke out THIS WEEK — a positive 7-day star
+ * delta AND multi-signal (>=2 channels firing). Used for the weekly
+ * recap intro line. This is deliberately NOT "every repo that has ever
+ * lit 2 channels": without the 7d-movement gate the count is a stable,
+ * corpus-sized number that never reflects the week (the bug this
+ * replaces rendered ~191 "breakouts" into every Friday tweet).
+ */
+export function countWeeklyBreakouts(repos: Repo[]): number {
+  return repos.filter(
+    (r) => (r.starsDelta7d ?? 0) > 0 && (r.channelsFiring ?? 0) >= 2,
+  ).length;
+}
+
 export interface PickDailyBreakoutsOptions {
   /** How many repos to return. Defaults to DAILY_BREAKOUT_COUNT. */
   count?: number;

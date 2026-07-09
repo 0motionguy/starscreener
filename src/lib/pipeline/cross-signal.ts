@@ -35,9 +35,9 @@
 //             : 0
 //   arxiv   = ≥2 recent papers, or 1 recent paper w/ citationVelocity>0
 //             or socialMentions≥1                          ? 1.0
-//             : exactly 1 recent linking paper             ? 0.7
-//             : linked only by an older (>30d) paper        ? 0.4
-//             : 0
+//             : exactly 1 recent (≤30d) linking paper       ? 0.7
+//             : linked only by a semi-recent (30–90d) paper ? 0.4
+//             : 0   (papers >90d decay off entirely)
 //   crossSignalScore = github + reddit + hn + bluesky + devto + twitter + arxiv (range 0..7)
 //   channelsFiring   = count of components > 0                                  (range 0..7)
 //
@@ -70,9 +70,14 @@ import { getCrossSourceDetail } from "../cross-source-mentions";
 
 const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
 // A linking paper counts as "recent" (full-weight signal) within this
-// window of its published/updated date; older links still light the
-// channel at the floor tier.
+// window of its published/updated date; between here and the stale
+// window it lights the channel at the floor tier only.
 const ARXIV_RECENT_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+// Beyond this, a linking paper no longer lights the channel at all — the
+// arxiv signal reflects CURRENT research interest, so an ancient citation
+// must decay off rather than keep a channel (and channelsFiring) lit
+// forever and leak stale repos into the daily selector's Tier A.
+const ARXIV_STALE_WINDOW_MS = 90 * 24 * 60 * 60 * 1000;
 
 // Read the per-channel 7d count from the cross-source sweep rollup, when
 // it's present. The sweep runs per-repo (Apify Tier-1 query bundle, HN
@@ -181,8 +186,11 @@ function getArxivIndex(nowMs: number): Map<string, ArxivRepoSignal> {
       Number.isFinite(publishedMs) ? publishedMs : 0,
       Number.isFinite(updatedMs) ? updatedMs : 0,
     );
-    const isRecent =
-      freshest > 0 && nowMs - freshest <= ARXIV_RECENT_WINDOW_MS;
+    const age = freshest > 0 ? nowMs - freshest : Number.POSITIVE_INFINITY;
+    // Papers older than the stale window contribute nothing — skip them
+    // entirely so an ancient citation can't keep the channel lit.
+    if (age > ARXIV_STALE_WINDOW_MS) continue;
+    const isRecent = age <= ARXIV_RECENT_WINDOW_MS;
     const enrichment = getArxivEnrichment(paper.arxivId);
     const boosted =
       (enrichment?.citationVelocity ?? 0) > 0 ||

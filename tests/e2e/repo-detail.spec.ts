@@ -31,9 +31,9 @@ test.describe("repo detail", () => {
     await expect(eyebrow).toBeVisible();
     await expect(eyebrow).toContainText(/Repo/i);
     await expect(eyebrow).toContainText(/Rank/i);
-    await expect(eyebrow).toContainText(/\/6 firing/i);
+    await expect(eyebrow).toContainText(/\/7 firing/i);
 
-    await expect(hero.locator(".channel-chip")).toHaveCount(6);
+    await expect(hero.locator(".channel-chip")).toHaveCount(7);
 
     const snapshot = page.locator('section[aria-label="Signal snapshot"]').first();
     await expect(snapshot).toBeVisible();

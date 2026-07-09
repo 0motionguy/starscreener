@@ -41,6 +41,7 @@ const COMPONENT_KEYS: (keyof ScoreComponents)[] = [
   "issueActivity",
   "communityHealth",
   "categoryMomentum",
+  "crossSignal",
 ];
 
 const COMPONENT_LABELS: Record<keyof ScoreComponents, string> = {
@@ -54,6 +55,7 @@ const COMPONENT_LABELS: Record<keyof ScoreComponents, string> = {
   issueActivity: "issue activity",
   communityHealth: "community health",
   categoryMomentum: "category momentum",
+  crossSignal: "cross-platform signal",
 };
 
 function round1(n: number): number {
@@ -108,6 +110,11 @@ function buildExplanation(
       datum = ` (+${input.contributorsDelta30d} contribs/30d)`;
     } else if (c.key === "socialBuzz") {
       datum = ` (${Math.round(input.socialBuzzScore)}/100)`;
+    } else if (
+      c.key === "crossSignal" &&
+      (input.crossSignalChannelsFiring ?? 0) > 0
+    ) {
+      datum = ` (${input.crossSignalChannelsFiring}/7 channels)`;
     }
 
     topPhrases.push(`${label}${datum}`);
@@ -298,6 +305,11 @@ function toScoringInput(
     lastReleaseAt: repo.lastReleaseAt,
 
     socialBuzzScore: repo.socialBuzzScore,
+
+    // Present only after decorateWithCrossSignal has run (second scoring
+    // pass in derived-repos); undefined → the component scores 0.
+    crossSignalScore: repo.crossSignalScore,
+    crossSignalChannelsFiring: repo.channelsFiring,
 
     categoryAvgStarVelocity7d: categoryAverages?.avgStarVelocity7d,
     categoryTopStarVelocity7d: categoryAverages?.topStarVelocity7d,

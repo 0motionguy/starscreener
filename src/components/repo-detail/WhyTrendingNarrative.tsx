@@ -166,15 +166,20 @@ export function WhyTrendingNarrative({
 
   const sentences: string[] = [];
 
-  // Sentence 1: velocity — prefer 24h spike, fall back to 7d
+  // Sentence 1: velocity — prefer 24h spike, fall back to 7d. Window ranks
+  // (assigned in derived-repos step 4.5) make the claim concrete.
   if (typeof repo.starsDelta24h === "number" && repo.starsDelta24h > 50) {
     const movement = repo.movementStatus ?? "rising";
     const score =
       typeof repo.momentumScore === "number"
         ? `${repo.momentumScore.toFixed(1)}/100`
         : "—";
+    const windowRank =
+      typeof repo.rank24h === "number" && repo.rank24h <= 25
+        ? ` (#${repo.rank24h} gainer of the day)`
+        : "";
     sentences.push(
-      `${repo.fullName} gained ${repo.starsDelta24h.toLocaleString()} GitHub stars in the last 24 hours, signalling a ${movement} trend with a momentum score of ${score}.`,
+      `${repo.fullName} gained ${repo.starsDelta24h.toLocaleString()} GitHub stars in the last 24 hours${windowRank}, signalling a ${movement} trend with a momentum score of ${score}.`,
     );
   } else if (
     typeof repo.starsDelta7d === "number" &&
@@ -182,20 +187,30 @@ export function WhyTrendingNarrative({
   ) {
     const cat = repo.language ?? "open-source";
     const rank = repo.categoryRank ?? "—";
+    const windowRank =
+      typeof repo.rank7d === "number" && repo.rank7d <= 25
+        ? ` — the #${repo.rank7d} gainer of the week overall`
+        : "";
     sentences.push(
-      `Over the last 7 days, ${repo.fullName} added ${repo.starsDelta7d.toLocaleString()} stars and ranks #${rank} among trending ${cat} repositories.`,
+      `Over the last 7 days, ${repo.fullName} added ${repo.starsDelta7d.toLocaleString()} stars and ranks #${rank} among trending ${cat} repositories${windowRank}.`,
     );
   }
 
-  // Sentence 2: cross-signal strength
+  // Sentence 2: cross-signal strength (7 channels since the arXiv wave)
   if (
     typeof repo.crossSignalScore === "number" &&
     repo.crossSignalScore >= 1.0
   ) {
     const channels = repo.channelsFiring ?? 0;
     sentences.push(
-      `Cross-signal score of ${repo.crossSignalScore.toFixed(1)}/6.0 with ${channels} channel${channels === 1 ? "" : "s"} firing — momentum is showing up across multiple platforms, not just one.`,
+      `Cross-signal score of ${repo.crossSignalScore.toFixed(1)}/7.0 with ${channels} channel${channels === 1 ? "" : "s"} firing — momentum is showing up across multiple platforms, not just one.`,
     );
+  }
+
+  // Sentence 3: the scoring engine's own transparent breakdown — which
+  // weighted components drove the composite, verbatim from buildExplanation.
+  if (repo.scoreExplanation) {
+    sentences.push(`Score math: ${repo.scoreExplanation}`);
   }
 
   // Sentence 3: top mention source

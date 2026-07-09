@@ -89,6 +89,7 @@ function emptyScoreComponents(): ScoreComponents {
     issueActivity: 0,
     communityHealth: 0,
     categoryMomentum: 0,
+    crossSignal: 0,
   };
 }
 
@@ -104,6 +105,7 @@ function emptyScoreWeights(): ScoreWeights {
     issueActivity: 0.1,
     communityHealth: 0.1,
     categoryMomentum: 0.1,
+    crossSignal: 0,
   };
 }
 

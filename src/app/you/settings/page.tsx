@@ -6,15 +6,18 @@
 //
 // S5.A.2 — tier + Stripe customer reference are looked up here so the
 // client island can render the "Current plan" row + Manage billing /
-// Upgrade buttons without a second client-side fetch. user-tiers.jsonl
-// is keyed by HMAC(SESSION_SECRET, email) per src/lib/api/session.ts —
-// derive the lookup key from the profile email loaded by Clerk.
+// Upgrade buttons without a second client-side fetch. The tier store is
+// keyed by the canonical `c_<clerkUserId>` id post identity-unification;
+// getTierRecordForClerkUser also read-throughs the legacy email-derived
+// id and forward-migrates it, so pre-unification records still resolve.
 
 import type { Metadata } from "next";
 
-import { deriveUserId } from "@/lib/api/session";
 import { requireUser } from "@/lib/auth/server";
-import { getUserTierRecord } from "@/lib/pricing/user-tiers";
+import {
+  getTierRecordForClerkUser,
+  isTierRecordExpired,
+} from "@/lib/pricing/tier-resolve";
 
 import SettingsClient, { type SettingsInitialProfile } from "./SettingsClient";
 
@@ -28,23 +31,18 @@ export const metadata: Metadata = {
 };
 
 export default async function YouSettingsPage() {
-  const { profile } = await requireUser();
+  const { clerkUserId, profile } = await requireUser();
 
-  // Tier lookup. Best-effort — JSONL read failures degrade to "free"
+  // Tier lookup. Best-effort — store read failures degrade to "free"
   // (the same default `getUserTier` applies for users with no record).
-  const derivedUserId = deriveUserId(profile.email);
   let tier: "free" | "pro" | "team" | "enterprise" = "free";
   let tierExpiresAt: string | null = null;
   let hasStripeCustomer = false;
   try {
-    const record = await getUserTierRecord(derivedUserId);
+    const record = await getTierRecordForClerkUser(clerkUserId, profile.email);
     if (record) {
       // Honor expiry: an expired Pro record reads as free.
-      const expired =
-        record.expiresAt &&
-        Number.isFinite(Date.parse(record.expiresAt)) &&
-        Date.parse(record.expiresAt) < Date.now();
-      tier = expired ? "free" : record.tier;
+      tier = isTierRecordExpired(record) ? "free" : record.tier;
       tierExpiresAt = record.expiresAt;
       hasStripeCustomer = Boolean(record.stripeCustomerId);
     }

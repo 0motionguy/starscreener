@@ -25,7 +25,7 @@ import { randomBytes, scryptSync } from "node:crypto";
 
 import { requireUser } from "@/lib/auth/server";
 import { parseBody } from "@/lib/api/parse-body";
-import { deriveUserId } from "@/lib/api/session";
+import { getTierForClerkUser } from "@/lib/pricing/tier-resolve";
 import { db } from "@/lib/db/client";
 import {
   alertRules,
@@ -34,7 +34,7 @@ import {
 import {
   createAlertRuleSchema,
 } from "@/lib/api/alert-rules/schemas";
-import { featureLimit } from "@/lib/pricing/entitlements";
+import { tierFeatureLimit } from "@/lib/pricing/entitlements";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -199,12 +199,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // Tier-aware quota. S5.A.3 — was a fixed 25-rule cap; now reads
-  // `featureLimit(userId, "alerts.max")` (Free=3, Pro=60, Team=-1
-  // i.e. unlimited). entitlements is keyed by HMAC(SESSION_SECRET,
-  // email) per src/lib/api/session.ts:178, same as user-tiers.jsonl.
-  const tierUserId = deriveUserId(user.profile.email);
-  const tierAlertsMax = await featureLimit(tierUserId, "alerts.max");
+  // Tier-aware quota. S5.A.3 — was a fixed 25-rule cap; now reads the
+  // tier limits (Free=3, Pro=60, Team=-1 i.e. unlimited). The tier is
+  // resolved via the canonical `c_<clerkUserId>` id with legacy
+  // email-derived read-through (identity unification).
+  const userTier = await getTierForClerkUser(user.clerkUserId, user.profile.email);
+  const tierAlertsMax = tierFeatureLimit(userTier, "alerts.max");
   // -1 = unlimited (Team / Enterprise). Map to HARD_SYSTEM_CEILING.
   const effectiveLimit =
     tierAlertsMax === -1 ? HARD_SYSTEM_CEILING : tierAlertsMax;
@@ -243,7 +243,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   // Webhook quota — counts existing rules with a webhookUrl set.
   // Applies only when this new rule supplies a webhookUrl.
   if (data.webhookUrl) {
-    const tierWebhooksMax = await featureLimit(tierUserId, "webhooks.max");
+    const tierWebhooksMax = tierFeatureLimit(userTier, "webhooks.max");
     if (tierWebhooksMax !== -1) {
       const webhookRows = await db
         .select({ n: count() })

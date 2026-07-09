@@ -22,6 +22,7 @@ import { Header } from "@/components/layout/Header";
 import { SidebarStream } from "@/components/layout/SidebarStream";
 import { SidebarSkeleton } from "@/components/layout/SidebarSkeleton";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
+import SessionBridge from "@/components/auth/SessionBridge";
 import { WelcomeModalGate } from "@/components/onboarding/WelcomeModalGate";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
@@ -260,6 +261,7 @@ export default async function RootLayout({
                   signUpUrl={buildAuthHref("/sign-up", "/you")}
                   afterSignOutUrl="/"
                 >
+                  <SessionBridge />
                   {appChrome}
                 </ClerkProvider>
               ) : (

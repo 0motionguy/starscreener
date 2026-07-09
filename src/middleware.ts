@@ -11,7 +11,12 @@
 //   /api/cron/*       — CRON_SECRET via verifyCronAuth
 //   /api/admin/*      — ss_admin via verifyAdminSession
 //   /api/webhooks/*   — provider-specific HMAC verification
-//   /api/auth/session — issues ss_user cookies for anonymous users
+//
+// NOTE: /api/auth/session used to be on this list. It moved to the
+// Clerk-session matcher when the identity bridge landed — the route now
+// asks Clerk "who is signed in?" server-side to mint `c_<clerkUserId>`
+// cookies, which requires clerkMiddleware context. It still mints
+// anonymous cookies for signed-out visitors exactly as before.
 //
 // On every request we also handle first-touch referral attribution: if
 // `?ref=<code>` is present on the URL, set a signed `tr_ref` cookie
@@ -52,9 +57,17 @@ const isProtectedRoute = createRouteMatcher([
 // middleware context so route handlers/server components can call `auth()`
 // and decide their own anonymous-vs-signed-in shape instead of throwing
 // outside Clerk.
+//
+//   /api/auth/session   — mints `c_<clerkUserId>` cookies for signed-in
+//                         users, anonymous ones otherwise (identity bridge)
+//   /api/checkout/stripe, /api/billing/portal — money paths; they 401 JSON
+//                         for anonymous callers rather than redirecting
 const isClerkSessionRoute = createRouteMatcher([
   "/you",
   "/api/pipeline/sidebar-overlay",
+  "/api/auth/session",
+  "/api/checkout/stripe",
+  "/api/billing/portal",
 ]);
 
 // Routes that should NEVER pass through Clerk's session check — they own
@@ -66,8 +79,7 @@ function isBypassed(pathname: string): boolean {
   return (
     pathname.startsWith("/api/cron/") ||
     pathname.startsWith("/api/admin/") ||
-    pathname.startsWith("/api/webhooks/") ||
-    pathname.startsWith("/api/auth/session")
+    pathname.startsWith("/api/webhooks/")
   );
 }
 

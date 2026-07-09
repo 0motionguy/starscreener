@@ -38,6 +38,11 @@ regexes = [
   # Deterministic test-only cron token literals used to avoid auth fallback
   # masking assertions.
   '''test-cron-secret-[A-Za-z0-9]+''',
+  # Test-only SESSION_SECRET fixtures from the identity-unification wave.
+  # The live values were renamed to low-entropy word forms, but the original
+  # hex-suffixed literals remain in commit b2974d06 inside this PR's
+  # history-scan range.
+  '''test-secret-(tier-resolve|session-route)-[0-9a-f]+''',
   # Identifier names that trip generic entropy rules.
   '''apify\.(fail24h|success24h)''',
   '''starVelocity(24h|7d)''',

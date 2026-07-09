@@ -118,6 +118,14 @@
       "warmupOnDeploy": true
     },
     {
+      "route": "/models",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true,
+      "owner": "lists"
+    },
+    {
       "route": "/revenue",
       "policy": "isr",
       "revalidateSeconds": 900,

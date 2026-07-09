@@ -18,7 +18,7 @@ import { readFileSync, statSync } from "fs";
 import { resolve } from "path";
 
 import type { FundingNewsFile, FundingSignal, FundingStats } from "./funding/types";
-import { buildFundingStats } from "./funding/extract";
+import { buildFundingStats, isNonFundingHeadline } from "./funding/extract";
 const FUNDING_NEWS_PATH = resolve(process.cwd(), "data", "funding-news.json");
 const EPOCH_ZERO = "1970-01-01T00:00:00.000Z";
 
@@ -47,6 +47,25 @@ function getFileSignature(path: string): string {
   }
 }
 
+// Read-time defensive guard: declassify signals whose headline is a
+// market-research / earnings / stock-move story. The scraper's extractFunding
+// now rejects these at the source, but already-scraped payloads in Redis /
+// the bundled seed can still carry a non-funding headline with a populated
+// `extracted` block (that's how a market-size report became a top mover on
+// /funding). Null out `extracted` so those signals drop from every
+// funding-deal surface immediately, without waiting for a re-scrape.
+function declassifyNonFunding(signals: FundingSignal[]): FundingSignal[] {
+  let changed = false;
+  const cleaned = signals.map((s) => {
+    if (s.extracted && isNonFundingHeadline(s.headline)) {
+      changed = true;
+      return { ...s, extracted: null };
+    }
+    return s;
+  });
+  return changed ? cleaned : signals;
+}
+
 function normalizeFile(input: unknown): FundingNewsFile {
   if (!input || typeof input !== "object") {
     return createFallbackFile();
@@ -62,7 +81,9 @@ function normalizeFile(input: unknown): FundingNewsFile {
       typeof file.windowDays === "number" && Number.isFinite(file.windowDays)
         ? file.windowDays
         : 7,
-    signals: Array.isArray(file.signals) ? (file.signals as FundingSignal[]) : [],
+    signals: Array.isArray(file.signals)
+      ? declassifyNonFunding(file.signals as FundingSignal[])
+      : [],
   };
 }
 

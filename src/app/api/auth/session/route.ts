@@ -1,28 +1,40 @@
-// POST /api/auth/session — issue a signed session cookie (ss_user).
-// GET  /api/auth/session — report current session state (idempotent probe).
+// /api/auth/session — issue, probe, and clear the signed ss_user cookie.
 //
-// The AlertConfig UI calls POST on mount if no ss_user cookie is present.
-// The server signs an HMAC-SHA256 session (see `src/lib/api/session.ts`) and
-// sets it as an HttpOnly, SameSite=Lax cookie with a 30-day Max-Age. All
-// subsequent /api/pipeline/alerts* calls from the browser automatically
-// include the cookie; the userId is derived server-side from the signed
-// payload, not from any client-supplied `?userId=` or body field.
+//   POST   — mint or renew a session cookie.
+//   GET    — report current session state (idempotent probe, self-healing).
+//   DELETE — clear the cookie (sign-out hygiene).
+//
+// Identity model (see src/lib/auth/user-id.ts):
+//
+//   - Signed-in (Clerk session present) → userId `c_<clerkUserId>`. The
+//     Clerk session is verified SERVER-SIDE via getClerkUserIdOptional();
+//     the browser never chooses its own identity. Only these ids may carry
+//     a tier hint in the cookie.
+//   - Signed-out → anonymous `a_<random>` id. Alerts/watchlist keep working
+//     for logged-out users; anonymous ids never carry a tier.
+//
+// SECURITY: this route previously accepted a client-supplied `{email}` and
+// minted the deterministic `u_<hmac(email)>` id for it — meaning anyone who
+// knew a user's email could mint that user's exact session and inherit
+// their tier + alert rules. The email path is REMOVED; request bodies are
+// ignored entirely. Legacy `u_` cookies already in the wild still verify
+// until they expire (30d), but new ones can no longer be minted, and tier
+// hints never attach to them.
+//
+// Self-healing: a `c_` cookie whose Clerk session is gone (signed out,
+// switched accounts) is cleared on GET and replaced on POST, so a paid
+// session can't outlive its Clerk sign-in on a shared machine.
 //
 // Dev fallback: if SESSION_SECRET is unset and we are NOT in production, we
-// return `{ ok: true, userId: "local" }` without setting a cookie. The
-// AlertConfig UI's existing env-less dev path continues to work unchanged.
+// return `{ ok: true, userId: "local" }` without setting a cookie.
 //
 // Prod enforcement: if SESSION_SECRET is unset in production, POST returns
-// 503 (`AUTH_NOT_CONFIGURED`) matching the shape used by verifyUserAuth.
-// GET stays idempotent and returns `{ ok: false }` rather than 503 so the
-// UI can treat it as "not logged in" without error banners.
+// 503 (`AUTH_NOT_CONFIGURED`). GET stays idempotent and returns
+// `{ ok: false }` rather than 503 so the UI treats it as "not logged in".
 
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import {
-  SESSION_COOKIE_NAME,
-} from "@/lib/api/auth";
-import { parseBody } from "@/lib/api/parse-body";
+
+import { SESSION_COOKIE_NAME } from "@/lib/api/auth";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import {
   deriveUserId,
@@ -30,8 +42,16 @@ import {
   verifySession,
   type SessionPayload,
 } from "@/lib/api/session";
+import { getClerkUserIdOptional } from "@/lib/auth/clerk-session";
+import {
+  clerkDerivedUserId,
+  isClerkDerivedUserId,
+} from "@/lib/auth/user-id";
 import { getUserTierRecord } from "@/lib/pricing/user-tiers";
 
+// lint-allow: no-parsebody - the request body is deliberately IGNORED
+// (identity comes from the server-side Clerk probe; accepting a body-
+// supplied email was the takeover vector this route was rewritten to kill).
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -51,6 +71,9 @@ interface SessionProbeOk {
   ok: true;
   userId: string;
   issuedAt: number;
+  /** Present when the session carries a tier hint (Clerk-derived ids only). */
+  tier?: string;
+  tierExpiresAt?: string | null;
 }
 
 interface SessionProbeMiss {
@@ -98,11 +121,24 @@ function sessionJson<T>(body: T, init?: ResponseInit): NextResponse<T> {
   return NextResponse.json(body, { ...init, headers });
 }
 
+function clearSessionCookie(response: NextResponse): void {
+  response.cookies.set({
+    name: SESSION_COOKIE_NAME,
+    value: "",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0,
+  });
+}
+
 /**
- * GET — read the current session. Idempotent. Never 401/503.
+ * GET — read the current session. Idempotent probe. Never 401/503.
  *
- * Callers use this to check whether they already have a session without
- * triggering the POST issue-a-session flow.
+ * Self-healing: when the cookie carries a Clerk-derived id but the Clerk
+ * session is gone or belongs to a different account, report `ok:false`
+ * AND expire the cookie so the stale identity can't linger.
  */
 export async function GET(
   request: NextRequest,
@@ -121,26 +157,42 @@ export async function GET(
   const raw = readSessionCookie(request);
   const payload = verifySession(raw);
   if (!payload) return sessionJson({ ok: false });
+
+  if (isClerkDerivedUserId(payload.userId)) {
+    const clerkUserId = await getClerkUserIdOptional();
+    const expected = clerkUserId ? clerkDerivedUserId(clerkUserId) : null;
+    if (expected !== payload.userId) {
+      const response = sessionJson<SessionProbeMiss>({ ok: false });
+      clearSessionCookie(response);
+      return response;
+    }
+  }
+
   return sessionJson({
     ok: true,
     userId: payload.userId,
     issuedAt: payload.issuedAt,
+    ...(payload.tier !== undefined ? { tier: payload.tier } : {}),
+    ...(payload.tierExpiresAt !== undefined
+      ? { tierExpiresAt: payload.tierExpiresAt }
+      : {}),
   });
 }
 
 /**
  * POST — issue or rotate a session cookie.
  *
- * Body (optional): `{ "email"?: string }`. When provided, the returned
- * userId is deterministic (HMAC(SESSION_SECRET, email)), so the same email
- * across devices yields the same userId. When omitted, an anonymous random
- * userId is generated. Either way the alert feed is keyed by userId.
+ * The request body is IGNORED (see the security note in the header). The
+ * minted identity is decided entirely server-side:
+ *
+ *   Clerk session present → `c_<clerkUserId>` (+ tier hint from the store)
+ *   otherwise             → renew a valid non-Clerk cookie, or mint `a_<random>`
  */
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<SessionIssuedOk | SessionError>> {
-  // Per-IP rate-limit BEFORE the secret-configured / body-parse paths so a
-  // mint-grinder still hits the budget even when the server returns 503.
+  // Per-IP rate-limit BEFORE the secret-configured paths so a mint-grinder
+  // still hits the budget even when the server returns 503.
   const rate = await checkRateLimitAsync(request, SESSION_RATE_LIMIT);
   if (!rate.allowed) {
     const headers = new Headers(SESSION_CACHE_HEADERS);
@@ -177,46 +229,35 @@ export async function POST(
     );
   }
 
-  // Parse optional email from the body. Tolerant of no body at all.
-  const SessionRequestSchema = z
-    .object({
-      email: z
-        .string()
-        .transform((s) => s.trim())
-        .refine((s) => s.length > 0, "email empty")
-        .optional(),
-    })
-    .passthrough();
-  const parsedBody = await parseBody(request, SessionRequestSchema, {
-    allowEmpty: true,
-  });
-  // No-body / invalid-JSON / extra keys are all tolerated; only a value
-  // present and explicitly-malformed (e.g. email: 123) would 400, and
-  // even then we'd rather route that to "anonymous" than reject the
-  // POST. Treat any failure as "no email supplied".
-  const email: string | null = parsedBody.ok
-    ? parsedBody.data.email ?? null
-    : null;
+  const clerkUserId = await getClerkUserIdOptional();
 
-  // If the caller already has a valid cookie AND didn't supply an email,
-  // renew the existing identity rather than minting a new random one.
-  // This keeps userId stable across tabs / reloads for anonymous users.
   let userId: string;
-  const existing = verifySession(readSessionCookie(request));
-  if (existing && email === null) {
-    userId = existing.userId;
+  if (clerkUserId) {
+    userId = clerkDerivedUserId(clerkUserId);
   } else {
-    userId = deriveUserId(email);
+    // Signed-out. Renew an existing anonymous/legacy identity so userId
+    // stays stable across tabs/reloads — but NEVER renew a Clerk-derived
+    // cookie without its Clerk session (sign-out hygiene: mint fresh
+    // anonymous instead).
+    const existing = verifySession(readSessionCookie(request));
+    if (existing && !isClerkDerivedUserId(existing.userId)) {
+      userId = existing.userId;
+    } else {
+      userId = deriveUserId(null);
+    }
   }
 
-  // Pull the latest tier from the user-tier store so fresh cookies carry
-  // the correct entitlement hint. Best-effort — a store read failure falls
-  // back to a tier-less cookie (treated as free by callers).
+  // Tier hint — Clerk-derived ids only. Anonymous/legacy ids never carry
+  // a tier in the cookie (policy: unverified identities hold no
+  // entitlements). Best-effort: a store read failure falls back to a
+  // tier-less cookie (treated as free by callers).
   let tierRecord: Awaited<ReturnType<typeof getUserTierRecord>> = null;
-  try {
-    tierRecord = await getUserTierRecord(userId);
-  } catch {
-    tierRecord = null;
+  if (clerkUserId) {
+    try {
+      tierRecord = await getUserTierRecord(userId);
+    } catch {
+      tierRecord = null;
+    }
   }
 
   const payload: SessionPayload = {
@@ -241,5 +282,16 @@ export async function POST(
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
   });
+  return response;
+}
+
+/**
+ * DELETE — clear the session cookie. Called on sign-out so the ss_user
+ * identity (and any tier hint) can't outlive the Clerk session. Idempotent;
+ * safe to call without a cookie.
+ */
+export async function DELETE(): Promise<NextResponse<{ ok: true }>> {
+  const response = sessionJson<{ ok: true }>({ ok: true });
+  clearSessionCookie(response);
   return response;
 }

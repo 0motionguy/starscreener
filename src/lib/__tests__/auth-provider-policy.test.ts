@@ -118,6 +118,9 @@ test("only known callers may import Clerk hooks (useUser / useAuth)", () => {
     // server-resolved prop and short-circuits before invoking useUser()
     // when ClerkProvider isn't mounted.
     join("src", "components", "onboarding", "WelcomeModalGate.tsx"),
+    // Identity bridge (ss_user ↔ Clerk). Mounted exclusively inside the
+    // layout's <ClerkProvider> branch, so useAuth() always has context.
+    join("src", "components", "auth", "SessionBridge.tsx"),
     // Sign-in / sign-up route surfaces are children of the layout's
     // ClerkProvider and reach Clerk hooks via Clerk's own components.
   ]);

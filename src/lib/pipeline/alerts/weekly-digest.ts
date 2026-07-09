@@ -111,7 +111,15 @@ export function mergeProfileEmailsIntoUserEmailMap(
 
   for (const profile of input.profiles) {
     const email = profile.email?.trim();
-    const candidates = [profile.profileId, profile.clerkUserId];
+    // Candidate id forms, newest first: profile row id, raw Clerk id, the
+    // canonical `c_<clerkUserId>` (see lib/auth/user-id — kept as a literal
+    // prefix here so this pipeline lib stays Clerk-import-free), and the
+    // legacy email-derived id appended below.
+    const candidates = [
+      profile.profileId,
+      profile.clerkUserId,
+      `c_${profile.clerkUserId}`,
+    ];
     if (email && email.includes("@") && input.deriveUserIdFromEmail) {
       try {
         candidates.push(input.deriveUserIdFromEmail(email));

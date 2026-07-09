@@ -11,10 +11,11 @@
 //
 // Continue → POSTs `/api/checkout/stripe` with `{ tier, cadence }`,
 // reads back the Stripe Checkout URL, and redirects. The POST endpoint
-// returns 401 when Clerk isn't configured (production blocker — see
-// `src/lib/auth/clerk-config.ts`) and 503 when Stripe envs are missing.
-// In both cases we surface a friendly inline error and keep the modal
-// open so the user knows to wait / contact ops.
+// returns 401 for anonymous callers (checkout requires a Clerk session
+// post identity-unification) — we route those into /sign-in with a
+// redirect back to /pricing. 503 (Stripe envs missing / account store
+// down) surfaces a friendly inline error and keeps the modal open so
+// the user knows to wait / contact ops.
 //
 // Native `<dialog>` element to match `ConfirmDialog` — no Radix, no
 // react-modal, no portal layer to bundle.
@@ -42,6 +43,14 @@ interface CheckoutError {
   error?: string;
 }
 
+/** Thrown on 401 so the caller can route to sign-in instead of erroring. */
+class SignInRequiredError extends Error {
+  constructor() {
+    super("sign in required");
+    this.name = "SignInRequiredError";
+  }
+}
+
 async function startCheckout(
   tier: TierDefinition,
   cadence: BillingCadence,
@@ -56,6 +65,7 @@ async function startCheckout(
       seats: tier.minSeats > 1 ? tier.minSeats : undefined,
     }),
   });
+  if (res.status === 401) throw new SignInRequiredError();
   const body = (await res.json().catch(() => null)) as
     | CheckoutResponse
     | CheckoutError
@@ -131,6 +141,12 @@ export function CheckoutWalkthrough({
       // modal stays in its current state for the user to retry.
       window.location.href = url;
     } catch (err) {
+      if (err instanceof SignInRequiredError) {
+        // Anonymous caller — route into the sign-in flow and come back to
+        // pricing afterwards, instead of dead-ending in the modal.
+        window.location.href = `/sign-in?redirect_url=${encodeURIComponent("/pricing")}`;
+        return;
+      }
       const message =
         err instanceof Error ? err.message : "Couldn't start checkout";
       setError(message);

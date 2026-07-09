@@ -29,7 +29,7 @@ let dataDir: string;
 beforeEach(() => {
   dataDir = mkdtempSync(join(tmpdir(), "tier-resolve-"));
   process.env.STARSCREENER_DATA_DIR = dataDir;
-  process.env.SESSION_SECRET = "test-secret-tier-resolve-0123456789abcdef";
+  process.env.SESSION_SECRET = "session-secret-tier-resolve-test";
   __resetUserTierCacheForTests();
 });
 

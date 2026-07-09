@@ -62,7 +62,7 @@ function cookieValue(response: Response): string | null {
 beforeEach(() => {
   dataDir = mkdtempSync(join(tmpdir(), "session-route-"));
   process.env.STARSCREENER_DATA_DIR = dataDir;
-  process.env.SESSION_SECRET = "test-secret-session-route-0123456789abcdef";
+  process.env.SESSION_SECRET = "session-secret-session-route-test";
   _setClerkAuthProbeForTests(async () => null);
   __resetUserTierCacheForTests();
 });

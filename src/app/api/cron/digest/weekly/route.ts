@@ -280,7 +280,11 @@ async function handle(
         fullName: r.fullName,
         description: r.description ?? null,
         score: r.momentumScore,
-        url: `${baseUrl}/repo/${r.owner}/${r.name}`,
+        // Build from the canonical fullName (owner/name), which pickTopBreakouts
+        // now guarantees is well-formed — the old `/repo/${owner}/${name}`
+        // could emit `/repo//` or `/repo/undefined/…` when owner/name were
+        // empty on a derived repo.
+        url: `${baseUrl}/repo/${r.fullName}`,
       }));
 
       newsletterAttempted = subs.length;

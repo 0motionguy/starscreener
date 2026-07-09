@@ -26,12 +26,15 @@ import { buildShareToXUrl } from "../twitter/outbound/share";
 import {
   selectOutboundAdapter,
   ApiV2OutboundAdapter,
+  BlueskyOutboundAdapter,
   ConsoleOutboundAdapter,
   NullOutboundAdapter,
   ToolboxOutboundAdapter,
 } from "../twitter/outbound/adapters";
+import { linkFacet } from "../twitter/outbound/adapters/bluesky";
 import { _resetSharedTwitterOAuthManagerForTests } from "../twitter/outbound/oauth";
 import { partialPublishedRepos } from "../twitter/outbound/audit";
+import { FatalConfigError, TransientHttpError } from "../errors";
 import type { OutboundTokenProvider } from "../twitter/outbound/types";
 
 function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
@@ -362,6 +365,9 @@ const ENV_KEYS = [
   "TWITTER_USERNAME",
   "TOOLBOX_REACH_URL",
   "TOOLBOX_REACH_API_KEY",
+  "BLUESKY_IDENTIFIER",
+  "BLUESKY_APP_PASSWORD",
+  "BLUESKY_SERVICE",
   "NODE_ENV",
 ] as const;
 const savedEnv: Record<string, string | undefined> = {};
@@ -426,6 +432,17 @@ test("selectOutboundAdapter prefers the toolbox engine over every direct X crede
 test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=toolbox throws loudly without the env pair", () => {
   (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "toolbox";
   assert.throws(() => selectOutboundAdapter(), /TOOLBOX_REACH_URL/);
+});
+
+test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=bluesky selects Bluesky with creds, throws without", () => {
+  (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "bluesky";
+  assert.throws(() => selectOutboundAdapter(), /BLUESKY_IDENTIFIER/);
+  (process.env as MutableEnv).BLUESKY_IDENTIFIER = "trendingrepo.bsky.social";
+  (process.env as MutableEnv).BLUESKY_APP_PASSWORD = "app-pw";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof BlueskyOutboundAdapter);
+  assert.equal(adapter.name, "bluesky");
+  assert.equal(adapter.publishes, true);
 });
 
 test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=null still wins over toolbox env", () => {
@@ -565,6 +582,158 @@ test("ToolboxOutboundAdapter surfaces non-2xx and ok:false responses", async () 
       adapterNotOk.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
     /rate budget spent/,
   );
+});
+
+// ---------------------------------------------------------------------------
+// BlueskyOutboundAdapter — AT Protocol, fetch mocking
+// ---------------------------------------------------------------------------
+
+// A fake AT Proto server: one createSession, then N createRecord calls with
+// reply-chaining. Returns at:// uris the adapter maps to bsky.app URLs.
+function makeBlueskyFetch(opts?: { failRecordOn?: number; sessionStatus?: number }) {
+  const calls: Array<{ path: string; body: Record<string, unknown> }> = [];
+  let recordN = 0;
+  const fetchImpl: typeof fetch = async (input, init) => {
+    const url = input.toString();
+    const body = JSON.parse((init?.body as string) ?? "{}") as Record<string, unknown>;
+    calls.push({ path: url, body });
+    if (url.includes("createSession")) {
+      if (opts?.sessionStatus && opts.sessionStatus >= 400) {
+        return new Response("bad", { status: opts.sessionStatus });
+      }
+      return new Response(
+        JSON.stringify({ accessJwt: "jwt-1", did: "did:plc:abc" }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    // createRecord
+    recordN += 1;
+    if (opts?.failRecordOn && recordN === opts.failRecordOn) {
+      return new Response("boom", { status: 429 });
+    }
+    return new Response(
+      JSON.stringify({
+        uri: `at://did:plc:abc/app.bsky.feed.post/rkey${recordN}`,
+        cid: `cid${recordN}`,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+  return { fetchImpl, calls: () => calls };
+}
+
+test("linkFacet computes UTF-8 byte offsets for the url in the text", () => {
+  const url = "https://trendingrepo.com/breakouts";
+  const facet = linkFacet(`1/ acme/x\n${url}`, url);
+  assert.ok(facet);
+  const prefixBytes = new TextEncoder().encode("1/ acme/x\n").length;
+  assert.equal(facet!.index.byteStart, prefixBytes);
+  assert.equal(facet!.index.byteEnd, prefixBytes + url.length);
+  assert.equal(facet!.features[0]!.uri, url);
+});
+
+test("BlueskyOutboundAdapter auths once then chains the thread with reply refs", async () => {
+  const { fetchImpl, calls } = makeBlueskyFetch();
+  const adapter = new BlueskyOutboundAdapter({
+    identifier: "trendingrepo.bsky.social",
+    appPassword: "app-pw",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro", url: "https://trendingrepo.com/breakouts" },
+    { kind: "daily_breakouts_item", text: "1/ acme/x", url: "https://trendingrepo.com/repo/acme/x" },
+  ]);
+
+  const c = calls();
+  assert.equal(c.filter((x) => x.path.includes("createSession")).length, 1);
+  const records = c.filter((x) => x.path.includes("createRecord"));
+  assert.equal(records.length, 2);
+  // First record is the root (no reply); second replies to the first.
+  assert.equal(records[0]!.body.reply, undefined);
+  const reply = (records[1]!.body.record as Record<string, unknown>).reply as
+    | { root: { uri: string }; parent: { uri: string } }
+    | undefined;
+  assert.equal(reply?.root.uri, "at://did:plc:abc/app.bsky.feed.post/rkey1");
+  assert.equal(reply?.parent.uri, "at://did:plc:abc/app.bsky.feed.post/rkey1");
+  // Facet attached for the url.
+  const rec0 = records[0]!.body.record as Record<string, unknown>;
+  assert.ok(Array.isArray(rec0.facets));
+  // Result maps at:// → bsky.app profile URL.
+  assert.equal(
+    result.threadUrl,
+    "https://bsky.app/profile/did:plc:abc/post/rkey1",
+  );
+  assert.ok(result.posts.every((p) => p.status === "published"));
+});
+
+test("BlueskyOutboundAdapter re-auths once on a 401 mid-thread", async () => {
+  let recordN = 0;
+  let sessions = 0;
+  const fetchImpl: typeof fetch = async (input, init) => {
+    const url = input.toString();
+    if (url.includes("createSession")) {
+      sessions += 1;
+      return new Response(
+        JSON.stringify({ accessJwt: `jwt-${sessions}`, did: "did:plc:abc" }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    recordN += 1;
+    const auth = (init?.headers as Record<string, string>).Authorization;
+    if (recordN === 1 && auth === "Bearer jwt-1") {
+      return new Response("expired", { status: 401 });
+    }
+    return new Response(
+      JSON.stringify({ uri: `at://did:plc:abc/app.bsky.feed.post/r${recordN}`, cid: `c${recordN}` }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+  const adapter = new BlueskyOutboundAdapter({
+    identifier: "h", appPassword: "p", fetchImpl,
+  });
+  const result = await adapter.postThread([{ kind: "daily_breakouts_intro", text: "intro" }]);
+  assert.equal(sessions, 2); // re-authed once
+  assert.equal(result.posts[0]!.status, "published");
+});
+
+test("BlueskyOutboundAdapter classifies a 400 session failure as fatal, 503 as transient", async () => {
+  const fatal = new BlueskyOutboundAdapter({
+    identifier: "h", appPassword: "bad",
+    fetchImpl: makeBlueskyFetch({ sessionStatus: 400 }).fetchImpl,
+  });
+  await assert.rejects(
+    () => fatal.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
+    (err: unknown) => err instanceof FatalConfigError,
+  );
+  const transient = new BlueskyOutboundAdapter({
+    identifier: "h", appPassword: "p",
+    fetchImpl: makeBlueskyFetch({ sessionStatus: 503 }).fetchImpl,
+  });
+  await assert.rejects(
+    () => transient.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
+    (err: unknown) => err instanceof TransientHttpError,
+  );
+});
+
+test("BlueskyOutboundAdapter attaches partialPosts when a thread fails mid-way", async () => {
+  const { fetchImpl } = makeBlueskyFetch({ failRecordOn: 3 });
+  const adapter = new BlueskyOutboundAdapter({ identifier: "h", appPassword: "p", fetchImpl });
+  const thread = [
+    { kind: "daily_breakouts_intro" as const, text: "intro" },
+    { kind: "daily_breakouts_item" as const, text: "1/ acme/one" },
+    { kind: "daily_breakouts_item" as const, text: "2/ acme/two" },
+  ];
+  const breakouts = [{ fullName: "acme/one" }, { fullName: "acme/two" }];
+  let caught: unknown;
+  try {
+    await adapter.postThread(thread);
+  } catch (err) {
+    caught = err;
+  }
+  assert.ok(caught);
+  // intro (0) + item0 (1) published; item1 (record #3) 429'd. breakouts[0]
+  // maps to record index 1 → published.
+  assert.deepEqual(partialPublishedRepos(caught, breakouts), ["acme/one"]);
 });
 
 // ---------------------------------------------------------------------------

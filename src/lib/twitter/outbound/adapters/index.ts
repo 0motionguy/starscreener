@@ -6,6 +6,11 @@
 // Selection rules (highest priority first):
 //   1. TWITTER_OUTBOUND_MODE=null     → NullOutboundAdapter (force no-op)
 //   2. TWITTER_OUTBOUND_MODE=console  → ConsoleOutboundAdapter (log only)
+//   2b. TWITTER_OUTBOUND_MODE=bluesky → BlueskyOutboundAdapter (posts the
+//      same composed thread to Bluesky instead of X; throws FatalConfigError
+//      when BLUESKY_IDENTIFIER / BLUESKY_APP_PASSWORD are missing). A second
+//      free transport for the same thread — simultaneous X+Bluesky fan-out
+//      is a separate follow-up (the cron posts through one adapter per run).
 //   3. TWITTER_OUTBOUND_MODE=toolbox  → ToolboxOutboundAdapter (throws
 //      FatalConfigError when TOOLBOX_REACH_URL / TOOLBOX_REACH_API_KEY
 //      are missing — an explicit mode misconfig should be loud)
@@ -26,6 +31,10 @@
 
 import { FatalConfigError } from "@/lib/errors";
 import { ApiV2OutboundAdapter } from "./api-v2";
+import {
+  BlueskyOutboundAdapter,
+  readBlueskyConfigFromEnv,
+} from "./bluesky";
 import { ConsoleOutboundAdapter } from "./console";
 import { NullOutboundAdapter } from "./null";
 import {
@@ -41,6 +50,16 @@ export function selectOutboundAdapter(): OutboundAdapter {
   const mode = process.env.TWITTER_OUTBOUND_MODE?.toLowerCase();
   if (mode === "null") return new NullOutboundAdapter();
   if (mode === "console") return new ConsoleOutboundAdapter();
+
+  if (mode === "bluesky") {
+    const blueskyConfig = readBlueskyConfigFromEnv();
+    if (!blueskyConfig) {
+      throw new FatalConfigError(
+        "TWITTER_OUTBOUND_MODE=bluesky requires BLUESKY_IDENTIFIER and BLUESKY_APP_PASSWORD",
+      );
+    }
+    return new BlueskyOutboundAdapter(blueskyConfig);
+  }
 
   const toolboxConfig = readToolboxReachConfigFromEnv();
   if (mode === "toolbox") {
@@ -94,6 +113,7 @@ export function selectOutboundAdapter(): OutboundAdapter {
 
 export {
   ApiV2OutboundAdapter,
+  BlueskyOutboundAdapter,
   ConsoleOutboundAdapter,
   NullOutboundAdapter,
   ToolboxOutboundAdapter,

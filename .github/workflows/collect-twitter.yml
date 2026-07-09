@@ -112,7 +112,14 @@ jobs:
           TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
           # TWITTER_WEB_DEBUG: "1"  # uncomment when diagnosing empty responses
           TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}"
-        run: npm run collect:twitter
+        # Hard 280s wall-clock cap inside the 20-min step budget. The
+        # forensic audit (docs/forensic/twitter-cancellation-2026-05-17.md)
+        # found the collector itself finishes in ~87s, but a stuck child
+        # process kept the step alive to the job timeout — which GH Actions
+        # then reports as a CANCELLED run, masking the real state and never
+        # letting the cookies-web fallback fire. `timeout` kills the hang
+        # fast so the exit code trips continue-on-error cleanly.
+        run: timeout 280 npm run collect:twitter
 
       # Third-tier fallback: when Apify is dead AND Nitter fails (instances
       # 503ing or returning empty), retry with the cookies-backed web provider

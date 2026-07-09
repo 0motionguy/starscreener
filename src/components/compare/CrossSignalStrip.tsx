@@ -28,6 +28,9 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
     bluesky: blueskyCount > 0,
     devto: devtoCount > 0,
     twitter: twitterCount > 0,
+    // arXiv is a research-citation channel with no per-platform mention
+    // count on the social-profile surface, so it's always off here.
+    arxiv: false,
   };
   const firing =
     (status.github ? 1 : 0) +

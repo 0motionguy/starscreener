@@ -37,6 +37,7 @@ export interface SidebarWatchlistPreviewRepo {
     bluesky: boolean;
     devto: boolean;
     twitter: boolean;
+    arxiv: boolean;
   };
 }
 

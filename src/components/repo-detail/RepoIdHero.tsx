@@ -41,7 +41,7 @@ interface NarrativePart {
   tone?: "positive" | "neutral" | "negative" | "muted";
 }
 
-const CHANNEL_TOTAL = 6;
+const CHANNEL_TOTAL = 7;
 
 function buildNarrative(repo: Repo): NarrativePart[] {
   const ps = repo.mentions?.perSource;
@@ -95,6 +95,9 @@ function buildNarrative(repo: Repo): NarrativePart[] {
   if (status?.twitter && (ps?.twitter.count24h ?? 0) > 0) {
     fired.push(`X posts (${ps?.twitter.count24h} / 24h)`);
   }
+  if (status?.arxiv) {
+    fired.push("arXiv research citations");
+  }
   if (fired.length > 0) {
     const joined =
       fired.length === 1
@@ -112,6 +115,7 @@ function buildNarrative(repo: Repo): NarrativePart[] {
     if (status && !status.bluesky) quiet.push("Bluesky");
     if (status && !status.devto) quiet.push("Dev.to");
     if (status && !status.twitter) quiet.push("X");
+    if (status && !status.arxiv) quiet.push("arXiv");
     if (quiet.length > 0) {
       const list =
         quiet.length === 1

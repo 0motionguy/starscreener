@@ -26,7 +26,7 @@ interface CrossSignalBreakdownProps {
 }
 
 interface ChannelRow {
-  key: "github" | "reddit" | "hn" | "bluesky" | "devto" | "twitter";
+  key: "github" | "reddit" | "hn" | "bluesky" | "devto" | "twitter" | "arxiv";
   label: string;
   color: string;
   value: number; // 0..1
@@ -43,6 +43,7 @@ const CHANNEL_COLORS = {
   bluesky: "#0085FF",
   devto: "#0a0a0a",
   twitter: "#1d9bf0",
+  arxiv: "#b31b1b",
 };
 
 /**
@@ -73,6 +74,7 @@ export function CrossSignalBreakdown({
   const bskyVal = crossSignalInternals.blueskyComponent(repo.fullName);
   const devtoVal = crossSignalInternals.devtoComponent(repo.fullName);
   const twitterVal = crossSignalInternals.twitterComponent(repo.fullName);
+  const arxivVal = crossSignalInternals.arxivComponent(repo.fullName, nowMs);
 
   const rows: ChannelRow[] = [
     {
@@ -160,6 +162,21 @@ export function CrossSignalBreakdown({
             : twitterVal === 0.4
               ? "1-2 mentions / 24h (0.4)"
               : "no X chatter",
+    },
+    {
+      key: "arxiv",
+      label: "arXiv",
+      color: CHANNEL_COLORS.arxiv,
+      value: arxivVal,
+      active: status.arxiv,
+      hint:
+        arxivVal === 1.0
+          ? "cited by ≥2 recent papers, or 1 high-impact (1.0)"
+          : arxivVal === 0.7
+            ? "cited by 1 recent paper (0.7)"
+            : arxivVal === 0.4
+              ? "cited by an older paper (0.4)"
+              : "no research citations",
     },
   ];
 

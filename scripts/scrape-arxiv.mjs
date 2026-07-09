@@ -36,7 +36,11 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchWithTimeout, sleep, parseRetryAfterMs } from "./_fetch-json.mjs";
-import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import {
+  extractGithubRepoFullNames,
+  extractTrackedBareRefs,
+  extractUnknownRepoCandidates,
+} from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, verifyMetaLanded, closeDataStore } from "./_data-store-write.mjs";
@@ -150,12 +154,28 @@ function parseEntry(entryXml, tracked) {
   const { abs, pdf } = pickLinks(entryXml);
 
   const blob = `${title}\n${summary}`;
-  const repoHits = extractGithubRepoFullNames(blob, tracked);
-  const linkedRepos = Array.from(repoHits, (lower) => ({
-    fullName: tracked.get(lower) ?? lower,
-    matchType: "abstract",
-    confidence: 1.0,
-  }));
+  // Full github.com/<owner>/<repo> URLs are the high-confidence signal.
+  const urlHits = extractGithubRepoFullNames(blob, tracked);
+  // Bare `owner/repo` mentions ("we release meta-llama/llama3 at …") are the
+  // common shape in abstracts that never spell out the github.com host. The
+  // tracked-set membership check inside extractTrackedBareRefs makes this
+  // safe — a slug we don't already track can never be emitted. Drop any that
+  // the URL pass already found so a repo isn't double-tagged.
+  const bareHits = extractTrackedBareRefs(blob, tracked);
+  const linkedRepos = [
+    ...Array.from(urlHits, (lower) => ({
+      fullName: tracked.get(lower) ?? lower,
+      matchType: "abstract",
+      confidence: 1.0,
+    })),
+    ...Array.from(bareHits, (lower) => lower)
+      .filter((lower) => !urlHits.has(lower))
+      .map((lower) => ({
+        fullName: tracked.get(lower) ?? lower,
+        matchType: "slug",
+        confidence: 0.9,
+      })),
+  ];
 
   const publishedMs = published ? Date.parse(published) : NaN;
   const updatedMs = updated ? Date.parse(updated) : NaN;

@@ -1,13 +1,12 @@
 // Twitter API v2 adapter — posts via direct fetch() calls so the
 // project doesn't take a hard dep on a third-party SDK.
 //
-// Auth model: OAuth 2.0 user-context bearer token. The operator
-// generates a long-lived token via the Twitter developer console for
-// (sprint 5.6: imports placed below file header)
-//
-// the TrendingRepo posting account and puts it in TWITTER_OAUTH2_USER_TOKEN.
-// Refresh-token rotation is a P1 follow-up — for v1, when the token
-// expires the operator regenerates it manually.
+// Auth model: OAuth 2.0 user-context. Two modes:
+//   - tokenProvider (preferred): refresh-token rotation via
+//     ../oauth.ts — tokens self-renew, 401s trigger one refresh+retry.
+//   - bearerToken: static TWITTER_OAUTH2_USER_TOKEN. Kept for simple
+//     setups, but X expires these (~2h) so posting decays until the
+//     operator regenerates the token manually.
 //
 // Rate limits (as of 2026): Twitter's free tier caps at ~17 posts/day.
 // Our cron schedule (1 daily thread of ~5 posts + 1 weekly recap of
@@ -20,6 +19,7 @@ import type {
   AdapterThreadResult,
   ComposedPost,
   OutboundAdapter,
+  OutboundTokenProvider,
 } from "../types";
 
 const API_BASE = "https://api.twitter.com/2";
@@ -30,7 +30,18 @@ interface TwitterTweetResponse {
 }
 
 export interface ApiV2AdapterOptions {
-  bearerToken: string;
+  /**
+   * Static access token. Simple but decays — X user-context tokens
+   * expire (~2h), after which every post 401s until the operator
+   * regenerates it. Prefer `tokenProvider`.
+   */
+  bearerToken?: string;
+  /**
+   * Refresh-capable token source (OAuth2 rotation). When set it wins
+   * over `bearerToken`, and a 401 mid-thread triggers one
+   * invalidate-and-refresh retry before the error surfaces.
+   */
+  tokenProvider?: OutboundTokenProvider;
   /**
    * Username for building shareable URLs. Optional — when missing we
    * still publish, we just can't construct a public URL for the audit
@@ -45,17 +56,26 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
   readonly name = "twitter_api_v2";
   readonly publishes = true;
 
-  private readonly bearerToken: string;
+  private readonly bearerToken: string | null;
+  private readonly tokenProvider: OutboundTokenProvider | null;
   private readonly username: string | null;
   private readonly fetchImpl: typeof fetch;
 
   constructor(opts: ApiV2AdapterOptions) {
-    if (!opts.bearerToken) {
-      throw new FatalConfigError("ApiV2OutboundAdapter: bearerToken is required");
+    if (!opts.bearerToken && !opts.tokenProvider) {
+      throw new FatalConfigError(
+        "ApiV2OutboundAdapter: either bearerToken or tokenProvider is required",
+      );
     }
-    this.bearerToken = opts.bearerToken;
+    this.bearerToken = opts.bearerToken ?? null;
+    this.tokenProvider = opts.tokenProvider ?? null;
     this.username = opts.username ?? null;
     this.fetchImpl = opts.fetchImpl ?? fetch;
+  }
+
+  private async currentToken(): Promise<string> {
+    if (this.tokenProvider) return this.tokenProvider.getAccessToken();
+    return this.bearerToken as string;
   }
 
   async postThread(thread: ComposedPost[]): Promise<AdapterThreadResult> {
@@ -70,14 +90,23 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
       if (previousId) {
         body.reply = { in_reply_to_tweet_id: previousId };
       }
-      const res = await this.fetchImpl(`${API_BASE}/tweets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.bearerToken}`,
-        },
-        body: JSON.stringify(body),
-      });
+
+      const send = (token: string) =>
+        this.fetchImpl(`${API_BASE}/tweets`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        });
+
+      let res = await send(await this.currentToken());
+      if (res.status === 401 && this.tokenProvider) {
+        // Token died between the provider's expiry estimate and now —
+        // force a rotation and retry this post once before giving up.
+        res = await send(await this.tokenProvider.invalidateAndRefresh());
+      }
 
       if (!res.ok) {
         // Throw so the cron route records the run as `error` with the

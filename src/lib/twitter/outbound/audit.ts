@@ -30,6 +30,7 @@ export interface RecordRunInput {
   postCount: number;
   startedAt: string;
   errorMessage?: string | null;
+  featuredRepos?: string[];
 }
 
 /**
@@ -50,6 +51,7 @@ export async function recordOutboundRun(
     startedAt: input.startedAt,
     finishedAt: new Date().toISOString(),
     errorMessage: input.errorMessage ?? null,
+    ...(input.featuredRepos ? { featuredRepos: input.featuredRepos } : {}),
   };
   await appendJsonlFile(OUTBOUND_RUNS_FILE, record);
   return record;

@@ -29,6 +29,8 @@ import {
   ConsoleOutboundAdapter,
   NullOutboundAdapter,
 } from "../twitter/outbound/adapters";
+import { _resetSharedTwitterOAuthManagerForTests } from "../twitter/outbound/oauth";
+import type { OutboundTokenProvider } from "../twitter/outbound/types";
 
 function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
   return {
@@ -130,8 +132,8 @@ test("composeDailyBreakouts always returns at least one intro post", () => {
   assert.equal(thread[0]!.kind, "daily_breakouts_intro");
 });
 
-test("composeDailyBreakouts emits one item per breakout, capped at 3", () => {
-  const breakouts = Array.from({ length: 5 }, (_, i) =>
+test("composeDailyBreakouts emits one item per breakout, capped at 10", () => {
+  const breakouts = Array.from({ length: 13 }, (_, i) =>
     makeRepo({
       fullName: `acme/repo${i}`,
       starsDelta24h: 100 + i,
@@ -139,11 +141,44 @@ test("composeDailyBreakouts emits one item per breakout, capped at 3", () => {
     }),
   );
   const thread = composeDailyBreakouts({ breakouts, topIdea: null });
-  // Intro + 3 items = 4 posts, no idea spotlight.
-  assert.equal(thread.length, 4);
-  assert.equal(thread[1]!.kind, "daily_breakouts_item");
-  assert.equal(thread[2]!.kind, "daily_breakouts_item");
-  assert.equal(thread[3]!.kind, "daily_breakouts_item");
+  // Intro + 10 items = 11 posts, no idea spotlight.
+  assert.equal(thread.length, 11);
+  for (let i = 1; i <= 10; i++) {
+    assert.equal(thread[i]!.kind, "daily_breakouts_item");
+  }
+});
+
+test("composeDailyBreakouts gives every repo item its trendingrepo link", () => {
+  const breakouts = Array.from({ length: 10 }, (_, i) =>
+    makeRepo({
+      fullName: `acme/repo${i}`,
+      starsDelta24h: 100 + i,
+      channelsFiring: 2,
+    }),
+  );
+  const thread = composeDailyBreakouts({ breakouts, topIdea: null });
+  const items = thread.filter((p) => p.kind === "daily_breakouts_item");
+  assert.equal(items.length, 10);
+  for (let i = 0; i < items.length; i++) {
+    assert.ok(
+      items[i]!.url?.endsWith(`/repo/acme/repo${i}`),
+      `item ${i} url is ${items[i]!.url}`,
+    );
+  }
+});
+
+test("composeDailyBreakouts includes the description and skips a zero delta", () => {
+  const repo = makeRepo({
+    fullName: "acme/quiet-mover",
+    starsDelta24h: 0,
+    channelsFiring: 3,
+  });
+  repo.description = "Local-first vector DB for agents";
+  const thread = composeDailyBreakouts({ breakouts: [repo], topIdea: null });
+  const line = thread[1]!.text;
+  assert.ok(!line.includes("stars in 24h"), `line advertises a zero delta: ${line}`);
+  assert.match(line, /3 signals firing/);
+  assert.match(line, /Local-first vector DB/);
 });
 
 test("composeDailyBreakouts adds idea spotlight as the last post", () => {
@@ -296,6 +331,9 @@ test("buildShareToXUrl omits via when the handle is empty", () => {
 const ENV_KEYS = [
   "TWITTER_OUTBOUND_MODE",
   "TWITTER_OAUTH2_USER_TOKEN",
+  "TWITTER_OAUTH2_CLIENT_ID",
+  "TWITTER_OAUTH2_CLIENT_SECRET",
+  "TWITTER_OAUTH2_REFRESH_TOKEN",
   "TWITTER_USERNAME",
   "NODE_ENV",
 ] as const;
@@ -309,6 +347,7 @@ beforeEach(() => {
     savedEnv[k] = env[k];
     delete env[k];
   }
+  _resetSharedTwitterOAuthManagerForTests();
 });
 
 afterEach(() => {
@@ -342,6 +381,24 @@ test("selectOutboundAdapter returns ApiV2OutboundAdapter when token is set", () 
   const adapter = selectOutboundAdapter();
   assert.ok(adapter instanceof ApiV2OutboundAdapter);
   assert.equal(adapter.publishes, true);
+});
+
+test("selectOutboundAdapter prefers the OAuth2 rotation trio over a static token", () => {
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_SECRET = "csecret";
+  (process.env as MutableEnv).TWITTER_OAUTH2_REFRESH_TOKEN = "rt";
+  (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "static-token";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof ApiV2OutboundAdapter);
+  assert.equal(adapter.publishes, true);
+});
+
+test("selectOutboundAdapter ignores a partial OAuth2 trio and falls back to the static token", () => {
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
+  // secret + refresh token missing
+  (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "static-token";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof ApiV2OutboundAdapter);
 });
 
 test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=null overrides token", () => {
@@ -416,6 +473,62 @@ test("ApiV2OutboundAdapter surfaces API errors", async () => {
         { kind: "daily_breakouts_intro", text: "intro" },
       ]),
     /Twitter API 429/,
+  );
+});
+
+test("ApiV2OutboundAdapter retries once with a refreshed token on 401", async () => {
+  const tokensSeen: string[] = [];
+  let refreshes = 0;
+  const provider: OutboundTokenProvider = {
+    getAccessToken: async () => "expired-token",
+    invalidateAndRefresh: async () => {
+      refreshes += 1;
+      return "fresh-token";
+    },
+  };
+  const fetchImpl: typeof fetch = async (_input, init) => {
+    const auth =
+      (init?.headers as Record<string, string> | undefined)?.Authorization ??
+      "";
+    tokensSeen.push(auth.replace("Bearer ", ""));
+    if (auth.includes("expired-token")) {
+      return new Response("unauthorized", { status: 401 });
+    }
+    return new Response(
+      JSON.stringify({ data: { id: "id-1", text: "ok" } }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+
+  const adapter = new ApiV2OutboundAdapter({
+    tokenProvider: provider,
+    username: "trendingrepo",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro" },
+  ]);
+
+  assert.equal(refreshes, 1);
+  assert.deepEqual(tokensSeen, ["expired-token", "fresh-token"]);
+  assert.equal(result.posts[0]!.status, "published");
+});
+
+test("ApiV2OutboundAdapter surfaces the error when the post-refresh retry also 401s", async () => {
+  const provider: OutboundTokenProvider = {
+    getAccessToken: async () => "t1",
+    invalidateAndRefresh: async () => "t2",
+  };
+  const fetchImpl: typeof fetch = async () =>
+    new Response("unauthorized", { status: 401 });
+  const adapter = new ApiV2OutboundAdapter({
+    tokenProvider: provider,
+    fetchImpl,
+  });
+  await assert.rejects(
+    () =>
+      adapter.postThread([{ kind: "daily_breakouts_intro", text: "intro" }]),
+    /Twitter API 401/,
   );
 });
 

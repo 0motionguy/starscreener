@@ -21,12 +21,28 @@ import {
   countReactions,
   listReactionsForObject,
 } from "@/lib/reactions";
+import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 
-import { recordOutboundRun } from "@/lib/twitter/outbound/audit";
+import {
+  listOutboundRuns,
+  recordOutboundRun,
+} from "@/lib/twitter/outbound/audit";
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import { composeDailyBreakouts } from "@/lib/twitter/outbound/composer";
+import {
+  DAILY_BREAKOUT_COUNT,
+  pickDailyBreakouts,
+  recentlyFeaturedRepos,
+} from "@/lib/twitter/outbound/select";
 
 export const runtime = "nodejs";
+
+/**
+ * Don't post from data older than this. Stale trending data is what
+ * produces "random-looking" picks — better to skip the day (visibly,
+ * via the audit row) than to post garbage.
+ */
+const MAX_DATA_AGE_MS = 12 * 60 * 60 * 1000;
 
 interface DailyResponse {
   ok: true;
@@ -35,30 +51,13 @@ interface DailyResponse {
   postCount: number;
   threadUrl: string | null;
   runId: string;
+  /** Set when status=skipped for a reason other than a null adapter. */
+  skippedReason?: string;
 }
 
 interface ErrorResponse {
   ok: false;
   error: string;
-}
-
-/**
- * Pick the top 3 repos to highlight today. "Top" = highest
- * cross-signal score among repos with channelsFiring >= 2, sorted by
- * 24h star delta as the tiebreaker.
- */
-function pickDailyBreakouts(now: Date = new Date()) {
-  void now;
-  const repos = getDerivedRepos();
-  return repos
-    .filter((r) => (r.channelsFiring ?? 0) >= 2)
-    .sort((a, b) => {
-      const aCSS = a.crossSignalScore ?? 0;
-      const bCSS = b.crossSignalScore ?? 0;
-      if (bCSS !== aCSS) return bCSS - aCSS;
-      return (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0);
-    })
-    .slice(0, 3);
 }
 
 /**
@@ -105,7 +104,51 @@ async function handle(
   const adapter = selectOutboundAdapter();
 
   try {
-    const breakouts = pickDailyBreakouts();
+    // Pull the freshest worker-owned payload from Redis before reading
+    // anything — a cold container otherwise composes from the bundled
+    // (build-time) JSON. Failure degrades to whatever is cached.
+    await refreshTrendingFromStore().catch((err) => {
+      console.warn("[api:cron:twitter-daily] refreshTrendingFromStore failed", err);
+    });
+
+    // Freshness gate: skip the day rather than post from stale data.
+    const fetchedAtMs = Date.parse(getLastFetchedAt());
+    const dataAgeMs = Number.isFinite(fetchedAtMs)
+      ? Date.now() - fetchedAtMs
+      : Number.POSITIVE_INFINITY;
+    if (dataAgeMs > MAX_DATA_AGE_MS) {
+      const ageHours = Number.isFinite(dataAgeMs)
+        ? `${(dataAgeMs / 3_600_000).toFixed(1)}h`
+        : "unknown";
+      const reason = `stale-data (trending payload age ${ageHours} > 12h)`;
+      const run = await recordOutboundRun({
+        kind: "daily_breakouts",
+        adapterName: adapter.name,
+        status: "skipped",
+        threadUrl: null,
+        postCount: 0,
+        startedAt,
+        errorMessage: reason,
+      });
+      return NextResponse.json({
+        ok: true,
+        adapter: adapter.name,
+        status: "skipped",
+        postCount: 0,
+        threadUrl: null,
+        runId: run.id,
+        skippedReason: reason,
+      });
+    }
+
+    // Repos featured in the last 7 days sit out so the thread doesn't
+    // repeat itself. Best-effort — an empty/fresh audit file means no
+    // exclusions.
+    const previousRuns = await listOutboundRuns().catch(() => []);
+    const breakouts = pickDailyBreakouts(getDerivedRepos(), {
+      count: DAILY_BREAKOUT_COUNT,
+      exclude: recentlyFeaturedRepos(previousRuns),
+    });
     const topIdeaRaw = await pickTopIdeaOfWeek();
     const thread = composeDailyBreakouts({
       breakouts,
@@ -131,6 +174,12 @@ async function handle(
       threadUrl: result.threadUrl,
       postCount: thread.length,
       startedAt,
+      // Only published repos enter the 7-day cooldown — a skipped or
+      // logged run shouldn't burn the picks.
+      featuredRepos:
+        status === "published"
+          ? breakouts.map((r) => r.fullName)
+          : undefined,
     });
 
     return NextResponse.json({

@@ -78,4 +78,26 @@ export interface OutboundRunRecord {
   startedAt: string;
   finishedAt: string;
   errorMessage: string | null;
+  /**
+   * fullNames of repos featured in this run. Optional — rows written
+   * before the field existed lack it. The daily selector reads this to
+   * keep a repo from headlining two days in a row.
+   */
+  featuredRepos?: string[];
+}
+
+/**
+ * Bearer-token source for publishing adapters. A static env token
+ * satisfies this trivially; the OAuth2 refresh-rotation manager
+ * implements the full contract. Pure interface (no node:* imports)
+ * per this module's header rule.
+ */
+export interface OutboundTokenProvider {
+  /** Current access token, refreshing first if it's expired/near expiry. */
+  getAccessToken(): Promise<string>;
+  /**
+   * Drop the cached token and force a refresh — called when the API
+   * rejects a token the provider thought was valid (401 mid-thread).
+   */
+  invalidateAndRefresh(): Promise<string>;
 }

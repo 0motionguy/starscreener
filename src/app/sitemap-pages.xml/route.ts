@@ -49,6 +49,7 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/top10", priority: 0.95, changefreq: "hourly" },
   { path: "/breakouts", priority: 0.9, changefreq: "hourly" },
   { path: "/funding", priority: 0.9, changefreq: "hourly" },
+  { path: "/models", priority: 0.9, changefreq: "daily" },
   { path: "/consensus", priority: 0.9, changefreq: "hourly" },
   { path: "/signals", priority: 0.85, changefreq: "hourly" },
   { path: "/twitter", priority: 0.85, changefreq: "hourly" },

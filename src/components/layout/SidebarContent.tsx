@@ -644,6 +644,12 @@ export function SidebarContent({
             active={pathname === "/funding" || pathname.startsWith("/funding/")}
           />
           <V2NavRow
+            href="/models"
+            icon={Cpu}
+            label="LLM Models"
+            active={pathname === "/models" || pathname.startsWith("/models/")}
+          />
+          <V2NavRow
             href="/revenue"
             icon={BadgeCheck}
             label="Revenue"

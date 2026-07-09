@@ -50,6 +50,11 @@ next-env.d.ts
 !/.data/trending-dual-write-trace.jsonl
 !/.data/aiso-rescan-queue.jsonl
 !/.data/mcp-usage.jsonl
+# SECURITY: never commit the outbound X OAuth2 state — it holds live rotated
+# refresh tokens. Already covered by `/.data/*`, but this explicit ignore
+# (placed AFTER the whitelist, so it wins) guarantees a future broad
+# `!/.data/*.jsonl` allow-rule can't ever expose it.
+/.data/twitter-oauth-state.jsonl
 
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/

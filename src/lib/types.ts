@@ -224,6 +224,7 @@ export interface Repo {
     bluesky: boolean;
     devto: boolean;
     twitter: boolean;
+    arxiv: boolean;
   };
 
   /**

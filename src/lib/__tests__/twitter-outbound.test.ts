@@ -28,7 +28,11 @@ import {
   ApiV2OutboundAdapter,
   ConsoleOutboundAdapter,
   NullOutboundAdapter,
+  ToolboxOutboundAdapter,
 } from "../twitter/outbound/adapters";
+import { _resetSharedTwitterOAuthManagerForTests } from "../twitter/outbound/oauth";
+import { partialPublishedRepos } from "../twitter/outbound/audit";
+import type { OutboundTokenProvider } from "../twitter/outbound/types";
 
 function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
   return {
@@ -130,8 +134,8 @@ test("composeDailyBreakouts always returns at least one intro post", () => {
   assert.equal(thread[0]!.kind, "daily_breakouts_intro");
 });
 
-test("composeDailyBreakouts emits one item per breakout, capped at 3", () => {
-  const breakouts = Array.from({ length: 5 }, (_, i) =>
+test("composeDailyBreakouts emits one item per breakout, capped at 10", () => {
+  const breakouts = Array.from({ length: 13 }, (_, i) =>
     makeRepo({
       fullName: `acme/repo${i}`,
       starsDelta24h: 100 + i,
@@ -139,11 +143,44 @@ test("composeDailyBreakouts emits one item per breakout, capped at 3", () => {
     }),
   );
   const thread = composeDailyBreakouts({ breakouts, topIdea: null });
-  // Intro + 3 items = 4 posts, no idea spotlight.
-  assert.equal(thread.length, 4);
-  assert.equal(thread[1]!.kind, "daily_breakouts_item");
-  assert.equal(thread[2]!.kind, "daily_breakouts_item");
-  assert.equal(thread[3]!.kind, "daily_breakouts_item");
+  // Intro + 10 items = 11 posts, no idea spotlight.
+  assert.equal(thread.length, 11);
+  for (let i = 1; i <= 10; i++) {
+    assert.equal(thread[i]!.kind, "daily_breakouts_item");
+  }
+});
+
+test("composeDailyBreakouts gives every repo item its trendingrepo link", () => {
+  const breakouts = Array.from({ length: 10 }, (_, i) =>
+    makeRepo({
+      fullName: `acme/repo${i}`,
+      starsDelta24h: 100 + i,
+      channelsFiring: 2,
+    }),
+  );
+  const thread = composeDailyBreakouts({ breakouts, topIdea: null });
+  const items = thread.filter((p) => p.kind === "daily_breakouts_item");
+  assert.equal(items.length, 10);
+  for (let i = 0; i < items.length; i++) {
+    assert.ok(
+      items[i]!.url?.endsWith(`/repo/acme/repo${i}`),
+      `item ${i} url is ${items[i]!.url}`,
+    );
+  }
+});
+
+test("composeDailyBreakouts includes the description and skips a zero delta", () => {
+  const repo = makeRepo({
+    fullName: "acme/quiet-mover",
+    starsDelta24h: 0,
+    channelsFiring: 3,
+  });
+  repo.description = "Local-first vector DB for agents";
+  const thread = composeDailyBreakouts({ breakouts: [repo], topIdea: null });
+  const line = thread[1]!.text;
+  assert.ok(!line.includes("stars in 24h"), `line advertises a zero delta: ${line}`);
+  assert.match(line, /3 signals firing/);
+  assert.match(line, /Local-first vector DB/);
 });
 
 test("composeDailyBreakouts adds idea spotlight as the last post", () => {
@@ -204,7 +241,7 @@ test("composeDailyBreakouts formats a breakout line with k-style delta and signa
 
 test("composeWeeklyRecap always returns an intro; optional top items follow", () => {
   const empty = composeWeeklyRecap({
-    topBreakout: null,
+    topBreakouts: [],
     topIdea: null,
     ideasPublishedThisWeek: 0,
     breakoutsThisWeek: 0,
@@ -213,12 +250,35 @@ test("composeWeeklyRecap always returns an intro; optional top items follow", ()
   assert.equal(empty[0]!.kind, "weekly_recap_intro");
 
   const populated = composeWeeklyRecap({
-    topBreakout: makeRepo({ fullName: "vercel/next.js", starsDelta7d: 800 }),
+    topBreakouts: [makeRepo({ fullName: "vercel/next.js", starsDelta7d: 800 })],
     topIdea: makeIdea({ id: "y" }),
     ideasPublishedThisWeek: 12,
     breakoutsThisWeek: 3,
   });
   assert.equal(populated.length, 3);
+});
+
+test("composeWeeklyRecap emits up to 3 breakout items, each linked and in budget", () => {
+  const breakouts = Array.from({ length: 5 }, (_, i) =>
+    makeRepo({ fullName: `acme/weekly${i}`, starsDelta7d: 1000 - i }),
+  );
+  const thread = composeWeeklyRecap({
+    topBreakouts: breakouts,
+    topIdea: null,
+    ideasPublishedThisWeek: 4,
+    breakoutsThisWeek: 9,
+  });
+  const items = thread.filter((p) => p.kind === "weekly_recap_item");
+  assert.equal(items.length, 3);
+  for (let i = 0; i < items.length; i++) {
+    assert.ok(
+      items[i]!.url?.endsWith(`/repo/acme/weekly${i}`),
+      `item ${i} url is ${items[i]!.url}`,
+    );
+    assert.ok(effectiveLength(items[i]!) <= 280);
+  }
+  assert.match(items[0]!.text, /🥇/);
+  assert.match(items[0]!.text, /\+1\.0K stars this week/);
 });
 
 test("isoWeekLabel returns YYYY-Wnn format", () => {
@@ -296,7 +356,12 @@ test("buildShareToXUrl omits via when the handle is empty", () => {
 const ENV_KEYS = [
   "TWITTER_OUTBOUND_MODE",
   "TWITTER_OAUTH2_USER_TOKEN",
+  "TWITTER_OAUTH2_CLIENT_ID",
+  "TWITTER_OAUTH2_CLIENT_SECRET",
+  "TWITTER_OAUTH2_REFRESH_TOKEN",
   "TWITTER_USERNAME",
+  "TOOLBOX_REACH_URL",
+  "TOOLBOX_REACH_API_KEY",
   "NODE_ENV",
 ] as const;
 const savedEnv: Record<string, string | undefined> = {};
@@ -309,6 +374,7 @@ beforeEach(() => {
     savedEnv[k] = env[k];
     delete env[k];
   }
+  _resetSharedTwitterOAuthManagerForTests();
 });
 
 afterEach(() => {
@@ -344,6 +410,50 @@ test("selectOutboundAdapter returns ApiV2OutboundAdapter when token is set", () 
   assert.equal(adapter.publishes, true);
 });
 
+test("selectOutboundAdapter prefers the toolbox engine over every direct X credential", () => {
+  (process.env as MutableEnv).TOOLBOX_REACH_URL = "https://api.aiso.tools/v1/reach/publish";
+  (process.env as MutableEnv).TOOLBOX_REACH_API_KEY = "tbk";
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_SECRET = "csecret";
+  (process.env as MutableEnv).TWITTER_OAUTH2_REFRESH_TOKEN = "rt";
+  (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "static-token";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof ToolboxOutboundAdapter);
+  assert.equal(adapter.name, "toolbox_reach");
+  assert.equal(adapter.publishes, true);
+});
+
+test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=toolbox throws loudly without the env pair", () => {
+  (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "toolbox";
+  assert.throws(() => selectOutboundAdapter(), /TOOLBOX_REACH_URL/);
+});
+
+test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=null still wins over toolbox env", () => {
+  (process.env as MutableEnv).TOOLBOX_REACH_URL = "https://api.aiso.tools/v1/reach/publish";
+  (process.env as MutableEnv).TOOLBOX_REACH_API_KEY = "tbk";
+  (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "null";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof NullOutboundAdapter);
+});
+
+test("selectOutboundAdapter prefers the OAuth2 rotation trio over a static token", () => {
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_SECRET = "csecret";
+  (process.env as MutableEnv).TWITTER_OAUTH2_REFRESH_TOKEN = "rt";
+  (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "static-token";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof ApiV2OutboundAdapter);
+  assert.equal(adapter.publishes, true);
+});
+
+test("selectOutboundAdapter ignores a partial OAuth2 trio and falls back to the static token", () => {
+  (process.env as MutableEnv).TWITTER_OAUTH2_CLIENT_ID = "cid";
+  // secret + refresh token missing
+  (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "static-token";
+  const adapter = selectOutboundAdapter();
+  assert.ok(adapter instanceof ApiV2OutboundAdapter);
+});
+
 test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=null overrides token", () => {
   (process.env as MutableEnv).TWITTER_OAUTH2_USER_TOKEN = "test-token";
   (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "null";
@@ -356,6 +466,105 @@ test("selectOutboundAdapter TWITTER_OUTBOUND_MODE=console overrides token", () =
   (process.env as MutableEnv).TWITTER_OUTBOUND_MODE = "console";
   const adapter = selectOutboundAdapter();
   assert.ok(adapter instanceof ConsoleOutboundAdapter);
+});
+
+// ---------------------------------------------------------------------------
+// ToolboxOutboundAdapter — fetch mocking
+// ---------------------------------------------------------------------------
+
+test("ToolboxOutboundAdapter POSTs the whole thread once with bearer auth", async () => {
+  const calls: Array<{ url: string; auth: string; body: string }> = [];
+  const fetchImpl: typeof fetch = async (input, init) => {
+    calls.push({
+      url: input.toString(),
+      auth:
+        (init?.headers as Record<string, string> | undefined)?.Authorization ??
+        "",
+      body: (init?.body as string) ?? "",
+    });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        threadUrl: "https://twitter.com/trendingrepo/status/1",
+        posts: [
+          { remoteId: "1", url: "https://twitter.com/trendingrepo/status/1", status: "published" },
+          { remoteId: "2", url: "https://twitter.com/trendingrepo/status/2", status: "published" },
+        ],
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+
+  const adapter = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro", url: "https://trendingrepo.com/breakouts" },
+    { kind: "daily_breakouts_item", text: "item" },
+  ]);
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0]!.auth, "Bearer tbk_test");
+  const body = JSON.parse(calls[0]!.body) as {
+    kind: string;
+    posts: Array<{ kind: string; text: string; url: string | null }>;
+  };
+  assert.equal(body.kind, "thread");
+  assert.equal(body.posts.length, 2);
+  assert.equal(body.posts[0]!.url, "https://trendingrepo.com/breakouts");
+  assert.equal(body.posts[1]!.url, null);
+  assert.equal(result.threadUrl, "https://twitter.com/trendingrepo/status/1");
+  assert.equal(result.posts[1]!.remoteId, "2");
+});
+
+test("ToolboxOutboundAdapter tolerates a bare {ok:true} response", async () => {
+  const fetchImpl: typeof fetch = async () =>
+    new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  const adapter = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro" },
+    { kind: "daily_breakouts_item", text: "item" },
+  ]);
+  assert.equal(result.posts.length, 2);
+  assert.ok(result.posts.every((p) => p.status === "published"));
+  assert.equal(result.threadUrl, null);
+});
+
+test("ToolboxOutboundAdapter surfaces non-2xx and ok:false responses", async () => {
+  const adapter503 = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl: async () => new Response("upstream down", { status: 503 }),
+  });
+  await assert.rejects(
+    () =>
+      adapter503.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
+    /Toolbox reach endpoint 503/,
+  );
+
+  const adapterNotOk = new ToolboxOutboundAdapter({
+    endpointUrl: "https://api.aiso.tools/v1/reach/publish",
+    apiKey: "tbk_test",
+    fetchImpl: async () =>
+      new Response(JSON.stringify({ ok: false, error: "rate budget spent" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+  });
+  await assert.rejects(
+    () =>
+      adapterNotOk.postThread([{ kind: "daily_breakouts_intro", text: "x" }]),
+    /rate budget spent/,
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -416,6 +625,109 @@ test("ApiV2OutboundAdapter surfaces API errors", async () => {
         { kind: "daily_breakouts_intro", text: "intro" },
       ]),
     /Twitter API 429/,
+  );
+});
+
+test("ApiV2OutboundAdapter attaches partialPosts, and partialPublishedRepos maps them to picks", async () => {
+  // Publish intro + item0 + item1, then 429 on item2. The error must carry
+  // the 3 published posts so the cron route can still cool-down the 2 repos
+  // that actually posted (thread: [intro, item0, item1, item2] → items map
+  // to breakouts[0..]).
+  let n = 0;
+  const fetchImpl: typeof fetch = async () => {
+    n += 1;
+    if (n <= 3) {
+      return new Response(
+        JSON.stringify({ data: { id: `id-${n}`, text: "ok" } }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    return new Response("rate limited", { status: 429 });
+  };
+  const adapter = new ApiV2OutboundAdapter({ bearerToken: "t", fetchImpl });
+  const thread = [
+    { kind: "daily_breakouts_intro" as const, text: "intro" },
+    { kind: "daily_breakouts_item" as const, text: "1/ acme/one" },
+    { kind: "daily_breakouts_item" as const, text: "2/ acme/two" },
+    { kind: "daily_breakouts_item" as const, text: "3/ acme/three" },
+  ];
+  const breakouts = [
+    { fullName: "acme/one" },
+    { fullName: "acme/two" },
+    { fullName: "acme/three" },
+  ];
+
+  let caught: unknown;
+  try {
+    await adapter.postThread(thread);
+  } catch (err) {
+    caught = err;
+  }
+  assert.ok(caught, "expected postThread to throw");
+  // intro published (index 0) + item0 (index 1) + item1 (index 2) → the two
+  // items map to breakouts[0] and breakouts[1]; item2/breakouts[2] never
+  // posted.
+  const featured = partialPublishedRepos(caught, breakouts);
+  assert.deepEqual(featured, ["acme/one", "acme/two"]);
+});
+
+test("partialPublishedRepos returns empty for a non-partial error", () => {
+  assert.deepEqual(partialPublishedRepos(new Error("boom"), [{ fullName: "a/b" }]), []);
+});
+
+test("ApiV2OutboundAdapter retries once with a refreshed token on 401", async () => {
+  const tokensSeen: string[] = [];
+  let refreshes = 0;
+  const provider: OutboundTokenProvider = {
+    getAccessToken: async () => "expired-token",
+    invalidateAndRefresh: async () => {
+      refreshes += 1;
+      return "fresh-token";
+    },
+  };
+  const fetchImpl: typeof fetch = async (_input, init) => {
+    const auth =
+      (init?.headers as Record<string, string> | undefined)?.Authorization ??
+      "";
+    tokensSeen.push(auth.replace("Bearer ", ""));
+    if (auth.includes("expired-token")) {
+      return new Response("unauthorized", { status: 401 });
+    }
+    return new Response(
+      JSON.stringify({ data: { id: "id-1", text: "ok" } }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+
+  const adapter = new ApiV2OutboundAdapter({
+    tokenProvider: provider,
+    username: "trendingrepo",
+    fetchImpl,
+  });
+  const result = await adapter.postThread([
+    { kind: "daily_breakouts_intro", text: "intro" },
+  ]);
+
+  assert.equal(refreshes, 1);
+  assert.deepEqual(tokensSeen, ["expired-token", "fresh-token"]);
+  assert.equal(result.posts[0]!.status, "published");
+});
+
+test("ApiV2OutboundAdapter surfaces the error when the post-refresh retry also 401s", async () => {
+  const provider: OutboundTokenProvider = {
+    getAccessToken: async () => "t1",
+    invalidateAndRefresh: async () => "t2",
+  };
+  const fetchImpl: typeof fetch = async () =>
+    new Response("unauthorized", { status: 401 });
+  const adapter = new ApiV2OutboundAdapter({
+    tokenProvider: provider,
+    fetchImpl,
+  });
+  await assert.rejects(
+    () =>
+      adapter.postThread([{ kind: "daily_breakouts_intro", text: "intro" }]),
+    /Twitter API 401/,
   );
 });
 

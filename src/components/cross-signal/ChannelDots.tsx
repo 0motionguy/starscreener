@@ -1,7 +1,7 @@
 "use client";
 
-// ChannelDots — six small inline dots representing GitHub / Reddit / HN /
-// Bluesky / dev.to / Twitter channel state. Filled = component > 0;
+// ChannelDots — seven small inline dots representing GitHub / Reddit / HN /
+// Bluesky / dev.to / Twitter / arXiv channel state. Filled = component > 0;
 // outlined = inactive.
 //
 // PREVIOUSLY this component imported getChannelStatus from
@@ -23,6 +23,7 @@ interface ChannelStatus {
   bluesky: boolean;
   devto: boolean;
   twitter: boolean;
+  arxiv: boolean;
 }
 
 type ChannelKey = keyof ChannelStatus;
@@ -57,6 +58,7 @@ const CHANNEL_COLORS = {
   bluesky: "#0085FF",
   devto: "#0a0a0a",
   twitter: "#1d9bf0",
+  arxiv: "#b31b1b",
 };
 
 function buildTooltip(status: ChannelStatus, firing: number): string {
@@ -67,8 +69,9 @@ function buildTooltip(status: ChannelStatus, firing: number): string {
     `Bluesky: ${status.bluesky ? "active" : "—"}`,
     `dev.to: ${status.devto ? "active" : "—"}`,
     `X: ${status.twitter ? "active" : "—"}`,
+    `arXiv: ${status.arxiv ? "active" : "—"}`,
   ];
-  return `${firing}/6 channels firing\n${parts.join(" · ")}`;
+  return `${firing}/7 channels firing\n${parts.join(" · ")}`;
 }
 
 const ZERO_STATUS: ChannelStatus = {
@@ -78,6 +81,7 @@ const ZERO_STATUS: ChannelStatus = {
   bluesky: false,
   devto: false,
   twitter: false,
+  arxiv: false,
 };
 
 function resolveStatus(props: ChannelDotsProps): ChannelStatus {
@@ -93,6 +97,7 @@ const CHANNEL_DEFAULT_LABEL: Record<ChannelKey, string> = {
   bluesky: "Bluesky",
   devto: "dev.to",
   twitter: "X",
+  arxiv: "arXiv",
 };
 
 export function ChannelDots(props: ChannelDotsProps) {
@@ -104,7 +109,8 @@ export function ChannelDots(props: ChannelDotsProps) {
     (status.hn ? 1 : 0) +
     (status.bluesky ? 1 : 0) +
     (status.devto ? 1 : 0) +
-    (status.twitter ? 1 : 0);
+    (status.twitter ? 1 : 0) +
+    (status.arxiv ? 1 : 0);
   if (firing === 0 && hideWhenEmpty) return null;
 
   const dotSize = size === "md" ? "w-2 h-2" : "w-1.5 h-1.5";
@@ -134,7 +140,7 @@ export function ChannelDots(props: ChannelDotsProps) {
     <span
       className={`inline-flex items-center ${gap} shrink-0`}
       title={buildTooltip(status, firing)}
-      aria-label={`${firing} of 6 cross-signal channels firing`}
+      aria-label={`${firing} of 7 cross-signal channels firing`}
     >
       {dot("github", status.github, CHANNEL_COLORS.github)}
       {dot("reddit", status.reddit, CHANNEL_COLORS.reddit)}
@@ -142,6 +148,7 @@ export function ChannelDots(props: ChannelDotsProps) {
       {dot("bluesky", status.bluesky, CHANNEL_COLORS.bluesky)}
       {dot("devto", status.devto, CHANNEL_COLORS.devto)}
       {dot("twitter", status.twitter, CHANNEL_COLORS.twitter)}
+      {dot("arxiv", status.arxiv, CHANNEL_COLORS.arxiv)}
     </span>
   );
 }

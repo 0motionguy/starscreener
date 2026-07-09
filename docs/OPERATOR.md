@@ -10,9 +10,32 @@ status: living
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
+Last refreshed: 2026-07-09 (outbound-posting + arXiv-channel "go" wave)
 
 > **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure" section below.
+
+### 2026-07-09 — Automated X posting + arXiv AI channel (branch `claude/starscreener-repo-optimization-2gn8wz`)
+
+Shipped (4 waves, unmerged on the branch above — verified by unit tests +
+local dry-runs; live behavior needs provisioned creds + fresh prod data):
+
+- **Daily X thread, 10 truly-trending repos.** Tiered selector
+  (`src/lib/twitter/outbound/select.ts`): multi-signal breakouts → flagged
+  movers → raw 24h velocity, quality-floored, deterministic sort, 7-day
+  repeat cooldown. Every repo item carries its `/repo/<owner>/<name>` link.
+- **Weekly recap parity** + a 12h **freshness gate** on both cron routes
+  (skip, audited, rather than post stale data).
+- **OAuth2 refresh-token rotation** (`oauth.ts`) so posting doesn't die on
+  the ~2h access-token expiry; **toolbox-engine adapter** (`adapters/toolbox.ts`)
+  as the end-state VPS transport (config-only switch); **reviewable dry-runs**
+  via `GET /api/admin/twitter-outbound` (ADMIN_TOKEN).
+- **7th cross-signal channel `arxiv`** (`cross-signal.ts`): a repo cited by a
+  recent (<30d) arXiv paper ranks higher; decays off at 90d. Fixed the
+  arXiv→repo linker (bare-slug matching) that produced zero links.
+- **Go-live steps:** `docs/runbooks/twitter-outbound-bringup.md`. Nothing
+  publishes until creds are set; `TWITTER_OUTBOUND_MODE=null` is the kill-switch.
+- **Open follow-up:** the arXiv channel and the whole posting pipeline depend
+  on fresh prod data (scrape-arxiv.yml / worker fleet) — verify post-deploy.
 
 ---
 

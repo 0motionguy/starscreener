@@ -1,7 +1,7 @@
-// 6-up channel chip row for the repo-detail hero.
+// 7-up channel chip row for the repo-detail hero.
 //
 // Renders one chip per channel (GitHub / HackerNews / Reddit / Bluesky /
-// dev.to / X) with the canonical brand color, primary 24h metric, FIRING / QUIET
+// dev.to / X / arXiv) with the canonical brand color, primary 24h metric, FIRING / QUIET
 // status pill, and a mini sparkline. Reads exclusively from the in-memory
 // Repo (channelStatus, mentions.perSource, starsDelta24h, sparklineData) so
 // no extra fetches happen here.
@@ -24,6 +24,7 @@ import {
   BlueskyIcon,
   DevtoIcon,
   XIcon,
+  ArxivIcon,
 } from "@/components/brand/BrandIcons";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { formatNumber } from "@/lib/utils";
@@ -35,7 +36,8 @@ type ChannelKey =
   | "reddit"
   | "bluesky"
   | "devto"
-  | "twitter";
+  | "twitter"
+  | "arxiv";
 
 interface ChannelDef {
   key: ChannelKey;
@@ -51,6 +53,7 @@ const CHANNELS: ReadonlyArray<ChannelDef> = [
   { key: "bluesky", label: "Bluesky", icon: BlueskyIcon, color: "#0085FF" },
   { key: "devto", label: "Dev.to", icon: DevtoIcon, color: "#0a0a0a" },
   { key: "twitter", label: "X", icon: XIcon, color: "#1d9bf0" },
+  { key: "arxiv", label: "arXiv", icon: ArxivIcon, color: "#b31b1b" },
 ];
 
 interface ChannelChipRowProps {
@@ -84,11 +87,24 @@ function deriveChip(repo: Repo, key: ChannelKey): ChipData {
     };
   }
 
+  // arXiv is the research-backed channel — it has no mentions.perSource
+  // entry (it's cited-by-paper, not posted-about), so it renders from the
+  // firing boolean only. No 24h/7d post counts to show.
+  if (key === "arxiv") {
+    const fired = status?.arxiv === true;
+    return {
+      metric: fired ? "cited" : "—",
+      windowLabel: "30d",
+      fired,
+      spark: [],
+    };
+  }
+
   // mentions.perSource carries count24h + count7d for the registry-style
   // sources. We render the 24h count as the headline and use count7d as a
   // single-point amplitude proxy for the inline spark when there's no
   // per-day breakdown.
-  const sourceMap: Record<Exclude<ChannelKey, "github">, keyof NonNullable<Repo["mentions"]>["perSource"]> = {
+  const sourceMap: Record<Exclude<ChannelKey, "github" | "arxiv">, keyof NonNullable<Repo["mentions"]>["perSource"]> = {
     hackernews: "hackernews",
     reddit: "reddit",
     bluesky: "bluesky",
@@ -164,7 +180,7 @@ export function ChannelChipRow({ repo }: ChannelChipRowProps): JSX.Element {
       <style>{`
         .channel-chip-row {
           display: grid;
-          grid-template-columns: repeat(6, minmax(0, 1fr));
+          grid-template-columns: repeat(7, minmax(0, 1fr));
           gap: 8px;
         }
         @media (max-width: 720px) {

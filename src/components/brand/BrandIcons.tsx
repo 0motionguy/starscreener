@@ -433,3 +433,31 @@ export function NewsIcon({ size = 16, className }: IconProps) {
     </svg>
   );
 }
+
+/**
+ * arXiv — the preprint server. No simple-icons mark ships with the pack;
+ * we render a document glyph with a downward "cite" chevron so it reads as
+ * "research paper" at chip scale without redistributing their wordmark.
+ * Canonical fill: #B31B1B (arXiv red).
+ */
+export function ArxivIcon({ size = 16, className, monochrome }: IconProps) {
+  const stroke = monochrome ? "currentColor" : "#B31B1B";
+  return (
+    <svg {...svgRoot(size, className)}>
+      <path
+        d="M7 3 H14 L19 8 V21 H7 Z M14 3 V8 H19"
+        fill="none"
+        stroke={stroke}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10 12 H16 M10 15 H16 M10 18 H13"
+        fill="none"
+        stroke={stroke}
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}

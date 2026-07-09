@@ -1,13 +1,16 @@
-// Six-channel cross-signal fusion.
+// Seven-channel cross-signal fusion.
 //
 // Combines GitHub momentum classification + Reddit 48h trending velocity +
 // HN front-page presence + Bluesky mentions + dev.to tutorials/writeups
-// + Twitter/X 24h mention burst into a single score per repo. The premise:
-// any one channel can be noise (a github star spike, a viral reddit post,
-// a Show HN flash, a trending bsky post, a tutorial pumped by one author,
-// a single influencer's tweet). Two channels lit at once = signal. Three
-// or more = a real breakout. A 6/6 firing repo is rare and indicates the
-// repo broke out across every social surface we track.
+// + Twitter/X 24h mention burst + arXiv research citations into a single
+// score per repo. The premise: any one channel can be noise (a github star
+// spike, a viral reddit post, a Show HN flash, a trending bsky post, a
+// tutorial pumped by one author, a single influencer's tweet, one preprint).
+// Two channels lit at once = signal. Three or more = a real breakout. A 7/7
+// firing repo is rare and indicates the repo broke out across every surface
+// we track. arXiv is the "research-backed" channel — a repo cited by a
+// recent paper is the strongest signal that a genuinely-novel AI/ML project
+// is breaking out, which is exactly what we want to rank up.
 //
 // Formula:
 //   github  = movementStatus ∈ {breakout: 1.0, hot: 0.7, rising: 0.4, *: 0}
@@ -30,8 +33,13 @@
 //             : TW.mentionCount24h >= 3 ? 0.7
 //             : TW.mentionCount24h >= 1 ? 0.4
 //             : 0
-//   crossSignalScore = github + reddit + hn + bluesky + devto + twitter (range 0..6)
-//   channelsFiring   = count of components > 0                          (range 0..6)
+//   arxiv   = ≥2 recent papers, or 1 recent paper w/ citationVelocity>0
+//             or socialMentions≥1                          ? 1.0
+//             : exactly 1 recent (≤30d) linking paper       ? 0.7
+//             : linked only by a semi-recent (30–90d) paper ? 0.4
+//             : 0   (papers >90d decay off entirely)
+//   crossSignalScore = github + reddit + hn + bluesky + devto + twitter + arxiv (range 0..7)
+//   channelsFiring   = count of components > 0                                  (range 0..7)
 //
 // Why Twitter thresholds are higher than Bluesky's: Twitter publishes
 // orders of magnitude more posts on the same keywords, so one tweet
@@ -57,9 +65,19 @@ import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
 import { getDevtoMentions } from "../devto";
 import { getTwitterSignalSync } from "../twitter";
+import { getArxivRecentFile, getArxivEnrichment } from "../arxiv";
 import { getCrossSourceDetail } from "../cross-source-mentions";
 
 const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
+// A linking paper counts as "recent" (full-weight signal) within this
+// window of its published/updated date; between here and the stale
+// window it lights the channel at the floor tier only.
+const ARXIV_RECENT_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+// Beyond this, a linking paper no longer lights the channel at all — the
+// arxiv signal reflects CURRENT research interest, so an ancient citation
+// must decay off rather than keep a channel (and channelsFiring) lit
+// forever and leak stale repos into the daily selector's Tier A.
+const ARXIV_STALE_WINDOW_MS = 90 * 24 * 60 * 60 * 1000;
 
 // Read the per-channel 7d count from the cross-source sweep rollup, when
 // it's present. The sweep runs per-repo (Apify Tier-1 query bundle, HN
@@ -134,6 +152,74 @@ function twitterComponent(fullName: string): number {
   return 0;
 }
 
+// arXiv "research-backed" signal, indexed once per file version so both
+// attachCrossSignal (corpus pass) and getChannelStatus (per-target) read it
+// in O(1). A repo's signal aggregates every paper that links it: how many
+// link it recently, and whether any linking paper carries citation velocity
+// or social mentions from the enrichment overlay.
+interface ArxivRepoSignal {
+  recentPapers: number;
+  olderPapers: number;
+  boosted: boolean;
+}
+
+// Memoize per file-object identity (robust to fetchedAt collisions) plus
+// the day-bucket of nowMs (so recency re-evaluates once a day, not every
+// millisecond-apart call in the same request).
+const arxivIndexCache = new WeakMap<
+  object,
+  { dayBucket: number; index: Map<string, ArxivRepoSignal> }
+>();
+
+function getArxivIndex(nowMs: number): Map<string, ArxivRepoSignal> {
+  const file = getArxivRecentFile();
+  const dayBucket = Math.floor(nowMs / 86_400_000);
+  const cached = arxivIndexCache.get(file);
+  if (cached && cached.dayBucket === dayBucket) return cached.index;
+
+  const index = new Map<string, ArxivRepoSignal>();
+  for (const paper of file.papers ?? []) {
+    if (!paper.linkedRepos?.length) continue;
+    const publishedMs = Date.parse(paper.publishedAt ?? "");
+    const updatedMs = Date.parse(paper.updatedAt ?? "");
+    const freshest = Math.max(
+      Number.isFinite(publishedMs) ? publishedMs : 0,
+      Number.isFinite(updatedMs) ? updatedMs : 0,
+    );
+    const age = freshest > 0 ? nowMs - freshest : Number.POSITIVE_INFINITY;
+    // Papers older than the stale window contribute nothing — skip them
+    // entirely so an ancient citation can't keep the channel lit.
+    if (age > ARXIV_STALE_WINDOW_MS) continue;
+    const isRecent = age <= ARXIV_RECENT_WINDOW_MS;
+    const enrichment = getArxivEnrichment(paper.arxivId);
+    const boosted =
+      (enrichment?.citationVelocity ?? 0) > 0 ||
+      (enrichment?.socialMentions ?? 0) >= 1;
+    for (const link of paper.linkedRepos) {
+      if (!link.fullName) continue;
+      const keyLower = link.fullName.toLowerCase();
+      const prev =
+        index.get(keyLower) ??
+        ({ recentPapers: 0, olderPapers: 0, boosted: false } as ArxivRepoSignal);
+      if (isRecent) prev.recentPapers += 1;
+      else prev.olderPapers += 1;
+      if (boosted) prev.boosted = true;
+      index.set(keyLower, prev);
+    }
+  }
+  arxivIndexCache.set(file, { dayBucket, index });
+  return index;
+}
+
+function arxivComponent(fullName: string, nowMs: number): number {
+  const sig = getArxivIndex(nowMs).get(fullName.toLowerCase());
+  if (!sig) return 0;
+  if (sig.recentPapers >= 2 || (sig.recentPapers >= 1 && sig.boosted)) return 1.0;
+  if (sig.recentPapers >= 1) return 0.7;
+  if (sig.olderPapers >= 1) return 0.4;
+  return 0;
+}
+
 /**
  * Attach `crossSignalScore`, `channelsFiring`, and the `bluesky` rollup
  * to every repo.
@@ -169,14 +255,16 @@ export function attachCrossSignal(
     const bs = blueskyComponent(repo.fullName);
     const dv = devtoComponent(repo.fullName);
     const tw = twitterComponent(repo.fullName);
-    const score = gh + rd + hn + bs + dv + tw;
+    const ax = arxivComponent(repo.fullName, nowMs);
+    const score = gh + rd + hn + bs + dv + tw + ax;
     const firing =
       (gh > 0 ? 1 : 0) +
       (rd > 0 ? 1 : 0) +
       (hn > 0 ? 1 : 0) +
       (bs > 0 ? 1 : 0) +
       (dv > 0 ? 1 : 0) +
-      (tw > 0 ? 1 : 0);
+      (tw > 0 ? 1 : 0) +
+      (ax > 0 ? 1 : 0);
 
     const bskyMention = getBlueskyMentions(repo.fullName);
     const bskyRollup = bskyMention
@@ -260,6 +348,7 @@ export function attachCrossSignal(
         bluesky: bs > 0,
         devto: dv > 0,
         twitter: tw > 0,
+        arxiv: ax > 0,
       },
       reddit: redditRollup,
       bluesky: bskyRollup,
@@ -281,6 +370,7 @@ export interface ChannelStatus {
   bluesky: boolean;
   devto: boolean;
   twitter: boolean;
+  arxiv: boolean;
 }
 
 /** Minimal shape getChannelStatus needs — accepts a full Repo or any object
@@ -307,6 +397,7 @@ export function getChannelStatus(
     bluesky: blueskyComponent(target.fullName) > 0,
     devto: devtoComponent(target.fullName) > 0,
     twitter: twitterComponent(target.fullName) > 0,
+    arxiv: arxivComponent(target.fullName, nowMs) > 0,
   };
 }
 
@@ -318,4 +409,5 @@ export const __test = {
   blueskyComponent,
   devtoComponent,
   twitterComponent,
+  arxivComponent,
 };

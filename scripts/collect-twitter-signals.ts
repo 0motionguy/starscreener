@@ -28,6 +28,7 @@ import {
   TwitterWebProvider,
   type TwitterWebPost,
 } from "./_twitter-web-provider";
+import { ToolboxTwitterProvider } from "./_toolbox-twitter-provider";
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeSourceMeta } from "./_data-meta.mjs";
@@ -67,7 +68,7 @@ const USER_AGENT = "TrendingRepo-TwitterCollector/0.1 (+https://trendingrepo.com
 const DEFAULT_BASE_URL = "http://localhost:3023";
 const CLI_CLEANUP_TIMEOUT_MS = 5_000;
 
-type CollectorProvider = "nitter" | "fixture" | "web" | "apify";
+type CollectorProvider = "nitter" | "fixture" | "web" | "apify" | "toolbox";
 type CollectorMode = "direct" | "api";
 
 interface CliOptions {
@@ -147,11 +148,13 @@ function takeFlagValue(args: string[], index: number): string {
 
 function parseArgs(argv: string[]): CliOptions {
   const out: CliOptions = {
-    // Defaults reflect the only working production path per CLAUDE.md.
-    // Nitter is dead post-2026 anti-bot; Apify is the supported provider.
-    // `api` mode silently fails on Vercel's ephemeral filesystem; `direct`
-    // is the GH-Actions-tested write path. Local invocations now match.
-    provider: (process.env.TWITTER_COLLECTOR_PROVIDER as CollectorProvider) || "apify",
+    // Defaults reflect the production path per Mirko's 2026-07-10 directive:
+    // "we dont use apify we have our engine" — X reading goes through the
+    // TOOLBOX engine (api.aiso.tools twitter.nitter_search skill). Apify is
+    // kept as an explicit opt-in (`--provider apify`), nitter/web for offline
+    // replay only. `api` mode silently fails on ephemeral route filesystems;
+    // `direct` is the GH-Actions-tested write path. Local invocations match.
+    provider: (process.env.TWITTER_COLLECTOR_PROVIDER as CollectorProvider) || "toolbox",
     mode: (process.env.TWITTER_COLLECTOR_MODE as CollectorMode) || "direct",
     baseUrl:
       process.env.TWITTER_COLLECTOR_BASE_URL ||
@@ -307,7 +310,8 @@ function parseArgs(argv: string[]): CliOptions {
     out.provider !== "nitter" &&
     out.provider !== "fixture" &&
     out.provider !== "web" &&
-    out.provider !== "apify"
+    out.provider !== "apify" &&
+    out.provider !== "toolbox"
   ) {
     throw new Error(`unsupported provider: ${out.provider}`);
   }
@@ -325,9 +329,11 @@ function printHelp(): void {
   console.log(`Usage: npm run collect:twitter -- [options]
 
 Options:
-  --provider apify|fixture        Source provider. Default: apify (the only
-                                  working production path; nitter + web are
-                                  retained for offline replay only).
+  --provider toolbox|apify|fixture Source provider. Default: toolbox (the
+                                  TOOLBOX engine's twitter.nitter_search skill
+                                  — needs TOOLBOX_API_URL + TOOLBOX_API_KEY).
+                                  apify is explicit opt-in; nitter + web are
+                                  retained for offline replay only.
   --mode direct|api               Direct writes JSONL via service; api posts
                                   to running app. Default: direct (api silently
                                   fails on Vercel's ephemeral filesystem).
@@ -703,6 +709,37 @@ async function collectFromApify(
   }
 }
 
+async function collectFromToolbox(
+  provider: ToolboxTwitterProvider,
+  query: TwitterQuery,
+  options: CliOptions,
+): Promise<CollectorRawPost[]> {
+  const sinceMs = Date.now() - options.windowHours * 60 * 60 * 1000;
+  const sinceISO = new Date(sinceMs).toISOString();
+  const searchQuery = searchQueryForWeb(query);
+  // The engine's twitter.nitter_search input schema caps limit at 50
+  // (Apify allowed 100 — don't copy that ceiling here).
+  const limit = options.postsPerQuery > 0 ? Math.min(options.postsPerQuery, 50) : 25;
+
+  try {
+    const posts = await provider.search({
+      query: searchQuery,
+      sinceISO,
+      limit,
+    });
+    const mapped = posts.map(webPostToRawPost);
+    return capQueryPosts(mapped, options);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logEvent("query_no_hits", {
+      query: query.queryText,
+      queryType: query.queryType,
+      reason: `toolbox-provider: ${message}`,
+    });
+    throw error;
+  }
+}
+
 async function loadFixturePosts(path: string): Promise<CollectorRawPost[]> {
   const resolved = resolve(ROOT, path);
   const raw = JSON.parse(await readFile(resolved, "utf8")) as unknown;
@@ -837,6 +874,16 @@ async function main(): Promise<void> {
     log(`web-provider initialized with ${accounts.length} account(s)`);
   }
 
+  let toolboxProvider: ToolboxTwitterProvider | null = null;
+  if (options.provider === "toolbox") {
+    // Constructor throws a descriptive error when TOOLBOX_API_URL /
+    // TOOLBOX_API_KEY are unset — fail loudly at startup, not per-query.
+    toolboxProvider = new ToolboxTwitterProvider({
+      timeoutMs: options.timeoutMs,
+    });
+    log("toolbox-provider initialized (engine twitter.nitter_search)");
+  }
+
   const payloads: TwitterIngestRequest[] = [];
   // 2026-05-17 (session-G W1.B follow-up): a single 409 IDEMPOTENCY_CONFLICT
   // from the ingest service would propagate out of `ingestPayload` and crash
@@ -883,6 +930,21 @@ async function main(): Promise<void> {
                 const message = error instanceof Error ? error.message : String(error);
                 log(
                   `web-provider exhausted for ${candidate.repo.githubFullName}: ${message} — skipping remaining queries for this repo`,
+                );
+                repoWebExhausted = true;
+                posts = [];
+              }
+            }
+          } else if (options.provider === "toolbox" && toolboxProvider) {
+            if (repoWebExhausted) {
+              posts = [];
+            } else {
+              try {
+                posts = await collectFromToolbox(toolboxProvider, query, options);
+              } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
+                log(
+                  `toolbox-provider error for ${candidate.repo.githubFullName}: ${message} — skipping remaining queries for this repo`,
                 );
                 repoWebExhausted = true;
                 posts = [];
@@ -983,6 +1045,14 @@ async function main(): Promise<void> {
     const stats = webProvider.getStats();
     log(
       `web-provider stats requests=${stats.requests} errors=${stats.errors} healthy=${stats.accountsHealthy} rateLimited=${stats.accountsRateLimited}`,
+    );
+  }
+  if (toolboxProvider) {
+    const stats = toolboxProvider.getStats();
+    log(
+      `toolbox-provider stats requests=${stats.requests} errors=${stats.errors}${
+        stats.lastError ? ` lastError=${stats.lastError}` : ""
+      }`,
     );
   }
   log(

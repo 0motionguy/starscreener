@@ -71,17 +71,17 @@ jobs:
         continue-on-error: true
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          # Provider default flipped to `nitter` 2026-05-08 after the Apify
-          # `apidojo/tweet-scraper` actor returned 0 posts on every query for
-          # the prior ~2 weeks (last run with non-empty payload was
-          # 2026-04-23). 2026-05-17: APIFY operator policy off (see
-          # docs/POLICY-NO-APIFY.md) — `nitter` is now the permanent default.
-          # 2026-05-18: APIFY_API_TOKEN env reference removed from this
-          # workflow entirely (was already stripped from the env block; the
-          # stale "env below" comment now accurately describes "no env").
-          # Re-enabling Apify requires reverting these commits AND operator
-          # sign-off.
-          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'nitter' }}
+          # Provider history: `nitter` default 2026-05-08 after the Apify
+          # actor returned 0 posts for ~2 weeks; 2026-05-17 APIFY operator
+          # policy permanently off (docs/POLICY-NO-APIFY.md). 2026-07-10:
+          # default flipped to `toolbox` — X reading now goes through OUR
+          # engine (api.aiso.tools twitter.nitter_search skill) per Mirko's
+          # "we dont use apify we have our engine". The run-step shell guard
+          # degrades to `nitter` when TOOLBOX_API_KEY isn't configured yet,
+          # so the workflow behaves exactly as before until the secret lands.
+          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'toolbox' }}
+          TOOLBOX_API_URL: ${{ vars.TOOLBOX_API_URL || 'https://api.aiso.tools' }}
+          TOOLBOX_API_KEY: ${{ secrets.TOOLBOX_API_KEY }}
           # "direct" writes to .data/twitter-*.jsonl locally for manual
           # backfills. Production automation should use the HOSTUP worker path.
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
@@ -119,7 +119,12 @@ jobs:
         # then reports as a CANCELLED run, masking the real state and never
         # letting the cookies-web fallback fire. `timeout` kills the hang
         # fast so the exit code trips continue-on-error cleanly.
-        run: timeout 280 npm run collect:twitter
+        run: |
+          if [ "${TWITTER_COLLECTOR_PROVIDER}" = "toolbox" ] && [ -z "${TOOLBOX_API_KEY:-}" ]; then
+            echo "::warning::TOOLBOX_API_KEY secret not configured; degrading to nitter provider for this run"
+            export TWITTER_COLLECTOR_PROVIDER=nitter
+          fi
+          timeout 280 npm run collect:twitter
 
       # Third-tier fallback: when Apify is dead AND Nitter fails (instances
       # 503ing or returning empty), retry with the cookies-backed web provider

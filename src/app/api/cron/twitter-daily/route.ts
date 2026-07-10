@@ -32,6 +32,10 @@ import {
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import { composeDailyBreakouts } from "@/lib/twitter/outbound/composer";
 import {
+  pickFundingHighlight,
+  pickModelHighlight,
+} from "@/lib/twitter/outbound/vertical-highlights";
+import {
   DAILY_BREAKOUT_COUNT,
   pickDailyBreakouts,
   recentlyFeaturedRepos,
@@ -162,6 +166,11 @@ async function handle(
     const thread = composeDailyBreakouts({
       breakouts,
       topIdea: topIdeaRaw ? toPublicIdea(topIdeaRaw) : null,
+      // Vertical spotlights (Wave 6): funding + models ride the daily
+      // thread on alternating days. Best-effort — a failed read just
+      // drops the spotlight, never the thread.
+      fundingHighlight: await pickFundingHighlight().catch(() => null),
+      modelHighlight: await pickModelHighlight().catch(() => null),
     });
 
     const result = await adapter.postThread(thread);

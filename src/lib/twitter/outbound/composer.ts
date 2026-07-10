@@ -33,6 +33,33 @@ export interface DailyBreakoutsInput {
   breakouts: Repo[];
   /** Top idea of the last 7d. Optional — composer skips if missing. */
   topIdea: PublicIdea | null;
+  /**
+   * Vertical spotlights (Wave 6 distribution) — the funding + models
+   * verticals ride the daily thread on alternating days. Both optional;
+   * the composer picks ONE per day (even day-of-month → funding, odd →
+   * models, falling back to whichever is present) and skips Fridays
+   * entirely so the daily+weekly total stays under the ~17-posts/day
+   * free-tier write ceiling.
+   */
+  fundingHighlight?: FundingHighlight | null;
+  modelHighlight?: ModelHighlight | null;
+}
+
+export interface FundingHighlight {
+  companyName: string;
+  /** Pre-formatted, e.g. "$95M". */
+  amountDisplay: string;
+  /** e.g. "series-c" | "seed" | "undisclosed". */
+  roundType: string;
+}
+
+export interface ModelHighlight {
+  name: string;
+  provider: string;
+  /** USD per million input tokens. */
+  inputPricePerMillion: number;
+  /** Context window in tokens. */
+  contextLength: number;
 }
 
 /** Item cap for the weekly recap thread — short and skimmable. */
@@ -126,7 +153,55 @@ export function composeDailyBreakouts(
     });
   }
 
+  // Vertical spotlight — see DailyBreakoutsInput docs for the rotation +
+  // Friday-skip rationale.
+  const vertical = pickVerticalSpotlight(input, now);
+  if (vertical) posts.push(vertical);
+
   return posts;
+}
+
+function pickVerticalSpotlight(
+  input: DailyBreakoutsInput,
+  now: Date,
+): ComposedPost | null {
+  if (now.getUTCDay() === 5) return null; // Friday — recap day, budget cap
+  const funding = input.fundingHighlight ?? null;
+  const model = input.modelHighlight ?? null;
+  if (!funding && !model) return null;
+
+  const preferFunding = now.getUTCDate() % 2 === 0;
+  const pick = preferFunding ? (funding ?? model) : (model ?? funding);
+
+  if (pick === funding && funding) {
+    const round =
+      funding.roundType && funding.roundType !== "undisclosed"
+        ? ` ${funding.roundType.replace(/-/g, " ").toUpperCase()}`
+        : "";
+    const body = `💰 Funding radar: ${funding.companyName} raised ${funding.amountDisplay}${round}. Full AI funding feed ↓`;
+    return {
+      kind: "daily_breakouts_vertical_spotlight",
+      text: truncate(body, TWEET_MAX - URL_BUDGET),
+      url: absoluteUrl("/funding"),
+    };
+  }
+  if (pick === model && model) {
+    const ctx =
+      model.contextLength >= 1_000_000
+        ? `${Math.round(model.contextLength / 1_000_000)}M`
+        : `${Math.round(model.contextLength / 1_000)}K`;
+    const price =
+      model.inputPricePerMillion > 0
+        ? `$${model.inputPricePerMillion.toFixed(2)}/M input`
+        : "free";
+    const body = `🧠 Model value pick: ${model.name} (${model.provider}) — ${ctx} context at ${price}. Full leaderboard ↓`;
+    return {
+      kind: "daily_breakouts_vertical_spotlight",
+      text: truncate(body, TWEET_MAX - URL_BUDGET),
+      url: absoluteUrl("/models"),
+    };
+  }
+  return null;
 }
 
 function formatBreakoutLine(repo: Repo, position: number): string {

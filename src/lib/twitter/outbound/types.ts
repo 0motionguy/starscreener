@@ -34,6 +34,7 @@ export type OutboundPostKind =
   | "daily_breakouts_intro"
   | "daily_breakouts_item"
   | "daily_breakouts_idea_spotlight"
+  | "daily_breakouts_vertical_spotlight"
   | "weekly_recap_intro"
   | "weekly_recap_item"
   | "idea_published";

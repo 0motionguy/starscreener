@@ -32,6 +32,8 @@ import {
   Activity,
   BadgeCheck,
   BarChart3,
+  BellRing,
+  BookOpenText,
   Bot,
   Brain,
   CalendarDays,
@@ -40,17 +42,22 @@ import {
   DollarSign,
   Eye,
   FileText,
+  Gem,
   GitCompareArrows,
   GraduationCap,
+  Layers,
+  LayoutGrid,
   Lightbulb,
+  ListOrdered,
   Package,
   Plug,
   Radar,
   Rocket,
+  Search,
   TrendingUp,
   Trophy,
+  Wrench,
   X,
-  Zap,
 } from "lucide-react";
 import {
   RedditIcon,
@@ -177,16 +184,10 @@ function V2Section({
         <span className="grp-name">{`// ${label}`}</span>
         <span className="grp-line" aria-hidden="true" />
         <span className="grp-tools">
-          <span className="grp-drag" title="Drag to reorder" aria-hidden="true">
-            <svg viewBox="0 0 12 12" fill="currentColor">
-              <circle cx="4" cy="3" r="0.9" />
-              <circle cx="8" cy="3" r="0.9" />
-              <circle cx="4" cy="6" r="0.9" />
-              <circle cx="8" cy="6" r="0.9" />
-              <circle cx="4" cy="9" r="0.9" />
-              <circle cx="8" cy="9" r="0.9" />
-            </svg>
-          </span>
+          {/* Drag-to-reorder handle removed 2026-07-09 — it was rendered
+              visual-only since the V2 mockup landed ("TODO: wire reorder"
+              never happened) and advertised an affordance that did nothing.
+              Reinstate together with real reorder wiring or not at all. */}
           <span
             className="grp-chev"
             onClick={onToggleCollapse}
@@ -501,6 +502,26 @@ export function SidebarContent({
             badgeTone="accent"
             active={pathname === "/consensus"}
           />
+          {/* De-orphaned 2026-07-09 — these routes existed but were
+              reachable only by URL. */}
+          <V2NavRow
+            href="/top"
+            icon={ListOrdered}
+            label="Top 100"
+            active={pathname === "/top"}
+          />
+          <V2NavRow
+            href="/categories"
+            icon={LayoutGrid}
+            label="Categories"
+            active={pathname === "/categories" || pathname.startsWith("/categories/")}
+          />
+          <V2NavRow
+            href="/collections"
+            icon={Layers}
+            label="Collections"
+            active={pathname === "/collections" || pathname.startsWith("/collections/")}
+          />
         </V2Section>
 
         {/* SIGNAL TERMINAL */}
@@ -677,18 +698,9 @@ export function SidebarContent({
               disk so direct links still work, but the audit flagged it as
               having no shared data source and no production traffic. Re-enable
               once the submission pipeline is wired into the data-store. */}
-          <V2NavRow
-            icon={Trophy}
-            label="Hackathons"
-            badge="Soon"
-            disabled
-          />
-          <V2NavRow
-            icon={Zap}
-            label="Launch"
-            badge="Soon"
-            disabled
-          />
+          {/* "Hackathons" + "Launch" dead "Soon" rows removed 2026-07-09 —
+              disabled since the V2 mockup with no backing pages or plan.
+              Reinstate when the features actually exist. */}
         </V2Section>
 
         {/* RESEARCH TERMINAL */}
@@ -720,6 +732,12 @@ export function SidebarContent({
             icon={Bot}
             label="Cited Repos"
             active={pathname === "/research" || pathname.startsWith("/research/")}
+          />
+          <V2NavRow
+            href="/methodology"
+            icon={BookOpenText}
+            label="Methodology"
+            active={pathname === "/methodology"}
           />
         </V2Section>
 
@@ -786,6 +804,35 @@ export function SidebarContent({
             badge="New"
             badgeTone="accent"
             active={pathname === "/top10" || pathname.startsWith("/top10/")}
+          />
+          {/* De-orphaned 2026-07-09. */}
+          <V2NavRow
+            href="/search"
+            icon={Search}
+            label="Search"
+            active={pathname === "/search"}
+          />
+          <V2NavRow
+            href="/alerts"
+            icon={BellRing}
+            label="Alerts"
+            active={pathname === "/alerts" || pathname.startsWith("/alerts/")}
+          />
+          <V2NavRow
+            href="/tools"
+            icon={Wrench}
+            label="Tools"
+            active={pathname === "/tools" || pathname.startsWith("/tools/")}
+          />
+          {/* The conversion surface was previously unreachable from any
+              nav — /pricing existed but had zero inbound links. */}
+          <V2NavRow
+            href="/pricing"
+            icon={Gem}
+            label="Go Pro"
+            badge="PRO"
+            badgeTone="accent"
+            active={pathname === "/pricing"}
           />
         </V2Section>
 

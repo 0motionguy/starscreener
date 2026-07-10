@@ -54,9 +54,14 @@ What changed, operator view:
    Clerk-gated, so Clerk goes first.
 3. `REDDIT_CLIENT_ID/SECRET` in the collector env (RSS fallback now keeps
    mentions alive, but /reddit/trending engagement still needs OAuth).
-4. Relight the Apify twitter collector (stale 60+ days; the channel now
-   degrades honestly instead of lying) and eyeball trendshift.io markup
-   (worker parser yields 0 items — needs live-site HTML).
+4. ~~Relight the Apify twitter collector~~ **Superseded 2026-07-10** ("we
+   dont use apify we have our engine"): X reading now defaults to the
+   TOOLBOX engine (`--provider toolbox` → `twitter.nitter_search` skill).
+   Activation = set the `TOOLBOX_API_KEY` repo secret (same `tbk_live_*`
+   key as the reader-switch; `TOOLBOX_API_URL` var optional, defaults
+   `https://api.aiso.tools`). Until the secret lands, collect-twitter.yml
+   degrades to nitter exactly as before. Still eyeball trendshift.io
+   markup (worker parser yields 0 items — needs live-site HTML).
 
 **Deferred (tracked in plan `~/.claude/plans/the-next-run-on-swirling-prism.md`):**
 alerts unification onto the Clerk id (cookie /alerts → /you/alerts),

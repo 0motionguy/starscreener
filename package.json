@@ -75,7 +75,7 @@
     "test:devto": "node --test scripts/__tests__/scrape-devto.test.mjs",
     "test:npm": "node --test scripts/__tests__/scrape-npm.test.mjs",
     "test:funding": "node --test scripts/__tests__/scrape-funding.test.mjs",
-    "test:twitter-collector": "tsx --test --require ./tests/setup-server-only-stub.cjs scripts/__tests__/twitter-collector.test.ts scripts/__tests__/apify-twitter-provider.test.ts",
+    "test:twitter-collector": "tsx --test --require ./tests/setup-server-only-stub.cjs scripts/__tests__/twitter-collector.test.ts scripts/__tests__/apify-twitter-provider.test.ts scripts/__tests__/toolbox-twitter-provider.test.ts",
     "test:tools": "tsx --test --require ./tests/setup-server-only-stub.cjs src/tools/__tests__/*.test.ts",
     "test:portal": "tsx --test --require ./tests/setup-server-only-stub.cjs src/portal/__tests__/*.test.ts",
     "test:hooks": "vitest run --config vitest.config.ts",

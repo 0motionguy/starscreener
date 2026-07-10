@@ -335,7 +335,15 @@ export function getDerivedRepos(): Repo[] {
     tags: deriveTags(r),
   }));
 
-  // 3. Score in one pass so per-category averages are consistent.
+  // Preserve the SOURCE movement statuses (curated trending.json values)
+  // before pass-1 scoring overwrites them. Pass 2 must feed these — not
+  // pass 1's outputs — as `previousStatus`, or classifyMovement's curated-
+  // signal inertia would compound across passes.
+  const sourceStatuses = repos.map((r) => r.movementStatus);
+
+  // 3. Score pass 1 — establishes movementStatus, which the cross-signal
+  //    github channel consumes. crossSignal component scores 0 here (no
+  //    cross-signal data on the repos yet).
   const scores = scoreBatch(repos);
   repos = repos.map((r, i) => ({
     ...r,
@@ -343,10 +351,10 @@ export function getDerivedRepos(): Repo[] {
     movementStatus: scores[i].movementStatus,
   }));
 
-  // 3.5 Four-channel cross-signal fusion (GitHub + Reddit + HN + Bluesky).
-  // Two-pass internally so the reddit component is min-max normalized
-  // across the full corpus. Must run after scoreBatch — the github
-  // component reads movementStatus.
+  // 3.5 Seven-channel cross-signal fusion (GitHub + Reddit + HN + Bluesky +
+  // Devto + Twitter + arXiv). Two-pass internally so the reddit component
+  // is min-max normalized across the full corpus. Must run after the first
+  // scoreBatch — the github component reads movementStatus.
   repos = decorateWithCrossSignal(repos);
 
   // 3.6 Twitter/X row rollup (.data/twitter-repo-signals).
@@ -363,6 +371,22 @@ export function getDerivedRepos(): Repo[] {
   // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
   repos = decorateWithProductHunt(repos);
 
+  // 3.9 Score pass 2 — the ranking pass. Now that decoration has attached
+  // crossSignalScore/channelsFiring AND overridden mentionCount24h with
+  // the unified all-source rollup, re-score so the 7-channel fusion (the
+  // product's differentiator) and unified mentions actually move
+  // `momentumScore` — pre-fix they were computed and then ignored by the
+  // rank sort. `previousStatus` = the SOURCE statuses captured above.
+  const finalScores = scoreBatch(
+    repos.map((r, i) => ({ ...r, movementStatus: sourceStatuses[i] })),
+  );
+  repos = repos.map((r, i) => ({
+    ...r,
+    momentumScore: finalScores[i].overall,
+    movementStatus: finalScores[i].movementStatus,
+    scoreExplanation: finalScores[i].explanation,
+  }));
+
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);
   const perCatCounter = new Map<string, number>();
@@ -376,6 +400,25 @@ export function getDerivedRepos(): Repo[] {
       categoryRank: catIdx,
     };
   }
+
+  // 4.5 Time-window ranks — position when ordered by raw star deltas for
+  // each window. Cheap (three sorts over id references) and lets surfaces
+  // show "#3 today / #12 this week" plus window-vs-window movement chips
+  // without any rank-history store.
+  const assignWindowRank = (
+    key: "starsDelta24h" | "starsDelta7d" | "starsDelta30d",
+    field: "rank24h" | "rank7d" | "rank30d",
+  ) => {
+    const order = [...sorted].sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0));
+    const rankById = new Map<string, number>();
+    order.forEach((r, i) => rankById.set(r.id, i + 1));
+    for (let i = 0; i < sorted.length; i++) {
+      sorted[i] = { ...sorted[i], [field]: rankById.get(sorted[i].id) };
+    }
+  };
+  assignWindowRank("starsDelta24h", "rank24h");
+  assignWindowRank("starsDelta7d", "rank7d");
+  assignWindowRank("starsDelta30d", "rank30d");
 
   _cache = sorted;
   _cacheKey = cacheKey;

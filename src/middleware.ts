@@ -68,6 +68,9 @@ const isClerkSessionRoute = createRouteMatcher([
   "/api/auth/session",
   "/api/checkout/stripe",
   "/api/billing/portal",
+  // Alerts unification (Wave 7): the server gate at /alerts redirects
+  // signed-in users to /you/alerts and needs Clerk context to know.
+  "/alerts",
 ]);
 
 // Routes that should NEVER pass through Clerk's session check — they own

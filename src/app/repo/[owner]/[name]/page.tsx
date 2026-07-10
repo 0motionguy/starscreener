@@ -95,6 +95,8 @@ import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 import { WhyTrendingNarrative } from "@/components/repo-detail/WhyTrendingNarrative";
+import { RepoFundingStrip } from "@/components/repo-detail/RepoFundingStrip";
+import { getFundingEventsForRepo } from "@/lib/funding/repo-events";
 
 // ISR over force-dynamic: the 12+ refresh hooks above each share the
 // data-store's 30s rate-limit + dedupe, so calling them on every request
@@ -438,6 +440,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <CompletenessStrip repo={repo} />
           <WhyBadge narrative={whyNarrative} variant="full" />
           <WhyTrendingNarrative repo={repo} profile={profile} />
+          <RepoFundingStrip events={getFundingEventsForRepo(repo.fullName)} />
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}

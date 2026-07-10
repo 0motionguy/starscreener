@@ -359,6 +359,49 @@ function stripSelftext(raw) {
 // rule's intent (never empty the cache, dedupe + sort + cap) is satisfied
 // per-bucket via ALL_POSTS_TOP_K_PER_SUB. Cross-checked by
 // scripts/check-collector-keep-last-50.mjs (ANNOTATION_RE).
+/**
+ * Last-good guard for reddit-mentions.json (2026-07-09, "reddit zeros"
+ * postmortem). The all-posts file has had this invariant since 2026-05-09,
+ * but the MENTIONS payload — the input to the cross-signal reddit channel —
+ * did not: a fully-degraded run (RSS fallback everywhere, zero matches)
+ * would clobber a healthy cache with `mentions:{}` and darken the channel
+ * corpus-wide until the next healthy scan.
+ *
+ * Rule (per the repo-wide keep-last-50 collector contract): when this run
+ * produced ZERO mentions and the existing payload has some, keep the
+ * existing signal sections and only advance the scan metadata. Partial
+ * shrinkage is allowed through — mention volume genuinely fluctuates; only
+ * the catastrophic empty-write is blocked.
+ *
+ * Pure — exported for tests.
+ */
+export function applyMentionsLastGoodGuard(newPayload, existingPayload) {
+  const newCount = Object.keys(newPayload.mentions ?? {}).length;
+  const existingCount = Object.keys(existingPayload?.mentions ?? {}).length;
+  if (newCount > 0 || existingCount === 0) {
+    return { payload: newPayload, guardTripped: false };
+  }
+  return {
+    payload: {
+      ...newPayload,
+      // Preserve every signal section from the last good run…
+      mentions: existingPayload.mentions,
+      mentionsByRepoId: existingPayload.mentionsByRepoId ?? {},
+      allPosts: existingPayload.allPosts ?? [],
+      topPosts: existingPayload.topPosts ?? [],
+      leaderboard: existingPayload.leaderboard ?? [],
+      // …and keep the ORIGINAL fetchedAt so freshness surfaces degrade
+      // honestly instead of advertising preserved data as fresh. The scan
+      // metadata (mode, counters) reflects THIS run for debuggability.
+      fetchedAt: existingPayload.fetchedAt ?? newPayload.fetchedAt,
+      cold: false,
+      lastGoodGuardTripped: true,
+      lastDegradedScanAt: newPayload.fetchedAt,
+    },
+    guardTripped: true,
+  };
+}
+
 export function mergeAllPosts(existing, thisRun, cutoffSec) {
   // Union by post ID. On collision, keep the entry with higher score
   // (upvote trajectory matters for detecting late-breaking viral posts)
@@ -838,16 +881,18 @@ async function main() {
       for (const p of posts) {
         if (typeof p.created_utc !== "number") continue;
         if (p.created_utc < cutoff) continue;
-        // Drop RSS-Atom fallback rows: parseRedditAtomFeed hardcodes
+        // RSS-Atom fallback rows: parseRedditAtomFeed hardcodes
         // score=0/num_comments=0 because the RSS feed doesn't expose them.
-        // These posts pollute the cache with all-zero engagement and starve
-        // /reddit/trending. The fix at the source is OAuth (set
-        // REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET); this filter is the
-        // defensive line. See _reddit-shared.mjs:434 + RESCUE handover.
-        if (p._source === "rss-atom") {
-          rssFallbackSkipped += 1;
-          continue;
-        }
+        // They must NOT feed the engagement-driven surfaces (/reddit/
+        // trending, allPosts) — but a repo MENTION doesn't need a score.
+        // Pre-fix these rows were dropped before mention matching, so a
+        // full-RSS run (GH runners with no OAuth get blocked from the
+        // public JSON API) wrote mentions:{} and the cross-signal reddit
+        // channel went dark corpus-wide — the "reddit zeros" outage. Now
+        // they flow through matching and land in `mentions` only.
+        // The fix at the source is still OAuth (REDDIT_CLIENT_ID/SECRET);
+        // see _reddit-shared.mjs:434 + RESCUE handover.
+        const isRssFallback = p._source === "rss-atom";
         const rawTitle = String(p.title ?? "");
         const rawSelftext = String(p.selftext ?? "");
         const rawUrl = String(p.url ?? "");
@@ -856,6 +901,11 @@ async function main() {
         const hits = Array.from(
           extractRepoMentions(p, tracked, aliasMatchers).values(),
         ).sort(matchComparator);
+        if (isRssFallback && hits.length === 0) {
+          // No mention, no engagement signal — nothing any surface can use.
+          rssFallbackSkipped += 1;
+          continue;
+        }
         const canonicalHits = hits.map((hit) => hit.fullName);
         // Primary repo = first matched. When multiple repos are mentioned,
         // the feed card links to the first; per-repo mentions keep full
@@ -926,7 +976,11 @@ async function main() {
             confidence: hit.confidence,
           })),
         };
-        allPostsFlat.push(flatPost);
+        // Engagement-driven surfaces skip RSS rows (score/comments are
+        // hardcoded 0 in that mode — they'd starve /reddit/trending).
+        if (!isRssFallback) {
+          allPostsFlat.push(flatPost);
+        }
 
         if (hits.length === 0) continue;
         for (const canonical of canonicalHits) {
@@ -945,10 +999,12 @@ async function main() {
           }
           hitsInSub += 1;
         }
-        allPosts.push(normalized);
+        if (!isRssFallback) {
+          allPosts.push(normalized);
+        }
       }
       const rssNote = rssFallbackSkipped > 0
-        ? ` (${rssFallbackSkipped} dropped: rss-atom fallback, no engagement signal)`
+        ? ` (${rssFallbackSkipped} dropped: rss-atom fallback with no repo mention)`
         : "";
       log(`ok  r/${sub} — ${posts.length} posts, ${hitsInSub} repo hits${rssNote}`);
     } catch (err) {
@@ -1040,13 +1096,33 @@ async function main() {
     leaderboard,
   };
 
+  // Last-good guard: never clobber a healthy mentions cache with an empty
+  // scan (see applyMentionsLastGoodGuard docstring — the "reddit zeros"
+  // outage class). Corrupt/missing existing file reads as empty → no guard.
+  let existingMentionsPayload = null;
+  try {
+    existingMentionsPayload = JSON.parse(await readFile(OUT, "utf8"));
+  } catch {
+    existingMentionsPayload = null;
+  }
+  const { payload: mentionsPayload, guardTripped } = applyMentionsLastGoodGuard(
+    payload,
+    existingMentionsPayload,
+  );
+  if (guardTripped) {
+    log(
+      `WARN  mentions last-good guard tripped — this run matched 0 mentions; ` +
+        `preserving ${Object.keys(mentionsPayload.mentions).length} repos from the last good scan.`,
+    );
+  }
+
   await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
-  const mentionsRedis = await writeDataStore("reddit-mentions", payload);
+  await writeFile(OUT, JSON.stringify(mentionsPayload, null, 2) + "\n", "utf8");
+  const mentionsRedis = await writeDataStore("reddit-mentions", mentionsPayload);
 
   // Dual-write to TOOLBOX (`trending.reddit.mentions` per repo). Best-effort:
   // skipped silently when env unset; 5s timeout per HTTP call.
-  const toolboxResult = await ingestRedditMentionsToToolbox(payload);
+  const toolboxResult = await ingestRedditMentionsToToolbox(mentionsPayload);
   console.log(
     `[reddit] toolbox-ingest: ${toolboxResult.status}` +
       (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +

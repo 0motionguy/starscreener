@@ -339,3 +339,41 @@ test("attachCrossSignal: an arXiv-linked repo lights the arxiv channel and adds 
   assert.ok((out[0].crossSignalScore ?? 0) >= 0.7);
   _resetArxivRecentForTests();
 });
+
+// ---------------------------------------------------------------------------
+// twitterSourceFirstCount: stale-scan gate (Wave 4 — honest degrade)
+// ---------------------------------------------------------------------------
+
+const { twitterSourceFirstCount } = __test;
+
+test("twitter source-first count zeroes out when the scan is older than 72h", () => {
+  const now = Date.parse("2026-07-09T12:00:00.000Z");
+  const fresh = {
+    mentionCount24h: 12,
+    lastScannedAt: "2026-07-09T02:00:00.000Z", // 10h old
+  };
+  const stale = {
+    mentionCount24h: 12,
+    lastScannedAt: "2026-05-01T00:00:00.000Z", // 69 days old
+  };
+  const boundaryFresh = {
+    mentionCount24h: 5,
+    lastScannedAt: new Date(now - 71 * 60 * 60 * 1000).toISOString(),
+  };
+  assert.equal(twitterSourceFirstCount(fresh, now), 12);
+  assert.equal(twitterSourceFirstCount(stale, now), 0);
+  assert.equal(twitterSourceFirstCount(boundaryFresh, now), 5);
+});
+
+test("twitter source-first count is 0 without metrics or a parseable timestamp", () => {
+  const now = Date.parse("2026-07-09T12:00:00.000Z");
+  assert.equal(twitterSourceFirstCount(undefined, now), 0);
+  assert.equal(
+    twitterSourceFirstCount({ mentionCount24h: 9, lastScannedAt: null }, now),
+    0,
+  );
+  assert.equal(
+    twitterSourceFirstCount({ mentionCount24h: 9, lastScannedAt: "not-a-date" }, now),
+    0,
+  );
+});

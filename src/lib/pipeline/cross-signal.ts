@@ -141,9 +141,33 @@ function devtoComponent(fullName: string): number {
   return 0;
 }
 
-function twitterComponent(fullName: string): number {
+// The signal store's `metrics.mentionCount24h` is baked at SCAN time —
+// without a read-time freshness gate, a stale scan (Apify collector down,
+// which has happened for 60+ days) keeps the channel lit forever and
+// inflates channelsFiring corpus-wide. Same defect class as the fixed
+// arXiv ancient-citation decay. 72h ≈ six missed 12h scan slots: generous
+// against collector hiccups, strict against dead pipelines.
+const TWITTER_SCAN_STALE_MS = 72 * 60 * 60 * 1000;
+
+/**
+ * Source-first twitter mention count, zeroed when the scan that produced
+ * it is older than TWITTER_SCAN_STALE_MS (or carries no parseable scan
+ * timestamp). Pure — exported via __test.
+ */
+function twitterSourceFirstCount(
+  metrics: { mentionCount24h?: number; lastScannedAt?: string | null } | undefined,
+  nowMs: number = Date.now(),
+): number {
+  if (!metrics) return 0;
+  const scannedAt = Date.parse(metrics.lastScannedAt ?? "");
+  if (!Number.isFinite(scannedAt)) return 0;
+  if (nowMs - scannedAt > TWITTER_SCAN_STALE_MS) return 0;
+  return metrics.mentionCount24h ?? 0;
+}
+
+function twitterComponent(fullName: string, nowMs: number = Date.now()): number {
   const s = getTwitterSignalSync(fullName);
-  const sourceFirstCount = s?.metrics.mentionCount24h ?? 0;
+  const sourceFirstCount = twitterSourceFirstCount(s?.metrics, nowMs);
   // Twitter sweep records 7d events; use as floor for the threshold check.
   const count = Math.max(sourceFirstCount, sweepCount(fullName, "twitter"));
   if (count >= 10) return 1.0;
@@ -409,5 +433,6 @@ export const __test = {
   blueskyComponent,
   devtoComponent,
   twitterComponent,
+  twitterSourceFirstCount,
   arxivComponent,
 };

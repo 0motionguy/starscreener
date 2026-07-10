@@ -919,3 +919,91 @@ test("ApiV2OutboundAdapter refuses to post a body that exceeds 280 after URL sho
     /over Twitter's 280 cap/,
   );
 });
+
+// ---------------------------------------------------------------------------
+// Vertical spotlight (Wave 6 — funding/models ride the daily thread)
+// ---------------------------------------------------------------------------
+
+const FUNDING_HIGHLIGHT = {
+  companyName: "Acme AI",
+  amountDisplay: "$95M",
+  roundType: "series-c",
+};
+const MODEL_HIGHLIGHT = {
+  name: "Test Model X",
+  provider: "testprov",
+  inputPricePerMillion: 0.25,
+  contextLength: 200_000,
+};
+
+test("vertical spotlight: even day prefers funding, odd day prefers models", () => {
+  // 2026-07-08 is an even day-of-month and a Wednesday.
+  const even = composeDailyBreakouts(
+    { breakouts: [], topIdea: null, fundingHighlight: FUNDING_HIGHLIGHT, modelHighlight: MODEL_HIGHLIGHT },
+    new Date("2026-07-08T14:00:00Z"),
+  );
+  const evenSpot = even.find((p) => p.kind === "daily_breakouts_vertical_spotlight");
+  assert.ok(evenSpot, "expected a spotlight post");
+  assert.match(evenSpot.text, /Funding radar: Acme AI raised \$95M SERIES C/);
+  assert.match(evenSpot.url ?? "", /\/funding$/);
+
+  // 2026-07-09 is an odd day-of-month and a Thursday.
+  const odd = composeDailyBreakouts(
+    { breakouts: [], topIdea: null, fundingHighlight: FUNDING_HIGHLIGHT, modelHighlight: MODEL_HIGHLIGHT },
+    new Date("2026-07-09T14:00:00Z"),
+  );
+  const oddSpot = odd.find((p) => p.kind === "daily_breakouts_vertical_spotlight");
+  assert.ok(oddSpot);
+  assert.match(oddSpot.text, /Model value pick: Test Model X \(testprov\) — 200K context at \$0\.25\/M input/);
+  assert.match(oddSpot.url ?? "", /\/models$/);
+});
+
+test("vertical spotlight: falls back to whichever vertical has data", () => {
+  // Even day (prefers funding) but only the model highlight is present.
+  const posts = composeDailyBreakouts(
+    { breakouts: [], topIdea: null, fundingHighlight: null, modelHighlight: MODEL_HIGHLIGHT },
+    new Date("2026-07-08T14:00:00Z"),
+  );
+  const spot = posts.find((p) => p.kind === "daily_breakouts_vertical_spotlight");
+  assert.ok(spot);
+  assert.match(spot.text, /Model value pick/);
+});
+
+test("vertical spotlight: skipped on Fridays (free-tier ceiling) and without data", () => {
+  // 2026-07-10 is a Friday.
+  const friday = composeDailyBreakouts(
+    { breakouts: [], topIdea: null, fundingHighlight: FUNDING_HIGHLIGHT, modelHighlight: MODEL_HIGHLIGHT },
+    new Date("2026-07-10T14:00:00Z"),
+  );
+  assert.equal(
+    friday.some((p) => p.kind === "daily_breakouts_vertical_spotlight"),
+    false,
+  );
+
+  const noData = composeDailyBreakouts(
+    { breakouts: [], topIdea: null },
+    new Date("2026-07-08T14:00:00Z"),
+  );
+  assert.equal(
+    noData.some((p) => p.kind === "daily_breakouts_vertical_spotlight"),
+    false,
+  );
+});
+
+test("vertical spotlight posts fit the tweet budget", () => {
+  const posts = composeDailyBreakouts(
+    {
+      breakouts: [],
+      topIdea: null,
+      fundingHighlight: {
+        companyName: "A Very Long Company Name That Keeps Going And Going Incorporated",
+        amountDisplay: "$1.2B",
+        roundType: "series-d-plus",
+      },
+    },
+    new Date("2026-07-08T14:00:00Z"),
+  );
+  const spot = posts.find((p) => p.kind === "daily_breakouts_vertical_spotlight");
+  assert.ok(spot);
+  assert.ok(effectiveLength(spot) <= 280, `too long: ${effectiveLength(spot)}`);
+});

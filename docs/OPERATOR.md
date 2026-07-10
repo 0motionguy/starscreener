@@ -10,9 +10,58 @@ status: living
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-07-09 (outbound-posting + arXiv-channel "go" wave)
+Last refreshed: 2026-07-10 (next-level mega plan — auth/payments/ranking/data/IA/distribution, PRs #3200–#3206)
 
 > **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure" section below.
+
+### 2026-07-10 — Next-level mega plan: 7 merged PRs (auth, payments, ranking, data, IA, distribution)
+
+All merged to `main` (each individually CI-green): #3200 funding-extraction
+quality, #3201 **auth identity unification**, #3202 **durable payments**,
+#3203 **cross-signal ranking**, #3204 **data-channel repairs**, #3205 **nav
+de-orphaning**, #3206 **vertical distribution**. Earlier same-session PRs
+#3197–#3199 shipped the X posting engine, Bluesky/digest, and `/models`.
+
+What changed, operator view:
+
+- **AUTH (#3201):** one identity — Clerk is truth. The `POST /api/auth/session`
+  email-mint **takeover hole is closed** (anyone knowing a user's email could
+  mint their session/tier). `SessionBridge` keeps the ss_user cookie in
+  lockstep with Clerk (`c_<clerkUserId>`); checkout/billing are Clerk-gated;
+  the pk_live gate now keys off NODE_ENV (was dead VERCEL_ENV check).
+- **PAYMENTS (#3202):** tier store → Postgres `tr.user_tiers` (JSONL was
+  wiped every redeploy); CheckoutSuccess actually confirms (fresh store read
+  on GET /api/auth/session); pricing CTAs are live in default builds (the
+  old build flag was set nowhere → dead anchors); Stripe runbook rewritten
+  for HOSTUP with corrected $180/$480 yearly prices.
+- **RANKING (#3203):** the 7-channel cross-signal now actually moves
+  `momentumScore` (11th weighted component + second scoring pass); window
+  ranks (rank24h/7d/30d); "Score math:" transparency line on repo detail.
+- **DATA (#3204):** "reddit zeros" root-caused (RSS-fallback rows skipped
+  before mention matching) + last-good guard on reddit-mentions.json;
+  twitter channel zeroes honestly when its scan is >72h stale.
+- **IA (#3205):** /pricing (!), /top, /categories, /collections, /search,
+  /alerts, /tools, /methodology de-orphaned into the sidebar; fake drag
+  handle + dead "Soon" rows removed.
+- **DISTRIBUTION (#3206):** daily thread gains a rotating funding/models
+  vertical spotlight (Friday-skipped for the write ceiling).
+
+**Operator actions required to activate everything:**
+1. `npm run db:migrate` against `DIRECT_URL` (creates `tr.user_tiers`) —
+   BEFORE the new code serves traffic with `DATABASE_URL` set.
+2. Clerk live keys (`clerk-pk-live-bringup.md`) then Stripe live
+   (`stripe-live-mode-bringup.md`, now HOSTUP-native) — checkout is
+   Clerk-gated, so Clerk goes first.
+3. `REDDIT_CLIENT_ID/SECRET` in the collector env (RSS fallback now keeps
+   mentions alive, but /reddit/trending engagement still needs OAuth).
+4. Relight the Apify twitter collector (stale 60+ days; the channel now
+   degrades honestly instead of lying) and eyeball trendshift.io markup
+   (worker parser yields 0 items — needs live-site HTML).
+
+**Deferred (tracked in plan `~/.claude/plans/the-next-run-on-swirling-prism.md`):**
+alerts unification onto the Clerk id (cookie /alerts → /you/alerts),
+/repo/* 500-class hardening, 375px overflow, percentile score
+normalization, repo-detail↔verticals cross-links.
 
 ### 2026-07-09 — Automated X posting + arXiv AI channel (branch `claude/starscreener-repo-optimization-2gn8wz`)
 

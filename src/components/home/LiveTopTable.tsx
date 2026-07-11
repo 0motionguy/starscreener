@@ -339,6 +339,7 @@ function ActionCell({
               : "Add to compare (C)"
         }
         disabled={compareDisabled}
+        data-agent={`repo-card-${rowIndex}-compare`}
         data-agent-id={`repo.card.${rowIndex}.compare`}
         data-agent-label={`${isComparing ? "Remove" : "Add"} ${repoName} ${isComparing ? "from" : "to"} compare`}
         data-agent-action="repo.compare"

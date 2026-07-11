@@ -37,6 +37,7 @@ import { SidebarUserOverlayBridge } from "@/components/layout/SidebarUserOverlay
 import { BrowserAlertBridgeLazy } from "@/components/alerts/BrowserAlertBridgeLazy";
 import { GlobalShortcutsLazy } from "@/components/layout/GlobalShortcutsLazy";
 import { PageOperatorPanel } from "@/components/page-operator/PageOperatorPanel";
+import { AgentQaBridgeLoader } from "@/components/agent-qa/AgentQaBridgeLoader";
 import { IdleMount } from "@/components/util/IdleMount";
 import { DesignSystemProvider } from "@/components/v3/DesignSystemProvider";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
@@ -194,6 +195,9 @@ export default async function RootLayout({
       {process.env.NEXT_PUBLIC_TRENDINGREPO_AGENTIC_MODE === "1" ? (
         <PageOperatorPanel />
       ) : null}
+      {/* Dev-only Agent QA bridge; self-gates on NODE_ENV +
+          NEXT_PUBLIC_TRENDINGREPO_AGENT_QA_ENABLED and renders null. */}
+      <AgentQaBridgeLoader />
       <ToasterLazy />
       <ConsentBanner />
     </>

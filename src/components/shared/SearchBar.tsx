@@ -261,6 +261,7 @@ export function SearchBar({
     <div
       ref={containerRef}
       className={cn("relative", fullWidth ? "w-full" : "w-64")}
+      data-agent="repo-search"
     >
       <Input
         ref={inputRef}
@@ -281,6 +282,7 @@ export function SearchBar({
         // focus instead — querySelector returns the first match in DOM
         // order which lines up with that expectation.
         data-global-search="true"
+        data-agent="repo-search-input"
         data-agent-id="repo.search.input"
         data-agent-label="Search repositories"
         data-agent-action="repo.search"

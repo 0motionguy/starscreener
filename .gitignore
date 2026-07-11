@@ -136,3 +136,7 @@ awesome-codex-skills/
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# one-off debug/agent screenshots dumped in repo root by browser tooling
+# (already-tracked root PNGs stay tracked; `git add -f` for intentional new ones)
+/*.png

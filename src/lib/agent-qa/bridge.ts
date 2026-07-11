@@ -23,7 +23,7 @@
  * vendor/ holds the verbatim `build:vendor` bundle from toolbox
  * packages/agent-bridge — never edit it by hand; re-copy to upgrade.
  */
-import { init } from "./vendor/agent-qa-bridge.v0.2.0.mjs";
+import { init } from "./vendor/agent-qa-bridge.v0.2.1.mjs";
 import { captureDomMap } from "@/lib/page-operator/dom-map";
 import { agentQaFlows } from "./flows";
 

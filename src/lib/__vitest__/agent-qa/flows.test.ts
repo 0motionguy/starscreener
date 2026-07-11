@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createFlowRegistry } from "@/lib/agent-qa/vendor/agent-qa-bridge.v0.2.1.mjs";
+import { createFlowRegistry } from "@/lib/agent-qa/vendor/agent-qa-bridge.v0.3.0.mjs";
 import type { AgentRisk, FlowResult, WaitCondition } from "@/lib/agent-qa/contracts";
 import {
   agentQaFlows,

@@ -1,30 +1,32 @@
-// Kimi (Moonshot AI) wrapper — OpenAI-compatible API.
+// LLM provider wrapper for the consensus-analyst fetcher.
 //
-// Two supported endpoint flavors:
-//   1. Kimi For Coding subscription (default) — https://api.kimi.com/coding/v1
-//      Model: kimi-for-coding (= Kimi K2.6, 262k ctx, reasoning).
-//      ⚠ Access-gated by User-Agent allowlist (claude-cli, RooCode,
-//      Kilo-Code, etc). We send User-Agent "claude-cli/1.0" so the
-//      analyst fetcher is admitted. Long-term you should switch to
-//      a platform.moonshot.ai developer key (pay-per-token, no UA gate)
-//      for robust server-side use.
-//   2. Moonshot developer API — https://api.moonshot.ai/v1, model
-//      kimi-k2-0711-preview or kimi-k2.6. Set KIMI_BASE_URL +
-//      KIMI_MODEL to swap.
+// Resolution order (first match wins):
+//   1. NANOGPT_API_KEY set         → NanoGPT (Kimi-K2-Instruct), default base
+//      https://nano-gpt.com/api/v1. Standard OpenAI-compatible chat with
+//      response_format json_object. Non-streamed (faster + simpler for the
+//      14-item sweep). This is the prod path after the Kimi For Coding
+//      quota became unreliable for server-side use.
+//   2. KIMI_API_KEY set            → Kimi For Coding subscription, streamed,
+//      User-Agent gate. Same API surface as before — kept as a fallback so
+//      operators with the coding subscription can still use it.
+//   3. neither                     → caller short-circuits to template
 //
-// Both expose OpenAI-compatible chat-completions, including JSON mode
-// (response_format type: json_object) — strict JSON output, no fence
-// parsing. Kimi auto-caches identical prefixes; the system prompt is
-// reused across the top-14 sweep transparently.
+// The generator tag in consensus-verdicts payload reflects which provider
+// produced the data ('nanogpt' | 'kimi' | 'template').
 
 import OpenAI from 'openai';
 import { loadEnv } from '../../lib/env.js';
 
-const DEFAULT_BASE_URL = 'https://api.kimi.com/coding/v1';
-const DEFAULT_MODEL = 'kimi-for-coding';
-const DEFAULT_USER_AGENT = 'claude-cli/1.0';
+const NANOGPT_DEFAULT_BASE = 'https://nano-gpt.com/api/v1';
+const NANOGPT_DEFAULT_MODEL = 'moonshotai/Kimi-K2-Instruct';
 
-let cachedClient: OpenAI | null = null;
+const KIMI_DEFAULT_BASE = 'https://api.kimi.com/coding/v1';
+const KIMI_DEFAULT_MODEL = 'kimi-for-coding';
+const KIMI_USER_AGENT = 'claude-cli/1.0';
+
+export type LlmProvider = 'nanogpt' | 'kimi';
+
+let cachedClient: { provider: LlmProvider; model: string; client: OpenAI } | null = null;
 
 export interface LlmCallOptions {
   systemPrompt: string;
@@ -32,93 +34,144 @@ export interface LlmCallOptions {
   model?: string;
   maxTokens?: number;
   temperature?: number;
-  /** Set true when expecting JSON object output. Adds response_format. */
   jsonMode?: boolean;
 }
 
 export interface LlmCallResult {
   text: string;
+  provider: LlmProvider;
+  model: string;
   usage: {
     inputTokens: number;
     outputTokens: number;
-    /** Kimi reports cached prefix tokens via prompt_tokens_details.cached_tokens. */
     cachedInputTokens: number;
   };
 }
 
-function getClient(): OpenAI {
+function resolveClient(): { provider: LlmProvider; model: string; client: OpenAI } {
   if (cachedClient) return cachedClient;
   const env = loadEnv();
-  if (!env.KIMI_API_KEY) {
-    throw new Error('KIMI_API_KEY not set — analyst fetcher cannot run');
+  if (env.NANOGPT_API_KEY) {
+    const model = env.NANOGPT_MODEL ?? NANOGPT_DEFAULT_MODEL;
+    cachedClient = {
+      provider: 'nanogpt',
+      model,
+      client: new OpenAI({
+        apiKey: env.NANOGPT_API_KEY,
+        baseURL: env.NANOGPT_BASE_URL ?? NANOGPT_DEFAULT_BASE,
+      }),
+    };
+    return cachedClient;
   }
-  cachedClient = new OpenAI({
-    apiKey: env.KIMI_API_KEY,
-    baseURL: env.KIMI_BASE_URL ?? DEFAULT_BASE_URL,
-    defaultHeaders: { 'User-Agent': DEFAULT_USER_AGENT },
-  });
-  return cachedClient;
+  if (env.KIMI_API_KEY) {
+    const model = env.KIMI_MODEL ?? KIMI_DEFAULT_MODEL;
+    cachedClient = {
+      provider: 'kimi',
+      model,
+      client: new OpenAI({
+        apiKey: env.KIMI_API_KEY,
+        baseURL: env.KIMI_BASE_URL ?? KIMI_DEFAULT_BASE,
+        defaultHeaders: { 'User-Agent': KIMI_USER_AGENT },
+      }),
+    };
+    return cachedClient;
+  }
+  throw new Error('No LLM provider configured (NANOGPT_API_KEY or KIMI_API_KEY must be set)');
 }
 
 export function isLlmConfigured(): boolean {
-  return Boolean(loadEnv().KIMI_API_KEY);
+  const env = loadEnv();
+  return Boolean(env.NANOGPT_API_KEY || env.KIMI_API_KEY);
+}
+
+export function activeProvider(): LlmProvider | 'template' {
+  const env = loadEnv();
+  if (env.NANOGPT_API_KEY) return 'nanogpt';
+  if (env.KIMI_API_KEY) return 'kimi';
+  return 'template';
 }
 
 export async function callLlm(opts: LlmCallOptions): Promise<LlmCallResult> {
-  const env = loadEnv();
-  const model = opts.model ?? env.KIMI_MODEL ?? DEFAULT_MODEL;
-  const client = getClient();
+  const { provider, model, client } = resolveClient();
 
-  // Kimi For Coding endpoint requires stream:true for the K2.6 reasoning
-  // model — non-stream requests hang silently for any non-trivial payload.
-  // We accumulate the streamed deltas and surface the final content + usage.
-  const stream = await client.chat.completions.create({
-    model,
+  if (provider === 'kimi') {
+    // Kimi For Coding requires stream:true — non-stream hangs for K2.6.
+    const stream = await client.chat.completions.create({
+      model: opts.model ?? model,
+      max_tokens: opts.maxTokens ?? 2048,
+      temperature: opts.temperature ?? 0.4,
+      stream: true,
+      stream_options: { include_usage: true },
+      messages: [
+        { role: 'system', content: opts.systemPrompt },
+        { role: 'user', content: opts.userMessage },
+      ],
+      ...(opts.jsonMode ? { response_format: { type: 'json_object' as const } } : {}),
+    });
+    let text = '';
+    let inputTokens = 0;
+    let outputTokens = 0;
+    let cachedInputTokens = 0;
+    for await (const chunk of stream) {
+      const delta = chunk.choices?.[0]?.delta as { content?: string } | undefined;
+      if (delta?.content) text += delta.content;
+      const usage = chunk.usage as
+        | {
+            prompt_tokens?: number;
+            completion_tokens?: number;
+            prompt_tokens_details?: { cached_tokens?: number };
+          }
+        | undefined;
+      if (usage) {
+        inputTokens = usage.prompt_tokens ?? inputTokens;
+        outputTokens = usage.completion_tokens ?? outputTokens;
+        cachedInputTokens = usage.prompt_tokens_details?.cached_tokens ?? cachedInputTokens;
+      }
+    }
+    return {
+      text,
+      provider,
+      model: opts.model ?? model,
+      usage: { inputTokens, outputTokens, cachedInputTokens },
+    };
+  }
+
+  // NanoGPT — non-streamed OpenAI-compatible call.
+  const completion = await client.chat.completions.create({
+    model: opts.model ?? model,
     max_tokens: opts.maxTokens ?? 2048,
     temperature: opts.temperature ?? 0.4,
-    stream: true,
-    stream_options: { include_usage: true },
     messages: [
       { role: 'system', content: opts.systemPrompt },
       { role: 'user', content: opts.userMessage },
     ],
     ...(opts.jsonMode ? { response_format: { type: 'json_object' as const } } : {}),
   });
-
-  let text = '';
-  let inputTokens = 0;
-  let outputTokens = 0;
-  let cachedInputTokens = 0;
-  for await (const chunk of stream) {
-    const delta = chunk.choices?.[0]?.delta as
-      | { content?: string; reasoning_content?: string }
-      | undefined;
-    if (delta?.content) text += delta.content;
-    const usage = chunk.usage as {
-      prompt_tokens?: number;
-      completion_tokens?: number;
-      prompt_tokens_details?: { cached_tokens?: number };
-    } | undefined;
-    if (usage) {
-      inputTokens = usage.prompt_tokens ?? inputTokens;
-      outputTokens = usage.completion_tokens ?? outputTokens;
-      cachedInputTokens = usage.prompt_tokens_details?.cached_tokens ?? cachedInputTokens;
-    }
-  }
-  return { text, usage: { inputTokens, outputTokens, cachedInputTokens } };
+  const text = completion.choices?.[0]?.message?.content ?? '';
+  const usage = completion.usage as
+    | {
+        prompt_tokens?: number;
+        completion_tokens?: number;
+        prompt_tokens_details?: { cached_tokens?: number };
+      }
+    | undefined;
+  return {
+    text,
+    provider,
+    model: opts.model ?? model,
+    usage: {
+      inputTokens: usage?.prompt_tokens ?? 0,
+      outputTokens: usage?.completion_tokens ?? 0,
+      cachedInputTokens: usage?.prompt_tokens_details?.cached_tokens ?? 0,
+    },
+  };
 }
 
-/**
- * Best-effort JSON parse. With jsonMode the response should already be a
- * valid JSON object, but defend against the rare malformed reply by trying
- * to extract the largest brace-balanced substring.
- */
 export function parseJson(text: string): unknown {
   const trimmed = text.trim();
   try {
     return JSON.parse(trimmed);
   } catch {
-    // Fallback: find first { and matching last }.
     const firstBrace = trimmed.indexOf('{');
     const lastBrace = trimmed.lastIndexOf('}');
     if (firstBrace === -1 || lastBrace <= firstBrace) return null;
@@ -130,4 +183,11 @@ export function parseJson(text: string): unknown {
   }
 }
 
-export const LLM_PROVIDER = 'kimi' as const;
+// Back-compat — older imports expect a literal `LLM_PROVIDER`. Now resolved at
+// call time so this is dynamic, but the union type covers the same generator
+// strings the consumers compare against.
+export const LLM_PROVIDER: LlmProvider | 'template' = activeProvider();
+
+export function _resetLlmCacheForTests(): void {
+  cachedClient = null;
+}

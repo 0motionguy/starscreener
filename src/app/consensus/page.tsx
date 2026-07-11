@@ -8,7 +8,7 @@ import {
   type ConsensusItem,
 } from "@/lib/consensus-trending";
 import {
-  getConsensusVerdictsPayload,
+  getFreshConsensusVerdictsPayload,
   refreshConsensusVerdictsFromStore,
 } from "@/lib/consensus-verdicts";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
@@ -204,7 +204,7 @@ export default async function ConsensusPage() {
   const rawItems = getConsensusTrendingItems(200);
   const items = rawItems.map(relaxStrongConsensus);
   const displayBandCounts = recountBands(items);
-  const verdicts = getConsensusVerdictsPayload();
+  const verdicts = getFreshConsensusVerdictsPayload();
 
   const earlyItems = items.filter((i) => i.verdict === "early_call").slice(0, 15);
   const divItems = items.filter((i) => i.verdict === "divergence").slice(0, 15);

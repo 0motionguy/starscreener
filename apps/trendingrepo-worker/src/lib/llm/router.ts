@@ -22,7 +22,12 @@ import { hashUserId, recordLlmEvent } from './usage-recorder.js';
 import type { LlmErrorCode, LlmEvent, LlmTelemetry } from './types.js';
 
 export function getLlmProvider(): 'kimi' | 'openrouter' {
-  return loadEnv().LLM_PROVIDER ?? 'kimi';
+  const raw = loadEnv().LLM_PROVIDER;
+  // The shared `LLM_PROVIDER` enum also covers consensus-analyst's
+  // 'nanogpt' provider, which has its own client and never enters this
+  // router. Treat it as the default ('kimi') from this router's POV.
+  if (raw === 'openrouter') return 'openrouter';
+  return 'kimi';
 }
 
 export async function callLlm(

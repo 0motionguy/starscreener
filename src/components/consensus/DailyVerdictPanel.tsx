@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import type { ConsensusRibbonReport } from "@/lib/consensus-verdicts";
+import type { ConsensusGenerator, ConsensusRibbonReport } from "@/lib/consensus-verdicts";
 
 interface DailyVerdictPanelProps {
   ribbon: ConsensusRibbonReport;
-  generator: "kimi" | "template";
+  generator: ConsensusGenerator;
   computedAt: string;
 }
 
@@ -16,7 +16,12 @@ export function DailyVerdictPanel({
   const stamp = computedAt
     ? new Date(computedAt).toISOString().slice(11, 19) + " UTC"
     : "warming";
-  const generatorLabel = generator === "kimi" ? "AI / KIMI K2" : "AUTO / TEMPLATE";
+  const generatorLabel =
+    generator === "nanogpt"
+      ? "AI / NANOGPT KIMI-K2"
+      : generator === "kimi"
+        ? "AI / KIMI K2"
+        : "AUTO / TEMPLATE";
 
   if (!ribbon.headline && ribbon.bullets.length === 0) {
     return (

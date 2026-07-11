@@ -1,6 +1,6 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
-import { callLlm, parseJson, isLlmConfigured, LLM_PROVIDER } from './llm.js';
+import { callLlm, parseJson, isLlmConfigured, activeProvider, type LlmProvider } from './llm.js';
 import {
   ItemReportSchema,
   RibbonSchema,
@@ -29,7 +29,7 @@ interface VerdictsItemPayload extends ItemReport {
 
 interface VerdictsPayload {
   computedAt: string;
-  generator: typeof LLM_PROVIDER | 'template';
+  generator: LlmProvider | 'template';
   model?: string;
   ribbon: Ribbon;
   items: Record<string, VerdictsItemPayload>;
@@ -83,6 +83,8 @@ const fetcher: Fetcher = {
     let totalInput = 0;
     let totalOutput = 0;
     let totalCached = 0;
+    let resolvedModel: string | undefined;
+    const resolvedProvider: LlmProvider | 'template' = activeProvider();
 
     // Bounded-concurrency sweep — N workers pulling from a shared queue.
     // Preserves per-call retry semantics (each item swallows its own errors)
@@ -105,6 +107,7 @@ const fetcher: Fetcher = {
           totalInput += r.usage.inputTokens;
           totalOutput += r.usage.outputTokens;
           totalCached += r.usage.cachedInputTokens;
+          resolvedModel = r.model;
 
           const parsed = parseJson(r.text);
           const validated = ItemReportSchema.safeParse(parsed);
@@ -140,6 +143,7 @@ const fetcher: Fetcher = {
       totalInput += r.usage.inputTokens;
       totalOutput += r.usage.outputTokens;
       totalCached += r.usage.cachedInputTokens;
+      resolvedModel = r.model;
       const parsed = parseJson(r.text);
       const validated = RibbonSchema.safeParse(parsed);
       if (validated.success) {
@@ -154,11 +158,10 @@ const fetcher: Fetcher = {
       );
     }
 
-    const env = loadEnvFromProcess();
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
-      generator: LLM_PROVIDER,
-      model: env.model,
+      generator: resolvedProvider,
+      model: resolvedModel,
       ribbon,
       items,
       usage: {
@@ -187,10 +190,6 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
-
-function loadEnvFromProcess(): { model: string } {
-  return { model: process.env.KIMI_MODEL ?? 'kimi-k2-0711-preview' };
-}
 
 function buildTemplatePayload(p: ConsensusTrendingPayload): VerdictsPayload {
   return {

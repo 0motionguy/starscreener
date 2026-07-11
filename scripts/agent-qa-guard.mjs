@@ -26,6 +26,24 @@ if (!existsSync(STATIC_DIR)) {
   process.exit(1);
 }
 
+// Stale-build refusal (AQ-P1-07): a guard that scans last week's .next
+// proves nothing about today's code.
+const BUILD_ID = path.join(process.cwd(), ".next", "BUILD_ID");
+if (!existsSync(BUILD_ID)) {
+  console.error("agent-qa-guard: .next/BUILD_ID not found — incomplete build; re-run next build.");
+  process.exit(1);
+}
+const allowStale = process.argv.includes("--allow-stale");
+const maxAgeMin = Number(process.env.AGENT_QA_GUARD_MAX_AGE_MIN ?? 60);
+const ageMin = (Date.now() - statSync(BUILD_ID).mtimeMs) / 60_000;
+if (!allowStale && ageMin > maxAgeMin) {
+  console.error(
+    `agent-qa-guard: STALE — .next build is ${ageMin.toFixed(1)} min old (max ${maxAgeMin}). ` +
+      "Re-run `next build` first, or pass --allow-stale.",
+  );
+  process.exit(1);
+}
+
 function* walk(dir) {
   for (const name of readdirSync(dir)) {
     const p = path.join(dir, name);

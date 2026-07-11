@@ -41,5 +41,14 @@ export function mountAgentQa(): void {
         return { ...map, selectedRepoCount: map.selectedRepos?.length ?? 0 };
       },
     },
+    // Dial the local agent-qa-mcp hub (vendor default: ws://127.0.0.1:43110/session,
+    // loopback only). Without this key the vendor leaves the hub link disabled
+    // (AQ-P1-02), so sessions never registered. The hub has required a WS hello
+    // token since bridge v0.3.0 — copy ~/.agent-qa/token into .env.local as
+    // NEXT_PUBLIC_TRENDINGREPO_AGENT_QA_TOKEN (dev-only; bundle is flag-gated).
+    hub: {
+      token: process.env.NEXT_PUBLIC_TRENDINGREPO_AGENT_QA_TOKEN,
+      label: "trendingrepo",
+    },
   });
 }

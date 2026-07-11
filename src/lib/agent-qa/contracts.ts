@@ -72,5 +72,7 @@ export interface BridgeConfig {
   flows?: FlowDef[];
   /** Named app-state snapshots; addressable from state-equals waits. */
   stateProviders?: Record<string, () => unknown>;
+  /** Local Agent QA hub connection (dev-only). Presence enables the WS link. */
+  hub?: { url?: string; token?: string; autoConnect?: boolean; label?: string };
   [key: string]: unknown;
 }

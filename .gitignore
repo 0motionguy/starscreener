@@ -56,8 +56,11 @@ next-env.d.ts
 # `!/.data/*.jsonl` allow-rule can't ever expose it.
 /.data/twitter-oauth-state.jsonl
 
-# local Claude Code workspace (agent prompts, skills, settings)
-/.claude/
+# local Claude Code workspace (allowlist project knowledge to match AISO precedent)
+/.claude/*
+!/.claude/knowledge/
+!/.claude/rules/
+!/.claude/agents/
 
 # impeccable skill bundle (installed via `npx impeccable skills install`)
 /.agents/
@@ -138,3 +141,7 @@ awesome-codex-skills/
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# one-off debug/agent screenshots dumped in repo root by browser tooling
+# (already-tracked root PNGs stay tracked; `git add -f` for intentional new ones)
+/*.png

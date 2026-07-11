@@ -754,7 +754,7 @@ export const COLUMNS: Column[] = [
     defaultVisible: true,
     compactVisible: true,
     description: "Watch / compare.",
-    render: (_repo, ctx) =>
+    render: (repo, ctx) =>
       createElement(
         "div",
         {
@@ -790,6 +790,12 @@ export const COLUMNS: Column[] = [
                 : "text-[color:var(--v2-ink-500)] hover:text-[color:var(--v2-ink-200)]",
             ),
             style: { borderRadius: 1 },
+            "data-agent-id": `repo.card.${Math.max(0, ctx.rank - 1)}.watchlist`,
+            "data-agent-label": `${ctx.isWatched ? "Remove" : "Add"} ${repo.fullName} ${
+              ctx.isWatched ? "from" : "to"
+            } watchlist`,
+            "data-agent-action": "repo.watchlist",
+            "data-agent-risk": "confirm",
           },
           createElement(Eye, {
             size: 14,
@@ -827,6 +833,12 @@ export const COLUMNS: Column[] = [
                   : "text-[color:var(--v2-ink-500)] hover:text-[color:var(--v2-ink-200)]",
             ),
             style: { borderRadius: 1 },
+            "data-agent-id": `repo.card.${Math.max(0, ctx.rank - 1)}.compare`,
+            "data-agent-label": `${ctx.isComparing ? "Remove" : "Add"} ${repo.fullName} ${
+              ctx.isComparing ? "from" : "to"
+            } compare`,
+            "data-agent-action": "repo.compare",
+            "data-agent-risk": "safe",
           },
           createElement(GitCompareArrows, {
             size: 14,
@@ -845,4 +857,3 @@ export const COLUMNS_BY_ID: Record<ColumnId, Column> = COLUMNS.reduce(
   },
   {} as Record<ColumnId, Column>,
 );
-

@@ -15,6 +15,8 @@ interface Options {
   onShowHelp: () => void;
   /** Pass current help-open state so we don't toggle off via "?". */
   helpOpen: boolean;
+  /** Open the ⌘K / Ctrl+K command palette (Navigator). */
+  onOpenPalette: () => void;
 }
 
 function isEditableTarget(target: EventTarget | null): boolean {
@@ -32,9 +34,29 @@ function anotherDialogOpen(): boolean {
   return document.querySelector('[role="dialog"][aria-modal="true"]') !== null;
 }
 
-export function useGlobalShortcuts({ onShowHelp, helpOpen }: Options): void {
+export function useGlobalShortcuts({
+  onShowHelp,
+  helpOpen,
+  onOpenPalette,
+}: Options): void {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      // ⌘K / Ctrl+K opens the Navigator. Handled BEFORE the modifier and
+      // editable-target guards below because the palette is a true global —
+      // it should open even while focus is in the header search field, and
+      // it's the modifier chord itself. Bails if another modal is already up
+      // so ⌘K never stacks a second dialog.
+      if (
+        (e.metaKey || e.ctrlKey) &&
+        !e.altKey &&
+        (e.key === "k" || e.key === "K")
+      ) {
+        if (anotherDialogOpen()) return;
+        e.preventDefault();
+        onOpenPalette();
+        return;
+      }
+
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (isEditableTarget(e.target)) return;
 
@@ -75,5 +97,5 @@ export function useGlobalShortcuts({ onShowHelp, helpOpen }: Options): void {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onShowHelp, helpOpen]);
+  }, [onShowHelp, helpOpen, onOpenPalette]);
 }

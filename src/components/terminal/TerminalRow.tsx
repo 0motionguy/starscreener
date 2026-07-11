@@ -132,6 +132,9 @@ function TerminalRowBase({
     <tr
       role="row"
       aria-rowindex={displayRank}
+      data-agent-role="repo.card"
+      data-agent-id={`repo.card.${Math.max(0, displayRank - 1)}`}
+      data-agent-repo-full-name={repo.fullName}
       onClick={onClick}
       onAuxClick={onAuxClick}
       style={{

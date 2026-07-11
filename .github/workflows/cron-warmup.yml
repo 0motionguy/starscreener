@@ -18,18 +18,17 @@ jobs:
       matrix:
         route:
           - /
-          - /market-signals
+          - /signals
           - /tools
-          - /tools/compare
-          - /tools/top-10
-          - /tools/tier-list
+          - /compare
+          - /top10
+          - /tierlist
           - /tools/star-history
-          - /tools/digest
           - /tools/treemap
-          - /tools/watchlist
+          - /watchlist
           - /funding
           - /revenue
-          - /breakout
+          - /breakouts
           - /categories
           - /categories/mcp
           - /collections

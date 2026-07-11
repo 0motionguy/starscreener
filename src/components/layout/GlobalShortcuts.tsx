@@ -9,9 +9,16 @@
 // aside while another dialog is open or while focus is in a field.
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
+
+// Palette is only needed on ⌘K — keep it out of the initial chrome chunk.
+const NavigatorPalette = dynamic(
+  () => import("@/components/navigator/NavigatorPalette").then((m) => m.NavigatorPalette),
+  { ssr: false },
+);
 
 interface Shortcut {
   keys: string[];
@@ -43,12 +50,32 @@ const GLOBAL_GROUPS: { title: string; items: Shortcut[] }[] = [
 
 export function GlobalShortcuts() {
   const [open, setOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const showHelp = useCallback(() => setOpen(true), []);
   const closeHelp = useCallback(() => setOpen(false), []);
-  useGlobalShortcuts({ onShowHelp: showHelp, helpOpen: open });
+  const openPalette = useCallback(() => setPaletteOpen(true), []);
+  const closePalette = useCallback(() => setPaletteOpen(false), []);
+  useGlobalShortcuts({
+    onShowHelp: showHelp,
+    helpOpen: open,
+    onOpenPalette: openPalette,
+  });
 
-  if (!open) return null;
-  return <GlobalKeyboardHelp onClose={closeHelp} />;
+  // Let non-keyboard triggers (the header ⌘K badge, the mobile search tab)
+  // open the palette by dispatching a `navigator:open` event — decouples
+  // those buttons from this component's state.
+  useEffect(() => {
+    const onOpen = () => setPaletteOpen(true);
+    window.addEventListener("navigator:open", onOpen);
+    return () => window.removeEventListener("navigator:open", onOpen);
+  }, []);
+
+  return (
+    <>
+      {open && <GlobalKeyboardHelp onClose={closeHelp} />}
+      {paletteOpen && <NavigatorPalette onClose={closePalette} />}
+    </>
+  );
 }
 
 function GlobalKeyboardHelp({ onClose }: { onClose: () => void }) {

@@ -28,6 +28,13 @@ const required = [
     file: ".github/workflows/cron-warmup.yml",
     phrases: ["name: Warm HOSTUP routes"],
   },
+  {
+    file: "src/app/llms.txt/route.ts",
+    phrases: [
+      "HOSTUP Docker tenant behind Cloudflare",
+      "HOSTUP worker fleet",
+    ],
+  },
 ];
 
 const forbidden = [
@@ -60,6 +67,14 @@ const forbidden = [
   {
     file: ".github/workflows/cron-warmup.yml",
     phrases: ["name: Warm Vercel routes"],
+  },
+  {
+    file: "src/app/llms.txt/route.ts",
+    phrases: [
+      "Production hosting: Vercel",
+      "signal collectors run on GitHub Actions",
+      "every 20 minutes via GitHub Actions",
+    ],
   },
 ];
 

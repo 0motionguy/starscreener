@@ -8,19 +8,23 @@ name: Cron - freshness check
 #
 # Required repo config:
 #   vars.TRENDINGREPO_URL  — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
-#   secrets.OPS_ALERT_WEBHOOK — optional Discord/Slack webhook URL.
+#   secrets.OPS_ALERT_WEBHOOK — Slack incoming-webhook URL (we're on Slack,
+#     not Discord). Payload sends both `text` (Slack) and `content` (Discord)
+#     so the URL works with either provider.
 #     When set, the workflow POSTs a one-line JSON message on state changes
-#     (healthy → stale and stale → healthy). Email-on-fail is too quiet,
-#     ops were missing alerts for days. State-change-only keeps it from
-#     becoming a 96-message/day spam-channel.
+#     (healthy → stale and stale → healthy) AND a reminder every ~6 h while
+#     the state stays non-green. The 2026-06-21→07-04 outage proved that a
+#     single state-change alert is not enough: the state flipped once, the
+#     alert path was unconfigured, and 13 days of red went unnoticed.
+#     When the secret is missing and the state is non-green, the run now
+#     emits an ::error annotation so the gap is visible in the run itself.
 #
-# State persistence: a single-line file `data/.cron-health-status` is
-# committed back to main on every transition. Picked over `actions/cache`
-# + artifacts because:
-#   1. The repo is already the source of truth for collector state.
-#   2. Cache keys can race / evict; a committed file cannot.
-#   3. One file vs. configuring artifact upload+download steps. K2/K3.
-# The file holds exactly one of: ok | stale | error  (no trailing newline).
+# State memory: the PREVIOUS completed run's conclusion (success = ok,
+# failure = non-ok). This replaced the committed `data/.cron-health-status`
+# flip-file, which minted an auto-merged PR per ok↔stale transition
+# (~89 `chore(ops): cron health *` PRs, #3089–#3170) and required
+# contents:write on a cron job. Run-conclusion memory is race-free,
+# costs zero commits, and needs only actions:read.
 
 on:
   schedule:
@@ -28,8 +32,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write  # needed to commit the .cron-health-status flip-file
-  pull-requests: write
+  actions: read  # read previous run conclusion (state memory)
 
 concurrency:
   group: cron-freshness-check
@@ -37,18 +40,12 @@ concurrency:
 
 env:
   BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
-  STATUS_FILE: data/.cron-health-status
 
 jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 1
-
       - name: GET live health endpoints
         id: probe
         # Probe outputs:
@@ -145,22 +142,37 @@ jobs:
           echo "status=ok" >> "$GITHUB_OUTPUT"
           echo "message=app health, worker health, and Redis-backed worker pulse ok" >> "$GITHUB_OUTPUT"
 
-      - name: Read previous status
+      - name: Read previous status (last completed run's conclusion)
         id: previous
-        # Defaults to 'unknown' so the very first run after this workflow
-        # ships emits exactly one alert (unknown → whatever the current state is).
+        # State memory without a committed flip-file: the previous completed
+        # run concluded success ⇔ status was ok (see fail-loud step below).
+        # Buckets are ok | non-ok | unknown — enough to detect transitions.
+        # 'unknown' (first run / cancelled predecessor) alerts once, same as
+        # the old file-based bootstrap.
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -f "$STATUS_FILE" ]; then
-            prev=$(cat "$STATUS_FILE" | tr -d '[:space:]')
-          else
-            prev="unknown"
-          fi
-          [ -z "$prev" ] && prev="unknown"
-          echo "prev=$prev"
+          prev_concl=$(gh run list -R "${{ github.repository }}" \
+            --workflow "cron-freshness-check.yml" --status completed \
+            --limit 1 --json conclusion --jq '.[0].conclusion // "unknown"' \
+            2>/dev/null || echo "unknown")
+          case "$prev_concl" in
+            success) prev="ok" ;;
+            failure) prev="non-ok" ;;
+            *) prev="unknown" ;;
+          esac
+          echo "prev=$prev (conclusion=$prev_concl)"
           echo "prev=$prev" >> "$GITHUB_OUTPUT"
 
+      - name: Compute current bucket
+        id: bucket
+        env:
+          NEXT: ${{ steps.probe.outputs.status }}
+        run: |
+          if [ "$NEXT" = "ok" ]; then echo "curr=ok" >> "$GITHUB_OUTPUT"; else echo "curr=non-ok" >> "$GITHUB_OUTPUT"; fi
+
       - name: Notify on state change
-        if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
+        if: ${{ steps.previous.outputs.prev != steps.bucket.outputs.curr }}
         env:
           OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
           PREV: ${{ steps.previous.outputs.prev }}
@@ -168,48 +180,52 @@ jobs:
           DETAIL: ${{ steps.probe.outputs.message }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         # Discord-compatible / Slack-compatible-enough single-field payload.
-        # No-op (with a warning) if the webhook secret isn't configured —
-        # the workflow still updates the status file so future transitions
-        # won't be skipped.
         run: |
           if [ -z "${OPS_ALERT_WEBHOOK:-}" ]; then
-            echo "::warning::OPS_ALERT_WEBHOOK secret not set — skipping notification (state $PREV -> $NEXT)"
+            if [ "$NEXT" != "ok" ]; then
+              echo "::error::OPS_ALERT_WEBHOOK secret not set — NON-GREEN state ($PREV -> $NEXT) has NO alert channel. Set it: gh secret set OPS_ALERT_WEBHOOK"
+            else
+              echo "::warning::OPS_ALERT_WEBHOOK secret not set — skipping notification (state $PREV -> $NEXT)"
+            fi
             exit 0
           fi
-          # Minimal Discord-shaped payload. Slack + Mattermost also accept
-          # a top-level `content` field for plain-text webhooks.
+          # Slack-first payload. `text` is Slack's incoming-webhook field;
+          # `content` is Discord's. Sending both means one URL works for
+          # either provider — each ignores the other's field. Matches
+          # post-deploy-smoke.yml's dual-shape convention. (We're on Slack.)
           msg="[trendingrepo cron] $PREV -> $NEXT — $DETAIL ($RUN_URL)"
           # Escape backslashes + double-quotes for safe JSON embedding.
           esc=$(printf '%s' "$msg" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
           curl -sS -X POST -H "Content-Type: application/json" \
-            -d "{\"content\": $esc}" \
+            -d "{\"text\": $esc, \"content\": $esc}" \
             "$OPS_ALERT_WEBHOOK" || echo "::warning::webhook POST failed (non-fatal)"
 
-      - name: Write status file
-        if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
+      - name: Remind while non-green (~every 6h)
+        # Persistent-red escalation: a single state-change alert was proven
+        # insufficient by the 2026-06-21→07-04 outage (one flip, then 13
+        # silent days). Stateless gate: fire only in the first 15-min slot
+        # of every 6th hour, so an ongoing incident re-pages ~4×/day.
+        if: ${{ steps.bucket.outputs.curr == 'non-ok' && steps.previous.outputs.prev == 'non-ok' }}
         env:
+          OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
           NEXT: ${{ steps.probe.outputs.status }}
+          DETAIL: ${{ steps.probe.outputs.message }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          mkdir -p "$(dirname "$STATUS_FILE")"
-          printf '%s' "$NEXT" > "$STATUS_FILE"
-
-      - name: Persist status
-        if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
-        # Commit the flip-file so the *next* run sees the new state.
-        # Skipped (by the if: above) when state didn't change — avoids an
-        # empty-commit per cycle.
-        # Step-level timeout — git-commit-data invokes `gh pr merge --auto`
-        # which can block indefinitely waiting for required checks. Cap at
-        # 5 min so the rest of the job (which may run other workloads) isn't
-        # starved. Pattern source: #1529 (collect-twitter.yml).
-        timeout-minutes: 5
-        uses: ./.github/actions/git-commit-data
-        with:
-          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
-          actor-email: "bot@trendingrepo.com"
-          message: "chore(ops): cron health ${{ steps.probe.outputs.status }}"
-          paths: |
-            data/.cron-health-status
+          h=$(date -u +%H); m=$(date -u +%M)
+          if [ $((10#$h % 6)) -ne 0 ] || [ $((10#$m)) -ge 15 ]; then
+            echo "outside reminder window (UTC $h:$m) — skip"
+            exit 0
+          fi
+          if [ -z "${OPS_ALERT_WEBHOOK:-}" ]; then
+            echo "::error::OPS_ALERT_WEBHOOK secret not set — persistent NON-GREEN state '$NEXT' has NO alert channel. Set it: gh secret set OPS_ALERT_WEBHOOK"
+            exit 0
+          fi
+          msg="[trendingrepo cron] STILL $NEXT — $DETAIL ($RUN_URL)"
+          esc=$(printf '%s' "$msg" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+          curl -sS -X POST -H "Content-Type: application/json" \
+            -d "{\"text\": $esc, \"content\": $esc}" \
+            "$OPS_ALERT_WEBHOOK" || echo "::warning::webhook POST failed (non-fatal)"
 
       - name: Fail loud on stale/error
         # Keep the existing red-X behavior so anyone watching the workflow

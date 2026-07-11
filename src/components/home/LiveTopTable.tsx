@@ -232,7 +232,14 @@ function SortHeader({
 }) {
   return (
     <th className={`${className} sortable ${active ? "active" : ""}`}>
-      <button type="button" onClick={() => onClick(sortKey)}>
+      <button
+        type="button"
+        onClick={() => onClick(sortKey)}
+        data-agent-id={`repo.sort.${sortKey}`}
+        data-agent-label={`Sort by ${label}`}
+        data-agent-action="repo.sort"
+        data-agent-risk="safe"
+      >
         <span>{label}</span>
         {active ? (
           dir === "desc" ? (
@@ -252,10 +259,12 @@ function ActionCell({
   repoId,
   repoName,
   stars,
+  rowIndex,
 }: {
   repoId: string;
   repoName: string;
   stars: number;
+  rowIndex: number;
 }) {
   const isWatched = useWatchlistStore((s) =>
     s.repos.some((r) => r.repoId === repoId),
@@ -302,6 +311,10 @@ function ActionCell({
         aria-pressed={isWatched}
         aria-label={isWatched ? "Remove from watchlist" : "Add to watchlist"}
         title={isWatched ? "Remove from watchlist (W)" : "Add to watchlist (W)"}
+        data-agent-id={`repo.card.${rowIndex}.watchlist`}
+        data-agent-label={`${isWatched ? "Remove" : "Add"} ${repoName} ${isWatched ? "from" : "to"} watchlist`}
+        data-agent-action="repo.watchlist"
+        data-agent-risk="confirm"
       >
         <Eye size={14} strokeWidth={1.7} />
       </button>
@@ -326,6 +339,11 @@ function ActionCell({
               : "Add to compare (C)"
         }
         disabled={compareDisabled}
+        data-agent={`repo-card-${rowIndex}-compare`}
+        data-agent-id={`repo.card.${rowIndex}.compare`}
+        data-agent-label={`${isComparing ? "Remove" : "Add"} ${repoName} ${isComparing ? "from" : "to"} compare`}
+        data-agent-action="repo.compare"
+        data-agent-risk="safe"
       >
         <GitCompareArrows size={14} strokeWidth={1.7} />
       </button>
@@ -458,7 +476,13 @@ export function LiveTopTable({
                       ? "rk-3"
                       : "";
               return (
-                <tr key={row.id} className="live-row">
+                <tr
+                  key={row.id}
+                  className="live-row"
+                  data-agent-role="repo.card"
+                  data-agent-id={`repo.card.${index}`}
+                  data-agent-repo-full-name={row.fullName}
+                >
                   <td className={`rk-cell ${rankCls}`}>
                     {index < 3 ? (
                       <span className="crown" aria-hidden>
@@ -474,6 +498,10 @@ export function LiveTopTable({
                       className="repo-cell"
                       href={row.href}
                       ref={(el) => observePrefetch(row.href, el)}
+                      data-agent-id={`repo.card.${index}.open`}
+                      data-agent-label={`Open ${row.fullName}`}
+                      data-agent-action="repo.open"
+                      data-agent-risk="safe"
                     >
                       <EntityLogo
                         src={repoLogoUrl(row.fullName, 64)}
@@ -560,6 +588,7 @@ export function LiveTopTable({
                     repoId={row.id}
                     repoName={row.fullName}
                     stars={row.stars}
+                    rowIndex={index}
                   />
                 </tr>
               );

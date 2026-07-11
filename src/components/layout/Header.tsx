@@ -56,10 +56,18 @@ export function Header({ authEnabled }: HeaderProps) {
 
       <div className="search-wrap">
         <SearchBar placeholder="search repos, skills, MCPs…" fullWidth />
-        <span className="key" aria-hidden="true">
+        <button
+          type="button"
+          className="key"
+          onClick={() =>
+            window.dispatchEvent(new CustomEvent("navigator:open"))
+          }
+          title="Open command menu"
+          aria-label="Open command menu (Command K)"
+        >
           <kbd>{'⌘'}</kbd>
           <kbd>K</kbd>
-        </span>
+        </button>
       </div>
 
       <div className="topbar-actions">

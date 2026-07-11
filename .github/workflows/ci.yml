@@ -159,6 +159,14 @@ jobs:
           NEXT_TELEMETRY_DISABLED: "1"
         run: npm run build
 
+      # Step 6.5: agent-QA containment. The production bundle must not
+      # contain the agent bridge (the NEXT_PUBLIC_* agent-QA flag is unset
+      # in CI). Greps built client chunks for bridge markers and fails on
+      # any leak. See scripts/agent-qa-guard.mjs.
+      - name: Agent QA guard (bridge stripped from prod bundle)
+        if: needs.classify.outputs.data_only != 'true'
+        run: npm run qa:agent:guard
+
       - name: Bundle size check (T3.3 — warn at >300 KB per client chunk)
         if: needs.classify.outputs.data_only != 'true'
         # Catches accidental client-side bundling of heavy libs. Annotation-

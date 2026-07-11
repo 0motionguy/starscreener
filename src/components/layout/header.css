@@ -59,12 +59,18 @@
   padding:0; height:100%;
 }
 .search input::placeholder{ color:var(--ink-400); }
-/* The kbd indicator is a sibling of <SearchBar> inside .search-wrap; positioned
-   absolutely so it overlays the right edge of the search frame, matching the
-   mockup's .search > .key visual placement without restructuring SearchBar. */
-.search-wrap .key{ position:absolute; right:12px; top:50%; transform:translateY(-50%); display:flex; gap:3px; pointer-events:none; z-index:1; }
+/* The ⌘K button is a sibling of <SearchBar> inside .search-wrap; positioned
+   absolutely so it overlays the right edge of the search frame. It opens the
+   Navigator command palette (dispatches `navigator:open`), so it's an
+   interactive <button> — pointer-events must stay ON (was `none` while it was
+   a decorative <span>). Button chrome is reset; the kbd chips carry the look. */
+.search-wrap .key{ position:absolute; right:12px; top:50%; transform:translateY(-50%); display:flex; gap:3px; z-index:1;
+  appearance:none; background:none; border:0; padding:2px; margin:0; cursor:pointer; }
 .search-wrap .key kbd{ font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:0.06em; color:var(--ink-300);
-  padding:2px 5px; border:1px solid var(--line-300); background:var(--bg-050); border-radius:2px; line-height:1; }
+  padding:2px 5px; border:1px solid var(--line-300); background:var(--bg-050); border-radius:2px; line-height:1;
+  transition:color 120ms ease, border-color 120ms ease; }
+.search-wrap .key:hover kbd{ color:var(--ink-100); border-color:var(--line-400); }
+.search-wrap .key:focus-visible{ outline:2px solid var(--color-accent); outline-offset:2px; border-radius:3px; }
 @media (max-width: 640px){ .search-wrap .key{ display:none; } }
 
 .topbar-shimmer{ position:absolute; left:0; right:0; bottom:-1px; height:1px; pointer-events:none; overflow:hidden; z-index:2; }

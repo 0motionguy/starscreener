@@ -102,3 +102,24 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Plans: `~/.claude/plans/`
 - Memory: `~/.claude/projects/c--dev-trendingrepo/memory/MEMORY.md` (post-2026-05-06 cutover; the historical key `c--Users-mirko-OneDrive-Desktop-STARSCREENER` retains pre-move notes)
 - Windows perf hardening (deferred sprint): [tasks/perf-windows-tuning.md](tasks/perf-windows-tuning.md)
+
+## Agent QA (agent-qa bridge)
+
+UI verification order — bridge first, Playwright (`npm run test:e2e`) is the recorded fallback:
+
+1. `npm run qa:agent` — semantic flow contract tests (vitest, node env, no browser).
+2. Bridge flows via the Agent QA hub (`agent_qa.*` MCP tools from `toolbox/apps/agent-qa-mcp`) against dev with `NEXT_PUBLIC_TRENDINGREPO_AGENT_QA_ENABLED=1`. Flows: `src/lib/agent-qa/flows.ts`; the page-operator adapter consumes the same action registry.
+3. Playwright only where the bridge can't express the check — record `PLAYWRIGHT_FALLBACK_REASON: <why>` in the commit/PR body.
+
+Evidence for "UI works" = pasted bridge flow transcript / `qa_state` / bug-packet — screenshots alone don't count.
+
+Safety: compile-time gated — after a prod build, `npm run qa:agent:guard` must report zero bridge footprint. Never enable the flag in production.
+
+Cross-repo action manifest: `D:\dev\aiso-ecosystem\docs\generated\agent-qa-actions.json`.
+
+## Knowledge vault (global)
+
+- Cross-repo wiki: `C:\Users\mirko\.agnt\brain` — start at `INDEX.md`, walk `[[links]]`; never bulk-load folders. Rules: vault `SCHEMA.md`.
+- This repo's vault page: `entities/projects/trendingrepo.md` (create + INDEX.md line if missing).
+- Durable cross-repo lessons → vault `entities/`/`concepts/`. Repo knowledge stays here; the vault links, never copies.
+- Big vault lookups → subagent-librarian, ≤1 paragraph + citations back.

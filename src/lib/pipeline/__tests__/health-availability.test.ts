@@ -130,7 +130,6 @@ test("/api/worker/health: critical concrete worker outputs are tracked", () => {
     "trendshift-daily",
     "engagement-composite",
     "consensus-trending",
-    "trustmrr-startups",
     "revenue-overlays",
     "hackernews-trending",
     "hackernews-repo-mentions",
@@ -294,6 +293,19 @@ test("/api/worker/health: GraphQL backfill supersedes the rejected REST velocity
   assert.match(disabled.get("worker-health:velocity-seed") ?? "", /velocity-backfill/);
 });
 
+test("/api/worker/health: quota-blocked TrustMRR catalog stays visible but inactive", () => {
+  const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
+  const disabled = new Map(
+    WORKER_HEALTH_DISABLED_SPECS.map((item) => [item.slug, item.reason]),
+  );
+
+  assert.equal(active.has("trustmrr-startups"), false);
+  assert.equal(active.has("trustmrr-startups:meta"), false);
+  assert.equal(active.has("revenue-overlays"), true);
+  assert.match(disabled.get("trustmrr-startups") ?? "", /TrustMRR.*rate limit/i);
+  assert.match(disabled.get("trustmrr-startups:meta") ?? "", /TrustMRR.*rate limit/i);
+});
+
 test("paused Reddit source is not hydrated by the global mention refresher", () => {
   const source = readFileSync(
     resolve(process.cwd(), "src", "lib", "refresh-mentions.ts"),
@@ -325,17 +337,11 @@ test("paused X funding slug is not hydrated by the funding merger", () => {
   );
 });
 
-test("/api/worker/health: TrustMRR catalog cadence matches daily producer", () => {
+test("/api/worker/health: TrustMRR overlay cadence remains hourly", () => {
   const contract = SOURCE_CONTRACTS.find((source) => source.id === "trustmrr");
 
   assert.ok(contract, "missing trustmrr source contract");
   assert.equal(contract.freshness_budget_ms, 60 * 24 * 60 * 1000);
-
-  for (const slug of ["trustmrr-startups", "trustmrr-startups:meta"]) {
-    const spec = WORKER_HEALTH_SPECS.find((item) => item.slug === slug);
-    assert.ok(spec, `missing worker health spec for ${slug}`);
-    assert.equal(spec.cadenceMin, 60 * 24);
-  }
 
   const overlays = WORKER_HEALTH_SPECS.find((item) => item.slug === "revenue-overlays");
   assert.ok(overlays, "missing worker health spec for revenue-overlays");

@@ -59,10 +59,9 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "trendshift-daily", fetcher: "trendshift-daily", cadenceMin: 60, blocking: false },
   { slug: "engagement-composite", fetcher: "engagement-composite", cadenceMin: 60 },
   { slug: "consensus-trending", fetcher: "consensus-trending", cadenceMin: 60 },
-  // TrustMRR catalog/meta are full daily snapshots; hourly TrustMRR ticks only
-  // refresh revenue-overlays. Keep the catalog cadence aligned to the producer.
-  { slug: "trustmrr-startups", fetcher: "trustmrr", cadenceMin: 60 * 24, blocking: false },
-  { slug: "trustmrr-startups:meta", fetcher: "trustmrr", cadenceMin: 60 * 24, blocking: false },
+  // TrustMRR's cached catalog still feeds the hourly overlay derivation. The
+  // provider no longer permits a bounded full refresh; catalog outputs remain
+  // visible below as disabled rather than being reported as fresh.
   { slug: "revenue-overlays", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
   { slug: "hackernews-trending", fetcher: "hackernews", cadenceMin: 60 },
   { slug: "hackernews-repo-mentions", fetcher: "hackernews", cadenceMin: 60 },
@@ -118,6 +117,18 @@ export const WORKER_PAYLOAD_HEALTH_SLUGS: ReadonlySet<string> = new Set(
 );
 
 export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec> = [
+  {
+    slug: "trustmrr-startups",
+    fetcher: "trustmrr",
+    reason:
+      "TrustMRR now returns 10-row pages and rate limits a full catalog sweep before completion; the last-known-good catalog remains available for hourly revenue-overlays until a bounded provider export or cursor is available.",
+  },
+  {
+    slug: "trustmrr-startups:meta",
+    fetcher: "trustmrr",
+    reason:
+      "TrustMRR now returns 10-row pages and rate limits a full catalog sweep before completion; the last-known-good catalog remains available for hourly revenue-overlays until a bounded provider export or cursor is available.",
+  },
   {
     slug: "worker-health:velocity-seed",
     fetcher: "velocity-seed",

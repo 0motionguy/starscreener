@@ -277,6 +277,23 @@ test("/api/worker/health: disabled slugs stay visible but inactive", () => {
   }
 });
 
+test("/api/worker/health: GraphQL backfill supersedes the rejected REST velocity seed", () => {
+  const fetchers = new Set(registeredWorkerFetcherNames());
+  const active = new Set(WORKER_HEALTH_SPECS.map((item) => item.slug));
+  const disabled = new Map(
+    WORKER_HEALTH_DISABLED_SPECS.map((item) => [item.slug, item.reason]),
+  );
+
+  assert.equal(fetchers.has("velocity-backfill"), true);
+  assert.equal(fetchers.has("velocity-seed"), false);
+  assert.equal(
+    SOURCE_CONTRACTS.find((source) => source.id === "velocity-seed")?.state,
+    "paused",
+  );
+  assert.equal(active.has("worker-health:velocity-seed"), false);
+  assert.match(disabled.get("worker-health:velocity-seed") ?? "", /velocity-backfill/);
+});
+
 test("paused Reddit source is not hydrated by the global mention refresher", () => {
   const source = readFileSync(
     resolve(process.cwd(), "src", "lib", "refresh-mentions.ts"),

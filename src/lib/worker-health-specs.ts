@@ -45,11 +45,6 @@ export const WORKER_DYNAMIC_OUTPUT_HEALTH_SPECS: ReadonlyArray<DynamicOutputHeal
     outputPattern: "star-activity:<owner>__<name>",
     markerSlug: "worker-health:velocity-refresh",
   },
-  {
-    fetcher: "velocity-seed",
-    outputPattern: "star-activity:<owner>__<name>",
-    markerSlug: "worker-health:velocity-seed",
-  },
 ];
 
 export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
@@ -104,7 +99,6 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
   { slug: "worker-health:star-activity", fetcher: "star-activity", cadenceMin: 60 * 24 },
   { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 60 * 24 },
-  { slug: "worker-health:velocity-seed", fetcher: "velocity-seed", cadenceMin: 60 * 24 },
   { slug: "worker-health:repo-community-profile", fetcher: "repo-community-profile", cadenceMin: 60 },
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
@@ -124,6 +118,12 @@ export const WORKER_PAYLOAD_HEALTH_SLUGS: ReadonlySet<string> = new Set(
 );
 
 export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec> = [
+  {
+    slug: "worker-health:velocity-seed",
+    fetcher: "velocity-seed",
+    reason:
+      "GitHub rejects the REST stargazer-list call for the production PAT pool; velocity-backfill already supplies the same anchors for the full registry through GraphQL.",
+  },
   {
     slug: "openrouter-usage",
     fetcher: "openrouter-usage",

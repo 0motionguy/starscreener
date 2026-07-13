@@ -1,5 +1,5 @@
 {
-  "_comment": "Synthetic Firecrawl JSON-extract response shape, mirrors what skills.sh returns when scraped via formats:['json']. The HTML fixture skills-sh-response.html is the real upstream response and exercises the direct/cheerio path (production on Railway without FIRECRAWL_API_KEY).",
+  "_comment": "Legacy synthetic structured-extract response. The HTML fixture skills-sh-response.html is the real upstream response and exercises the bounded native HTTP plus cheerio path.",
   "skills": [
     {
       "rank": 1,

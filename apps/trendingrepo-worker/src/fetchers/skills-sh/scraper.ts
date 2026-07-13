@@ -1,11 +1,10 @@
 // Orchestrates skills.sh leaderboard scraping. Pulled out of index.ts so
-// that tests can drive the full multi-view pipeline against a mocked
-// Firecrawl client without touching the cron / Redis publish path.
+// tests can drive the full multi-view pipeline without touching the cron /
+// Redis publish path.
 //
 // Responsibilities:
-//   1. For each requested view, call Firecrawl JSON extract -> parser. If
-//      the extract returns < 10 rows (looksEmpty sentinel), fall through
-//      to the HTML scrape + cheerio path.
+//   1. Fetch each server-rendered leaderboard view with the bounded worker
+//      HTTP client and parse it locally with cheerio/regex.
 //   2. Merge rows across views by source_id, preferring the all-time row
 //      (canonical rank for velocity), unioning agents from every view.
 //   3. Filter out unknown agent slugs (drops LLM hallucinations).
@@ -19,16 +18,8 @@
 import type { Logger } from 'pino';
 import type { HttpClient } from '../../lib/types.js';
 import {
-  SKILLS_LEADERBOARD_PROMPT,
-  SKILLS_LEADERBOARD_SCHEMA,
-  type FirecrawlLike,
-} from './client.js';
-import {
   filterToKnownAgents,
-  looksEmpty,
-  parseFromExtract,
   parseFromHtml,
-  type ExtractedShape,
 } from './parser.js';
 import { fetchSkillMd, type ParsedSkillMd } from './skill-md.js';
 import type { SkillRow, SkillView } from './types.js';
@@ -45,7 +36,6 @@ export interface ScrapeOptions {
   detailDepth?: number;
   /** Max concurrent SKILL.md fetches. Default 8. */
   detailConcurrency?: number;
-  firecrawlWaitMs?: number;
 }
 
 export interface ScrapeError {
@@ -62,14 +52,6 @@ export interface ScrapeResult {
 }
 
 export interface ScrapeDeps {
-  /**
-   * Firecrawl client. When null (FIRECRAWL_API_KEY unset), the scraper falls
-   * back to a direct `http.text()` fetch + cheerio/regex parse. skills.sh is
-   * server-side-rendered so the static HTML has the full leaderboard;
-   * Firecrawl is only the *preferred* path because LLM extract is more
-   * resilient to UI/class-name churn.
-   */
-  firecrawl: FirecrawlLike | null;
   http: HttpClient;
   log: Logger;
   fetchedAt: string;
@@ -111,7 +93,7 @@ export async function scrapeSkillsSh(
     const target = SKILLS_SH_VIEWS.find((v) => v.view === view);
     if (!target) continue;
     try {
-      const rows = await fetchOneView(deps, target.url, view, opts.firecrawlWaitMs);
+      const rows = await fetchOneView(deps, target.url, view);
       rowsByView[view] = rows;
       perView[view] = rows.length;
       deps.log.info({ view, rows: rows.length }, 'skills-sh view fetched');
@@ -154,87 +136,30 @@ export async function scrapeSkillsSh(
   return { rows: cleaned, details, perView, errors };
 }
 
+/**
+ * Hits the public skills.sh URL with a desktop User Agent and parses the
+ * SSR-rendered HTML with cheerio (with the regex backstop). Transport errors
+ * bubble to the per-view handler so partial results still publish with a
+ * diagnostic for the failed view.
+ */
 async function fetchOneView(
   deps: ScrapeDeps,
   url: string,
   view: SkillView,
-  waitMs?: number,
 ): Promise<SkillRow[]> {
-  // No-Firecrawl path: skip JSON extract entirely, fetch the SSR HTML
-  // directly via the worker http client and parse with cheerio/regex. This
-  // is the production path on Railway when FIRECRAWL_API_KEY is unset.
-  if (!deps.firecrawl) {
-    return fetchOneViewDirect(deps, url, view);
-  }
-
-  let rows: SkillRow[] = [];
-  try {
-    const { data, warning } = await deps.firecrawl.scrapeJson(
-      url,
-      SKILLS_LEADERBOARD_SCHEMA,
-      SKILLS_LEADERBOARD_PROMPT,
-      waitMs,
-    );
-    if (warning) deps.log.warn({ view, warning }, 'skills-sh json-extract returned warning');
-    rows = parseFromExtract({
-      extracted: (data ?? null) as ExtractedShape | null,
-      view,
-      fetchedAt: deps.fetchedAt,
-    });
-    if (!looksEmpty(rows, 10)) return rows;
-    deps.log.warn(
-      { view, extracted: rows.length },
-      'skills-sh json-extract returned <10 rows - falling back to html parse',
-    );
-  } catch (err) {
-    deps.log.warn({ view, err: (err as Error).message }, 'skills-sh json-extract threw - falling back');
-  }
-
-  const { html } = await deps.firecrawl.scrapeHtml(url, waitMs);
-  if (!html) {
-    // Firecrawl HTML scrape failed too — last-resort direct fetch before
-    // giving up. Empty result is still allowed (caller logs perView=0).
-    const directRows = await fetchOneViewDirect(deps, url, view).catch(() => [] as SkillRow[]);
-    return directRows.length > rows.length ? directRows : rows;
-  }
-  const htmlRows = parseFromHtml({ html, view, fetchedAt: deps.fetchedAt });
-  return htmlRows.length > rows.length ? htmlRows : rows;
-}
-
-/**
- * Direct HTTP fallback. Hits the public skills.sh URL with a desktop User
- * Agent and parses the SSR-rendered HTML with cheerio (with the regex
- * backstop). Used when Firecrawl is unavailable. Returns [] on transport
- * failure rather than throwing — the caller treats 0 rows for one view as
- * non-fatal (the published payload just shows perView=0 for that view).
- */
-async function fetchOneViewDirect(
-  deps: ScrapeDeps,
-  url: string,
-  view: SkillView,
-): Promise<SkillRow[]> {
-  try {
-    // 30s (above 20s policy default) — skills.sh SSR pulls down the full
-    // leaderboard HTML; with all rows + agent metadata it tops 20s on
-    // cold-cache hits.
-    const { data: html } = await deps.http.text(url, {
-      useEtagCache: false,
-      timeoutMs: 30_000,
-      maxRetries: 1,
-      headers: {
-        'user-agent': SKILLS_SH_USER_AGENT,
-        accept: 'text/html,application/xhtml+xml',
-      },
-    });
-    if (!html) return [];
-    return parseFromHtml({ html, view, fetchedAt: deps.fetchedAt });
-  } catch (err) {
-    deps.log.warn(
-      { view, url, err: (err as Error).message },
-      'skills-sh direct http fetch failed',
-    );
-    return [];
-  }
+  // 30s (above 20s policy default) — skills.sh SSR pulls down the full
+  // leaderboard HTML; with all rows + agent metadata it tops 20s on
+  // cold-cache hits.
+  const { data: html } = await deps.http.text(url, {
+    useEtagCache: false,
+    timeoutMs: 30_000,
+    maxRetries: 1,
+    headers: {
+      'user-agent': SKILLS_SH_USER_AGENT,
+      accept: 'text/html,application/xhtml+xml',
+    },
+  });
+  return html ? parseFromHtml({ html, view, fetchedAt: deps.fetchedAt }) : [];
 }
 
 /**

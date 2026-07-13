@@ -6,8 +6,8 @@
 // `claude-skill` (singular) and `agent-skill` (broader) so we union all three
 // and dedupe by full_name. Cross-topic appearance gives a small score boost.
 //
-// Secondary signal (planned): Firecrawl scrape of docs.claude.com curated
-// skill links, when Anthropic publishes a registry-shaped index page.
+// Secondary signal (planned): parse docs.claude.com curated skill links when
+// Anthropic publishes a registry-shaped index page.
 // Currently that page is tutorial content with no machine-extractable list,
 // so the scrape is a stub returning [].
 //
@@ -108,7 +108,7 @@ const fetcher: Fetcher = {
       }
     }
 
-    // Firecrawl path - stub. Skills currently come from GitHub only.
+    // Official-docs path is a stub. Skills currently come from GitHub only.
     // The docs.claude.com/en/docs/claude-code/skills page exists but is
     // tutorial content, not a curated registry. Revisit when Anthropic ships
     // a machine-readable skill index.
@@ -121,7 +121,7 @@ const fetcher: Fetcher = {
         }
       }
     } catch (err) {
-      errors.push({ stage: 'firecrawl-docs', message: (err as Error).message });
+      errors.push({ stage: 'official-docs', message: (err as Error).message });
     }
 
     const sorted = Array.from(skillsByName.values())
@@ -239,7 +239,7 @@ async function scrapeOfficialDocs(_ctx: FetcherContext): Promise<string[]> {
   // Reserved for later. The docs.claude.com/en/docs/claude-code/skills page
   // returns 200 + 44KB of markdown but its content is tutorial-shaped, not a
   // registry. Revisit if Anthropic publishes a curated <SkillCard> grid we
-  // can parse. Until then we don't burn Firecrawl credits per cron tick.
+  // can parse. Until then there is no second network request per cron tick.
   return [];
 }
 

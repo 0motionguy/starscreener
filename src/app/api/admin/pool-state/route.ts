@@ -557,7 +557,6 @@ const SINGLETON_SPECS: Array<{
   { name: "KIMI", slugs: ["consensus-verdicts", "llm-aggregate-heartbeat"], budgetMs: 36 * HOUR_MS },
   { name: "ANTHROPIC", meta: "claude-rss", slugs: ["claude-rss"], budgetMs: 30 * HOUR_MS },
   { name: "HF", meta: "huggingface", slugs: ["huggingface-trending", "huggingface-datasets", "huggingface-spaces"], budgetMs: 24 * HOUR_MS },
-  { name: "FIRECRAWL", slugs: ["funding-news", "funding-news-crunchbase"], budgetMs: 24 * HOUR_MS },
 ];
 
 async function singletonRows(): Promise<SingletonRow[]> {

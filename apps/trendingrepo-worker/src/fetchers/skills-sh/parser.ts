@@ -1,7 +1,7 @@
 // Normaliser for skills.sh leaderboard data.
 //
 // Two intake paths:
-//   1. Firecrawl /v1/scrape with formats=['json'] + zod schema returns a
+//   1. A structured fixture or first-party extraction source returns a
 //      structured object. Primary path: parseFromExtract. LLM extraction is
 //      robust against UI churn.
 //   2. Raw HTML fallback parsed with cheerio. Used if the JSON extract

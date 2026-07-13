@@ -39,14 +39,6 @@ export async function runFetcher(
   const startedAt = new Date().toISOString();
   const t0 = Date.now();
 
-  if (fetcher.requiresFirecrawl && !process.env.FIRECRAWL_API_KEY) {
-    log.warn(
-      { fetcher: fetcher.name },
-      'fetcher requires FIRECRAWL_API_KEY but env is empty - skipping',
-    );
-    return emptyResult(fetcher.name, startedAt);
-  }
-
   // Move 1, Phase 3 — bind static SourceContract at run time. Used for
   // diagnostics today (run-summary line + ctx availability), freshness/cost
   // enforcement in Move 3. Missing-contract for an active fetcher is a
@@ -167,19 +159,6 @@ export async function runFetcher(
   } finally {
     setCurrentFetcherName(null);
   }
-}
-
-function emptyResult(name: string, startedAt: string): RunResult {
-  return {
-    fetcher: name,
-    startedAt,
-    finishedAt: new Date().toISOString(),
-    itemsSeen: 0,
-    itemsUpserted: 0,
-    metricsWritten: 0,
-    redisPublished: false,
-    errors: [],
-  };
 }
 
 function throwOnUseRedisHandle(): RedisHandle {

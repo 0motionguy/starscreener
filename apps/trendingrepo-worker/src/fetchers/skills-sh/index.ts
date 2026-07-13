@@ -15,7 +15,6 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
-import { FirecrawlClient } from './client.js';
 import { scrapeSkillsSh } from './scraper.js';
 import { scoreRow } from './scoring.js';
 import { AGENT_REGISTRY_VERSION } from './agents.js';
@@ -26,14 +25,8 @@ import type {
 
 const REDIS_SLUG = 'trending-skill-sh';
 
-// Note: requiresFirecrawl is intentionally NOT set. skills.sh is
-// server-side-rendered (the leaderboard ships in initial HTML), so the
-// scraper falls back to a plain ctx.http.text() fetch + cheerio parse when
-// FIRECRAWL_API_KEY is unset. The pre-2026-04-29 setup had requiresFirecrawl=true
-// which made the runner short-circuit to 0 items on Railway whenever the
-// Firecrawl key was unprovisioned — that's how this fetcher silently
-// produced 0 rows for weeks. Keeping Firecrawl as the preferred path (LLM
-// extract is more robust to UI churn) but no longer requiring it.
+// skills.sh server-renders the leaderboard, so a bounded native HTTP fetch
+// plus local cheerio parsing is sufficient and keeps this source self-hosted.
 const fetcher: Fetcher = {
   name: 'skills-sh',
   schedule: '15 */2 * * *',
@@ -44,15 +37,8 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, []);
     }
 
-    const firecrawl = FirecrawlClient.fromEnv();
-    if (!firecrawl) {
-      ctx.log.warn(
-        'FIRECRAWL_API_KEY not set - falling back to direct ctx.http scrape of skills.sh',
-      );
-    }
-
     const { rows, perView, errors } = await scrapeSkillsSh(
-      { firecrawl, http: ctx.http, log: ctx.log, fetchedAt: startedAt },
+      { http: ctx.http, log: ctx.log, fetchedAt: startedAt },
       // detailDepth is intentionally 0 here - the SKILL.md enrichment pass
       // is a Phase 3 concern that needs GH_TOKEN_POOL throttling. Keep the
       // primary scrape lean and let a follow-up cron do enrichment.

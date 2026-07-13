@@ -574,7 +574,7 @@
     "owner": "UNASSIGNED",
     "upstream_url": "https://skills.sh",
     "auth_required": false,
-    "auth_scheme": "firecrawl",
+    "auth_scheme": "none",
     "primary_output_keys": ["trending-skill-sh"],
     "output_record_shape": "ranked_list",
     "consumer_surfaces": ["src/lib/ecosystem-leaderboards.ts"],
@@ -631,7 +631,7 @@
     "owner": "UNASSIGNED",
     "upstream_url": "https://lobehub.com/skills",
     "auth_required": false,
-    "auth_scheme": "firecrawl",
+    "auth_scheme": "none",
     "primary_output_keys": ["trending-skill-lobehub"],
     "output_record_shape": "ranked_list",
     "consumer_surfaces": ["src/lib/ecosystem-leaderboards.ts"],
@@ -998,7 +998,7 @@
     "owner": "UNASSIGNED",
     "upstream_url": "https://mcp.so",
     "auth_required": false,
-    "auth_scheme": "firecrawl",
+    "auth_scheme": "none",
     "primary_output_keys": ["trending-mcp-so"],
     "output_record_shape": "ranked_list",
     "consumer_surfaces": [],
@@ -1006,7 +1006,7 @@
     "supports_backfill": false,
     "fallback_strategy": "skip",
     "writes_canonical_entity_kind": ["mcp"],
-    "decision_pending": "Stub fetcher; mcp.so has no public API and would require Firecrawl crawl. Ship the Firecrawl-based port OR delete (mcp-registry-official + glama + pulsemcp + smithery already cover the surface)?"
+    "decision_pending": "Stub fetcher; mcp.so has no supported public API. Add a first-party Toolbox/Context adapter or delete the stub (mcp-registry-official + glama + pulsemcp + smithery already cover the surface)?"
   },
   {
     "id": "mcp-servers-repo",

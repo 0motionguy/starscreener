@@ -63,7 +63,6 @@ export type AuthScheme =
   | 'github_pat_pool'
   | 'apify_token'
   | 'twitter_web_cookies'
-  | 'firecrawl'
   | 'supabase_service'
   | 'none';
 

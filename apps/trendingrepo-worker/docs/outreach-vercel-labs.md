@@ -16,9 +16,9 @@ space right now.
 
 We're indexing skills.sh on a 2-hour cadence so authors get cross-source
 visibility (their skills surface alongside HF models and GitHub repos in
-the same trending view). Today we scrape the public leaderboard with
-Firecrawl + JS render. It works, but every UI change breaks our parser
-for a few hours.
+the same trending view). Today we fetch the server-rendered public
+leaderboard and parse it locally. It works, but every UI change can break
+our parser for a few hours.
 
 Would you consider exposing a small JSON endpoint alongside the HTML
 view? Something shaped like:

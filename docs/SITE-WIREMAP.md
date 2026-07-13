@@ -91,7 +91,7 @@ HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface
 
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
-| `/funding` (Funding Radar) | ISR | `refreshFundingNewsFromStore()` | collect-funding (Railway worker fetches) | every 6h | Crunchbase-like via Firecrawl + Coingecko + Dune + Libraries.io |
+| `/funding` (Funding Radar) | ISR | `refreshFundingNewsFromStore()` | collect-funding (Railway worker fetches) | every 6h | RSS/article fetches + Coingecko + Dune + Libraries.io |
 | `/revenue` | ISR | `refreshRevenueStartupsFromStore()` + `refreshRevenueOverlaysFromStore()` | sync-trustmrr (Trustmrr sync nightly) | daily `27 2 * * *` | Trustmrr API (`TRUSTMRR_API_KEY`) |
 | `/submit/revenue` (Drop Revenue) | static | static form → POST to `/api/revenue/claim` | n/a (user submission) | n/a | n/a |
 | (Hackathons, Launch nav-only — TBD pages) | static | placeholder routes | n/a | n/a | n/a |

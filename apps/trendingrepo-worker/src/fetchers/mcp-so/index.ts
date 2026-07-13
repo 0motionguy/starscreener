@@ -3,10 +3,9 @@ import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 const fetcher: Fetcher = {
   name: 'mcp-so',
   schedule: '0 */8 * * *',
-  requiresFirecrawl: true,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    ctx.log.warn('mcp-so not yet implemented - skip (Firecrawl crawl, no public API)');
+    ctx.log.warn('mcp-so not yet implemented - skip (no supported public API)');
     return empty('mcp-so', startedAt);
   },
 };

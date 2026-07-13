@@ -331,7 +331,6 @@ Boot guard in `env.ts:142-164`: production throws unless
 | `PRODUCTHUNT_TOKEN`, `PRODUCTHUNT_TOKENS` | `scripts/scrape-producthunt.mjs` (`loadProducthuntTokens`) + worker | round-robin pool |
 | `HF_TOKEN`, `HF_TOKENS`, `HF_CARD_FETCH_LIMIT`, `HF_SPACES_CARD_FETCH_LIMIT` | huggingface scrape scripts | single token (HF_TOKENS reserved for future pool) |
 | `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USER_AGENT` | reddit scripts + worker | OAuth app |
-| `FIRECRAWL_API_KEY`, `FIRECRAWL_API_KEYS` | worker funding-news + crunchbase fetchers | crawler |
 | `LIBRARIES_IO_API_KEY` | worker funding-news fetcher | OSS funding signals |
 | `KIMI_BASE_URL`, `KIMI_MODEL` | worker consensus-analyst | optional moonshot.ai swap (defaults to api.kimi.com/coding/v1) |
 | `AA_API_KEY` | scripts/fetch-artificial-analysis.mjs | agent-commerce pipeline |
@@ -389,7 +388,7 @@ Boot guard in `env.ts:142-164`: production throws unless
 script-side bot pushes; not part of runtime.
 
 Total distinct env vars seen across both env.example + grep:
-~115 (counting families like `NPM_*` once = ~85 unique; full
+~113 (counting families like `NPM_*` once = ~83 unique; full
 machine-readable list belongs in a generated artifact, not here).
 
 ---

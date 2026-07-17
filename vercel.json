@@ -5,5 +5,10 @@
     { "path": "/api/cron/alerts/dispatch", "schedule": "* * * * *" },
     { "path": "/api/cron/alerts/cleanup", "schedule": "5 0 * * *" },
     { "path": "/api/cron/referrals/qualify", "schedule": "0 * * * *" }
-  ]
+  ],
+  "functions": {
+    "src/app/api/pipeline/ingest/route.ts": {
+      "maxDuration": 600
+    }
+  }
 }

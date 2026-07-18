@@ -1,7 +1,11 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FetcherContext } from '../../../lib/types.js';
 
 const ORIGINAL_ENV = { ...process.env };
+
+beforeEach(() => {
+  vi.resetModules();
+});
 
 afterEach(() => {
   for (const key of Object.keys(process.env)) {

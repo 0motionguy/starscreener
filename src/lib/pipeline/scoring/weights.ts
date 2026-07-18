@@ -12,17 +12,24 @@ import type { ScoreWeights } from "../types";
 // Defaults — must sum to 1.0 exactly.
 // ---------------------------------------------------------------------------
 
+// 2026-07-09 rebalance: `crossSignal` (7-channel fusion — the product's
+// differentiator) joins the composite at 0.10. Paid for by trimming
+// starVelocity24h (.20→.18), starVelocity7d (.15→.14), contributorGrowth
+// (.10→.09), commitFreshness (.12→.11), releaseFreshness (.08→.07),
+// socialBuzz (.12→.09 — cross-signal subsumes much of what the
+// twitter-baked buzz score measured), categoryMomentum (.05→.04).
 export const DEFAULT_WEIGHTS: ScoreWeights = {
-  starVelocity24h: 0.2,
-  starVelocity7d: 0.15,
+  starVelocity24h: 0.18,
+  starVelocity7d: 0.14,
   forkVelocity7d: 0.08,
-  contributorGrowth30d: 0.1,
-  commitFreshness: 0.12,
-  releaseFreshness: 0.08,
-  socialBuzz: 0.12,
+  contributorGrowth30d: 0.09,
+  commitFreshness: 0.11,
+  releaseFreshness: 0.07,
+  socialBuzz: 0.09,
   issueActivity: 0.05,
   communityHealth: 0.05,
-  categoryMomentum: 0.05,
+  categoryMomentum: 0.04,
+  crossSignal: 0.1,
 };
 
 // ---------------------------------------------------------------------------
@@ -55,12 +62,15 @@ export const CATEGORY_WEIGHT_OVERRIDES: Record<string, Partial<ScoreWeights>> = 
   // fork + configure. Under default weights, MCP repos flatline on velocity
   // components; this override boosts social + forks + contributor growth
   // and de-emphasizes 24h star spikes which are pure noise at that scale.
+  // crossSignal is boosted too: at MCP scale, corroboration across Reddit/
+  // HN/Bluesky is the strongest available breakout signal.
   mcp: {
-    socialBuzz: 0.18,
+    socialBuzz: 0.16,
     starVelocity24h: 0.10,
     forkVelocity7d: 0.13,
     contributorGrowth30d: 0.14,
-    categoryMomentum: 0.10,
+    categoryMomentum: 0.08,
+    crossSignal: 0.14,
   },
 
   // Developer tools — sustained maintenance and frequent releases signal
@@ -109,7 +119,8 @@ function sumWeights(w: ScoreWeights): number {
     w.socialBuzz +
     w.issueActivity +
     w.communityHealth +
-    w.categoryMomentum
+    w.categoryMomentum +
+    w.crossSignal
   );
 }
 
@@ -134,6 +145,7 @@ function normalize(w: ScoreWeights): ScoreWeights {
     issueActivity: w.issueActivity / total,
     communityHealth: w.communityHealth / total,
     categoryMomentum: w.categoryMomentum / total,
+    crossSignal: w.crossSignal / total,
   };
 }
 

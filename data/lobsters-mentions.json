@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-18T05:50:27.809Z",
+  "fetchedAt": "2026-05-31T22:35:53.806Z",
   "windowDays": 7,
-  "scannedStories": 79,
+  "scannedStories": 81,
   "mentions": {
     "0xdeadbeefnetwork/ssh-keysign-pwn": {
       "count7d": 1,
@@ -197,14 +197,14 @@
     },
     "sander110419/lightroom-cc-on-linux": {
       "count7d": 1,
-      "scoreSum7d": 21,
+      "scoreSum7d": 23,
       "topStory": {
         "shortId": "l34yuj",
         "title": "Claude Code managed to get Adobe Lightroom working on Linux",
-        "score": 21,
+        "score": 23,
         "url": "https://github.com/sander110419/lightroom-cc-on-linux",
         "commentsUrl": "https://lobste.rs/s/l34yuj/claude_code_managed_get_adobe_lightroom",
-        "hoursSincePosted": 16.870555555555555
+        "hoursSincePosted": 21.849444444444444
       },
       "stories": [
         {
@@ -213,11 +213,11 @@
           "url": "https://github.com/sander110419/lightroom-cc-on-linux",
           "commentsUrl": "https://lobste.rs/s/l34yuj/claude_code_managed_get_adobe_lightroom",
           "by": "",
-          "score": 21,
+          "score": 23,
           "commentCount": 4,
           "createdUtc": 1779022693,
-          "ageHours": 16.870555555555555,
-          "trendingScore": 0.25617825646357734,
+          "ageHours": 21.849444444444444,
+          "trendingScore": 0.19747423298236724,
           "tags": [
             "linux",
             "vibecoding"
@@ -226,6 +226,44 @@
           "linkedRepos": [
             {
               "fullName": "sander110419/lightroom-cc-on-linux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tomekw/stcc": {
+      "count7d": 1,
+      "scoreSum7d": 23,
+      "topStory": {
+        "shortId": "pk139i",
+        "title": "The Super Tiny Compiler, but in Ada",
+        "score": 23,
+        "url": "https://github.com/tomekw/stcc",
+        "commentsUrl": "https://lobste.rs/s/pk139i/super_tiny_compiler_ada",
+        "hoursSincePosted": 35.70861111111111
+      },
+      "stories": [
+        {
+          "shortId": "pk139i",
+          "title": "The Super Tiny Compiler, but in Ada",
+          "url": "https://github.com/tomekw/stcc",
+          "commentsUrl": "https://lobste.rs/s/pk139i/super_tiny_compiler_ada",
+          "by": "",
+          "score": 23,
+          "commentCount": 3,
+          "createdUtc": 1779198635,
+          "ageHours": 35.70861111111111,
+          "trendingScore": 0.09932693422418028,
+          "tags": [
+            "plt",
+            "programming"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "tomekw/stcc",
               "matchType": "url",
               "confidence": 1
             }
@@ -382,6 +420,44 @@
         }
       ]
     },
+    "google/ax": {
+      "count7d": 1,
+      "scoreSum7d": 4,
+      "topStory": {
+        "shortId": "3k9g2c",
+        "title": "ax, Google’s new highly distributed agent executor",
+        "score": 4,
+        "url": "https://github.com/google/ax",
+        "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
+        "hoursSincePosted": 57.23222222222222
+      },
+      "stories": [
+        {
+          "shortId": "3k9g2c",
+          "title": "ax, Google’s new highly distributed agent executor",
+          "url": "https://github.com/google/ax",
+          "commentsUrl": "https://lobste.rs/s/3k9g2c/ax_google_s_new_highly_distributed_agent",
+          "by": "",
+          "score": 4,
+          "commentCount": 2,
+          "createdUtc": 1779964740,
+          "ageHours": 57.23222222222222,
+          "trendingScore": 0.008774511584679371,
+          "tags": [
+            "distributed",
+            "vibecoding"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "google/ax",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "withastro/flue": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -449,7 +525,12 @@
     {
       "fullName": "sander110419/lightroom-cc-on-linux",
       "count7d": 1,
-      "scoreSum7d": 21
+      "scoreSum7d": 23
+    },
+    {
+      "fullName": "tomekw/stcc",
+      "count7d": 1,
+      "scoreSum7d": 23
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
@@ -468,6 +549,11 @@
     },
     {
       "fullName": "tidwall/btype",
+      "count7d": 1,
+      "scoreSum7d": 4
+    },
+    {
+      "fullName": "google/ax",
       "count7d": 1,
       "scoreSum7d": 4
     },

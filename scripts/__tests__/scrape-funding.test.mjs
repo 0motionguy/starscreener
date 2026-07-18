@@ -7,6 +7,8 @@ import {
   extractCompanyName,
   extractTags,
   extractFunding,
+  isNonFundingHeadline,
+  hasFundingCue,
   parseRssItems,
 } from "../scrape-funding-news.mjs";
 
@@ -155,6 +157,69 @@ describe("extractFunding", () => {
     assert.equal(result?.amount, 7_500_000);
     assert.equal(result?.roundType, "undisclosed");
     assert.equal(result?.confidence, "medium");
+  });
+
+  it("rejects market-research headlines (the /funding false positive)", () => {
+    const result = extractFunding(
+      "Light Field Technology Market to Reach US$ 440.3 Million by 2032, Driven by AI",
+      "New report projects strong CAGR growth.",
+    );
+    assert.equal(result, null);
+  });
+
+  it("rejects earnings / stock-move headlines even with a dollar figure", () => {
+    assert.equal(
+      extractFunding("Nvidia shares surge after $30B quarterly revenue beat", ""),
+      null,
+    );
+    assert.equal(
+      extractFunding("AI chipmaker reports record profit of $2.1 billion", ""),
+      null,
+    );
+  });
+
+  it("rejects an amount + company with no funding cue", () => {
+    // Capitalized phrase + amount but no raise/round/funding verb.
+    assert.equal(
+      extractFunding("OpenAI unveils GPT-6 priced at $200 per month", ""),
+      null,
+    );
+  });
+
+  it("still extracts genuine raises", () => {
+    const seed = extractFunding("Acme lands $4M to build agentic tooling", "");
+    assert.equal(seed?.companyName, "Acme");
+    assert.equal(seed?.amount, 4_000_000);
+    const backed = extractFunding(
+      "Cursor secures $900M Series C backed by Thrive",
+      "",
+    );
+    assert.equal(backed?.roundType, "series-c");
+    assert.equal(backed?.confidence, "high");
+  });
+});
+
+describe("isNonFundingHeadline / hasFundingCue", () => {
+  it("flags market-size, forecast, earnings, and stock headlines", () => {
+    assert.equal(
+      isNonFundingHeadline("Global AI Market Size to Reach $1.3T by 2030"),
+      true,
+    );
+    assert.equal(
+      isNonFundingHeadline("Startup projected to reach $50M ARR next year"),
+      true,
+    );
+    assert.equal(
+      isNonFundingHeadline("Palantir stock jumps 12% on earnings beat"),
+      true,
+    );
+    assert.equal(isNonFundingHeadline("Acme raises $10M Series A"), false);
+  });
+
+  it("requires a real funding cue, not just an amount", () => {
+    assert.equal(hasFundingCue("Acme raises $5M seed round"), true);
+    assert.equal(hasFundingCue("backed by Sequoia"), true);
+    assert.equal(hasFundingCue("worth $440 million by 2032"), false);
   });
 });
 

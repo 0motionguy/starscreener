@@ -13,7 +13,24 @@ import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
-const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
+// 2026-05-20: expand from 5 → 10 languages to grow distinct-repo coverage
+// from ~684 → target 1400+. Adds the 5 highest-volume languages OSS Insight
+// returns full-100-row buckets for (verified 2026-05-20: JavaScript=100,
+// Java=100, C++=100, C#=88, Kotlin=84). Total buckets: 3 periods × 10 langs
+// = 30 (was 15). At 1500ms throttle between calls scrape wall time grows
+// ~22.5s → ~45s — well inside OSS Insight's 600 req/hr rate budget.
+const LANGUAGES = [
+  "All",
+  "Python",
+  "TypeScript",
+  "Rust",
+  "Go",
+  "JavaScript",
+  "Java",
+  "C++",
+  "C#",
+  "Kotlin",
+];
 const TRENDS_PAUSE_MS = 1500;
 const COLLECTIONS_PAUSE_MS = 400;
 const COLLECTION_RANKING_PERIOD = "past_28_days";

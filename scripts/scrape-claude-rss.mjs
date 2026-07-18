@@ -17,7 +17,7 @@ import { writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
@@ -159,6 +159,9 @@ async function main() {
   const writeResult = await writeDataStore(STORE_KEY, payload, {
     stampPerRecord: false,
   });
+  if (writeResult.source === "redis") {
+    await verifyMetaLanded(STORE_KEY, writeResult.writtenAt);
+  }
   log(`store write: ${writeResult.source} (${writeResult.writtenAt})`);
 
   await closeDataStore();

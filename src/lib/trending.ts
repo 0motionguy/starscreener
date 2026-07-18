@@ -22,7 +22,21 @@ import { shouldUseToolboxPayload } from "./toolbox-freshness";
 import type { Repo } from "./types";
 
 export type TrendingPeriod = "past_24_hours" | "past_week" | "past_month";
-export type TrendingLanguage = "All" | "Python" | "TypeScript" | "Rust" | "Go";
+// 2026-05-20: expanded from 5 → 10 languages alongside scripts/scrape-trending.mjs
+// to grow distinct-repo coverage from ~684 → target 1400+. Keep this union in
+// sync with the scraper LANGUAGES array AND
+// apps/trendingrepo-worker/src/fetchers/oss-trending/index.ts.
+export type TrendingLanguage =
+  | "All"
+  | "Python"
+  | "TypeScript"
+  | "Rust"
+  | "Go"
+  | "JavaScript"
+  | "Java"
+  | "C++"
+  | "C#"
+  | "Kotlin";
 
 // OSS Insight returns all numeric columns as strings. We preserve the raw
 // shape here; callers that need numbers should parse at the boundary.
@@ -425,7 +439,18 @@ export interface TrendingTopMover {
 export const getTopMoversByDelta24h = cache(function getTopMoversByDelta24hImpl(limit: number): TrendingTopMover[] {
   if (limit <= 0) return [];
   const byRepo = new Map<string, TrendingTopMover>();
-  const languages: TrendingLanguage[] = ["All", "Python", "TypeScript", "Rust", "Go"];
+  const languages: TrendingLanguage[] = [
+    "All",
+    "Python",
+    "TypeScript",
+    "Rust",
+    "Go",
+    "JavaScript",
+    "Java",
+    "C++",
+    "C#",
+    "Kotlin",
+  ];
 
   for (const language of languages) {
     for (const row of getTrending("past_24_hours", language)) {

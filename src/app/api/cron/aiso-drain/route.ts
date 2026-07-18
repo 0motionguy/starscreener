@@ -93,8 +93,15 @@ const POST_CACHE_HEADERS = {
 // in production reads these hooks.
 
 export interface AisoDrainTestOverrides {
-  /** Replacement for `getAisoToolsScan(url)`. */
-  scanner?: (url: string | null) => Promise<AisoToolsScan | null>;
+  /** Replacement for `getAisoToolsScan(url, attribution)`. */
+  scanner?: (
+    url: string | null,
+    options?: {
+      source?: string | null;
+      projectName?: string | null;
+      projectUrl?: string | null;
+    },
+  ) => Promise<AisoToolsScan | null>;
   /**
    * Replacement for the 3s inter-call gap. Tests pass 0 to avoid dragging
    * test runtime.
@@ -139,6 +146,16 @@ function parseLimit(raw: unknown): number {
   }
   const clamped = Math.min(Math.floor(raw), MAX_LIMIT);
   return Math.max(1, clamped);
+}
+
+function repoProfileUrl(fullName: string): string {
+  const [owner, name] = fullName.split("/");
+  if (!owner || !name) return "https://trendingrepo.com";
+  return `https://trendingrepo.com/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
+function projectName(fullName: string): string {
+  return `TrendingRepo: ${fullName}`.slice(0, 80);
 }
 
 // Body parsing routed through @/lib/api/parse-body (canonical helper)
@@ -258,7 +275,11 @@ async function runDrain(
     }
 
     try {
-      const scan = await scanner(row.websiteUrl);
+      const scan = await scanner(row.websiteUrl, {
+        source: `trendingrepo-aiso-drain:${row.source ?? "unknown"}`.slice(0, 80),
+        projectName: projectName(row.repoFullName),
+        projectUrl: repoProfileUrl(row.repoFullName),
+      });
       // Persist the scan (even null) into data/repo-profiles.json so the
       // result outlives the in-process memoryCache. A persist throw is
       // treated as a row failure — we'd rather retry than silently drop

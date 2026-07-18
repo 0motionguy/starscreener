@@ -1,5 +1,5 @@
 {
-  "lastComputedAt": "2026-05-18T07:12:58.263Z",
+  "lastComputedAt": "2026-05-25T08:05:38.698Z",
   "windowDays": 30,
   "subredditsRequested": 44,
   "subredditsSucceeded": 45,
@@ -12,7 +12,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 0,
+      "actual_window_days": 1,
       "confidence": "medium"
     },
     "ChatGPT": {
@@ -32,7 +32,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 2,
+      "actual_window_days": 3,
       "confidence": "medium"
     },
     "LocalLLaMA": {
@@ -42,7 +42,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 1,
+      "actual_window_days": 2,
       "confidence": "medium"
     },
     "GeminiAI": {
@@ -52,7 +52,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 1,
+      "actual_window_days": 0,
       "confidence": "medium"
     },
     "DeepSeek": {
@@ -62,7 +62,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 4,
+      "actual_window_days": 3,
       "confidence": "medium"
     },
     "Perplexity_AI": {
@@ -72,7 +72,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 8,
+      "actual_window_days": 10,
       "confidence": "medium"
     },
     "MistralAI": {
@@ -82,7 +82,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 14,
+      "actual_window_days": 15,
       "confidence": "medium"
     },
     "grok": {
@@ -112,7 +112,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 5,
+      "actual_window_days": 7,
       "confidence": "medium"
     },
     "LLMDevs": {
@@ -122,7 +122,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 5,
+      "actual_window_days": 4,
       "confidence": "medium"
     },
     "ClaudeCode": {
@@ -162,7 +162,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 13,
+      "actual_window_days": 14,
       "confidence": "medium"
     },
     "artificial": {
@@ -172,7 +172,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 5,
+      "actual_window_days": 4,
       "confidence": "medium"
     },
     "singularity": {
@@ -182,7 +182,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 7,
+      "actual_window_days": 5,
       "confidence": "medium"
     },
     "datascience": {
@@ -191,8 +191,8 @@
       "p75_upvotes": 0,
       "p90_upvotes": 0,
       "median_comments": 0,
-      "sample_size": 82,
-      "actual_window_days": 29,
+      "sample_size": 83,
+      "actual_window_days": 28,
       "confidence": "medium"
     },
     "vibecoding": {
@@ -212,7 +212,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 7,
+      "actual_window_days": 4,
       "confidence": "medium"
     },
     "ChatGPTCoding": {
@@ -221,8 +221,8 @@
       "p75_upvotes": 0,
       "p90_upvotes": 0,
       "median_comments": 0,
-      "sample_size": 12,
-      "actual_window_days": 29,
+      "sample_size": 4,
+      "actual_window_days": 27,
       "confidence": "low"
     },
     "ChatGPTPromptGenius": {
@@ -232,7 +232,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 21,
+      "actual_window_days": 26,
       "confidence": "medium"
     },
     "PromptEngineering": {
@@ -262,7 +262,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 8,
+      "actual_window_days": 9,
       "confidence": "medium"
     },
     "AIAssisted": {
@@ -272,7 +272,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 10,
+      "actual_window_days": 8,
       "confidence": "medium"
     },
     "learnmachinelearning": {
@@ -282,7 +282,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 2,
+      "actual_window_days": 1,
       "confidence": "medium"
     },
     "deeplearning": {
@@ -292,7 +292,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 7,
+      "actual_window_days": 6,
       "confidence": "medium"
     },
     "LocalLLM": {
@@ -312,7 +312,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 5,
+      "actual_window_days": 3,
       "confidence": "medium"
     },
     "n8n": {
@@ -332,7 +332,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 6,
+      "actual_window_days": 5,
       "confidence": "medium"
     },
     "LangChain": {
@@ -342,7 +342,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 6,
+      "actual_window_days": 5,
       "confidence": "medium"
     },
     "generativeAI": {
@@ -362,7 +362,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 12,
+      "actual_window_days": 13,
       "confidence": "medium"
     },
     "SEO": {
@@ -372,7 +372,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 6,
+      "actual_window_days": 8,
       "confidence": "medium"
     },
     "WritingWithAI": {
@@ -382,7 +382,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 7,
+      "actual_window_days": 8,
       "confidence": "medium"
     },
     "SaaS": {
@@ -401,8 +401,8 @@
       "p75_upvotes": 0,
       "p90_upvotes": 0,
       "median_comments": 0,
-      "sample_size": 88,
-      "actual_window_days": 27,
+      "sample_size": 98,
+      "actual_window_days": 29,
       "confidence": "medium"
     },
     "ollama": {
@@ -422,7 +422,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 17,
+      "actual_window_days": 18,
       "confidence": "medium"
     },
     "CLine": {
@@ -431,7 +431,7 @@
       "p75_upvotes": 0,
       "p90_upvotes": 0,
       "median_comments": 0,
-      "sample_size": 46,
+      "sample_size": 40,
       "actual_window_days": 29,
       "confidence": "low"
     },
@@ -442,7 +442,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 17,
+      "actual_window_days": 16,
       "confidence": "medium"
     },
     "nocode": {
@@ -452,7 +452,7 @@
       "p90_upvotes": 0,
       "median_comments": 0,
       "sample_size": 100,
-      "actual_window_days": 4,
+      "actual_window_days": 3,
       "confidence": "medium"
     }
   }

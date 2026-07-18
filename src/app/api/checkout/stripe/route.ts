@@ -14,14 +14,18 @@
 //   503 Stripe not configured / no matching price ID
 //   500 unexpected Stripe error (message NOT leaked)
 //
-// Auth contract: this route requires an authenticated caller — we resolve the
-// userId from `verifyUserAuth` (same surface AlertConfig uses). Anonymous
-// visitors must log in before they can self-serve checkout.
+// Auth contract: this route requires a CLERK-authenticated caller — identity
+// unification made Clerk the source of truth for anything that can hold a
+// paid tier. Anonymous visitors get 401 and must sign in first. The route
+// is on the middleware's isClerkSessionRoute list so `getOptionalUser()`
+// has Clerk context.
 //
 // Security notes:
-//   - We pin `client_reference_id` + `metadata.userId` to the auth-derived
-//     userId, NEVER to a body/query value. Webhooks read these back to route
-//     tier updates to the correct user.
+//   - We pin `client_reference_id` + `metadata.userId` to the Clerk-derived
+//     userId (`c_<clerkUserId>`), NEVER to a body/query/cookie value. The
+//     webhook reads these back to route tier updates to the correct user.
+//   - `customer_email` comes from the server-side profile row, so the
+//     Stripe customer is created against the verified account email.
 //   - We never echo the Stripe error message to the caller — it can leak
 //     account-shape hints. The server-side log keeps the full detail.
 //   - `allow_promotion_codes: true` lets operators issue promo codes out of
@@ -31,8 +35,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { z } from "zod";
 
-import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
+import { getOptionalUser, type LoadedUser } from "@/lib/auth/server";
+import { clerkDerivedUserId } from "@/lib/auth/user-id";
 import {
   getStripeClient,
   loadPriceIds,
@@ -108,17 +113,33 @@ function originFromRequest(request: NextRequest): string {
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<CheckoutOkResponse | CheckoutErrorResponse>> {
-  // 1. Auth — user must be logged in.
-  const auth = verifyUserAuth(request);
-  const deny = userAuthFailureResponse(auth);
-  if (deny) return deny as NextResponse<CheckoutErrorResponse>;
-  if (auth.kind !== "ok") {
+  // 1. Auth — Clerk session + profile row required. `getOptionalUser()`
+  //    returns null for signed-out callers (and when Clerk middleware
+  //    context is unavailable — CI/local without keys — which correctly
+  //    degrades to 401, never 500). Infra failures (profile store down)
+  //    surface as 503 so the client can retry, distinct from "sign in".
+  let loaded: LoadedUser | null;
+  try {
+    loaded = await getOptionalUser();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[stripe] checkout auth lookup failed", { error: message });
     return NextResponse.json(
-      { ok: false, error: "login required", code: "UNAUTHORIZED" },
+      {
+        ok: false,
+        error: "account service unavailable — please retry",
+        code: "ACCOUNT_STORE_UNAVAILABLE",
+      },
+      { status: 503 },
+    );
+  }
+  if (!loaded) {
+    return NextResponse.json(
+      { ok: false, error: "sign in required", code: "UNAUTHORIZED" },
       { status: 401 },
     );
   }
-  const { userId } = auth;
+  const userId = clerkDerivedUserId(loaded.clerkUserId);
 
   // 2. Parse body.
   const parsedResult = await parseBody(request, CheckoutBodySchema);
@@ -186,9 +207,10 @@ export async function POST(
       ],
       success_url: successUrl,
       cancel_url: cancelUrl,
-      // We don't have a server-side email yet (userId is HMAC-of-email), so
-      // let Stripe collect it. When the parallel agent wires a real user
-      // store with `.email`, swap to `customer_email`.
+      // Verified account email from the profile row — the Stripe customer
+      // is created against it, so receipts and the billing portal match
+      // the signed-in identity.
+      customer_email: loaded.profile.email,
       client_reference_id: userId,
       metadata: {
         userId,

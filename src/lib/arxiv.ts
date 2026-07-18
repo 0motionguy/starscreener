@@ -335,3 +335,11 @@ export function _resetArxivEnrichmentForTests(): void {
   enrichedFile = arxivEnrichedData as unknown as ArxivEnrichedFile;
   enrichmentIndex = buildEnrichmentIndex(enrichedFile);
 }
+
+export function _setArxivRecentForTests(file: ArxivRecentFile): void {
+  recentFile = file;
+}
+
+export function _resetArxivRecentForTests(): void {
+  recentFile = arxivRecentData as unknown as ArxivRecentFile;
+}

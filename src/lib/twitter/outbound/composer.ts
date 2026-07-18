@@ -22,16 +22,53 @@ import type { ComposedPost } from "./types";
 const TWEET_MAX = 280;
 const URL_BUDGET = 24; // 23 chars Twitter t.co + 1 leading space
 
+/**
+ * Item cap for the daily thread. 1 intro + 10 items + 1 idea = 12
+ * posts/day, which stays under the ~17/day free-tier write ceiling
+ * even with the Friday recap and one idea auto-post on top.
+ */
+export const MAX_DAILY_ITEMS = 10;
+
 export interface DailyBreakoutsInput {
-  /** Top breakouts of the last 24h. Composer takes up to 3. */
+  /** Top breakouts of the last 24h. Composer takes up to MAX_DAILY_ITEMS. */
   breakouts: Repo[];
   /** Top idea of the last 7d. Optional — composer skips if missing. */
   topIdea: PublicIdea | null;
+  /**
+   * Vertical spotlights (Wave 6 distribution) — the funding + models
+   * verticals ride the daily thread on alternating days. Both optional;
+   * the composer picks ONE per day (even day-of-month → funding, odd →
+   * models, falling back to whichever is present) and skips Fridays
+   * entirely so the daily+weekly total stays under the ~17-posts/day
+   * free-tier write ceiling.
+   */
+  fundingHighlight?: FundingHighlight | null;
+  modelHighlight?: ModelHighlight | null;
 }
 
+export interface FundingHighlight {
+  companyName: string;
+  /** Pre-formatted, e.g. "$95M". */
+  amountDisplay: string;
+  /** e.g. "series-c" | "seed" | "undisclosed". */
+  roundType: string;
+}
+
+export interface ModelHighlight {
+  name: string;
+  provider: string;
+  /** USD per million input tokens. */
+  inputPricePerMillion: number;
+  /** Context window in tokens. */
+  contextLength: number;
+}
+
+/** Item cap for the weekly recap thread — short and skimmable. */
+export const MAX_WEEKLY_ITEMS = 3;
+
 export interface WeeklyRecapInput {
-  /** Top breakout of the week (highest cross-signal score). */
-  topBreakout: Repo | null;
+  /** Top breakouts of the week. Composer takes up to MAX_WEEKLY_ITEMS. */
+  topBreakouts: Repo[];
   /** Top idea of the week (highest hot-score). */
   topIdea: PublicIdea | null;
   /** Number of new ideas published this week, for the "ideas posted" line. */
@@ -69,28 +106,29 @@ export function effectiveLength(post: ComposedPost): number {
 
 /**
  * Daily breakouts thread:
- *   [intro]   "🔥 Trending today across multiple signals: ..."
- *   [item 1]  "1/ owner/name +Δ stars in 24h — momentum"
- *   [item 2]  "2/ ..."
- *   [item 3]  "3/ ..."
+ *   [intro]   "🔥 Top 10 trending repos 2026-07-09 ..."
+ *   [item 1]  "1/ owner/name +Δ stars in 24h (k signals firing) — description"
+ *   ...
+ *   [item 10] "10/ ..."
  *   [idea]    "💡 Top idea: '...' — @handle"
  *
  * Returns at least the intro post; items + idea slot in only if
- * the input had data.
+ * the input had data. Every repo item carries its canonical
+ * trendingrepo.com URL — no repo appears without its link.
  */
 export function composeDailyBreakouts(
   input: DailyBreakoutsInput,
   now: Date = new Date(),
 ): ComposedPost[] {
-  const top = input.breakouts.slice(0, 3);
+  const top = input.breakouts.slice(0, MAX_DAILY_ITEMS);
   const dateStr = now.toISOString().slice(0, 10);
 
   const posts: ComposedPost[] = [];
 
-  // Intro — count of signals, link to /breakouts.
+  // Intro — count of repos, link to /breakouts.
   const introBody =
     top.length > 0
-      ? `🔥 Trending ${dateStr}: ${top.length} repo${top.length === 1 ? "" : "s"} firing across multiple signals. Thread ↓`
+      ? `🔥 Top ${top.length} trending repo${top.length === 1 ? "" : "s"} ${dateStr} — ranked by stars + social signals. Thread ↓`
       : `🔥 Trending ${dateStr}: quiet day on the breakouts board. Watch this space.`;
   posts.push({
     kind: "daily_breakouts_intro",
@@ -116,19 +154,73 @@ export function composeDailyBreakouts(
     });
   }
 
+  // Vertical spotlight — see DailyBreakoutsInput docs for the rotation +
+  // Friday-skip rationale.
+  const vertical = pickVerticalSpotlight(input, now);
+  if (vertical) posts.push(vertical);
+
   return posts;
+}
+
+function pickVerticalSpotlight(
+  input: DailyBreakoutsInput,
+  now: Date,
+): ComposedPost | null {
+  if (now.getUTCDay() === 5) return null; // Friday — recap day, budget cap
+  const funding = input.fundingHighlight ?? null;
+  const model = input.modelHighlight ?? null;
+  if (!funding && !model) return null;
+
+  const preferFunding = now.getUTCDate() % 2 === 0;
+  const pick = preferFunding ? (funding ?? model) : (model ?? funding);
+
+  if (pick === funding && funding) {
+    const round =
+      funding.roundType && funding.roundType !== "undisclosed"
+        ? ` ${funding.roundType.replace(/-/g, " ").toUpperCase()}`
+        : "";
+    const body = `💰 Funding radar: ${funding.companyName} raised ${funding.amountDisplay}${round}. Full AI funding feed ↓`;
+    return {
+      kind: "daily_breakouts_vertical_spotlight",
+      text: truncate(body, TWEET_MAX - URL_BUDGET),
+      url: absoluteUrl("/funding"),
+    };
+  }
+  if (pick === model && model) {
+    const ctx =
+      model.contextLength >= 1_000_000
+        ? `${Math.round(model.contextLength / 1_000_000)}M`
+        : `${Math.round(model.contextLength / 1_000)}K`;
+    const price =
+      model.inputPricePerMillion > 0
+        ? `$${model.inputPricePerMillion.toFixed(2)}/M input`
+        : "free";
+    const body = `🧠 Model value pick: ${model.name} (${model.provider}) — ${ctx} context at ${price}. Full leaderboard ↓`;
+    return {
+      kind: "daily_breakouts_vertical_spotlight",
+      text: truncate(body, TWEET_MAX - URL_BUDGET),
+      url: absoluteUrl("/models"),
+    };
+  }
+  return null;
 }
 
 function formatBreakoutLine(repo: Repo, position: number): string {
   const delta = repo.starsDelta24h;
   const deltaStr =
     delta >= 1000 ? `+${(delta / 1000).toFixed(1)}K` : `+${delta}`;
+  // A multi-signal repo can headline with a flat star delta — skip the
+  // "+0 stars" segment rather than advertise no movement.
+  const deltaHint = delta > 0 ? ` ${deltaStr} stars in 24h` : "";
   // Channel firing count surfaces "this isn't just one source noise".
   const channels = repo.channelsFiring ?? 0;
   const channelHint = channels >= 2 ? ` (${channels} signals firing)` : "";
-  // Compose ON the prefix that wraps to TWEET_MAX-URL_BUDGET.
-  const prefix = `${position}/ ${repo.fullName} ${deltaStr} stars in 24h${channelHint}`;
-  return truncate(prefix, TWEET_MAX - URL_BUDGET);
+  const prefix = `${position}/ ${repo.fullName}${deltaHint}${channelHint}`;
+  // One-line description gives the reader a reason to click; it soaks
+  // up whatever budget the stats left over.
+  const description = repo.description?.trim() ?? "";
+  const body = description ? `${prefix} — ${description}` : prefix;
+  return truncate(body, TWEET_MAX - URL_BUDGET);
 }
 
 function formatIdeaSpotlight(idea: PublicIdea): string {
@@ -165,16 +257,21 @@ export function composeWeeklyRecap(
     url: absoluteUrl("/breakouts"),
   });
 
-  if (input.topBreakout) {
+  const medals = ["🥇", "🥈", "🥉"];
+  input.topBreakouts.slice(0, MAX_WEEKLY_ITEMS).forEach((repo, idx) => {
+    const delta = repo.starsDelta7d ?? 0;
+    const deltaStr =
+      delta >= 1000 ? `+${(delta / 1000).toFixed(1)}K` : `+${delta}`;
+    const deltaHint = delta > 0 ? ` (${deltaStr} stars this week)` : "";
+    const prefix = `${medals[idx] ?? `${idx + 1}.`} ${repo.fullName}${deltaHint}`;
+    const description = repo.description?.trim() ?? "";
+    const body = description ? `${prefix} — ${description}` : prefix;
     posts.push({
       kind: "weekly_recap_item",
-      text: truncate(
-        `🥇 Top breakout: ${input.topBreakout.fullName} (+${input.topBreakout.starsDelta7d} stars this week)`,
-        TWEET_MAX - URL_BUDGET,
-      ),
-      url: absoluteUrl(`/repo/${input.topBreakout.fullName}`),
+      text: truncate(body, TWEET_MAX - URL_BUDGET),
+      url: absoluteUrl(`/repo/${repo.fullName}`),
     });
-  }
+  });
 
   if (input.topIdea) {
     posts.push({

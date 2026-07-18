@@ -34,6 +34,7 @@ import {
 } from "../scoring/modifiers";
 import {
   computeAllComponents,
+  componentCrossSignal,
   type ScoringInput,
 } from "../scoring/components";
 
@@ -330,7 +331,7 @@ test("canonical: stale-abandoned profile scores in the low band", () => {
 //    produce the shapes the engine expects (catches accidental rename regressions).
 // ---------------------------------------------------------------------------
 
-test("computeAllComponents returns all 10 expected keys", () => {
+test("computeAllComponents returns all 11 expected keys", () => {
   const comps = computeAllComponents(mkScoringInput());
   const keys = Object.keys(comps).sort();
   assert.deepEqual(keys, [
@@ -338,6 +339,7 @@ test("computeAllComponents returns all 10 expected keys", () => {
     "commitFreshness",
     "communityHealth",
     "contributorGrowth30d",
+    "crossSignal",
     "forkVelocity7d",
     "issueActivity",
     "releaseFreshness",
@@ -356,4 +358,64 @@ test("computeAllModifiers returns all 4 expected keys", () => {
     "decayFactor",
     "quietKillerBonus",
   ]);
+});
+
+// ---------------------------------------------------------------------------
+// crossSignal component (Wave 3 — cross-signal wired into the composite)
+// ---------------------------------------------------------------------------
+
+test("componentCrossSignal: 0 without data, saturates at 4/7, breadth bonus rewards diversity", () => {
+  // No cross-signal data → 0 (pass-1 scoring, fixtures).
+  assert.equal(componentCrossSignal(mkScoringInput()), 0);
+
+  // Saturation: score 4 of 7 → 100 (before bonus, clamped).
+  const saturated = componentCrossSignal(
+    mkScoringInput({ crossSignalScore: 4, crossSignalChannelsFiring: 4 }),
+  );
+  assert.equal(saturated, 100);
+
+  // Breadth beats depth: 1.2 across 3 channels > 1.2 on one channel.
+  const broad = componentCrossSignal(
+    mkScoringInput({ crossSignalScore: 1.2, crossSignalChannelsFiring: 3 }),
+  );
+  const deep = componentCrossSignal(
+    mkScoringInput({ crossSignalScore: 1.2, crossSignalChannelsFiring: 1 }),
+  );
+  assert.ok(broad > deep, `${broad} !> ${deep}`);
+});
+
+test("crossSignal lifts the composite: same repo scores higher once channels fire", () => {
+  const base = computeScore(mkScoringInput(), mkModifierInput());
+  const withSignal = computeScore(
+    mkScoringInput({ crossSignalScore: 2.5, crossSignalChannelsFiring: 3 }),
+    mkModifierInput(),
+  );
+  assert.ok(
+    withSignal.overall > base.overall,
+    `${withSignal.overall} !> ${base.overall}`,
+  );
+  assert.ok(withSignal.components.crossSignal > 0);
+});
+
+test("DEFAULT_WEIGHTS still sums to 1.0 with crossSignal and every override normalizes", () => {
+  assert.ok(validateWeights(DEFAULT_WEIGHTS));
+  for (const categoryId of Object.keys(CATEGORY_WEIGHT_OVERRIDES)) {
+    const resolved = resolveWeights(categoryId);
+    assert.ok(validateWeights(resolved), `override ${categoryId} must normalize`);
+    assert.ok(resolved.crossSignal > 0, `override ${categoryId} carries crossSignal`);
+  }
+});
+
+test("explanation names cross-platform signal when it dominates", () => {
+  const dominated = computeScore(
+    mkScoringInput({
+      crossSignalScore: 4,
+      crossSignalChannelsFiring: 5,
+      starsDelta24h: 0,
+      starsDelta7d: 0,
+      socialBuzzScore: 0,
+    }),
+    mkModifierInput({ starsDelta24h: 0, starsDelta7d: 0, socialBuzzScore: 0 }),
+  );
+  assert.match(dominated.explanation, /cross-platform signal \(5\/7 channels\)/);
 });

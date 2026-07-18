@@ -50,7 +50,7 @@ import {
   sleep,
   parseRetryAfterMs,
 } from "./_fetch-json.mjs";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, verifyMetaLanded, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -405,6 +405,9 @@ async function main() {
   await mkdirAsync(DATA_DIR, { recursive: true });
   await writeFileAsync(ENRICHED_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const redis = await writeDataStore("arxiv-enriched", payload);
+  if (redis.source === "redis") {
+    await verifyMetaLanded("arxiv-enriched", redis.writtenAt);
+  }
 
   log(`wrote ${ENRICHED_PATH} [redis: ${redis.source}]`);
   log(

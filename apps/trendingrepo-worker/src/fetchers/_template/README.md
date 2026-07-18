@@ -12,4 +12,4 @@
    - Wrap each item in try/catch. Push errors to `result.errors`, keep going.
 5. Add `import yourFetcher from './fetchers/<your-source>/index.js'` to `src/registry.ts` and append to `FETCHERS`.
 
-Crawl-only sources: set `requiresFirecrawl: true`.
+Crawl-only sources must use the bounded worker HTTP client and local parsing.

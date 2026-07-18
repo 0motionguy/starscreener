@@ -1,10 +1,12 @@
 // POST /api/billing/portal — create a Stripe Customer Portal session.
 //
-// Auth contract: requires an authenticated caller (verifyUserAuth, same
-// surface as /api/checkout/stripe). Anonymous visitors get 401.
+// Auth contract: requires a CLERK-authenticated caller (same surface as
+// /api/checkout/stripe post identity-unification). Anonymous visitors get
+// 401. The route is on the middleware's isClerkSessionRoute list.
 //
-// Body: none. The route reads the user-tier record to find the Stripe
-// customer id that the webhook handler persisted on the first
+// Body: none. The route reads the user-tier record (canonical `c_` id
+// first, legacy email-derived id read-through) to find the Stripe customer
+// id that the webhook handler persisted on the first
 // checkout.session.completed. If the user has never completed checkout
 // (stripeCustomerId is null), we 400 with a friendly hint — the UI
 // should hide the "Manage billing" button in that case anyway.
@@ -26,9 +28,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { getOptionalUser, type LoadedUser } from "@/lib/auth/server";
+import { clerkDerivedUserId } from "@/lib/auth/user-id";
+import { getTierRecordForClerkUser } from "@/lib/pricing/tier-resolve";
 import { getStripeClient, getPortalReturnUrl } from "@/lib/stripe/client";
-import { getUserTierRecord } from "@/lib/pricing/user-tiers";
 
 // lint-allow: no-parsebody - no-body endpoint; verifyUserAuth is the trust boundary.
 export const runtime = "nodejs";
@@ -60,21 +63,40 @@ function originFromRequest(request: NextRequest): string {
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<PortalOkResponse | PortalErrorResponse>> {
-  // 1. Auth.
-  const auth = verifyUserAuth(request);
-  const deny = userAuthFailureResponse(auth);
-  if (deny) return deny as NextResponse<PortalErrorResponse>;
-  if (auth.kind !== "ok") {
+  // 1. Auth — Clerk session + profile row. Mirrors /api/checkout/stripe:
+  //    signed-out (or Clerk-context-unavailable) → 401; profile-store
+  //    infra failure → 503 retryable.
+  let loaded: LoadedUser | null;
+  try {
+    loaded = await getOptionalUser();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[stripe] billing portal auth lookup failed", { error: message });
     return NextResponse.json(
-      { ok: false, error: "login required", code: "UNAUTHORIZED" },
+      {
+        ok: false,
+        error: "account service unavailable — please retry",
+        code: "ACCOUNT_STORE_UNAVAILABLE",
+      },
+      { status: 503 },
+    );
+  }
+  if (!loaded) {
+    return NextResponse.json(
+      { ok: false, error: "sign in required", code: "UNAUTHORIZED" },
       { status: 401 },
     );
   }
-  const { userId } = auth;
+  const userId = clerkDerivedUserId(loaded.clerkUserId);
 
   // 2. Look up the Stripe customer for this user. Populated by the
   //    webhook on checkout.session.completed (see src/lib/stripe/events.ts).
-  const tierRecord = await getUserTierRecord(userId);
+  //    Read-through covers records written under the legacy email-derived
+  //    id before identity unification.
+  const tierRecord = await getTierRecordForClerkUser(
+    loaded.clerkUserId,
+    loaded.profile.email,
+  );
   const stripeCustomerId = tierRecord?.stripeCustomerId ?? null;
   if (!stripeCustomerId) {
     return NextResponse.json(

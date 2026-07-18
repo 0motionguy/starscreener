@@ -1,15 +1,36 @@
-# Runbook — Stripe live-mode bringup
+# Runbook — Stripe live-mode bringup (HOSTUP production)
 
 **When to use:** one-time, to flip TrendingRepo from Stripe test mode (`sk_test_*`) to live mode (`sk_live_*`). After this runs cleanly, real money can flow.
+
+> **2026-07-09 rewrite:** the original runbook was Vercel-era (`vercel env add`,
+> `vercel logs`, `vercel --prod`). Production is the HOSTUP Docker tenant
+> (`toolbox-trendingrepo-1`, VPS `/opt/toolbox` compose) behind Cloudflare
+> Tunnel — see `docker-compose.trendingrepo.yml`. Env lives in
+> `/opt/trendingrepo/.env.production` on the box. Yearly prices were also
+> corrected to match `src/lib/pricing/tiers.ts` ($180/$480 — the old
+> $190/$490 numbers here never matched the pricing page).
 
 **Pre-reqs:**
 
 - Stripe account exists, business profile completed, bank account verified.
-- Vercel CLI authed (`vercel whoami` succeeds).
-- `gh` CLI authed.
-- This runbook should run **after** Stage 5 PRs are merged. Doing it earlier ships an empty pricing surface to real users.
+- SSH access to the VPS (`~/.ssh/AndyAikey.pem`, `root@193.53.40.118`, port 22).
+- **Clerk live mode already brought up** ([clerk-pk-live-bringup.md](./clerk-pk-live-bringup.md)) — checkout requires a Clerk session since the identity unification (PR #3201).
+- **`tr.user_tiers` migration applied** (see step 0). The tier store is
+  Postgres-backed when `DATABASE_URL` is set; without the table, webhook
+  writes fail and Stripe will retry-then-drop entitlements.
 
 **Estimated time:** 30–45 minutes including verification.
+
+## 0. Apply the user_tiers migration (once, before the code relying on it deploys)
+
+From any machine with the repo + `DIRECT_URL` set (Supabase :5432, non-pooled):
+
+```bash
+npm run db:migrate
+# Applies drizzle/0001_windy_wasp.sql → creates tr.user_tiers
+```
+
+Verify: `select count(*) from tr.user_tiers;` returns 0 rows, no error.
 
 ## 1. Create products in Stripe live mode
 
@@ -18,39 +39,39 @@ In Stripe dashboard, toggle to **live mode** (top-left switch). Then **Products*
 | Name | Description | Statement descriptor |
 |---|---|---|
 | TrendingRepo Pro (monthly) | Pro plan — monthly billing | `TRENDINGREPO PRO` |
-| TrendingRepo Pro (yearly) | Pro plan — annual billing (2 months free) | `TRENDINGREPO PRO` |
+| TrendingRepo Pro (yearly) | Pro plan — annual billing (~2 months free) | `TRENDINGREPO PRO` |
 | TrendingRepo Team (monthly) | Team plan — per-seat monthly | `TRENDINGREPO TEAM` |
 | TrendingRepo Team (yearly) | Team plan — per-seat annual | `TRENDINGREPO TEAM` |
 
-For each: pricing model = **Recurring**, billing period = monthly/yearly, currency = USD, amount per the tier table in `src/lib/pricing/tiers.ts` (Pro $19/mo, Pro $190/yr, Team $49/seat/mo, Team $490/seat/yr). After creating, copy the **price ID** (starts `price_`).
+For each: pricing model = **Recurring**, billing period = monthly/yearly, currency = USD, amount per the tier table in `src/lib/pricing/tiers.ts`:
 
-## 2. Set Vercel env vars
+- Pro **$19/mo**, Pro **$180/yr**
+- Team **$49/seat/mo**, Team **$480/seat/yr**
 
-Run these from the repo root (one block — paste, then enter the value for each prompt):
+After creating, copy the **price ID** (starts `price_`).
 
-```bash
-vercel env add STRIPE_SECRET_KEY production
-# Paste: sk_live_...
+## 2. Provision env on the HOSTUP box
 
-vercel env add STRIPE_PRO_MONTHLY_PRICE_ID production
-# Paste: price_... (from step 1)
-
-vercel env add STRIPE_PRO_YEARLY_PRICE_ID production
-# Paste: price_...
-
-vercel env add STRIPE_TEAM_MONTHLY_PRICE_ID production
-# Paste: price_...
-
-vercel env add STRIPE_TEAM_YEARLY_PRICE_ID production
-# Paste: price_...
-```
-
-Do NOT add to `preview` env — preview deploys must continue to use `sk_test_*` so Stage 5 work doesn't accidentally charge real cards. Verify:
+SSH in and append/replace the Stripe block in the tenant env file:
 
 ```bash
-vercel env ls | grep STRIPE_
-# Each should show "production" in the Environment column. None in "Preview" or "Development".
+ssh toolbox   # alias for root@193.53.40.118
+
+# Edit the env file (values from step 1 + your live secret key):
+vi /opt/trendingrepo/.env.production
 ```
+
+```dotenv
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PRO_MONTHLY_PRICE_ID=price_...
+STRIPE_PRO_YEARLY_PRICE_ID=price_...
+STRIPE_TEAM_MONTHLY_PRICE_ID=price_...
+STRIPE_TEAM_YEARLY_PRICE_ID=price_...
+# STRIPE_WEBHOOK_SECRET added in step 3
+```
+
+Do NOT put live keys in any local `.env.local` or CI — local/dev must keep
+using `sk_test_*` so development can't charge real cards.
 
 ## 3. Register the production webhook endpoint
 
@@ -65,11 +86,17 @@ In Stripe live mode dashboard → **Developers** → **Webhooks** → **Add endp
   - `customer.subscription.deleted`
   - `invoice.payment_failed`
 
-Click **Add endpoint**. Stripe shows a **Signing secret** starting with `whsec_`. Copy it.
+Click **Add endpoint**. Stripe shows a **Signing secret** starting with `whsec_`. Add it to the same env file:
+
+```dotenv
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+Then restart the tenant so the container picks up the env:
 
 ```bash
-vercel env add STRIPE_WEBHOOK_SECRET production
-# Paste: whsec_...
+cd /opt/toolbox && docker compose up -d trendingrepo
+docker logs -f toolbox-trendingrepo-1 --since 2m   # watch boot; Ctrl-C when clean
 ```
 
 ## 4. Enable Stripe Tax (EU + UK + global compliance)
@@ -84,9 +111,7 @@ EU customers will fail to check out without proper VAT handling. UK requires VAT
 
 In Stripe dashboard → **Products** → each price → toggle **"Tax behavior: Inclusive"**. Save.
 
-When checking out, Stripe will auto-detect the customer's country, calculate the local VAT/sales tax from the inclusive price, and remit it to the right tax authority (Stripe Tax handles this for ~50 jurisdictions; you receive a quarterly Stripe Tax report).
-
-For **B2B reverse-charge** (EU companies entering a VAT ID get tax-zeroed and self-report), no extra config — Stripe Tax does this automatically when `customer_tax_id` is collected. Checkout sessions auto-collect tax IDs once Stripe Tax is on.
+For **B2B reverse-charge** (EU companies entering a VAT ID get tax-zeroed and self-report), no extra config — Stripe Tax does this automatically once tax IDs are collected at checkout.
 
 ## 5. Confirm receipt emails
 
@@ -96,63 +121,54 @@ Stripe dashboard → **Settings** → **Emails** (live mode):
 - **Failed payments:** ✅ ON
 - **Refunds:** ✅ ON
 
-Receipt template is automatic; if you want a custom logo/footer, **Settings** → **Branding** → upload the TrendingRepo logo + brand color.
+Receipt template is automatic; for a custom logo/footer: **Settings** → **Branding**.
 
 ## 6. Smoke test on production
 
 ```bash
-# Verify the env is loaded
+# Route is mounted + secret loaded (GET is 405 by design; POST-only route):
 curl -sI https://trendingrepo.com/api/webhooks/stripe
-# Expect: HTTP/2 405 (GET not allowed; POST only) — confirms the route is mounted with the new secret.
+# Expect: HTTP/2 405
 
-# Smoke the pricing page
+# Pricing page renders:
 curl -sI https://trendingrepo.com/pricing
 # Expect: 200
 
-# Smoke checkout endpoint (should require auth)
-curl -sI -X POST https://trendingrepo.com/api/checkout/stripe -H 'Content-Type: application/json' -d '{"tier":"pro","cadence":"monthly"}'
-# Expect: 401 (login required) — confirms the route is responding
+# Checkout requires a Clerk session:
+curl -s -X POST https://trendingrepo.com/api/checkout/stripe \
+  -H 'Content-Type: application/json' -d '{"tier":"pro","cadence":"monthly"}'
+# Expect: 401 {"ok":false,...,"code":"UNAUTHORIZED"}
 ```
 
-If you have access to a test account, do a real `$0.50` test charge through `/pricing`:
+End-to-end with a real account (Stripe live mode has no test cards — use a
+real card on a temporarily low-priced product, or a 100%-off promo code
+created in the dashboard):
 
-1. Sign in
-2. Click upgrade
-3. Use a **real card with a small amount** (Stripe doesn't allow live test cards — you'll actually pay $0.50 if you set the price that low temporarily)
-4. Verify webhook fires (Stripe dashboard → Webhooks → Recent deliveries — should show a `checkout.session.completed` with 200 response from your endpoint within 2s)
-5. Verify `.data/user-tiers.jsonl` on prod (via a Vercel deploy log or a one-off admin endpoint) shows the test user upgraded
-6. Refund the charge via the [refund-30-day runbook](./refund-30-day.md)
-7. Verify the user is downgraded back to free
+1. Sign in on trendingrepo.com
+2. /pricing → upgrade → complete checkout
+3. Stripe dashboard → Webhooks → Recent deliveries — `checkout.session.completed` with a 200 response within ~2s
+4. Verify the tier landed: `select user_id, tier, stripe_customer_id from tr.user_tiers order by updated_at desc limit 5;` — expect a `c_user_...` row
+5. `/you/settings` shows the paid plan + "Manage billing" button; the post-checkout success panel confirms without the 30s timeout
+6. Refund via the [refund-30-day runbook](./refund-30-day.md); verify the user drops back to free after `customer.subscription.deleted`
 
-If smoke fails: check `vercel logs --since 5m | grep stripe` for handler errors. The signature verification path logs `[stripe] webhook signature verification failed` if `STRIPE_WEBHOOK_SECRET` is wrong.
+If smoke fails: `docker logs toolbox-trendingrepo-1 --since 10m | grep stripe`. The signature path logs `[stripe] webhook signature verification failed` when `STRIPE_WEBHOOK_SECRET` is wrong.
 
 ## 7. Update internal docs
 
-After live mode is confirmed working:
-
-```bash
-# Note in the operator log
-echo "$(date -u +%FT%TZ): Stripe live mode enabled; webhook registered; first charge verified." >> docs/OPERATOR.md
-git add docs/OPERATOR.md
-git commit -m "docs(operator): stripe live mode bringup complete"
-git push
-```
+After live mode is confirmed working, note it in `docs/OPERATOR.md` (operator log section) and commit.
 
 ## Rollback
 
 If something breaks (revenue lost > customer trust):
 
 ```bash
-# Restore test mode env (so the app stops accepting live cards)
-vercel env rm STRIPE_SECRET_KEY production
-vercel env add STRIPE_SECRET_KEY production
-# Paste: sk_test_...
-
-# Redeploy
-vercel --prod
+ssh toolbox
+# Swap back to test keys in /opt/trendingrepo/.env.production
+#   STRIPE_SECRET_KEY=sk_test_...
+cd /opt/toolbox && docker compose up -d trendingrepo
 ```
 
-The pricing page will then return 503 from `/api/checkout/stripe` for paid tiers, since `STRIPE_PRO_MONTHLY_PRICE_ID` etc. were live-mode IDs not in test mode. The CheckoutWalkthrough surfaces this gracefully (inline error, modal stays open).
+The pricing page will then return 503 from `/api/checkout/stripe` for paid tiers, since the live-mode price IDs don't exist in test mode. The CheckoutWalkthrough surfaces this gracefully (inline error, modal stays open). To hard-disable the CTAs entirely, rebuild with `NEXT_PUBLIC_CHECKOUT_WALKTHROUGH=0`.
 
 Optionally also disable the webhook endpoint in the Stripe live mode dashboard so any in-flight events stop hitting our prod URL.
 
@@ -166,5 +182,5 @@ Optionally also disable the webhook endpoint in the Stripe live mode dashboard s
 
 ## Cross-reference
 
+- [Clerk live bringup](./clerk-pk-live-bringup.md) — REQUIRED first (checkout is Clerk-gated)
 - [Refund runbook](./refund-30-day.md) — process individual refunds
-- [Clerk live keys runbook](./clerk-pk-live-bringup.md) — sister bringup; auth must be live for checkout to actually be reachable by real users

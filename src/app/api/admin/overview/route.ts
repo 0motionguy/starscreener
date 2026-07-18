@@ -23,6 +23,14 @@ import {
   getRepoMetadataSourceCount,
 } from "@/lib/repo-metadata";
 import {
+  readRepoProfilesFileSync,
+  refreshRepoProfilesFromStore,
+} from "@/lib/repo-profiles";
+import {
+  summarizeRepoProfileStatus,
+  type RepoProfileStatusSummary,
+} from "@/lib/repo-profile-status";
+import {
   getScannerSourceHealth,
   refreshScannerSourceHealthFromStore,
   type ScannerSourceHealth,
@@ -69,6 +77,11 @@ export interface AdminOverviewResponse {
   aisoRescanQueue: {
     total: number;
   };
+  /**
+   * Status of the automated repo-profile enrichment pass that sends repo
+   * websites through AISO and stores Kimi trend briefs.
+   */
+  repoProfileStatus: RepoProfileStatusSummary;
   ideasQueue: {
     pending: number;
     published: number;
@@ -119,8 +132,13 @@ export async function GET(
   try {
     await pipeline.ensureReady();
     await refreshScannerSourceHealthFromStore();
+    await refreshRepoProfilesFromStore();
 
     const sources = getScannerSourceHealth();
+    const repoProfileStatus = summarizeRepoProfileStatus(
+      readRepoProfilesFileSync(),
+      { backlogLimit: 8 },
+    );
 
     const submissions = await listRepoSubmissions();
     const summary = summarizeRepoSubmissionQueue(submissions);
@@ -213,6 +231,7 @@ export async function GET(
       sources,
       repoQueue,
       aisoRescanQueue,
+      repoProfileStatus,
       ideasQueue: {
         pending: pending.length,
         published,

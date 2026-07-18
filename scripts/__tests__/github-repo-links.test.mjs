@@ -167,3 +167,53 @@ test("extractUnknownRepoCandidates: URL form only — does NOT match bare owner/
   const hits = extractUnknownRepoCandidates("excited about openai/whisper today", null);
   assert.equal(hits.size, 0);
 });
+
+// arXiv scraper linkedRepos wiring (scripts/scrape-arxiv.mjs parseEntry):
+// union the high-confidence URL hits with tracked bare-slug hits, deduped.
+// This is what recovers "we release owner/repo" mentions that the
+// URL-only pass silently dropped (the linkedRepoCount:0 defect).
+test("arxiv linkedRepos union: URL + bare-slug hits, deduped by fullName", () => {
+  const tracked = new Set([
+    "meta-llama/llama3",
+    "openai/whisper",
+    "google/gemma",
+  ]);
+  const abstract =
+    "We release meta-llama/llama3 and evaluate against " +
+    "https://github.com/openai/whisper. Weights: google/gemma.";
+
+  const urlHits = extractGithubRepoFullNames(abstract, tracked);
+  const bareHits = extractTrackedBareRefs(abstract, tracked);
+
+  // URL pass finds only the github.com link.
+  assert.deepEqual([...urlHits], ["openai/whisper"]);
+  // Bare pass recovers the two slug-only mentions. It intentionally does
+  // NOT re-match whisper — that slug is embedded in the github.com URL,
+  // which the bare matcher's lookbehind excludes.
+  assert.deepEqual(
+    [...bareHits].sort(),
+    ["google/gemma", "meta-llama/llama3"],
+  );
+
+  // parseEntry unions them, tagging URL hits first then bare-only hits,
+  // so no repo is double-counted.
+  const linked = [
+    ...[...urlHits].map((fullName) => ({ fullName, matchType: "abstract" })),
+    ...[...bareHits]
+      .filter((fullName) => !urlHits.has(fullName))
+      .map((fullName) => ({ fullName, matchType: "slug" })),
+  ];
+  assert.equal(linked.length, 3);
+  assert.equal(
+    linked.filter((l) => l.fullName === "openai/whisper").length,
+    1,
+  );
+  assert.equal(
+    linked.find((l) => l.fullName === "openai/whisper").matchType,
+    "abstract",
+  );
+  assert.equal(
+    linked.find((l) => l.fullName === "meta-llama/llama3").matchType,
+    "slug",
+  );
+});

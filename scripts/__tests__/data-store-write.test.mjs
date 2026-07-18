@@ -13,6 +13,7 @@ import {
   writeDataStore,
   readDataStoreMany,
   writeDataStoreMany,
+  verifyMetaLanded,
   _resetForTests,
   closeDataStore,
 } from "../_data-store-write.mjs";
@@ -298,6 +299,60 @@ test("writeDataStoreMany: non-array input collapses to skipped/empty", async () 
     const result = await writeDataStoreMany(undefined);
     assert.equal(result.source, "skipped");
     assert.deepEqual(result.results, []);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// M-15 — verifyMetaLanded (silent-write guard)
+// ---------------------------------------------------------------------------
+//
+// The "happy path" (meta exists + writtenAt matches) is exercised end-to-end
+// against live Redis via `npm run verify:data-store`. Unit coverage here is
+// scoped to the no-Redis-env skip path and the argument-validation rails.
+
+test("verifyMetaLanded: no-op when Redis disabled (env-missing)", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    // No throw expected — verifyMetaLanded matches writeDataStore's
+    // "skipped" contract so the script keeps working in local dev without
+    // Redis creds.
+    await verifyMetaLanded("scr11-noop-noenv", new Date().toISOString());
+  });
+});
+
+test("verifyMetaLanded: no-op when DATA_STORE_DISABLE=1", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.DATA_STORE_DISABLE = "1";
+    try {
+      await verifyMetaLanded("scr11-noop-disabled", new Date().toISOString());
+    } finally {
+      delete process.env.DATA_STORE_DISABLE;
+    }
+  });
+});
+
+test("verifyMetaLanded: rejects empty/blank key", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    await assert.rejects(
+      () => verifyMetaLanded("", "2026-01-01T00:00:00.000Z"),
+      /verifyMetaLanded: key/i,
+    );
+    await assert.rejects(
+      () => verifyMetaLanded("   ", "2026-01-01T00:00:00.000Z"),
+      /verifyMetaLanded: key/i,
+    );
+  });
+});
+
+test("verifyMetaLanded: rejects empty expectedWrittenAt", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    await assert.rejects(
+      () => verifyMetaLanded("scr11-verify-needs-ts", ""),
+      /verifyMetaLanded: expectedWrittenAt/i,
+    );
   });
 });
 

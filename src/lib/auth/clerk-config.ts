@@ -3,10 +3,18 @@
 // so callers can render a degraded "Auth unavailable" surface instead of
 // throwing during build or showing a development auth instance in production.
 
-import "server-only";
-
-function isVercelProduction(): boolean {
-  return process.env.VERCEL_ENV === "production";
+// Deploy-agnostic production check. The old gate keyed off
+// `VERCEL_ENV === "production"`, which never fires on the actual
+// production deploy (HOSTUP Docker tenant behind Cloudflare) — the
+// live-key enforcement was dead code there. NODE_ENV covers every
+// deploy target; CLERK_ALLOW_TEST_KEYS=1 is the explicit escape hatch
+// for staging-style environments that legitimately run production
+// builds against a Clerk development instance.
+function isProductionRuntime(): boolean {
+  return (
+    process.env.NODE_ENV === "production" &&
+    process.env.CLERK_ALLOW_TEST_KEYS !== "1"
+  );
 }
 
 function hasLiveClerkKeyPair(): boolean {
@@ -21,9 +29,9 @@ export function getClerkPublishableKey(): string | undefined {
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim();
   if (!key) return undefined;
 
-  if (isVercelProduction() && !hasLiveClerkKeyPair()) {
+  if (isProductionRuntime() && !hasLiveClerkKeyPair()) {
     console.warn(
-      "[auth] Clerk disabled: Vercel Production requires NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_* and CLERK_SECRET_KEY=sk_live_*.",
+      "[auth] Clerk disabled: production requires NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_* and CLERK_SECRET_KEY=sk_live_* (set CLERK_ALLOW_TEST_KEYS=1 to override in staging).",
     );
     return undefined;
   }

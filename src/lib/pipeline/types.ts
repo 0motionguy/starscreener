@@ -136,6 +136,13 @@ export interface ScoreWeights {
   issueActivity: number;
   communityHealth: number;
   categoryMomentum: number;
+  /**
+   * 7-channel cross-signal fusion (GitHub/Reddit/HN/Bluesky/Devto/Twitter/
+   * arXiv — src/lib/pipeline/cross-signal.ts). Fed by the second scoring
+   * pass in derived-repos; zero when the input carries no cross-signal
+   * data (pass 1, unit fixtures).
+   */
+  crossSignal: number;
 }
 
 /** Each component normalized to 0-100 before weighting. */
@@ -150,6 +157,7 @@ export interface ScoreComponents {
   issueActivity: number;
   communityHealth: number;
   categoryMomentum: number;
+  crossSignal: number;
 }
 
 /** Multipliers and bonuses applied after the weighted sum. */

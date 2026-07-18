@@ -164,6 +164,22 @@ export interface Repo {
   movementStatus: MovementStatus;
   rank: number;
   categoryRank: number;
+  /**
+   * Time-window ranks — position when the corpus is ordered by raw star
+   * deltas for each window (1 = biggest gainer). Assigned during
+   * derived-repos assembly; optional for fixture back-compat.
+   */
+  rank24h?: number;
+  rank7d?: number;
+  rank30d?: number;
+  /**
+   * Human-readable "why this score" sentence from the scoring engine's
+   * second pass (buildExplanation) — e.g. "Composite 62.4 from cross-
+   * platform signal (3/7 channels) and 24h star velocity (+412 stars);
+   * breakout boost x1.31 applied." Surfaced as the ranking-transparency
+   * line on rows + repo detail.
+   */
+  scoreExplanation?: string;
   sparklineData: number[]; // 30 data points (daily star counts)
   socialBuzzScore: number; // 0-100
   mentionCount24h: number;
@@ -265,6 +281,7 @@ export interface Repo {
     bluesky: boolean;
     devto: boolean;
     twitter: boolean;
+    arxiv: boolean;
   };
 
   /**

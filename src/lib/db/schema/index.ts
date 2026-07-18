@@ -9,3 +9,4 @@ export * from "./watchlists";
 export * from "./newsletter";
 export * from "./alerts";
 export * from "./referrals";
+export * from "./user-tiers";

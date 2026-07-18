@@ -47,7 +47,7 @@ jobs:
           resp=$(curl -s -w "\n__HTTP__%{http_code}" --max-time 30 \
             -X POST "https://aiso.tools/api/scan" \
             -H "Content-Type: application/json" \
-            -d '{"url":"https://aiso.tools","mode":"homepage"}')
+            -d '{"url":"https://aiso.tools","mode":"homepage","source":"api","projectName":"TrendingRepo self-scan","projectUrl":"https://trendingrepo.com"}')
           end=$(date +%s%3N)
           latency=$((end - start))
 

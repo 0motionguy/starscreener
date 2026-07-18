@@ -70,6 +70,9 @@ interface VerdictsItemPayload extends ItemReport {
 
 interface VerdictsPayload {
   computedAt: string;
+  status?: 'ok' | 'degraded';
+  errors?: RunResult['errors'];
+  warnings?: RunResult['errors'];
   generator: LlmProvider | 'template';
   model?: string;
   ribbon: {
@@ -229,6 +232,9 @@ const fetcher: Fetcher = {
       : (usedProvider ?? getLlmProvider());
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
+      ...(latestPayload?.status ? { status: latestPayload.status } : {}),
+      ...(latestPayload?.errors !== undefined ? { errors: latestPayload.errors } : {}),
+      ...(latestPayload?.warnings !== undefined ? { warnings: latestPayload.warnings } : {}),
       generator,
       ...(generator !== 'template' && usedModel ? { model: usedModel } : {}),
       // Preserve the latest ribbon/usage from the existing payload — the tail

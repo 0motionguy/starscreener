@@ -320,6 +320,114 @@ describe('worker fetcher empty publish guards', () => {
     expect(result.errors).toEqual([]);
   });
 
+  it('consensus-analyst only keeps healthy status when every timed-out row is retained', async () => {
+    callLlmMock.mockImplementation(async (options: { systemPrompt: string; userMessage: string }) => {
+      if (options.systemPrompt.includes('Daily Verdict editor')) {
+        return {
+          text: '{"headline":"Today in repos","bullets":["One","Two"]}',
+          usage: { inputTokens: 4, outputTokens: 2, cachedInputTokens: 0 },
+          meta: { provider: 'nanogpt', model: 'moonshotai/kimi-k2.6' },
+        };
+      }
+      if (options.userMessage.includes('owner/repo-4')) {
+        throw new Error('LLM stream idle');
+      }
+      return {
+        text: '{"tagline":null,"verdict":"strong_consensus"}',
+        usage: { inputTokens: 10, outputTokens: 5, cachedInputTokens: 0 },
+        meta: { provider: 'nanogpt', model: 'moonshotai/kimi-k2.6' },
+      };
+    });
+    const absent = { present: false, rank: null, score: null, normalized: 0 };
+    const items = Array.from({ length: 5 }, (_, index) => ({
+      fullName: `owner/repo-${index}`,
+      rank: index + 1,
+      consensusScore: 90 - index,
+      sourceCount: 1,
+      confidence: 90,
+      externalRank: index + 1,
+      oursRank: index + 1,
+      verdict: 'strong_consensus' as const,
+      maxRankGap: 0,
+      sources: {
+        ours: { present: true, rank: index + 1, score: 90, normalized: 0.9 },
+        gh: { present: true, rank: index + 1, score: 90, normalized: 0.9 },
+        hf: absent,
+        hn: absent,
+        x: absent,
+        r: absent,
+        pdh: absent,
+        dev: absent,
+        bs: absent,
+      },
+    }));
+    let retainFailedItem = true;
+    readDataStoreMock.mockImplementation(async (key: string) => {
+      if (key === 'consensus-trending') {
+        return {
+          itemCount: items.length,
+          bandCounts: {
+            strong_consensus: items.length,
+            early_call: 0,
+            divergence: 0,
+            external_only: 0,
+            single_source: 0,
+          },
+          sourceStats: {},
+          weights: {},
+          items,
+        };
+      }
+      if (key === 'consensus-verdicts') {
+        return {
+          items: retainFailedItem
+            ? {
+                'owner/repo-4': {
+                  fullName: 'owner/repo-4',
+                  summary: 'retained report',
+                },
+              }
+            : {},
+        };
+      }
+      return null;
+    });
+    const { default: fetcher } = await import('../consensus-analyst/index.js');
+
+    const result = await fetcher.run(makeContext());
+
+    expect(writeDataStoreMock).toHaveBeenCalledWith(
+      'consensus-verdicts',
+      expect.objectContaining({
+        status: 'ok',
+        warnings: [expect.objectContaining({ stage: 'item-call', itemSourceId: 'owner/repo-4' })],
+        items: expect.objectContaining({
+          'owner/repo-4': expect.objectContaining({ summary: 'retained report' }),
+        }),
+      }),
+    );
+    expect(result.errors).toEqual([]);
+
+    retainFailedItem = false;
+    writeDataStoreMock.mockClear();
+    const degradedResult = await fetcher.run(makeContext());
+    const degradedCalls = writeDataStoreMock.mock.calls as unknown as Array<[string, {
+      status: string;
+      errors?: Array<{ stage: string }>;
+      items: Record<string, unknown>;
+    }]>;
+    const degradedPayload = degradedCalls[0]![1];
+
+    expect(degradedPayload.status).toBe('degraded');
+    expect(degradedPayload.errors).toEqual(
+      expect.arrayContaining([expect.objectContaining({ stage: 'unretained-item-failures' })]),
+    );
+    expect(degradedPayload.items).not.toHaveProperty('owner/repo-4');
+    expect(degradedResult.errors).toEqual(
+      expect.arrayContaining([expect.objectContaining({ stage: 'unretained-item-failures' })]),
+    );
+  });
+
   it('consensus-analyst-tail normalizes a partial tail item instead of dropping it', async () => {
     callLlmMock.mockResolvedValue({
       text: 'null',
@@ -367,6 +475,9 @@ describe('worker fetcher empty publish guards', () => {
       }
       if (key === 'consensus-verdicts') {
         return {
+          status: 'degraded',
+          errors: [{ stage: 'insufficient-fresh-coverage', message: 'too few fresh rows' }],
+          warnings: [{ stage: 'item-call', message: 'retained timeout' }],
           generator: 'kimi',
           ribbon: { headline: 'Existing', bullets: ['One', 'Two'] },
           items: {},
@@ -387,6 +498,9 @@ describe('worker fetcher empty publish guards', () => {
     expect(writeDataStoreMock).toHaveBeenCalledWith(
       'consensus-verdicts',
       expect.objectContaining({
+        status: 'degraded',
+        errors: [{ stage: 'insufficient-fresh-coverage', message: 'too few fresh rows' }],
+        warnings: [{ stage: 'item-call', message: 'retained timeout' }],
         generator: 'template',
         items: {
           'owner/tail-repo': expect.objectContaining({

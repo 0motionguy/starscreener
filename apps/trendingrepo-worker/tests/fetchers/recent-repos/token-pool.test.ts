@@ -305,11 +305,11 @@ describe('recent-repos GitHub authentication', () => {
 
     await fetcher.run(makeContext(seenHeaders));
 
-    expect(seenHeaders).toHaveLength(20);
+    expect(seenHeaders).toHaveLength(21);
     expect(seenHeaders.map((headers) => headers.Authorization)).toEqual([
       'Bearer pool-token-alpha',
       'Bearer pool-token-bravo',
-      ...Array.from({ length: 18 }, (_, index) =>
+      ...Array.from({ length: 19 }, (_, index) =>
         index % 2 === 0 ? 'Bearer pool-token-alpha' : 'Bearer pool-token-bravo',
       ),
     ]);

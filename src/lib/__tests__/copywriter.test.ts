@@ -49,12 +49,20 @@ test("validatePolished rejects lost numbers, lost repo names, and grown line cou
   );
 });
 
-test("validatePolished rejects emoji, hashtags, mentions, and URLs", () => {
+test("validatePolished rejects emoji, rogue hashtags, mentions, and URLs", () => {
   const base = "acme/hot 2,341 stars in 24h, momentum 50/100";
   assert.match(validatePolished(req(), `${base} 🚀`) ?? "", /non-ascii/);
-  assert.match(validatePolished(req(), `${base} #github`) ?? "", /hashtag-or-mention/);
-  assert.match(validatePolished(req(), `${base} @elon`) ?? "", /hashtag-or-mention/);
+  assert.match(validatePolished(req(), `${base} #crypto`) ?? "", /hashtag-not-allowlisted/);
+  assert.match(validatePolished(req(), `${base} @elon`) ?? "", /mention/);
   assert.match(validatePolished(req(), `${base} https://x.co/a`) ?? "", /url-in-text/);
+});
+
+test("validatePolished allows up to MAX_HASHTAGS allowlisted tags, case-insensitive", () => {
+  const base = "acme/hot 2,341 stars in 24h, momentum 50/100";
+  assert.equal(validatePolished(req(), `${base} #opensource`), null);
+  assert.equal(validatePolished(req(), `${base} #GitHub #AI`), null);
+  assert.match(validatePolished(req(), `${base} #github #ai #llm`) ?? "", /too-many-hashtags/);
+  assert.match(validatePolished(req(), `${base} #github #vibes`) ?? "", /hashtag-not-allowlisted/);
 });
 
 test("validatePolished rejects over-budget output and mutated frozen lines", () => {

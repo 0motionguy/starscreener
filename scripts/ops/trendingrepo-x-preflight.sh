@@ -61,7 +61,7 @@ if [ -n "$AUTH" ] && [ -n "$CT0" ]; then
     echo "$(ts) session: OK"
   else
     if [ "$LIVE" = 1 ]; then
-      alert "X session DEAD - refresh BEFORE the next post window: ssh toolbox trendingrepo-refresh-x-cookies.sh <auth_token> <ct0>"
+      alert "X session DEAD - refresh BEFORE the next post window: sweet-cookie x.com --json | ssh toolbox sudo trendingrepo-refresh-x-cookies.sh --stdin"
       fail=1
     else
       echo "$(ts) session: DEAD (mode=$MODE, not paging) - refresh via trendingrepo-refresh-x-cookies.sh"

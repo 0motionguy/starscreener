@@ -68,6 +68,27 @@ test("HOSTUP cron dispatches five UTC slots on a non-UTC host", async () => {
   assert.doesNotMatch(preflightWrapper, /OUTCOME_WINDOW_H/);
 });
 
+test("X cookie rotation accepts secrets only on stdin and commits after verification", async () => {
+  const [refresh, preflight] = await Promise.all([
+    read("scripts/ops/trendingrepo-refresh-x-cookies.sh"),
+    read("scripts/ops/trendingrepo-x-preflight.sh"),
+  ]);
+
+  assert.match(refresh, /\[ "\$\{1:-\}" = "--stdin" \] \|\|/);
+  assert.doesNotMatch(refresh, /<auth_token> <ct0>/);
+  assert.match(refresh, /mktemp/);
+  const verification = refresh.indexOf("STATUS=$(twitter");
+  const commit = refresh.indexOf('mv -f "$TMP" "$ENV"');
+  assert.notEqual(verification, -1, "missing candidate-session verification");
+  assert.notEqual(commit, -1, "missing atomic cookie commit");
+  assert.ok(
+    verification < commit,
+    "cookies are committed before the session is verified",
+  );
+  assert.match(refresh, /--force-recreate trendingrepo/);
+  assert.doesNotMatch(preflight, /<auth_token> <ct0>/);
+});
+
 test("host runner fails when the posted tweet cannot be confirmed", async (t) => {
   const oldSecret = process.env.CRON_SECRET;
   const oldUrl = process.env.TRENDINGREPO_URL;

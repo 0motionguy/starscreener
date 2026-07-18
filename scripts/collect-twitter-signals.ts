@@ -1132,7 +1132,14 @@ async function cleanupForCliExit(): Promise<void> {
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+// Entrypoint guard: the twitter-collector test suite imports helpers from
+// this module, so the CLI must only run when invoked directly
+// (`tsx scripts/collect-twitter-signals.ts`), never on import — otherwise
+// the toolbox provider's fail-loud env check kills the test process.
+// Case-insensitive compare so Windows drive-letter casing (c:\ vs C:\)
+// cannot skip the CLI. Pattern: backfill-history.mjs / pipeline-post.mjs.
+const cliEntryHref = process.argv[1] ? pathToFileURL(process.argv[1]).href : "";
+if (cliEntryHref.toLowerCase() === import.meta.url.toLowerCase()) {
   main()
     .catch((error) => {
       console.error(error);

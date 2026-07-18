@@ -49,11 +49,11 @@ test("every enabled pack id resolves via getPack; disabled ones don't", () => {
     assert.equal(getPack(p.id)?.id, p.id);
   }
   assert.equal(getPack("funding"), undefined); // registered but disabled
-  assert.equal(getPack("llm-models"), undefined);
+  assert.equal(getPack("llm-models")?.id, "llm-models"); // CE-5: graduated to enabled
   assert.equal(getPack("nope"), undefined);
 });
 
-test("selectPackRepos matches on topics/description and returns exactly size", () => {
+test("selectPackRepos matches on topics/description, minSize floor to size cap", () => {
   const agents = Array.from({ length: 7 }, (_, i) =>
     makeRepo({
       fullName: `acme/agent${i}`,
@@ -67,11 +67,18 @@ test("selectPackRepos matches on topics/description and returns exactly size", (
     makeRepo({ fullName: "acme/game", description: "A voxel game", starsDelta24h: 800 }),
   ];
   const pack = getPack("ai-agents")!;
+  // 7 matches with size 10 / minSize 5 -> all 7 ride; noise never sneaks in.
   const picked = selectPackRepos([...agents, ...noise], pack, NO_COOLDOWN);
-  assert.equal(picked.length, 5);
+  assert.equal(picked.length, 7);
   for (const r of picked) {
     assert.match(r.fullName, /agent/, `unexpected member ${r.fullName}`);
   }
+
+  // 14 matches -> capped at pack.size.
+  const many = Array.from({ length: 14 }, (_, i) =>
+    makeRepo({ fullName: `acme/more${i}`, topics: ["ai-agents"], starsDelta24h: 20 + i }),
+  );
+  assert.equal(selectPackRepos(many, pack, NO_COOLDOWN).length, pack.size);
 });
 
 test("selectPackRepos excludes cooldown members", () => {
@@ -143,6 +150,29 @@ test("selectPackRepos returns [] for a thin pack (caller falls back to single)",
   assert.deepEqual(selectPackRepos(agents, getPack("ai-agents")!, NO_COOLDOWN), []);
 });
 
+test("llm-models matches via the shared hf_models predicate, minSize 3 floor", () => {
+  const models = Array.from({ length: 3 }, (_, i) =>
+    makeRepo({
+      fullName: `acme/model${i}`,
+      description: "Fast LLM inference engine",
+      starsDelta7d: 40 + i,
+    }),
+  );
+  const noise = [
+    makeRepo({ fullName: "acme/css-lib", description: "CSS utilities", starsDelta7d: 900 }),
+    makeRepo({ fullName: "acme/game", description: "A voxel game", starsDelta7d: 800 }),
+  ];
+  const pack = getPack("llm-models")!;
+
+  // 3 matches ride (minSize 3); noise never sneaks in.
+  const picked = selectPackRepos([...models, ...noise], pack, NO_COOLDOWN);
+  assert.equal(picked.length, 3);
+  assert.ok(picked.every((r) => r.fullName.startsWith("acme/model")));
+
+  // 2 matches < minSize -> [] so slot C falls back to a single.
+  assert.deepEqual(selectPackRepos(models.slice(0, 2), pack, NO_COOLDOWN), []);
+});
+
 test("weekly-top10 matches everything and returns 10", () => {
   const repos = [
     ...Array.from({ length: 14 }, (_, i) =>
@@ -184,5 +214,10 @@ test("fresh-finds uses discovery eligibility — big established repos yield []"
     makeRepo({ fullName: `tiny/gem${i}`, stars: 40 + i, starsDelta24h: 12 }),
   );
   const picked = selectPackRepos(gems, getPack("fresh-finds")!, NO_COOLDOWN);
-  assert.equal(picked.length, 5);
+  assert.equal(picked.length, 6); // every genuine gem rides; zero-score filler never pads to size
+
+  // Mixed pool: giants are score-0 and must not pad the card past the gems.
+  const mixed = selectPackRepos([...giants, ...gems], getPack("fresh-finds")!, NO_COOLDOWN);
+  assert.equal(mixed.length, 6);
+  assert.ok(mixed.every((r) => r.fullName.startsWith("tiny/")));
 });

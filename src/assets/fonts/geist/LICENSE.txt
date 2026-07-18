@@ -1,0 +1,10 @@
+Geist and Geist Mono typefaces
+Copyright (c) Vercel, Inc.
+
+Licensed under the SIL Open Font License, Version 1.1.
+https://github.com/vercel/geist-font/blob/main/LICENSE.TXT
+
+The .woff files in this directory are the latin subsets redistributed by
+the Fontsource project (@fontsource/geist-sans, @fontsource/geist-mono),
+fetched from cdn.jsdelivr.net. They are used exclusively by the og image
+routes (src/lib/og-fonts.ts) because satori cannot consume woff2.

@@ -436,8 +436,8 @@ export function tightenForX(text: string): string {
 /** Minimal pack shape the composer needs — the full spec lives in packs.ts. */
 export interface PackComposeSpec {
   id: string;
-  /** Hook line; composer upper-cases + ASCII-folds it. */
-  hook: string;
+  /** Hook line for the actual member count; composer upper-cases + ASCII-folds it. */
+  hook: (n: number) => string;
 }
 
 const PACK_CTA = "Bookmark it.";
@@ -462,7 +462,7 @@ export function composeTrendingPack(repos: Repo[], pack: PackComposeSpec): Compo
   const url = absoluteUrl(`/tools/top-10?my=${slugs.join(",")}`);
   const textBudget = SINGLE_TWEET_MAX - URL_BUDGET;
 
-  const hook = toAscii(pack.hook).toUpperCase();
+  const hook = toAscii(pack.hook(repos.length)).toUpperCase();
   const lines = repos.slice(0, PACK_TEXT_LINES).map((r, i) => `${i + 1}. ${r.fullName}`);
 
   let text = `${hook}\n\n${lines.join("\n")}\n\n${PACK_CTA}`;

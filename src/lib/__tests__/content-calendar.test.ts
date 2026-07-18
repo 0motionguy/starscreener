@@ -47,15 +47,16 @@ test("slot B rotates the themed pack by UTC weekday", () => {
   }
 });
 
-test("slot C alternates GAINER (even UTC date) / sustained TREND (odd)", () => {
+test("slot C alternates GAINER single (even UTC date) / llm-models pack (odd, CE-5)", () => {
   assert.deepEqual(resolveSlotFormat(MON, "C", undefined), {
     format: "trending_single",
     ranker: "gainer",
-  });
+  }); // 6th
   assert.deepEqual(resolveSlotFormat(TUE, "C", undefined), {
-    format: "trending_single",
-    ranker: "trend",
-  });
+    format: "trending_pack",
+    packId: "llm-models",
+    ranker: "top",
+  }); // 7th
 });
 
 test("slot E rotates the broader builder ecosystem by UTC weekday", () => {

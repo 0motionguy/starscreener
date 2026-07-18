@@ -5,7 +5,7 @@
 //   slot D (04:47)  discovery single
 //   slot A (08:47)  TOP single
 //   slot B (12:47)  rotating AI/tooling pack
-//   slot C (17:47)  alternating GAINER / sustained TREND single
+//   slot C (17:47)  alternating GAINER single (even UTC date) / llm-models pack (odd, CE-5)
 //   slot E (21:47)  rotating builder-ecosystem pack
 //
 // X_CALENDAR_OVERRIDE (optional JSON, box env) can remap any slot/day:
@@ -78,10 +78,10 @@ export function resolveSlotFormat(
   if (slot === "D") return { format: "discovery_single", ranker: "discovery" };
   if (slot === "C") {
     const dayOfMonth = new Date(nowMs).getUTCDate();
-    return {
-      format: "trending_single",
-      ranker: dayOfMonth % 2 === 0 ? "gainer" : "trend",
-    };
+    // CE-5: odd dates surface the llm-models pack; even dates keep the
+    // gainer single (discovery moved to slot D daily in the 5-slot matrix).
+    if (dayOfMonth % 2 === 0) return { format: "trending_single", ranker: "gainer" };
+    return { format: "trending_pack", packId: "llm-models", ranker: "top" };
   }
   return { format: "trending_single", ranker: "top" };
 }

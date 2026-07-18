@@ -12,8 +12,6 @@
 // Distinct from src/lib/model-usage.ts, which is the ADMIN telemetry surface
 // (our own LLM spend). This module is the PUBLIC model catalog.
 
-import "server-only";
-
 import modelSeed from "../../data/llm-model-metadata.json";
 import type { ModelMeta, ModelMetadataPayload } from "./llm/types";
 
@@ -80,12 +78,7 @@ export function getModelById(modelId: string): ModelMeta | undefined {
   return cache.models.find((m) => m.model_id === modelId);
 }
 
-export {
-  filterModels,
-  listProviders,
-  sortModels,
-  valueScore,
-  type ModelFilter,
-  type ModelSortKey,
-  type ProviderCount,
-} from "./model-helpers";
+// Pure derived helpers (valueScore / filterModels / sortModels / listProviders)
+// live in ./models-view — a client-safe module with no data-store reachability.
+// Re-exported so server callers and unit tests keep this single import path.
+export * from "./models-view";

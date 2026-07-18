@@ -13,19 +13,25 @@
 // so the X / LinkedIn crawler still gets a real PNG.
 
 import { ImageResponse } from "next/og";
+import { loadOgFonts } from "@/lib/og-fonts";
 import type { ReactElement } from "react";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
   AccentStrip,
   CardFrame,
+  Dot,
   NotFoundCard,
+  OwnerBadge,
   StarMark,
   Wordmark,
+  fetchAvatarDataUri,
+  languageDotColor,
   truncate,
 } from "@/lib/og-primitives";
 import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { refreshTrendingFromStore } from "@/lib/trending";
+import { isLlmModelRepo } from "@/lib/twitter/outbound/packs";
 import type { Repo } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -53,7 +59,7 @@ function formatSignedDelta(n: number | null | undefined): string {
   return `${n > 0 ? "+" : ""}${formatCompact(n)}`;
 }
 
-function renderRepoCard(repo: Repo): ReactElement {
+function renderRepoCard(repo: Repo, avatarUri: string | null): ReactElement {
   const mentions =
     repo.mentions?.total7d ?? repo.mentions?.total24h ?? repo.mentionCount24h ?? 0;
   const tiles: Array<{ label: string; value: string; tone: "primary" | "up" | "down" }> = [];
@@ -84,8 +90,31 @@ function renderRepoCard(repo: Repo): ReactElement {
     });
   }
 
+  const [owner = "", name = ""] = repo.fullName.split("/");
+  const nameFontSize = name.length <= 14 ? 74 : name.length <= 22 ? 58 : 44;
+
+  // hf_models archetype (CE-5): LLM / model repos pick up the Hugging Face
+  // yellow — same predicate the llm-models pack uses, so a repo that appears
+  // on the pack card carries the same accent on its own share card.
+  const isModelRepo = isLlmModelRepo(repo);
+  const accent = isModelRepo ? OG_COLORS.hf : OG_COLORS.brand;
+
+  const chips: Array<{ label: string; dotColor?: string; accent?: boolean }> = [];
+  if (isModelRepo) {
+    chips.push({ label: "LLM / MODEL", accent: true });
+  }
+  if (repo.language) {
+    chips.push({
+      label: repo.language,
+      dotColor: languageDotColor(repo.language),
+    });
+  }
+  for (const topic of (repo.topics ?? []).slice(0, 3)) {
+    chips.push({ label: `#${truncate(topic.toLowerCase(), 20)}` });
+  }
+
   return (
-    <CardFrame>
+    <CardFrame accent={accent}>
       {/* Header */}
       <div
         style={{
@@ -99,7 +128,7 @@ function renderRepoCard(repo: Repo): ReactElement {
         <span
           style={{
             display: "flex",
-            fontFamily: "monospace",
+            fontFamily: "Geist Mono",
             fontSize: 18,
             color: OG_COLORS.textTertiary,
             letterSpacing: "0.06em",
@@ -109,48 +138,93 @@ function renderRepoCard(repo: Repo): ReactElement {
         </span>
       </div>
 
-      {/* Hero */}
-      <div style={{ display: "flex", flexDirection: "column", marginTop: 36 }}>
+      {/* Hero: avatar + owner/name lockup */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 28,
+          marginTop: 30,
+        }}
+      >
+        <OwnerBadge avatarUri={avatarUri} owner={owner} size={112} radius={24} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <span
+            style={{
+              display: "flex",
+              fontSize: 26,
+              fontWeight: 600,
+              color: OG_COLORS.textTertiary,
+              letterSpacing: "0.02em",
+            }}
+          >
+            {truncate(owner, 40)}
+          </span>
+          <span
+            style={{
+              display: "flex",
+              fontSize: nameFontSize,
+              fontWeight: 800,
+              lineHeight: 1.02,
+              letterSpacing: "-0.03em",
+              color: OG_COLORS.textPrimary,
+            }}
+          >
+            {truncate(name, 30)}
+          </span>
+        </div>
+      </div>
+
+      {/* Pitch */}
+      {repo.description ? (
         <span
           style={{
-            fontSize: 64,
-            fontWeight: 800,
-            lineHeight: 1.04,
-            letterSpacing: "-0.02em",
-            color: OG_COLORS.textPrimary,
+            display: "block",
+            marginTop: 22,
+            fontSize: 27,
+            color: OG_COLORS.textSecondary,
+            maxWidth: 1010,
+            lineHeight: 1.4,
+            lineClamp: 2,
           }}
         >
-          {truncate(repo.fullName, 36)}
+          {truncate(repo.description, 180)}
         </span>
-        {repo.description ? (
-          <span
-            style={{
-              display: "flex",
-              marginTop: 14,
-              fontSize: 24,
-              color: OG_COLORS.textSecondary,
-              maxWidth: 980,
-              lineHeight: 1.35,
-            }}
-          >
-            {truncate(repo.description, 140)}
-          </span>
-        ) : null}
-        {repo.language ? (
-          <span
-            style={{
-              display: "flex",
-              marginTop: 14,
-              fontFamily: "monospace",
-              fontSize: 16,
-              color: OG_COLORS.textTertiary,
-              letterSpacing: "0.08em",
-            }}
-          >
-            {repo.language.toUpperCase()}
-          </span>
-        ) : null}
-      </div>
+      ) : null}
+
+      {/* Chips: language + topics */}
+      {chips.length > 0 ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            marginTop: 22,
+          }}
+        >
+          {chips.map((chip) => (
+            <div
+              key={chip.label}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 9,
+                padding: "8px 18px",
+                borderRadius: 999,
+                border: `1px solid ${chip.accent ? OG_COLORS.hf : OG_COLORS.border}`,
+                backgroundColor: chip.accent ? OG_COLORS.hfDim : OG_COLORS.bgSecondary,
+                fontFamily: "Geist Mono",
+                fontSize: 17,
+                fontWeight: chip.accent ? 700 : 400,
+                color: chip.accent ? OG_COLORS.hf : OG_COLORS.textSecondary,
+              }}
+            >
+              {chip.dotColor ? <Dot size={11} color={chip.dotColor} /> : null}
+              <span>{chip.label}</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       {/* KPI strip */}
       <div
@@ -178,7 +252,7 @@ function renderRepoCard(repo: Repo): ReactElement {
           alignItems: "center",
           width: "100%",
           marginTop: "auto",
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           fontSize: 20,
           color: OG_COLORS.textTertiary,
           letterSpacing: "0.04em",
@@ -236,7 +310,7 @@ function KpiTile({
         style={{
           display: "flex",
           fontSize: 13,
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           color: OG_COLORS.textTertiary,
           letterSpacing: "0.14em",
           fontWeight: 700,
@@ -247,8 +321,9 @@ function KpiTile({
       <div
         style={{
           display: "flex",
+          fontFamily: "Geist Mono",
           fontSize: 40,
-          fontWeight: 800,
+          fontWeight: 600,
           color: valueColor,
           letterSpacing: "-0.02em",
         }}
@@ -294,6 +369,7 @@ export async function GET(
     return new ImageResponse(renderNotFound(fullName), {
       width: WIDTH,
       height: HEIGHT,
+      fonts: await loadOgFonts(),
       headers: { "Cache-Control": "public, s-maxage=60" },
     });
   }
@@ -316,13 +392,17 @@ export async function GET(
     return new ImageResponse(renderNotFound(fullName), {
       width: WIDTH,
       height: HEIGHT,
+      fonts: await loadOgFonts(),
       headers: { "Cache-Control": "public, s-maxage=300" },
     });
   }
 
-  return new ImageResponse(renderRepoCard(repo), {
+  const avatarUri = await fetchAvatarDataUri(repo.ownerAvatarUrl);
+
+  return new ImageResponse(renderRepoCard(repo, avatarUri), {
     width: WIDTH,
     height: HEIGHT,
+    fonts: await loadOgFonts(),
     headers: OG_CACHE_HEADERS,
   });
 }

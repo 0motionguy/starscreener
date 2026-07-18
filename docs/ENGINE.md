@@ -465,3 +465,24 @@ Quick checklist:
 5. Reader lib: add `refreshXxxFromStore()` in `src/lib/<slug>.ts` following the 30s-rate-limit + in-flight-dedupe pattern from `src/lib/trending.ts`.
 6. Env: declare new keys in `.env.example` + the Zod schema in `src/lib/env.ts` if read at runtime.
 7. Update this ENGINE.md in the same commit.
+
+---
+
+## 8. X content engine (CE-5 outbound)
+
+Lib: `src/lib/twitter/outbound/` -- cron route: `src/app/api/cron/twitter-trending/route.ts` (CRON_SECRET-gated, propose -> confirm two-step; never posts on propose).
+
+- **Calendar** (`content-calendar.ts`): deterministic weekly slot matrix, slots A/B/C per day. Slot C on odd UTC days resolves to the `llm-models` pack (`hf_models` archetype); even days = `discovery_single`. `X_CALENDAR_OVERRIDE` forces a slot format for testing.
+- **Packs** (`packs.ts`): registry entries carry `size: 10, minSize: 5`; proposals emit `rows=<actual count>` in the OG `mediaPath` and cap the numbered list in tweet text at 5 lines (card shows all rows).
+- **Runner** (`trending-runner.ts`): `proposeTrendingPost(ms, slot)` ranks candidates (`rankTrendingCandidates`), builds text/media/url; `confirmTrendingPost` appends to the `twitter-trending-ledger` data-store slug (dedupe + `TRENDING_POST_MAX_PER_DAY`, default 3).
+- **Copywriter** (`src/lib/llm/copywriter.ts`): only active when `X_COPYWRITER=1`; NanoGPT primary, Kimi fallback, deterministic template otherwise (`"source": "deterministic"` in proposals). Output re-validated (length, hashtag allowlist) before use -- rejects fall back to deterministic.
+- **Envs**: see the CE-5 block in `.env.example` (`NANOGPT_*`, `KIMI_*`, `X_COPYWRITER`, `X_CALENDAR_OVERRIDE`, `TRENDING_POST_MAX_PER_DAY`).
+- **Dry-run** (no server, no secrets; exercises calendar+packs+composer+validator):
+
+  ```bash
+  TRENDINGREPO_ALLOW_MISSING_ENV=true npx tsx --require ./tests/setup-server-only-stub.cjs -e \
+    "import('./src/lib/twitter/outbound/trending-runner').then(async m => { const f = m.proposeTrendingPost ?? m.default?.proposeTrendingPost; console.log(JSON.stringify(await f(Date.now(), 'A'), null, 1)); })"
+  ```
+
+  Note the interop fallback: under tsx the transpiled module may surface named exports on `default`.
+- **Tests**: `src/lib/twitter/outbound/*_tests_*` + `src/lib/__tests__/content-calendar.test.ts`, `trending-packs.test.ts`, `copywriter.test.ts` (run with `--require ./tests/setup-server-only-stub.cjs`).

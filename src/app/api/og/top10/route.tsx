@@ -19,6 +19,7 @@
 //     aligned by hand.
 
 import { ImageResponse } from "next/og";
+import { loadOgFonts } from "@/lib/og-fonts";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
@@ -288,7 +289,7 @@ function CardJSX({
         backgroundColor: c.bg,
         color: c.textPrimary,
         padding,
-        fontFamily: "sans-serif",
+        fontFamily: "Geist",
         position: "relative",
       }}
     >
@@ -298,7 +299,7 @@ function CardJSX({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           fontSize: subSize,
           color: c.textTertiary,
           letterSpacing: 2,
@@ -346,13 +347,14 @@ function CardJSX({
           flex: 1,
         }}
       >
-        <CardHeaderRow height={height} theme={theme} />
+        <CardHeaderRow height={height} theme={theme} rowCount={rowCount} />
         {bundle.items.slice(0, rowCount).map((item, i) => (
           <CardRow
             key={item.slug}
             item={item}
             index={i}
             height={height}
+            rowCount={rowCount}
             theme={theme}
             liveRepo={repoBySlug.get(item.slug.toLowerCase()) ?? null}
             origin={origin}
@@ -362,7 +364,7 @@ function CardJSX({
           <span
             style={{
               display: "flex",
-              fontFamily: "monospace",
+              fontFamily: "Geist Mono",
               color: c.textTertiary,
               fontSize: subSize,
             }}
@@ -475,7 +477,7 @@ function StatCell({
       <span
         style={{
           display: "flex",
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           fontSize: labelSize,
           letterSpacing: 2,
           textTransform: "uppercase",
@@ -487,7 +489,7 @@ function StatCell({
       <span
         style={{
           display: "flex",
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           fontSize: valueSize,
           color: valueColor,
           fontWeight: 500,
@@ -499,7 +501,7 @@ function StatCell({
         <span
           style={{
             display: "flex",
-            fontFamily: "monospace",
+            fontFamily: "Geist Mono",
             fontSize: subSize,
             color: c.textTertiary,
             letterSpacing: 1,
@@ -514,16 +516,36 @@ function StatCell({
 
 // Column-header row above the OG card rows. Labels the naked numeric cells
 // (24H / 7D / STARS / MENTIONS) so the OG card reads identically to the page.
+// Density scale: 10-row cards are the 1.0 baseline; fewer rows render
+// larger type + avatars so the short listicle cards (`?rows=3..5`, X pack
+// CE-2) fill the canvas instead of floating a 10-row-density list in dead
+// space. Capped at 1.35 so the numeric columns still fit at 1200px wide.
+function rowScale(rowCount: number): number {
+  if (rowCount <= 4) return 1.35;
+  if (rowCount <= 6) return 1.2;
+  if (rowCount <= 8) return 1.08;
+  return 1;
+}
+
 // Widths match CardRow + MentionPipsCell exactly so columns align.
-function CardHeaderRow({ height, theme }: { height: number; theme: Theme }) {
+function CardHeaderRow({
+  height,
+  theme,
+  rowCount,
+}: {
+  height: number;
+  theme: Theme;
+  rowCount: number;
+}) {
   const c = THEMES[theme];
-  const labelSize = Math.round(height * 0.018);
-  const avatarSize = Math.round(height * 0.046);
+  const s = rowScale(rowCount);
+  const labelSize = Math.round(height * 0.018 * Math.min(s, 1.15));
+  const avatarSize = Math.round(height * 0.046 * s);
   const mentionsW = Math.round(height * 0.22);
 
   const labelStyle = {
     display: "flex",
-    fontFamily: "monospace",
+    fontFamily: "Geist Mono",
     fontSize: labelSize,
     letterSpacing: 2,
     color: c.textTertiary,
@@ -541,16 +563,34 @@ function CardHeaderRow({ height, theme }: { height: number; theme: Theme }) {
         borderLeft: "3px solid transparent",
       }}
     >
-      <span style={{ display: "flex", width: 44 }} />
+      <span style={{ display: "flex", width: Math.round(44 * s) }} />
       <span style={{ display: "flex", width: avatarSize }} />
       <span style={{ display: "flex", flex: 1 }} />
-      <span style={{ ...labelStyle, width: 72, justifyContent: "flex-end" }}>
+      <span
+        style={{
+          ...labelStyle,
+          width: Math.round(72 * s),
+          justifyContent: "flex-end",
+        }}
+      >
         24H
       </span>
-      <span style={{ ...labelStyle, width: 72, justifyContent: "flex-end" }}>
+      <span
+        style={{
+          ...labelStyle,
+          width: Math.round(72 * s),
+          justifyContent: "flex-end",
+        }}
+      >
         7D
       </span>
-      <span style={{ ...labelStyle, width: 100, justifyContent: "flex-end" }}>
+      <span
+        style={{
+          ...labelStyle,
+          width: Math.round(100 * s),
+          justifyContent: "flex-end",
+        }}
+      >
         STARS
       </span>
       <span style={{ display: "flex", width: Math.round(height * 0.115) }} />
@@ -566,6 +606,7 @@ function CardRow({
   index,
   height,
   theme,
+  rowCount,
   liveRepo,
   origin,
 }: {
@@ -573,21 +614,40 @@ function CardRow({
   index: number;
   height: number;
   theme: Theme;
+  rowCount: number;
   liveRepo: Repo | null;
   origin: string;
 }) {
   const c = THEMES[theme];
   const isTop3 = index < 3;
+  const s = rowScale(rowCount);
 
-  const rowFontTitle = Math.round(height * 0.030);
+  const rowFontTitle = Math.round(height * 0.030 * s);
   const rowFontRank = isTop3
-    ? Math.round(height * 0.040)
-    : Math.round(height * 0.034);
-  const rowFontStars = Math.round(height * 0.026);
-  const avatarSize = Math.round(height * 0.046);
+    ? Math.round(height * 0.040 * s)
+    : Math.round(height * 0.034 * s);
+  const rowFontStars = Math.round(height * 0.026 * s);
+  const avatarSize = Math.round(height * 0.046 * s);
+  // Title budgets shrink as type grows — the flex cell clips overflow, these
+  // keep the ellipsis honest. The budget spans owner + "/" + name combined:
+  // the owner used to render unbudgeted, which hard-clipped long pairs like
+  // TauricResearch/TradingAgents at rows<=5. Owner gives way first (it is
+  // the tertiary-colored half) but keeps >=7 glyphs so it stays legible;
+  // the name only trims once the owner is at its floor.
+  const titleBudget = s >= 1.3 ? 20 : s >= 1.15 ? 24 : 38;
+  const titleMaxBare = s >= 1.3 ? 22 : s >= 1.15 ? 26 : 40;
 
-  const owner = item.owner ?? "";
+  const rawOwner = item.owner ?? "";
   const name = item.title;
+  let owner = rawOwner;
+  let nameMax = name.length;
+  if (rawOwner) {
+    const over = rawOwner.length + 1 + name.length - titleBudget;
+    if (over > 0) {
+      owner = truncate(rawOwner, Math.max(7, rawOwner.length - over));
+      nameMax = Math.max(10, titleBudget - owner.length - 1);
+    }
+  }
 
   // Star count: prefer live Repo.stars when we have it (repos/agents/movers),
   // fall back to the snapshot's deltaPct / score for news / funding / llms.
@@ -626,11 +686,14 @@ function CardRow({
 
   const avatarBg = `linear-gradient(135deg, ${item.avatarGradient[0]}, ${item.avatarGradient[1]})`;
 
-  // Top-3 wash + orange left rail mirror the page's `.t10-row.top3`
-  // treatment. Composed inline (no `undefined`/spread) because satori is
-  // picky about partial style objects with the linear-gradient path.
-  const rowBg = isTop3 ? hexToRgba(c.brand, 0.08) : c.bg;
-  const railColor = isTop3 ? c.brand : "transparent";
+  // Medal ranks: gold/silver/bronze rails + washes for the top 3, tuned per
+  // theme via c.rail1/2/3 so the PNG matches the SVG fallback's tiering.
+  // Composed inline (no `undefined`/spread) because satori is picky about
+  // partial style objects with the linear-gradient path.
+  const medalColor =
+    index === 0 ? c.rail1 : index === 1 ? c.rail2 : index === 2 ? c.rail3 : null;
+  const rowBg = medalColor ? hexToRgba(medalColor, 0.08) : c.bg;
+  const railColor = medalColor ?? "transparent";
 
   return (
     <div
@@ -638,9 +701,10 @@ function CardRow({
         display: "flex",
         alignItems: "center",
         gap: 14,
-        padding: "5px 14px",
+        padding: `${Math.round(5 * s)}px 14px`,
         backgroundColor: rowBg,
         borderLeft: `3px solid ${railColor}`,
+        flex: 1,
       }}
     >
       <span
@@ -648,9 +712,9 @@ function CardRow({
           display: "flex",
           fontSize: rowFontRank,
           fontWeight: 700,
-          color: isTop3 ? c.brand : c.rankRest,
-          width: 44,
-          fontFamily: "monospace",
+          color: medalColor ?? c.rankRest,
+          width: Math.round(44 * s),
+          fontFamily: "Geist Mono",
         }}
       >
         {String(item.rank).padStart(2, "0")}
@@ -676,7 +740,7 @@ function CardRow({
             height: avatarSize,
             backgroundImage: avatarBg,
             color: c.bg,
-            fontFamily: "monospace",
+            fontFamily: "Geist Mono",
             fontWeight: 700,
             fontSize: Math.round(avatarSize * 0.5),
             alignItems: "center",
@@ -694,7 +758,7 @@ function CardRow({
           fontSize: rowFontTitle,
           color: c.textPrimary,
           fontWeight: 500,
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           overflow: "hidden",
         }}
       >
@@ -714,19 +778,19 @@ function CardRow({
               /
             </span>
             <span style={{ display: "flex", color: c.textPrimary }}>
-              {truncate(name, 32)}
+              {truncate(name, nameMax)}
             </span>
           </>
         ) : (
-          <span style={{ display: "flex" }}>{truncate(name, 40)}</span>
+          <span style={{ display: "flex" }}>{truncate(name, titleMaxBare)}</span>
         )}
       </span>
       <span
         style={{
           display: "flex",
           justifyContent: "flex-end",
-          width: 72,
-          fontFamily: "monospace",
+          width: Math.round(72 * s),
+          fontFamily: "Geist Mono",
           fontSize: Math.round(rowFontStars * 0.95),
           color: deltaColor(delta24h),
           fontVariantNumeric: "tabular-nums",
@@ -738,8 +802,8 @@ function CardRow({
         style={{
           display: "flex",
           justifyContent: "flex-end",
-          width: 72,
-          fontFamily: "monospace",
+          width: Math.round(72 * s),
+          fontFamily: "Geist Mono",
           fontSize: Math.round(rowFontStars * 0.95),
           color: deltaColor(delta7d),
           fontVariantNumeric: "tabular-nums",
@@ -753,8 +817,8 @@ function CardRow({
           alignItems: "center",
           justifyContent: "flex-end",
           gap: 6,
-          width: 100,
-          fontFamily: "monospace",
+          width: Math.round(100 * s),
+          fontFamily: "Geist Mono",
           fontSize: rowFontStars,
           fontWeight: 600,
           color: c.textPrimary,
@@ -784,6 +848,7 @@ function CardRow({
         liveRepo={liveRepo}
         height={height}
         theme={theme}
+        rowCount={rowCount}
         origin={origin}
       />
     </div>
@@ -794,15 +859,17 @@ function MentionPipsCell({
   liveRepo,
   height,
   theme,
+  rowCount,
   origin,
 }: {
   liveRepo: Repo | null;
   height: number;
   theme: Theme;
+  rowCount: number;
   origin: string;
 }) {
   const c = THEMES[theme];
-  const pipSize = Math.round(height * 0.028);
+  const pipSize = Math.round(height * 0.028 * Math.min(rowScale(rowCount), 1.15));
   const countSize = Math.round(height * 0.022);
   const cellWidth = Math.round(height * 0.22);
 
@@ -827,7 +894,7 @@ function MentionPipsCell({
           width: cellWidth,
           justifyContent: "flex-end",
           color: c.textTertiary,
-          fontFamily: "monospace",
+          fontFamily: "Geist Mono",
           fontSize: countSize * 0.8,
         }}
       >
@@ -862,7 +929,7 @@ function MentionPipsCell({
           <span
             style={{
               display: "flex",
-              fontFamily: "monospace",
+              fontFamily: "Geist Mono",
               fontSize: countSize * 0.7,
               color: c.textTertiary,
               marginLeft: 2,
@@ -876,7 +943,7 @@ function MentionPipsCell({
         <span
           style={{
             display: "flex",
-            fontFamily: "monospace",
+            fontFamily: "Geist Mono",
             fontSize: countSize,
             color: c.textPrimary,
             fontWeight: 600,
@@ -1021,6 +1088,7 @@ export async function GET(request: NextRequest) {
       ),
       {
         ...dim,
+        fonts: await loadOgFonts(),
         headers: { "Cache-Control": CACHE_HEADER },
       },
     );

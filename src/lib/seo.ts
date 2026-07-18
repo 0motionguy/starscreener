@@ -80,4 +80,14 @@ export const OG_COLORS = {
   up: "#22C55E",
   down: "#EF4444",
   border: "#2B2B2F",
+  // Medal ranks (top-3 leaderboard rows)
+  medalGold: "#FFD700",
+  medalGoldDim: "rgba(255, 215, 0, 0.14)",
+  medalSilver: "#C0C0C0",
+  medalSilverDim: "rgba(192, 192, 192, 0.14)",
+  medalBronze: "#CD7F32",
+  medalBronzeDim: "rgba(205, 127, 50, 0.14)",
+  // Hugging Face brand yellow (llm-models / hf_models cards)
+  hf: "#FFD21E",
+  hfDim: "rgba(255, 210, 30, 0.15)",
 } as const;

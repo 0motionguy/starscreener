@@ -141,7 +141,7 @@ export function NotFoundCard({
         alignItems: "center",
         backgroundColor: OG_COLORS.bg,
         color: OG_COLORS.textPrimary,
-        fontFamily: "sans-serif",
+        fontFamily: "Geist",
         position: "relative",
       }}
     >
@@ -177,7 +177,7 @@ export function NotFoundCard({
             marginTop: 16,
             fontSize: 22,
             color: OG_COLORS.textTertiary,
-            fontFamily: "monospace",
+            fontFamily: "Geist Mono",
           }}
         >
           {hint}
@@ -195,9 +195,12 @@ export function NotFoundCard({
  */
 export function CardFrame({
   padding = "48px 72px 56px 72px",
+  accent = OG_COLORS.brand,
   children,
 }: {
   padding?: string;
+  /** AccentStrip color — card archetypes (e.g. hf_models) restyle the frame. */
+  accent?: string;
   children: ReactNode;
 }): ReactElement {
   return (
@@ -210,12 +213,12 @@ export function CardFrame({
         backgroundColor: OG_COLORS.bg,
         color: OG_COLORS.textPrimary,
         padding,
-        fontFamily: "sans-serif",
+        fontFamily: "Geist",
         position: "relative",
       }}
     >
       {children}
-      <AccentStrip />
+      <AccentStrip color={accent} />
     </div>
   );
 }
@@ -228,6 +231,149 @@ export function truncate(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text;
   if (maxChars <= 1) return "…";
   return text.slice(0, maxChars - 1).trimEnd() + "…";
+}
+
+/** GitHub-linguist hues for the languages we realistically encounter. */
+const LANGUAGE_DOT_COLORS: Record<string, string> = {
+  typescript: "#3178C6",
+  javascript: "#F1E05A",
+  python: "#3572A5",
+  rust: "#DEA584",
+  go: "#00ADD8",
+  c: "#555555",
+  "c++": "#F34B7D",
+  "c#": "#178600",
+  java: "#B07219",
+  kotlin: "#A97BFF",
+  swift: "#F05138",
+  ruby: "#701516",
+  php: "#4F5D95",
+  dart: "#00B4AB",
+  zig: "#EC915C",
+  lua: "#000080",
+  shell: "#89E051",
+  html: "#E34C26",
+  css: "#663399",
+  "jupyter notebook": "#DA5B0B",
+  elixir: "#6E4A7E",
+  scala: "#C22D40",
+  haskell: "#5E5086",
+  ocaml: "#EF7A08",
+  julia: "#A270BA",
+  r: "#198CE7",
+  vue: "#41B883",
+  svelte: "#FF3E00",
+  markdown: "#083FA1",
+  mdx: "#FCB32C",
+};
+
+/** Dot colour for a language chip; falls back to brand orange. */
+export function languageDotColor(language: string): string {
+  return LANGUAGE_DOT_COLORS[language.toLowerCase()] ?? OG_COLORS.brand;
+}
+
+const AVATAR_TIMEOUT_MS = 1500;
+const AVATAR_MAX_BYTES = 400_000;
+const avatarCache = new Map<string, Promise<string | null>>();
+
+/**
+ * Fetch an owner avatar and return it as a data URI for satori `<img>`.
+ *
+ * Pre-fetching (instead of letting satori resolve the remote URL mid-render)
+ * means a slow or broken avatar host degrades to the monogram fallback
+ * instead of failing the whole ImageResponse. Successes are cached for the
+ * process lifetime; failures are evicted so transient errors retry on the
+ * next render.
+ */
+export function fetchAvatarDataUri(
+  rawUrl: string | null | undefined,
+  size = 160,
+): Promise<string | null> {
+  if (!rawUrl) return Promise.resolve(null);
+  let url: URL;
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    return Promise.resolve(null);
+  }
+  if (url.protocol !== "https:") return Promise.resolve(null);
+  url.searchParams.set("size", String(size));
+  const key = url.toString();
+  const hit = avatarCache.get(key);
+  if (hit) return hit;
+  const pending = (async (): Promise<string | null> => {
+    const res = await fetch(key, {
+      signal: AbortSignal.timeout(AVATAR_TIMEOUT_MS),
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const type = res.headers.get("content-type") ?? "image/png";
+    if (!type.startsWith("image/")) return null;
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.byteLength === 0 || buf.byteLength > AVATAR_MAX_BYTES) return null;
+    return `data:${type};base64,${buf.toString("base64")}`;
+  })()
+    .catch(() => null)
+    .then((result) => {
+      if (result === null) avatarCache.delete(key);
+      return result;
+    });
+  avatarCache.set(key, pending);
+  return pending;
+}
+
+/**
+ * Owner avatar tile with a first-letter monogram fallback. Pass the result
+ * of `fetchAvatarDataUri` — never a remote URL — so renders stay hermetic.
+ */
+export function OwnerBadge({
+  avatarUri,
+  owner,
+  size = 112,
+  radius = 24,
+}: {
+  avatarUri: string | null;
+  owner: string;
+  size?: number;
+  radius?: number;
+}): ReactElement {
+  if (avatarUri) {
+    return (
+      <img
+        src={avatarUri}
+        alt=""
+        loading="eager"
+        width={size}
+        height={size}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: radius,
+          border: `1px solid ${OG_COLORS.border}`,
+          backgroundColor: OG_COLORS.bgSecondary,
+        }}
+      />
+    );
+  }
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: radius,
+        border: `1px solid ${OG_COLORS.border}`,
+        backgroundColor: OG_COLORS.brandDim,
+        color: OG_COLORS.brand,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: Math.round(size * 0.44),
+        fontWeight: 800,
+      }}
+    >
+      {(owner[0] ?? "?").toUpperCase()}
+    </div>
+  );
 }
 
 /** Compact number formatter — 12345 → "12.3k", 2_100_000 → "2.1M". */
@@ -305,7 +451,7 @@ export function OgHeader({
         <span
           style={{
             display: "flex",
-            fontFamily: "monospace",
+            fontFamily: "Geist Mono",
             fontSize: 22,
             color: OG_COLORS.textTertiary,
             letterSpacing: 0.6,
@@ -342,7 +488,7 @@ export function OgFooter({
         alignItems: "center",
         marginTop: "auto",
         width: "100%",
-        fontFamily: "monospace",
+        fontFamily: "Geist Mono",
         fontSize: 20,
         color: OG_COLORS.textTertiary,
         letterSpacing: 0.5,

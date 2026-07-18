@@ -1,9 +1,11 @@
 // LLM copywriter (CE-5) — optional polish pass over the deterministic tweet
 // copy. NanoGPT first (free-tier models), Kimi as fallback; 8s budget; and a
 // paranoid validator: the model may sharpen the HOOK, never the facts. Any
-// rule violation (lost number, renamed repo, emoji, hashtag, URL, busted
-// budget, mutated pack line) discards the LLM output and the deterministic
-// draft ships unchanged — the cron never blocks on a flaky provider.
+// rule violation (lost number, renamed repo, emoji, rogue hashtag, mention,
+// URL, busted budget, mutated pack line) discards the LLM output and the
+// deterministic draft ships unchanged — the cron never blocks on a flaky
+// provider. Hashtags (CE-5 Phase 4): up to MAX_HASHTAGS tags from the tiny
+// HASHTAG_ALLOWLIST may pass; anything else still rejects the rewrite.
 //
 // Env: NANOGPT_API_KEY / NANOGPT_BASE_URL / NANOGPT_MODEL,
 //      KIMI_API_KEY / KIMI_BASE_URL / KIMI_MODEL,
@@ -54,6 +56,22 @@ export function extractNumericClaims(text: string): string[] {
 }
 
 /**
+ * Hashtags the polish pass may keep. Deliberately tiny and evergreen —
+ * matched to the pack themes, never trend-chasing. Case-insensitive.
+ */
+export const HASHTAG_ALLOWLIST: readonly string[] = [
+  "opensource",
+  "github",
+  "ai",
+  "llm",
+  "devtools",
+  "selfhosted",
+];
+
+/** Cap per tweet — one reads intentional, two is the ceiling, three is spam. */
+export const MAX_HASHTAGS = 2;
+
+/**
  * Validate an LLM rewrite against the draft's facts. Exported for tests.
  * Returns null when valid, else a short reason.
  */
@@ -62,7 +80,14 @@ export function validatePolished(req: PolishRequest, polished: string): string |
   if (p.length === 0) return "empty";
   if (p.length > req.budget) return `over-budget (${p.length}>${req.budget})`;
   if (!/^[\x20-\x7E\n]*$/.test(p)) return "non-ascii";
-  if (/[#@]\w/.test(p)) return "hashtag-or-mention";
+  if (/@\w/.test(p)) return "mention";
+  const tags = p.match(/#\w+/g) ?? [];
+  if (tags.length > MAX_HASHTAGS) return `too-many-hashtags (${tags.length})`;
+  for (const tag of tags) {
+    if (!HASHTAG_ALLOWLIST.includes(tag.slice(1).toLowerCase())) {
+      return `hashtag-not-allowlisted (${tag})`;
+    }
+  }
   if (/https?:\/\/|t\.co\//i.test(p)) return "url-in-text";
   if (p.split("\n").length > req.draft.split("\n").length) return "line-count-grew";
   for (const line of req.frozenLines) {
@@ -103,7 +128,8 @@ export async function polishTweet(req: PolishRequest): Promise<string | null> {
     "You punch up tweets for a GitHub trending bot.",
     "Rewrite the draft to be sharper and more curiosity-driving WITHOUT changing facts.",
     "Hard rules:",
-    "- ASCII only. No emojis, no hashtags, no @mentions, no links.",
+    "- ASCII only. No emojis, no @mentions, no links.",
+    `- Hashtags optional: at most ${MAX_HASHTAGS}, only from ${HASHTAG_ALLOWLIST.map((t) => `#${t}`).join(" ")}, only at the end. Zero is usually better.`,
     "- Keep every repo name (owner/name) and every number EXACTLY as written.",
     "- Numbered list lines must be copied verbatim.",
     `- Max ${req.budget} characters. Same number of lines or fewer.`,

@@ -164,7 +164,12 @@ describe('recent-repos discovery plan', () => {
       process.env.GH_TOKEN_POOL = 'exhausted-token';
       delete process.env.GITHUB_TOKEN_POOL;
       pool._resetGithubTokenPoolForTests();
-      pool.recordRateLimit('exhausted-token', 0, Math.floor(Date.now() / 1000) + 3600);
+      pool.recordRateLimit(
+        'exhausted-token',
+        0,
+        Math.floor(Date.now() / 1000) + 3600,
+        'search',
+      );
       const { default: fetcher } = await import('../../../src/fetchers/recent-repos/index.js');
 
       const result = await fetcher.run(context(json));

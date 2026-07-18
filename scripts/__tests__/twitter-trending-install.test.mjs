@@ -4,7 +4,7 @@ import { test } from "node:test";
 
 const read = (path) => readFile(new URL(`../../${path}`, import.meta.url), "utf8");
 
-test("HOSTUP installer deploys the five-slot autopilot and raises its cap", async () => {
+test("HOSTUP installer deploys the seven-slot autopilot and raises its cap", async () => {
   const [installer, packageJson] = await Promise.all([
     read("scripts/ops/install-trendingrepo-x-autopilot.sh"),
     read("package.json"),
@@ -20,7 +20,7 @@ test("HOSTUP installer deploys the five-slot autopilot and raises its cap", asyn
     assert.ok(installer.includes(destination), `installer misses ${destination}`);
   }
 
-  assert.match(installer, /TRENDING_POST_MAX_PER_DAY=5/);
+  assert.match(installer, /TRENDING_POST_MAX_PER_DAY=7/);
   assert.match(
     installer,
     /docker compose -f "\$COMPOSE_FILE" up -d --force-recreate trendingrepo/,

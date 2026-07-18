@@ -19,9 +19,9 @@ install -m 0644 "$ROOT/scripts/ops/trendingrepo-x-preflight.cron" /etc/cron.d/tr
 
 cp -p "$ENV_FILE" "$ENV_FILE.bak-x-autopilot-$(date -u +%Y%m%d%H%M%S)"
 if grep -q '^TRENDING_POST_MAX_PER_DAY=' "$ENV_FILE"; then
-  sed -i 's/^TRENDING_POST_MAX_PER_DAY=.*/TRENDING_POST_MAX_PER_DAY=5/' "$ENV_FILE"
+  sed -i 's/^TRENDING_POST_MAX_PER_DAY=.*/TRENDING_POST_MAX_PER_DAY=7/' "$ENV_FILE"
 else
-  printf '\nTRENDING_POST_MAX_PER_DAY=5\n' >>"$ENV_FILE"
+  printf '\nTRENDING_POST_MAX_PER_DAY=7\n' >>"$ENV_FILE"
 fi
 chmod 0600 "$ENV_FILE"
 docker compose -f "$COMPOSE_FILE" up -d --force-recreate trendingrepo

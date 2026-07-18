@@ -27,7 +27,7 @@ export const runtime = "nodejs";
 // v2 additive contract: propose takes {slot}, confirm takes fullNames[] +
 // format/packId so pack members each enter cooldown. A v1 runner sending
 // bare {confirm:{fullName,...}} still works.
-const SlotSchema = z.enum(["A", "B", "C", "D", "E"]);
+const SlotSchema = z.enum(["A", "B", "C", "D", "E", "F", "G"]);
 const RankerSchema = z.enum(["top", "gainer", "trend", "discovery"]);
 const TrendingRequestSchema = z
   .object({
@@ -91,9 +91,7 @@ async function handle(request: NextRequest): Promise<NextResponse> {
   const q = request.nextUrl.searchParams.get("slot");
   const slot =
     parsed.data.slot ??
-    (q === "A" || q === "B" || q === "C" || q === "D" || q === "E"
-      ? q
-      : undefined);
+    (SlotSchema.safeParse(q).success ? (q as z.infer<typeof SlotSchema>) : undefined);
   const plan = await proposeTrendingPost(Date.now(), slot);
   return NextResponse.json({ ok: true, ...plan });
 }

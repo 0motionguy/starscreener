@@ -8,15 +8,16 @@ import { test } from "node:test";
 
 const read = (path) => readFile(new URL(`../../${path}`, import.meta.url), "utf8");
 
-test("X autopilot accepts five slots and carries the ranker through confirmation", async () => {
+test("X autopilot accepts seven slots and carries the ranker through confirmation", async () => {
   const [route, runner] = await Promise.all([
     read("src/app/api/cron/twitter-trending/route.ts"),
     read("scripts/twitter-trending-run.mjs"),
   ]);
-  assert.match(route, /z\.enum\(\["A", "B", "C", "D", "E"\]\)/);
-  assert.match(route, /q === "D"/);
-  assert.match(route, /q === "E"/);
-  assert.match(runner, /\["A", "B", "C", "D", "E"\]/);
+  assert.match(route, /z\.enum\(\["A", "B", "C", "D", "E", "F", "G"\]\)/);
+  // The ?slot= query param is validated through SlotSchema directly (no
+  // per-letter drift), so widening the enum covers F/G automatically.
+  assert.match(route, /SlotSchema\.safeParse\(q\)/);
+  assert.match(runner, /\["A", "B", "C", "D", "E", "F", "G"\]/);
   assert.match(runner, /plan\.ranker \? \{ ranker: plan\.ranker \}/);
 });
 
@@ -32,7 +33,7 @@ test("host runner logs slot-qualified success only after confirmation", async ()
   assert.ok(successLog > confirmationGuard, "success is logged before confirmation");
 });
 
-test("HOSTUP cron dispatches five UTC slots on a non-UTC host", async () => {
+test("HOSTUP cron dispatches seven UTC slots on a non-UTC host", async () => {
   const [autopilot, preflight, wrapper, preflightWrapper] = await Promise.all([
     read("scripts/ops/trendingrepo-x-autopilot.cron"),
     read("scripts/ops/trendingrepo-x-preflight.cron"),
@@ -46,7 +47,9 @@ test("HOSTUP cron dispatches five UTC slots on a non-UTC host", async () => {
   for (const mapping of [
     "04) set -- --slot D ;;",
     "08) set -- --slot A ;;",
+    "10) set -- --slot F ;;",
     "12) set -- --slot B ;;",
+    "14) set -- --slot G ;;",
     "17) set -- --slot C ;;",
     "21) set -- --slot E ;;",
   ]) {

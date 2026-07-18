@@ -41,6 +41,10 @@ const TOP_N = 75;
 // to ~10min wall while staying conservative on the subscription's likely
 // concurrency cap.
 const ITEM_CONCURRENCY = 4;
+// A retained prior verdict absorbs occasional provider timeouts. Treat the
+// sweep as healthy when at least 80% of the requested cohort was refreshed;
+// lower coverage remains a blocking degradation.
+const MIN_HEALTHY_FRESH_COVERAGE_RATIO = 0.8;
 
 interface VerdictsItemPayload extends ItemReport {
   fullName: string;
@@ -50,6 +54,7 @@ interface VerdictsPayload {
   computedAt: string;
   status?: 'ok' | 'degraded';
   errors?: RunResult['errors'];
+  warnings?: RunResult['errors'];
   generator: LlmProvider | 'template';
   model?: string;
   ribbon: Ribbon;
@@ -114,7 +119,7 @@ const fetcher: Fetcher = {
     let usedProvider: LlmProvider | undefined;
     let usedModel: string | undefined;
     let repairedItems = 0;
-    const errors: RunResult['errors'] = [];
+    const warnings: RunResult['errors'] = [];
 
     // Bounded-concurrency sweep — N workers pulling from a shared queue.
     // Preserves per-call retry semantics (each item swallows its own errors)
@@ -162,7 +167,7 @@ const fetcher: Fetcher = {
             { fullName: item.fullName, err: message },
             'consensus-analyst: item call failed',
           );
-          errors.push({ stage: 'item-call', itemSourceId: item.fullName, message });
+          warnings.push({ stage: 'item-call', itemSourceId: item.fullName, message });
         }
       }
     };
@@ -200,7 +205,7 @@ const fetcher: Fetcher = {
         { err: message },
         'consensus-analyst: ribbon call failed — using template',
       );
-      errors.push({ stage: 'ribbon-call', message });
+      warnings.push({ stage: 'ribbon-call', message });
     }
 
     // Read-then-merge: preserve prior verdicts (backfill + older sweeps) and
@@ -210,15 +215,49 @@ const fetcher: Fetcher = {
     const freshCount = Object.keys(items).length;
     if (topItems.length > 0 && freshCount === 0) {
       ctx.log.warn(
-        { retainedItems: Object.keys(existingItems).length, errors: errors.length },
+        { retainedItems: Object.keys(existingItems).length, errors: warnings.length },
         'consensus-analyst: no fresh item verdicts produced - preserving existing payload',
       );
       return done(startedAt, Object.keys(existingItems).length, false, [
-        ...errors,
+        ...warnings,
         { stage: 'empty-verdicts', message: 'no fresh item verdicts produced; skipped consensus-verdicts write' },
       ]);
     }
     const mergedItems = { ...existingItems, ...items };
+    const minimumHealthyFreshCount = Math.max(
+      1,
+      Math.ceil(topItems.length * MIN_HEALTHY_FRESH_COVERAGE_RATIO),
+    );
+    const retainedKeys = new Set(Object.keys(existingItems).map((key) => key.toLowerCase()));
+    const unretainedItemFailures = warnings.filter(
+      (warning) =>
+        warning.stage === 'item-call'
+        && warning.itemSourceId
+        && !retainedKeys.has(warning.itemSourceId.toLowerCase()),
+    );
+    const degradationReasons: RunResult['errors'] = [];
+    if (freshCount < minimumHealthyFreshCount) {
+      degradationReasons.push(
+        {
+          stage: 'insufficient-fresh-coverage',
+          message: `refreshed ${freshCount}/${topItems.length} items; minimum healthy count is ${minimumHealthyFreshCount}`,
+        },
+      );
+    }
+    if (unretainedItemFailures.length > 0) {
+      degradationReasons.push(
+        {
+          stage: 'unretained-item-failures',
+          message: `${unretainedItemFailures.length} failed top-cohort item(s) had no retained verdict`,
+        },
+      );
+    }
+    const errors: RunResult['errors'] = degradationReasons.length > 0
+      ? [
+          ...warnings,
+          ...degradationReasons,
+        ]
+      : [];
     const generator = freshCount > 0 && repairedItems === freshCount
       ? 'template'
       : (usedProvider ?? getLlmProvider());
@@ -226,6 +265,7 @@ const fetcher: Fetcher = {
       computedAt: new Date().toISOString(),
       status: errors.length > 0 ? 'degraded' : 'ok',
       ...(errors.length > 0 ? { errors } : {}),
+      ...(warnings.length > 0 ? { warnings } : {}),
       // Honestly report which provider actually produced this run (e.g.
       // 'nanogpt' while Kimi-for-coding billing is restored). Falls back to the
       // configured primary when no call succeeded this run.
@@ -245,6 +285,9 @@ const fetcher: Fetcher = {
       {
         freshThisRun: freshCount,
         repairedItems,
+        failedItems: warnings.length,
+        unretainedItemFailures: unretainedItemFailures.length,
+        freshCoverageRatio: Number((freshCount / topItems.length).toFixed(3)),
         totalRetained: Object.keys(mergedItems).length,
         ribbonBullets: ribbon.bullets.length,
         usage: payload.usage,

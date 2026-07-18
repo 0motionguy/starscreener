@@ -15,27 +15,17 @@ test.describe("mobile drawer", () => {
   test("opens via hamburger and closes via escape", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
-    await page.waitForFunction(() => {
-      const sidebar = document.querySelector("aside.sidebar");
-      const openButton = document.querySelector('button[aria-label="Toggle sidebar"]');
-      return (
-        window.matchMedia("(max-width: 767.98px)").matches &&
-        sidebar !== null &&
-        openButton !== null &&
-        getComputedStyle(sidebar).display === "none" &&
-        getComputedStyle(openButton).display !== "none"
-      );
-    });
-
     const hamburger = page.getByRole("button", { name: /toggle sidebar/i }).first();
     await expect(hamburger).toBeVisible({ timeout: 10_000 });
 
     const drawer = page.locator("aside.sidebar");
+    await expect(drawer).not.toHaveClass(/\bopen\b/);
     await hamburger.click();
     await expect(drawer).toHaveClass(/\bopen\b/);
-    await expect(drawer).toBeVisible();
+    await expect(drawer).toBeInViewport();
 
     await page.keyboard.press("Escape");
     await expect(drawer).not.toHaveClass(/\bopen\b/);
+    await expect(drawer).not.toBeInViewport();
   });
 });

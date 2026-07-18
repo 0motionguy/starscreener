@@ -28,6 +28,20 @@ test("slot A is a TOP single and slot D is a DISCOVERY single every day", () => 
   }
 });
 
+test("slot F is the weekly-top10 pack and slot G is a TREND single every day", () => {
+  for (const day of [SUN, MON, TUE, WED, THU, FRI, SAT]) {
+    assert.deepEqual(resolveSlotFormat(day, "F", undefined), {
+      format: "trending_pack",
+      packId: "weekly-top10",
+      ranker: "top",
+    });
+    assert.deepEqual(resolveSlotFormat(day, "G", undefined), {
+      format: "trending_single",
+      ranker: "trend",
+    });
+  }
+});
+
 test("slot B rotates the themed pack by UTC weekday", () => {
   const expect: Array<[number, string]> = [
     [MON, "ai-agents"],

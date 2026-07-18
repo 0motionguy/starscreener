@@ -3,6 +3,8 @@
 // so callers can render a degraded "Auth unavailable" surface instead of
 // throwing during build or showing a development auth instance in production.
 
+import "server-only";
+
 // Deploy-agnostic production check. The old gate keyed off
 // `VERCEL_ENV === "production"`, which never fires on the actual
 // production deploy (HOSTUP Docker tenant behind Cloudflare) — the

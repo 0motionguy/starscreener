@@ -168,7 +168,7 @@ export function rankTrendingCandidates(
   }
   if (ranker === "discovery") {
     const scores = computeDiscoveryScore(repos);
-    return [...repos].sort(
+    return repos.filter((r) => (scores.get(r.id) ?? 0) > 0).sort(
       (a, b) => (scores.get(b.id) ?? 0) - (scores.get(a.id) ?? 0),
     );
   }

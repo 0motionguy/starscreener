@@ -9,35 +9,22 @@
 
 import { test, expect } from "@playwright/test";
 
-test.describe("search", () => {
+test.describe("global search", () => {
   test.setTimeout(45_000);
 
-  test("loads page-head hero and accepts a query", async ({ page }) => {
-    const response = await page.goto("/search", { waitUntil: "domcontentloaded" });
+  test("accepts a query and opens the result panel", async ({ page }) => {
+    const response = await page.goto("/", { waitUntil: "domcontentloaded" });
     expect(response?.ok()).toBe(true);
 
-    // V4-style page-head hero — replaces the V3 // SEARCH · GLOBAL eyebrow.
-    const pageHead = page.locator(".page-head").first();
-    await expect(pageHead).toBeVisible();
-    await expect(pageHead.locator("h1")).toContainText(/search every repo/i);
-
-    // Scope to the in-page search panel so the global header search cannot
-    // steal the interaction on slower chunk loads.
-    const searchPanel = page.locator(".search-command-panel").first();
-    await expect(searchPanel).toBeVisible({ timeout: 30_000 });
-
-    const searchInput = searchPanel.getByRole("textbox", {
-      name: /search repos by name, language, topic/i,
-    });
+    const searchInput = page.getByRole("combobox", { name: /Search/i });
     await expect(searchInput).toBeVisible();
 
     await searchInput.fill("react");
     await expect(searchInput).toHaveValue("react");
-    await searchInput.press("Enter");
-
-    await expect(page).toHaveURL(/\/search\?q=react/i, { timeout: 10_000 });
-
-    // Page survived the navigation — the page-head still renders.
-    await expect(page.locator(".page-head").first()).toBeVisible();
+    await expect(page.locator("#global-search-dropdown")).toBeVisible({
+      timeout: 15_000,
+    });
+    await searchInput.press("Escape");
+    await expect(searchInput).toHaveAttribute("aria-expanded", "false");
   });
 });

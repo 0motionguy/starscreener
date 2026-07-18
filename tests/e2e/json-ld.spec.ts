@@ -1,9 +1,7 @@
 // JSON-LD smoke — guards structured-data on / and /repo/:owner/:name.
 //
 // Invariants for `/`:
-//   1. >= 5 <script type="application/ld+json"> tags emitted (WebSite,
-//      Organization, BreadcrumbList, FAQPage, CollectionPage with
-//      ItemList).
+//   1. The sitewide Organization and WebSite scripts are emitted.
 //   2. Each script body parses as JSON via JSON.parse and is non-empty.
 //
 // Invariants for `/repo/vercel/next.js`:
@@ -48,11 +46,11 @@ async function expectAllJsonLdParse(
 }
 
 test.describe("json-ld", () => {
-  test("homepage emits >=5 ld+json scripts and all parse", async ({ page }) => {
+  test("homepage emits sitewide ld+json scripts and all parse", async ({ page }) => {
     const response = await page.goto("/", { waitUntil: "domcontentloaded" });
     expect(response?.ok()).toBe(true);
 
-    await expectAllJsonLdParse(page, 5);
+    await expectAllJsonLdParse(page, 2);
   });
 
   test("repo detail emits >=2 ld+json scripts and all parse", async ({

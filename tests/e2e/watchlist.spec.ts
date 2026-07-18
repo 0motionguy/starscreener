@@ -10,18 +10,18 @@ import { test, expect } from "@playwright/test";
 
 test.describe("watchlist", () => {
   test("shows empty state and CTA navigates home", async ({ page }) => {
-    const response = await page.goto("/watchlist", {
+    const response = await page.goto("/tools/watchlist", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // Hydration gate flips after first effect — wait for the empty copy.
+    // The local-storage-backed watchlist hydrates to its empty state.
     await expect(
-      page.getByText(/WATCHLIST IS EMPTY/i).first(),
+      page.getByText(/No repos pinned/i).first(),
     ).toBeVisible({ timeout: 10_000 });
 
-    // CTA — case-sensitive uppercase to match the actual rendered text.
-    const cta = page.getByRole("link", { name: /BROWSE TRENDING REPOS/i });
+    // The empty-state CTA returns to the discovery surface.
+    const cta = page.getByRole("link", { name: /trending hub/i });
     await expect(cta).toBeVisible();
 
     await cta.click();

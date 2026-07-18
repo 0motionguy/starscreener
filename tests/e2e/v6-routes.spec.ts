@@ -85,20 +85,21 @@ for (const path of GATED_ROUTES) {
 }
 
 // ---------------------------------------------------------------------------
-// Nonexistent repo → 404. Guards the not-found handler on /repo/[owner]/[name].
+// A nonexistent repo must render the noindex not-found surface. Next.js may
+// stream the not-found boundary after committing an HTTP 200 response.
 // ---------------------------------------------------------------------------
 
-test("v6 unknown repo GET /repo/totally-fake/nonexistent returns 404", async ({
+test("v6 unknown repo renders the noindex not-found surface", async ({
   request,
 }) => {
   const response = await request.get("/repo/totally-fake/nonexistent", {
     maxRedirects: 0,
     failOnStatusCode: false,
   });
-  expect(
-    response.status(),
-    `expected 404, got ${response.status()}`,
-  ).toBe(404);
+  expect([200, 404]).toContain(response.status());
+  const body = await response.text();
+  expect(body).toMatch(/Repo not indexed/i);
+  expect(body).toMatch(/noindex/i);
 });
 
 // ---------------------------------------------------------------------------

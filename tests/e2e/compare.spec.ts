@@ -1,14 +1,9 @@
-// Compare smoke — guards /compare?repos=a/b,c/d.
+// Compare smoke — guards /tools/compare?repos=a/b,c/d.
 //
 // Invariants:
-//   1. GET /compare?repos=vercel/next.js,facebook/react returns 200.
-//   2. Page heading "Compare Repos · Canonical Signals" mounts.
-//   3. Both repo full names eventually appear on the page (rendered from
-//      the client store using the URL-param hand-off, regardless of
-//      whether /api/compare returns a profile body or errors).
-//   4. The chart region renders either a chart canvas/svg OR the
-//      "// COLLECTING HISTORY" mono fallback when daily snapshots are
-//      sparse — both are valid steady states.
+//   1. The current tool route returns 200 and mounts its heading.
+//   2. Both requested repo names appear.
+//   3. The named chart region is attached.
 //
 // The page is heavily client-rendered: the profile grid hydrates from
 // the Zustand compare store off `?repos=...` and the chart pulls from
@@ -22,15 +17,13 @@ test.describe("compare", () => {
     page,
   }) => {
     const response = await page.goto(
-      "/compare?repos=vercel/next.js,facebook/react",
+      "/tools/compare?repos=vercel/next.js,facebook/react",
       { waitUntil: "domcontentloaded" },
     );
     expect(response?.ok()).toBe(true);
 
     // Page heading.
-    await expect(
-      page.getByRole("heading", { name: /Compare Repos.*Canonical Signals/i }),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Head-to-head/i })).toBeVisible();
 
     // Both repo names — they get echoed by the profile grid columns and
     // also by the embedded CompareClient chart legend, so we just look
@@ -42,12 +35,9 @@ test.describe("compare", () => {
       timeout: 15_000,
     });
 
-    // Chart region — either an SVG/canvas chart mounts, or the
-    // "// COLLECTING HISTORY" mono fallback shows. We accept either.
-    const chartOrFallback = page
-      .locator("svg, canvas")
-      .or(page.getByText(/\/\/\s*COLLECTING HISTORY/i))
-      .first();
-    await expect(chartOrFallback).toBeAttached({ timeout: 15_000 });
+    // The chart region owns both populated and collecting-history states.
+    await expect(page.getByRole("region", { name: /Compare chart/i })).toBeAttached({
+      timeout: 15_000,
+    });
   });
 });

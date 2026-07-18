@@ -99,7 +99,7 @@ Workflows with multiple cron entries list each.
 | scrape-npm.yml | Refresh npm package telemetry | `17 9 * * *` (daily, lag 24-48h) | `node scripts/scrape-npm.mjs` |
 | scrape-openai-rss.yml | Refresh OpenAI news | `47 7 * * *` | `node scripts/scrape-openai-rss.mjs` |
 | scrape-producthunt.yml | Refresh ProductHunt launches | `22 11,15,19,23 * * *` (4x/day staggered) | `node scripts/scrape-producthunt.mjs` |
-| scrape-trending.yml | Refresh fast discovery | `7,27,47 * * * *` (3x/hour) | `scrape-trending` + `discover-recent-repos` + `scrape-reddit` + `scrape-hackernews` + `fetch-repo-metadata` |
+| scrape-trending.yml | Manual fast-discovery backfill | `workflow_dispatch` only | `scrape-trending` + `scrape-hackernews` + `fetch-repo-metadata` + delta/star snapshots; HOSTUP worker owns production freshness |
 | secrets-scan.yml | Secrets Scan (gitleaks) | `push`, `pull_request`, `workflow_dispatch` | gitleaks |
 | sentry-fix-bot.yml | sentry-fix-bot | `issues.labeled` event | dispatches Claude Code Action when Sentry adds `sentry-error` label |
 | seo-policy.yml | SEO Policy Guard | `push`, `pull_request`, `workflow_dispatch` | `node scripts/seo-policy-lint.mjs --fail-on-new` |
@@ -224,9 +224,9 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | npm-packages | `17 9 * * *` | `npm-packages` | matches scrape-npm.yml lag window |
 | x-funding | `30 0,12 * * *` | `x-funding` | 2x/day |
 | glama | `15 */6 * * *` | `glama` | |
-| repo-registry | `47 * * * *` | `repo-registry` | NEW 2026-05-27: persistent accumulating registry (LRU cap 2000, never drops). Reads trending (authoritative) + fill-only from metadata/consensus/recent. App folds via `src/lib/derived-repos/loaders/registry.ts`. |
+| repo-registry | `47 * * * *` | `repo-registry` | NEW 2026-05-27: persistent accumulating registry (LRU cap 3000, never drops). Reads trending (authoritative) + fill-only from metadata/consensus/recent. App folds via `src/lib/derived-repos/loaders/registry.ts`. |
 | repo-community-profile | `33 * * * *` | `repo-community:{o}__{n}` (per-repo) | NEW 2026-05-27: 6-endpoint GH community fan-out (license/languages/README/org/etc.) for registry top-N selected ASC by lastSeenAt+fullName tiebreak. 24h TTL. Cooperates with on-demand `src/lib/repo-community-profile.ts` (last-write-wins). Env: `COMMUNITY_PROFILE_LIMIT` (def 25, max 300). |
-| star-activity | `17 4 * * *` | `star-activity:{o}__{n}` (per-repo) | NEW 2026-05-27: daily forward-append of cumulative stars for the registry tier (GH Action `append-star-activity.mjs` covers trending tier only). Env: `STAR_ACTIVITY_LIMIT` (def 50, max 200). |
+| star-activity | `17 4 * * *` | `star-activity:{o}__{n}` (per-repo) | NEW 2026-05-27: daily forward-append of cumulative stars for the registry tier (GH Action `append-star-activity.mjs` covers trending tier only). Env: `STAR_ACTIVITY_LIMIT` (def/max 3000). |
 | star-activity-deltas | `30 5 * * *` | `star-activity-deltas` | NEW 2026-05-29: GitHub-direct 24h/7d/30d star deltas computed from the per-repo `star-activity` series — the OSS-Insight-INDEPENDENT backbone for the homepage Top/Gainer/Trend tabs (root-cause fix for the "7d/30d blank during an api.ossinsight.io outage" bug). Keyed by lowercased fullName; app joins via `src/lib/star-activity-deltas.ts` and the `resolveDelta` engine (`src/lib/derived-repos/delta-engine.ts`) prefers it for 7d/30d. Zero-write guard. Env: `STAR_ACTIVITY_DELTAS_LIMIT` (def 5000). |
 | velocity-refresh | `*/40 * * * *` | `star-activity-deltas` (merges top-N) | NEW 2026-05-29: OUR recurring star-velocity engine, tier 1 (cheap/frequent). Every 40 min, one `/repos` call per top-N (by current 24h velocity) → updates today's `star-activity` point, recomputes the delta entry (reuses the exported `entryFromPayload`), merges into the `star-activity-deltas` slug the app reads. Keeps 24h/7d/30d numbers fresh between the daily `star-activity-deltas` run; records rate-limit headers to the pool. Env: `VELOCITY_REFRESH_TOP_N` (def 300). |
 | velocity-seed | `13 6 * * *` | `star-activity:{o}__{n}` (per-repo) | NEW 2026-05-29: velocity engine tier 2 (expensive/bounded). Newest-first stargazer walk for the top-N (~150) movers that seeds recent 7d/30d anchor points the refresh diffs against. Honors `Retry-After` + 403 backoff + mid-walk token rotation. Deliberately NOT full-registry — a naive 700-repo sweep failed 571/700 to GitHub's secondary rate limit; broad/long-tail coverage is the cheap daily `star-activity` snapshot's job. Env: `VELOCITY_SEED_TOP_N` (def 150), `VELOCITY_SEED_RECENT_DAYS` (def 35). |
@@ -291,7 +291,6 @@ workflow are listed. Internal utility scripts (`_*.mjs`, `audit-*`, `check-*`,
 | scripts/check-v3-token-budget.mjs | ci.yml |
 | scripts/compute-reddit-baselines.mjs | refresh-reddit-baselines.yml |
 | scripts/compute-revenue-benchmarks.mjs | sync-trustmrr.yml |
-| scripts/discover-recent-repos.mjs | scrape-trending.yml |
 | scripts/enrich-arxiv.mjs | enrich-arxiv.yml |
 | scripts/enrich-repo-profiles.mjs | enrich-repo-profiles.yml |
 | scripts/fetch-agentic-market.mjs + fetch-coingecko-agents.mjs + fetch-openrouter-models.mjs + fetch-artificial-analysis.mjs + fetch-base-x402-onchain.mjs | cron-agent-commerce.yml |

@@ -97,7 +97,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // daily - operator-curated mirrors + once-a-day enrichment
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
   { slug: "worker-health:star-activity", fetcher: "star-activity", cadenceMin: 60 * 24 },
-  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 60 * 24 },
+  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 6 * 60 },
   { slug: "worker-health:repo-community-profile", fetcher: "repo-community-profile", cadenceMin: 60 },
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },

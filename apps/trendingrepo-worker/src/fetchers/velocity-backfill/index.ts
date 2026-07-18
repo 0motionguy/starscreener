@@ -301,16 +301,16 @@ export async function runGraphql(
       });
     } catch {
       await sleep(Math.min(BASE_BACKOFF_MS * (attempt + 1), MAX_BACKOFF_MS));
-      token = pickGithubToken() ?? token;
+      token = pickGithubToken('graphql') ?? token;
       continue;
     }
     if (token) {
       const rl = parseRateLimitHeaders(res.headers);
-      if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+      if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec, rl.resource ?? 'graphql');
     }
     if (res.status === 401 && token) {
       quarantine(token);
-      const nextToken = pickGithubToken();
+      const nextToken = pickGithubToken('graphql');
       if (!nextToken) return null;
       token = nextToken;
       continue;
@@ -323,7 +323,7 @@ export async function runGraphql(
           : Math.min(BASE_BACKOFF_MS * 2 ** attempt, MAX_BACKOFF_MS);
       log.warn({ status: res.status, waitMs }, 'velocity-backfill: rate-limited — backing off + rotating token');
       await sleep(waitMs);
-      token = pickGithubToken() ?? token;
+      token = pickGithubToken('graphql') ?? token;
       continue;
     }
     if (!res.ok) return null;
@@ -341,7 +341,7 @@ export async function runGraphql(
     if (isGraphqlRateLimited(json)) {
       log.warn({ attempt }, 'velocity-backfill: GraphQL rate-limited (200+errors) — rotating token');
       await sleep(Math.min(BASE_BACKOFF_MS * 2 ** attempt, MAX_BACKOFF_MS));
-      token = pickGithubToken() ?? token;
+      token = pickGithubToken('graphql') ?? token;
       continue;
     }
     return json;
@@ -382,7 +382,7 @@ async function pageBackOlder(
     if (pagebackBudgetRemaining <= 0) break; // per-run pool budget spent
     pagebackBudgetRemaining -= 1;
     if (i > 0) await sleep(PAGEBACK_DELAY_MS);
-    const token = pickGithubToken() ?? undefined;
+    const token = pickGithubToken('graphql') ?? undefined;
     const query = `query { repository(owner: ${JSON.stringify(owner)}, name: ${JSON.stringify(
       name,
     )}) { stargazers(last: ${STARS_PAGE}, before: ${JSON.stringify(
@@ -514,7 +514,7 @@ const fetcher: Fetcher = {
       ctx.log.info('velocity-backfill dry-run');
       return done(startedAt, 0, false, errors);
     }
-    if (!pickGithubToken()) {
+    if (!pickGithubToken('graphql')) {
       ctx.log.warn('velocity-backfill: no GitHub token in pool — skipping run');
       return done(startedAt, 0, false, errors);
     }
@@ -541,7 +541,7 @@ const fetcher: Fetcher = {
       while (queue.length > 0) {
         const batch = queue.shift();
         if (!batch) break;
-        const token = pickGithubToken() ?? undefined;
+        const token = pickGithubToken('graphql') ?? undefined;
         const json = await runGraphql(buildBatchQuery(batch), token, ctx.log);
         if (!json?.data) {
           skip += batch.length;

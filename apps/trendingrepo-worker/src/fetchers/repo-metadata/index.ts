@@ -354,7 +354,7 @@ const fetcher: Fetcher = {
       const batchTotal = Math.ceil(fullNames.length / BATCH_SIZE);
       const payload = buildBatchQuery(batch);
       try {
-        const token = pickGithubToken();
+        const token = pickGithubToken('graphql');
         if (!token) throw new Error('GitHub token pool has no usable token');
         const body = await fetchJsonWithRetry<GraphqlResponse>(GRAPHQL_URL, {
           method: 'POST',
@@ -372,7 +372,7 @@ const fetcher: Fetcher = {
           onResponse: (res) => {
             if (res.status === 401) quarantine(token);
             const rl = parseRateLimitHeaders(res.headers);
-            if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+            if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec, rl.resource ?? 'graphql');
           },
         });
         successfulBatches += 1;

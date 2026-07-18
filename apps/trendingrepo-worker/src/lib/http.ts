@@ -169,7 +169,15 @@ function publishGithubRateLimit(
   const token = match[1]?.trim();
   if (!token) return null;
   const rl = parseRateLimitHeaders(resHeaders);
-  if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+  if (rl) {
+    const resource = rl.resource ??
+      (url === 'https://api.github.com/graphql'
+        ? 'graphql'
+        : url.startsWith('https://api.github.com/search/')
+          ? 'search'
+          : 'core');
+    recordRateLimit(token, rl.remaining, rl.resetUnixSec, resource);
+  }
   return token;
 }
 

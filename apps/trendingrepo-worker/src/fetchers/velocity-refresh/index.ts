@@ -100,7 +100,7 @@ async function fetchCurrentStars(
     });
     if (token) {
       const rl = parseRateLimitHeaders(res.headers);
-      if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+      if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec, rl.resource ?? 'core');
     }
     if (!res.ok) return null;
     const data = (await res.json()) as { stargazers_count?: number };

@@ -26,9 +26,18 @@ const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
 let cachedTokens: string[] | null = null;
 let cursor = 0;
 
-interface SharedTokenHint {
+export type GithubRateLimitResource = 'search' | 'core' | 'graphql';
+
+interface ResourceHint {
   remaining: number | null;
   resetUnixSec: number | null;
+}
+
+interface SharedTokenHint {
+  /** Legacy last-observed fields kept for app-side wire compatibility. */
+  remaining: number | null;
+  resetUnixSec: number | null;
+  resources: Partial<Record<GithubRateLimitResource, ResourceHint>>;
   quarantinedUntilMs: number | null;
 }
 
@@ -77,17 +86,25 @@ function poolRedisKeyFor(tokenLabel: string): string {
   return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
 }
 
-function isUnusable(hint: SharedTokenHint | undefined, nowMs: number): boolean {
+function isUnusable(
+  hint: SharedTokenHint | undefined,
+  resource: GithubRateLimitResource,
+  nowMs: number,
+): boolean {
   if (!hint) return false;
   const nowSec = Math.floor(nowMs / 1000);
   if (hint.quarantinedUntilMs !== null && hint.quarantinedUntilMs > nowMs) {
     return true;
   }
+  const resourceHint = hint.resources[resource];
+  const limitHint = resourceHint ??
+    (Object.keys(hint.resources).length === 0 ? hint : undefined);
   if (
-    hint.remaining !== null &&
-    hint.remaining <= 0 &&
-    hint.resetUnixSec !== null &&
-    hint.resetUnixSec > nowSec
+    limitHint?.remaining !== null &&
+    limitHint?.remaining !== undefined &&
+    limitHint.remaining <= 0 &&
+    limitHint.resetUnixSec !== null &&
+    limitHint.resetUnixSec > nowSec
   ) {
     return true;
   }
@@ -107,10 +124,40 @@ function parseHint(raw: unknown): SharedTokenHint | null {
   const r = obj as Record<string, unknown>;
   const num = (v: unknown): number | null =>
     typeof v === 'number' && Number.isFinite(v) ? v : null;
+  const resources: SharedTokenHint['resources'] = {};
+  if (r.resources && typeof r.resources === 'object') {
+    const rawResources = r.resources as Record<string, unknown>;
+    for (const resource of ['search', 'core', 'graphql'] as const) {
+      const rawResource = rawResources[resource];
+      if (!rawResource || typeof rawResource !== 'object') continue;
+      const value = rawResource as Record<string, unknown>;
+      resources[resource] = {
+        remaining: num(value.remaining),
+        resetUnixSec: num(value.resetUnixSec),
+      };
+    }
+  }
   return {
     remaining: num(r.remaining),
     resetUnixSec: num(r.resetUnixSec),
+    resources,
     quarantinedUntilMs: num(r.quarantinedUntilMs),
+  };
+}
+
+function mergeHints(
+  older: SharedTokenHint,
+  newer: SharedTokenHint | undefined,
+): SharedTokenHint {
+  if (!newer) return older;
+  return {
+    remaining: newer.remaining,
+    resetUnixSec: newer.resetUnixSec,
+    resources: { ...older.resources, ...newer.resources },
+    quarantinedUntilMs: Math.max(
+      older.quarantinedUntilMs ?? 0,
+      newer.quarantinedUntilMs ?? 0,
+    ) || null,
   };
 }
 
@@ -133,7 +180,7 @@ async function hydrateFromRedis(): Promise<void> {
     }
     if (raw === null) continue;
     const hint = parseHint(raw);
-    if (hint) sharedHints.set(token, hint);
+    if (hint) sharedHints.set(token, mergeHints(hint, sharedHints.get(token)));
   }
   hasHydrated = true;
 }
@@ -143,7 +190,9 @@ function ensureHydration(): void {
   hydrationPromise = hydrateFromRedis().catch(() => undefined);
 }
 
-export function pickGithubToken(): string | null {
+export function pickGithubToken(
+  resource: GithubRateLimitResource = 'core',
+): string | null {
   const tokens = getGithubTokens();
   if (tokens.length === 0) return null;
 
@@ -155,7 +204,7 @@ export function pickGithubToken(): string | null {
   const nowMs = Date.now();
   const usable: string[] = [];
   for (const t of tokens) {
-    if (!isUnusable(sharedHints.get(t), nowMs)) usable.push(t);
+    if (!isUnusable(sharedHints.get(t), resource, nowMs)) usable.push(t);
   }
   // Known-exhausted/revoked credentials are never retried until their hint
   // expires; callers can preserve last-good data when the pool is unusable.
@@ -175,16 +224,22 @@ export function recordRateLimit(
   token: string,
   remaining: number,
   resetUnixSec: number,
+  resource: GithubRateLimitResource = 'core',
 ): void {
   const tokens = getGithubTokens();
   if (!tokens.includes(token)) return;
-  const hint: SharedTokenHint = {
+  const previous = sharedHints.get(token);
+  const resourceHint: ResourceHint = {
     remaining: Number.isFinite(remaining) ? Math.max(0, Math.floor(remaining)) : null,
     resetUnixSec:
       Number.isFinite(resetUnixSec) && resetUnixSec > 0
         ? Math.floor(resetUnixSec)
         : null,
-    quarantinedUntilMs: sharedHints.get(token)?.quarantinedUntilMs ?? null,
+  };
+  const hint: SharedTokenHint = {
+    ...resourceHint,
+    resources: { ...previous?.resources, [resource]: resourceHint },
+    quarantinedUntilMs: previous?.quarantinedUntilMs ?? null,
   };
   sharedHints.set(token, hint);
   void publishHint(token, hint);
@@ -200,6 +255,7 @@ export function quarantine(token: string): void {
   const prev = sharedHints.get(token) ?? {
     remaining: null,
     resetUnixSec: null,
+    resources: {},
     quarantinedUntilMs: null,
   };
   const hint: SharedTokenHint = {
@@ -218,7 +274,7 @@ export function quarantine(token: string): void {
  */
 export function parseRateLimitHeaders(
   headers: Headers,
-): { remaining: number; resetUnixSec: number } | null {
+): { remaining: number; resetUnixSec: number; resource: GithubRateLimitResource | null } | null {
   const remainingStr = headers.get('x-ratelimit-remaining');
   const resetStr = headers.get('x-ratelimit-reset');
   if (remainingStr === null || resetStr === null) return null;
@@ -227,7 +283,11 @@ export function parseRateLimitHeaders(
   if (!Number.isFinite(remaining) || !Number.isFinite(resetUnixSec)) {
     return null;
   }
-  return { remaining, resetUnixSec };
+  const rawResource = headers.get('x-ratelimit-resource');
+  const resource = rawResource === 'search' || rawResource === 'core' || rawResource === 'graphql'
+    ? rawResource
+    : null;
+  return { remaining, resetUnixSec, resource };
 }
 
 async function publishHint(token: string, hint: SharedTokenHint): Promise<void> {
@@ -239,13 +299,17 @@ async function publishHint(token: string, hint: SharedTokenHint): Promise<void> 
   }
   if (!handle) return;
   const label = redactToken(token);
+  // Re-read local state after the async Redis lookup so an older in-flight
+  // rate-limit publish cannot clear a newer 401 quarantine or resource hint.
+  const latest = mergeHints(hint, sharedHints.get(token));
   // Wire-format compatible with PublishedTokenState in the app-side pool.
   const payload = {
     tokenLabel: label,
-    remaining: hint.remaining,
-    resetUnixSec: hint.resetUnixSec,
+    remaining: latest.remaining,
+    resetUnixSec: latest.resetUnixSec,
+    resources: latest.resources,
     lastObservedMs: Date.now(),
-    quarantinedUntilMs: hint.quarantinedUntilMs,
+    quarantinedUntilMs: latest.quarantinedUntilMs,
     lambdaId: `worker:${process.pid}`,
     writtenAt: new Date().toISOString(),
   };

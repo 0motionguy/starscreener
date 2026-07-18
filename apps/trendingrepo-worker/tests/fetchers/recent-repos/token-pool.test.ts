@@ -132,6 +132,77 @@ describe('recent-repos GitHub authentication', () => {
     expect(pickGithubToken()).toBeNull();
   });
 
+  it('keeps search exhausted after a healthy core response', async () => {
+    process.env.GITHUB_TOKEN = 'single-token';
+    delete process.env.GH_TOKEN_POOL;
+    delete process.env.GITHUB_TOKEN_POOL;
+
+    const {
+      pickGithubToken,
+      recordRateLimit,
+      _resetGithubTokenPoolForTests,
+    } = await import('../../../src/lib/util/github-token-pool.js');
+
+    _resetGithubTokenPoolForTests();
+    const futureReset = Math.floor(Date.now() / 1000) + 3_600;
+    recordRateLimit('single-token', 0, futureReset, 'search');
+    recordRateLimit('single-token', 4_999, futureReset, 'core');
+
+    expect(pickGithubToken('search')).toBeNull();
+    expect(pickGithubToken('core')).toBe('single-token');
+  });
+
+  it('keeps a 401 quarantine active across every resource', async () => {
+    process.env.GITHUB_TOKEN = 'single-token';
+    delete process.env.GH_TOKEN_POOL;
+    delete process.env.GITHUB_TOKEN_POOL;
+
+    const {
+      pickGithubToken,
+      quarantine,
+      recordRateLimit,
+      _resetGithubTokenPoolForTests,
+    } = await import('../../../src/lib/util/github-token-pool.js');
+
+    _resetGithubTokenPoolForTests();
+    const futureReset = Math.floor(Date.now() / 1000) + 3_600;
+    quarantine('single-token');
+    recordRateLimit('single-token', 30, futureReset, 'search');
+    recordRateLimit('single-token', 4_999, futureReset, 'core');
+
+    expect(pickGithubToken('search')).toBeNull();
+    expect(pickGithubToken('core')).toBeNull();
+    expect(pickGithubToken('graphql')).toBeNull();
+    await vi.waitFor(() => expect(redis.set).toHaveBeenCalledTimes(3));
+    for (const [, payload] of redis.set.mock.calls) {
+      expect(JSON.parse(String(payload)).quarantinedUntilMs).toBeGreaterThan(Date.now());
+    }
+  });
+
+  it('still honors the app pool legacy wire format during hydration', async () => {
+    process.env.GITHUB_TOKEN = 'single-token';
+    delete process.env.GH_TOKEN_POOL;
+    delete process.env.GITHUB_TOKEN_POOL;
+    redis.get.mockResolvedValueOnce(JSON.stringify({
+      tokenLabel: 'sing****oken',
+      remaining: 0,
+      resetUnixSec: Math.floor(Date.now() / 1000) + 3_600,
+      quarantinedUntilMs: null,
+    }));
+
+    const {
+      isHydrated,
+      pickGithubToken,
+      _resetGithubTokenPoolForTests,
+    } = await import('../../../src/lib/util/github-token-pool.js');
+
+    _resetGithubTokenPoolForTests();
+    expect(pickGithubToken('core')).toBe('single-token');
+    await vi.waitFor(() => expect(isHydrated()).toBe(true));
+    expect(pickGithubToken('core')).toBeNull();
+    expect(pickGithubToken('search')).toBeNull();
+  });
+
   it('publishes the same masked token label as the app pool', async () => {
     process.env.GITHUB_TOKEN = 'abcd-secret-wxyz';
     delete process.env.GH_TOKEN_POOL;
@@ -149,6 +220,13 @@ describe('recent-repos GitHub authentication', () => {
     const [key, payload] = redis.set.mock.calls[0] ?? [];
     expect(key).toBe('pool:github:tokens:abcd****wxyz');
     expect(String(payload)).not.toContain('abcd-secret-wxyz');
+    expect(JSON.parse(String(payload))).toMatchObject({
+      remaining: 42,
+      resetUnixSec: 1_800_000_000,
+      resources: {
+        core: { remaining: 42, resetUnixSec: 1_800_000_000 },
+      },
+    });
   });
 
   it('uses the worker GitHub token pool instead of legacy GH_PAT', async () => {

@@ -142,7 +142,7 @@ export async function fetchCurrentStars(fullName: string): Promise<number | null
     });
     const rateLimit = parseRateLimitHeaders(response.headers);
     if (rateLimit) {
-      recordRateLimit(token, rateLimit.remaining, rateLimit.resetUnixSec);
+      recordRateLimit(token, rateLimit.remaining, rateLimit.resetUnixSec, rateLimit.resource ?? 'core');
     }
     if (response.status === 401) quarantine(token);
     if (!response.ok) return null;

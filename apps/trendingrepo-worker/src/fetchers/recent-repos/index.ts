@@ -198,7 +198,7 @@ async function fetchPage(
 ): Promise<GithubSearchResponse> {
   const hasConfiguredTokens = getGithubTokens().length > 0;
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const token = pickGithubToken() ?? undefined;
+    const token = pickGithubToken('search') ?? undefined;
     if (!token && hasConfiguredTokens) {
       throw new RateLimitQuarantineError('GitHub token pool exhausted');
     }

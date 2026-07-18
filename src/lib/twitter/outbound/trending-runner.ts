@@ -152,7 +152,7 @@ export function rankTrendingCandidates(
   ranker: TrendingRanker = "top",
 ): Repo[] {
   if (ranker === "gainer") {
-    return [...repos].sort(
+    return repos.filter((r) => (r.starsDelta24h ?? 0) > 0).sort(
       (a, b) =>
         (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0) ||
         (b.starsDelta7d ?? 0) - (a.starsDelta7d ?? 0),

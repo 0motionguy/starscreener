@@ -208,16 +208,21 @@ export function selectPackRepos(
   pack: PackSpec,
   cooldownFullNames: Set<string>,
 ): Repo[] {
-  const pool = repos.filter(
-    (r) =>
+  const seenFullNames = new Set<string>();
+  const pool = repos.filter((r) => {
+    const fullName = r.fullName.toLowerCase();
+    const eligible =
       !isSpamRepo(r) &&
-      !cooldownFullNames.has(r.fullName.toLowerCase()) &&
+      !cooldownFullNames.has(fullName) &&
       ((r.starsDelta7d ?? 0) > 0 ||
         (r.starsDelta24h ?? 0) > 0 ||
         (r.mentionCount24h ?? 0) > 0 ||
         (r.socialBuzzScore ?? 0) > 0) &&
-      pack.match(r),
-  );
+      pack.match(r);
+    if (!eligible || seenFullNames.has(fullName)) return false;
+    seenFullNames.add(fullName);
+    return true;
+  });
   if (pool.length < pack.size) return [];
 
   const scores =

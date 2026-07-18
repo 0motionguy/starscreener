@@ -157,6 +157,23 @@ test("weekly-top10 matches everything and returns 10", () => {
   assert.ok(picked.every((repo) => repo.fullName.startsWith("o/")));
 });
 
+test("selectPackRepos dedupes fullName case-insensitively before slicing", () => {
+  const repos = [
+    makeRepo({ fullName: "Acme/Leader", starsDelta7d: 10_000 }),
+    makeRepo({ fullName: "acme/leader", starsDelta7d: 9_000 }),
+    ...Array.from({ length: 9 }, (_, i) =>
+      makeRepo({ fullName: `o/unique${i}`, starsDelta7d: 100 + i }),
+    ),
+  ];
+
+  const picked = selectPackRepos(repos, getPack("weekly-top10")!, NO_COOLDOWN);
+  assert.equal(picked.length, 10);
+  assert.equal(
+    new Set(picked.map((repo) => repo.fullName.toLowerCase())).size,
+    picked.length,
+  );
+});
+
 test("fresh-finds uses discovery eligibility — big established repos yield []", () => {
   const giants = Array.from({ length: 8 }, (_, i) =>
     makeRepo({ fullName: `big/repo${i}`, stars: 100_000, starsDelta24h: 500 }),

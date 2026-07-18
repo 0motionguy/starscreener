@@ -116,3 +116,9 @@ test("rankTrendingCandidates supports GAINER and sustained TREND order", () => {
   assert.equal(rankTrendingCandidates([climber, spike], "gainer")[0]?.fullName, "acme/spike");
   assert.equal(rankTrendingCandidates([spike, climber], "trend")[0]?.fullName, "acme/climber");
 });
+
+test("rankTrendingCandidates returns no GAINER when every 24h delta is non-positive", () => {
+  const flat = rankedRepo("acme/flat", 0, 500, 500);
+  const falling = rankedRepo("acme/falling", -1, 1_000, 1_000);
+  assert.deepEqual(rankTrendingCandidates([flat, falling], "gainer"), []);
+});

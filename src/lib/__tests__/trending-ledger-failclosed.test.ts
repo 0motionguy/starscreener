@@ -24,12 +24,14 @@ test("proposal fails closed when the outbound ledger cannot be read", async () =
   const failure = new Error("redis unavailable");
   const store: DataStore = {
     async read() {
-      throw failure;
+      return { data: null, source: "missing", ageMs: 0, fresh: false };
     },
     async readMany() {
+      return [];
+    },
+    async write() {
       throw failure;
     },
-    async write() {},
     async writtenAt() {
       return null;
     },

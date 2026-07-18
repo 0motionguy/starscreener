@@ -192,9 +192,23 @@ function singleMediaPath(repo: Repo): string {
 // ---------------------------------------------------------------------------
 
 async function readLedger(): Promise<TrendingLedger> {
+  const store = getDataStore();
   try {
-    const res = await getDataStore().read<TrendingLedger>(TRENDING_LEDGER_SLUG);
-    return res.data && Array.isArray(res.data.posts) ? res.data : { posts: [] };
+    const res = await store.read<TrendingLedger>(TRENDING_LEDGER_SLUG);
+    const ledger =
+      res.data && Array.isArray(res.data.posts)
+        ? res.data
+        : res.source === "missing"
+          ? { posts: [] }
+          : null;
+
+    if (!ledger) {
+      throw new Error(`invalid outbound ledger from ${res.source}`);
+    }
+    if (res.source !== "redis") {
+      await store.write(TRENDING_LEDGER_SLUG, ledger);
+    }
+    return ledger;
   } catch (err) {
     throw new DataStoreFatalError(
       "[twitter-trending] outbound ledger read failed; refusing to select without cap/cooldown state",

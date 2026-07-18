@@ -109,7 +109,7 @@ describe('recent-repos discovery plan', () => {
     expect(selected.some((row) => row.fullName.includes('photoshop-crack'))).toBe(false);
   });
 
-  it('keeps legitimate crack-detection and pentest repositories', async () => {
+  it('keeps legitimate security repos and excludes observed cheat and piracy repos', async () => {
     const { selectRecentRepos } = await import(
       '../../../src/fetchers/recent-repos/index.js'
     );
@@ -119,6 +119,9 @@ describe('recent-repos discovery plan', () => {
         repo('research/surface-crack-detection', 50, createdAt),
         repo('Porchetta-Industries/CrackMapExec', 100, createdAt),
         repo('piracy/photoshop-crack-download', 500, createdAt),
+        repo('spam/External-Dayz-Cheat', 50_000, createdAt),
+        repo('spam/elden-ring-unlocked-tools', 40_000, createdAt),
+        repo('spam/red-giant-download', 30_000, createdAt),
       ],
       10,
     );

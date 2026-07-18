@@ -144,11 +144,17 @@ test("selectPackRepos returns [] for a thin pack (caller falls back to single)",
 });
 
 test("weekly-top10 matches everything and returns 10", () => {
-  const repos = Array.from({ length: 14 }, (_, i) =>
-    makeRepo({ fullName: `o/r${i}`, starsDelta7d: 50 + i, starsDelta24h: 5 + i }),
-  );
+  const repos = [
+    ...Array.from({ length: 14 }, (_, i) =>
+      makeRepo({ fullName: `o/r${i}`, starsDelta7d: 50 + i, starsDelta24h: 5 + i }),
+    ),
+    ...["External-Dayz-Cheat", "elden-ring-unlocked-tools", "red-giant-download"].map(
+      (name) => makeRepo({ fullName: `spam/${name}`, starsDelta7d: 50_000 }),
+    ),
+  ];
   const picked = selectPackRepos(repos, getPack("weekly-top10")!, NO_COOLDOWN);
   assert.equal(picked.length, 10);
+  assert.ok(picked.every((repo) => repo.fullName.startsWith("o/")));
 });
 
 test("fresh-finds uses discovery eligibility — big established repos yield []", () => {

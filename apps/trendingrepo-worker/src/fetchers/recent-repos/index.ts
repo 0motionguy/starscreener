@@ -259,6 +259,7 @@ function isObviousSpam(row: RecentRepoRow): boolean {
     /[-_](crack|cracked)[-_](20\d\d|latest|full|free|download|premium|pro|repack|patch(ed)?)\b/,
     /\b(premium|pro|full)[-_]?cracked\b/,
     /\b(keygen|nulled|warez|activator|aimbot|wallhack|mod-menu)\b/,
+    /\b(external[-_]dayz[-_]cheats?|elden[-_]ring[-_]unlocked[-_]tools?|red[-_]giant[-_]download)\b/,
     /\bpre-?activated\b/,
     /\b(we-the-north|wethenorth|darknet)\b/,
     /[-_]market[-_]market[-_]/,

@@ -7,9 +7,11 @@ import { getDerivedRepos, getDerivedRepoCount } from "@/lib/derived-repos";
 import { getSidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import {
   getAgentsAsRepos,
+  getSkillsAsRepos,
   getLlmsAsRepos,
   refreshCategoryFromStore,
 } from "@/lib/category-adapters";
+import { getGithubSkillsTrendingCount } from "@/lib/skills-github-trending";
 import { refreshAaLlmsFromStore, getAaLlmsRanked, getAaLlmsFile } from "@/lib/aa-llms";
 import {
   refreshOpenrouterFromStore,
@@ -117,6 +119,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const rawRepos = (() => {
     if (category === "repos") return safe(() => getDerivedRepos(), []);
     if (category === "agents") return safe(() => getAgentsAsRepos(), []);
+    if (category === "skills") return safe(() => getSkillsAsRepos(), []);
     if (category === "llms") return safe(() => getLlmsAsRepos(), []);
     return [];
   })();
@@ -181,6 +184,7 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   const switcherCounts: Partial<Record<CategoryId, number>> = {
     repos: safe(() => getDerivedRepoCount(), repos.length),
     agents: counts?.agentRepos ?? 0,
+    skills: safe(() => getGithubSkillsTrendingCount(), 0),
     llms: safe(() => getAaLlmsFile().models.length, 0),
     models: safe(() => getOpenrouterFile().models.length, 0),
   };

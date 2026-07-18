@@ -42,6 +42,7 @@ const GENERAL_QUERIES: DiscoveryQuery[] = [
 
 export const CATEGORY_QUERIES: DiscoveryQuery[] = [
   ['ai-agents', 'topic:ai-agent'],
+  ['skills', 'topic:agent-skills'],
   ['mcp', 'topic:model-context-protocol'],
   ['devtools', 'topic:developer-tools'],
   ['browser-automation', 'topic:browser-automation'],

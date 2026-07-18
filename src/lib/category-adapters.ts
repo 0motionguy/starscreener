@@ -2,24 +2,28 @@
 // `Repo` shape so the same `TrendingTable` component can render every
 // category surface.
 //
-// 2026-05-24 refocus: Skills + MCP + HuggingFace stripped (operator: GitHub
-// repos are the main seller). The /?cat=llms surface is being replaced by an
-// AA leaderboard view in Wave 4 (separate component, separate row shape).
+// Skills returned in 2026-07 as a strict GitHub-repo view. This does not
+// restore the retired third-party Skills/MCP/HuggingFace leaderboard stack.
 
 import { getGithubAgentsTrending } from "@/lib/agents-github-trending";
+import { getGithubSkillsTrending } from "@/lib/skills-github-trending";
 import { decorateWithMentionsRollup } from "@/lib/derived-repos/decorators/mentions-rollup";
 import type { CategoryId } from "@/components/trending/TrendingHubHero";
 import type { Repo } from "@/lib/types";
 
 export async function refreshCategoryFromStore(category: CategoryId): Promise<void> {
   void category;
-  // No-ops for repos / agents / llms — repos + agents derive from
+  // No-ops for repos / agents / skills / llms — GitHub-backed categories derive from
   // getDerivedRepos() which is refreshed by refreshTrendingFromStore() at the
   // top of the page handler. llms gets its own AA refresh hook in Wave 4.
 }
 
 export function getAgentsAsRepos(): Repo[] {
   return decorateWithMentionsRollup(getGithubAgentsTrending(100));
+}
+
+export function getSkillsAsRepos(): Repo[] {
+  return decorateWithMentionsRollup(getGithubSkillsTrending(100));
 }
 
 // /?cat=llms is being rebuilt around the Artificial Analysis leaderboard

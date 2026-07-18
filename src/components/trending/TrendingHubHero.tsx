@@ -13,6 +13,7 @@ import { getDerivedRepoCount } from "@/lib/derived-repos";
 const CATEGORIES = [
   { id: "repos", label: "Repos", glyph: "R" },
   { id: "agents", label: "Agents", glyph: "A" },
+  { id: "skills", label: "Skills", glyph: "S" },
   { id: "llms", label: "LLMs", glyph: "L" },
   { id: "models", label: "Models", glyph: "M" },
 ] as const;

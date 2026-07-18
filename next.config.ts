@@ -227,8 +227,8 @@ const nextConfig: NextConfig = {
       { source: "/trends", destination: "/", permanent: true },
 
       // ---- T2 — Subsumed by v6 hub pages ----------------------------------
-      { source: "/skills", destination: "/tools", permanent: true },
-      { source: "/agent-repos", destination: "/agent-commerce", permanent: true },
+      { source: "/skills", destination: "/?cat=skills", permanent: true },
+      { source: "/agent-repos", destination: "/?cat=agents", permanent: true },
       { source: "/papers", destination: "/", permanent: true },
       { source: "/research", destination: "/", permanent: true },
       // Consensus-style breakout signal lives inside /breakout in v6.

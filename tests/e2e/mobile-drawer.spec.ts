@@ -28,4 +28,18 @@ test.describe("mobile drawer", () => {
     await expect(drawer).not.toHaveClass(/\bopen\b/);
     await expect(drawer).not.toBeInViewport();
   });
+
+  test("skills mode is active and control groups wrap without overflow", async ({ page }) => {
+    await page.goto("/?cat=skills", { waitUntil: "domcontentloaded" });
+
+    const mode = page.getByRole("group", { name: "Mode" });
+    const skills = mode.getByRole("link", { name: /^Skills/ });
+    await expect(skills).toHaveClass(/\bon\b/);
+    await expect(mode).toHaveCSS("flex-wrap", "wrap");
+
+    const horizontalOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(horizontalOverflow).toBeLessThanOrEqual(0);
+  });
 });

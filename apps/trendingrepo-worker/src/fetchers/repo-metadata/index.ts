@@ -346,6 +346,7 @@ const fetcher: Fetcher = {
     const itemsByName = new Map<string, RepoMetadataItem>();
     const failures: RepoMetadataPayload['failures'] = [];
     const errors: RunResult['errors'] = [];
+    let successfulBatches = 0;
 
     for (let offset = 0; offset < fullNames.length; offset += BATCH_SIZE) {
       const batch = fullNames.slice(offset, offset + BATCH_SIZE);
@@ -374,6 +375,7 @@ const fetcher: Fetcher = {
             if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
           },
         });
+        successfulBatches += 1;
         const data = body?.data ?? {};
         const ghErrors = Array.isArray(body?.errors) ? body.errors : [];
         if (ghErrors.length > 0) {
@@ -419,6 +421,14 @@ const fetcher: Fetcher = {
           });
         }
       }
+    }
+
+    if (fullNames.length > 0 && successfulBatches === 0) {
+      ctx.log.warn(
+        { batches: Math.ceil(fullNames.length / BATCH_SIZE), failures: errors.length },
+        'repo-metadata: every GitHub batch failed; preserving prior payload without moving freshness',
+      );
+      return done(startedAt, previous?.items?.length ?? 0, false, errors);
     }
 
     const items = Array.from(itemsByName.values()).sort((a, b) =>

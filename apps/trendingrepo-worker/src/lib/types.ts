@@ -162,13 +162,14 @@ export interface Fetcher {
   schedule: string;
   /** Default false. Set true to receive a live SupabaseClient on ctx.db. */
   requiresDb?: boolean;
-  requiresFirecrawl?: boolean;
   /**
    * Override the global 24h `since` window. Useful for fetchers whose
    * upstream API benefits from a different lookback (e.g. weekly digests,
    * slow-moving registries). A caller-supplied `--since` always wins.
    */
   defaultLookbackHours?: number;
+  /** Compatibility gate used by the runner while legacy fetchers drain. */
+  requiresFirecrawl?: boolean;
   run(ctx: FetcherContext): Promise<RunResult>;
 }
 

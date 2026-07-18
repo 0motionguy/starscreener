@@ -342,6 +342,7 @@ export function OwnerBadge({
       <img
         src={avatarUri}
         alt=""
+        loading="eager"
         width={size}
         height={size}
         style={{

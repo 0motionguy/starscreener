@@ -472,9 +472,9 @@ Quick checklist:
 
 Lib: `src/lib/twitter/outbound/` -- cron route: `src/app/api/cron/twitter-trending/route.ts` (CRON_SECRET-gated, propose -> confirm two-step; never posts on propose).
 
-- **Calendar** (`content-calendar.ts`): deterministic weekly slot matrix, slots A/B/C per day. Slot C on odd UTC days resolves to the `llm-models` pack (`hf_models` archetype); even days = `discovery_single`. `X_CALENDAR_OVERRIDE` forces a slot format for testing.
+- **Calendar** (`content-calendar.ts`): deterministic weekly slot matrix, slots A-E per day (A top `trending_single`, B themed pack by weekday, C parity slot, D `discovery_single`, E themed pack by weekday). Slot C on odd UTC days resolves to the `llm-models` pack (`hf_models` archetype); even days = gainer `trending_single`. `X_CALENDAR_OVERRIDE` forces a slot format for testing.
 - **Packs** (`packs.ts`): registry entries carry `size: 10, minSize: 5`; proposals emit `rows=<actual count>` in the OG `mediaPath` and cap the numbered list in tweet text at 5 lines (card shows all rows).
-- **Runner** (`trending-runner.ts`): `proposeTrendingPost(ms, slot)` ranks candidates (`rankTrendingCandidates`), builds text/media/url; `confirmTrendingPost` appends to the `twitter-trending-ledger` data-store slug (dedupe + `TRENDING_POST_MAX_PER_DAY`, default 3).
+- **Runner** (`trending-runner.ts`): `proposeTrendingPost(ms, slot)` ranks candidates (`rankTrendingCandidates`), builds text/media/url; `confirmTrendingPost` appends to the `twitter-trending-ledger` data-store slug (dedupe + `TRENDING_POST_MAX_PER_DAY`, default 5).
 - **Copywriter** (`src/lib/llm/copywriter.ts`): only active when `X_COPYWRITER=1`; NanoGPT primary, Kimi fallback, deterministic template otherwise (`"source": "deterministic"` in proposals). Output re-validated (length, hashtag allowlist) before use -- rejects fall back to deterministic.
 - **Envs**: see the CE-5 block in `.env.example` (`NANOGPT_*`, `KIMI_*`, `X_COPYWRITER`, `X_CALENDAR_OVERRIDE`, `TRENDING_POST_MAX_PER_DAY`).
 - **Dry-run** (no server, no secrets; exercises calendar+packs+composer+validator):

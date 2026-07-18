@@ -26,9 +26,11 @@ import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
   createGitHubTokenPool,
+  githubRateLimitResourceFromPath,
   parseRateLimitHeaders,
   redactToken,
 } from "../github-token-pool";
+import type { RedisClientLike } from "../data-store";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -46,6 +48,10 @@ function freezeNow(seedMs: number): { now: () => number; advance: (ms: number) =
 
 const FIXED_NOW_MS = 1_700_000_000_000; // 2023-11-14T22:13:20Z, plenty of digits
 const FIXED_NOW_SEC = Math.floor(FIXED_NOW_MS / 1000);
+
+function nextTurn(): Promise<void> {
+  return new Promise((resolve) => setImmediate(resolve));
+}
 
 // ---------------------------------------------------------------------------
 // 1. Empty pool
@@ -122,6 +128,118 @@ test("1 exhausted token is skipped; healthy tokens are picked", () => {
   assert.equal(picked.size, 2);
   assert.ok(picked.has("tok-b-bbbbbbbbbbbbbbbbbbbb"));
   assert.ok(picked.has("tok-c-cccccccccccccccccccc"));
+});
+
+test("resource-aware Redis state isolates search and survives an app core write", async () => {
+  const token = "tok-a-aaaaaaaaaaaaaaaaaaaa";
+  const tokenLabel = redactToken(token);
+  const key = `pool:github:tokens:${tokenLabel}`;
+  const searchKey = `pool:github:token-resources:${tokenLabel}:search`;
+  const coreKey = `pool:github:token-resources:${tokenLabel}:core`;
+  const stored = new Map<string, string>([
+    [
+      key,
+      JSON.stringify({
+        tokenLabel,
+        remaining: null,
+        resetUnixSec: null,
+        resources: {},
+        lastObservedMs: FIXED_NOW_MS - 1_000,
+        quarantinedUntilMs: null,
+        lambdaId: "worker:123",
+        writtenAt: new Date(FIXED_NOW_MS - 1_000).toISOString(),
+      }),
+    ],
+    [
+      searchKey,
+      JSON.stringify({ remaining: 0, resetUnixSec: FIXED_NOW_SEC + 600 }),
+    ],
+  ]);
+  const redisClient: RedisClientLike = {
+    async get(redisKey) {
+      return stored.get(redisKey) ?? null;
+    },
+    async set(redisKey, value) {
+      stored.set(redisKey, value);
+    },
+    async del(...keys) {
+      let removed = 0;
+      for (const redisKey of keys) {
+        if (stored.delete(redisKey)) removed++;
+      }
+      return removed;
+    },
+  };
+  const pool = createGitHubTokenPool({
+    env: { GITHUB_TOKEN: token },
+    now: () => FIXED_NOW_MS,
+    hydrate: true,
+    redisClient,
+  });
+
+  assert.equal(pool.getNextToken("core"), token);
+  await nextTurn();
+  assert.equal(pool.hydrationStatus().completed, true);
+  assert.equal(pool.getNextToken("core"), token);
+  assert.throws(
+    () => pool.getNextToken("search"),
+    GitHubTokenPoolExhaustedError,
+  );
+
+  pool.recordRateLimit(token, 4_999, FIXED_NOW_SEC + 600, "core");
+  await nextTurn();
+  assert.deepEqual(JSON.parse(stored.get(coreKey) ?? "null"), {
+    remaining: 4_999,
+    resetUnixSec: FIXED_NOW_SEC + 600,
+  });
+  assert.deepEqual(JSON.parse(stored.get(searchKey) ?? "null"), {
+    remaining: 0,
+    resetUnixSec: FIXED_NOW_SEC + 600,
+  });
+  const published = JSON.parse(stored.get(key) ?? "null") as {
+    remaining: number | null;
+    resources: Record<string, { remaining: number; resetUnixSec: number }>;
+  };
+  assert.equal(published.remaining, 4_999);
+  assert.deepEqual(published.resources.search, {
+    remaining: 0,
+    resetUnixSec: FIXED_NOW_SEC + 600,
+  });
+  assert.deepEqual(published.resources.core, {
+    remaining: 4_999,
+    resetUnixSec: FIXED_NOW_SEC + 600,
+  });
+
+  // Simulate a concurrent legacy aggregate writer losing the search field.
+  // Resource subkeys remain authoritative across process restarts.
+  stored.set(
+    key,
+    JSON.stringify({
+      tokenLabel,
+      remaining: 4_999,
+      resetUnixSec: FIXED_NOW_SEC + 600,
+      resources: {
+        core: { remaining: 4_999, resetUnixSec: FIXED_NOW_SEC + 600 },
+      },
+      lastObservedMs: FIXED_NOW_MS,
+      quarantinedUntilMs: null,
+      lambdaId: "app:456",
+      writtenAt: new Date(FIXED_NOW_MS).toISOString(),
+    }),
+  );
+  const restarted = createGitHubTokenPool({
+    env: { GITHUB_TOKEN: token },
+    now: () => FIXED_NOW_MS,
+    hydrate: true,
+    redisClient,
+  });
+  assert.equal(restarted.getNextToken("core"), token);
+  await nextTurn();
+  assert.equal(restarted.getNextToken("core"), token);
+  assert.throws(
+    () => restarted.getNextToken("search"),
+    GitHubTokenPoolExhaustedError,
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -342,9 +460,14 @@ test("parseRateLimitHeaders parses well-formed headers", () => {
   const headers = new Headers({
     "x-ratelimit-remaining": "4321",
     "x-ratelimit-reset": "1700000060",
+    "x-ratelimit-resource": "search",
   });
   const result = parseRateLimitHeaders(headers);
-  assert.deepEqual(result, { remaining: 4321, resetUnixSec: 1700000060 });
+  assert.deepEqual(result, {
+    remaining: 4321,
+    resetUnixSec: 1700000060,
+    resource: "search",
+  });
 });
 
 test("parseRateLimitHeaders returns null on garbage values", () => {
@@ -353,6 +476,15 @@ test("parseRateLimitHeaders returns null on garbage values", () => {
     "x-ratelimit-reset": "1700000060",
   });
   assert.equal(parseRateLimitHeaders(headers), null);
+});
+
+test("githubRateLimitResourceFromPath selects search and GraphQL lanes", () => {
+  assert.equal(githubRateLimitResourceFromPath("/search/issues?q=repo"), "search");
+  assert.equal(
+    githubRateLimitResourceFromPath("https://api.github.com/graphql"),
+    "graphql",
+  );
+  assert.equal(githubRateLimitResourceFromPath("/repos/owner/name"), "core");
 });
 
 // ---------------------------------------------------------------------------

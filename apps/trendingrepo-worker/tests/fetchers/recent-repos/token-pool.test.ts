@@ -173,8 +173,16 @@ describe('recent-repos GitHub authentication', () => {
     expect(pickGithubToken('search')).toBeNull();
     expect(pickGithubToken('core')).toBeNull();
     expect(pickGithubToken('graphql')).toBeNull();
-    await vi.waitFor(() => expect(redis.set).toHaveBeenCalledTimes(3));
-    for (const [, payload] of redis.set.mock.calls) {
+    await vi.waitFor(() =>
+      expect(
+        redis.set.mock.calls.filter(([key]) =>
+          String(key).startsWith('pool:github:tokens:'),
+        ),
+      ).toHaveLength(3),
+    );
+    for (const [, payload] of redis.set.mock.calls.filter(([key]) =>
+      String(key).startsWith('pool:github:tokens:'),
+    )) {
       expect(JSON.parse(String(payload)).quarantinedUntilMs).toBeGreaterThan(Date.now());
     }
   });
@@ -200,7 +208,53 @@ describe('recent-repos GitHub authentication', () => {
     expect(pickGithubToken('core')).toBe('single-token');
     await vi.waitFor(() => expect(isHydrated()).toBe(true));
     expect(pickGithubToken('core')).toBeNull();
-    expect(pickGithubToken('search')).toBeNull();
+    expect(pickGithubToken('search')).toBe('single-token');
+  });
+
+  it('preserves an existing worker search hint when publishing a healthy core response', async () => {
+    process.env.GITHUB_TOKEN = 'single-token';
+    delete process.env.GH_TOKEN_POOL;
+    delete process.env.GITHUB_TOKEN_POOL;
+    const futureReset = Math.floor(Date.now() / 1000) + 3_600;
+    const searchKey = 'pool:github:token-resources:sing****oken:search';
+    const coreKey = 'pool:github:token-resources:sing****oken:core';
+    redis.get.mockImplementation(async (key: string) =>
+      key === searchKey
+        ? JSON.stringify({ remaining: 0, resetUnixSec: futureReset })
+        : null,
+    );
+
+    const {
+      isHydrated,
+      pickGithubToken,
+      recordRateLimit,
+      _resetGithubTokenPoolForTests,
+    } = await import('../../../src/lib/util/github-token-pool.js');
+
+    _resetGithubTokenPoolForTests();
+    expect(pickGithubToken('core')).toBe('single-token');
+    await vi.waitFor(() => expect(isHydrated()).toBe(true));
+    recordRateLimit('single-token', 4_999, futureReset, 'core');
+
+    await vi.waitFor(() =>
+      expect(redis.set.mock.calls.some(([key]) => key === coreKey)).toBe(true),
+    );
+    const [, resourcePayload] =
+      redis.set.mock.calls.find(([key]) => key === coreKey) ?? [];
+    expect(JSON.parse(String(resourcePayload))).toEqual({
+      remaining: 4_999,
+      resetUnixSec: futureReset,
+    });
+    const [, payload] =
+      redis.set.mock.calls.find(([key]) => key === 'pool:github:tokens:sing****oken') ?? [];
+    expect(JSON.parse(String(payload))).toMatchObject({
+      remaining: 4_999,
+      resetUnixSec: futureReset,
+      resources: {
+        search: { remaining: 0, resetUnixSec: futureReset },
+        core: { remaining: 4_999, resetUnixSec: futureReset },
+      },
+    });
   });
 
   it('publishes the same masked token label as the app pool', async () => {
@@ -216,9 +270,13 @@ describe('recent-repos GitHub authentication', () => {
     _resetGithubTokenPoolForTests();
     recordRateLimit('abcd-secret-wxyz', 42, 1_800_000_000);
 
-    await vi.waitFor(() => expect(redis.set).toHaveBeenCalledOnce());
-    const [key, payload] = redis.set.mock.calls[0] ?? [];
-    expect(key).toBe('pool:github:tokens:abcd****wxyz');
+    const aggregateKey = 'pool:github:tokens:abcd****wxyz';
+    const resourceKey = 'pool:github:token-resources:abcd****wxyz:core';
+    await vi.waitFor(() => expect(redis.set).toHaveBeenCalledTimes(2));
+    const [, payload] =
+      redis.set.mock.calls.find(([key]) => key === aggregateKey) ?? [];
+    const [, resourcePayload] =
+      redis.set.mock.calls.find(([key]) => key === resourceKey) ?? [];
     expect(String(payload)).not.toContain('abcd-secret-wxyz');
     expect(JSON.parse(String(payload))).toMatchObject({
       remaining: 42,
@@ -226,6 +284,10 @@ describe('recent-repos GitHub authentication', () => {
       resources: {
         core: { remaining: 42, resetUnixSec: 1_800_000_000 },
       },
+    });
+    expect(JSON.parse(String(resourcePayload))).toEqual({
+      remaining: 42,
+      resetUnixSec: 1_800_000_000,
     });
   });
 

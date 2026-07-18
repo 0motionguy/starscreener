@@ -20,6 +20,7 @@
 import { getRedis } from '../redis.js';
 
 const POOL_REDIS_KEY_PREFIX = 'pool:github:tokens';
+const POOL_REDIS_RESOURCE_KEY_PREFIX = 'pool:github:token-resources';
 const QUARANTINE_TTL_MS = 24 * 60 * 60 * 1000;
 const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
 
@@ -27,6 +28,7 @@ let cachedTokens: string[] | null = null;
 let cursor = 0;
 
 export type GithubRateLimitResource = 'search' | 'core' | 'graphql';
+const GITHUB_RATE_LIMIT_RESOURCES = ['search', 'core', 'graphql'] as const;
 
 interface ResourceHint {
   remaining: number | null;
@@ -86,6 +88,13 @@ function poolRedisKeyFor(tokenLabel: string): string {
   return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
 }
 
+function poolRedisResourceKeyFor(
+  tokenLabel: string,
+  resource: GithubRateLimitResource,
+): string {
+  return `${POOL_REDIS_RESOURCE_KEY_PREFIX}:${tokenLabel}:${resource}`;
+}
+
 function isUnusable(
   hint: SharedTokenHint | undefined,
   resource: GithubRateLimitResource,
@@ -98,7 +107,9 @@ function isUnusable(
   }
   const resourceHint = hint.resources[resource];
   const limitHint = resourceHint ??
-    (Object.keys(hint.resources).length === 0 ? hint : undefined);
+    (resource === 'core' && Object.keys(hint.resources).length === 0
+      ? hint
+      : undefined);
   if (
     limitHint?.remaining !== null &&
     limitHint?.remaining !== undefined &&
@@ -127,7 +138,7 @@ function parseHint(raw: unknown): SharedTokenHint | null {
   const resources: SharedTokenHint['resources'] = {};
   if (r.resources && typeof r.resources === 'object') {
     const rawResources = r.resources as Record<string, unknown>;
-    for (const resource of ['search', 'core', 'graphql'] as const) {
+    for (const resource of GITHUB_RATE_LIMIT_RESOURCES) {
       const rawResource = rawResources[resource];
       if (!rawResource || typeof rawResource !== 'object') continue;
       const value = rawResource as Record<string, unknown>;
@@ -145,19 +156,69 @@ function parseHint(raw: unknown): SharedTokenHint | null {
   };
 }
 
+function parseResourceHint(raw: unknown): ResourceHint | null {
+  let obj = raw;
+  if (typeof raw === 'string') {
+    try {
+      obj = JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+  if (!obj || typeof obj !== 'object') return null;
+  const value = obj as Record<string, unknown>;
+  const remaining =
+    typeof value.remaining === 'number' && Number.isFinite(value.remaining)
+      ? value.remaining
+      : value.remaining === null ? null : undefined;
+  const resetUnixSec =
+    typeof value.resetUnixSec === 'number' && Number.isFinite(value.resetUnixSec)
+      ? value.resetUnixSec
+      : value.resetUnixSec === null ? null : undefined;
+  if (remaining === undefined || resetUnixSec === undefined) return null;
+  return { remaining, resetUnixSec };
+}
+
 function mergeHints(
   older: SharedTokenHint,
   newer: SharedTokenHint | undefined,
 ): SharedTokenHint {
-  if (!newer) return older;
+  if (!newer) {
+    const resources = resourcesWithLegacyCore(older);
+    const core = resources.core;
+    return {
+      ...older,
+      remaining: core?.remaining ?? null,
+      resetUnixSec: core?.resetUnixSec ?? null,
+      resources,
+    };
+  }
+  const resources = {
+    ...resourcesWithLegacyCore(older),
+    ...resourcesWithLegacyCore(newer),
+  };
+  const core = resources.core;
   return {
-    remaining: newer.remaining,
-    resetUnixSec: newer.resetUnixSec,
-    resources: { ...older.resources, ...newer.resources },
+    remaining: core?.remaining ?? null,
+    resetUnixSec: core?.resetUnixSec ?? null,
+    resources,
     quarantinedUntilMs: Math.max(
       older.quarantinedUntilMs ?? 0,
       newer.quarantinedUntilMs ?? 0,
     ) || null,
+  };
+}
+
+function resourcesWithLegacyCore(
+  hint: SharedTokenHint,
+): SharedTokenHint['resources'] {
+  if (Object.keys(hint.resources).length > 0) return hint.resources;
+  if (hint.remaining === null && hint.resetUnixSec === null) return {};
+  return {
+    core: {
+      remaining: hint.remaining,
+      resetUnixSec: hint.resetUnixSec,
+    },
   };
 }
 
@@ -172,15 +233,40 @@ async function hydrateFromRedis(): Promise<void> {
   const tokens = getGithubTokens();
   for (const token of tokens) {
     const label = redactToken(token);
-    let raw: string | null;
+    let hydratedHint: SharedTokenHint | null = null;
     try {
-      raw = await handle.get(poolRedisKeyFor(label));
+      hydratedHint = parseHint(await handle.get(poolRedisKeyFor(label)));
     } catch {
-      continue;
+      // Resource subkeys may still be available.
     }
-    if (raw === null) continue;
-    const hint = parseHint(raw);
-    if (hint) sharedHints.set(token, mergeHints(hint, sharedHints.get(token)));
+    if (hydratedHint) hydratedHint = mergeHints(hydratedHint, undefined);
+
+    for (const resource of GITHUB_RATE_LIMIT_RESOURCES) {
+      let resourceHint: ResourceHint | null = null;
+      try {
+        resourceHint = parseResourceHint(
+          await handle.get(poolRedisResourceKeyFor(label, resource)),
+        );
+      } catch {
+        // Keep any aggregate and other resource hints.
+      }
+      if (!resourceHint) continue;
+      hydratedHint ??= {
+        remaining: null,
+        resetUnixSec: null,
+        resources: {},
+        quarantinedUntilMs: null,
+      };
+      hydratedHint.resources[resource] = resourceHint;
+      if (resource === 'core') {
+        hydratedHint.remaining = resourceHint.remaining;
+        hydratedHint.resetUnixSec = resourceHint.resetUnixSec;
+      }
+    }
+
+    if (hydratedHint) {
+      sharedHints.set(token, mergeHints(hydratedHint, sharedHints.get(token)));
+    }
   }
   hasHydrated = true;
 }
@@ -236,13 +322,16 @@ export function recordRateLimit(
         ? Math.floor(resetUnixSec)
         : null,
   };
+  const resources = { ...previous?.resources, [resource]: resourceHint };
+  const core = resource === 'core' ? resourceHint : resources.core;
   const hint: SharedTokenHint = {
-    ...resourceHint,
-    resources: { ...previous?.resources, [resource]: resourceHint },
+    remaining: core?.remaining ?? previous?.remaining ?? null,
+    resetUnixSec: core?.resetUnixSec ?? previous?.resetUnixSec ?? null,
+    resources,
     quarantinedUntilMs: previous?.quarantinedUntilMs ?? null,
   };
   sharedHints.set(token, hint);
-  void publishHint(token, hint);
+  void publishHint(token, hint, resource);
 }
 
 /**
@@ -290,7 +379,11 @@ export function parseRateLimitHeaders(
   return { remaining, resetUnixSec, resource };
 }
 
-async function publishHint(token: string, hint: SharedTokenHint): Promise<void> {
+async function publishHint(
+  token: string,
+  hint: SharedTokenHint,
+  resource?: GithubRateLimitResource,
+): Promise<void> {
   let handle;
   try {
     handle = await getRedis();
@@ -299,9 +392,29 @@ async function publishHint(token: string, hint: SharedTokenHint): Promise<void> 
   }
   if (!handle) return;
   const label = redactToken(token);
+  const resourceHint = resource ? hint.resources[resource] : undefined;
+  if (resource && resourceHint) {
+    try {
+      await handle.set(
+        poolRedisResourceKeyFor(label, resource),
+        JSON.stringify(resourceHint),
+        { ex: POOL_REDIS_TTL_SECONDS },
+      );
+    } catch {
+      // Keep the compatibility aggregate best-effort if the subkey fails.
+    }
+  }
   // Re-read local state after the async Redis lookup so an older in-flight
   // rate-limit publish cannot clear a newer 401 quarantine or resource hint.
-  const latest = mergeHints(hint, sharedHints.get(token));
+  const local = mergeHints(hint, sharedHints.get(token));
+  let remote: SharedTokenHint | null = null;
+  try {
+    remote = parseHint(await handle.get(poolRedisKeyFor(label)));
+  } catch {
+    // A failed read must not prevent publishing the local observation.
+  }
+  const latest = remote ? mergeHints(remote, local) : local;
+  sharedHints.set(token, latest);
   // Wire-format compatible with PublishedTokenState in the app-side pool.
   const payload = {
     tokenLabel: label,

@@ -99,6 +99,9 @@
         sb.classList.remove('open');
       }
     });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') sb.classList.remove('open');
+    });
   }
 
   /* ─────────────────────────────────────────────────────────────

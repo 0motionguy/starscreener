@@ -95,6 +95,54 @@ test("selectPackRepos excludes cooldown members", () => {
   assert.ok(!members.some((r) => r.fullName === "acme/agent5"));
 });
 
+test("selectPackRepos matches cooldown names case-insensitively", () => {
+  const agents = Array.from({ length: 6 }, (_, i) =>
+    makeRepo({ fullName: `Acme/Agent${i}`, topics: ["agentic"], starsDelta24h: 100 + i }),
+  );
+  const members = selectPackRepos(
+    agents,
+    getPack("ai-agents")!,
+    new Set(["acme/agent5"]),
+  );
+  assert.equal(members.length, 5);
+  assert.ok(!members.some((r) => r.fullName === "Acme/Agent5"));
+});
+
+test("every five-slot calendar pack is enabled", () => {
+  for (const id of [
+    "local-llm",
+    "browser-automation",
+    "security",
+    "infrastructure",
+    "data",
+    "web-mobile",
+    "web3",
+    "rust",
+    "design-engineering",
+  ]) {
+    assert.equal(getPack(id)?.id, id);
+  }
+});
+
+test("ecosystem packs accept their classified category without keyword copy", () => {
+  const categories = new Map([
+    ["security", "security"],
+    ["web-mobile", "web-frameworks"],
+    ["design-engineering", "design-engineering"],
+  ]);
+  for (const [packId, categoryId] of categories) {
+    const repo = makeRepo({ fullName: `acme/${packId}`, categoryId, description: "" });
+    assert.equal(getPack(packId)?.match(repo), true, `${packId} rejected ${categoryId}`);
+  }
+});
+
+test("static packs fall back instead of posting repos with no movement or activity", () => {
+  const staticAgents = Array.from({ length: 6 }, (_, i) =>
+    makeRepo({ fullName: `acme/static-agent${i}`, topics: ["agentic"] }),
+  );
+  assert.deepEqual(selectPackRepos(staticAgents, getPack("ai-agents")!, NO_COOLDOWN), []);
+});
+
 test("selectPackRepos returns [] for a thin pack (caller falls back to single)", () => {
   const agents = Array.from({ length: 4 }, (_, i) =>
     makeRepo({ fullName: `acme/agent${i}`, topics: ["agents"], starsDelta24h: 10 }),
@@ -126,11 +174,34 @@ test("llm-models matches via the shared hf_models predicate, minSize 3 floor", (
 });
 
 test("weekly-top10 matches everything and returns 10", () => {
-  const repos = Array.from({ length: 14 }, (_, i) =>
-    makeRepo({ fullName: `o/r${i}`, starsDelta7d: 50 + i, starsDelta24h: 5 + i }),
-  );
+  const repos = [
+    ...Array.from({ length: 14 }, (_, i) =>
+      makeRepo({ fullName: `o/r${i}`, starsDelta7d: 50 + i, starsDelta24h: 5 + i }),
+    ),
+    ...["External-Dayz-Cheat", "elden-ring-unlocked-tools", "red-giant-download"].map(
+      (name) => makeRepo({ fullName: `spam/${name}`, starsDelta7d: 50_000 }),
+    ),
+  ];
   const picked = selectPackRepos(repos, getPack("weekly-top10")!, NO_COOLDOWN);
   assert.equal(picked.length, 10);
+  assert.ok(picked.every((repo) => repo.fullName.startsWith("o/")));
+});
+
+test("selectPackRepos dedupes fullName case-insensitively before slicing", () => {
+  const repos = [
+    makeRepo({ fullName: "Acme/Leader", starsDelta7d: 10_000 }),
+    makeRepo({ fullName: "acme/leader", starsDelta7d: 9_000 }),
+    ...Array.from({ length: 9 }, (_, i) =>
+      makeRepo({ fullName: `o/unique${i}`, starsDelta7d: 100 + i }),
+    ),
+  ];
+
+  const picked = selectPackRepos(repos, getPack("weekly-top10")!, NO_COOLDOWN);
+  assert.equal(picked.length, 10);
+  assert.equal(
+    new Set(picked.map((repo) => repo.fullName.toLowerCase())).size,
+    picked.length,
+  );
 });
 
 test("fresh-finds uses discovery eligibility — big established repos yield []", () => {

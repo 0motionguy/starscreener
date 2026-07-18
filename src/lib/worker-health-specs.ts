@@ -97,7 +97,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // daily - operator-curated mirrors + once-a-day enrichment
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
   { slug: "worker-health:star-activity", fetcher: "star-activity", cadenceMin: 60 * 24 },
-  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 60 * 24 },
+  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 6 * 60 },
   { slug: "worker-health:repo-community-profile", fetcher: "repo-community-profile", cadenceMin: 60 },
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
@@ -145,19 +145,19 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     slug: "reddit-mentions",
     fetcher: "reddit",
     reason:
-      "live Reddit collector is intentionally paused on HOSTUP; Reddit is paused end-to-end, including the weekly baseline refresh",
+      "live Reddit collector is intentionally paused on HOSTUP",
+  },
+  {
+    slug: "reddit-baselines",
+    fetcher: "reddit-baselines",
+    reason:
+      "Reddit collection is paused end-to-end; baseline refresh remains operator-disabled until credentials and provider policy are restored.",
   },
   {
     slug: "reddit-all-posts",
     fetcher: "reddit",
     reason:
       "live Reddit collector is intentionally paused on HOSTUP; do not treat the stale historical all-posts slug as worker-owned",
-  },
-  {
-    slug: "reddit-baselines",
-    fetcher: "reddit-baselines",
-    reason:
-      "Reddit collection is paused end-to-end on HOSTUP; the weekly baseline refresh pauses with the collectors and the last-good data/reddit-baselines.json snapshot keeps serving subreddit context.",
   },
   {
     slug: "funding-news-x",

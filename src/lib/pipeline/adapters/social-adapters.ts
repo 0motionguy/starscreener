@@ -645,7 +645,7 @@ export class GitHubActivityAdapter implements SocialAdapter {
     let token: string | null = null;
     const pool = getGitHubTokenPool();
     try {
-      token = pool.getNextToken();
+      token = pool.getNextToken("search");
     } catch (err) {
       if (err instanceof GitHubTokenPoolEmptyError) {
         token = null;
@@ -682,7 +682,14 @@ export class GitHubActivityAdapter implements SocialAdapter {
       // returns x-ratelimit-* on 403s, and not recording exhaustion would
       // leave the pool picking the dead token again.
       if (token) {
-        if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+        if (rl) {
+          pool.recordRateLimit(
+            token,
+            rl.remaining,
+            rl.resetUnixSec,
+            rl.resource ?? "search",
+          );
+        }
       }
       if (!res.ok) {
         // Rate limit exhaustion is the common unauthenticated failure.

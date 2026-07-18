@@ -56,6 +56,7 @@ import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { PostHogIdentifyBridge } from "@/components/analytics/PostHogIdentifyBridge";
 import { PostHogPageviewBridge } from "@/components/analytics/PostHogPageviewBridge";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
+import SessionBridge from "@/components/auth/SessionBridge";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { IdleMount } from "@/components/util/IdleMount";
 
@@ -195,6 +196,7 @@ export default async function RootLayout({
                 signUpFallbackRedirectUrl="/account"
                 afterSignOutUrl="/"
               >
+                <SessionBridge />
                 {appChrome}
               </ClerkProvider>
             ) : (

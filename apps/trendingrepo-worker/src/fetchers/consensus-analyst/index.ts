@@ -134,6 +134,7 @@ const fetcher: Fetcher = {
               jsonMode: true,
             },
             { feature: 'ai_analyst', task_type: 'item', request_id: randomUUID() },
+            (text) => ItemReportSchema.safeParse(parseJson(text)).success,
           );
           usedProvider = r.meta.provider;
           usedModel = r.meta.model;
@@ -185,6 +186,7 @@ const fetcher: Fetcher = {
           jsonMode: true,
         },
         { feature: 'ai_analyst', task_type: 'ribbon', request_id: randomUUID() },
+        (text) => RibbonSchema.safeParse(parseJson(text)).success,
       );
       usedProvider = r.meta.provider;
       usedModel = r.meta.model;

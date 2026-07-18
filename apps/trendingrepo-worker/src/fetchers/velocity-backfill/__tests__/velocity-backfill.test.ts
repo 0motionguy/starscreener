@@ -5,11 +5,60 @@ import {
   parseRepoNode,
   reconstructDenseSeries,
   existingCoversWindows,
+  runGraphql,
 } from '../index.js';
+import velocityBackfill from '../index.js';
 import { entryFromPayload } from '../../star-activity-deltas/index.js';
+import { _resetGithubTokenPoolForTests } from '../../../lib/util/github-token-pool.js';
+import type { FetcherContext } from '../../../lib/types.js';
 
 const NOW = new Date('2026-05-29T12:00:00.000Z');
 const ms = (iso: string): number => Date.parse(iso);
+
+it('runs four times daily so new registry rows gain velocity coverage quickly', () => {
+  expect(velocityBackfill.schedule).toBe('17 2,8,14,20 * * *');
+});
+
+it('quarantines a 401 GraphQL token and retries with the next usable token', async () => {
+  const originalFetch = globalThis.fetch;
+  const originalGithubToken = process.env.GITHUB_TOKEN;
+  const originalPool = process.env.GH_TOKEN_POOL;
+  const originalGithubPool = process.env.GITHUB_TOKEN_POOL;
+  delete process.env.GITHUB_TOKEN;
+  delete process.env.GITHUB_TOKEN_POOL;
+  process.env.GH_TOKEN_POOL = 'alpha-token,bravo-token';
+  _resetGithubTokenPoolForTests();
+  const authHeaders: string[] = [];
+  let call = 0;
+  globalThis.fetch = async (_input, init) => {
+    authHeaders.push(new Headers(init?.headers).get('authorization') ?? '');
+    call += 1;
+    if (call === 1) return new Response('', { status: 401 });
+    return new Response(JSON.stringify({ data: { r0: null } }), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    });
+  };
+
+  try {
+    const result = await runGraphql(
+      'query { viewer { login } }',
+      'alpha-token',
+      { warn() {} } as unknown as FetcherContext['log'],
+    );
+    expect(result?.data).toEqual({ r0: null });
+    expect(authHeaders).toEqual(['Bearer alpha-token', 'Bearer bravo-token']);
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalGithubToken === undefined) delete process.env.GITHUB_TOKEN;
+    else process.env.GITHUB_TOKEN = originalGithubToken;
+    if (originalPool === undefined) delete process.env.GH_TOKEN_POOL;
+    else process.env.GH_TOKEN_POOL = originalPool;
+    if (originalGithubPool === undefined) delete process.env.GITHUB_TOKEN_POOL;
+    else process.env.GITHUB_TOKEN_POOL = originalGithubPool;
+    _resetGithubTokenPoolForTests();
+  }
+});
 
 describe('chunk', () => {
   it('splits into fixed-size groups, last may be short', () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type ReactNode, useCallback } from "react";
+import { type CSSProperties, type ReactNode, useCallback } from "react";
 
 import { useAuthGate } from "@/lib/auth/use-auth-gate";
 
@@ -10,6 +10,7 @@ interface AuthGateButtonProps {
   className?: string;
   title?: string;
   ariaLabel?: string;
+  style?: CSSProperties;
   redirectUrl?: string;
   authenticatedHref?: string;
 }
@@ -19,6 +20,7 @@ export function AuthGateButton({
   className,
   title,
   ariaLabel,
+  style,
   redirectUrl,
   authenticatedHref,
 }: AuthGateButtonProps) {
@@ -37,6 +39,7 @@ export function AuthGateButton({
       className={className}
       title={title}
       aria-label={ariaLabel}
+      style={style}
       onClick={onClick}
     >
       {children}

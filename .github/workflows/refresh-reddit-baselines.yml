@@ -1,23 +1,21 @@
-name: Refresh Reddit baselines (paused)
-
-# Reddit collection is paused end-to-end on HOSTUP.
-# Keep this workflow dispatchable only as an operator-visible no-op so nobody
-# can accidentally run a stale baseline-refresh path while the topic is closed.
-# The real refresh chain (compute-reddit-baselines → scrape-reddit → data
-# commit) lives in git history on this file; restore it once OAuth/proxy
-# credentials are ready and the operator pause is lifted.
+name: Refresh Reddit baselines
 
 on:
-  workflow_dispatch: {}
+  # Reddit collection is paused end-to-end. Keep the manual trigger visible so
+  # operators can find the policy without retaining executable collector steps.
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: reddit-baselines-refresh
+  cancel-in-progress: false
+
 jobs:
   paused:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
-      - name: Reddit collection paused
-        run: |
-          echo "Reddit collection is paused end-to-end on HOSTUP."
-          echo "No scraper, probe, baseline refresh, secrets, Redis writes, or data commits run from this workflow."
+      - name: Reddit collection is paused end-to-end
+        run: echo "Reddit collection is paused end-to-end"

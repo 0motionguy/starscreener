@@ -124,14 +124,14 @@ test("classifyRepo identifies vercel/next.js as web-frameworks", () => {
 // Fallback + invariants
 // ---------------------------------------------------------------------------
 
-test("classifyRepo returns devtools fallback for repos with no signals", () => {
+test("classifyRepo returns other fallback for repos with no signals", () => {
   const repo = makeRepo({
     fullName: "someone/unclassifiable",
     description: "A thing that does a thing",
     topics: [],
   });
   const result = classifyRepo(repo);
-  assert.equal(result.primary.categoryId, "devtools");
+  assert.equal(result.primary.categoryId, "other");
   assert.equal(result.primary.confidence, 0);
   assert.deepEqual(result.primary.matched, {
     topics: [],

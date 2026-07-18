@@ -13,14 +13,12 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { TransientHttpError } from "@/lib/errors";
 import type { Repo } from "@/lib/types";
 import type { AlertEvent, AlertRule } from "@/lib/pipeline/types";
 import { getRelativeTime } from "@/lib/utils";
 import { toastAlertDeleted, toastAlertError } from "@/lib/toast";
-import { useAuthGate } from "@/lib/auth/use-auth-gate";
 
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -28,6 +26,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { AlertInbox } from "@/components/alerts/AlertInbox";
 import { AlertTriggerCard } from "@/components/alerts/AlertTriggerCard";
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 import { useToggleAlertRule } from "@/lib/hooks/useToggleAlertRule";
 
 const USER_FETCH_INIT: RequestInit = {
@@ -55,8 +54,6 @@ async function ensureSessionCookie(): Promise<void> {
 const DAY_MS = 86_400_000;
 
 export default function AlertsClient() {
-  const router = useRouter();
-  const gate = useAuthGate();
   useEffect(() => {
     document.title = "Alerts — TrendingRepo";
   }, []);
@@ -323,26 +320,13 @@ export default function AlertsClient() {
               }}
             >
               These rules live in this browser only.{" "}
-              {/* Modal-first via useAuthGate — check-no-direct-signin-redirect
-                  bans hand-rolled /sign-in links. Signed-in edge case (stale
-                  probe) just navigates to the account surface. */}
-              <button
-                type="button"
-                onClick={() =>
-                  gate.requireAuth(() => router.push("/you/alerts"), "/you/alerts")
-                }
-                style={{
-                  color: "var(--v4-acc)",
-                  textDecoration: "underline",
-                  background: "none",
-                  border: 0,
-                  padding: 0,
-                  font: "inherit",
-                  cursor: "pointer",
-                }}
+              <AuthGateButton
+                className="auth-gate-text-button"
+                redirectUrl="/you/alerts"
+                style={{ color: "var(--v4-acc)", textDecoration: "underline" }}
               >
                 Sign in
-              </button>{" "}
+              </AuthGateButton>{" "}
               for email + webhook delivery, quiet hours, and up to 60 rules
               on Pro.
             </p>

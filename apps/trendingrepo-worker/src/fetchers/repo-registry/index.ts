@@ -20,7 +20,7 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 
-const REGISTRY_CAP = 2000;
+const REGISTRY_CAP = 3000;
 const REGISTRY_VERSION = 1;
 
 export interface RegistryEntry {

@@ -45,6 +45,7 @@ import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
   getGitHubTokenPool,
+  githubRateLimitResourceFromPath,
   parseRateLimitHeaders,
   redactToken,
   type GitHubTokenPool,
@@ -112,12 +113,13 @@ export async function githubFetch(
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const method = options.method ?? "GET";
   const operation = options.operation ?? operationFromPath(pathOrUrl, method);
+  const rateLimitResource = githubRateLimitResourceFromPath(pathOrUrl);
   const awaitTelemetry = options.awaitTelemetry ?? true;
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     let token: string | null = null;
     try {
-      token = pool.getNextToken();
+      token = pool.getNextToken(rateLimitResource);
     } catch (err) {
       if (err instanceof GitHubTokenPoolEmptyError) {
         // Dev path: no PATs configured — fall through to unauthenticated.
@@ -215,7 +217,12 @@ export async function githubFetch(
 
     const headerLimits = parseRateLimitHeaders(res.headers);
     if (token && headerLimits) {
-      pool.recordRateLimit(token, headerLimits.remaining, headerLimits.resetUnixSec);
+      pool.recordRateLimit(
+        token,
+        headerLimits.remaining,
+        headerLimits.resetUnixSec,
+        headerLimits.resource ?? rateLimitResource,
+      );
     }
     await recordGithubCallForFetch(
       {

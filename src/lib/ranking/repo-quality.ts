@@ -29,6 +29,7 @@ const NAME_SPAM_PATTERNS: RegExp[] = [
   /\b(premium|pro|full)[-_]?cracked\b/,
   // Unambiguous piracy / cheat tokens.
   /\b(keygen|nulled|warez|activator|aimbot|wallhack|mod-menu)\b/,
+  /\b(external[-_]dayz[-_]cheats?|elden[-_]ring[-_]unlocked[-_]tools?|red[-_]giant[-_]download)\b/,
   /\bpre-?activated\b/,
   // Darknet-market spam ("we-the-north-market-market-wethenorth-org").
   /\b(we-the-north|wethenorth)\b/,

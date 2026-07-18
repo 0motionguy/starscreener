@@ -24,6 +24,7 @@ import {
   GitHubTokenPoolExhaustedError,
   createGitHubTokenPool,
   getGitHubTokenPool,
+  githubRateLimitResourceFromPath,
   parseRateLimitHeaders,
   redactToken,
   type GitHubTokenPool,
@@ -267,6 +268,7 @@ export class GitHubApiAdapter implements GitHubAdapter {
 
     const maxAttempts = 3; // 1 original + 2 retries
     const operation = operationFromPath(path);
+    const rateLimitResource = githubRateLimitResourceFromPath(path);
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       // Pull a token per attempt so retries can fail over to a healthy PAT.
       // An exhausted pool surfaces as a hard error — we do not silently
@@ -274,7 +276,7 @@ export class GitHubApiAdapter implements GitHubAdapter {
       // know they need to rotate / add tokens.
       let token: string | null = null;
       try {
-        token = this.pool.getNextToken();
+        token = this.pool.getNextToken(rateLimitResource);
       } catch (err) {
         if (err instanceof GitHubTokenPoolEmptyError) {
           // No tokens at all — fall through to an unauthenticated call.
@@ -345,7 +347,7 @@ export class GitHubApiAdapter implements GitHubAdapter {
         clear();
       }
 
-      this.updateRateLimit(res, token);
+      this.updateRateLimit(res, token, rateLimitResource);
       const parsedRateLimit = parseRateLimitHeaders(res.headers);
       await recordGithubCall({
         keyFingerprint: githubKeyFingerprint(token),
@@ -462,13 +464,22 @@ export class GitHubApiAdapter implements GitHubAdapter {
    * for the token that issued the request. Unauthenticated calls (token =
    * null) skip the pool update — there's no per-token state to mutate.
    */
-  private updateRateLimit(res: Response, token: string | null): void {
+  private updateRateLimit(
+    res: Response,
+    token: string | null,
+    fallbackResource: ReturnType<typeof githubRateLimitResourceFromPath>,
+  ): void {
     const parsed = parseRateLimitHeaders(res.headers);
     if (parsed === null) return;
     this.rateLimit.remaining = parsed.remaining;
     this.rateLimit.reset = new Date(parsed.resetUnixSec * 1000).toISOString();
     if (token) {
-      this.pool.recordRateLimit(token, parsed.remaining, parsed.resetUnixSec);
+      this.pool.recordRateLimit(
+        token,
+        parsed.remaining,
+        parsed.resetUnixSec,
+        parsed.resource ?? fallbackResource,
+      );
     }
   }
 }

@@ -128,6 +128,8 @@ test("only known callers may import Clerk hooks (useUser / useAuth)", () => {
   // ClerkProvider and are preferred when the consumer only needs a
   // user-id.
   const ALLOW_LIST = new Set([
+    // Mounted only inside the root ClerkProvider; keeps ss_user synchronized.
+    join("src", "components", "auth", "SessionBridge.tsx"),
     // Lazy-loaded inside HeaderAccount under an authEnabled gate.
     join("src", "components", "layout", "HeaderAccountLoaded.tsx"),
     // Mounted at layout root under enabled={Boolean(clerkPublishableKey)}.

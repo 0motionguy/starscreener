@@ -8,21 +8,21 @@
 
 import { test, expect } from "@playwright/test";
 
-test.describe("hackernews trending", () => {
-  test("renders V4 source-feed crumb + source links", async ({ page }) => {
-    const response = await page.goto("/hackernews/trending", {
+test.describe("Hacker News market source", () => {
+  test("renders the Hacker News source in the market cockpit", async ({ page }) => {
+    const response = await page.goto("/market-signals", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // V4 crumb — match the /HACKERNEWS path token (works for both V3
-    // "// HACKERNEWS …" and V4 "HN · TERMINAL · /HACKERNEWS").
+    // The unified market cockpit replaces the retired source-only route.
     await expect(
-      page.getByText(/\/HACKERNEWS/i).first(),
-    ).toBeVisible({ timeout: 10_000 });
+      page.getByRole("heading", { name: /Market signals.*cockpit/i }),
+    ).toBeVisible();
 
-    // At least one anchor — internal or external.
-    const anyLink = page.locator("a[href]").first();
-    await expect(anyLink).toBeAttached();
+    // Hacker News remains exposed as a named live source.
+    const hackerNews = page.locator('a[data-source="hn"]');
+    await expect(hackerNews).toBeVisible();
+    await expect(hackerNews).toContainText(/Hacker News/i);
   });
 });

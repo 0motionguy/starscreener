@@ -365,7 +365,14 @@ function makeStargazerRequester(
       success: res.ok,
     });
     if (token && pool) {
-      if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+      if (rl) {
+        pool.recordRateLimit(
+          token,
+          rl.remaining,
+          rl.resetUnixSec,
+          rl.resource ?? "core",
+        );
+      }
     }
     return res;
   };

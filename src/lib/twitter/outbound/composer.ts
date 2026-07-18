@@ -321,7 +321,7 @@ export function composeIdeaPublishedPost(idea: PublicIdea): ComposedPost {
 }
 
 // ---------------------------------------------------------------------------
-// Trending single — the 3x/day autopilot post
+// Trending single — the five-slot autopilot post
 // ---------------------------------------------------------------------------
 
 // Kept to <=270 effective chars (a safety margin under Twitter's 280 hard
@@ -365,7 +365,7 @@ function truncateAscii(text: string, maxChars: number): string {
 }
 
 /**
- * Compose the single tweet the autopilot fires 3x/day for the top trending
+ * Compose a single tweet for one of the autopilot's five daily slots.
  * repo. Shape (ASCII-only, <=270 effective chars incl. the 23-char t.co link):
  *
  *   owner/name

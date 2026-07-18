@@ -105,8 +105,6 @@ export const PACKS: PackSpec[] = [
     window: "7d",
     match: anyOf(/\bcli\b|dev ?tools?\b|developer tool|terminal\b|\beditor\b|debugger|linter|formatter/),
   },
-  // --- five-slot calendar packs (ecosystem rotation; hay() includes
-  // categoryId, so a classified repo rides without keyword copy) ---
   {
     id: "local-llm",
     hook: (n) => `TOP ${n} LOCAL LLM REPOS THIS WEEK`,
@@ -238,8 +236,6 @@ export function selectPackRepos(
   const seenFullNames = new Set<string>();
   const pool = repos.filter((r) => {
     const fullName = r.fullName.toLowerCase();
-    // Cooldown + dedupe are case-insensitive; repos with zero movement,
-    // mentions and buzz never ride a pack (static filler reads like a bot).
     const eligible =
       !isSpamRepo(r) &&
       !cooldownFullNames.has(fullName) &&

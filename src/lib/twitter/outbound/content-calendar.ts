@@ -2,27 +2,25 @@
 // weekly matrix is unit-testable with fixed dates; the runner passes the slot
 // (one per cron line), the calendar answers with a format.
 //
-//   slot A (08:47)  trending_single with criteria copy — every day
-//   slot B (12:47)  rotating themed pack:
-//                     Mon ai-agents / Tue rag / Wed mcp-tools /
-//                     Thu self-hosted / Fri fresh-finds / Sat devtools /
-//                     Sun weekly-top10 (full 10-row card)
-//   slot C (17:47)  alternates discovery_single (even UTC days) /
-//                   llm-models themed pack (odd) — the "next gem" surface;
-//                   the thin-pack guard falls back to a trending single
-//                   when fewer than minSize LLM repos qualify
+//   slot D (04:47)  discovery single
+//   slot A (08:47)  TOP single
+//   slot B (12:47)  rotating AI/tooling pack
+//   slot C (17:47)  alternating GAINER single (even UTC date) / llm-models pack (odd, CE-5)
+//   slot E (21:47)  rotating builder-ecosystem pack
 //
 // X_CALENDAR_OVERRIDE (optional JSON, box env) can remap any slot/day:
 //   {"B":{"0":{"format":"trending_single"}}}   // Sundays: no pack
 // Malformed overrides are ignored — the fixed matrix always works.
 
-export type SlotId = "A" | "B" | "C";
+export type SlotId = "A" | "B" | "C" | "D" | "E";
+export type TrendingRanker = "top" | "gainer" | "trend" | "discovery";
 
 export type SlotFormatKind = "trending_single" | "discovery_single" | "trending_pack";
 
 export interface SlotFormat {
   format: SlotFormatKind;
   packId?: string;
+  ranker?: TrendingRanker;
 }
 
 /** getUTCDay() order: 0=Sun ... 6=Sat. */
@@ -31,9 +29,19 @@ const B_ROTATION: Record<number, string> = {
   1: "ai-agents",
   2: "rag",
   3: "mcp-tools",
-  4: "self-hosted",
-  5: "fresh-finds",
+  4: "local-llm",
+  5: "browser-automation",
   6: "devtools",
+};
+
+const E_ROTATION: Record<number, string> = {
+  0: "design-engineering",
+  1: "security",
+  2: "infrastructure",
+  3: "data",
+  4: "web-mobile",
+  5: "web3",
+  6: "rust",
 };
 
 type Override = Partial<Record<SlotId, Record<string, SlotFormat>>>;
@@ -65,12 +73,15 @@ export function resolveSlotFormat(
   const fromOverride = override?.[slot]?.[String(day)];
   if (validFormat(fromOverride)) return fromOverride;
 
-  if (slot === "B") return { format: "trending_pack", packId: B_ROTATION[day] };
+  if (slot === "B") return { format: "trending_pack", packId: B_ROTATION[day], ranker: "top" };
+  if (slot === "E") return { format: "trending_pack", packId: E_ROTATION[day], ranker: "top" };
+  if (slot === "D") return { format: "discovery_single", ranker: "discovery" };
   if (slot === "C") {
     const dayOfMonth = new Date(nowMs).getUTCDate();
-    return dayOfMonth % 2 === 0
-      ? { format: "discovery_single" }
-      : { format: "trending_pack", packId: "llm-models" };
+    // CE-5: odd dates surface the llm-models pack; even dates keep the
+    // gainer single (discovery moved to slot D daily in the 5-slot matrix).
+    if (dayOfMonth % 2 === 0) return { format: "trending_single", ranker: "gainer" };
+    return { format: "trending_pack", packId: "llm-models", ranker: "top" };
   }
-  return { format: "trending_single" };
+  return { format: "trending_single", ranker: "top" };
 }

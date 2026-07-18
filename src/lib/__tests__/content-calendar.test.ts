@@ -15,10 +15,15 @@ const THU = Date.parse("2026-07-09T12:47:00.000Z");
 const FRI = Date.parse("2026-07-10T12:47:00.000Z");
 const SAT = Date.parse("2026-07-11T12:47:00.000Z");
 
-test("slot A is a trending single every day", () => {
+test("slot A is a TOP single and slot D is a DISCOVERY single every day", () => {
   for (const day of [SUN, MON, TUE, WED, THU, FRI, SAT]) {
     assert.deepEqual(resolveSlotFormat(day, "A", undefined), {
       format: "trending_single",
+      ranker: "top",
+    });
+    assert.deepEqual(resolveSlotFormat(day, "D", undefined), {
+      format: "discovery_single",
+      ranker: "discovery",
     });
   }
 });
@@ -28,8 +33,8 @@ test("slot B rotates the themed pack by UTC weekday", () => {
     [MON, "ai-agents"],
     [TUE, "rag"],
     [WED, "mcp-tools"],
-    [THU, "self-hosted"],
-    [FRI, "fresh-finds"],
+    [THU, "local-llm"],
+    [FRI, "browser-automation"],
     [SAT, "devtools"],
     [SUN, "weekly-top10"],
   ];
@@ -37,16 +42,40 @@ test("slot B rotates the themed pack by UTC weekday", () => {
     assert.deepEqual(resolveSlotFormat(day, "B", undefined), {
       format: "trending_pack",
       packId,
+      ranker: "top",
     });
   }
 });
 
-test("slot C alternates discovery (even UTC date) / llm-models pack (odd)", () => {
-  assert.equal(resolveSlotFormat(MON, "C", undefined).format, "discovery_single"); // 6th
+test("slot C alternates GAINER single (even UTC date) / llm-models pack (odd, CE-5)", () => {
+  assert.deepEqual(resolveSlotFormat(MON, "C", undefined), {
+    format: "trending_single",
+    ranker: "gainer",
+  }); // 6th
   assert.deepEqual(resolveSlotFormat(TUE, "C", undefined), {
     format: "trending_pack",
     packId: "llm-models",
+    ranker: "top",
   }); // 7th
+});
+
+test("slot E rotates the broader builder ecosystem by UTC weekday", () => {
+  const expect: Array<[number, string]> = [
+    [MON, "security"],
+    [TUE, "infrastructure"],
+    [WED, "data"],
+    [THU, "web-mobile"],
+    [FRI, "web3"],
+    [SAT, "rust"],
+    [SUN, "design-engineering"],
+  ];
+  for (const [day, packId] of expect) {
+    assert.deepEqual(resolveSlotFormat(day, "E", undefined), {
+      format: "trending_pack",
+      packId,
+      ranker: "top",
+    });
+  }
 });
 
 test("X_CALENDAR_OVERRIDE remaps a slot/day cell", () => {

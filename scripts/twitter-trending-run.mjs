@@ -45,7 +45,7 @@ function argValue(flag) {
 }
 
 const SLOT_RAW = (argValue("--slot") || "").toUpperCase();
-const SLOT = ["A", "B", "C", "D", "E"].includes(SLOT_RAW) ? SLOT_RAW : undefined;
+const SLOT = ["A", "B", "C", "D", "E", "F", "G"].includes(SLOT_RAW) ? SLOT_RAW : undefined;
 
 function twitter(args) {
   return execFileSync("twitter", args, { encoding: "utf8", timeout: 60_000 });

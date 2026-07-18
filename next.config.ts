@@ -74,6 +74,9 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/*": ["./.data/twitter-*.jsonl"],
     "/api/openapi.json": ["./docs/openapi.json"],
+    // Vendored Geist woff subsets read at runtime by the og image routes
+    // (satori cannot consume woff2, so these are committed .woff files).
+    "/api/og/**": ["./src/assets/fonts/geist/*.woff"],
     // Blog MDX is read at build for the static post pages, but the
     // force-static sitemap-pages route + blog index re-read content/blog on
     // ISR revalidation — trace the files so the standalone (VPS) server has

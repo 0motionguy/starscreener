@@ -10,6 +10,8 @@
 // deploy target; CLERK_ALLOW_TEST_KEYS=1 is the explicit escape hatch
 // for staging-style environments that legitimately run production
 // builds against a Clerk development instance.
+import "server-only";
+
 function isProductionRuntime(): boolean {
   return (
     process.env.NODE_ENV === "production" &&

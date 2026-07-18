@@ -1,43 +1,22 @@
-// Search smoke — guards /search empty state + query handoff.
+// /search retirement guard.
 //
-// Invariants (V4):
-//   1. GET /search returns 200 and renders the .page-head hero.
-//   2. The h1 reads "Search every repo in the live index." (V4 chrome).
-//   3. The SearchBar input is mounted and accepts a query.
-//   4. Typing "react" + pressing Enter pushes the URL to /search?q=react
-//      and the page survives — the .page-head still renders.
+// The standalone search page was folded into the home hub during the V5
+// consolidation; next.config.ts pins a permanent redirect /search → / so
+// old backlinks + SERP entries keep resolving. This spec guards that
+// contract (and catches anyone re-introducing a dead /search route or
+// dropping the redirect by accident).
 
 import { test, expect } from "@playwright/test";
 
-test.describe("search", () => {
-  test.setTimeout(45_000);
-
-  test("loads page-head hero and accepts a query", async ({ page }) => {
-    const response = await page.goto("/search", { waitUntil: "domcontentloaded" });
-    expect(response?.ok()).toBe(true);
-
-    // V4-style page-head hero — replaces the V3 // SEARCH · GLOBAL eyebrow.
-    const pageHead = page.locator(".page-head").first();
-    await expect(pageHead).toBeVisible();
-    await expect(pageHead.locator("h1")).toContainText(/search every repo/i);
-
-    // Scope to the in-page search panel so the global header search cannot
-    // steal the interaction on slower chunk loads.
-    const searchPanel = page.locator(".search-command-panel").first();
-    await expect(searchPanel).toBeVisible({ timeout: 30_000 });
-
-    const searchInput = searchPanel.getByRole("textbox", {
-      name: /search repos by name, language, topic/i,
+test.describe("search route retirement", () => {
+  test("GET /search permanently redirects to /", async ({ page }) => {
+    const response = await page.request.fetch("/search", {
+      maxRedirects: 0,
     });
-    await expect(searchInput).toBeVisible();
-
-    await searchInput.fill("react");
-    await expect(searchInput).toHaveValue("react");
-    await searchInput.press("Enter");
-
-    await expect(page).toHaveURL(/\/search\?q=react/i, { timeout: 10_000 });
-
-    // Page survived the navigation — the page-head still renders.
-    await expect(page.locator(".page-head").first()).toBeVisible();
+    // next.config redirects with permanent: true → 308.
+    expect(response.status()).toBe(308);
+    // Location may be absolute (dev) or relative depending on server mode.
+    const location = response.headers()["location"] ?? "";
+    expect(location).toMatch(/^(https?:\/\/[^/]+)?\/$/);
   });
 });

@@ -1,18 +1,20 @@
-// Homepage smoke — guards the V4 landing surface.
+// Homepage smoke — guards the trending hub landing surface.
 //
-// Asserted invariants (chosen to be stable under reskin sweeps):
+// Asserted invariants (chosen to survive reskin sweeps — the chrome gets
+// redesigned often, so we hook onto the stable hub skeleton only):
 //   1. GET / returns 200 and document <title> mentions TrendingRepo.
-//   2. The .home-surface chrome renders (page-head hero pattern; replaces
-//      the older v2-term-bar assertion the V3 home rewrite removed).
-//   3. The BubbleMap mounts at least one bubble disk (catches broken
-//      hydration). .v2-bubble is the canvas overlay class emitted by
-//      BubbleMapCanvas; under CI load hydration can take 20+ seconds.
-//   4. Header + sidebar are visible at desktop width.
+//   2. The .page-head hero (TrendingHubHero) renders with its .page-title.
+//   3. FeaturedRepos renders: at least one /repo/ detail link is attached.
+//
+// Removed vs the V4 spec: .home-surface (V5 shell dropped it), .v2-bubble
+// BubbleMap (component no longer mounted on home; only the physics hook
+// survives), and banner/aside chrome (legacy Header/Sidebar deleted — see
+// the header comment in src/app/layout.tsx).
 
 import { test, expect } from "@playwright/test";
 
 test.describe("homepage", () => {
-  test("loads with title, page-head, bubble map, header and sidebar", async ({
+  test("loads with title, page-head hero, and repo links", async ({
     page,
   }) => {
     const response = await page.goto("/", { waitUntil: "domcontentloaded" });
@@ -21,21 +23,14 @@ test.describe("homepage", () => {
     const title = await page.title();
     expect(title.toLowerCase()).toContain("trendingrepo");
 
-    // Home surface chrome — replaces .v2-term-bar (which the V3 home
-    // rewrite removed). The page-head hero block is the stable hook.
-    await expect(page.locator(".home-surface").first()).toBeVisible();
+    // Hub hero — TrendingHubHero renders .page-head with a .page-title h1.
     await expect(page.locator(".page-head").first()).toBeVisible();
+    await expect(page.locator(".page-title").first()).toBeVisible();
 
-    // BubbleMap canvas hydrated — at least one bubble mounts after the
-    // layout pass that runs post-commit. Bumped from 15 s → 30 s for CI.
-    const bubble = page.locator(".v2-bubble").first();
-    await expect(bubble).toBeAttached({ timeout: 30_000 });
-
-    // Header + sidebar are role-tagged in the layout chrome.
-    await expect(page.getByRole("banner").first()).toBeVisible();
-    // Desktop viewport (default 1280x720) has the sidebar visible —
-    // it's hidden under md: breakpoint.
-    const sidebar = page.locator("aside").first();
-    await expect(sidebar).toBeVisible();
+    // FeaturedRepos emits repo detail links server-side; under CI load
+    // hydration can lag, so require attachment rather than visibility.
+    await expect(page.locator('a[href^="/repo/"]').first()).toBeAttached({
+      timeout: 30_000,
+    });
   });
 });

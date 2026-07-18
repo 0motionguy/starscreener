@@ -168,8 +168,6 @@ export interface Fetcher {
    * slow-moving registries). A caller-supplied `--since` always wins.
    */
   defaultLookbackHours?: number;
-  /** Compatibility gate used by the runner while legacy fetchers drain. */
-  requiresFirecrawl?: boolean;
   run(ctx: FetcherContext): Promise<RunResult>;
 }
 

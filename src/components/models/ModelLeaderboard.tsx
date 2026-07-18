@@ -2,8 +2,9 @@
 
 // Interactive LLM model leaderboard table. Receives the full catalog as a
 // prop from the server page (no fetch here) and does client-side sort/filter
-// via the pure helpers in @/lib/models (those are I/O-free, so importing them
-// pulls no server-only code into the bundle).
+// via the pure helpers in @/lib/models-view. Import that module DIRECTLY —
+// @/lib/models re-exports the same helpers but its loader half reaches the
+// server-only data-store, which webpack traces even through dynamic import().
 
 import { useMemo, useState } from "react";
 
@@ -14,7 +15,7 @@ import {
   sortModels,
   valueScore,
   type ModelSortKey,
-} from "@/lib/models";
+} from "@/lib/models-view";
 
 interface ModelLeaderboardProps {
   models: ModelMeta[];

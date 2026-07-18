@@ -316,8 +316,9 @@ test("write() with no Redis but mirrorToFile true succeeds", async () => {
   await store.write("file-only", { from: "disk" }, { mirrorToFile: true });
   const path = join(tmpDir, "file-only.json");
   assert.ok(existsSync(path));
-  // Subsequent read serves from file (no Redis) and is marked stale.
-  const result = await store.read<{ from: string }>("file-only");
+  // A fresh process/store can recover the durable file without Redis.
+  const reader = buildStore({ withRedis: false });
+  const result = await reader.read<{ from: string }>("file-only");
   assert.equal(result.source, "file");
   assert.equal(result.fresh, false);
   assert.deepEqual(result.data, { from: "disk" });

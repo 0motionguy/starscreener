@@ -113,6 +113,23 @@ Common targets after recent changes: `sec-form-d`, `repo-community-profile`,
 when a new strict health marker has no Redis payload yet. Keep these bounded;
 do not use one-shots to mask a recurring scheduled failure.
 
+### 7. Install X autopilot host files (only when these files changed)
+
+The app/worker image deploy does not update host cron files. Check out the
+exact autopilot files, install them, then dry-run the first discovery slot:
+
+```bash
+cd /opt/trendingrepo
+git checkout <newCommitSha> -- scripts/twitter-trending-run.mjs scripts/ops/
+sudo scripts/ops/install-trendingrepo-x-autopilot.sh
+sudo /usr/local/bin/trendingrepo-x-autopilot.sh --slot D --dry-run
+grep '^TRENDING_POST_MAX_PER_DAY=5$' /opt/trendingrepo/.env.production
+```
+
+The installer backs up the production env, installs both cron definitions and
+their host wrappers, and raises the explicit daily cap to five. It deliberately
+does not arm `TWITTER_OUTBOUND_MODE=live`.
+
 ## Post-deploy verification
 
 ```bash

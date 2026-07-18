@@ -7,8 +7,8 @@
 #      for a DIFFERENT account (e.g. the aiso relay's @ontapemarkets in
 #      /opt/clawpulse/.env) is REFUSED and the cookie file removed.
 #   2) auto-arm: on VERIFIED success, flips TWITTER_OUTBOUND_MODE=live in
-#      /opt/trendingrepo/.env.production so the 08/12/17:47 cron slots and
-#      the 09:27 preflight arm themselves. One paste completes Phase C.
+#      /opt/trendingrepo/.env.production so the 04/08/12/17/21:47 UTC slots
+#      and the 04:27 UTC preflight arm themselves. One paste completes Phase C.
 #
 # Usage: trendingrepo-refresh-x-cookies.sh <auth_token> <ct0>
 #   or:  sweet-cookie x.com --json | trendingrepo-refresh-x-cookies.sh --stdin
@@ -58,4 +58,4 @@ if grep -q '^TWITTER_OUTBOUND_MODE=' "$APPENV"; then
 else
   sed -i '$ a TWITTER_OUTBOUND_MODE=live' "$APPENV"
 fi
-echo "refresh: @$WANT session VERIFIED — cookies stored ($ENV) + TWITTER_OUTBOUND_MODE=live armed (slots 08/12/17:47, preflight 09:27)"
+echo "refresh: @$WANT session VERIFIED — cookies stored ($ENV) + TWITTER_OUTBOUND_MODE=live armed (UTC slots 04/08/12/17/21:47, preflight 04:27)"

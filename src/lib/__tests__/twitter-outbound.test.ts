@@ -425,7 +425,7 @@ function packRepos(n: number): Repo[] {
 test("composeTrendingPack leads with the CAPS hook and numbers the members", () => {
   const post = composeTrendingPack(packRepos(5), {
     id: "rag",
-    hook: "Top 5 RAG repos this week",
+    hook: (n) => `Top ${n} RAG repos this week`,
   });
   assert.equal(post.kind, "trending_pack");
   assert.equal(post.text.split("\n")[0], "TOP 5 RAG REPOS THIS WEEK");
@@ -437,8 +437,10 @@ test("composeTrendingPack leads with the CAPS hook and numbers the members", () 
 test("composeTrendingPack lists at most 5 lines even for a 10-repo card", () => {
   const post = composeTrendingPack(packRepos(10), {
     id: "weekly-top10",
-    hook: "TOP 10 GITHUB REPOS THIS WEEK",
+    hook: (n) => `TOP ${n} GITHUB REPOS THIS WEEK`,
   });
+  // Hook count reflects the full card, not the capped text list.
+  assert.equal(post.text.split("\n")[0], "TOP 10 GITHUB REPOS THIS WEEK");
   assert.match(post.text, /5\. owner4\/repo4/);
   assert.equal(post.text.includes("6. owner5/repo5"), false);
   // ...but the link carries all ten for the card + tools page.
@@ -454,14 +456,14 @@ test("composeTrendingPack stays inside the 270 budget with long names", () => {
   );
   const post = composeTrendingPack(repos, {
     id: "devtools",
-    hook: "TOP 5 DEV TOOL REPOS THIS WEEK",
+    hook: (n) => `TOP ${n} DEV TOOL REPOS THIS WEEK`,
   });
   assert.ok(effectiveLength(post) <= 270, `pack is ${effectiveLength(post)} chars`);
   assert.match(post.text, /^[\x20-\x7E\n]*$/, `non-ASCII in: ${post.text}`);
 });
 
 test("composeTrendingPack links to /tools/top-10?my=<all members>", () => {
-  const post = composeTrendingPack(packRepos(5), { id: "rag", hook: "h" });
+  const post = composeTrendingPack(packRepos(5), { id: "rag", hook: () => "h" });
   assert.ok(
     post.url?.includes("/tools/top-10?my=owner0/repo0,owner1/repo1"),
     `got: ${post.url}`,

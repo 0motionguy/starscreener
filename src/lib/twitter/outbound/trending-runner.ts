@@ -235,10 +235,10 @@ export async function proposeTrendingPost(
         fullNames: slugs,
         text: composed.text,
         url: composed.url ?? undefined,
-        mediaPath: `/api/og/top10?my=${encodeURIComponent(slugs.join(","))}&rows=${pack.size}&theme=dark`,
+        mediaPath: `/api/og/top10?my=${encodeURIComponent(slugs.join(","))}&rows=${slugs.length}&theme=dark`,
       });
     }
-    // Thin pack (< size matches after spam/cooldown) — fall through to single.
+    // Thin pack (< minSize matches after spam/cooldown) — fall through to single.
   }
 
   if (resolved.format === "discovery_single") {

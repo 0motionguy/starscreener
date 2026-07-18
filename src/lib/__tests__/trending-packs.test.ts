@@ -53,7 +53,7 @@ test("every enabled pack id resolves via getPack; disabled ones don't", () => {
   assert.equal(getPack("nope"), undefined);
 });
 
-test("selectPackRepos matches on topics/description and returns exactly size", () => {
+test("selectPackRepos matches on topics/description, minSize floor to size cap", () => {
   const agents = Array.from({ length: 7 }, (_, i) =>
     makeRepo({
       fullName: `acme/agent${i}`,
@@ -67,11 +67,18 @@ test("selectPackRepos matches on topics/description and returns exactly size", (
     makeRepo({ fullName: "acme/game", description: "A voxel game", starsDelta24h: 800 }),
   ];
   const pack = getPack("ai-agents")!;
+  // 7 matches with size 10 / minSize 5 -> all 7 ride; noise never sneaks in.
   const picked = selectPackRepos([...agents, ...noise], pack, NO_COOLDOWN);
-  assert.equal(picked.length, 5);
+  assert.equal(picked.length, 7);
   for (const r of picked) {
     assert.match(r.fullName, /agent/, `unexpected member ${r.fullName}`);
   }
+
+  // 14 matches -> capped at pack.size.
+  const many = Array.from({ length: 14 }, (_, i) =>
+    makeRepo({ fullName: `acme/more${i}`, topics: ["ai-agents"], starsDelta24h: 20 + i }),
+  );
+  assert.equal(selectPackRepos(many, pack, NO_COOLDOWN).length, pack.size);
 });
 
 test("selectPackRepos excludes cooldown members", () => {
@@ -113,5 +120,10 @@ test("fresh-finds uses discovery eligibility — big established repos yield []"
     makeRepo({ fullName: `tiny/gem${i}`, stars: 40 + i, starsDelta24h: 12 }),
   );
   const picked = selectPackRepos(gems, getPack("fresh-finds")!, NO_COOLDOWN);
-  assert.equal(picked.length, 5);
+  assert.equal(picked.length, 6); // every genuine gem rides; zero-score filler never pads to size
+
+  // Mixed pool: giants are score-0 and must not pad the card past the gems.
+  const mixed = selectPackRepos([...giants, ...gems], getPack("fresh-finds")!, NO_COOLDOWN);
+  assert.equal(mixed.length, 6);
+  assert.ok(mixed.every((r) => r.fullName.startsWith("tiny/")));
 });
